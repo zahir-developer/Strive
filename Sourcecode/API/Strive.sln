@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.Common", "Strive.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.ResourceAccess", "Strive.ResourceAccess\Strive.ResourceAccess.csproj", "{3D7D3D43-7589-4AD8-812A-C20080644222}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.Repository", "Strive.Repository\Strive.Repository.csproj", "{83492CCF-12FF-43EC-9F26-69550ED92E26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{3D7D3D43-7589-4AD8-812A-C20080644222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D7D3D43-7589-4AD8-812A-C20080644222}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D7D3D43-7589-4AD8-812A-C20080644222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83492CCF-12FF-43EC-9F26-69550ED92E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83492CCF-12FF-43EC-9F26-69550ED92E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83492CCF-12FF-43EC-9F26-69550ED92E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83492CCF-12FF-43EC-9F26-69550ED92E26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{104D237A-8EB4-450C-96BD-48FF05132917} = {68B4FAB5-3DE4-4A79-AD6E-33F2543277F3}
 		{E5F610E4-89DB-48F6-9D8F-BEDE24E46875} = {E38CEE60-9683-4A00-A348-DA48AABF492C}
 		{3D7D3D43-7589-4AD8-812A-C20080644222} = {9EA6606B-4791-4215-AA13-C6B17EFBE003}
+		{83492CCF-12FF-43EC-9F26-69550ED92E26} = {9EA6606B-4791-4215-AA13-C6B17EFBE003}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC703EC0-43FE-46A6-84E2-D76F536FD489}

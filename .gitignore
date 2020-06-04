@@ -17,3 +17,12 @@
 /Sourcecode/API/Strive.Common/obj
 /Sourcecode/API/Strive.ResourceAccess/bin/Debug/netcoreapp3.1
 /Sourcecode/API/Strive.ResourceAccess/obj
+/Sourcecode/API/Strive.API/bin/Debug/netcoreapp2.2
+/Sourcecode/API/.vs/Strive/config
+/Sourcecode/API/Strive.API/Strive.API.csproj.user
+/Sourcecode/API/Strive.BusinessEntities/bin/Debug/netcoreapp2.2
+/Sourcecode/API/Strive.BusinessLogic/bin/Debug/netcoreapp2.2
+/Sourcecode/API/Strive.Common/bin/Debug/netcoreapp2.2
+/Sourcecode/API/Strive.Repository/bin/Debug
+/Sourcecode/API/Strive.Repository/obj
+/Sourcecode/API/Strive.ResourceAccess/bin/Debug/netcoreapp2.2
