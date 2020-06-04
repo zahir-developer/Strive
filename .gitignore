@@ -8,3 +8,12 @@
 /.vs
 /Sourcecode/API/.vs/Strive/v16/Server/sqlite3
 /Sourcecode/API/.vs/Strive/v16/.suo
+/Sourcecode/API/Strive.BusinessEntities/bin/Debug/netcoreapp3.1
+/Sourcecode/API/Strive.BusinessEntities/obj/Debug/netcoreapp3.1
+/Sourcecode/API/Strive.BusinessEntities/obj
+/Sourcecode/API/Strive.BusinessLogic/bin/Debug/netcoreapp3.1
+/Sourcecode/API/Strive.BusinessLogic/obj
+/Sourcecode/API/Strive.Common/bin/Debug/netcoreapp3.1
+/Sourcecode/API/Strive.Common/obj
+/Sourcecode/API/Strive.ResourceAccess/bin/Debug/netcoreapp3.1
+/Sourcecode/API/Strive.ResourceAccess/obj

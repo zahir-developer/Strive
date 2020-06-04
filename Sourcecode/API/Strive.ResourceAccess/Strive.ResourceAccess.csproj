@@ -1,14 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Strive.BusinessEntities\Strive.BusinessEntities.csproj" />
-    <ProjectReference Include="..\Strive.BusinessLogic\Strive.BusinessLogic.csproj" />
-    <ProjectReference Include="..\Strive.Common\Strive.Common.csproj" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Strive.BusinessEntities\Strive.BusinessEntities.csproj" />
+    <ProjectReference Include="..\Strive.Common\Strive.Common.csproj" />
+  </ItemGroup>
 
 </Project>

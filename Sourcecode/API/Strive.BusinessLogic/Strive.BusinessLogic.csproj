@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,9 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Strive.BusinessEntities\Strive.BusinessEntities.csproj" />
-    <ProjectReference Include="..\Strive.BusinessLogic\Strive.BusinessLogic.csproj" />
     <ProjectReference Include="..\Strive.Common\Strive.Common.csproj" />
   </ItemGroup>
-
 
 </Project>
