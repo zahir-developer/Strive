@@ -26,7 +26,7 @@ namespace Strive.Repository
 
         public object SaveGetId(CommandDefinition cmd)
         {
-            object id = default;
+            object id = null;// default;
             try
             {
                    id = dbcon.ExecuteScalar(cmd);
