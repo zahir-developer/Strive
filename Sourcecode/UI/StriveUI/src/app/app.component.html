@@ -301,7 +301,12 @@
 
 <div class="content" role="main">
 
-  Main Content.
+  <div class="jumbotron jumbotron-fluid">
+    <form [formGroup]="loginForm">
+      <input type="text" id="txtUserName" formControlName="username" />
+      <input type="text" id="txtPassword" formControlName="password" />
+    </form>
+  </div>
 
 </div>
 
