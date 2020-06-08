@@ -1,0 +1,11 @@
+<form [formGroup]="signupForm">
+  <p class="h4 mb-4">Sign up</p>
+  <div class="form-group" formArrayName="hobby">
+    <label for="txtUserName">Hobby</label>
+    <div *ngFor="let h of GetHobbyControls(); let i= index">
+      <input type="text" id="txtHobby" [formControlName]="i" />
+    </div>
+  </div>
+
+  <button class="btn btn-info btn-block my-4" (click)="AddHobby()">Add Hobby</button>
+</form>
