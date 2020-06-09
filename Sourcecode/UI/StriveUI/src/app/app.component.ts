@@ -1,22 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms'
+import { SharedModule } from './shared/shared.module';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'StriveUI';
-  loginForm: FormGroup;
-
-  ngOnInit(): void {
-    this.loginForm = new FormGroup(
-      {
-        'username': new FormControl(null),
-        'password': new FormControl(null)
-      });
-  }
-
-
 }
