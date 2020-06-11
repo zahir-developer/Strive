@@ -16,7 +16,6 @@ using Strive.Common;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Strive.BusinessEntities.Auth;
 using Strive.BusinessLogic.Auth;
 
 namespace Strive.API

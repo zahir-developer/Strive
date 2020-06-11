@@ -7,7 +7,9 @@ namespace Strive.BusinessEntities
     public enum SPEnum
     {
         USPGETUSERBYLOGIN,
-        USPGETALLUSERS  
+        USPGETALLUSERS,
+        USPGETUSERS,
+        USPSAVEUSER
     }
 
 }

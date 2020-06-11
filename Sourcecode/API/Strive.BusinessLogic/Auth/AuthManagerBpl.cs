@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
-using Strive.BusinessEntities.Auth;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;

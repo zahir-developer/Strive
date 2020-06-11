@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Strive.BusinessEntities;
 
-namespace Strive.BusinessEntities.Auth
+namespace Strive.BusinessLogic.Auth
 {
     public interface IAuthManager
     {
