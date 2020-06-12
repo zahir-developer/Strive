@@ -31,8 +31,14 @@ get f() { return this.loginForm.controls; }
       passwordHash: this.loginForm.value.password
     };
     this.loginService.userAuthentication(loginObj).subscribe(data => {
+      if (data) {
+        if (data.status === 'Success') {
+          const token = JSON.parse(data.resultData);
+          localStorage.setItem('authorizationToken', JSON.stringify(token.Token));
+        }
+      }
       console.log(data);
-    })
+    });
 }
 
 }
