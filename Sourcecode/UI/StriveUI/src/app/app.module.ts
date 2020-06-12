@@ -10,6 +10,7 @@ import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
+import {  HttpClientModule } from '@angular/common/http';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -52,7 +53,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    HttpClientModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+  ],
+  exports: [
+    HttpClientModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,7 @@
+{
+    "appName": "striveApplication",
+  "name": "Local Dev",
+  "api": {
+    "epmsApi": "http://localhost:55208/"
+  }
+}
