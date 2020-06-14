@@ -16,7 +16,11 @@ using Strive.Common;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Strive.BusinessLogic.Auth;
+using Strive.BusinessLogic;
+using System.Data;
+using System.Data.SqlClient;
+using Strive.Repository.Sql;
+using Microsoft.AspNetCore.Http;
 
 namespace Strive.API
 {
@@ -33,8 +37,11 @@ namespace Strive.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            AppDbConnection.AppDbConnectionInstance.ConnectionString = Configuration.GetSection("StriveSettings:ConnectionStrings")["StriveConnection"];
-            services.AddTransient<IAuthManager, AuthManagerBpl>();
+            string conString = Configuration.GetSection("StriveSettings:ConnectionStrings")["StriveConnection"];
+            AppDbConnection.AppDbConnectionInstance.ConnectionString = conString;
+            services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
+            services.AddTransient<IEmployeeBpl, EmployeeBpl>();
+            services.AddScoped<ITenantHelper, TenantHelper>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -113,6 +120,7 @@ namespace Strive.API
             app.UseSerilogRequestLogging();
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
+            //app.UseMultitenancy<AppTenant>
         }
     }
 }

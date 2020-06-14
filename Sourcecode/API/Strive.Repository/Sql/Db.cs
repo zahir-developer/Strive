@@ -11,6 +11,16 @@ namespace Strive.Repository
 {
     public class Db : BaseRepository
     {
+        IDbConnection _db;
+
+        public Db()
+        {
+
+        }
+        public Db(IDbConnection con)
+        {
+            _db = con;
+        }
         public void Save(CommandDefinition cmd)
         {
             try
@@ -73,12 +83,28 @@ namespace Strive.Repository
             return (Result1.ToList(), Result2.ToList());
         }
 
+        //public List<T> Fetch<T>(string spName, DynamicParameters dynParam)
+        //{
+        //    List<T> fetchlist;
+        //    try
+        //    {
+        //        fetchlist = (List<T>)dbcon.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return fetchlist;
+        //}
+
+
         public List<T> Fetch<T>(string spName, DynamicParameters dynParam)
         {
             List<T> fetchlist;
             try
             {
-                fetchlist = (List<T>)dbcon.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
+                fetchlist = (List<T>)_db.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
 
             }
             catch (Exception ex)

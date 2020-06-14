@@ -6,10 +6,12 @@ namespace Strive.BusinessEntities
 {
     public enum SPEnum
     {
+        USPLogin,
         USPGETUSERBYLOGIN,
         USPGETALLUSERS,
         USPGETUSERS,
-        USPSAVEUSER
+        USPSAVEUSER,
+        USPGETEMPLOYEE
     }
 
 }

@@ -11,10 +11,10 @@ namespace aHEAdWebAPI.Controllers
     [Authorize]
     public class UserController : ControllerBase
     {
-        readonly IUser _user;
+        readonly IUserBpl _user;
         readonly IConfiguration _configuration;
 
-        public UserController(IUser user, IConfiguration configuration)
+        public UserController(IUserBpl user, IConfiguration configuration)
         {
             _user = user;
             _configuration = configuration;
