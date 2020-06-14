@@ -16,7 +16,7 @@ namespace Strive.ResourceAccess
 
         public UserRal()
         {
-            db = new Db();
+            //db = new Db();
         }
 
         public List<User> GetUsers()

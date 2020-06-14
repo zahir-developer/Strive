@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities;
 using Strive.BusinessLogic;
 using Strive.Common;
-using Strive.Repository.Sql;
 using System;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 

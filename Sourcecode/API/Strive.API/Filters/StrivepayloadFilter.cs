@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace Strive.API.Filters
 {
@@ -104,14 +103,7 @@ namespace Strive.API.Filters
                     strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
                     tenant.SetConnection(strConnectionString);
                 }
-                else
-                {
-                    throw new HttpResponseException(HttpStatusCode.Forbidden);
-                }
             }
         }
-
-
-
     }
 }

@@ -21,10 +21,6 @@ namespace Strive.ResourceAccess
             db = new Db(_dbconnection);
         }
 
-        public AuthRal()
-        {
-            db = new Db();
-        }
         public TenantSchema Login(Authentication authentication)
         {
             try

@@ -9,17 +9,13 @@ using System.Threading.Tasks;
 
 namespace Strive.Repository
 {
-    public class Db : BaseRepository
+    public class Db
     {
-        IDbConnection _db;
+        IDbConnection dbcon;
 
-        public Db()
-        {
-
-        }
         public Db(IDbConnection con)
         {
-            _db = con;
+            dbcon = con;
         }
         public void Save(CommandDefinition cmd)
         {
@@ -104,7 +100,7 @@ namespace Strive.Repository
             List<T> fetchlist;
             try
             {
-                fetchlist = (List<T>)_db.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
+                fetchlist = (List<T>)dbcon.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
 
             }
             catch (Exception ex)

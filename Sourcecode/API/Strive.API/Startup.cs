@@ -19,7 +19,6 @@ using Microsoft.IdentityModel.Tokens;
 using Strive.BusinessLogic;
 using System.Data;
 using System.Data.SqlClient;
-using Strive.Repository.Sql;
 using Microsoft.AspNetCore.Http;
 
 namespace Strive.API
@@ -37,8 +36,6 @@ namespace Strive.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string conString = Configuration.GetSection("StriveSettings:ConnectionStrings")["StriveConnection"];
-            AppDbConnection.AppDbConnectionInstance.ConnectionString = conString;
             services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
             services.AddTransient<IEmployeeBpl, EmployeeBpl>();
             services.AddScoped<ITenantHelper, TenantHelper>();
@@ -56,7 +53,6 @@ namespace Strive.API
             services.AddMvc(option =>
             {
                 option.EnableEndpointRouting = false;
-                //option.Filters.Add(new PayloadFilter(Configuration));
                 option.Filters.Add(typeof(StrivepayloadFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -98,12 +94,6 @@ namespace Strive.API
 
             });
             #endregion
-
-
-
-            //services.Configure<StriveSettings>(Configuration.GetSection("AheadSettings"));
-            //services.AddSingleton<IConfigurationReader, ConfigurationReader>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
