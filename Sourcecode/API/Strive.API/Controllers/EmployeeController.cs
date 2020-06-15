@@ -5,6 +5,7 @@ using Strive.BusinessEntities;
 using Strive.BusinessLogic;
 using Strive.Common;
 using System;
+using System.Collections.Generic;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace aHEAdWebAPI.Controllers
@@ -20,11 +21,20 @@ namespace aHEAdWebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
+        [Route("[Controller]/GetAll")]
         public Result GetAllEmployee()
         {
             return _employeeBpl.GetEmployeeDetails();
         }
+
+        [HttpPost]
+        [Route("[Controller]/Save")]
+        public Result SaveEmployee([FromBody] List<Employee> lstEmployee)
+        {
+            return _employeeBpl.SaveEmployeeDetails(lstEmployee);
+        }
+
+
 
     }
 }

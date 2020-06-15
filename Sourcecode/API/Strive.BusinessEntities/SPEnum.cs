@@ -11,7 +11,8 @@ namespace Strive.BusinessEntities
         USPGETALLUSERS,
         USPGETUSERS,
         USPSAVEUSER,
-        USPGETEMPLOYEE
+        USPGETEMPLOYEE,
+        USPSAVEEMPLOYEE
     }
 
 }

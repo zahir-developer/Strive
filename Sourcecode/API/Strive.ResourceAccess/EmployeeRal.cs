@@ -30,5 +30,14 @@ namespace Strive.ResourceAccess
             var res = db.Fetch<Employee>(SPEnum.USPGETEMPLOYEE.ToString(), dynParams);
             return res;
         }
+
+        public bool SaveEmployeeDetails(List<Employee> lstEmployee)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@tvpEmployee", lstEmployee.ToDataTable().AsTableValuedParameter("tvpEmployee"));
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
     }
 }
