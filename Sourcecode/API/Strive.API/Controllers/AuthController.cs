@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities;
-using Strive.BusinessLogic.Auth;
+using Strive.BusinessLogic;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
@@ -10,10 +11,10 @@ namespace aHEAdWebAPI.Controllers
 {
     public class AuthController : ControllerBase
     {
-        readonly IAuthManager _authManager;
+        readonly IAuthManagerBpl _authManager;
         readonly IConfiguration _configuration;
 
-        public AuthController(IAuthManager authManager, IConfiguration configuration)
+        public AuthController(IAuthManagerBpl authManager, IConfiguration configuration)
         {
             _authManager = authManager;
             _configuration = configuration;

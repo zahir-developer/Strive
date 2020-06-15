@@ -16,7 +16,10 @@ using Strive.Common;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Strive.BusinessLogic.Auth;
+using Strive.BusinessLogic;
+using System.Data;
+using System.Data.SqlClient;
+using Microsoft.AspNetCore.Http;
 
 namespace Strive.API
 {
@@ -33,8 +36,9 @@ namespace Strive.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            AppDbConnection.AppDbConnectionInstance.ConnectionString = Configuration.GetSection("StriveSettings:ConnectionStrings")["StriveConnection"];
-            services.AddTransient<IAuthManager, AuthManagerBpl>();
+            services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
+            services.AddTransient<IEmployeeBpl, EmployeeBpl>();
+            services.AddScoped<ITenantHelper, TenantHelper>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -49,7 +53,6 @@ namespace Strive.API
             services.AddMvc(option =>
             {
                 option.EnableEndpointRouting = false;
-                //option.Filters.Add(new PayloadFilter(Configuration));
                 option.Filters.Add(typeof(StrivepayloadFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -91,12 +94,6 @@ namespace Strive.API
 
             });
             #endregion
-
-
-
-            //services.Configure<StriveSettings>(Configuration.GetSection("AheadSettings"));
-            //services.AddSingleton<IConfigurationReader, ConfigurationReader>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,6 +110,7 @@ namespace Strive.API
             app.UseSerilogRequestLogging();
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
+            //app.UseMultitenancy<AppTenant>
         }
     }
 }

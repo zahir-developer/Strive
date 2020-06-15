@@ -9,7 +9,7 @@ using Strive.ResourceAccess;
 
 namespace Strive.BusinessLogic
 {
-    public class UserManagerBpl : IUser
+    public class UserBpl : IUserBpl
     {
         public Result AddUser(User user)
         {

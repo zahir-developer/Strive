@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using Strive.BusinessEntities;
 
-namespace Strive.BusinessLogic.Auth
+namespace Strive.BusinessLogic
 {
-    public interface IAuthManager
+    public interface IAuthManagerBpl
     {
         Result Login(Authentication authentication, string secretKey);
     }
