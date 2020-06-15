@@ -39,7 +39,7 @@ export class CreateCustomerDetailsComponent implements OnInit {
     { id: 'Other', value: 'Other' }];
     if (this.selectedData !== undefined) {
       this.createCustomerForm.reset();
-      this.createCustomerForm.setValue({ name: this.selectedData.name });
+      this.createCustomerForm.patchValue({ name: this.selectedData.name });
     }
   }
   get f() { return this.createCustomerForm.controls; }
