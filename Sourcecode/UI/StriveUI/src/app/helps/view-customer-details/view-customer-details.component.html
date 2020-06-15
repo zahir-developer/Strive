@@ -4,7 +4,7 @@
 
             <!-- <button type="button" style="font-family: Arial, Helvetica, sans-serif;"class="btn btn-secondary btn-xs float-right" (click)="addCustomer()">Add Template</button> -->
             <input type="button" value="Add" (click)="addCustomer()">
-            <!-- <ng-container *ngIf="cars.length>0; else noRecords"> -->
+            <ng-container *ngIf="cars.length>0; else noRecords">
             <p-table [value]="cars" [autoLayout]="true">
                 <ng-template pTemplate="header">
                     <tr>
@@ -35,12 +35,15 @@
                         </td>
                     </tr>
                 </ng-template>
-               
             </p-table>
-            <div *ngIf="this.cars.length === 0" >
-                No Records Found
-            </div>
-        <!-- </ng-container> -->
+            </ng-container>
+            <ng-template #noRecords>
+            <ng-container >
+                <p-card [style]="{'height':'5rem'}">
+                        <p style="text-align: center">No Record Available</p>
+                </p-card>
+        </ng-container>
+    </ng-template>
         
         </div>
 
@@ -48,6 +51,6 @@
 </div>
 <p-dialog header="Create Customer" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
     [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
-    <app-create-customer-details [selectedData]="selectedData"></app-create-customer-details>
+    <app-create-customer-details *ngIf="showDialog" [selectedData]="selectedData"></app-create-customer-details>
 </p-dialog>
 <!-- <p-dialog [header]="Create New Customer" [visible]="showDialog"></p-dialog> -->

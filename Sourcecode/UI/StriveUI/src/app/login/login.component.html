@@ -6,20 +6,20 @@
         <p class="h4 mb-4"> Log in</p>
         <div class="form-group">
           <label for="txtUserName">Email</label>
-          <input formControlName="username" type="email" id="username" class="form-control" placeholder="E-mail" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
-          <!-- <span *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched" class="help-block">username is required</span> -->
-          <div *ngIf="submitted && f.username?.errors" class="invalid-feedback">
+          <input formControlName="username" type="email" id="username" class="form-control" placeholder="E-mail" >
+          <span *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched" class="help-block invalid-feedback">username is required</span>
+          <!-- <div *ngIf="submitted && f.username?.errors" class="invalid-feedback">
             <div *ngIf="f.username?.errors?.required">UserName required</div>
-        </div>
+        </div> -->
         </div>
         <div class="form-group">
           <label for="txtUserName">Password</label>
-          <input formControlName="password" type="password" id="password" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }"placeholder="Password">
+          <input formControlName="password" type="password" id="password" class="form-control" placeholder="Password">
         </div>
-        <div *ngIf="submitted && f.password?.errors" class="invalid-feedback">
+        <!-- <div *ngIf="submitted && f.password?.errors" class="invalid-feedback">
           <div *ngIf="f.password?.errors?.required">Password required</div>
-      </div>
-        <!-- <span *ngIf="!loginForm.valid && loginForm.touched" class="help-block">Please enter valid data</span> -->
+      </div> -->
+        <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched" class="help-block invalid-feedback">password is required</span>
         <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
       </form>
 
