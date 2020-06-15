@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+
+            <!-- <button type="button" style="font-family: Arial, Helvetica, sans-serif;"class="btn btn-secondary btn-xs float-right" (click)="addCustomer()">Add Template</button> -->
+            <input type="button" value="Add" (click)="addCustomer()">
+            <ng-container *ngIf="cars.length>0; else noRecords">
+            <p-table [value]="cars" [autoLayout]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-car>
+                    <tr>
+                        <td>{{car.name}}</td>
+                        <td>{{car.age}}</td>
+                        <td>{{car.dob}}</td>
+                        <td>{{car.gender}}</td>
+                        <td>{{car.address}}</td>
+                        <td>{{car.phone}}</td>
+                        <td>{{car.email}}</td>
+                        <td>
+                            <em class="fas fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
+                                (click)="edit(car)"></em>&nbsp;&nbsp;
+                            <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
+                                (click)="delete(car)"></em>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            </ng-container>
+            <ng-template #noRecords>
+            <ng-container >
+                <p-card [style]="{'height':'5rem'}">
+                        <p style="text-align: center">No Record Available</p>
+                </p-card>
+        </ng-container>
+    </ng-template>
+        
+        </div>
+
+    </div>
+</div>
+<p-dialog header="Create Customer" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
+    [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
+    <app-create-customer-details *ngIf="showDialog" [selectedData]="selectedData"></app-create-customer-details>
+</p-dialog>
+<!-- <p-dialog [header]="Create New Customer" [visible]="showDialog"></p-dialog> -->

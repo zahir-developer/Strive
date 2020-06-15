@@ -25,6 +25,7 @@ namespace Strive.Common
 
         public string AheadLogFilePath { get; set; }
         public string AheadLogFileName { get; set; }
+        public string UserGuid { get; set; }
     }
 
 }

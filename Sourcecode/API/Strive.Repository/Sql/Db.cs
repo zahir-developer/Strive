@@ -9,8 +9,14 @@ using System.Threading.Tasks;
 
 namespace Strive.Repository
 {
-    public class Db : BaseRepository
+    public class Db
     {
+        IDbConnection dbcon;
+
+        public Db(IDbConnection con)
+        {
+            dbcon = con;
+        }
         public void Save(CommandDefinition cmd)
         {
             try
@@ -26,7 +32,7 @@ namespace Strive.Repository
 
         public object SaveGetId(CommandDefinition cmd)
         {
-            object id = default;
+            object id = null;// default;
             try
             {
                    id = dbcon.ExecuteScalar(cmd);
@@ -72,6 +78,22 @@ namespace Strive.Repository
 
             return (Result1.ToList(), Result2.ToList());
         }
+
+        //public List<T> Fetch<T>(string spName, DynamicParameters dynParam)
+        //{
+        //    List<T> fetchlist;
+        //    try
+        //    {
+        //        fetchlist = (List<T>)dbcon.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return fetchlist;
+        //}
+
 
         public List<T> Fetch<T>(string spName, DynamicParameters dynParam)
         {

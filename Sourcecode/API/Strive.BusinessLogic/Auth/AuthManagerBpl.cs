@@ -1,8 +1,9 @@
-﻿using Microsoft.IdentityModel.Logging;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
-using Strive.BusinessEntities.Auth;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -12,19 +13,31 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 
-namespace Strive.BusinessLogic.Auth
+namespace Strive.BusinessLogic
 {
-    public class AuthManagerBpl : IAuthManager
+    public class AuthManagerBpl : Strivebase, IAuthManagerBpl
     {
+        ITenantHelper tenant;
+
+        public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache){
+            tenant = tenantHelper;
+        }
+
+        //public TenantSchema GetTenantSchema(Authentication authentication)
+        //{
+        //    TenantSchema tenantSchema = new AuthRal().Login(authentication);
+        //    SetTenantSchematoCache(tenantSchema);
+        //}
+
+      
         public Result Login(Authentication authentication, string secretKey)
         {
             Result result;
             JObject resultContent = new JObject();
             try
             {
-                //var userdetails = new AuthRal().Login(authentication);
-
-                var userdetails = new User() { FirstName = "Mamooth", LastName = "Strive", LoginId = "Mamooth", Role = "Admin" };
+                var userdetails = new AuthRal(tenant).Login(authentication);
+                SetTenantSchematoCache(userdetails);
                 var token = GetToken(userdetails, secretKey);
                 resultContent.Add(token.WithName("Token"));
                 result = Helper.BindSuccessResult(resultContent);
@@ -36,7 +49,7 @@ namespace Strive.BusinessLogic.Auth
             return result;
         }
 
-        private string GetToken(User user, string secretKey)
+        private string GetToken(TenantSchema tenant, string secretKey)
         {
 
             var credentials = Common.Utility.GetEncryptionStuff(secretKey);
@@ -48,9 +61,7 @@ namespace Strive.BusinessLogic.Auth
                 Subject = new ClaimsIdentity(
                     new Claim[]
                 {
-                    new Claim("UserName",$"{user.FirstName}{user.LastName}"),
-                    new Claim("LoginId",user.LoginId),
-                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim("UserGuid",$"{tenant.UserGuid}")
                 }),
                 Issuer = "Mammoth-Strive",
                 Audience = "Mammoth-Customer",
