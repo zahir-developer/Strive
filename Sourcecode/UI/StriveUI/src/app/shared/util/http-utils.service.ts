@@ -17,7 +17,8 @@ export class HttpUtilsService {
     return this.http.post('http://localhost:55208/' + url, data, optional);
   }
   public get(url: string, optional?: any): Observable<any> {
-    return this.http.get(EnvironmentService.environment.api.epmsApi + url, optional);
+    // EnvironmentService.environment.api.epmsApi
+    return this.http.get( 'http://localhost:55208/' + url, optional);
   }
   public put(url: string, data?: any): Observable<any> {
     return this.http.put(EnvironmentService.environment.api.epmsApi + url, data);

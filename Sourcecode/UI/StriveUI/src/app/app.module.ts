@@ -12,13 +12,15 @@ import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
-import {  HttpClientModule } from '@angular/common/http';
-import {TableModule} from 'primeng/table';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './shared/interceptor/token.interceptor';
+import { TableModule} from 'primeng/table';
 import { HelpsComponent } from './helps/helps.component'
 import { ViewCustomerDetailsComponent } from './helps/view-customer-details/view-customer-details.component';
 import { CreateCustomerDetailsComponent } from './helps/create-customer-details/create-customer-details.component';
 import { ToastrModule } from 'ngx-toastr';
 import {DialogModule} from 'primeng/dialog';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#FF7900',
@@ -56,7 +58,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SignupComponent,
     HelpsComponent,
     ViewCustomerDetailsComponent,
-    CreateCustomerDetailsComponent
+    CreateCustomerDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +78,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HttpClientModule,
 
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })

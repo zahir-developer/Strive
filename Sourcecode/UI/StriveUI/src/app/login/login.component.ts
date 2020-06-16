@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../shared/services/login.service';
+import {Router, ActivatedRoute} from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
     });
 
   }
-get f() { return this.loginForm.controls; }
+  get f() { return this.loginForm.controls; }
   LoginSubmit(): void {
     this.submitted = true;
     const loginObj = {
@@ -34,11 +35,13 @@ get f() { return this.loginForm.controls; }
       if (data) {
         if (data.status === 'Success') {
           const token = JSON.parse(data.resultData);
-          localStorage.setItem('authorizationToken', JSON.stringify(token.Token));
+          localStorage.setItem('authorizationToken', token.Token);
+          this.loaddTheLandingPage();
         }
       }
-      console.log(data);
     });
-}
-
+  }
+  loaddTheLandingPage(): void {
+      this.router.navigate([`/admin/employees`], { relativeTo: this.route });
+    }
 }
