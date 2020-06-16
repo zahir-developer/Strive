@@ -12,7 +12,8 @@ import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './shared/interceptor/token.interceptor';
 import { TableModule} from 'primeng/table';
 import { HelpsComponent } from './helps/helps.component'
 import { ViewCustomerDetailsComponent } from './helps/view-customer-details/view-customer-details.component';
@@ -77,7 +78,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HttpClientModule,
 
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })

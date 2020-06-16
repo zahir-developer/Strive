@@ -4,8 +4,11 @@ import { WashComponent } from './wash.component';
 
 
 const washRoutes: Routes = [
-  { path: 'wash', component: WashComponent 
-  }
+  { path: 'wash', component: WashComponent}, {
+    path: '', component: WashComponent, children: [{
+        path: 'wash', component: WashComponent
+    }]
+}
 ];
 
 

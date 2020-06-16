@@ -1,0 +1,28 @@
+<input type="button" value="Add" class="" (click)="add('add',[])">
+<p-table [value]="employeeDetails">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-employee>
+        <tr>
+            <td>{{employee.FirstName}}</td>
+            <td>{{employee.LastName}}</td>
+            <td>{{employee.Role}}</td>
+            <td>
+                <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
+                                (click)="add('edit', employee)"></em>&nbsp;&nbsp;
+                            <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
+                                (click)="delete(employee)"></em>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
+    [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
+    <app-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-create-edit>
+</p-dialog>

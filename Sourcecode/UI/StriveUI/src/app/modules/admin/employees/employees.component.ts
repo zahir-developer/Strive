@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-employees',
@@ -7,17 +6,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./employees.component.css']
 })
 export class EmployeesComponent implements OnInit {
-sampleForm: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor() { }
 
   ngOnInit() {
-    this.sampleForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      role: ['', Validators.required]
-    });
   }
-  submit() {
-console.log('submitted');
-  }
+ 
 }

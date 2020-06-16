@@ -9,7 +9,8 @@ export class WashComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    console.log('wash component');
   }
 
 }

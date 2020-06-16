@@ -4,7 +4,6 @@ import { WashComponent } from './wash.component';
 import { WashRoutingModule } from './wash.routing';
 
 
-
 @NgModule({
   declarations: [WashComponent],
   imports: [
