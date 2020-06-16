@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>StriveTenantDb</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{bebb43e8-e9d0-4d74-b9fe-f56713e4f7c1}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>StriveTenantDb</RootNamespace>
+    <AssemblyName>StriveTenantDb</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="StriveLimoSalon\" />
+    <Folder Include="StriveLimoSalon\Tables\" />
+    <Folder Include="StriveCarSalon\" />
+    <Folder Include="StriveCarSalon\Tables\" />
+    <Folder Include="Cus\" />
+    <Folder Include="Cus\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="StriveLimoSalon\Stored Procedures\" />
+    <Folder Include="StriveCarSalon\Stored Procedures\" />
+    <Folder Include="StriveLimoSalon\User Defined Types\" />
+    <Folder Include="StriveCarSalon\User Defined Types\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="StriveLimoSalon\Tables\tblEmployee.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployee.sql" />
+    <Build Include="Cus\Tables\tblWashInformation.sql" />
+    <Build Include="Cus\Tables\tblServiceType.sql" />
+    <Build Include="Cus\Tables\tblVehicleModel.sql" />
+    <Build Include="Cus\Tables\tblVehicleMake.sql" />
+    <Build Include="Cus\Tables\tblVehicleColor.sql" />
+    <Build Include="Cus\Tables\tblCustomer.sql" />
+    <Build Include="Security\SLSAdmin.sql" />
+    <Build Include="Security\SCSAdmin.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="StriveLimoSalon\Stored Procedures\uspGetEmployee.sql" />
+    <Build Include="StriveLimoSalon\Stored Procedures\uspSaveEmployee.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSaveEmployee.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetEmployee.sql" />
+    <Build Include="StriveLimoSalon\User Defined Types\tvpEmployee.sql" />
+    <Build Include="StriveCarSalon\User Defined Types\tvpEmployee.sql" />
+    <Build Include="Security\StriveLimoSalon.sql" />
+    <Build Include="Security\StriveCarSalon.sql" />
+    <Build Include="Security\Cus.sql" />
+    <Build Include="Security\Adm.sql" />
+  </ItemGroup>
+</Project>
