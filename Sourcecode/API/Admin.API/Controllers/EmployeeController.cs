@@ -8,9 +8,10 @@ using System;
 using System.Collections.Generic;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-namespace Strive.API.Controllers
+namespace Admin.Api.Controllers
 {
     [Authorize]
+    [Route("Admin/[Controller]")]
     public class EmployeeController : ControllerBase
     {
         IEmployeeBpl _employeeBpl = null;
@@ -21,14 +22,14 @@ namespace Strive.API.Controllers
         }
 
         [HttpGet]
-        [Route("[Controller]/GetAll")]
+        [Route("GetAll")]
         public Result GetAllEmployee()
         {
             return _employeeBpl.GetEmployeeDetails();
         }
 
         [HttpPost]
-        [Route("[Controller]/Save")]
+        [Route("Save")]
         public Result SaveEmployee([FromBody] List<Employee> lstEmployee)
         {
             return _employeeBpl.SaveEmployeeDetails(lstEmployee);

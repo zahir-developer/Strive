@@ -42,3 +42,11 @@
 /Sourcecode/Database/StriveAuthDb/.vs/StriveAuthDb/v16/.suo
 /Sourcecode/Database/StriveTenantDb/StriveTenantDb/StriveTenantDb.dbmdl
 /Sourcecode/Database/StriveAuthDb/StriveAuthDb/StriveAuthDb.sqlproj.user
+/Sourcecode/API/Admin.API/bin/Debug/netcoreapp2.2
+/Sourcecode/API/Admin.API/obj
+/Sourcecode/API/Messenger.API/bin/Debug/netcoreapp2.2
+/Sourcecode/API/Messenger.API/obj
+/Sourcecode/API/Strive.API.Gateway/bin/Debug/netcoreapp2.2
+/Sourcecode/API/Strive.API.Gateway/Logs
+/Sourcecode/API/Strive.API.Gateway/obj
+/Sourcecode/Database/StriveAuthDb/StriveAuthDb/StriveAuthDb.dbmdl
