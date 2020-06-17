@@ -1,23 +1,21 @@
-image: microsoft/dotnet:latest
-
 stages:
     - build
     - test
     
 variables:
-    test: "Example.Test"
+    PROJECT_NAME: "Strive"
+    BUILD_IMAGE: "mcr.microsoft.com/dotnet/core/sdk:3.1"
     
 before_script:
-    - "cd src"
+    - "cd src/$PROJECT_NAME"
     - "dotnet restore"
     
 build:
     stage:  build
+    image: $BUILD_IMAGE
     script:
         - echo "Building"
-        - "dotnet build"
-        - mkdir build
-        - touch build/buildinfo.txt
+        - dotnet build --configuration Release
 
 test:
     stage:  test
