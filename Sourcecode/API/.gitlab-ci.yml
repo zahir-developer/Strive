@@ -1,0 +1,5 @@
+Strive-Job-1:
+    tags:
+        - strive-runner-tag
+    script:
+        - echo hey
