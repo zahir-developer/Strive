@@ -8,8 +8,8 @@ variables:
     
 before_script:
     - echo "pre script"
-    - echo Sourcecode/API/$PROJECT_NAME
-    - "cd Sourcecode/API/$PROJECT_NAME"
+    - echo /Sourcecode/API/$PROJECT_NAME
+    - "cd /Sourcecode/API/$PROJECT_NAME"
     - "dotnet restore"
     
 build:
