@@ -17,12 +17,4 @@ build:
     image: $BUILD_IMAGE
     script:
         - echo "Building"
-        - dotnet build --configuration Release
-
-test:
-    stage:  test
-    script:
-        - echo "Testing"
-        - test -f "build/Testinfo.txt"
-        
-        
+        - dotnet build --configuration Release      
