@@ -9,7 +9,7 @@ variables:
 before_script:
     - echo "pre script"
     - echo /Sourcecode/API/Admin.API/$PROJECT_NAME
-    - "cd /Sourcecode/API/Admin.API/$PROJECT_NAME
+    - "cd /Sourcecode/API/Admin.API/$PROJECT_NAME"
     - "dotnet restore"
     
 build:
@@ -24,3 +24,5 @@ test:
     script:
         - echo "Testing"
         - test -f "build/Testinfo.txt"
+        
+        
