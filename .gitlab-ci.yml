@@ -1,6 +1,6 @@
 stages:
     - build
-    - test
+
     
 variables:
     PROJECT_NAME: "Admin.API"
