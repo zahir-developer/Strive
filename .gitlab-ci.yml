@@ -1,5 +1,19 @@
 Strive-Job-1:
     tags:
         - strive-runner-tag
-    script:
-        - echo hey
+    stages:
+        - build
+        - test
+        
+    build:
+        stage:  build
+        script:
+            - echo "Building"
+            - mkdir build
+            - touch build/buildinfo.txt
+
+    test:
+        stage:  test
+        script:
+            - echo "Testing"
+            - test -f "build/Testinfo.txt"
