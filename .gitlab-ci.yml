@@ -1,19 +1,26 @@
-Strive-Job-1:
-    tags:
-        - strive-runner-tag
-    stages:
-        - build
-        - test
-        
-    build:
-        stage:  build
-        script:
-            - echo "Building"
-            - mkdir build
-            - touch build/buildinfo.txt
+image: microsoft/dotnet:latest
 
-    test:
-        stage:  test
-        script:
-            - echo "Testing"
-            - test -f "build/Testinfo.txt"
+stages:
+    - build
+    - test
+    
+variables:
+    test: "Example.Test"
+    
+before_script:
+    - "cd src"
+    - "dotnet restore"
+    
+build:
+    stage:  build
+    script:
+        - echo "Building"
+        - "dotnet build"
+        - mkdir build
+        - touch build/buildinfo.txt
+
+test:
+    stage:  test
+    script:
+        - echo "Testing"
+        - test -f "build/Testinfo.txt"
