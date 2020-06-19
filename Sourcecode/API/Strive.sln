@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.API", "Strive.API\Strive.API.csproj", "{05E7FB9A-1381-49C6-8E5D-0DB1C89A6675}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Logic", "Business Logic", "{68B4FAB5-3DE4-4A79-AD6E-33F2543277F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resource Access", "Resource Access", "{9EA6606B-4791-4215-AA13-C6B17EFBE003}"
@@ -23,14 +21,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.Repository", "Strive
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StriveGateway", "StriveGateway", "{8EEA30A6-9DFF-47C5-BCF4-D904C07A3F2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StriveGateway.API", "Strive.API.Gateway\StriveGateway.API.csproj", "{5DFF7227-755C-4BF7-8D60-33D4111301D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StriveGateway.API", "Strive.API.Gateway\StriveGateway.API.csproj", "{5DFF7227-755C-4BF7-8D60-33D4111301D7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{07AD186F-778E-427F-8FFB-1E0C3ECAAA8A} = {07AD186F-778E-427F-8FFB-1E0C3ECAAA8A}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StriveServices", "StriveServices", "{F41A20C8-A367-45A8-8909-D570C76CBAC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.API", "Admin.API\Admin.API.csproj", "{07AD186F-778E-427F-8FFB-1E0C3ECAAA8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.API", "Admin.API\Admin.API.csproj", "{07AD186F-778E-427F-8FFB-1E0C3ECAAA8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messenger.API", "Messenger.API\Messenger.API.csproj", "{A79C9BCC-42CF-4D7F-9399-5C3A2AF81952}"
 EndProject
@@ -40,10 +38,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{05E7FB9A-1381-49C6-8E5D-0DB1C89A6675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05E7FB9A-1381-49C6-8E5D-0DB1C89A6675}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05E7FB9A-1381-49C6-8E5D-0DB1C89A6675}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05E7FB9A-1381-49C6-8E5D-0DB1C89A6675}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F55448E4-1917-4FAE-A87D-EF30E9E5C8EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F55448E4-1917-4FAE-A87D-EF30E9E5C8EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F55448E4-1917-4FAE-A87D-EF30E9E5C8EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
