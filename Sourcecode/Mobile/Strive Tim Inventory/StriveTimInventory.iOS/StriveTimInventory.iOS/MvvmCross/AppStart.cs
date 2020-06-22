@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using Strive.Core.ViewModels;
+using Strive.Core.ViewModels.TIMInventory;
 
-namespace Strive.Core
+namespace StriveTimInventory.iOS.MvvmCross
 {
     public class AppStart : MvxAppStart
     {
@@ -15,7 +16,7 @@ namespace Strive.Core
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
-            return NavigationService.Navigate<BaseViewModel>();
+            return NavigationService.Navigate<LoginViewModel>();
         }
     }
 }

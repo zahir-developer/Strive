@@ -1,13 +1,8 @@
 ﻿using System;
-using MvvmCross;
-using MvvmCross.Base;
-using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Ios.Core;
-using Strive.Core;
-using UIKit;
 
-namespace StriveTimInventory.iOS
+namespace StriveTimInventory.iOS.MvvmCross
 {
     public class Setup : MvxIosSetup<App>
     {
