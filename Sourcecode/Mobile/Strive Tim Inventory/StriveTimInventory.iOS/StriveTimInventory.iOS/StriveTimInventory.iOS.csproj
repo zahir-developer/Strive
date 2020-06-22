@@ -120,6 +120,7 @@
     <ItemGroup>
         <Folder Include="Resources\" />
         <Folder Include="Views\" />
+        <Folder Include="MvvmCross\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -133,11 +134,13 @@
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
         <Compile Include="SceneDelegate.cs" />
-        <Compile Include="Setup.cs" />
         <Compile Include="Views\BaseView.cs" />
         <Compile Include="Views\BaseView.designer.cs">
           <DependentUpon>BaseView.cs</DependentUpon>
         </Compile>
+        <Compile Include="MvvmCross\App.cs" />
+        <Compile Include="MvvmCross\AppStart.cs" />
+        <Compile Include="MvvmCross\Setup.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
