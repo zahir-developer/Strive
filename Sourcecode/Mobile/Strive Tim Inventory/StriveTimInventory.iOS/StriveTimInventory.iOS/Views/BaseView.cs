@@ -1,11 +1,13 @@
 ﻿using System;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels;
+using Strive.Core.ViewModels.TIMInventory;
 using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {
-    public partial class BaseView : MvxViewController<BaseViewModel>
+    public partial class BaseView : MvxViewController<LoginViewModel>
     {
         public BaseView() : base("BaseView", null)
         {
@@ -14,7 +16,10 @@ namespace StriveTimInventory.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            // Perform any additional setup after loading the view, typically from a nib.
+            var set = this.CreateBindingSet<BaseView, LoginViewModel>();
+            set.Bind(lblTitle).To(vm => vm.Title);
+            set.Apply();
+
         }
 
         public override void DidReceiveMemoryWarning()

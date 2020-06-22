@@ -3,8 +3,9 @@ using Acr.UserDialogs;
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.ViewModels;
+using Strive.Core;
 
-namespace Strive.Core
+namespace StriveTimInventory.iOS.MvvmCross
 {
     public class App : MvxApplication
     {
