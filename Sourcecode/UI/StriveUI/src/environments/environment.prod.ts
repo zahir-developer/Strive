@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  api: { // API Endpoints
+    epmsApi: 'http://localhost:55208/'
+  },
 };

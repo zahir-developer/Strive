@@ -10,17 +10,19 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TableModule} from 'primeng/table';
 import { CreateEditComponent } from './employees/create-edit/create-edit.component';
 import {DialogModule} from 'primeng/dialog';
-
+import { SchedulingComponent } from './scheduling/scheduling.component';
+import {SharedModule} from 'src/app/shared/shared.module'
 
 @NgModule({
-  declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent],
+  declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     TableModule,
-    DialogModule
+    DialogModule,
+    SharedModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

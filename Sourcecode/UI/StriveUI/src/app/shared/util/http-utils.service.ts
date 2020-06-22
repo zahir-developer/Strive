@@ -14,11 +14,11 @@ export class HttpUtilsService {
 
   public post(url: string, data?: any, optional?: any): Observable<any> {
     // EnvironmentService.environment.api.epmsApi
-    return this.http.post('http://localhost:55208/' + url, data, optional);
+    return this.http.post(EnvironmentService.environment.api.epmsApi + url, data, optional);
   }
   public get(url: string, optional?: any): Observable<any> {
     // EnvironmentService.environment.api.epmsApi
-    return this.http.get( 'http://localhost:55208/' + url, optional);
+    return this.http.get( EnvironmentService.environment.api.epmsApi + url, optional);
   }
   public put(url: string, data?: any): Observable<any> {
     return this.http.put(EnvironmentService.environment.api.epmsApi + url, data);
