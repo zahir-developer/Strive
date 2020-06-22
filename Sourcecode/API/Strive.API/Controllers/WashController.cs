@@ -6,7 +6,7 @@ using Strive.Common;
 using System;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-namespace aHEAdWebAPI.Controllers
+namespace Strive.API.Controllers
 {
     [Authorize]
     public class WashController : ControllerBase

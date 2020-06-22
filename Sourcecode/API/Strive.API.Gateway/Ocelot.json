@@ -1,0 +1,67 @@
+{
+  "ReRoutes": [
+    {
+      "UseServiceDiscovery": false,
+      "DownstreamPathTemplate": "/Admin/{everything}",
+      "DownstreamScheme": "http",
+
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 60001
+        }
+      ],
+
+      "UpstreamPathTemplate": "/Admin/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "SwaggerKey": "StriveAdmin"
+    },
+    {
+      "UseServiceDiscovery": false,
+      "DownstreamPathTemplate": "/Messenger/{everything}",
+      "DownstreamScheme": "http",
+
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 60002
+        }
+      ],
+
+      "UpstreamPathTemplate": "/Messenger/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "SwaggerKey": "StriveMessenger"
+    }
+
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:60000"
+    ,"RequestIdKey": "OcRequestId",
+    "AdministrationPath": "/administration"
+  },
+
+
+  "SwaggerEndPoints": [
+    {
+      "Key": "StriveAdmin",
+      "Config": [
+        {
+          "Name": "StriveAdminApi",
+          "Version": "v1",
+          "Url": "http://localhost:60001/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "StriveMessenger",
+      "Config": [
+        {
+          "Name": "StriveMessengerApi",
+          "Version": "v1",
+          "Url": "http://localhost:60002/swagger/v1/swagger.json"
+        }
+      ]
+    }
+
+  ]
+}

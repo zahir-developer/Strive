@@ -6,7 +6,7 @@ using Strive.BusinessLogic;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-namespace aHEAdWebAPI.Controllers
+namespace Strive.API.Controllers
 {
     [Authorize]
     public class UserController : ControllerBase

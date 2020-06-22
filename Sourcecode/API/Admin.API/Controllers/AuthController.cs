@@ -7,7 +7,7 @@ using Strive.BusinessLogic;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-namespace Strive.API.Controllers
+namespace Admin.Api.Controllers
 {
     public class AuthController : ControllerBase
     {
@@ -21,14 +21,11 @@ namespace Strive.API.Controllers
         }
 
         [HttpPost]
-        [Route("Login")]
+        [Route("/Admin/Login")]
         [AllowAnonymous]
         public Result Login([FromBody] Authentication authentication)
         {
-            //var pwd = CustomPasswordHasher.HashPassword(authentication.PasswordHash);
-            //var pwd = authentication.PasswordHash;
-            //authentication.PasswordHash = pwd;
-            var result = _authManager.Login(authentication, _configuration.GetSection("StriveSettings:Jwt")["SecretKey"]);
+            var result = _authManager.Login(authentication, _configuration.GetSection("StriveAdminSettings:Jwt")["SecretKey"]);
             return result;
         }
 
