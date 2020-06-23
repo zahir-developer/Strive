@@ -1,0 +1,1259 @@
+﻿/* DEFAULTS
+----------------------------------------------------------*/
+* {
+	margin: 0;
+	padding: 0;
+}
+body
+{
+    /*background: #e5e5e5;*/
+    font-size: .80em;
+    /*font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;*/ 
+    /*font-family: Helvetica, sans-serif; */
+    /*font-weight: 300;*/
+    margin: 0px;
+    padding: 0px;
+    color: #292929;
+
+
+}
+
+a:link, a:visited
+{
+    color: #034af3;
+}
+
+a:hover
+{
+    color: #1d60ff;
+    text-decoration: none;
+}
+
+a:active
+{
+    color: #034af3;
+}
+
+p
+{
+    margin-bottom: 10px;
+    line-height: 1.6em;
+}
+
+
+/* HEADINGS   
+----------------------------------------------------------*/
+
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 1.5em;
+    /*color: #666666;*/
+    /*font-variant: small-caps;*/
+    text-transform: none;
+    font-weight: 200;
+    margin-bottom: 0px;
+}
+
+h1
+{
+    font-size: 1.6em;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+h2
+{
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+h3
+{
+    font-size: 1.2em;
+}
+
+h4
+{
+    font-size: 1.1em;
+}
+
+h5, h6
+{
+    font-size: 1em;
+}
+
+/* this rule styles <h1> and <h2> tags that are the 
+first child of the left and right table columns */
+.rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
+{
+    margin-top: 0px;
+}
+
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+.page
+{
+    /*width: 95%;*/
+    margin: 0px auto;
+    /*background-color: #fff;
+    margin: 20px auto 0px auto;    
+    border: 1px solid #496077;*/
+}
+.cpage
+{
+    background-color: #fff;
+}
+.datapage
+{
+    background-color: #fff;
+    margin: 0px auto 0px auto;
+    padding: 10px;
+}
+.header
+{
+    position: relative;
+    margin: 0px;
+    padding: 4px;
+    background: #ffffff;
+    width: 98%;
+}
+
+.header h1
+{
+    border-style: none;
+    border-color: inherit;
+    border-width: medium;
+    font-weight: 700;
+    margin: 0px;
+    padding: 0px 0px 0px 20px;
+    color: #f9f9f9;
+    line-height: 2em;
+    font-size: 2em;
+    height: 66px;
+}
+
+.main
+{
+    /*padding: 0px 12px;
+    background: #ffffff;
+    margin: 12px 8px 8px 8px;
+    min-height: 420px;*/
+}
+
+.leftCol
+{
+    padding: 6px 0px;
+    margin: 12px 8px 8px 8px;
+    width: 200px;
+    min-height: 200px;
+}
+
+.footer
+{
+    color: #4e5766;
+    padding: 8px 0px 0px 0px;
+    margin: 0px auto;
+    text-align: center;
+    line-height: normal;
+}
+
+/* Glossary Page */
+.custsubhead {
+	color: #369;
+	font-size: 16px;
+	text-align: left;
+	margin: 0;
+	padding: 0 0 0 80px;
+}
+
+.custsubhead2 {
+	color: #369;
+	font-size: 16px;
+	text-align: left;
+	margin: 0;
+	padding: 0 0 7px 80px;
+}
+
+.custparag {
+	text-align: left;
+	margin: 0;
+	padding: 5px 120px 18px 80px;
+}
+
+.custparag2 {
+	text-align: left;
+	margin: 0;
+	padding: 5px 120px 5px 80px;
+}
+
+.custparag3 {
+	text-align: left;
+	margin: 0;
+	padding: 5px 120px 5px 0;
+}
+
+
+.inline {
+	margin: 0;
+	padding: 0 1px;
+	display: inline;
+}
+
+#alphabet {
+	font-size: 22px;
+	text-align: center;
+	margin: 0;
+	padding: 30px 0 25px;
+}
+
+a.rfvd2:link, a.rfvd2:visited {
+	color: #336699;
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+a.rfvd2:hover, a.rfvd2:active {
+	color: #ff6600;
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+    vertical-align:middle;
+}
+
+a.rfvd3:link, a.rfvd3:visited {
+	color: #336699;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: underline;
+	margin: 0;
+	padding: 10px 0;
+    width:100%;
+    text-align:center;
+    
+}
+
+a.rfvd3:hover, a.rfvd3:active {
+	color: #ff6600;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: underline;
+	margin: 0;
+	padding: 10px 0;
+}
+
+/* TAB MENU   
+----------------------------------------------------------*/
+
+div.hideSkiplink
+{
+    background-color: #ffffff;
+    width: 100%;
+}
+
+/* FORM ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset
+{
+    margin: 1em 0px;
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+
+fieldset p
+{
+    margin: 0px 12px 0px 10px;
+}
+
+fieldset.login label, fieldset.register label, fieldset.changePassword label
+{
+    display: block;
+}
+
+fieldset label.inline
+{
+    display: inline;
+}
+
+legend
+{
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 0px 4px 0px 4px;
+}
+
+input.textEntry
+{
+    width: 320px;
+    border: 1px solid #ccc;
+}
+
+input.passwordEntry
+{
+    width: 320px;
+    border: 1px solid #ccc;
+}
+
+div.accountInfo
+{
+    width: 42%;
+}
+
+/* MISC  
+----------------------------------------------------------*/
+
+.clear
+{
+    clear: both;
+}
+
+.title
+{
+    display: block;
+    float: left;
+    text-align: left;
+    width: 480px;
+    height: 70px;
+}
+
+.loginDisplay
+{
+    font-size: 1.1em;
+    display: block;
+    text-align: right;
+    padding: 10px;
+    color: White;
+    height: 61px;
+}
+
+.loginDisplay a:link
+{
+    color: white;
+}
+
+.loginDisplay a:visited
+{
+    color: white;
+}
+
+.loginDisplay a:hover
+{
+    color: white;
+}
+
+.failureNotification
+{
+    font-size: 1.2em;
+    color: Red;
+}
+
+.bold
+{
+    font-weight: bold;
+}
+
+.submitButton
+{
+    text-align: right;
+    padding-right: 10px;
+}
+#bottom
+{
+    text-align: center;
+}
+#footer
+{
+    text-align: center;
+}
+.plantSelectDropDown
+{
+    text-align: right;
+    margin-top: 0px;
+}
+#Img1
+{
+    margin-top: 0px;
+    float: left;
+    vertical-align: top;
+}
+#Img2
+{
+    margin-top: 0px;
+    float: right;
+    vertical-align: top;
+}
+.CPageHeader
+{
+    height: 80px;
+    margin-top: 0px;
+}
+.returnButton
+{
+    text-align: center;
+    margin-left: 50%;
+    margin-right: 50%;
+}
+.ob_gBody .ob_gC, .ob_gBody .ob_gCW
+{
+    color: #000000;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+.ob_gH .ob_gC, .ob_gHContWG .ob_gH .ob_gCW, .ob_gHCont .ob_gH .ob_gC, .ob_gHCont .ob_gH .ob_gCW
+{
+    color: #000000;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+div.ob_gCc2, div.ob_gCc2C, div.ob_gCc2R
+{
+    padding-left: 3px !important;
+}
+a.ob_gAL
+{
+    font-family: sans-serif;
+    font-size: 10px;
+    color: #000000;
+    text-decoration: none;
+}
+a.ob_gAL:hover
+{
+    font-family: sans-serif;
+    font-size: 10px;
+    color: #000000;
+    text-decoration: underline;
+}
+a.ob_gALF
+{
+    font-family: sans-serif;
+    font-size: 10px;
+    color: #000000;
+    text-decoration: none;
+}
+a.ob_gALF:hover
+{
+    font-family: sans-serif;
+    font-size: 10px;
+    color: #000000;
+    text-decoration: underline;
+}
+.ob_gCS, .ob_gCS div, .ob_gCS_F, .ob_gCS_F div
+{
+    background-color: #000000 !important;
+}
+
+div.ob_gHSI
+{
+    right: 5px !important;
+}
+.copyright
+{
+    text-align: center;
+}
+.style8
+{
+    text-align: left;
+}
+.fl
+{
+    float: left;
+}
+.f2
+{
+    float: right;
+    padding-right: 200px;
+}
+.pager
+{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.page-numbers
+{
+    font-family: sans-serif;
+    border: 1px solid #CCC;
+    color: #808185;
+    display: block;
+    float: left;
+    font-size: 130%;
+    margin-right: 3px;
+    padding: 4px 4px 3px;
+    text-decoration: none;
+}
+.page-numbers.current
+{
+    background-color: #808185;
+    border: 1px solid #808185;
+    color: white;
+    font-weight: bold;
+}
+.page-numbers.next, .page-numbers.prev
+{
+    border: 1px solid white;
+}
+.page-numbers.desc
+{
+    border: none;
+    margin-bottom: 10px;
+}
+.orange
+{
+    color: #f60;
+}
+.Changepassword
+{
+    color: #666666;
+    font-size: 10px;
+    font-family: arial;
+    text-align: center;
+    /*margin-top: 0px;
+    margin-right: 82px;*/
+    float: right;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #E3E3E3;
+    width: auto;
+    padding: 2px 5px 0px 5px;
+    background: #fafafa;
+    height: 17px;
+	/*margin-top: -20px;
+    margin-left: 746px;
+	margin-bottom: 0px;*/
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.Changepassword a
+{
+    text-decoration: none;
+    color: #666;
+}
+
+.Changepassword a:hover
+{
+    color: #f60;
+}
+
+
+.phone
+{
+    color: #666666;
+    font-size: 10px;
+    font-family: sans-serif;
+    text-align: right;
+    /*margin-right: 82px;
+	margin-bottom: 0px;*/
+    float: right;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #E3E3E3;
+    width: auto;
+    padding: 4px 9px 4px 10px;
+    background: #fafafa;
+    height: 17px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+
+.phone a
+{
+    text-decoration: none;
+    color: #666;
+}
+
+.phone a:hover
+{
+    color: #f60;
+}
+
+#container
+{
+    /*width: 90%;*/
+    margin-right: inherit;
+    border-width: 0;
+    display: block;
+}
+
+#top
+{
+    /*width: 90%;*/
+    height: 76px;
+}
+#logo
+{
+    float: left;
+    margin: 14px 0 0 28px;
+    padding: 0;
+}
+#phone2
+{
+    color: #336699;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: right;
+    padding: 0 0 0;
+    margin-left: 40%;
+}
+.lblUserName
+{
+    color: #666666;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: right;
+}
+.TestoilLogout
+{
+    color: Orange;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: right;
+}
+#greyLine
+{
+    position: absolute;
+    bottom: 0px;
+    margin-left: 28px;
+    width: 944px;
+    height: 1px;
+    background: lightgrey;
+}
+.modalBackground
+{
+    background-color: Gray;
+}
+
+
+.modalPopup
+{
+    background-color: #ffffff;
+    border-width: 3px;
+    border-style: solid;
+    border-color: Gray;
+    padding: 10px;
+    width: 300px;
+}
+#loginPassword
+{
+}
+#LoginStatus1
+{
+    float: right;
+    vertical-align: bottom;
+    font-family: sans-serif;
+    font-size: 10pt;
+    padding-right: 10px;
+    color: #FF6600;
+}
+#HyperLink1
+{
+    float: right;
+    vertical-align: bottom;
+    font-family:sans-serif;
+    font-size: 10pt;
+    padding-right: 10px;
+    color: #FF6600;
+}
+.Grid
+{
+}
+.GVTextBox
+{
+    font-family: sans-serif;
+    font-size: 10pt;
+    text-align: right;
+}
+.GVTextBox2
+{
+    font-family: sans-serif;
+    font-size: 10pt;
+    text-align: right;
+    width: 60px;
+}
+.GVTextBox3
+{
+    font-family: sans-serif;
+    font-size: 10pt;
+    text-align: left;
+    width: 250px;
+}
+.GVDropDown
+{
+    font-family: sans-serif;
+    font-size: 10pt;
+}
+.RightCol
+{
+    width: 40%;
+    vertical-align: top;
+}
+.LeftCol
+{
+    width: 60%;
+    vertical-align: top;
+}
+.MainTable
+{
+    width: 100%;
+    height: 600px;
+}
+.routelabel
+{
+    vertical-align: top;
+    height: 23px;
+    font-family: sans-serif;
+    font-size: 12pt;
+}
+.RightrouteGridView
+{
+    height: 100%;
+    vertical-align: top;
+}
+.RightroutePanel
+{
+    height: 100%;
+    vertical-align: top;
+}
+.leftrouteGridView
+{
+    vertical-align: top;
+}
+
+.MachInfoHeader {
+    text-align: center;
+    vertical-align: top;
+    background-color: #1269C3;
+}
+
+.bluebutton
+{
+	display: block;
+	width: 160px;
+	color :#fff;
+	background-color: #369;
+	padding: 2.5px 7px 2px 7px;
+	margin-left: -4px;
+    margin-top: 3px;
+	border-bottom-right-radius: 5px;
+	border-top-left-radius: 5px;
+	font-family: Calibri;
+    font-size : 16px;
+    height: 20px;
+}
+.bluebutton a
+{
+	color : #fff;
+	text-decoration: none;
+}
+
+.bluebutton:hover{
+
+    cursor : pointer ;
+}
+.imgChat
+{	
+	float : right;
+	margin-top: -5px;
+}
+.support
+{
+    float:right;
+}
+.support:hover
+{
+    cursor: pointer;
+}
+.whatsnew
+{
+    cursor: pointer;
+    float: right;
+}
+.whatsnew a
+{
+    text-decoration: none;
+} 
+
+.filterBlock {
+    margin: 5px;
+    float: left;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+label.filter {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin: 5px;
+}
+
+.filterBlock .RadComboBox {
+    float: right;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+.filterBlock .RadAjaxPanel {
+    float: right;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+.filterBlockDashboard .RadDropDownList {
+    float: right;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+.filterBlock .RadInput {
+    float: right;
+}
+
+.gridHeader {
+    font-weight: bold;
+    font-size: large;
+    background-color:#0079C0;
+    text-align: center;
+    color: white;
+}
+
+.filterBlock .RadPicker {
+    float: right;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+.filterBlock .RadButton {
+    margin-bottom: 5px;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+#divGrid {
+    float: none;
+    clear: both;
+    margin-bottom: 150px;
+}
+
+div#bottom.footer {
+    width: 100%;
+    background-color: #0079C0;
+    color: white;
+    position: fixed;
+    bottom: 0;
+}
+
+.filterBlock > div {
+    clear: both;
+}
+
+.filterBlockDashboard > div {
+    clear: both;
+}
+
+/* Supplies Page */
+
+div#SuppliesContactInfo {
+    width: 32%; 
+    margin: auto;
+    padding: 10px;
+}
+
+input#btnBottleSize {
+    float: right;
+}
+
+div#SuppliesContactInfo .RadComboBox  {
+    margin: 5px;    
+    float: right;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+div#SuppliesTable {
+    width: 64%;
+    margin: auto;
+    padding: 10px;
+}
+
+.suppliesTable {
+    width: 100%;
+}
+
+.suppliesTable > tbody > tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+.suppliesTable > tbody > tr > td:first-child {
+    width: 1%;
+    white-space:nowrap;
+}
+
+.red { color: red; }
+
+.error-style {
+    border: 2px solid red;    
+}
+
+.orangebutton {
+    padding: 2.5px 7px 2px 7px;
+}
+
+.orangebutton a {
+    text-decoration: underline;
+    display:inline-block;
+    color:#FFFFFF;
+    background-color:#f60;
+    font-weight:bold;
+    font-size:14px;
+    text-align:center;
+    padding-left:6px;
+    padding-right:6px;
+    padding-top:3px;
+    padding-bottom:3px;
+    text-decoration:none;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius:  5px;
+    white-space:nowrap;
+    float:right;
+}
+
+span#btnConfirm {
+    background-image:none;
+}
+
+#btnConfirm_input {
+    background-color:#0079C0; 
+    background-image:none; 
+    color:white;
+}
+
+span#btnBack {
+    background-image:none;
+}
+
+#btnBack_input {
+    background-color:#0079C0; 
+    background-image:none; 
+    color:white;
+}
+
+span#btnSubmit {
+    background-image:none;
+}
+
+#btnSubmit_input {
+    background-color:#0079C0; 
+    background-image:none; 
+    color:white;
+}
+
+/* New Labels Page */
+div.LabelsFilterLine {
+    margin:10px;    
+}
+
+div.LabelsFilterLine .RadComboBox {
+    float:right;
+}
+
+div.LabelsFilterLine label {
+    margin:10px;    
+}
+
+div.LabelsFilterLine.SampleDate div { /*RadComboBox for month*/
+    float:none;    
+}
+
+div.LabelsFilterLine span.rbToggleButton {
+    display:inline;
+}
+
+div.LabelsFilterLine span.RadButton {
+    margin-left:10px;
+}
+
+span.LabelsCompanyNameHeader {
+    text-align:center;
+    font-size:large;
+    width:100%;
+    display:inline-block;
+}
+
+ul.LabelsFilterList {
+    list-style: outside none none;
+}
+
+li.LabelsFilterColumn {
+    float: left; 
+    position: relative;
+}
+
+div.LabelsFilterBlock {
+    width:100%;        
+}
+
+div.LabelsMachineGrid {
+    float: none;
+    clear: both;
+    width:85%;    
+    margin:175px;
+    text-align:center;
+}
+
+div.LabelsMachineGrid div.RadGrid {
+    width: 95%;
+}
+
+/* Non-dashboard landing page */
+#banner {
+	width: 917px;
+	height: 222px;
+	float: left;
+	margin: 5px 0 0 40px;
+	display: inline;
+}
+
+#columnads {
+	width: 583px;
+	float: left;
+}
+
+#columnbds {
+	width: 417px;
+	float: left;
+}
+.ReadOnlyMsg {
+    text-align:center;
+    color:blue;
+}
+
+.datatext {
+	color: #666666;
+	font-size: 12px;
+	line-height: 24px;
+	text-align: left;
+	padding: 0 0 15px 75px;
+}
+
+.datatext5 {
+	color: #666666;
+	font-size: 12px;
+	line-height: 24px;
+	text-align: left;
+	padding: 5px 0 15px 75px;
+    list-style-type:none;
+}
+
+.datatext4 {
+	color: #666666;
+	font-size: 12px;
+	line-height: 24px;
+	text-align: left;
+	padding: 0 0 15px 35px;
+    list-style-type:none;
+}
+
+.datatext3 {
+	color: #666666;
+	font-size: 12px;
+	line-height: 24px;
+	text-align: left;
+	padding: 0 0 0 75px;
+}
+
+.datatext2 {
+	color: #666666;
+	font-size: 12px;
+	line-height: 24px;
+	text-align: left;
+	padding: 15px 0 15px 75px;
+}
+
+.datasub {
+	color: #336699;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 24px;
+	text-align: left;
+	padding: 0 0 0 75px;
+}
+
+.datasub2 {
+	color: #336699;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 24px;
+	text-align: left;
+	padding: 20px 0 0 75px;
+}
+
+#monitorbtm {
+	float: left;
+	margin: 0 0 0 16px;
+	display: inline;
+}
+
+li.falis {
+	background-image: url(../images/arrow.png);
+	background-repeat: no-repeat;
+	background-position: left 6px;
+	margin: 0;
+	padding: 0 0 0 20px;
+}
+
+.shortb {
+	color: #ff6600;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 24px;
+	text-align: left;
+	padding: 25px 55px 0 35px;
+}
+
+img.datasightreport {
+	float: left;
+	margin: 5px 0 0 50px;
+	border: solid 1px #dedede;
+	display: inline;
+}
+
+/* Manage Equipment Page */
+.EditEquipmentRow {
+    margin: 5px;
+    float: left;
+    display: inline-block;
+}
+
+div.EditEquipmentRow .RadDropDownList {
+    float: right;
+}
+
+div.loginLinks input{
+   display:block;
+   margin:0 auto;
+}
+
+.loginInputLabel {
+    font-size:larger !important;
+    text-align: right !important;
+}
+
+/* Report Key */
+.custheadline {
+	color: #369;
+	font-size: 24px;
+	text-align: left;
+	margin: 0;
+	padding: 20px 0 0 80px;
+}
+
+.custsubhead {
+	color: #369;
+	font-size: 16px;
+	text-align: left;
+	margin: 0;
+	padding: 0 0 0 80px;
+}
+
+.custsubhead2 {
+	color: #369;
+	font-size: 16px;
+	text-align: left;
+	margin: 0;
+	padding: 0 0 7px 80px;
+}
+
+.custparag {
+	text-align: left;
+	margin: 0;
+	padding: 5px 120px 18px 80px;
+}
+
+.custparag2 {
+	text-align: left;
+	margin: 0;
+	padding: 5px 120px 5px 80px;
+}
+
+.custparag3 {
+	text-align: left;
+	margin: 0;
+	padding: 5px 120px 5px 0;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+ul.arbag {
+	text-align: left;
+	margin: 0 0 0 65px;
+	padding: 0 0 12px;
+}
+
+ul.arbag2 {
+	text-align: left;
+	margin: 0 0 0 120px;
+	padding: 0 0 18px;
+}
+
+li.tro {
+	list-style-type: disc;
+}
+
+li.tro2 {
+	padding-bottom: 7px;
+	list-style-type: decimal;
+}
+
+img.samppos {
+	margin: 0 60px 0 0;
+	padding: 0;
+	display: inline;
+}
+
+.custsubhead2 {
+	color: #369;
+	font-size: 16px;
+	text-align: left;
+	margin: 0;
+	padding: 0 0 7px 80px;
+}
+
+ol.arbag3 {
+	line-height: 16px;
+	text-align: left;
+	margin: 0;
+	padding: 0 200px 18px 120px;
+}
+
+.blue {
+	color: #336699;
+}
+
+.bocca {
+	margin: 5px 112px 0 0;
+	padding: 0;
+	display: inline;
+}
+
+.AutoShrink {
+    width: auto !important;
+}

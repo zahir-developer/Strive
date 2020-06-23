@@ -1,0 +1,21 @@
+File,LOC,SLOC-P,SLOC-L,MVG,BLOC,C&SLOC,CLOC,CWORD,HCLOC,HCWORD
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\Barcode.cs,27,16,10,0,2,0,9,23,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\Barcode.Designer.cs,129,93,77,0,2,0,34,36,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\Ticket.cs,26,15,9,0,2,0,9,23,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\Ticket.Designer.cs,496,371,331,0,4,0,121,65,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketAir.cs,27,16,10,0,2,0,9,23,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketAir.Designer.cs,98,74,62,0,2,0,22,32,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketSerC1.cs,27,16,10,0,2,0,9,23,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketSerC1.Designer.cs,135,105,89,0,2,0,28,34,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketUP.cs,27,16,10,0,2,0,9,23,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketUP.Designer.cs,116,89,75,0,2,0,25,33,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketWD.cs,26,15,9,0,2,0,9,23,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\TicketWD.Designer.cs,122,95,81,0,2,0,25,33,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\VehicalCopy.cs,27,16,10,0,2,0,9,23,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\VehicalCopy.Designer.cs,311,227,198,0,2,0,82,52,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\Properties\AssemblyInfo.cs,34,15,3,0,5,0,14,96,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\Properties\Settings.Designer.cs,38,23,9,2,7,1,8,30,0,1
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\PrintTicket\Program.cs,116,90,67,3,18,0,8,38,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\PrintTicket\Properties\AssemblyInfo.cs,37,15,3,0,5,0,17,120,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\Reports\Class1.cs,12,10,6,0,2,0,0,0,0,0
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\Reports\Properties\AssemblyInfo.cs,37,15,3,0,5,0,17,120,0,0
