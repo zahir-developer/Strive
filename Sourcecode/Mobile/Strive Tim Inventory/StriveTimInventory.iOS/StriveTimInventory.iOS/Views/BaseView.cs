@@ -19,7 +19,7 @@ namespace StriveTimInventory.iOS.Views
             var set = this.CreateBindingSet<BaseView, LoginViewModel>();
             set.Bind(lblTitle).To(vm => vm.Title);
             set.Apply();
-
+            ViewModel.DoLogin();
         }
 
         public override void DidReceiveMemoryWarning()

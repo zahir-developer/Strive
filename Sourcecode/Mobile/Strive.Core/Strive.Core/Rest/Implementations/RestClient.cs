@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MvvmCross.Base;
 using MvvmCross.Logging;
 using Strive.Core.Rest.Interfaces;
+using Strive.Core.Utils;
 
 namespace Strive.Core.Rest.Implementations
 {
@@ -21,6 +22,7 @@ namespace Strive.Core.Rest.Implementations
 
         public async Task<TResult> MakeApiCall<TResult>(string url, HttpMethod method, object data = null) where TResult : class
         {
+            url = ApiUtils.BASE_URL + url;
             url = url.Replace("http://", "https://");
 
             using (var httpClient = new HttpClient())

@@ -3,13 +3,14 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.IoC;
 using MvvmCross.Navigation;
 using MvvmCross.Platforms.Ios.Views;
 using MvvmCross.Plugin;
 using MvvmCross.ViewModels;
 using UIKit;
 
-namespace StriveCustomer.iOS
+namespace StriveCustomer.iOS.MvvmCross
 {
     [Foundation.Preserve(AllMembers = true)]
     public class LinkerPleaseInclude
@@ -107,9 +108,9 @@ namespace StriveCustomer.iOS
             command.CanExecuteChanged += (s, e) => { if (command.CanExecute(null)) command.Execute(null); };
         }
 
-        public void Include(MvvmCross.IoC.MvxPropertyInjector injector)
+        public void Include(MvxPropertyInjector injector)
         {
-            injector = new MvvmCross.IoC.MvxPropertyInjector();
+            injector = new MvxPropertyInjector();
         }
 
         public void Include(System.ComponentModel.INotifyPropertyChanged changed)

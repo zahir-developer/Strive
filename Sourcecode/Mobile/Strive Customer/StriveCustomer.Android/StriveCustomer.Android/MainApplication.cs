@@ -3,6 +3,7 @@ using Android.App;
 using Android.Runtime;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using Strive.Core;
+using StriveCustomer.Android.MvvmCross;
 
 namespace StriveCustomer.Android
 {
