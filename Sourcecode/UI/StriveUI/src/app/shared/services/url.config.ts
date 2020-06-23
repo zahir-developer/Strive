@@ -3,8 +3,8 @@
 export const UrlConfig = {
     totalUrl:
     {
-      login: `Login`,
-      getEmployees: `/Employee/GetAll`,
-      updateEmployees: `/Employee/Save`
+      login: `admin/Login`,
+      getEmployees: `admin/Employee/GetAll`,
+      updateEmployees: `admin/Employee/Save`
     }
   };

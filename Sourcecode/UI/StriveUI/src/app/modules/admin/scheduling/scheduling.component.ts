@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 // import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendar } from 'primeng/fullcalendar/fullcalendar';
+import timelinePlugin from '@fullcalendar/timeline';
+
 
 @Component({
   selector: 'app-scheduling',
   templateUrl: './scheduling.component.html',
-  styleUrls: ['./scheduling.component.css']
+  styleUrls: ['./scheduling.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SchedulingComponent implements OnInit {
   events = [];
@@ -31,9 +34,10 @@ export class SchedulingComponent implements OnInit {
     this.events = [
       {
         id: 2,
-        title: 'Long Event',
-        start: '2020-06-19T16:30:00',
-        end: '2020-06-19T17:30:00',
+        title: 'WilFord 21412779 Main Street 2-5',
+        start: '2020-06-23T14:00:00',
+        end: '2020-06-23T17:00:00',
+        color: '#ffcccb',
         extendedProps: {
           imgId: 1
         }
@@ -41,41 +45,70 @@ export class SchedulingComponent implements OnInit {
       {
         id: 3,
         title: 'Repeating Event',
-        start: '2020-06-19T16:00:00',
-        end: '2020-06-19T16:30:00',
+        start: '2020-06-23T16:00:00',
+        end: '2020-06-23T16:30:00',
         extendedProps: {
           imgId: 2
         }
-      }];
+      },
+    {
+      id: 3,
+      title: 'Repeating Event3',
+      start: '2020-06-23T16:00:00',
+      end: '2020-06-23T16:30:00',
+    }];
     const imgUrl = 'assets/images/orange.png';
     this.options = {
-      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      timeZone: 'UTC',
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, timelinePlugin],
       defaultDate: new Date(),
+      // headerToolbar: {
+      //   left: 'custom1, prev',
+      //   center: 'title',
+      //   right: 'next, timeGridWeek, timeGridDay'
+      // },
       header: {
-        left: 'prev,next',
+        left: 'custom1, prev',
         center: 'title',
-        // right: 'timeGridWeek,timeGridDay'
-        right: 'timeGridWeek,timeGridDay'
+        right: 'next, dayGridWeek,timelineDay, custom2'
       },
-      defaultView: 'timeGridDay',
+      customButtons: {
+        custom1: {
+          text: 'Today event',
+          click() {
+            alert('clicked custom button 1!');
+          },
+        }, custom2: {
+          text: 'Schedule',
+          click() {
+            alert('Schedule Clicked');
+          },
+        },
+      },
+      defaultView: 'timelineDay',
+      // defaultView: 'timeGridDay',
       allDaySlot: false,
       minTime: '09:00:00',
       maxTime: '17:00:00',
       editable: true,
+      dayMaxEvents: true,
+      eventOverlap: false,
       droppable: true,
+      // eventDurationEditable: true,
+      // eventStartEditable: true,
       themeSystem: 'standard',
       slotEventOverlap: false,
       slotDuration: '00:15:00',
       slotLabelInterval: '01:00:00',
-      height: 'auto',
-      contentHeight: 'auto',
-      displayEventTime: false,
+      height: '300',
+      contentHeight: '300',
+      // displayEventTime: false,
       // slotLabelInterval: '00:15:00',
       eventRender(element) {
         const html = `<span class="float-right">`
           + `<img src="` + imgUrl + `" (click)="test()"/></a></span>`;
         element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
-          element.event.title + html + `</div></div>`;
+          element.event.title + html + `<br>` + `</div></div>`;
         console.log(element);
       },
       eventClick(event) {
@@ -83,6 +116,9 @@ export class SchedulingComponent implements OnInit {
           console.log('image clicked');
         }
       },
+      eventResize(event) {
+        console.log(event, 'event resize');
+      }
     };
 
   }
@@ -100,8 +136,8 @@ export class SchedulingComponent implements OnInit {
     this.events = [... this.events, {
       id: 23,
       title: 'my Event1',
-      start: '2020-06-22T09:00:00',
-      end: '2020-06-22T09:30:00',
+      start: '2020-06-23T09:00:00',
+      end: '2020-06-23T09:30:00',
     }];
   }
   submit() {
