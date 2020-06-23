@@ -1,6 +1,6 @@
 ﻿using Foundation;
 using MvvmCross.Platforms.Ios.Core;
-using Strive.Core;
+using StriveCustomer.iOS.MvvmCross;
 using UIKit;
 
 namespace StriveCustomer.iOS

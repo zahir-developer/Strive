@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using MvvmCross.Platforms.Ios.Core;
+using StriveTimInventory.iOS.MvvmCross;
 using UIKit;
 
 namespace StriveTimInventory.iOS
@@ -7,7 +8,7 @@ namespace StriveTimInventory.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : MvxApplicationDelegate
+    public class AppDelegate : MvxApplicationDelegate<Setup, App>
     {
 
         [Export("window")]

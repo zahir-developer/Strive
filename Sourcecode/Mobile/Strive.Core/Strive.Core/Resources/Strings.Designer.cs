@@ -52,5 +52,17 @@ namespace Strive.Core.Resources {
                 return ResourceManager.GetString("Login", resourceCulture);
             }
         }
+        
+        internal static string TIM_APP_TITLE {
+            get {
+                return ResourceManager.GetString("TIM_APP_TITLE", resourceCulture);
+            }
+        }
+        
+        internal static string CUSTOMER_APP_TITLE {
+            get {
+                return ResourceManager.GetString("CUSTOMER_APP_TITLE", resourceCulture);
+            }
+        }
     }
 }

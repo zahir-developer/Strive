@@ -64,9 +64,12 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
-    <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\BaseView.cs" />
+    <Compile Include="MvvmCross\App.cs" />
+    <Compile Include="MvvmCross\AppStart.cs" />
+    <Compile Include="MvvmCross\Setup.cs" />
+    <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -108,6 +111,7 @@
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\layout\" />
     <Folder Include="Views\" />
+    <Folder Include="MvvmCross\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
@@ -124,6 +128,9 @@
       <Version>6.4.2</Version>
     </PackageReference>
     <PackageReference Include="MvvmCross.Droid.Support.V7.RecyclerView">
+      <Version>6.4.2</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmCross.Plugin.Json">
       <Version>6.4.2</Version>
     </PackageReference>
   </ItemGroup>

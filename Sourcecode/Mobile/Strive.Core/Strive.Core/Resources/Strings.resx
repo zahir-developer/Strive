@@ -16,6 +16,16 @@
       <data name="Login"
           xml:space="preserve">
     <value>Login</value> 
-  </data>
+        </data>
+    
+    <data name="TIM_APP_TITLE"
+          xml:space="preserve">
+    <value>Tim App</value> 
+        </data>
+    
+    <data name="CUSTOMER_APP_TITLE"
+          xml:space="preserve">
+    <value>Customer App</value> 
+        </data>
     
 </root>

@@ -9,16 +9,18 @@ using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
 
-namespace StriveTimInventory.iOS.MvvmCross
+namespace StriveCustomer.iOS.MvvmCross
 {
     public class Setup : MvxIosSetup<App>
     {
         protected override void InitializeFirstChance()
         {
             base.InitializeFirstChance();
+
             Mvx.IoCProvider.RegisterType<IMvxJsonConverter, MvxJsonConverter>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
+            
         }
 
         protected override void InitializeLastChance()
@@ -26,12 +28,6 @@ namespace StriveTimInventory.iOS.MvvmCross
             base.InitializeLastChance();
         }
 
-        protected override IMvxIocOptions CreateIocOptions()
-        {
-            return new MvxIocOptions
-            {
-                PropertyInjectorOptions = MvxPropertyInjectorOptions.MvxInject
-            };
-        }
     }
+
 }

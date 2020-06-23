@@ -2,11 +2,12 @@
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels;
+using Strive.Core.ViewModels.Customer;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class BaseView : MvxViewController<BaseViewModel>
+    public partial class BaseView : MvxViewController<LoginViewModel>
     {
         public BaseView() : base("BaseView", null)
         {
@@ -15,9 +16,10 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            var set = this.CreateBindingSet<BaseView, BaseViewModel>();
+            var set = this.CreateBindingSet<BaseView, LoginViewModel>();
             set.Bind(lblTitle).To(vm => vm.Title);
             set.Apply();
+            //ViewModel.DoLogin();
         }
 
         public override void DidReceiveMemoryWarning()

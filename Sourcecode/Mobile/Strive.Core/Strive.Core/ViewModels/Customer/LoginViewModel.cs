@@ -1,7 +1,7 @@
 ﻿using System;
 using Strive.Core.Resources;
 
-namespace Strive.Core.ViewModels.TIMInventory
+namespace Strive.Core.ViewModels.Customer
 {
     public class LoginViewModel : BaseViewModel
     {
@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             get
             {
-                return Strings.TIM_APP_TITLE;
+                return Strings.CUSTOMER_APP_TITLE;
             }
             set
             { }

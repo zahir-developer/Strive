@@ -5,14 +5,21 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
+using MvvmCross;
+using MvvmCross.Base;
 using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V7.RecyclerView;
+using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Presenters;
-using Strive.Core;
+using MvvmCross.Plugin.Json;
+using Strive.Core.Rest.Implementations;
+using Strive.Core.Rest.Interfaces;
+using Strive.Core.Services.Implementations;
+using Strive.Core.Services.Interfaces;
 
-namespace StriveCustomer.Android
+namespace StriveCustomer.Android.MvvmCross
 {
     public class Setup : MvxAppCompatSetup<App>
     {
@@ -27,6 +34,15 @@ namespace StriveCustomer.Android
             typeof(MvxRecyclerView).Assembly,
             typeof(MvxSwipeRefreshLayout).Assembly,
         };
+
+        protected override void InitializeFirstChance()
+        {
+            Mvx.IoCProvider.RegisterType<IMvxJsonConverter, MvxJsonConverter>();
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
+
+            base.InitializeFirstChance();
+        }
 
         protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {

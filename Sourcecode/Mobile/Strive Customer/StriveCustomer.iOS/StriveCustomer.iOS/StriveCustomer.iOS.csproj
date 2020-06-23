@@ -72,6 +72,9 @@
       <PackageReference Include="MvvmCross">
         <Version>6.4.2</Version>
       </PackageReference>
+      <PackageReference Include="MvvmCross.Plugin.Json">
+        <Version>6.4.2</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -120,6 +123,7 @@
     <ItemGroup>
         <Folder Include="Resources\" />
         <Folder Include="Views\" />
+        <Folder Include="MvvmCross\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -133,12 +137,14 @@
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
         <Compile Include="SceneDelegate.cs" />
-        <Compile Include="Setup.cs" />
-        <Compile Include="LinkerPleaseInclude.cs" />
         <Compile Include="Views\BaseView.cs" />
         <Compile Include="Views\BaseView.designer.cs">
           <DependentUpon>BaseView.cs</DependentUpon>
         </Compile>
+        <Compile Include="MvvmCross\App.cs" />
+        <Compile Include="MvvmCross\AppStart.cs" />
+        <Compile Include="MvvmCross\Setup.cs" />
+        <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
