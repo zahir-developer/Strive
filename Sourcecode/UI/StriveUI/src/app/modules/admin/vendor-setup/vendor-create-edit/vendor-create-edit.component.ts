@@ -4,12 +4,12 @@ import { ToastrService } from 'ngx-toastr';
 import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
 
 @Component({
-  selector: 'app-basic-create-edit',
-  templateUrl: './basic-create-edit.component.html',
-  styleUrls: ['./basic-create-edit.component.css']
+  selector: 'app-vendor-create-edit',
+  templateUrl: './vendor-create-edit.component.html',
+  styleUrls: ['./vendor-create-edit.component.css']
 })
-export class BasicCreateEditComponent implements OnInit {
-  basicSetupForm: FormGroup;
+export class VendorCreateEditComponent implements OnInit {
+  vendorSetupForm: FormGroup;
   State:any;
   Country:any;
   @Output() closeDialog = new EventEmitter();
@@ -18,53 +18,59 @@ export class BasicCreateEditComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
-    this.basicSetupForm = this.fb.group({
-      locationId: ['', Validators.required],
-      locationName: ['', Validators.required],
-      locationAddress: ['', Validators.required],
+    this.vendorSetupForm = this.fb.group({
+      supplierId: ['', Validators.required],
+      vin: ['', Validators.required],
+      vendorAlias: ['', Validators.required],
+      name: ['', Validators.required],
+      supplierAddress: ['', Validators.required],
       zipcode: ['', Validators.required],
       state: ['', Validators.required],
       country: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       email: ['', Validators.required],
-      franchise: ['', Validators.required]
+      fax: ['', Validators.required]
     });
     console.log(this.selectedData);
     if (this.selectedData !== undefined && this.selectedData.length !== 0) {
-      this.basicSetupForm.reset();
-      this.basicSetupForm.setValue({
-        locationId: this.selectedData.LocationId,
-        locationName: this.selectedData.LocationName,
-        locationAddress: this.selectedData.LocationAddress,
+      this.vendorSetupForm.reset();
+      this.vendorSetupForm.setValue({
+        supplierId: this.selectedData.SupplierId,
+        vin: this.selectedData.Vin,
+        vendorAlias: this.selectedData.VendorAlias,
+        name: this.selectedData.Name,
+        supplierAddress: this.selectedData.SupplierAddress,
         zipcode: this.selectedData.Zipcode,
         state: this.selectedData.State,
         country: this.selectedData.Country,
         phoneNumber: this.selectedData.PhoneNumber,
         email: this.selectedData.Email,
-        franchise: this.selectedData.Franchise        
+        fax: this.selectedData.Fax        
       });
     }
   }
 
   change(data){
-    this.basicSetupForm.value.franchise = data;
+    this.vendorSetupForm.value.fax = data;
   }
   submit() {
     console.log('submitted');
     const sourceObj = [];
     const formObj = {
-      locationId: this.basicSetupForm.value.locationId,
-      locationName: this.basicSetupForm.value.locationName,
-      locationAddress: this.basicSetupForm.value.locationAddress,
-      zipcode: this.basicSetupForm.value.zipcode,
-      state: this.basicSetupForm.value.state,
-      country: this.basicSetupForm.value.country,
-      phoneNumber: this.basicSetupForm.value.phoneNumber,
-      email: this.basicSetupForm.value.email,
-      franchise: this.basicSetupForm.value.franchise
+      supplierId: this.vendorSetupForm.value.supplierId,
+      vin: this.vendorSetupForm.value.vin,
+      vendorAlias: this.vendorSetupForm.value.vendorAlias,
+      name: this.vendorSetupForm.value.name,
+      supplierAddress: this.vendorSetupForm.value.supplierAddress,
+      zipcode: this.vendorSetupForm.value.zipcode,
+      state: this.vendorSetupForm.value.state,
+      country: this.vendorSetupForm.value.country,
+      phoneNumber: this.vendorSetupForm.value.phoneNumber,
+      email: this.vendorSetupForm.value.email,
+      fax: this.vendorSetupForm.value.fax
     };
     sourceObj.push(formObj);
-    this.crudService.basicsetupdetails.push(formObj);
+    this.crudService.vendorsetupdetails.push(formObj);
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
         } else {

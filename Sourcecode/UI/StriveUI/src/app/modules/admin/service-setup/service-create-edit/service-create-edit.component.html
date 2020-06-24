@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <form [formGroup]="serviceSetupForm">
+    <div class="form-group">
+        <label><b>Service Type : </b></label>
+        <select formControlName="serviceType">
+            <option value="">Select </option>
+            <option *ngFor="let serviceType of serviceType">{{serviceType}}</option>
+          </select>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Service ID : </b></label>
+            <input type="text" class="form-control"  formControlName="serviceId">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Name : </b></label>
+            <input type="text" class="form-control"  formControlName="name">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Cost : </b></label>
+            <input type="text" class="form-control"  formControlName="cost">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">            
+            <input type="checkbox" class="form-control"  formControlName="commission" (change)="change($event.target.checked)" >
+            <label><b>Commission : </b></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>Commission Type : </b></label>
+        <select formControlName="commissionType">
+            <option value="">Select </option>
+            <option *ngFor="let commissionType of CommissionType">{{commissionType}}</option>
+          </select>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Upcharge : </b></label>
+            <input type="text" class="form-control"  formControlName="upcharge">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Parent Name : </b></label>
+            <input type="text" class="form-control"  formControlName="parentName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>Status : </b></label>
+        <select formControlName="status">
+            <option value="">Select </option>
+            <option *ngFor="let status of Status">{{status}}</option>
+          </select>
+    </div>
+
+    <div class="formGroup float-right">
+        <input type="button" value="Save" class="btn btn-primary btn-sm " (click)="submit()">
+        <input type="button" value="Cancel" class="btn btn-secondary btn-sm" (click)="cancel()">
+    </div>
+    </form>
+</div>

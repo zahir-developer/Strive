@@ -1,21 +1,33 @@
 <div class="container-fluid">
-    <form [formGroup]="basicSetupForm">
+    <form [formGroup]="vendorSetupForm">
     <div class="form-group">
         <div class="col-4">
-            <label><b>Location ID : </b></label>
-            <input type="text" class="form-control"  formControlName="locationId">
+            <label><b>Supplier ID : </b></label>
+            <input type="text" class="form-control"  formControlName="supplierId">
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
-            <label><b>Location Name : </b></label>
-            <input type="text" class="form-control"  formControlName="locationName">
+            <label><b>VIN : </b></label>
+            <input type="text" class="form-control"  formControlName="vin">
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
-            <label><b>Location Address : </b></label>
-            <input type="text" class="form-control"  formControlName="locationAddress">
+            <label><b>Vendor Alias : </b></label>
+            <input type="text" class="form-control"  formControlName="vendorAlias">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Name : </b></label>
+            <input type="text" class="form-control"  formControlName="name">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Supplier Address : </b></label>
+            <input type="text" class="form-control"  formControlName="supplierAddress">
         </div>
     </div>
     <div class="form-group">
@@ -51,9 +63,9 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-4">            
-            <input type="checkbox" class="form-control"  formControlName="franchise" (change)="change($event.target.checked)" >
-            <label><b>Franchise : </b></label>
+        <div class="col-4">
+            <label><b>Fax : </b></label>
+            <input type="text" class="form-control"  formControlName="fax">
         </div>
     </div>
 
