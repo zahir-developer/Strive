@@ -1,0 +1,14 @@
+<div class="container">
+    <form [formGroup]="setupForm" (ngSubmit)="submit()">           
+        <div class="form-group">
+            <label><b>Sysyem Setup : </b></label>
+            <select formControlName="systemSetup">
+                <option value="">Select </option>
+                <option *ngFor="let setup of sysSetup">{{setup}}</option>
+            </select>            
+        </div>
+        <div class="formGroup float-right">
+            <input type="button" value="Submit" class="btn btn-primary btn-sm " (click)="submit()">
+        </div>
+    </form>
+</div>

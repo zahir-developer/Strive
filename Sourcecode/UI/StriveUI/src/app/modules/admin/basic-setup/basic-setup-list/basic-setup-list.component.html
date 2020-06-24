@@ -35,6 +35,6 @@
     </ng-template>
 </p-table>
 <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
-    [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
+    [focusOnShow]="false" [style]="{width: '700px', height: '1000px'}">
     <app-basic-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-basic-create-edit>
 </p-dialog>

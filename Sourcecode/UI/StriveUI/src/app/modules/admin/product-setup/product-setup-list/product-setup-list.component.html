@@ -1,0 +1,30 @@
+<input type="button" value="Add" class="" (click)="add('add',[])">
+<p-table [value]="productSetupDetails">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Product ID</th>
+            <th>Product Type</th>
+            <th>Product Name</th>
+            <th>Cost</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-productSetup>
+        <tr>
+            <td>{{productSetup.productId}}</td>
+            <td>{{productSetup.productType}}</td>
+            <td>{{productSetup.productName}}</td>
+            <td>{{productSetup.cost}}</td>
+            <td>
+                <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
+                                (click)="add('edit', productSetup)"></em>&nbsp;&nbsp;
+                            <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
+                                (click)="delete(productSetup)"></em>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
+    [focusOnShow]="false" [style]="{width: '700px', height: '1000px'}">
+    <app-product-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-product-create-edit>
+</p-dialog>
