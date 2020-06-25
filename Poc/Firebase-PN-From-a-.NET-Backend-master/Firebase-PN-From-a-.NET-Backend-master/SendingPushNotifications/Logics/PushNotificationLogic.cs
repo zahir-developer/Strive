@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SendingPushNotifications.Entities;
 using System;
 using System.IO;
 using System.Linq;

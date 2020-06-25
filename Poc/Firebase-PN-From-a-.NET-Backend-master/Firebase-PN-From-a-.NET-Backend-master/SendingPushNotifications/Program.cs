@@ -5,7 +5,7 @@ namespace SendingPushNotifications
 {
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             string title = "";
             string body = "";
@@ -37,8 +37,8 @@ namespace SendingPushNotifications
                 Console.WriteLine();
             }
 
-          
-                var pushSent = PushNotificationLogic.SendPushNotification(tokens, title, body, data);
+
+            await PushNotificationLogic.SendPushNotification(tokens, title, body, data);
                 Console.WriteLine($"Notification sent");
         }
     }
