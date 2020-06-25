@@ -50,3 +50,7 @@
 /Sourcecode/API/Strive.API.Gateway/Logs
 /Sourcecode/API/Strive.API.Gateway/obj
 /Sourcecode/Database/StriveAuthDb/StriveAuthDb/StriveAuthDb.dbmdl
+/Poc/GoogleCalendarAPIIntegration/.vs
+/Poc/GoogleCalendarAPIIntegration/GoogleCalendarAPIIntegration/bin/Debug
+/Poc/GoogleCalendarAPIIntegration/GoogleCalendarAPIIntegration/obj
+/Poc/GoogleCalendarAPIIntegration/packages
