@@ -67,16 +67,12 @@
     <Folder Include="StriveCarSalon\Stored Procedures\" />
     <Folder Include="StriveLimoSalon\User Defined Types\" />
     <Folder Include="StriveCarSalon\User Defined Types\" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveLimoSalon\Tables\tblEmployee.sql" />
     <Build Include="StriveCarSalon\Tables\tblEmployee.sql" />
-    <Build Include="Cus\Tables\tblWashInformation.sql" />
-    <Build Include="Cus\Tables\tblServiceType.sql" />
-    <Build Include="Cus\Tables\tblVehicleModel.sql" />
-    <Build Include="Cus\Tables\tblVehicleMake.sql" />
-    <Build Include="Cus\Tables\tblVehicleColor.sql" />
-    <Build Include="Cus\Tables\tblCustomer.sql" />
     <Build Include="Security\SLSAdmin.sql" />
     <Build Include="Security\SCSAdmin.sql" />
     <Build Include="Security\RoleMemberships.sql" />
@@ -90,5 +86,45 @@
     <Build Include="Security\StriveCarSalon.sql" />
     <Build Include="Security\Cus.sql" />
     <Build Include="Security\Adm.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblVendorAddress.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblVendor.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblService.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblPurchaseOrder.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblProduct.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblNotificationTemplate.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblNotificationHistory.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblMembership.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblLocationAddress.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblLocation.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblEmployeeRole.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblEmployeeLiabilityDetail.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblEmployeeLiability.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblEmployeeDetail.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblEmployeeDELETE.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblEmployeeAddress.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblCodeValue.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblCodeCategory.sql" />
+    <Build Include="StriveLimoSalon\Tables\tblBay.sql" />
+    <Build Include="StriveCarSalon\Tables\tblVendorAddress.sql" />
+    <Build Include="StriveCarSalon\Tables\tblVendor.sql" />
+    <Build Include="StriveCarSalon\Tables\tblService.sql" />
+    <Build Include="StriveCarSalon\Tables\tblPurchaseOrder.sql" />
+    <Build Include="StriveCarSalon\Tables\tblProduct.sql" />
+    <Build Include="StriveCarSalon\Tables\tblNotificationTemplate.sql" />
+    <Build Include="StriveCarSalon\Tables\tblNotificationHistory.sql" />
+    <Build Include="StriveCarSalon\Tables\tblMembership.sql" />
+    <Build Include="StriveCarSalon\Tables\tblLocationAddress.sql" />
+    <Build Include="StriveCarSalon\Tables\tblLocation.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployeeRole.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployeeLiabilityDetail.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployeeLiability.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployeeDetail.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployeeDELETE.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployeeAddress.sql" />
+    <Build Include="StriveCarSalon\Tables\tblCodeValue.sql" />
+    <Build Include="StriveCarSalon\Tables\tblCodeCategory.sql" />
+    <Build Include="StriveCarSalon\Tables\tblBay.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\USPGETPRODUCTS.sql" />
+    <Build Include="dbo\Stored Procedures\GENERATEMODEL.sql" />
   </ItemGroup>
 </Project>
