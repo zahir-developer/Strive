@@ -17,7 +17,8 @@ namespace Strive.BusinessLogic
             string strTenantSchema = Strivecache.GetString(tenantSchema.UserGuid);
             if (string.IsNullOrEmpty(strTenantSchema))
             {
-                Strivecache.SetString(tenantSchema.UserGuid, JsonConvert.SerializeObject(tenantSchema));
+                //Strivecache.SetString(tenantSchema.UserGuid, JsonConvert.SerializeObject(tenantSchema));
+                Strivecache.SetString(tenantSchema.Schemaname, JsonConvert.SerializeObject(tenantSchema));
             }
         }
 

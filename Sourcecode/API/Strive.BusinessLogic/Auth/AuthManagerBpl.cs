@@ -23,13 +23,14 @@ namespace Strive.BusinessLogic
             tenant = tenantHelper;
         }
 
-        //public TenantSchema GetTenantSchema(Authentication authentication)
-        //{
-        //    TenantSchema tenantSchema = new AuthRal().Login(authentication);
-        //    SetTenantSchematoCache(tenantSchema);
-        //}
+        public TenantSchema GetTenantSchema(Guid UserGuid)
+        {
+            TenantSchema tenantSchema = new AuthRal(tenant).GetSchema(UserGuid);
+            SetTenantSchematoCache(tenantSchema);
+            return tenantSchema;
+        }
 
-      
+
         public Result Login(Authentication authentication, string secretKey)
         {
             Result result;
@@ -61,7 +62,8 @@ namespace Strive.BusinessLogic
                 Subject = new ClaimsIdentity(
                     new Claim[]
                 {
-                    new Claim("UserGuid",$"{tenant.UserGuid}")
+                    new Claim("UserGuid",$"{tenant.UserGuid}"),
+                    new Claim("SchemaName",$"{tenant.Schemaname}")
                 }),
                 Issuer = "Mammoth-Strive",
                 Audience = "Mammoth-Customer",
