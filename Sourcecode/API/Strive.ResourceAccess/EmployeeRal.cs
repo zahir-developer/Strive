@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Linq;
 
 namespace Strive.ResourceAccess
 {
@@ -26,9 +27,9 @@ namespace Strive.ResourceAccess
         public List<Employee> GetEmployeeDetails()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Employee> lstResource = new List<Employee>();
-            var res = db.Fetch<Employee>(SPEnum.USPGETEMPLOYEE.ToString(), dynParams);
-            return res;
+            List<Employee> lstEmployee = new List<Employee>();
+            lstEmployee = db.FetchRelation3<Employee, EmployeeAddress, EmployeeDetail,EmployeeRole>(SPEnum.USPGETEMPLOYEE.ToString(),dynParams);
+            return lstEmployee;
         }
 
         public bool SaveEmployeeDetails(List<Employee> lstEmployee)
@@ -38,6 +39,15 @@ namespace Strive.ResourceAccess
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
+        }
+
+        public Employee GetEmployeeByAuthId(int authId)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("AuthId", authId);
+            List<Employee> lstEmployee = new List<Employee>();
+            lstEmployee = db.FetchRelation1<Employee, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
+            return lstEmployee.FirstOrDefault();
         }
     }
 }

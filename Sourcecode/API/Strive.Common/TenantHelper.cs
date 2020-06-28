@@ -15,6 +15,7 @@ namespace Strive.Common
 
     public class TenantHelper : ITenantHelper
     {
+        public string TenantConnectionStringTemplate = string.Empty;
         public string stringCurrentConnection = string.Empty;
         IDistributedCache _cache;
         public TenantHelper(IDistributedCache cache)
@@ -31,6 +32,5 @@ namespace Strive.Common
         {
             return new SqlConnection(stringCurrentConnection);
         }
-
     }
 }
