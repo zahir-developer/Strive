@@ -6,7 +6,7 @@ namespace Strive.BusinessLogic
 {
     public class Strivebase
     {
-        public IDistributedCache Strivecache;
+        public readonly IDistributedCache Strivecache;
         public Strivebase(IDistributedCache cache)
         {
             Strivecache = cache;
@@ -22,7 +22,23 @@ namespace Strive.BusinessLogic
             }
         }
 
-        public string GetTenantConnectionString(TenantSchema tenantSchema, string conString)
+        protected string GetRefreshToken(string userGuid)
+        {
+            string refreshToken = Strivecache.GetString(userGuid);
+            return refreshToken;
+        }
+
+        protected void DeleteRefreshToken(string userGuid, string refreshToken)
+        {
+            Strivecache.Remove(userGuid);
+        }
+
+        protected void SaveRefreshToken(string userGuid, string refreshToken)
+        {
+            Strivecache.SetString(userGuid, refreshToken);
+        }
+
+        protected string GetTenantConnectionString(TenantSchema tenantSchema, string conString)
         {
             conString = conString.Replace("[UserName]", tenantSchema.Username);
             conString = conString.Replace("[Password]", tenantSchema.Password);

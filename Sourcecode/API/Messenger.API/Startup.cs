@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Messenger.Api.Filters;
 using Strive.BusinessLogic;
+using Strive.BusinessLogic.Auth;
 using Strive.Common;
 
 namespace Messenger.Api
