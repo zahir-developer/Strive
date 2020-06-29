@@ -16,6 +16,11 @@ namespace Strive.BusinessEntities
         USPGETSCHEMABYGUID,
         USPGETCODES,
         USPGETUSERBYAUTHID,
+        //Location
+        USPGETLOCATION,
+        USPSAVELOCATION,
+        USPDELETELOCATION
+        USPGETUSERBYAUTHID,
         USPGETPRODUCT,
         USPDELETEPRODUCT,
         USPGETAllPRODUCT,

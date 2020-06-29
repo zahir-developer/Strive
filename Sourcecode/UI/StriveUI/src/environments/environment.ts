@@ -8,7 +8,7 @@ export const environment = {
   name: 'Development',
   appName: 'Strive Phase 1',
   api: { // API Endpoints
-    epmsApi:  'http://localhost:55208/'
+    epmsApi:  'http://localhost:60001/'
   }
 };
 

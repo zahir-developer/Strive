@@ -9,33 +9,42 @@ using System.Text;
 
 namespace Strive.ResourceAccess
 {
-
     public class LocationRal
     {
-        IDbConnection _dbConnection;
-        private Db db;
-
-        public LocationRal(ITenantHelper tenent)
+        IDbConnection _dbconnection;
+        public Db db;
+        public LocationRal(IDbConnection dbconnection)
         {
-            _dbConnection = tenent.db();
-            db = new Db(_dbConnection);
+            _dbconnection = dbconnection;
         }
 
-        public List<Location> GetAllLocation()
+        public LocationRal(ITenantHelper tenant)
         {
-            return db.FetchRelation1<Location, LocationAddress>(SPEnum.USPGETAllLOCATION.ToString(), new DynamicParameters());
+            _dbconnection = tenant.db();
+            db = new Db(_dbconnection);
+        }
+        public List<Location> GetLocationDetails()
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            List<Location> lstResource = new List<Location>();
+            var res = db.Fetch<Location>(SPEnum.USPGETLOCATION.ToString(), dynParams);
+            return res;
         }
 
-        public bool SaveLocation(List<Location> locations)
+        public bool SaveLocationDetails(List<Location> lstLocation)
         {
-            DynamicParameters parameters = new DynamicParameters();
-
-            parameters.Add("@tvpLocation", locations.ToDataTable().AsTableValuedParameter("tvpEmployee"));
-
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSaveLOCATION.ToString(), parameters, commandType: CommandType.StoredProcedure);
-
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@tvpLocation", lstLocation.ToDataTable().AsTableValuedParameter("tvpLocation"));
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOCATION.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
-
+            return true;
+        }
+        public bool DeleteLocationDetails(int id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@tblLocationId", id.toInt());
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETELOCATION.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
             return true;
         }
     }

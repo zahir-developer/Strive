@@ -8,9 +8,8 @@ namespace Strive.BusinessLogic
 {
     public interface ILocationBpl
     {
-        Result GetAllLocation();
-
-        Result SaveLocation(List<Location> Location);
-        
+        Result GetLocationDetails();
+        Result SaveLocationDetails(List<Location> lstLocation);
+        Result DeleteLocationDetails(int id);
     }
 }

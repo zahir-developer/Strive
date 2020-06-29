@@ -1,39 +1,47 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.CodeAnalysis;
 using Strive.BusinessEntities;
 using Strive.BusinessLogic;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
-using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Admin.Api.Controllers
+namespace Admin.API.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
     public class LocationController : ControllerBase
     {
+        ILocationBpl _locationBpl = null;
 
-        ILocationBpl locationBpl;
-
-        public LocationController(ILocationBpl _locationBpl)
+        public LocationController(ILocationBpl locationBpl)
         {
-            locationBpl = _locationBpl;
+            _locationBpl = locationBpl;
         }
 
         [HttpGet]
         [Route("GetAll")]
-        public Result GetAllLocation()
+        public Result GetAlllocation()
         {
-            return locationBpl.GetAllLocation();
+            return _locationBpl.GetLocationDetails();
         }
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveLocation(List<Location> locations)
+        public Result SaveLocation([FromBody] List<Strive.BusinessEntities.Location> lstLocation)
         {
-            return locationBpl.SaveLocation(locations);
+            return _locationBpl.SaveLocationDetails(lstLocation);
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public Result DeleteLocation(int id)
+        {
+            return _locationBpl.DeleteLocationDetails(id);
+        }
+
+
     }
 }

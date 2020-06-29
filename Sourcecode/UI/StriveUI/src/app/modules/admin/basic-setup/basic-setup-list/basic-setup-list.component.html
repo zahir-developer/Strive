@@ -1,12 +1,15 @@
 <div class="col-4">
     <form [formGroup]="basicSetupForm">
-        <div>
-            <label><b>Work Threshold Hour : </b></label>
-            <input type="text" class="form-control"  formControlName="workHour">
-        </div>        
+        <div class="row">
+            <div class="col-6">
+                <label><b>Work Threshold Hour : </b></label>
+                <input type="text" class="form-control"  formControlName="workHour">
+            </div>
+        </div>               
     </form>
 </div>
-<input type="button" value="Add" class="" (click)="add('add',[])">
+<nbsp></nbsp>
+<button type="button" class="" (click)="add('add',[])">Add</button>
 <p-table [value]="basicSetupDetails">
     <ng-template pTemplate="header">
         <tr>

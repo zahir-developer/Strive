@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
-import { ToastrService } from 'ngx-toastr';
+import { MessageServiceToastr } from 'src/app/shared/common-service/message.service';
 
 @Component({
   selector: 'app-create-edit',
@@ -13,7 +13,7 @@ export class CreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
     this.sampleForm = this.fb.group({
@@ -44,9 +44,9 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.updateEmployee(sourceObj).subscribe(data => {
       if (data.status === 'Success') {
         if (this.isEdit === true) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
         } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Record Saved Successfully!!' });
         }
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       }
