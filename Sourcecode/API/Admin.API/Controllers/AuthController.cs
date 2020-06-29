@@ -25,9 +25,27 @@ namespace Admin.Api.Controllers
         [AllowAnonymous]
         public Result Login([FromBody] Authentication authentication)
         {
-            var result = _authManager.Login(authentication, _configuration.GetSection("StriveAdminSettings:Jwt")["SecretKey"]);
+            string SecretKey = Pick("Jwt", "SecretKey");
+            string TenantConnectionStringTemplate = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID=[UserName];Password=[Password]";
+
+            var result = _authManager.Login(authentication, SecretKey, TenantConnectionStringTemplate);
             return result;
         }
+
+        private string Pick(string section, string name)
+        {
+            string configValue = string.Empty;
+
+
+            configValue = _configuration.GetSection("StriveAdminSettings:" + section)[name];
+            if (configValue is null)
+            {
+                configValue = string.Empty;
+            }
+
+            return configValue;
+        }
+
 
     }
 }

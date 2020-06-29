@@ -8,6 +8,6 @@ namespace Strive.BusinessLogic
 {
     public interface IAuthManagerBpl
     {
-        Result Login(Authentication authentication, string secretKey);
+        Result Login(Authentication authentication, string secretKey, string tenantConnectionStringTemplate);
     }
 }

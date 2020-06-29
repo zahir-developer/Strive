@@ -6,6 +6,7 @@ namespace Strive.BusinessEntities
 {
     public class TenantSchema
     {
+        public int AuthId { get; set; }
         public string UserGuid { get; set; }
         public string Schemaname { get; set; }
         public string Username { get; set; }
