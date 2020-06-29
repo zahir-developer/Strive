@@ -31,6 +31,8 @@ namespace Admin.API
         {
             services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
             services.AddTransient<IEmployeeBpl, EmployeeBpl>();
+            services.AddTransient<IProductBpl, ProductBpl>();
+            services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddScoped<ITenantHelper, TenantHelper>();
 
 
