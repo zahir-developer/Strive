@@ -14,6 +14,8 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEE,
         USPSAVEEMPLOYEE,
         USPGETSCHEMABYGUID,
+        USPGETCODES,
+        USPGETUSERBYAUTHID,
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,
