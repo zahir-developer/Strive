@@ -19,8 +19,7 @@ namespace Strive.BusinessEntities
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,
-        USPDELETELOCATION
-        USPGETUSERBYAUTHID,
+        USPDELETELOCATION,
         USPGETPRODUCT,
         USPDELETEPRODUCT,
         USPGETAllPRODUCT,
