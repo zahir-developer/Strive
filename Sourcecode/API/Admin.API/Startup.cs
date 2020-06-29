@@ -31,7 +31,10 @@ namespace Admin.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
+            services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<IEmployeeBpl, EmployeeBpl>();
+            services.AddTransient<IProductBpl, ProductBpl>();
+            services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddScoped<ITenantHelper, TenantHelper>();
 
 

@@ -1,16 +1,24 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
 // import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import { FullCalendar } from 'primeng/fullcalendar/fullcalendar';
+import interactionPlugin , { Draggable } from '@fullcalendar/interaction';
+import timelinePlugin from '@fullcalendar/timeline';
+import * as moment from 'moment';
+import { FullCalendar } from 'primeng';
+
 
 @Component({
-  selector: 'app-scheduling',
+  selector: 'app-scheduling', 
   templateUrl: './scheduling.component.html',
-  styleUrls: ['./scheduling.component.css']
+  styleUrls: ['./scheduling.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class SchedulingComponent implements OnInit {
+export class SchedulingComponent implements OnInit, AfterViewInit {
+  public theme = 'theme-light';
+  calendar: any;
+  today = moment(new Date());
+  clickCnt = 0;
   events = [];
   options: any;
   searchEmp = '';
@@ -18,71 +26,111 @@ export class SchedulingComponent implements OnInit {
   mytime: any;
   selectedEvent = [];
   // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
-  @ViewChild('daySchedule') fc: FullCalendar;
+  @ViewChild('fc') fc: FullCalendar;
   @ViewChild('external') external: ElementRef;
   empList: { id: number; name: string; }[];
   showDialog: boolean;
   constructor() { }
+  ngAfterViewInit() {
+    // this.calendar = this.fc.getCalendar();
+    // console.log('CALENDAR: ' + this.calendar);
 
+  }
   ngOnInit(): void {
+    console.log(this.today);
     this.empList = [{ id: 1, name: 'employee1' },
     { id: 2, name: 'employee2' },
     { id: 3, name: 'employee3' }];
     this.events = [
       {
         id: 2,
-        title: 'Long Event',
-        start: '2020-06-19T16:30:00',
-        end: '2020-06-19T17:30:00',
-        extendedProps: {
-          imgId: 1
-        }
+        title: 'WilFord 21412779 Main Street 2-5',
+        start: '2020-06-28T14:00:00',
+        end: '2020-06-28T17:00:00',
+        color: '#ffcccb',
+        borderColor: '#D3D3D3'
       },
       {
         id: 3,
-        title: 'Repeating Event',
-        start: '2020-06-19T16:00:00',
-        end: '2020-06-19T16:30:00',
-        extendedProps: {
-          imgId: 2
-        }
-      }];
+        title: 'oxford 21412779 Old Street 3-5',
+        start: '2020-06-28T11:00:00',
+        end: '2020-06-28T16:30:00',
+        color: '#ffcccb',
+        borderColor: '#D3D3D3'
+      },
+    {
+      id: 3,
+      title: 'Repeating Event3',
+      start: '2020-06-28T11:00:00',
+      end: '2020-06-28T16:30:00',
+      color: '#ffcccb',
+      borderColor: '#D3D3D3'
+    }];
     const imgUrl = 'assets/images/orange.png';
     this.options = {
-      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      defaultDate: new Date(),
+      plugins: [dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin],
       header: {
-        left: 'prev,next',
+        left: 'custom1, prev',
         center: 'title',
-        // right: 'timeGridWeek,timeGridDay'
-        right: 'timeGridWeek,timeGridDay'
+        right: 'next, dayGridWeek, timelineDay, custom2'
       },
-      defaultView: 'timeGridDay',
-      allDaySlot: false,
+      editable: true,
+      // nextDayThreshold: '09:00:00',
+      // allDayDefault: false,
+      slotDuration: '01:00:00',
+      slotLabelInterval: '01:00:00',
+      customButtons: {
+        custom1: {
+          text: 'Today event',
+          click() {
+            alert('clicked custom button 1!');
+          },
+        }, custom2: {
+          text: 'Schedule',
+          color: 'red',
+          click() {
+            alert('Schedule Clicked');
+          },
+        },
+      },
+      defaultView: 'dayGridWeek',
+      defaultDate: new Date(),
+      // allDaySlot: false,
       minTime: '09:00:00',
       maxTime: '17:00:00',
-      editable: true,
-      droppable: true,
-      themeSystem: 'standard',
       slotEventOverlap: false,
-      slotDuration: '00:15:00',
-      slotLabelInterval: '01:00:00',
-      height: 'auto',
-      contentHeight: 'auto',
-      displayEventTime: false,
-      // slotLabelInterval: '00:15:00',
+      // slotDuration: '01:00:00',
+      // slotLabelInterval: '01:00:00',
+      height: '300',
+      contentHeight: '300',
+      displayEventTime: true,
       eventRender(element) {
         const html = `<span class="float-right">`
-          + `<img src="` + imgUrl + `" (click)="test()"/></a></span>`;
+          + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
         element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
-          element.event.title + html + `</div></div>`;
-        console.log(element);
+          element.event.title + html + `<br>` + `</div></div>`;
+        element.el.addEventListener('dblclick', () => {
+          console.log(element.event.start + ' ' + element.event.end + 'double click');
+        });
       },
       eventClick(event) {
         if (event.jsEvent.target.tagName === 'IMG') {
-          console.log('image clicked');
+          console.log(event, 'image clicked');
         }
       },
+      eventResize(event) {
+        console.log(event, 'event resize');
+      },
+      datesRender(event) {
+        console.log(event, 'datesRender');
+// console.log( this.fc.getCalendar().getDate(), 'days Rendar');
+      },
+      eventDrop(event) {
+        console.log(event, 'eventDrop');
+      },
+      dblclick(event)  {
+console.log(event, 'double Click');
+      }
     };
 
   }
@@ -94,14 +142,14 @@ export class SchedulingComponent implements OnInit {
     this.selectedEvent.push({
       id: 23,
       title: 'my Event1',
-      start: '2020-06-20T16:00:00',
-      end: '2020-06-20T16:30:00',
+      start: '2020-06-28T16:00:00',
+      end: '2020-06-28T16:30:00',
     });
     this.events = [... this.events, {
       id: 23,
       title: 'my Event1',
-      start: '2020-06-22T09:00:00',
-      end: '2020-06-22T09:30:00',
+      start: '2020-06-28T09:00:00',
+      end: '2020-06-28T09:30:00',
     }];
   }
   submit() {
