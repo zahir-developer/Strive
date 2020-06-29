@@ -12,25 +12,28 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using System.Linq;
 
 namespace Strive.BusinessLogic
 {
     public class AuthManagerBpl : Strivebase, IAuthManagerBpl
     {
         ITenantHelper tenant;
-
-        public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache){
+        string TenantConnectionStringTemplate;
+        public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        {
             tenant = tenantHelper;
         }
 
-        //public TenantSchema GetTenantSchema(Authentication authentication)
-        //{
-        //    TenantSchema tenantSchema = new AuthRal().Login(authentication);
-        //    SetTenantSchematoCache(tenantSchema);
-        //}
+        public TenantSchema GetTenantSchema(Guid UserGuid)
+        {
+            TenantSchema tenantSchema = new AuthRal(tenant).GetSchema(UserGuid);
+            SetTenantSchematoCache(tenantSchema);
+            return tenantSchema;
+        }
 
-      
-        public Result Login(Authentication authentication, string secretKey)
+
+        public Result Login(Authentication authentication, string secretKey, string tConStringtemplate)
         {
             Result result;
             JObject resultContent = new JObject();
@@ -38,8 +41,11 @@ namespace Strive.BusinessLogic
             {
                 var userdetails = new AuthRal(tenant).Login(authentication);
                 SetTenantSchematoCache(userdetails);
-                var token = GetToken(userdetails, secretKey);
+                tenant.SetConnection(GetTenantConnectionString(userdetails, tConStringtemplate));
+                Employee employee = new EmployeeRal(tenant).GetEmployeeByAuthId(userdetails.AuthId);                
+                var token = GetToken(userdetails, employee, secretKey);
                 resultContent.Add(token.WithName("Token"));
+                resultContent.Add(employee.WithName("EmployeeDetails"));
                 result = Helper.BindSuccessResult(resultContent);
             }
             catch (Exception ex)
@@ -49,10 +55,10 @@ namespace Strive.BusinessLogic
             return result;
         }
 
-        private string GetToken(TenantSchema tenant, string secretKey)
+        private string GetToken(TenantSchema tenant, Employee employee, string secretKey)
         {
 
-            var credentials = Common.Utility.GetEncryptionStuff(secretKey);
+            var credentials = Strive.Common.Utility.GetEncryptionStuff(secretKey);
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -61,7 +67,12 @@ namespace Strive.BusinessLogic
                 Subject = new ClaimsIdentity(
                     new Claim[]
                 {
-                    new Claim("UserGuid",$"{tenant.UserGuid}")
+                    new Claim("UserGuid",$"{tenant.UserGuid}"),
+                    new Claim("SchemaName",$"{tenant.Schemaname}"),
+                    new Claim("AuthId",$"{employee.EmployeeDetail.AuthId}"),
+                    new Claim("RoleId",$"{  string.Join(',',employee.EmployeeRole.Select(x=> x.EmployeeRoleId).ToList())}"),
+                    new Claim("RoleIdName",$"{  string.Join(',',employee.EmployeeRole.Select(x=> x.RoleName).ToList())}"),
+
                 }),
                 Issuer = "Mammoth-Strive",
                 Audience = "Mammoth-Customer",

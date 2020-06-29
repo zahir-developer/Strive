@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Strive.BusinessEntities;
+using Strive.BusinessLogic;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -78,15 +79,17 @@ namespace Admin.API.Filters
         {
             bool isAuth = true;
             string UserGuid = string.Empty;
+            string SchemaName = string.Empty;
             if (!context.HttpContext.Request.Path.Value.Contains("/Login"))
             {
                 isAuth = false;
                 UserGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
+                SchemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
             }
-            SetDBConnection(UserGuid, isAuth);
+            SetDBConnection(UserGuid, SchemaName, isAuth);
         }
 
-        private void SetDBConnection(string userGuid, bool isAuth = false)
+        private void SetDBConnection(string UserGuid, string SchemaName, bool isAuth = false)
         {
             string strConnectionString = Pick("ConnectionStrings", "StriveConnection");
 
@@ -96,13 +99,21 @@ namespace Admin.API.Filters
             }
             else
             {
-                string strTenantSchema = cache.GetString(userGuid);
-                if (!string.IsNullOrEmpty(strTenantSchema))
+                string strTenantSchema = cache.GetString(SchemaName);
+                bool IsSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
+
+                if(!IsSchemaAvailable) tenant.SetConnection(strConnectionString);
+
+                var tenantSchema = (IsSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
+                    new AuthManagerBpl(cache, tenant).GetTenantSchema(Guid.Parse(UserGuid));
+
+                if(tenantSchema is null)
                 {
-                    var tenantSchema = JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema);
-                    strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
-                    tenant.SetConnection(strConnectionString);
+                    throw new Exception("Invalid Login");
                 }
+
+                strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
+                tenant.SetConnection(strConnectionString);
             }
         }
     }

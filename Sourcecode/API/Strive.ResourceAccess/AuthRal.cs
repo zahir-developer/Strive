@@ -28,7 +28,23 @@ namespace Strive.ResourceAccess
                 var dynParams = new DynamicParameters();
                 dynParams.Add("@LoginId", authentication.Email);
                 dynParams.Add("@Password", authentication.PasswordHash);
-                var res = db.Fetch<TenantSchema>(SPEnum.USPLogin.ToString(), dynParams);
+                var res = db.Fetch<TenantSchema>(SPEnum.USPLOGIN.ToString(), dynParams);
+                if (res.Count() == 0) throw new Exception("data returned null value");
+                return res?.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public TenantSchema GetSchema(Guid userGuid)
+        {
+            try
+            {
+                var dynParams = new DynamicParameters();
+                dynParams.Add("@UserGuid", userGuid);
+                var res = db.Fetch<TenantSchema>(SPEnum.USPGETSCHEMABYGUID.ToString(), dynParams);
                 if (res.Count() == 0) throw new Exception("data returned null value");
                 return res?.FirstOrDefault();
             }

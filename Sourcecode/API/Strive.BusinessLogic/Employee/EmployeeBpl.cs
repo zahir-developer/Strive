@@ -24,7 +24,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var lstEmployee = new EmployeeRal(tenant).GetEmployeeDetails();
+                var lstEmployee = new EmployeeRal(tenant).GetEmployeeDetails(); 
                 resultContent.Add(lstEmployee.WithName("Employee"));
                 result = Helper.BindSuccessResult(resultContent);
             }

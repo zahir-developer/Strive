@@ -1,0 +1,78 @@
+/*Strive Colors*/
+:root{
+--blue:#24489A;
+--light-blue: #F2FCFE;
+--muted-light-blue:#EAF2F5;
+--royal-blue: #5968dd;
+--dark-grey: #11283D;
+--mid-grey: #B2B2BC;
+--light-grey: #DBDBDB;
+--muted-light-grey: #DDE7E9;
+--cyan: #1DC9B7;
+--dark-cyan: #1DC5B3;
+--hidark-cyan: #1BA193;
+--vivid-cyan: #00BBE1;
+--light-yellow: #FFB822;	
+--laux-neon-pink: #FD397A;
+}
+
+/*==================
+Color
+==================*/
+
+.light-blue
+{
+	background-color: #F2FCFE;
+}
+
+.primary-blue
+{
+	color:#24489A;
+}
+
+.btn-primary
+{
+	background-color: #1DC9B7;
+	border-color: #1DC5B3;
+}
+
+.btn.btn-primary:active,
+.btn.btn-primary:hover,
+.btn.btn-primary:focus
+{
+	background-color: #10B7A5 !important;
+	border-color: #1DC5B3 !important;
+}
+
+.btn.btn-primary:focus
+{
+	background-color: #1BA193 !important;
+	border-color: #1BA193 !important;
+}
+
+body
+{
+	background-color: #F2FCFE;
+}
+
+label
+{
+	color: #11283D;
+}
+
+input
+{
+	border-color:#DDE7E9;
+}
+
+
+input::-webkit-input-placeholder {color: #DDE7E9;}
+input:-moz-placeholder {color: #DDE7E9;}
+input::-moz-placeholder {color: #DDE7E9;}
+input:-ms-input-placeholder {color: #DDE7E9;}
+
+textarea::-webkit-input-placeholder {color: #DDE7E9;}
+textarea:-moz-placeholder {color: #DDE7E9;}
+textarea::-moz-placeholder {color: #DDE7E9;}
+textarea:-ms-input-placeholder {color: #DDE7E9;}
+
