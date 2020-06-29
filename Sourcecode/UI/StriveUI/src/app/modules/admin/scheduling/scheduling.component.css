@@ -1,3 +1,6 @@
+ /* @import './assets/scss/mixins.scss';
+@import './assets/scss/themes.scss'; */
+/* @import "themes/style.scss";  */
 body .fc .fc-toolbar .fc-button {
     color: black !important;
     background-color: white !important;
@@ -17,6 +20,6 @@ body .fc .fc-toolbar .fc-button:enabled:hover {
     white-space: nowrap;
     }
     
-    .fc-title {
+    /* .fc-title {
     white-space: normal;
-    }
+    } */

@@ -15,6 +15,7 @@ import { SignupComponent } from './signup/signup.component';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/token.interceptor';
 import { TableModule} from 'primeng/table';
+import {MomentModule} from 'angular2-moment';
 import { HelpsComponent } from './helps/helps.component'
 import { ViewCustomerDetailsComponent } from './helps/view-customer-details/view-customer-details.component';
 import { CreateCustomerDetailsComponent } from './helps/create-customer-details/create-customer-details.component';
@@ -112,6 +113,7 @@ const load = (http: HttpClient) => {
     CommonModule,
     TableModule,
     DialogModule,
+    MomentModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 2000,

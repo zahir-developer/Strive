@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 import {FullCalendarModule} from 'primeng/fullcalendar';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { MessageServiceToastr } from './common-service/message.service';
 
 
 
@@ -22,7 +23,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
   ],
   exports: [FullCalendarModule, TimepickerModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [MessageServiceToastr],
 
 })
 export class SharedModule { }
