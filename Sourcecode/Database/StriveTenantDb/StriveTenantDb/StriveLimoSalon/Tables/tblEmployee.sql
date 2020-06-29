@@ -1,8 +1,18 @@
 ﻿CREATE TABLE [StriveLimoSalon].[tblEmployee] (
-    [EmployeeId] INT          IDENTITY (1, 1) NOT NULL,
-    [FirstName]  VARCHAR (50) NULL,
-    [LastName]   VARCHAR (50) NULL,
-    [Role]       INT          NULL,
-    CONSTRAINT [PK_tblEmployee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
+    [EmployeeId]        BIGINT       IDENTITY (1, 1) NOT NULL,
+    [FirstName]         VARCHAR (50) NULL,
+    [MiddleName]        VARCHAR (50) NULL,
+    [LastName]          VARCHAR (50) NULL,
+    [Gender]            INT          NULL,
+    [SSNo]              VARCHAR (50) NULL,
+    [MaritalStatus]     INT          NULL,
+    [IsCitizen]         BIT          NULL,
+    [AlienNo]           VARCHAR (50) NULL,
+    [BirthDate]         DATETIME     NULL,
+    [ImmigrationStatus] INT          NULL,
+    [CreatedDate]       DATETIME     NULL,
+    CONSTRAINT [PK_tblEmployee1] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 

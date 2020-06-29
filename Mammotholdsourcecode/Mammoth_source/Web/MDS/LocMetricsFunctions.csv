@@ -1,0 +1,4 @@
+File,Function,LOC,SLOC-P,SLOC-L,MVG,BLOC,C&SLOC,CLOC,CWORD
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\WEB\MDS\admmenu.asp,javamodal(strURL),7,6,4,0,1,0,0,0,
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\WEB\MDS\admmenu.asp,"mmshowmod(strURL, intHeight, intWidth)",10,10,4,1,0,0,0,0,
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\WEB\MDS\incCommon.asp,ClientEncode(strvar),2,2,1,1,0,0,0,0,

@@ -1,0 +1,30 @@
+<button type="button" class="" (click)="add('add',[])">Add</button>
+<p-table [value]="serviceSetupDetails">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Service ID</th>
+            <th>Service Type</th>
+            <th>Service Name</th>
+            <th>Cost</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-serviceSetup>
+        <tr>
+            <td>{{serviceSetup.serviceId}}</td>
+            <td>{{serviceSetup.serviceType}}</td>
+            <td>{{serviceSetup.serviceName}}</td>
+            <td>{{serviceSetup.cost}}</td>
+            <td>
+                <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
+                                (click)="add('edit', serviceSetup)"></em>&nbsp;&nbsp;
+                            <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
+                                (click)="delete(serviceSetup)"></em>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
+    [focusOnShow]="false" [style]="{width: '700px', height: '1000px'}">
+    <app-service-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-service-create-edit>
+</p-dialog>

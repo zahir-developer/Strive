@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="_UpgradeWizard_Files\UpgradeWizardLog.xslt"?>
+<log>
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MPOS.csproj" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\About.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\About.aspx" />
+  <event action="Analyze" type="Success" name="About.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\About.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Login.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Login.aspx" />
+  <event action="Analyze" type="Success" name="Login.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Login.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Manage.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Manage.aspx" />
+  <event action="Analyze" type="Success" name="Manage.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Manage.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\OpenAuthProviders.ascx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\OpenAuthProviders.ascx" />
+  <event action="Analyze" type="Success" name="OpenAuthProviders.ascx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\OpenAuthProviders.ascx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Register.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Register.aspx" />
+  <event action="Analyze" type="Success" name="Register.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Register.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\RegisterExternalLogin.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\RegisterExternalLogin.aspx" />
+  <event action="Analyze" type="Success" name="RegisterExternalLogin.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\RegisterExternalLogin.aspx" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Web.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Web.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Web.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Web.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Web.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Web.config" />
+  <event action="Analyze" type="Success" name="Web.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Account\Web.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ApplicationInsights.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ApplicationInsights.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ApplicationInsights.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ApplicationInsights.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ApplicationInsights.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ApplicationInsights.config" />
+  <event action="Analyze" type="Success" name="ApplicationInsights.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ApplicationInsights.config" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CashDrawerSetUp.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CashDrawerSetUp.aspx" />
+  <event action="Analyze" type="Success" name="CashDrawerSetUp.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CashDrawerSetUp.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Clients.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Clients.aspx" />
+  <event action="Analyze" type="Success" name="Clients.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Clients.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CloseOutRegister.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CloseOutRegister.aspx" />
+  <event action="Analyze" type="Success" name="CloseOutRegister.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CloseOutRegister.aspx" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CorpClientInvoiceList.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CorpClientInvoiceList.aspx" />
+  <event action="Analyze" type="Success" name="CorpClientInvoiceList.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CorpClientInvoiceList.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CustomerEmailer.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CustomerEmailer.aspx" />
+  <event action="Analyze" type="Success" name="CustomerEmailer.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\CustomerEmailer.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\DailyTipReport.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\DailyTipReport.aspx" />
+  <event action="Analyze" type="Success" name="DailyTipReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\DailyTipReport.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Default.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Default.aspx" />
+  <event action="Analyze" type="Success" name="Default.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Default.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Details.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Details.aspx" />
+  <event action="Analyze" type="Success" name="Details.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Details.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Employees.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Employees.aspx" />
+  <event action="Analyze" type="Success" name="Employees.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Employees.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EndOfDay.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EndOfDay.aspx" />
+  <event action="Analyze" type="Success" name="EndOfDay.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EndOfDay.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODReport.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODReport.aspx" />
+  <event action="Analyze" type="Success" name="EODReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODReport.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODScreen.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODScreen.aspx" />
+  <event action="Analyze" type="Success" name="EODScreen.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODScreen.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\GiftCards.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\GiftCards.aspx" />
+  <event action="Analyze" type="Success" name="GiftCards.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\GiftCards.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\HourlyWashReport.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\HourlyWashReport.aspx" />
+  <event action="Analyze" type="Success" name="HourlyWashReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\HourlyWashReport.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\IPOD_Login.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\IPOD_Login.aspx" />
+  <event action="Analyze" type="Success" name="IPOD_Login.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\IPOD_Login.aspx" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Login.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Login.aspx" />
+  <event action="Analyze" type="Success" name="Login.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Login.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerDetailReport.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerDetailReport.aspx" />
+  <event action="Analyze" type="Success" name="MonthlyCustomerDetailReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerDetailReport.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerSummary.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerSummary.aspx" />
+  <event action="Analyze" type="Success" name="MonthlyCustomerSummary.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerSummary.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlySalesRepReport.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlySalesRepReport.aspx" />
+  <event action="Analyze" type="Success" name="MonthlySalesRepReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlySalesRepReport.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyTip.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyTip.aspx" />
+  <event action="Analyze" type="Success" name="MonthlyTip.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyTip.aspx" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\packages.config" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Sales.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Sales.aspx" />
+  <event action="Analyze" type="Success" name="Sales.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Sales.aspx" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\SessionExpired.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\SessionExpired.aspx" />
+  <event action="Analyze" type="Success" name="SessionExpired.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\SessionExpired.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Site.Master" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Site.Master" />
+  <event action="Analyze" type="Success" name="Site.Master" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Site.Master" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Site.Mobile.Master" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Site.Mobile.Master" />
+  <event action="Analyze" type="Success" name="Site.Mobile.Master" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Site.Mobile.Master" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\StatementList.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\StatementList.aspx" />
+  <event action="Analyze" type="Success" name="StatementList.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\StatementList.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeClock.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeClock.aspx" />
+  <event action="Analyze" type="Success" name="TimeClock.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeClock.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeClockMaintenance.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeClockMaintenance.aspx" />
+  <event action="Analyze" type="Success" name="TimeClockMaintenance.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeClockMaintenance.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeLogin.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeLogin.aspx" />
+  <event action="Analyze" type="Success" name="TimeLogin.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeLogin.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimePassword.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimePassword.aspx" />
+  <event action="Analyze" type="Success" name="TimePassword.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimePassword.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSet.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSet.aspx" />
+  <event action="Analyze" type="Success" name="TimeSet.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSet.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSheet.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSheet.aspx" />
+  <event action="Analyze" type="Success" name="TimeSheet.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSheet.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSummary.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSummary.aspx" />
+  <event action="Analyze" type="Success" name="TimeSummary.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSummary.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Vehicles.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Vehicles.aspx" />
+  <event action="Analyze" type="Success" name="Vehicles.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Vehicles.aspx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ViewSwitcher.ascx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ViewSwitcher.ascx" />
+  <event action="Analyze" type="Success" name="ViewSwitcher.ascx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\ViewSwitcher.ascx" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Washes.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Washes.aspx" />
+  <event action="Analyze" type="Success" name="Washes.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Washes.aspx" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Analyze" type="Success" name="Web.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Web.Debug.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Web.Release.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\WeeklySales.aspx" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\WeeklySales.aspx" />
+  <event action="Analyze" type="Success" name="WeeklySales.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\WeeklySales.aspx" />
+  <event action="Analyze" type="Success" name="MPOS" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MPOS.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MPOSReportLibrary.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\app.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\app.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\app.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\app.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\app.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\app.config" />
+  <event action="Analyze" type="Success" name="app.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\app.config" />
+  <event action="Analyze" type="Success" name="DailyTip.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\DailyTip.resx" />
+  <event action="Analyze" type="Success" name="EOD.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\EOD.resx" />
+  <event action="Analyze" type="Success" name="EODComm.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\EODComm.resx" />
+  <event action="Analyze" type="Success" name="EODHours.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\EODHours.resx" />
+  <event action="Analyze" type="Success" name="EODProd.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\EODProd.resx" />
+  <event action="Analyze" type="Success" name="MonthlyCustomerDetail.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MonthlyCustomerDetail.resx" />
+  <event action="Analyze" type="Success" name="MonthlyCustomerSummary.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MonthlyCustomerSummary.resx" />
+  <event action="Analyze" type="Success" name="MonthlySales.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MonthlySales.resx" />
+  <event action="Analyze" type="Success" name="MonthlyTip.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MonthlyTip.resx" />
+  <event action="Analyze" type="Success" name="Receipt.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\Receipt.resx" />
+  <event action="Analyze" type="Success" name="TimeSummary.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\TimeSummary.resx" />
+  <event action="Analyze" type="Success" name="TimeWeekly.resx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\TimeWeekly.resx" />
+  <event action="Analyze" type="Success" name="MPOSReportLibrary" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MPOSReportLibrary.csproj" />
+  <event action="Analyze" type="Success" name="MPOS" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS.sln" />
+  <event action="Backup" type="Success" name="MPOS" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MPOS.csproj" />
+  <event action="Backup" type="Success" name="MPOSReportLibrary" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MPOSReportLibrary.csproj" />
+  <event action="Upgrade" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MPOS.csproj" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\DailyTipReport.aspx" />
+  <event action="Upgrade" type="Success" name="DailyTipReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\DailyTipReport.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODReport.aspx" />
+  <event action="Upgrade" type="Success" name="EODReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\EODReport.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\HourlyWashReport.aspx" />
+  <event action="Upgrade" type="Success" name="HourlyWashReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\HourlyWashReport.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerDetailReport.aspx" />
+  <event action="Upgrade" type="Success" name="MonthlyCustomerDetailReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerDetailReport.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerSummary.aspx" />
+  <event action="Upgrade" type="Success" name="MonthlyCustomerSummary.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyCustomerSummary.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlySalesRepReport.aspx" />
+  <event action="Upgrade" type="Success" name="MonthlySalesRepReport.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlySalesRepReport.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyTip.aspx" />
+  <event action="Upgrade" type="Success" name="MonthlyTip.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MonthlyTip.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSheet.aspx" />
+  <event action="Upgrade" type="Success" name="TimeSheet.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSheet.aspx" />
+  <event action="Upgrade" type="Success" name="Register Directives" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSummary.aspx" />
+  <event action="Upgrade" type="Success" name="TimeSummary.aspx" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\TimeSummary.aspx" />
+  <event action="Upgrade" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Upgrade" type="Success" name="Http Handlers" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Upgrade" type="Success" name="Handlers (IIS7+)" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Upgrade" type="Success" name="Web.config" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\Web.config" />
+  <event action="Upgrade" type="Success" name="MPOS" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS\MPOS.csproj" />
+  <event action="Upgrade" type="Success" name="Assembly References" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MPOSReportLibrary.csproj" />
+  <event action="Upgrade" type="Success" name="MPOSReportLibrary" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\MPOSReportLibrary.csproj" />
+  <event action="Upgrade" type="Success" name="MPOS" path="D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOS.sln" />
+</log>

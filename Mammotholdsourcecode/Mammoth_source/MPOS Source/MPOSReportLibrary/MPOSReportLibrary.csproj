@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{69B5B8DC-8B55-429B-8581-D0D049B1BDDD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPOSReportLibrary</RootNamespace>
+    <AssemblyName>MPOSReportLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Reporting, Version=11.1.17.503, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.WebForms, Version=11.1.17.503, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DailyTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DailyTip.Designer.cs">
+      <DependentUpon>DailyTip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EOD.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EOD.Designer.cs">
+      <DependentUpon>EOD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EODComm.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EODComm.Designer.cs">
+      <DependentUpon>EODComm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EODHours.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EODHours.Designer.cs">
+      <DependentUpon>EODHours.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EODProd.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EODProd.Designer.cs">
+      <DependentUpon>EODProd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HourlyWashReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HourlyWashReport.Designer.cs">
+      <DependentUpon>HourlyWashReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MonthlyCustomerDetail.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MonthlyCustomerDetail.Designer.cs">
+      <DependentUpon>MonthlyCustomerDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MonthlyCustomerSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MonthlyCustomerSummary.Designer.cs">
+      <DependentUpon>MonthlyCustomerSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MonthlySales.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MonthlySales.Designer.cs">
+      <DependentUpon>MonthlySales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MonthlyTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MonthlyTip.Designer.cs">
+      <DependentUpon>MonthlyTip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Receipt.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Receipt.Designer.cs">
+      <DependentUpon>Receipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TimeSummary.Designer.cs">
+      <DependentUpon>TimeSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeWeekly.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TimeWeekly.Designer.cs">
+      <DependentUpon>TimeWeekly.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DailyTip.resx">
+      <DependentUpon>DailyTip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EOD.resx">
+      <DependentUpon>EOD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EODComm.resx">
+      <DependentUpon>EODComm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EODHours.resx">
+      <DependentUpon>EODHours.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EODProd.resx">
+      <DependentUpon>EODProd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HourlyWashReport.resx">
+      <DependentUpon>HourlyWashReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonthlyCustomerDetail.resx">
+      <DependentUpon>MonthlyCustomerDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonthlyCustomerSummary.resx">
+      <DependentUpon>MonthlyCustomerSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonthlySales.resx">
+      <DependentUpon>MonthlySales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonthlyTip.resx">
+      <DependentUpon>MonthlyTip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Receipt.resx">
+      <DependentUpon>Receipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSummary.resx">
+      <DependentUpon>TimeSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeWeekly.resx">
+      <DependentUpon>TimeWeekly.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

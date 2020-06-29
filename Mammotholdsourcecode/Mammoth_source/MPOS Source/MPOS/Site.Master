@@ -1,0 +1,105 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="MPOS.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <title>MPOS</title>
+    <link href="~/Content/Styles.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/globalNavStyles.css" rel="stylesheet" type="text/css" />
+    <link href="~/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+                <asp:TextBox ID="ServerName" runat="server" Visible="false"></asp:TextBox>
+                <asp:TextBox ID="LocationDesc" runat="server" Visible="false"></asp:TextBox>
+                <asp:TextBox ID="LocationID" runat="server" Visible="false"></asp:TextBox>
+                <asp:TextBox ID="LoginID" runat="server" Visible="false"></asp:TextBox>
+                <asp:TextBox ID="Role" runat="server" Visible="false"></asp:TextBox>
+              <div class="page">
+            <div id="container">
+        <div style="float:right; padding-right:20px;">
+           <asp:Label ID="storeName" runat="server" text="Store Name" ></asp:Label>
+       </div>
+               <script type="text/javascript" src="<%=ResolveUrl("~/java/globalNavFunctionality.js") %>"></script>
+                <div >
+                    <ul class="menu" id="menu">
+                        <li>
+                            <asp:HyperLink ID="link10URL" runat="server" CssClass="tab">Washes</asp:HyperLink></li>
+                        <li>
+                            <asp:HyperLink ID="link20URL" runat="server" CssClass="tab">Details</asp:HyperLink></li>
+                        <li>
+                            <asp:HyperLink ID="link30URL" runat="server" CssClass="tab">Sales</asp:HyperLink></li>
+                        <li><a class="tab"  id="ReportsMenu" runat="server">Reports</a>
+                            <ul>
+                                <li>
+                                    <asp:HyperLink ID="link42URL" runat="server">Daily Status Screen</asp:HyperLink></li>
+<%--                                 <li>
+                                    <asp:HyperLink ID="link48URL" runat="server">EOD - Screen</asp:HyperLink></li>--%>
+                               <li>
+                                    <asp:HyperLink ID="link46URL" runat="server">EOD - Report</asp:HyperLink></li>
+                               <li>
+                                    <asp:HyperLink ID="link40URL" runat="server">Daily Tip Report</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link41URL" runat="server">Monthly Tip</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link43URL" runat="server">Weekly Sales</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link52URL" runat="server">Monthly Sales</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link44URL" runat="server">Monthly Customer Summary</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link45URL" runat="server">Monthly Customer Detail Report</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link53URL" runat="server">Time Sheet</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link51URL" runat="server">Time Summary</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link54URL" runat="server">Hourly Wash Report</asp:HyperLink></li>
+                             </ul>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="link50URL" runat="server"  CssClass="tab">Time Clock</asp:HyperLink>
+                        </li>
+                        <li><a class="tab" id="AdminMenu" runat="server">Admin</a>
+                            <ul>
+                                <li>
+                                    <asp:HyperLink ID="link65URL" runat="server">Cash Drawer Set Up</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link66URL" runat="server">Close Out Register</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link61URL" runat="server">Time Clock Maintenance</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link60URL" runat="server">Employees</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link62URL" runat="server">Clients</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link63URL" runat="server">Vehicles</asp:HyperLink></li>
+                                <li>
+                                    <asp:HyperLink ID="link64URL" runat="server">Gift Cards</asp:HyperLink></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="link90URL" runat="server"  CssClass="tab">Log Out</asp:HyperLink>
+                        </li>
+                    </ul>
+               </div>
+            </div>
+        </div>
+ 
+        <script type="text/javascript">
+            var dropdown = new TINY.dropdown.init("dropdown", { id: 'menu', active: 'menuhover' });
+        </script>
+        <div style="height:2px; background-color:darkblue;">
+
+        </div>
+         <div class="main" style="height: 100%;">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+     </form>
+</body>
+</html>

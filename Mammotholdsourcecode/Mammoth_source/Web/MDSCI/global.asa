@@ -1,0 +1,27 @@
+<script LANGUAGE="VBScript" RUNAT="Server">
+Sub Application_OnStart
+	Dim strRDBMS,strServer,strDatabase,strUser,strPwd
+    strRDBMS = "SQL Server" 
+	strDatabase = "MPOS" 
+	
+<!--	
+	strServer = "tcp:mpos-prod.database.windows.net,1433" 
+	strUser = "MPOSUser@mpos-prod" 
+	strPwd = "!Mp0s7u8i9o" 
+	Application("ConnectionString") = "Driver={" & strRDBMS & "};Server=" & strServer & ";Database=" & strDatabase & ";UID=" & strUser & ";PWD=" & strPwd & ";DSN=;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+
+-->
+
+strServer = "TELLLAP59\SQLEXPRESS2017" 
+	strUser = "sa" 
+	strPwd = "pass@123" 
+
+    strRDBMS = "SQL Server" 
+	strDatabase = "MPOS" 
+	
+	
+	Application("ConnectionString") = "Driver={" & strRDBMS & "};Server=" & strServer & ";Database=" & strDatabase & ";UID=" & strUser & ";PWD=" & strPwd & ";DSN=;Connection Timeout=30;"
+	
+	Application("LocationID") = "1"
+End Sub
+</script>

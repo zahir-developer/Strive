@@ -1,0 +1,37 @@
+﻿using System;
+using MvvmCross;
+using MvvmCross.Base;
+using MvvmCross.IoC;
+using MvvmCross.Platforms.Ios.Core;
+using MvvmCross.Plugin.Json;
+using Strive.Core.Rest.Implementations;
+using Strive.Core.Rest.Interfaces;
+using Strive.Core.Services.Implementations;
+using Strive.Core.Services.Interfaces;
+
+namespace StriveTimInventory.iOS.MvvmCross
+{
+    public class Setup : MvxIosSetup<App>
+    {
+        protected override void InitializeFirstChance()
+        {
+            base.InitializeFirstChance();
+            Mvx.IoCProvider.RegisterType<IMvxJsonConverter, MvxJsonConverter>();
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
+        }
+
+        protected override void InitializeLastChance()
+        {
+            base.InitializeLastChance();
+        }
+
+        protected override IMvxIocOptions CreateIocOptions()
+        {
+            return new MvxIocOptions
+            {
+                PropertyInjectorOptions = MvxPropertyInjectorOptions.MvxInject
+            };
+        }
+    }
+}

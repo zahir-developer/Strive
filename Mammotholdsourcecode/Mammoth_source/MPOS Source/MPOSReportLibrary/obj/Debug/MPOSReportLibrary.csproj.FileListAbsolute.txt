@@ -1,0 +1,107 @@
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll.config
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.pdb
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Telerik.Reporting.dll
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Telerik.ReportViewer.WebForms.dll
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.Common.dll
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.xml
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Telerik.Reporting.pdb
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Telerik.Reporting.xml
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Telerik.ReportViewer.WebForms.pdb
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\bin\Debug\Telerik.ReportViewer.WebForms.xml
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.DailyTip.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EOD.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODComm.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODHours.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODProd.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerDetail.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerSummary.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlySales.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyTip.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.Receipt.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeSummary.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeWeekly.resources
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.GenerateResource.Cache
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll.licenses
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.CoreCompileInputs.cache
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.pdb
+D:\GitLocalRepositry\mammothdetailsalon-mpos2\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.HourlyWashReport.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll.config
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.pdb
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.Common.dll
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.xml
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csprojAssemblyReference.cache
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.DailyTip.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EOD.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODComm.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODHours.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODProd.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.HourlyWashReport.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerDetail.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerSummary.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlySales.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyTip.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.Receipt.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeSummary.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeWeekly.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.GenerateResource.cache
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll.licenses
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.CoreCompileInputs.cache
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.CopyComplete
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.pdb
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll.config
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.pdb
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.Common.dll
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.xml
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csprojAssemblyReference.cache
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.DailyTip.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EOD.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODComm.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODHours.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODProd.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.HourlyWashReport.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerDetail.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerSummary.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlySales.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyTip.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.Receipt.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeSummary.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeWeekly.resources
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.GenerateResource.cache
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll.licenses
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.CoreCompileInputs.cache
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.CopyComplete
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll
+D:\workspace\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.pdb
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll.config
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.dll
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\MPOSReportLibrary.pdb
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.Common.dll
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\bin\Debug\Microsoft.ReportViewer.WinForms.xml
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csprojAssemblyReference.cache
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.DailyTip.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EOD.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODComm.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODHours.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.EODProd.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.HourlyWashReport.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerDetail.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyCustomerSummary.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlySales.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.MonthlyTip.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.Receipt.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeSummary.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TimeWeekly.resources
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.GenerateResource.cache
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll.licenses
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.CopyComplete
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll
+D:\workspace\Mammoth\trunk\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS Source\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.pdb

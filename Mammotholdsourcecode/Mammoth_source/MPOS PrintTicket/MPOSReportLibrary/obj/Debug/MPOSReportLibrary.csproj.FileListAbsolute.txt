@@ -1,0 +1,10 @@
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csprojAssemblyReference.cache
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.Barcode.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.Ticket.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TicketAir.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TicketSerC1.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TicketUP.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.TicketWD.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.VehicalCopy.resources
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.csproj.GenerateResource.cache
+D:\Desktop\Mammoth\Mammoth Car Wash\Mammoth Car Wash\Source\MPOS PrintTicket\MPOSReportLibrary\obj\Debug\MPOSReportLibrary.dll.licenses
