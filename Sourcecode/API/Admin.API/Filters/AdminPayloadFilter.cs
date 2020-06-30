@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Strive.BusinessLogic.Auth;
 
 namespace Admin.API.Filters
 {
@@ -44,16 +45,16 @@ namespace Admin.API.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            string actionName = context.ActionDescriptor.RouteValues["action"];
-            string controllerName = context.ActionDescriptor.RouteValues["controller"];
+            //string actionName = context.ActionDescriptor.RouteValues["action"];
+            //string controllerName = context.ActionDescriptor.RouteValues["controller"];
 
-            // our code after action executes
-            if (context.HttpContext.Request.Path.Value.Contains("/Login"))
-            {
-                GData gdata = new GData();
-                gdata = (GData)context.HttpContext.Items["gdata"];
-                context.HttpContext.Response.Headers.Add("Token", gdata.gToken);
-            }
+            //// our code after action executes
+            //if (context.HttpContext.Request.Path.Value.Contains("/Login"))
+            //{
+            //    GData gdata = new GData();
+            //    gdata = (GData)context.HttpContext.Items["gdata"];
+            //    context.HttpContext.Response.Headers.Add("Token", gdata.gToken);
+            //}
         }
 
         private string Pick(string section, string name)
@@ -78,15 +79,16 @@ namespace Admin.API.Filters
         private void GetDetailsFromToken(ActionExecutingContext context)
         {
             bool isAuth = true;
-            string UserGuid = string.Empty;
-            string SchemaName = string.Empty;
-            if (!context.HttpContext.Request.Path.Value.Contains("/Login"))
+            string userGuid = string.Empty;
+            string schemaName = string.Empty;
+            if (!context.HttpContext.Request.Path.Value.Contains("Admin/Login") &&
+                 !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh"))
             {
                 isAuth = false;
-                UserGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
-                SchemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
+                userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
+                schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
             }
-            SetDBConnection(UserGuid, SchemaName, isAuth);
+            SetDBConnection(userGuid, schemaName, isAuth);
         }
 
         private void SetDBConnection(string UserGuid, string SchemaName, bool isAuth = false)
@@ -102,12 +104,12 @@ namespace Admin.API.Filters
                 string strTenantSchema = cache.GetString(SchemaName);
                 bool IsSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
 
-                if(!IsSchemaAvailable) tenant.SetConnection(strConnectionString);
+                if (!IsSchemaAvailable) tenant.SetConnection(strConnectionString);
 
                 var tenantSchema = (IsSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
                     new AuthManagerBpl(cache, tenant).GetTenantSchema(Guid.Parse(UserGuid));
 
-                if(tenantSchema is null)
+                if (tenantSchema is null)
                 {
                     throw new Exception("Invalid Login");
                 }

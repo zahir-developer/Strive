@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Admin.API.Filters;
 using Strive.BusinessLogic;
+using Strive.BusinessLogic.Auth;
 using Strive.Common;
 
 namespace Admin.API
@@ -87,6 +88,18 @@ namespace Admin.API
                     TokenDecryptionKey = credentials.DecryptKey,
                     IssuerSigningKey = credentials.SignKey,
                     ClockSkew = TimeSpan.Zero
+                };
+                x.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired","true");
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
 
             });
