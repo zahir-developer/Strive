@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
+// import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +8,6 @@ import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 })
 export class AppComponent {
   title = 'StriveUI';
-  constructor(private idle: Idle) {
+  constructor() {
   }
 }
