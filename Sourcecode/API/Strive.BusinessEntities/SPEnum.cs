@@ -26,6 +26,7 @@ namespace Strive.BusinessEntities
         USPGETAllPRODUCT,
         USPGETAllLOCATION,
         USPSaveLOCATION,
+        USPGETLOCATIONBYID,
         //Service Setup
         USPGETSERVICE,
         USPSAVESERVICE,
