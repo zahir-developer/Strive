@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms'
-import { SharedModule } from './shared/shared.module';
+// import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +8,6 @@ import { SharedModule } from './shared/shared.module';
 })
 export class AppComponent {
   title = 'StriveUI';
+  constructor() {
+  }
 }

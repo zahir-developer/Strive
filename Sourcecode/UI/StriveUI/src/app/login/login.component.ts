@@ -10,9 +10,11 @@ import {Router, ActivatedRoute} from '@angular/router'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  errorFlag = false;
   loginForm: FormGroup;
   submitted = false;
+  display = false;
+  loginDetail: string;
 
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute) { }
 
@@ -27,6 +29,11 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
   LoginSubmit(): void {
     this.submitted = true;
+    this.errorFlag = false;
+    if (this.loginForm.invalid) {
+      this.errorFlag = true;
+      return;
+    }
     const loginObj = {
       email: this.loginForm.value.username,
       passwordHash: this.loginForm.value.password
@@ -34,14 +41,19 @@ export class LoginComponent implements OnInit {
     this.loginService.userAuthentication(loginObj).subscribe(data => {
       if (data) {
         if (data.status === 'Success') {
+          this.display = true;
           const token = JSON.parse(data.resultData);
+          this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' + 
+          token.EmployeeDetails.EmployeeRole[0].RoleName;
           localStorage.setItem('authorizationToken', token.Token);
-          this.loaddTheLandingPage();
+          // this.loaddTheLandingPage();
+        } else {
+          this.errorFlag = true;
         }
       }
     });
   }
-  loaddTheLandingPage(): void {
+  loadTheLandingPage(): void {
       this.router.navigate([`/admin/employees`], { relativeTo: this.route });
     }
 }

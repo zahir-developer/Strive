@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Strive.BusinessEntities;
 using Strive.BusinessLogic;
 using Strive.Common;
@@ -30,6 +31,20 @@ namespace Admin.Api.Controllers
 
             var result = _authManager.Login(authentication, SecretKey, TenantConnectionStringTemplate);
             return result;
+        }
+
+        [HttpPost, Route("/Admin/Refresh"), AllowAnonymous]
+        public Result Refresh(string token, string refreshToken)
+        {
+            string secretKey = Pick("Jwt", "SecretKey");
+            var result = _authManager.GenerateTokenByRefreshKey(token, refreshToken, secretKey);
+            return result;
+        }
+
+        public void Logout(string token)
+        {
+            string secretKey = Pick("Jwt", "SecretKey");
+            _authManager.Logout(token, secretKey);
         }
 
         private string Pick(string section, string name)

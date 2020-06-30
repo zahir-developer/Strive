@@ -168,5 +168,18 @@ namespace Strive.Repository
             return fetchlist;
         }
 
+        public T FetchFirstResult<T>(string spName, DynamicParameters dynParam)
+        {
+            var result = dbcon.QueryFirst(spName, dynParam, commandType: CommandType.StoredProcedure);
+
+            return result.Read<T>();
+        }
+
+        public int Execute<T>(string spName, DynamicParameters dynParam)
+        {
+            var result = dbcon.Execute(spName, dynParam, commandType: CommandType.StoredProcedure);
+
+            return result;
+        }
     }
 }
