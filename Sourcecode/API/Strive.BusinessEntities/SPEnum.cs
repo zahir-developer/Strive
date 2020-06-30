@@ -24,7 +24,8 @@ namespace Strive.BusinessEntities
         USPDELETEPRODUCT,
         USPGETAllPRODUCT,
         USPGETAllLOCATION,
-        USPSaveLOCATION
+        USPSaveLOCATION,
+        USPGETLOCATIONBYID
     }
 
 }
