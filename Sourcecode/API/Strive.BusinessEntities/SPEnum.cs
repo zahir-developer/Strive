@@ -9,6 +9,7 @@ namespace Strive.BusinessEntities
         USPLOGIN,
         USPGETUSERBYLOGIN,
         USPGETALLUSERS,
+        USPGETALLSERVICETYPE,
         USPGETUSERS,
         USPSAVEUSER,
         USPGETEMPLOYEE,
@@ -24,7 +25,13 @@ namespace Strive.BusinessEntities
         USPDELETEPRODUCT,
         USPGETAllPRODUCT,
         USPGETAllLOCATION,
-        USPSaveLOCATION
+        USPSaveLOCATION,
+        //Service Setup
+        USPGETSERVICE,
+        USPSAVESERVICE,
+        USPDELETESERVICEBYID,
+        USPGETSERVICEBYID
+
     }
 
 }
