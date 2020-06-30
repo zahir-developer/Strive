@@ -14,6 +14,7 @@ export class ProductCreateEditComponent implements OnInit {
   size:any;
   Status:any;
   Vendor:any;
+  isChecked: boolean;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
@@ -59,6 +60,11 @@ export class ProductCreateEditComponent implements OnInit {
 
   change(data){
     this.productSetupForm.value.taxable = data;
+    if(data === true){
+      this.isChecked = true;
+    }else{
+      this.isChecked = false;
+    }
   }
   submit() {
     console.log('submitted');

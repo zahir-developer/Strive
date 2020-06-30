@@ -47,5 +47,14 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+
+        public List<Location> GetLocationById(int id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@tblLocationId", id.toInt());
+            List<Location> lstResource = new List<Location>();
+            var res = db.Fetch<Location>(SPEnum.USPGETLOCATIONBYID.ToString(), dynParams);
+            return res;
+        }
     }
 }
