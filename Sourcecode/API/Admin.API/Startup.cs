@@ -16,6 +16,7 @@ using Strive.BusinessLogic;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
 using Strive.BusinessLogic.ServiceSetup;
+using Strive.BusinessLogic.CashRegister;
 
 namespace Admin.API
 {
@@ -37,7 +38,8 @@ namespace Admin.API
             services.AddTransient<IProductBpl, ProductBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddScoped<ITenantHelper, TenantHelper>();
-
+            services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
+            
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
