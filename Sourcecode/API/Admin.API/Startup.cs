@@ -15,6 +15,7 @@ using Admin.API.Filters;
 using Strive.BusinessLogic;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
+using Strive.BusinessLogic.ServiceSetup;
 
 namespace Admin.API
 {
@@ -34,7 +35,7 @@ namespace Admin.API
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<IEmployeeBpl, EmployeeBpl>();
             services.AddTransient<IProductBpl, ProductBpl>();
-            services.AddTransient<ILocationBpl, LocationBpl>();
+            services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddScoped<ITenantHelper, TenantHelper>();
 
 

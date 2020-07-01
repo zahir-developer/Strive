@@ -16,6 +16,7 @@ export class ServiceCreateEditComponent implements OnInit {
   serviceType: any;
   CommissionType:any;
   Status:any;
+  isChecked:boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
@@ -51,6 +52,11 @@ export class ServiceCreateEditComponent implements OnInit {
 
   change(data){
     this.serviceSetupForm.value.status = data;
+    if(data === true){
+      this.isChecked = true;
+    }else{
+      this.isChecked = false;
+    }
   }
   submit() {
     console.log('submitted');
