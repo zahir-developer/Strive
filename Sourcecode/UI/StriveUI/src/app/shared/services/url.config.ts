@@ -3,8 +3,9 @@
 export const UrlConfig = {
     totalUrl:
     {
-      login: `admin/Login`,
-      getEmployees: `admin/Employee/GetAll`,
-      updateEmployees: `admin/Employee/Save`
+      login: `Admin/Login`,
+      getEmployees: `Admin/Employee/GetAll`,
+      updateEmployees: `Admin/Employee/Save`,
+      refreshToken: `Admin/Refresh`
     }
   };
