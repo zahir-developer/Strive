@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
           this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' + 
           token.EmployeeDetails.EmployeeRole[0].RoleName;
           localStorage.setItem('authorizationToken', token.Token);
+          localStorage.setItem('refreshToken', token.RefreshToken);
           // this.loaddTheLandingPage();
         } else {
           this.errorFlag = true;
