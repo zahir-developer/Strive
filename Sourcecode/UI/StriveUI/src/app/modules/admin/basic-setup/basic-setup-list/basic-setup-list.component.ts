@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
-//import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { LocationService } from 'src/app/shared/services/data-service/location.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-basic-setup-list',
@@ -16,7 +16,7 @@ export class BasicSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
-  constructor(private crudService: CrudOperationService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
+  constructor(private locationService: LocationService, private toastr: ToastrService, private fb: FormBuilder, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.basicSetupForm = this.fb.group({
@@ -25,27 +25,35 @@ export class BasicSetupListComponent implements OnInit {
     this.getAllBasicSetupDetails();
   }
   getAllBasicSetupDetails() {
-    this.basicSetupDetails=this.crudService.getBasicSetupDetails();
+    //this.basicSetupDetails=this.crudService.getBasicSetupDetails();
+    this.locationService.getLocation().subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.basicSetupDetails = location.Location;
+      }
+    });
   }
 edit(data) {
 this.selectedData = data;
 this.showDialog = true;
 }
 delete(data) {
-  const index = this.basicSetupDetails.map(x => x.id).indexOf(data.id);
-  if (index > -1) {
-    this.confirmationService.confirm({
-      header: 'Delete',
-      message: 'Do you want to continue?',
-      acceptLabel: 'Yes',
-      rejectLabel: 'Cancel',
-      accept: () => {
-        this.basicSetupDetails.splice(index, 1);
-      },
-      reject: () => {
-      }
-    });    
-  }
+  //const index = this.basicSetupDetails.map(x => x.id).indexOf(data.id);
+    // this.confirmationService.confirm({
+    //   header: 'Delete',
+    //   message: 'Do you want to continue?',
+    //   acceptLabel: 'Yes',
+    //   rejectLabel: 'Cancel',
+    //   accept: () => {
+        this.locationService.deleteLocation(data.LocationId).subscribe(res => {
+            if(res.status === "Success"){
+              this.toastr.success('Record Deleted Successfully!!', 'Success!');
+            }
+        })
+    //   },
+    //   reject: () => {
+    //   }
+    // });    
 }
 closePopupEmit(event) {
   if(event.status === 'saved') {
