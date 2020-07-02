@@ -15,6 +15,8 @@ export const UrlConfig = {
       getServiceType:`admin/ServiceSetup/GetAllServiceType`,
       updateServiceSetup:`admin/ServiceSetup/Save`,
       deleteServiceSetup:`admin/ServiceSetup/Delete/`,
-      getServiceSetupById:`admin/ServiceSetup/GetServiceById/`
+      getServiceSetupById:`admin/ServiceSetup/GetServiceById/`,
+      getProduct:`admin/Product/GetAll`,
+      updateProduct:`admin/Product/Save`
     }
   };
