@@ -5,12 +5,12 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 import { log } from 'console';
 
 @Component({
-  selector: 'app-basic-create-edit',
-  templateUrl: './basic-create-edit.component.html',
-  styleUrls: ['./basic-create-edit.component.css']
+  selector: 'app-location-create-edit',
+  templateUrl: './location-create-edit.component.html',
+  styleUrls: ['./location-create-edit.component.css']
 })
-export class BasicCreateEditComponent implements OnInit {
-  basicSetupForm: FormGroup;
+export class LocationCreateEditComponent implements OnInit {
+  locationSetupForm: FormGroup;
   State:any;
   Country:any;
   address:any;
@@ -20,7 +20,7 @@ export class BasicCreateEditComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: ToastrService,private locationService: LocationService) { }
 
   ngOnInit() {
-    this.basicSetupForm = this.fb.group({
+    this.locationSetupForm = this.fb.group({
       locationId: ['', Validators.required],
       locationName: ['', Validators.required],
       locationAddress: ['', Validators.required],
@@ -33,8 +33,8 @@ export class BasicCreateEditComponent implements OnInit {
     });
     console.log(this.selectedData);
     if (this.selectedData !== undefined && this.selectedData.length !== 0) {
-      this.basicSetupForm.reset();
-      this.basicSetupForm.patchValue({
+      this.locationSetupForm.reset();
+      this.locationSetupForm.patchValue({
         locationId: this.selectedData.LocationId,
         locationName: this.selectedData.LocationName,
         locationAddress: this.selectedData.LocationDescription,
@@ -49,29 +49,29 @@ export class BasicCreateEditComponent implements OnInit {
   }
 
   change(data){
-    this.basicSetupForm.value.franchise = data;
+    this.locationSetupForm.value.franchise = data;
   }
   submit() {
     console.log('submitted');
     const sourceObj = [];
     this.address=[{
       addressId:1,
-      locationAddressId:this.basicSetupForm.value.locationId == "" ? "" : this.basicSetupForm.value.locationId,
-      address1:this.basicSetupForm.value.locationAddress == "" ? "" :this.basicSetupForm.value.locationAddress,
+      locationAddressId:this.locationSetupForm.value.locationId == "" ? "" : this.locationSetupForm.value.locationId,
+      address1:this.locationSetupForm.value.locationAddress == "" ? "" :this.locationSetupForm.value.locationAddress,
       address2:"",
       phoneNumber2:"",
       isActive:true,
-      zip: this.basicSetupForm.value.zipcode == "" ? "" : this.basicSetupForm.value.zipcode,
-      state: this.basicSetupForm.value.state == "" ? 0 : this.basicSetupForm.value.state,
-      city: 0,//this.basicSetupForm.value.country,
-      phoneNumber: this.basicSetupForm.value.phoneNumber == "" ? "" : this.basicSetupForm.value.phoneNumber,
-      email: this.basicSetupForm.value.email == "" ? "" : this.basicSetupForm.value.email
+      zip: this.locationSetupForm.value.zipcode == "" ? "" : this.locationSetupForm.value.zipcode,
+      state: this.locationSetupForm.value.state == "" ? 0 : this.locationSetupForm.value.state,
+      city: 0,//this.locationSetupForm.value.country,
+      phoneNumber: this.locationSetupForm.value.phoneNumber == "" ? "" : this.locationSetupForm.value.phoneNumber,
+      email: this.locationSetupForm.value.email == "" ? "" : this.locationSetupForm.value.email
     }]
     const formObj = {
-      locationId: this.basicSetupForm.value.locationId == "" ? "" : this.basicSetupForm.value.locationId,
+      locationId: this.locationSetupForm.value.locationId == "" ? "" : this.locationSetupForm.value.locationId,
       locationType:0,      
-      locationName: this.basicSetupForm.value.locationName == "" ? "" : this.basicSetupForm.value.locationName,
-      locationDescription: this.basicSetupForm.value.locationAddress == "" ? "" : this.basicSetupForm.value.locationAddress,
+      locationName: this.locationSetupForm.value.locationName == "" ? "" : this.locationSetupForm.value.locationName,
+      locationDescription: this.locationSetupForm.value.locationAddress == "" ? "" : this.locationSetupForm.value.locationAddress,
       isActive:true,
       taxRate:"",
       siteUrl:"",
@@ -82,7 +82,7 @@ export class BasicCreateEditComponent implements OnInit {
       wifiDetail:"",
       workHourThreshold:0,
       locationAddress:this.address,
-      isFranchise: this.basicSetupForm.value.franchise == "" ? false : this.basicSetupForm.value.franchise
+      isFranchise: this.locationSetupForm.value.franchise == "" ? false : this.locationSetupForm.value.franchise
     };
     sourceObj.push(formObj);
     console.log(sourceObj);
