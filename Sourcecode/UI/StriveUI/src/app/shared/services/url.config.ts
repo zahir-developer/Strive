@@ -10,9 +10,11 @@ export const UrlConfig = {
       getLocation:`admin/Location/GetAll`,
       updateLocation:`admin/Location/Save`,
       deleteLocation:`admin/Location/`,
+      getLocationById:`admin/Location/`,
       getServiceSetup:`admin/ServiceSetup/GetAll`,
       getServiceType:`admin/ServiceSetup/GetAllServiceType`,
       updateServiceSetup:`admin/ServiceSetup/Save`,
-      deleteServiceSetup:`admin/ServiceSetup/Delete/`
+      deleteServiceSetup:`admin/ServiceSetup/Delete/`,
+      getServiceSetupById:`admin/ServiceSetup/GetServiceById/`
     }
   };

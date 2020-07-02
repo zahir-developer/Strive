@@ -14,6 +14,7 @@ export class LocationCreateEditComponent implements OnInit {
   State:any;
   Country:any;
   address:any;
+  selectedLocation:any;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
@@ -32,20 +33,30 @@ export class LocationCreateEditComponent implements OnInit {
       franchise: ['', Validators.required]
     });
     console.log(this.selectedData);
-    if (this.selectedData !== undefined && this.selectedData.length !== 0) {
+    if (this.isEdit === true) {
       this.locationSetupForm.reset();
-      this.locationSetupForm.patchValue({
-        locationId: this.selectedData.LocationId,
-        locationName: this.selectedData.LocationName,
-        locationAddress: this.selectedData.LocationDescription,
-        // zipcode: this.selectedData.Zipcode,
-        // state: this.selectedData.State,
-        // country: this.selectedData.Country,
-        // phoneNumber: this.selectedData.PhoneNumber,
-        // email: this.selectedData.Email,
-        franchise: this.selectedData.IsFranchise        
-      });
+      this.getLocationById();      
     }
+  }
+
+  getLocationById(){
+    this.locationService.getLocationById(this.selectedData.LocationId).subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.selectedLocation = location.Location[0];
+        this.locationSetupForm.patchValue({
+          locationId: this.selectedLocation.LocationId,
+          locationName: this.selectedLocation.LocationName,
+          locationAddress: this.selectedLocation.LocationDescription,
+          // zipcode: this.selectedLocation.LocationAddress[0].Zip,
+          // state: this.selectedLocation.LocationAddress[0].State,
+          //country: this.selectedData.Country,
+          // phoneNumber: this.selectedLocation.LocationAddress[0].PhoneNumber,
+          // email: this.selectedLocation.LocationAddress[0].Email,
+          franchise: this.selectedLocation.IsFranchise        
+        });
+      }
+    });
   }
 
   change(data){

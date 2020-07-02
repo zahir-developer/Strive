@@ -51,7 +51,7 @@ namespace Strive.BusinessLogic.ServiceSetup
         {
             try
             {
-                var lstServiceSetup = new ServiceSetupRal(tenant).GetServiceSetupDetails();
+                var lstServiceSetup = new ServiceSetupRal(tenant).GetServiceSetupById(id);
                 resultContent.Add(lstServiceSetup.WithName("ServiceSetupById"));
                 result = Helper.BindSuccessResult(resultContent);
             }

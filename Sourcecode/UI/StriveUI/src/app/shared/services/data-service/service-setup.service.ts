@@ -22,4 +22,7 @@ export class ServiceSetupService {
   deleteServiceSetup(id : number){
       return this.http.delete(`${UrlConfig.totalUrl.deleteServiceSetup}`+ id);
   }
+  getServiceSetupById(id : number){
+    return this.http.get(`${UrlConfig.totalUrl.getServiceSetupById}`+ id);
+}
 }

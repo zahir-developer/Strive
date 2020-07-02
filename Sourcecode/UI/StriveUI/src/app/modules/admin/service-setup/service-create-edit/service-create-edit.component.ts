@@ -16,6 +16,7 @@ export class ServiceCreateEditComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   serviceType: any;
+  selectedService:any;
   CommissionType:any;
   Status:any;
   isChecked:boolean;
@@ -39,20 +40,30 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getAllServiceType();
     this.isChecked=false;
     console.log(this.selectedData);
-    if (this.selectedData !== undefined && this.selectedData.length !== 0) {
+    if (this.isEdit === true) {
       this.serviceSetupForm.reset();
-      this.serviceSetupForm.patchValue({
-        serviceType: this.selectedData.ServiceType,
-        serviceId: this.selectedData.ServiceId,
-        name: this.selectedData.ServiceName,
-        cost: this.selectedData.Cost
-        // commission: this.selectedData.Commission,
-        // commissionType: this.selectedData.CommissionType,
-        // upcharge: this.selectedData.Upcharge,
-        // parentName: this.selectedData.ParentName,
-        // status: this.selectedData.Status        
-      });
+      this.getServiceById();      
     }
+  }
+
+  getServiceById(){
+    this.serviceSetup.getServiceSetupById(this.selectedData.ServiceId).subscribe(data =>{
+      if(data.status === "Success"){
+        const sType= JSON.parse(data.resultData);
+        this.selectedService = sType.ServiceSetupById[0];
+        this.serviceSetupForm.patchValue({
+          serviceType: this.selectedService.ServiceType,
+          serviceId: this.selectedService.ServiceId,
+          name: this.selectedService.ServiceName,
+          cost: this.selectedService.Cost,
+          commission: this.selectedService.Commission,
+          commissionType: this.selectedService.CommissionType,
+          upcharge: this.selectedService.Upcharge,
+          parentName: this.selectedService.ParentName,
+          //status: this.selectedData.Status        
+        });
+      }
+    });
   }
 
   getAllServiceType()
@@ -62,7 +73,7 @@ export class ServiceCreateEditComponent implements OnInit {
         const sType= JSON.parse(data.resultData);
         this.serviceType = sType.ServiceType;
       }
-    })
+    });
   }
 
   change(data){
