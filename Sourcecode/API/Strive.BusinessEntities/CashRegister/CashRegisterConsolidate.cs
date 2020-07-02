@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Strive.BusinessEntities.CashRegister
 {
-    public class CashRegisterConsolidate
+    public abstract class CashRegisterConsolidate
     {
         public long CashRegBillId { get; set; }
         public int Ones { get; set;}

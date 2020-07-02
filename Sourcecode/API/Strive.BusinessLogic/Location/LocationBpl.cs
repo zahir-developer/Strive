@@ -65,15 +65,15 @@ namespace Strive.BusinessLogic.Location
         {
             try
             {
-                var lstLocation = new LocationRal(tenant).GetLocationById(id);
-                resultContent.Add(lstLocation.WithName("Location"));
-                result = Helper.BindSuccessResult(resultContent);
+                var lstLocation = new LocationRal(_tenant).GetLocationById(id);
+                _resultContent.Add(lstLocation.WithName("Location"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
     }
 }

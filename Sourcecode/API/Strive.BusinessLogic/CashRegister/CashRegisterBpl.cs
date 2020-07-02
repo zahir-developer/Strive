@@ -6,47 +6,46 @@ using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace Strive.BusinessLogic.CashRegister
 {
     public class CashRegisterBpl : Strivebase, ICashRegisterBpl
     {
-        ITenantHelper tenant;
-        JObject resultContent = new JObject();
-        Result result;
+        readonly ITenantHelper _tenant;
+        readonly JObject _resultContent = new JObject();
+        Result _result;
         public CashRegisterBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
-            tenant = tenantHelper;
+            _tenant = tenantHelper;
         }
         
         public Result GetCashRegisterByDate(DateTime dateTime)
         {
             try
             {
-                var lstCashRegisterConsolidate = new CashRegisterRal(tenant).GetCashRegisterByDate(dateTime);
-                resultContent.Add(lstCashRegisterConsolidate.WithName("Cash Register By Current Date"));
-                result = Helper.BindSuccessResult(resultContent);
+                var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterByDate(dateTime);
+                _resultContent.Add(lstCashRegisterConsolidate.WithName("Cash Register By Current Date"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
         public Result SaveTodayCashRegister(List<CashRegisterConsolidate> lstCashRegisterConsolidate)
         {
             try
             {
-                bool blnStatus = new CashRegisterRal(tenant).SaveTodayCashRegister(lstCashRegisterConsolidate);
-                resultContent.Add(blnStatus.WithName("Status"));
-                result = Helper.BindSuccessResult(resultContent);
+                bool blnStatus = new CashRegisterRal(_tenant).SaveTodayCashRegister(lstCashRegisterConsolidate);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
        
     }

@@ -46,7 +46,7 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@tblLocationId", id.toInt());
             List<Location> lstResource = new List<Location>();
-            var res = db.Fetch<Location>(SPEnum.USPGETLOCATIONBYID.ToString(), dynParams);
+            var res = _db.Fetch<Location>(SPEnum.USPGETLOCATIONBYID.ToString(), dynParams);
             return res;
         }
     }

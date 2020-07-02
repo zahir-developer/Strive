@@ -4,92 +4,79 @@ using Strive.BusinessEntities;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Net;
-using System.Text;
 
 namespace Strive.BusinessLogic
 {
     public class ProductBpl : Strivebase, IProductBpl
     {
-        ITenantHelper tenant;
-        JObject result = new JObject();
-
-        ProductRal productRal;
+        readonly ITenantHelper _tenant;
+        readonly JObject _resultContent = new JObject();
+        Result _result;
         public ProductBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
-            tenant = tenantHelper;
-           
+            _tenant = tenantHelper;
         }
 
         public Result GetProductDetails()
         {
             try
             {
-                var list = new ProductRal(tenant).GetProductDetails(new Dapper.DynamicParameters());
-
-                result.Add(list.WithName("Product"));
-
-                return Helper.BindSuccessResult(result);
-
+                var list = new ProductRal(_tenant).GetProductDetails(new Dapper.DynamicParameters());
+                _resultContent.Add(list.WithName("Product"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-
-                throw;
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
+
+            return _result;
         }
 
         public Result GetProduct(int productId)
         {
             try
             {
-                var product = productRal.GetProduct(productId);
-
-                result.Add(product);
-
-                return Helper.BindSuccessResult(result);
+                var product = new ProductRal(_tenant).GetProduct(productId);
+                _resultContent.Add(product.WithName("Product"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
+            return _result;
         }
 
         public Result AddProduct(Product product)
         {
             try
             {
-                var success = productRal.AddProduct(product);
-
-                result.Add(success.WithName("Status"));
-
-                return Helper.BindSuccessResult(result);
+                var success = new ProductRal(_tenant).AddProduct(product);
+                _resultContent.Add(success.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
+            return _result;
         }
 
         public Result SaveProduct(Product product)
         {
             try
             {
-                var success = productRal.UpdateProduct(product);
-
-                result.Add(success.WithName("Status"));
-
-                return Helper.BindSuccessResult(result);
+                var success = new ProductRal(_tenant).UpdateProduct(product);
+                _resultContent.Add(success.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
+            return _result;
         }
 
     }

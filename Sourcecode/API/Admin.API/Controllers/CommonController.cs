@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Strive.BusinessEntities;
-using Strive.BusinessLogic;
 using Strive.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Strive.BusinessLogic.Common;
 
 namespace Admin.API.Controllers
 {
@@ -14,32 +9,32 @@ namespace Admin.API.Controllers
     [Route("Admin/[Controller]")]
     public class CommonController : ControllerBase
     {
-        ICommonBpl _CommonBpl = null;
+        readonly ICommonBpl _commonBpl = null;
 
-        public CommonController(ICommonBpl CommonBpl)
+        public CommonController(ICommonBpl commonBpl)
         {
-            _CommonBpl = CommonBpl;
+            _commonBpl = commonBpl;
         }
 
         [HttpGet]
         [Route("CountryList")]
         public Result GetCountyList()
         {
-            return _CommonBpl.GetCodesByCategory(GlobalCodes.COUNTRY);
+            return _commonBpl.GetCodesByCategory(GlobalCodes.COUNTRY);
         }
 
         [HttpGet]
         [Route("StateList")]
         public Result GetStateList()
         {
-            return _CommonBpl.GetCodesByCategory(GlobalCodes.STATE);
+            return _commonBpl.GetCodesByCategory(GlobalCodes.STATE);
         }
 
         [HttpGet]
         [Route("GetCodesByCategory")]
         public Result GetCodeByCategory(GlobalCodes globalCode)
         {
-            return _CommonBpl.GetCodesByCategory(globalCode);
+            return _commonBpl.GetCodesByCategory(globalCode);
         }
     }
 }

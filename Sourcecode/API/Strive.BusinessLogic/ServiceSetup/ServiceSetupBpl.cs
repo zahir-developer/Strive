@@ -12,82 +12,82 @@ namespace Strive.BusinessLogic.ServiceSetup
 {
     public class ServiceSetupBpl : Strivebase, IServiceSetupBpl
     {
-        ITenantHelper tenant;
-        JObject resultContent = new JObject();
-        Result result;
+        readonly ITenantHelper _tenant;
+        readonly JObject _resultContent = new JObject();
+        Result _result;
         public ServiceSetupBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
-            tenant = tenantHelper;
+            _tenant = tenantHelper;
         }
         public Result GetServiceSetupDetails()
         {
             try
             {
-                var lstServiceSetup = new ServiceSetupRal(tenant).GetServiceSetupDetails();
-                resultContent.Add(lstServiceSetup.WithName("ServiceSetup"));
-                result = Helper.BindSuccessResult(resultContent);
+                var lstServiceSetup = new ServiceSetupRal(_tenant).GetServiceSetupDetails();
+                _resultContent.Add(lstServiceSetup.WithName("ServiceSetup"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
         public Result GetAllServiceType()
         {
             try
             {
-                var lstServiceSetup = new ServiceSetupRal(tenant).GetAllServiceType();
-                resultContent.Add(lstServiceSetup.WithName("ServiceType"));
-                result = Helper.BindSuccessResult(resultContent);
+                var lstServiceSetup = new ServiceSetupRal(_tenant).GetAllServiceType();
+                _resultContent.Add(lstServiceSetup.WithName("ServiceType"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
         public Result GetServiceSetupById(int id)
         {
             try
             {
-                var lstServiceSetup = new ServiceSetupRal(tenant).GetServiceSetupById(id);
-                resultContent.Add(lstServiceSetup.WithName("ServiceSetupById"));
-                result = Helper.BindSuccessResult(resultContent);
+                var lstServiceSetup = new ServiceSetupRal(_tenant).GetServiceSetupById(id);
+                _resultContent.Add(lstServiceSetup.WithName("ServiceSetupById"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
         public Result SaveNewServiceDetails(List<tblService> lstServiceSetup)
         {
             try
             {
-                bool blnStatus = new ServiceSetupRal(tenant).SaveNewServiceDetails(lstServiceSetup);
-                resultContent.Add(blnStatus.WithName("Status"));
-                result = Helper.BindSuccessResult(resultContent);
+                bool blnStatus = new ServiceSetupRal(_tenant).SaveNewServiceDetails(lstServiceSetup);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
         public Result DeleteServiceById(int id)
         {
             try
             {
-                var lstServiceSetup = new ServiceSetupRal(tenant).DeleteServiceById(id);
-                resultContent.Add(lstServiceSetup.WithName("Location"));
-                result = Helper.BindSuccessResult(resultContent);
+                var lstServiceSetup = new ServiceSetupRal(_tenant).DeleteServiceById(id);
+                _resultContent.Add(lstServiceSetup.WithName("Location"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
     }
 }

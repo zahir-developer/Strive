@@ -12,13 +12,12 @@ namespace Strive.ResourceAccess
 
     public class ProductRal
     {
-        IDbConnection _dbConnection;
         private Db db;
 
-        public ProductRal(ITenantHelper tenent)
+        public ProductRal(ITenantHelper tenant)
         {
-            _dbConnection = tenent.db();
-            db = new Db(_dbConnection);
+            var dbConnection = tenant.db();
+            db = new Db(dbConnection);
         }
 
         public List<Product> GetProductDetails(DynamicParameters dynamicParameters)

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Strive.BusinessEntities.CashRegister
 {
-    public class CashRegisterOther
+    public abstract class CashRegisterOther
     {
         public int CashRegOtherId { get; set; }
         public Decimal? CreditCard1 { get; set; }

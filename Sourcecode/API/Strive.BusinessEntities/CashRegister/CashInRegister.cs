@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Strive.BusinessEntities.CashRegister
+﻿namespace Strive.BusinessEntities.CashRegister
 {
     public class CashInRegister
     {

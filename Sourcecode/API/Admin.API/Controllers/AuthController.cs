@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Strive.BusinessEntities;
 using Strive.BusinessLogic;
+using Strive.BusinessLogic.Auth;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 

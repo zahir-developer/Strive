@@ -1,54 +1,51 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
-using Strive.BusinessEntities;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Net;
-using System.Text;
 using Strive.BusinessEntities.Employee;
 
 namespace Strive.BusinessLogic
 {
     public class EmployeeBpl : Strivebase, IEmployeeBpl
     {
-        ITenantHelper tenant;
-        JObject resultContent = new JObject();
-        Result result;
+        readonly ITenantHelper _tenant;
+        readonly JObject _resultContent = new JObject();
+        Result _result;
         public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
-            tenant = tenantHelper;
+            _tenant = tenantHelper;
         }
         public Result GetEmployeeDetails()
         {
             try
             {
-                var lstEmployee = new EmployeeRal(tenant).GetEmployeeDetails(); 
-                resultContent.Add(lstEmployee.WithName("Employee"));
-                result = Helper.BindSuccessResult(resultContent);
+                var lstEmployee = new EmployeeRal(_tenant).GetEmployeeDetails(); 
+                _resultContent.Add(lstEmployee.WithName("Employee"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
 
         public Result SaveEmployeeDetails(List<Employee> lstEmployee)
         {
             try
             {
-                bool blnStatus = new EmployeeRal(tenant).SaveEmployeeDetails(lstEmployee);
-                resultContent.Add(blnStatus.WithName("Status"));
-                result = Helper.BindSuccessResult(resultContent);
+                bool blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
         }
     }
 }
