@@ -60,5 +60,20 @@ namespace Strive.BusinessLogic.Location
             }
             return _result;
         }
+
+        public Result GetLocationById(int id)
+        {
+            try
+            {
+                var lstLocation = new LocationRal(tenant).GetLocationById(id);
+                resultContent.Add(lstLocation.WithName("Location"));
+                result = Helper.BindSuccessResult(resultContent);
+            }
+            catch (Exception ex)
+            {
+                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return result;
+        }
     }
 }

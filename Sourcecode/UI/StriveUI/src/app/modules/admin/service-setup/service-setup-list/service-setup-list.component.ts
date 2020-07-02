@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
+import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { ToastrService } from 'ngx-toastr';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -15,33 +17,41 @@ export class ServiceSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
-  constructor(private crudService: CrudOperationService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
+  constructor(private serviceSetup: ServiceSetupService,private toastr: ToastrService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.getAllserviceSetupDetails();
   }
   getAllserviceSetupDetails() {
-    this.serviceSetupDetails=this.crudService.getServiceSetupDetails();
+    this.serviceSetup.getServiceSetup().subscribe(data =>{
+      if (data.status === 'Success') {
+        const serviceDetails = JSON.parse(data.resultData);
+        this.serviceSetupDetails = serviceDetails.ServiceSetup;
+      }
+    });
   }
 edit(data) {
 this.selectedData = data;
 this.showDialog = true;
 }
 delete(data) {
-  const index = this.serviceSetupDetails.map(x => x.id).indexOf(data.id);
-  if (index > -1) {
-    this.confirmationService.confirm({
-      header: 'Delete',
-      message: 'Do you want to continue?',
-      acceptLabel: 'Yes',
-      rejectLabel: 'Cancel',
-      accept: () => {
-        this.serviceSetupDetails.splice(index, 1);
-      },
-      reject: () => {
-      }
-    });    
-  }
+    //  this.confirmationService.confirm({
+    //   header: 'Delete',
+    //   message: 'Do you want to continue?',
+    //   acceptLabel: 'Yes',
+    //   rejectLabel: 'Cancel',
+    //   accept: () => {
+          this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res =>{
+            if(res.status === "Success"){
+              this.toastr.success('Record Deleted Successfully!!', 'Success!');
+              this.getAllserviceSetupDetails();
+            }
+          });
+          
+    //   },
+    //   reject: () => {
+    //   }
+    // });    
 }
 closePopupEmit(event) {
   if(event.status === 'saved') {

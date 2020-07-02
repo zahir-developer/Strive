@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <form [formGroup]="basicSetupForm">
+    <form [formGroup]="locationSetupForm">
     <div class="form-group">
         <div class="col-4">
             <label><b>Location ID : </b></label>
@@ -56,7 +56,7 @@
     </div>
     <div class="form-group">
         <div class="col-4">            
-            <input type="checkbox"  formControlName="franchise" (change)="change($event)" >
+            <input type="checkbox"  formControlName="franchise" (change)="change($event.target.checked)" >
             <label><b> Franchise </b></label>
         </div>
     </div>

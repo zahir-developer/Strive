@@ -1,5 +1,5 @@
 <div class="col-4">
-    <form [formGroup]="basicSetupForm">
+    <form [formGroup]="locationSetupForm">
         <div class="row">
             <div class="col-6">
                 <label><b>Work Threshold Hour : </b></label>
@@ -10,7 +10,7 @@
 </div>
 <nbsp></nbsp>
 <button type="button" class="" (click)="add('add',[])">Add</button>
-<p-table [value]="basicSetupDetails">
+<p-table [value]="locationSetupDetails">
     <ng-template pTemplate="header">
         <tr>
             <th>Location ID</th>
@@ -21,23 +21,23 @@
             <th>Action</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-basicSetup>
+    <ng-template pTemplate="body" let-locationSetup>
         <tr>
-            <td>{{basicSetup.LocationId}}</td>
-            <td>{{basicSetup.LocationName}}</td>
-            <td>{{basicSetup.isFranchise}}</td>
-            <td>{{basicSetup.PhoneNumber}}</td>
-            <td>{{basicSetup.Email}}</td>
+            <td>{{locationSetup.LocationId}}</td>
+            <td>{{locationSetup.LocationName}}</td>
+            <td>{{locationSetup.IsFranchise}}</td>
+            <td>{{locationSetup.PhoneNumber}}</td>
+            <td>{{locationSetup.Email}}</td>
             <td>
                 <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
-                                (click)="add('edit', basicSetup)"></em>&nbsp;&nbsp;
+                                (click)="add('edit', locationSetup)"></em>&nbsp;&nbsp;
                             <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
-                                (click)="delete(basicSetup)"></em>
+                                (click)="delete(locationSetup)"></em>
             </td>
         </tr>
     </ng-template>
 </p-table>
 <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
     [focusOnShow]="false" [style]="{width: '700px', height: '1000px'}">
-    <app-basic-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-basic-create-edit>
+    <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-location-create-edit>
 </p-dialog>

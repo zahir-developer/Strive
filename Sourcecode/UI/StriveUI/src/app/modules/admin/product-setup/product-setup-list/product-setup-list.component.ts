@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
+import { ProductService } from 'src/app/shared/services/data-service/product.service';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -15,13 +16,18 @@ export class ProductSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
-  constructor(private crudService: CrudOperationService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
+  constructor(private productService: ProductService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.getAllproductSetupDetails();
   }
   getAllproductSetupDetails() {
-    this.productSetupDetails=this.crudService.getProductSetupDetails();
+    this.productService.getProduct().subscribe(data =>{
+      if (data.status === 'Success') {
+        const product = JSON.parse(data.resultData);
+        this.productSetupDetails = product.Product;
+      }
+    })
   }
 edit(data) {
 this.selectedData = data;

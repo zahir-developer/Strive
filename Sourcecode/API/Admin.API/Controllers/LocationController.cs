@@ -37,6 +37,13 @@ namespace Admin.API.Controllers
             return _locationBpl.DeleteLocationDetails(id);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public Result GeteLocationById(int id)
+        {
+            return _locationBpl.GetLocationById(id);
+        }
+
 
     }
 }
