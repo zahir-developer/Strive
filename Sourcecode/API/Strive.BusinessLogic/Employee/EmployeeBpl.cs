@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Text;
+using Strive.BusinessEntities.Employee;
 
 namespace Strive.BusinessLogic
 {

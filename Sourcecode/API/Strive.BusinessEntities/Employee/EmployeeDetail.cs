@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace Strive.BusinessEntities
+namespace Strive.BusinessEntities.Employee
 {
-    public class EmployeeDetail
+    public abstract class EmployeeDetail
     {
-		public int EmployeeDetailId { get; set; }
+        public int EmployeeDetailId { get; set; }
 		public int EmployeeId { get; set; }
 		[MaxLength(10)]
 		public string EmployeeCode { get; set; }

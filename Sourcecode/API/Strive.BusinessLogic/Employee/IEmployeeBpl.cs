@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.Employee;
 using Strive.Common;
 
 namespace Strive.BusinessLogic
