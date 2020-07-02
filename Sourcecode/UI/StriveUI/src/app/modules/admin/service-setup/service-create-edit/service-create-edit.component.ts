@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
+import * as moment from 'moment';
+import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -17,11 +19,12 @@ export class ServiceCreateEditComponent implements OnInit {
   CommissionType:any;
   Status:any;
   isChecked:boolean;
-  constructor(private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
+  today : Date = new Date();
+  constructor(private serviceSetup: ServiceSetupService,private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
-
-    this.serviceType=["Washes","Details","Additional Services","Upcharges","Air Fresheners","Discounts"];
+    //this.today = new Date(this.today.getFullYear(),this.today.getMonth(), 10);
+    //this.serviceType=["Washes","Details","Additional Services","Upcharges","Air Fresheners","Discounts"];
     this.serviceSetupForm = this.fb.group({
       serviceType: ['', Validators.required],
       serviceId: ['', Validators.required],
@@ -33,25 +36,37 @@ export class ServiceCreateEditComponent implements OnInit {
       parentName: ['', Validators.required],
       status: ['', Validators.required]
     });
+    this.getAllServiceType();
+    this.isChecked=false;
     console.log(this.selectedData);
     if (this.selectedData !== undefined && this.selectedData.length !== 0) {
       this.serviceSetupForm.reset();
-      this.serviceSetupForm.setValue({
+      this.serviceSetupForm.patchValue({
         serviceType: this.selectedData.ServiceType,
         serviceId: this.selectedData.ServiceId,
-        name: this.selectedData.Name,
-        cost: this.selectedData.Cost,
-        commission: this.selectedData.Commission,
-        commissionType: this.selectedData.CommissionType,
-        upcharge: this.selectedData.Upcharge,
-        parentName: this.selectedData.ParentName,
-        status: this.selectedData.Status        
+        name: this.selectedData.ServiceName,
+        cost: this.selectedData.Cost
+        // commission: this.selectedData.Commission,
+        // commissionType: this.selectedData.CommissionType,
+        // upcharge: this.selectedData.Upcharge,
+        // parentName: this.selectedData.ParentName,
+        // status: this.selectedData.Status        
       });
     }
   }
 
+  getAllServiceType()
+  {
+    this.serviceSetup.getServiceType().subscribe(data =>{
+      if(data.status === "Success"){
+        const sType= JSON.parse(data.resultData);
+        this.serviceType = sType.ServiceType;
+      }
+    })
+  }
+
   change(data){
-    this.serviceSetupForm.value.status = data;
+    this.serviceSetupForm.value.commission = data;
     if(data === true){
       this.isChecked = true;
     }else{
@@ -64,21 +79,29 @@ export class ServiceCreateEditComponent implements OnInit {
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,
       serviceId: this.serviceSetupForm.value.serviceId,
-      name: this.serviceSetupForm.value.name,
+      serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
-      commission: this.serviceSetupForm.value.commission,
-      commissionType: this.serviceSetupForm.value.commissionType,
-      upcharge: this.serviceSetupForm.value.upcharge,
-      parentName: this.serviceSetupForm.value.parentName,
-      status: this.serviceSetupForm.value.status
+      commission: this.isChecked,
+      commissionType: this.serviceSetupForm.value.commission == true ? this.serviceSetupForm.value.commissionType : 0,
+      upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
+      //parentName: this.serviceSetupForm.value.parentName,
+      parentServiceId:0,
+      isActive:true,
+      locationId:1,
+      dateEntered: moment(this.today).format('YYYY-MM-DD')
     };
     sourceObj.push(formObj);
-    this.crudService.servicesetupdetails.push(formObj);
+    console.log(sourceObj);
+    this.serviceSetup.updateServiceSetup(sourceObj).subscribe(data => {
+      if (data.status === 'Success') {
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
         } else {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
         }
+        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      }
+    });
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
