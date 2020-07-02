@@ -24,7 +24,7 @@ namespace Strive.BusinessLogic.ServiceSetup
             try
             {
                 var lstServiceSetup = new ServiceSetupRal(tenant).GetServiceSetupDetails();
-                resultContent.Add(lstServiceSetup.WithName("Service Setup"));
+                resultContent.Add(lstServiceSetup.WithName("ServiceSetup"));
                 result = Helper.BindSuccessResult(resultContent);
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace Strive.BusinessLogic.ServiceSetup
             try
             {
                 var lstServiceSetup = new ServiceSetupRal(tenant).GetAllServiceType();
-                resultContent.Add(lstServiceSetup.WithName("Service Type"));
+                resultContent.Add(lstServiceSetup.WithName("ServiceType"));
                 result = Helper.BindSuccessResult(resultContent);
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace Strive.BusinessLogic.ServiceSetup
             try
             {
                 var lstServiceSetup = new ServiceSetupRal(tenant).GetServiceSetupDetails();
-                resultContent.Add(lstServiceSetup.WithName("Service Setup By Id"));
+                resultContent.Add(lstServiceSetup.WithName("ServiceSetupById"));
                 result = Helper.BindSuccessResult(resultContent);
             }
             catch (Exception ex)

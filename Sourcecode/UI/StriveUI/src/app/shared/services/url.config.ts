@@ -9,6 +9,10 @@ export const UrlConfig = {
       refreshToken: `Admin/Refresh`,      
       getLocation:`admin/Location/GetAll`,
       updateLocation:`admin/Location/Save`,
-      deleteLocation:`admin/Location/`
+      deleteLocation:`admin/Location/`,
+      getServiceSetup:`admin/ServiceSetup/GetAll`,
+      getServiceType:`admin/ServiceSetup/GetAllServiceType`,
+      updateServiceSetup:`admin/ServiceSetup/Save`,
+      deleteServiceSetup:`admin/ServiceSetup/Delete/`
     }
   };

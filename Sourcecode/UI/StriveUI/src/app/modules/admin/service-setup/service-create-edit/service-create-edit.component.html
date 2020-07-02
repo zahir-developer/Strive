@@ -5,7 +5,7 @@
             <label><b>Service Type : </b></label>
             <select class="form-control" formControlName="serviceType">
                 <option value="">Select </option>
-                <option *ngFor="let serviceType of serviceType">{{serviceType}}</option>
+                <option *ngFor="let serviceType of serviceType" value="{{serviceType.id}}">{{serviceType.CodeValue}}</option>
             </select>
         </div>
     </div>
