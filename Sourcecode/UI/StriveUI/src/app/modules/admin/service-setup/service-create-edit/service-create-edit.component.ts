@@ -58,7 +58,7 @@ export class ServiceCreateEditComponent implements OnInit {
           cost: this.selectedService.Cost,
           commission: this.selectedService.Commission,
           commissionType: this.selectedService.CommissionType,
-          upcharge: this.selectedService.Upcharge,
+          upcharge: this.selectedService.Upcharges,
           parentName: this.selectedService.ParentName,
           //status: this.selectedData.Status        
         });
