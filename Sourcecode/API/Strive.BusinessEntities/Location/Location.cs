@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Strive.BusinessEntities
 {
-    public abstract class Location
+    public class Location
     {
         public int LocationId { get; set; }
         public int? LocationType { get; set; }

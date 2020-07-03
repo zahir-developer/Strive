@@ -2,7 +2,7 @@
 
 namespace Strive.BusinessEntities.CashRegister
 {
-    public abstract class CashRegisterOther
+    public class CashRegisterOther
     {
         public int CashRegOtherId { get; set; }
         public Decimal? CreditCard1 { get; set; }
