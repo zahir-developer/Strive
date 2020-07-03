@@ -38,7 +38,7 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             List<CashRegisterConsolidate> lstResource = new List<CashRegisterConsolidate>();
             dynParams.Add("@currentDate", dateTime);
-            var res = db.Fetch<CashRegisterConsolidate>(SPEnum.USPGETCASHREGISTERBYDATE.ToString(), dynParams);
+            var res = db.Fetch<CashRegisterConsolidate>(SPEnum.uspGetCashRegisterDetails.ToString(), dynParams);
             return res;
         }
     }
