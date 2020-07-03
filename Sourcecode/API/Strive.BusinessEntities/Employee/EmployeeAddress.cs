@@ -2,7 +2,7 @@
 
 namespace Strive.BusinessEntities.Employee
 {
-    public abstract class EmployeeAddress
+    public class EmployeeAddress
     {
 		public int AddressId { get; set; }
 		public int? RelationshipId { get; set; }

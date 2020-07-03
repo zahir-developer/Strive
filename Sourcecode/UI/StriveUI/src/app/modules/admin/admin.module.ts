@@ -26,12 +26,13 @@ import { VendorSetupComponent } from './vendor-setup/vendor-setup.component';
 import { VendorSetupListComponent } from './vendor-setup/vendor-setup-list/vendor-setup-list.component';
 import { VendorCreateEditComponent } from './vendor-setup/vendor-create-edit/vendor-create-edit.component';
 import { ConfirmationService } from 'primeng/api';
+import { OnlynumberDirective } from 'src/app/shared/Directive/only-number.directive';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
   SetupComponent,LocationSetupComponent,LocationSetupListComponent,LocationCreateEditComponent,ServiceSetupComponent,ServiceSetupListComponent,
   ServiceCreateEditComponent,ProductSetupComponent,ProductSetupListComponent,ProductCreateEditComponent,VendorSetupComponent,
-  VendorSetupListComponent,VendorCreateEditComponent],
+  VendorSetupListComponent,VendorCreateEditComponent,OnlynumberDirective],
   imports: [
     CommonModule,
     AdminRoutingModule,

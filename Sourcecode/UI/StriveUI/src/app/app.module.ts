@@ -23,6 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
 import {environment} from 'src/environments/environment';
 import {DialogModule} from 'primeng/dialog';
 import { EnvironmentService } from './shared/util/environment.service';
+import { DynamicTextboxComponent } from './helps/dynamic-textbox/dynamic-textbox.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -102,6 +103,7 @@ const load = (http: HttpClient) => {
     HelpsComponent,
     ViewCustomerDetailsComponent,
     CreateCustomerDetailsComponent,
+    DynamicTextboxComponent,
   ],
   imports: [
     BrowserModule,
