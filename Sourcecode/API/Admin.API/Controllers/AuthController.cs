@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Strive.BusinessEntities;
 using Strive.BusinessLogic;
+using Strive.BusinessLogic.Auth;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
@@ -26,18 +27,18 @@ namespace Admin.Api.Controllers
         [AllowAnonymous]
         public Result Login([FromBody] Authentication authentication)
         {
-            string SecretKey = Pick("Jwt", "SecretKey");
-            string TenantConnectionStringTemplate = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID=[UserName];Password=[Password]";
+            string secretKey = Pick("Jwt", "SecretKey");
+            string tenantConnectionStringTemplate = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID=[UserName];Password=[Password]";
 
-            var result = _authManager.Login(authentication, SecretKey, TenantConnectionStringTemplate);
+            var result = _authManager.Login(authentication, secretKey, tenantConnectionStringTemplate);
             return result;
         }
 
         [HttpPost, Route("/Admin/Refresh"), AllowAnonymous]
-        public Result Refresh(string token, string refreshToken)
+        public Result Refresh(RegenerateToken regToken)
         {
             string secretKey = Pick("Jwt", "SecretKey");
-            var result = _authManager.GenerateTokenByRefreshKey(token, refreshToken, secretKey);
+            var result = _authManager.GenerateTokenByRefreshKey(regToken.Token, regToken.RefreshToken, secretKey);
             return result;
         }
 
@@ -49,18 +50,7 @@ namespace Admin.Api.Controllers
 
         private string Pick(string section, string name)
         {
-            string configValue = string.Empty;
-
-
-            configValue = _configuration.GetSection("StriveAdminSettings:" + section)[name];
-            if (configValue is null)
-            {
-                configValue = string.Empty;
-            }
-
-            return configValue;
+            return _configuration.GetSection("StriveAdminSettings:" + section)[name] ?? string.Empty;
         }
-
-
     }
 }

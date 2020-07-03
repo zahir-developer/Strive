@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class CrudOperationService {
   customerdetails = [];
-  basicsetupdetails = [];
+  locationsetupdetails = [];
   productsetupdetails = [];
   servicesetupdetails = [];
   vendorsetupdetails = [];
@@ -13,8 +13,8 @@ export class CrudOperationService {
   getCustomerDetails() {
     return this.customerdetails;
   }
-  getBasicSetupDetails(){
-    return this.basicsetupdetails;
+  getLocationSetupDetails(){
+    return this.locationsetupdetails;
   }
   getProductSetupDetails(){
     return this.productsetupdetails;

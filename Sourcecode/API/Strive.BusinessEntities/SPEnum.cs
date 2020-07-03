@@ -31,7 +31,10 @@ namespace Strive.BusinessEntities
         USPGETSERVICE,
         USPSAVESERVICE,
         USPDELETESERVICEBYID,
-        USPGETSERVICEBYID
+        USPGETSERVICEBYID,
+        //Cash Register
+        USPSAVETODAYCASHREGISTER,
+        USPGETCASHREGISTERBYDATE
 
     }
 

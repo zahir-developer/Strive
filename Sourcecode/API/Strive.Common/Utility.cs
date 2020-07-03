@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace Strive.Common
             {
                 Directory.CreateDirectory(logpath);
             }
-            File.AppendAllLines(logpath + logfileName + DateTime.UtcNow.Date.ToString("ddMMyyy") + ".txt", new[] { $"\t {msg} at: " + DateTime.Now.ToString() });
+            File.AppendAllLines(logpath + logfileName + DateTime.UtcNow.Date.ToString("ddMMyyy") + ".txt", contents: new[] { $"\t {msg} at: " + DateTime.Now.ToString(CultureInfo.InvariantCulture) });
 
         }
 

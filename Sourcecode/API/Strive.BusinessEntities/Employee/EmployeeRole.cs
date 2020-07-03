@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Strive.BusinessEntities
+﻿namespace Strive.BusinessEntities.Employee
 {
-    public class EmployeeRole
+    public abstract class EmployeeRole
     {
         public int EmployeeRoleId { get; set; }
         public string RoleName { get; set; }

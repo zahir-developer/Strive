@@ -8,14 +8,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Admin.API.Filters;
 using Strive.BusinessLogic;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
 using Strive.BusinessLogic.ServiceSetup;
+using Strive.BusinessLogic.CashRegister;
+using Strive.BusinessLogic.Common;
+using Strive.BusinessLogic.Location;
 
 namespace Admin.API
 {
@@ -31,13 +32,18 @@ namespace Admin.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ITenantHelper, TenantHelper>();
             services.AddTransient<IAuthManagerBpl, AuthManagerBpl>();
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<IEmployeeBpl, EmployeeBpl>();
             services.AddTransient<IProductBpl, ProductBpl>();
-            services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
-            services.AddScoped<ITenantHelper, TenantHelper>();
+            services.AddTransient<ILocationBpl, LocationBpl>();
+            services.AddTransient<ICommonBpl, CommonBpl>();
 
+
+            services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
+            services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
+            
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

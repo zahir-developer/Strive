@@ -1,10 +1,7 @@
-﻿using Strive.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Strive.BusinessEntities;
+﻿using Strive.BusinessEntities;
+using Strive.Common;
 
-namespace Strive.BusinessLogic
+namespace Strive.BusinessLogic.Auth
 {
     public interface IAuthManagerBpl
     {

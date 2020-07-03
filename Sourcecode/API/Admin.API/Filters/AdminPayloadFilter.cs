@@ -3,44 +3,31 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Strive.BusinessEntities;
-using Strive.BusinessLogic;
 using Strive.Common;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Strive.BusinessLogic.Auth;
 
 namespace Admin.API.Filters
 {
     public class AdminPayloadFilter : IActionFilter
     {
-        private readonly IConfiguration config;
-        private readonly IDistributedCache cache;
-        ITenantHelper tenant;
-        GData gdata = new GData();
+        private readonly IConfiguration _config;
+        private readonly IDistributedCache _cache;
+        readonly ITenantHelper _tenant;
+        readonly GData _gdata = new GData();
 
-        public AdminPayloadFilter(IConfiguration conf, IDistributedCache dcache, ITenantHelper tenantHelper)
+        public AdminPayloadFilter(IConfiguration conf, IDistributedCache cache, ITenantHelper tenantHelper)
         {
-            config = conf;
-            cache = dcache;
-            tenant = tenantHelper;
+            _config = conf;
+            _cache = cache;
+            _tenant = tenantHelper;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            try
-            {
-                string actionName = context.ActionDescriptor.RouteValues["action"];
-                string controllerName = context.ActionDescriptor.RouteValues["controller"];
-                context.HttpContext.Items.Add("gdata", gdata);
-                GetDetailsFromToken(context);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            context.HttpContext.Items.Add("gdata", _gdata);
+            GetDetailsFromToken(context);
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
@@ -63,7 +50,7 @@ namespace Admin.API.Filters
 
             try
             {
-                configValue = config.GetSection("StriveAdminSettings:" + section)[name];
+                configValue = _config.GetSection("StriveAdminSettings:" + section)[name];
                 if (configValue is null)
                 {
                     configValue = string.Empty;
@@ -78,36 +65,37 @@ namespace Admin.API.Filters
 
         private void GetDetailsFromToken(ActionExecutingContext context)
         {
-            bool isAuth = true;
-            string userGuid = string.Empty;
-            string schemaName = string.Empty;
+            var isAuth = true;
+            var userGuid = string.Empty;
+            var schemaName = string.Empty;
             if (!context.HttpContext.Request.Path.Value.Contains("Admin/Login") &&
-                 !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh"))
+                 !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh") &&
+                 !context.HttpContext.Request.Path.Value.Contains("Admin/Weather"))
             {
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
                 schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
             }
-            SetDBConnection(userGuid, schemaName, isAuth);
+            SetDbConnection(userGuid, schemaName, isAuth);
         }
 
-        private void SetDBConnection(string UserGuid, string SchemaName, bool isAuth = false)
+        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false)
         {
-            string strConnectionString = Pick("ConnectionStrings", "StriveConnection");
+            var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
 
             if (isAuth)
             {
-                tenant.SetConnection(strConnectionString);
+                _tenant.SetConnection(strConnectionString);
             }
             else
             {
-                string strTenantSchema = cache.GetString(SchemaName);
-                bool IsSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
+                var strTenantSchema = _cache.GetString(schemaName);
+                var isSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
 
-                if (!IsSchemaAvailable) tenant.SetConnection(strConnectionString);
+                if (!isSchemaAvailable) _tenant.SetConnection(strConnectionString);
 
-                var tenantSchema = (IsSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
-                    new AuthManagerBpl(cache, tenant).GetTenantSchema(Guid.Parse(UserGuid));
+                var tenantSchema = (isSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
+                    new AuthManagerBpl(_cache, _tenant).GetTenantSchema(Guid.Parse(userGuid));
 
                 if (tenantSchema is null)
                 {
@@ -115,7 +103,7 @@ namespace Admin.API.Filters
                 }
 
                 strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
-                tenant.SetConnection(strConnectionString);
+                _tenant.SetConnection(strConnectionString);
             }
         }
     }

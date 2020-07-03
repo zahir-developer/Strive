@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Strive.BusinessEntities;
+﻿using System.Collections.Generic;
+using Strive.BusinessEntities.Employee;
 using Strive.Common;
 
 namespace Strive.BusinessLogic

@@ -11,10 +11,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-productSetup>
         <tr>
-            <td>{{productSetup.productId}}</td>
-            <td>{{productSetup.productType}}</td>
-            <td>{{productSetup.productName}}</td>
-            <td>{{productSetup.cost}}</td>
+            <td>{{productSetup.ProductCode}}</td>
+            <td>{{productSetup.ProductType}}</td>
+            <td>{{productSetup.ProductName}}</td>
+            <td>{{productSetup.Cost}}</td>
             <td>
                 <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
                                 (click)="add('edit', productSetup)"></em>&nbsp;&nbsp;

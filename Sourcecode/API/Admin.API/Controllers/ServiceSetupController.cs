@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessLogic;
-using Strive.BusinessLogic.ServiceSetup;
 using Strive.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Admin.API.Controllers
 {
@@ -14,46 +10,46 @@ namespace Admin.API.Controllers
     [Route("Admin/[Controller]")]
     public class ServiceSetupController : ControllerBase
     {
-        IServiceSetupBpl _ServiceSetupBpl = null;
+        readonly IServiceSetupBpl _serviceSetupBpl = null;
 
-        public ServiceSetupController(IServiceSetupBpl ServiceSetupBpl)
+        public ServiceSetupController(IServiceSetupBpl serviceSetupBpl)
         {
-            _ServiceSetupBpl = ServiceSetupBpl;
+            _serviceSetupBpl = serviceSetupBpl;
         }
 
         [HttpGet]
         [Route("GetAll")]
         public Result GetAllServiceSetup()
         {
-            return _ServiceSetupBpl.GetServiceSetupDetails();
+            return _serviceSetupBpl.GetServiceSetupDetails();
         }
 
         [HttpGet]
         [Route("GetAllServiceType")]
         public Result GetAllServiceType()
         {
-            return _ServiceSetupBpl.GetAllServiceType();
+            return _serviceSetupBpl.GetAllServiceType();
         }
 
         [HttpGet]
         [Route("GetServiceById/{id}")]
         public Result GetServiceSetupById(int id)
         {
-            return _ServiceSetupBpl.GetServiceSetupById(id);
+            return _serviceSetupBpl.GetServiceSetupById(id);
         }
 
         [HttpPost]
         [Route("Save")]
         public Result SaveNewService([FromBody] List<Strive.BusinessEntities.ServiceSetup.tblService> lstServiceSetup)
         {
-            return _ServiceSetupBpl.SaveNewServiceDetails(lstServiceSetup);
+            return _serviceSetupBpl.SaveNewServiceDetails(lstServiceSetup);
         }
 
         [HttpDelete]
         [Route("Delete/{id}")]
         public Result DeleteServiceById(int id)
         {
-            return _ServiceSetupBpl.DeleteServiceById(id);
+            return _serviceSetupBpl.DeleteServiceById(id);
         }
     }
 }

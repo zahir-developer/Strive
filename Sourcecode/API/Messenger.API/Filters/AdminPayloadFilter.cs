@@ -5,25 +5,22 @@ using Newtonsoft.Json;
 using Strive.BusinessEntities;
 using Strive.Common;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Messenger.Api.Filters
 {
     public class AdminPayloadFilter : IActionFilter
     {
-        private readonly IConfiguration config;
-        private readonly IDistributedCache cache;
-        ITenantHelper tenant;
-        GData gdata = new GData();
+        private readonly IConfiguration _config;
+        private readonly IDistributedCache _cache;
+        readonly ITenantHelper _tenant;
+        readonly GData gdata = new GData();
 
         public AdminPayloadFilter(IConfiguration conf, IDistributedCache dcache, ITenantHelper tenantHelper)
         {
-            config = conf;
-            cache = dcache;
-            tenant = tenantHelper;
+            _config = conf;
+            _cache = dcache;
+            _tenant = tenantHelper;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -61,7 +58,7 @@ namespace Messenger.Api.Filters
 
             try
             {
-                configValue = config.GetSection("StriveMessengerSettings:" + section)[name];
+                configValue = _config.GetSection("StriveMessengerSettings:" + section)[name];
                 if (configValue is null)
                 {
                     configValue = string.Empty;
@@ -92,16 +89,16 @@ namespace Messenger.Api.Filters
 
             if (isAuth)
             {
-                tenant.SetConnection(strConnectionString);
+                _tenant.SetConnection(strConnectionString);
             }
             else
             {
-                string strTenantSchema = cache.GetString(userGuid);
+                string strTenantSchema = _cache.GetString(userGuid);
                 if (!string.IsNullOrEmpty(strTenantSchema))
                 {
                     var tenantSchema = JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema);
                     strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
-                    tenant.SetConnection(strConnectionString);
+                    _tenant.SetConnection(strConnectionString);
                 }
             }
         }

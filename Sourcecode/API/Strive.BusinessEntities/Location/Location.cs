@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Strive.BusinessEntities
 {
-    public class Location
+    public abstract class Location
     {
         public int LocationId { get; set; }
         public int? LocationType { get; set; }
