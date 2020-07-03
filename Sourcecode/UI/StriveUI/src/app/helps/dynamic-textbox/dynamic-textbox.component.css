@@ -1,0 +1,5 @@
+.btn-primary {
+    width: 64% !important;
+    height: calc(3.1em + 0.1rem + 2px) !important;
+    vertical-align: middle !important;
+}

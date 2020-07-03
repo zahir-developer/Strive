@@ -1,0 +1,16 @@
+<div class="card">
+    <!-- header slot here -->
+    <div class="card-header bg-primary text-white" *ngIf="showHeader">
+        <ng-content select="card-header"></ng-content>
+    </div>
+    <!-- body slot here -->
+    <div class="card-body" *ngIf="!collapsable">
+        <div class="overlay text-center text-white" *ngIf="loading"><i class="fa fa-spin fa-spinner"></i>
+            &nbsp;<span>Please Wait</span></div>
+        <ng-content select="card-body"></ng-content>
+    </div>
+    <!-- footer -->
+    <div class="card-footer" *ngIf="showFooter">
+        <ng-content select="card-footer"></ng-content>
+    </div>
+</div>

@@ -32,8 +32,8 @@
     
     .btn-primary
     {
-        background-color: #1DC9B7;
-        border-color: #1DC5B3;
+        background-color: #1DC9B7 !important;
+        border-color: #1DC5B3 !important;
     }
     
     .btn.btn-primary:active,
