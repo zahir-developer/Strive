@@ -24,7 +24,7 @@ namespace Strive.BusinessLogic.CashRegister
             try
             {
                 var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterByDate(dateTime);
-                _resultContent.Add(lstCashRegisterConsolidate.WithName("Cash Register By Current Date"));
+                _resultContent.Add(lstCashRegisterConsolidate.WithName("CashRegister"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)

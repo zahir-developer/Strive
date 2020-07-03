@@ -33,12 +33,12 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public List<CashRegisterConsolidate> GetCashRegisterByDate(DateTime dateTime)
+        public List<CashRegister> GetCashRegisterByDate(DateTime dateTime)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<CashRegisterConsolidate> lstResource = new List<CashRegisterConsolidate>();
-            dynParams.Add("@currentDate", dateTime);
-            var res = db.Fetch<CashRegisterConsolidate>(SPEnum.USPGETCASHREGISTERBYDATE.ToString(), dynParams);
+            List<CashRegister> lstResource = new List<CashRegister>();
+            dynParams.Add("@EnteredDate", dateTime);
+            var res = db.FetchRelation4<CashRegister, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
             return res;
         }
     }
