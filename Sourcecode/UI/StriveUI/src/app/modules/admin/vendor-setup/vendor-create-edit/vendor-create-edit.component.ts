@@ -15,26 +15,33 @@ export class VendorCreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
+  submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
     this.vendorSetupForm = this.fb.group({
       supplierId: ['', Validators.required],
       vin: ['', Validators.required],
-      vendorAlias: ['', Validators.required],
+      vendorAlias: [''],
       name: ['', Validators.required],
       supplierAddress: ['', Validators.required],
-      zipcode: ['', Validators.required],
+      zipcode: ['', [Validators.required]],
       state: ['', Validators.required],
-      country: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      email: ['', Validators.required],
-      fax: ['', Validators.required]
+      country: ['',],
+      phoneNumber: ['',],
+      email: ['', Validators.email],
+      fax: ['',]
     });
+    this.submitted = false;
+    this.State = ["state1","state2","state3"];
+    this.Country = ["USA"];
+    this.vendorSetupForm.controls['country'].patchValue(this.Country);
+    this.vendorSetupForm.controls['supplierId'].patchValue(1);
+    this.vendorSetupForm.controls['supplierId'].disable();
     console.log(this.selectedData);
     if (this.selectedData !== undefined && this.selectedData.length !== 0) {
       this.vendorSetupForm.reset();
-      this.vendorSetupForm.setValue({
+      this.vendorSetupForm.patchValue({
         supplierId: this.selectedData.SupplierId,
         vin: this.selectedData.Vin,
         vendorAlias: this.selectedData.VendorAlias,
@@ -50,11 +57,15 @@ export class VendorCreateEditComponent implements OnInit {
     }
   }
 
-  change(data){
-    this.vendorSetupForm.value.fax = data;
+  get f(){
+    return this.vendorSetupForm.controls;
   }
-  submit() {
-    console.log('submitted');
+  
+  submit() {  
+    this.submitted = true;
+    if(this.vendorSetupForm.invalid){
+      return;
+    }  
     const sourceObj = [];
     const formObj = {
       supplierId: this.vendorSetupForm.value.supplierId,
