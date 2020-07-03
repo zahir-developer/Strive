@@ -2,7 +2,7 @@
 
 namespace Strive.BusinessEntities.CashRegister
 {
-    public abstract class CashRegisterConsolidate
+    public class CashRegisterConsolidate
     {
         public long CashRegBillId { get; set; }
         public int Ones { get; set;}

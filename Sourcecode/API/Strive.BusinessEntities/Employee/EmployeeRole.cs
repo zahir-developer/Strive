@@ -1,6 +1,6 @@
 ﻿namespace Strive.BusinessEntities.Employee
 {
-    public abstract class EmployeeRole
+    public class EmployeeRole
     {
         public int EmployeeRoleId { get; set; }
         public string RoleName { get; set; }

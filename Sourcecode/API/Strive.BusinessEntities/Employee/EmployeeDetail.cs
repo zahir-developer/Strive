@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Strive.BusinessEntities.Employee
 {
-    public abstract class EmployeeDetail
+    public class EmployeeDetail
     {
         public int EmployeeDetailId { get; set; }
 		public int EmployeeId { get; set; }
