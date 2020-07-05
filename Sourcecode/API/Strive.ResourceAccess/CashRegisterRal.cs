@@ -25,10 +25,14 @@ namespace Strive.ResourceAccess
             db = new Db(_dbconnection);
         }
      
-        public bool SaveTodayCashRegister(List<CashRegisterConsolidate> lstCashRegisterConsolidate)
+        public bool SaveTodayCashRegister(List<CashRegister> lstCashRegisterConsolidate)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@tvpCashRegister", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegister"));
+            dynParams.Add("@tvpCashRegisterBills", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterBills"));
+            dynParams.Add("@tvpCashRegisterCoins", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterCoins"));
+            dynParams.Add("@tvpCashRegisterOthers", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterOthers"));
+            dynParams.Add("@tvpCashRegisterRolls", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterRolls"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVETODAYCASHREGISTER.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
