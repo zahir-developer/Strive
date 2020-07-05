@@ -25,7 +25,7 @@ namespace Strive.ResourceAccess
             db = new Db(_dbconnection);
         }
      
-        public bool SaveTodayCashRegister(List<CashRegisterConsolidate> lstCashRegisterConsolidate)
+        public bool SaveTodayCashRegister(List<CashRegister> lstCashRegisterConsolidate)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@tvpCashRegister", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegister"));
@@ -37,7 +37,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<CashRegisterConsolidate> lstResource = new List<CashRegisterConsolidate>();
-            dynParams.Add("@currentDate", dateTime);
+            dynParams.Add("@EnteredDateTime", dateTime);
             var res = db.Fetch<CashRegisterConsolidate>(SPEnum.uspGetCashRegisterDetails.ToString(), dynParams);
             return res;
         }
