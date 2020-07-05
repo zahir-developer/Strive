@@ -34,7 +34,7 @@ namespace Strive.BusinessEntities
         USPGETSERVICEBYID,
         //Cash Register
         USPSAVETODAYCASHREGISTER,
-        uspGetCashRegisterDetails
+        USPGETCASHREGISTERDETAILS
 
     }
 

@@ -109,6 +109,18 @@ namespace Strive.Repository
             return result;
         }
 
+        public List<T> FetchRelation4<T, T1, T2, T3, T4>(string spName, DynamicParameters dynParam)
+        {
+            dynamic fetchlist = dbcon.Query<dynamic>(spName, dynParam, commandType: CommandType.StoredProcedure);
+            AutoMapper.Configuration.AddIdentifiers(typeof(T), new List<string> { typeof(T).Name });
+            AutoMapper.Configuration.AddIdentifiers(typeof(T1), new List<string> { typeof(T1).Name + "Id" });
+            AutoMapper.Configuration.AddIdentifiers(typeof(T2), new List<string> { typeof(T2).Name + "Id" });
+            AutoMapper.Configuration.AddIdentifiers(typeof(T3), new List<string> { typeof(T3).Name + "Id" });
+            AutoMapper.Configuration.AddIdentifiers(typeof(T4), new List<string> { typeof(T4).Name + "Id" });
+            var result = (AutoMapper.MapDynamic<T>(fetchlist) as IEnumerable<T>).ToList();
+            return result;
+        }
+
 
         public List<T> FetchWithRelation<T, T1>(string spName, string internalproperty = null)
             where T : class, new()
