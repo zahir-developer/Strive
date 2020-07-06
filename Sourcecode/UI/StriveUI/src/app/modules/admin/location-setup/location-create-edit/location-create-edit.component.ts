@@ -18,6 +18,7 @@ export class LocationCreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
+  submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,private locationService: LocationService) { }
 
   ngOnInit() {
@@ -27,11 +28,15 @@ export class LocationCreateEditComponent implements OnInit {
       locationAddress: ['', Validators.required],
       zipcode: ['', Validators.required],
       state: ['', Validators.required],
-      country: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      email: ['', Validators.required],
-      franchise: ['', Validators.required]
+      country: ['',],
+      phoneNumber: ['',],
+      email: ['',],
+      franchise: ['',]
     });
+    this.submitted = false;
+    this.State = ["state1","state2","state3"];
+    this.Country = ["USA"];
+    this.locationSetupForm.controls['country'].patchValue(this.Country);
     console.log(this.selectedData);
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
@@ -62,27 +67,35 @@ export class LocationCreateEditComponent implements OnInit {
   change(data){
     this.locationSetupForm.value.franchise = data;
   }
+
+  get f(){
+    return this.locationSetupForm.controls;
+  }
+
   submit() {
-    console.log('submitted');
+    this.submitted = true;
+    if(this.locationSetupForm.invalid){
+      return;
+    }
     const sourceObj = [];
     this.address=[{
       addressId:1,
-      locationAddressId:this.locationSetupForm.value.locationId == "" ? "" : this.locationSetupForm.value.locationId,
-      address1:this.locationSetupForm.value.locationAddress == "" ? "" :this.locationSetupForm.value.locationAddress,
+      locationAddressId: this.locationSetupForm.value.locationId,
+      address1: this.locationSetupForm.value.locationAddress,
       address2:"",
       phoneNumber2:"",
       isActive:true,
-      zip: this.locationSetupForm.value.zipcode == "" ? "" : this.locationSetupForm.value.zipcode,
+      zip: this.locationSetupForm.value.zipcode,
       state: this.locationSetupForm.value.state == "" ? 0 : this.locationSetupForm.value.state,
       city: 0,//this.locationSetupForm.value.country,
-      phoneNumber: this.locationSetupForm.value.phoneNumber == "" ? "" : this.locationSetupForm.value.phoneNumber,
-      email: this.locationSetupForm.value.email == "" ? "" : this.locationSetupForm.value.email
+      phoneNumber: this.locationSetupForm.value.phoneNumber,
+      email: this.locationSetupForm.value.email
     }]
     const formObj = {
-      locationId: this.locationSetupForm.value.locationId == "" ? "" : this.locationSetupForm.value.locationId,
+      locationId: this.locationSetupForm.value.locationId,
       locationType:0,      
-      locationName: this.locationSetupForm.value.locationName == "" ? "" : this.locationSetupForm.value.locationName,
-      locationDescription: this.locationSetupForm.value.locationAddress == "" ? "" : this.locationSetupForm.value.locationAddress,
+      locationName: this.locationSetupForm.value.locationName,
+      locationDescription: this.locationSetupForm.value.locationAddress,
       isActive:true,
       taxRate:"",
       siteUrl:"",

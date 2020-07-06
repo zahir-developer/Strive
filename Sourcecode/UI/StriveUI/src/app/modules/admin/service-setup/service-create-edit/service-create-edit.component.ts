@@ -21,6 +21,7 @@ export class ServiceCreateEditComponent implements OnInit {
   Status:any;
   isChecked:boolean;
   today : Date = new Date();
+  submitted: boolean;
   constructor(private serviceSetup: ServiceSetupService,private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
@@ -28,22 +29,29 @@ export class ServiceCreateEditComponent implements OnInit {
     //this.serviceType=["Washes","Details","Additional Services","Upcharges","Air Fresheners","Discounts"];
     this.serviceSetupForm = this.fb.group({
       serviceType: ['', Validators.required],
-      serviceId: ['', Validators.required],
+      serviceId: ['',],
       name: ['', Validators.required],
       cost: ['', Validators.required],
-      commission: ['', Validators.required],
-      commissionType: ['', Validators.required],
-      upcharge: ['', Validators.required],
-      parentName: ['', Validators.required],
-      status: ['', Validators.required]
+      commission: ['',],
+      commissionType: ['',],
+      upcharge: ['',],
+      parentName: ['',],
+      status: ['',]
     });
+    this.serviceSetupForm.controls['serviceId'].patchValue(1);
+    this.serviceSetupForm.controls['serviceId'].disable();
     this.getAllServiceType();
     this.isChecked=false;
+    this.submitted = false;
     console.log(this.selectedData);
     if (this.isEdit === true) {
       this.serviceSetupForm.reset();
       this.getServiceById();      
     }
+  }
+
+  get f(){
+    return this.serviceSetupForm.controls;
   }
 
   getServiceById(){
@@ -85,7 +93,11 @@ export class ServiceCreateEditComponent implements OnInit {
     }
   }
   submit() {
-    console.log('submitted');
+    this.submitted = true;
+    if(this.serviceSetupForm.invalid){
+      return;
+    }
+
     const sourceObj = [];
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,

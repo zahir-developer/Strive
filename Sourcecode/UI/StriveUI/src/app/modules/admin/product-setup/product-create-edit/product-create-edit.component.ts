@@ -18,6 +18,7 @@ export class ProductCreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
+  submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
@@ -26,19 +27,21 @@ export class ProductCreateEditComponent implements OnInit {
     this.size=["S","M","L","XL"];
     this.productSetupForm = this.fb.group({
       productType: ['', Validators.required],
-      productId: ['', Validators.required],
+      productId: ['',],
       locationName: ['', Validators.required],
       name: ['', Validators.required],
-      size: ['', Validators.required],
-      quantity: ['', Validators.required],
+      size: ['',],
+      quantity: ['',],
       cost: ['', Validators.required],
-      taxable: ['', Validators.required],
-      taxAmount: ['', Validators.required],      
-      status: ['', Validators.required],
-      vendor: ['', Validators.required],
-      thresholdAmount: ['', Validators.required]
+      taxable: ['',],
+      taxAmount: ['',],      
+      status: ['',],
+      vendor: ['',],
+      thresholdAmount: ['',]
     });
-    console.log(this.selectedData);
+    this.submitted = false;
+    this.productSetupForm.controls['productId'].patchValue(1);
+    this.productSetupForm.controls['productId'].disable();
     if (this.selectedData !== undefined && this.selectedData.length !== 0) {
       this.productSetupForm.reset();
       this.productSetupForm.setValue({
@@ -58,6 +61,10 @@ export class ProductCreateEditComponent implements OnInit {
     }
   }
 
+  get f(){
+    return this.productSetupForm.controls;
+  }
+
   change(data){
     this.productSetupForm.value.taxable = data;
     if(data === true){
@@ -67,7 +74,10 @@ export class ProductCreateEditComponent implements OnInit {
     }
   }
   submit() {
-    console.log('submitted');
+    this.submitted = true;
+    if(this.productSetupForm.invalid){
+      return;
+    }
     const sourceObj = [];
     const formObj = {
       productType: this.productSetupForm.value.productType,

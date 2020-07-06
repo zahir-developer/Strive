@@ -3,10 +3,13 @@
     <div class="form-group">
         <div class="col-4">
             <label><b>Service Type : </b></label>
-            <select class="form-control" formControlName="serviceType">
+            <select class="form-control" formControlName="serviceType" [ngClass]="{ 'is-invalid': submitted || f.serviceType.touched && f.serviceType.errors }">
                 <option value="">Select </option>
                 <option *ngFor="let serviceType of serviceType" value="{{serviceType.id}}">{{serviceType.CodeValue}}</option>
             </select>
+            <div *ngIf="submitted || f.serviceType.touched && f.serviceType.errors" class="invalid-feedback">
+                <div *ngIf="f.serviceType.errors.required">Service Type is required</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -18,13 +21,19 @@
     <div class="form-group">
         <div class="col-4">
             <label><b>Name : </b></label>
-            <input type="text" class="form-control"  formControlName="name">
+            <input type="text" class="form-control"  formControlName="name" [ngClass]="{ 'is-invalid': submitted || f.name.touched && f.name.errors }">
+            <div *ngIf="submitted || f.name.touched && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
             <label><b>Cost : </b></label>
-            <input type="text" class="form-control"  formControlName="cost">
+            <input type="text" class="form-control"  formControlName="cost" [ngClass]="{ 'is-invalid': submitted || f.cost.touched && f.cost.errors }">
+            <div *ngIf="submitted || f.cost.touched && f.cost.errors" class="invalid-feedback">
+                <div *ngIf="f.cost.errors.required">Cost is required</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
