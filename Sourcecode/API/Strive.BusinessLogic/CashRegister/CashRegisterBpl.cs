@@ -24,7 +24,7 @@ namespace Strive.BusinessLogic.CashRegister
             try
             {
                 var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterByDate(dateTime);
-                _resultContent.Add(lstCashRegisterConsolidate.WithName("Cash Register By Current Date"));
+                _resultContent.Add(lstCashRegisterConsolidate.WithName("CashRegister"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -33,7 +33,7 @@ namespace Strive.BusinessLogic.CashRegister
             }
             return _result;
         }
-        public Result SaveTodayCashRegister(List<CashRegisterConsolidate> lstCashRegisterConsolidate)
+        public Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate)
         {
             try
             {

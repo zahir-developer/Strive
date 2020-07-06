@@ -25,20 +25,24 @@ namespace Strive.ResourceAccess
             db = new Db(_dbconnection);
         }
      
-        public bool SaveTodayCashRegister(List<CashRegisterConsolidate> lstCashRegisterConsolidate)
+        public bool SaveTodayCashRegister(List<CashRegister> lstCashRegisterConsolidate)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@tvpCashRegister", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegister"));
+            dynParams.Add("@tvpCashRegisterBills", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterBills"));
+            dynParams.Add("@tvpCashRegisterCoins", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterCoins"));
+            dynParams.Add("@tvpCashRegisterOthers", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterOthers"));
+            dynParams.Add("@tvpCashRegisterRolls", lstCashRegisterConsolidate.ToDataTable().AsTableValuedParameter("tvpCashRegisterRolls"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVETODAYCASHREGISTER.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
-        public List<CashRegisterConsolidate> GetCashRegisterByDate(DateTime dateTime)
+        public List<CashRegister> GetCashRegisterByDate(DateTime dateTime)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<CashRegisterConsolidate> lstResource = new List<CashRegisterConsolidate>();
-            dynParams.Add("@currentDate", dateTime);
-            var res = db.Fetch<CashRegisterConsolidate>(SPEnum.USPGETCASHREGISTERBYDATE.ToString(), dynParams);
+            List<CashRegister> lstResource = new List<CashRegister>();
+            dynParams.Add("@EnteredDate", dateTime);
+            var res = db.FetchRelation4<CashRegister, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
             return res;
         }
     }
