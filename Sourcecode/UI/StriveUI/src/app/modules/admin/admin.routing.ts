@@ -8,6 +8,8 @@ import { LocationSetupComponent } from './location-setup/location-setup.componen
 import { ServiceSetupComponent } from './service-setup/service-setup.component';
 import { ProductSetupComponent } from './product-setup/product-setup.component';
 import { VendorSetupComponent } from './vendor-setup/vendor-setup.component';
+import { CashRegisterComponent } from './cash-register/cash-register.component';
+import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 
 
 const adminRoutes: Routes = [
@@ -19,7 +21,9 @@ const adminRoutes: Routes = [
         {path: 'location', component: LocationSetupComponent},
         {path: 'service', component: ServiceSetupComponent},
         {path: 'product', component: ProductSetupComponent},
-        {path: 'vendor', component: VendorSetupComponent}     
+        {path: 'vendor', component: VendorSetupComponent},
+        {path: 'cashregister', component: CashRegisterComponent},
+        {path: 'closeoutregister', component: CloseoutRegisterComponent}     
       ]
   }
 ];
