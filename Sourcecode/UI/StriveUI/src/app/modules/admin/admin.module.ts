@@ -27,12 +27,14 @@ import { VendorSetupListComponent } from './vendor-setup/vendor-setup-list/vendo
 import { VendorCreateEditComponent } from './vendor-setup/vendor-create-edit/vendor-create-edit.component';
 import { ConfirmationService } from 'primeng/api';
 import { OnlynumberDirective } from 'src/app/shared/Directive/only-number.directive';
+import { CashRegisterComponent } from './cash-register/cash-register.component';
+import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
   SetupComponent,LocationSetupComponent,LocationSetupListComponent,LocationCreateEditComponent,ServiceSetupComponent,ServiceSetupListComponent,
   ServiceCreateEditComponent,ProductSetupComponent,ProductSetupListComponent,ProductCreateEditComponent,VendorSetupComponent,
-  VendorSetupListComponent,VendorCreateEditComponent,OnlynumberDirective],
+  VendorSetupListComponent,VendorCreateEditComponent,OnlynumberDirective,CashRegisterComponent,CloseoutRegisterComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
