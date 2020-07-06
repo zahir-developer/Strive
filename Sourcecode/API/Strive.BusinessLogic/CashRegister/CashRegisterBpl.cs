@@ -19,11 +19,11 @@ namespace Strive.BusinessLogic.CashRegister
             _tenant = tenantHelper;
         }
         
-        public Result GetCashRegisterByDate(DateTime dateTime)
+        public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
             try
             {
-                var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterByDate(dateTime);
+                var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
                 _resultContent.Add(lstCashRegisterConsolidate.WithName("CashRegister"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

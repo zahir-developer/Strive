@@ -22,17 +22,17 @@ namespace Admin.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetCashRegisterByDate/{dateTime}")]
-        public Result GetCashRegisterByDate(DateTime dateTime)
+        [Route("GetCashRegisterDetails/{cashRegisterType}&{locationId}&{dateTime}")]
+        public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
-            return _CashRegisterBpl.GetCashRegisterByDate(dateTime);
+            return _CashRegisterBpl.GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
         }
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveTodayCashRegister([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate)
+        public Result SaveTodayCashRegister([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegister)
         {
-            return _CashRegisterBpl.SaveTodayCashRegister(lstCashRegisterConsolidate);
+            return _CashRegisterBpl.SaveTodayCashRegister(lstCashRegister);
         }
     }
 }
