@@ -1,17 +1,18 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxUiLoaderModule, NgxUiLoaderConfig, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
+import { NgxUiLoaderModule} from 'ngx-ui-loader';
 import {FullCalendarModule} from 'primeng/fullcalendar';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { MessageServiceToastr } from './common-service/message.service';
-
-
+import { CardComponent } from './components/card/card.component';
+import { MessageServiceToastr } from './services/common-service/message.service';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import {AccordionModule} from 'primeng/accordion';
 
 @NgModule({
-  declarations: [],
+  declarations: [CardComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -19,9 +20,11 @@ import { MessageServiceToastr } from './common-service/message.service';
     HttpClientModule,
     NgxUiLoaderModule,
     FullCalendarModule,
+    AutoCompleteModule,
+    AccordionModule,
     TimepickerModule.forRoot()
   ],
-  exports: [FullCalendarModule, TimepickerModule],
+  exports: [FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, AccordionModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 

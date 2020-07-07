@@ -16,7 +16,7 @@ export class SetupComponent implements OnInit {
 
   ngOnInit() {
 
-    this.sysSetup = ["Basic Setup","Service Setup","Product Setup","Vendor Setup"];
+    this.sysSetup = ["Location Setup","Service Setup","Product Setup","Vendor Setup"];
     this.setupForm = this.fb.group({
         systemSetup: ['', Validators.required],
     });
@@ -25,7 +25,7 @@ export class SetupComponent implements OnInit {
   submit(){
       if(this.setupForm.value.systemSetup === this.sysSetup[0])
       {
-          this.loadBasicSetup();
+          this.loadLocationSetup();
       }
       else if(this.setupForm.value.systemSetup === this.sysSetup[1])
       {
@@ -45,8 +45,8 @@ export class SetupComponent implements OnInit {
       // }
   }
 
-  loadBasicSetup(): void {
-    this.router.navigate([`/admin/basic`], { relativeTo: this.route });
+  loadLocationSetup(): void {
+    this.router.navigate([`/admin/location`], { relativeTo: this.route });
   }
 
   loadServiceSetup(): void {

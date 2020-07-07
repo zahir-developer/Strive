@@ -9,7 +9,10 @@
     <div class="form-group">
         <div class="col-4">
             <label><b>VIN : </b></label>
-            <input type="text" class="form-control"  formControlName="vin">
+            <input type="text" class="form-control"  formControlName="vin" [ngClass]="{ 'is-invalid': submitted || f.vin.touched && f.vin.errors }">
+            <div *ngIf="submitted || f.vin.touched && f.vin.errors" class="invalid-feedback">
+                <div *ngIf="f.vin.errors.required">VIN is required</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -21,35 +24,47 @@
     <div class="form-group">
         <div class="col-4">
             <label><b>Name : </b></label>
-            <input type="text" class="form-control"  formControlName="name">
+            <input type="text" class="form-control"  formControlName="name" [ngClass]="{ 'is-invalid':submitted || f.name.touched && f.name.errors }">
+            <div *ngIf="submitted || f.name.touched && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
             <label><b>Supplier Address : </b></label>
-            <input type="text" class="form-control"  formControlName="supplierAddress">
+            <input type="text" class="form-control"  formControlName="supplierAddress" [ngClass]="{ 'is-invalid':submitted || f.supplierAddress.touched && f.supplierAddress.errors }">
+            <div *ngIf="submitted || f.supplierAddress.touched && f.supplierAddress.errors" class="invalid-feedback">
+                <div *ngIf="f.supplierAddress.errors.required">Supplier Address is required</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
             <label><b>ZipCode: </b></label>
-            <input type="text" class="form-control"  formControlName="zipcode">
+            <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control"  formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted || f.zipcode.touched && f.zipcode.errors }">
+            <div *ngIf="submitted || f.zipcode.touched && f.zipcode.errors" class="invalid-feedback">
+                <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
+                <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
             <label><b>State : </b></label>
-            <select class="form-control" formControlName="state">
+            <select class="form-control" formControlName="state" [ngClass]="{ 'is-invalid':submitted || f.state.touched && f.state.errors }">
                 <option value="">Select </option>
                 <option *ngFor="let state of State">{{state}}</option>
             </select>
+            <div *ngIf="submitted || f.state.touched && f.state.errors" class="invalid-feedback">
+                <div *ngIf="f.state.errors.required">State is required</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
             <label><b>Country : </b></label>
             <select class="form-control" formControlName="country">
-                <option value="">Select </option>
                 <option *ngFor="let country of Country">{{country}}</option>
             </select>
         </div>
@@ -57,13 +72,16 @@
     <div class="form-group">
         <div class="col-4">
             <label><b>Phone Number : </b></label>
-            <input type="text" class="form-control"  formControlName="phoneNumber">
+            <input type="text" class="form-control"  formControlName="phoneNumber" numbersOnly>
         </div>
     </div>
     <div class="form-group">
         <div class="col-4">
             <label><b>Email : </b></label>
-            <input type="text" class="form-control"  formControlName="email">
+            <input type="email" class="form-control"  formControlName="email" [ngClass]="{ 'is-invalid': f.email.errors }">
+            <div *ngIf="f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors">Please enter valid email address</div>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -74,7 +92,7 @@
     </div>
 
     <div class="formGroup float-right">
-        <button type="button" class="btn btn-primary btn-sm " (click)="submit()">Save</button>
+        <button type="button" class="btn btn-primary btn-sm " (click)="submit() ">Save</button>
         <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
     </div>
     </form>

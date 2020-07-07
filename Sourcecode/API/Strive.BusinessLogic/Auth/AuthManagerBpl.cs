@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.Employee;
 using Strive.Common;
 using Strive.ResourceAccess;
 

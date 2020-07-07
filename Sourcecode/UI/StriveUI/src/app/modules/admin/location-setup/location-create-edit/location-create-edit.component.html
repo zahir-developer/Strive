@@ -1,0 +1,88 @@
+<div class="container-fluid">
+    <form [formGroup]="locationSetupForm">
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Location ID : </b></label>
+            <input type="text" class="form-control"  formControlName="locationId" [ngClass]="{ 'is-invalid': submitted || f.locationId.touched && f.locationId.errors }">
+            <div *ngIf="submitted || f.locationId.touched && f.locationId.errors" class="invalid-feedback">
+                <div *ngIf="f.locationId.errors.required">Location Id is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Location Name : </b></label>
+            <input type="text" class="form-control"  formControlName="locationName" [ngClass]="{ 'is-invalid': submitted || f.locationName.touched && f.locationName.errors }">
+            <div *ngIf="submitted || f.locationName.touched && f.locationName.errors" class="invalid-feedback">
+                <div *ngIf="f.locationName.errors.required">Location Name is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Location Address : </b></label>
+            <input type="text" class="form-control"  formControlName="locationAddress" [ngClass]="{ 'is-invalid': submitted || f.locationAddress.touched && f.locationAddress.errors }">
+            <div *ngIf="submitted || f.locationAddress.touched && f.locationAddress.errors" class="invalid-feedback">
+                <div *ngIf="f.locationAddress.errors.required">Location Address is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>ZipCode: </b></label>
+            <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control"  formControlName="zipcode" [ngClass]="{ 'is-invalid': submitted || f.zipcode.touched && f.zipcode.errors }">
+            <div *ngIf="submitted || f.zipcodetouched && f.zipcode.errors" class="invalid-feedback">
+                <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
+                <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>State : </b></label>
+            <select class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': submitted || f.state.touched && f.state.errors }">
+                <option value="">Select </option>
+                <option *ngFor="let state of State">{{state}}</option>
+            </select>
+            <div *ngIf="submitted || f.state.touched && f.state.errors" class="invalid-feedback">
+                <div *ngIf="f.state.errors.required">State is required</div>
+            </div>
+          </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Country : </b></label>
+            <select class="form-control" formControlName="country">
+                <option value="">Select </option>
+                <option *ngFor="let country of Country">{{country}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Phone Number : </b></label>
+            <input numbersOnly type="text" class="form-control"  formControlName="phoneNumber">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label><b>Email : </b></label>
+            <input type="email" class="form-control"  formControlName="email">
+            <div *ngIf="f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors">Please enter valid email address</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">            
+            <input type="checkbox"  formControlName="franchise" (change)="change($event.target.checked)" >
+            <label><b> Franchise </b></label>
+        </div>
+    </div>
+
+    <div class="formGroup float-right">
+        <button type="button" class="btn btn-primary btn-sm " (click)="submit()">Save</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
+    </div>
+    </form>
+</div>

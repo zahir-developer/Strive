@@ -1,0 +1,43 @@
+<div class="col-4">
+    <form [formGroup]="locationSetupForm">
+        <div class="row">
+            <div class="col-6">
+                <label><b>Work Threshold Hour : </b></label>
+                <input type="text" class="form-control"  formControlName="workHour">
+            </div>
+        </div>               
+    </form>
+</div>
+<nbsp></nbsp>
+<button type="button" class="" (click)="add('add',[])">Add</button>
+<p-table [value]="locationSetupDetails">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Location ID</th>
+            <th>Location Name</th>
+            <th>Franchise?</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-locationSetup>
+        <tr>
+            <td>{{locationSetup.LocationId}}</td>
+            <td>{{locationSetup.LocationName}}</td>
+            <td>{{locationSetup.IsFranchise}}</td>
+            <td>{{locationSetup.PhoneNumber}}</td>
+            <td>{{locationSetup.Email}}</td>
+            <td>
+                <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
+                                (click)="add('edit', locationSetup)"></em>&nbsp;&nbsp;
+                            <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
+                                (click)="delete(locationSetup)"></em>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
+    [focusOnShow]="false" [style]="{width: '700px', height: '1000px'}">
+    <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-location-create-edit>
+</p-dialog>

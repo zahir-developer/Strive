@@ -13,9 +13,9 @@ import {DialogModule} from 'primeng/dialog';
 import { SchedulingComponent } from './scheduling/scheduling.component';
 import {SharedModule} from 'src/app/shared/shared.module'
 import { SetupComponent } from './system-setup/setup.component';
-import { BasicSetupComponent } from './basic-setup/basic-setup.component';
-import { BasicSetupListComponent } from './basic-setup/basic-setup-list/basic-setup-list.component';
-import { BasicCreateEditComponent } from './basic-setup/basic-create-edit/basic-create-edit.component';
+import { LocationSetupComponent } from './location-setup/location-setup.component';
+import { LocationSetupListComponent } from './location-setup/location-setup-list/location-setup-list.component';
+import { LocationCreateEditComponent } from './location-setup/location-create-edit/location-create-edit.component';
 import { ServiceSetupComponent } from './service-setup/service-setup.component';
 import { ServiceSetupListComponent } from './service-setup/service-setup-list/service-setup-list.component';
 import { ServiceCreateEditComponent } from './service-setup/service-create-edit/service-create-edit.component';
@@ -30,12 +30,16 @@ import { ThemeComponent } from './theme/theme.component';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { HeaderComponent } from './header/header.component';
 import { CardComponent } from './card/card.component';
+import { OnlynumberDirective } from 'src/app/shared/Directive/only-number.directive';
+import { CashRegisterComponent } from './cash-register/cash-register.component';
+import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
-  SetupComponent,BasicSetupComponent,BasicSetupListComponent,BasicCreateEditComponent,ServiceSetupComponent,ServiceSetupListComponent,
+  SetupComponent,LocationSetupComponent,LocationSetupListComponent,LocationCreateEditComponent,ServiceSetupComponent,ServiceSetupListComponent,
   ServiceCreateEditComponent,ProductSetupComponent,ProductSetupListComponent,ProductCreateEditComponent,VendorSetupComponent,
   VendorSetupListComponent,VendorCreateEditComponent, ThemeComponent, HeaderComponent, CardComponent],
+  VendorSetupListComponent,VendorCreateEditComponent,OnlynumberDirective,CashRegisterComponent,CloseoutRegisterComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

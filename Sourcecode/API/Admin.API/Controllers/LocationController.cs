@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using Strive.BusinessEntities;
-using Strive.BusinessLogic;
 using Strive.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Strive.BusinessLogic.Location;
 
 namespace Admin.API.Controllers
 {
@@ -15,7 +10,7 @@ namespace Admin.API.Controllers
     [Route("Admin/[Controller]")]
     public class LocationController : ControllerBase
     {
-        ILocationBpl _locationBpl = null;
+        readonly ILocationBpl _locationBpl = null;
 
         public LocationController(ILocationBpl locationBpl)
         {
@@ -24,7 +19,7 @@ namespace Admin.API.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public Result GetAlllocation()
+        public Result GetAllLocation()
         {
             return _locationBpl.GetLocationDetails();
         }
@@ -40,6 +35,13 @@ namespace Admin.API.Controllers
         public Result DeleteLocation(int id)
         {
             return _locationBpl.DeleteLocationDetails(id);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public Result GeteLocationById(int id)
+        {
+            return _locationBpl.GetLocationById(id);
         }
 
 

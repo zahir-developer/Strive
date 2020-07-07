@@ -1,15 +1,13 @@
-﻿using Strive.BusinessEntities;
+﻿using System.Collections.Generic;
 using Strive.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Strive.BusinessLogic
+namespace Strive.BusinessLogic.Location
 {
     public interface ILocationBpl
     {
         Result GetLocationDetails();
-        Result SaveLocationDetails(List<Location> lstLocation);
+        Result SaveLocationDetails(List<BusinessEntities.Location> lstLocation);
         Result DeleteLocationDetails(int id);
+        Result GetLocationById(int id);
     }
 }
