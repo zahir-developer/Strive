@@ -38,6 +38,7 @@
               "src/assets/css/layout.css",
               "src/assets/css/color.css",
               "src/styles.css",
+              // "src/app/themes/style.scss",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css"
             ],

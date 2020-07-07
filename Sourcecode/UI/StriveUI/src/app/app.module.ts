@@ -24,6 +24,9 @@ import {environment} from 'src/environments/environment';
 import {DialogModule} from 'primeng/dialog';
 import { EnvironmentService } from './shared/util/environment.service';
 import { DynamicTextboxComponent } from './helps/dynamic-textbox/dynamic-textbox.component';
+import { AuthService } from './shared/services/common-service/auth.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { HttpUtilsService } from './shared/util/http-utils.service';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -124,6 +127,7 @@ const load = (http: HttpClient) => {
       preventDuplicates: false,
      enableHtml : true
     }),
+    NgxSkeletonLoaderModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
   exports: [
@@ -143,7 +147,10 @@ const load = (http: HttpClient) => {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
-  }],
+  },
+  AuthService,
+  HttpUtilsService
+],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
