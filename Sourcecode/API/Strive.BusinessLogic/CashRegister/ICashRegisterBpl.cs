@@ -10,5 +10,7 @@ namespace Strive.BusinessLogic.CashRegister
     {
         Result GetCashRegisterByDate(DateTime datetime);
         Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate);
+        Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate);
+        
     }
 }

@@ -34,5 +34,12 @@ namespace Admin.API.Controllers
         {
             return _CashRegisterBpl.SaveTodayCashRegister(lstCashRegisterConsolidate);
         }
+
+        [HttpPost]
+        [Route("SaveNewApproach")]
+        public Result SaveCashRegisterNewApproach([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate)
+        {
+            return _CashRegisterBpl.SaveCashRegisterNewApproach(lstCashRegisterConsolidate);
+        }
     }
 }
