@@ -22,7 +22,7 @@ const adminRoutes: Routes = [
         {path: 'setup', component: SetupComponent},
         {path: 'location', component: LocationSetupComponent},
         {path: 'theme', component: ThemeComponent},
-        {path: 'basic', component: BasicSetupComponent},
+      //  {path: 'basic', component: ServiceSetupComponent},
         {path: 'service', component: ServiceSetupComponent},
         {path: 'product', component: ProductSetupComponent},
         {path: 'vendor', component: VendorSetupComponent},
