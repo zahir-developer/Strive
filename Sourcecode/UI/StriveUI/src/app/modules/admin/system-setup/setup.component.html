@@ -1,16 +1,36 @@
-<div class="container">
-    <form [formGroup]="setupForm" (ngSubmit)="submit()">           
-        <div class="form-group">
-            <div class="col-4">
-                <label><b>Sysyem Setup : </b></label>
-                <select class="form-control" formControlName="systemSetup">
-                    <option value="">Select </option>
-                    <option *ngFor="let setUp of sysSetup">{{setUp}}</option>
-                </select>            
-            </div>
-        </div>
-        <div class="formGroup float-right">
-            <button type="button" class="btn btn-primary btn-sm " (click)="submit()">Submit</button>
-        </div>
-    </form>
+<div class="portlet">
+    <div class="portlet-title">
+        <div class="caption bold"> System Setup </div>
+    </div>
 </div>
+<div class="row">
+  <div class=" col-lg-2 col-md-3 col-sm-12 col-xs-12">
+    <div class="nav flex-column nav-pills navi-tabs ipad" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active show" id="v-pills-basic-tab" data-toggle="pill" [routerLink]="'/admin/setup/location'" role="tab" aria-controls="v-pills-basic" aria-selected="false">
+        <i class="mdi mdi-pencil-circle ic-pencil"></i>
+        <span class="nav-title">Basic</span>
+      </a>
+      <a class="nav-link" id="v-pills-Service-tab" data-toggle="pill" [routerLink]="'/admin/setup/service'" role="tab" aria-controls="v-pills-Service" aria-selected="false">
+        <i class="mdi mdi-pencil-circle ic-pencil"></i>
+        <span class="nav-title">Service</span>
+      </a>
+      <a class="nav-link" id="v-pills-Product-tab" data-toggle="pill" [routerLink]="'/admin/setup/product'" role="tab" aria-controls="v-pills-Product" aria-selected="true">
+        <i class="mdi mdi-pencil-circle ic-pencil"></i>
+        <span class="nav-title">Product</span>
+      </a>
+      <a class="nav-link" id="v-pills-vendor-tab" data-toggle="pill" [routerLink]="'/admin/setup/vendor'" role="tab" aria-controls="v-pills-vendor" aria-selected="true">
+        <i class="mdi mdi-pencil-circle ic-pencil"></i>
+        <span class="nav-title">Vendor</span>
+      </a>
+      <a class="nav-link" id="v-pills-Membership-tab" data-toggle="pill" href="#v-pills-Membership" role="tab" aria-controls="v-pills-Membership" aria-selected="true">
+        <i class="mdi mdi-pencil-circle ic-pencil"></i>
+        <span class="nav-title">Membership</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
+
+<router-outlet></router-outlet>
