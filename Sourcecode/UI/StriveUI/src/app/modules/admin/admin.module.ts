@@ -38,8 +38,8 @@ import { CloseoutRegisterComponent } from './closeout-register/closeout-register
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
   SetupComponent,LocationSetupComponent,LocationSetupListComponent,LocationCreateEditComponent,ServiceSetupComponent,ServiceSetupListComponent,
   ServiceCreateEditComponent,ProductSetupComponent,ProductSetupListComponent,ProductCreateEditComponent,VendorSetupComponent,
-  VendorSetupListComponent,VendorCreateEditComponent, ThemeComponent, HeaderComponent, CardComponent],
-  VendorSetupListComponent,VendorCreateEditComponent,OnlynumberDirective,CashRegisterComponent,CloseoutRegisterComponent],
+  VendorSetupListComponent,VendorCreateEditComponent, ThemeComponent, HeaderComponent, CardComponent,
+  OnlynumberDirective,CashRegisterComponent,CloseoutRegisterComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
