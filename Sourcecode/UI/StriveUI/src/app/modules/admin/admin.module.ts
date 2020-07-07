@@ -26,12 +26,16 @@ import { VendorSetupComponent } from './vendor-setup/vendor-setup.component';
 import { VendorSetupListComponent } from './vendor-setup/vendor-setup-list/vendor-setup-list.component';
 import { VendorCreateEditComponent } from './vendor-setup/vendor-create-edit/vendor-create-edit.component';
 import { ConfirmationService } from 'primeng/api';
+import { ThemeComponent } from './theme/theme.component';
+import { ThemeService } from 'src/app/shared/common-service/theme.service';
+import { HeaderComponent } from './header/header.component';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
   SetupComponent,BasicSetupComponent,BasicSetupListComponent,BasicCreateEditComponent,ServiceSetupComponent,ServiceSetupListComponent,
   ServiceCreateEditComponent,ProductSetupComponent,ProductSetupListComponent,ProductCreateEditComponent,VendorSetupComponent,
-  VendorSetupListComponent,VendorCreateEditComponent],
+  VendorSetupListComponent,VendorCreateEditComponent, ThemeComponent, HeaderComponent, CardComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -44,6 +48,7 @@ import { ConfirmationService } from 'primeng/api';
   ],
   providers: [
     ConfirmationService,
+    ThemeService,
     {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
