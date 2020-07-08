@@ -8,5 +8,6 @@ namespace Strive.BusinessLogic
     {
         Result GetEmployeeDetails();
         Result SaveEmployeeDetails(List<Employee> lstEmployee);
+        Result DeleteEmployeeDetails(long empId);
     }
 }

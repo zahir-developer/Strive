@@ -36,7 +36,12 @@ namespace Admin.Api.Controllers
             return _employeeBpl.SaveEmployeeDetails(lstEmployee);
         }
 
-
+        [HttpDelete]
+        [Route("{id}")]
+        public Result DeleteEmployee(long empId)
+        {
+            return _employeeBpl.DeleteEmployeeDetails(empId);
+        }
 
     }
 }

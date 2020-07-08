@@ -47,5 +47,20 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        public Result DeleteLocationDetails(long empId)
+        {
+            try
+            {
+                var lstEmployee = new EmployeeRal(_tenant).DeleteEmployeeDetails(empId);
+                _resultContent.Add(lstEmployee.WithName("Employee"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        
     }
 }
