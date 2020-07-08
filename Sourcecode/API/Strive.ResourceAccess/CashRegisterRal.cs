@@ -55,26 +55,26 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public bool SaveCashRegisterNewApproach(List<CashRegister> lstCashRegisterConsolidate)
+        public bool SaveCashRegisterNewApproach(List<CashRegisterList> lstCashRegisterConsolidate)
         {
-            //var lstCmd = new List<(CommandDefinition, object)>();
-            //var CRModel = lstCashRegisterConsolidate.FirstOrDefault();
-            //var cr = new CR()
-            //{
-            //    LocationId = 1,
-            //    DrawerId = 1,
-            //    CashRegisterType = 119,
-            //    EnteredDateTime = DateTime.Now,
-            //    UserId=1
-            //};
-            
+            var lstCmd = new List<(CommandDefinition, object)>();
+            var CRModel = lstCashRegisterConsolidate.FirstOrDefault();
+            var cr = new CR()
+            {
+                LocationId = 1,
+                DrawerId = 1,
+                CashRegisterType = 119,
+                EnteredDateTime = DateTime.Now,
+                UserId = 1
+            };
 
-            //lstCmd.Add(GetCmd(CRModel.CashRegisterBill, "tvpCashRegisterBills", SPEnum.USPSAVECASHREGISTERBILLS.ToString(), "CashRegBillId"));
-            //lstCmd.Add(GetCmd(CRModel.CashRegisterCoin, "tvpCashRegisterCoins", SPEnum.USPSAVECASHREGISTERCOINS.ToString(), "CashRegCoinId"));
-            //lstCmd.Add(GetCmd(CRModel.CashRegisterOther, "tvpCashRegisterOthers", SPEnum.USPSAVECASHREGISTEROTHERS.ToString(), "CashRegOtherId"));
-            //lstCmd.Add(GetCmd(CRModel.CashRegisterRoll, "tvpCashRegisterRolls", SPEnum.USPSAVECASHREGISTERROLLS.ToString(), "CashRegRollId"));
-            //lstCmd.Add(GetCmd(cr, "tvpCashRegister", SPEnum.USPSAVECASHREGISTERMAIN.ToString(), null));
-            //var BillId = db.SaveParentChild(lstCmd);
+
+            lstCmd.Add(GetCmd(CRModel.CashRegisterBill, "tvpCashRegisterBills", SPEnum.USPSAVECASHREGISTERBILLS.ToString(), "CashRegBillId"));
+            lstCmd.Add(GetCmd(CRModel.CashRegisterCoin, "tvpCashRegisterCoins", SPEnum.USPSAVECASHREGISTERCOINS.ToString(), "CashRegCoinId"));
+            lstCmd.Add(GetCmd(CRModel.CashRegisterOther, "tvpCashRegisterOthers", SPEnum.USPSAVECASHREGISTEROTHERS.ToString(), "CashRegOtherId"));
+            lstCmd.Add(GetCmd(CRModel.CashRegisterRoll, "tvpCashRegisterRolls", SPEnum.USPSAVECASHREGISTERROLLS.ToString(), "CashRegRollId"));
+            lstCmd.Add(GetCmd(cr, "tvpCashRegister", SPEnum.USPSAVECASHREGISTERMAIN.ToString(), null));
+            var BillId = db.SaveParentChild(lstCmd);
             return true;
         }
 
@@ -82,14 +82,14 @@ namespace Strive.ResourceAccess
 
 
 
-        //public List<CashRegister> GetCashRegisterByDate(DateTime dateTime)
-        //{
-        //    DynamicParameters dynParams = new DynamicParameters();
-        //    List<CashRegisterList> lstResource = new List<CashRegisterList>();
-        //    dynParams.Add("@EnteredDate", dateTime);
-        //    var res = db.FetchRelation4<CashRegisterList, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
-        //    return res;
-        //}
+        public List<CashRegisterList> GetCashRegisterByDate(DateTime dateTime)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            List<CashRegisterList> lstResource = new List<CashRegisterList>();
+            dynParams.Add("@EnteredDate", dateTime);
+            var res = db.FetchRelation4<CashRegisterList, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
+            return res;
+        }
 
 
         private (CommandDefinition, object) GetCmd<T>(T model, string name, string spName, object parentmapId) where T : new()

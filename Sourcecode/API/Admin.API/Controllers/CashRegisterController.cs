@@ -21,12 +21,12 @@ namespace Admin.API.Controllers
             _CashRegisterBpl = CashRegisterBpl;
         }
 
-        //[HttpGet]
-        //[Route("GetCashRegisterByDate/{dateTime}")]
-        //public Result GetCashRegisterByDate(DateTime dateTime)
-        //{
-        //    return _CashRegisterBpl.GetCashRegisterByDate(dateTime);
-        //}
+        [HttpGet]
+        [Route("GetCashRegisterByDate/{dateTime}")]
+        public Result GetCashRegisterByDate(DateTime dateTime)
+        {
+            return _CashRegisterBpl.GetCashRegisterByDate(dateTime);
+        }
 
         [HttpPost]
         [Route("Save")]
@@ -37,7 +37,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("SaveNewApproach")]
-        public Result SaveCashRegisterNewApproach([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate)
+        public Result SaveCashRegisterNewApproach([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegisterConsolidate)
         {
             return _CashRegisterBpl.SaveCashRegisterNewApproach(lstCashRegisterConsolidate);
         }

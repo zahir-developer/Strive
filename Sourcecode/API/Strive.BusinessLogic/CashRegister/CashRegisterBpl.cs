@@ -18,21 +18,21 @@ namespace Strive.BusinessLogic.CashRegister
         {
             _tenant = tenantHelper;
         }
-        
-        //public Result GetCashRegisterByDate(DateTime dateTime)
-        //{
-        //    try
-        //    {
-        //        var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterByDate(dateTime);
-        //        _resultContent.Add(lstCashRegisterConsolidate.WithName("CashRegister"));
-        //        _result = Helper.BindSuccessResult(_resultContent);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-        //    }
-        //    return _result;
-        //}
+
+        public Result GetCashRegisterByDate(DateTime dateTime)
+        {
+            try
+            {
+                var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterByDate(dateTime);
+                _resultContent.Add(lstCashRegisterConsolidate.WithName("CashRegister"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
         public Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegister)
         {
             try
@@ -48,7 +48,7 @@ namespace Strive.BusinessLogic.CashRegister
             return _result;
         }
 
-        public Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate)
+        public Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegisterConsolidate)
         {
             try
             {
