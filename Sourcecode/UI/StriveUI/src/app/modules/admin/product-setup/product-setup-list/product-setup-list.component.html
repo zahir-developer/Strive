@@ -1,4 +1,72 @@
-<button type="button" class="" (click)="add('add',[])">Add</button>
+<div class="col-lg-10 col-md-9 col-sm-12 col-xs-12">
+    <h4 class="header-title">Product Setup</h4>
+    <div class="card m-t-10">
+        <div class="card-body">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade active show" id="v-pills-basic" role="tabpanel"
+                    aria-labelledby="v-pills-basic-tab">
+                    <div class="portlet-title">
+                        <div class="caption bold">Product List</div>
+                        <div class="actions"></div>
+                    </div><!-- end nav-->
+                    <div class="portlet-body">
+                        <div class="">
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="responsive-preview">
+                                    <div class="table-responsive">
+                                        <p-table [value]="productSetupDetails">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>Product ID</th>
+                                                    <th>Product Type</th>
+                                                    <th>Product Name</th>
+                                                    <th>Cost</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-productSetup>
+                                                <tr>
+                                                    <td>{{productSetup.ProductCode}}</td>
+                                                    <td>{{productSetup.ProductType}}</td>
+                                                    <td>{{productSetup.ProductName}}</td>
+                                                    <td>{{productSetup.Cost}}</td>
+                                                    <td>
+                                                        <em class="mdi mdi-pencil-circle ic-edit" style="color:green"
+                                                            pTooltip="edit" tooltipPosition="bottom"
+                                                            (click)="add('edit', productSetup)"></em>&nbsp;&nbsp;
+                                                        <em class="mdi mdi-close-circle ic-delete" style="color:red"
+                                                            pTooltip="delete" tooltipPosition="bottom"
+                                                            (click)="delete(productSetup)"></em>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                        <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
+                                            [modal]="true" [responsive]="true" [focusOnShow]="false"
+                                            [style]="{width: '1000px', height: '1000px'}">
+                                            <app-product-create-edit *ngIf="showDialog" [selectedData]="selectedData"
+                                                [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
+                                            </app-product-create-edit>
+                                        </p-dialog>
+                                    </div> <!-- end table-responsive-->
+                                    <button type="button" class="btn btn-success" (click)="add('add',[])">Add New Product</button>
+                                </div> <!-- end preview-->
+                            </div> <!-- end tab-content-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-light">Save &amp; Close</button>
+        <button type="button" class="btn btn-light">Save &amp; Continue Service Setup</button>
+    </div>
+</div>
+
+
+
+<!-- <button type="button" class="" (click)="add('add',[])">Add</button>
 <p-table [value]="productSetupDetails">
     <ng-template pTemplate="header">
         <tr>
@@ -27,4 +95,4 @@
 <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
     [focusOnShow]="false" [style]="{width: '700px', height: '1000px'}">
     <app-product-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-product-create-edit>
-</p-dialog>
+</p-dialog> -->
