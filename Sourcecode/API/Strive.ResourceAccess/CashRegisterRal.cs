@@ -42,7 +42,7 @@ namespace Strive.ResourceAccess
                 CashRegRollId = cashReg.CashRegRollId,
                 CashRegCoinId = cashReg.CashRegCoinId,
                 CashRegBillId = cashReg.CashRegBillId,
-                CashRegOthersId = cashReg.CashRegOthersId,
+                CashRegOtherId = cashReg.CashRegOthersId,
                 
             });
             dynParams.Add("@tvpCashRegister", lstCashReg.ToDataTable().AsTableValuedParameter("tvpCashRegister"));
