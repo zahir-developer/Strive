@@ -52,7 +52,7 @@ namespace Strive.Common
         }
 
 
-        public static DataTable ToDataTable<T>(this List<T> list)
+        public static DataTable ToDataTable<T>(this List<T> list, string tableName = null)
         {
             var entityType = typeof(T);
 
@@ -60,7 +60,7 @@ namespace Strive.Common
             // than primitives and custom objects (e.g. an object that is not type System.Object).
             if (entityType == typeof(String))
             {
-                var dataTable = new DataTable(entityType.Name);
+                var dataTable = new DataTable(tableName ?? entityType.Name);
                 dataTable.Columns.Add(entityType.Name);
 
                 // Iterate through each item in the list. There is only one cell, so use index 0 to set the value.
@@ -75,7 +75,7 @@ namespace Strive.Common
             }
             else if (entityType.BaseType == typeof(Enum))
             {
-                var dataTable = new DataTable(entityType.Name);
+                var dataTable = new DataTable(tableName ?? entityType.Name);
                 dataTable.Columns.Add(entityType.Name);
 
                 // Iterate through each item in the list. There is only one cell, so use index 0 to set the value.
@@ -114,7 +114,7 @@ namespace Strive.Common
             // Otherwise, map the object's properties to columns and fill the cells with the properties' values.
             if (typeIsPrimitive)
             {
-                var dataTable = new DataTable(underlyingType.Name);
+                var dataTable = new DataTable(tableName ?? underlyingType.Name);
                 dataTable.Columns.Add(underlyingType.Name);
 
                 // Iterate through each item in the list. There is only one cell, so use index 0 to set the value.
@@ -133,7 +133,7 @@ namespace Strive.Common
                 // 1. Convert lists of type System.Object to a data table.
                 // 2. Handle objects with nested objects (make the column name the name of the object and print "system.object" as the value).
 
-                var dataTable = new DataTable(entityType.Name);
+                var dataTable = new DataTable(tableName ?? entityType.Name);
                 var propertyDescriptorCollection = TypeDescriptor.GetProperties(entityType);
 
                 // Iterate through each property in the object and add that property name as a new column in the data table.

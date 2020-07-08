@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Slapper;
+using System.Transactions;
 
 namespace Strive.Repository
 {
@@ -35,13 +36,68 @@ namespace Strive.Repository
             try
             {
                 id = dbcon.ExecuteScalar(cmd);
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
             return id;
+        }
+
+
+        public object SaveParentChild(List<(CommandDefinition,object)> lstCmd)
+        {
+            List<(string,int)> lstId = new List<(string,int)>();
+            try
+            {
+                using (dbcon)
+                {
+                    if (dbcon?.State != ConnectionState.Open)
+                    {
+                        dbcon.Open();
+                    }
+                    using (var tran = dbcon.BeginTransaction())
+                    {
+                        try
+                        {
+                            foreach (var cmd in lstCmd)
+                            {
+                                if (cmd.Item2.GetType() == typeof(string))
+                                {
+                                    var newCmd = new CommandDefinition(cmd.Item1.CommandText, cmd.Item1.Parameters, tran, null, cmd.Item1.CommandType);
+                                    lstId.Add((cmd.Item2.ToString(), (int)dbcon.ExecuteScalar(newCmd)));
+                                }
+                            }
+
+                            var parent = lstCmd.Where(x => x.Item2.GetType() != typeof(string)).FirstOrDefault();
+                            DataTable dt = (DataTable)parent.Item2;
+
+                            foreach (var res in lstId)
+                            {
+                                //var ddt = ((dynamic)((Dapper.DynamicParameters)parent.Item1.Parameters).Get<dynamic>("tvpCashRegister")).table;
+                                
+                                dt.Rows[0][res.Item1] = res.Item2;
+                            }
+                            DynamicParameters dyn = new DynamicParameters();
+                            dyn.Add("@" +dt.TableName, dt.AsTableValuedParameter(dt.TableName));
+                            var newCmd1 = new CommandDefinition(parent.Item1.CommandText, dyn, tran, null, parent.Item1.CommandType);
+                            dbcon.Execute(newCmd1);
+
+                            tran.Commit();
+                        }
+                        catch
+                        {
+                            tran.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
         }
 
 
