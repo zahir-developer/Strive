@@ -1,105 +1,117 @@
 <div class="container-fluid">
     <form [formGroup]="productSetupForm">
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Product Type : </b></label>
-            <select class="form-control" formControlName="productType" [ngClass]="{ 'is-invalid': submitted || f.productType.touched && f.productType.errors }">
-            <option value="">Select </option>
-            <option *ngFor="let productType of productType">{{productType}}</option>
-            </select>
-            <div *ngIf="submitted || f.productType.touched && f.productType.errors" class="invalid-feedback">
-                <div *ngIf="f.productType.errors.required">Product Type is required</div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Product Type</label>
+                    <select class="form-control" formControlName="productType"
+                        [ngClass]="{ 'is-invalid': submitted || f.productType.touched && f.productType.errors }">
+                        <option value="">Choose </option>
+                        <option *ngFor="let productType of productType">{{productType}}</option>
+                    </select>
+                    <div *ngIf="submitted || f.productType.touched && f.productType.errors" class="invalid-feedback">
+                        <div *ngIf="f.productType.errors.required">Product Type is required</div>
+                    </div>
+                </div>
             </div>
-        </div>        
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Product ID : </b></label>
-            <input type="text" class="form-control"  formControlName="productId">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Location Name : </b></label>
-            <input type="text" class="form-control"  formControlName="locationName" [ngClass]="{ 'is-invalid': submitted || f.locationName.touched && f.locationName.errors }">
-            <div *ngIf="submitted || f.locationName.touched && f.locationName.errors" class="invalid-feedback">
-                <div *ngIf="f.locationName.errors.required">Location Name is required</div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Product ID</label>
+                    <input numbersOnly type="text" class="form-control" formControlName="productId" placeholder="Product ID">
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Name : </b></label>
-            <input type="text" class="form-control"  formControlName="name" [ngClass]="{ 'is-invalid': submitted || f.name.touched && f.name.errors }">
-            <div *ngIf="submitted || f.name.touched && f.name.errors" class="invalid-feedback">
-                <div *ngIf="f.name.errors.required">Name is required</div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Location Name</label>
+                    <input type="text" class="form-control" formControlName="locationName" placeholder="Location Name"
+                        [ngClass]="{ 'is-invalid': submitted || f.locationName.touched && f.locationName.errors }">
+                    <div *ngIf="submitted || f.locationName.touched && f.locationName.errors" class="invalid-feedback">
+                        <div *ngIf="f.locationName.errors.required">Location Name is required</div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>    
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Size : </b></label>
-            <select class="form-control" formControlName="size">
-                <option value="">Select </option>
-                <option *ngFor="let size of size">{{size}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Quantity : </b></label>
-            <input type="text" class="form-control"  formControlName="quantity">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Cost : </b></label>
-            <input type="text" class="form-control"  formControlName="cost" [ngClass]="{ 'is-invalid': submitted || f.cost.touched && f.cost.errors }">
-            <div *ngIf="submitted || f.cost.touched && f.cost.errors" class="invalid-feedback">
-                <div *ngIf="f.cost.errors.required">Cost is required</div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" formControlName="name" placeholder="Name"
+                        [ngClass]="{ 'is-invalid': submitted || f.name.touched && f.name.errors }">
+                    <div *ngIf="submitted || f.name.touched && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">Name is required</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">            
-            <input type="checkbox"  formControlName="taxable" (change)="change($event.target.checked)" >
-            <label><b>Taxable </b></label>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Size</label>
+                    <select class="form-control" formControlName="size">
+                        <option value="">Choose </option>
+                        <option *ngFor="let size of size">{{size}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input numbersOnly type="text" class="form-control" formControlName="quantity" placeholder="Quantity">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Cost</label>
+                    <input numbersOnly type="text" class="form-control" formControlName="cost" placeholder="Cost"
+                        [ngClass]="{ 'is-invalid': submitted || f.cost.touched && f.cost.errors }">
+                    <div *ngIf="submitted || f.cost.touched && f.cost.errors" class="invalid-feedback">
+                        <div *ngIf="f.cost.errors.required">Cost is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 m-t-10">
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox m-t-10">
+                        <input type="checkbox" formControlName="taxable"
+                            (change)="change($event.target.checked)">
+                        <label class="col-form-label">Taxable</label>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group" *ngIf="isChecked === true">
-        <div class="col-4">
-            <label><b>Tax Amount : </b></label>
-            <input type="text" class="form-control"  formControlName="taxAmount">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-control" formControlName="status">
+                        <option value="">Choose </option>
+                        <option *ngFor="let status of Status">{{status}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Vendor</label>
+                    <select class="form-control" formControlName="vendor">
+                        <option value="">Choose</option>
+                        <option *ngFor="let vendor of Vendor">{{vendor}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Threshold #</label>
+                    <input numbersOnly type="text" class="form-control" formControlName="thresholdAmount" placeholder="Threshold #">
+                </div>
+            </div>
+            <div class="col-lg-3" *ngIf="isChecked === true">
+                <div class="form-group">
+                    <label>Tax Amount</label>
+                    <input type="text" class="form-control" formControlName="taxAmount">
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Status : </b></label>
-            <select class="form-control" formControlName="status">
-                <option value="">Select </option>
-                <option *ngFor="let status of Status">{{status}}</option>
-            </select>
+        <div class="pull-right">
+            <button type="button" class="btn btn-light" (click)="cancel()">Cancel</button>
+            <button type="button" class="btn btn-success " (click)="submit()">Save</button>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Vendor : </b></label>
-            <select class="form-control" formControlName="vendor">
-                <option value="">Select </option>
-                <option *ngFor="let vendor of Vendor">{{vendor}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-4">
-            <label><b>Threshold # : </b></label>
-            <input type="text" class="form-control"  formControlName="thresholdAmount">
-        </div>
-    </div>
-
-    <div class="formGroup float-right">
-        <button type="button" class="btn btn-primary btn-sm " (click)="submit()">Save</button>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
-    </div>
     </form>
 </div>

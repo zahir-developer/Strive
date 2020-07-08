@@ -61,12 +61,12 @@ closePopupEmit(event) {
 }
 add( data, serviceDetails?) {
   if (data === 'add') {
-    this.headerData = 'Create Setup';
+    this.headerData = 'Add New Service';
     this.selectedData = serviceDetails;
     this.isEdit = false;
     this.showDialog = true;
   } else {
-    this.headerData = 'Edit Setup';
+    this.headerData = 'Edit Service';
     this.selectedData = serviceDetails;
     this.isEdit = true;
     this.showDialog = true;

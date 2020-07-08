@@ -18,7 +18,7 @@ namespace Strive.BusinessLogic.CashRegister
         {
             _tenant = tenantHelper;
         }
-        
+
         public Result GetCashRegisterByDate(DateTime dateTime)
         {
             try
@@ -33,11 +33,11 @@ namespace Strive.BusinessLogic.CashRegister
             }
             return _result;
         }
-        public Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate)
+        public Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegister)
         {
             try
             {
-                bool blnStatus = new CashRegisterRal(_tenant).SaveTodayCashRegister(lstCashRegisterConsolidate);
+                bool blnStatus = new CashRegisterRal(_tenant).SaveTodayCashRegister(lstCashRegister);
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -47,6 +47,24 @@ namespace Strive.BusinessLogic.CashRegister
             }
             return _result;
         }
-       
+
+        public Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegisterConsolidate)
+        {
+            try
+            {
+                bool blnStatus = new CashRegisterRal(_tenant).SaveCashRegisterNewApproach(lstCashRegisterConsolidate);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+
+        
+
     }
 }

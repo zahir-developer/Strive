@@ -31,7 +31,8 @@ export class LocationCreateEditComponent implements OnInit {
       country: ['',],
       phoneNumber: ['',],
       email: ['',],
-      franchise: ['',]
+      franchise: ['',],
+      workHourThreshold:['',]
     });
     this.submitted = false;
     this.State = ["state1","state2","state3"];
@@ -53,6 +54,7 @@ export class LocationCreateEditComponent implements OnInit {
           locationId: this.selectedLocation.LocationId,
           locationName: this.selectedLocation.LocationName,
           locationAddress: this.selectedLocation.LocationDescription,
+          workHourThreshold:this.selectedLocation.WorkHourThreshold,
           // zipcode: this.selectedLocation.LocationAddress[0].Zip,
           // state: this.selectedLocation.LocationAddress[0].State,
           //country: this.selectedData.Country,
@@ -104,7 +106,7 @@ export class LocationCreateEditComponent implements OnInit {
       twitter:"",
       instagram:"",
       wifiDetail:"",
-      workHourThreshold:0,
+      workHourThreshold:this.locationSetupForm.value.workHourThreshold,
       locationAddress:this.address,
       isFranchise: this.locationSetupForm.value.franchise == "" ? false : this.locationSetupForm.value.franchise
     };

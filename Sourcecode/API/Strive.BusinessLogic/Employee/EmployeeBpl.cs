@@ -33,7 +33,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result SaveEmployeeDetails(List<Employee> lstEmployee)
+        public Result SaveEmployeeDetails(List<EmployeeTable> lstEmployee)
         {
             try
             {
@@ -47,5 +47,20 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        public Result DeleteEmployeeDetails(long empId)
+        {
+            try
+            {
+                var lstEmployee = new EmployeeRal(_tenant).DeleteEmployeeDetails(empId);
+                _resultContent.Add(lstEmployee.WithName("Employee"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        
     }
 }

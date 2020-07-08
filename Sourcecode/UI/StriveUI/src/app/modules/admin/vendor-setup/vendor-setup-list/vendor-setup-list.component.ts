@@ -51,7 +51,7 @@ closePopupEmit(event) {
 }
 add( data, vendorDetails?) {
   if (data === 'add') {
-    this.headerData = 'Create Setup';
+    this.headerData = 'Add Vendor Setup';
     this.selectedData = vendorDetails;
     this.isEdit = false;
     this.showDialog = true;

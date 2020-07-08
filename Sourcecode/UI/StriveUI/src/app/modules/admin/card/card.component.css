@@ -1,0 +1,9 @@
+:host {
+    display: block;
+    padding: 12px;
+    font-family: Lato;
+    border-radius: 2px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+  }
+  
