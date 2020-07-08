@@ -10,5 +10,7 @@ namespace Strive.BusinessLogic.CashRegister
     {
         Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime);
         Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegister);
+        Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegisterConsolidate);
+        
     }
 }

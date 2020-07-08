@@ -6,7 +6,7 @@
         <div class="login-panel-container my-auto w-100">
           <div class="branding d-flex justify-content-center w-100 m-b-30">
             <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" appearance="circle" [theme]="{ 
-              width: '100px', height: '100px'}"></ngx-skeleton-loader>
+              width: '100px', height: '81px'}"></ngx-skeleton-loader>
             <img *ngIf="!isLoginLoading" src="assets/images/strive-logo.png" title="logo-img" class="justify-content-center" alt="">
           </div>
           <div class="login-form">
@@ -17,35 +17,35 @@
             <form [formGroup]="loginForm" (ngSubmit)="LoginSubmit()">
               <div class="form-group">
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '125px', height: '29px'}"></ngx-skeleton-loader>
+                  width: '125px', height: '24px'}"></ngx-skeleton-loader>
                 <label for="emailId" *ngIf="!isLoginLoading">Email address</label>
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '382px', height: '62px'}"></ngx-skeleton-loader>
+                  width: '382px', height: '39px'}"></ngx-skeleton-loader>
                 <input type="email" *ngIf="!isLoginLoading"class="form-control" formControlName="username" id="emailId"
                   aria-describedby="emailHelp" placeholder="Enter email">
               </div>
               <div class="form-group">
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '90px', height: '29px'}"></ngx-skeleton-loader>
+                  width: '90px', height: '24px'}"></ngx-skeleton-loader>
                 <label for="password" *ngIf="!isLoginLoading">Password</label>
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '382px', height: '62px'}"></ngx-skeleton-loader>
+                  width: '382px', height: '39px'}"></ngx-skeleton-loader>
                 <input type="password" *ngIf="!isLoginLoading" class="form-control" formControlName="password" id="password"
                   placeholder="Password">
               </div>
               <div class="form-group">
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '193px', height: '29px'}"></ngx-skeleton-loader>
+                  width: '193px', height: '25px'}"></ngx-skeleton-loader>
                 <input *ngIf="!isLoginLoading" type="checkbox" class="remember-password-input" id="remeber-password">&nbsp;
                 <label *ngIf="!isLoginLoading" class="remember-password-label" for="RememberPasswod">Remember Password</label>
               </div>
               <div class="form-group">
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '382px', height: '62px'}"></ngx-skeleton-loader>
+                  width: '85px', height: '40px'}"></ngx-skeleton-loader>
                 <button type="submit" *ngIf="!isLoginLoading" class="btn btn-primary">Login</button>
               </div>
               <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                width: '128px', height: '29px'}"></ngx-skeleton-loader>
+                width: '128px', height: '25px'}"></ngx-skeleton-loader>
               <div class="form-group"> <a href="#" *ngIf="!isLoginLoading" class="primary-blue">Forgot Password?</a> </div>
             </form>
           </div>

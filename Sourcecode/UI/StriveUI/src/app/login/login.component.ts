@@ -42,10 +42,10 @@ isLoginLoading: boolean;
     };
     this.isLoginLoading = true;
     this.authService.login(loginObj).subscribe(data => {
-      this.isLoginLoading = false;
+      // this.isLoginLoading = false;
       if (data) {
         if (data.status === 'Success') {
-          this.display = true;
+          // this.display = true;
           const token = JSON.parse(data.resultData);
           this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' +
             token.EmployeeDetails.EmployeeRole[0].RoleName;
@@ -58,7 +58,7 @@ isLoginLoading: boolean;
         }
       }
     }, (err) => {
-      this.isLoginLoading = false;
+      // this.isLoginLoading = false;
     });
   }
   loadTheLandingPage(): void {
