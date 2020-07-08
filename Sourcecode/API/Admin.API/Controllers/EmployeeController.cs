@@ -31,7 +31,7 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee([FromBody] List<Employee> lstEmployee)
+        public Result SaveEmployee([FromBody] List<EmployeeTable> lstEmployee)
         {
             return _employeeBpl.SaveEmployeeDetails(lstEmployee);
         }

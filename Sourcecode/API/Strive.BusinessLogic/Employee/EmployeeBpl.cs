@@ -33,7 +33,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result SaveEmployeeDetails(List<Employee> lstEmployee)
+        public Result SaveEmployeeDetails(List<EmployeeTable> lstEmployee)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result DeleteLocationDetails(long empId)
+        public Result DeleteEmployeeDetails(long empId)
         {
             try
             {

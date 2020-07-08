@@ -8,8 +8,8 @@ namespace Strive.BusinessLogic.CashRegister
 {
     public interface ICashRegisterBpl
     {
-        Result GetCashRegisterByDate(DateTime datetime);
-        Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate);
+        //Result GetCashRegisterByDate(DateTime datetime);
+        Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegisterConsolidate);
         Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate);
         
     }

@@ -21,12 +21,12 @@ namespace Admin.API.Controllers
             _CashRegisterBpl = CashRegisterBpl;
         }
 
-        [HttpGet]
-        [Route("GetCashRegisterByDate/{dateTime}")]
-        public Result GetCashRegisterByDate(DateTime dateTime)
-        {
-            return _CashRegisterBpl.GetCashRegisterByDate(dateTime);
-        }
+        //[HttpGet]
+        //[Route("GetCashRegisterByDate/{dateTime}")]
+        //public Result GetCashRegisterByDate(DateTime dateTime)
+        //{
+        //    return _CashRegisterBpl.GetCashRegisterByDate(dateTime);
+        //}
 
         [HttpPost]
         [Route("Save")]
