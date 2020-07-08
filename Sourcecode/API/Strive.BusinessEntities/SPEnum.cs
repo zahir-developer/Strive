@@ -33,7 +33,7 @@ namespace Strive.BusinessEntities
         USPDELETESERVICEBYID,
         USPGETSERVICEBYID,
         //Cash Register
-        USPSAVETODAYCASHREGISTER,
+        USPSAVECASHREGISTER,
         USPGETCASHREGISTERDETAILS
 
     }
