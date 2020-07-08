@@ -47,6 +47,24 @@ namespace Strive.BusinessLogic.CashRegister
             }
             return _result;
         }
-       
+
+        public Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegister> lstCashRegisterConsolidate)
+        {
+            try
+            {
+                bool blnStatus = new CashRegisterRal(_tenant).SaveCashRegisterNewApproach(lstCashRegisterConsolidate);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+
+        
+
     }
 }

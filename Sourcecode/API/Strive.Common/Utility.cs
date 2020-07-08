@@ -20,9 +20,7 @@ namespace Strive.Common
         {
             return Task.WhenAll(sequence.Select(action));
         }
-
-
-
+        
         public static void WriteLog(string logpath, string logfileName, string msg)
         {
             if (!Directory.Exists(logpath))

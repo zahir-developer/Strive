@@ -53,7 +53,35 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public List<CashRegisterList> GetCashRegisterByDate(DateTime dateTime)
+
+        public bool SaveCashRegisterNewApproach(List<CashRegister> lstCashRegisterConsolidate)
+        {
+            var lstCmd = new List<(CommandDefinition, object)>();
+            var CRModel = lstCashRegisterConsolidate.FirstOrDefault();
+            var cr = new CR()
+            {
+                LocationId = 1,
+                DrawerId = 1,
+                CashRegisterType = 119,
+                EnteredDateTime = DateTime.Now,
+                UserId=1
+            };
+            
+
+            lstCmd.Add(GetCmd(CRModel.CashRegisterBill, "tvpCashRegisterBills", SPEnum.USPSAVECASHREGISTERBILLS.ToString(), "CashRegBillId"));
+            lstCmd.Add(GetCmd(CRModel.CashRegisterCoin, "tvpCashRegisterCoins", SPEnum.USPSAVECASHREGISTERCOINS.ToString(), "CashRegCoinId"));
+            lstCmd.Add(GetCmd(CRModel.CashRegisterOther, "tvpCashRegisterOthers", SPEnum.USPSAVECASHREGISTEROTHERS.ToString(), "CashRegOtherId"));
+            lstCmd.Add(GetCmd(CRModel.CashRegisterRoll, "tvpCashRegisterRolls", SPEnum.USPSAVECASHREGISTERROLLS.ToString(), "CashRegRollId"));
+            lstCmd.Add(GetCmd(cr, "tvpCashRegister", SPEnum.USPSAVECASHREGISTERMAIN.ToString(), null));
+            var BillId = db.SaveParentChild(lstCmd);
+            return true;
+        }
+
+
+
+
+
+        public List<CashRegister> GetCashRegisterByDate(DateTime dateTime)
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<CashRegisterList> lstResource = new List<CashRegisterList>();
@@ -61,5 +89,23 @@ namespace Strive.ResourceAccess
             var res = db.FetchRelation4<CashRegisterList, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
             return res;
         }
+
+
+        private (CommandDefinition, object) GetCmd<T>(T model, string name, string spName, object parentmapId) where T : new()
+        {
+            List<T> lstModel = new List<T>();
+            lstModel.Add(model);
+            DynamicParameters dyn = new DynamicParameters();
+            dyn.Add("@" + name, lstModel.ToDataTable().AsTableValuedParameter(name));
+            CommandDefinition cmd = new CommandDefinition(spName, dyn, commandType: CommandType.StoredProcedure);
+
+            if (parentmapId is null)
+            {
+                parentmapId = lstModel.ToDataTable(name);
+            }
+
+            return (cmd, parentmapId);
+        }
     }
+
 }
