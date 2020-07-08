@@ -30,6 +30,7 @@ export class LocationSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
+        console.log(this.locationSetupDetails);
       }
     });
   }
@@ -63,12 +64,12 @@ closePopupEmit(event) {
 }
 add( data, locationDetails?) {
   if (data === 'add') {
-    this.headerData = 'Create Setup';
+    this.headerData = 'Add New Location';
     this.selectedData = locationDetails;
     this.isEdit = false;
     this.showDialog = true;
   } else {
-    this.headerData = 'Edit Setup';
+    this.headerData = 'Edit Location';
     this.selectedData = locationDetails;
     this.isEdit = true;
     this.showDialog = true;
