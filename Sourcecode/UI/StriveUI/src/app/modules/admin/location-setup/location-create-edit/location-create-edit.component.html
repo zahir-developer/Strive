@@ -92,9 +92,9 @@
             <div class="col-lg-3 m-t-10">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox m-t-10">
-                        <input type="checkbox" formControlName="franchise" class="custom-control-input"
+                        <input type="checkbox" formControlName="franchise"
                             (change)="change($event.target.checked)">
-                        <label class="custom-control-label">Franchise</label>
+                        <label class="col-form-label">Franchise</label>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,6 @@
         <div class="pull-right">
             <button type="button" class="btn btn-light" (click)="cancel()">Cancel</button>
             <button type="button" class="btn btn-success " (click)="submit()">Save</button>
-
         </div>
     </form>
 </div>
