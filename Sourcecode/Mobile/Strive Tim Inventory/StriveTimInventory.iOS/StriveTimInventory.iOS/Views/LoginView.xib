@@ -10,6 +10,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView">
             <connections>
                 <outlet property="LoginButton" destination="2ci-QD-8B7" id="name-outlet-2ci-QD-8B7"/>
+                <outlet property="PasswordToggleButton" destination="g2c-Fx-9sF" id="name-outlet-g2c-Fx-9sF"/>
+                <outlet property="PasswordTxtField" destination="rc1-5W-pyB" id="name-outlet-rc1-5W-pyB"/>
+                <outlet property="UserIdTxtField" destination="hvk-t9-Uzd" id="name-outlet-hvk-t9-Uzd"/>
+                <outlet property="loginLabel" destination="wUR-Ya-BbI" id="name-outlet-wUR-Ya-BbI"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -34,30 +38,33 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="Pgo-qY-RTZ"/>
                             </constraints>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rc1-5W-pyB">
-                            <rect key="frame" x="250" y="642" width="334" height="50"/>
+                            <rect key="frame" x="250" y="637" width="334" height="50"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2c-Fx-9sF">
-                            <rect key="frame" x="538" y="652" width="46" height="30"/>
+                            <rect key="frame" x="538" y="647" width="46" height="30"/>
                             <state key="normal" title="Button"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ci-QD-8B7">
-                            <rect key="frame" x="250" y="722" width="334" height="50"/>
-                            <color key="backgroundColor" red="0.15240691489003944" green="0.81347160532994922" blue="0.67897215285401624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="20"/>
+                            <rect key="frame" x="250" y="702" width="334" height="55"/>
+                            <color key="backgroundColor" red="0.3717451692" green="0.77695614099999999" blue="0.71768742799999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="3Mp-Tf-QNT"/>
+                            </constraints>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="LOGIN">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
+                            <state key="normal" title="LOGIN"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Clock Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUR-Ya-BbI">
-                            <rect key="frame" x="331.5" y="485" width="171" height="27"/>
-                            <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="22"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Clock Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUR-Ya-BbI">
+                            <rect key="frame" x="334.5" y="485.5" width="165" height="26.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -70,14 +77,13 @@
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="width" secondItem="N02-ev-TPl" secondAttribute="width" multiplier="0.4" id="Eab-qN-eOO"/>
                         <constraint firstItem="g2c-Fx-9sF" firstAttribute="trailing" secondItem="hvk-t9-Uzd" secondAttribute="trailing" id="ON1-1p-ZRf"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="width" secondItem="rc1-5W-pyB" secondAttribute="width" id="RFc-vO-Nna"/>
-                        <constraint firstItem="2ci-QD-8B7" firstAttribute="height" secondItem="rc1-5W-pyB" secondAttribute="height" id="Uo9-bg-XxW"/>
                         <constraint firstAttribute="bottom" secondItem="Tie-yI-3XS" secondAttribute="bottom" id="YYF-SA-bva"/>
                         <constraint firstItem="Tie-yI-3XS" firstAttribute="leading" secondItem="N02-ev-TPl" secondAttribute="leading" id="atL-zh-mtd"/>
                         <constraint firstAttribute="trailing" secondItem="Tie-yI-3XS" secondAttribute="trailing" id="b9a-x9-aSF"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="centerY" secondItem="N02-ev-TPl" secondAttribute="centerY" id="gms-aZ-YvV"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="hmg-To-oU8"/>
-                        <constraint firstItem="rc1-5W-pyB" firstAttribute="top" secondItem="hvk-t9-Uzd" secondAttribute="bottom" constant="20" id="mYf-pM-dAF"/>
-                        <constraint firstItem="2ci-QD-8B7" firstAttribute="top" secondItem="rc1-5W-pyB" secondAttribute="bottom" constant="30" id="o5Q-oR-sOX"/>
+                        <constraint firstItem="rc1-5W-pyB" firstAttribute="top" secondItem="hvk-t9-Uzd" secondAttribute="bottom" constant="15" id="mYf-pM-dAF"/>
+                        <constraint firstItem="2ci-QD-8B7" firstAttribute="top" secondItem="rc1-5W-pyB" secondAttribute="bottom" constant="15" id="o5Q-oR-sOX"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="top" secondItem="wUR-Ya-BbI" secondAttribute="bottom" constant="60" id="vbq-eh-Ym2"/>
                         <constraint firstItem="Tie-yI-3XS" firstAttribute="top" secondItem="N02-ev-TPl" secondAttribute="top" id="xsi-3Q-pk4"/>
                         <constraint firstItem="wUR-Ya-BbI" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="yj5-86-416"/>
@@ -96,7 +102,7 @@
                 <constraint firstItem="sAt-Gs-JFh" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="ayh-mh-50e"/>
                 <constraint firstAttribute="trailing" secondItem="sAt-Gs-JFh" secondAttribute="trailing" id="oPp-ge-767"/>
             </constraints>
-            <point key="canvasLocation" x="24.46043165467626" y="51.758793969849243"/>
+            <point key="canvasLocation" x="176" y="119"/>
         </view>
     </objects>
     <resources>

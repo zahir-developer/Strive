@@ -18,11 +18,47 @@ namespace StriveTimInventory.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LoginButton { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel loginLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton PasswordToggleButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITextField PasswordTxtField { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITextField UserIdTxtField { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (LoginButton != null) {
                 LoginButton.Dispose ();
                 LoginButton = null;
+            }
+
+            if (loginLabel != null) {
+                loginLabel.Dispose ();
+                loginLabel = null;
+            }
+
+            if (PasswordToggleButton != null) {
+                PasswordToggleButton.Dispose ();
+                PasswordToggleButton = null;
+            }
+
+            if (PasswordTxtField != null) {
+                PasswordTxtField.Dispose ();
+                PasswordTxtField = null;
+            }
+
+            if (UserIdTxtField != null) {
+                UserIdTxtField.Dispose ();
+                UserIdTxtField = null;
             }
         }
     }

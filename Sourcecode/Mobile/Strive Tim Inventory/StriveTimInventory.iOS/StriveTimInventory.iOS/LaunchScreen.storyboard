@@ -19,16 +19,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="73q-3h-V3N">
-                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="73q-3h-V3N">
+                                <rect key="frame" x="-20" y="-20" width="874" height="1234"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="73q-3h-V3N" secondAttribute="trailing" id="3L7-sX-uws"/>
-                            <constraint firstAttribute="bottom" secondItem="73q-3h-V3N" secondAttribute="bottom" id="LHC-I8-FPU"/>
-                            <constraint firstItem="73q-3h-V3N" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="NIg-S0-V84"/>
-                            <constraint firstItem="73q-3h-V3N" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="hhH-tb-Obn"/>
+                            <constraint firstItem="73q-3h-V3N" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-20" id="GCd-Ih-UIJ"/>
+                            <constraint firstAttribute="bottom" secondItem="73q-3h-V3N" secondAttribute="bottom" constant="-20" id="Zz2-AD-XYJ"/>
+                            <constraint firstAttribute="trailing" secondItem="73q-3h-V3N" secondAttribute="trailing" constant="-20" id="cVO-aF-xU5"/>
+                            <constraint firstItem="73q-3h-V3N" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="-20" id="jeO-Dn-7Ze"/>
                         </constraints>
                     </view>
                 </viewController>

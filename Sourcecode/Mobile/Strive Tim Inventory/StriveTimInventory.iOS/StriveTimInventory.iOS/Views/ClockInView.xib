@@ -9,7 +9,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClockInView">
             <connections>
+                <outlet property="ClockinButton" destination="M9p-ey-cbq" id="name-outlet-M9p-ey-cbq"/>
                 <outlet property="RolesCollectionView" destination="ybv-28-lx1" id="name-outlet-ybv-28-lx1"/>
+                <outlet property="ServiceLabel" destination="AOt-Kp-r6f" id="name-outlet-AOt-Kp-r6f"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -19,8 +21,12 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ybv-28-lx1">
-                    <rect key="frame" x="83.5" y="418" width="667" height="358"/>
+                    <rect key="frame" x="82" y="417" width="670" height="360"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="360" id="cnN-g0-hrA"/>
+                        <constraint firstAttribute="width" constant="670" id="iul-o0-oSb"/>
+                    </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="QdW-py-tPf">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -29,14 +35,14 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Service &amp; Clock-In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOt-Kp-r6f">
-                    <rect key="frame" x="305" y="345" width="224.5" height="23"/>
+                    <rect key="frame" x="305" y="344" width="224.5" height="23"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M9p-ey-cbq">
-                    <rect key="frame" x="292" y="836" width="250" height="50"/>
-                    <color key="backgroundColor" red="0.1524069149" green="0.81347160529999996" blue="0.67897215290000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="292" y="837" width="250" height="50"/>
+                    <color key="backgroundColor" red="0.3717451692" green="0.77695614099999999" blue="0.71768742799999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="R6b-rf-zvy"/>
                     </constraints>
@@ -45,20 +51,29 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="LCf-37-blF">
+                    <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </imageView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="LCf-37-blF" firstAttribute="top" secondItem="2" secondAttribute="top" id="4ll-NI-m5n"/>
                 <constraint firstItem="ybv-28-lx1" firstAttribute="top" secondItem="AOt-Kp-r6f" secondAttribute="bottom" constant="50" id="7GP-gc-3HX"/>
                 <constraint firstItem="M9p-ey-cbq" firstAttribute="top" secondItem="ybv-28-lx1" secondAttribute="bottom" constant="60" id="FGA-r5-ly7"/>
+                <constraint firstItem="LCf-37-blF" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="FfC-JG-r0q"/>
                 <constraint firstItem="M9p-ey-cbq" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="JwQ-dD-cMw"/>
                 <constraint firstItem="ybv-28-lx1" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="KYR-TO-XeA"/>
+                <constraint firstAttribute="trailing" secondItem="LCf-37-blF" secondAttribute="trailing" id="Zw4-Dt-7gj"/>
                 <constraint firstItem="M9p-ey-cbq" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.3" id="b0D-9p-76o"/>
-                <constraint firstItem="ybv-28-lx1" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.8" id="jnu-XC-JQu"/>
+                <constraint firstAttribute="bottom" secondItem="LCf-37-blF" secondAttribute="bottom" id="hsJ-Ds-AsL"/>
                 <constraint firstItem="AOt-Kp-r6f" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="pNL-Fc-EG4"/>
                 <constraint firstItem="ybv-28-lx1" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="q3U-se-vEO"/>
-                <constraint firstItem="ybv-28-lx1" firstAttribute="height" secondItem="2" secondAttribute="height" multiplier="0.3" id="zd3-Zn-JQ6"/>
             </constraints>
-            <point key="canvasLocation" x="26" y="52"/>
+            <point key="canvasLocation" x="80.575539568345334" y="50.753768844221106"/>
         </view>
     </objects>
+    <resources>
+        <image name="car_image_bg" width="1614" height="1076"/>
+    </resources>
 </document>
