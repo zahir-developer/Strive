@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Strive.ResourceAccess\Strive.ResourceAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Vendor\" />
+  </ItemGroup>
+
 </Project>
