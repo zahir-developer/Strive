@@ -9,6 +9,18 @@ namespace Strive.Core.ViewModels.Customer
         {
         }
 
+       
+
+        public void DoLogin()
+        {
+            AdminService.Login("Admin", "Admin");
+        }
+
+        #region Properties
+
+        public string loginEmailPhone { get; set; }
+        public string loginPassword { get; set; }
+        public bool rememberMe { get; set; } = false;
         public string Title
         {
             get
@@ -18,10 +30,6 @@ namespace Strive.Core.ViewModels.Customer
             set
             { }
         }
-
-        public void DoLogin()
-        {
-            AdminService.Login("Admin", "Admin");
-        }
+        #endregion Properties
     }
 }
