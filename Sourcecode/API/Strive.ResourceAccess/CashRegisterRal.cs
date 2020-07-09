@@ -42,7 +42,7 @@ namespace Strive.ResourceAccess
                 CashRegRollId = cashReg.CashRegRollId,
                 CashRegCoinId = cashReg.CashRegCoinId,
                 CashRegBillId = cashReg.CashRegBillId,
-                CashRegOthersId = cashReg.CashRegOthersId,
+                CashRegOtherId = cashReg.CashRegOthersId,
                 
             });
             dynParams.Add("@tvpCashRegister", lstCashReg.ToDataTable().AsTableValuedParameter("tvpCashRegister"));
@@ -82,13 +82,14 @@ namespace Strive.ResourceAccess
 
 
 
-        public List<CashRegisterList> GetCashRegisterByDate(DateTime dateTime)
+        public List<CashRegister> GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<CashRegisterList> lstResource = new List<CashRegisterList>();
-            dynParams.Add("@EnteredDate", dateTime);
-            var res = db.FetchRelation4<CashRegisterList, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
-            return res;
+            dynParams.Add("@LocationId", locationId);
+            dynParams.Add("@CashRegisterType", cashRegisterType.ToString());
+            dynParams.Add("@EnteredDate", dateTime.ToString("yyy-MM-dd"));
+            var result = db.FetchRelation4<CashRegister, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
+            return result;
         }
 
 

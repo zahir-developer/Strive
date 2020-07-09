@@ -2,8 +2,10 @@
 using Strive.BusinessEntities;
 using Strive.Common;
 using Strive.Repository;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace Strive.ResourceAccess
 {
@@ -48,6 +50,36 @@ namespace Strive.ResourceAccess
             List<Location> lstResource = new List<Location>();
             var res = _db.Fetch<Location>(SPEnum.USPGETLOCATIONBYID.ToString(), dynParams);
             return res;
+        }
+
+        public bool AddLocation(List<Location> lstLocation)
+        {
+            int successCount = 0;
+            foreach (var location in lstLocation)
+            {
+                int locationId = Convert.ToInt32(_db.Insert<Location>(location));
+                LocationAddress locAddress = location.LocationAddress.FirstOrDefault();
+                locAddress.RelationshipId = locationId;
+                long addressId = _db.Insert<LocationAddress>(locAddress);
+                if (locationId > 0 && addressId > 0)
+                    successCount++;
+            }
+            return successCount == lstLocation.Count;
+        }
+
+        public bool UpdateLocation(List<Location> lstLocation)
+        {
+            int successCount = 0;
+            foreach (var location in lstLocation)
+            {
+                bool locResult = _db.Update<Location>(location);
+                LocationAddress locAddress = location.LocationAddress.FirstOrDefault();
+                locAddress.RelationshipId = location.LocationId;
+                var addResult = _db.Update<LocationAddress>(locAddress);
+                if (locResult && addResult)
+                    successCount++;
+            }
+            return successCount == lstLocation.Count;
         }
     }
 }

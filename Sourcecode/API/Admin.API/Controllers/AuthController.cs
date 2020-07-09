@@ -35,7 +35,7 @@ namespace Admin.Api.Controllers
         }
 
         [HttpPost, Route("/Admin/Refresh"), AllowAnonymous]
-        public Result Refresh(RegenerateToken regToken)
+        public Result Refresh([FromBody]RegenerateToken regToken)
         {
             string secretKey = Pick("Jwt", "SecretKey");
             var result = _authManager.GenerateTokenByRefreshKey(regToken.Token, regToken.RefreshToken, secretKey);
