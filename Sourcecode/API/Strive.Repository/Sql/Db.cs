@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Slapper;
 using System.Transactions;
+using Dapper.Contrib.Extensions;
 
 namespace Strive.Repository
 {
@@ -17,6 +18,22 @@ namespace Strive.Repository
         {
             dbcon = con;
         }
+
+        public T Get<T>(int id) where T : class
+        {
+            return SqlMapperExtensions.Get<T>(dbcon, id);
+        }
+
+        public bool Update<T>(T list) where T : class
+        {
+            return SqlMapperExtensions.Update(dbcon, list);
+        }
+
+        public long Insert<T>(T list) where T : class
+        {
+            return SqlMapperExtensions.Insert<T>(dbcon, list);
+        }
+
         public void Save(CommandDefinition cmd)
         {
             try

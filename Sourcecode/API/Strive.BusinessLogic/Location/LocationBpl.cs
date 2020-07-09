@@ -75,5 +75,35 @@ namespace Strive.BusinessLogic.Location
             }
             return _result;
         }
+
+        public Result AddLocation(List<BusinessEntities.Location> lstLocation)
+        {
+            try
+            {
+                bool blnStatus = new LocationRal(_tenant).AddLocation(lstLocation);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        public Result UpdateLocation(List<BusinessEntities.Location> lstLocation)
+        {
+            try
+            {
+                bool blnStatus = new LocationRal(_tenant).UpdateLocation(lstLocation);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
     }
 }
