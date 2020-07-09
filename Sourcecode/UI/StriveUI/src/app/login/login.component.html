@@ -20,7 +20,7 @@
                   width: '125px', height: '24px'}"></ngx-skeleton-loader>
                 <label for="emailId" *ngIf="!isLoginLoading">Email address</label>
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '382px', height: '39px'}"></ngx-skeleton-loader>
+                  width: '100%', height: '39px'}"></ngx-skeleton-loader>
                 <input type="email" *ngIf="!isLoginLoading"class="form-control" formControlName="username" id="emailId"
                   aria-describedby="emailHelp" placeholder="Enter email">
               </div>
@@ -29,7 +29,7 @@
                   width: '90px', height: '24px'}"></ngx-skeleton-loader>
                 <label for="password" *ngIf="!isLoginLoading">Password</label>
                 <ngx-skeleton-loader *ngIf="isLoginLoading" animation="progress" [theme]="{ 
-                  width: '382px', height: '39px'}"></ngx-skeleton-loader>
+                  width: '100%', height: '39px'}"></ngx-skeleton-loader>
                 <input type="password" *ngIf="!isLoginLoading" class="form-control" formControlName="password" id="password"
                   placeholder="Password">
               </div>
