@@ -7,7 +7,7 @@ using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {
-    public partial class BaseView : MvxViewController<LoginViewModel>
+    public partial class BaseView : UIViewController
     {
         public BaseView() : base("BaseView", null)
         {
@@ -16,10 +16,6 @@ namespace StriveTimInventory.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            var set = this.CreateBindingSet<BaseView, LoginViewModel>();
-            set.Bind(lblTitle).To(vm => vm.Title);
-            set.Apply();
-            ViewModel.DoLogin();
         }
 
         public override void DidReceiveMemoryWarning()

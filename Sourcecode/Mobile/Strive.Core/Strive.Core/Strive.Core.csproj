@@ -21,6 +21,7 @@
     <Folder Include="ViewModels\TIMInventory\" />
     <Folder Include="ViewModels\Customer\" />
     <Folder Include="Utils\" />
+    <Folder Include="Models\TimInventory\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">

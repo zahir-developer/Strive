@@ -119,15 +119,25 @@
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
             <Visible>false</Visible>
         </ImageAsset>
+        <ImageAsset Include="Resources\Assets.xcassets\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\car-2220049%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\car-2220049%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\car-2220049.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
         <Folder Include="Views\" />
         <Folder Include="MvvmCross\" />
+        <Folder Include="SupportView\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
         <InterfaceDefinition Include="Views\BaseView.xib" />
+        <InterfaceDefinition Include="Views\LoginView.xib" />
+        <InterfaceDefinition Include="Views\ClockInView.xib" />
+        <InterfaceDefinition Include="Views\EmployeeRolesCell.xib" />
+        <InterfaceDefinition Include="Views\RootView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -144,6 +154,24 @@
         <Compile Include="MvvmCross\App.cs" />
         <Compile Include="MvvmCross\AppStart.cs" />
         <Compile Include="MvvmCross\Setup.cs" />
+        <Compile Include="Views\LoginView.cs" />
+        <Compile Include="Views\LoginView.designer.cs">
+          <DependentUpon>LoginView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\ClockInView.cs" />
+        <Compile Include="Views\ClockInView.designer.cs">
+          <DependentUpon>ClockInView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\EmployeeRolesCell.cs" />
+        <Compile Include="Views\EmployeeRolesCell.designer.cs">
+          <DependentUpon>EmployeeRolesCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\EmployeeRolesViewSource.cs" />
+        <Compile Include="SupportView\FlowDelegate.cs" />
+        <Compile Include="Views\RootView.cs" />
+        <Compile Include="Views\RootView.designer.cs">
+          <DependentUpon>RootView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
