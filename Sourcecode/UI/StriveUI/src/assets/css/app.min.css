@@ -10364,7 +10364,7 @@ body[data-layout="detached"] .left-side-menu .side-nav .side-nav-title {
     color: #6c757d;
 }
 body[data-layout="detached"] .leftbar-user {
-    background: url(/../../assets/images/waves.png) no-repeat;
+    background: url(../images/waves.png) no-repeat;
     padding: 30px 20px;
     text-align: center;
 }
@@ -12886,7 +12886,7 @@ h6 {
     line-height: 42px;
 }
 body.authentication-bg {
-    background-image: url(/../assets/images/bg-pattern-light.svg);
+    background-image: url("/assets/images/bg-pattern-light.svg");
     background-size: cover;
     background-position: center;
 }
