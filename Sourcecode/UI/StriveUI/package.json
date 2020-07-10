@@ -31,7 +31,7 @@
     "@ng-idle/core": "^8.0.0-beta.4",
     "@nguniversal/module-map-ngfactory-loader": "^8.2.6",
     "angular2-moment": "^1.9.0",
-    "bootstrap": "^4.4.0",
+    "bootstrap": "^4.5.0",
     "chart.js": "^2.9.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",

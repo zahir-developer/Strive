@@ -22,10 +22,10 @@ namespace Admin.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetCashRegisterByDate/{dateTime}")]
-        public Result GetCashRegisterByDate(DateTime dateTime)
+        [Route("GetCashRegisterDetails/{cashRegisterType}&{locationId}&{dateTime}")]
+        public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
-            return _CashRegisterBpl.GetCashRegisterByDate(dateTime);
+            return _CashRegisterBpl.GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
         }
 
         [HttpPost]

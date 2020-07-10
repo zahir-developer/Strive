@@ -16,10 +16,16 @@ export class ProductSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
+  isTableEmpty: boolean;
   constructor(private productService: ProductService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.getAllproductSetupDetails();
+    //this.getAllproductSetupDetails();
+    if(this.productSetupDetails.length === 0){
+      this.isTableEmpty = true;
+    }else{
+      this.isTableEmpty = false;
+    }
   }
   getAllproductSetupDetails() {
     this.productService.getProduct().subscribe(data =>{

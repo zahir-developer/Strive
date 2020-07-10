@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-closeout-register',
@@ -13,7 +14,7 @@ export class CloseoutRegisterComponent implements OnInit {
     closeoutRegisterForm : FormGroup;
     closeOutDetails: any;
 
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService) { }
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService,private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -58,7 +59,9 @@ export class CloseoutRegisterComponent implements OnInit {
 
   getCloseOutRegister(){
     const today =moment(new Date).format('YYYY-MM-DD');
-    this.registerService.getCashRegisterByDate(today).subscribe(data =>{
+    const cashRegisterType = "CASHOUT";
+    const locationId = 1;
+    this.registerService.getCashRegisterByDate(cashRegisterType,locationId,today).subscribe(data =>{
       if(data.status === "Success"){
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
@@ -87,7 +90,68 @@ export class CloseoutRegisterComponent implements OnInit {
   }
 
   submit(){
-
+    const sourceObj = [];
+    const coin = [{
+      cashRegCoinId : 0,
+      pennies: this.closeoutRegisterForm.value.coinPennies,
+      nickels: this.closeoutRegisterForm.value.coinNickels,
+      dimes: this.closeoutRegisterForm.value.coinDimes,
+      quaters: this.closeoutRegisterForm.value.coinQuaters,
+      halfDollars: this.closeoutRegisterForm.value.coinHalfDollars,
+      dateEntered: new Date()
+    }] 
+    const bill = [{
+      cashRegBillId: 0,
+      ones: this.closeoutRegisterForm.value.billOnes,
+      fives: this.closeoutRegisterForm.value.billFives,
+      tens: this.closeoutRegisterForm.value.billTens,
+      twenties: this.closeoutRegisterForm.value.billTwenties,
+      fifties: this.closeoutRegisterForm.value.billFifties,
+      hundreds: this.closeoutRegisterForm.value.billHundreds,
+      dateEntered: new Date()
+    }]
+    const roll =[{
+      cashRegRollId : 0,
+      pennies: this.closeoutRegisterForm.value.pennieRolls,
+      nickels: this.closeoutRegisterForm.value.nickelRolls,
+      dimes: this.closeoutRegisterForm.value.dimeRolls,
+      quaters: this.closeoutRegisterForm.value.quaterRolls,
+      halfDollars: 0,
+      dateEntered: new Date()
+    }]
+    const other = [{
+      cashRegOthersId : 0,
+      creditCard1: 0,
+      creditCard2: 0,
+      creditCard3: 0,
+      checks : 0,
+      payouts: 0,
+      dateEntered : new Date()
+    }]
+    const formObj = {
+      cashRegisterId: 0,
+      cashRegisterType: 2,
+      locationId: 1,
+      drawerId: 0,
+      userId: 1,
+      enteredDateTime: new Date() ,
+      cashRegRollId: 0,
+      cashRegCoinId: 0,
+      cashRegBillId: 0,
+      cashRegOthersId: 0,
+      cashRegisterCoin: coin,
+      CashRegisterBill: bill,
+      CashRegisterRoll: roll,
+      cashRegisterOther: other
+    };
+    sourceObj.push(formObj);
+    console.log(sourceObj);
+    this.registerService.saveCashRegister(sourceObj).subscribe(data =>{
+      if(data.status === "Success")
+      {
+        this.toastr.success('Record Saved Successfully!!', 'Success!');
+      }
+    });
   }
 
   cancel(){

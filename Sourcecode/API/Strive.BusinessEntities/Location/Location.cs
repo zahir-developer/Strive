@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Dapper.Contrib.Extensions;
+using KeyAttribute = Dapper.Contrib.Extensions.KeyAttribute;
 
 namespace Strive.BusinessEntities
 {
+    [Table("tblLocation")]
     public class Location
     {
+        [Key]
         public int LocationId { get; set; }
         public int? LocationType { get; set; }
         [MaxLength(100)]
@@ -27,7 +31,7 @@ namespace Strive.BusinessEntities
         [MaxLength(100)]
         public string WifiDetail { get; set; }
         public int? WorkhourThreshold { get; set; }
-
+        [Write(false)]
         public List<LocationAddress> LocationAddress { get; set; }
     }
 

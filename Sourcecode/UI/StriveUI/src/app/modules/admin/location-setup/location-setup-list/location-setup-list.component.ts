@@ -16,13 +16,34 @@ export class LocationSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
+  isTableEmpty: boolean;
   constructor(private locationService: LocationService, private toastr: ToastrService, private fb: FormBuilder, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.locationSetupForm = this.fb.group({
       workHour: ['', Validators.required,Validators.maxLength(2)]
     });
-    this.getAllLocationSetupDetails();
+    const tempTable = [{
+      LocationId : 1,
+      LocationName : "Location1",
+      IsFranchise : true,
+      PhoneNumber : "8162827269",
+      Email : "location1@gmail.com"
+    },
+    {
+      LocationId : 2,
+      LocationName : "Location2",
+      IsFranchise : true,
+      PhoneNumber : "81627756569",
+      Email : "location2@gmail.com"
+    }]
+    this.locationSetupDetails = tempTable;
+    //this.getAllLocationSetupDetails();
+    if(this.locationSetupDetails.length === 0){
+      this.isTableEmpty = true;
+    }else{
+      this.isTableEmpty = false;
+    }
   }
   getAllLocationSetupDetails() {
     //this.locationSetupDetails=this.crudService.getlocationSetupDetails();

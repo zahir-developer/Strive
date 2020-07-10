@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
+using MvvmCross.Plugin.Messenger;
 using MvvmCross.ViewModels;
 using Strive.Core.Services.Interfaces;
 
@@ -12,6 +13,7 @@ namespace Strive.Core.ViewModels
     {
         public IMvxCommandCollection Commands { get; protected set; }
         public static IMvxNavigationService _navigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
+        public static IMvxMessenger _mvxMessenger = Mvx.IoCProvider.Resolve<IMvxMessenger>();
 
         public IAdminService AdminService = Mvx.IoCProvider.Resolve<IAdminService>();
 

@@ -67,6 +67,7 @@ namespace Admin.API.Filters
         {
             var isAuth = true;
             var userGuid = string.Empty;
+            var TenantGuid = string.Empty;
             var schemaName = string.Empty;
             if (!context.HttpContext.Request.Path.Value.Contains("Admin/Login") &&
                  !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh") &&
@@ -74,12 +75,13 @@ namespace Admin.API.Filters
             {
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
+                TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid")).Value;
                 schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
             }
-            SetDbConnection(userGuid, schemaName, isAuth);
+            SetDbConnection(userGuid, schemaName, isAuth, TenantGuid);
         }
 
-        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false)
+        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid =null)
         {
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
 
@@ -89,6 +91,8 @@ namespace Admin.API.Filters
             }
             else
             {
+                _tenant.SetAuthDBConnection(strConnectionString);
+
                 var strTenantSchema = _cache.GetString(schemaName);
                 var isSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
 
@@ -102,6 +106,11 @@ namespace Admin.API.Filters
                     throw new Exception("Invalid Login");
                 }
 
+                if(isSchemaAvailable)
+                {
+                    _tenant.SetTenantGuid(tenantGuid);
+                }
+                
                 strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
                 _tenant.SetConnection(strConnectionString);
             }
