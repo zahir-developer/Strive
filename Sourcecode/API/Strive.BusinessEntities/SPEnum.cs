@@ -19,6 +19,7 @@ namespace Strive.BusinessEntities
         USPGETCODES,
         USPGETUSERBYAUTHID,
         USPDELETEEMPLOYEE,
+        USPGETEMPLOYEEBYEMPID,
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,
@@ -43,7 +44,13 @@ namespace Strive.BusinessEntities
         USPSAVECASHREGISTEROTHERS,
         USPSAVECASHREGISTERROLES,
         USPSAVECASHREGISTERROLLS,
-        USPSAVECASHREGISTER
+        USPSAVECASHREGISTER,
+        //Collison
+        USPGETCOLLISION,
+        USPGETCOLLISIONBYID,
+        USPSAVECOLLISION,
+        USPDELETECOLLISION
+
     }
 
 }

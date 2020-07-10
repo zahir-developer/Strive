@@ -5,25 +5,25 @@ using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using Strive.BusinessEntities.Employee;
+using System.Text;
 
-namespace Strive.BusinessLogic
+namespace Strive.BusinessLogic.Collision
 {
-    public class EmployeeBpl : Strivebase, IEmployeeBpl
+    public class CollisionBpl : Strivebase, ICollisionBpl
     {
         readonly ITenantHelper _tenant;
         readonly JObject _resultContent = new JObject();
         Result _result;
-        public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public CollisionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
             _tenant = tenantHelper;
         }
-        public Result GetEmployeeDetails()
+        public Result GetAllCollison()
         {
             try
             {
-                var lstEmployee = new EmployeeRal(_tenant).GetEmployeeDetails(); 
-                _resultContent.Add(lstEmployee.WithName("Employee"));
+                var lstCollision = new CollisionRal(_tenant).GetAllCollison();
+                _resultContent.Add(lstCollision.WithName("Collision"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -32,12 +32,12 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result GetEmployeeByIdDetails(long id)
+        public Result GetCollisionById(long id)
         {
             try
             {
-                var lstEmpDetailById = new EmployeeRal(_tenant).GetEmployeeByIdDetails(id);
-                _resultContent.Add(lstEmpDetailById.WithName("EmployeeDetail"));
+                var lstCollisionById = new CollisionRal(_tenant).GetCollisionById(id);
+                _resultContent.Add(lstCollisionById.WithName("CollisionDetail"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -46,11 +46,11 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveEmployeeDetails(List<Employees> lstEmployee)
+        public Result SaveCollison(List<Strive.BusinessEntities.Collision.Collision> lstCollision)
         {
             try
             {
-                bool blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
+                bool blnStatus = new CollisionRal(_tenant).SaveCollison(lstCollision);
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -60,12 +60,12 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result DeleteEmployeeDetails(long empId)
+        public Result DeleteCollision(long collisionId)
         {
             try
             {
-                var lstEmployee = new EmployeeRal(_tenant).DeleteEmployeeDetails(empId);
-                _resultContent.Add(lstEmployee.WithName("Employee"));
+                var lstCollision = new CollisionRal(_tenant).DeleteCollisionDetails(collisionId);
+                _resultContent.Add(lstCollision.WithName("Collision"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -74,6 +74,7 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        
+
     }
 }
+

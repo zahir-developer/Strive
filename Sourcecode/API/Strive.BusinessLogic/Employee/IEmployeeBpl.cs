@@ -7,7 +7,8 @@ namespace Strive.BusinessLogic
     public interface IEmployeeBpl
     {
         Result GetEmployeeDetails();
-        Result SaveEmployeeDetails(List<EmployeeTable> lstEmployee);
+        Result SaveEmployeeDetails(List<Employees> lstEmployee);
         Result DeleteEmployeeDetails(long empId);
+        Result GetEmployeeByIdDetails(long id);
     }
 }
