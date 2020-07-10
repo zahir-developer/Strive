@@ -1,9 +1,9 @@
-
-section#login {
-  background: url(/../../assets/images/login-bg@2x.jpg);
-  background-size: cover;
-  height: 100%;
-  min-height: 100vh;
+section#login
+{
+	background: url(../img/login-bg@2x.jpg);
+    background-size: cover;
+    height: 100%;
+    min-height: 100vh;
 }
 
 section#login .login-panel

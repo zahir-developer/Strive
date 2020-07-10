@@ -7,16 +7,8 @@ import { AuthenticateObservableService } from '../observable-service/authenticat
 export class UserDataService {
   isAuthenticated = false;
   constructor(private authenticateObservableService: AuthenticateObservableService) {
-    const authData = localStorage.getItem('authorizationToken');
-    if (authData) {
-      this.setIsAuthenticate();
-    }
-  }
-  setIsAuthenticate() {
-    this.isAuthenticated = true;
   }
   setUserSettings(loginToken) {
-    console.log(loginToken);
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
     localStorage.setItem('authorizationToken', token.Token);

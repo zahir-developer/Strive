@@ -22,7 +22,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var lstEmployee = new EmployeeRal(_tenant).GetEmployeeDetails(); 
+                var lstEmployee = new EmployeeRal(_tenant).GetEmployeeDetails();
                 _resultContent.Add(lstEmployee.WithName("Employee"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -38,6 +38,14 @@ namespace Strive.BusinessLogic
             try
             {
                 bool blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
+
+                if (blnStatus)
+                {
+                    List<EmployeeLogin> lstEmployeeLogin = new List<EmployeeLogin>();
+                    lstEmployeeLogin.Add(new EmployeeLogin());
+                    new EmployeeRal(_tenant, true).SaveEmployeeLogin(lstEmployeeLogin);
+                }
+
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -61,6 +69,6 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        
+
     }
 }

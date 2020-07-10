@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserDataService } from 'src/app/shared/util/user-data.service';
+import { AuthService } from 'src/app/shared/services/common-service/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidenav',
@@ -8,18 +10,12 @@ import { UserDataService } from 'src/app/shared/util/user-data.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SidenavComponent implements OnInit {
-
-  constructor(private user: UserDataService) { }
+  isAuthenticated: boolean;
+  isLoggedIn$: Observable<boolean>;
+  constructor(private user: UserDataService, private authService: AuthService) { }
 
   ngOnInit(): void {
-  }
-  openNav() {
-    document.getElementById('mySidebar').style.width = '200px';
-    document.getElementById('main').style.marginLeft = '200px';
-  }
-
-  closeNav() {
-    document.getElementById('mySidebar').style.width = '0';
-    document.getElementById('main').style.marginLeft = '0';
+    this.isLoggedIn$ = this.authService.isLoggedIn;
+    console.log(this.isLoggedIn$, 'side Nae');
   }
 }

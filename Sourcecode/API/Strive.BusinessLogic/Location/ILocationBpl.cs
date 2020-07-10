@@ -9,5 +9,8 @@ namespace Strive.BusinessLogic.Location
         Result SaveLocationDetails(List<BusinessEntities.Location> lstLocation);
         Result DeleteLocationDetails(int id);
         Result GetLocationById(int id);
+        Result AddLocation(List<BusinessEntities.Location> lstLocation);
+        Result UpdateLocation(List<BusinessEntities.Location> lstLocation);
+
     }
 }
