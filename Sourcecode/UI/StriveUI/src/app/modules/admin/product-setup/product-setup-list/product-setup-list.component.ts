@@ -19,7 +19,7 @@ export class ProductSetupListComponent implements OnInit {
   constructor(private productService: ProductService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.getAllproductSetupDetails();
+    //this.getAllproductSetupDetails();
   }
   getAllproductSetupDetails() {
     this.productService.getProduct().subscribe(data =>{

@@ -20,7 +20,7 @@ export class ServiceSetupListComponent implements OnInit {
   constructor(private serviceSetup: ServiceSetupService,private toastr: ToastrService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.getAllserviceSetupDetails();
+    //this.getAllserviceSetupDetails();
   }
   getAllserviceSetupDetails() {
     this.serviceSetup.getServiceSetup().subscribe(data =>{
