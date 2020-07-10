@@ -1,5 +1,16 @@
 body .ui-dialog .ui-dialog-titlebar {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     font-size: 1.25rem;
     line-height: 1.5;
+}
+body .ui-dialog .ui-dialog-content {
+  font-size: 1rem;
+}
+body .ui-paginator {
+  background-color: #fff;
+  padding-top: 1rem;
+  border: none;
+}
+.ui-paginator {
+  text-align: right;
 }

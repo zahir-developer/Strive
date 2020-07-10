@@ -9,6 +9,7 @@ import { ServiceSetupComponent } from '../service-setup/service-setup.component'
 const setupRoutes: Routes = [
     { path: 'setup', component: SetupComponent }, {
         path: '', component: SetupComponent, children: [
+          { path: '', redirectTo: 'location' },
           {path: 'location', component: LocationSetupComponent},
           {path: 'service', component: ServiceSetupComponent},
           {path: 'product', component: ProductSetupComponent},

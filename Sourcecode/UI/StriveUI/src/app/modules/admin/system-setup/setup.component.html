@@ -1,32 +1,47 @@
-<div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-  <h3>System Setup</h3>
-</div>
-<div class="col-12">
-  <div class="row">
-    <!--Setup List-->
-    <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 setup-list p-l-0 web-display">
-      <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
-        <li class="nav-item"> <a class="nav-link active" id="v-pills-basic-tab" data-toggle="pill"
-            [routerLink]="'/admin/setup/location'" role="tab" aria-controls="v-pills-basic"
-            aria-selected="true">Basic</a> </li>
-        <li class="nav-item"> <a class="nav-link" id="v-pills-service-tab" data-toggle="pill"
-            [routerLink]="'/admin/setup/service'" role="tab" aria-controls="v-pills-service"
-            aria-selected="false">Service</a> </li>
-        <li class="nav-item"> <a class="nav-link" id="v-pills-product-tab" data-toggle="pill"
-            [routerLink]="'/admin/setup/product'" role="tab" aria-controls="v-pills-product"
-            aria-selected="false">Product</a> </li>
-        <li class="nav-item"> <a class="nav-link" id="v-pills-vendor-tab" data-toggle="pill"
-            [routerLink]="'/admin/setup/vendor'" role="tab" aria-controls="v-pills-vendor"
-            aria-selected="false">Vendor</a> </li>
-        <li class="nav-item"> <a class="nav-link" id="v-pills-membership-tab" data-toggle="pill"
-            href="#v-pills-membership" role="tab" aria-controls="v-pills-membership" aria-selected="true">Membership</a>
-        </li>
-      </ul>
-    </div>
-    <!--Setup List-->
-    <!--Setup Content-->
-    <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 setup-content m-t-5 p-0">
-      <router-outlet></router-outlet>
+<div id="page-content">
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-12 p-0" aria-label="breadcrumb">
+        <!--bread crumb-->
+        <ol class="breadcrumb font-size--9">
+          <li class="breadcrumb-item"><a href="#">Admin</a></li>
+          <li class="breadcrumb-item active" aria-current="page">System Setup</li>
+        </ol>
+      </nav>
+      <!--bread crumb-->
+      <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+        <h3>System Setup</h3>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <!--Setup List-->
+          <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 setup-list p-l-0 web-display">
+            <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
+              <li class="nav-item"> <a class="nav-link" id="v-pills-basic-tab" data-toggle="pill"
+                [routerLink]='["./location"]' [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-basic" aria-selected="false">Basic</a> </li>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-service-tab" data-toggle="pill"
+                  [routerLink]="'/admin/setup/service'" [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-service" aria-selected="false">Service</a> </li>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-product-tab" data-toggle="pill"
+                  [routerLink]="'/admin/setup/product'" [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-product" aria-selected="false">Product</a> </li>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-vendor-tab" data-toggle="pill"
+                  [routerLink]="'/admin/setup/vendor'" [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-vendor" aria-selected="true">Vendor</a> </li>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-membership-tab" data-toggle="pill"
+                  href="#v-pills-membership" role="tab" aria-controls="v-pills-membership"
+                  aria-selected="true">Membership</a>
+              </li>
+            </ul>
+          </div>
+          <!--Setup List-->
+          <!--Setup Content-->
+          <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 setup-content m-t-5 p-0">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

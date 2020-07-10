@@ -16,12 +16,15 @@ export class LoginComponent implements OnInit {
   submitted = false;
   display = false;
   loginDetail: string;
-isLoginLoading: boolean;
+  isLoginLoading: boolean;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
               private authService: AuthService) { }
 
   ngOnInit(): void {
-
+    this.authService.isLoggedIn.subscribe(data => {
+      console.log(data, 'isloggedIn value');
+    });
+    this.authService.logout();
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('')

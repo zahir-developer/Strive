@@ -31,7 +31,7 @@
                                 </form>
                             </div>
                             <p-table [value]="locationSetupDetails"
-                                class="table table-responsive-xl table-striped table-hover">
+                                class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5" >
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th scope="col">Location ID</th>
