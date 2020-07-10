@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="MvvmCross" Version="6.4.2" />
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.442" />
+    <PackageReference Include="MvvmCross.Plugin.Messenger" Version="6.4.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -21,6 +22,7 @@
     <Folder Include="ViewModels\TIMInventory\" />
     <Folder Include="ViewModels\Customer\" />
     <Folder Include="Utils\" />
+    <Folder Include="Models\TimInventory\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">

@@ -16,7 +16,6 @@
 	<string>12.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
-		<integer>1</integer>
 		<integer>2</integer>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -40,5 +39,10 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+	</array>
 </dict>
 </plist>
