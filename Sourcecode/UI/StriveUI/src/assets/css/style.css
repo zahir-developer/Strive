@@ -276,3 +276,12 @@ table th
 	font-weight: 600;
 	font-size: 1rem
 }
+
+/* Added style for p-dialog - 7-10-2020 */
+
+/* body .ui-dialog .ui-dialog-titlebar {
+    background-color: #ffff !important;
+    font-weight: 0 !important;
+    font-size: 1.25rem !important;
+    line-height: 1.5 !important;
+} */
