@@ -1,80 +1,35 @@
-<div class="navbar-custom" style="z-index:2;">
-  <ul class="list-unstyled topbar-right-menu float-right mb-0">
-    <li class="notification-list">
-      <a class="nav-link" href="javascript: void(0);">
-        <i class="dripicons-gear noti-icon"></i>
-      </a>
+<nav class="nav navbar p-0" *ngIf="isLoggedIn$ | async as isLoggedIn"><!--header-->
+  <ul class="w-100 bg-light">
+    <!--mobile-nav-trigger-->
+    <li class="mobile-nav-trigger d-none d-block d-md-none d-lg-none d-xl-none">
+      <ul>
+        <li>
+          <button class="d-flex d-block float-left button-menu-mobile nav-link p-t-20" onclick="openmbsidebar()"> <i class="fa fa-bars font-size-1-2 theme-primary-color"></i> </button>
+        </li>
+        <li class="mobile-logo-wrapper">
+          <ul>
+            <li class="mobile-logo"> <span> <img src="assets/img/strive-mobile-logo-blue.png"  alt=""> </span> </li>
+          </ul>
+        </li>
+      </ul>
     </li>
-    <li class="dropdown notification-list">
-      <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-        <i class="mdi mdi-message-processing-outline noti-icon" style="line-height: 76px;"></i>
-        <span class="noti-icon-badge" style="background-color: #FD397A;"> 4 </span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg">
-
-        <!-- item-->
-        <div class="dropdown-item noti-title">
-          <h5 class="m-0">
-            <span class="float-right">
-              <a href="javascript: void(0);" class="text-dark">
-                <small>Clear All</small>
-              </a>
-            </span>Notification
-          </h5>
-        </div>
-      </div>
+    <!--mobile-nav-trigger-->
+    
+    <li class="admin-menu">
+      <ul class="d-flex float-right align-self-center m-r-20">
+        <li> <a href="#"><i class="fa fa-gear"></i></a> </li>
+        <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span class="badge position-absolute theme-notification-background-icon-color">1</span> <span class="sr-only ">unread messages</span></a>
+          <div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
+            <h6 class="font-weight-bold font-size--8"> Message Notification</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item p-0 m-t-5 font-size--8" href="#"><i class="fa fa-user-md"></i>unread messgage john doe</a> </div>
+        </li>
+        <li class="admin"> <a href="#"  class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle" data-toggle="dropdown"> <i class="fa fa-user-circle"><span class="i-text web-display">Admin</span></i></a>
+          <div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle"> <a class="dropdown-item" href="#"><i class="fa fa-user-md"></i> Edit Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out" (click)="logout()"></i> Logout</a> </div>
+        </li>
+      </ul>
     </li>
-
-
-
-
-    <li class="dropdown notification-list">
-      <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
-         aria-expanded="false">
-        <span class="account-user-avatar">
-          <img src="assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
-        </span>
-        <span>
-          <span class="account-user-name p-t-10">Admin</span>
-          <span class="account-position"></span>
-        </span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
-
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
-          <i class="mdi mdi-account-circle mr-1"></i>
-          <span>My Account</span>
-        </a>
-
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
-          <i class="mdi mdi-account-edit mr-1"></i>
-          <span>Settings</span>
-        </a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
-          <i class="mdi mdi-logout mr-1"></i>
-          <span>Logout</span>
-        </a>
-
-      </div>
-    </li>
-
   </ul>
-  <button class="button-menu-mobile nav-link quick-sidebar-toggler disable-btn">
-    <i class="mdi mdi-menu"></i>
-  </button>
-  <!--                         <div class="app-search dropdown d-none d-lg-block">
-                              <form>
-                                  <div class="input-group">
-                                      <input type="text" class="form-control dropdown-toggle" placeholder="Search..." id="top-search">
-                                      <span class="mdi mdi-magnify search-icon"></span>
-                                      <div class="input-group-append">
-                                          <button class="btn btn-primary" type="submit">Search</button>
-                                      </div>
-                                  </div>
-
-                              </form>
-                          </div> -->
-</div>
+</nav>

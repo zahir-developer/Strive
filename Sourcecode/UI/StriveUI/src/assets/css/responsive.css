@@ -6,7 +6,34 @@
     .mob-display{
         display: block !important;
     }
-    
+	#page-content
+	{
+		padding: 1.5rem;
+	}
+	
+	.setup-cta-btn button
+	{
+		width: 100%;
+		padding: .25rem .7rem;
+		}
+	
+	button
+	{
+		font-size:0.8rem !important;
+	}
+	
+	.mm-b-10
+	{
+		margin-bottom: 10px;
+	}
+}
+
+@media (max-width: 991.98px)
+{
+	.admin-menu ul li.message-notification .dropdown-menu {
+    right: 60px;
+}   
+
 }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -17,6 +44,9 @@
     .mob-display{
         display: block !important;
     }
+	.modal-xl{
+      max-width: auto;
+   }
    
 }
 
@@ -28,17 +58,24 @@
     .mob-display{
         display: block !important;
     }
-   
+	.modal-xl{
+      max-width: 80%;
+   }
+  
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  
+  .modal-xl{
+      max-width: 80%;
+   }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
+@media (min-width: 1200px) 
+{
+	.modal-xl{
+      max-width: 70%;
+   }
 
-}@charset "utf-8";
-/* CSS Document */
-
+}
