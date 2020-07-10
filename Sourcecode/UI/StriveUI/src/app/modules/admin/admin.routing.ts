@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { SchedulingComponent } from './scheduling/scheduling.component';
-import { CashRegisterComponent } from './cash-register/cash-register.component';
+import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 import { ThemeComponent } from './theme/theme.component';
 
@@ -14,7 +14,7 @@ const adminRoutes: Routes = [
           path: 'employees', component: EmployeesComponent},
         {path: 'scheduling', component: SchedulingComponent},
         {path: 'theme', component: ThemeComponent},
-        {path: 'cashregister', component: CashRegisterComponent},
+        {path: 'cashregister', component: CashinRegisterComponent},
         {path: 'closeoutregister', component: CloseoutRegisterComponent},
         {path: 'setup', loadChildren: () => import('./system-setup/setup.module').then(mod => mod.SetupModule)},     
       ]

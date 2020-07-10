@@ -18,12 +18,12 @@ import { ThemeComponent } from './theme/theme.component';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { HeaderComponent } from './header/header.component';
 import { CardComponent } from './card/card.component';
-import { CashRegisterComponent } from './cash-register/cash-register.component';
+import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
-     ThemeComponent, HeaderComponent, CardComponent,CashRegisterComponent,CloseoutRegisterComponent],
+     ThemeComponent, HeaderComponent, CardComponent,CashinRegisterComponent,CloseoutRegisterComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

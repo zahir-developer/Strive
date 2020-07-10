@@ -22,7 +22,7 @@ export class LocationSetupListComponent implements OnInit {
     this.locationSetupForm = this.fb.group({
       workHour: ['', Validators.required,Validators.maxLength(2)]
     });
-    this.getAllLocationSetupDetails();
+    //this.getAllLocationSetupDetails();
   }
   getAllLocationSetupDetails() {
     //this.locationSetupDetails=this.crudService.getlocationSetupDetails();

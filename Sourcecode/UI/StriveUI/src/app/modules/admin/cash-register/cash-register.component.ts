@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cash-register',
   templateUrl: './cash-register.component.html',
   styleUrls: ['./cash-register.component.css']
 })
-export class CashRegisterComponent implements OnInit {
+export class CashinRegisterComponent implements OnInit {
 
     cashRegisterForm : FormGroup;
     cashDetails: any;
 
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService) { }
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService,private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -37,29 +38,35 @@ export class CashRegisterComponent implements OnInit {
         rainPercentage: ['',],
         goal: ['',]
     });
-    this.cashRegisterForm.patchValue({
-        coinPennies: 0,
-        coinNickels: 0,
-        coinDimes: 0,
-        coinQuaters: 0,
-        coinHalfDollars: 0,
-        billOnes: 0,
-        billFives: 0,
-        billTens: 0,
-        billTwenties: 0,
-        billFifties: 0,
-        billHundreds: 0,
-        pennieRolls: 0,
-        nickelRolls: 0,
-        dimeRolls: 0,
-        quaterRolls: 0,
-    });
+    this.default();
     this.getCashRegister();
+  }
+
+  default(){
+    this.cashRegisterForm.patchValue({
+      coinPennies: 0,
+      coinNickels: 0,
+      coinDimes: 0,
+      coinQuaters: 0,
+      coinHalfDollars: 0,
+      billOnes: 0,
+      billFives: 0,
+      billTens: 0,
+      billTwenties: 0,
+      billFifties: 0,
+      billHundreds: 0,
+      pennieRolls: 0,
+      nickelRolls: 0,
+      dimeRolls: 0,
+      quaterRolls: 0,
+  });
   }
 
   getCashRegister(){
     const today =moment(new Date).format('YYYY-MM-DD');
-    this.registerService.getCashRegisterByDate(today).subscribe(data =>{
+    const cashRegisterType = "CASHIN";
+    const locationId = 1;
+    this.registerService.getCashRegisterByDate(cashRegisterType,locationId,today).subscribe(data =>{
       if(data.status === "Success"){
         const closeOut = JSON.parse(data.resultData);
         this.cashDetails = closeOut.CashRegister;
@@ -83,16 +90,81 @@ export class CashRegisterComponent implements OnInit {
             quaterRolls: this.cashDetails[0].CashRegisterRoll.Quaters
           });
         }
+        else{
+          this.default();
+        }
       }
     });  
   }
 
   submit(){
-
+    const sourceObj = [];
+    const coin = [{
+      cashRegCoinId : 0,
+      pennies: this.cashRegisterForm.value.coinPennies,
+      nickels: this.cashRegisterForm.value.coinNickels,
+      dimes: this.cashRegisterForm.value.coinDimes,
+      quaters: this.cashRegisterForm.value.coinQuaters,
+      halfDollars: this.cashRegisterForm.value.coinHalfDollars,
+      dateEntered: moment(new Date).format('YYYY-MM-DD')
+    }] 
+    const bill = [{
+      cashRegBillId: 0,
+      ones: this.cashRegisterForm.value.billOnes,
+      fives: this.cashRegisterForm.value.billFives,
+      tens: this.cashRegisterForm.value.billTens,
+      twenties: this.cashRegisterForm.value.billTwenties,
+      fifties: this.cashRegisterForm.value.billFifties,
+      hundreds: this.cashRegisterForm.value.billHundreds,
+      dateEntered: moment(new Date).format('YYYY-MM-DD')
+    }]
+    const roll =[{
+      cashRegRollId : 0,
+      pennies: this.cashRegisterForm.value.pennieRolls,
+      nickels: this.cashRegisterForm.value.nickelRolls,
+      dimes: this.cashRegisterForm.value.dimeRolls,
+      quaters: this.cashRegisterForm.value.quaterRolls,
+      halfDollars: 0,
+      dateEntered: moment(new Date).format('YYYY-MM-DD')
+    }]
+    const other = [{
+      cashRegOthersId : 0,
+      creditCard1: 0,
+      creditCard2: 0,
+      creditCard3: 0,
+      checks : 0,
+      payouts: 0,
+      dateEntered : moment(new Date).format('YYYY-MM-DD')
+    }]
+    const formObj = {
+      cashRegisterId: 0,
+      cashRegisterType: 1,
+      locationId: 1,
+      drawerId: 0,
+      userId: 1,
+      enteredDateTime: moment(new Date).format('YYYY-MM-DD') ,
+      cashRegRollId: 0,
+      cashRegCoinId: 0,
+      cashRegBillId: 0,
+      cashRegOthersId: 0,
+      cashRegisterCoin: coin,
+      CashRegisterBill: bill,
+      CashRegisterRoll: roll,
+      cashRegisterOther: other
+    };
+    sourceObj.push(formObj);
+    console.log(sourceObj);
+    this.registerService.saveCashRegister(sourceObj).subscribe(data =>{
+      if(data.status === "Success")
+      {
+        this.toastr.success('Record Saved Successfully!!', 'Success!');
+      }
+    });
+    this.getCashRegister();
   }
 
   cancel(){
-    
+    this.getCashRegister();
   }
   
 }
