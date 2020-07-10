@@ -12,6 +12,7 @@ namespace Strive.BusinessEntities
         USPGETALLSERVICETYPE,
         USPGETUSERS,
         USPSAVEUSER,
+        USPSAVELOGIN,
         //Employee
         USPGETEMPLOYEE,
         USPSAVEEMPLOYEE,

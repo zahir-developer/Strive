@@ -20,6 +20,12 @@ namespace Strive.ResourceAccess
             _dbconnection = dbconnection;
         }
 
+        public EmployeeRal(ITenantHelper tenant, bool isAuth)
+        {
+            if (isAuth)
+                _dbconnection = tenant.dbAuth();
+        }
+
         public EmployeeRal(ITenantHelper tenant)
         {
             _dbconnection = tenant.db();
@@ -70,5 +76,14 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+
+        public void SaveEmployeeLogin(List<EmployeeLogin> lstEmployeeLogin)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@Logintbl", lstEmployeeLogin.ToDataTable().AsTableValuedParameter("tvpAuthMaster"));
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOGIN.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+        }
+
     }
 }
