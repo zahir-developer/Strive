@@ -6,6 +6,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClockInView">
             <connections>
@@ -20,9 +25,14 @@
             <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="LCf-37-blF">
+                    <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </imageView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ybv-28-lx1">
                     <rect key="frame" x="82" y="417" width="670" height="360"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="360" id="cnN-g0-hrA"/>
                         <constraint firstAttribute="width" constant="670" id="iul-o0-oSb"/>
@@ -35,37 +45,33 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Service &amp; Clock-In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOt-Kp-r6f">
-                    <rect key="frame" x="305" y="344" width="224.5" height="23"/>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                    <nil key="textColor"/>
+                    <rect key="frame" x="272" y="314" width="290.5" height="33"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="24"/>
+                    <color key="textColor" red="0.69258880619999996" green="0.98452872039999995" blue="0.95296400790000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M9p-ey-cbq">
-                    <rect key="frame" x="292" y="837" width="250" height="50"/>
+                    <rect key="frame" x="283.5" y="837" width="267" height="55"/>
                     <color key="backgroundColor" red="0.3717451692" green="0.77695614099999999" blue="0.71768742799999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="R6b-rf-zvy"/>
+                        <constraint firstAttribute="height" constant="55" id="R6b-rf-zvy"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                     <state key="normal" title="CLOCK-IN">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="LCf-37-blF">
-                    <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="LCf-37-blF" firstAttribute="top" secondItem="2" secondAttribute="top" id="4ll-NI-m5n"/>
-                <constraint firstItem="ybv-28-lx1" firstAttribute="top" secondItem="AOt-Kp-r6f" secondAttribute="bottom" constant="50" id="7GP-gc-3HX"/>
+                <constraint firstItem="ybv-28-lx1" firstAttribute="top" secondItem="AOt-Kp-r6f" secondAttribute="bottom" constant="70" id="7GP-gc-3HX"/>
                 <constraint firstItem="M9p-ey-cbq" firstAttribute="top" secondItem="ybv-28-lx1" secondAttribute="bottom" constant="60" id="FGA-r5-ly7"/>
                 <constraint firstItem="LCf-37-blF" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="FfC-JG-r0q"/>
                 <constraint firstItem="M9p-ey-cbq" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="JwQ-dD-cMw"/>
                 <constraint firstItem="ybv-28-lx1" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="KYR-TO-XeA"/>
                 <constraint firstAttribute="trailing" secondItem="LCf-37-blF" secondAttribute="trailing" id="Zw4-Dt-7gj"/>
-                <constraint firstItem="M9p-ey-cbq" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.3" id="b0D-9p-76o"/>
+                <constraint firstItem="M9p-ey-cbq" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.32" id="b0D-9p-76o"/>
                 <constraint firstAttribute="bottom" secondItem="LCf-37-blF" secondAttribute="bottom" id="hsJ-Ds-AsL"/>
                 <constraint firstItem="AOt-Kp-r6f" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="pNL-Fc-EG4"/>
                 <constraint firstItem="ybv-28-lx1" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="q3U-se-vEO"/>
@@ -74,6 +80,6 @@
         </view>
     </objects>
     <resources>
-        <image name="car_image_bg" width="1614" height="1076"/>
+        <image name="car_image_bg" width="768" height="1024"/>
     </resources>
 </document>

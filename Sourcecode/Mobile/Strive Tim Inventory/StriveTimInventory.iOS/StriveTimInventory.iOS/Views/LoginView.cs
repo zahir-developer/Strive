@@ -33,10 +33,6 @@ namespace StriveTimInventory.iOS.Views
         private void DoInitialSetup()
         {
             NavigationController.NavigationBarHidden = true;
-            loginLabel.Font = DesignUtils.OpenSansBoldTitle();
-            LoginButton.Font = DesignUtils.OpenSansBoldButton();
-            UserIdTxtField.Font = DesignUtils.OpenSansRegularText();
-            PasswordTxtField.Font = DesignUtils.OpenSansRegularText();
             LoginButton.Layer.CornerRadius = 3;
         }
     }

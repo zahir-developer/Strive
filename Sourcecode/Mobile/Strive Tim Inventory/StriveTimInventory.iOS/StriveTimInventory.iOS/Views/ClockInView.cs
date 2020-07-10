@@ -58,10 +58,7 @@ namespace StriveTimInventory.iOS.Views
                 Font = DesignUtils.OpenSansRegularText(),
                 TextColor = UIColor.Clear.FromHex(0x24489A),
             }, UIControlState.Normal);
-            LogoutButton.Clicked += (sender, e) => { System.Diagnostics.Debug.WriteLine("Button tap"); };
             NavigationItem.LeftBarButtonItem = LogoutButton;
-            ServiceLabel.Font = DesignUtils.OpenSansBoldBig();
-            ClockinButton.Font = DesignUtils.OpenSansBoldButton();
             ClockinButton.Layer.CornerRadius = 3;
         }
     }

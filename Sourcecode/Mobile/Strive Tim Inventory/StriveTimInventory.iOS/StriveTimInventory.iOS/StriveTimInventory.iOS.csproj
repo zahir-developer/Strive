@@ -123,11 +123,31 @@
         </ImageAsset>
         <ImageAsset Include="Resources\Assets.xcassets\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\car-2220049%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\car-2220049%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\car-2220049.png" />
         <ImageAsset Include="Assets.xcassets\TabIcon.imageset\Contents.json" />
         <ImageAsset Include="Assets.xcassets\TabIcon.imageset\planet-1.pdf" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\portrait-bg%402x.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\portrait-bg.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\portrait-bg-1.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\car_image_bg.imageset\portrait-bg%402x-1.jpg" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_icon.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_icon.imageset\Strive-Logo.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_icon.imageset\Strive-Logo%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_icon.imageset\Strive-Logo%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_icon.imageset\Strive-Logo%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_icon.imageset\Strive-Logo-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_splash_icon.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_splash_icon.imageset\Strive-Logo-Splash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_splash_icon.imageset\Strive-Logo-Splash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_splash_icon.imageset\Strive-Logo-Splash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_splash_icon.imageset\Strive-Logo-Splash-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\strive_splash_icon.imageset\Strive-Logo-Splash%402x-1.png" />
+        <ImageAsset Include="Assets.xcassets\TabIcon.imageset\Icon ionic-ios-time%402x.png" />
+        <ImageAsset Include="Assets.xcassets\TabIcon.imageset\Icon ionic-ios-time.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-cashier.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-cashier.imageset\icon-cashier%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-cashier.imageset\icon-cashier.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -137,6 +157,9 @@
         <Folder Include="UIUtils\" />
         <Folder Include="Resources\Assets.xcassets\TabIcon.imageset\" />
         <Folder Include="Assets.xcassets\TabIcon.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\strive_icon.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\strive_splash_icon.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-cashier.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
