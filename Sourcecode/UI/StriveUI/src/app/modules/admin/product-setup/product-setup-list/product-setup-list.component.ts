@@ -57,12 +57,12 @@ closePopupEmit(event) {
 }
 add( data, productDetails?) {
   if (data === 'add') {
-    this.headerData = 'Create Setup';
+    this.headerData = 'Add New Product';
     this.selectedData = productDetails;
     this.isEdit = false;
     this.showDialog = true;
   } else {
-    this.headerData = 'Edit Setup';
+    this.headerData = 'Edit Product';
     this.selectedData = productDetails;
     this.isEdit = true;
     this.showDialog = true;

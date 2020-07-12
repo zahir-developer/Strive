@@ -37,18 +37,28 @@
               "src/assets/css/responsive.css",
               "src/assets/css/layout.css",
               "src/assets/css/color.css",
+              // "src/assets/css/icons.min.css",
+              // "src/assets/css/app.min.css",
+              // "src/assets/css/app-dark.min.css",
+              // "src/assets/css/default.css",
+              // "src/assets/css/components.min.css",
               "src/styles.css",
               // "src/app/themes/style.scss",
-              "node_modules/quill/dist/quill.core.css",
+            "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              // "node_modules/jquery/dist/jquery.min.js",
+              // "node_modules/popper.js/dist/umd/popper.min.js",
+              // "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/quill/dist/quill.js"
+              "node_modules/quill/dist/quill.js",
+              // "src/assets/js/vendor.min.js",
+              // "src/assets/js/app.min.js",
+              // "src/assets/js/jquery.slimscroll.min.js",
+              // "src/assets/js/default.js",
+              // "src/assets/js/quick-sidebar.min.js"
             ]
           },
           "configurations": {

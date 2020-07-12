@@ -9294,7 +9294,7 @@ body[ng-controller] .modal {
     padding: 11px 0 9px;
 }
 .portlet.box > .portlet-title > .tools > a.remove {
-    background-image: url(../img/portlet-remove-icon-white.png);
+    background-image: url(../images/portlet-remove-icon-white.png);
 }
 .portlet.box > .portlet-title > .tools > a.config {
     background-image: url(../img/portlet-config-icon-white.png);

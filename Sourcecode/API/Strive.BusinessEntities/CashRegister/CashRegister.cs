@@ -10,14 +10,16 @@ namespace Strive.BusinessEntities.CashRegister
         public int CashRegisterId { get; set; }
         public int? CashRegisterType { get; set; }
         public int? LocationId { get; set; }
-        //public int? DrawerId { get; set; }
+        public int? DrawerId { get; set; }
         public int? UserId { get; set; }
-        [Column(TypeName = "datetime")]
+
+        [Column(TypeName = "datetime2")]
         public DateTime? EnteredDateTime { get; set; }
-        public CashRegisterCoin CashRegisterCoin { get; set; }
-        public CashRegisterBill CashRegisterBill { get; set; }
-        public CashRegisterRoll CashRegisterRoll { get; set; }
-        public CashRegisterOther CashRegisterOther { get; set; }
+        public int? CashRegCoinId { get; set; }
+        public int? CashRegBillId { get; set; }
+        public int? CashRegRollId { get; set; }              
+        public int? CashRegOthersId { get; set; }  
 
     }
 }
+
