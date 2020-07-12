@@ -5,6 +5,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 {
     public class LoginViewModel : BaseViewModel
     {
+
         public LoginViewModel()
         {
         }
