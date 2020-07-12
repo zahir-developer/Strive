@@ -33,6 +33,8 @@
   <ItemGroup>
     <Compile Update="Resources\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
 </Project>
