@@ -26,7 +26,6 @@ namespace StriveTimInventory.iOS.Views
                 var set = (this).CreateBindingSet<EmployeeRolesCell, EmployeeRole>();
                 //set.Bind(bookThumbnail).For(c => c.ImagePath).To(vm => vm.PhotoUri);
                 //set.Bind(bookName).To(vm => vm.Name);
-                set.Bind(RoleTitileLabel).To(vm => vm.Title);
                 set.Apply();
             });
         }

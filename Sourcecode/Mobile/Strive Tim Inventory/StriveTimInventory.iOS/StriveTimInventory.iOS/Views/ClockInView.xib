@@ -10,6 +10,9 @@
         <array key="OpenSans-Bold.ttf">
             <string>OpenSans-Bold</string>
         </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClockInView">
@@ -45,43 +48,65 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Service &amp; Clock-In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOt-Kp-r6f">
-                    <rect key="frame" x="272" y="314" width="290.5" height="33"/>
+                    <rect key="frame" x="272" y="309" width="290.5" height="33"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="24"/>
                     <color key="textColor" red="0.69258880619999996" green="0.98452872039999995" blue="0.95296400790000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M9p-ey-cbq">
-                    <rect key="frame" x="283.5" y="837" width="267" height="55"/>
+                    <rect key="frame" x="254.5" y="837" width="325" height="55"/>
                     <color key="backgroundColor" red="0.3717451692" green="0.77695614099999999" blue="0.71768742799999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="R6b-rf-zvy"/>
+                        <constraint firstAttribute="width" constant="325" id="yzv-lL-ri9"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                     <state key="normal" title="CLOCK-IN">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
-                <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cTi-hn-5oe">
-                    <rect key="frame" x="0.0" y="0.0" width="834" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <items>
-                        <navigationItem title="Time Clock" id="gLC-Np-gna"/>
-                    </items>
-                </navigationBar>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="je6-kp-MKO">
+                    <rect key="frame" x="0.0" y="0.0" width="834" height="75"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Clock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ci3-SQ-oN4">
+                            <rect key="frame" x="362.5" y="31" width="109" height="28"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                            <color key="textColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CO9-GG-DdX">
+                            <rect key="frame" x="25" y="27" width="56" height="36"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
+                            <state key="normal" title="Logout">
+                                <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.95569461580000004" green="0.98811596629999998" blue="0.9960753322" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="CO9-GG-DdX" firstAttribute="centerY" secondItem="je6-kp-MKO" secondAttribute="centerY" multiplier="1.2" id="BGK-Pn-vgu"/>
+                        <constraint firstItem="Ci3-SQ-oN4" firstAttribute="centerX" secondItem="je6-kp-MKO" secondAttribute="centerX" id="HHP-cY-84P"/>
+                        <constraint firstItem="Ci3-SQ-oN4" firstAttribute="centerY" secondItem="je6-kp-MKO" secondAttribute="centerY" multiplier="1.2" id="r3D-w1-d6D"/>
+                        <constraint firstAttribute="height" constant="75" id="rzl-OH-mp2"/>
+                        <constraint firstItem="CO9-GG-DdX" firstAttribute="leading" secondItem="je6-kp-MKO" secondAttribute="leading" constant="25" id="zYK-n2-B0v"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="je6-kp-MKO" secondAttribute="trailing" id="0rV-uy-c53"/>
                 <constraint firstItem="LCf-37-blF" firstAttribute="top" secondItem="2" secondAttribute="top" id="4ll-NI-m5n"/>
-                <constraint firstItem="ybv-28-lx1" firstAttribute="top" secondItem="AOt-Kp-r6f" secondAttribute="bottom" constant="70" id="7GP-gc-3HX"/>
                 <constraint firstItem="M9p-ey-cbq" firstAttribute="top" secondItem="ybv-28-lx1" secondAttribute="bottom" constant="60" id="FGA-r5-ly7"/>
                 <constraint firstItem="LCf-37-blF" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="FfC-JG-r0q"/>
+                <constraint firstItem="AOt-Kp-r6f" firstAttribute="centerX" secondItem="LCf-37-blF" secondAttribute="centerX" id="H3O-dE-Imf"/>
+                <constraint firstItem="je6-kp-MKO" firstAttribute="top" secondItem="2" secondAttribute="top" id="HFu-ge-TBk"/>
                 <constraint firstItem="M9p-ey-cbq" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="JwQ-dD-cMw"/>
                 <constraint firstItem="ybv-28-lx1" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="KYR-TO-XeA"/>
+                <constraint firstItem="je6-kp-MKO" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="XOA-qV-v7s"/>
                 <constraint firstAttribute="trailing" secondItem="LCf-37-blF" secondAttribute="trailing" id="Zw4-Dt-7gj"/>
-                <constraint firstItem="M9p-ey-cbq" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.32" id="b0D-9p-76o"/>
                 <constraint firstAttribute="bottom" secondItem="LCf-37-blF" secondAttribute="bottom" id="hsJ-Ds-AsL"/>
-                <constraint firstItem="AOt-Kp-r6f" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="pNL-Fc-EG4"/>
                 <constraint firstItem="ybv-28-lx1" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="q3U-se-vEO"/>
+                <constraint firstItem="ybv-28-lx1" firstAttribute="top" secondItem="AOt-Kp-r6f" secondAttribute="bottom" constant="75" id="tjw-WA-r0a"/>
             </constraints>
             <point key="canvasLocation" x="80.575539568345334" y="50.753768844221106"/>
         </view>
