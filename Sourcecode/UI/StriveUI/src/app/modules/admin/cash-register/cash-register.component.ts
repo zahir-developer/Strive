@@ -38,7 +38,7 @@ export class CashinRegisterComponent implements OnInit {
         rainPercentage: ['',],
         goal: ['',]
     });
-    this.default();
+    //this.default();
     this.getCashRegister();
   }
 
@@ -70,7 +70,7 @@ export class CashinRegisterComponent implements OnInit {
       if(data.status === "Success"){
         const closeOut = JSON.parse(data.resultData);
         this.cashDetails = closeOut.CashRegister;
-        console.log(this.cashDetails.length);
+        console.log(this.cashDetails);
         if(this.cashDetails.length != 0){
           this.cashRegisterForm.patchValue({
             coinPennies: this.cashDetails[0].CashRegisterCoin.Pennies,
@@ -138,7 +138,7 @@ export class CashinRegisterComponent implements OnInit {
     }]
     const formObj = {
       cashRegisterId: 0,
-      cashRegisterType: 1,
+      cashRegisterType: 119,
       locationId: 1,
       drawerId: 0,
       userId: 1,

@@ -36,23 +36,7 @@ export class CloseoutRegisterComponent implements OnInit {
         quaterRolls: ['',],
         cardAmount: ['',]
     });
-    this.closeoutRegisterForm.patchValue({
-      coinPennies: 0,
-      coinNickels: 0,
-      coinDimes: 0,
-      coinQuaters: 0,
-      coinHalfDollars: 0,
-      billOnes: 0,
-      billFives: 0,
-      billTens: 0,
-      billTwenties: 0,
-      billFifties: 0,
-      billHundreds: 0,
-      pennieRolls: 0,
-      nickelRolls: 0,
-      dimeRolls: 0,
-      quaterRolls: 0,
-    });
+    
     this.getCloseOutRegister();
     
   }
@@ -85,7 +69,31 @@ export class CloseoutRegisterComponent implements OnInit {
             quaterRolls: this.closeOutDetails[0].CashRegisterRoll.Quaters
           });
         }
+        else{
+          this.default();
+        }
+      }else{
+        this.default();
       }
+    });
+  }
+  default(){
+    this.closeoutRegisterForm.patchValue({
+      coinPennies: 0,
+      coinNickels: 0,
+      coinDimes: 0,
+      coinQuaters: 0,
+      coinHalfDollars: 0,
+      billOnes: 0,
+      billFives: 0,
+      billTens: 0,
+      billTwenties: 0,
+      billFifties: 0,
+      billHundreds: 0,
+      pennieRolls: 0,
+      nickelRolls: 0,
+      dimeRolls: 0,
+      quaterRolls: 0,
     });
   }
 
@@ -130,7 +138,7 @@ export class CloseoutRegisterComponent implements OnInit {
     }]
     const formObj = {
       cashRegisterId: 0,
-      cashRegisterType: 2,
+      cashRegisterType: 120,
       locationId: 1,
       drawerId: 0,
       userId: 1,
@@ -152,10 +160,11 @@ export class CloseoutRegisterComponent implements OnInit {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
       }
     });
+    this.getCloseOutRegister();
   }
 
   cancel(){
-    
+    this.getCloseOutRegister();
   }
   
 }
