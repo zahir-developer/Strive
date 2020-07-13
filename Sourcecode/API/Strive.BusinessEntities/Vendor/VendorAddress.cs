@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Vendor
 {
     public  class VendorAddress
     {
-      public  int  AddressId { get; set; }
+      public  int  VendorAddressId { get; set; }
       public int RelationshipId { get; set; }
       public string Address1 { get; set; } 
       public string Address2 { get; set; }    

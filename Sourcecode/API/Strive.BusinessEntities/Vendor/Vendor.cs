@@ -11,6 +11,7 @@ namespace Strive.BusinessEntities.Vendor
        public string VIN { get; set; }
        public string VendorName { get; set; }
        public string VendorAlias { get; set; }
-       public bool IsActive { get; set; }  
+       public bool IsActive { get; set; }
+       
     }
 }
