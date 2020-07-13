@@ -23,27 +23,9 @@ export class LocationSetupListComponent implements OnInit {
     this.locationSetupForm = this.fb.group({
       workHour: ['', Validators.required,Validators.maxLength(2)]
     });
-    const tempTable = [{
-      LocationId : 1,
-      LocationName : "Location1",
-      IsFranchise : true,
-      PhoneNumber : "8162827269",
-      Email : "location1@gmail.com"
-    },
-    {
-      LocationId : 2,
-      LocationName : "Location2",
-      IsFranchise : true,
-      PhoneNumber : "81627756569",
-      Email : "location2@gmail.com"
-    }]
-    this.locationSetupDetails = tempTable;
-    //this.getAllLocationSetupDetails();
-    if(this.locationSetupDetails.length === 0){
-      this.isTableEmpty = true;
-    }else{
-      this.isTableEmpty = false;
-    }
+    
+    this.getAllLocationSetupDetails();
+    
   }
   getAllLocationSetupDetails() {
     //this.locationSetupDetails=this.crudService.getlocationSetupDetails();
@@ -52,6 +34,11 @@ export class LocationSetupListComponent implements OnInit {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
         console.log(this.locationSetupDetails);
+        if(this.locationSetupDetails.length === 0){
+          this.isTableEmpty = true;
+        }else{
+          this.isTableEmpty = false;
+        }
       }
     });
   }

@@ -40,13 +40,13 @@ export class ServiceCreateEditComponent implements OnInit {
     });
     this.serviceSetupForm.controls['serviceId'].patchValue(1);
     this.serviceSetupForm.controls['serviceId'].disable();
-    //this.getAllServiceType();
+    this.getAllServiceType();
     this.isChecked=false;
     this.submitted = false;
     console.log(this.selectedData);
     if (this.isEdit === true) {
       this.serviceSetupForm.reset();
-      //this.getServiceById();      
+      this.getServiceById();      
     }
   }
 

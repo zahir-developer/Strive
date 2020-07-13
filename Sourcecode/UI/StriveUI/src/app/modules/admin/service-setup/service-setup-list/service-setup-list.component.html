@@ -30,7 +30,8 @@
                                     </div>
                                 </form>
                             </div>
-                            <p-table [value]="serviceSetupDetails">
+                            <p-table [value]="serviceSetupDetails"
+                                class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th>Service ID</th>
