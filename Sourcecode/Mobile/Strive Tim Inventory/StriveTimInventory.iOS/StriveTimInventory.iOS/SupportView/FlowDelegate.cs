@@ -10,16 +10,16 @@ namespace StriveTimInventory.iOS.SupportView
         [Export("collectionView:layout:insetForSectionAtIndex:")]
         public UIEdgeInsets GetInsetForSection(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
         {
-            return new UIEdgeInsets(1.0f, 1.0f, 1.0f, 1.0f);
+            return new UIEdgeInsets(0, 0, 0,0);
         }
 
         [Export("collectionView:layout:sizeForItemAtIndexPath:")]
         public CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, Foundation.NSIndexPath indexPath)
         {
             var lay = layout as UICollectionViewFlowLayout;
-            var widthPerItem = collectionView.Frame.Width / 4 - lay.MinimumInteritemSpacing;
-
-            return new CGSize(widthPerItem, 100);
+            var widthPerItem = 150;
+            lay.MinimumLineSpacing = 20;
+            return new CGSize(widthPerItem, 150);
         }
     }
 }

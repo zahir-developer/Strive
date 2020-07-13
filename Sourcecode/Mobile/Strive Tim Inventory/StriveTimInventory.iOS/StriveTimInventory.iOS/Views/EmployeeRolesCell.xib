@@ -19,11 +19,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h0K-tK-rmr">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.10000000000000001" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-cashier" translatesAutoresizingMaskIntoConstraints="NO" id="9UD-lP-Awb">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-cashier" translatesAutoresizingMaskIntoConstraints="NO" id="9UD-lP-Awb">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                </accessibility>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="9UD-lP-Awb" firstAttribute="width" secondItem="h0K-tK-rmr" secondAttribute="width" id="Ab4-Uy-0mg"/>
                             <constraint firstItem="9UD-lP-Awb" firstAttribute="centerX" secondItem="h0K-tK-rmr" secondAttribute="centerX" id="QCd-zK-PAO"/>
