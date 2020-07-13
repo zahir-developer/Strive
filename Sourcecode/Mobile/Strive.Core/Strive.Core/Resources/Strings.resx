@@ -119,6 +119,7 @@
   </resheader>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+    <comment>login screen label</comment>
   </data>
   <data name="TIM_APP_TITLE" xml:space="preserve">
     <value>Tim App</value>
@@ -141,5 +142,9 @@
   <data name="SignUp" xml:space="preserve">
     <value>SignUp</value>
     <comment>login screen signup label</comment>
+  </data>
+  <data name="ReceiveOTP" xml:space="preserve">
+    <value>Enter registered mobile # to receive OTP</value>
+    <comment>OTP screen label</comment>
   </data>
 </root>
