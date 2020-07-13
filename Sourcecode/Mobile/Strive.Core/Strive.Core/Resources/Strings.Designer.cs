@@ -97,6 +97,15 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter registered mobile # to receive OTP.
+        /// </summary>
+        internal static string ReceiveOTP {
+            get {
+                return ResourceManager.GetString("ReceiveOTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember Password?.
         /// </summary>
         internal static string RememberPassword {
