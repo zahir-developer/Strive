@@ -31,11 +31,11 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-        public List<Employees> GetEmployeeDetails()
+        public List<EmployeeInfo> GetEmployeeDetails()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Employees> lstEmployee = new List<Employees>();
-            lstEmployee = db.FetchRelation2<Employees, EmployeeDetail, EmployeeAddress>(SPEnum.USPGETEMPLOYEE.ToString(),dynParams);
+            List<EmployeeInfo> lstEmployee = new List<EmployeeInfo>();
+            lstEmployee = db.FetchRelation2<EmployeeInfo, EmployeeDetail, EmployeeAddress>(SPEnum.USPGETEMPLOYEE.ToString(),dynParams);
             return lstEmployee;
         }
         
@@ -48,12 +48,30 @@ namespace Strive.ResourceAccess
             return lstEmployeeInfo;
         }
 
-        public bool SaveEmployeeDetails(List<Employees> lstEmployee)
+        public bool SaveEmployeeDetails(List<EmployeeInfo> lstEmployee)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tvpEmployee", lstEmployee.FirstOrDefault().Employee.ToDataTable().AsTableValuedParameter("tvpEmployee"));
-            dynParams.Add("@tvpEmployeeDetail", lstEmployee.FirstOrDefault().EmployeeDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeDetail"));
-            dynParams.Add("@tvpEmployeeAddress", lstEmployee.FirstOrDefault().EmployeeAddress.ToDataTable().AsTableValuedParameter("tvpEmployeeAddress"));
+            List<EmployeeInformation> lstEmpInfo = new List<EmployeeInformation>();
+            var empInf = lstEmployee.FirstOrDefault();
+            lstEmpInfo.Add(new EmployeeInformation
+            {
+                EmployeeId = empInf.EmployeeId,
+                FirstName = empInf.FirstName,
+                MiddleName = empInf.MiddleName,
+                LastName = empInf.LastName,
+                Gender = empInf.Gender,
+                SSNo = empInf.SSNo,
+                MaritalStatus = empInf.MaritalStatus,
+                IsCitizen = empInf.IsCitizen,
+                AlienNo = empInf.AlienNo,
+                BirthDate = empInf.BirthDate,
+                ImmigrationStatus = empInf.ImmigrationStatus,
+                CreatedDate = empInf.CreatedDate,
+                IsActive = empInf.IsActive
+            });
+            dynParams.Add("@tvpEmployee", lstEmpInfo.ToDataTable().AsTableValuedParameter("tvpEmployee"));
+            dynParams.Add("@tvpEmployeeDetail", empInf.EmployeeDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeDetail"));
+            dynParams.Add("@tvpEmployeeAddress", empInf.EmployeeAddress.ToDataTable().AsTableValuedParameter("tvpEmployeeAddress"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;

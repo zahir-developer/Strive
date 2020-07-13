@@ -46,7 +46,7 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveEmployeeDetails(List<Employees> lstEmployee)
+        public Result SaveEmployeeDetails(List<EmployeeInfo> lstEmployee)
         {
             try
             {

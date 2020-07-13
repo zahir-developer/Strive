@@ -38,7 +38,7 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee([FromBody] List<Strive.BusinessEntities.Employee.Employees> lstEmployee)
+        public Result SaveEmployee([FromBody] List<Strive.BusinessEntities.Employee.EmployeeInfo> lstEmployee)
         {
             return _employeeBpl.SaveEmployeeDetails(lstEmployee);
         }

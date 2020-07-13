@@ -25,20 +25,20 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-        public List<Collision> GetAllCollison()
+        public List<CollisionList> GetAllCollison()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Collision> lstCollision = new List<Collision>();
-            lstCollision = db.FetchRelation1<Collision, LiabilityDetail>(SPEnum.USPGETCOLLISION.ToString(), dynParams);
+            List<CollisionList> lstCollision = new List<CollisionList>();
+            lstCollision = db.FetchRelation1<CollisionList, LiabilityDetail>(SPEnum.USPGETCOLLISION.ToString(), dynParams);
             return lstCollision;
         }
 
-        public List<Collision> GetCollisionById(long id)
+        public List<CollisionList> GetCollisionById(long id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@CollisionId", id);
-            List<Collision> lstCollisionById = new List<Collision>();
-            lstCollisionById = db.FetchRelation1<Collision, LiabilityDetail>(SPEnum.USPGETCOLLISIONBYID.ToString(), dynParams);
+            List<CollisionList> lstCollisionById = new List<CollisionList>();
+            lstCollisionById = db.FetchRelation1<CollisionList, LiabilityDetail>(SPEnum.USPGETCOLLISIONBYID.ToString(), dynParams);
             return lstCollisionById;
         }
 
