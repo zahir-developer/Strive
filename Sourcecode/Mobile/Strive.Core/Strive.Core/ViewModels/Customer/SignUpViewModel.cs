@@ -8,6 +8,12 @@ namespace Strive.Core.ViewModels.Customer
    public class SignUpViewModel : BaseViewModel
     {
 
+        #region Commands
+
+
+
+        #endregion Commands
+
         #region Properties
 
         public string SignUp
