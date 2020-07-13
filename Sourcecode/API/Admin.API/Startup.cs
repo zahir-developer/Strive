@@ -17,6 +17,7 @@ using Strive.BusinessLogic.ServiceSetup;
 using Strive.BusinessLogic.CashRegister;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Location;
+using Strive.BusinessLogic.Collision;
 
 namespace Admin.API
 {
@@ -40,8 +41,7 @@ namespace Admin.API
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<ICommonBpl, CommonBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
-
-
+            services.AddTransient<ICollisionBpl, CollisionBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             

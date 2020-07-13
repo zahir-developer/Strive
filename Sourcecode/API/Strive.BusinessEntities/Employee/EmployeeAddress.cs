@@ -4,8 +4,8 @@ namespace Strive.BusinessEntities.Employee
 {
     public class EmployeeAddress
     {
-		public int? AddressId { get; set; }
-        public long EmployeeAddressId { get; set; }
+		public int? EmployeeAddressId { get; set; }
+        public long RelationshipId { get; set; }
         public string Address1 { get; set; }
 		public string Address2 { get; set; }
 		public string PhoneNumber { get; set; }
