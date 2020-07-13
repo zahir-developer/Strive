@@ -16,12 +16,15 @@ export class LoginComponent implements OnInit {
   submitted = false;
   display = false;
   loginDetail: string;
-isLoginLoading: boolean;
+  isLoginLoading: boolean;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
               private authService: AuthService) { }
 
   ngOnInit(): void {
-
+    this.authService.isLoggedIn.subscribe(data => {
+      console.log(data, 'isloggedIn value');
+    });
+    this.authService.logout();
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('')
@@ -42,16 +45,14 @@ isLoginLoading: boolean;
     };
     this.isLoginLoading = true;
     this.authService.login(loginObj).subscribe(data => {
-      // this.isLoginLoading = false;
+      this.isLoginLoading = false;
       if (data) {
         if (data.status === 'Success') {
           // this.display = true;
           const token = JSON.parse(data.resultData);
           this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' +
             token.EmployeeDetails.EmployeeRole[0].RoleName;
-          // localStorage.setItem('authorizationToken', token.Token);
-          // localStorage.setItem('refreshToken', token.RefreshToken);
-          // this.loaddTheLandingPage();
+          this.loadTheLandingPage();
         } else {
           this.errorFlag = true;
           this.isLoginLoading = false;
@@ -62,6 +63,6 @@ isLoginLoading: boolean;
     });
   }
   loadTheLandingPage(): void {
-    this.router.navigate([`/admin/employees`], { relativeTo: this.route });
+    this.router.navigate([`/admin/setup`], { relativeTo: this.route });
   }
 }

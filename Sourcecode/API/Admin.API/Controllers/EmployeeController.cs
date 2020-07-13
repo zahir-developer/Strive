@@ -29,9 +29,16 @@ namespace Admin.Api.Controllers
             return _employeeBpl.GetEmployeeDetails();
         }
 
+        [HttpGet]
+        [Route("GetEmployeeById/{id}")]
+        public Result GetEmployeeById(long id)
+        {
+            return _employeeBpl.GetEmployeeByIdDetails(id);
+        }
+
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee([FromBody] List<EmployeeTable> lstEmployee)
+        public Result SaveEmployee([FromBody] List<Strive.BusinessEntities.Employee.Employees> lstEmployee)
         {
             return _employeeBpl.SaveEmployeeDetails(lstEmployee);
         }

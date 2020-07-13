@@ -15,10 +15,16 @@ export class VendorSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
+  isTableEmpty:boolean;
   constructor(private crudService: CrudOperationService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.getAllvendorSetupDetails();
+    if(this.vendorSetupDetails.length === 0){
+      this.isTableEmpty = true;
+    }else{
+      this.isTableEmpty = false;
+    }
   }
   getAllvendorSetupDetails() {
     this.vendorSetupDetails=this.crudService.getVendorSetupDetails();
@@ -56,7 +62,7 @@ add( data, vendorDetails?) {
     this.isEdit = false;
     this.showDialog = true;
   } else {
-    this.headerData = 'Edit Setup';
+    this.headerData = 'Edit Vendor';
     this.selectedData = vendorDetails;
     this.isEdit = true;
     this.showDialog = true;

@@ -7,20 +7,61 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <link rel="shortcut icon" href="assets/favicon.ico">
-  <script>
-    function openNav() {
-      document.getElementById("mySidebar").style.width = "200px";
-      document.getElementById("main").style.marginLeft = "200px";
-    }
-
-    function closeNav() {
-      document.getElementById("mySidebar").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
-    }
-  </script>
+  <!-- Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.materialdesignicons.com/4.5.95/" rel="stylesheet" type="text/css" />
 </head>
+<body>
+<script>
+	$(document).ready(function() {
+		$(".show-to-list").click(function() {
+			$("#hide-mainmenu").hide();
+			$("#show-submenu").show();
+		});
+		$(".back-to-list").click(function() {
+			$("#hide-mainmenu").show();
+			$("#show-submenu").hide();
+		});
+	});
+	$(document).ready(function() {
+		$("#click_collapse").click(function() {
+			$("#open-collapse").toggle();
+			$("i", this).toggleClass("dripicons-chevron-down  dripicons-chevron-up");
+		});
+	});
 
-<body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":true, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+	function openNav() {
+		document.getElementById("navSliderMenu").style.width = "200px";
+		document.getElementById("left-menu-enable").style.marginLeft = "200px";
+	}
+
+	function closeNav() {
+		document.getElementById("navSliderMenu").style.width = "0";
+		document.getElementById("left-menu-enable").style.marginLeft = "0";
+	}
+
+	function openmbsidebar() {
+		document.getElementById("mySidenav").style.width = "200px";
+	}
+
+	function closembsidebar() {
+		document.getElementById("mySidenav").style.width = "0";
+	}
+	
+$(".menu li").on('click', function () {
+    $(".menu li").removeClass('theme-secondary-background-color active');
+    $(this).addClass('theme-secondary-background-color active');
+});
+
+		
+		$(".nav-slider-menu-items li a").on('click', function () {
+    $(".nav-slider-menu-items li a").removeClass('theme-secondary-color text-underline');
+    $(this).addClass('theme-secondary-color text-underline');
+});
+
+	</script>
   <app-root></app-root>
 </body>
 </html>

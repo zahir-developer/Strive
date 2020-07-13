@@ -88,6 +88,7 @@ namespace Strive.BusinessLogic.Auth
             {
                 new Claim("UserGuid", $"{tenant.UserGuid}"),
                 new Claim("SchemaName", $"{tenant.Schemaname}"),
+                 new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("AuthId", $"{employee.EmployeeDetail.AuthId}"),
                 new Claim("RoleId",
                     $"{string.Join(',', employee.EmployeeRole.Select(x => x.EmployeeRoleId).ToList())}"),

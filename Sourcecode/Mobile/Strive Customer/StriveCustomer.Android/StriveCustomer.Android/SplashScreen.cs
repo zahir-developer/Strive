@@ -10,11 +10,12 @@ namespace StriveCustomer.Android
     [Activity(
        MainLauncher = true,
        Icon = "@mipmap/ic_launcher",
+       Theme = "@style/SplashTheme",
        NoHistory = true,
        ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreen : MvxSplashScreenActivity
     {
-        public SplashScreen() : base(Resource.Layout.SplashScreen)
+        public SplashScreen()
         {
         }
     }

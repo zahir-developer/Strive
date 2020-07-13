@@ -17,16 +17,26 @@ export class ServiceSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
+  isTableEmpty: boolean;
   constructor(private serviceSetup: ServiceSetupService,private toastr: ToastrService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
+    this.isTableEmpty = true;
     this.getAllserviceSetupDetails();
+    console.log(this.serviceSetupDetails.length);
+    
   }
   getAllserviceSetupDetails() {
     this.serviceSetup.getServiceSetup().subscribe(data =>{
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.serviceSetupDetails = serviceDetails.ServiceSetup;
+        console.log(this.serviceSetupDetails);
+        if(this.serviceSetupDetails.length === 0){
+          this.isTableEmpty = true;
+        }else{
+          this.isTableEmpty = false;
+        }
       }
     });
   }

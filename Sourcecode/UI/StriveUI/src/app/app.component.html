@@ -1,11 +1,14 @@
-
-<div class="wrapper" *ngIf = "isUserAuthenticated">
-  <app-sidenav *ngIf = "isUserAuthenticated"></app-sidenav>
-  <div class="content-page" *ngIf = "isUserAuthenticated">
-    <div class="content">
+<!-- <router-outlet></router-outlet> -->
+<div id="wrapper"><!--Wrapper-->
+  <app-sidenav></app-sidenav>
+  <section id="content-wrapper" class="d-flex flex-column"> <!--Content Wrapper-->
+    <div id="content"><!--Content-->
       <app-header></app-header>
+      <!-- <div id="page-content">
+        <div class="container-fluid"> -->
+      <router-outlet></router-outlet> 
+      <!-- </div>
+      </div> -->
     </div>
-  </div>
-
+  </section>
 </div>
-<router-outlet *ngIf="!isUserAuthenticated"></router-outlet>

@@ -10,9 +10,10 @@ import { AuthenticateObservableService } from './shared/observable-service/authe
 })
 export class AppComponent {
   title = 'StriveUI';
-  isUserAuthenticated: any;
+  isUserAuthenticated = false;
   constructor(private user: UserDataService, private authService: AuthenticateObservableService) {
     this.isUserAuthenticated = this.user.isAuthenticated;
     console.log(this.isUserAuthenticated);
+    console.log(this.authService.getIsAuthenticate);
   }
 }

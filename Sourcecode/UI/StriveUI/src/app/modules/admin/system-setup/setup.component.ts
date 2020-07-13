@@ -16,49 +16,12 @@ export class SetupComponent implements OnInit {
 
   ngOnInit() {
 
-    this.sysSetup = ["Location Setup","Service Setup","Product Setup","Vendor Setup"];
-    this.setupForm = this.fb.group({
-        systemSetup: ['', Validators.required],
-    });
+    this.loadLocationSetup();
   }
 
-  submit(){
-      if(this.setupForm.value.systemSetup === this.sysSetup[0])
-      {
-          this.loadLocationSetup();
-      }
-      else if(this.setupForm.value.systemSetup === this.sysSetup[1])
-      {
-          this.loadServiceSetup();
-      }
-      else if(this.setupForm.value.systemSetup === this.sysSetup[2])
-      {
-          this.loadProductSetup();
-      }
-      else if(this.setupForm.value.systemSetup === this.sysSetup[3])
-      {
-          this.loadVendorSetup();
-      }
-      // else
-      // {
-      //       this.setupForm.reset();
-      // }
-  }
+  
 
   loadLocationSetup(): void {
-    this.router.navigate([`/admin/location`], { relativeTo: this.route });
-  }
-
-  loadServiceSetup(): void {
-    this.router.navigate([`/admin/service`], { relativeTo: this.route });
-  }
-
-  loadProductSetup(): void {
-    this.router.navigate([`/admin/product`], { relativeTo: this.route });
-  }
-
-  loadVendorSetup(): void {
-    this.router.navigate([`/admin/vendor`], { relativeTo: this.route });
-  }
-
+    this.router.navigate([`/admin/setup/location`], { relativeTo: this.route });
+  }  
 }

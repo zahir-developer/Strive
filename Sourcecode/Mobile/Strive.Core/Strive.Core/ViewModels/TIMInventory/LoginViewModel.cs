@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.TIMInventory
@@ -17,6 +18,11 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
             set
             { }
+        }
+
+        public async Task NavigationToClockInCommand()
+        {
+            await _navigationService.Navigate<RootViewModel>();
         }
 
         public void DoLogin()

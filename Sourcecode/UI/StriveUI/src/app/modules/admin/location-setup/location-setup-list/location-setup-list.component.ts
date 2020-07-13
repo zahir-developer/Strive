@@ -16,13 +16,16 @@ export class LocationSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
+  isTableEmpty: boolean;
   constructor(private locationService: LocationService, private toastr: ToastrService, private fb: FormBuilder, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.locationSetupForm = this.fb.group({
       workHour: ['', Validators.required,Validators.maxLength(2)]
     });
+    
     this.getAllLocationSetupDetails();
+    
   }
   getAllLocationSetupDetails() {
     //this.locationSetupDetails=this.crudService.getlocationSetupDetails();
@@ -31,6 +34,11 @@ export class LocationSetupListComponent implements OnInit {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
         console.log(this.locationSetupDetails);
+        if(this.locationSetupDetails.length === 0){
+          this.isTableEmpty = true;
+        }else{
+          this.isTableEmpty = false;
+        }
       }
     });
   }

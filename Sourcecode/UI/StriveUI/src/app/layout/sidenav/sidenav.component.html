@@ -1,206 +1,32 @@
-<div class="left-side-menu">
-
-  <!-- LOGO -->
-  <a href="#" class="logo text-center logo-light">
-    <span class="logo-lg">
-      <img src="assets/images/logo.png" alt="" height="35">
-    </span>
-    <span class="logo-sm">
-      <img src="assets/images/logo.png" alt="" height="35">
-    </span>
-  </a>
-
-  <!-- LOGO -->
-  <a href="index.html" class="logo text-center logo-dark">
-    <span class="logo-lg">
-      <img src="assets/images/logo-dark.png" alt="" height="16">
-    </span>
-    <span class="logo-sm">
-      <img src="assets/images/logo_sm_dark.png" alt="" height="16">
-    </span>
-  </a>
-
-  <div class="h-100" id="left-side-menu-container" data-simplebar>
-
-    <!--- Sidemenu -->
-    <ul class="metismenu side-nav">
-
-      <li class="side-nav-title side-nav-item">Navigation</li>
-
-      <li class="side-nav-item">
-        <a href="javascript: void(0);" class="side-nav-link   openbtn" onclick="openNav()" id="home">
-
-
-          <img class="image_on img-width" src="assets/images/dashboard.svg" alt="logo" />
-          <img class="image_off img-width" src="assets/images/navicon-active-dashboard.svg" alt="logo" />
-          <span class="title m-l-10">Dashboard</span>
-        </a>
-      </li>
-
-      <li class="side-nav-item">
-        <a href="#" class="side-nav-link  openbtn" onclick="openNav()" id="detail">
-          <img class="image_on_detail img-width" src="assets/images/details.svg" alt="logo" />
-          <img class="image_off_detail img-width" src="assets/images/navicon-active-washes.svg" alt="logo" />
-
-
-          <span class="title m-l-18">Details</span>
-        </a>
-      </li>
-
-      <li class="side-nav-item">
-        <a href="#" class="side-nav-link" id="wash">
-          <img class="image_on_wash img-width" src="assets/images/washes.svg" alt="logo" />
-          <img class="image_off_wash img-width" src="assets/images/navicon-activedetails.svg" alt="logo" />
-          <span class="title m-l-16">Washes</span>
-        </a>
-      </li>
-
-      <li class="side-nav-item">
-        <a href="javascript: void(0);" class="side-nav-link" id="sales">
-          <img class="image_on_sales img-width" src="assets/images/navicon-sales.svg" alt="logo" />
-          <img class="image_off_sales img-width" src="assets/images/navicon-active-sales.svg" alt="logo" />
-
-          <span class="title m-l-23">Sales</span>
-        </a>
-      </li>
-
-      <li class="side-nav-item">
-        <a href="javascript: void(0);" class="side-nav-link" id="reports">
-          <img class="image_on_reports img-width" src="assets/images/navicon-reports.svg" alt="logo" />
-          <img class="image_off_reports img-width" src="assets/images/navicon-active-reports.svg" alt="logo" />
-          <span class="title m-l-16">Reports</span>
-        </a>
-      </li>
-
-      <li class="side-nav-item">
-        <a href="javascript: void(0);" class="side-nav-link" id="admin">
-          <img class="image_on_admin img-width" src="assets/images/navicon-admin.svg" alt="logo" />
-          <img class="image_off_admin img-width" src="assets/images/navicon-active-admin.svg" alt="logo" />
-          <span class="title m-l-19">Admin</span>
-        </a>
-      </li>
-
-      <li class="side-nav-item">
-        <a href="#" class="side-nav-link" id="checkout">
-          <img class="image_on_checkout img-width" src="assets/images/navicon-checkout.svg" alt="logo" />
-          <img class="image_off_checkout img-width" src="assets/images/navicon-active-checkout.svg" alt="logo" />
-          <span class="title m-l-14">Checkout</span>
-        </a>
-      </li>
-
-
-      <li class="side-nav-item">
-        <a href="#" target="_blank" class="side-nav-link" id="payroll">
-          <img class="image_on_payroll img-width" src="assets/images/navicon-payroll.svg" alt="logo" />
-          <img class="image_off_payroll img-width" src="assets/images/navicon-active-payroll.svg" alt="logo" />
-          <span class="title m-l-18">Payroll</span>
-        </a>
-      </li>
-
+<!-- *ngIf="isLoggedIn$ | async as isLoggedIn" -->
+<section class="navbar-nav web-nav theme-primary-background-color d-none d-sm-none d-md-block d-lg-block d-xl-block" *ngIf="isLoggedIn$ | async as isLoggedIn"><!--Sidebar-->
+  <div class="menu">
+    <ul>
+      <li class="logo-container"> <a href="#" class="navbar-brand p-10"><img src="assets/img/w-strive-logo@2x.png" alt="" width="50"/></a> </li>
+      <li class="p-t-10"  onclick="openNav()"><a href="#"><i class="fa fa-2x fa-dashboard"></i>Dashboard</a></li>
+      <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-warning"></i>Washes</a></li>
+      <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-desktop"></i>Details</a></li>
+      <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-safari"></i>Sales</a></li>
+      <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-repeat"></i>Reports</a></li>
+      <li class="active"><a href="#" onclick="openNav()"><i class="fa fa-2x fa-user-o"></i>Admin</a></li>
+      <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-chain"></i>Checkout</a></li>
+      <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
     </ul>
-    <!-- End Sidebar -->
-
-    <div class="clearfix"></div>
-
   </div>
-  <!-- Sidebar -left -->
-
-
-  <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <div class="sideheader">
-      <div class="sidebarheader">Admin</div>
+  <div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color"> <a href="#" class="closebtn" onclick="closeNav()">×</a>
+    <div class="p-l-15 p-r-15 m-b-10">
+      <h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Admin</h5>
     </div>
-    <a href="#">Cash Register Setup</a>
-    <a href="#" class="menu">Close Out Register</a>
-    <a href="#" class="menu">Time Clock Maintenance</a>
-    <a href="#">Employees</a> <a href="#">Clients</a>
-    <a href="#">Vehicles</a> <a href="#">Schedules</a>
-    <a href="#">Gift Cards</a>
-    <a href="#" style="color: #1dc9b7;padding: 5px 19px 5px 11px;"><i class="mdi mdi-checkbox-blank-circle" style="font-size:5px;"></i><span style="color: #1dc9b7; text-decoration: underline;padding: 5px 19px 5px 5px;">System Setup</span>&nbsp;</a>
+    <ul class="nav-slider-menu-items">
+      <li><a href="#">Cash Register Setup</a> </li>
+      <li><a href="#">Close Out Register</a> </li>
+      <li><a href="#">Time Clock Maintenance</a></li>
+      <li><a href="#">Employees</a></li>
+      <li><a href="#">Clients</a></li>
+      <li> <a href="#">Vehicles</a></li>
+      <li><a href="#">Schedules</a></li>
+      <li><a href="#">Gift Cards</a></li>
+      <li><a href="#">System Setup</a></li>
+    </ul>
   </div>
-
-</div>
-<!-- <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
-  <div class="rightbar-title">
-            <a href="javascript:void(0);" class="quick-sidebar-toggler float-right" style="margin-top:-9px;">
-                <i class="mdi mdi-close-circle icon-side"></i>
-            </a>
-        </div>
-
-        <div class="rightbar-content h-100" data-simplebar>
-    <div class="page-quick-sidebar">
-      <div class="page-quick-sidebar-chat">
-
-        <div class="page-quick-sidebar-chat-users" data-rail-color="#ddd" data-wrapper-class="page-quick-sidebar-list">
-
-          <ul class="media-list list-items">
-            <li class="media"> <img class="media-object" src="assets/images/dashboard.svg" alt="...">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Dashboard</h4> </div>
-            </li>
-            <li class="media"> <img class="media-object" src="assets/images/details.svg" alt="...">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Details</h4> </div>
-            </li>
-            <li class="media"> <img class="media-object" src="assets/images/washes.svg" alt="...">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Washes</h4> </div>
-            </li>
-            <li class="media"> <img class="media-object" src="assets/images/sales.svg" alt="...">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Sales</h4> </div>
-            </li>
-            <li class="media"> <img class="media-object" src="assets/images/reports.svg" alt="..." style="width: 18px;margin-right: 12px;">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Reports</h4> </div>
-            </li>
-            <li class="media"> <img class="media-object" src="assets/images/admin.svg" alt="...">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Admin</h4> </div>
-            </li>
-            <li class="media"> <img class="media-object" src="assets/images/checkout.svg" alt="...">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Checkout</h4> </div>
-            </li>
-            <li class="media"> <img class="media-object" src="assets/images/payroll.svg" alt="..." style="width: 18px;margin-right: 12px;">
-              <div class="media-body">
-                <h4 class="sidebar-heading">Payroll</h4> </div>
-            </li>
-          </ul>
-        </div>
-        <div class="page-quick-sidebar-item">
-          <div class="page-quick-sidebar-chat-user">
-            <div class="page-quick-sidebar-nav">
-              <a href="javascript:;" class="page-quick-sidebar-back-to-list"> <i class="mdi mdi-arrow-left-box"></i>Back</a>
-            </div>
-            <div class="page-quick-sidebar-chat-user-messages m-t-20">
-            <span class="mobile-header"> Admin </span>
-              <ul class="media-list list-items">
-                <li class="media">
-                  <h4 class="sidechat-heading">Cash Register Setup</h4> </li>
-                <li class="media">
-                  <h4 class="sidechat-heading">Close Out Register</h4> </li>
-                <li class="media">
-                  <h4 class="sidechat-heading">Time Clock Maintenance</h4> </li>
-                <li class="media">
-                  <h4 class="sidechat-heading">Employees</h4> </li>
-                <li class="media">
-                  <h4 class="sidechat-heading">Clients</h4> </li>
-                <li class="media">
-                  <h4 class="sidechat-heading">Schedules</h4> </li>
-                <li class="media">
-                  <h4 class="sidechat-heading">Vehicles</h4> </li>
-                <li class="media">
-                  <h4 class="sidechat-heading"><i class="mdi mdi-checkbox-blank-circle" style="font-size:5px;margin-left: -7px;"></i><span style="color: #1dc9b7; text-decoration: underline;padding: 5px 19px 5px 5px;">System Setup</span></h4> 
-            
-                  </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-</div>
-</div> -->
+</section>

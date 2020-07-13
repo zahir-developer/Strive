@@ -43,7 +43,18 @@ namespace Admin.API.Controllers
         {
             return _locationBpl.GetLocationById(id);
         }
+        [HttpPost]
+        [Route("Add")]
+        public Result AddLocation([FromBody] List<Strive.BusinessEntities.Location> lstLocation)
+        {
+            return _locationBpl.AddLocation(lstLocation);
+        }
 
-
+        [HttpPost]
+        [Route("Update")]
+        public Result UpdateLocation([FromBody] List<Strive.BusinessEntities.Location> lstLocation)
+        {
+            return _locationBpl.UpdateLocation(lstLocation);
+        }
     }
 }
