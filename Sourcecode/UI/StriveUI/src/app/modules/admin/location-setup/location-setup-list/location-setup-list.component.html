@@ -15,7 +15,7 @@
                                 Records Found</span></div>
                         <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
                             <div class="search-container pull-right">
-                                <form>
+                                <!-- <form>
                                     <div class="form-row">
                                         <div class="form-group d-flex "> <span
                                                 class="Search text-right p-r-10 p-t-5">Search</span> </div>
@@ -28,13 +28,12 @@
                                                 placeholder="by id">
                                         </div>
                                     </div>
-                                </form>
+                                </form> -->
                             </div>
                             <p-table [value]="locationSetupDetails"
                                 class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5" >
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th scope="col">Location ID</th>
                                         <th scope="col">Location Name</th>
                                         <th scope="col">Franchise</th>
                                         <th scope="col">Phone Number</th>
@@ -44,7 +43,6 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-locationSetup>
                                     <tr>
-                                        <td>{{locationSetup.LocationId}}</td>
                                         <td>{{locationSetup.LocationName}}</td>
                                         <td>{{locationSetup.IsFranchise}}</td>
                                         <td>{{locationSetup.PhoneNumber}}</td>

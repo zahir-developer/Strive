@@ -15,7 +15,7 @@
                 Found</span></div>
             <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
               <div class="search-container pull-right">
-                <form>
+                <!-- <form>
                   <div class="form-row">
                     <div class="form-group d-flex "> <span class="Search text-right p-r-10 p-t-5">Search</span> </div>
                     <div class="form-group">
@@ -25,12 +25,11 @@
                       <input type="search" class="form-control" id="inputSearchbyID" placeholder="by id">
                     </div>
                   </div>
-                </form>
+                </form> -->
               </div>
               <p-table [value]="vendorSetupDetails">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
@@ -39,7 +38,6 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-vendorSetup>
                   <tr>
-                    <td>{{vendorSetup.Id}}</td>
                     <td>{{vendorSetup.Name}}</td>
                     <td>{{vendorSetup.PhoneNumber}}</td>
                     <td>{{vendorSetup.Email}}</td>

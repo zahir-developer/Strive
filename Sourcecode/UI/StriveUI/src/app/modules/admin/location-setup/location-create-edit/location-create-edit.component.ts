@@ -23,7 +23,7 @@ export class LocationCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.locationSetupForm = this.fb.group({
-      locationId: ['', Validators.required],
+      locationAddress2: ['', Validators.required],
       locationName: ['', Validators.required],
       locationAddress: ['', Validators.required],
       zipcode: ['', Validators.required],
@@ -51,7 +51,7 @@ export class LocationCreateEditComponent implements OnInit {
         const location = JSON.parse(data.resultData);
         this.selectedLocation = location.Location[0];
         this.locationSetupForm.patchValue({
-          locationId: this.selectedLocation.LocationId,
+          // locationId: this.selectedLocation.LocationId,
           locationName: this.selectedLocation.LocationName,
           locationAddress: this.selectedLocation.LocationDescription,
           workHourThreshold:this.selectedLocation.WorkHourThreshold,
@@ -82,9 +82,9 @@ export class LocationCreateEditComponent implements OnInit {
     const sourceObj = [];
     this.address=[{
       addressId:1,
-      locationAddressId: this.locationSetupForm.value.locationId,
+      locationAddressId: 1,
       address1: this.locationSetupForm.value.locationAddress,
-      address2:"",
+      address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber2:"",
       isActive:true,
       zip: this.locationSetupForm.value.zipcode,
@@ -94,7 +94,7 @@ export class LocationCreateEditComponent implements OnInit {
       email: this.locationSetupForm.value.email
     }]
     const formObj = {
-      locationId: this.locationSetupForm.value.locationId,
+      locationId: 1,
       locationType:0,      
       locationName: this.locationSetupForm.value.locationName,
       locationDescription: this.locationSetupForm.value.locationAddress,
@@ -120,6 +120,10 @@ export class LocationCreateEditComponent implements OnInit {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
         }
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      }else{
+        this.toastr.error('Communication Error','Error!');
+        this.locationSetupForm.reset();
+        this.submitted=false;
       }
     });
   }
