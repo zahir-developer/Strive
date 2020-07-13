@@ -1,20 +1,34 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.Customer
 {
     public class LoginViewModel : BaseViewModel
     {
+
+        
         public LoginViewModel()
         {
         }
 
 
-        public void DoLogin()
+        public void DoLoginCommand()
         {
-            AdminService.Login("Admin", "Admin");
+            
+          
+            //AdminService.Login("Admin", "Admin");
         }
 
+
+        #region Commands
+        
+        public async void SignUpCommand()
+        {
+            await _navigationService.Navigate<SignUpViewModel>();
+        }
+
+        #endregion Commands
 
 
         #region Properties

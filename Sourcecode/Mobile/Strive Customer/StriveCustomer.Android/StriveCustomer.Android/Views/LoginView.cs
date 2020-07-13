@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
-using Android.Runtime;
-using Android.Util;
-using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -20,7 +13,7 @@ using Strive.Core.ViewModels.Customer;
 namespace StriveCustomer.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Base View")]
+    [Activity(Label = "Login View")]
     public class LoginView : MvxAppCompatActivity<LoginViewModel>
     {
         private Button loginButton;
@@ -58,6 +51,7 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(passwordInput).To(lvm => lvm.loginPassword);
             bindingset.Bind(loginTextView).To(lvm => lvm.Login);
             bindingset.Bind(loginButton).For(lvm => lvm.Text).To(lvm => lvm.Login);
+            bindingset.Bind(loginButton).To(lvm => lvm.Commands["DoLogin"]);
             bindingset.Bind(rememberMe).To(lvm => lvm.RememberPassword);
             bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
             bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
@@ -67,8 +61,10 @@ namespace StriveCustomer.Android.Views
 
             rememberMeCheck.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             this.isCredentialStored(rememberMeCheck.Checked);
+            
+            //Click commands allocation
             rememberMe.Click += checkStoredCredentials;
-
+            signUp.Click += navigateToSignUp;
 
         }
 
@@ -96,6 +92,11 @@ namespace StriveCustomer.Android.Views
                 preferenceEditor.PutString("password", passwordInput.Text);
                 preferenceEditor.Apply();
             }
+        }
+
+        private void navigateToSignUp(object o, EventArgs e)
+        {
+            ViewModel.SignUpCommand();
         }
     }
 }
