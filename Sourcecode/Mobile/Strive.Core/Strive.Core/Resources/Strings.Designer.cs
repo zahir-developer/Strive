@@ -70,11 +70,29 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forgot Password.
+        /// </summary>
+        internal static string ForgotPassword_fpScreen {
+            get {
+                return ResourceManager.GetString("ForgotPassword_fpScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot Password?.
         /// </summary>
-        internal static string ForgotPassword {
+        internal static string ForgotPassword_loginScreen {
             get {
-                return ResourceManager.GetString("ForgotPassword", resourceCulture);
+                return ResourceManager.GetString("ForgotPassword_loginScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GET OTP.
+        /// </summary>
+        internal static string GetOTP {
+            get {
+                return ResourceManager.GetString("GetOTP", resourceCulture);
             }
         }
         

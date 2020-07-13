@@ -127,7 +127,7 @@
   <data name="CUSTOMER_APP_TITLE" xml:space="preserve">
     <value>Customer App</value>
   </data>
-  <data name="ForgotPassword" xml:space="preserve">
+  <data name="ForgotPassword_loginScreen" xml:space="preserve">
     <value>Forgot Password?</value>
     <comment>login screen forgot password label</comment>
   </data>
@@ -146,5 +146,13 @@
   <data name="ReceiveOTP" xml:space="preserve">
     <value>Enter registered mobile # to receive OTP</value>
     <comment>OTP screen label</comment>
+  </data>
+  <data name="ForgotPassword_fpScreen" xml:space="preserve">
+    <value>Forgot Password</value>
+    <comment>Forgot password screen label</comment>
+  </data>
+  <data name="GetOTP" xml:space="preserve">
+    <value>GET OTP</value>
+    <comment>Forgot password screen button label</comment>
   </data>
 </root>

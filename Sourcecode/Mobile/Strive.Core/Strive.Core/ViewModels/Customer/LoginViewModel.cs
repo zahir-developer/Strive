@@ -28,6 +28,11 @@ namespace Strive.Core.ViewModels.Customer
             await _navigationService.Navigate<SignUpViewModel>();
         }
 
+        public async void ForgotPasswordCommand()
+        {
+            await _navigationService.Navigate<ForgotPasswordViewModel>();
+        }
+
         #endregion Commands
 
 
@@ -67,7 +72,7 @@ namespace Strive.Core.ViewModels.Customer
         {
             get
             {
-                return Strings.ForgotPassword;
+                return Strings.ForgotPassword_loginScreen;
             }
             set { }
         }
