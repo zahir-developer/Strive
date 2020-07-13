@@ -4,6 +4,7 @@ using Strive.BusinessEntities;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Strive.BusinessLogic
@@ -18,11 +19,11 @@ namespace Strive.BusinessLogic
             _tenant = tenantHelper;
         }
 
-        public Result GetProductDetails()
+        public Result GetAllProduct(int locationId)
         {
             try
             {
-                var list = new ProductRal(_tenant).GetProductDetails(new Dapper.DynamicParameters());
+                var list = new ProductRal(_tenant).GetAllProduct(locationId);
                 _resultContent.Add(list.WithName("Product"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -49,11 +50,11 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result AddProduct(Product product)
+        public Result SaveProduct(List<Product> product)
         {
             try
             {
-                var success = new ProductRal(_tenant).AddProduct(product);
+                var success = new ProductRal(_tenant).SaveProduct(product);
                 _resultContent.Add(success.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -64,11 +65,11 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result SaveProduct(Product product)
+        public Result DeleteProduct(int productId)
         {
             try
             {
-                var success = new ProductRal(_tenant).UpdateProduct(product);
+                var success = new ProductRal(_tenant).DeleteProduct(productId);
                 _resultContent.Add(success.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -78,6 +79,5 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-
     }
 }

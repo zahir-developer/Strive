@@ -27,6 +27,8 @@ namespace Strive.BusinessEntities.Employee
         [Column(TypeName = "datetime")]
         public DateTime? CreatedDate { get; set; }
 
+        public bool IsActive { get; set; }
+
         public List<EmployeeAddress> EmployeeAddress { get; set; }
         public EmployeeDetail EmployeeDetail { get; set; }
 

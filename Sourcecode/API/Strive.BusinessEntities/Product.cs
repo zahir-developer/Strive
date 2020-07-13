@@ -15,11 +15,11 @@ namespace Strive.BusinessEntities
         public int? VendorId { get; set; }
         public int? Size { get; set; }
         public string SizeDescription { get; set; }
-        public string Quantity { get; set; }
+        public double Quantity { get; set; }
         public string QuantityDescription { get; set; }
-        public string Cost { get; set; }
+        public double Cost { get; set; }
         public bool? IsTaxable { get; set; }
-        public string TaxAmount { get; set; }
+        public double TaxAmount { get; set; }
         public bool? IsActive { get; set; }
         public int? ThresholdLimit { get; set; }
 
