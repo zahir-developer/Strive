@@ -65,7 +65,7 @@ namespace StriveCustomer.Android.Views
             //Click commands allocation
             rememberMe.Click += checkStoredCredentials;
             signUp.Click += navigateToSignUp;
-
+            forgotPassword.Click += navigateToForgotPassword;
         }
 
         private void checkStoredCredentials(object o, EventArgs e)
@@ -97,6 +97,11 @@ namespace StriveCustomer.Android.Views
         private void navigateToSignUp(object o, EventArgs e)
         {
             ViewModel.SignUpCommand();
+        }
+
+        private void navigateToForgotPassword(object o, EventArgs e)
+        {
+            ViewModel.ForgotPasswordCommand();
         }
     }
 }

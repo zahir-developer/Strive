@@ -40,8 +40,7 @@ namespace Admin.API
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<ICommonBpl, CommonBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
-
-
+            services.AddTransient<IVendorBpl, VendorBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             

@@ -30,7 +30,6 @@
               <p-table [value]="vendorSetupDetails">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
@@ -39,7 +38,6 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-vendorSetup>
                   <tr>
-                    <td>{{vendorSetup.Id}}</td>
                     <td>{{vendorSetup.Name}}</td>
                     <td>{{vendorSetup.PhoneNumber}}</td>
                     <td>{{vendorSetup.Email}}</td>

@@ -34,7 +34,6 @@
                                 class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5" >
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th scope="col">Location ID</th>
                                         <th scope="col">Location Name</th>
                                         <th scope="col">Franchise</th>
                                         <th scope="col">Phone Number</th>
@@ -44,7 +43,6 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-locationSetup>
                                     <tr>
-                                        <td>{{locationSetup.LocationId}}</td>
                                         <td>{{locationSetup.LocationName}}</td>
                                         <td>{{locationSetup.IsFranchise}}</td>
                                         <td>{{locationSetup.PhoneNumber}}</td>

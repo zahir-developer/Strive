@@ -50,8 +50,10 @@ namespace Strive.BusinessEntities
         USPGETCOLLISION,
         USPGETCOLLISIONBYID,
         USPSAVECOLLISION,
-        USPDELETECOLLISION
-
+        USPDELETECOLLISION,
+        USPGETALLVENDOR,
+        USPSAVEVENDOR,
+        USPDELETEVENDOR
     }
 
 }

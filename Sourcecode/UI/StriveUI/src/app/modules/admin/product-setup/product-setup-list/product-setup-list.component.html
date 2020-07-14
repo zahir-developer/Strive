@@ -34,7 +34,6 @@
                                 class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5" >
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th>Product ID</th>
                                         <th>Product Type</th>
                                         <th>Product Name</th>
                                         <th>Cost</th>
@@ -43,7 +42,6 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-productSetup>
                                     <tr>
-                                        <td>{{productSetup.ProductCode}}</td>
                                         <td>{{productSetup.ProductType}}</td>
                                         <td>{{productSetup.ProductName}}</td>
                                         <td>{{productSetup.Cost}}</td>

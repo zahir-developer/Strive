@@ -252,9 +252,7 @@ namespace Strive.Repository
 
         public T FetchFirstResult<T>(string spName, DynamicParameters dynParam)
         {
-            var result = dbcon.QueryFirst(spName, dynParam, commandType: CommandType.StoredProcedure);
-
-            return result.Read<T>();
+            return dbcon.QueryFirst<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
         }
 
         public int Execute<T>(string spName, DynamicParameters dynParam)

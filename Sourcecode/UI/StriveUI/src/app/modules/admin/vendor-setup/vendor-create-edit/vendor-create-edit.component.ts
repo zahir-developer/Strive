@@ -20,7 +20,6 @@ export class VendorCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.vendorSetupForm = this.fb.group({
-      supplierId: ['', Validators.required],
       vin: ['', Validators.required],
       vendorAlias: [''],
       name: ['', Validators.required],
@@ -36,13 +35,10 @@ export class VendorCreateEditComponent implements OnInit {
     this.State = ["state1","state2","state3"];
     this.Country = ["USA"];
     this.vendorSetupForm.controls['country'].patchValue(this.Country);
-    this.vendorSetupForm.controls['supplierId'].patchValue(1);
-    this.vendorSetupForm.controls['supplierId'].disable();
     console.log(this.selectedData);
     if (this.selectedData !== undefined && this.selectedData.length !== 0) {
       this.vendorSetupForm.reset();
       this.vendorSetupForm.patchValue({
-        supplierId: this.selectedData.SupplierId,
         vin: this.selectedData.Vin,
         vendorAlias: this.selectedData.VendorAlias,
         name: this.selectedData.Name,
@@ -68,7 +64,7 @@ export class VendorCreateEditComponent implements OnInit {
     }  
     const sourceObj = [];
     const formObj = {
-      supplierId: this.vendorSetupForm.value.supplierId,
+      supplierId: 1,
       vin: this.vendorSetupForm.value.vin,
       vendorAlias: this.vendorSetupForm.value.vendorAlias,
       name: this.vendorSetupForm.value.name,

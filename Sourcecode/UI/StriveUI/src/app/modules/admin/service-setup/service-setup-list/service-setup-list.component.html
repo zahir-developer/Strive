@@ -34,19 +34,19 @@
                                 class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th>Service ID</th>
                                         <th>Service Type</th>
                                         <th>Service Name</th>
                                         <th>Cost</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-serviceSetup>
                                     <tr>
-                                        <td>{{serviceSetup.ServiceId}}</td>
                                         <td>{{serviceSetup.ServiceType}}</td>
                                         <td>{{serviceSetup.ServiceName}}</td>
                                         <td>{{serviceSetup.Cost}}</td>
+                                        <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                         <td>
                                             <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                 style="color:green" pTooltip="edit" tooltipPosition="bottom"

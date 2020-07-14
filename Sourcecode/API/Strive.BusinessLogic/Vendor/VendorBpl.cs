@@ -1,46 +1,29 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
-using Strive.BusinessEntities;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Strive.BusinessEntities.Vendor;
 
 namespace Strive.BusinessLogic
 {
-    public class ProductBpl : Strivebase, IProductBpl
+    public class VendorBpl : Strivebase, IVendorBpl
     {
         readonly ITenantHelper _tenant;
         readonly JObject _resultContent = new JObject();
         Result _result;
-        public ProductBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public VendorBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
             _tenant = tenantHelper;
         }
-
-        public Result GetAllProduct(int locationId)
+        public Result GetVendorDetails()
         {
             try
             {
-                var list = new ProductRal(_tenant).GetAllProduct(locationId);
-                _resultContent.Add(list.WithName("Product"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-
-            return _result;
-        }
-
-        public Result GetProduct(int productId)
-        {
-            try
-            {
-                var product = new ProductRal(_tenant).GetProduct(productId);
-                _resultContent.Add(product.WithName("Product"));
+                var lstVendor = new VendorRal(_tenant).GetVendorDetails();
+                _resultContent.Add(lstVendor.WithName("Vendor"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -50,12 +33,26 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result SaveProduct(List<Product> product)
+        public Result SaveVendorDetails(List<VendorList> lstVendor)
         {
             try
             {
-                var success = new ProductRal(_tenant).SaveProduct(product);
-                _resultContent.Add(success.WithName("Status"));
+                bool blnStatus = new VendorRal(_tenant).SaveVendorDetails(lstVendor);
+                _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result DeleteVendorDetails(long empId)
+        {
+            try
+            {
+                var lstVendor = new VendorRal(_tenant).DeleteVendorDetails(empId);
+                _resultContent.Add(lstVendor.WithName("Vendor"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -65,19 +62,9 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result DeleteProduct(int productId)
-        {
-            try
-            {
-                var success = new ProductRal(_tenant).DeleteProduct(productId);
-                _resultContent.Add(success.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
+        //    public Result GetVendorDetails()
+        //    {
+        //        throw new NotImplementedException();
+        //    }
     }
 }
