@@ -55,6 +55,8 @@ delete(data) {
             if(res.status === "Success"){
               this.toastr.success('Record Deleted Successfully!!', 'Success!');
               this.getAllserviceSetupDetails();
+            }else{
+              this.toastr.error('Communication Error','Error!');
             }
           });
           

@@ -1,0 +1,161 @@
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .web-display{
+        display: none !important;
+    }
+    .mob-display{
+        display: block !important;
+    }
+	#page-content
+	{
+		padding: 1.5rem;
+	}
+	#content-wrapper {
+        margin-left: 0px !important;
+    }
+	
+	.setup-cta-btn button
+	{
+		width: 100%;
+		padding: .25rem .7rem;
+		}
+	
+	button
+	{
+		font-size:0.8rem !important;
+	}
+	
+	.mm-b-10
+	{
+		margin-bottom: 10px;
+	}
+}
+
+
+@media (max-width: 991.98px) {
+	.admin-menu ul li.message-notification .dropdown-menu {
+    right: 60px;
+	}   
+}
+
+@media (max-width: 575.98px) {
+		.web-nav {
+        position: absolute;
+        left:-70px;
+    }
+	.setup-list {
+		padding-right:0px !important;
+	}
+	.admin-menu > .m-r-20 {
+	   margin-right: 5px !important;
+   }
+   .admin-menu ul li {
+    padding: 15px 9px;
+}
+.title-border > h3 {
+	    font-size: 1.2rem;
+	}
+.tab-pane > h4 {
+	    font-size: 1.2rem;
+	}
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .web-display{
+        display: none !important;
+    }
+    .mob-display{
+        display: block !important;
+    }
+	.setup-list {
+		padding-right:0px !important;
+	}
+	.modal-xl{
+      max-width: auto;
+   }
+   #content-wrapper {
+        margin-left: 0px !important;
+    }
+	.web-nav {
+        position: absolute;
+        left:-70px;
+    }
+	
+   .admin-menu > .m-r-20 {
+	   margin-right: 5px !important;
+   }
+   .admin-menu ul li {
+    padding: 15px 9px;
+}
+	.title-border > h3 {
+			font-size: 1.2rem;
+	}
+	.tab-pane > h4 {
+	    font-size: 1.2rem;
+	}
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .web-display{
+        display: none !important;
+    }
+    .mob-display{
+        display: block !important;
+    }
+	.setup-list {
+		padding-right:0px !important;
+	}
+	.modal-xl{
+      max-width: 80%;
+   }
+   #content-wrapper {
+        margin-left: 0px !important;
+    }
+	 .mobile-view-nav {
+        display: none !important;
+    }
+  
+}
+
+   
+
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .modal-xl{
+      max-width: 80%;
+   }
+   .mob-display{
+        display: none !important;
+    }
+	 .mobile-view-nav {
+        display: none !important;
+    }
+	.nav-pills > .nav-item >.nav-link {
+    padding: 6px !important;
+	font-size: 13px;
+    }
+	.setup-list {
+		padding-right:0px !important;
+	}
+	.setup-content {
+		padding-left:15px !important;
+	}
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) 
+{
+	.modal-xl{
+      max-width: 70%;
+   }
+    .mob-display{
+        display: none !important;
+    }
+	    .mobile-view-nav {
+        display: none !important;
+    }
+
+}
