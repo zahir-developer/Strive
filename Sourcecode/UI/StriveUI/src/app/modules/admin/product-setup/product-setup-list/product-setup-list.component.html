@@ -6,8 +6,8 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-10 m-b-15">
-                        <h5 class="d-inline-block">Product List</h5>
-                        <button type="button" class="btn theme-primary-button-color btn-md" (click)="add('add',[])">Add
+                        <h5 class="d-inline-block">Product List</h5>&nbsp;
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add
                             New Product</button>
                     </div>
                     <div class="setup-wrapper">
@@ -15,7 +15,7 @@
                                 Records Found</span></div>
                         <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
                             <div class="search-container pull-right">
-                                <form>
+                                <!-- <form>
                                     <div class="form-row">
                                         <div class="form-group d-flex "> <span
                                                 class="Search text-right p-r-10 p-t-5">Search</span> </div>
@@ -28,7 +28,7 @@
                                                 placeholder="by id">
                                         </div>
                                     </div>
-                                </form>
+                                </form> -->
                             </div>
                             <p-table [value]="productSetupDetails"
                                 class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5" >
