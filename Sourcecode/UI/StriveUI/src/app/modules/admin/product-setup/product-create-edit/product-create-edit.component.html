@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="form-group col-lg-3">
-                <label for="inputName">Name</label>
+                <label for="inputName">Product Name</label>
                 <input type="text" class="form-control" formControlName="name" placeholder="Name"
                     [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
                 <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
@@ -33,9 +33,10 @@
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputSize">Size</label>
-                <select class="form-control" formControlName="size">
+                <select class="form-control" formControlName="size" (change)="showText($event.target.value)">
                     <option value="">Choose </option>
                     <option *ngFor="let size of size" value="{{size.CodeId}}">{{size.CodeValue}}</option>
+                    <option value="other">Others</option>
                 </select>
             </div>
         </div>
@@ -84,6 +85,14 @@
             <div class="form-group col-lg-3" *ngIf="isChecked === true">
                 <label for="inputTaxAmount">Tax Amount</label>
                 <input type="text" class="form-control" formControlName="taxAmount" placeholder="Tax Amount">
+            </div>
+            <div class="form-group col-lg-3" *ngIf="textDisplay === true">
+                <label for="inputOtherSize">Other Size</label>
+                <input type="text" class="form-control" formControlName="other" placeholder="Size"
+                    [ngClass]="{ 'is-invalid': submitted && f.other.errors }">
+                <div *ngIf="submitted && f.other.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Size is required</div>
+                </div>
             </div>
         </div>
     </form>

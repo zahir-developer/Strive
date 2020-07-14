@@ -24,6 +24,7 @@ export class ProductCreateEditComponent implements OnInit {
   @Input() isEdit?: any;
   submitted: boolean;
   selectedProduct: void;
+  textDisplay: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,private locationService: LocationService,private product: ProductService,private getCode: GetCodeService) { }
 
   ngOnInit() {
@@ -42,7 +43,8 @@ export class ProductCreateEditComponent implements OnInit {
       taxAmount: ['',],      
       status: ['',],
       vendor: ['',],
-      thresholdAmount: ['',]
+      thresholdAmount: ['',],
+      other: ['', Validators.required]
     });
     this.submitted = false;
     if (this.isEdit === true) {
@@ -83,6 +85,14 @@ export class ProductCreateEditComponent implements OnInit {
         this.toastr.error('Communication Error','Error!');
       }
     });
+  }
+
+  showText(data){
+    if(data === 'other'){
+      this.textDisplay = true;
+    }else{
+      this.textDisplay = false;
+    }
   }
 
   getProductById(){
@@ -135,7 +145,7 @@ export class ProductCreateEditComponent implements OnInit {
       cost: this.productSetupForm.value.cost,
       isTaxable: this.productSetupForm.value.taxable,
       taxAmount: this.productSetupForm.value.taxAmount,
-      size: this.productSetupForm.value.size,
+      size: this.textDisplay ? this.productSetupForm.value.other : this.productSetupForm.value.size,
       sizeDescription:null,
       quantity: this.productSetupForm.value.quantity,
       quantityDescription:null,
