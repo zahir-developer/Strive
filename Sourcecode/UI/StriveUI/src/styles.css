@@ -1,6 +1,6 @@
 body .ui-dialog .ui-dialog-titlebar {
     background-color: #ffffff !important;
-    font-size: 0.94rem;
+    font-size: 1rem;
     line-height: 1.5;
 }
 body .ui-dialog .ui-dialog-content {
@@ -16,4 +16,8 @@ body .ui-paginator {
 }
 body .ui-widget {
   font-size: 15px;
+}
+.modal-title {
+  font-weight: 800;
+  font-size: 1rem;
 }
