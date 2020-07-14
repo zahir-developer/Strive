@@ -15,5 +15,11 @@ export class ProductService {
   }
   updateProduct(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateProduct}`, obj);
-  }  
+  } 
+  deleteProduct(id : number){
+    return this.http.delete(`${UrlConfig.totalUrl.deleteProduct}`+ id);
+  }
+  getProductById(id : number){
+    return this.http.get(`${UrlConfig.totalUrl.getProductById}`+ id);
+  } 
 }
