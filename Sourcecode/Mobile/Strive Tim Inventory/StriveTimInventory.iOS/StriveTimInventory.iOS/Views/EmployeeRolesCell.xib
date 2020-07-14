@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
@@ -18,28 +18,31 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h0K-tK-rmr">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="6647" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint id="6792" firstItem="6647" firstAttribute="top" secondItem="h0K-tK-rmr" secondAttribute="topMargin" constant="-8"/>
+                            <constraint id="6819" firstItem="6647" firstAttribute="leading" secondItem="h0K-tK-rmr" secondAttribute="leadingMargin" constant="-8"/>
+                            <constraint id="6846" firstAttribute="bottomMargin" secondItem="6647" secondAttribute="bottom" constant="-8"/>
+                            <constraint id="6873" firstAttribute="trailingMargin" secondItem="6647" secondAttribute="trailing" constant="-8"/>
+                        </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oq4-ot-etB">
-                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                        <state key="normal" image="icon-cashier"/>
-                    </button>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="h0K-tK-rmr" firstAttribute="centerX" secondItem="cZE-iV-UFb" secondAttribute="centerX" id="0y1-BU-K4W"/>
                 <constraint firstItem="h0K-tK-rmr" firstAttribute="height" secondItem="cZE-iV-UFb" secondAttribute="height" id="5wX-8O-sZe"/>
-                <constraint firstAttribute="bottom" secondItem="oq4-ot-etB" secondAttribute="bottom" id="AYa-rt-bwK"/>
-                <constraint firstAttribute="trailing" secondItem="oq4-ot-etB" secondAttribute="trailing" id="I7e-lG-Pwp"/>
-                <constraint firstItem="oq4-ot-etB" firstAttribute="leading" secondItem="cZE-iV-UFb" secondAttribute="leading" id="ODA-hh-cih"/>
                 <constraint firstItem="h0K-tK-rmr" firstAttribute="width" secondItem="cZE-iV-UFb" secondAttribute="width" id="iKl-QJ-wqT"/>
                 <constraint firstItem="h0K-tK-rmr" firstAttribute="centerY" secondItem="cZE-iV-UFb" secondAttribute="centerY" id="lPE-xg-uk7"/>
-                <constraint firstItem="oq4-ot-etB" firstAttribute="top" secondItem="cZE-iV-UFb" secondAttribute="top" id="v8q-mU-aJr"/>
             </constraints>
             <size key="customSize" width="100" height="100"/>
             <point key="canvasLocation" x="42.446043165467628" y="48.743718592964825"/>
+            <connections>
+                <outlet property="ImgView" destination="6647" id="name-outlet-6647"/>
+            </connections>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="icon-cashier" width="144" height="144"/>
-    </resources>
 </document>

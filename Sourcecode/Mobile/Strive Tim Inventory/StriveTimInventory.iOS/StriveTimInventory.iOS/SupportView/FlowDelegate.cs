@@ -7,14 +7,18 @@ namespace StriveTimInventory.iOS.SupportView
 {
     public class FlowDelegate : UICollectionViewDelegateFlowLayout
     {
-        [Export("collectionView:layout:insetForSectionAtIndex:")]
-        public UIEdgeInsets GetInsetForSection(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
+
+        public override UIEdgeInsets GetInsetForSection(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
         {
-            return new UIEdgeInsets(0, 0, 0,0);
+            var totalCellWidth = 150 * collectionView.NumberOfItemsInSection(0);
+            var totalSpacingWidth = 20 * (collectionView.NumberOfItemsInSection(0) - 1);
+
+            var leftInset = collectionView.Layer.Frame.Size.Width - (totalCellWidth + totalSpacingWidth) / 2;
+            var rightInset = leftInset;
+            return new UIEdgeInsets(0, leftInset, 0, rightInset);
         }
 
-        [Export("collectionView:layout:sizeForItemAtIndexPath:")]
-        public CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, Foundation.NSIndexPath indexPath)
+        public override CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
         {
             var lay = layout as UICollectionViewFlowLayout;
             var widthPerItem = 150;
