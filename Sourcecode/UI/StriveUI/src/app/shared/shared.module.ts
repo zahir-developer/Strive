@@ -10,6 +10,8 @@ import { CardComponent } from './components/card/card.component';
 import { MessageServiceToastr } from './services/common-service/message.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {AccordionModule} from 'primeng/accordion';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+
 
 @NgModule({
   declarations: [CardComponent],
@@ -22,9 +24,10 @@ import {AccordionModule} from 'primeng/accordion';
     FullCalendarModule,
     AutoCompleteModule,
     AccordionModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    ConfirmDialogModule
   ],
-  exports: [FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, AccordionModule],
+  exports: [FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, AccordionModule, ConfirmDialogModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 

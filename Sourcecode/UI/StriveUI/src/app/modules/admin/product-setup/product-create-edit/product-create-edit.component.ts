@@ -27,7 +27,6 @@ export class ProductCreateEditComponent implements OnInit {
     this.size=["S","M","L","XL"];
     this.productSetupForm = this.fb.group({
       productType: ['', Validators.required],
-      productId: ['',],
       locationName: ['', Validators.required],
       name: ['', Validators.required],
       size: ['',],
@@ -40,13 +39,10 @@ export class ProductCreateEditComponent implements OnInit {
       thresholdAmount: ['',]
     });
     this.submitted = false;
-    this.productSetupForm.controls['productId'].patchValue(1);
-    this.productSetupForm.controls['productId'].disable();
     if (this.selectedData !== undefined && this.selectedData.length !== 0) {
       this.productSetupForm.reset();
       this.productSetupForm.setValue({
         productType: this.selectedData.ProductType,
-        productId: this.selectedData.ProductId,
         locationName: this.selectedData.LocationName,
         name: this.selectedData.Name,
         cost: this.selectedData.Cost,
@@ -81,7 +77,7 @@ export class ProductCreateEditComponent implements OnInit {
     const sourceObj = [];
     const formObj = {
       productType: this.productSetupForm.value.productType,
-      productId: this.productSetupForm.value.productId,
+      productId: 1,
       locationName: this.productSetupForm.value.locationName,
       name: this.productSetupForm.value.name,
       cost: this.productSetupForm.value.cost,

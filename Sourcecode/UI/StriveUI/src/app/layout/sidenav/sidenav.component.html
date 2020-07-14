@@ -8,7 +8,7 @@
       <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-desktop"></i>Details</a></li>
       <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-safari"></i>Sales</a></li>
       <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-repeat"></i>Reports</a></li>
-      <li class="active"><a href="#" onclick="openNav()"><i class="fa fa-2x fa-user-o"></i>Admin</a></li>
+      <li class="active"><a [routerLink]='["./admin"]' [routerLinkActive]='["link-active"]' onclick="openNav()"><i class="fa fa-2x fa-user-o"></i>Admin</a></li>
       <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-chain"></i>Checkout</a></li>
       <li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
     </ul>
@@ -26,7 +26,7 @@
       <li> <a href="#">Vehicles</a></li>
       <li><a href="#">Schedules</a></li>
       <li><a href="#">Gift Cards</a></li>
-      <li><a href="#">System Setup</a></li>
+      <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' onclick="closeNav()">System Setup</a></li>
     </ul>
   </div>
 </section>
