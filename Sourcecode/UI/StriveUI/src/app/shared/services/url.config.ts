@@ -4,6 +4,7 @@ export const UrlConfig = {
     totalUrl:
     {
       login: `Admin/Login`,
+      getCode:`Admin/Common/GetCodesByCategory`,
       getEmployees: `Admin/Employee/GetAll`,
       updateEmployees: `Admin/Employee/Save`,
       refreshToken: `Admin/Refresh`,      
@@ -16,8 +17,10 @@ export const UrlConfig = {
       updateServiceSetup:`Admin/ServiceSetup/Save`,
       deleteServiceSetup:`Admin/ServiceSetup/Delete/`,
       getServiceSetupById:`Admin/ServiceSetup/GetServiceById/`,
-      getProduct:`Admin/Product/GetAll`,
+      getProduct:`Admin/Product/GetAllProduct`,
+      getProductById: `Admin/Product/GetProduct`,
       updateProduct:`Admin/Product/Save`,
+      deleteProduct:`Admin/Product/DeleteProduct/`,
       getCashRegister:`Admin/CashRegister/GetCashRegisterDetails/`,
       saveCashRegister:`Admin/CashRegister/Save`
     }

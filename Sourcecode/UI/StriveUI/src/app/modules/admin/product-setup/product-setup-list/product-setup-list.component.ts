@@ -3,6 +3,7 @@ import { CrudOperationService } from 'src/app/shared/services/crud-operation.ser
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { ProductService } from 'src/app/shared/services/data-service/product.service';
+import { ToastrService } from 'ngx-toastr';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class ProductSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  constructor(private productService: ProductService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
+  constructor(private productService: ProductService,private toastr: ToastrService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.isTableEmpty = true;
@@ -42,20 +43,24 @@ this.selectedData = data;
 this.showDialog = true;
 }
 delete(data) {
-  const index = this.productSetupDetails.map(x => x.id).indexOf(data.id);
-  if (index > -1) {
-    this.confirmationService.confirm({
-      header: 'Delete',
-      message: 'Do you want to continue?',
-      acceptLabel: 'Yes',
-      rejectLabel: 'Cancel',
-      accept: () => {
-        this.productSetupDetails.splice(index, 1);
-      },
-      reject: () => {
-      }
-    });    
-  }
+   //  this.confirmationService.confirm({
+    //   header: 'Delete',
+    //   message: 'Do you want to continue?',
+    //   acceptLabel: 'Yes',
+    //   rejectLabel: 'Cancel',
+    //   accept: () => {
+      this.productService.deleteProduct(data.ProductId).subscribe(res =>{
+        if(res.status === "Success"){
+          this.toastr.success('Record Deleted Successfully!!', 'Success!');
+          this.getAllproductSetupDetails();
+        }else{
+          this.toastr.error('Communication Error','Error!');
+        }
+      });      
+//   },
+//   reject: () => {
+//   }
+// });
 }
 closePopupEmit(event) {
   if(event.status === 'saved') {

@@ -32,7 +32,6 @@ export class LocationSetupListComponent implements OnInit {
 
   }
   getAllLocationSetupDetails() {
-    // this.locationSetupDetails=this.crudService.getlocationSetupDetails();
     this.locationService.getLocation().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
@@ -61,6 +60,8 @@ export class LocationSetupListComponent implements OnInit {
         this.locationService.deleteLocation(data.LocationId).subscribe(res => {
           if (res.status === 'Success') {
             this.toastr.success('Record Deleted Successfully!!', 'Success!');
+          }else{
+            this.toastr.error('Communication Error','Error!');
           }
         });
       },
