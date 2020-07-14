@@ -4,17 +4,17 @@
       "idiom": "universal"
     },
     {
-      "filename": "icon-cashier-1.png",
+      "filename": "icon-washer-hover.png",
       "scale": "1x",
       "idiom": "universal"
     },
     {
-      "filename": "icon-cashier@2x-1.png",
+      "filename": "icon-washer-hover@2x.png",
       "scale": "2x",
       "idiom": "universal"
     },
     {
-      "filename": "icon-cashier@3x.png",
+      "filename": "icon-washer-hover@3x.png",
       "scale": "3x",
       "idiom": "universal"
     },
@@ -42,23 +42,21 @@
       "idiom": "ipad"
     },
     {
-      "filename": "icon-cashier.png",
+      "filename": "icon-washer-hover-1.png",
       "scale": "1x",
       "idiom": "ipad"
     },
     {
-      "filename": "icon-cashier@2x.png",
+      "filename": "icon-washer-hover@2x-1.png",
       "scale": "2x",
       "idiom": "ipad"
     },
     {
-      "idiom": "watch",
-      "screen-width": ">183"
+      "idiom": "watch"
     },
     {
       "scale": "2x",
-      "idiom": "watch",
-      "screen-width": ">183"
+      "idiom": "watch"
     },
     {
       "screenWidth": "{130,145}",
@@ -227,8 +225,7 @@
         }
       ],
       "scale": "2x",
-      "idiom": "watch",
-      "screen-width": ">145"
+      "idiom": "watch"
     },
     {
       "screenWidth": "{130,145}",
@@ -445,8 +442,7 @@
         }
       ],
       "scale": "2x",
-      "idiom": "watch",
-      "screen-width": ">145"
+      "idiom": "watch"
     },
     {
       "screenWidth": "{130,145}",
