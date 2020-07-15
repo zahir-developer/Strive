@@ -6,7 +6,7 @@ namespace Strive.BusinessLogic
 {
     public interface IProductBpl
     {
-        Result GetAllProduct(int locationId);
+        Result GetAllProduct();
 
         Result SaveProduct(List<Product> products);
 

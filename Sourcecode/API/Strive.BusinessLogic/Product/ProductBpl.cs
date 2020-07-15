@@ -19,11 +19,11 @@ namespace Strive.BusinessLogic
             _tenant = tenantHelper;
         }
 
-        public Result GetAllProduct(int locationId)
+        public Result GetAllProduct()
         {
             try
             {
-                var list = new ProductRal(_tenant).GetAllProduct(locationId);
+                var list = new ProductRal(_tenant).GetAllProduct();
                 _resultContent.Add(list.WithName("Product"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

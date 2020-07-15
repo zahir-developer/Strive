@@ -54,14 +54,24 @@ namespace Strive.BusinessLogic
             db.Save(cmd);
             return true;
         }
-        
-        public bool DeleteVendorDetails(long empId)
-        {
+
+        public bool DeleteVendorById(int id)
+        { 
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tblEmployeeId", empId);
+            dynParams.Add("@VendorId", id);
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEVENDOR.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
+
             return true;
+        }
+
+        public List<VendorList> GetVendorById(long id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@VendorId", id);
+            List<VendorList> lstVendorById = new List<VendorList>();
+            lstVendorById = db.FetchRelation1<VendorList, VendorAddress>(SPEnum.USPGETVENDORBYID.ToString(), dynParams);
+            return lstVendorById;
         }
     }
 }

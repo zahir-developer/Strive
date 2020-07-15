@@ -31,7 +31,7 @@ namespace Admin.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetCodesByCategory")]
+        [Route("GetCodesByCategory/{globalCode}")]
         public Result GetCodeByCategory(GlobalCodes globalCode)
         {
             return _commonBpl.GetCodesByCategory(globalCode);

@@ -43,7 +43,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="phone"
-                                    android:hint="Mobile #"
+                                    android:hint="@string/mobile_number"
                                     android:id="@+id/signUpMobile" />  
                          </android.support.design.widget.TextInputLayout>
 
@@ -58,7 +58,7 @@
                             <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Email ID"
+                                    android:hint="@string/email_Id"
                                     android:inputType="textEmailAddress"
                                     android:id="@+id/signUpEmail" /> 
                          </android.support.design.widget.TextInputLayout>
@@ -74,7 +74,7 @@
                             <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Name"
+                                    android:hint="@string/Name"
                                     android:inputType="textPersonName"
                                     android:id="@+id/signUpName" /> 
                          </android.support.design.widget.TextInputLayout>
@@ -90,7 +90,7 @@
                             <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Password"
+                                    android:hint="@string/password"
                                     android:inputType="textPassword"
                                     android:id="@+id/signUpPassword" /> 
                          </android.support.design.widget.TextInputLayout> 
@@ -106,7 +106,7 @@
                             <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Confirm Password"
+                                    android:hint="@string/confirm_password"
                                     android:inputType="textPassword"
                                     android:id="@+id/signUpConfirmPassword" /> 
                          </android.support.design.widget.TextInputLayout> 
