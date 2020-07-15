@@ -35,6 +35,7 @@ export class LocationSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);
+        console.log(this.locationSetupDetails);
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

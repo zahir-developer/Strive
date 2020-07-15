@@ -1,6 +1,6 @@
 ﻿// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
+// This file has been generated automatically by Visual Studio from the outlets and
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
@@ -11,11 +11,28 @@ using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {
-    [Register("ClockedInView")]
+    [Register ("ClockedInView")]
     partial class ClockedInView
     {
-        void ReleaseDesignerOutlets()
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ClockinView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ClockoutView { get; set; }
+
+        void ReleaseDesignerOutlets ()
         {
+            if (ClockinView != null) {
+                ClockinView.Dispose ();
+                ClockinView = null;
+            }
+
+            if (ClockoutView != null) {
+                ClockoutView.Dispose ();
+                ClockoutView = null;
+            }
         }
     }
 }

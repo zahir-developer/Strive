@@ -16,6 +16,7 @@ namespace StriveTimInventory.iOS.Views
         static EmployeeRolesCell()
         {
             Nib = UINib.FromName("EmployeeRolesCell", NSBundle.MainBundle);
+            
         }
 
         protected EmployeeRolesCell(IntPtr handle) : base(handle)
@@ -24,9 +25,7 @@ namespace StriveTimInventory.iOS.Views
             this.DelayBind(() =>
             {
                 var set = (this).CreateBindingSet<EmployeeRolesCell, EmployeeRole>();
-                //set.Bind(bookThumbnail).For(c => c.ImagePath).To(vm => vm.PhotoUri);
-                //set.Bind(bookName).To(vm => vm.Name);
-                set.Bind(RoleTitileLabel).To(vm => vm.Title);
+                set.Bind(ImgView).For(b => b.Image).To(vm => vm.image);
                 set.Apply();
             });
         }

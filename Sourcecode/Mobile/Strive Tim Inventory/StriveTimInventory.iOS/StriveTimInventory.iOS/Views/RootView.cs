@@ -4,6 +4,7 @@ using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using MvvmCross.ViewModels;
 using Strive.Core.ViewModels.TIMInventory;
+using StriveTimInventory.iOS.UIUtils;
 using UIKit;
 
 namespace StriveTimInventory.iOS.Views
@@ -31,12 +32,13 @@ namespace StriveTimInventory.iOS.Views
 
             var viewControllers = new UIViewController[]
             {
-            CreateTabFor(0, "Time Clock", "TabIcon", typeof(ClockInViewModel)),
-            CreateTabFor(1, "Wash Times", "TabIcon", typeof(WashTimesViewModel))
+            CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockInViewModel)),
+            CreateTabFor(1, "Wash Times", "icon-wash-time", typeof(WashTimesViewModel))
             };
 
             ViewControllers = viewControllers;
             CustomizableViewControllers = new UIViewController[] { };
+            TabBar.BarTintColor = UIColor.Clear.FromHex(0x1DC9B7);
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -77,12 +79,22 @@ namespace StriveTimInventory.iOS.Views
             var screen = this.CreateViewControllerFor(viewModel) as UIViewController;
             screen.Title = title;
             screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle(imageName), index);
+            TabBar.TintColor = UIColor.Clear.FromHex(0x0C4E47);
             screen.TabBarItem.SetTitleTextAttributes(new UITextAttributes()
             {
                 Font = UIFont.FromName("OpenSans-Regular", 10f),
-                TextColor = UIColor.Blue,
+                TextColor = UIColor.Clear.FromHex(0x0C4E47),
+            }, UIControlState.Selected);
+
+            screen.TabBarItem.SetTitleTextAttributes(new UITextAttributes()
+            {
+                Font = UIFont.FromName("OpenSans-Regular", 10f),
+                TextColor = UIColor.Clear.FromHex(0xFFFFFF),
             }, UIControlState.Normal);
-            
+
+            screen.TabBarItem.Image = UIImage.FromBundle(imageName).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+            screen.TabBarItem.SelectedImage = UIImage.FromBundle(imageName);
+           
             controller.PushViewController(screen, true);
             return controller;
         }
