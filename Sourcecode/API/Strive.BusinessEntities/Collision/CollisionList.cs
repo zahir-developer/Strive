@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Strive.BusinessEntities.Collision
 {
-    public class Collision
+    public class CollisionList
     {
         public long? LiabilityId { get; set; }
         public long? EmployeeId { get; set; }
@@ -14,6 +14,6 @@ namespace Strive.BusinessEntities.Collision
         public int Status { get; set; }
         public DateTime? CreatedDate { get; set; }
         public bool IsActive { get; set; }
-        
+        public List<LiabilityDetail> LiabilityDetail { get; set; }
     }
 }

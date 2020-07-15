@@ -25,24 +25,24 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-        public List<Collision> GetAllCollison()
+        public List<CollisionList> GetAllCollison()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Collision> lstCollision = new List<Collision>();
-            lstCollision = db.FetchRelation1<Collision, EmployeeLiabilityDetail>(SPEnum.USPGETCOLLISION.ToString(), dynParams);
+            List<CollisionList> lstCollision = new List<CollisionList>();
+            lstCollision = db.FetchRelation1<CollisionList, LiabilityDetail>(SPEnum.USPGETCOLLISION.ToString(), dynParams);
             return lstCollision;
         }
 
-        public List<Collision> GetCollisionById(long id)
+        public List<CollisionList> GetCollisionById(long id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@CollisionId", id);
-            List<Collision> lstCollisionById = new List<Collision>();
-            lstCollisionById = db.FetchRelation1<Collision, EmployeeLiabilityDetail>(SPEnum.USPGETCOLLISIONBYID.ToString(), dynParams);
+            List<CollisionList> lstCollisionById = new List<CollisionList>();
+            lstCollisionById = db.FetchRelation1<CollisionList, LiabilityDetail>(SPEnum.USPGETCOLLISIONBYID.ToString(), dynParams);
             return lstCollisionById;
         }
 
-        public bool SaveCollison(List<Collision> lstCollision)
+        public bool SaveCollison(List<CollisionList> lstCollision)
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<Collision> lstColli = new List<Collision>();
@@ -55,11 +55,12 @@ namespace Strive.ResourceAccess
                 LiabilityDescription = collisionReg.LiabilityDescription,
                 ProductId = collisionReg.ProductId,
                 Status = collisionReg.Status,
-                CreatedDate = collisionReg.CreatedDate
+                CreatedDate = collisionReg.CreatedDate,
+                IsActive = collisionReg.IsActive
 
             });
             dynParams.Add("@tvpEmployeeLiability", lstColli.ToDataTable().AsTableValuedParameter("tvpEmployeeLiability"));
-            dynParams.Add("@tvpEmployeeLiabilityDetail", lstCollision.FirstOrDefault().tblEmployeeLiabilityDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeLiabilityDetail"));
+            dynParams.Add("@tvpEmployeeLiabilityDetail", collisionReg.LiabilityDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeLiabilityDetail"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVECOLLISION.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;

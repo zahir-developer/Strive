@@ -32,7 +32,7 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result SaveLocationDetails(List<BusinessEntities.Location> lstLocation)
+        public Result SaveLocationDetails(List<BusinessEntities.LocationList> lstLocation)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result AddLocation(List<BusinessEntities.Location> lstLocation)
+        public Result AddLocation(List<BusinessEntities.LocationList> lstLocation)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result UpdateLocation(List<BusinessEntities.Location> lstLocation)
+        public Result UpdateLocation(List<BusinessEntities.LocationList> lstLocation)
         {
             try
             {
