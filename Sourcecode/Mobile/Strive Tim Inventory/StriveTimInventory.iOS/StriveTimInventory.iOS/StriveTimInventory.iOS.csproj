@@ -320,6 +320,7 @@
         <InterfaceDefinition Include="Views\RootView.xib" />
         <InterfaceDefinition Include="Views\ClockedInView.xib" />
         <InterfaceDefinition Include="Views\WashTimesPage.xib" />
+        <InterfaceDefinition Include="Views\ClockOutView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -364,6 +365,10 @@
           <DependentUpon>WashTimesPage.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\EmployeeRolesViewDelegate.cs" />
+        <Compile Include="Views\ClockOutView.cs" />
+        <Compile Include="Views\ClockOutView.designer.cs">
+          <DependentUpon>ClockOutView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
