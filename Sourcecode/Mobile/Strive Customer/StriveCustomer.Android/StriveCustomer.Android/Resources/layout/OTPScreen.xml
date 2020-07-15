@@ -22,13 +22,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="70dp">
-<TextView
-    android:id="@+id/enterOTPTitleTextView"        
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20dp"
-    android:layout_marginLeft="20dp"          
-    android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/enterOTPTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 <TextView
     android:id="@+id/OTPTextView"        
     android:layout_width="match_parent"
@@ -136,7 +137,7 @@
     android:orientation="vertical"
     android:layout_marginTop="30dp">
         <Button
-            android:id="@+id/resendButton"
+            android:id="@+id/verifyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"

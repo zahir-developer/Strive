@@ -70,6 +70,15 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter New Password.
+        /// </summary>
+        internal static string EnterNewPassword {
+            get {
+                return ResourceManager.GetString("EnterNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter OTP.
         /// </summary>
         internal static string EnterOTP {
@@ -126,9 +135,9 @@ namespace Strive.Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Didn&apos;t receive the OTP?.
         /// </summary>
-        internal static string notReceiveOTP {
+        internal static string NotReceiveOTP {
             get {
-                return ResourceManager.GetString("notReceiveOTP", resourceCulture);
+                return ResourceManager.GetString("NotReceiveOTP", resourceCulture);
             }
         }
         
@@ -147,6 +156,15 @@ namespace Strive.Core.Resources {
         internal static string OTPVerify {
             get {
                 return ResourceManager.GetString("OTPVerify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The passwords are not the same.
+        /// </summary>
+        internal static string PasswordsNotSame {
+            get {
+                return ResourceManager.GetString("PasswordsNotSame", resourceCulture);
             }
         }
         
@@ -183,6 +201,15 @@ namespace Strive.Core.Resources {
         internal static string SignUp {
             get {
                 return ResourceManager.GetString("SignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SUBMIT.
+        /// </summary>
+        internal static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         

@@ -8,6 +8,11 @@ namespace Strive.Core.ViewModels.Customer
     public class OTPViewModel : BaseViewModel
     {
         #region Commands
+        public async void VerifyCommand()
+        {
+            await _navigationService.Navigate<ConfirmPasswordViewModel>();
+        }
+
         #endregion Commands
 
         #region Properties
@@ -32,7 +37,7 @@ namespace Strive.Core.ViewModels.Customer
         {
             get 
             {
-                return Strings.notReceiveOTP;
+                return Strings.NotReceiveOTP;
             }
             set { }
         }
