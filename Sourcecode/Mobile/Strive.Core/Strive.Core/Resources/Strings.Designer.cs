@@ -70,6 +70,15 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter OTP.
+        /// </summary>
+        internal static string EnterOTP {
+            get {
+                return ResourceManager.GetString("EnterOTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot Password.
         /// </summary>
         internal static string ForgotPassword_fpScreen {
@@ -115,6 +124,33 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Didn&apos;t receive the OTP?.
+        /// </summary>
+        internal static string notReceiveOTP {
+            get {
+                return ResourceManager.GetString("notReceiveOTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OTP sent to your registered mobile #.
+        /// </summary>
+        internal static string OTPSent {
+            get {
+                return ResourceManager.GetString("OTPSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VERIFY.
+        /// </summary>
+        internal static string OTPVerify {
+            get {
+                return ResourceManager.GetString("OTPVerify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter registered mobile # to receive OTP.
         /// </summary>
         internal static string ReceiveOTP {
@@ -129,6 +165,15 @@ namespace Strive.Core.Resources {
         internal static string RememberPassword {
             get {
                 return ResourceManager.GetString("RememberPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resend OTP.
+        /// </summary>
+        internal static string ResendOTP {
+            get {
+                return ResourceManager.GetString("ResendOTP", resourceCulture);
             }
         }
         
