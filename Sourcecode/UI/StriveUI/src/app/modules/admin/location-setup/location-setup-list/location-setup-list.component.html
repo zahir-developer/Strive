@@ -59,7 +59,7 @@
                                 </ng-template>
                             </p-table>
                             <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
-                                [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+                                [modal]="true"  [focusOnShow]="false" [closable]="false">
                                 <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData"
                                     [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
                                 </app-location-create-edit>

@@ -11,7 +11,7 @@ import { VendorSetupListComponent } from '../vendor-setup/vendor-setup-list/vend
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TableModule, DialogModule, SharedModule, ConfirmationService } from 'primeng';
+import { TableModule, DialogModule, ConfirmationService } from 'primeng';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { TokenInterceptor } from 'src/app/shared/interceptor/token.interceptor';
 import { SetupRoutingModule } from './setup.routing';
@@ -20,6 +20,8 @@ import { SetupComponent } from './setup.component';
 import { ServiceSetupComponent } from '../service-setup/service-setup.component';
 import { ServiceCreateEditComponent } from '../service-setup/service-create-edit/service-create-edit.component';
 import { ServiceSetupListComponent } from '../service-setup/service-setup-list/service-setup-list.component';
+import { RouterModule } from '@angular/router';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [LocationSetupComponent,LocationCreateEditComponent,LocationSetupListComponent,
@@ -33,9 +35,12 @@ import { ServiceSetupListComponent } from '../service-setup/service-setup-list/s
       HttpClientModule,
       FormsModule,
       TableModule,
+      SharedModule,
+      RouterModule,
       DialogModule,
-      SharedModule
+      // SharedModule
     ],
+    exports: [RouterModule],
     providers: [
       ConfirmationService,
       ThemeService,
