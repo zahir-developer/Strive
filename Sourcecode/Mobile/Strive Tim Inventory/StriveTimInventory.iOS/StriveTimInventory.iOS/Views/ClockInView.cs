@@ -36,13 +36,13 @@ namespace StriveTimInventory.iOS.Views
             RolesCollectionView.Source = RolesCollectionViewSource = new EmployeeRolesViewSource(RolesCollectionView);
             RolesCollectionView.Delegate = new FlowDelegate();
 
-            RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView,ViewModel);
+            RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView, ViewModel);
 
             var set = this.CreateBindingSet<ClockInView, ClockInViewModel>();
             set.Bind(RolesCollectionViewSource).For(v => v.ItemsSource).To(vm => vm.RolesList);
 
             set.Bind(ClockinButton).To(vm => vm.Commands["NavigateClockedIn"]);
-            set.Bind(RolesCollectionViewSource).For(v => v.SelectionChangedCommand).To(vm => vm.Commands["RoleSelected"]);
+            set.Bind(Logoutbutton).To(vm => vm.Commands["NavigateBack"]);
             set.Apply();
         }
 
