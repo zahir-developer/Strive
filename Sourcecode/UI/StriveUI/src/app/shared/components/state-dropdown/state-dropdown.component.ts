@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { StateService } from '../../services/common-service/state.service';
 
 @Component({
@@ -10,6 +10,7 @@ export class StateDropdownComponent implements OnInit {
   stateList = [];
   state = '';
   submitted: boolean;
+  @Output() stateId = new EventEmitter();
   constructor(private stateService: StateService) { }
 
   ngOnInit(): void {
@@ -25,11 +26,10 @@ this.stateList = state.Codes.map(item => {
     value: item.CodeId
   };
 });
-console.log(this.stateList);
     }, (err) => {
     });
   }
   stateSelection(event) {
-
+this.stateId.emit(event);
   }
 }

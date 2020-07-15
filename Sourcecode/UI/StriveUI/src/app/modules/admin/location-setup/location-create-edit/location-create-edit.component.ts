@@ -1,8 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { log } from 'console';
+import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -10,6 +11,7 @@ import { log } from 'console';
   styleUrls: ['./location-create-edit.component.css']
 })
 export class LocationCreateEditComponent implements OnInit {
+  @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   locationSetupForm: FormGroup;
   State:any;
   Country:any;
@@ -77,6 +79,7 @@ export class LocationCreateEditComponent implements OnInit {
 
   submit() {
     this.submitted = true;
+    this.stateDropdownComponent.submitted = true;
     if(this.locationSetupForm.invalid){
       return;
     }
@@ -132,4 +135,11 @@ export class LocationCreateEditComponent implements OnInit {
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
+  getSelectedStateId(event) {
+console.log(event.target.value);
+  }
+  getSelectedCountryId(event) {
+console.log(event.target.value);
+  }
 }
+

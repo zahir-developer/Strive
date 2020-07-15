@@ -19,16 +19,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="73q-3h-V3N">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="AQC-Sp-Xti">
                                 <rect key="frame" x="-20" y="-20" width="874" height="1234"/>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="strive_splash_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ZLn-6r-scw">
+                                <rect key="frame" x="292" y="517" width="250" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="LDo-NS-UfG"/>
+                                    <constraint firstAttribute="width" constant="250" id="S5G-0Q-GuY"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="73q-3h-V3N" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-20" id="GCd-Ih-UIJ"/>
-                            <constraint firstAttribute="bottom" secondItem="73q-3h-V3N" secondAttribute="bottom" constant="-20" id="Zz2-AD-XYJ"/>
-                            <constraint firstAttribute="trailing" secondItem="73q-3h-V3N" secondAttribute="trailing" constant="-20" id="cVO-aF-xU5"/>
-                            <constraint firstItem="73q-3h-V3N" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="-20" id="jeO-Dn-7Ze"/>
+                            <constraint firstAttribute="trailing" secondItem="AQC-Sp-Xti" secondAttribute="trailing" constant="-20" id="Khz-TW-oMQ"/>
+                            <constraint firstItem="ZLn-6r-scw" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ZNz-HD-K84"/>
+                            <constraint firstAttribute="bottom" secondItem="AQC-Sp-Xti" secondAttribute="bottom" constant="-20" id="iuP-cI-cQK"/>
+                            <constraint firstItem="AQC-Sp-Xti" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-20" id="jzO-cl-8RH"/>
+                            <constraint firstItem="AQC-Sp-Xti" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="-20" id="rBC-p2-Q2H"/>
+                            <constraint firstItem="ZLn-6r-scw" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="rsO-Ua-4es"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -38,6 +46,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="car_image_bg" width="1614" height="1076"/>
+        <image name="car_image_bg" width="768" height="1024"/>
+        <image name="strive_splash_icon" width="240" height="159.5"/>
     </resources>
 </document>

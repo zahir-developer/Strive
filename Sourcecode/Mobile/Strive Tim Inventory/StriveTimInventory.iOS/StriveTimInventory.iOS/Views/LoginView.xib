@@ -6,6 +6,14 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView">
             <connections>
@@ -13,7 +21,6 @@
                 <outlet property="PasswordToggleButton" destination="g2c-Fx-9sF" id="name-outlet-g2c-Fx-9sF"/>
                 <outlet property="PasswordTxtField" destination="rc1-5W-pyB" id="name-outlet-rc1-5W-pyB"/>
                 <outlet property="UserIdTxtField" destination="hvk-t9-Uzd" id="name-outlet-hvk-t9-Uzd"/>
-                <outlet property="loginLabel" destination="wUR-Ya-BbI" id="name-outlet-wUR-Ya-BbI"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -28,9 +35,20 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N02-ev-TPl">
                     <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                     <subviews>
-                        <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tie-yI-3XS">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tie-yI-3XS">
                             <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
-                            <color key="backgroundColor" red="0.084947054113959961" green="0.12185842893097004" blue="0.1268440672588832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="strive_icon" translatesAutoresizingMaskIntoConstraints="NO" id="efs-oQ-fU0">
+                                    <rect key="frame" x="354" y="396" width="126" height="84"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="126" id="iRg-Vg-UIh"/>
+                                        <constraint firstAttribute="height" constant="84" id="zFw-Fc-cuH"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="efs-oQ-fU0" firstAttribute="centerX" secondItem="Tie-yI-3XS" secondAttribute="centerX" id="GbF-Q8-9Mw"/>
+                            </constraints>
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hvk-t9-Uzd">
                             <rect key="frame" x="250" y="572" width="334" height="50"/>
@@ -39,19 +57,24 @@
                                 <constraint firstAttribute="height" constant="50" id="Pgo-qY-RTZ"/>
                             </constraints>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rc1-5W-pyB">
                             <rect key="frame" x="250" y="637" width="334" height="50"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2c-Fx-9sF">
-                            <rect key="frame" x="538" y="647" width="46" height="30"/>
-                            <state key="normal" title="Button"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2c-Fx-9sF">
+                            <rect key="frame" x="534" y="651" width="50" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="djM-Zh-5Ba"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="tintColor" red="0.85882937910000001" green="0.85881310700000002" blue="0.85882407429999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <state key="normal" image="eye.fill" catalog="system"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ci-QD-8B7">
                             <rect key="frame" x="250" y="702" width="334" height="55"/>
@@ -59,19 +82,15 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="3Mp-Tf-QNT"/>
                             </constraints>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="LOGIN"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Clock Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUR-Ya-BbI">
-                            <rect key="frame" x="334.5" y="485.5" width="165" height="26.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                     </subviews>
                     <constraints>
                         <constraint firstItem="rc1-5W-pyB" firstAttribute="width" secondItem="hvk-t9-Uzd" secondAttribute="width" id="2Y0-uv-VYh"/>
                         <constraint firstItem="rc1-5W-pyB" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="3GX-U8-3ry"/>
+                        <constraint firstItem="hvk-t9-Uzd" firstAttribute="top" secondItem="efs-oQ-fU0" secondAttribute="bottom" constant="92" id="5VZ-Ol-gxP"/>
                         <constraint firstItem="g2c-Fx-9sF" firstAttribute="centerY" secondItem="rc1-5W-pyB" secondAttribute="centerY" id="9ZE-sP-oKe"/>
                         <constraint firstItem="rc1-5W-pyB" firstAttribute="height" secondItem="hvk-t9-Uzd" secondAttribute="height" id="CLJ-HG-JKc"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="width" secondItem="N02-ev-TPl" secondAttribute="width" multiplier="0.4" id="Eab-qN-eOO"/>
@@ -84,9 +103,8 @@
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="hmg-To-oU8"/>
                         <constraint firstItem="rc1-5W-pyB" firstAttribute="top" secondItem="hvk-t9-Uzd" secondAttribute="bottom" constant="15" id="mYf-pM-dAF"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="top" secondItem="rc1-5W-pyB" secondAttribute="bottom" constant="15" id="o5Q-oR-sOX"/>
-                        <constraint firstItem="hvk-t9-Uzd" firstAttribute="top" secondItem="wUR-Ya-BbI" secondAttribute="bottom" constant="60" id="vbq-eh-Ym2"/>
+                        <constraint firstItem="g2c-Fx-9sF" firstAttribute="height" secondItem="rc1-5W-pyB" secondAttribute="height" multiplier="0.44" id="ud1-dz-GEV"/>
                         <constraint firstItem="Tie-yI-3XS" firstAttribute="top" secondItem="N02-ev-TPl" secondAttribute="top" id="xsi-3Q-pk4"/>
-                        <constraint firstItem="wUR-Ya-BbI" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="yj5-86-416"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="zLQ-8N-H6V"/>
                     </constraints>
                 </view>
@@ -106,6 +124,8 @@
         </view>
     </objects>
     <resources>
-        <image name="car_image_bg" width="1614" height="1076"/>
+        <image name="car_image_bg" width="768" height="1024"/>
+        <image name="eye.fill" catalog="system" width="128" height="78"/>
+        <image name="strive_icon" width="126" height="84"/>
     </resources>
 </document>
