@@ -27,7 +27,7 @@ export class LocationCreateEditComponent implements OnInit {
       locationName: ['', Validators.required],
       locationAddress: ['', Validators.required],
       zipcode: ['', Validators.required],
-      state: ['', Validators.required],
+      state: ['',],
       country: ['',],
       phoneNumber: ['',],
       email: ['',],
