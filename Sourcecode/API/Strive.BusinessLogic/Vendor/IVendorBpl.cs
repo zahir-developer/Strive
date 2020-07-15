@@ -8,6 +8,7 @@ namespace Strive.BusinessLogic
     {
         Result GetVendorDetails();
         Result SaveVendorDetails(List<VendorList> lstVendor);
-        //Result DeleteEmployeeDetails(long empId);
+        Result DeleteVendorById(int id);
+        Result GetVendorById(long id);
     }
 }

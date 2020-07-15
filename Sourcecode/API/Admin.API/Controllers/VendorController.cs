@@ -38,5 +38,18 @@ namespace Admin.API.Controllers
         }
 
 
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public Result DeleteVendorById(int id)
+        {
+            return _vendorBpl.DeleteVendorById(id);
+        }
+
+        [HttpGet]
+        [Route("GetVendorById/{id}")]
+        public Result GetCollisionById(long id)
+        {
+            return _vendorBpl.GetVendorById(id);
+        }
     }
 }

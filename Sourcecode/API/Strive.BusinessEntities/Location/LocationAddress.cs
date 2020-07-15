@@ -11,7 +11,7 @@ namespace Strive.BusinessEntities
     public class LocationAddress
     {
         [Key]
-        public int AddressId { get; set; }
+        public int LocationAddressId { get; set; }
         public int? RelationshipId { get; set; }
         [MaxLength(50)]
         public string Address1 { get; set; }
@@ -28,6 +28,7 @@ namespace Strive.BusinessEntities
         [MaxLength(50)]
         public string Zip { get; set; }
         public bool? IsActive { get; set; }
+        public int? Country  { get; set; }
 
     }
 }

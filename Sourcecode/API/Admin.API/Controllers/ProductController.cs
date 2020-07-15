@@ -23,13 +23,13 @@ namespace Admin.Api.Controllers
 
         [HttpGet]
         [Route("GetAllProduct")]
-        public Result GetAllProduct(int locationId)
+        public Result GetAllProduct()
         {
-            return _ProductBpl.GetAllProduct(locationId);
+            return _ProductBpl.GetAllProduct();
         }
 
         [HttpGet]
-        [Route("GetProduct")]
+        [Route("GetProduct/{productId}")]
         public Result GetProduct(int productId)
         {
             return _ProductBpl.GetProduct(productId);

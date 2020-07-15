@@ -47,12 +47,27 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result DeleteVendorDetails(long empId)
+        public Result DeleteVendorById(int id)
         {
             try
             {
-                var lstVendor = new VendorRal(_tenant).DeleteVendorDetails(empId);
+                var lstVendor = new VendorRal(_tenant).DeleteVendorById(id);
                 _resultContent.Add(lstVendor.WithName("Vendor"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        public Result GetVendorById(long id)
+        {
+            try
+            {
+                var lstVendorById = new VendorRal(_tenant).GetVendorById(id);
+                _resultContent.Add(lstVendorById.WithName("VendorDetail"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)

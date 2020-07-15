@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class ServiceSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  constructor(private serviceSetup: ServiceSetupService,private toastr: ToastrService,private fb: FormBuilder,private confirmationService: ConfirmationService) { }
+  constructor(private serviceSetup: ServiceSetupService,private toastr: ToastrService,private fb: FormBuilder,private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.isTableEmpty = true;
@@ -45,26 +46,26 @@ this.selectedData = data;
 this.showDialog = true;
 }
 delete(data) {
-    //  this.confirmationService.confirm({
-    //   header: 'Delete',
-    //   message: 'Do you want to continue?',
-    //   acceptLabel: 'Yes',
-    //   rejectLabel: 'Cancel',
-    //   accept: () => {
-          this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res =>{
-            if(res.status === "Success"){
-              this.toastr.success('Record Deleted Successfully!!', 'Success!');
-              this.getAllserviceSetupDetails();
-            }else{
-              this.toastr.error('Communication Error','Error!');
-            }
-          });
-          
-    //   },
-    //   reject: () => {
-    //   }
-    // });    
+  this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
+  information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
+    .then((confirmed) => {
+      if (confirmed === true) {
+        this.confirmDelete(data);
+      }
+    })
+    .catch(() => {});
 }
+confirmDelete(data){
+  this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res =>{
+    if(res.status === "Success"){
+      this.toastr.success('Record Deleted Successfully!!', 'Success!');
+      this.getAllserviceSetupDetails();
+    }else{
+      this.toastr.error('Communication Error','Error!');
+    }
+  });
+}
+
 closePopupEmit(event) {
   if(event.status === 'saved') {
     this.getAllserviceSetupDetails();
