@@ -80,7 +80,7 @@ namespace Strive.ResourceAccess
             dynParams.Add("@tvpEmployee", lstEmpInfo.ToDataTable().AsTableValuedParameter("tvpEmployee"));
             dynParams.Add("@tvpEmployeeDetail", empInf.EmployeeDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeDetail"));
             dynParams.Add("@tvpEmployeeAddress", empInf.EmployeeAddress.ToDataTable().AsTableValuedParameter("tvpEmployeeAddress"));
-            dynParams.Add("@tvpEmployeeRole", empInf.EmployeeRoles.ToDataTable().AsTableValuedParameter("tvpEmployeeRole"));
+            dynParams.Add("@tvpEmployeeRoles", empInf.EmployeeRoles.ToDataTable().AsTableValuedParameter("tvpEmployeeRoles"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
