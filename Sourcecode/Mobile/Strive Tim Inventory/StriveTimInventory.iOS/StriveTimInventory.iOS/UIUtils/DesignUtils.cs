@@ -5,6 +5,16 @@ namespace StriveTimInventory.iOS.UIUtils
 {
     public static class DesignUtils
     {
+        public static UIFont OpenSansExtraBold()
+        {
+            return UIFont.FromName("OpenSans-ExtraBold", 25f);
+        }
+
+        public static UIFont OpenSansExtraBoldBig()
+        {
+            return UIFont.FromName("OpenSans-ExtraBold", 45f);
+        }
+
     }
 
     public static class UIColorExtensions
