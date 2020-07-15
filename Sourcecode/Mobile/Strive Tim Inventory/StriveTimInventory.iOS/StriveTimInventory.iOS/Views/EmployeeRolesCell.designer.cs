@@ -15,31 +15,13 @@ namespace StriveTimInventory.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIImageView RoleBackgroundImage { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIImageView RoleIconImage { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel RoleTitileLabel { get; set; }
+        UIKit.UIImageView ImgView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (RoleBackgroundImage != null) {
-                RoleBackgroundImage.Dispose ();
-                RoleBackgroundImage = null;
-            }
-
-            if (RoleIconImage != null) {
-                RoleIconImage.Dispose ();
-                RoleIconImage = null;
-            }
-
-            if (RoleTitileLabel != null) {
-                RoleTitileLabel.Dispose ();
-                RoleTitileLabel = null;
+            if (ImgView != null) {
+                ImgView.Dispose ();
+                ImgView = null;
             }
         }
     }
