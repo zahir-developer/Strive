@@ -58,6 +58,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockedInCommand()
         {
+            await _navigationService.Close(this);
             await _navigationService.Navigate<ClockedInViewModel>();
         }
 

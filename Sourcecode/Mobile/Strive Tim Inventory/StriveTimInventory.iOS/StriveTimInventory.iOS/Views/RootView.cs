@@ -33,7 +33,9 @@ namespace StriveTimInventory.iOS.Views
             var viewControllers = new UIViewController[]
             {
             CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockInViewModel)),
-            CreateTabFor(1, "Wash Times", "icon-wash-time", typeof(WashTimesViewModel))
+            CreateTabFor(1, "Wash Times", "icon-wash-time", typeof(WashTimesViewModel)),
+             CreateTabFor(0, "Time Clock", "icon-membership", typeof(WashTimesViewModel)),
+            CreateTabFor(1, "Wash Times", "icon-inventory", typeof(WashTimesViewModel))
             };
 
             ViewControllers = viewControllers;
