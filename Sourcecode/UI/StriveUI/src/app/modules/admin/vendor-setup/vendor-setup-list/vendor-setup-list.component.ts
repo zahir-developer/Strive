@@ -28,7 +28,7 @@ export class VendorSetupListComponent implements OnInit {
     this.vendorService.getVendor().subscribe(data =>{
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.vendorSetupDetails = vendor.Vendor;
+        this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === true);
         console.log(this.vendorSetupDetails);
         if(this.vendorSetupDetails.length === 0){
           this.isTableEmpty = true;
@@ -54,7 +54,7 @@ delete(data) {
 }
 
 confirmDelete(data){
-    this.vendorService.deleteVendor(data.ProductId).subscribe(res =>{
+    this.vendorService.deleteVendor(data.VendorId).subscribe(res =>{
       if(res.status === "Success"){
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAllvendorSetupDetails();

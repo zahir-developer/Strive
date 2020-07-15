@@ -53,11 +53,10 @@ export class LocationCreateEditComponent implements OnInit {
         this.locationSetupForm.patchValue({
           // locationId: this.selectedLocation.LocationId,
           locationName: this.selectedLocation.LocationName,
-          locationAddress: this.selectedLocation.LocationDescription,
-          workHourThreshold: this.selectedLocation.WorkHourThreshold,
+          locationAddress: this.selectedLocation.LocationAddress[0].Address1,
+          locationAddress2: this.selectedLocation.LocationAddress[0].Address2,
+          workHourThreshold: this.selectedLocation.WorkhourThreshold,
           zipcode: this.selectedLocation.LocationAddress[0].Zip,
-          state: this.selectedLocation.LocationAddress[0].State,
-          country: this.selectedLocation.LocationAddress[0].Country,
           phoneNumber: this.selectedLocation.LocationAddress[0].PhoneNumber,
           email: this.selectedLocation.LocationAddress[0].Email,
           franchise: this.selectedLocation.IsFranchise
@@ -82,8 +81,8 @@ export class LocationCreateEditComponent implements OnInit {
     }
     const sourceObj = [];
     this.address = [{
-      relationshipId: 0,
-      locationAddressId: 0,
+      relationshipId: this.isEdit ? this.selectedLocation.LocationId : 0,
+      locationAddressId: this.isEdit ? this.selectedLocation.LocationAddress[0].LocationAddressId : 0,
       address1: this.locationSetupForm.value.locationAddress,
       address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber2: "",
