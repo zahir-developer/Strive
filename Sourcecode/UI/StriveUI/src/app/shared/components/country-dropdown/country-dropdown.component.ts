@@ -8,7 +8,7 @@ import { CountryService } from '../../services/common-service/country.service';
 })
 export class CountryDropdownComponent implements OnInit {
   countryList = [];
-  country = '';
+  country = 38;
   @Output() countryId = new EventEmitter();
   constructor(private countryService: CountryService) { }
 
