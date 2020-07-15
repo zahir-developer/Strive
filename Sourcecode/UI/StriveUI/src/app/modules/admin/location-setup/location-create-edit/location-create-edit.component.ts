@@ -82,7 +82,7 @@ export class LocationCreateEditComponent implements OnInit {
     const sourceObj = [];
     this.address=[{
       addressId:1,
-      locationAddressId: 1,
+      locationAddressId: this.isEdit ? this.selectedLocation.LocationId : 0,
       address1: this.locationSetupForm.value.locationAddress,
       address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber2:"",
@@ -94,7 +94,7 @@ export class LocationCreateEditComponent implements OnInit {
       email: this.locationSetupForm.value.email
     }]
     const formObj = {
-      locationId: 1,
+      locationId : this.isEdit ? this.selectedLocation.LocationId : 0,
       locationType:0,      
       locationName: this.locationSetupForm.value.locationName,
       locationDescription: this.locationSetupForm.value.locationAddress,
