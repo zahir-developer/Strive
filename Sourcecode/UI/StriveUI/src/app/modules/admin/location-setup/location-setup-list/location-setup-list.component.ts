@@ -34,7 +34,7 @@ export class LocationSetupListComponent implements OnInit {
     this.locationService.getLocation().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        this.locationSetupDetails = location.Location;
+        this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);
         console.log(this.locationSetupDetails);
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
