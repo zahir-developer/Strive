@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CountryService } from '../../services/common-service/country.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { CountryService } from '../../services/common-service/country.service';
 })
 export class CountryDropdownComponent implements OnInit {
   countryList = [];
+  country = '';
+  @Output() countryId = new EventEmitter();
   constructor(private countryService: CountryService) { }
 
   ngOnInit(): void {
@@ -22,9 +24,11 @@ this.countryList = country.Codes.map(item => {
     value: item.CodeId
   };
 });
-console.log(this.countryList);
     }, (err) => {
     });
+  }
+  countrySelection(event) {
+this.countryId.emit(event);
   }
 
 }
