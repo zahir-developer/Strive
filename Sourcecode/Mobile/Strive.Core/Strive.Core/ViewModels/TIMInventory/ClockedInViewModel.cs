@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Timers;
 using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.TIMInventory
@@ -8,6 +9,14 @@ namespace Strive.Core.ViewModels.TIMInventory
     {
         public ClockedInViewModel()
         {
+            //Timer checkForTime = new Timer(15000);
+            //checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
+            //checkForTime.Enabled = true;
+        }
+
+        void checkForTime_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            NavigateBackCommand();
         }
 
         public async Task NavigateBackCommand()
@@ -18,7 +27,6 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockOutCommand()
         {
-            //await _navigationService.Close(this);
             await _navigationService.Navigate<ClockOutViewModel>();
         }
     }

@@ -30,6 +30,10 @@ namespace StriveTimInventory.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField UserIdTxtField { get; set; }
 
+        [Action ("PasswordToggle:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void PasswordToggle (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (LoginButton != null) {

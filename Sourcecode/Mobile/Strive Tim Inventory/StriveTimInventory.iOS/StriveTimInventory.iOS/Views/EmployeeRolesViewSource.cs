@@ -32,6 +32,11 @@ namespace StriveTimInventory.iOS.Views
                 if (value != null)
                 {
                     RolesList = (IList<EmployeeRole>)value;
+                    if(RolesList.Count < 3)
+                    {
+                        RolesList.Add(new EmployeeRole("","",0,UIImage.FromBundle("")));
+                        RolesList.Add(new EmployeeRole("", "", 0, UIImage.FromBundle("")));
+                    }
                 }
                 else
                 {
