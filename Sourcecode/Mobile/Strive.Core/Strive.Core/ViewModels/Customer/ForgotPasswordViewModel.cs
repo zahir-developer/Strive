@@ -10,6 +10,11 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Commands
 
+        public async void GetOTPCommand()
+        {
+            await _navigationService.Navigate<OTPViewModel>();
+        }
+
         #endregion Commands
 
         #region Properties
