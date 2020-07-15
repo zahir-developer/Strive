@@ -37,7 +37,7 @@ export class ProductSetupListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       }
-    })
+    });
   }
 edit(data) {
 this.selectedData = data;

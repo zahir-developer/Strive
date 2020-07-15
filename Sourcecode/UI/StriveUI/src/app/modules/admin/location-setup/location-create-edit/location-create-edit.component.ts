@@ -50,6 +50,7 @@ export class LocationCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.selectedLocation = location.Location[0];
+        console.log(this.selectedLocation);
         this.locationSetupForm.patchValue({
           // locationId: this.selectedLocation.LocationId,
           locationName: this.selectedLocation.LocationName,
@@ -82,22 +83,22 @@ export class LocationCreateEditComponent implements OnInit {
     const sourceObj = [];
     this.address=[{
       addressId:1,
-      locationAddressId: this.isEdit ? this.selectedLocation.LocationId : 0,
+      locationAddressId: 1,
       address1: this.locationSetupForm.value.locationAddress,
       address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber2:"",
       isActive:true,
       zip: this.locationSetupForm.value.zipcode,
-      state: this.locationSetupForm.value.state == "" ? 0 : this.locationSetupForm.value.state,
-      city: 0,//this.locationSetupForm.value.country,
+      state: 1,//this.locationSetupForm.value.state == "" ? 0 : this.locationSetupForm.value.state,
+      city: 1,//this.locationSetupForm.value.country,
       phoneNumber: this.locationSetupForm.value.phoneNumber,
       email: this.locationSetupForm.value.email
     }]
     const formObj = {
-      locationId : this.isEdit ? this.selectedLocation.LocationId : 0,
-      locationType:0,      
+      locationId : this.isEdit ? this.selectedLocation.LocationId : 1,
+      locationType:1,      
       locationName: this.locationSetupForm.value.locationName,
-      locationDescription: this.locationSetupForm.value.locationAddress,
+      locationDescription: "",
       isActive:true,
       taxRate:"",
       siteUrl:"",
