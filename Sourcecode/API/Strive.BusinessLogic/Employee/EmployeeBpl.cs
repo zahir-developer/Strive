@@ -32,6 +32,20 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        public Result GetAllEmployeeRoles()
+        {
+            try
+            {
+                var lstEmployeeRoles = new EmployeeRal(_tenant).GetAllEmployeeRoles();
+                _resultContent.Add(lstEmployeeRoles.WithName("EmployeeRoles"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
         public Result GetEmployeeByIdDetails(long id)
         {
             try
@@ -46,18 +60,18 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveEmployeeDetails(List<EmployeeInfo> lstEmployee)
+        public Result SaveEmployeeDetails(List<Employee> lstEmployee)
         {
             try
             {
-                bool blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
+                var blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
 
-                if (blnStatus)
-                {
-                    List<EmployeeLogin> lstEmployeeLogin = new List<EmployeeLogin>();
-                    lstEmployeeLogin.Add(new EmployeeLogin());
-                    new EmployeeRal(_tenant, true).SaveEmployeeLogin(lstEmployeeLogin);
-                }
+                //if (blnStatus)
+                //{
+                //    List<EmployeeLogin> lstEmployeeLogin = new List<EmployeeLogin>();
+                //    lstEmployeeLogin.Add(new EmployeeLogin());
+                //    new EmployeeRal(_tenant, true).SaveEmployeeLogin(lstEmployeeLogin);
+                //}
 
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);

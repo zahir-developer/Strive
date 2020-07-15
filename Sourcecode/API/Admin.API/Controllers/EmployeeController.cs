@@ -30,6 +30,13 @@ namespace Admin.Api.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllRoles")]
+        public Result GetAllEmployeeRoles()
+        {
+            return _employeeBpl.GetAllEmployeeRoles();
+        }
+
+        [HttpGet]
         [Route("GetEmployeeById/{id}")]
         public Result GetEmployeeById(long id)
         {
@@ -38,7 +45,7 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee([FromBody] List<Strive.BusinessEntities.Employee.EmployeeInfo> lstEmployee)
+        public Result SaveEmployee([FromBody] List<Strive.BusinessEntities.Employee.Employee> lstEmployee)
         {
             return _employeeBpl.SaveEmployeeDetails(lstEmployee);
         }
