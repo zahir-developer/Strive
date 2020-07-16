@@ -25,9 +25,13 @@ namespace StriveTimInventory.iOS.Views
             this.DelayBind(() =>
             {
                 var set = (this).CreateBindingSet<EmployeeRolesCell, EmployeeRole>();
-                set.Bind(ImgView).For(b => b.Image).To(vm => vm.image);
                 set.Apply();
             });
+        }
+
+        public void SetCell(EmployeeRolesCell cell, EmployeeRole role)
+        {
+            cell.ImgView.Image = UIImage.FromBundle(role.ImageUri);
         }
     }
 }

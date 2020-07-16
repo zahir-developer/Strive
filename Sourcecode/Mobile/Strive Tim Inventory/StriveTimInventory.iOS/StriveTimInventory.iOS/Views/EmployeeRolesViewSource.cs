@@ -34,8 +34,8 @@ namespace StriveTimInventory.iOS.Views
                     RolesList = (IList<EmployeeRole>)value;
                     if(RolesList.Count < 3)
                     {
-                        RolesList.Add(new EmployeeRole("","",0,UIImage.FromBundle("")));
-                        RolesList.Add(new EmployeeRole("", "", 0, UIImage.FromBundle("")));
+                        RolesList.Add(new EmployeeRole("","",-1,""));
+                        RolesList.Add(new EmployeeRole("", "", -1, ""));
                     }
                 }
                 else
@@ -59,7 +59,9 @@ namespace StriveTimInventory.iOS.Views
         protected override UICollectionViewCell GetOrCreateCellFor(UICollectionView collectionView,
             NSIndexPath indexPath, object item)
         {
-            return (UICollectionViewCell)collectionView.DequeueReusableCell(CellId, indexPath);
+            EmployeeRolesCell cell = (EmployeeRolesCell)collectionView.DequeueReusableCell(CellId, indexPath);
+            cell.SetCell(cell, RolesList[indexPath.Row]);
+            return cell;
         }
     }
 }
