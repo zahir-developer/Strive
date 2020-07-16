@@ -53,5 +53,20 @@ namespace Strive.ResourceAccess
                 throw ex;
             }
         }
+
+        public string GetPassword(string email)
+        {
+            try
+            {
+                var dynParams = new DynamicParameters();
+                dynParams.Add("@UserName", email);
+                var res = db.Get<string>(SPEnum.USPGETPASSWORDHASH.ToString(), dynParams);
+                return res;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

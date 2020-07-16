@@ -44,12 +44,20 @@ namespace Strive.BusinessLogic.Auth
             try
             {
                 Token tkn = new Token();
-                var userDetails = new AuthRal(_tenant).Login(authentication);
-                SetTenantSchematoCache(userDetails);
-                _tenant.SetConnection(GetTenantConnectionString(userDetails, tenantConString));
-                Employee employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(userDetails.AuthId);
-                (string token, string refreshToken) = GetTokens(userDetails, employee, secretKey);
-                SaveRefreshToken(userDetails.UserGuid, refreshToken);
+                TenantSchema tenantSchema = null;
+                var dbPassHash = new AuthRal(_tenant).GetPassword(authentication.Email);
+
+                if (!Pass.Validate(authentication.PasswordHash, dbPassHash))
+                {
+                    throw new Exception("UnAuthorized");
+                }
+
+                tenantSchema = new AuthRal(_tenant).Login(authentication);
+                SetTenantSchematoCache(tenantSchema);
+                _tenant.SetConnection(GetTenantConnectionString(tenantSchema, tenantConString));
+                Employee employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tenantSchema.AuthId);
+                (string token, string refreshToken) = GetTokens(tenantSchema, employee, secretKey);
+                SaveRefreshToken(tenantSchema.UserGuid, refreshToken);
                 resultContent.Add(token.WithName("Token"));
                 resultContent.Add(refreshToken.WithName("RefreshToken"));
                 resultContent.Add(employee.WithName("EmployeeDetails"));
