@@ -64,7 +64,7 @@ const load = (http: HttpClient) => {
       // for temporary use
       return http.get('assets/config/config.json').toPromise()
           .then((data: any) => {
-            console.log(data);
+            // console.log(data);
             return EnvironmentService.environment = data;
           });
     } else {

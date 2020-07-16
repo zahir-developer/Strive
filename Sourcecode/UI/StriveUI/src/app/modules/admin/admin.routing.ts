@@ -6,10 +6,11 @@ import { SchedulingComponent } from './scheduling/scheduling.component';
 import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 import { ThemeComponent } from './theme/theme.component';
+import { AuthGuard } from 'src/app/shared/guards/auth-guard.service';
 
 
 const adminRoutes: Routes = [
-  { path: 'admin', component: AdminComponent }, {
+  { path: 'admin', canActivate: [AuthGuard], component: AdminComponent }, {
       path: '', component: AdminComponent, children: [{
           path: 'employees', component: EmployeesComponent},
         {path: 'scheduling', component: SchedulingComponent},

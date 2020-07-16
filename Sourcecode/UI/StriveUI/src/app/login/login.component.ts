@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
-      console.log(data, 'isloggedIn value');
+      // console.log(data, 'isloggedIn value');
     });
     this.authService.logout();
     this.loginForm = new FormGroup({
