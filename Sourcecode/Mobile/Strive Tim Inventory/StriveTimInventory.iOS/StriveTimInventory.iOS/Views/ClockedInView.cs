@@ -20,6 +20,7 @@ namespace StriveTimInventory.iOS.Views
             ClockinView.Layer.CornerRadius = ClockoutView.Layer.CornerRadius = 20;
             ClockinView.Layer.MaskedCorners = (CoreAnimation.CACornerMask)5;
             ClockoutView.Layer.MaskedCorners = (CoreAnimation.CACornerMask)10;
+            ClockOutButton.Layer.CornerRadius = 3;
             // Perform any additional setup after loading the view, typically from a nib.
         }
 

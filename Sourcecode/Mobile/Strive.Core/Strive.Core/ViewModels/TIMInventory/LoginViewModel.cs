@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -8,8 +9,10 @@ namespace Strive.Core.ViewModels.TIMInventory
     {
         public LoginViewModel()
         {
+           
         }
 
+        #region Properties
         private bool _isPasswordSecure = true;
 
         public bool isPasswordSecure {
@@ -23,6 +26,10 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
+        public string UserId { get; set; }
+
+        public string Password { get; set; }
+
         public string Title
         {
             get
@@ -32,10 +39,19 @@ namespace Strive.Core.ViewModels.TIMInventory
             set
             { }
         }
+        #endregion Properties
 
+        #region Commands
         public async Task NavigationToClockInCommand()
         {
+            //if(Validations.validateEmail(UserId))
+            //{
             await _navigationService.Navigate<RootViewModel>();
+            //}
+            //else
+            //{
+            //    _userDialog.Alert("Invalid Email","Alert");
+            //}
         }
 
         public void PasswordToggleCommand()
@@ -45,7 +61,9 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void DoLogin()
         {
-            AdminService.Login("Admin", "Admin");
+            AdminService.Login("Admin", "Admin"); 
         }
+
+        #endregion Commands
     }
 }
