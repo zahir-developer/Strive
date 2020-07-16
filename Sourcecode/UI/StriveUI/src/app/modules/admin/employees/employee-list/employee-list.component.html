@@ -1,4 +1,4 @@
-<input type="button" value="Add" class="" (click)="add('add',[])">
+<!-- <input type="button" value="Add" class="" (click)="add('add',[])">
 <p-table [value]="employeeDetails">
     <ng-template pTemplate="header">
         <tr>
@@ -21,8 +21,66 @@
             </td>
         </tr>
     </ng-template>
-</p-table>
+</p-table> -->
+<div class="card m-t-10 m-b-10">
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="title-border p-b-10 m-b-15">
+                <h5 class="d-inline-block">Users</h5>&nbsp;
+                <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                    (click)="add('add',[])">Filter</button>
+                <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                    (click)="add('add',[])">New</button>
+            </div>
+            <div class="setup-wrapper">
+                <div class="setup-content" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No
+                        Records Found</span></div>
+                <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
+                    <div class="search-container pull-right">
+
+                    </div>
+                    <p-table [value]="employeeDetails" class="table table-responsive-xl table-striped table-hover"
+                        [paginator]="true" [rows]="50">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col">Login</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-employeeDetails>
+                            <tr>
+                                <td (click)="employeeDetail(employeeDetails)">{{employeeDetails.AuthId}}</td>
+                                <td>{{employeeDetails.EmployeeCode}}</td>
+                                <td>{{employeeDetails.IsActive === true ? 'Active' : 'InActive'}}</td>
+                                <td>
+                                    <em class="fa fa-eye edit-list theme-secondary-icon-color m-r-10"
+                                        style="color:green" pTooltip="view" tooltipPosition="bottom"
+                                        (click)="add('view', employeeDetails)"></em>&nbsp;&nbsp;
+                                    <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
+                                        style="color:green" pTooltip="edit" tooltipPosition="bottom"
+                                        (click)="add('edit', employeeDetails)"></em>&nbsp;&nbsp;
+                                    <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                        style="color:red" pTooltip="delete" tooltipPosition="bottom"
+                                        (click)="deleteEmployee(employeeDetails)"></em>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <!-- <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
+                        [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+                        <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData"
+                            [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
+                        </app-location-create-edit>
+                    </p-dialog> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
     [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
-    <app-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-create-edit>
+    <app-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
+        (closeDialog)="closePopupEmit($event)"></app-create-edit>
 </p-dialog>

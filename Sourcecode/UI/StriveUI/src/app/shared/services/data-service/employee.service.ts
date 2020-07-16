@@ -16,4 +16,10 @@ export class EmployeeService {
   updateEmployee(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateEmployees}`, obj);
   }
+  getEmployeeDetail(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}` + id);
+  }
+  deleteEmployee(id) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteEmployee}` + id);
+  }
 }

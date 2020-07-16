@@ -22,6 +22,8 @@ export const UrlConfig = {
       updateProduct:`Admin/Product/Save`,
       deleteProduct:`Admin/Product/DeleteProduct/`,
       getCashRegister:`Admin/CashRegister/GetCashRegisterDetails/`,
-      saveCashRegister:`Admin/CashRegister/Save`
+      saveCashRegister:`Admin/CashRegister/Save`,
+      getEmployeeDetail: `Admin/Employee/GetEmployeeById/`,
+      deleteEmployee: `Admin/Employee/`
     }
   };
