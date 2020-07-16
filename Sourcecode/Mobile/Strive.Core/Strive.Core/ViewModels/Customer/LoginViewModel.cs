@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.Customer
 {
     public class LoginViewModel : BaseViewModel
     {
 
-        
+
         public LoginViewModel()
         {
         }
@@ -15,8 +17,24 @@ namespace Strive.Core.ViewModels.Customer
 
         public void DoLoginCommand()
         {
+            if (Validations.validateEmail(loginEmailPhone) 
+                || Validations.validatePhone(loginEmailPhone))
+            {
+               
+            }
+            else if(String.IsNullOrEmpty(loginEmailPhone))
+            {
+                
+            }
+            else
+            {
+
+            }
             
-          
+            if(String.IsNullOrEmpty(loginPassword))
+            {
+
+            }
             //AdminService.Login("Admin", "Admin");
         }
 

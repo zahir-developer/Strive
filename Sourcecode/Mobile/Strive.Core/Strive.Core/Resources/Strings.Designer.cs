@@ -53,7 +53,19 @@ namespace Strive.Core.Resources {
             }
         }
         
-        internal static string TIM_APP_TITLE {
+        /// <summary>
+        ///   Looks up a localized string similar to Enter New Password.
+        /// </summary>
+        internal static string EnterNewPassword {
+            get {
+                return ResourceManager.GetString("EnterNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter OTP.
+        /// </summary>
+        internal static string EnterOTP {
             get {
                 return ResourceManager.GetString("TIM_APP_TITLE", resourceCulture);
             }
@@ -89,9 +101,12 @@ namespace Strive.Core.Resources {
             }
         }
         
-        internal static string ReceiveOTP {
+        /// <summary>
+        ///   Looks up a localized string similar to Didn&apos;t receive the OTP?.
+        /// </summary>
+        internal static string NotReceiveOTP {
             get {
-                return ResourceManager.GetString("ReceiveOTP", resourceCulture);
+                return ResourceManager.GetString("NotReceiveOTP", resourceCulture);
             }
         }
         
@@ -107,6 +122,19 @@ namespace Strive.Core.Resources {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to The passwords are not the same.
+        /// </summary>
+        internal static string PasswordsNotSame {
+            get {
+                return ResourceManager.GetString("PasswordsNotSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter registered mobile # to receive OTP.
+        /// </summary>
+        internal static string ReceiveOTP {
         internal static string notReceiveOTP {
             get {
                 return ResourceManager.GetString("notReceiveOTP", resourceCulture);
@@ -131,7 +159,19 @@ namespace Strive.Core.Resources {
             }
         }
         
-        internal static string ResendOTP {
+        /// <summary>
+        ///   Looks up a localized string similar to SUBMIT.
+        /// </summary>
+        internal static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tim App.
+        /// </summary>
+        internal static string TIM_APP_TITLE {
             get {
                 return ResourceManager.GetString("ResendOTP", resourceCulture);
             }
