@@ -20,10 +20,6 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel loginLabel { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton PasswordToggleButton { get; set; }
 
         [Outlet]
@@ -39,11 +35,6 @@ namespace StriveTimInventory.iOS.Views
             if (LoginButton != null) {
                 LoginButton.Dispose ();
                 LoginButton = null;
-            }
-
-            if (loginLabel != null) {
-                loginLabel.Dispose ();
-                loginLabel = null;
             }
 
             if (PasswordToggleButton != null) {

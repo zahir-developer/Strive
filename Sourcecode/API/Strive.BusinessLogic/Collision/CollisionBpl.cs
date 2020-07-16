@@ -46,7 +46,7 @@ namespace Strive.BusinessLogic.Collision
             }
             return _result;
         }
-        public Result SaveCollison(List<Strive.BusinessEntities.Collision.Collision> lstCollision)
+        public Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionList> lstCollision)
         {
             try
             {
@@ -60,11 +60,11 @@ namespace Strive.BusinessLogic.Collision
             }
             return _result;
         }
-        public Result DeleteCollision(long collisionId)
+        public Result DeleteCollision(long id)
         {
             try
             {
-                var lstCollision = new CollisionRal(_tenant).DeleteCollisionDetails(collisionId);
+                var lstCollision = new CollisionRal(_tenant).DeleteCollisionDetails(id);
                 _resultContent.Add(lstCollision.WithName("Collision"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

@@ -2,6 +2,9 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
+import { ProductService } from 'src/app/shared/services/data-service/product.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { LocationService } from 'src/app/shared/services/data-service/location.service';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -10,24 +13,28 @@ import { CrudOperationService } from 'src/app/shared/services/crud-operation.ser
 })
 export class ProductCreateEditComponent implements OnInit {
   productSetupForm: FormGroup;
-  productType:any;
+  prodType:any;
   size:any;
   Status:any;
   Vendor:any;
+  locationName:any;
   isChecked: boolean;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   submitted: boolean;
-  constructor(private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
+  selectedProduct: any;
+  textDisplay: boolean;
+  constructor(private fb: FormBuilder, private toastr: ToastrService,private locationService: LocationService,private product: ProductService,private getCode: GetCodeService) { }
 
   ngOnInit() {
 
-    this.productType=["Merchandize","Food and Beverages","Inventory Items"];
-    this.size=["S","M","L","XL"];
+    this.getProductType();
+    this.getAllLocation();
+    this.getAllVendor();
+    this.Status=["Active","InActive"];
     this.productSetupForm = this.fb.group({
       productType: ['', Validators.required],
-      productId: ['',],
       locationName: ['', Validators.required],
       name: ['', Validators.required],
       size: ['',],
@@ -37,28 +44,96 @@ export class ProductCreateEditComponent implements OnInit {
       taxAmount: ['',],      
       status: ['',],
       vendor: ['',],
-      thresholdAmount: ['',]
+      thresholdAmount: ['',],
+      other: ['',]
     });
+    this.isChecked = false;
     this.submitted = false;
-    this.productSetupForm.controls['productId'].patchValue(1);
-    this.productSetupForm.controls['productId'].disable();
-    if (this.selectedData !== undefined && this.selectedData.length !== 0) {
+    if (this.isEdit === true) {
       this.productSetupForm.reset();
-      this.productSetupForm.setValue({
-        productType: this.selectedData.ProductType,
-        productId: this.selectedData.ProductId,
-        locationName: this.selectedData.LocationName,
-        name: this.selectedData.Name,
-        cost: this.selectedData.Cost,
-        taxable: this.selectedData.Taxable,
-        taxAmount: this.selectedData.TaxAmount,
-        size: this.selectedData.Size,
-        quantity: this.selectedData.Quantity,
-        status: this.selectedData.Status,
-        vendor: this.selectedData.Vendor,
-        thresholdAmount: this.selectedData.ThresholdAmount        
-      });
+      this.getProductById();
     }
+  }
+
+  getProductType(){
+    this.getCode.getCodeByCategory("PRODUCTTYPE").subscribe(data =>{
+      if(data.status === "Success"){
+        const pType= JSON.parse(data.resultData);
+        this.prodType=pType.Codes;
+      }else{
+        this.toastr.error('Communication Error','Error!');
+      }
+    });
+    this.getSize();
+  }
+  getSize(){
+    this.getCode.getCodeByCategory("SIZE").subscribe(data =>{
+      if(data.status === "Success"){
+        const pSize= JSON.parse(data.resultData);
+        this.size=pSize.Codes;
+      }else{
+        this.toastr.error('Communication Error','Error!');
+      }
+    });
+  }
+
+  getAllVendor(){
+    this.product.getVendor().subscribe(data =>{
+      if(data.status === 'Success'){
+        const vendor = JSON.parse(data.resultData);
+        this.Vendor = vendor.Vendor
+      }else{
+        this.toastr.error('Communication Error','Error!');
+      }
+    })
+  }
+
+  getAllLocation() {
+    this.locationService.getLocation().subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.locationName = location.Location;
+      }else{
+        this.toastr.error('Communication Error','Error!');
+      }
+    });
+  }
+
+  showText(data){
+    if(data === '33'){
+      this.textDisplay = true;
+    }else{
+      this.textDisplay = false;
+    }
+  }
+
+  getProductById(){
+    this.product.getProductById(this.selectedData.ProductId).subscribe(data =>{
+      if(data.status === "Success"){
+        const pType= JSON.parse(data.resultData);
+        this.selectedProduct = pType.Product;
+        console.log(this.selectedProduct);
+      this.productSetupForm.patchValue({
+        productType: this.selectedProduct.ProductType,
+        locationName: this.selectedProduct.LocationId,
+        name: this.selectedProduct.ProductName,
+        cost: this.selectedProduct.Cost,
+        taxable: this.selectedProduct.IsTaxable,
+        taxAmount: this.selectedProduct.TaxAmount,
+        size: this.selectedProduct.Size,
+        quantity: this.selectedProduct.Quantity,
+        status: this.selectedProduct.IsActive ? "Active" : "InActive",
+        vendor: this.selectedProduct.VendorId,
+        thresholdAmount: this.selectedProduct.ThresholdLimit        
+      });
+      console.log(this.selectedProduct.Size);
+      if(this.selectedProduct.Size === 33){
+        this.textDisplay = true;
+        console.log(this.textDisplay);
+        this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+      }
+    }
+  });
   }
 
   get f(){
@@ -80,26 +155,38 @@ export class ProductCreateEditComponent implements OnInit {
     }
     const sourceObj = [];
     const formObj = {
+      productCode:null,
+      productDescription:null,
       productType: this.productSetupForm.value.productType,
-      productId: this.productSetupForm.value.productId,
-      locationName: this.productSetupForm.value.locationName,
-      name: this.productSetupForm.value.name,
+      productId: this.isEdit? this.selectedProduct.ProductId : 0,
+      locationId: this.productSetupForm.value.locationName,
+      productName: this.productSetupForm.value.name,
       cost: this.productSetupForm.value.cost,
-      taxable: this.productSetupForm.value.taxable,
-      taxAmount: this.productSetupForm.value.taxAmount,
+      isTaxable: this.isChecked,
+      taxAmount: this.productSetupForm.value.taxAmount === "" ? 0 : this.productSetupForm.value.taxAmount,
       size: this.productSetupForm.value.size,
+      sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
       quantity: this.productSetupForm.value.quantity,
-      status: this.productSetupForm.value.status,
-      vendor: this.productSetupForm.value.vendor,
-      thresholdAmount: this.productSetupForm.value.thresholdAmount
+      quantityDescription:null,
+      isActive: this.productSetupForm.value.status === "Active" ? true : false,
+      vendorId: this.productSetupForm.value.vendor,
+      thresholdLimit: this.productSetupForm.value.thresholdAmount
     };
     sourceObj.push(formObj);
-    this.crudService.productsetupdetails.push(formObj);
-        if (this.isEdit === true) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
-        } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
-        }
+    this.product.updateProduct(sourceObj).subscribe(data => {
+    if (data.status === 'Success') {
+      if (this.isEdit === true) {
+        this.toastr.success('Record Updated Successfully!!', 'Success!');
+      } else {
+        this.toastr.success('Record Saved Successfully!!', 'Success!');
+      }
+      this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+    }else{
+      this.toastr.error('Communication Error','Error!');
+      this.productSetupForm.reset();
+      this.submitted=false;
+    }
+  });
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });

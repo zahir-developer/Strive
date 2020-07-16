@@ -1,18 +1,17 @@
 ﻿using Strive.BusinessEntities;
 using Strive.Common;
+using System.Collections.Generic;
 
 namespace Strive.BusinessLogic
 {
     public interface IProductBpl
     {
-        Result GetProductDetails();
+        Result GetAllProduct();
 
-        Result AddProduct(Product product);
-
-        Result SaveProduct(Product products);
+        Result SaveProduct(List<Product> products);
 
         Result GetProduct(int productId);
 
-        //Result DeleteProduct(int productId);
+        Result DeleteProduct(int productId);
     }
 }

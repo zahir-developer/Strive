@@ -1,99 +1,109 @@
-<div class="container">
-    <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()"> 
+<div id="page-content">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-4">
-                <div class="formGroup">
-                    <label><b>Coins: </b></label>
-                    <div class="col-6">
-                        <label><b>Pennies : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="coinPennies">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>Nickels : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="coinNickels">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>Dimes : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="coinDimes">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>Quaters : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="coinQuaters">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>Half Dollars : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="coinHalfDollars">            
-                    </div>
-                </div>          
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3>Cash Register</h3>
             </div>
-            <div class="col-4">
-                <div class="formGroup">
-                    <label><b>Bills : </b></label>
-                    <div class="col-6">
-                        <label><b>1's : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="billOnes">            
+            <div class="modal-body">
+                <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="formGroup">
+                                <label><b>Coins: </b></label>
+                                <div class="col-6">
+                                    <label><b>Pennies : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="coinPennies">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Nickels : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="coinNickels">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Dimes : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="coinDimes">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Quaters : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="coinQuaters">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Half Dollars : </b></label>
+                                    <input numbersOnly type="text" class="form-control"
+                                        formControlName="coinHalfDollars">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="formGroup">
+                                <label><b>Bills : </b></label>
+                                <div class="col-6">
+                                    <label><b>1's : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="billOnes">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>5's : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="billFives">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>10's : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="billTens">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>20's : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="billTwenties">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>50's : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="billFifties">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>100's : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="billHundreds">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="formGroup">
+                                <label><b>Rolls : </b></label>
+                                <div class="col-6">
+                                    <label><b>Pennies : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="pennieRolls">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Nickels : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="nickelRolls">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Dimes : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="dimeRolls">
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Quaters : </b></label>
+                                    <input numbersOnly type="text" class="form-control" formControlName="quaterRolls">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="formGroup">
+                                <label><b>High Temperature : </b></label>
+                                <input type="text" class="form-control" formControlName="highTemperature">
+                            </div>
+                            <div class="formGroup">
+                                <label><b>Rain % : </b></label>
+                                <input type="text" class="form-control" formControlName="rainPercentage">
+                            </div>
+                            <div class="formGroup">
+                                <label><b>Goal : </b></label>
+                                <input type="text" class="form-control" formControlName="goal">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <label><b>5's : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="billFives">            
+                    <div class="formGroup float-right">
+                        <button type="button" class="btn btn-primary btn-sm " (click)="submit()">Submit</button>
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
                     </div>
-                    <div class="col-6">
-                        <label><b>10's : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="billTens">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>20's : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="billTwenties">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>50's : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="billFifties">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>100's : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="billHundreds">            
-                    </div>
-                </div>
-            </div>            
-            <div class="col-4">
-                <div class="formGroup">
-                    <label><b>Rolls : </b></label>
-                    <div class="col-6">
-                        <label><b>Pennies : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="pennieRolls">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>Nickels : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="nickelRolls">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>Dimes : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="dimeRolls">            
-                    </div>
-                    <div class="col-6">
-                        <label><b>Quaters : </b></label>
-                        <input numbersOnly type="text" class="form-control"  formControlName="quaterRolls">            
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="formGroup">
-                    <label><b>High Temperature : </b></label>
-                    <input type="text" class="form-control"  formControlName="highTemperature">            
-                </div>
-                <div class="formGroup">
-                    <label><b>Rain % : </b></label>
-                    <input type="text" class="form-control"  formControlName="rainPercentage">            
-                </div>
-                <div class="formGroup">
-                    <label><b>Goal : </b></label>
-                    <input type="text" class="form-control"  formControlName="goal">            
-                </div>
+                </form>
             </div>
         </div>
-        <div class="formGroup float-right">
-            <button type="button" class="btn btn-primary btn-sm " (click)="submit()">Submit</button>
-            <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
-        </div>
-    </form>
+    </div>
 </div>

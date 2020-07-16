@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
+import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import { VendorService } from 'src/app/shared/services/data-service/vendor.service';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -9,6 +10,7 @@ import { CrudOperationService } from 'src/app/shared/services/crud-operation.ser
   styleUrls: ['./vendor-create-edit.component.css']
 })
 export class VendorCreateEditComponent implements OnInit {
+  @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   vendorSetupForm: FormGroup;
   State:any;
   Country:any;
@@ -16,45 +18,50 @@ export class VendorCreateEditComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   submitted: boolean;
-  constructor(private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
+  address: any;
+  selectedVendor: any;
+  constructor(private fb: FormBuilder, private toastr: ToastrService,private vendorService: VendorService) { }
 
   ngOnInit() {
     this.vendorSetupForm = this.fb.group({
-      supplierId: ['', Validators.required],
       vin: ['', Validators.required],
       vendorAlias: [''],
       name: ['', Validators.required],
       supplierAddress: ['', Validators.required],
       zipcode: ['', [Validators.required]],
-      state: ['', Validators.required],
+      state: ['',],
       country: ['',],
       phoneNumber: ['',],
       email: ['', Validators.email],
       fax: ['',]
     });
-    this.submitted = false;
-    this.State = ["state1","state2","state3"];
-    this.Country = ["USA"];
-    this.vendorSetupForm.controls['country'].patchValue(this.Country);
-    this.vendorSetupForm.controls['supplierId'].patchValue(1);
-    this.vendorSetupForm.controls['supplierId'].disable();
+    this.submitted = false;    
     console.log(this.selectedData);
-    if (this.selectedData !== undefined && this.selectedData.length !== 0) {
+    if (this.isEdit === true) {
       this.vendorSetupForm.reset();
-      this.vendorSetupForm.patchValue({
-        supplierId: this.selectedData.SupplierId,
-        vin: this.selectedData.Vin,
-        vendorAlias: this.selectedData.VendorAlias,
-        name: this.selectedData.Name,
-        supplierAddress: this.selectedData.SupplierAddress,
-        zipcode: this.selectedData.Zipcode,
-        state: this.selectedData.State,
-        country: this.selectedData.Country,
-        phoneNumber: this.selectedData.PhoneNumber,
-        email: this.selectedData.Email,
-        fax: this.selectedData.Fax        
-      });
+      this.getVendorById();
     }
+  }
+  getVendorById() {
+    this.vendorService.getVendorById(this.selectedData.VendorId).subscribe(data => {
+      if (data.status === 'Success') {
+        const vendor = JSON.parse(data.resultData);
+        this.selectedVendor = vendor.VendorDetail[0];
+        console.log(this.selectedVendor);
+        this.vendorSetupForm.patchValue({
+          vin: this.selectedVendor.VIN,
+          vendorAlias: this.selectedVendor.VendorAlias,
+          name: this.selectedVendor.VendorName,
+          supplierAddress: this.selectedVendor.VendorAddress[0].Address1,
+          zipcode: this.selectedVendor.VendorAddress[0].Zip,
+          state: this.selectedVendor.VendorAddress[0].State,
+          //country: this.selectedVendor.Country,
+          phoneNumber: this.selectedVendor.VendorAddress[0].PhoneNumber,
+          email: this.selectedVendor.VendorAddress[0].Email,
+          fax: this.selectedVendor.VendorAddress[0].Fax 
+        });
+      }
+    });
   }
 
   get f(){
@@ -66,29 +73,55 @@ export class VendorCreateEditComponent implements OnInit {
     if(this.vendorSetupForm.invalid){
       return;
     }  
-    const sourceObj = [];
-    const formObj = {
-      supplierId: this.vendorSetupForm.value.supplierId,
-      vin: this.vendorSetupForm.value.vin,
-      vendorAlias: this.vendorSetupForm.value.vendorAlias,
-      name: this.vendorSetupForm.value.name,
-      supplierAddress: this.vendorSetupForm.value.supplierAddress,
-      zipcode: this.vendorSetupForm.value.zipcode,
-      state: this.vendorSetupForm.value.state,
-      country: this.vendorSetupForm.value.country,
+    this.address = [{
+      relationshipId: this.isEdit ? this.selectedVendor.VendorId : 0,
+      vendorAddressId: this.isEdit ? this.selectedVendor.VendorAddress[0].VendorAddressId : 0,
+      address1: this.vendorSetupForm.value.supplierAddress,
+      address2: "",
+      phoneNumber2: "",
+      isActive: true,
+      zip: this.vendorSetupForm.value.zipcode,
+      state: this.State,//this.vendorSetupForm.value.state == "" ? 0 : this.vendorSetupForm.value.state,
+      city: 1,//this.vendorSetupForm.value.country,
+      //country: this.Country,
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
       email: this.vendorSetupForm.value.email,
       fax: this.vendorSetupForm.value.fax
+    }]
+    const sourceObj = [];
+    const formObj = {
+      vendorId: this.isEdit ? this.selectedVendor.VendorId : 0,
+      vin: this.vendorSetupForm.value.vin,
+      vendorAlias: this.vendorSetupForm.value.vendorAlias,
+      vendorName: this.vendorSetupForm.value.name,
+      isActive : true,
+      vendorAddress: this.address,      
     };
     sourceObj.push(formObj);
-    this.crudService.vendorsetupdetails.push(formObj);
+    this.vendorService.updateVendor(sourceObj).subscribe(data => {
+      if (data.status === 'Success') {
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
         } else {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
         }
+        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+        this.vendorSetupForm.reset();
+        this.submitted = false;
+      }
+    });
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+  getSelectedStateId(event) {
+    this.State = event.target.value;
+    console.log(this.State);
+  }
+  getSelectedCountryId(event) {
+    this.Country = event.target.value;
+    console.log(this.Country);
   }
 }

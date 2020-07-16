@@ -6,8 +6,8 @@
       <div class="card-body">
         <div class="tab-content">
           <div class="title-border p-b-10 m-b-15">
-            <h5 class="d-inline-block">Vendor List</h5>
-            <button type="button" class="btn theme-primary-button-color btn-md" (click)="add('add',[])">Add New
+            <h5 class="d-inline-block">Vendor List</h5>&nbsp;
+            <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add New
               Vendor</button>
           </div>
           <div class="setup-wrapper">
@@ -15,7 +15,7 @@
                 Found</span></div>
             <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
               <div class="search-container pull-right">
-                <form>
+                <!-- <form>
                   <div class="form-row">
                     <div class="form-group d-flex "> <span class="Search text-right p-r-10 p-t-5">Search</span> </div>
                     <div class="form-group">
@@ -25,12 +25,11 @@
                       <input type="search" class="form-control" id="inputSearchbyID" placeholder="by id">
                     </div>
                   </div>
-                </form>
+                </form> -->
               </div>
               <p-table [value]="vendorSetupDetails">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
@@ -39,10 +38,9 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-vendorSetup>
                   <tr>
-                    <td>{{vendorSetup.Id}}</td>
-                    <td>{{vendorSetup.Name}}</td>
-                    <td>{{vendorSetup.PhoneNumber}}</td>
-                    <td>{{vendorSetup.Email}}</td>
+                    <td>{{vendorSetup.VendorName}}</td>
+                    <td>{{vendorSetup.VendorAddress[0].PhoneNumber}}</td>
+                    <td>{{vendorSetup.VendorAddress[0].Email}}</td>
                     <td>
                       <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green"
                         pTooltip="edit" tooltipPosition="bottom" (click)="add('edit', vendorSetup)"></em>&nbsp;&nbsp;

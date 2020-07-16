@@ -14,10 +14,6 @@
                 </div>
             </div>
             <div class="form-group col-lg-3">
-                <label for="inputServiceId">Service ID</label>
-                <input numbersOnly type="text" class="form-control" formControlName="serviceId">
-            </div>
-            <div class="form-group col-lg-3">
                 <label for="inputName">Name</label>
                 <input type="text" class="form-control" formControlName="name" placeholder="Name"
                     [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
@@ -33,8 +29,6 @@
                     <div *ngIf="f.cost.errors.required">Cost is required</div>
                 </div>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-lg-3">
                 <label></label>
                 <div class="form-check">
@@ -43,6 +37,8 @@
                     <label class="form-check-label" for="gridCheck">Commission</label>
                 </div>
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputUpcharge">Upcharge</label>
                 <input type="text" class="form-control" formControlName="upcharge" placeholder="Upcharge">
@@ -58,8 +54,6 @@
                     <option *ngFor="let status of Status">{{status}}</option>
                 </select>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-lg-3" *ngIf="isChecked === true">
                 <label for="inputCommissionType">Commission Type</label>
                 <select class="form-control" formControlName="commissionType">

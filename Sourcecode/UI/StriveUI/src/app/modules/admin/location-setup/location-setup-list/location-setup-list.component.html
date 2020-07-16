@@ -6,8 +6,8 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-10 m-b-15">
-                        <h5 class="d-inline-block">Location List</h5>
-                        <button type="button" class="btn theme-primary-button-color btn-md" (click)="add('add',[])">Add
+                        <h5 class="d-inline-block">Location List</h5>&nbsp;
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add
                             New Location</button>
                     </div>
                     <div class="setup-wrapper">
@@ -15,26 +15,25 @@
                                 Records Found</span></div>
                         <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
                             <div class="search-container pull-right">
-                                <form>
+                                <!-- <form>
                                     <div class="form-row">
                                         <div class="form-group d-flex "> <span
                                                 class="Search text-right p-r-10 p-t-5">Search</span> </div>
                                         <div class="form-group">
-                                            <input type="search" class="form-control" id="inputSearchbyName"
+                                            <input type="search" class="form-control" id="inputSearchbyName" [(ngModel)]="searchByName" [ngModelOptions]="{standalone: true}"
                                                 placeholder="By name">
                                         </div>
                                         <div class="form-group m-l-5 m-r-5">
-                                            <input type="search" class="form-control" id="inputSearchbyID"
+                                            <input type="search" class="form-control" id="inputSearchbyID" [(ngModel)]="searchById" [ngModelOptions]="{standalone: true}"
                                                 placeholder="by id">
                                         </div>
                                     </div>
-                                </form>
+                                </form> -->
                             </div>
                             <p-table [value]="locationSetupDetails"
                                 class="table table-responsive-xl table-striped table-hover"[paginator]="true" [rows]="5" >
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th scope="col">Location ID</th>
                                         <th scope="col">Location Name</th>
                                         <th scope="col">Franchise</th>
                                         <th scope="col">Phone Number</th>
@@ -44,11 +43,10 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-locationSetup>
                                     <tr>
-                                        <td>{{locationSetup.LocationId}}</td>
                                         <td>{{locationSetup.LocationName}}</td>
                                         <td>{{locationSetup.IsFranchise}}</td>
-                                        <td>{{locationSetup.PhoneNumber}}</td>
-                                        <td>{{locationSetup.Email}}</td>
+                                        <td>{{locationSetup.LocationAddress[0].PhoneNumber}}</td>
+                                        <td>{{locationSetup.LocationAddress[0].Email}}</td>
                                         <td>
                                             <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                 style="color:green" pTooltip="edit" tooltipPosition="bottom"
@@ -61,7 +59,7 @@
                                 </ng-template>
                             </p-table>
                             <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
-                                [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+                                [modal]="true"  [focusOnShow]="false" [closable]="false">
                                 <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData"
                                     [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
                                 </app-location-create-edit>
@@ -73,8 +71,6 @@
         </div>
     </div>
 </div>
-
-
 <!-- <div class="col-4">
     <form [formGroup]="locationSetupForm">
         <div class="row">

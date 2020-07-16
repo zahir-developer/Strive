@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.authService.logout();
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('')
+      password: new FormControl('', Validators.required)
     });
 
   }

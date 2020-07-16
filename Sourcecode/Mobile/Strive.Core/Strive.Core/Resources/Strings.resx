@@ -155,4 +155,36 @@
     <value>GET OTP</value>
     <comment>Forgot password screen button label</comment>
   </data>
+  <data name="NotReceiveOTP" xml:space="preserve">
+    <value>Didn't receive the OTP?</value>
+    <comment>OTP screen OTP not received </comment>
+  </data>
+  <data name="EnterOTP" xml:space="preserve">
+    <value>Enter OTP</value>
+    <comment>OTP screen label title</comment>
+  </data>
+  <data name="OTPVerify" xml:space="preserve">
+    <value>VERIFY</value>
+    <comment>OTP Screen - OTP verify button label</comment>
+  </data>
+  <data name="OTPSent" xml:space="preserve">
+    <value>OTP sent to your registered mobile #</value>
+    <comment>OTP screen sent to registered mobile number label</comment>
+  </data>
+  <data name="ResendOTP" xml:space="preserve">
+    <value>Resend OTP</value>
+    <comment>OTP screen OTP resend label</comment>
+  </data>
+  <data name="EnterNewPassword" xml:space="preserve">
+    <value>Enter New Password</value>
+    <comment>ConfirmPassword Screen - Enter New Password label</comment>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>SUBMIT</value>
+    <comment>ConfirmPassword Screen - Button label</comment>
+  </data>
+  <data name="PasswordsNotSame" xml:space="preserve">
+    <value>The passwords are not the same</value>
+    <comment>ConfirmPasswordScreen - Alert when password are not same </comment>
+  </data>
 </root>

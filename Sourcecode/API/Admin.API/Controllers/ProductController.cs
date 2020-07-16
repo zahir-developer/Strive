@@ -22,17 +22,33 @@ namespace Admin.Api.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
+        [Route("GetAllProduct")]
         public Result GetAllProduct()
         {
-            return _ProductBpl.GetProductDetails();
+            return _ProductBpl.GetAllProduct();
+        }
+
+        [HttpGet]
+        [Route("GetProduct/{productId}")]
+        public Result GetProduct(int productId)
+        {
+            return _ProductBpl.GetProduct(productId);
         }
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee(Product product)
+        public Result SaveEmployee([FromBody] List<Product> products)
         {
-            return _ProductBpl.SaveProduct(product);
+            return _ProductBpl.SaveProduct(products);
         }
+
+        [HttpDelete]
+        [Route("DeleteProduct/{productId}")]
+        public Result DeleteProduct(int productId)
+        {
+            return _ProductBpl.DeleteProduct(productId);
+        }
+
+
     }
 }

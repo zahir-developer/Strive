@@ -18,6 +18,7 @@ export class ServiceCreateEditComponent implements OnInit {
   serviceType: any;
   selectedService:any;
   CommissionType:any;
+  commissionTypeLabel : any;
   Status:any;
   isChecked:boolean;
   today : Date = new Date();
@@ -25,11 +26,10 @@ export class ServiceCreateEditComponent implements OnInit {
   constructor(private serviceSetup: ServiceSetupService,private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
-    //this.today = new Date(this.today.getFullYear(),this.today.getMonth(), 10);
-    //this.serviceType=["Washes","Details","Additional Services","Upcharges","Air Fresheners","Discounts"];
+    this.Status=["Active","InActive"];
+    this.CommissionType = ["Percentage","Flat Fee"];
     this.serviceSetupForm = this.fb.group({
       serviceType: ['', Validators.required],
-      serviceId: ['',],
       name: ['', Validators.required],
       cost: ['', Validators.required],
       commission: ['',],
@@ -38,8 +38,6 @@ export class ServiceCreateEditComponent implements OnInit {
       parentName: ['',],
       status: ['',]
     });
-    this.serviceSetupForm.controls['serviceId'].patchValue(1);
-    this.serviceSetupForm.controls['serviceId'].disable();
     this.getAllServiceType();
     this.isChecked=false;
     this.submitted = false;
@@ -61,14 +59,13 @@ export class ServiceCreateEditComponent implements OnInit {
         this.selectedService = sType.ServiceSetupById[0];
         this.serviceSetupForm.patchValue({
           serviceType: this.selectedService.ServiceType,
-          serviceId: this.selectedService.ServiceId,
           name: this.selectedService.ServiceName,
           cost: this.selectedService.Cost,
           commission: this.selectedService.Commission,
           commissionType: this.selectedService.CommissionType,
           upcharge: this.selectedService.Upcharges,
           parentName: this.selectedService.ParentName,
-          //status: this.selectedData.Status        
+          status: this.selectedData.IsActive ? this.Status[0] : this.Status[1]
         });
       }
     });
@@ -101,7 +98,7 @@ export class ServiceCreateEditComponent implements OnInit {
     const sourceObj = [];
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,
-      serviceId: this.serviceSetupForm.value.serviceId,
+      serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
       serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
       commission: this.isChecked,
@@ -109,7 +106,7 @@ export class ServiceCreateEditComponent implements OnInit {
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       //parentName: this.serviceSetupForm.value.parentName,
       parentServiceId:0,
-      isActive:true,
+      isActive: true,
       locationId:1,
       dateEntered: moment(this.today).format('YYYY-MM-DD')
     };
@@ -123,6 +120,10 @@ export class ServiceCreateEditComponent implements OnInit {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
         }
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      }else{
+        this.toastr.error('Communication Error','Error!');
+        this.serviceSetupForm.reset();
+        this.submitted=false;
       }
     });
   }

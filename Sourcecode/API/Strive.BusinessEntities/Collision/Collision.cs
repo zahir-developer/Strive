@@ -13,6 +13,7 @@ namespace Strive.BusinessEntities.Collision
         public int ProductId { get; set; }
         public int Status { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public List<EmployeeLiabilityDetail> tblEmployeeLiabilityDetail { get; set; }
+        public bool IsActive { get; set; }
+        
     }
 }

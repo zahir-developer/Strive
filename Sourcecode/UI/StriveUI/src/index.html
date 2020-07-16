@@ -14,54 +14,12 @@
   <link href="https://cdn.materialdesignicons.com/4.5.95/" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<script>
-	$(document).ready(function() {
-		$(".show-to-list").click(function() {
-			$("#hide-mainmenu").hide();
-			$("#show-submenu").show();
-		});
-		$(".back-to-list").click(function() {
-			$("#hide-mainmenu").show();
-			$("#show-submenu").hide();
-		});
-	});
-	$(document).ready(function() {
-		$("#click_collapse").click(function() {
-			$("#open-collapse").toggle();
-			$("i", this).toggleClass("dripicons-chevron-down  dripicons-chevron-up");
-		});
-	});
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="assets/js/popper.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script> 
 
-	function openNav() {
-		document.getElementById("navSliderMenu").style.width = "200px";
-		document.getElementById("left-menu-enable").style.marginLeft = "200px";
-	}
-
-	function closeNav() {
-		document.getElementById("navSliderMenu").style.width = "0";
-		document.getElementById("left-menu-enable").style.marginLeft = "0";
-	}
-
-	function openmbsidebar() {
-		document.getElementById("mySidenav").style.width = "200px";
-	}
-
-	function closembsidebar() {
-		document.getElementById("mySidenav").style.width = "0";
-	}
-	
-$(".menu li").on('click', function () {
-    $(".menu li").removeClass('theme-secondary-background-color active');
-    $(this).addClass('theme-secondary-background-color active');
-});
-
-		
-		$(".nav-slider-menu-items li a").on('click', function () {
-    $(".nav-slider-menu-items li a").removeClass('theme-secondary-color text-underline');
-    $(this).addClass('theme-secondary-color text-underline');
-});
-
-	</script>
   <app-root></app-root>
 </body>
 </html>

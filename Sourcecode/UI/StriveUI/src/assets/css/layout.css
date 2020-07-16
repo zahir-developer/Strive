@@ -7,21 +7,21 @@
 body
 {
  font-family: 'Open Sans', sans-serif !important;
- font-size: 1rem;
+ font-size: 0.94rem;
 	height: 100%;
 	color: #30343C;
-}
+}   
 
 p {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 1rem;
+	font-size: 0.94rem;
 	line-height: 1.75em;
 	margin: 0px;
 }
 
 button
 {
-	font-size: 1rem !important;
+	font-size: 0.94rem !important;
 	color: #ffffff !important;
 }
 
@@ -37,7 +37,7 @@ font-family: "FontAwesome";
 h1
 {
 	font-weight: 700;
-	font-size: 1.25rem;
+	font-size: 1.1rem;
 }
 
 /*---------------------------------------------*/
