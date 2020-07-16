@@ -10,20 +10,179 @@
             <div class="form-group col-lg-4">
                 <div>
                     <label for="firstName">Middle Name : </label>
-                    <input type="text" class="form-control" formControlName="firstName">
+                    <input type="text" class="form-control" formControlName="middleName">
                 </div>
             </div>
             <div class="form-group col-lg-4">
-                <div >
+                <div>
                     <label>Last Name : </label>
                     <input type="text" class="form-control" formControlName="lastName">
                 </div>
             </div>
-            
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Role</label>
+                    <select formControlName="role" class="form-control">
+                        <option value="" selected hidden>Select role</option>
+                        <option *ngFor="let role of employeeRoles" value="{{role.value}}"> {{role.label}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Gender</label>
+                    <select formControlName="gender" class="form-control">
+                        <option value="" selected hidden>Select Gender</option>
+                        <option *ngFor="let g of gender" value="{{g.CodeId}}"> {{g.CodeValue}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Marital Status</label>
+                    <select formControlName="marital" class="form-control">
+                        <option value="" selected hidden>Select Status</option>
+                        <option *ngFor="let status of maritalStatus" value="{{status.CodeId}}"> {{status.CodeValue}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>SSN: </label>
+                    <input type="text" class="form-control" formControlName="ssn">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Date Of Birth: </label>
+                    <input type="text" class="form-control" formControlName="dob">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Status: </label><br>
+                    <!-- <input type="text" class="form-control" formControlName="status"> -->
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="inlineRadio1"
+                            formControlName="status" value="true">
+                        <label class="form-check-label" for="inlineRadio1">Active</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="inlineRadio2"
+                            formControlName="status" value="false">
+                        <label class="form-check-label" for="inlineRadio2">InActive</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Exemption: </label>
+                    <input type="text" class="form-control" formControlName="exemption">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Hire Date: </label>
+                    <input type="text" class="form-control" formControlName="hireDate">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Leave/Raise/Term Date: </label>
+                    <input type="text" class="form-control" formControlName="lrtDate">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Tip: </label>
+                    <input type="text" class="form-control" formControlName="tip">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Sick: </label>
+                    <input type="text" class="form-control" formControlName="sick">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Vacation: </label>
+                    <input type="text" class="form-control" formControlName="vacation">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Hourly: </label>
+                    <input type="text" class="form-control" formControlName="hourly">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Salary: </label>
+                    <input type="text" class="form-control" formControlName="salary">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Commission: </label>
+                    <input type="text" class="form-control" formControlName="commission">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Phone: </label>
+                    <input type="text" class="form-control" formControlName="phone">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Cell: </label>
+                    <input type="text" class="form-control" formControlName="cell">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Email: </label>
+                    <input type="text" class="form-control" formControlName="email">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Address: </label>
+                    <input type="text" class="form-control" formControlName="address">
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>State: </label>
+                    <select formControlName="state" class="form-control">
+                        <option *ngFor="let s of state" value="{{s.CodeId}}"> {{s.CodeValue}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>Country: </label>
+                    <select formControlName="country" class="form-control">
+                        <option *ngFor="let c of country" value="{{c.CodeId}}"> {{c.CodeValue}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div>
+                    <label>ZipCode: </label>
+                    <input type="zip" class="form-control" formControlName="zipcode">
+                </div>
+            </div>
         </div>
-        <div class="formGroup float-right">
-            <input type="button" value="Save" class="btn btn-primary btn-sm " (click)="submit()">
-            <input type="button" value="Cancel" class="btn btn-secondary btn-sm" (click)="cancel()">
+        <div class="row col-sm-12">
+            <button type="button" class="btn theme-optional-button-color btn-sm float-left"
+                (click)="addCollision()">Collision</button>
+            <button type="button" class="btn theme-optional-button-color btn-sm float-right"
+                (click)="cancel()">Cancel</button>
+            <button type="button" class="btn theme-primary-button-color btn-sm float-right"
+                (click)="submit(sampleForm)">Save</button>
         </div>
     </form>
 </div>

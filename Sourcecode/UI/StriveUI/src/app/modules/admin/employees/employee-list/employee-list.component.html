@@ -51,13 +51,13 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-employeeDetails>
                             <tr>
-                                <td (click)="employeeDetail(employeeDetails)">{{employeeDetails.AuthId}}</td>
+                                <td>{{employeeDetails.AuthId}}</td>
                                 <td>{{employeeDetails.EmployeeCode}}</td>
                                 <td>{{employeeDetails.IsActive === true ? 'Active' : 'InActive'}}</td>
                                 <td>
-                                    <em class="fa fa-eye edit-list theme-secondary-icon-color m-r-10"
+                                    <!-- <em class="fa fa-eye edit-list theme-secondary-icon-color m-r-10"
                                         style="color:green" pTooltip="view" tooltipPosition="bottom"
-                                        (click)="add('view', employeeDetails)"></em>&nbsp;&nbsp;
+                                        (click)="add('view', employeeDetails)"></em>&nbsp;&nbsp; -->
                                     <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                         style="color:green" pTooltip="edit" tooltipPosition="bottom"
                                         (click)="add('edit', employeeDetails)"></em>&nbsp;&nbsp;
@@ -78,9 +78,10 @@
             </div>
         </div>
     </div>
-</div>
-<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
+</div> 
+<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" 
     [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
     <app-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
-        (closeDialog)="closePopupEmit($event)"></app-create-edit>
+        (closeDialog)="closePopupEmit($event)" [employeeRoles]="employeeRoles" [gender]="gender" 
+        [maritalStatus]="maritalStatus" [state]="state" [country]="country" [employeeData]="employeeData"></app-create-edit>
 </p-dialog>

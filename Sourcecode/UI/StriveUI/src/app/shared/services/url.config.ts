@@ -30,6 +30,8 @@ export const UrlConfig = {
     stateList: `Admin/Common/StateList`,
     countryList: `Admin/Common/CountryList`,
     getEmployeeDetail: `Admin/Employee/GetEmployeeById/`,
-    deleteEmployee: `Admin/Employee/`
+    deleteEmployee: `Admin/Employee/`,
+    getAllRoles: `Admin/Employee/GetAllRoles`,
+    getDropdownValue: `Admin/Common/GetCodesByCategory/`
   }
 };
