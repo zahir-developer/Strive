@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Strive.Repository
 {
@@ -10,8 +11,8 @@ namespace Strive.Repository
         public IDbConnection dbcon;
         public BaseRepository()
         {
-            dbcon = new SqlConnection(AppDbConnection.AppDbConnectionInstance.ConnectionString);
-            dbcon.Open();
+            //dbcon = new SqlConnection(AppDbConnection.AppDbConnectionInstance.ConnectionString);
+            //dbcon.Open();
         }
 
         public void Dispose()

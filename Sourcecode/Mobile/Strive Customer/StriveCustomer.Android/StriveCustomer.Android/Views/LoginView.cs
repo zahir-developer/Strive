@@ -62,8 +62,8 @@ namespace StriveCustomer.Android.Views
             rememberMeCheck.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             this.isCredentialStored(rememberMeCheck.Checked);
             
-            //Click commands allocation
-            rememberMe.Click += checkStoredCredentials;
+
+            rememberMeCheck.Click += checkStoredCredentials;
             signUp.Click += navigateToSignUp;
             forgotPassword.Click += navigateToForgotPassword;
         }
