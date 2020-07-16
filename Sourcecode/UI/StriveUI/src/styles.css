@@ -21,3 +21,6 @@ body .ui-widget {
   font-weight: 800;
   font-size: 1rem;
 }
+.form-control {
+  font-size: 0.94rem;
+}

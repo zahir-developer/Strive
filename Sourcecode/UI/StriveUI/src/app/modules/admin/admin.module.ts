@@ -20,12 +20,14 @@ import { HeaderComponent } from './header/header.component';
 import { CardComponent } from './card/card.component';
 import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
      ThemeComponent, HeaderComponent, CardComponent,CashinRegisterComponent,CloseoutRegisterComponent],
   imports: [
     CommonModule,
+    RouterModule,
     AdminRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -34,6 +36,7 @@ import { CloseoutRegisterComponent } from './closeout-register/closeout-register
     DialogModule,
     SharedModule
   ],
+  exports: [RouterModule],
   providers: [
     ConfirmationService,
     ThemeService,
