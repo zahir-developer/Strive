@@ -9,6 +9,7 @@ namespace Strive.Common
 {
     public interface ITenantHelper
     {
+        int TokenExpiryMintues { get; set; }
         IDbConnection db();
         IDbConnection dbAuth();
         void SetConnection(string con);
@@ -25,7 +26,11 @@ namespace Strive.Common
         public string stringAuthConnection = string.Empty;
         public string stringTenantGuid = string.Empty;
 
+
         IDistributedCache _cache;
+
+        public int TokenExpiryMintues { get; set; }
+
         public TenantHelper(IDistributedCache cache)
         {
             _cache = cache;

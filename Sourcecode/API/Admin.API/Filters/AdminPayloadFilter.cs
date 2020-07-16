@@ -113,7 +113,9 @@ namespace Admin.API.Filters
                 
                 strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
                 _tenant.SetConnection(strConnectionString);
+                
             }
+            _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
         }
     }
 }

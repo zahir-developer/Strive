@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace Admin.API
 {
@@ -12,6 +13,10 @@ namespace Admin.API
 
         private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config.AddJsonFile("SecureHeaderSettings.json", optional: true, reloadOnChange: true);
+            })
                 .UseStartup<Startup>();
     }
 }
