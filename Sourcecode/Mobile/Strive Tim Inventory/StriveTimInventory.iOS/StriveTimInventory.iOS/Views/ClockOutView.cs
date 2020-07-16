@@ -23,7 +23,7 @@ namespace StriveTimInventory.iOS.Views
         private void CreateBindings()
         {
             var set = this.CreateBindingSet<ClockOutView, ClockOutViewModel>();
-            //set.Bind(Logoutbutton).To(vm => vm.Commands["NavigateBack"]);
+            set.Bind(LogoutButton).To(vm => vm.Commands["NavigateBack"]);
             set.Apply();
         }
 

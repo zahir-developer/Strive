@@ -3,15 +3,16 @@ import { Routes, RouterModule, ExtraOptions, PreloadAllModules } from '@angular/
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HelpsComponent } from './helps/helps.component';
-
+import {  AuthGuard} from './shared/guards/auth-guard.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
   { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
-  { path: 'helps', component: HelpsComponent},
-  {path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule)},
-  {path: 'wash', loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule)},
-  {path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)},
+  { path: 'helps', component: HelpsComponent },
+  { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
+  { path: 'wash', canActivate: [AuthGuard], loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
+  { path: 'dashboard', canActivate: [AuthGuard], 
+  loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule) },
   {
     path: '',
     redirectTo: '',

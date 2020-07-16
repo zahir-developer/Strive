@@ -4,7 +4,7 @@ export const UrlConfig = {
   totalUrl:
   {
     login: `Admin/Login`,
-    getCode: `Admin/Common/GetCodesByCategory`,
+    getCode: `Admin/Common/GetCodesByCategory/`,
     getEmployees: `Admin/Employee/GetAll`,
     updateEmployees: `Admin/Employee/Save`,
     refreshToken: `Admin/Refresh`,
@@ -18,7 +18,7 @@ export const UrlConfig = {
     deleteServiceSetup: `Admin/ServiceSetup/Delete/`,
     getServiceSetupById: `Admin/ServiceSetup/GetServiceById/`,
     getProduct: `Admin/Product/GetAllProduct`,
-    getProductById: `Admin/Product/GetProduct`,
+    getProductById: `Admin/Product/GetProduct/`,
     updateProduct: `Admin/Product/Save`,
     deleteProduct: `Admin/Product/DeleteProduct/`,
     getVendor: `Admin/Vendor/GetAll`,
@@ -28,6 +28,10 @@ export const UrlConfig = {
     getCashRegister: `Admin/CashRegister/GetCashRegisterDetails/`,
     saveCashRegister: `Admin/CashRegister/Save`,
     stateList: `Admin/Common/StateList`,
-    countryList: `Admin/Common/CountryList`
+    countryList: `Admin/Common/CountryList`,
+    getEmployeeDetail: `Admin/Employee/GetEmployeeById/`,
+    deleteEmployee: `Admin/Employee/`,
+    getAllRoles: `Admin/Employee/GetAllRoles`,
+    getDropdownValue: `Admin/Common/GetCodesByCategory/`
   }
 };

@@ -21,9 +21,11 @@ namespace StriveTimInventory.iOS.Views
             // Perform any additional setup after loading the view, typically from a nib.
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
             set.Bind(LoginButton).To(vm => vm.Commands["NavigationToClockIn"]);
-            set.Bind(PasswordToggleButton).To(vm => vm.Commands["PasswordToggle"]);
             set.Bind(PasswordTxtField).For(p => p.SecureTextEntry).To(vm => vm.isPasswordSecure);
+            set.Bind(UserIdTxtField).To(vm => vm.UserId);
+            set.Bind(PasswordTxtField).To(vm => vm.Password);
             set.Apply();
+            SetPasswordToggleImage();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -36,6 +38,23 @@ namespace StriveTimInventory.iOS.Views
         {
             NavigationController.NavigationBarHidden = true;
             LoginButton.Layer.CornerRadius = 3;
+           
+        }
+
+        partial void PasswordToggle(UIButton sender)
+        {
+            ViewModel.PasswordToggleCommand();
+            SetPasswordToggleImage();
+        }
+
+        void SetPasswordToggleImage()
+        {
+            if (ViewModel.isPasswordSecure)
+            {
+                PasswordToggleButton.SetImage(UIImage.FromBundle("eye-filled"), UIControlState.Normal);
+                return;
+            }
+            PasswordToggleButton.SetImage(UIImage.FromBundle("eye-filled-slash"), UIControlState.Normal);
         }
     }
 }

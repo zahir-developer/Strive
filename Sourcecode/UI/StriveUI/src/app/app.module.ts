@@ -28,7 +28,7 @@ import { AuthService } from './shared/services/common-service/auth.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { HttpUtilsService } from './shared/util/http-utils.service';
 import { RouterModule } from '@angular/router';
-
+import {MultiSelectModule} from 'primeng/multiselect';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#FF7900',
@@ -64,7 +64,7 @@ const load = (http: HttpClient) => {
       // for temporary use
       return http.get('assets/config/config.json').toPromise()
           .then((data: any) => {
-            console.log(data);
+            // console.log(data);
             return EnvironmentService.environment = data;
           });
     } else {
@@ -131,11 +131,13 @@ const load = (http: HttpClient) => {
     }),
     NgxSkeletonLoaderModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    MultiSelectModule
   ],
   exports: [
     HttpClientModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    MultiSelectModule
   ],
   providers: [
     EnvironmentService,

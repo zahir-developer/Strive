@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
@@ -34,8 +35,7 @@ namespace StriveTimInventory.iOS.Views
         private void CreateBindings()
         {
             RolesCollectionView.Source = RolesCollectionViewSource = new EmployeeRolesViewSource(RolesCollectionView);
-            RolesCollectionView.Delegate = new FlowDelegate();
-
+            
             RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView, ViewModel);
 
             var set = this.CreateBindingSet<ClockInView, ClockInViewModel>();
@@ -63,6 +63,24 @@ namespace StriveTimInventory.iOS.Views
             //NavigationItem.LeftBarButtonItem = LogoutButton;
             NavigationController.NavigationBarHidden = true;
             ClockinButton.Layer.CornerRadius = 3;
+        }
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+            var totalCellWidth = 150 * RolesCollectionView.NumberOfItemsInSection(0);
+            var totalSpacingWidth = 20 * (RolesCollectionView.NumberOfItemsInSection(0) - 1);
+
+            var leftInset = RolesCollectionView.Layer.Frame.Size.Width - (totalCellWidth + totalSpacingWidth) / 2;
+            var rightInset = leftInset;
+            var layout = new UICollectionViewFlowLayout
+            {
+                SectionInset = new UIEdgeInsets(10, 5, 10, 5),
+                MinimumInteritemSpacing = 15,
+                MinimumLineSpacing = 15,
+                ItemSize = new SizeF(150, 150) 
+            };
+
+            RolesCollectionView.SetCollectionViewLayout(layout, true);
         }
     }
 }

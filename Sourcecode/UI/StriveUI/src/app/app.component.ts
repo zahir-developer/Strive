@@ -13,7 +13,7 @@ export class AppComponent {
   isUserAuthenticated = false;
   constructor(private user: UserDataService, private authService: AuthenticateObservableService) {
     this.isUserAuthenticated = this.user.isAuthenticated;
-    console.log(this.isUserAuthenticated);
-    console.log(this.authService.getIsAuthenticate);
+    // console.log(this.isUserAuthenticated);
+    // console.log(this.authService.getIsAuthenticate);
   }
 }

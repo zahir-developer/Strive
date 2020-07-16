@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Strive.Core.Models.TimInventory;
-using MvvmCross.Plugin.Messenger;
-using MvvmCross;
 using Strive.Core.Utils;
-using UIKit;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -39,14 +33,14 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             _RolesList = new List<EmployeeRole>
             {
-                new EmployeeRole("Washer","icon-washer",0,UIImage.FromBundle("icon-washer")),
-                new EmployeeRole("Detailer","icon-cashier",1,UIImage.FromBundle("icon-cashier")),
-                new EmployeeRole("Runner","icon-detailer",2,UIImage.FromBundle("icon-detailer")),
-                new EmployeeRole("Cashier","icon-finish-bay",3,UIImage.FromBundle("icon-finish-bay")),
-                new EmployeeRole("Manager","icon-greetbay",4,UIImage.FromBundle("icon-greetbay")),
-                new EmployeeRole("Greet Bay","icon-manager",5,UIImage.FromBundle("icon-manager")),
-                new EmployeeRole("Finish Bay","icon-runner",6,UIImage.FromBundle("icon-runner")),
-                new EmployeeRole("Unknown","icon-unknown",7,UIImage.FromBundle("icon-unknown"))
+                new EmployeeRole("Washer","icon-washer",0,"icon-washer"),
+                new EmployeeRole("Detailer","icon-cashier",1,"icon-cashier"),
+                new EmployeeRole("Runner","icon-detailer",2,"icon-detailer"),
+                new EmployeeRole("Cashier","icon-finish-bay",3,"icon-finish-bay"),
+                new EmployeeRole("Manager","icon-greetbay",4,"icon-greetbay"),
+                new EmployeeRole("Greet Bay","icon-manager",5,"icon-manager"),
+                new EmployeeRole("Finish Bay","icon-runner",6,"icon-runner"),
+                new EmployeeRole("Unknown","icon-unknown",7,"icon-unknown")
             };
         }
 
@@ -58,7 +52,6 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockedInCommand()
         {
-            await _navigationService.Close(this);
             await _navigationService.Navigate<ClockedInViewModel>();
         }
 
@@ -92,15 +85,14 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         void RoleSelectedCommand(EmployeeRole role)
         {
-            string imagepath = role.ImageUri;
+            string imagepath = role.ImageUriHover;
             imagepath += "-hover";
-            role.image = UIImage.FromBundle(imagepath);
+            role.ImageUri = imagepath;
         }
 
         public void RoleDeSelectedCommand(EmployeeRole role)
         {
-            string imagepath = role.ImageUri;
-            role.image = UIImage.FromBundle(imagepath);
+            role.ImageUri = role.ImageUriHover;
         }
     }
 }

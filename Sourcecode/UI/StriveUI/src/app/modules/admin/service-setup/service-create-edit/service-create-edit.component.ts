@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CrudOperationService } from 'src/app/shared/services/crud-operation.service';
 import * as moment from 'moment';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -23,7 +24,8 @@ export class ServiceCreateEditComponent implements OnInit {
   isChecked:boolean;
   today : Date = new Date();
   submitted: boolean;
-  constructor(private serviceSetup: ServiceSetupService,private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
+  ctypeLabel: any;
+  constructor(private serviceSetup: ServiceSetupService,private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService,private crudService: CrudOperationService) { }
 
   ngOnInit() {
     this.Status=["Active","InActive"];
@@ -36,9 +38,12 @@ export class ServiceCreateEditComponent implements OnInit {
       commissionType: ['',],
       upcharge: ['',],
       parentName: ['',],
-      status: ['',]
+      status: ['',],
+      fee:['',]
     });
+    this.ctypeLabel = 'none';
     this.getAllServiceType();
+    this.getCommissionType();
     this.isChecked=false;
     this.submitted = false;
     console.log(this.selectedData);
@@ -61,16 +66,32 @@ export class ServiceCreateEditComponent implements OnInit {
           serviceType: this.selectedService.ServiceType,
           name: this.selectedService.ServiceName,
           cost: this.selectedService.Cost,
-          commission: this.selectedService.Commission,
-          commissionType: this.selectedService.CommissionType,
+          commission: this.selectedService.Commision,
+          commissionType: this.selectedService.CommisionType,
           upcharge: this.selectedService.Upcharges,
-          parentName: this.selectedService.ParentName,
+          //parentName: this.selectedService.ParentName,
           status: this.selectedData.IsActive ? this.Status[0] : this.Status[1]
         });
+        this.change(this.selectedService.Commision);
+      }      
+    });
+  }
+
+  getCommissionType(){
+    this.getCode.getCodeByCategory("COMMISIONTYPE").subscribe(data =>{
+      if(data.status === "Success"){
+        const cType= JSON.parse(data.resultData);
+        //this.prodType=pType.Codes;
+        //console.log(cType);
+      }else{
+        this.toastr.error('Communication Error','Error!');
       }
     });
   }
 
+  getCtype(data){
+    this.ctypeLabel = data;
+  }
   getAllServiceType()
   {
     this.serviceSetup.getServiceType().subscribe(data =>{
@@ -85,8 +106,12 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm.value.commission = data;
     if(data === true){
       this.isChecked = true;
+      this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
+      this.serviceSetupForm.get('fee').setValidators([Validators.required]);
     }else{
       this.isChecked = false;
+      this.serviceSetupForm.get('commissionType').clearValidators();
+      this.serviceSetupForm.get('fee').clearValidators();
     }
   }
   submit() {
@@ -101,8 +126,8 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
       serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
-      commission: this.isChecked,
-      commissionType: this.serviceSetupForm.value.commission == true ? this.serviceSetupForm.value.commissionType : 0,
+      commision: this.isChecked,
+      commisionType: this.serviceSetupForm.value.commission == true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       //parentName: this.serviceSetupForm.value.parentName,
       parentServiceId:0,

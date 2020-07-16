@@ -83,11 +83,19 @@
             </div>
             <div class="form-group col-lg-3" *ngIf="isChecked === true">
                 <label for="inputTaxAmount">Tax Amount</label>
-                <input type="text" class="form-control" formControlName="taxAmount" placeholder="Tax Amount">
+                <input type="text" class="form-control" formControlName="taxAmount" placeholder="Tax Amount"
+                    [ngClass]="{ 'is-invalid': submitted && f.taxAmount.errors }">
+                <div *ngIf="submitted && f.taxAmount.errors" class="invalid-feedback">
+                    <div *ngIf="f.taxAmount.errors.required">Tax Amount is required</div>
+                </div>
             </div>
             <div class="form-group col-lg-3" *ngIf="textDisplay === true">
                 <label for="inputOtherSize">Other Size</label>
-                <input type="text" class="form-control" formControlName="other" placeholder="Size">
+                <input type="text" class="form-control" formControlName="other" placeholder="Size"
+                    [ngClass]="{ 'is-invalid': submitted && f.other.errors }">
+                <div *ngIf="submitted && f.other.errors" class="invalid-feedback">
+                    <div *ngIf="f.other.errors.required">Size is required</div>
+                </div>
             </div>
         </div>
     </form>
