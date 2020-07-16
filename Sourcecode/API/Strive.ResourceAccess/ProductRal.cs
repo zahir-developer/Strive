@@ -20,9 +20,9 @@ namespace Strive.ResourceAccess
             db = new Db(dbConnection);
         }
 
-        public List<Product> GetProductDetails(DynamicParameters dynamicParameters)
+        public List<Product> GetProductDetails()
         {
-            return db.Fetch<Product>(SPEnum.USPGETAllPRODUCT.ToString(), dynamicParameters);
+            return db.Fetch<Product>(SPEnum.USPGETAllPRODUCT.ToString(),null);
         }
 
         public Product GetProduct(int productId)

@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Slapper;
-using System.Transactions;
 using Dapper.Contrib.Extensions;
 
 namespace Strive.Repository
@@ -62,9 +61,9 @@ namespace Strive.Repository
         }
 
 
-        public object SaveParentChild(List<(CommandDefinition,object)> lstCmd)
+        public object SaveParentChild(List<(CommandDefinition, object)> lstCmd)
         {
-            List<(string,int)> lstId = new List<(string,int)>();
+            List<(string, int)> lstId = new List<(string, int)>();
             try
             {
                 using (dbcon)
@@ -92,11 +91,11 @@ namespace Strive.Repository
                             foreach (var res in lstId)
                             {
                                 //var ddt = ((dynamic)((Dapper.DynamicParameters)parent.Item1.Parameters).Get<dynamic>("tvpCashRegister")).table;
-                                
+
                                 dt.Rows[0][res.Item1] = res.Item2;
                             }
                             DynamicParameters dyn = new DynamicParameters();
-                            dyn.Add("@" +dt.TableName, dt.AsTableValuedParameter(dt.TableName));
+                            dyn.Add("@" + dt.TableName, dt.AsTableValuedParameter(dt.TableName));
                             var newCmd1 = new CommandDefinition(parent.Item1.CommandText, dyn, tran, null, parent.Item1.CommandType);
                             dbcon.Execute(newCmd1);
 

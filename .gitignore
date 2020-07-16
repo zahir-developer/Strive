@@ -60,3 +60,19 @@
 /Sourcecode/Database/sp generator.sql
 /Design/Web/New folder
 /Sourcecode/Utility/SPGenerator
+/Sourcecode/API/packages
+/Sourcecode/API/Strive.BusinessEntities/bin/Debug
+/Sourcecode/API/Strive.BusinessEntities/packages.config
+/Sourcecode/API/Strive.BusinessLogic/bin/Debug
+/Sourcecode/API/Strive.BusinessLogic/Strive.BusinessLogic.csproj.user
+/Sourcecode/API/Strive.BusinessLogic/packages.config
+/Sourcecode/API/Strive.BusinessLogic/app.config
+/Sourcecode/API/Strive.Common/bin/Debug
+/Sourcecode/API/Strive.Common/packages.config
+/Sourcecode/API/Strive.Common/app.config
+/Sourcecode/API/Strive.Repository/packages.config
+/Sourcecode/API/Strive.Repository/App.config
+/Sourcecode/API/Strive.ResourceAccess/bin/Debug
+/Sourcecode/API/Strive.ResourceAccess/packages.config
+/Sourcecode/API/Strive.ResourceAccess/app.config
+*.user

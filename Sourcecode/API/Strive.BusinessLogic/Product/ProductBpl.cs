@@ -22,7 +22,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var list = new ProductRal(_tenant).GetProductDetails(new Dapper.DynamicParameters());
+                var list = new ProductRal(_tenant).GetProductDetails();
                 _resultContent.Add(list.WithName("Product"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

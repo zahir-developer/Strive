@@ -1,16 +1,92 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{580B4A2B-6887-4634-AD93-4A9FC43F1A0B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Strive.BusinessEntities</RootNamespace>
+    <AssemblyName>Strive.BusinessEntities</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <None Remove="AppTenant.csx.remove" />
+    <Compile Include="Authentication.cs" />
+    <Compile Include="CashRegister\CashInRegister.cs" />
+    <Compile Include="CashRegister\CashRegister.cs" />
+    <Compile Include="CashRegister\CashRegisterBill.cs" />
+    <Compile Include="CashRegister\CashRegisterCoin.cs" />
+    <Compile Include="CashRegister\CashRegisterConsolidate.cs" />
+    <Compile Include="CashRegister\CashRegisterList.cs" />
+    <Compile Include="CashRegister\CashRegisterOther.cs" />
+    <Compile Include="CashRegister\CashRegisterRoll.cs" />
+    <Compile Include="CashRegister\CR.cs" />
+    <Compile Include="Code\Code.cs" />
+    <Compile Include="Collision\Collision.cs" />
+    <Compile Include="Collision\EmployeeLiabilityDetail.cs" />
+    <Compile Include="Employee\Employee.cs" />
+    <Compile Include="Employee\EmployeeAddress.cs" />
+    <Compile Include="Employee\EmployeeDetail.cs" />
+    <Compile Include="Employee\EmployeeInfo.cs" />
+    <Compile Include="Employee\EmployeeInformation.cs" />
+    <Compile Include="Employee\EmployeeLogin.cs" />
+    <Compile Include="Employee\EmployeeRole.cs" />
+    <Compile Include="Employee\Employees.cs" />
+    <Compile Include="Employee\EmployeeTable.cs" />
+    <Compile Include="Location\Location.cs" />
+    <Compile Include="Location\LocationAddress.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="RefreshToken.cs" />
+    <Compile Include="ServiceSetup\tblCodeValue.cs" />
+    <Compile Include="ServiceSetup\tblService.cs" />
+    <Compile Include="SPEnum.cs" />
+    <Compile Include="TenantSchema.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="Vendor\Vendor.cs" />
+    <Compile Include="Vendor\VendorAddress.cs" />
+    <Compile Include="Wash.cs" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Dapper.Contrib" Version="2.0.35" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
+    <None Include="packages.config" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.2.0.35\lib\net461\Dapper.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
