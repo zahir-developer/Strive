@@ -150,6 +150,7 @@ export class ProductCreateEditComponent implements OnInit {
       this.productSetupForm.get('taxAmount').setValidators([Validators.required]);
     }else{
       this.isChecked = false;
+      this.productSetupForm.get('taxAmount').reset();
       this.productSetupForm.get('taxAmount').clearValidators();
     }
   }

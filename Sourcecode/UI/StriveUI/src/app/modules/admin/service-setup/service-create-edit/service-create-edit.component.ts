@@ -110,6 +110,8 @@ export class ServiceCreateEditComponent implements OnInit {
       this.serviceSetupForm.get('fee').setValidators([Validators.required]);
     }else{
       this.isChecked = false;
+      this.ctypeLabel = 'none';
+      this.serviceSetupForm.get('commissionType').reset();
       this.serviceSetupForm.get('commissionType').clearValidators();
       this.serviceSetupForm.get('fee').clearValidators();
     }
