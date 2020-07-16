@@ -98,7 +98,7 @@ export class ServiceCreateEditComponent implements OnInit {
     const sourceObj = [];
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,
-      serviceId: 1,
+      serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
       serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
       commission: this.isChecked,

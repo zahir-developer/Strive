@@ -36,16 +36,16 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveCollison([FromBody] List<Strive.BusinessEntities.Collision.Collision> lstCollision)
+        public Result SaveCollison([FromBody] List<Strive.BusinessEntities.Collision.CollisionList> lstCollision)
         {
             return _collisionBpl.SaveCollison(lstCollision);
         }
 
         [HttpDelete]
-        [Route("{id}")]
-        public Result DeleteCollision(long collisionId)
+        [Route("Delete/{id}")]
+        public Result DeleteCollision(long id)
         {
-            return _collisionBpl.DeleteCollision(collisionId);
+            return _collisionBpl.DeleteCollision(id);
         }
 
     }

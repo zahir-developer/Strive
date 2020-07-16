@@ -13,7 +13,7 @@ namespace StriveTimInventory.iOS.Views
     public partial class ClockInView : MvxViewController<ClockInViewModel>
     {
         private EmployeeRolesViewSource RolesCollectionViewSource;
-        UIBarButtonItem LogoutButton = new UIBarButtonItem();
+        //UIBarButtonItem LogoutButton = new UIBarButtonItem();
         public ClockInView() : base("ClockInView", null)
         {
         }
@@ -36,32 +36,32 @@ namespace StriveTimInventory.iOS.Views
             RolesCollectionView.Source = RolesCollectionViewSource = new EmployeeRolesViewSource(RolesCollectionView);
             RolesCollectionView.Delegate = new FlowDelegate();
 
+            RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView, ViewModel);
+
             var set = this.CreateBindingSet<ClockInView, ClockInViewModel>();
             set.Bind(RolesCollectionViewSource).For(v => v.ItemsSource).To(vm => vm.RolesList);
-            set.Bind(LogoutButton).To(vm => vm.Commands["NavigateBack"]);
+
             set.Bind(ClockinButton).To(vm => vm.Commands["NavigateClockedIn"]);
-            //set.Bind(booksCollectionViewSource).For(v => v.SelectionChangedCommand).To(vm => vm.ItemSelectedCmd);
+            set.Bind(Logoutbutton).To(vm => vm.Commands["NavigateBack"]);
             set.Apply();
         }
 
         private void DoInitialSetup()
         {
-            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
-            {
-                Font = DesignUtils.OpenSansBoldTitle(),
-                ForegroundColor = UIColor.Clear.FromHex(0x24489A),
-        };
+        //    NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+        //    {
+        //        Font = DesignUtils.OpenSansBoldTitle(),
+        //        ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+        //};
             
-            LogoutButton.Title = "Logout";
-            LogoutButton.SetTitleTextAttributes(new UITextAttributes()
-            {
-                Font = DesignUtils.OpenSansRegularText(),
-                TextColor = UIColor.Clear.FromHex(0x24489A),
-            }, UIControlState.Normal);
-            LogoutButton.Clicked += (sender, e) => { System.Diagnostics.Debug.WriteLine("Button tap"); };
-            NavigationItem.LeftBarButtonItem = LogoutButton;
-            ServiceLabel.Font = DesignUtils.OpenSansBoldBig();
-            ClockinButton.Font = DesignUtils.OpenSansBoldButton();
+        //    LogoutButton.Title = "Logout";
+        //    LogoutButton.SetTitleTextAttributes(new UITextAttributes()
+        //    {
+        //        Font = DesignUtils.OpenSansRegularText(),
+        //        TextColor = UIColor.Clear.FromHex(0x24489A),
+        //    }, UIControlState.Normal);
+            //NavigationItem.LeftBarButtonItem = LogoutButton;
+            NavigationController.NavigationBarHidden = true;
             ClockinButton.Layer.CornerRadius = 3;
         }
     }

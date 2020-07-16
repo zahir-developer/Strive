@@ -38,9 +38,9 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-vendorSetup>
                   <tr>
-                    <td>{{vendorSetup.Name}}</td>
-                    <td>{{vendorSetup.PhoneNumber}}</td>
-                    <td>{{vendorSetup.Email}}</td>
+                    <td>{{vendorSetup.VendorName}}</td>
+                    <td>{{vendorSetup.VendorAddress[0].PhoneNumber}}</td>
+                    <td>{{vendorSetup.VendorAddress[0].Email}}</td>
                     <td>
                       <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green"
                         pTooltip="edit" tooltipPosition="bottom" (click)="add('edit', vendorSetup)"></em>&nbsp;&nbsp;

@@ -22,4 +22,7 @@ export class ProductService {
   getProductById(id : number){
     return this.http.get(`${UrlConfig.totalUrl.getProductById}`+ id);
   } 
+  getVendor(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getVendor}`);
+  }
 }
