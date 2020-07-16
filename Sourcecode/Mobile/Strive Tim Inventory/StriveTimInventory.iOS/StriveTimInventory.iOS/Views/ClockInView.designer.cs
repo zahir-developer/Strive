@@ -20,17 +20,30 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton Logoutbutton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UICollectionView RolesCollectionView { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel ServiceLabel { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel TitleLabel { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (ClockinButton != null) {
                 ClockinButton.Dispose ();
                 ClockinButton = null;
+            }
+
+            if (Logoutbutton != null) {
+                Logoutbutton.Dispose ();
+                Logoutbutton = null;
             }
 
             if (RolesCollectionView != null) {
@@ -41,6 +54,11 @@ namespace StriveTimInventory.iOS.Views
             if (ServiceLabel != null) {
                 ServiceLabel.Dispose ();
                 ServiceLabel = null;
+            }
+
+            if (TitleLabel != null) {
+                TitleLabel.Dispose ();
+                TitleLabel = null;
             }
         }
     }

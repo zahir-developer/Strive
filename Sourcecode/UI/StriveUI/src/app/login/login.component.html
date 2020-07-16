@@ -7,7 +7,7 @@
           <div class="branding d-flex justify-content-center w-100 m-b-30"> <img src="assets/img/Strive-Logo-login.png" title="logo-img" class="justify-content-center"> </div>
           <div class="login-form">
             <h1 class="form-title p-b-20 text-uppercase"> Login </h1>
-            <p *ngIf="errorFlag" class="alert alert-danger">Username or password was incorrect.</p>
+            <p *ngIf="errorFlag" class="alert alert-danger">Email address or password was incorrect.</p>
             <form [formGroup]="loginForm" (ngSubmit)="LoginSubmit()">
               <div class="form-group">
                 <label for="emailId">Email address</label>

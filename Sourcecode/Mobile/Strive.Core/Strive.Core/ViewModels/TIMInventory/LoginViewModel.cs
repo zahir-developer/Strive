@@ -10,6 +10,19 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
         }
 
+        private bool _isPasswordSecure = true;
+
+        public bool isPasswordSecure {
+            get
+            {
+                return _isPasswordSecure;
+            }
+            set
+            {
+                SetProperty(ref _isPasswordSecure, value);
+            }
+        }
+
         public string Title
         {
             get
@@ -23,6 +36,11 @@ namespace Strive.Core.ViewModels.TIMInventory
         public async Task NavigationToClockInCommand()
         {
             await _navigationService.Navigate<RootViewModel>();
+        }
+
+        public void PasswordToggleCommand()
+        {
+            isPasswordSecure = !_isPasswordSecure;
         }
 
         public void DoLogin()

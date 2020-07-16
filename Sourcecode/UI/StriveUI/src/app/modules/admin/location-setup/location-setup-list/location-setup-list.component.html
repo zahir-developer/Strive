@@ -45,8 +45,8 @@
                                     <tr>
                                         <td>{{locationSetup.LocationName}}</td>
                                         <td>{{locationSetup.IsFranchise}}</td>
-                                        <td>{{locationSetup.PhoneNumber}}</td>
-                                        <td>{{locationSetup.Email}}</td>
+                                        <td>{{locationSetup.LocationAddress[0].PhoneNumber}}</td>
+                                        <td>{{locationSetup.LocationAddress[0].Email}}</td>
                                         <td>
                                             <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                 style="color:green" pTooltip="edit" tooltipPosition="bottom"
@@ -59,7 +59,7 @@
                                 </ng-template>
                             </p-table>
                             <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
-                                [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+                                [modal]="true"  [focusOnShow]="false" [closable]="false">
                                 <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData"
                                     [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
                                 </app-location-create-edit>

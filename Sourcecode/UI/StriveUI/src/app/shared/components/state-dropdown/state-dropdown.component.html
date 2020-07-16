@@ -1,0 +1,7 @@
+<select name="state"  [(ngModel)]="state" class="form-control" (change)="stateSelection($event)" [ngClass]="{'is-invalid': state === '' && submitted}">
+    <option value="" selected hidden>Choose </option>
+    <option *ngFor="let state of stateList" value="{{state.value}}">{{state.name}}</option>
+</select>
+<div *ngIf="submitted && state === ''" class="invalid-feedback">
+    State Is Required
+</div>

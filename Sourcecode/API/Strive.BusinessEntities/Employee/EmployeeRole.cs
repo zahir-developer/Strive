@@ -2,9 +2,12 @@
 {
     public class EmployeeRole
     {
-        public int EmployeeRoleId { get; set; }
+        public long EmployeeRoleId { get; set; }
+        public long EmployeeId { get; set; }
         public string RoleName { get; set; }
+        public int RoleId { get; set; }
+        //public bool IsDefault { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDefault { get; set; }
+        
     }
 }

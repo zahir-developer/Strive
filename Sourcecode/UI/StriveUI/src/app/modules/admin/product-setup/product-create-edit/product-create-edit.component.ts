@@ -13,7 +13,7 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 })
 export class ProductCreateEditComponent implements OnInit {
   productSetupForm: FormGroup;
-  productType:any;
+  prodType:any;
   size:any;
   Status:any;
   Vendor:any;
@@ -23,7 +23,7 @@ export class ProductCreateEditComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   submitted: boolean;
-  selectedProduct: void;
+  selectedProduct: any;
   textDisplay: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,private locationService: LocationService,private product: ProductService,private getCode: GetCodeService) { }
 
@@ -31,6 +31,7 @@ export class ProductCreateEditComponent implements OnInit {
 
     this.getProductType();
     this.getAllLocation();
+    this.getAllVendor();
     this.Status=["Active","InActive"];
     this.productSetupForm = this.fb.group({
       productType: ['', Validators.required],
@@ -44,8 +45,9 @@ export class ProductCreateEditComponent implements OnInit {
       status: ['',],
       vendor: ['',],
       thresholdAmount: ['',],
-      other: ['', Validators.required]
+      other: ['',]
     });
+    this.isChecked = false;
     this.submitted = false;
     if (this.isEdit === true) {
       this.productSetupForm.reset();
@@ -54,11 +56,10 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   getProductType(){
-    const globeCode = {globalCode:"PRODUCTTYPE"};
     this.getCode.getCodeByCategory("PRODUCTTYPE").subscribe(data =>{
       if(data.status === "Success"){
         const pType= JSON.parse(data.resultData);
-        this.productType=pType.Codes;
+        this.prodType=pType.Codes;
       }else{
         this.toastr.error('Communication Error','Error!');
       }
@@ -76,6 +77,17 @@ export class ProductCreateEditComponent implements OnInit {
     });
   }
 
+  getAllVendor(){
+    this.product.getVendor().subscribe(data =>{
+      if(data.status === 'Success'){
+        const vendor = JSON.parse(data.resultData);
+        this.Vendor = vendor.Vendor
+      }else{
+        this.toastr.error('Communication Error','Error!');
+      }
+    })
+  }
+
   getAllLocation() {
     this.locationService.getLocation().subscribe(data => {
       if (data.status === 'Success') {
@@ -88,7 +100,7 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   showText(data){
-    if(data === 'other'){
+    if(data === '33'){
       this.textDisplay = true;
     }else{
       this.textDisplay = false;
@@ -99,20 +111,27 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getProductById(this.selectedData.ProductId).subscribe(data =>{
       if(data.status === "Success"){
         const pType= JSON.parse(data.resultData);
-        this.selectedProduct = pType.Product[0];
+        this.selectedProduct = pType.Product;
+        console.log(this.selectedProduct);
       this.productSetupForm.patchValue({
-        productType: this.selectedData.ProductType,
-        //locationName: this.selectedData.LocationName,
-        name: this.selectedData.ProductName,
-        cost: this.selectedData.Cost,
-        taxable: this.selectedData.IsTaxable,
-        taxAmount: this.selectedData.TaxAmount,
-        size: this.selectedData.Size,
-        quantity: this.selectedData.Quantity,
-        status: this.selectedData.IsActive ? "Active" : "InActive",
-        //vendor: this.selectedData.Vendor,
-        thresholdAmount: this.selectedData.ThresholdLimit        
+        productType: this.selectedProduct.ProductType,
+        locationName: this.selectedProduct.LocationId,
+        name: this.selectedProduct.ProductName,
+        cost: this.selectedProduct.Cost,
+        taxable: this.selectedProduct.IsTaxable,
+        taxAmount: this.selectedProduct.TaxAmount,
+        size: this.selectedProduct.Size,
+        quantity: this.selectedProduct.Quantity,
+        status: this.selectedProduct.IsActive ? "Active" : "InActive",
+        vendor: this.selectedProduct.VendorId,
+        thresholdAmount: this.selectedProduct.ThresholdLimit        
       });
+      console.log(this.selectedProduct.Size);
+      if(this.selectedProduct.Size === 33){
+        this.textDisplay = true;
+        console.log(this.textDisplay);
+        this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+      }
     }
   });
   }
@@ -136,21 +155,21 @@ export class ProductCreateEditComponent implements OnInit {
     }
     const sourceObj = [];
     const formObj = {
-      productCode:1,
+      productCode:null,
       productDescription:null,
       productType: this.productSetupForm.value.productType,
-      productId: 1,
-      locationId: 1,
+      productId: this.isEdit? this.selectedProduct.ProductId : 0,
+      locationId: this.productSetupForm.value.locationName,
       productName: this.productSetupForm.value.name,
       cost: this.productSetupForm.value.cost,
-      isTaxable: this.productSetupForm.value.taxable,
-      taxAmount: this.productSetupForm.value.taxAmount,
-      size: this.textDisplay ? this.productSetupForm.value.other : this.productSetupForm.value.size,
-      sizeDescription:null,
+      isTaxable: this.isChecked,
+      taxAmount: this.productSetupForm.value.taxAmount === "" ? 0 : this.productSetupForm.value.taxAmount,
+      size: this.productSetupForm.value.size,
+      sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
       quantity: this.productSetupForm.value.quantity,
       quantityDescription:null,
       isActive: this.productSetupForm.value.status === "Active" ? true : false,
-      vendorId: 0,
+      vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount
     };
     sourceObj.push(formObj);

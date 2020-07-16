@@ -27,6 +27,7 @@ import { DynamicTextboxComponent } from './helps/dynamic-textbox/dynamic-textbox
 import { AuthService } from './shared/services/common-service/auth.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { HttpUtilsService } from './shared/util/http-utils.service';
+import { RouterModule } from '@angular/router';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -116,6 +117,7 @@ const load = (http: HttpClient) => {
     FormsModule,
     HttpClientModule,
     CommonModule,
+    RouterModule, 
     TableModule,
     DialogModule,
     MomentModule,
@@ -132,7 +134,8 @@ const load = (http: HttpClient) => {
   ],
   exports: [
     HttpClientModule,
-
+    SharedModule,
+    RouterModule
   ],
   providers: [
     EnvironmentService,
