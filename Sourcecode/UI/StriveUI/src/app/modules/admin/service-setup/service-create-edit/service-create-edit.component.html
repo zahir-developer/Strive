@@ -69,7 +69,11 @@
         <div class="form-row">
             <div class="form-group col-lg-3" *ngIf="ctypeLabel !== 'none' && isChecked === true">
                 <label for="inputUpcharge">{{ctypeLabel}}</label>
-                <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}" numbersOnly>
+                <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}" numbersOnly
+                    [ngClass]="{ 'is-invalid': submitted && f.fee.errors }">
+                <div *ngIf="submitted && f.fee.errors" class="invalid-feedback">
+                    <div *ngIf="f.fee.errors.required">{{ctypeLabel}} is required</div>
+                </div>
             </div>
         </div>
     </form>
