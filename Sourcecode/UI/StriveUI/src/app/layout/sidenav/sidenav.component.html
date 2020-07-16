@@ -30,7 +30,7 @@
     </ul>
   </div>
 </section> -->
-<section class="navbar-nav web-nav theme-primary-background-color"><!--Sidebar-->
+<section class="navbar-nav web-nav theme-primary-background-color" *ngIf="isLoggedIn$ | async as isLoggedIn"><!--Sidebar-->
   <div class="menu  d-none d-sm-none d-md-block d-lg-block d-xl-block">
     <ul>
       <li class="logo-container"> <a href="#" class="navbar-brand p-10"><img src="assets/img/w-strive-logo@2x.png" alt="" width="50"/></a> </li>

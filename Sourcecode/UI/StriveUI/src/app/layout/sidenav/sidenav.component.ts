@@ -16,7 +16,6 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    console.log(this.isLoggedIn$, 'side Nae');
     $(document).ready(function () {
       $('.mobile-view-title').click(function () {
         $('#hide-mainmenu').hide();
@@ -27,6 +26,10 @@ export class SidenavComponent implements OnInit {
         $('#show-submenu').hide();
       });
     });
+  }
+  openNav() {
+    document.getElementById('navSliderMenu').style.width = '180px';
+    document.getElementById('content-wrapper').style.marginLeft = '180px';
     $('.menu li').on('click', function () {
       $('.menu li').removeClass('theme-secondary-background-color active');
       $(this).addClass('theme-secondary-background-color active');
@@ -35,10 +38,6 @@ export class SidenavComponent implements OnInit {
       $('.nav-slider-menu-items li a').removeClass('theme-secondary-color text-underline');
       $(this).addClass('theme-secondary-color text-underline');
     });
-  }
-  openNav() {
-    document.getElementById('navSliderMenu').style.width = '180px';
-    document.getElementById('content-wrapper').style.marginLeft = '180px';
   }
 
   closeNav() {
