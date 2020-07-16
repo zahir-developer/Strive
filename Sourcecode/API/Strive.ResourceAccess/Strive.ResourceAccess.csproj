@@ -62,6 +62,7 @@
     <Compile Include="ProductRal.cs" />
     <Compile Include="ServiceSetupRal.cs" />
     <Compile Include="UserRal.cs" />
+    <Compile Include="VendorRal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Strive.BusinessEntities\Strive.BusinessEntities.csproj">

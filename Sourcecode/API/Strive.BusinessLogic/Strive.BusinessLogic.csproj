@@ -64,6 +64,8 @@
     <Compile Include="Strivebase.cs" />
     <Compile Include="User\IUserBpl.cs" />
     <Compile Include="User\UserBpl.cs" />
+    <Compile Include="Vendor\IVendorBpl.cs" />
+    <Compile Include="Vendor\VendorBpl.cs" />
     <Compile Include="Wash\IWashManager.cs" />
   </ItemGroup>
   <ItemGroup>
