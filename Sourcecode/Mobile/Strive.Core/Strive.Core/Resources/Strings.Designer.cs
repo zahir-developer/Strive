@@ -65,7 +65,8 @@ namespace Strive.Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Enter OTP.
         /// </summary>
-        internal static string EnterOTP {
+        internal static string TIM_APP_TITLE
+        {
             get {
                 return ResourceManager.GetString("TIM_APP_TITLE", resourceCulture);
             }
@@ -133,13 +134,7 @@ namespace Strive.Core.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Enter registered mobile # to receive OTP.
-        /// </summary>
-        internal static string ReceiveOTP {
-        internal static string notReceiveOTP {
-            get {
-                return ResourceManager.GetString("notReceiveOTP", resourceCulture);
-            }
-        }
+        /// </summary>      
         
         internal static string EnterOTP {
             get {
@@ -171,7 +166,7 @@ namespace Strive.Core.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Tim App.
         /// </summary>
-        internal static string TIM_APP_TITLE {
+        internal static string ResendOTP {
             get {
                 return ResourceManager.GetString("ResendOTP", resourceCulture);
             }
