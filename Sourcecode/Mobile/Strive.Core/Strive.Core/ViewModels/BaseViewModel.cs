@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -14,6 +15,8 @@ namespace Strive.Core.ViewModels
         public IMvxCommandCollection Commands { get; protected set; }
         public static IMvxNavigationService _navigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
         public static IMvxMessenger _mvxMessenger = Mvx.IoCProvider.Resolve<IMvxMessenger>();
+        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
+        
 
         public IAdminService AdminService = Mvx.IoCProvider.Resolve<IAdminService>();
 

@@ -69,6 +69,7 @@
     <Compile Include="MvvmCross\AppStart.cs" />
     <Compile Include="MvvmCross\Setup.cs" />
     <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
+    <Compile Include="Views\ConfirmPasswordView.cs" />
     <Compile Include="Views\ForgotPasswordView.cs" />
     <Compile Include="Views\LoginView.cs" />
     <Compile Include="Views\OTPView.cs" />
@@ -215,6 +216,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\OTPScreen.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ConfirmPasswordScreen.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

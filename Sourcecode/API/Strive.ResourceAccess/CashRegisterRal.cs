@@ -95,8 +95,10 @@ namespace Strive.ResourceAccess
 
         private (CommandDefinition, object) GetCmd<T>(T model, string name, string spName, object parentmapId) where T : new()
         {
-            List<T> lstModel = new List<T>();
-            lstModel.Add(model);
+            List<T> lstModel = new List<T>
+            {
+                model
+            };
             DynamicParameters dyn = new DynamicParameters();
             dyn.Add("@" + name, lstModel.ToDataTable().AsTableValuedParameter(name));
             CommandDefinition cmd = new CommandDefinition(spName, dyn, commandType: CommandType.StoredProcedure);

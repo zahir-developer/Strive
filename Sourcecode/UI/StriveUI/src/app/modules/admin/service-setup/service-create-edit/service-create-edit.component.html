@@ -56,10 +56,24 @@
             </div>
             <div class="form-group col-lg-3" *ngIf="isChecked === true">
                 <label for="inputCommissionType">Commission Type</label>
-                <select class="form-control" formControlName="commissionType">
-                    <option value="">Choose </option>
+                <select class="form-control" formControlName="commissionType" (change)="getCtype($event.target.value)"
+                    [ngClass]="{ 'is-invalid': submitted  && f.commissionType.errors }">
+                    <option value="" selected hidden>Choose </option>
                     <option *ngFor="let commissionType of CommissionType">{{commissionType}}</option>
                 </select>
+                <div *ngIf="submitted  && f.commissionType.errors" class="invalid-feedback">
+                    <div *ngIf="f.commissionType.errors.required">Commision Type is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-lg-3" *ngIf="ctypeLabel !== 'none' && isChecked === true">
+                <label for="inputUpcharge">{{ctypeLabel}}</label>
+                <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}" numbersOnly
+                    [ngClass]="{ 'is-invalid': submitted && f.fee.errors }">
+                <div *ngIf="submitted && f.fee.errors" class="invalid-feedback">
+                    <div *ngIf="f.fee.errors.required">{{ctypeLabel}} is required</div>
+                </div>
             </div>
         </div>
     </form>

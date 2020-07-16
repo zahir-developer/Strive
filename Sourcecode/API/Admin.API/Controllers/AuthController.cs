@@ -4,13 +4,13 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Strive.BusinessEntities;
-using Strive.BusinessLogic;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Admin.Api.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         readonly IAuthManagerBpl _authManager;
@@ -24,7 +24,6 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("/Admin/Login")]
-        [AllowAnonymous]
         public Result Login([FromBody] Authentication authentication)
         {
             string secretKey = Pick("Jwt", "SecretKey");
