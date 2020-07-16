@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -24,7 +25,7 @@ namespace StriveCustomer.Android.Views
         private TextView OTPTextView;
         private TextView notReceiveOTPTextView;
         private TextView resendOTPTextView;
-        private Button resendButton;
+        private Button verifyButton;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -34,7 +35,8 @@ namespace StriveCustomer.Android.Views
             OTPTextView = FindViewById<TextView>(Resource.Id.OTPTextView);
             notReceiveOTPTextView = FindViewById<TextView>(Resource.Id.notReceiveOTPTextView);
             resendOTPTextView = FindViewById<TextView>(Resource.Id.resendOTPTextView);
-            resendButton = FindViewById<Button>(Resource.Id.resendButton);
+            resendOTPTextView.PaintFlags = PaintFlags.UnderlineText;
+            verifyButton = FindViewById<Button>(Resource.Id.verifyButton);
 
             var bindingset = this.CreateBindingSet<OTPView, OTPViewModel>();
 
@@ -42,7 +44,8 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(OTPTextView).To(ovm => ovm.SentOTP);
             bindingset.Bind(notReceiveOTPTextView).To(ovm => ovm.NotReceiveOTP);
             bindingset.Bind(resendOTPTextView).To(ovm => ovm.ResendOTP);
-            bindingset.Bind(resendButton).For(ovm => ovm.Text).To(ovm => ovm.VerifyOTP);
+            bindingset.Bind(verifyButton).For(ovm => ovm.Text).To(ovm => ovm.VerifyOTP);
+            bindingset.Bind(verifyButton).To(ovm => ovm.Commands["Verify"]);
 
             bindingset.Apply();
         }

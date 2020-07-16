@@ -27,6 +27,8 @@
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
                 <outlet property="TotalHoursLabel" destination="gOc-Lm-1cq" id="name-outlet-gOc-Lm-1cq"/>
                 <outlet property="RoleLabel" destination="Tee-A9-fqc" id="name-outlet-Tee-A9-fqc"/>
+                <outlet property="LogoutButton" destination="Zah-wt-oRm" id="name-outlet-Zah-wt-oRm"/>
+                <outlet property="TitleLabel" destination="50V-fZ-pFp" id="name-outlet-50V-fZ-pFp"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

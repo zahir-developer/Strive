@@ -277,6 +277,12 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-wash-time.imageset\icon-wash-time%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-wash-time.imageset\icon-wash-time%402x-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-wash-time.imageset\icon-wash-time-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\eye-filled.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\eye-filled.imageset\icons8-eye-90.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\eye-filled.imageset\icons8-eye-90-2.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\eye-filled-slash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\eye-filled-slash.imageset\icons8-hide-90.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\eye-filled-slash.imageset\icons8-hide-90-1.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -310,6 +316,8 @@
         <Folder Include="Resources\Assets.xcassets\icon-membership.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-time-clock.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-wash-time.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\eye-filled.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\eye-filled-slash.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

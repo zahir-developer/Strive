@@ -9,7 +9,7 @@ using System.Text;
 using System.Linq;
 using Strive.BusinessEntities.Vendor;
 
-namespace Strive.BusinessLogic
+namespace Strive.ResourceAccess
 {
     public class VendorRal
     {

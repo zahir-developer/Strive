@@ -1,16 +1,14 @@
-﻿using System;
-using UIKit;
-
+﻿
 namespace Strive.Core.Models.TimInventory
 {
     public class EmployeeRole
     {
-        public EmployeeRole(string Title, string ImageUri, int Tag,UIImage image)
+        public EmployeeRole(string Title, string ImageUri, int Tag,string ImageUriHover)
         {
             this.Title = Title;
             this.ImageUri = ImageUri;
             this.Tag = Tag;
-            this.image = image;
+            this.ImageUriHover = ImageUriHover;
         }
         public string Title { get; set; }
 
@@ -18,6 +16,6 @@ namespace Strive.Core.Models.TimInventory
 
         public int Tag { get; set; }
 
-        public UIImage image {get; set;}
+        public string ImageUriHover {get; set;}
     }
 }

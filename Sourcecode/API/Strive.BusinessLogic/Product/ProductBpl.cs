@@ -23,7 +23,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var list = new ProductRal(_tenant).GetAllProduct();
+                var list = new ProductRal(_tenant).GetProductDetails();
                 _resultContent.Add(list.WithName("Product"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

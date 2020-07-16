@@ -102,8 +102,10 @@ export class ProductCreateEditComponent implements OnInit {
   showText(data){
     if(data === '33'){
       this.textDisplay = true;
+      this.productSetupForm.get('other').setValidators([Validators.required]);
     }else{
       this.textDisplay = false;
+      this.productSetupForm.get('other').clearValidators();
     }
   }
 
@@ -119,7 +121,7 @@ export class ProductCreateEditComponent implements OnInit {
         name: this.selectedProduct.ProductName,
         cost: this.selectedProduct.Cost,
         taxable: this.selectedProduct.IsTaxable,
-        taxAmount: this.selectedProduct.TaxAmount,
+        taxAmount: this.selectedProduct.TaxAmount !== 0 ? this.selectedProduct.TaxAmount : "",
         size: this.selectedProduct.Size,
         quantity: this.selectedProduct.Quantity,
         status: this.selectedProduct.IsActive ? "Active" : "InActive",
@@ -132,6 +134,7 @@ export class ProductCreateEditComponent implements OnInit {
         console.log(this.textDisplay);
         this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
       }
+      this.change(this.selectedProduct.IsTaxable);
     }
   });
   }
@@ -144,8 +147,10 @@ export class ProductCreateEditComponent implements OnInit {
     this.productSetupForm.value.taxable = data;
     if(data === true){
       this.isChecked = true;
+      this.productSetupForm.get('taxAmount').setValidators([Validators.required]);
     }else{
       this.isChecked = false;
+      this.productSetupForm.get('taxAmount').clearValidators();
     }
   }
   submit() {
@@ -163,7 +168,7 @@ export class ProductCreateEditComponent implements OnInit {
       productName: this.productSetupForm.value.name,
       cost: this.productSetupForm.value.cost,
       isTaxable: this.isChecked,
-      taxAmount: this.productSetupForm.value.taxAmount === "" ? 0 : this.productSetupForm.value.taxAmount,
+      taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
       size: this.productSetupForm.value.size,
       sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
       quantity: this.productSetupForm.value.quantity,

@@ -5,9 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Employee;
@@ -91,8 +94,8 @@ namespace Strive.BusinessLogic.Auth
                  new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("AuthId", $"{employee.EmployeeDetail.Select(n=> n.AuthId)}"),
                 new Claim("RoleId",
-                    $"{string.Join(',', employee.EmployeeRole.Select(x => x.EmployeeRoleId).ToList())}"),
-                new Claim("RoleIdName", $"{string.Join(',', employee.EmployeeRole.Select(x => x.RoleName).ToList())}"),
+                    $"{string.Join(",", employee.EmployeeRole.Select(x => x.EmployeeRoleId.ToString()).ToList())}"),
+                new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRole.Select(x => x.RoleName).ToList())}"),
 
             }.ToList();
 
@@ -161,6 +164,26 @@ namespace Strive.BusinessLogic.Auth
             var claims = GetPrincipalFromExpiredToken(token, secretKey);
             var userGuid = claims.Find(a => a.Type.Contains("UserGuid")).Value;
             DeleteRefreshToken(userGuid, null);
+        }
+
+        //public Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        AuthenticationProperties IAuthManagerBpl.ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ExternalLoginInfo> IAuthManagerBpl.GetExternalLoginInfoAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<dynamic> IAuthManagerBpl.ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor)
+        {
+            throw new NotImplementedException();
         }
     }
 }

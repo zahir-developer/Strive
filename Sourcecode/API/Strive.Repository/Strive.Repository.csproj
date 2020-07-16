@@ -1,30 +1,77 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9ABEC4F7-4203-43A9-BD0F-D7CDA591C623}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Strive.RepositoryNew</RootNamespace>
+    <AssemblyName>Strive.RepositoryNew</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <None Remove="Sql\Properties\launchSettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Include="App.config" />
     <Content Include="Sql\Properties\launchSettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
+    <None Include="packages.config" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="Dapper.Contrib" Version="2.0.35" />
-    <PackageReference Include="Slapper.AutoMapper" Version="2.0.1" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <Compile Include="Sql\BaseRepository.cs" />
+    <Compile Include="Sql\Db.cs" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Strive.Common\Strive.Common.csproj" />
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.2.0.35\lib\net461\Dapper.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Slapper, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Slapper.AutoMapper.2.0.1\lib\net46\Slapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\Strive.Common\Strive.Common.csproj">
+      <Project>{1ee081ee-29b7-49a6-92e5-e65554155a5c}</Project>
+      <Name>Strive.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
