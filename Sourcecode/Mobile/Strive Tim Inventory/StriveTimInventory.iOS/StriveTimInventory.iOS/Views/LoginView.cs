@@ -20,7 +20,7 @@ namespace StriveTimInventory.iOS.Views
             DoInitialSetup();
             // Perform any additional setup after loading the view, typically from a nib.
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
-            set.Bind(LoginButton).To(vm => vm.Commands["NavigationToClockIn"]);
+            set.Bind(LoginButton).To(vm => vm.Commands["Login"]);
             set.Bind(PasswordTxtField).For(p => p.SecureTextEntry).To(vm => vm.isPasswordSecure);
             set.Bind(UserIdTxtField).To(vm => vm.UserId);
             set.Bind(PasswordTxtField).To(vm => vm.Password);
