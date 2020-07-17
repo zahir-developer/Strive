@@ -5,17 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Employee;
 using Strive.Common;
-using Strive.Crypto;
 using Strive.ResourceAccess;
 
 namespace Strive.BusinessLogic.Auth
@@ -43,21 +39,13 @@ namespace Strive.BusinessLogic.Auth
             JObject resultContent = new JObject();
             try
             {
-                Token tkn = new Token();
-                TenantSchema tenantSchema = null;
-                var dbPassHash = new AuthRal(_tenant).GetPassword(authentication.Email);
-
-                if (!Pass.Validate(authentication.PasswordHash, dbPassHash))
-                {
-                    throw new Exception("UnAuthorized");
-                }
-
-                tenantSchema = new AuthRal(_tenant).Login(authentication);
-                SetTenantSchematoCache(tenantSchema);
-                _tenant.SetConnection(GetTenantConnectionString(tenantSchema, tenantConString));
-                Employee employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tenantSchema.AuthId);
-                (string token, string refreshToken) = GetTokens(tenantSchema, employee, secretKey);
-                SaveRefreshToken(tenantSchema.UserGuid, refreshToken);
+                var userDetails = new AuthRal(_tenant).Login(authentication);
+                SetTenantSchematoCache(userDetails);
+                _tenant.SetConnection(GetTenantConnectionString(userDetails, tenantConString));
+                Employee employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(userDetails.AuthId);
+                var token = GetToken(userDetails, employee, secretKey);
+                string refreshToken = GenerateRefreshToken();
+                SaveRefreshToken(userDetails.UserGuid, refreshToken);
                 resultContent.Add(token.WithName("Token"));
                 resultContent.Add(refreshToken.WithName("RefreshToken"));
                 resultContent.Add(employee.WithName("EmployeeDetails"));
@@ -72,10 +60,9 @@ namespace Strive.BusinessLogic.Auth
 
         public Result GenerateTokenByRefreshKey(string token, string refreshToken, string secretKey)
         {
-            Token tkn = new Token();
             JObject resultContent = new JObject();
-            //var claims = tkn.GetPrincipalFromExpiredToken(token, secretKey);
-            var userGuid = tkn.GetUserGuidFromToken(token,secretKey);// claims.Find(a => a.Type.Contains("UserGuid")).Value;
+            var claims = GetPrincipalFromExpiredToken(token, secretKey);
+            var userGuid = claims.Find(a => a.Type.Contains("UserGuid")).Value;
 
             var savedRefreshToken = GetRefreshToken(userGuid); //retrieve the refresh token from a data store
 
@@ -84,8 +71,8 @@ namespace Strive.BusinessLogic.Auth
                 throw new SecurityTokenException("Invalid refresh token");
             }
 
-            var newJwtToken = tkn.Generate(token, secretKey, _tenant.TokenExpiryMintues);//  GetTokenWithClaims(claims, secretKey);
-            var newRefreshToken = tkn.GenerateRefreshToken();
+            var newJwtToken = GetTokenWithClaims(claims, secretKey);
+            var newRefreshToken = GenerateRefreshToken();
             DeleteRefreshToken(userGuid, refreshToken);
             SaveRefreshToken(userGuid, newRefreshToken);
 
@@ -95,9 +82,8 @@ namespace Strive.BusinessLogic.Auth
             return result;
         }
 
-        private (string, string) GetTokens(TenantSchema tenant, Employee employee, string secretKey)
+        private string GetToken(TenantSchema tenant, Employee employee, string secretKey)
         {
-            Token tkn = new Token();
             var claims = new[]
             {
                 new Claim("UserGuid", $"{tenant.UserGuid}"),
@@ -105,44 +91,76 @@ namespace Strive.BusinessLogic.Auth
                  new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("AuthId", $"{employee.EmployeeDetail.Select(n=> n.AuthId)}"),
                 new Claim("RoleId",
-                    $"{string.Join(",", employee.EmployeeRole.Select(x => x.EmployeeRoleId.ToString()).ToList())}"),
-                new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRole.Select(x => x.RoleName).ToList())}"),
+                    $"{string.Join(',', employee.EmployeeRole.Select(x => x.EmployeeRoleId).ToList())}"),
+                new Claim("RoleIdName", $"{string.Join(',', employee.EmployeeRole.Select(x => x.RoleName).ToList())}"),
 
             }.ToList();
 
-            var token = tkn.Generate(claims, secretKey, "Strive", "Strive", _tenant.TokenExpiryMintues);
-            var reToken = tkn.GenerateRefreshToken();
-            return (token, reToken);
-            //return GetTokenWithClaims(claims, secretKey);
+            return GetTokenWithClaims(claims, secretKey);
 
+        }
+
+        private string GetTokenWithClaims(List<Claim> claims, string secretKey)
+        {
+
+            var credentials = Strive.Common.Utility.GetEncryptionStuff(secretKey);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Issuer = "Mammoth-Strive",
+                Audience = "Mammoth-Customer",
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                IssuedAt = DateTime.UtcNow,
+                EncryptingCredentials = credentials.EnCredentials,
+                SigningCredentials = credentials.SignCredentials
+            };
+            IdentityModelEventSource.ShowPII = true;
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        private List<Claim> GetPrincipalFromExpiredToken(string token, string secretKey)
+        {
+            var credentials = Strive.Common.Utility.GetDecryptionStuff(secretKey);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                TokenDecryptionKey = credentials.DecryptKey,
+                IssuerSigningKey = credentials.SignKey,
+
+                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null) //|| !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+
+            return principal.Claims.ToList();
         }
 
         public void Logout(string token, string secretKey)
         {
-            Token tkn = new Token();
-            var claims = tkn.GetPrincipalFromExpiredToken(token, secretKey);
+            var claims = GetPrincipalFromExpiredToken(token, secretKey);
             var userGuid = claims.Find(a => a.Type.Contains("UserGuid")).Value;
             DeleteRefreshToken(userGuid, null);
-        }
-
-        //public Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        AuthenticationProperties IAuthManagerBpl.ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<ExternalLoginInfo> IAuthManagerBpl.GetExternalLoginInfoAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<dynamic> IAuthManagerBpl.ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor)
-        {
-            throw new NotImplementedException();
         }
     }
 }

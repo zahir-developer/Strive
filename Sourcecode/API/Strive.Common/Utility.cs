@@ -20,7 +20,7 @@ namespace Strive.Common
         {
             return Task.WhenAll(sequence.Select(action));
         }
-
+        
         public static void WriteLog(string logpath, string logfileName, string msg)
         {
             if (!Directory.Exists(logpath))
@@ -405,6 +405,32 @@ namespace Strive.Common
             return "";
         }
 
+
+        public static Crypt GetEncryptionStuff(string gSecretKey)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(gSecretKey));
+            var key1 = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("தமிழ்*"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var encryptingCreds = new EncryptingCredentials(key1, SecurityAlgorithms.Aes128KW, SecurityAlgorithms.Aes128CbcHmacSha256);
+            return new Crypt() { EnCredentials = encryptingCreds, SignCredentials = creds };
+        }
+
+        public static Crypt GetDecryptionStuff(string gSecretKey)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(gSecretKey));
+            var key1 = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("தமிழ்*"));
+            return new Crypt() { SignKey = key, DecryptKey = key1 };
+        }
+
+    }
+
+    public class Crypt
+    {
+        public SigningCredentials SignCredentials { get; set; }
+        public EncryptingCredentials EnCredentials { get; set; }
+
+        public SymmetricSecurityKey DecryptKey { get; set; }
+        public SymmetricSecurityKey SignKey { get; set; }
     }
 
 }
