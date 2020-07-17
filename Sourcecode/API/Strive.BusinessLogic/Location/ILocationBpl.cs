@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Strive.BusinessEntities.Location;
 using Strive.Common;
 
 namespace Strive.BusinessLogic.Location
@@ -6,11 +7,11 @@ namespace Strive.BusinessLogic.Location
     public interface ILocationBpl
     {
         Result GetLocationDetails();
-        Result SaveLocationDetails(List<BusinessEntities.LocationList> lstLocation);
+        Result SaveLocationDetails(List<LocationView> lstLocation);
         Result DeleteLocationDetails(int id);
         Result GetLocationById(int id);
-        Result AddLocation(List<BusinessEntities.LocationList> lstLocation);
-        Result UpdateLocation(List<BusinessEntities.LocationList> lstLocation);
+        Result AddLocation(List<LocationView> lstLocation);
+        Result UpdateLocation(List<LocationView> lstLocation);
 
     }
 }

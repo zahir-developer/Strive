@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Strive.BusinessEntities;
 using Strive.BusinessLogic;
 using Strive.Common;
 using System;
@@ -45,7 +43,7 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee([FromBody] List<Strive.BusinessEntities.Employee.Employee> lstEmployee)
+        public Result SaveEmployee([FromBody] EmployeeView lstEmployee)
         {
             return _employeeBpl.SaveEmployeeDetails(lstEmployee);
         }
