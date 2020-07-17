@@ -1,12 +1,13 @@
 ﻿using System;
-namespace Strive.Core.Models.TimInventory
+using Strive.Core.Models.TimInventory;
+
+namespace Strive.Core.Models
 {
-    public class ResultData
+    public class EmployeeResultData
     {
-        public ResultData()
+        public EmployeeResultData()
         {
         }
-
         public string Token { get; set; }
         public string RefreshToken { get; set; }
         public EmployeeDetails EmployeeDetails { get; set; }

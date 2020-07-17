@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Strive.Core.Models;
 using Strive.Core.Models.TimInventory;
 
 namespace Strive.Core.Services.Interfaces
@@ -8,6 +9,6 @@ namespace Strive.Core.Services.Interfaces
     {
         Task<object> Login(string username, string password);
 
-        Task<EmployeeLoginBase> EmployeeLogin(EmployeeLoginRequest request);
+        Task<EmployeeResultData> EmployeeLogin(EmployeeLoginRequest request);
     }
 }

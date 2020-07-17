@@ -1,4 +1,5 @@
 ﻿using System;
+using Acr.UserDialogs;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;

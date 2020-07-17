@@ -50,10 +50,13 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             if (await ValidateCredentialsAsync())
             {
-                //_userDialog.ShowLoading("Logging in", Acr.UserDialogs.MaskType.Gradient);
-                //await _navigationService.Navigate<RootViewModel>();
-                await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
-                //_userDialog.HideLoading();
+                _userDialog.ShowLoading("Logging in", Acr.UserDialogs.MaskType.Gradient);
+                var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
+                if(response.Token != null)
+                {
+                    await _navigationService.Navigate<RootViewModel>();
+                }
+                _userDialog.HideLoading();
             }
         }
 

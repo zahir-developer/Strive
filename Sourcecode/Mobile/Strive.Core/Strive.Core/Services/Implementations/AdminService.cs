@@ -23,9 +23,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<object>(ApiUtils.URL_LOGIN_EMPLOYEE, HttpMethod.Post, new User());
         }
 
-        public async Task<EmployeeLoginBase> EmployeeLogin(EmployeeLoginRequest request)
+        public async Task<EmployeeResultData> EmployeeLogin(EmployeeLoginRequest request)
         {
-            return await _restClient.MakeApiCall<EmployeeLoginBase>(ApiUtils.URL_LOGIN_EMPLOYEE, HttpMethod.Post, request);
+            return await _restClient.MakeApiCall<EmployeeResultData>(ApiUtils.URL_LOGIN_EMPLOYEE, HttpMethod.Post, request);
         }
     }
 }
