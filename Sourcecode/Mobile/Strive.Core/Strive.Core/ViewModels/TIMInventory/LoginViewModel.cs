@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
 
@@ -26,9 +27,9 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        public string UserId { get; set; }
+        public string UserId { get; set; } = "caradmin@strive.com";
 
-        public string Password { get; set; }
+        public string Password { get; set; } = "pass@123";
 
         public string Title
         {
@@ -39,19 +40,40 @@ namespace Strive.Core.ViewModels.TIMInventory
             set
             { }
         }
+
+        private EmployeeLoginRequest request;
         #endregion Properties
 
         #region Commands
-        public async Task NavigationToClockInCommand()
+
+        public async Task LoginCommand()
         {
-            //if(Validations.validateEmail(UserId))
-            //{
-            await _navigationService.Navigate<RootViewModel>();
-            //}
-            //else
-            //{
-            //    _userDialog.Alert("Invalid Email","Alert");
-            //}
+            if (await ValidateCredentialsAsync())
+            {
+                _userDialog.ShowLoading("Logging in", Acr.UserDialogs.MaskType.Gradient);
+                var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
+                if(response.Token != null)
+                {
+                    await _navigationService.Navigate<RootViewModel>();
+                }
+                _userDialog.HideLoading();
+            }
+        }
+
+        async Task<bool> ValidateCredentialsAsync()
+        {
+            bool isValid = true;
+            if(!Validations.validateEmail(UserId))
+            {
+                await _userDialog.AlertAsync("Invalid Email", "Alert");
+                return !isValid;
+            }
+            else if (string.IsNullOrEmpty(Password))
+            {
+                await _userDialog.AlertAsync("Enter Password", "Alert");
+                return !isValid;
+            }
+            return isValid;
         }
 
         public void PasswordToggleCommand()
