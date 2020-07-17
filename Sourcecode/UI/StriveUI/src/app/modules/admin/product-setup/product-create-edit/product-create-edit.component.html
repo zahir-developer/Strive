@@ -84,7 +84,7 @@
             <div class="form-group col-lg-3" *ngIf="isChecked === true">
                 <label for="inputTaxAmount">Tax Amount</label>
                 <input type="text" class="form-control" formControlName="taxAmount" placeholder="Tax Amount"
-                    [ngClass]="{ 'is-invalid': submitted && f.taxAmount.errors }">
+                    [ngClass]="{ 'is-invalid': submitted && f.taxAmount.errors }" numbersOnly>
                 <div *ngIf="submitted && f.taxAmount.errors" class="invalid-feedback">
                     <div *ngIf="f.taxAmount.errors.required">Tax Amount is required</div>
                 </div>
