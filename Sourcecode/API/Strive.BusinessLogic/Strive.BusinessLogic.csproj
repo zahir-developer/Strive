@@ -152,8 +152,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
-      <HintPath>..\packages\Dapper.Contrib.2.0.35\lib\net461\Dapper.Contrib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
