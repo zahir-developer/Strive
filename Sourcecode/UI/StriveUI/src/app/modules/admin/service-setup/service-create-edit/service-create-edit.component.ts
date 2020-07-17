@@ -21,6 +21,7 @@ export class ServiceCreateEditComponent implements OnInit {
   CommissionType:any;
   commissionTypeLabel : any;
   Status:any;
+  parent:any;
   isChecked:boolean;
   today : Date = new Date();
   submitted: boolean;
@@ -112,6 +113,7 @@ export class ServiceCreateEditComponent implements OnInit {
       this.isChecked = false;
       this.ctypeLabel = 'none';
       this.serviceSetupForm.get('commissionType').reset();
+      this.serviceSetupForm.get('fee').reset();
       this.serviceSetupForm.get('commissionType').clearValidators();
       this.serviceSetupForm.get('fee').clearValidators();
     }
