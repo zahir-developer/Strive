@@ -20,9 +20,6 @@ namespace Strive.BusinessEntities.Employee
         public int ImmigrationStatus { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
-        public List<EmployeeDetail> EmployeeDetail { get; set; }
-        public List<EmployeeAddress> EmployeeAddress { get; set; }
-        public List<EmployeeRole> EmployeeRole { get; set; }
-        public List<EmployeeRoles> EmployeeRoles { get; set; }
+       
     }
 }
