@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Strive.Common;
 using System.Collections.Generic;
 using Strive.BusinessLogic.Location;
+using Strive.BusinessEntities.Location;
 
 namespace Admin.API.Controllers
 {
@@ -26,7 +27,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveLocation([FromBody] List<Strive.BusinessEntities.LocationList> lstLocation)
+        public Result SaveLocation([FromBody] List<LocationView> lstLocation)
         {
             return _locationBpl.SaveLocationDetails(lstLocation);
         }
@@ -45,14 +46,14 @@ namespace Admin.API.Controllers
         }
         [HttpPost]
         [Route("Add")]
-        public Result AddLocation([FromBody] List<Strive.BusinessEntities.LocationList> lstLocation)
+        public Result AddLocation([FromBody] List<LocationView> lstLocation)
         {
             return _locationBpl.AddLocation(lstLocation);
         }
 
         [HttpPost]
         [Route("Update")]
-        public Result UpdateLocation([FromBody] List<Strive.BusinessEntities.LocationList> lstLocation)
+        public Result UpdateLocation([FromBody] List<LocationView> lstLocation)
         {
             return _locationBpl.UpdateLocation(lstLocation);
         }

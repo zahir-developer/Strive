@@ -42,7 +42,7 @@ namespace Strive.BusinessLogic.Auth
                 var userDetails = new AuthRal(_tenant).Login(authentication);
                 SetTenantSchematoCache(userDetails);
                 _tenant.SetConnection(GetTenantConnectionString(userDetails, tenantConString));
-                Employee employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(userDetails.AuthId);
+                EmployeeView employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(userDetails.AuthId);
                 var token = GetToken(userDetails, employee, secretKey);
                 string refreshToken = GenerateRefreshToken();
                 SaveRefreshToken(userDetails.UserGuid, refreshToken);
@@ -82,7 +82,7 @@ namespace Strive.BusinessLogic.Auth
             return result;
         }
 
-        private string GetToken(TenantSchema tenant, Employee employee, string secretKey)
+        private string GetToken(TenantSchema tenant, EmployeeView employee, string secretKey)
         {
             var claims = new[]
             {
@@ -92,7 +92,7 @@ namespace Strive.BusinessLogic.Auth
                 new Claim("AuthId", $"{employee.EmployeeDetail.Select(n=> n.AuthId)}"),
                 new Claim("RoleId",
                     $"{string.Join(',', employee.EmployeeRole.Select(x => x.EmployeeRoleId).ToList())}"),
-                new Claim("RoleIdName", $"{string.Join(',', employee.EmployeeRole.Select(x => x.RoleName).ToList())}"),
+                //new Claim("RoleIdName", $"{string.Join(',', employee.EmployeeRole.Select(x => x.RoleName).ToList())}"),
 
             }.ToList();
 
