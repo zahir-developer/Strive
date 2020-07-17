@@ -10,10 +10,14 @@
     [IsDeleted]      SMALLINT      NOT NULL,
     [ExpiryDate]     DATETIME      NULL,
     [CreatedDate]    DATETIME      NULL,
+    [TenantId]       INT           NULL,
     CONSTRAINT [PK_SchemaMaster_SchemaId] PRIMARY KEY CLUSTERED ([SchemaId] ASC),
+    CONSTRAINT [FK_tblSchemaMaster_tblTenantMaster] FOREIGN KEY ([TenantId]) REFERENCES [dbo].[tblTenantMaster] ([TenantId]),
     CONSTRAINT [UK_SchemaMaster_ClientId] UNIQUE NONCLUSTERED ([ClientId] ASC),
     CONSTRAINT [UK_SchemaMaster_SubDomain] UNIQUE NONCLUSTERED ([SubDomain] ASC)
 );
+
+
 
 
 GO

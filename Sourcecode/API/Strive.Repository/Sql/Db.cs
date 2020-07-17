@@ -60,6 +60,18 @@ namespace Strive.Repository
             return id;
         }
 
+        public T Get<T>(string spName, DynamicParameters dynParam)
+        {
+            try
+            {
+                return dbcon.QuerySingleOrDefault<T>(spName,dynParam, commandType: CommandType.StoredProcedure, commandTimeout: 0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public object SaveParentChild(List<(CommandDefinition, object)> lstCmd)
         {

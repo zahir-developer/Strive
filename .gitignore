@@ -76,3 +76,13 @@
 /Sourcecode/API/Strive.ResourceAccess/packages.config
 /Sourcecode/API/Strive.ResourceAccess/app.config
 *.user
+/Sourcecode/API/Admin.API/bin/Release/netcoreapp2.2
+/Sourcecode/API/Admin.API/Properties/PublishProfiles
+/Sourcecode/API/Strive.BusinessEntities/bin/Release
+/Sourcecode/API/Strive.BusinessLogic/bin/Release
+/Sourcecode/API/Strive.Common/bin/Release
+/Sourcecode/API/Strive.Crypt/bin/Debug/net461
+/Sourcecode/API/Strive.Crypt/obj
+/Sourcecode/API/Strive.Repository/bin/Release
+/Sourcecode/API/Strive.ResourceAccess/bin/Release
+/Sourcecode/Database/StriveAuthDb/StriveAuthDb/obj/Debug

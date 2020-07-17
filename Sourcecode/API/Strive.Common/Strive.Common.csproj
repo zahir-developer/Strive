@@ -46,6 +46,7 @@
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="GlobalEnum.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="PasswordHasher.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="TenantHelper.cs" />
     <Compile Include="Utility.cs" />

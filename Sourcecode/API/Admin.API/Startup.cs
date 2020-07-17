@@ -18,6 +18,10 @@ using Strive.BusinessLogic.CashRegister;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Location;
 using Strive.BusinessLogic.Collision;
+using OwaspHeaders.Core.Extensions;
+using OwaspHeaders.Core.Models;
+using Microsoft.Extensions.Options;
+using Strive.Crypto;
 
 namespace Admin.API
 {
@@ -45,7 +49,7 @@ namespace Admin.API
             services.AddTransient<IVendorBpl, VendorBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
-            
+
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -69,7 +73,7 @@ namespace Admin.API
             #region Add Swagger
             services.AddSwaggerGen(swag =>
             {
-               // swag.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "StriveAdminApi", Version = "v1" });
+                // swag.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "StriveAdminApi", Version = "v1" });
                 swag.AddSecurityDefinition("Bearer", new Swashbuckle.AspNetCore.Swagger.ApiKeyScheme { In = "header", Name = "Authorization", Type = "apiKey" });
                 swag.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
             });
@@ -78,8 +82,7 @@ namespace Admin.API
 
             #region Add Authentication
 
-
-            var credentials = Strive.Common.Utility.GetDecryptionStuff(Configuration.GetSection("StriveAdminSettings:Jwt")["SecretKey"]);
+            var credentials = new Crypt().GetDecryptionStuff(Configuration.GetSection("StriveAdminSettings:Jwt")["SecretKey"]);
 
             services.AddAuthentication(x =>
             {
@@ -104,7 +107,7 @@ namespace Admin.API
                     {
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
-                            context.Response.Headers.Add("Token-Expired","true");
+                            context.Response.Headers.Add("Token-Expired", "true");
                         }
 
                         return Task.CompletedTask;
@@ -114,13 +117,29 @@ namespace Admin.API
             });
             #endregion
 
+            services.AddOptions();
+            services.Configure<SecureHeadersMiddlewareConfiguration>(Configuration.GetSection("SecureHeadersMiddlewareConfiguration"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwagger();
         }
 
+        public static SecureHeadersMiddlewareConfiguration CustomConfiguration()
+        {
+            return SecureHeadersMiddlewareBuilder
+                .CreateBuilder()
+                .UseHsts(1200, false)
+                .UseXSSProtection(OwaspHeaders.Core.Enums.XssMode.oneReport, "https://reporturi.com/some-report-url")
+                .UseContentDefaultSecurityPolicy()
+                .UsePermittedCrossDomainPolicies(OwaspHeaders.Core.Enums.XPermittedCrossDomainOptionValue.masterOnly)
+                .UseReferrerPolicy(OwaspHeaders.Core.Enums.ReferrerPolicyOptions.sameOrigin)
+                .Build();
+        }
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings)
         {
             app.UseSwagger();
             //app.UseSwaggerUI(options => { options.SwaggerEndpoint(Configuration["StriveAdminSettings:VirtualDirectory"] + "swagger.json", "Strive-Admin - v1"); });
@@ -129,6 +148,10 @@ namespace Admin.API
             app.UseAuthentication();
             app.UseStatusCodePages();
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            //app.UseSecureHeadersMiddleware(CustomSecureHeaderExtensions.CustomConfiguration());
+            //app.UseSecureHeadersMiddleware(secureHeaderSettings.Value); 
+            //app.UseSecureHeadersMiddleware(SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration());
+            app.UseSecureHeadersMiddleware(Middleware.SecureHeaders.CustomConfiguration());
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
         }

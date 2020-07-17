@@ -5,9 +5,10 @@ import { LocationSetupComponent } from '../location-setup/location-setup.compone
 import { ProductSetupComponent } from '../product-setup/product-setup.component';
 import { VendorSetupComponent } from '../vendor-setup/vendor-setup.component';
 import { ServiceSetupComponent } from '../service-setup/service-setup.component';
+import { AuthGuard } from 'src/app/shared/guards/auth-guard.service';
 
 const setupRoutes: Routes = [
-    { path: 'setup', component: SetupComponent }, {
+    { path: 'setup', canActivate: [AuthGuard], component: SetupComponent }, {
         path: '', component: SetupComponent, children: [
           { path: '', redirectTo: 'location' },
           {path: 'location', component: LocationSetupComponent},

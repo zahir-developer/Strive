@@ -10,6 +10,9 @@
     [TimeZoneMinus]  SMALLINT         NULL,
     [ExpiryDate]     DATETIME         NULL,
     [CreatedDate]    DATETIME         NULL,
+    [SchemaId]       NCHAR (10)       NULL,
     CONSTRAINT [PK_tblTenantMaster] PRIMARY KEY CLUSTERED ([TenantId] ASC)
 );
+
+
 

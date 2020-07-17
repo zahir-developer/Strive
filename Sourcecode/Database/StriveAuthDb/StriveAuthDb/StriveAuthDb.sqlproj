@@ -59,6 +59,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\tblTenantMaster.sql" />
@@ -75,5 +76,9 @@
     <Build Include="dbo\Tables\tblAuthMaster.sql" />
     <Build Include="dbo\Stored Procedures\uspLogin.sql" />
     <Build Include="dbo\Stored Procedures\uspGetSchemaAccess.sql" />
+    <Build Include="dbo\Stored Procedures\uspSaveLogin.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetSchemaByGuid.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetPasswordHash.sql" />
+    <Build Include="dbo\User Defined Types\tvpAuthMaster.sql" />
   </ItemGroup>
 </Project>

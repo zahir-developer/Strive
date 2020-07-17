@@ -82,6 +82,10 @@
       <Project>{1ee081ee-29b7-49a6-92e5-e65554155a5c}</Project>
       <Name>Strive.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Strive.Crypt\Strive.Crypto.csproj">
+      <Project>{98395fd8-0e0d-4b82-b92f-5f5b8a9d982f}</Project>
+      <Name>Strive.Crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Strive.ResourceAccess\Strive.ResourceAccess.csproj">
       <Project>{1924CAB4-4E81-4C41-9626-0236C51C2488}</Project>
       <Name>Strive.ResourceAccess</Name>

@@ -21,6 +21,7 @@ import { CardComponent } from './card/card.component';
 import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 import { RouterModule } from '@angular/router';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -34,7 +35,8 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     TableModule,
     DialogModule,
-    SharedModule
+    SharedModule,
+    MultiSelectModule
   ],
   exports: [RouterModule],
   providers: [
