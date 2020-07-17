@@ -33,7 +33,7 @@ namespace Strive.BusinessLogic.CashRegister
             }
             return _result;
         }
-        public Result SaveTodayCashRegister(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegister)
+        public Result SaveTodayCashRegister(Strive.BusinessEntities.CashRegister.CashRegisterView lstCashRegister)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Strive.BusinessLogic.CashRegister
             return _result;
         }
 
-        public Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegisterConsolidate)
+        public Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegisterView> lstCashRegisterConsolidate)
         {
             try
             {
