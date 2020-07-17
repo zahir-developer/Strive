@@ -34,11 +34,11 @@
   <div class="menu  d-none d-sm-none d-md-block d-lg-block d-xl-block">
     <ul>
       <li class="logo-container"> <a href="#" class="navbar-brand p-10"><img src="assets/img/w-strive-logo@2x.png" alt="" width="50"/></a> </li>
-      <li class="p-t-10"  (click)="openNav()"><a href="#"><i class="fa fa-2x fa-dashboard"></i>Dashboard</a></li>
-      <li class=""><a href="#" (click)="openNav()"><i class="fa fa-2x fa-warning"></i>Washes</a></li>
-      <li class=""><a href="#" (click)="openNav()"><i class="fa fa-2x fa-desktop"></i>Details</a></li>
-      <li class=""><a href="#" (click)="openNav()"><i class="fa fa-2x fa-safari"></i>Sales</a></li>
-      <li class=""><a href="#" (click)="openNav()"><i class="fa fa-2x fa-file-text-o"></i>Reports</a></li>
+      <li class="p-t-10"  (click)="openNav()"><a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
+      <li class=""><a href="#" (click)="openNav()"><i class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
+      <li class=""><a href="#" (click)="openNav()"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
+      <li class=""><a href="#" (click)="openNav()"><i class="fa-2x mdi mdi-cash-usd"></i>Sales</a></li>
+      <li class=""><a href="#" (click)="openNav()"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
       <li class="active"><a [routerLink]='["./admin"]' [routerLinkActive]='["link-active"]' (click)="openNav()"><i class="fa fa-2x fa-user-o"></i>Admin</a></li>
       <li class=""><a href="#" (click)="openNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
       <li class=""><a href="#" (click)="openNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
@@ -64,11 +64,11 @@
   <div id="mySidenav" class="mobile-view-nav">
   <a href="#" class="closebtn" (click)="closembsidebar()"><i class="fa fa-close"></i></a>
   <ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
-    <li><a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-      <li><a href="#"><i class="fa fa-warning"></i><span>Washes</span></a></li>
-      <li><a href="#"><i class="fa fa-desktop"></i><span>Details</span></a></li>
-      <li><a href="#"><i class="fa fa-safari"></i><span>Sales</span></a></li>
-      <li><a href="#"><i class="fa fa-file-text-o"></i><span>Reports</span></a></li>
+    <li><a href="#"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a></li>
+					<li><a href="#"><i class="mdi mdi-car-wash"></i><span>Washes</span></a></li>
+					<li><a href="#"><i class="mdi mdi-car-back"></i><span>Details</span></a></li>
+					<li><a href="#"><i class="mdi mdi-cash-usd"></i><span>Sales</span></a></li>
+					<li><a href="#"><i class="mdi mdi-file-document"></i><span>Reports</span></a></li>
       <li><a [routerLink]='["./admin"]' [routerLinkActive]='["link-active"]'><i class="fa fa-user-o"></i><span>Admin</span></a></li>
       <li><a href="#"><i class="fa fa-flag-checkered"></i><span>Checkout</span></a></li>
       <li><a href="#"><i class="fa fa-dollar"></i><span>Payroll</span></a></li>
