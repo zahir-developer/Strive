@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.Location;
 using Strive.Common;
 using Strive.ResourceAccess;
 
@@ -32,7 +33,7 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result SaveLocationDetails(List<BusinessEntities.LocationList> lstLocation)
+        public Result SaveLocationDetails(List<LocationView> lstLocation)
         {
             try
             {
@@ -76,7 +77,7 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result AddLocation(List<BusinessEntities.LocationList> lstLocation)
+        public Result AddLocation(List<LocationView> lstLocation)
         {
             try
             {
@@ -91,7 +92,7 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result UpdateLocation(List<BusinessEntities.LocationList> lstLocation)
+        public Result UpdateLocation(List<LocationView> lstLocation)
         {
             try
             {

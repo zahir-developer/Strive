@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Admin.API.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [Route("Admin/[Controller]")]
     public class CashRegisterController : ControllerBase
     {
@@ -30,14 +30,14 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveTodayCashRegister([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegister, CashRegisterType cashRegisterType)
+        public Result SaveTodayCashRegister([FromBody] Strive.BusinessEntities.CashRegister.CashRegisterView lstCashRegister, CashRegisterType cashRegisterType)
         {
             return _CashRegisterBpl.SaveTodayCashRegister(lstCashRegister);
         }
 
         [HttpPost]
         [Route("SaveNewApproach")]
-        public Result SaveCashRegisterNewApproach([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegisterList> lstCashRegisterConsolidate)
+        public Result SaveCashRegisterNewApproach([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegisterView> lstCashRegisterConsolidate)
         {
             return _CashRegisterBpl.SaveCashRegisterNewApproach(lstCashRegisterConsolidate);
         }

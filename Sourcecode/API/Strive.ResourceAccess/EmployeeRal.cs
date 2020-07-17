@@ -32,14 +32,13 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-        public List<Employee> GetEmployeeDetails()
+        public List<EmployeeView> GetEmployeeDetails()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Employee> lstEmployee = new List<Employee>();
-            lstEmployee = db.FetchRelation3<Employee, EmployeeDetail, EmployeeAddress,EmployeeRoles>(SPEnum.USPGETEMPLOYEE.ToString(),dynParams);
+            var lstEmployee = db.FetchRelation3<EmployeeView, EmployeeDetail, EmployeeAddress, EmployeeRole>(SPEnum.USPGETEMPLOYEE.ToString(), dynParams);
             return lstEmployee;
         }
-        
+
         public List<Code> GetAllEmployeeRoles()
         {
             DynamicParameters dynParams = new DynamicParameters();
@@ -47,51 +46,35 @@ namespace Strive.ResourceAccess
             lstEmployee = db.Fetch<Code>(SPEnum.USPGETEMPLOYEEROLES.ToString(), dynParams);
             return lstEmployee;
         }
-        public List<Employee> GetEmployeeByIdDetails(long id)
+        public List<EmployeeView> GetEmployeeByIdDetails(long id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@EmployeeId", id);
-            List<Employee> lstEmployeeInfo = new List<Employee>();
-            lstEmployeeInfo = db.FetchRelation3<Employee, EmployeeDetail, EmployeeAddress,EmployeeRoles>(SPEnum.USPGETEMPLOYEEBYEMPID.ToString(), dynParams);
+            var lstEmployeeInfo = db.FetchRelation3<EmployeeView, EmployeeDetail, EmployeeAddress, EmployeeRole>(SPEnum.USPGETEMPLOYEEBYEMPID.ToString(), dynParams);
             return lstEmployeeInfo;
         }
 
-        public bool SaveEmployeeDetails(List<Employee> lstEmployee)
+        public bool SaveEmployeeDetails(EmployeeView employee)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<EmployeeInformation> lstEmpInfo = new List<EmployeeInformation>();
-            var empInf = lstEmployee.FirstOrDefault();
-            lstEmpInfo.Add(new EmployeeInformation
-            {
-                EmployeeId = empInf.EmployeeId,
-                FirstName = empInf.FirstName,
-                MiddleName = empInf.MiddleName,
-                LastName = empInf.LastName,
-                Gender = empInf.Gender,
-                SSNo = empInf.SSNo,
-                MaritalStatus = empInf.MaritalStatus,
-                IsCitizen = empInf.IsCitizen,
-                AlienNo = empInf.AlienNo,
-                BirthDate = empInf.BirthDate,
-                ImmigrationStatus = empInf.ImmigrationStatus,
-                CreatedDate = empInf.CreatedDate,
-                IsActive = empInf.IsActive
-            });
-            dynParams.Add("@tvpEmployee", lstEmpInfo.ToDataTable().AsTableValuedParameter("tvpEmployee"));
-            dynParams.Add("@tvpEmployeeDetail", empInf.EmployeeDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeDetail"));
-            dynParams.Add("@tvpEmployeeAddress", empInf.EmployeeAddress.ToDataTable().AsTableValuedParameter("tvpEmployeeAddress"));
-            dynParams.Add("@tvpEmployeeRoles", empInf.EmployeeRoles.ToDataTable().AsTableValuedParameter("tvpEmployeeRoles"));
+            var lstEmp = new List<Employee>();
+            lstEmp.Add(employee);
+
+            dynParams.Add("@tvpEmployee", lstEmp.ToDataTable().AsTableValuedParameter("tvpEmployee"));
+            dynParams.Add("@tvpEmployeeDetail", employee.EmployeeDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeDetail"));
+            dynParams.Add("@tvpEmployeeAddress", employee.EmployeeAddress.ToDataTable().AsTableValuedParameter("tvpEmployeeAddress"));
+            dynParams.Add("@tvpEmployeeRole", employee.EmployeeRole.ToDataTable().AsTableValuedParameter("tvpEmployeeRole"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
-        
-        public Employee GetEmployeeByAuthId(int authId)
+
+        public EmployeeView GetEmployeeByAuthId(int authId)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("AuthId", authId);
-            List<Employee> lstEmployee = new List<Employee>();
-            lstEmployee = db.FetchRelation1<Employee, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
+            List<EmployeeView> lstEmployee = new List<EmployeeView>();
+            lstEmployee = db.FetchRelation1<EmployeeView, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
             return lstEmployee.FirstOrDefault();
         }
 

@@ -26,36 +26,35 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-     
-        public bool SaveTodayCashRegister(List<CashRegisterList> lstCashRegister)
+
+        public bool SaveTodayCashRegister(CashRegisterView cashRegister)
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<CashRegister> lstCashReg = new List<CashRegister>();
-            var cashReg = lstCashRegister.FirstOrDefault();
-            lstCashReg.Add(new CashRegister {
-                CashRegisterId = cashReg.CashRegisterId,
-                CashRegisterType = cashReg.CashRegisterType,
-                LocationId = cashReg.LocationId,
-                DrawerId = cashReg.DrawerId,
-                UserId = cashReg.UserId,
-                EnteredDateTime = cashReg.EnteredDateTime,
-                CashRegRollId = cashReg.CashRegRollId,
-                CashRegCoinId = cashReg.CashRegCoinId,
-                CashRegBillId = cashReg.CashRegBillId,
-                CashRegOtherId = cashReg.CashRegOthersId,
-                
-            });
-            dynParams.Add("@tvpCashRegister", lstCashReg.ToDataTable().AsTableValuedParameter("tvpCashRegister"));
-            dynParams.Add("@tvpCashRegisterBills", cashReg.CashRegisterBill.ToDataTable().AsTableValuedParameter("tvpCashRegisterBills"));
-            dynParams.Add("@tvpCashRegisterCoins", cashReg.CashRegisterCoin.ToDataTable().AsTableValuedParameter("tvpCashRegisterCoins"));
-            dynParams.Add("@tvpCashRegisterOthers", cashReg.CashRegisterOther.ToDataTable().AsTableValuedParameter("tvpCashRegisterOthers"));
-            dynParams.Add("@tvpCashRegisterRolls", cashReg.CashRegisterRoll.ToDataTable().AsTableValuedParameter("tvpCashRegisterRolls"));
+
+            var lstCashRegister = new List<CashRegister>();
+            var lstCashRegisterBill = new List<CashRegisterBill>();
+            var lstCashRegisterCoin = new List<CashRegisterCoin>();
+            var lstCashRegisterRoll = new List<CashRegisterRoll>();
+            var lstCashRegisterOther = new List<CashRegisterOther>();
+
+            lstCashRegister.Add(cashRegister);
+            lstCashRegisterBill.Add(cashRegister.CashRegisterBill);
+            lstCashRegisterCoin.Add(cashRegister.CashRegisterCoin);
+            lstCashRegisterRoll.Add(cashRegister.CashRegisterRoll);
+            lstCashRegisterOther.Add(cashRegister.CashRegisterOther);
+
+            dynParams.Add("@tvpCashRegister", lstCashRegister.ToDataTable().AsTableValuedParameter("tvpCashRegister"));
+            dynParams.Add("@tvpCashRegisterBills", lstCashRegisterBill.ToDataTable().AsTableValuedParameter("tvpCashRegisterBills"));
+            dynParams.Add("@tvpCashRegisterCoins", lstCashRegisterCoin.ToDataTable().AsTableValuedParameter("tvpCashRegisterCoins"));
+            dynParams.Add("@tvpCashRegisterOthers", lstCashRegisterOther.ToDataTable().AsTableValuedParameter("tvpCashRegisterOthers"));
+            dynParams.Add("@tvpCashRegisterRolls", lstCashRegisterRoll.ToDataTable().AsTableValuedParameter("tvpCashRegisterRolls"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVECASHREGISTER.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
 
-        public bool SaveCashRegisterNewApproach(List<CashRegisterList> lstCashRegisterConsolidate)
+        public bool SaveCashRegisterNewApproach(List<CashRegisterView> lstCashRegisterConsolidate)
         {
             var lstCmd = new List<(CommandDefinition, object)>();
             var CRModel = lstCashRegisterConsolidate.FirstOrDefault();
@@ -82,13 +81,13 @@ namespace Strive.ResourceAccess
 
 
 
-        public List<CashRegister> GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
+        public List<CashRegisterView> GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@LocationId", locationId);
             dynParams.Add("@CashRegisterType", cashRegisterType.ToString());
             dynParams.Add("@EnteredDate", dateTime.ToString("yyy-MM-dd"));
-            var result = db.FetchRelation4<CashRegister, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
+            var result = db.FetchRelation4<CashRegisterView, CashRegisterCoin, CashRegisterBill, CashRegisterRoll, CashRegisterOther>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), dynParams);
             return result;
         }
 
