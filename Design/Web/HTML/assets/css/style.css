@@ -299,3 +299,169 @@ table th
 	font-weight: 600;
 	font-size: 1rem
 }
+
+/***cash register ***/
+	.cashreg-tab div a.active,
+	.cashreg-tab.show>.nav-links,
+	.cashreg-tab .nav-links.active,
+	.cashreg-tab .show>.nav-links {
+		background-color: #1DC9B7;
+		color: white;
+		border-radius: 3px;
+		padding: .3rem 1rem;
+		font-size: 16px;
+		border: 1px solid #21f6e0;
+	}
+	
+	.cashreg-tab > li {
+		margin-right: 8px;
+		margin-bottom: 5px;
+	}
+	
+	.cashreg-tab > li > a:hover {
+		color: black;
+	}
+	
+	.nav-links {
+		padding: .3rem 1rem;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		color: black;
+		font-size: 16px;
+		background-color: white;
+	}
+	
+	.form-row > .form-group {
+		margin-bottom: 5px !important;
+	}
+	
+	.default-name {
+		border: 1px solid #EBEBEB;
+		padding: 5px 10px;
+		background-color: #EBEBEB;
+	}
+	
+	.default-amount {
+		border: 1px solid #9ABCB9;
+		padding: 5px 10px;
+		background-color: #9ABCB9;
+		color: white;
+		font-weight: bold;
+	}
+	
+	.cash-box {
+		display: inline-block;
+		width: auto;
+		height: 50px;
+		margin: 6px;
+		border: 2px solid #1DC9B7;
+		border-radius: 4px;
+	}
+	
+	.text-cash {
+		color: #1DC9B7;
+		font-weight: bold;
+		text-align: center;
+		font-size: 29px;
+		margin: 30px;
+	}
+	
+	.no-space {
+		padding-right: 5px;
+		margin-bottom: 5px;
+		padding-left: 0px;
+	}
+	
+	.weather {
+		margin-bottom: 5px;
+	}
+	
+	.weather > .card-body > h6 {
+		padding: 5px;
+		font-weight: 600;
+		border-bottom: 1px solid #EBEBEB;
+		padding-left: 10px;
+		font-size: 15px;
+	}
+	
+	.weather >.card-body > .align-items-center {
+		display: flex;
+		padding: 2px
+	}
+	
+	.text-center > span {
+		font-size: 11px;
+	}
+	
+	.text-font > span {
+		font-size: 11px;
+	}
+	
+	.p-13 {
+		padding: 13px;
+	}
+	
+	.theme-light-yellow-color {
+		color: #FFB822;
+	}
+	
+	.datepick {
+		background: transparent;
+		width: 150px;
+		font-size: 1.75rem;
+	}
+	.input-group-addon > i {
+		cursor:pointer;
+	}
+	
+	.no-gutter>.col,
+	.no-gutter>[class*=col-] {
+		padding-right: 5px;
+		padding-left: 0px;
+	}
+	
+	.no-gutter {
+		margin-right: 0px;
+		margin-left: 0;
+	}
+	
+	.tl-cash {
+		margin-bottom: 34px !important;
+	}
+	
+	.tl-bills {
+		margin-bottom: 75px !important;
+	}
+		.datepicker td, .datepicker th {
+    text-align: center;
+    width: 30px !important;
+    height: 30px !important;
+}
+.datepicker {
+    padding: 10px !important;
+    margin-top: 15px !important;
+}
+.list-group-horizontal > li {
+    position: relative;
+    display: block;
+        padding: 10px 5px;
+    background-color: #fff;
+	    font-size: 17px;
+    font-weight: 600;
+	text-align: center;
+}
+.list-group > a:hover {
+color: black;
+}
+.weather-goal {
+	width: 100%;
+    color: black;
+    text-align: inherit;
+}
+.list-group-horizontal > li > span {
+font-size:12px;
+}
+.align-mid {
+vertical-align:middle;
+}
+/*** ends ***/	
