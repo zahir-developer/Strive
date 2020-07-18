@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Strive.Common
 {
@@ -403,6 +404,13 @@ namespace Strive.Common
                 return String.Concat(Enumerable.Repeat(text, count));
             }
             return "";
+        }
+
+        public static ICustomQueryParameter TableName<T>(this T model, string tName) where T: class, new()
+        {
+            var lstModel = new List<T>();
+            lstModel.Add(model);
+            return lstModel.ToDataTable().AsTableValuedParameter(tName);
         }
 
     }

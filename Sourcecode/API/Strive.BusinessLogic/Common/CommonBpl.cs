@@ -10,12 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Strive.BusinessLogic.Location;
+using System.Linq;
+using Strive.BusinessEntities.Auth;
+using Strive.Crypto;
 
 namespace Strive.BusinessLogic.Common
 {
     public class CommonBpl : Strivebase, ICommonBpl
     {
         readonly ITenantHelper _tenant;
+        private static Random random;
         readonly JObject _resultContent = new JObject();
         Result _result;
 
@@ -81,7 +85,7 @@ namespace Strive.BusinessLogic.Common
             var weatherlocation = new WeatherLocation()
             {
                 name = "Strive-Location1",
-                point = new point() {lat = 34.07, lon = -84.29}
+                point = new point() { lat = 34.07, lon = -84.29 }
             };
             var wlocation = JsonConvert.SerializeObject(weatherlocation);
             var stringContent = new StringContent(wlocation, UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
@@ -115,17 +119,17 @@ namespace Strive.BusinessLogic.Common
             string location_id = "5efe1a24ed57b2001925dd6e";
             string start_time = "2020-07-02";
             string end_time = "2020-07-02";
-            string[] fields = new string[] {"precipitation","precipitation_probability","temp"};
+            string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
             var queries =
                 $"location_id={location_id}&start_time={start_time}&end_time={end_time}&fields=precipitation&fields=precipitation_probability&fields=temp";
-                
+
 
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));;
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); ;
 
                 // New code:
                 var response = await client.GetAsync(apiMethod + "?apikey=" + apiKey + "&" + queries);
@@ -165,6 +169,37 @@ namespace Strive.BusinessLogic.Common
 
             return null;
 
+        }
+
+        public bool VerifyEmail(string emailId)
+        {
+            return true;
+        }
+
+        public string RandomString(int length)
+        {
+            random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public int CreateLogin(UserLogin userLogin)
+        {
+            string randomPassword = RandomString(6);
+            bool isValidEmail = VerifyEmail(userLogin.EmailId);
+            userLogin.PasswordHash = Pass.Hash(randomPassword);
+            userLogin.EmailVerified = isValidEmail.toInt();
+            userLogin.LockoutEnabled = 0;
+            userLogin.UserGuid = Guid.NewGuid();
+            var authId = new CommonRal(_tenant, true).CreateLogin(userLogin);
+            SendLoginCreationEmail(userLogin.EmailId);
+            return authId;
+        }
+
+        private void SendLoginCreationEmail(string emailId)
+        {
+            //SendMail
         }
     }
 }

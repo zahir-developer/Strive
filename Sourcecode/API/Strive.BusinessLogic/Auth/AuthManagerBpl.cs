@@ -13,7 +13,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Employee;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.Crypto;
 using Strive.ResourceAccess;
@@ -23,10 +25,12 @@ namespace Strive.BusinessLogic.Auth
     public class AuthManagerBpl : Strivebase, IAuthManagerBpl
     {
         private readonly ITenantHelper _tenant;
+        private readonly IDistributedCache _cache;
 
         public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
             _tenant = tenantHelper;
+            _cache = cache;
         }
 
         public TenantSchema GetTenantSchema(Guid userGuid)
@@ -55,7 +59,7 @@ namespace Strive.BusinessLogic.Auth
                 tenantSchema = new AuthRal(_tenant).Login(authentication);
                 SetTenantSchematoCache(tenantSchema);
                 _tenant.SetConnection(GetTenantConnectionString(tenantSchema, tenantConString));
-                Employee employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tenantSchema.AuthId);
+                EmployeeView employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tenantSchema.AuthId);
                 (string token, string refreshToken) = GetTokens(tenantSchema, employee, secretKey);
                 SaveRefreshToken(tenantSchema.UserGuid, refreshToken);
                 resultContent.Add(token.WithName("Token"));
@@ -95,7 +99,7 @@ namespace Strive.BusinessLogic.Auth
             return result;
         }
 
-        private (string, string) GetTokens(TenantSchema tenant, Employee employee, string secretKey)
+        private (string, string) GetTokens(TenantSchema tenant, EmployeeView employee, string secretKey)
         {
             Token tkn = new Token();
             var claims = new[]
@@ -106,7 +110,7 @@ namespace Strive.BusinessLogic.Auth
                 new Claim("AuthId", $"{employee.EmployeeDetail.Select(n=> n.AuthId)}"),
                 new Claim("RoleId",
                     $"{string.Join(",", employee.EmployeeRole.Select(x => x.EmployeeRoleId.ToString()).ToList())}"),
-                new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRole.Select(x => x.RoleName).ToList())}"),
+                new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRole.Select(x => x.RoleId).ToList())}"),
 
             }.ToList();
 
@@ -143,6 +147,11 @@ namespace Strive.BusinessLogic.Auth
         Task<dynamic> IAuthManagerBpl.ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor)
         {
             throw new NotImplementedException();
+        }
+
+        public int CreateLogin(UserLogin userLogin)
+        {
+            return new CommonBpl(_cache, _tenant).CreateLogin(userLogin);
         }
     }
 }

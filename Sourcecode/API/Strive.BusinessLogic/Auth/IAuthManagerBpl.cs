@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.Auth;
 using Strive.Common;
 using System.Threading.Tasks;
 
@@ -12,5 +13,6 @@ namespace Strive.BusinessLogic.Auth
         Microsoft.Owin.Security.AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl);
         Task<Microsoft.AspNet.Identity.Owin.ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<dynamic> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor);
+        int CreateLogin(UserLogin userLogin);
     }
 }

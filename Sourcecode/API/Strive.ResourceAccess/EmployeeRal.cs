@@ -9,6 +9,7 @@ using System.Text;
 using System.Linq;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Code;
+using Strive.BusinessEntities.Auth;
 
 namespace Strive.ResourceAccess
 {
@@ -86,14 +87,5 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-
-        public void SaveEmployeeLogin(List<EmployeeLogin> lstEmployeeLogin)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@Logintbl", lstEmployeeLogin.ToDataTable().AsTableValuedParameter("tvpAuthMaster"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOGIN.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-        }
-
     }
 }

@@ -6,11 +6,24 @@ using Strive.BusinessEntities;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using Strive.ResourceAccess;
+using Strive.BusinessEntities.Auth;
+using Strive.BusinessLogic.Common;
+using Microsoft.Extensions.Caching.Distributed;
+using Strive.Crypto;
 
 namespace Strive.BusinessLogic
 {
-    public class UserBpl : IUserBpl
+    public class UserBpl : Strivebase, IUserBpl
     {
+        private readonly ITenantHelper _tenant;
+        private readonly IDistributedCache _cache;
+
+        public UserBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        {
+            _tenant = tenantHelper;
+            _cache = cache;
+        }
+
         public Result AddUser(User user)
         {
             Result result;
@@ -39,5 +52,6 @@ namespace Strive.BusinessLogic
             result = Helper.BindSuccessResult(resultContent);
             return result;
         }
+
     }
 }
