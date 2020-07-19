@@ -8,7 +8,7 @@ namespace Strive.BusinessLogic
 {
     public interface IUserBpl
     {
-        Result AddUser(User user);
-        Result GetUsers();
+        //Result AddUser(User user);
+        //Result GetUsers();
     }
 }

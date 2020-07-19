@@ -22,6 +22,15 @@ using OwaspHeaders.Core.Extensions;
 using OwaspHeaders.Core.Models;
 using Microsoft.Extensions.Options;
 using Strive.Crypto;
+using FluentValidation.AspNetCore;
+using MediatR;
+using Hellang.Middleware.ProblemDetails;
+using Strive.Library.Configuration.Validation;
+using Strive.Library.SeedWork;
+using Admin.API.Validation;
+using Strive.Library.Configuration;
+using Microsoft.AspNetCore.Http;
+using System.Reflection;
 
 namespace Admin.API
 {
@@ -65,9 +74,25 @@ namespace Admin.API
             {
                 option.EnableEndpointRouting = false;
                 option.Filters.Add(typeof(AdminPayloadFilter));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            //.AddFluentValidation(config =>
+            //    {
+            //        config.RegisterValidatorsFromAssemblyContaining<dynamic>();
+            //    })
+            ;
 
             #endregion
+
+            //var assembly = AppDomain.CurrentDomain.Load("Strive.BusinessLogic");
+            //services.AddMediatR(assembly);
+
+
+            //services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+
+            //services.AddMediatR(typeof(ConfigureServiceCollectionExtensions).Assembly);
+
+            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
 
             #region Add Swagger
@@ -122,6 +147,19 @@ namespace Admin.API
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwagger();
+
+            services.AddProblemDetails(x =>
+            {
+                x.Map<InvalidCommandException>(ex => new InvalidCommandProblemDetails(ex));
+                x.Map<BusinessRuleValidationException>(ex => new BusinessRuleValidationExceptionProblemDetails(ex));
+            });
+
+            services.AddHttpContextAccessor();
+
+            var serviceProvider = services.BuildServiceProvider();
+            IExecutionContextAccessor executionContextAccessor = new ExecutionContextAccessor(serviceProvider.GetService<IHttpContextAccessor>());
+
+
         }
 
         public static SecureHeadersMiddlewareConfiguration CustomConfiguration()
@@ -141,6 +179,17 @@ namespace Admin.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
     IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings)
         {
+            app.UseMiddleware<CorrelationMiddleware>();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseProblemDetails();
+            }
+
             app.UseSwagger();
             //app.UseSwaggerUI(options => { options.SwaggerEndpoint(Configuration["StriveAdminSettings:VirtualDirectory"] + "swagger.json", "Strive-Admin - v1"); });
             app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "StriveAdminApi"); });

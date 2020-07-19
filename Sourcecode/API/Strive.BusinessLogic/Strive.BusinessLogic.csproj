@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -62,8 +62,12 @@
     <Compile Include="ServiceSetup\IServiceSetupBpl.cs" />
     <Compile Include="ServiceSetup\ServiceSetupBpl.cs" />
     <Compile Include="Strivebase.cs" />
+    <Compile Include="User\CreateUser\CreateUserCommand.cs" />
+    <Compile Include="User\CreateUser\CreateUserCommandHandler.cs" />
+    <Compile Include="User\CreateUser\CreateUserRequest.cs" />
     <Compile Include="User\IUserBpl.cs" />
     <Compile Include="User\UserBpl.cs" />
+    <Compile Include="User\UserDTO.cs" />
     <Compile Include="Vendor\IVendorBpl.cs" />
     <Compile Include="Vendor\VendorBpl.cs" />
     <Compile Include="Wash\IWashManager.cs" />
@@ -86,12 +90,23 @@
       <Project>{98395fd8-0e0d-4b82-b92f-5f5b8a9d982f}</Project>
       <Name>Strive.Crypto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Strive.Domain\Strive.Domain.csproj">
+      <Project>{e2f7b766-62cd-4e17-8a09-720cca9a7183}</Project>
+      <Name>Strive.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Strive.Library\Strive.Library.csproj">
+      <Project>{0C470C24-5B02-45F0-A4D0-3C4CF5A70B68}</Project>
+      <Name>Strive.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Strive.ResourceAccess\Strive.ResourceAccess.csproj">
       <Project>{1924CAB4-4E81-4C41-9626-0236C51C2488}</Project>
       <Name>Strive.ResourceAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MediatR, Version=8.0.0.0, Culture=neutral, PublicKeyToken=bb9a41a5e8aaa7e2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.8.0.2\lib\net461\MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
