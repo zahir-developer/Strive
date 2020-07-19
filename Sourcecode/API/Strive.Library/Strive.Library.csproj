@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0C470C24-5B02-45F0-A4D0-3C4CF5A70B68}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Strive.Library</RootNamespace>
+    <AssemblyName>Strive.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Caching\CachingModule.cs" />
+    <Compile Include="Caching\ICacheKey.cs" />
+    <Compile Include="Caching\ICacheStore.cs" />
+    <Compile Include="Caching\ICacheStoreItem.cs" />
+    <Compile Include="Caching\MemoryCacheStore.cs" />
+    <Compile Include="CompositionRoot.cs" />
+    <Compile Include="Configuration\Commands\CommandBase.cs" />
+    <Compile Include="Configuration\Commands\ICommand.cs" />
+    <Compile Include="Configuration\Commands\ICommandHandler.cs" />
+    <Compile Include="Configuration\Commands\InternalCommandBase.cs" />
+    <Compile Include="Configuration\Data\ISqlConnectionFactory.cs" />
+    <Compile Include="Configuration\DomainEvents\DomainNotificationBase.cs" />
+    <Compile Include="Configuration\DomainEvents\IDomainEventNotification.cs" />
+    <Compile Include="Configuration\Emails\EmailMessage.cs" />
+    <Compile Include="Configuration\Emails\EmailsSettings.cs" />
+    <Compile Include="Configuration\Emails\IEmailSender.cs" />
+    <Compile Include="Configuration\IExecutionContextAccessor.cs" />
+    <Compile Include="Configuration\Processing\ICommandsScheduler.cs" />
+    <Compile Include="Configuration\Queries\IQuery.cs" />
+    <Compile Include="Configuration\Queries\IQueryHandler.cs" />
+    <Compile Include="Configuration\Validation\CommandValidationBehavior.cs" />
+    <Compile Include="Configuration\Validation\InvalidCommandException.cs" />
+    <Compile Include="Emails\EmailModule.cs" />
+    <Compile Include="Emails\EmailSender.cs" />
+    <Compile Include="Logging\LoggingCommandHandlerDecorator.cs" />
+    <Compile Include="Logging\LoggingCommandHandlerWithResultDecorator.cs" />
+    <Compile Include="Logging\LoggingModule.cs" />
+    <Compile Include="Processing\AllConstructorFinder.cs" />
+    <Compile Include="Processing\Assemblies.cs" />
+    <Compile Include="Processing\CommandsExecutor.cs" />
+    <Compile Include="Processing\CommandsScheduler.cs" />
+    <Compile Include="Processing\DomainEventsDispatcher.cs" />
+    <Compile Include="Processing\DomainEventsDispatcherNotificationHandlerDecorator.cs" />
+    <Compile Include="Processing\ICommandsDispatcher.cs" />
+    <Compile Include="Processing\IDomainEventsDispatcher.cs" />
+    <Compile Include="Processing\InternalCommands\CommandsDispatcher.cs" />
+    <Compile Include="Processing\InternalCommands\InternalCommand.cs" />
+    <Compile Include="Processing\InternalCommands\ProcessInternalCommandsCommand.cs" />
+    <Compile Include="Processing\InternalCommands\ProcessInternalCommandsCommandHandler.cs" />
+    <Compile Include="Processing\InternalCommands\ProcessInternalCommandsJob.cs" />
+    <Compile Include="Processing\MediatorModule.cs" />
+    <Compile Include="Processing\Outbox\IRecurringCommand.cs" />
+    <Compile Include="Processing\Outbox\OutboxMessage.cs" />
+    <Compile Include="Processing\Outbox\OutboxMessageDto.cs" />
+    <Compile Include="Processing\Outbox\ProcessOutboxCommand.cs" />
+    <Compile Include="Processing\Outbox\ProcessOutboxCommandHandler.cs" />
+    <Compile Include="Processing\Outbox\ProcessOutboxJob.cs" />
+    <Compile Include="Processing\ProcessingModule.cs" />
+    <Compile Include="Processing\QueriesExecutor.cs" />
+    <Compile Include="Processing\UnitOfWorkCommandHandlerDecorator.cs" />
+    <Compile Include="Processing\UnitOfWorkCommandHandlerWithResultDecorator.cs" />
+    <Compile Include="Quartz\JobFactory.cs" />
+    <Compile Include="Quartz\QuartzModule.cs" />
+    <Compile Include="SeedWork\BusinessRuleValidationException.cs" />
+    <Compile Include="SeedWork\DomainEventBase.cs" />
+    <Compile Include="SeedWork\Entity.cs" />
+    <Compile Include="SeedWork\IAggregateRoot.cs" />
+    <Compile Include="SeedWork\IBusinessRule.cs" />
+    <Compile Include="SeedWork\IDomainEvent.cs" />
+    <Compile Include="SeedWork\IgnoreMemberAttribute.cs" />
+    <Compile Include="SeedWork\IUnitOfWork.cs" />
+    <Compile Include="SeedWork\TypedIdValueBase.cs" />
+    <Compile Include="SeedWork\ValueObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=5.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.5.0.0\lib\net461\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extensions.DependencyInjection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Extensions.DependencyInjection.6.0.0\lib\netstandard2.0\Autofac.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extras.CommonServiceLocator, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Extras.CommonServiceLocator.6.0.0\lib\netstandard2.0\Autofac.Extras.CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net46\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.9.0.1\lib\net461\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="MediatR, Version=8.0.0.0, Culture=neutral, PublicKeyToken=bb9a41a5e8aaa7e2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.8.0.2\lib\net461\MediatR.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=3.0.7.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.7\lib\net452\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.9.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
