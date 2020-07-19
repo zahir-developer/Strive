@@ -48,6 +48,18 @@ namespace Admin.Api.Controllers
             var result = _authManager.CreateLogin(userLogin);
         }
 
+        [HttpPost, Route("/Admin/ForgotPassword"), AllowAnonymous]
+        public bool ForgotPassword([FromBody]string userId)
+        {
+            return _authManager.ForgotPassword(userId);
+        }
+
+        [HttpPost, Route("/Admin/ResetPassword"), AllowAnonymous]
+        public bool ResetPassword([FromBody]ResetPassword resetPassword)
+        {
+            return _authManager.ResetPassword(resetPassword);
+        }
+
         public void Logout(string token)
         {
             string secretKey = Pick("Jwt", "SecretKey");

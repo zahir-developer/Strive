@@ -13,6 +13,8 @@ using Strive.BusinessLogic.Location;
 using System.Linq;
 using Strive.BusinessEntities.Auth;
 using Strive.Crypto;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -184,6 +186,29 @@ namespace Strive.BusinessLogic.Common
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        internal bool ResetPassword(ResetPassword resetPassword)
+        {
+            ///...Hash the new password
+            ///...Send OTP, Hashed Password, UserId to database to reset the password
+
+            string newPass = Pass.Hash(resetPassword.NewPassword);
+            string otp = resetPassword.OTP;
+            string userId = resetPassword.UserId;
+            return new CommonRal(_tenant, true).ResetPassword(userId, otp, newPass);
+        }
+
+        internal bool ForgotPassword(string userId)
+        {
+            ///... Generate OTP
+            ///... Store in DB
+            ///... Send Mail
+
+            var otp = RandomString(4);
+            new CommonRal(_tenant, true).SaveOTP(userId, otp);
+            SendOtpEmail(userId, otp);
+            return true;
+        }
+
         public int CreateLogin(UserLogin userLogin)
         {
             string randomPassword = RandomString(6);
@@ -193,13 +218,43 @@ namespace Strive.BusinessLogic.Common
             userLogin.LockoutEnabled = 0;
             userLogin.UserGuid = Guid.NewGuid();
             var authId = new CommonRal(_tenant, true).CreateLogin(userLogin);
-            SendLoginCreationEmail(userLogin.EmailId);
+            SendLoginCreationEmail(userLogin.EmailId, randomPassword);
             return authId;
         }
 
-        private void SendLoginCreationEmail(string emailId)
+        private void SendLoginCreationEmail(string emailId, string defaultPassword)
         {
-            //SendMail
+            SendMail(emailId, "Signup successful. Password:" + defaultPassword, "Signup Successful");
         }
+
+        private void SendOtpEmail(string emailId, string otp)
+        {
+            SendMail(emailId, "OTP:" + otp, "OTP Mail");
+        }
+
+        private void SendMail(string email, string body, string subject)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Admin",_tenant.FromMailAddress));
+            message.To.Add(new MailboxAddress(email, email));
+            message.Subject = subject;
+
+            message.Body = new TextPart("plain")
+            {
+                Text = body
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
+
+                // Note: only needed if the SMTP server requires authentication
+                client.Authenticate("autonotify@telliant.com", _tenant.SMTPPassword);
+
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+
     }
 }

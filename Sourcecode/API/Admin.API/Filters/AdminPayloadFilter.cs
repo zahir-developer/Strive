@@ -71,6 +71,8 @@ namespace Admin.API.Filters
             var schemaName = string.Empty;
             if (!context.HttpContext.Request.Path.Value.Contains("Admin/Login") &&
                  !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh") &&
+                  !context.HttpContext.Request.Path.Value.Contains("Admin/ForgotPassword") &&
+                   !context.HttpContext.Request.Path.Value.Contains("Admin/ResetPassword") &&
                  !context.HttpContext.Request.Path.Value.Contains("Admin/Weather"))
             {
                 isAuth = false;
@@ -87,6 +89,7 @@ namespace Admin.API.Filters
 
             if (isAuth)
             {
+                _tenant.SetAuthDBConnection(strConnectionString);
                 _tenant.SetConnection(strConnectionString);
             }
             else
@@ -116,6 +119,11 @@ namespace Admin.API.Filters
                 
             }
             _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
+
+            _tenant.SMTPClient = Pick("SMTP", "SMTPClient").ToString();
+            _tenant.SMTPPassword = Pick("SMTP", "Password").ToString();
+            _tenant.Port = Pick("SMTP", "Port").ToString();
+            _tenant.FromMailAddress = Pick("SMTP", "FromAddress").ToString();
         }
     }
 }

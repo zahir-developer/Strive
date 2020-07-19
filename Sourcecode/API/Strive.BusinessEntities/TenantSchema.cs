@@ -14,5 +14,6 @@ namespace Strive.BusinessEntities
         public Guid TenantGuid { get; set; }
         public DateTime Firstlogin { get; set; }
         public DateTime Lastlogin { get; set; }
+        public int ActionTypeId { get; set; }
     }
 }

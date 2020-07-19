@@ -17,5 +17,6 @@ namespace Strive.BusinessEntities.Auth
         public string PasswordHash { get; set; }
         public int SecurityStamp { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string UserType { get; set; }
     }
 }

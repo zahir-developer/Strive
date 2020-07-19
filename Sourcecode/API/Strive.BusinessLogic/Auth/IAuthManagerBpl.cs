@@ -14,5 +14,7 @@ namespace Strive.BusinessLogic.Auth
         Task<Microsoft.AspNet.Identity.Owin.ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<dynamic> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor);
         int CreateLogin(UserLogin userLogin);
+        bool ForgotPassword(string userId);
+        bool ResetPassword(ResetPassword resetPassword);
     }
 }

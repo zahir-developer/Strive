@@ -11,6 +11,12 @@ namespace Strive.Common
     {
         int TokenExpiryMintues { get; set; }
         string TenantGuid { get; set; }
+
+        string SMTPClient { get; set; }
+        string SMTPPassword { get; set; }
+        string Port { get; set; }
+        string FromMailAddress { get; set; }
+
         IDbConnection db();
         IDbConnection dbAuth();
         void SetConnection(string con);
@@ -32,6 +38,11 @@ namespace Strive.Common
 
         public int TokenExpiryMintues { get; set; }
         public string TenantGuid { get; set; }
+
+        public string SMTPClient { get; set; }
+        public string SMTPPassword { get; set; }
+        public string Port { get; set; }
+        public string FromMailAddress { get; set; }
 
         public TenantHelper(IDistributedCache cache)
         {

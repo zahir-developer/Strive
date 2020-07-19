@@ -56,7 +56,9 @@ namespace Strive.BusinessEntities
         USPSAVEVENDOR,
         USPDELETEVENDOR,
         USPGETVENDORBYID,
-        USPGETPASSWORDHASH
+        USPGETPASSWORDHASH,
+        USPSAVEOTP,
+        USPRESETPASSWORD
     }
 
 }

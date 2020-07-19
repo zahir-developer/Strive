@@ -59,5 +59,33 @@ namespace Strive.ResourceAccess
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOGIN.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             return db.SaveGetId(cmd).toInt();
         }
+
+        public void SaveOTP(string userId, string otp)
+        {            
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@Email", userId);
+            dynParams.Add("@OTP", otp);
+            dynParams.Add("@DateEntered", DateTime.Now);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEOTP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+        }
+
+        public bool ResetPassword(string userId, string otp, string newPass)
+        {
+            try
+            {
+                DynamicParameters dynParams = new DynamicParameters();
+                dynParams.Add("@Email", userId);
+                dynParams.Add("@OTP", otp);
+                dynParams.Add("@NewPassword", newPass);
+                CommandDefinition cmd = new CommandDefinition(SPEnum.USPRESETPASSWORD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+                db.Save(cmd);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
