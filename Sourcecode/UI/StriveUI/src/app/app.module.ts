@@ -57,43 +57,13 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
 const load = (http: HttpClient) => {
   return () => {
-    let url = 'api/Environment';
     if (!environment.production) {
-      // use for local environment
-      // url = 'http://localhost:39141/' + url;
-      // for temporary use
       return http.get('assets/config/config.json').toPromise()
           .then((data: any) => {
             // console.log(data);
             return EnvironmentService.environment = data;
           });
-    } else {
-      url = window.origin + window.location.pathname + '/api/Environment';
-    }
-    return http.get(url, { responseType: 'text' }).toPromise()
-      .then((Aspenvironment: string) => {
-        if (Aspenvironment !== undefined && Aspenvironment !== null) {
-          EnvironmentService.hostenvironment = Aspenvironment;
-          let appUrl = '/assets/config/';
-          if (!environment.production) {
-            // use for local environment
-            appUrl = appUrl + 'config' + '.json';
-          } else {
-            appUrl = appUrl + Aspenvironment.toLocaleLowerCase() + '.json';
-          }
-          return http.get(window.origin + window.location.pathname + appUrl).toPromise()
-            .then((data: any) => {
-              return EnvironmentService.environment = data;
-            },
-              (error: any) => {
-              });
         }
-      }, (error: any) => {
-        return http.get('assets/config/config.json').toPromise()
-          .then((data: any) => {
-            return EnvironmentService.environment = data;
-          });
-      });
   };
 };
 @NgModule({

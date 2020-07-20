@@ -4,7 +4,7 @@ body .ui-dialog .ui-dialog-titlebar {
     line-height: 1.5;
 }
 body .ui-dialog .ui-dialog-content {
-  font-size: 0.94rem;
+  font-size: 1rem;
 }
 body .ui-paginator {
   background-color: #fff;

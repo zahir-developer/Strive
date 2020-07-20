@@ -14,6 +14,11 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { StateDropdownComponent } from './components/state-dropdown/state-dropdown.component';
 import { CountryDropdownComponent } from './components/country-dropdown/country-dropdown.component';
 import { RouterModule } from '@angular/router';
+import { TemperatureComponent } from './components/temperature/temperature.component';
+import { RainProbabilityComponent } from './components/rain-probability/rain-probability.component';
+import { LastWeekComponent } from './components/last-week/last-week.component';
+import { LastMonthComponent } from './components/last-month/last-month.component';
+import { LastThreeMonthComponent } from './components/last-three-month/last-three-month.component';
 
 
 
@@ -34,9 +39,11 @@ import { RouterModule } from '@angular/router';
   entryComponents: [
     ConfirmationDialogComponent
   ],
-  declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent],
+  declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent,
+    TemperatureComponent,RainProbabilityComponent,LastWeekComponent,LastMonthComponent,LastThreeMonthComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, 
-    AccordionModule, ConfirmationDialogComponent, 
+    AccordionModule, ConfirmationDialogComponent,TemperatureComponent, RainProbabilityComponent,
+    LastWeekComponent,LastMonthComponent,LastThreeMonthComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
