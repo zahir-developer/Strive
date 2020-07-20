@@ -12,10 +12,9 @@
             <!--bread crumb-->
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
                 <h3 class="d-inline-block">Cash Register -</h3>
-                <input data-provide="datepicker">
-                <!-- <div id="datepicker" class="date d-inline-block " data-date-format="dd-mm-yyyy">
-                    <input type="text" class="datepick" /> <span class="input-group-addon"><i
-                            class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div> -->
+                <div id="datepicker" class="date d-inline-block " data-date-format="dd-mm-yyyy">
+                    <input type="text" class="datepick" [(ngModel)]="selectDate"/> <span class="input-group-addon"><i
+                            class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div>
             </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  cashreg-tab  mb-2">
