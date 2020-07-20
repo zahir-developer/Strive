@@ -42,7 +42,7 @@ namespace Admin.Api.Controllers
             return result;
         }
 
-        [HttpPost, Route("/Admin/CreateLogin")]
+        [HttpPost, Route("/Admin/CreateLogin"), AllowAnonymous]
         public void CreateLogin([FromBody]UserLogin userLogin)
         {
             var result = _authManager.CreateLogin(userLogin);

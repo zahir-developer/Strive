@@ -73,6 +73,7 @@ namespace Admin.API.Filters
                  !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh") &&
                   !context.HttpContext.Request.Path.Value.Contains("Admin/ForgotPassword") &&
                    !context.HttpContext.Request.Path.Value.Contains("Admin/ResetPassword") &&
+                   !context.HttpContext.Request.Path.Value.Contains("Admin/CreateLogin") &&
                  !context.HttpContext.Request.Path.Value.Contains("Admin/Weather"))
             {
                 isAuth = false;
