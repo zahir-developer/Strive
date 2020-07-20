@@ -30,6 +30,14 @@ namespace Strive.Common
             };
         }
 
+        public static Result ErrorMessageResult(string errorText)
+        {
+            return new Result()
+            {
+                ResultData = errorText
+            };
+        }
+
         public static Result BindFailedResultWithContent(JObject resultContent, Exception ex, HttpStatusCode scode)
         {
             return new Result()
