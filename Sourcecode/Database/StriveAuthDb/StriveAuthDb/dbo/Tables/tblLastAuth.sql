@@ -1,9 +1,11 @@
 ﻿CREATE TABLE [dbo].[tblLastAuth] (
-    [AuthId]       INT    NOT NULL,
-    [ActionTypeId] INT    NOT NULL,
-    [LastDate]     BIGINT NOT NULL,
+    [AuthId]       INT      NOT NULL,
+    [ActionTypeId] INT      NOT NULL,
+    [LastDate]     DATETIME NULL,
     CONSTRAINT [PK_LastAuth_AuthId] PRIMARY KEY CLUSTERED ([AuthId] ASC)
 );
+
+
 
 
 GO

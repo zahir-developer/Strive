@@ -4,10 +4,12 @@
     [ActionTypeId] INT          NOT NULL,
     [ResetHash]    VARCHAR (64) NOT NULL,
     [IsDeleted]    SMALLINT     NOT NULL,
-    [ResetDate]    BIGINT       NOT NULL,
+    [ResetDate]    DATETIME     NULL,
     CONSTRAINT [PK_ResetAuth_ResetAuthId] PRIMARY KEY CLUSTERED ([ResetAuthId] ASC),
     CONSTRAINT [FK_ResetAuth_AuthId] FOREIGN KEY ([AuthId]) REFERENCES [dbo].[tblAuthMaster] ([AuthId])
 );
+
+
 
 
 GO

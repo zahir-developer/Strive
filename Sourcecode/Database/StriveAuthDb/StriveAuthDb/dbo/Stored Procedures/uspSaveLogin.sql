@@ -1,4 +1,4 @@
-﻿CREATE PROC	uspSaveLogin
+﻿CREATE PROC	[dbo].[uspSaveLogin]
 (
 @Logintbl as tvpAuthMaster readonly,
 @TenantGuid as uniqueidentifier
@@ -9,7 +9,7 @@ DECLARE @NewUserGuid as UNIQUEIDENTIFIER;
 DECLARE @AuthId as int;
 SET @NewUserGuid = NEWID();
 
-Set @AuthId =0;
+Set @AuthId =null;
 
 MERGE tblAuthMaster TRG
 USING
@@ -39,7 +39,8 @@ THEN
 	,SecurityStamp
 	,CreatedDate) VALUES
 	(
-	@NewUserGuid,
+	--@NewUserGuid,
+	SRC.UserGuid,
 	SRC.EmailId,
 	SRC.MobileNumber,
 	SRC.EmailVerified,
@@ -60,5 +61,11 @@ SET @AuthId = ISNULL(@AuthId, SCOPE_IDENTITY());
 		sm.schemaid,0 from tblschemamaster sm
 		inner join tbltenantmaster tm on tm.tenantid=sm.tenantid where tm.TenantGuid = @TenantGuid
 
+
+		INSERT INTO tblLastAuth
+		SELECT @AuthId,1, GETDATE()
+
    END
+
+   select @AuthId
 END
