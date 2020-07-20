@@ -21,19 +21,11 @@
                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="REg-0a-w1f">
                     <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                 </mapView>
-                <view userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9L-u2-Rrh">
-                    <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
-                    <color key="backgroundColor" red="0.099043098552755088" green="0.35832407994923854" blue="0.30662035698672335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="n9L-u2-Rrh" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="4qi-UE-7jQ"/>
-                <constraint firstItem="n9L-u2-Rrh" firstAttribute="top" secondItem="2" secondAttribute="top" id="G0N-cY-SN8"/>
                 <constraint firstAttribute="bottom" secondItem="REg-0a-w1f" secondAttribute="bottom" id="LND-EY-eff"/>
                 <constraint firstAttribute="trailing" secondItem="REg-0a-w1f" secondAttribute="trailing" id="MRf-r0-GJo"/>
-                <constraint firstAttribute="bottom" secondItem="n9L-u2-Rrh" secondAttribute="bottom" id="Ta9-GW-Lkm"/>
-                <constraint firstAttribute="trailing" secondItem="n9L-u2-Rrh" secondAttribute="trailing" id="gre-1K-QHL"/>
                 <constraint firstItem="REg-0a-w1f" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="mm2-gj-jM8"/>
                 <constraint firstItem="REg-0a-w1f" firstAttribute="top" secondItem="2" secondAttribute="top" id="xFp-39-w2G"/>
             </constraints>
