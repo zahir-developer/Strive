@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
@@ -9,8 +9,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WashTimesPage">
             <connections>
-                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
                 <outlet property="MapView" destination="REg-0a-w1f" id="name-outlet-REg-0a-w1f"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -21,11 +21,19 @@
                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="REg-0a-w1f">
                     <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                 </mapView>
+                <view userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9L-u2-Rrh">
+                    <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                    <color key="backgroundColor" red="0.099043098552755088" green="0.35832407994923854" blue="0.30662035698672335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="n9L-u2-Rrh" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="4qi-UE-7jQ"/>
+                <constraint firstItem="n9L-u2-Rrh" firstAttribute="top" secondItem="2" secondAttribute="top" id="G0N-cY-SN8"/>
                 <constraint firstAttribute="bottom" secondItem="REg-0a-w1f" secondAttribute="bottom" id="LND-EY-eff"/>
                 <constraint firstAttribute="trailing" secondItem="REg-0a-w1f" secondAttribute="trailing" id="MRf-r0-GJo"/>
+                <constraint firstAttribute="bottom" secondItem="n9L-u2-Rrh" secondAttribute="bottom" id="Ta9-GW-Lkm"/>
+                <constraint firstAttribute="trailing" secondItem="n9L-u2-Rrh" secondAttribute="trailing" id="gre-1K-QHL"/>
                 <constraint firstItem="REg-0a-w1f" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="mm2-gj-jM8"/>
                 <constraint firstItem="REg-0a-w1f" firstAttribute="top" secondItem="2" secondAttribute="top" id="xFp-39-w2G"/>
             </constraints>
