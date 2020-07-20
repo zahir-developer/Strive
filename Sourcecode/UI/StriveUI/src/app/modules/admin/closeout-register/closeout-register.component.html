@@ -137,21 +137,21 @@
                                                     <div class="form-group col-md-6">
                                                         <label for="inputpennies">Pennies</label>
                                                         <input type="text" numbersOnly formControlName="pennieRolls"
-                                                            class="form-control" placeholder="0"> </div>
+                                                            class="form-control" placeholder="0" (change)="getTotalRoll('P',$event.target.value)"> </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="inputnickels">Nickels </label>
                                                         <input type="text" numbersOnly formControlName="nickelRolls"
-                                                            class="form-control" placeholder="0"> </div>
+                                                            class="form-control" placeholder="0" (change)="getTotalRoll('N',$event.target.value)"> </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputdimes">Dimes</label>
                                                         <input type="text" numbersOnly formControlName="dimeRolls"
-                                                            class="form-control" placeholder="0"> </div>
+                                                            class="form-control" placeholder="0" (change)="getTotalRoll('D',$event.target.value)"> </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="inputquarters">Quarters</label>
                                                         <input type="text" numbersOnly formControlName="quaterRolls"
-                                                            class="form-control" placeholder="0"> </div>
+                                                            class="form-control" placeholder="0" (change)="getTotalRoll('Q',$event.target.value)"> </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -178,7 +178,7 @@
                                                     </div>
                                                     <div class="btn-group">
                                                         <label class="default-name sm-roll"> Rolls</label>
-                                                        <label class="default-amount"> $0.00</label>
+                                                        <label class="default-amount"> ${{totalRoll | number:'1.2-2'}}</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-xl-6 text-center m-t-20">

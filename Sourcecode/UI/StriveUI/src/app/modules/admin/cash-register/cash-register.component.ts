@@ -27,6 +27,11 @@ export class CashinRegisterComponent implements OnInit {
   totalFifties: number = 0;
   totalHunderds: number = 0;
   totalBill : number = 0;
+  totalPennieRoll:number = 0;
+  totalNickelRoll:number = 0;
+  totalDimeRoll:number = 0;
+  totalQuaterRoll:number = 0;
+  totalRoll:number = 0;
   selectDate: any;
   totalCash: number = 0;
 
@@ -211,8 +216,28 @@ export class CashinRegisterComponent implements OnInit {
     this.totalBill = this.totalOnes + this.totalFives + this.totalTens + this.totalTwenties + this.totalFifties + this.totalHunderds;
     this.getTotalCash();
   } 
+  getTotalRoll(name:string , amt:number){    
+    if(name === 'P'){
+      this.totalPennieRoll = 0;
+      this.totalPennieRoll += 50*amt;
+      this.totalPennieRoll /= 100;
+    }else if(name === 'N'){
+      this.totalNickelRoll = 0;
+      this.totalNickelRoll += (5*amt)*40;
+      this.totalNickelRoll /= 100;
+    }else if(name === 'D'){
+      this.totalDimeRoll = 0;
+      this.totalDimeRoll += (10*amt)*50;
+      this.totalDimeRoll /= 100;
+    }else if(name === 'Q'){
+      this.totalQuaterRoll = 0;
+      this.totalQuaterRoll += (25*amt)*40;
+      this.totalQuaterRoll /= 100;
+    }this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
+    this.getTotalCash();
+  }
   getTotalCash(){
-    this.totalCash = this.totalCoin + this.totalBill;
+    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }
 
 }
