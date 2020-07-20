@@ -65,4 +65,8 @@ export class LoginComponent implements OnInit {
   loadTheLandingPage(): void {
     this.router.navigate([`/admin/setup`], { relativeTo: this.route });
   }
+
+  forgotPassword() {
+    this.router.navigate([`/forgot-password`], { relativeTo: this.route });
+  }
 }
