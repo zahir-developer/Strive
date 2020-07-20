@@ -178,11 +178,13 @@
         </div>
         <div class="row col-sm-12">
             <button type="button" class="btn theme-optional-button-color btn-sm float-left"
-                (click)="addCollision()">Collision</button>
+                (click)="saveCollision()">Collision</button>
             <button type="button" class="btn theme-optional-button-color btn-sm float-right"
                 (click)="cancel()">Cancel</button>
+            <!-- <button type="button" class="btn theme-primary-button-color btn-sm float-right"
+                (click)="submit(sampleForm)">Save</button> -->
             <button type="button" class="btn theme-primary-button-color btn-sm float-right"
-                (click)="submit(sampleForm)">Save</button>
+                (click)="saveEmployee(sampleForm)">Save</button>
         </div>
     </form>
 </div>

@@ -32,6 +32,10 @@ export const UrlConfig = {
     getEmployeeDetail: `Admin/Employee/GetEmployeeById/`,
     deleteEmployee: `Admin/Employee/`,
     getAllRoles: `Admin/Employee/GetAllRoles`,
-    getDropdownValue: `Admin/Common/GetCodesByCategory/`
+    getDropdownValue: `Admin/Common/GetCodesByCategory/`,
+    getAllCollision: `Admin/Collision/GetAll`,
+    getCollisionById: `Admin/Collision/GetCollisionById/`,
+    deleteCollision: `Admin/Collision/Delete/`,
+    saveCollision: `Admin/Collision/Save`
   }
 };
