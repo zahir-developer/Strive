@@ -1,6 +1,6 @@
 ﻿// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
+// This file has been generated automatically by Visual Studio from the outlets and
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
@@ -11,11 +11,19 @@ using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {
-    [Register("WashTimesPage")]
+    [Register ("WashTimesPage")]
     partial class WashTimesPage
     {
-        void ReleaseDesignerOutlets()
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        MapKit.MKMapView MapView { get; set; }
+
+        void ReleaseDesignerOutlets ()
         {
+            if (MapView != null) {
+                MapView.Dispose ();
+                MapView = null;
+            }
         }
     }
 }
