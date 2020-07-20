@@ -3,8 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
-import { log } from 'console';
-declare var $: any;
 
 @Component({
   selector: 'app-cash-register',
@@ -16,29 +14,31 @@ export class CashinRegisterComponent implements OnInit {
   cashRegisterForm: FormGroup;
   cashDetails: any;
   isUpdate: boolean;
-  totalPennie:number;
-  totalNickel:number;
-  totalDime:number;
-  totalQuater:number;
-  totalHalf:number;
-  totalCoin:Number = 0;
+  totalPennie:number = 0;
+  totalNickel:number = 0;
+  totalDime:number = 0;
+  totalQuater:number = 0;
+  totalHalf:number = 0;
+  totalCoin:number = 0;
+  totalOnes: number = 0;
+  totalFives: number = 0;
+  totalTens: number = 0;
+  totalTwenties: number = 0;
+  totalFifties: number = 0;
+  totalHunderds: number = 0;
+  totalBill : number = 0;
+  selectDate: any;
+  totalCash: number = 0;
 
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    $(document).ready(function () {
-      var date = new Date();
-      var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      $('#datepicker').datepicker({
-        format: "dd-mm-yyyy",
-        todayHighlight: true,
-        startDate: today,
-        autoclose: true
-      });
-      $('#datepicker').datepicker('setDate', today);
-    });
+    this.selectDate = moment(new Date()).format('YYYY-MM-DD');
+    this.formInitialize();
+    this.getCashRegister();
+  }
 
+  formInitialize() {
     this.cashRegisterForm = this.fb.group({
       coinPennies: ['',],
       coinNickels: ['',],
@@ -58,28 +58,6 @@ export class CashinRegisterComponent implements OnInit {
       highTemperature: ['',],
       rainPercentage: ['',],
       goal: ['',]
-    });
-    //this.default();
-    //this.getCashRegister();
-  }
-
-  default() {
-    this.cashRegisterForm.patchValue({
-      coinPennies: 0,
-      coinNickels: 0,
-      coinDimes: 0,
-      coinQuaters: 0,
-      coinHalfDollars: 0,
-      billOnes: 0,
-      billFives: 0,
-      billTens: 0,
-      billTwenties: 0,
-      billFifties: 0,
-      billHundreds: 0,
-      pennieRolls: 0,
-      nickelRolls: 0,
-      dimeRolls: 0,
-      quaterRolls: 0,
     });
   }
 
@@ -111,9 +89,6 @@ export class CashinRegisterComponent implements OnInit {
             dimeRolls: this.cashDetails[0].CashRegisterRoll.Dimes,
             quaterRolls: this.cashDetails[0].CashRegisterRoll.Quaters
           });
-        }
-        else {
-          this.default();
         }
       }
     });
@@ -187,39 +162,57 @@ export class CashinRegisterComponent implements OnInit {
   cancel() {
     //this.getCashRegister();
   }
-
-  getTotalPennie(amt:number){
-    this.totalPennie = 0;
-    this.totalPennie += amt;
-    this.totalPennie /= 100;
-    this.getTotalCoin();
-  }
-  getTotalNickel(amt:number){
-    this.totalNickel = 0;
-    this.totalNickel += 5*amt;
-    this.totalNickel /= 100;
-    this.getTotalCoin();
-  }
-  getTotalDime(amt:number){
-    this.totalDime = 0;
-    this.totalDime += 10*amt;
-    this.totalDime /= 100;
-    this.getTotalCoin();
-  }
-  getTotalQuater(amt:number){
-    this.totalQuater = 0;
-    this.totalQuater += 25*amt;
-    this.totalQuater /= 100;
-    this.getTotalCoin();
-  }
-  getTotalHalf(amt:number){
-    this.totalHalf = 0;
-    this.totalHalf += 50*amt;
-    this.totalHalf /= 100;
-    this.getTotalCoin();
-  }
-  getTotalCoin(){
-    this.totalCoin = this.totalPennie + this.totalNickel + this.totalQuater + this.totalDime + this.totalHalf;
+  getTotalCoin(name:string , amt:number){    
+    if(name === 'P'){
+      this.totalPennie = 0;
+      this.totalPennie += amt;
+      this.totalPennie /= 100;
+    }else if(name === 'N'){
+      this.totalNickel = 0;
+      this.totalNickel += 5*amt;
+      this.totalNickel /= 100;
+    }else if(name === 'D'){
+      this.totalDime = 0;
+      this.totalDime += 10*amt;
+      this.totalDime /= 100;
+    }else if(name === 'Q'){
+      this.totalQuater = 0;
+      this.totalQuater += 25*amt;
+      this.totalQuater /= 100;
+    }else if(name === 'H'){
+      this.totalHalf = 0;
+      this.totalHalf += 50*amt;
+      this.totalHalf /= 100;
+    }
+    this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
+    this.getTotalCash();
+  }  
+  getTotalBill(name:number , amt:number){    
+    amt = Number(amt);
+    if(name === 1){
+      this.totalOnes = 0;
+      this.totalOnes += amt;
+    }else if(name === 5){
+      this.totalFives = 0;
+      this.totalFives += 5*amt;
+    }else if(name === 10){
+      this.totalTens = 0;
+      this.totalTens += 10*amt;
+    }else if(name === 20){
+      this.totalTwenties = 0;
+      this.totalTwenties += 20*amt;
+    }else if(name === 50){
+      this.totalFifties = 0;
+      this.totalFifties += 50*amt;
+    }else if(name === 100){
+      this.totalHunderds = 0;
+      this.totalHunderds += 100*amt;
+    }
+    this.totalBill = this.totalOnes + this.totalFives + this.totalTens + this.totalTwenties + this.totalFifties + this.totalHunderds;
+    this.getTotalCash();
+  } 
+  getTotalCash(){
+    this.totalCash = this.totalCoin + this.totalBill;
   }
 
 }
