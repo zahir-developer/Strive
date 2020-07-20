@@ -5,7 +5,7 @@
                 <label for="inputProductType">Product Type</label>
                 <select class="form-control" formControlName="productType"
                     [ngClass]="{ 'is-invalid': submitted && f.productType.errors }">
-                    <option value="">Choose </option>
+                    <option value="" selected hidden>Choose </option>
                     <option *ngFor="let productType of prodType" value="{{productType.CodeId}}">{{productType.CodeValue}}</option>
                 </select>
                 <div *ngIf="submitted && f.productType.errors" class="invalid-feedback">
@@ -16,7 +16,7 @@
                 <label for="inputLocation">Location</label>
                 <select class="form-control" formControlName="locationName" 
                     [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
-                    <option value="">Choose </option>
+                    <option value="" selected hidden>Choose </option>
                     <option *ngFor="let location of locationName" value="{{location.LocationId}}">{{location.LocationName}}</option>
                 </select>                    
                 <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
@@ -34,7 +34,7 @@
             <div class="form-group col-lg-3">
                 <label for="inputSize">Size</label>
                 <select class="form-control" formControlName="size" (change)="showText($event.target.value)">
-                    <option value="">Choose </option>
+                    <option value="" selected hidden>Choose </option>
                     <option *ngFor="let size of size" value="{{size.CodeId}}">{{size.CodeValue}}</option>
                 </select>
             </div>
@@ -63,7 +63,7 @@
             <div class="form-group col-lg-3">
                 <label for="inputStatus">Status</label>
                 <select class="form-control" formControlName="status">
-                    <option value="">Choose </option>
+                    <option value="" selected hidden>Choose </option>
                     <option *ngFor="let status of Status">{{status}}</option>
                 </select>
             </div>
@@ -72,7 +72,7 @@
             <div class="form-group col-lg-3">
                 <label for="inputVendor">Vendor</label>
                 <select class="form-control" formControlName="vendor">
-                    <option value="">Choose</option>
+                    <option value="" selected hidden>Choose</option>
                     <option *ngFor="let vendor of Vendor" value="{{vendor.VendorId}}">{{vendor.VendorName}}</option>
                 </select>
             </div>
