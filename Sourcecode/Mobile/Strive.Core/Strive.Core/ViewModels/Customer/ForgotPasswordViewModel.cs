@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Resources;
+using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,13 +13,21 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void GetOTPCommand()
         {
-            await _navigationService.Navigate<OTPViewModel>();
+            if(Validations.validatePhone(resetMobile))
+            {
+                await _navigationService.Navigate<OTPViewModel>();
+            }
+            else
+            {
+                _userDialog.Alert(Strings.ValidMobile);
+            }        
         }
 
         #endregion Commands
 
         #region Properties
 
+        public string resetMobile { get; set; }
         public string GetOTP
         {
             get
@@ -30,7 +39,7 @@ namespace Strive.Core.ViewModels.Customer
         {
             get
             {
-                return Strings.ReceiveOTP;
+               return Strings.ReceiveOTP;
             }
         }
         public string ForgotPassword

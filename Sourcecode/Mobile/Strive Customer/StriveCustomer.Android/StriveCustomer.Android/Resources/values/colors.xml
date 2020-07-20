@@ -3,4 +3,9 @@
     <color name="colorPrimary">#2c3e50</color>
     <color name="colorPrimaryDark">#1B3147</color>
     <color name="colorAccent">#3498db</color>
+    <color name="defaultHintColor">#819896</color>
+    <color name="defaultLabelColor">#FFFFFF</color>
+    <color name="defaultButtonColor">#1DC9B7</color>
+    <color name="defaultLinkColor">#99FEF3</color>
+    <color name="secondaryLabelColor">#ABD5D1</color>
 </resources>
