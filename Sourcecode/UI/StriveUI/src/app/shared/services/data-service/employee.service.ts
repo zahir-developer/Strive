@@ -34,4 +34,16 @@ export class EmployeeService {
   getCountryList() {
     return this.http.get(`${UrlConfig.totalUrl.countryList}`);
   }
+  getAllCollision() {
+    return this.http.get(`${UrlConfig.totalUrl.getAllCollision}`);
+  }
+  getCollisionById(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getCollisionById}` + id);
+  }
+  deleteCollision(id) {
+    return this.http.get(`${UrlConfig.totalUrl.deleteCollision}` + id);
+  }
+  saveCollision(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
+  }
 }

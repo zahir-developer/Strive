@@ -51,8 +51,8 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-employeeDetails>
                             <tr>
-                                <td>{{employeeDetails.AuthId}}</td>
-                                <td>{{employeeDetails.EmployeeCode}}</td>
+                                <td>{{employeeDetails.SSNo}}</td>
+                                <td>{{employeeDetails.FirstName}} {{employeeDetails.LastName}}</td>
                                 <td>{{employeeDetails.IsActive === true ? 'Active' : 'InActive'}}</td>
                                 <td>
                                     <!-- <em class="fa fa-eye edit-list theme-secondary-icon-color m-r-10"

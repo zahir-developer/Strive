@@ -36,8 +36,8 @@ export class EmployeeListComponent implements OnInit {
         const employees = JSON.parse(data.resultData);
         this.isTableEmpty = false;
         if (employees.Employee.length > 0) {
-          const employeeDetail = employees.Employee[0];
-          this.employeeDetails = employeeDetail.EmployeeDetail;
+          const employeeDetail = employees.Employee;
+          this.employeeDetails = employeeDetail;
           this.employeeDetails = this.employeeDetails.filter(item => item.IsActive === true);
           console.log(this.employeeDetails, 'detail');
         }
@@ -60,12 +60,12 @@ export class EmployeeListComponent implements OnInit {
   add(data, empDetails?) {
     if (data === 'add') {
       this.headerData = 'Create Employees';
-      this.selectedData = empDetails;
+      // this.selectedData = empDetails;
       this.isEdit = false;
       this.showDialog = true;
     } else {
       this.headerData = 'Edit Employees';
-      this.isEdit = true;
+      // this.isEdit = true;
       // this.selectedData = empDetails;
       // this.isEdit = true;
       // this.showDialog = true;
@@ -83,6 +83,7 @@ export class EmployeeListComponent implements OnInit {
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
           this.showDialog = true;
+          this.isEdit = true;
         }
       }
     });
