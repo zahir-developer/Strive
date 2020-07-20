@@ -4,9 +4,11 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HelpsComponent } from './helps/helps.component';
 import {  AuthGuard} from './shared/guards/auth-guard.service';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
+  { path: 'forgot-password', component: ForgotPasswordComponent, data: { label: 'forgot-password', title: 'forgot-password' } },
   { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
   { path: 'helps', component: HelpsComponent },
   { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
