@@ -23,25 +23,26 @@
     android:orientation="vertical"
     android:layout_marginTop="30dp">
 <TextView
-    android:id="@+id/loginTextView"        
+    android:id="@+id/loginTextView"              
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="20dp"
+    android:textSize="20dp"  
     android:layout_marginLeft="20dp"          
-    android:textColor="@android:color/white"        
+    android:textColor="@color/defaultLabelColor"        
     android:textStyle="bold"/>
      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="20dp"
           android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"  
+          android:layout_marginRight="20dp"    
           app:boxBackgroundColor="@android:color/white"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_or_phone"
+                android:textColorHint="@color/defaultHintColor"
                 android:id="@+id/emailPhoneInputs" />  
      </android.support.design.widget.TextInputLayout>
 
@@ -58,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:textColorHint="@color/defaultHintColor"
                 android:inputType="textPassword"
                 android:id="@+id/passwordInputs" /> 
      </android.support.design.widget.TextInputLayout>
@@ -77,9 +79,9 @@
                  android:buttonTint="@android:color/white"/>
         <TextView
             android:id="@+id/rememberMeLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/defaultLabelColor"/>
         </LinearLayout>
 
     <LinearLayout
@@ -91,16 +93,16 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/defaultLabelColor"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="#1DC9B7"
+            android:background="@color/defaultButtonColor"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/forgotPasswordLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#99FEF3"
+            android:textColor="@color/defaultLinkColor"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
@@ -114,7 +116,7 @@
         android:id="@+id/newAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"    
+        android:textColor="@color/defaultLabelColor"    
         android:layout_marginLeft="10dp"    
         android:gravity="center"/>
      <TextView
@@ -123,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"    
         android:textStyle="bold"
-        android:textColor="#99FEF3"
+        android:textColor="@color/defaultLinkColor"
         android:gravity="right"/>
     </LinearLayout>
 

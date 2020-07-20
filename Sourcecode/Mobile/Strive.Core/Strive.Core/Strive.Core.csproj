@@ -17,7 +17,6 @@
     <Folder Include="Rest\Implementations\" />
     <Folder Include="Rest\Interfaces\" />
     <Folder Include="Resources\" />
-    <Folder Include="Models\" />
     <Folder Include="ViewModels\TIMInventory\" />
     <Folder Include="Models\TimInventory\" />
     <Folder Include="Utils\TimInventory\" />

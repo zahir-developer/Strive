@@ -14,25 +14,29 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void SignUpCommand()
         {
-            if(Validations.validateEmail(signUpEmail) || String.IsNullOrEmpty(signUpEmail))
+            if (Validations.validateEmail(signUpEmail) || String.IsNullOrEmpty(signUpEmail))
             {
-
+                _userDialog.Alert(Strings.ValidEmail);
             }
-            if(Validations.validatePhone(signUpMobile))
+            else if (Validations.validatePhone(signUpMobile) || String.IsNullOrEmpty(signUpMobile))
             {
-
+                _userDialog.Alert(Strings.ValidMobile);
             }
-            if(String.IsNullOrEmpty(signUpName))
+            else if (String.IsNullOrEmpty(signUpName))
             {
-
+                _userDialog.Alert(Strings.ValidName);
             }
-            if (string.Equals(signUpPassword, signUpConfirmPassword))
+            else if (string.IsNullOrEmpty(signUpPassword) || string.IsNullOrEmpty(signUpConfirmPassword))
             {
-
+                _userDialog.Alert(Strings.PasswordEmpty);
+            }
+            else if(string.Equals(signUpPassword, signUpConfirmPassword))
+            {
+                _userDialog.Alert(Strings.PasswordsNotSame);
             }
             else
             {
-
+                //api call 
             }
         }
 

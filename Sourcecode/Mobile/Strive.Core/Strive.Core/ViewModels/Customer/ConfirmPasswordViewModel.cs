@@ -17,9 +17,13 @@ namespace Strive.Core.ViewModels.Customer
             {
 
             }
+            else if(string.IsNullOrEmpty(NewPassword) || string.IsNullOrEmpty(ConfirmPassword))
+            {
+                _userDialog.Alert(Strings.PasswordEmpty);
+            }
             else
             {
-              //  dialogs.Alert(Strings.PasswordsNotSame);
+              _userDialog.Alert(Strings.PasswordsNotSame);
             }
         }
 
