@@ -26,18 +26,18 @@ export class CashinRegisterComponent implements OnInit {
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    $(document).ready(function () {
-      var date = new Date();
-      var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      $('#datepicker').datepicker({
-        format: "dd-mm-yyyy",
-        todayHighlight: true,
-        startDate: today,
-        autoclose: true
-      });
-      $('#datepicker').datepicker('setDate', today);
-    });
+    // $(document).ready(function () {
+    //   var date = new Date();
+    //   var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    //   var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    //   $('#datepicker').datepicker({
+    //     format: "dd-mm-yyyy",
+    //     todayHighlight: true,
+    //     startDate: today,
+    //     autoclose: true
+    //   });
+    //   $('#datepicker').datepicker('setDate', today);
+    // });
 
     this.cashRegisterForm = this.fb.group({
       coinPennies: ['',],

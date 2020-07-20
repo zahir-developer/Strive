@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
   { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
   { path: 'helps', component: HelpsComponent },
-  { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
+  { path: 'admin',  loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },    // canActivate: [AuthGuard],
   { path: 'wash', canActivate: [AuthGuard], loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
   { path: 'dashboard', canActivate: [AuthGuard], 
   loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule) },
