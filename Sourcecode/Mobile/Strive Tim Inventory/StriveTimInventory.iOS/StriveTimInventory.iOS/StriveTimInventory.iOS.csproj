@@ -377,6 +377,7 @@
         <Compile Include="Views\ClockOutView.designer.cs">
           <DependentUpon>ClockOutView.cs</DependentUpon>
         </Compile>
+        <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
