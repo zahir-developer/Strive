@@ -36,7 +36,7 @@ import { PhoneMaskDirective } from './Directive/phone-mask.directive';
     ConfirmationDialogComponent
   ],
   declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective],
-  exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, 
+  exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
