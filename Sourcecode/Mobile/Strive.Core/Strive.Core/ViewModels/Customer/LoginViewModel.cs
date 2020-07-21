@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using MvvmCross;
+using Strive.Core.Models.Customer;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
 
@@ -8,35 +11,13 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class LoginViewModel : BaseViewModel
     {
-
-
+        
         public LoginViewModel()
         {
         }
 
 
-        public void DoLoginCommand()
-        {
-            if (Validations.validateEmail(loginEmailPhone) 
-                || Validations.validatePhone(loginEmailPhone))
-            {
-               
-            }
-            else if(String.IsNullOrEmpty(loginEmailPhone))
-            {
-                
-            }
-            else
-            {
-
-            }
-            
-            if(String.IsNullOrEmpty(loginPassword))
-            {
-
-            }
-            //AdminService.Login("Admin", "Admin");
-        }
+        
 
 
         #region Commands
@@ -51,13 +32,44 @@ namespace Strive.Core.ViewModels.Customer
             await _navigationService.Navigate<ForgotPasswordViewModel>();
         }
 
+        public async Task DoLoginCommand()
+        {
+            if(validateCommand())
+            {
+                
+                var loginResponse = await AdminService.CustomerLogin(new CustomerLoginRequest(loginEmailPhone, loginPassword));
+            }
+            
+            
+        }
+        public bool validateCommand()
+        {
+            bool isValid = false;
+
+            if (Validations.validateEmail(loginEmailPhone)
+                || Validations.validatePhone(loginEmailPhone))
+            {
+                isValid = true;
+            }
+            else if (String.IsNullOrEmpty(loginEmailPhone)
+                || String.IsNullOrEmpty(loginPassword))
+            {
+                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+            }
+            else
+            {
+                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+            }
+            return isValid;
+        }
+
         #endregion Commands
 
 
         #region Properties
 
-        public string loginEmailPhone { get; set; }
-        public string loginPassword { get; set; }
+        public string loginEmailPhone { get; set; } = "caradmin@strive.com";
+        public string loginPassword { get; set; } = "pass@123";
         public bool rememberMe { get; set; }
         public string Title
         {

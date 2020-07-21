@@ -6,17 +6,21 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.Location;
 using Strive.Common;
 using Strive.ResourceAccess;
+using System.Linq;
+using Strive.BusinessLogic.Common;
 
 namespace Strive.BusinessLogic.Location
 {
     public class LocationBpl : Strivebase, ILocationBpl
     {
         readonly ITenantHelper _tenant;
+        readonly IDistributedCache _cache;
         readonly JObject _resultContent = new JObject();
         Result _result;
         public LocationBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
             _tenant = tenantHelper;
+            _cache = cache;
         }
         public Result GetLocationDetails()
         {
@@ -33,10 +37,13 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result SaveLocationDetails(List<LocationView> lstLocation)
+        public Result SaveLocationDetails(LocationView lstLocation)
         {
             try
             {
+                CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+                var lstGeocode = commonBpl.GetGeocode(lstLocation.LocationAddress.FirstOrDefault());
+
                 bool blnStatus = new LocationRal(_tenant).SaveLocationDetails(lstLocation);
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);

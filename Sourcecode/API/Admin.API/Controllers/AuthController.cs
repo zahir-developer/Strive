@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.Auth;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -39,6 +40,24 @@ namespace Admin.Api.Controllers
             string secretKey = Pick("Jwt", "SecretKey");
             var result = _authManager.GenerateTokenByRefreshKey(regToken.Token, regToken.RefreshToken, secretKey);
             return result;
+        }
+
+        [HttpPost, Route("/Admin/CreateLogin"), AllowAnonymous]
+        public void CreateLogin([FromBody]UserLogin userLogin)
+        {
+            var result = _authManager.CreateLogin(userLogin);
+        }
+
+        [HttpPost, Route("/Admin/ForgotPassword"), AllowAnonymous]
+        public bool ForgotPassword([FromBody]string userId)
+        {
+            return _authManager.ForgotPassword(userId);
+        }
+
+        [HttpPost, Route("/Admin/ResetPassword"), AllowAnonymous]
+        public bool ResetPassword([FromBody]ResetPassword resetPassword)
+        {
+            return _authManager.ResetPassword(resetPassword);
         }
 
         public void Logout(string token)

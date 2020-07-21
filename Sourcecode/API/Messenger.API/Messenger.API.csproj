@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
@@ -14,6 +15,7 @@
     <ProjectReference Include="..\Strive.BusinessEntities\Strive.BusinessEntities.csproj" />
     <ProjectReference Include="..\Strive.BusinessLogic\Strive.BusinessLogic.csproj" />
     <ProjectReference Include="..\Strive.Common\Strive.Common.csproj" />
+    <ProjectReference Include="..\Strive.Crypt\Strive.Crypto.csproj" />
   </ItemGroup>
 
 </Project>

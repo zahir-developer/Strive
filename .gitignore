@@ -86,3 +86,8 @@
 /Sourcecode/API/Strive.Repository/bin/Release
 /Sourcecode/API/Strive.ResourceAccess/bin/Release
 /Sourcecode/Database/StriveAuthDb/StriveAuthDb/obj/Debug
+/Sourcecode/API/Strive.Crypt/bin/Release/net461
+/Sourcecode/API/Strive.Domain/bin/Debug
+/Sourcecode/API/Strive.Domain/obj/Debug
+/Sourcecode/API/Strive.Library/bin/Debug
+/Sourcecode/API/Strive.Library/obj/Debug

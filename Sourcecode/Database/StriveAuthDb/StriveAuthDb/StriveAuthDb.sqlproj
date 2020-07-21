@@ -80,5 +80,7 @@
     <Build Include="dbo\Stored Procedures\uspGetSchemaByGuid.sql" />
     <Build Include="dbo\Stored Procedures\uspGetPasswordHash.sql" />
     <Build Include="dbo\User Defined Types\tvpAuthMaster.sql" />
+    <Build Include="dbo\Stored Procedures\uspSaveOTP.sql" />
+    <Build Include="dbo\Stored Procedures\uspResetPassword.sql" />
   </ItemGroup>
 </Project>

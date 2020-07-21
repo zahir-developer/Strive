@@ -1,4 +1,5 @@
 ﻿using System;
+using MapKit;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.TIMInventory;
 using UIKit;
@@ -14,6 +15,8 @@ namespace StriveTimInventory.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            MapView.MapType = MKMapType.MutedStandard;
+                
             // Perform any additional setup after loading the view, typically from a nib.
         }
 

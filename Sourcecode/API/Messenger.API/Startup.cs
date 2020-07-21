@@ -12,6 +12,7 @@ using Messenger.Api.Filters;
 using Strive.BusinessLogic;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
+using Strive.Crypto;
 
 namespace Messenger.Api
 {
@@ -64,7 +65,7 @@ namespace Messenger.Api
             #region Add Authentication
 
 
-            var credentials = Strive.Common.Utility.GetDecryptionStuff(Configuration.GetSection("StriveMessengerSettings:Jwt")["SecretKey"]);
+            var credentials = new Crypt().GetDecryptionStuff(Configuration.GetSection("StriveAdminSettings:Jwt")["SecretKey"]);
 
             services.AddAuthentication(x =>
             {

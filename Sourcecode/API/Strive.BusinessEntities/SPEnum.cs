@@ -22,6 +22,10 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEE,
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
+        //Document
+        USPSAVEDOCUMENT,
+        USPGETDOCUMENTBYEMPID,
+        USPUPDATEDOCUMENTPASSWORD,
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,
@@ -56,7 +60,9 @@ namespace Strive.BusinessEntities
         USPSAVEVENDOR,
         USPDELETEVENDOR,
         USPGETVENDORBYID,
-        USPGETPASSWORDHASH
+        USPGETPASSWORDHASH,
+        USPSAVEOTP,
+        USPRESETPASSWORD
     }
 
 }

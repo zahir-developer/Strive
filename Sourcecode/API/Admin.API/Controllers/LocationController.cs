@@ -4,6 +4,7 @@ using Strive.Common;
 using System.Collections.Generic;
 using Strive.BusinessLogic.Location;
 using Strive.BusinessEntities.Location;
+using System.Linq;
 
 namespace Admin.API.Controllers
 {
@@ -27,9 +28,9 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveLocation([FromBody] List<LocationView> lstLocation)
+        public Result SaveLocation([FromBody]  List<LocationView> lstLocation)
         {
-            return _locationBpl.SaveLocationDetails(lstLocation);
+            return _locationBpl.SaveLocationDetails(lstLocation.FirstOrDefault());
         }
         [HttpDelete]
         [Route("{id}")]

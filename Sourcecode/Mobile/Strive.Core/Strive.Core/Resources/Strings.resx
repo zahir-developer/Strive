@@ -155,10 +155,6 @@
     <value>GET OTP</value>
     <comment>Forgot password screen button label</comment>
   </data>
-  <data name="NotReceiveOTP" xml:space="preserve">
-    <value>Didn't receive the OTP?</value>
-    <comment>OTP screen OTP not received </comment>
-  </data>
   <data name="EnterOTP" xml:space="preserve">
     <value>Enter OTP</value>
     <comment>OTP screen label title</comment>
@@ -184,7 +180,35 @@
     <comment>ConfirmPassword Screen - Button label</comment>
   </data>
   <data name="PasswordsNotSame" xml:space="preserve">
-    <value>The passwords are not the same</value>
+    <value>Passwords do not match. Please re-enter password</value>
     <comment>ConfirmPasswordScreen - Alert when password are not same </comment>
+  </data>
+  <data name="ReceiveOTPLabel" xml:space="preserve">
+    <value>Enter registered mobile # to receive OTP</value>
+    <comment>OTP screen label</comment>
+  </data>
+  <data name="UsernamePasswordIncorrect" xml:space="preserve">
+    <value>Username or password was incorrect</value>
+    <comment>LoginScreen - Login Failed</comment>
+  </data>
+  <data name="PasswordEmpty" xml:space="preserve">
+    <value>Please enter matching password</value>
+    <comment>NewPasswordScreen - password empty</comment>
+  </data>
+  <data name="ValidEmail" xml:space="preserve">
+    <value>Please enter a valid email Id</value>
+    <comment>SignUpScreen - Invalid Email</comment>
+  </data>
+  <data name="ValidMobile" xml:space="preserve">
+    <value>Please enter a valid mobile #</value>
+    <comment>SignUpScreen - Invalid Phone</comment>
+  </data>
+  <data name="ValidName" xml:space="preserve">
+    <value>Please enter your name</value>
+    <comment>SignUpScreen - Empty Name</comment>
+  </data>
+  <data name="NotReceiveOTP" xml:space="preserve">
+    <value>Didn't receive the OTP?</value>
+    <comment>OTP screen OTP not received </comment>
   </data>
 </root>

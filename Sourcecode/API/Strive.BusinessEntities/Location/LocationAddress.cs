@@ -29,6 +29,8 @@ namespace Strive.BusinessEntities
         public string Zip { get; set; }
         public bool? IsActive { get; set; }
         public int? Country  { get; set; }
+        public decimal? Longitude { get; set; }
+        public decimal? Latitude { get; set; }
 
     }
 }

@@ -22,6 +22,7 @@ using OwaspHeaders.Core.Extensions;
 using OwaspHeaders.Core.Models;
 using Microsoft.Extensions.Options;
 using Strive.Crypto;
+using Strive.BusinessLogic.Document;
 
 namespace Admin.API
 {
@@ -44,6 +45,7 @@ namespace Admin.API
             services.AddTransient<IProductBpl, ProductBpl>();
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<ICommonBpl, CommonBpl>();
+            services.AddTransient<IDocumentBpl, DocumentBpl>();
             services.AddTransient<ICollisionBpl, CollisionBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();

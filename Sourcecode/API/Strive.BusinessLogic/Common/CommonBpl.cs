@@ -10,12 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Strive.BusinessLogic.Location;
+using System.Linq;
+using Strive.BusinessEntities.Auth;
+using Strive.Crypto;
+using MimeKit;
+using MailKit.Net.Smtp;
+using Strive.BusinessEntities;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Strive.BusinessLogic.Common
 {
     public class CommonBpl : Strivebase, ICommonBpl
     {
         readonly ITenantHelper _tenant;
+        private static Random random;
         readonly JObject _resultContent = new JObject();
         Result _result;
 
@@ -56,6 +65,25 @@ namespace Strive.BusinessLogic.Common
             return _result;
         }
 
+        internal object GetGeocode(LocationAddress locationAddress)
+        {
+            string osmUri= "https://nominatim.openstreetmap.org/search?q=255+South%20Main%20Street,+Alpharetta+GA+30009&format=json";
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(osmUri);
+            request.Method = "GET";
+            string apiResponse = String.Empty;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                apiResponse = reader.ReadToEnd();
+                reader.Close();
+                dataStream.Close();
+            }
+
+            List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
+            return lstGeocode;
+        }
+
         public Result GetCodesByCategory(int codeCategoryId)
         {
             try
@@ -81,7 +109,7 @@ namespace Strive.BusinessLogic.Common
             var weatherlocation = new WeatherLocation()
             {
                 name = "Strive-Location1",
-                point = new point() {lat = 34.07, lon = -84.29}
+                point = new point() { lat = 34.07, lon = -84.29 }
             };
             var wlocation = JsonConvert.SerializeObject(weatherlocation);
             var stringContent = new StringContent(wlocation, UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
@@ -115,17 +143,17 @@ namespace Strive.BusinessLogic.Common
             string location_id = "5efe1a24ed57b2001925dd6e";
             string start_time = "2020-07-02";
             string end_time = "2020-07-02";
-            string[] fields = new string[] {"precipitation","precipitation_probability","temp"};
+            string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
             var queries =
                 $"location_id={location_id}&start_time={start_time}&end_time={end_time}&fields=precipitation&fields=precipitation_probability&fields=temp";
-                
+
 
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));;
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); ;
 
                 // New code:
                 var response = await client.GetAsync(apiMethod + "?apikey=" + apiKey + "&" + queries);
@@ -166,5 +194,89 @@ namespace Strive.BusinessLogic.Common
             return null;
 
         }
+
+        public bool VerifyEmail(string emailId)
+        {
+            return true;
+        }
+
+        public string RandomString(int length)
+        {
+            random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        internal bool ResetPassword(ResetPassword resetPassword)
+        {
+            ///...Hash the new password
+            ///...Send OTP, Hashed Password, UserId to database to reset the password
+
+            string newPass = Pass.Hash(resetPassword.NewPassword);
+            string otp = resetPassword.OTP;
+            string userId = resetPassword.UserId;
+            return new CommonRal(_tenant, true).ResetPassword(userId, otp, newPass);
+        }
+
+        internal bool ForgotPassword(string userId)
+        {
+            ///... Generate OTP
+            ///... Store in DB
+            ///... Send Mail
+
+            var otp = RandomString(4);
+            new CommonRal(_tenant, true).SaveOTP(userId, otp);
+            SendOtpEmail(userId, otp);
+            return true;
+        }
+
+        public int CreateLogin(UserLogin userLogin)
+        {
+            string randomPassword = RandomString(6);
+            bool isValidEmail = VerifyEmail(userLogin.EmailId);
+            userLogin.PasswordHash = Pass.Hash(randomPassword);
+            userLogin.EmailVerified = isValidEmail.toInt();
+            userLogin.LockoutEnabled = 0;
+            userLogin.UserGuid = Guid.NewGuid();
+            var authId = new CommonRal(_tenant, true).CreateLogin(userLogin);
+            SendLoginCreationEmail(userLogin.EmailId, randomPassword);
+            return authId;
+        }
+
+        private void SendLoginCreationEmail(string emailId, string defaultPassword)
+        {
+            SendMail(emailId, "Signup successful. Password:" + defaultPassword, "Signup Successful");
+        }
+
+        private void SendOtpEmail(string emailId, string otp)
+        {
+            SendMail(emailId, "OTP:" + otp, "OTP Mail");
+        }
+
+        private void SendMail(string email, string body, string subject)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Admin",_tenant.FromMailAddress));
+            message.To.Add(new MailboxAddress(email, email));
+            message.Subject = subject;
+
+            message.Body = new TextPart("plain")
+            {
+                Text = body
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
+
+                // Note: only needed if the SMTP server requires authentication
+                client.Authenticate("autonotify@telliant.com", _tenant.SMTPPassword);
+
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+
     }
 }

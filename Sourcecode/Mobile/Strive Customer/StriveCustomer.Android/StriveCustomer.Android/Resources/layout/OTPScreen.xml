@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:layout_marginLeft="20dp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/defaultLabelColor"
             android:textStyle="bold" />
 <TextView
     android:id="@+id/OTPTextView"        
@@ -37,8 +37,7 @@
     android:textSize="14dp"
     android:layout_marginTop="20dp"
     android:layout_marginLeft="20dp"          
-    android:textColor="@android:color/darker_gray"        
-    android:textStyle="bold"/>
+    android:textColor="@color/secondaryLabelColor" />
 </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
@@ -114,11 +113,11 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"  
           android:orientation="horizontal">
- <TextView
+     <TextView
         android:id="@+id/notReceiveOTPTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"    
+        android:textColor="@color/secondaryLabelColor"    
         android:layout_marginLeft="20dp" 
         android:layout_marginTop ="10dp" />
      <TextView
@@ -128,7 +127,7 @@
         android:layout_marginLeft="5dp"  
         android:layout_marginTop ="10dp"    
         android:textStyle="bold"
-        android:textColor="#99FEF3"/>
+        android:textColor="@color/defaultButtonColor"/>
 </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
@@ -143,7 +142,7 @@
             android:textColor="@android:color/white"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="#1DC9B7"
+            android:background="@color/defaultButtonColor"
             android:textStyle="bold" />
 
 </LinearLayout>

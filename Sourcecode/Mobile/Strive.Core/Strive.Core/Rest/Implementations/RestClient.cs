@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
+using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.Logging;
+using Strive.Core.Models;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Utils;
 
@@ -13,6 +18,7 @@ namespace Strive.Core.Rest.Implementations
     {
         private readonly IMvxJsonConverter _jsonConverter;
         private readonly IMvxLog _mvxLog;
+        private static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public RestClient(IMvxJsonConverter jsonConverter, IMvxLog mvxLog)
         {
@@ -22,14 +28,16 @@ namespace Strive.Core.Rest.Implementations
 
         public async Task<TResult> MakeApiCall<TResult>(string url, HttpMethod method, object data = null) where TResult : class
         {
+            string stringSerialized;
+            BaseResponse baseResponse = new BaseResponse();
             url = ApiUtils.BASE_URL + url;
-            url = url.Replace("http://", "https://");
+            //url = url.Replace("http://", "https://");
 
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "");
                 using (var request = new HttpRequestMessage { RequestUri = new Uri(url), Method = method })
                 {
-                    // add content
                     if (method != HttpMethod.Get)
                     {
                         var json = _jsonConverter.SerializeObject(data);
@@ -39,19 +47,41 @@ namespace Strive.Core.Rest.Implementations
                     HttpResponseMessage response = new HttpResponseMessage();
                     try
                     {
-                        response = await httpClient.SendAsync(request).ConfigureAwait(false);
+                        response = await httpClient.SendAsync(request).ConfigureAwait(true);
                     }
                     catch (Exception ex)
                     {
                         _mvxLog.ErrorException("MakeApiCall failed", ex);
+                        await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
                     }
-
-                    var stringSerialized = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                    // deserialize content
-                    return _jsonConverter.DeserializeObject<TResult>(stringSerialized);
+                    try
+                    {
+                        stringSerialized = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
+                        baseResponse = _jsonConverter.DeserializeObject<BaseResponse>(stringSerialized);
+                    }
+                    catch(Exception ex)
+                    {
+                        await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
+                    }
+                    
+                    if (!ValidateResponse(baseResponse))
+                    {
+                        _userDialog.HideLoading();
+                        await _userDialog.AlertAsync(baseResponse.exception, baseResponse.status);
+                    }
+                    return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                 }
             }
+        }
+
+        bool ValidateResponse (BaseResponse response)
+        {
+            bool isValid = true;
+            if(response.statusCode == 200)
+            {
+                return isValid;
+            }
+            return !isValid;
         }
     }
 }

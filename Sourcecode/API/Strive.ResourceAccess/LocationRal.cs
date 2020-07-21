@@ -27,30 +27,11 @@ namespace Strive.ResourceAccess
             return res;
         }
 
-        public bool SaveLocationDetails(List<LocationView> lstLocation)
+        public bool SaveLocationDetails(LocationView location)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Location> lstLoca = new List<Location>();
-            var locDet = lstLocation.FirstOrDefault();
-            lstLoca.Add(new Location
-            {
-                LocationId = locDet.LocationId,
-                LocationType = locDet.LocationType,
-                LocationName = locDet.LocationName,
-                LocationDescription = locDet.LocationDescription,
-                IsFranchise = locDet.IsFranchise,
-                IsActive = locDet.IsActive,
-                TaxRate = locDet.TaxRate,
-                SiteUrl = locDet.SiteUrl,
-                Currency = locDet.Currency,
-                Facebook = locDet.Facebook,
-                Twitter = locDet.Twitter,
-                Instagram = locDet.Instagram,
-                WifiDetail = locDet.WifiDetail,
-                WorkhourThreshold = locDet.WorkhourThreshold
-            });
-            dynParams.Add("@tvpLocation", lstLoca.ToDataTable().AsTableValuedParameter("tvpLocation"));
-            dynParams.Add("@tvpLocationAddress", locDet.LocationAddress.ToDataTable().AsTableValuedParameter("tvpLocationAddress"));
+            dynParams.Add("@tvpLocation", location.TableName("tvpLocation"));
+            dynParams.Add("@tvpLocationAddress", location.LocationAddress.TableName("tvpLocationAddress"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOCATION.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             _db.Save(cmd);
             return true;
