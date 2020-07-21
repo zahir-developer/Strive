@@ -14,6 +14,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { StateDropdownComponent } from './components/state-dropdown/state-dropdown.component';
 import { CountryDropdownComponent } from './components/country-dropdown/country-dropdown.component';
 import { RouterModule } from '@angular/router';
+import { PhoneMaskDirective } from './Directive/phone-mask.directive';
 
 
 
@@ -34,10 +35,10 @@ import { RouterModule } from '@angular/router';
   entryComponents: [
     ConfirmationDialogComponent
   ],
-  declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent],
+  declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, 
-    AccordionModule, ConfirmationDialogComponent, 
-    StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule ],
+    AccordionModule, ConfirmationDialogComponent,
+    StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 
