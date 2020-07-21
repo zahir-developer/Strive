@@ -23,7 +23,6 @@ namespace StriveTimInventory.iOS.Views
         {
             base.ViewDidLoad();
             DoInitialSetup();
-            OverrideUserInterfaceStyle = UIUserInterfaceStyle.Dark;
             MapView.MapType = MKMapType.MutedStandard;
             double lat = 42.364260;
             double lon = -71.120824;
@@ -71,8 +70,8 @@ namespace StriveTimInventory.iOS.Views
                 // create pin annotation view
                 MKAnnotationView pinView = (MKPinAnnotationView)mapView.DequeueReusableAnnotation(pId);
 
-                if (pinView == null)
-                    pinView = new MKPinAnnotationView(annotation, pId);
+
+                pinView = new MKPinAnnotationView(annotation, pId);
 
                 var Title = pinView.Annotation.GetTitle();
                 var Subtitle = pinView.Annotation.GetSubtitle();
@@ -80,6 +79,10 @@ namespace StriveTimInventory.iOS.Views
                 if (Regex.Matches(Subtitle, @"[a-zA-Z]").Count > 0)
                 {
                     isOpen = false;
+                }
+                else
+                {
+                    isOpen = true;
                 }
 
                 CreateCustomView(Title,Subtitle,isOpen);
@@ -147,7 +150,7 @@ namespace StriveTimInventory.iOS.Views
                 ButtonBackgroundView.AddSubview(TimeLabel);
                 BackgroundView.AddSubview(ButtonBackgroundView);
 
-                var OuterEllipse = new UIImageView(new CGRect(x: -50, y: -55, width: 120, height: 120));
+                var OuterEllipse = new UIImageView(new CGRect(x: -53, y: -55, width: 120, height: 120));
                 OuterEllipse.Image = UIImage.FromBundle("white-ellipse");
 
                 var CenterEllipse = new UIImageView(new CGRect(x: 30, y: 30, width: 60, height: 60));
@@ -174,8 +177,11 @@ namespace StriveTimInventory.iOS.Views
         private void DoInitialSetup()
         {
             NavigationController.NavigationBarHidden = true;
+            if(UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+            {
+                OverrideUserInterfaceStyle = UIUserInterfaceStyle.Dark;
+            }
         }
-
     }
 }
 
