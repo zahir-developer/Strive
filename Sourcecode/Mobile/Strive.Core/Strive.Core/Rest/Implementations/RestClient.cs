@@ -51,8 +51,10 @@ namespace Strive.Core.Rest.Implementations
                     }
                     catch (Exception ex)
                     {
+                        _userDialog.HideLoading();
                         _mvxLog.ErrorException("MakeApiCall failed", ex);
                         await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
+                        return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
                     try
                     {
@@ -61,7 +63,9 @@ namespace Strive.Core.Rest.Implementations
                     }
                     catch(Exception ex)
                     {
+                        _userDialog.HideLoading();
                         await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
+                        return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
                     
                     if (!ValidateResponse(baseResponse))
