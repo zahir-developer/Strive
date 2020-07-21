@@ -37,6 +37,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\Debug\Strive.BusinessLogic.csprojAssemblyReference.cache" />
     <None Include="obj\Debug\Strive.BusinessLogicNew.csprojAssemblyReference.cache" />
@@ -53,6 +54,7 @@
     <Compile Include="Common\ICommonBpl.cs" />
     <Compile Include="Employee\EmployeeBpl.cs" />
     <Compile Include="Employee\IEmployeeBpl.cs" />
+    <Compile Include="Location\Geocode.cs" />
     <Compile Include="Location\ILocationBpl.cs" />
     <Compile Include="Location\LocationBpl.cs" />
     <Compile Include="Location\WeatherLocation.cs" />
