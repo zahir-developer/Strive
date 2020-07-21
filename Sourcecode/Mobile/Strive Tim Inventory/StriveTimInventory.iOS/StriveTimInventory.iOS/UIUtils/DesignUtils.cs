@@ -10,6 +10,16 @@ namespace StriveTimInventory.iOS.UIUtils
             return UIFont.FromName("OpenSans-ExtraBold", 25f);
         }
 
+        public static UIFont OpenSansBoldEighteen()
+        {
+            return UIFont.FromName("OpenSans-Bold", 18f);
+        }
+
+        public static UIFont OpenSansRegularTwelve()
+        {
+            return UIFont.FromName("OpenSans-Regular", 12f);
+        }
+
         public static UIFont OpenSansExtraBoldBig()
         {
             return UIFont.FromName("OpenSans-ExtraBold", 45f);

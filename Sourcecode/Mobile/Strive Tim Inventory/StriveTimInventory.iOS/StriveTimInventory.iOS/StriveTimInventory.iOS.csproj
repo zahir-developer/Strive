@@ -283,6 +283,14 @@
         <ImageAsset Include="Resources\Assets.xcassets\eye-filled-slash.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\eye-filled-slash.imageset\icons8-hide-90.png" />
         <ImageAsset Include="Resources\Assets.xcassets\eye-filled-slash.imageset\icons8-hide-90-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\MapBackground.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\MapBackground.imageset\Union 9.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\MapPointer.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\MapPointer.imageset\Ellipse 88.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\map-car-icon.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\map-car-icon.imageset\Icon material-local-car-wash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Ellipse 85.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -318,6 +326,10 @@
         <Folder Include="Resources\Assets.xcassets\icon-wash-time.imageset\" />
         <Folder Include="Resources\Assets.xcassets\eye-filled.imageset\" />
         <Folder Include="Resources\Assets.xcassets\eye-filled-slash.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\MapBackground.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\MapPointer.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\map-car-icon.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\white-ellipse.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
