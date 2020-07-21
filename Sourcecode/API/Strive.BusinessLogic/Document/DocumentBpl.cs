@@ -97,6 +97,38 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
+        public Result GetAllDocument(long employeeId, long locationId)
+        {
+            try
+            {
+                var lstDocumentById = new DocumentRal(_tenant).GetAllDocument(employeeId, locationId);
+                if (lstDocumentById.Count>0)
+                {
+                    foreach(var item in lstDocumentById)
+                    {
+                        string path = configuration.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + item.FileName;
+                        string base64data = string.Empty;
+                        using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                        {
+                            byte[] data = new byte[(int)fileStream.Length];
+                            fileStream.Read(data, 0, data.Length);
+                            base64data = Convert.ToBase64String(data);
+                            item.Base64Url = base64data;
+                        }
+                    }
+                       
+
+                }
+
+                _resultContent.Add(lstDocumentById.WithName("GetAllDocuments"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
         public Result UpdatePassword(long documentId, long employeeId, string password)
         {
             try
