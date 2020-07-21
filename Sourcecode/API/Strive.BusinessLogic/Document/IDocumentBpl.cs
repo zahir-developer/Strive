@@ -13,5 +13,4 @@ namespace Strive.BusinessLogic.Document
         Result GetDocumentById(long documentId, long employeeId, string password);
         Result UpdatePassword(long documentId, long employeeId, string password);
     }
-   
 }

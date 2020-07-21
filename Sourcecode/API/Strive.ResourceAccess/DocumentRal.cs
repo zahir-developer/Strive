@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Document;
 using Strive.Common;
@@ -7,7 +6,6 @@ using Strive.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,7 +39,7 @@ namespace Strive.ResourceAccess
                     IsActive = item.IsActive
 
                 });
-           
+
             }
             dynParams.Add("@tvpDocument", lstDoc.ToDataTable().AsTableValuedParameter("tvpDocument"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEDOCUMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);

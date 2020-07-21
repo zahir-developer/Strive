@@ -49,7 +49,7 @@ namespace Strive.BusinessLogic.Document
                 }
 
                 var uploadDoc = new DocumentRal(_tenant).UploadDocument(lstDocument);
-                
+
                 _resultContent.Add(uploadDoc.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -66,7 +66,7 @@ namespace Strive.BusinessLogic.Document
                 var lstDocumentById = new DocumentRal(_tenant).GetDocumentById(documentId, employeeId, password);
                 if (lstDocumentById != null)
                 {
-                    if(lstDocumentById.Password == password)
+                    if (lstDocumentById.Password == password)
                     {
                         string path = configuration.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + lstDocumentById.FileName;
                         string base64data = string.Empty;
@@ -84,9 +84,9 @@ namespace Strive.BusinessLogic.Document
                         _result = Helper.ErrorMessageResult(errorMessage);
                         return _result;
                     }
-                        
+
                 }
-                
+
                 _resultContent.Add(lstDocumentById.WithName("DocumentDetail"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
