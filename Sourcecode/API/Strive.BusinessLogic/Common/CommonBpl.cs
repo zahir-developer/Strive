@@ -15,6 +15,9 @@ using Strive.BusinessEntities.Auth;
 using Strive.Crypto;
 using MimeKit;
 using MailKit.Net.Smtp;
+using Strive.BusinessEntities;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -60,6 +63,25 @@ namespace Strive.BusinessLogic.Common
             }
 
             return _result;
+        }
+
+        internal object GetGeocode(LocationAddress locationAddress)
+        {
+            string osmUri= "https://nominatim.openstreetmap.org/search?q=255+South%20Main%20Street,+Alpharetta+GA+30009&format=json";
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(osmUri);
+            request.Method = "GET";
+            string apiResponse = String.Empty;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                apiResponse = reader.ReadToEnd();
+                reader.Close();
+                dataStream.Close();
+            }
+
+            List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
+            return lstGeocode;
         }
 
         public Result GetCodesByCategory(int codeCategoryId)
