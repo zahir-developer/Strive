@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using CoreGraphics;
 using CoreLocation;
 using Foundation;
@@ -13,6 +14,7 @@ namespace StriveTimInventory.iOS.Views
 {
     public partial class WashTimesPage : MvxViewController<WashTimesViewModel>
     {
+       
         public WashTimesPage() : base("WashTimesPage", null)
         {
         }
@@ -20,6 +22,7 @@ namespace StriveTimInventory.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            DoInitialSetup();
             OverrideUserInterfaceStyle = UIUserInterfaceStyle.Dark;
             MapView.MapType = MKMapType.MutedStandard;
             double lat = 42.364260;
@@ -30,50 +33,36 @@ namespace StriveTimInventory.iOS.Views
             MapView.Region = mapRegion;
             MapView.Delegate = new MapViewDelegate();
 
-            MKPointAnnotation[] annotations = new MKPointAnnotation[2];
+            MKPointAnnotation[] annotations = new MKPointAnnotation[3];
             annotations[0] = new MKPointAnnotation()
             {
-                Title = "Location1",
+                Title = "Alpharetta",
+                Subtitle = "10 AM",
                 Coordinate = new CLLocationCoordinate2D(42.364260, -71.120824)
             };
             annotations[1] = new MKPointAnnotation()
             {
-                Title = " ",
+                Title = "Peachtree Corners",
+                Subtitle = "45",
                 Coordinate = new CLLocationCoordinate2D(42.364260, -71.12824)
+            };
+            annotations[2] = new MKPointAnnotation()
+            {
+                Title = "Texas",
+                Subtitle = "30",
+                Coordinate = new CLLocationCoordinate2D(42.362260, -71.12824)
             };
 
             MapView.AddAnnotations(annotations);
-            //MapView.GetViewForAnnotation = myViewForAnnotation;
-            //MapView.AddAnnotations(new MKPointAnnotation()
-            //{
-            //    Title = "Location",
-            //    Coordinate = new CLLocationCoordinate2D(42.364260, -71.120824)
-            //});
-        }
-
-        public MyAnnotationView myViewForAnnotation(MKMapView mapView, IMKAnnotation id)
-        {
-            if (id is MKPointAnnotation)
-            {
-                MyAnnotationView view = (MyAnnotationView)mapView.DequeueReusableAnnotation("myCustomView");
-                if (view == null)
-                {
-                    view = new MyAnnotationView(id, "myCustomView", UIFont.FromName("OpenSans-Regular", 16f));
-                }
-                else
-                {
-                    view.Annotation = id;
-                }
-                view.RightCalloutAccessoryView = UIButton.FromType(UIButtonType.InfoDark);
-                view.Selected = true;
-                return view;
-            }
-            return null;
         }
 
         public class MapViewDelegate:MKMapViewDelegate
         {
+            private UIView CustomMapView;
+            private bool CustomMapLoaded = false;
+            private bool isOpen = true;
             static string pId = "Annotation";
+
             public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
             {
                 if (annotation is MKUserLocation)
@@ -85,128 +74,108 @@ namespace StriveTimInventory.iOS.Views
                 if (pinView == null)
                     pinView = new MKPinAnnotationView(annotation, pId);
 
+                var Title = pinView.Annotation.GetTitle();
+                var Subtitle = pinView.Annotation.GetSubtitle();
+
+                if (Regex.Matches(Subtitle, @"[a-zA-Z]").Count > 0)
+                {
+                    isOpen = false;
+                }
+
+                CreateCustomView(Title,Subtitle,isOpen);
+
                 ((MKPinAnnotationView)pinView).PinColor = MKPinAnnotationColor.Green;
-                pinView.CanShowCallout = true;
-                pinView.Enabled = true;
-                var parentView = new UIView(new CGRect(x: 0, y: 0, width: 200, height: 50));
-                var customView = new UIView(new CGRect(x: 100, y: 5, width: 97, height: 40));
-                customView.Layer.CornerRadius = 10;
-                var button = UIButton.FromType(UIButtonType.Custom);
-                button.Frame = new CGRect(x: 0, y: -3, width: 30, height: 50);
-                button.SetImage(UIImage.FromBundle("icon-time-clock"), UIControlState.Normal);
-                var label = new UILabel(new CGRect(x: 30, y: -3, width: 100, height: 50));
-                label.Text = "35 mins";
-                label.TextColor = UIColor.White;
-                var Titlelabel = new UILabel(new CGRect(x: 5, y: 0, width: 100, height: 50));
-                Titlelabel.Text = "Location #";
-                Titlelabel.TextColor = UIColor.Clear.FromHex(0x03FCD3);
-                parentView.AddSubview(Titlelabel);
-                customView.BackgroundColor = UIColor.Clear.FromHex(0xFCC201);
-                customView.AddSubview(button);
-                customView.AddSubview(label);
-                parentView.AddSubview(customView);
-                parentView.BackgroundColor = UIColor.DarkGray;
-                parentView.Layer.MasksToBounds = false;
-                parentView.Layer.ShadowColor = UIColor.Black.CGColor;
-                parentView.Layer.ShadowOpacity = 1f;
-                parentView.Layer.ShadowOffset = new CGSize(3,3);
-                parentView.Layer.ShadowRadius = 5;
 
-                parentView.Layer.ShadowPath = new UIBezierPath().CGPath;
-                parentView.Layer.ShouldRasterize = true;
-                parentView.Layer.RasterizationScale = UIScreen.MainScreen.Scale;
-                parentView.Layer.CornerRadius = 5;
-                //pinView.RightCalloutAccessoryView = parentView;
-                pinView.AddSubview(parentView);
-
+                pinView.AddSubview(CustomMapView);
+               
                 return pinView;
             }
 
-            public override void DidAddAnnotationViews(MKMapView mapView, MKAnnotationView[] views)
+            private void CreateCustomView(string Title,string time, bool isOpen)
             {
-                IMKAnnotation[] annotations = new IMKAnnotation[views.Length];
-                var parentView = new UIView(new CGRect(x: 0, y: 0, width: 200, height: 50));
-                var customView = new UIView(new CGRect(x: 100, y: 5, width: 97, height: 40));
-                customView.Layer.CornerRadius = 10;
-                var button = UIButton.FromType(UIButtonType.Custom);
-                button.Frame = new CGRect(x: 0, y: -3, width: 30, height: 50);
-                button.SetImage(UIImage.FromBundle("icon-time-clock"), UIControlState.Normal);
-                var label = new UILabel(new CGRect(x: 30, y: -3, width: 100, height: 50));
-                label.Text = "35 mins";
-                label.TextColor = UIColor.White;
-                var Titlelabel = new UILabel(new CGRect(x: 0, y: 0, width: 100, height: 50));
-                Titlelabel.Text = "Location #";
-                Titlelabel.TextColor = UIColor.Clear.FromHex(0x03FCD3);
-                parentView.AddSubview(Titlelabel);
-                customView.BackgroundColor = UIColor.Clear.FromHex(0xFCC201);
-                customView.AddSubview(button);
-                customView.AddSubview(label);
-                parentView.BackgroundColor = UIColor.Red;
-                parentView.AddSubview(customView);
-                for (int i=0; i<views.Length; i++)
-                {
-                    if(views[i].ReuseIdentifier == pId)
-                    {
-                        //mapView.SelectAnnotation(view.Annotation, true);
-                        //views[i].AddSubview(parentView);
-                        annotations[i] = views[i].Annotation;
-                    }
-                }
-                mapView.SelectedAnnotations = annotations;
-            }
+                var BackgroundView = UIButton.FromType(UIButtonType.Custom);
+                BackgroundView.Frame = new CGRect(x: -140, y: 4, width: 320, height: 100);
+                BackgroundView.SetImage(UIImage.FromBundle("MapBackground"), UIControlState.Normal);
 
-        }
+                var Titlelabel = new UILabel(new CGRect(x: 45, y: 30, width: 130, height: 50));
+                Titlelabel.Text = Title;
+                Titlelabel.Font = DesignUtils.OpenSansBoldEighteen();
+                Titlelabel.TextColor = UIColor.Clear.FromHex(0x2AC1B1);
+                Titlelabel.Lines = 2;
 
-        public class MyAnnotationView : MKAnnotationView // or MKPointAnnotation
-        {
-            UIFont _font;
-            public MyAnnotationView(IMKAnnotation annotation, string reuseIdentifier, UIFont font) : base(annotation, reuseIdentifier)
-            {
-                _font = font;
-                CanShowCallout = true;
-                Image = UIImage.FromBundle("icon-wash-time");
-            }
+                BackgroundView.AddSubview(Titlelabel);
 
-            void searchViewHierarchy(UIView currentView)
-            {
-                // short-circuit
-                if (currentView.Subviews == null || currentView.Subviews.Length == 0)
-                {
-                    return;
-                }
-                foreach (UIView subView in currentView.Subviews)
-                {
-                    if (subView is UILabel)
-                    {
-                        (subView as UILabel).Font = _font;
-                    }
-                    else
-                    {
-                        searchViewHierarchy(subView);
-                    }
-                }
-            }
+                var PointerView = UIButton.FromType(UIButtonType.Custom);
+                PointerView.Frame = new CGRect(x: 45, y: 45, width: 30, height: 30);
+                PointerView.SetImage(UIImage.FromBundle("MapPointer"), UIControlState.Normal);
+                PointerView.AddSubview(BackgroundView);
 
-            public override void LayoutSubviews()
-            {
-                if (!Selected)
-                    return;
-                base.LayoutSubviews();
-                foreach (UIView view in Subviews)
+                var ButtonBackgroundView = new UIView(new CGRect(x: 180, y: 33, width: 105, height: 40));
+                ButtonBackgroundView.Layer.CornerRadius = 5;
+                ButtonBackgroundView.BackgroundColor = UIColor.Clear.FromHex(0xFCC201);
+
+                var IconImage = UIButton.FromType(UIButtonType.Custom);
+                IconImage.Frame = new CGRect(x: 0, y: -5, width: 30, height: 50);
+                IconImage.SetImage(UIImage.FromBundle("map-car-icon"), UIControlState.Normal);
+
+                var SubLabel = new UILabel(new CGRect(x: 30, y: -15, width: 100, height: 50));
+                SubLabel.Text = "Opens at";
+                SubLabel.Font = DesignUtils.OpenSansRegularTwelve();
+                SubLabel.TextColor = UIColor.Clear.FromHex(0x00584F);
+
+                var TimeLabel = new UILabel();
+
+                if (isOpen)
                 {
-                    Console.WriteLine(view);
-                    searchViewHierarchy(view);
+                    TimeLabel.Frame = new CGRect(x: 30, y: -3, width: 100, height: 50);
+                    TimeLabel.Text = time + " mins";
+                    SubLabel.Hidden = true;
+                } else
+                {
+                    TimeLabel.Frame = new CGRect(x: 30, y: 3, width: 100, height: 50);
+                    TimeLabel.Text = time;
+                    SubLabel.Hidden = false;
                 }
+
+                TimeLabel.Font = DesignUtils.OpenSansBoldEighteen();
+                TimeLabel.TextColor = UIColor.Clear.FromHex(0x002E29);
+
+               
+
+                ButtonBackgroundView.AddSubview(SubLabel);
+                ButtonBackgroundView.AddSubview(IconImage);
+                ButtonBackgroundView.AddSubview(TimeLabel);
+                BackgroundView.AddSubview(ButtonBackgroundView);
+
+                var OuterEllipse = new UIImageView(new CGRect(x: -50, y: -55, width: 120, height: 120));
+                OuterEllipse.Image = UIImage.FromBundle("white-ellipse");
+
+                var CenterEllipse = new UIImageView(new CGRect(x: 30, y: 30, width: 60, height: 60));
+                CenterEllipse.Image = UIImage.FromBundle("white-ellipse");
+
+                var InnerEllipse = new UIImageView(new CGRect(x: 40, y: 40, width: 40, height: 40));
+                InnerEllipse.Image = UIImage.FromBundle("white-ellipse");
+
+                OuterEllipse.AddSubview(CenterEllipse);
+                OuterEllipse.AddSubview(InnerEllipse);
+                OuterEllipse.AddSubview(PointerView);
+
+                CustomMapView = OuterEllipse;
             }
         }
-
-
 
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
+
+
+        private void DoInitialSetup()
+        {
+            NavigationController.NavigationBarHidden = true;
+        }
+
     }
 }
 

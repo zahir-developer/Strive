@@ -6,6 +6,14 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WashTimesPage">
             <connections>
@@ -21,12 +29,41 @@
                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="REg-0a-w1f">
                     <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                 </mapView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8D-7i-IL0">
+                    <rect key="frame" x="0.0" y="0.0" width="834" height="75"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wash Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZf-vK-tK1">
+                            <rect key="frame" x="362.5" y="31" width="109" height="28"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                            <color key="textColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upB-si-Pgx">
+                            <rect key="frame" x="25" y="27" width="56" height="36"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
+                            <state key="normal" title="Logout">
+                                <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.95569461580000004" green="0.98811596629999998" blue="0.9960753322" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="RZf-vK-tK1" firstAttribute="centerY" secondItem="p8D-7i-IL0" secondAttribute="centerY" multiplier="1.2" id="0D1-KI-hNq"/>
+                        <constraint firstItem="upB-si-Pgx" firstAttribute="centerY" secondItem="p8D-7i-IL0" secondAttribute="centerY" multiplier="1.2" id="6XY-aC-GIG"/>
+                        <constraint firstItem="RZf-vK-tK1" firstAttribute="centerX" secondItem="p8D-7i-IL0" secondAttribute="centerX" id="G3L-Cm-fiL"/>
+                        <constraint firstItem="upB-si-Pgx" firstAttribute="leading" secondItem="p8D-7i-IL0" secondAttribute="leading" constant="25" id="aIS-Zs-7PE"/>
+                        <constraint firstAttribute="height" constant="75" id="k83-ra-nE6"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="p8D-7i-IL0" secondAttribute="trailing" id="K88-Tq-Yc7"/>
                 <constraint firstAttribute="bottom" secondItem="REg-0a-w1f" secondAttribute="bottom" id="LND-EY-eff"/>
                 <constraint firstAttribute="trailing" secondItem="REg-0a-w1f" secondAttribute="trailing" id="MRf-r0-GJo"/>
                 <constraint firstItem="REg-0a-w1f" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="mm2-gj-jM8"/>
+                <constraint firstItem="p8D-7i-IL0" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="pir-P8-jVX"/>
+                <constraint firstItem="p8D-7i-IL0" firstAttribute="top" secondItem="2" secondAttribute="top" id="qEI-5T-NPf"/>
                 <constraint firstItem="REg-0a-w1f" firstAttribute="top" secondItem="2" secondAttribute="top" id="xFp-39-w2G"/>
             </constraints>
             <point key="canvasLocation" x="33.812949640287769" y="53.768844221105525"/>
