@@ -8,10 +8,10 @@ import { CloseoutRegisterComponent } from './closeout-register/closeout-register
 import { ThemeComponent } from './theme/theme.component';
 import { AuthGuard } from 'src/app/shared/guards/auth-guard.service';
 import { SetupComponent } from './system-setup/setup.component';
-import { LocationSetupComponent } from './location-setup/location-setup.component';
-import { ServiceSetupComponent } from './service-setup/service-setup.component';
-import { ProductSetupComponent } from './product-setup/product-setup.component';
-import { VendorSetupComponent } from './vendor-setup/vendor-setup.component';
+import { LocationSetupComponent } from './system-setup/location-setup/location-setup.component';
+import { ServiceSetupComponent } from './system-setup/service-setup/service-setup.component';
+import { ProductSetupComponent } from './system-setup/product-setup/product-setup.component';
+import { VendorSetupComponent } from './system-setup/vendor-setup/vendor-setup.component';
 
 
 const adminRoutes: Routes = [
