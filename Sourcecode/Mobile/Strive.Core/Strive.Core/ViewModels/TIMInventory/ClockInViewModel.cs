@@ -65,7 +65,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 return;
             }
             EmployeeData.CurrentRole = FirstSelectedRole.Title;
-            EmployeeData.ClockInTime = GetClockInTime();
+            EmployeeData.ClockInTime = DateTime.Now;
             await _navigationService.Navigate<ClockedInViewModel>();
         }
 
@@ -112,7 +112,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         string GetClockInTime()
         {
             var Time = DateTime.Now;
-            return Time.Hour + "." + Time.Minute + Time.ToString("tt", CultureInfo.InvariantCulture);
+            return Time.Hour + "." + Time.Minute.ToString("D2") + Time.ToString("tt", CultureInfo.InvariantCulture);
         }
     }
 }

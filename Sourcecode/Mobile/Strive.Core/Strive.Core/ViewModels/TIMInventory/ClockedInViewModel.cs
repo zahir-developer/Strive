@@ -38,8 +38,8 @@ namespace Strive.Core.ViewModels.TIMInventory
                 var EmployeeDetail = EmployeeData.EmployeeDetails;
                 Name = EmployeeDetail.FirstName + " " + EmployeeDetail.LastName;
                 Role = EmployeeData.CurrentRole;
-                CurrentDate = GetTodayDate();
-                ClockInTime = EmployeeData.ClockInTime;
+                CurrentDate = GetTodayDateString();
+                ClockInTime = GetClockInTimeString();
             }
         }
 
@@ -56,13 +56,19 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockOutCommand()
         {
+            EmployeeData.ClockOutTime = DateTime.Now;
             await _navigationService.Navigate<ClockOutViewModel>();
         }
 
-        string GetTodayDate()
+        string GetTodayDateString()
         {
-            DateTime today = DateTime.Today;
-            return today.ToString();
+            var Date = DateTime.Now;
+            return Date.Day + "/" + Date.Month.ToString("D2") + "/" + Date.Year;
+        }
+
+        string GetClockInTimeString()
+        {
+            return string.Format("{0:hh.mmtt}", EmployeeData.ClockInTime);
         }
     }
 }

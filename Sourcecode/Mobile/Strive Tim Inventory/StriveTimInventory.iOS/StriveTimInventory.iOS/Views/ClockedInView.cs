@@ -31,6 +31,8 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(ClockOutButton).To(vm => vm.Commands["NavigateClockOut"]);
             set.Bind(WelcomeLabel).To(vm => vm.WelcomeTitle);
             set.Bind(RoleLabel).To(vm => vm.Role);
+            set.Bind(DateLabel).To(vm => vm.CurrentDate);
+            set.Bind(ClockInTimeLabel).To(vm => vm.ClockInTime);
             set.Apply();
         }
 
