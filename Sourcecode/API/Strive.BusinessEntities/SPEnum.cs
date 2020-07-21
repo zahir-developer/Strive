@@ -26,6 +26,7 @@ namespace Strive.BusinessEntities
         USPSAVEDOCUMENT,
         USPGETDOCUMENTBYEMPID,
         USPUPDATEDOCUMENTPASSWORD,
+        USPGETALLDOCUMENTBYID,
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,

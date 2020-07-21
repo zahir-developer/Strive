@@ -55,6 +55,15 @@ namespace Strive.ResourceAccess
             lstDocument = db.Fetch<DocumentView>(SPEnum.USPGETDOCUMENTBYEMPID.ToString(), dynParams);
             return lstDocument.FirstOrDefault();
         }
+        public List<DocumentView> GetAllDocument(long employeeId, long locationId)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@EmployeeId", employeeId);
+            dynParams.Add("@LocationId", locationId);
+            List<DocumentView> lstDocument = new List<DocumentView>();
+            lstDocument = db.Fetch<DocumentView>(SPEnum.USPGETALLDOCUMENTBYID.ToString(), dynParams);
+            return lstDocument;
+        }
         public bool UpdatePassword(long documentId, long employeeId, string password)
         {
             DynamicParameters dynParams = new DynamicParameters();
