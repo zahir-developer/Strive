@@ -13,6 +13,9 @@
     [Instagram]           NVARCHAR (200) NULL,
     [WifiDetail]          NVARCHAR (100) NULL,
     [WorkhourThreshold]   INT            NULL,
+    [WeatherLocationId]   NVARCHAR (50)  NULL,
     CONSTRAINT [PK_tblLocation] PRIMARY KEY CLUSTERED ([LocationId] ASC)
 );
+
+
 
