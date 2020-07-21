@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { threadId } from 'worker_threads';
 import { ForgotPasswordService } from '../shared/services/common-service/forgot-password.service';
+import { MustMatch } from '../shared/Validator/must-match.validator';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,6 +14,9 @@ export class ForgotPasswordComponent implements OnInit {
   isMobileNumber: boolean;
   forgotPasswordForm: FormGroup;
   submitted: boolean;
+  otpForm: FormGroup;
+  newPasswordForm: FormGroup;
+  passwordValidation: boolean;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -24,9 +27,19 @@ export class ForgotPasswordComponent implements OnInit {
     this.isEmail = false;
     this.isMobileNumber = false;
     this.submitted = false;
+    this.passwordValidation = false;
     this.forgotPasswordForm = this.formBuilder.group({
       email: [''],
       mobile: ['']
+    });
+    this.otpForm = this.formBuilder.group({
+      otp: ['']
+    });
+    this.newPasswordForm = this.formBuilder.group({
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm: ['', Validators.required]
+    }, {
+      validator: MustMatch('password', 'confirm')
     });
   }
 
@@ -74,4 +87,13 @@ export class ForgotPasswordComponent implements OnInit {
     });
 
   }
+
+  resetPassword(newPasswordForm) {
+    this.passwordValidation = true;
+    if (this.newPasswordForm.invalid) {
+      return;
+    }
+  }
+
+  get g() { return this.newPasswordForm.controls; }
 }

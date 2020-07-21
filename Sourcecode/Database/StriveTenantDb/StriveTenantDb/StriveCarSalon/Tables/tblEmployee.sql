@@ -11,8 +11,11 @@
     [BirthDate]         DATETIME     NULL,
     [ImmigrationStatus] INT          NULL,
     [CreatedDate]       DATETIME     NULL,
+    [IsActive]          BIT          NULL,
     CONSTRAINT [PK_tblEmployee1] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 
 
 

@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Document;
 using Strive.Common;
@@ -7,7 +6,6 @@ using Strive.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,7 +39,7 @@ namespace Strive.ResourceAccess
                     IsActive = item.IsActive
 
                 });
-           
+
             }
             dynParams.Add("@tvpDocument", lstDoc.ToDataTable().AsTableValuedParameter("tvpDocument"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEDOCUMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
@@ -56,6 +54,15 @@ namespace Strive.ResourceAccess
             List<DocumentView> lstDocument = new List<DocumentView>();
             lstDocument = db.Fetch<DocumentView>(SPEnum.USPGETDOCUMENTBYEMPID.ToString(), dynParams);
             return lstDocument.FirstOrDefault();
+        }
+        public List<DocumentView> GetAllDocument(long employeeId, long locationId)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@EmployeeId", employeeId);
+            dynParams.Add("@LocationId", locationId);
+            List<DocumentView> lstDocument = new List<DocumentView>();
+            lstDocument = db.Fetch<DocumentView>(SPEnum.USPGETALLDOCUMENTBYID.ToString(), dynParams);
+            return lstDocument;
         }
         public bool UpdatePassword(long documentId, long employeeId, string password)
         {

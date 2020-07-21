@@ -7,7 +7,10 @@
     [DocumentPath]        NVARCHAR (200) NULL,
     [Description]         NVARCHAR (100) NULL,
     [CreatedDate]         DATETIME       NOT NULL,
+    [IsActive]            BIT            NULL,
     CONSTRAINT [PK_tblEmployeeLiabilityDetail] PRIMARY KEY CLUSTERED ([LiabilityDetailId] ASC),
     CONSTRAINT [FK_tblEmployeeLiabilityDetail_tblEmployeeLiability] FOREIGN KEY ([LiabilityId]) REFERENCES [StriveCarSalon].[tblEmployeeLiability] ([LiabilityId])
 );
+
+
 
