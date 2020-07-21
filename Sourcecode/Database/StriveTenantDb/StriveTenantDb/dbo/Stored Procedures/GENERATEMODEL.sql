@@ -1,5 +1,5 @@
 ﻿
-create proc GENERATEMODEL
+CREATE proc [dbo].[GENERATEMODEL]
 (@Schema varchar(50), @Table varchar(50))
 as
 begin

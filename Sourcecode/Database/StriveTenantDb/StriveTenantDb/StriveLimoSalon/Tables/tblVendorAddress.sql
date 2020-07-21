@@ -11,7 +11,10 @@
     [Zip]            NVARCHAR (50) NULL,
     [Fax]            NVARCHAR (50) NULL,
     [IsActive]       BIT           NULL,
+    [Country]        INT           NULL,
     CONSTRAINT [PK_tblVendorAddress] PRIMARY KEY CLUSTERED ([AddressId] ASC),
     CONSTRAINT [FK_tblVendorAddress_tblVendor] FOREIGN KEY ([RelationshipId]) REFERENCES [StriveLimoSalon].[tblVendor] ([VendorId])
 );
+
+
 

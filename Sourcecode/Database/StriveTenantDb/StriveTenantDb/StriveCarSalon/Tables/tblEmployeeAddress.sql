@@ -10,7 +10,10 @@
     [State]          INT           NULL,
     [Zip]            NVARCHAR (50) NULL,
     [IsActive]       BIT           NULL,
+    [Country]        INT           NULL,
     CONSTRAINT [PK_tblEmployeeAddress] PRIMARY KEY CLUSTERED ([AddressId] ASC),
     CONSTRAINT [FK_tblEmployeeAddress_tblEmployee] FOREIGN KEY ([RelationshipId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
+
+
 

@@ -11,6 +11,9 @@
     [IsActive]        BIT           NULL,
     [DateEntered]     DATETIME      NULL,
     CONSTRAINT [PK_tblService] PRIMARY KEY CLUSTERED ([ServiceId] ASC),
+    CONSTRAINT [FK_tblService_tblCodeValue] FOREIGN KEY ([ServiceType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblService_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 
