@@ -45,7 +45,7 @@
                                     <tr>
                                         <td>{{serviceSetup.ServiceType}}</td>
                                         <td>{{serviceSetup.ServiceName}}</td>
-                                        <td>{{serviceSetup.Cost}}</td>
+                                        <td>{{serviceSetup.Cost | currency}}</td>
                                         <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                         <td>
                                             <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"

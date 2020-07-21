@@ -159,20 +159,20 @@
                                                 <div class="col-lg-8 col-xl-6">
                                                     <div class="btn-group">
                                                         <label class="default-name"> Coins</label>
-                                                        <label class="default-amount"> ${{totalCoin  | number:'1.2-2'}}</label>
+                                                        <label class="default-amount"> {{totalCoin  | currency}}</label>
                                                     </div>
                                                     <div class="btn-group">
                                                         <label class="default-name sm-bill"> Bills</label>
-                                                        <label class="default-amount"> ${{totalBill  | number:'1.2-2'}}</label>
+                                                        <label class="default-amount"> {{totalBill  | currency}}</label>
                                                     </div>
                                                     <div class="btn-group">
                                                         <label class="default-name sm-roll"> Rolls</label>
-                                                        <label class="default-amount"> ${{totalRoll  | number:'1.2-2'}}</label>
+                                                        <label class="default-amount"> {{totalRoll  | currency}}</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-xl-6 text-center m-t-20">
                                                     <h6 class="font-weight-bold">Total Available Cash</h6> <span
-                                                        class="cash-box"> <span class="text-cash">${{totalCash | number:'1.2-2'}} </span> </span>
+                                                        class="cash-box"> <span class="text-cash">{{totalCash | currency}} </span> </span>
                                                 </div>
                                             </div>
                                         </div>

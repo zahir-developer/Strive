@@ -40,7 +40,7 @@ export class CashinRegisterComponent implements OnInit {
   ngOnInit() {
     this.selectDate = moment(new Date()).format('YYYY-MM-DD');
     this.formInitialize();
-    this.getCashRegister();
+    //this.getCashRegister();
   }
 
   formInitialize() {
