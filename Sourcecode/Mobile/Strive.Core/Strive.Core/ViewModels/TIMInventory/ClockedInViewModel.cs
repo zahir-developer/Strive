@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Timers;
 using Strive.Core.Utils;
+using Strive.Core.Utils.TimInventory;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -12,6 +13,34 @@ namespace Strive.Core.ViewModels.TIMInventory
             //Timer checkForTime = new Timer(15000);
             //checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             //checkForTime.Enabled = true;
+            Init();
+        }
+
+        public string Name { get; set; }
+        public string Role { get; set; }
+        public string CurrentDate { get; set; }
+        public string ClockInTime { get; set; }
+
+
+        public string WelcomeTitle
+        {
+            get
+            {
+                return "Welcome " + Name; 
+            }
+            set { }
+        }
+
+        void Init()
+        {
+            if(EmployeeData.EmployeeDetails != null)
+            {
+                var EmployeeDetail = EmployeeData.EmployeeDetails;
+                Name = EmployeeDetail.FirstName + " " + EmployeeDetail.LastName;
+                Role = EmployeeData.CurrentRole;
+                CurrentDate = GetTodayDate();
+                ClockInTime = EmployeeData.ClockInTime;
+            }
         }
 
         void checkForTime_Elapsed(object sender, ElapsedEventArgs e)
@@ -28,6 +57,12 @@ namespace Strive.Core.ViewModels.TIMInventory
         public async Task NavigateClockOutCommand()
         {
             await _navigationService.Navigate<ClockOutViewModel>();
+        }
+
+        string GetTodayDate()
+        {
+            DateTime today = DateTime.Today;
+            return today.ToString();
         }
     }
 }

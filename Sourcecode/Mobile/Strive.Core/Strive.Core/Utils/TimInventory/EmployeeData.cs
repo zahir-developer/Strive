@@ -6,5 +6,9 @@ namespace Strive.Core.Utils.TimInventory
     public static class EmployeeData
     {
         public static EmployeeDetails EmployeeDetails { get; set; }
+
+        public static string CurrentRole { get; set; }
+
+        public static string ClockInTime { get; set; }
     }
 }
