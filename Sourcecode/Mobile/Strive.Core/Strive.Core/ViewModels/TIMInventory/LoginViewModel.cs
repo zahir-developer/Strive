@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
+using Strive.Core.Utils.TimInventory;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -54,6 +55,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
                 if(response.Token != null)
                 {
+                    EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     await _navigationService.Navigate<RootViewModel>();
                 }
                 _userDialog.HideLoading();

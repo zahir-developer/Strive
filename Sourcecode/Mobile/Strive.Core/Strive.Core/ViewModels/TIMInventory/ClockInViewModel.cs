@@ -2,6 +2,9 @@
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils;
 using System.Collections.Generic;
+using Strive.Core.Utils.TimInventory;
+using System;
+using System.Globalization;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -31,6 +34,10 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         private void InitList()
         {
+            if (EmployeeData.EmployeeDetails != null)
+            {
+
+            }
             _RolesList = new List<EmployeeRole>
             {
                 new EmployeeRole("Washer","icon-washer",0,"icon-washer"),
@@ -52,6 +59,13 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockedInCommand()
         {
+            if (FirstSelectedRole == null)
+            {
+                await _userDialog.AlertAsync("Select a Role to Clock in");
+                return;
+            }
+            EmployeeData.CurrentRole = FirstSelectedRole.Title;
+            EmployeeData.ClockInTime = DateTime.Now;
             await _navigationService.Navigate<ClockedInViewModel>();
         }
 
@@ -93,6 +107,12 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void RoleDeSelectedCommand(EmployeeRole role)
         {
             role.ImageUri = role.ImageUriHover;
+        }
+
+        string GetClockInTime()
+        {
+            var Time = DateTime.Now;
+            return Time.Hour + "." + Time.Minute.ToString("D2") + Time.ToString("tt", CultureInfo.InvariantCulture);
         }
     }
 }
