@@ -9,5 +9,8 @@
     [Upcharges]       FLOAT (53)     NULL,
     [ParentServiceId] INT            NULL,
     [IsActive]        BIT            NULL,
-    [DateEntered]     DATETIME       NULL);
+    [DateEntered]     DATETIME       NULL,
+    [CommissionCost]  DECIMAL (18)   NOT NULL);
+
+
 
