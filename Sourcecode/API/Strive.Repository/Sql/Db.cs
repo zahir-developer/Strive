@@ -277,5 +277,9 @@ namespace Strive.Repository
 
             return result;
         }
+        public T QuerySingleOrDefault<T>(string spName, DynamicParameters dynParm)
+        {
+            return dbcon.QuerySingleOrDefault<T>(spName, dynParm, commandType: CommandType.StoredProcedure);
+        }
     }
 }
