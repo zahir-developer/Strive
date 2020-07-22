@@ -29,6 +29,12 @@
                 <outlet property="RoleLabel" destination="Tee-A9-fqc" id="name-outlet-Tee-A9-fqc"/>
                 <outlet property="LogoutButton" destination="Zah-wt-oRm" id="name-outlet-Zah-wt-oRm"/>
                 <outlet property="TitleLabel" destination="50V-fZ-pFp" id="name-outlet-50V-fZ-pFp"/>
+                <outlet property="WelcomeBackLabel" destination="yZ3-dT-P5r" id="name-outlet-yZ3-dT-P5r"/>
+                <outlet property="DateLabel" destination="mlF-nn-yUB" id="name-outlet-mlF-nn-yUB"/>
+                <outlet property="ClockInTimeLabel" destination="hHI-WV-s8E" id="name-outlet-hHI-WV-s8E"/>
+                <outlet property="ClockOutTimeLabel" destination="9nj-gO-74t" id="name-outlet-9nj-gO-74t"/>
+                <outlet property="ClockInView" destination="eB1-FC-qrE" id="name-outlet-eB1-FC-qrE"/>
+                <outlet property="ClockOutViewBox" destination="pmq-Qq-rBG" id="name-outlet-pmq-Qq-rBG"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

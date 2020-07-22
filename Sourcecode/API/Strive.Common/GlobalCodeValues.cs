@@ -7,6 +7,6 @@ namespace Strive.Common
     public enum CashRegisterType
     {
         CASHIN,
-        CASHOUT
+        CLOSEOUT
     }
 }

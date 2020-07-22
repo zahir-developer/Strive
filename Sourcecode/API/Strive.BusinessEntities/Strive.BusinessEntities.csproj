@@ -56,6 +56,8 @@
     <Compile Include="Collision\Collision.cs" />
     <Compile Include="Collision\CollisionList.cs" />
     <Compile Include="Collision\LiabilityDetail.cs" />
+    <Compile Include="Document\Document.cs" />
+    <Compile Include="Document\DocumentView.cs" />
     <Compile Include="Employee\Employee.cs" />
     <Compile Include="Employee\EmployeeAddress.cs" />
     <Compile Include="Employee\EmployeeDetail.cs" />

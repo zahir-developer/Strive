@@ -32,6 +32,7 @@ export const UrlConfig = {
     getEmployeeDetail: `Admin/Employee/GetEmployeeById/`,
     deleteEmployee: `Admin/Employee/`,
     getAllRoles: `Admin/Employee/GetAllRoles`,
-    getDropdownValue: `Admin/Common/GetCodesByCategory/`
+    getDropdownValue: `Admin/Common/GetCodesByCategory/`,
+    getOtpCode: `Admin/ForgotPassword`
   }
 };

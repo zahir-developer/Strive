@@ -29,6 +29,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { HttpUtilsService } from './shared/util/http-utils.service';
 import { RouterModule } from '@angular/router';
 import {MultiSelectModule} from 'primeng/multiselect';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#FF7900',
@@ -108,6 +109,7 @@ const load = (http: HttpClient) => {
     ViewCustomerDetailsComponent,
     CreateCustomerDetailsComponent,
     DynamicTextboxComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,7 +119,7 @@ const load = (http: HttpClient) => {
     FormsModule,
     HttpClientModule,
     CommonModule,
-    RouterModule, 
+    RouterModule,
     TableModule,
     DialogModule,
     MomentModule,

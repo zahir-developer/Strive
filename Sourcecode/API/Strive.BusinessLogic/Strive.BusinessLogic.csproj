@@ -53,8 +53,11 @@
     <Compile Include="Collision\ICollisionBpl.cs" />
     <Compile Include="Common\CommonBpl.cs" />
     <Compile Include="Common\ICommonBpl.cs" />
+    <Compile Include="Document\DocumentBpl.cs" />
+    <Compile Include="Document\IDocumentBpl.cs" />
     <Compile Include="Employee\EmployeeBpl.cs" />
     <Compile Include="Employee\IEmployeeBpl.cs" />
+    <Compile Include="Location\Geocode.cs" />
     <Compile Include="Location\ILocationBpl.cs" />
     <Compile Include="Location\LocationBpl.cs" />
     <Compile Include="Location\WeatherLocation.cs" />
@@ -108,6 +111,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
