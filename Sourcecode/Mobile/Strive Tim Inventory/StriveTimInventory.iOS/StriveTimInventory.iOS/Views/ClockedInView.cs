@@ -17,6 +17,7 @@ namespace StriveTimInventory.iOS.Views
         {
             base.ViewDidLoad();
             CreateBindings();
+            NavigationController.NavigationBarHidden = true;
             ClockinView.Layer.CornerRadius = ClockoutView.Layer.CornerRadius = 20;
             ClockinView.Layer.MaskedCorners = (CoreAnimation.CACornerMask)5;
             ClockoutView.Layer.MaskedCorners = (CoreAnimation.CACornerMask)10;

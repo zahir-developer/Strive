@@ -7,10 +7,10 @@ namespace Strive.Core.Utils.TimInventory
     {
         public static EmployeeDetails EmployeeDetails { get; set; }
 
-        public static string CurrentRole { get; set; }
+        public static string CurrentRole { get; set; } = "Washer";
 
-        public static DateTime ClockInTime { get; set; }
+        public static DateTime ClockInTime { get; set; } = DateTime.Now;
 
-        public static DateTime ClockOutTime { get; set; }
+        public static DateTime ClockOutTime { get; set; } = DateTime.Now;
     }
 }
