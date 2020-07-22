@@ -65,19 +65,25 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveEmployeeDetails(EmployeeView lstEmployee)
+        public Result SaveEmployeeDetails(EmployeeView employee)
         {
             try
             {
-
+                var empDetails = employee.EmployeeDetail.FirstOrDefault();
                 UserLogin lstEmployeelst = new UserLogin();
                 lstEmployeelst.AuthId = 0;
-                lstEmployeelst.EmailId = lstEmployee.EmployeeAddress.Select(a => a.Email).FirstOrDefault();
-                lstEmployeelst.MobileNumber = lstEmployee.EmployeeAddress.Select(a => a.PhoneNumber).FirstOrDefault();
+                lstEmployeelst.EmailId = employee.EmployeeAddress.Select(a => a.Email).FirstOrDefault();
+                lstEmployeelst.MobileNumber = employee.EmployeeAddress.Select(a => a.PhoneNumber).FirstOrDefault();
                 lstEmployeelst.PasswordHash = "";
-                lstEmployeelst.CreatedDate = lstEmployee.CreatedDate;
+                lstEmployeelst.CreatedDate = employee.CreatedDate;
                 var newitem = new CommonBpl(_cache, _tenant).CreateLogin(lstEmployeelst);
-                var blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
+
+
+                lstEmployeelst.AuthId = newitem;
+                empDetails.AuthId = newitem.toInt();
+
+                var blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(employee);
+
 
                 //if (blnStatus)
                 //{
