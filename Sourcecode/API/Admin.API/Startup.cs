@@ -24,6 +24,7 @@ using OwaspHeaders.Core.Models;
 using Microsoft.Extensions.Options;
 using Strive.Crypto;
 using Strive.BusinessLogic.Document;
+using Strive.BusinessLogic.Weather;
 
 namespace Admin.API
 {
@@ -53,7 +54,7 @@ namespace Admin.API
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IClientBpl, ClientBpl>();
-
+            services.AddTransient<IWeatherBpl, WeatherBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

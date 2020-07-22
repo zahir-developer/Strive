@@ -49,6 +49,7 @@
     <Compile Include="CashRegister\CashRegisterRoll.cs" />
     <Compile Include="CashRegister\CashRegisterView.cs" />
     <Compile Include="CashRegister\CR.cs" />
+    <Compile Include="Weather\WeatherPrediction.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\ClientAddress.cs" />
     <Compile Include="Client\ClientList.cs" />

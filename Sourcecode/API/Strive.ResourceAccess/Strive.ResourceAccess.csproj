@@ -60,6 +60,7 @@
     <Compile Include="CommonRal.cs" />
     <Compile Include="DocumentRal.cs" />
     <Compile Include="EmployeeRal.cs" />
+    <Compile Include="WeatherRal.cs" />
     <Compile Include="LocationRal.cs" />
     <Compile Include="ProductRal.cs" />
     <Compile Include="RalBase.cs" />
