@@ -37,7 +37,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Coins</h4>
                                             </div>
-                                            <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()">
+                                            <form [formGroup]="cashRegisterCoinForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputpennies">Pennies</label>
@@ -77,7 +77,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Bills</h4>
                                             </div>
-                                            <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()">
+                                            <form [formGroup]="cashRegisterBillForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="input1s">1's</label>
@@ -121,7 +121,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Rolls</h4>
                                             </div>
-                                            <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()">
+                                            <form [formGroup]="cashRegisterRollForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputpennies">Pennies</label>
@@ -300,8 +300,8 @@
                             </div>
                         </div>
                         <div class="m-t-12 pull-right mw-100">
-                            <button type="button" class="btn theme-optional-button-color">Cancel</button>
-                            <button type="button" class="btn theme-primary-button-color">Save</button>
+                            <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+                            <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
                         </div>
                     </div>
                 </div>

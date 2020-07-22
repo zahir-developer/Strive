@@ -13,7 +13,7 @@ export class CashRegisterService {
    getCashRegisterByDate(cashRegisterType : string , locationId : number , date : string){
     return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`+cashRegisterType + '&' + locationId + '&' + date);
   }
-  saveCashRegister(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.saveCashRegister}`, obj);
+  saveCashRegister(obj,cashRegisterType : string) {
+    return this.http.post(`${UrlConfig.totalUrl.saveCashRegister}`, obj,cashRegisterType);
   }
 }
