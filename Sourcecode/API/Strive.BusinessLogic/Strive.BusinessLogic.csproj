@@ -47,6 +47,8 @@
     <Compile Include="Auth\IAuthManagerBpl.cs" />
     <Compile Include="CashRegister\CashRegisterBpl.cs" />
     <Compile Include="CashRegister\ICashRegisterBpl.cs" />
+    <Compile Include="Client\ClientBpl.cs" />
+    <Compile Include="Client\IClientBpl.cs" />
     <Compile Include="Collision\CollisionBpl.cs" />
     <Compile Include="Collision\ICollisionBpl.cs" />
     <Compile Include="Common\CommonBpl.cs" />

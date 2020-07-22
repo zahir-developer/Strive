@@ -18,6 +18,7 @@ using Strive.BusinessLogic.CashRegister;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Location;
 using Strive.BusinessLogic.Collision;
+using Strive.BusinessLogic.Client;
 using OwaspHeaders.Core.Extensions;
 using OwaspHeaders.Core.Models;
 using Microsoft.Extensions.Options;
@@ -49,6 +50,7 @@ namespace Admin.API
             services.AddTransient<IVendorBpl, VendorBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
+            services.AddTransient<IClientBpl, ClientBpl>();
 
 
             #region Add CORS

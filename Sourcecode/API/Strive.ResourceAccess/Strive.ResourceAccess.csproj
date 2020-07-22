@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AuthRal.cs" />
     <Compile Include="CashRegisterRal.cs" />
+    <Compile Include="ClientRal.cs" />
     <Compile Include="CollisionRal.cs" />
     <Compile Include="CommonRal.cs" />
     <Compile Include="EmployeeRal.cs" />
