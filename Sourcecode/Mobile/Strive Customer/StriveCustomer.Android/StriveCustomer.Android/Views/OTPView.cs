@@ -26,6 +26,12 @@ namespace StriveCustomer.Android.Views
         private TextView notReceiveOTPTextView;
         private TextView resendOTPTextView;
         private Button verifyButton;
+        private EditText otpBox1;
+        private EditText otpBox2;
+        private EditText otpBox3;
+        private EditText otpBox4;
+        StringBuilder builder = new StringBuilder();
+        private string otpValue;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -37,6 +43,10 @@ namespace StriveCustomer.Android.Views
             resendOTPTextView = FindViewById<TextView>(Resource.Id.resendOTPTextView);
             resendOTPTextView.PaintFlags = PaintFlags.UnderlineText;
             verifyButton = FindViewById<Button>(Resource.Id.verifyButton);
+            otpBox1 = FindViewById<EditText>(Resource.Id.otpBox1);
+            otpBox2 = FindViewById<EditText>(Resource.Id.otpBox2);
+            otpBox3 = FindViewById<EditText>(Resource.Id.otpBox3);
+            otpBox4 = FindViewById<EditText>(Resource.Id.otpBox4);
 
             var bindingset = this.CreateBindingSet<OTPView, OTPViewModel>();
 
@@ -45,9 +55,24 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(notReceiveOTPTextView).To(ovm => ovm.NotReceiveOTP);
             bindingset.Bind(resendOTPTextView).To(ovm => ovm.ResendOTP);
             bindingset.Bind(verifyButton).For(ovm => ovm.Text).To(ovm => ovm.VerifyOTP);
-            bindingset.Bind(verifyButton).To(ovm => ovm.Commands["Verify"]);
+            bindingset.Bind(otpValue).To(ovm => ovm.OTPValue);
 
             bindingset.Apply();
+
+            verifyButton.Click += bindOTP;
         }
+
+        private void bindOTP(object o , EventArgs e)
+        {
+            builder.Clear();
+            builder.Append(otpBox1.Text.ToString());
+            builder.Append(otpBox2.Text.ToString());
+            builder.Append(otpBox3.Text.ToString());
+            builder.Append(otpBox4.Text.ToString());
+            otpValue = builder.ToString();
+            ViewModel.OTPValue = otpValue;
+            ViewModel.VerifyCommand();
+        }
+       
     }
 }

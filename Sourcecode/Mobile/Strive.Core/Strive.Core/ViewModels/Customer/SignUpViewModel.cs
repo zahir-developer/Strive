@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Strive.Core.Models.Customer;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
 using System;
@@ -14,11 +15,11 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void SignUpCommand()
         {
-            if (Validations.validateEmail(signUpEmail) || String.IsNullOrEmpty(signUpEmail))
+            if (!Validations.validateEmail(signUpEmail) || String.IsNullOrEmpty(signUpEmail))
             {
                 _userDialog.Alert(Strings.ValidEmail);
             }
-            else if (Validations.validatePhone(signUpMobile) || String.IsNullOrEmpty(signUpMobile))
+            else if (!Validations.validatePhone(signUpMobile) || String.IsNullOrEmpty(signUpMobile))
             {
                 _userDialog.Alert(Strings.ValidMobile);
             }
@@ -30,13 +31,21 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.Alert(Strings.PasswordEmpty);
             }
-            else if(string.Equals(signUpPassword, signUpConfirmPassword))
+            else if (!string.Equals(signUpPassword, signUpConfirmPassword))
             {
                 _userDialog.Alert(Strings.PasswordsNotSame);
             }
             else
             {
-                //api call 
+                CustomerSignUp customerSignUp = new CustomerSignUp();
+
+                customerSignUp.emailId = signUpEmail;
+                customerSignUp.mobileNumber = signUpMobile;
+                customerSignUp.passwordHash = signUpPassword;
+                customerSignUp.createdDate = createdDate ;
+
+                var response = await AdminService.CustomerSignUp(customerSignUp);
+
             }
         }
 
@@ -50,7 +59,14 @@ namespace Strive.Core.ViewModels.Customer
         public string signUpName { get; set; }
         public string signUpPassword { get; set; }
         public string signUpConfirmPassword { get; set; }
-        
+        public int authId { get; set; } 
+        public int lockoutEnabled { get; set; } 
+        public int securityStamp { get; set; } 
+        public string passwordHash { get; set; }
+       
+        public string createdDate = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
+        public string userGuid { get; set; }
+        public int emailVerified { get; set; } 
         public string SignUp
         {
             get 
