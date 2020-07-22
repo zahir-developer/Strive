@@ -17,5 +17,6 @@ namespace Strive.BusinessEntities.ServiceSetup
         public int ParentServiceId { get; set; }
         public bool IsActive { get; set; }
         public DateTime DateEntered { get; set; }
+        public decimal CommissionCost { get; set; }
     }
 }

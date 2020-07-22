@@ -6,17 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Strive.BusinessEntities.Employee;
+using Strive.BusinessEntities.Auth;
+using System.Linq;
+using Strive.BusinessLogic.Common;
 
 namespace Strive.BusinessLogic
 {
     public class EmployeeBpl : Strivebase, IEmployeeBpl
     {
         readonly ITenantHelper _tenant;
+        readonly IDistributedCache _cache;
         readonly JObject _resultContent = new JObject();
         Result _result;
         public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
             _tenant = tenantHelper;
+            _cache = cache;
         }
         public Result GetEmployeeDetails()
         {
@@ -64,6 +69,14 @@ namespace Strive.BusinessLogic
         {
             try
             {
+
+                UserLogin lstEmployeelst = new UserLogin();
+                lstEmployeelst.AuthId = 0;
+                lstEmployeelst.EmailId = lstEmployee.EmployeeAddress.Select(a => a.Email).FirstOrDefault();
+                lstEmployeelst.MobileNumber = lstEmployee.EmployeeAddress.Select(a => a.PhoneNumber).FirstOrDefault();
+                lstEmployeelst.PasswordHash = "";
+                lstEmployeelst.CreatedDate = lstEmployee.CreatedDate;
+                var newitem = new CommonBpl(_cache, _tenant).CreateLogin(lstEmployeelst);
                 var blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
 
                 //if (blnStatus)

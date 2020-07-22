@@ -13,13 +13,14 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void GetOTPCommand()
         {
-            if(Validations.validatePhone(resetMobile))
+            if(Validations.validateEmail(resetEmail))
             {
+                await AdminService.CustomerForgotPassword(resetEmail);
                 await _navigationService.Navigate<OTPViewModel>();
             }
             else
             {
-                _userDialog.Alert(Strings.ValidMobile);
+                _userDialog.Alert(Strings.ValidEmail);
             }        
         }
 
@@ -27,7 +28,7 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Properties
 
-        public string resetMobile { get; set; }
+        public string resetEmail { get; set; }
         public string GetOTP
         {
             get

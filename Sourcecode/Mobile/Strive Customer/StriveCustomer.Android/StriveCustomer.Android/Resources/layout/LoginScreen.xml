@@ -29,7 +29,7 @@
     android:textSize="20dp"  
     android:layout_marginLeft="20dp"          
     android:textColor="@color/defaultLabelColor"        
-    android:textStyle="bold"/>
+    android:fontFamily="@font/opensans_bold"/>
      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -43,25 +43,27 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email_or_phone"
                 android:textColorHint="@color/defaultHintColor"
-                android:id="@+id/emailPhoneInputs" />  
+                android:id="@+id/emailPhoneInputs"
+                android:fontFamily="@font/opensans_regular"/>  
      </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         android:layout_marginTop="20dp"
-         android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"
-          app:boxBackgroundColor="@android:color/white"  
-          app:passwordToggleEnabled="true"
-          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"    
+        app:boxBackgroundColor="@android:color/white"  
+        app:passwordToggleEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:textColorHint="@color/defaultHintColor"
                 android:inputType="textPassword"
-                android:id="@+id/passwordInputs" /> 
+                android:id="@+id/passwordInputs"
+                android:fontFamily="@font/opensans_regular"/> 
      </android.support.design.widget.TextInputLayout>
  </LinearLayout>
         
@@ -81,7 +83,8 @@
             android:id="@+id/rememberMeLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/defaultLabelColor"/>
+            android:textColor="@color/defaultLabelColor"
+            android:fontFamily="@font/opensans_regular"/>
         </LinearLayout>
 
     <LinearLayout
@@ -96,13 +99,14 @@
             android:textColor="@color/defaultLabelColor"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@color/defaultButtonColor"
+            android:background="@drawable/primarybutton"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/forgotPasswordLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/defaultLinkColor"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
@@ -116,7 +120,8 @@
         android:id="@+id/newAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/defaultLabelColor"    
+        android:textColor="@color/defaultLabelColor" 
+        android:fontFamily="@font/opensans_regular"    
         android:layout_marginLeft="10dp"    
         android:gravity="center"/>
      <TextView
@@ -124,7 +129,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"    
-        android:textStyle="bold"
+        android:fontFamily="@font/opensans_bold"
         android:textColor="@color/defaultLinkColor"
         android:gravity="right"/>
     </LinearLayout>

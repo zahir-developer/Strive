@@ -33,6 +33,11 @@ namespace Strive.Repository
             return SqlMapperExtensions.Insert<T>(dbcon, list);
         }
 
+        public List<T> GetAll<T>() where T : class
+        {
+            return SqlMapperExtensions.GetAll<T>(dbcon).ToList();
+        }
+
         public void Save(CommandDefinition cmd)
         {
             try
@@ -64,7 +69,7 @@ namespace Strive.Repository
         {
             try
             {
-                return dbcon.QuerySingleOrDefault<T>(spName,dynParam, commandType: CommandType.StoredProcedure, commandTimeout: 0);
+                return dbcon.QuerySingleOrDefault<T>(spName, dynParam, commandType: CommandType.StoredProcedure, commandTimeout: 0);
             }
             catch (Exception ex)
             {
