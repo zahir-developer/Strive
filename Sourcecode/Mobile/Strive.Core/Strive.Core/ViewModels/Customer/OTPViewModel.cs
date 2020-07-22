@@ -38,7 +38,7 @@ namespace Strive.Core.ViewModels.Customer
         {
             get
             {
-                return Strings.OTPSent;
+                return Strings.OTPSentEmail;
             }
             set { }
         }

@@ -32,8 +32,8 @@ namespace StriveCustomer.Android.Views
             SetContentView(Resource.Layout.ConfirmPasswordScreen);
 
             submitButton = FindViewById<Button>(Resource.Id.submitButton);
-            newPassword = FindViewById<EditText>(Resource.Id.newPasswordTextView);
-            confirmPassword = FindViewById<EditText>(Resource.Id.confirmPasswordTextView);
+            newPassword = FindViewById<EditText>(Resource.Id.newPasswordEditText);
+            confirmPassword = FindViewById<EditText>(Resource.Id.confirmPasswordEditText);
             confirmPasswordTitle = FindViewById<TextView>(Resource.Id.newPasswordTitleTextView);
 
             var bindingset = this.CreateBindingSet<ConfirmPasswordView, ConfirmPasswordViewModel>();

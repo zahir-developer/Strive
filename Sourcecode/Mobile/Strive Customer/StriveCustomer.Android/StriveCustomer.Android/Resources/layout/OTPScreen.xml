@@ -34,7 +34,7 @@
     android:id="@+id/OTPTextView"        
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="14dp"
+    android:textSize="16dp"
     android:layout_marginTop="20dp"
     android:layout_marginLeft="20dp"
     android:fontFamily="@font/opensans_regular"         
@@ -48,7 +48,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -64,7 +64,7 @@
 <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -80,7 +80,7 @@
 <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -96,7 +96,7 @@
 <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
