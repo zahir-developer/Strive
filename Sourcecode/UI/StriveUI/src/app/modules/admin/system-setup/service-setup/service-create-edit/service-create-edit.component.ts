@@ -45,6 +45,7 @@ export class ServiceCreateEditComponent implements OnInit {
     this.ctypeLabel = 'none';
     this.getAllServiceType();
     this.getCommissionType();
+    this.getParentType();
     this.isChecked=false;
     this.submitted = false;
     console.log(this.selectedData);
@@ -87,6 +88,15 @@ export class ServiceCreateEditComponent implements OnInit {
       }else{
         this.toastr.error('Communication Error','Error!');
       }
+    });
+  }
+
+  getParentType(){
+    this.serviceSetup.getServiceSetup().subscribe(data =>{
+      if (data.status === 'Success') {
+        const serviceDetails = JSON.parse(data.resultData);
+        this.parent = serviceDetails.ServiceSetup;  
+      }      
     });
   }
 
@@ -134,7 +144,7 @@ export class ServiceCreateEditComponent implements OnInit {
       commisionType: this.serviceSetupForm.value.commission == true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       //parentName: this.serviceSetupForm.value.parentName,
-      parentServiceId:0,
+      parentServiceId:this.serviceSetupForm.value.parentName,
       isActive: true,
       locationId:1,
       dateEntered: moment(this.today).format('YYYY-MM-DD')
