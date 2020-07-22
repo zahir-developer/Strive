@@ -142,11 +142,11 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OTP sent to your registered mobile #.
+        ///   Looks up a localized string similar to OTP sent to your registered email .
         /// </summary>
-        internal static string OTPSent {
+        internal static string OTPSentEmail {
             get {
-                return ResourceManager.GetString("OTPSent", resourceCulture);
+                return ResourceManager.GetString("OTPSentEmail", resourceCulture);
             }
         }
         
