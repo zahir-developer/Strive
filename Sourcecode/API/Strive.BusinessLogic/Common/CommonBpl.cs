@@ -276,12 +276,16 @@ namespace Strive.BusinessLogic.Common
             <p> Strive Team </p>", "Welcome to Strive");
         }
 
-        private void SendOtpEmail(string emailId, string otp)
+        private Result SendOtpEmail(string emailId, string otp)
         {
             SendMail(emailId, @"<p>Hello " + emailId + @",</p>
             <p>Please use '" + otp + @"' as your confirm OTP to Reset your password.</p>
             <p>Thanks,</p>
             <p>Strive Team.</p>", "Strive OTP Verification");
+
+            _resultContent.Add((true).WithName("Status"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
         }
 
         private void SendMail(string email, string body, string subject)
