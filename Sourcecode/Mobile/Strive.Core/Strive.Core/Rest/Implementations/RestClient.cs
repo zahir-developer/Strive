@@ -58,6 +58,7 @@ namespace Strive.Core.Rest.Implementations
                     {
                         stringSerialized = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
                         baseResponse = _jsonConverter.DeserializeObject<BaseResponse>(stringSerialized);
+                       // var sample = _jsonConverter.DeserializeObject<string>(stringSerialized);
                     }
                     catch(Exception ex)
                     {

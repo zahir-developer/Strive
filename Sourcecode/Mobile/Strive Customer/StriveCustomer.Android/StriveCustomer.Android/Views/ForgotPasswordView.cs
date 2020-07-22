@@ -41,7 +41,7 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(OtpTextView).To(fsvm => fsvm.ReceiveOTP);
             bindingset.Bind(getOTP).For(fsvm => fsvm.Text).To(fsvm => fsvm.GetOTP);
             bindingset.Bind(getOTP).To(fsvm => fsvm.Commands["GetOTP"]);
-            bindingset.Bind(mobileNumberEditText).To(fsvm => fsvm.resetMobile);
+            bindingset.Bind(mobileNumberEditText).To(fsvm => fsvm.resetEmail);
 
             bindingset.Apply();
 

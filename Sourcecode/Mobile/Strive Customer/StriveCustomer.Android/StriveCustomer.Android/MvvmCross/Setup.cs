@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Acr.UserDialogs;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
@@ -38,9 +39,10 @@ namespace StriveCustomer.Android.MvvmCross
         protected override void InitializeFirstChance()
         {
             Mvx.IoCProvider.RegisterType<IMvxJsonConverter, MvxJsonConverter>();
+            Mvx.IoCProvider.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
-
+            
             base.InitializeFirstChance();
         }
 

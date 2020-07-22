@@ -20,7 +20,7 @@ namespace StriveCustomer.Android.MvvmCross
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            Mvx.IoCProvider.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
+            
 
             // register the appstart object
             RegisterCustomAppStart<AppStart>();
