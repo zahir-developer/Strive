@@ -48,6 +48,11 @@ namespace StriveCustomer.Android.Views
             otpBox3 = FindViewById<EditText>(Resource.Id.otpBox3);
             otpBox4 = FindViewById<EditText>(Resource.Id.otpBox4);
 
+            otpBox1.TextChanged += changeFocus;
+            otpBox2.TextChanged += changeFocus;
+            otpBox3.TextChanged += changeFocus;
+            otpBox4.TextChanged += changeFocus;
+
             var bindingset = this.CreateBindingSet<OTPView, OTPViewModel>();
 
             bindingset.Bind(enterOTPTitleTextView).To(ovm => ovm.EnterOTP);
@@ -61,7 +66,15 @@ namespace StriveCustomer.Android.Views
 
             verifyButton.Click += bindOTP;
         }
-
+        private void changeFocus(object o, EventArgs e)
+        {
+            if (otpBox1.IsFocused)
+                otpBox2.RequestFocus();
+            else if (otpBox2.IsFocused)
+                otpBox3.RequestFocus();
+            else
+                otpBox4.RequestFocus();
+        }
         private void bindOTP(object o , EventArgs e)
         {
             builder.Clear();

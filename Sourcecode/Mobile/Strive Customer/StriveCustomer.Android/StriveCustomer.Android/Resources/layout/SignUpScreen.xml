@@ -6,136 +6,143 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mobile_portrait_bg">
-            <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"    
+        android:gravity="center">
+        <ImageView
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:src="@drawable/strive_logo_page"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:id="@+id/signUpTextView"        
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/defaultLabelColor"        
+            android:fontFamily="@font/opensans_bold"/>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="40dp"    
-                android:gravity="center">
-               <ImageView
-                   android:layout_width="320dp"
-                   android:layout_height="70dp"
-                   android:src="@drawable/strive_logo_page"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="30dp">
-                    <TextView
-                        android:id="@+id/signUpTextView"        
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:textColor="@color/defaultLabelColor"        
-                        android:fontFamily="@font/opensans_bold"/>
-                         <android.support.design.widget.TextInputLayout
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:layout_marginTop="20dp"
-                              android:layout_marginLeft="20dp"
-                              android:layout_marginRight="20dp"
-                              app:boxBackgroundColor="@android:color/white"  
-                              style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                                <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="phone"
-                                    android:fontFamily="@font/opensans_regular"
-                                    android:hint="@string/mobile_number"
-                                    android:textColorHint = "@color/defaultHintColor"
-                                    android:id="@+id/signUpMobile" />  
-                         </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            app:boxBackgroundColor="@android:color/white"    
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                            <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/email_Id"
-                                    android:fontFamily="@font/opensans_regular"
-                                    android:textColorHint = "@color/defaultHintColor"
-                                    android:inputType="textEmailAddress"
-                                    android:id="@+id/signUpEmail" /> 
-                         </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            app:boxBackgroundColor="@android:color/white"    
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                            <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/Name"
-                                    android:fontFamily="@font/opensans_regular"
-                                    android:textColorHint = "@color/defaultHintColor"
-                                    android:inputType="textPersonName"
-                                    android:id="@+id/signUpName" /> 
-                         </android.support.design.widget.TextInputLayout>
-
-                             <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            app:boxBackgroundColor="@android:color/white"    
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                            <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/password"
-                                    android:fontFamily="@font/opensans_regular"
-                                    android:textColorHint = "@color/defaultHintColor"
-                                    android:inputType="textPassword"
-                                    android:id="@+id/signUpPassword" /> 
-                         </android.support.design.widget.TextInputLayout> 
-
-                                  <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            app:boxBackgroundColor="@android:color/white"    
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                            <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/confirm_password"
-                                    android:fontFamily="@font/opensans_regular"
-                                    android:textColorHint = "@color/defaultHintColor"                
-                                    android:inputType="textPassword"
-                                    android:id="@+id/signUpConfirmPassword" /> 
-                         </android.support.design.widget.TextInputLayout> 
-                     </LinearLayout>
- 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp">
-  
-            <Button
-                    android:id="@+id/signUpButton"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxCornerRadiusBottomStart="3dp"
+                app:boxCornerRadiusBottomEnd ="3dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_bold"
-                    android:textColor="@color/defaultLabelColor"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/primarybutton"/>
-            </LinearLayout>
-
+                    android:inputType="phone"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/opensans_regular"
+                    android:hint="@string/mobile_number"
+                    android:textColorHint = "@color/defaultHintColor"
+                    android:id="@+id/signUpMobile" />  
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxCornerRadiusBottomStart="3dp"
+                app:boxCornerRadiusBottomEnd="3dp"            
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_Id"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/opensans_regular"
+                        android:textColorHint = "@color/defaultHintColor"
+                        android:inputType="textEmailAddress"
+                        android:id="@+id/signUpEmail" /> 
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxCornerRadiusBottomStart="3dp"
+                app:boxCornerRadiusBottomEnd = "3dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/Name"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/opensans_regular"
+                        android:textColorHint = "@color/defaultHintColor"
+                        android:inputType="textPersonName"
+                        android:id="@+id/signUpName" /> 
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxCornerRadiusBottomStart="3dp"
+                app:boxCornerRadiusBottomEnd = "3dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/opensans_regular"
+                        android:textColorHint = "@color/defaultHintColor"
+                        android:inputType="textPassword"
+                        android:id="@+id/signUpPassword" /> 
+            </android.support.design.widget.TextInputLayout> 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxCornerRadiusBottomStart="3dp"
+                app:boxCornerRadiusBottomEnd = "3dp"         
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/confirm_password"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/opensans_regular"
+                        android:textColorHint = "@color/defaultHintColor"                
+                        android:inputType="textPassword"
+                        android:id="@+id/signUpConfirmPassword" /> 
+            </android.support.design.widget.TextInputLayout> 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp">
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_bold"
+            android:textColor="@color/defaultLabelColor"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/primarybutton"/>
+    </LinearLayout>
 </LinearLayout>
