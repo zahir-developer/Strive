@@ -33,5 +33,15 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<EmployeeResultData>(ApiUtils.URL_LOGIN_EMPLOYEE, HttpMethod.Post, loginRequest);
         }
+
+        public async Task<BaseResponse> CustomerSignUp(CustomerSignUp signUpRequest)
+        {
+            return await _restClient.MakeApiCall<BaseResponse>(ApiUtils.URL_CUST_SIGN_UP, HttpMethod.Post, signUpRequest);
+        }
+
+        public async Task<string> CustomerForgotPassword(string emailID)
+        {
+            return await _restClient.MakeApiCall<string>(ApiUtils.URL_CUST_FORGOT_PASSWORD, HttpMethod.Post, emailID);
+        }
     }
 }

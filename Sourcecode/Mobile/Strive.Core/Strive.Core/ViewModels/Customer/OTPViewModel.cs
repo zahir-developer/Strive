@@ -10,8 +10,17 @@ namespace Strive.Core.ViewModels.Customer
         #region Commands
         public async void VerifyCommand()
         {
-            await _navigationService.Navigate<ConfirmPasswordViewModel>();
+            if (string.IsNullOrEmpty(OTPValue))
+            {
+                _userDialog.Alert("Enter OTP Value");
+            }
+            else
+            {
+                await _navigationService.Navigate<ConfirmPasswordViewModel>();
+            }
         }
+
+
 
         #endregion Commands
 
@@ -57,6 +66,8 @@ namespace Strive.Core.ViewModels.Customer
             }
             set { }
         }
+
+        public string OTPValue { get; set; }
 
         #endregion Properties
 
