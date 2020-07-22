@@ -79,13 +79,13 @@ export class CloseoutRegisterComponent implements OnInit {
 
   getCloseOutRegister() {
     const today = moment(new Date).format('YYYY-MM-DD');
-    const cashRegisterType = "CASHOUT";
+    const cashRegisterType = "CLOSEOUT";
     const locationId = 1;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
-        console.log(this.closeOutDetails.length);
+        console.log(this.closeOutDetails);
         if (this.closeOutDetails.length != 0) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
@@ -193,7 +193,7 @@ export class CloseoutRegisterComponent implements OnInit {
     };
     sourceObj.push(formObj);
     console.log(sourceObj);
-    this.registerService.saveCashRegister(formObj, "CASHOUT").subscribe(data => {
+    this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       if (data.status === "Success") {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
       }
