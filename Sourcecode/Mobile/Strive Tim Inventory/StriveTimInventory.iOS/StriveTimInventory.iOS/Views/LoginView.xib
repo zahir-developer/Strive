@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -36,10 +36,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tie-yI-3XS">
-                            <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                            <rect key="frame" x="-10" y="-10" width="854" height="1214"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="strive_icon" translatesAutoresizingMaskIntoConstraints="NO" id="efs-oQ-fU0">
-                                    <rect key="frame" x="354" y="396" width="126" height="84"/>
+                                    <rect key="frame" x="364" y="406" width="126" height="84"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="126" id="iRg-Vg-UIh"/>
                                         <constraint firstAttribute="height" constant="84" id="zFw-Fc-cuH"/>
@@ -98,15 +98,15 @@
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="width" secondItem="N02-ev-TPl" secondAttribute="width" multiplier="0.4" id="Eab-qN-eOO"/>
                         <constraint firstItem="g2c-Fx-9sF" firstAttribute="trailing" secondItem="hvk-t9-Uzd" secondAttribute="trailing" constant="-15" id="ON1-1p-ZRf"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="width" secondItem="rc1-5W-pyB" secondAttribute="width" id="RFc-vO-Nna"/>
-                        <constraint firstAttribute="bottom" secondItem="Tie-yI-3XS" secondAttribute="bottom" id="YYF-SA-bva"/>
-                        <constraint firstItem="Tie-yI-3XS" firstAttribute="leading" secondItem="N02-ev-TPl" secondAttribute="leading" id="atL-zh-mtd"/>
-                        <constraint firstAttribute="trailing" secondItem="Tie-yI-3XS" secondAttribute="trailing" id="b9a-x9-aSF"/>
+                        <constraint firstAttribute="bottom" secondItem="Tie-yI-3XS" secondAttribute="bottom" constant="-10" id="YYF-SA-bva"/>
+                        <constraint firstItem="Tie-yI-3XS" firstAttribute="leading" secondItem="N02-ev-TPl" secondAttribute="leading" constant="-10" id="atL-zh-mtd"/>
+                        <constraint firstAttribute="trailing" secondItem="Tie-yI-3XS" secondAttribute="trailing" constant="-10" id="b9a-x9-aSF"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="centerY" secondItem="N02-ev-TPl" secondAttribute="centerY" id="gms-aZ-YvV"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="hmg-To-oU8"/>
                         <constraint firstItem="rc1-5W-pyB" firstAttribute="top" secondItem="hvk-t9-Uzd" secondAttribute="bottom" constant="15" id="mYf-pM-dAF"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="top" secondItem="rc1-5W-pyB" secondAttribute="bottom" constant="15" id="o5Q-oR-sOX"/>
                         <constraint firstItem="g2c-Fx-9sF" firstAttribute="height" secondItem="rc1-5W-pyB" secondAttribute="height" multiplier="0.44" id="ud1-dz-GEV"/>
-                        <constraint firstItem="Tie-yI-3XS" firstAttribute="top" secondItem="N02-ev-TPl" secondAttribute="top" id="xsi-3Q-pk4"/>
+                        <constraint firstItem="Tie-yI-3XS" firstAttribute="top" secondItem="N02-ev-TPl" secondAttribute="top" constant="-10" id="xsi-3Q-pk4"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="zLQ-8N-H6V"/>
                     </constraints>
                 </view>
