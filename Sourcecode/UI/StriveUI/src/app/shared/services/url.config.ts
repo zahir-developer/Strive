@@ -3,7 +3,7 @@
 export const UrlConfig = {
   totalUrl:
   {
-    login: `Admin/Login`,
+    login: `Auth/Login`,
     getCode: `Admin/Common/GetCodesByCategory/`,
     getEmployees: `Admin/Employee/GetAll`,
     updateEmployees: `Admin/Employee/Save`,
