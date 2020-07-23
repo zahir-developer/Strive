@@ -23,7 +23,7 @@ namespace StriveCustomer.Android.Views
         private Button getOTP;
         private TextView forgotPasswordTextView;
         private TextView OtpTextView;
-        private EditText mobileNumberEditText;
+        private EditText emailForgotPasswordEditText;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -33,7 +33,7 @@ namespace StriveCustomer.Android.Views
             forgotPasswordTextView = FindViewById<TextView>(Resource.Id.forgotPasswordTextView);
             OtpTextView = FindViewById<TextView>(Resource.Id.receiveOTPTextView);
             getOTP = FindViewById<Button>(Resource.Id.getOTPButton);
-            mobileNumberEditText = FindViewById<EditText>(Resource.Id.forgotPasswordMobile);
+            emailForgotPasswordEditText = FindViewById<EditText>(Resource.Id.forgotPasswordEmail);
 
             var bindingset = this.CreateBindingSet<ForgotPasswordView, ForgotPasswordViewModel>();
 
@@ -41,7 +41,7 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(OtpTextView).To(fsvm => fsvm.ReceiveOTP);
             bindingset.Bind(getOTP).For(fsvm => fsvm.Text).To(fsvm => fsvm.GetOTP);
             bindingset.Bind(getOTP).To(fsvm => fsvm.Commands["GetOTP"]);
-            bindingset.Bind(mobileNumberEditText).To(fsvm => fsvm.resetEmail);
+            bindingset.Bind(emailForgotPasswordEditText).To(fsvm => fsvm.resetEmail);
 
             bindingset.Apply();
 
