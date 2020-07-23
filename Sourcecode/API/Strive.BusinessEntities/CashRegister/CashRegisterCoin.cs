@@ -6,7 +6,7 @@ namespace Strive.BusinessEntities.CashRegister
 {
     public class CashRegisterCoin
     {
-        public int CashRegCoinId { get; set; }
+        public int CashRegisterCoinId { get; set; }
         public int? Pennies { get; set; }
         public int? Nickels { get; set; }
         public int? Dimes { get; set; }
