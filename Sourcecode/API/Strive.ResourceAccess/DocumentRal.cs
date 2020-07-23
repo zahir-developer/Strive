@@ -64,12 +64,12 @@ namespace Strive.ResourceAccess
             lstDocument = db.Fetch<DocumentView>(SPEnum.USPGETALLDOCUMENTBYID.ToString(), dynParams);
             return lstDocument;
         }
-        public bool UpdatePassword(long documentId, long employeeId, string password)
+        public bool UpdatePassword(Strive.BusinessEntities.Document.DocumentView lstUpdateDocument)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@DocumentId", documentId);
-            dynParams.Add("@EmployeeId", employeeId);
-            dynParams.Add("@Password", password);
+            dynParams.Add("@DocumentId", lstUpdateDocument.DocumentId);
+            dynParams.Add("@EmployeeId", lstUpdateDocument.EmployeeId);
+            dynParams.Add("@Password", lstUpdateDocument.Password);
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPUPDATEDOCUMENTPASSWORD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
