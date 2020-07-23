@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
-import { log } from 'console';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 
 @Component({
@@ -25,6 +24,15 @@ export class LocationCreateEditComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService) { }
 
   ngOnInit() {
+    this.formInitialize();
+    this.submitted = false;
+    if (this.isEdit === true) {
+      this.locationSetupForm.reset();
+      this.getLocationById();
+    }
+  }
+
+  formInitialize() {
     this.locationSetupForm = this.fb.group({
       locationAddress2: ['', Validators.required],
       locationName: ['', Validators.required],
@@ -37,12 +45,6 @@ export class LocationCreateEditComponent implements OnInit {
       franchise: ['',],
       workHourThreshold: ['',]
     });
-    this.submitted = false;
-    console.log(this.selectedData);
-    if (this.isEdit === true) {
-      this.locationSetupForm.reset();
-      this.getLocationById();
-    }
   }
 
   getLocationById() {
@@ -54,7 +56,6 @@ export class LocationCreateEditComponent implements OnInit {
         const locationAddress = this.selectedLocation.LocationAddress[0];
         this.selectedStateId = locationAddress.State;
         this.locationSetupForm.patchValue({
-          // locationId: this.selectedLocation.LocationId,
           locationName: this.selectedLocation.LocationName,
           locationAddress: this.selectedLocation.LocationAddress[0].Address1,
           locationAddress2: this.selectedLocation.LocationAddress[0].Address2,
@@ -64,6 +65,8 @@ export class LocationCreateEditComponent implements OnInit {
           email: this.selectedLocation.LocationAddress[0].Email,
           franchise: this.selectedLocation.IsFranchise
         });
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -91,8 +94,8 @@ export class LocationCreateEditComponent implements OnInit {
       phoneNumber2: "",
       isActive: true,
       zip: this.locationSetupForm.value.zipcode,
-      state: this.State,//this.locationSetupForm.value.state == "" ? 0 : this.locationSetupForm.value.state,
-      city: 1,//this.locationSetupForm.value.country,
+      state: this.State,
+      city: 1,
       country: this.Country,
       phoneNumber: this.locationSetupForm.value.phoneNumber,
       email: this.locationSetupForm.value.email
@@ -115,7 +118,6 @@ export class LocationCreateEditComponent implements OnInit {
       isFranchise: this.locationSetupForm.value.franchise == "" ? false : this.locationSetupForm.value.franchise
     };
     sourceObj.push(formObj);
-    console.log(sourceObj);
     this.locationService.updateLocation(sourceObj).subscribe(data => {
       if (data.status === 'Success') {
         if (this.isEdit === true) {

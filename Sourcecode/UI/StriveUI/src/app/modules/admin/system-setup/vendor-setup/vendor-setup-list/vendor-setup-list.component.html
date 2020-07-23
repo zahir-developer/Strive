@@ -1,5 +1,4 @@
 <div class="tab-content" id="v-pills-tabContent">
-  <!--tab-content-->
   <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
     <h4>Vendor Setup</h4>
     <div class="card m-t-10 m-b-10">
@@ -7,26 +6,13 @@
         <div class="tab-content">
           <div class="title-border p-b-10 m-b-15">
             <h5 class="d-inline-block">Vendor List</h5>&nbsp;
-            <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add New
-              Vendor</button>
+            <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add
+              New Vendor</button>
           </div>
           <div class="setup-wrapper">
             <div class="setup-content" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No records
                 Found</span></div>
             <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
-              <div class="search-container pull-right">
-                <!-- <form>
-                  <div class="form-row">
-                    <div class="form-group d-flex "> <span class="Search text-right p-r-10 p-t-5">Search</span> </div>
-                    <div class="form-group">
-                      <input type="search" class="form-control" id="inputSearchbyName" placeholder="By name">
-                    </div>
-                    <div class="form-group m-l-5 m-r-5">
-                      <input type="search" class="form-control" id="inputSearchbyID" placeholder="by id">
-                    </div>
-                  </div>
-                </form> -->
-              </div>
               <p-table [value]="vendorSetupDetails">
                 <ng-template pTemplate="header">
                   <tr>
@@ -62,38 +48,3 @@
     </div>
   </div>
 </div>
-
-
-<!-- <button type="button" class="" (click)="add('add',[])">Add</button>
-
-
-<p-table [value]="vendorSetupDetails">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-vendorSetup>
-        <tr>
-            <td>{{vendorSetup.Id}}</td>
-            <td>{{vendorSetup.Name}}</td>
-            <td>{{vendorSetup.PhoneNumber}}</td>
-            <td>{{vendorSetup.Email}}</td>
-            <td>
-                <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
-                                (click)="add('edit', vendorSetup)"></em>&nbsp;&nbsp;
-                            <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
-                                (click)="delete(vendorSetup)"></em>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
-
-<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true"
-    [focusOnShow]="false" [style]="{width: '700px', height: '1000px'}">
-    <app-vendor-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]= "isEdit" (closeDialog)="closePopupEmit($event)"></app-vendor-create-edit>
-</p-dialog> -->
