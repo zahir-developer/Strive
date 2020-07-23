@@ -36,6 +36,7 @@ export const UrlConfig = {
     getOtpCode: `Admin/SendOTP/`,
     uploadDocument: `Admin/Document/SaveDocument`,
     getAllDocument: `Admin/Document/GetAllDocument/`,
-    getDocumentById: `Admin/Document/GetDocumentById/`
+    getDocumentById: `Admin/Document/GetDocumentById/`,
+    getWeather: `Admin/Weather/GetWeatherPrediction/`
   }
 };

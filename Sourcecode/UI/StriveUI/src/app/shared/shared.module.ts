@@ -15,6 +15,11 @@ import { StateDropdownComponent } from './components/state-dropdown/state-dropdo
 import { CountryDropdownComponent } from './components/country-dropdown/country-dropdown.component';
 import { RouterModule } from '@angular/router';
 import { PhoneMaskDirective } from './Directive/phone-mask.directive';
+import { RainProbabilityComponent } from './components/rain-probability/rain-probability.component';
+import { TemperatureComponent } from './components/temperature/temperature.component';
+import { LastWeekComponent } from './components/last-week/last-week.component';
+import { LastThreeMonthComponent } from './components/last-three-month/last-three-month.component';
+import { LastMonthComponent } from './components/last-month/last-month.component';
 
 
 
@@ -35,10 +40,12 @@ import { PhoneMaskDirective } from './Directive/phone-mask.directive';
   entryComponents: [
     ConfirmationDialogComponent
   ],
-  declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective],
-  exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
+  declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective,
+    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent],
+  exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, 
     AccordionModule, ConfirmationDialogComponent,
-    StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective],
+    StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
+    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 

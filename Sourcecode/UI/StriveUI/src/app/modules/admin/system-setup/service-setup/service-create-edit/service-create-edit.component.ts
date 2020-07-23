@@ -72,6 +72,7 @@ export class ServiceCreateEditComponent implements OnInit {
           cost: this.selectedService.Cost,
           commission: this.selectedService.Commision,
           commissionType: this.selectedService.CommisionType,
+          fee: this.selectedService.CommisionCost,
           upcharge: this.selectedService.Upcharges,
           parentName: this.selectedService.ParentServiceId,
           status: this.selectedData.IsActive ? this.Status[0] : this.Status[1]
@@ -87,6 +88,7 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getCode.getCodeByCategory("COMMISIONTYPE").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
+        this.CommissionType = cType.Codes;        
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -105,7 +107,7 @@ export class ServiceCreateEditComponent implements OnInit {
   }
 
   getCtype(data) {
-    this.ctypeLabel = data;
+    this.ctypeLabel = this.CommissionType.filter(item => item.CodeId === Number(data))[0].CodeValue;
   }
   getAllServiceType() {
     this.serviceSetup.getServiceType().subscribe(data => {
@@ -146,11 +148,12 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
       commision: this.isChecked,
-      commisionType: this.serviceSetupForm.value.commission == true ? this.serviceSetupForm.value.commissionType : 0,
+      commisionType: this.isChecked== true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName,
       isActive: true,
       locationId: 1,
+      commisionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
       dateEntered: moment(this.today).format('YYYY-MM-DD')
     };
     sourceObj.push(formObj);

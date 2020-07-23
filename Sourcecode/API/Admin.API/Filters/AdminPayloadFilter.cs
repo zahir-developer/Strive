@@ -69,11 +69,7 @@ namespace Admin.API.Filters
             var userGuid = string.Empty;
             var TenantGuid = string.Empty;
             var schemaName = string.Empty;
-            if (!context.HttpContext.Request.Path.Value.Contains("Admin/Login") &&
-                 !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh") &&
-                  !context.HttpContext.Request.Path.Value.Contains("Admin/ForgotPassword") &&
-                   !context.HttpContext.Request.Path.Value.Contains("Admin/ResetPassword") &&
-                   !context.HttpContext.Request.Path.Value.Contains("Admin/CreateLogin"))
+            if (!context.HttpContext.Request.Path.Value.Contains("/Auth/"))
             {
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;

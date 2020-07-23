@@ -19,11 +19,12 @@ namespace Strive.ResourceAccess
             var dbConnection = tenant.db();
             _db = new Db(dbConnection);
         }
-        public WeatherPrediction GetWeatherDetails(int locationId)
+        public WeatherPrediction GetWeatherDetails(int locationId, DateTime dateTime)
         {
             var allPredictions = _db.GetAll<WeatherPrediction>();
 
-            return allPredictions.Where(s => s.LocationId == locationId).FirstOrDefault();
+            return allPredictions.Where(s => s.LocationId == locationId && s.CreatedDate.Date == dateTime.Date)
+                                 .OrderByDescending(s=>s.CreatedDate).FirstOrDefault();
         }
 
         public bool AddWeather(WeatherPrediction weatherPrediction)
