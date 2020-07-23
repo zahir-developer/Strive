@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,19 +9,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class SetupComponent implements OnInit {
 
-    setupForm : FormGroup;
-    sysSetup : any;
+  setupForm: FormGroup;
+  sysSetup: any;
 
-  constructor(private fb: FormBuilder,private router: Router, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
 
     this.loadLocationSetup();
   }
 
-  
+
 
   loadLocationSetup(): void {
     this.router.navigate([`/admin/setup/location`], { relativeTo: this.route });
-  }  
+  }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
@@ -79,13 +79,12 @@ export class CashinRegisterComponent implements OnInit {
 
   getCashRegister() {
     const today = moment(new Date()).format('YYYY-MM-DD');
-    const cashRegisterType = "CASHIN";
+    const cashRegisterType = 'CASHIN';
     const locationId = 1;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
-      if (data.status === "Success") {
+      if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
-        console.log(this.cashDetails);
         if (this.cashDetails.length != 0) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
@@ -129,13 +128,11 @@ export class CashinRegisterComponent implements OnInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
         }
-        //this.cashRegisterCoinForm.reset();
       }
     });
   }
 
   submit() {
-    const sourceObj = [];
     const coin = {
       cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
@@ -189,10 +186,8 @@ export class CashinRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
-    sourceObj.push(formObj);
-    console.log(sourceObj);
-    this.registerService.saveCashRegister(formObj, "CASHIN").subscribe(data => {
-      if (data.status === "Success") {
+    this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
+      if (data.status === 'Success') {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
       }
     });
@@ -200,7 +195,6 @@ export class CashinRegisterComponent implements OnInit {
   }
 
   cancel() {
-    //this.getCashRegister();
   }
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
@@ -275,5 +269,4 @@ export class CashinRegisterComponent implements OnInit {
   getTotalCash() {
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }
-
 }

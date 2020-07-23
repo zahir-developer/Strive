@@ -3,7 +3,7 @@
 export const UrlConfig = {
   totalUrl:
   {
-    login: `Admin/Login`,
+    login: `Auth/Login`,
     getCode: `Admin/Common/GetCodesByCategory/`,
     getEmployees: `Admin/Employee/GetAll`,
     updateEmployees: `Admin/Employee/Save`,
@@ -33,6 +33,12 @@ export const UrlConfig = {
     deleteEmployee: `Admin/Employee/`,
     getAllRoles: `Admin/Employee/GetAllRoles`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
-    getOtpCode: `Admin/ForgotPassword`
+    getOtpCode: `Auth/SendOTP/`,
+    uploadDocument: `Admin/Document/SaveDocument`,
+    getAllDocument: `Admin/Document/GetAllDocument/`,
+    getDocumentById: `Admin/Document/GetDocumentById/`,
+    getWeather: `Admin/Weather/GetWeatherPrediction/`,
+    verifyOtp: `Auth/VerfiyOTP/`,
+    resetPassword: `Auth/ResetPassword`
   }
 };

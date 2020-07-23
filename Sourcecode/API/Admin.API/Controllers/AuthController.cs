@@ -24,7 +24,7 @@ namespace Admin.Api.Controllers
         }
 
         [HttpPost]
-        [Route("/Admin/Login")]
+        [Route("/Auth/Login")]
         public Result Login([FromBody] Authentication authentication)
         {
             string secretKey = Pick("Jwt", "SecretKey");
@@ -34,7 +34,7 @@ namespace Admin.Api.Controllers
             return result;
         }
 
-        [HttpPost, Route("/Admin/Refresh"), AllowAnonymous]
+        [HttpPost, Route("/Auth/Refresh"), AllowAnonymous]
         public Result Refresh([FromBody]RegenerateToken regToken)
         {
             string secretKey = Pick("Jwt", "SecretKey");
@@ -42,20 +42,35 @@ namespace Admin.Api.Controllers
             return result;
         }
 
-        [HttpPost, Route("/Admin/CreateLogin"), AllowAnonymous]
-        public void CreateLogin([FromBody]UserLogin userLogin)
+        [HttpPost, Route("/Auth/CreateLogin"), AllowAnonymous]
+        public Result CreateLogin([FromBody]UserLogin userLogin)
         {
+            Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
+            Result _result;
+
             var result = _authManager.CreateLogin(userLogin);
-        }
 
-        [HttpPost, Route("/Admin/ForgotPassword"), AllowAnonymous]
-        public bool ForgotPassword([FromBody]string userId)
+            _resultContent.Add((result > 0).WithName("Status"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
+
+        }
+       
+
+        [HttpPut, Route("/Auth/SendOTP/{emailId}"), AllowAnonymous]
+        public Result SendOTP(string emailId)
         {
-            return _authManager.ForgotPassword(userId);
+            return _authManager.SendOTP(emailId);
         }
 
-        [HttpPost, Route("/Admin/ResetPassword"), AllowAnonymous]
-        public bool ResetPassword([FromBody]ResetPassword resetPassword)
+        [HttpGet, Route("/Auth/VerfiyOTP/{emailId}/{otp}"), AllowAnonymous]
+        public Result VerfiyOTP(string emailId, string otp)
+        {
+            return _authManager.VerifyOTP(emailId, otp);
+        }
+
+        [HttpPost, Route("/Auth/ResetPassword"), AllowAnonymous]
+        public Result ResetPassword([FromBody]ResetPassword resetPassword)
         {
             return _authManager.ResetPassword(resetPassword);
         }

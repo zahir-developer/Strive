@@ -7,7 +7,7 @@
                     placeholder="Threshold #" numbersOnly>
             </div>
             <div class="form-group col-lg-3">
-                <label for="inputLocationName">Location Name</label>
+                <label for="inputLocationName">Location Name<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="locationName" placeholder="Location Name"
                     [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
                 <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="form-group col-lg-3">
-                <label for="inputLocationAddress">Location Address</label>
+                <label for="inputLocationAddress">Location Address<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="locationAddress" placeholder="Location Address"
                     [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
                 <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="form-group col-lg-3">
-                <label for="inputLocationAddress">Location Address 2</label>
+                <label for="inputLocationAddress">Location Address 2<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="locationAddress2" placeholder="Address 2"
                     [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
                 <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
@@ -33,7 +33,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-lg-3">
-                <label for="inputZipcode">ZipCode</label>
+                <label for="inputZipcode">ZipCode<span class="required">*</span></label>
                 <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip"
                     formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
                 <div *ngIf="submitted  && f.zipcode.errors" class="invalid-feedback">
@@ -42,23 +42,20 @@
                 </div>
             </div>
             <div class="form-group col-lg-3">
-                <label for="inputState">State</label>
+                <label for="inputState">State<span class="required">*</span></label>
                 <!-- <select class="form-control" formControlName="state"
                     [ngClass]="{ 'is-invalid': submitted  && f.state.errors }">
                     <option value="">Choose </option>
                     <option *ngFor="let state of State">{{state}}</option>
                 </select> -->
-                <app-state-dropdown (stateId)="getSelectedStateId($event)"></app-state-dropdown>
+                <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"></app-state-dropdown>
                 <!-- <div *ngIf="submitted  && f.state.errors" class="invalid-feedback">
                     <div *ngIf="f.state.errors.required">State is required</div>
                 </div> -->
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputCountry">Country</label>
-                <!-- <select class="form-control" formControlName="country">
-                    <option *ngFor="let country of Country">{{country}}</option>
-                </select> -->
-                <app-country-dropdown (countryId)="getSelectedCountryId($event)"></app-country-dropdown>
+                <app-country-dropdown [selectedCountryId]="selectedCountryId" (countryId)="getSelectedCountryId($event)"></app-country-dropdown>
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputPhoneNumber">Phone Number</label>

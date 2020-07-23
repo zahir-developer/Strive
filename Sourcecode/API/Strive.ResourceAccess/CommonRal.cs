@@ -89,5 +89,13 @@ namespace Strive.ResourceAccess
                 throw ex;
             }
         }
+
+        public int VerifyOTP(string emailId, string otp)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@Email", emailId);
+            dynParams.Add("@OTP", otp);
+            return db.QuerySingleOrDefault<int>(SPEnum.USPVERIFYOTP.ToString(), dynParams);
+        }
     }
 }

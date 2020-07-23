@@ -64,7 +64,9 @@ namespace Strive.BusinessEntities
         USPGETPASSWORDHASH,
         USPSAVEOTP,
         USPRESETPASSWORD,
-        USPSAVECLIENT
+        USPSAVECLIENT,
+        USPVERIFYOTP
     }
+
 
 }

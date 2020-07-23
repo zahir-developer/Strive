@@ -18,6 +18,7 @@ using MailKit.Net.Smtp;
 using Strive.BusinessEntities;
 using System.IO;
 using System.Collections.Generic;
+using MimeKit.Text;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -37,7 +38,7 @@ namespace Strive.BusinessLogic.Common
         {
             try
             {
-                var lstCode = new CommonRal(_tenant).GetAllCodes();
+                var lstCode = new CommonRal(_tenant, false).GetAllCodes();
                 _resultContent.Add(lstCode.WithName("Codes"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -53,7 +54,7 @@ namespace Strive.BusinessLogic.Common
         {
             try
             {
-                var lstCode = new CommonRal(_tenant).GetCodeByCategory(codeCategory);
+                var lstCode = new CommonRal(_tenant, false).GetCodeByCategory(codeCategory);
                 _resultContent.Add(lstCode.WithName("Codes"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -67,7 +68,7 @@ namespace Strive.BusinessLogic.Common
 
         internal object GetGeocode(LocationAddress locationAddress)
         {
-            string osmUri= "https://nominatim.openstreetmap.org/search?q=255+South%20Main%20Street,+Alpharetta+GA+30009&format=json";
+            string osmUri = "https://nominatim.openstreetmap.org/search?q=255+South%20Main%20Street,+Alpharetta+GA+30009&format=json";
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(osmUri);
             request.Method = "GET";
             string apiResponse = String.Empty;
@@ -208,7 +209,7 @@ namespace Strive.BusinessLogic.Common
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        internal bool ResetPassword(ResetPassword resetPassword)
+        internal Result ResetPassword(ResetPassword resetPassword)
         {
             ///...Hash the new password
             ///...Send OTP, Hashed Password, UserId to database to reset the password
@@ -216,7 +217,11 @@ namespace Strive.BusinessLogic.Common
             string newPass = Pass.Hash(resetPassword.NewPassword);
             string otp = resetPassword.OTP;
             string userId = resetPassword.UserId;
-            return new CommonRal(_tenant, true).ResetPassword(userId, otp, newPass);
+            var result = new CommonRal(_tenant, true).ResetPassword(userId, otp, newPass);
+
+            _resultContent.Add((result).WithName("Status"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
         }
 
         internal bool ForgotPassword(string userId)
@@ -244,14 +249,43 @@ namespace Strive.BusinessLogic.Common
             return authId;
         }
 
-        private void SendLoginCreationEmail(string emailId, string defaultPassword)
+        public Result SendOTP(string emailId)
         {
-            SendMail(emailId, "Signup successful. Password:" + defaultPassword, "Signup Successful");
+            var otp = RandomString(4);
+            new CommonRal(_tenant, true).SaveOTP(emailId, otp);
+            return SendOtpEmail(emailId, otp);
         }
 
-        private void SendOtpEmail(string emailId, string otp)
+        public Result VerfiyOTP(string emailId, string otp)
         {
-            SendMail(emailId, "OTP:" + otp, "OTP Mail");
+            int result = new CommonRal(_tenant, true).VerifyOTP(emailId, otp);
+            _resultContent.Add((result > 0).WithName("Status"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
+        }
+
+        private void SendLoginCreationEmail(string emailId, string defaultPassword)
+        {
+            SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
+            <p> You have successfully signed up with Strive.& nbsp;</p>
+            <p> Your login Credentials:</p>
+            <p> UserName: " + emailId + @".</p>
+            <p> Password: " + defaultPassword + @".</p>
+            <p> &nbsp;</p>
+            <p> Thanks,</p>
+            <p> Strive Team </p>", "Welcome to Strive");
+        }
+
+        private Result SendOtpEmail(string emailId, string otp)
+        {
+            SendMail(emailId, @"<p>Hello " + emailId + @",</p>
+            <p>Please use '" + otp + @"' as your confirm OTP to Reset your password.</p>
+            <p>Thanks,</p>
+            <p>Strive Team.</p>", "Strive OTP Verification");
+
+            _resultContent.Add((true).WithName("Status"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
         }
 
         private void SendMail(string email, string body, string subject)
@@ -261,7 +295,7 @@ namespace Strive.BusinessLogic.Common
             message.To.Add(new MailboxAddress(email, email));
             message.Subject = subject;
 
-            message.Body = new TextPart("plain")
+            message.Body = new TextPart(TextFormat.Html)
             {
                 Text = body
             };

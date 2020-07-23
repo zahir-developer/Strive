@@ -15,6 +15,8 @@ namespace Strive.BusinessLogic.Auth
         Task<dynamic> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor);
         int CreateLogin(UserLogin userLogin);
         bool ForgotPassword(string userId);
-        bool ResetPassword(ResetPassword resetPassword);
+        Result ResetPassword(ResetPassword resetPassword);
+        Result SendOTP(string emailId);
+        Result VerifyOTP(string emailId, string otp);
     }
 }

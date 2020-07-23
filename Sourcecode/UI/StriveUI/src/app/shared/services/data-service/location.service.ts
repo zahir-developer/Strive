@@ -20,6 +20,6 @@ export class LocationService {
       return this.http.delete(`${UrlConfig.totalUrl.deleteLocation}`+ id);
   }
   getLocationById(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.getLocationById}`+ id);
+    return this.http.get(`${UrlConfig.totalUrl.getLocationById}` + id);
 }
 }

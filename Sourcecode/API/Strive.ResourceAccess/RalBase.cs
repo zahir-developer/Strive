@@ -24,9 +24,9 @@ namespace Strive.ResourceAccess
         {
             _tenant = tenant;
             if (isAuth)
-            {
                 _dbconnection = tenant.dbAuth();
-            }
+            else
+                _dbconnection = tenant.db();
 
             db = new Db(_dbconnection);
         }

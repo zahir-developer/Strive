@@ -43,9 +43,11 @@ namespace Strive.Core.ViewModels.Customer
                 customerSignUp.mobileNumber = signUpMobile;
                 customerSignUp.passwordHash = signUpPassword;
                 customerSignUp.createdDate = createdDate ;
-
+                
+                _userDialog.ShowLoading("Loading...", Acr.UserDialogs.MaskType.Gradient);
+                
                 var response = await AdminService.CustomerSignUp(customerSignUp);
-
+                await _navigationService.Close(this);
             }
         }
 

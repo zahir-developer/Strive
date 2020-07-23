@@ -12,17 +12,27 @@ import { VendorService } from 'src/app/shared/services/data-service/vendor.servi
 export class VendorCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   vendorSetupForm: FormGroup;
-  State:any;
-  Country:any;
+  State: any;
+  Country: any;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   submitted: boolean;
   address: any;
   selectedVendor: any;
-  constructor(private fb: FormBuilder, private toastr: ToastrService,private vendorService: VendorService) { }
+  selectedStateId: any;
+  selectedCountryId: any;
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private vendorService: VendorService) { }
 
   ngOnInit() {
+    this.formInitialize();
+    this.submitted = false;
+    if (this.isEdit === true) {
+      this.vendorSetupForm.reset();
+      this.getVendorById();
+    }
+  }
+  formInitialize() {
     this.vendorSetupForm = this.fb.group({
       vin: ['', Validators.required],
       vendorAlias: [''],
@@ -35,19 +45,15 @@ export class VendorCreateEditComponent implements OnInit {
       email: ['', Validators.email],
       fax: ['',]
     });
-    this.submitted = false;    
-    console.log(this.selectedData);
-    if (this.isEdit === true) {
-      this.vendorSetupForm.reset();
-      this.getVendorById();
-    }
   }
   getVendorById() {
     this.vendorService.getVendorById(this.selectedData.VendorId).subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
         this.selectedVendor = vendor.VendorDetail[0];
-        console.log(this.selectedVendor);
+        const vendorAddress = this.selectedVendor.VendorAddress[0];
+        this.selectedStateId = vendorAddress.State;
+        // this.selectedCountryId = vendorAddress.Country;
         this.vendorSetupForm.patchValue({
           vin: this.selectedVendor.VIN,
           vendorAlias: this.selectedVendor.VendorAlias,
@@ -55,24 +61,25 @@ export class VendorCreateEditComponent implements OnInit {
           supplierAddress: this.selectedVendor.VendorAddress[0].Address1,
           zipcode: this.selectedVendor.VendorAddress[0].Zip,
           state: this.selectedVendor.VendorAddress[0].State,
-          //country: this.selectedVendor.Country,
           phoneNumber: this.selectedVendor.VendorAddress[0].PhoneNumber,
           email: this.selectedVendor.VendorAddress[0].Email,
-          fax: this.selectedVendor.VendorAddress[0].Fax 
+          fax: this.selectedVendor.VendorAddress[0].Fax
         });
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
 
-  get f(){
+  get f() {
     return this.vendorSetupForm.controls;
   }
-  
-  submit() {  
+
+  submit() {
     this.submitted = true;
-    if(this.vendorSetupForm.invalid){
+    if (this.vendorSetupForm.invalid) {
       return;
-    }  
+    }
     this.address = [{
       relationshipId: this.isEdit ? this.selectedVendor.VendorId : 0,
       vendorAddressId: this.isEdit ? this.selectedVendor.VendorAddress[0].VendorAddressId : 0,
@@ -81,9 +88,8 @@ export class VendorCreateEditComponent implements OnInit {
       phoneNumber2: "",
       isActive: true,
       zip: this.vendorSetupForm.value.zipcode,
-      state: this.State,//this.vendorSetupForm.value.state == "" ? 0 : this.vendorSetupForm.value.state,
-      city: 1,//this.vendorSetupForm.value.country,
-      //country: this.Country,
+      state: this.State,
+      city: 1,
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
       email: this.vendorSetupForm.value.email,
       fax: this.vendorSetupForm.value.fax
@@ -94,8 +100,8 @@ export class VendorCreateEditComponent implements OnInit {
       vin: this.vendorSetupForm.value.vin,
       vendorAlias: this.vendorSetupForm.value.vendorAlias,
       vendorName: this.vendorSetupForm.value.name,
-      isActive : true,
-      vendorAddress: this.address,      
+      isActive: true,
+      vendorAddress: this.address,
     };
     sourceObj.push(formObj);
     this.vendorService.updateVendor(sourceObj).subscribe(data => {
@@ -118,10 +124,8 @@ export class VendorCreateEditComponent implements OnInit {
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
-    console.log(this.State);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
-    console.log(this.Country);
   }
 }
