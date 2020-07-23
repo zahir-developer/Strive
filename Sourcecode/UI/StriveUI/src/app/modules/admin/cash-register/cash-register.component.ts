@@ -142,13 +142,13 @@ export class CashinRegisterComponent implements OnInit {
 
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
-      this.weatherDetails = data.Weather;
+      this.weatherDetails = data;
   });
 }
 
   submit() {
     const coin = {
-      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoin.CashRegCoinId : 0,
+      cashRegisterCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoin.CashRegisterCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
       nickels: this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes,
@@ -157,7 +157,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const bill = {
-      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBill.CashRegBillId : 0,
+      cashRegisterBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBill.CashRegisterBillId : 0,
       ones: this.cashRegisterBillForm.value.billOnes,
       fives: this.cashRegisterBillForm.value.billFives,
       tens: this.cashRegisterBillForm.value.billTens,
@@ -167,7 +167,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const roll = {
-      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRoll.CashRegRollId : 0,
+      cashRegisterRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRoll.CashRegisterRollId : 0,
       pennies: this.cashRegisterRollForm.value.pennieRolls,
       nickels: this.cashRegisterRollForm.value.nickelRolls,
       dimes: this.cashRegisterRollForm.value.dimeRolls,
@@ -176,7 +176,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const other = {
-      cashRegOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOther.CashRegOtherId : 0,
+      cashRegisterOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOther.CashRegisterOtherId : 0,
       creditCard1: 0,
       creditCard2: 0,
       creditCard3: 0,
@@ -200,32 +200,32 @@ export class CashinRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
-    const weatherObj = {
-      weatherId: this.weatherDetails.WeatherId,
-      locaionId: this.weatherDetails.LocationId,
-      weather: this.weatherDetails.Weather,
-      rainProbability: this.weatherDetails.RainProbability,
-      predictedBusiness: this.weatherDetails.PredictedBusiness,
-      targetBusiness: Number(this.cashRegisterForm.value.goal),
-      createdDate: moment(new Date()).format('YYYY-MM-DD')
-    };
+    // const weatherObj = {
+    //   weatherId: this.weatherDetails.WeatherId,
+    //   locaionId: this.weatherDetails.LocationId,
+    //   weather: this.weatherDetails.Weather,
+    //   rainProbability: this.weatherDetails.RainProbability,
+    //   predictedBusiness: this.weatherDetails.PredictedBusiness,
+    //   targetBusiness: Number(this.cashRegisterForm.value.goal),
+    //   createdDate: moment(new Date()).format('YYYY-MM-DD')
+    // };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.success('Record Saved Successfully!!', 'Success!');          
+        this.toastr.success('Record Saved Successfully!!', 'Success!');
         this.getCashRegister();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
-    }); 
-    this.weatherService.UpdateWeather(weatherObj).subscribe(data => {
-      if(data.status === 'Success') {
-        this.toastr.success('Goal Saved Successfully!!', 'Success!');
-      } else {
-        this.toastr.error('Weather Communication Error', 'Error!');
-      }
     });
-    this.toggleTab = 0;   
-    this.getCashRegister();
+    // this.weatherService.UpdateWeather(weatherObj).subscribe(data => {
+    //   if(data.status === 'Success') {
+    //     this.toastr.success('Goal Saved Successfully!!', 'Success!');
+    //   } else {
+    //     this.toastr.error('Weather Communication Error', 'Error!');
+    //   }
+    // });
+    this.toggleTab = 0;
+    //this.getCashRegister();
   }
 
   cancel() {
@@ -235,7 +235,7 @@ export class CashinRegisterComponent implements OnInit {
   next(){
     this.toggleTab = 1;
   }
-  
+
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennie = 0;
