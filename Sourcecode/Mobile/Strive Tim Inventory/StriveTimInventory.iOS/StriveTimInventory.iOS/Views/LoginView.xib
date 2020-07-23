@@ -30,16 +30,16 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="sAt-Gs-JFh">
-                    <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                    <rect key="frame" x="-10" y="-10" width="854" height="1214"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N02-ev-TPl">
                     <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tie-yI-3XS">
-                            <rect key="frame" x="-10" y="-10" width="854" height="1214"/>
+                            <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="strive_icon" translatesAutoresizingMaskIntoConstraints="NO" id="efs-oQ-fU0">
-                                    <rect key="frame" x="364" y="406" width="126" height="84"/>
+                                    <rect key="frame" x="354" y="396" width="126" height="84"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="126" id="iRg-Vg-UIh"/>
                                         <constraint firstAttribute="height" constant="84" id="zFw-Fc-cuH"/>
@@ -98,15 +98,15 @@
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="width" secondItem="N02-ev-TPl" secondAttribute="width" multiplier="0.4" id="Eab-qN-eOO"/>
                         <constraint firstItem="g2c-Fx-9sF" firstAttribute="trailing" secondItem="hvk-t9-Uzd" secondAttribute="trailing" constant="-15" id="ON1-1p-ZRf"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="width" secondItem="rc1-5W-pyB" secondAttribute="width" id="RFc-vO-Nna"/>
-                        <constraint firstAttribute="bottom" secondItem="Tie-yI-3XS" secondAttribute="bottom" constant="-10" id="YYF-SA-bva"/>
-                        <constraint firstItem="Tie-yI-3XS" firstAttribute="leading" secondItem="N02-ev-TPl" secondAttribute="leading" constant="-10" id="atL-zh-mtd"/>
-                        <constraint firstAttribute="trailing" secondItem="Tie-yI-3XS" secondAttribute="trailing" constant="-10" id="b9a-x9-aSF"/>
+                        <constraint firstAttribute="bottom" secondItem="Tie-yI-3XS" secondAttribute="bottom" id="YYF-SA-bva"/>
+                        <constraint firstItem="Tie-yI-3XS" firstAttribute="leading" secondItem="N02-ev-TPl" secondAttribute="leading" id="atL-zh-mtd"/>
+                        <constraint firstAttribute="trailing" secondItem="Tie-yI-3XS" secondAttribute="trailing" id="b9a-x9-aSF"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="centerY" secondItem="N02-ev-TPl" secondAttribute="centerY" id="gms-aZ-YvV"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="hmg-To-oU8"/>
                         <constraint firstItem="rc1-5W-pyB" firstAttribute="top" secondItem="hvk-t9-Uzd" secondAttribute="bottom" constant="15" id="mYf-pM-dAF"/>
                         <constraint firstItem="2ci-QD-8B7" firstAttribute="top" secondItem="rc1-5W-pyB" secondAttribute="bottom" constant="15" id="o5Q-oR-sOX"/>
                         <constraint firstItem="g2c-Fx-9sF" firstAttribute="height" secondItem="rc1-5W-pyB" secondAttribute="height" multiplier="0.44" id="ud1-dz-GEV"/>
-                        <constraint firstItem="Tie-yI-3XS" firstAttribute="top" secondItem="N02-ev-TPl" secondAttribute="top" constant="-10" id="xsi-3Q-pk4"/>
+                        <constraint firstItem="Tie-yI-3XS" firstAttribute="top" secondItem="N02-ev-TPl" secondAttribute="top" id="xsi-3Q-pk4"/>
                         <constraint firstItem="hvk-t9-Uzd" firstAttribute="centerX" secondItem="N02-ev-TPl" secondAttribute="centerX" id="zLQ-8N-H6V"/>
                     </constraints>
                 </view>
@@ -115,12 +115,12 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="N02-ev-TPl" secondAttribute="trailing" id="0Eh-1a-0l5"/>
                 <constraint firstItem="N02-ev-TPl" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="0wZ-EV-M3M"/>
-                <constraint firstAttribute="bottom" secondItem="sAt-Gs-JFh" secondAttribute="bottom" id="OUQ-bw-Fgf"/>
+                <constraint firstAttribute="bottom" secondItem="sAt-Gs-JFh" secondAttribute="bottom" constant="-10" id="OUQ-bw-Fgf"/>
                 <constraint firstItem="N02-ev-TPl" firstAttribute="top" secondItem="2" secondAttribute="top" id="PNp-dD-SW4"/>
-                <constraint firstItem="sAt-Gs-JFh" firstAttribute="top" secondItem="2" secondAttribute="top" id="TYs-P9-hdg"/>
+                <constraint firstItem="sAt-Gs-JFh" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="TYs-P9-hdg"/>
                 <constraint firstAttribute="bottom" secondItem="N02-ev-TPl" secondAttribute="bottom" id="YRK-NY-KTF"/>
-                <constraint firstItem="sAt-Gs-JFh" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="ayh-mh-50e"/>
-                <constraint firstAttribute="trailing" secondItem="sAt-Gs-JFh" secondAttribute="trailing" id="oPp-ge-767"/>
+                <constraint firstItem="sAt-Gs-JFh" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="ayh-mh-50e"/>
+                <constraint firstAttribute="trailing" secondItem="sAt-Gs-JFh" secondAttribute="trailing" constant="-10" id="oPp-ge-767"/>
             </constraints>
             <point key="canvasLocation" x="176" y="119"/>
         </view>
