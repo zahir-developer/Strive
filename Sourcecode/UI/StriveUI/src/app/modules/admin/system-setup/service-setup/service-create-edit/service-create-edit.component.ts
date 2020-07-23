@@ -147,11 +147,12 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
       commision: this.isChecked,
-      commisionType: this.serviceSetupForm.value.commission == true ? this.serviceSetupForm.value.commissionType : 0,
+      commisionType: this.isChecked== true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName,
       isActive: true,
       locationId: 1,
+      commisionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
       dateEntered: moment(this.today).format('YYYY-MM-DD')
     };
     sourceObj.push(formObj);
