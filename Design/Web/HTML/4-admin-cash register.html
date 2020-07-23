@@ -17,7 +17,8 @@
 	<link href="assets/css/responsive.css" rel="stylesheet">
 	<link href="assets/css/color.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet"> </head>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet"> 
+	</head>
 
 <body>
 	<div id="wrapper">
@@ -31,10 +32,10 @@
 					</li>
 					<li class="p-t-10" onclick="openNav()"><a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
-					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
-					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-cash-usd"></i>Sales</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-car-connected"></i>Details</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-cash-usd-outline"></i>Sales</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
-					<li class="active"><a href="#" onclick="openNav()"><i class="fa fa-2x fa-user-o"></i>Admin</a></li>
+					<li class="active"><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-account-circle"></i>Admin</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
 				</ul>
@@ -58,10 +59,10 @@
 				<ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
 					<li><a href="#"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a></li>
 					<li><a href="#"><i class="mdi mdi-car-wash"></i><span>Washes</span></a></li>
-					<li><a href="#"><i class="mdi mdi-car-back"></i><span>Details</span></a></li>
-					<li><a href="#"><i class="mdi mdi-cash-usd"></i><span>Sales</span></a></li>
+					<li><a href="#"><i class="mdi mdi-car-connected"></i><span>Details</span></a></li>
+					<li><a href="#"><i class="mdi mdi-cash-usd-outline"></i><span>Sales</span></a></li>
 					<li><a href="#"><i class="mdi mdi-file-document"></i><span>Reports</span></a></li>
-					<li><a href="#"><i class="fa fa-user-o"></i><span>Admin</span></a></li>
+					<li><a href="#"><i class="mdi mdi-account-circle"></i><span>Admin</span></a></li>
 					<li><a href="#"><i class="fa fa-flag-checkered"></i><span>Checkout</span></a></li>
 					<li><a href="#"><i class="fa fa-dollar"></i><span>Payroll</span></a></li>
 				</ul>
@@ -135,7 +136,7 @@
 							<!--bread crumb-->
 							<div class="title-border col-12 p-b-10 m-b-15 p-l-0">
 								<h3 class="d-inline-block">Cash Register -</h3>
-								<div id="datepicker" class="date d-inline-block " data-date-format="dd-mm-yyyy">
+								<div  class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
 									<input type="text" class="datepick" /> <span class="input-group-addon"><i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div>
 							</div>
 							<div class="col-lg-12 p-l-0 p-r-0">
@@ -302,27 +303,27 @@
 														<div class="d-flex w-100 justify-content-between">
 															<h6 class="font-weight-600">Last Week this day</h6> </div>
 														<ul class="list-group list-group-horizontal justify-content-between">
-															<li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span>- 32 </li>
-															<li><i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span>- 10%</li>
-															<li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span>- 25</li>
+															<li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span> 32 </li>
+															<li><i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span> 10%</li>
+															<li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span> 25</li>
 														</ul>
 													</a>
 													<a href="#" class="list-group-item weather-goal">
 														<div class="d-flex w-100 justify-content-between">
 															<h6 class="font-weight-600">Last month this day</h6> </div>
 														<ul class="list-group list-group-horizontal justify-content-between">
-															<li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span>- 32 </li>
-															<li><i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span>- 10%</li>
-															<li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span>- 25</li>
+															<li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span> 32 </li>
+															<li><i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span> 10%</li>
+															<li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span> 25</li>
 														</ul>
 													</a>
 													<a href="#" class="list-group-item weather-goal">
 														<div class="d-flex w-100 justify-content-between">
 															<h6 class="font-weight-600">Last three months this day</h6> </div>
 														<ul class="list-group list-group-horizontal justify-content-between">
-															<li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span>- 32 </li>
-															<li><i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span>- 10%</li>
-															<li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span>- 25</li>
+															<li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span> 32 </li>
+															<li><i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span> 10%</li>
+															<li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span> 25</li>
 														</ul>
 													</a>
 												</div>
@@ -334,8 +335,8 @@
 													<div class="col-lg-6 col-ipad">
 														<div class="card weather">
 															<div class="card-body p-0">
-																<h6 class="weather-title">High Temperature</h6>
-																<div class="p-13"> <i class="mdi mdi-white-balance-sunny font-size-1-5 theme-light-yellow-color"></i>
+																<h6 class="weather-title" id="weather-ti">High Temperature</h6>
+																<div class="p-12"> <i class="mdi mdi-white-balance-sunny font-size-1-5 theme-light-yellow-color"></i>
 																	<div class="float-right">
 																		<h4 class="font-weight-bold">32F</h4> </div>
 																</div>
@@ -347,7 +348,7 @@
 														<div class="card weather">
 															<div class="card-body p-0">
 																<h6 class="weather-title">Probability of rain </h6>
-																<div class="p-13"> <i class="mdi mdi-weather-rainy font-size-1-5 theme-optional-icon-color"></i>
+																<div class="p-12"> <i class="mdi mdi-weather-rainy font-size-1-5 theme-optional-icon-color"></i>
 																	<div class="float-right">
 																		<h4 class="font-weight-bold">10%</h4> </div>
 																</div>
@@ -448,58 +449,9 @@
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/default.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-	<script>
-	$(document).ready(function() {
-		var date = new Date();
-		var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		$('#datepicker').datepicker({
-			format: "dd-mm-yyyy",
-			todayHighlight: true,
-			startDate: today,
-			autoclose: true
-		});
-		$('#datepicker').datepicker('setDate', today);
-	});
-	$(document).ready(function() {
-		$(".mobile-view-title").click(function() {
-			$("#hide-mainmenu").hide();
-			$("#show-submenu").show();
-		});
-		$(".back-to-list").click(function() {
-			$("#hide-mainmenu").show();
-			$("#show-submenu").hide();
-		});
-	});
-
-	function openNav() {
-		document.getElementById("navSliderMenu").style.width = "180px";
-		document.getElementById("content-wrapper").style.marginLeft = "180px";
-	}
-
-	function closeNav() {
-		document.getElementById("navSliderMenu").style.width = "0";
-		document.getElementById("content-wrapper").style.marginLeft = "0";
-	}
-
-	function openmbsidebar() {
-		document.getElementById("mySidenav").style.width = "200px";
-	}
-
-	function closembsidebar() {
-		document.getElementById("mySidenav").style.width = "0";
-	}
-	$(".menu li").on('click', function() {
-		$(".menu li").removeClass('theme-secondary-background-color active');
-		$(this).addClass('theme-secondary-background-color active');
-	});
-	$(".nav-slider-menu-items li a").on('click', function() {
-		$(".nav-slider-menu-items li a").removeClass('theme-secondary-color text-underline');
-		$(this).addClass('theme-secondary-color text-underline');
-	});
-	</script>
 </body>
 
 </html>
