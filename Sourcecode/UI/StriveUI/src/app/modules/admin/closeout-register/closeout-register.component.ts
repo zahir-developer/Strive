@@ -137,7 +137,7 @@ export class CloseoutRegisterComponent implements OnInit {
 
   submit() {
     const coin = {
-      cashRegCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoinId : 0,
+      cashRegCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoin.CashRegCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
       nickels: this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes,
@@ -146,7 +146,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const bill = {
-      cashRegBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBillId : 0,
+      cashRegBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBill.CashRegBillId : 0,
       ones: this.cashRegisterBillForm.value.billOnes,
       fives: this.cashRegisterBillForm.value.billFives,
       tens: this.cashRegisterBillForm.value.billTens,
@@ -156,7 +156,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const roll = {
-      cashRegRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRollId : 0,
+      cashRegRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRoll.CashRegRollId : 0,
       pennies: this.cashRegisterRollForm.value.pennieRolls,
       nickels: this.cashRegisterRollForm.value.nickelRolls,
       dimes: this.cashRegisterRollForm.value.dimeRolls,
@@ -165,7 +165,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const other = {
-      cashRegOthersId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOtherId : 0,
+      cashRegOtherId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOther.CashRegOtherId : 0,
       creditCard1: this.closeoutRegisterForm.value.cardAmount,
       creditCard2: 0,
       creditCard3: 0,
@@ -180,10 +180,10 @@ export class CloseoutRegisterComponent implements OnInit {
       drawerId: 1,
       userId: 1,
       enteredDateTime: moment(new Date()).format('YYYY-MM-DD'),
-      cashRegRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRollId : 0,
-      cashRegCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoinId : 0,
-      cashRegBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBillId : 0,
-      cashRegOthersId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOtherId : 0,
+      cashRegisterRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRollId : 0,
+      cashRegisterCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoinId : 0,
+      cashRegisterBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBillId : 0,
+      cashRegisterOtherId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOtherId : 0,
       cashRegisterCoin: coin,
       CashRegisterBill: bill,
       CashRegisterRoll: roll,
@@ -192,9 +192,11 @@ export class CloseoutRegisterComponent implements OnInit {
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       if (data.status === "Success") {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
+        this.getCloseOutRegister();
+      } else {
+        this.toastr.error('Weather Communication Error', 'Error!');
       }
-    });
-    this.getCloseOutRegister();
+    });    
   }
 
   cancel() {
