@@ -22,5 +22,8 @@ public class sysdiagrams
 	[Column]
 	public byte[] definition { get; set; }
 
+	[Column]
+	public int? UpdatedBy { get; set; }
+
 }
 }

@@ -44,6 +44,9 @@ public class ClientAddress
 	public bool? IsActive { get; set; }
 
 	[Column]
+	public bool? IsDeleted { get; set; }
+
+	[Column]
 	public int? CreatedBy { get; set; }
 
 	[Column]

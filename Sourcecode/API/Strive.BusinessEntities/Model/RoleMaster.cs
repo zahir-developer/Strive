@@ -3,24 +3,21 @@ using System;
 
 namespace Strive.BusinessEntities.Model
 {
-[OverrideName("tblDocument")]
-public class Document
+[OverrideName("tblRoleMaster")]
+public class RoleMaster
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
-	public int DocumentId { get; set; }
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
+	public int RoleMasterId { get; set; }
 
 	[Column]
-	public int? EmployeeId { get; set; }
+	public string RoleName { get; set; }
 
 	[Column]
-	public string Filename { get; set; }
+	public string RoleAlias { get; set; }
 
 	[Column]
-	public string Filepath { get; set; }
-
-	[Column]
-	public string Password { get; set; }
+	public int? ParentId { get; set; }
 
 	[Column]
 	public bool? IsActive { get; set; }

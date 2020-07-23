@@ -38,10 +38,13 @@ public class EmployeeAddress
 	public string Zip { get; set; }
 
 	[Column]
+	public int? Country { get; set; }
+
+	[Column]
 	public bool? IsActive { get; set; }
 
 	[Column]
-	public int? Country { get; set; }
+	public bool? IsDeleted { get; set; }
 
 	[Column]
 	public int? CreatedBy { get; set; }

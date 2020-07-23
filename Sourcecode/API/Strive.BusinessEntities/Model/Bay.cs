@@ -1,60 +1,38 @@
+using Cocoon.ORM;
+using System;
+
 namespace Strive.BusinessEntities.Model
 {
-    using Cocoon.ORM;
-    using System;
+[OverrideName("tblBay")]
+public class Bay
+{
 
-    /// <summary>
-    /// Defines the <see cref="Bay" />.
-    /// </summary>
-    [OverrideName("tblBay")]
-    public class Bay
-    {
-        /// <summary>
-        /// Gets or sets the BayId.
-        /// </summary>
-        [Column, IgnoreOnInsert, IgnoreOnUpdate]
-        public int BayId { get; set; }
+	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	public int BayId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the LocationId.
-        /// </summary>
-        [Column]
-        public int? LocationId { get; set; }
+	[Column]
+	public int? LocationId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the BayName.
-        /// </summary>
-        [Column]
-        public string BayName { get; set; }
+	[Column]
+	public string BayName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the IsActive.
-        /// </summary>
-        [Column]
-        public bool? IsActive { get; set; }
+	[Column]
+	public bool? IsActive { get; set; }
 
-        /// <summary>
-        /// Gets or sets the CreatedBy.
-        /// </summary>
-        [Column]
-        public int? CreatedBy { get; set; }
+	[Column]
+	public bool? IsDeleted { get; set; }
 
-        /// <summary>
-        /// Gets or sets the CreatedDate.
-        /// </summary>
-        [Column]
-        public DateTimeOffset? CreatedDate { get; set; }
+	[Column]
+	public int? CreatedBy { get; set; }
 
-        /// <summary>
-        /// Gets or sets the UpdatedBy.
-        /// </summary>
-        [Column]
-        public int? UpdatedBy { get; set; }
+	[Column]
+	public DateTimeOffset? CreatedDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the UpdatedDate.
-        /// </summary>
-        [Column]
-        public DateTimeOffset? UpdatedDate { get; set; }
-    }
+	[Column]
+	public int? UpdatedBy { get; set; }
+
+	[Column]
+	public DateTimeOffset? UpdatedDate { get; set; }
+
+}
 }

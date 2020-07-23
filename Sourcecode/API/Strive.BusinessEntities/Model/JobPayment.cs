@@ -1,120 +1,71 @@
+using Cocoon.ORM;
+using System;
+
 namespace Strive.BusinessEntities.Model
 {
-    using Cocoon.ORM;
-    using System;
+[OverrideName("tblJobPayment")]
+public class JobPayment
+{
 
-    /// <summary>
-    /// Defines the <see cref="JobPayment" />.
-    /// </summary>
-    [OverrideName("tblJobPayment")]
-    public class JobPayment
-    {
-        /// <summary>
-        /// Gets or sets the JobPaymentId.
-        /// </summary>
-        [Column, IgnoreOnInsert, IgnoreOnUpdate]
-        public int JobPaymentId { get; set; }
+	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	public int JobPaymentId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the JobId.
-        /// </summary>
-        [Column]
-        public int? JobId { get; set; }
+	[Column]
+	public int? JobId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the DrawerId.
-        /// </summary>
-        [Column]
-        public int? DrawerId { get; set; }
+	[Column]
+	public int? DrawerId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the PaymentType.
-        /// </summary>
-        [Column]
-        public int? PaymentType { get; set; }
+	[Column]
+	public int? PaymentType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Amount.
-        /// </summary>
-        [Column]
-        public decimal? Amount { get; set; }
+	[Column]
+	public decimal? Amount { get; set; }
 
-        /// <summary>
-        /// Gets or sets the TaxAmount.
-        /// </summary>
-        [Column]
-        public decimal? TaxAmount { get; set; }
+	[Column]
+	public decimal? TaxAmount { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Cashback.
-        /// </summary>
-        [Column]
-        public decimal? Cashback { get; set; }
+	[Column]
+	public decimal? Cashback { get; set; }
 
-        /// <summary>
-        /// Gets or sets the CardType.
-        /// </summary>
-        [Column]
-        public int? CardType { get; set; }
+	[Column]
+	public int? CardType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the CardNumber.
-        /// </summary>
-        [Column]
-        public string CardNumber { get; set; }
+	[Column]
+	public string CardNumber { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Approval.
-        /// </summary>
-        [Column]
-        public bool? Approval { get; set; }
+	[Column]
+	public bool? Approval { get; set; }
 
-        /// <summary>
-        /// Gets or sets the CheckNumber.
-        /// </summary>
-        [Column]
-        public byte[] CheckNumber { get; set; }
+	[Column]
+	public byte[] CheckNumber { get; set; }
 
-        /// <summary>
-        /// Gets or sets the GiftCardId.
-        /// </summary>
-        [Column]
-        public int? GiftCardId { get; set; }
+	[Column]
+	public int? GiftCardId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Signature.
-        /// </summary>
-        [Column]
-        public string Signature { get; set; }
+	[Column]
+	public string Signature { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Comments.
-        /// </summary>
-        [Column]
-        public string Comments { get; set; }
+	[Column]
+	public string Comments { get; set; }
 
-        /// <summary>
-        /// Gets or sets the CreatedBy.
-        /// </summary>
-        [Column]
-        public int? CreatedBy { get; set; }
+	[Column]
+	public bool? IsActive { get; set; }
 
-        /// <summary>
-        /// Gets or sets the CreatedDate.
-        /// </summary>
-        [Column]
-        public DateTimeOffset? CreatedDate { get; set; }
+	[Column]
+	public bool? IsDeleted { get; set; }
 
-        /// <summary>
-        /// Gets or sets the UpdatedBy.
-        /// </summary>
-        [Column]
-        public int? UpdatedBy { get; set; }
+	[Column]
+	public int? CreatedBy { get; set; }
 
-        /// <summary>
-        /// Gets or sets the UpdatedDate.
-        /// </summary>
-        [Column]
-        public DateTimeOffset? UpdatedDate { get; set; }
-    }
+	[Column]
+	public DateTimeOffset? CreatedDate { get; set; }
+
+	[Column]
+	public int? UpdatedBy { get; set; }
+
+	[Column]
+	public DateTimeOffset? UpdatedDate { get; set; }
+
+}
 }

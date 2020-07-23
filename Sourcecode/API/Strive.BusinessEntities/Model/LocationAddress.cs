@@ -38,9 +38,6 @@ public class LocationAddress
 	public string Zip { get; set; }
 
 	[Column]
-	public bool? IsActive { get; set; }
-
-	[Column]
 	public int? Country { get; set; }
 
 	[Column]
@@ -51,6 +48,12 @@ public class LocationAddress
 
 	[Column]
 	public int? WeatherLocationId { get; set; }
+
+	[Column]
+	public bool? IsActive { get; set; }
+
+	[Column]
+	public bool? IsDeleted { get; set; }
 
 	[Column]
 	public int? CreatedBy { get; set; }
