@@ -159,9 +159,20 @@ namespace Strive.BusinessLogic.Auth
             return new CommonBpl(_cache, _tenant).ForgotPassword(userId);
         }
 
-        public bool ResetPassword(ResetPassword resetPassword)
+        public Result ResetPassword(ResetPassword resetPassword)
         {
             return new CommonBpl(_cache, _tenant).ResetPassword(resetPassword);
         }
+
+        public Result SendOTP(string emailId)
+        {
+            return new CommonBpl(_cache, _tenant).SendOTP(emailId);
+        }
+
+        public Result VerifyOTP(string emailId, string otp)
+        {
+            return new CommonBpl(_cache, _tenant).VerfiyOTP(emailId, otp);
+        }
+
     }
 }

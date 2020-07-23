@@ -19,17 +19,17 @@ export class StateDropdownComponent implements OnInit {
   }
   getstatiesList() {
     this.stateService.getStatesList().subscribe(data => {
-const state = JSON.parse(data.resultData);
-this.stateList = state.Codes.map(item => {
-  return {
-    name: item.CodeValue,
-    value: item.CodeId
-  };
-});
+      const state = JSON.parse(data.resultData);
+      this.stateList = state.Codes.map(item => {
+        return {
+          name: item.CodeValue,
+          value: item.CodeId
+        };
+      });
     }, (err) => {
     });
   }
   stateSelection(event) {
-this.stateId.emit(event);
+    this.stateId.emit(event);
   }
 }

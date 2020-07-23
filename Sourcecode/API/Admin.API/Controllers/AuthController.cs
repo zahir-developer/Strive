@@ -43,19 +43,34 @@ namespace Admin.Api.Controllers
         }
 
         [HttpPost, Route("/Admin/CreateLogin"), AllowAnonymous]
-        public void CreateLogin([FromBody]UserLogin userLogin)
+        public Result CreateLogin([FromBody]UserLogin userLogin)
         {
+            Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
+            Result _result;
+
             var result = _authManager.CreateLogin(userLogin);
+
+            _resultContent.Add((result > 0).WithName("Status"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
+
+        }
+       
+
+        [HttpPut, Route("/Admin/SendOTP/{emailId}"), AllowAnonymous]
+        public Result SendOTP(string emailId)
+        {
+            return _authManager.SendOTP(emailId);
         }
 
-        [HttpPost, Route("/Admin/ForgotPassword"), AllowAnonymous]
-        public bool ForgotPassword([FromBody]string userId)
+        [HttpGet, Route("/Admin/VerfiyOTP/{emailId}/{otp}"), AllowAnonymous]
+        public Result VerfiyOTP(string emailId, string otp)
         {
-            return _authManager.ForgotPassword(userId);
+            return _authManager.VerifyOTP(emailId, otp);
         }
 
         [HttpPost, Route("/Admin/ResetPassword"), AllowAnonymous]
-        public bool ResetPassword([FromBody]ResetPassword resetPassword)
+        public Result ResetPassword([FromBody]ResetPassword resetPassword)
         {
             return _authManager.ResetPassword(resetPassword);
         }
