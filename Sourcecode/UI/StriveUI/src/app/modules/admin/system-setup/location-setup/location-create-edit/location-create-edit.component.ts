@@ -20,6 +20,7 @@ export class LocationCreateEditComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   submitted: boolean;
+  selectedStateId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService) { }
 
   ngOnInit() {
@@ -51,6 +52,9 @@ export class LocationCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.selectedLocation = location.Location[0];
+        console.log(this.selectedLocation);
+        const locationAddress = this.selectedLocation.LocationAddress[0];
+        this.selectedStateId = locationAddress.State;
         this.locationSetupForm.patchValue({
           locationName: this.selectedLocation.LocationName,
           locationAddress: this.selectedLocation.LocationAddress[0].Address1,

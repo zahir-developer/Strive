@@ -25,6 +25,7 @@ const adminRoutes: Routes = [
     { path: 'closeoutregister', component: CloseoutRegisterComponent },
     {
       path: 'setup', component: SetupComponent, children: [
+        { path: '', redirectTo: 'location' },
         { path: 'location', component: LocationSetupComponent },
         { path: 'service', component: ServiceSetupComponent },
         { path: 'product', component: ProductSetupComponent },
