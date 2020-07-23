@@ -37,6 +37,7 @@ export const UrlConfig = {
     uploadDocument: `Admin/Document/SaveDocument`,
     getAllDocument: `Admin/Document/GetAllDocument/`,
     getDocumentById: `Admin/Document/GetDocumentById/`,
-    getWeather: `Admin/Weather/GetWeatherPrediction/`
+    getWeather: `Admin/Weather/GetWeatherPrediction/`,
+    saveWeather:`Admin/Weather/SaveWeatherPrediction`
   }
 };

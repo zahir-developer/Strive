@@ -23,4 +23,8 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
       });
     }, 1000);
   }
+
+UpdateWeather(obj){
+  return this.http.post(`${UrlConfig.totalUrl.saveWeather}`, obj);
+}
 }
