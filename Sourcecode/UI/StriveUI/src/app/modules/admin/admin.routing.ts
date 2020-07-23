@@ -16,20 +16,23 @@ import { VendorSetupComponent } from './system-setup/vendor-setup/vendor-setup.c
 
 const adminRoutes: Routes = [
   { path: 'admin', canActivate: [AuthGuard], component: AdminComponent }, {
-      path: '', component: AdminComponent, children: [{
-          path: 'employees', component: EmployeesComponent},
-        {path: 'scheduling', component: SchedulingComponent},
-        {path: 'theme', component: ThemeComponent},
-        {path: 'cashregister', component: CashinRegisterComponent},
-        {path: 'closeoutregister', component: CloseoutRegisterComponent},
-        {path: 'setup', component:SetupComponent,children:[
-          {path:'location',component:LocationSetupComponent},
-          {path:'service',component:ServiceSetupComponent},
-          {path:'product',component:ProductSetupComponent},
-          {path:'vendor',component:VendorSetupComponent},
-        ]
-        }     
+    path: '', component: AdminComponent, children: [{
+      path: 'employees', component: EmployeesComponent
+    },
+    { path: 'scheduling', component: SchedulingComponent },
+    { path: 'theme', component: ThemeComponent },
+    { path: 'cashregister', component: CashinRegisterComponent },
+    { path: 'closeoutregister', component: CloseoutRegisterComponent },
+    {
+      path: 'setup', component: SetupComponent, children: [
+        { path: '', redirectTo: 'location' },
+        { path: 'location', component: LocationSetupComponent },
+        { path: 'service', component: ServiceSetupComponent },
+        { path: 'product', component: ProductSetupComponent },
+        { path: 'vendor', component: VendorSetupComponent },
       ]
+    }
+    ]
   }
 ];
 
