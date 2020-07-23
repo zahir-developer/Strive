@@ -16,16 +16,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    $(document).ready(function () {
-      $('.mobile-view-title').click(function () {
-        $('#hide-mainmenu').hide();
-        $('#show-submenu').show();
-      });
-      $('.back-to-list').click(function () {
-        $('#hide-mainmenu').show();
-        $('#show-submenu').hide();
-      });
-    });
+
   }
   openNav() {
     document.getElementById('navSliderMenu').style.width = '180px';
@@ -43,10 +34,6 @@ export class SidenavComponent implements OnInit {
   closeNav() {
     document.getElementById('navSliderMenu').style.width = '0';
     document.getElementById('content-wrapper').style.marginLeft = '0';
-  }
-
-  openmbsidebar() {
-    document.getElementById('mySidenav').style.width = '200px';
   }
 
   closembsidebar() {

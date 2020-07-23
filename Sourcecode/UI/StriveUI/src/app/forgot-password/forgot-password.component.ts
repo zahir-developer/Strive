@@ -33,7 +33,7 @@ export class ForgotPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isEmail = false;
+    this.isEmail = true;
     this.isMobileNumber = false;
     this.submitted = false;
     this.passwordValidation = false;
