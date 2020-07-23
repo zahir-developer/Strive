@@ -38,6 +38,7 @@ export const UrlConfig = {
     getAllDocument: `Admin/Document/GetAllDocument/`,
     getDocumentById: `Admin/Document/GetDocumentById/`,
     getWeather: `Admin/Weather/GetWeatherPrediction/`,
+    saveWeather:`Admin/Weather/SaveWeatherPrediction`,
     verifyOtp: `Auth/VerfiyOTP/`,
     resetPassword: `Auth/ResetPassword`
   }
