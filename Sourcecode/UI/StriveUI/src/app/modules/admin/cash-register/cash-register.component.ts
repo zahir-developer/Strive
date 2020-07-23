@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
+import { WeatherService } from 'src/app/shared/services/common-service/weather.service';
 
 @Component({
   selector: 'app-cash-register',
@@ -37,12 +38,15 @@ export class CashinRegisterComponent implements OnInit {
   cashRegisterBillForm: FormGroup;
   cashRegisterRollForm: FormGroup;
   cashRegisterForm: FormGroup;
+  weatherDetails: any;
+  toggleTab: number;
 
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService, private weatherService: WeatherService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('YYYY-MM-DD');
     this.formInitialize();
+    this.getWeatherDetails();
   }
 
   formInitialize() {
@@ -70,6 +74,7 @@ export class CashinRegisterComponent implements OnInit {
     this.cashRegisterForm = this.fb.group({
       goal: ['',]
     });
+    this.toggleTab = 0;
     this.totalCoin = 0;
     this.totalRoll = 0;
     this.totalBill = 0;
@@ -126,15 +131,24 @@ export class CashinRegisterComponent implements OnInit {
           this.totalDimeRoll = (50 * 10 * this.cashDetails[0].CashRegisterRoll.Dimes) / 100;
           this.totalQuaterRoll = (40 * 25 * this.cashDetails[0].CashRegisterRoll.Quarters) / 100;
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
+          this.cashRegisterForm.patchValue({
+            goal: this.weatherDetails.TargetBusiness
+          });
           this.getTotalCash();
         }
       }
     });
   }
 
+  getWeatherDetails = () => {
+    this.weatherService.data.subscribe((data: any) => {
+      this.weatherDetails = data.Weather;
+  });
+}
+
   submit() {
     const coin = {
-      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
+      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoin.CashRegCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
       nickels: this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes,
@@ -143,7 +157,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const bill = {
-      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBillId : 0,
+      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBill.CashRegBillId : 0,
       ones: this.cashRegisterBillForm.value.billOnes,
       fives: this.cashRegisterBillForm.value.billFives,
       tens: this.cashRegisterBillForm.value.billTens,
@@ -153,7 +167,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const roll = {
-      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRollId : 0,
+      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRoll.CashRegRollId : 0,
       pennies: this.cashRegisterRollForm.value.pennieRolls,
       nickels: this.cashRegisterRollForm.value.nickelRolls,
       dimes: this.cashRegisterRollForm.value.dimeRolls,
@@ -162,7 +176,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const other = {
-      cashRegOthersId: this.isUpdate ? this.cashDetails[0].CashRegisterOtherId : 0,
+      cashRegOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOther.CashRegOtherId : 0,
       creditCard1: 0,
       creditCard2: 0,
       creditCard3: 0,
@@ -177,25 +191,51 @@ export class CashinRegisterComponent implements OnInit {
       drawerId: 1,
       userId: 1,
       enteredDateTime: moment(new Date()).format('YYYY-MM-DD'),
-      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRollId : 0,
-      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
-      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBillId : 0,
-      cashRegOthersId: this.isUpdate ? this.cashDetails[0].CashRegisterOtherId : 0,
+      cashRegisterRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRollId : 0,
+      cashRegisterCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
+      cashRegisterBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBillId : 0,
+      cashRegisterOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOtherId : 0,
       cashRegisterCoin: coin,
       CashRegisterBill: bill,
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
+    const weatherObj = {
+      weatherId: this.weatherDetails.WeatherId,
+      locaionId: this.weatherDetails.LocationId,
+      weather: this.weatherDetails.Weather,
+      rainProbability: this.weatherDetails.RainProbability,
+      predictedBusiness: this.weatherDetails.PredictedBusiness,
+      targetBusiness: Number(this.cashRegisterForm.value.goal),
+      createdDate: moment(new Date()).format('YYYY-MM-DD')
+    };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.success('Record Saved Successfully!!', 'Success!');
+        this.toastr.success('Record Saved Successfully!!', 'Success!');          
+        this.getCashRegister();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    }); 
+    this.weatherService.UpdateWeather(weatherObj).subscribe(data => {
+      if(data.status === 'Success') {
+        this.toastr.success('Goal Saved Successfully!!', 'Success!');
+      } else {
+        this.toastr.error('Weather Communication Error', 'Error!');
       }
     });
+    this.toggleTab = 0;   
     this.getCashRegister();
   }
 
   cancel() {
+    this.toggleTab = 0
   }
+
+  next(){
+    this.toggleTab = 1;
+  }
+  
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennie = 0;
