@@ -21,12 +21,13 @@ namespace Strive.BusinessLogic
             _tenant = tenantHelper;
         }
 
-        public Result GetWeatherPrediction(int locationId)
+        public Result GetWeatherPrediction(int locationId, DateTime dateTime)
         {
             try
             {
-                var product = new WeatherRal(_tenant).GetWeatherDetails(locationId);
-                _resultContent.Add(product.WithName("WeatherPrediction"));
+                var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId, dateTime);
+                if (weather != null)
+                    _resultContent.Add(weather.WithName("WeatherPrediction"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -41,8 +42,16 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var list = new WeatherRal(_tenant).AddWeather(weatherPrediction);
-                _resultContent.Add(list.WithName("WeatherPrediction"));
+                bool result = false;
+                if (weatherPrediction.WeatherId == 0)
+                {
+                    result = new WeatherRal(_tenant).AddWeather(weatherPrediction);
+                }
+                else
+                {
+                    result = new WeatherRal(_tenant).UpdateWeather(weatherPrediction);
+                }
+                _resultContent.Add(result.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -52,23 +61,5 @@ namespace Strive.BusinessLogic
 
             return _result;
         }
-
-       
-        public Result UpdateWeatherPrediction(WeatherPrediction weatherPrediction)
-        {
-            try
-            {
-                var list = new WeatherRal(_tenant).UpdateWeather(weatherPrediction);
-                _resultContent.Add(list.WithName("Success"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-
-            return _result;
-        }
-
     }
 }

@@ -6,6 +6,7 @@ using Strive.BusinessLogic;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Weather;
 using Strive.Common;
+using System;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Admin.Api.Controllers
@@ -20,28 +21,19 @@ namespace Admin.Api.Controllers
         }
 
 
-        [HttpPost]
-        [Route("/Admin/[controller]/GetWeatherPrediction/{locationId}")]
-        public Result UpdateWeatherPrediction(int locationId)
+        [HttpGet]
+        [Route("/Admin/[controller]/GetWeatherPrediction/{locationId}/{dateTime}")]
+        public Result GetWeatherPrediction(int locationId, DateTime dateTime)
         {
-            return _weatherBpl.GetWeatherPrediction(locationId);
+            return _weatherBpl.GetWeatherPrediction(locationId, dateTime);
         }
 
 
         [HttpPost]
-        [Route("/Admin/[controller]/AddWeatherPrediction")]
-        public Result WeatherPrediction([FromBody] WeatherPrediction weatherPrediction)
+        [Route("/Admin/[controller]/SaveWeatherPrediction")]
+        public Result SaveWeatherPrediction([FromBody] WeatherPrediction weatherPrediction)
         {
             return _weatherBpl.AddWeatherPrediction(weatherPrediction);
         }
-
-        [HttpPost]
-        [Route("/Admin/[controller]/UpdateWeatherPrediction")]
-        public Result UpdateWeatherPrediction([FromBody] WeatherPrediction weatherPrediction)
-        {
-            return _weatherBpl.UpdateWeatherPrediction(weatherPrediction);
-        }
-
-
     }
 }
