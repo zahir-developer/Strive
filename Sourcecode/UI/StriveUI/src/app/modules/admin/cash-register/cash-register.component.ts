@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
+import { WeatherService } from 'src/app/shared/services/common-service/weather.service';
 
 @Component({
   selector: 'app-cash-register',
@@ -37,12 +38,15 @@ export class CashinRegisterComponent implements OnInit {
   cashRegisterBillForm: FormGroup;
   cashRegisterRollForm: FormGroup;
   cashRegisterForm: FormGroup;
+  weatherDetails: any;
+  toggleTab: number;
 
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService, private weatherService: WeatherService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('YYYY-MM-DD');
     this.formInitialize();
+    this.getWeatherDetails();
   }
 
   formInitialize() {
@@ -70,6 +74,7 @@ export class CashinRegisterComponent implements OnInit {
     this.cashRegisterForm = this.fb.group({
       goal: ['',]
     });
+    this.toggleTab = 0;
     this.totalCoin = 0;
     this.totalRoll = 0;
     this.totalBill = 0;
@@ -79,10 +84,10 @@ export class CashinRegisterComponent implements OnInit {
 
   getCashRegister() {
     const today = moment(new Date()).format('YYYY-MM-DD');
-    const cashRegisterType = "CASHIN";
+    const cashRegisterType = 'CASHIN';
     const locationId = 1;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
-      if (data.status === "Success") {
+      if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.length != 0) {
@@ -126,11 +131,20 @@ export class CashinRegisterComponent implements OnInit {
           this.totalDimeRoll = (50 * 10 * this.cashDetails[0].CashRegisterRoll.Dimes) / 100;
           this.totalQuaterRoll = (40 * 25 * this.cashDetails[0].CashRegisterRoll.Quarters) / 100;
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
+          this.cashRegisterForm.patchValue({
+            goal: this.weatherDetails.TargetBusiness
+          });
           this.getTotalCash();
         }
       }
     });
   }
+
+  getWeatherDetails = () => {
+    this.weatherService.data.subscribe((data: any) => {
+      this.weatherDetails = data.Weather;
+  });
+}
 
   submit() {
     const coin = {
@@ -186,16 +200,41 @@ export class CashinRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
-    this.registerService.saveCashRegister(formObj, "CASHIN").subscribe(data => {
-      if (data.status === "Success") {
+    const weatherObj = {
+      weatherId: this.weatherDetails.WeatherId,
+      locaionId: this.weatherDetails.LocationId,
+      weather: this.weatherDetails.Weather,
+      rainProbability: this.weatherDetails.RainProbability,
+      predictedBusiness: this.weatherDetails.PredictedBusiness,
+      targetBusiness: Number(this.cashRegisterForm.value.goal),
+      createdDate: moment(new Date()).format('YYYY-MM-DD')
+    };
+    this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
+      if (data.status === 'Success') {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    }); 
+    this.weatherService.UpdateWeather(weatherObj).subscribe(data => {
+      if(data.status === 'Success') {
+        this.toastr.success('Goal Saved Successfully!!', 'Success!');
+      } else {
+        this.toastr.error('Weather Communication Error', 'Error!');
       }
     });
+    this.toggleTab = 0;   
     this.getCashRegister();
   }
 
   cancel() {
+    this.toggleTab = 0
   }
+
+  next(){
+    this.toggleTab = 1;
+  }
+  
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennie = 0;
@@ -269,5 +308,4 @@ export class CashinRegisterComponent implements OnInit {
   getTotalCash() {
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }
-
 }

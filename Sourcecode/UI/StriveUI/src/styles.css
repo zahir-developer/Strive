@@ -24,3 +24,9 @@ body .ui-widget {
 .form-control {
   font-size: 0.94rem;
 }
+
+.required {
+  content:"*";
+  color:red;
+  }
+  

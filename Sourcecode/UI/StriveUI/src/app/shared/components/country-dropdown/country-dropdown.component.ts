@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CountryService } from '../../services/common-service/country.service';
 
 @Component({
@@ -10,6 +10,7 @@ export class CountryDropdownComponent implements OnInit {
   countryList = [];
   country = 38;
   @Output() countryId = new EventEmitter();
+  @Input() selectedCountryId: any;
   constructor(private countryService: CountryService) { }
 
   ngOnInit(): void {
@@ -17,18 +18,26 @@ export class CountryDropdownComponent implements OnInit {
   }
   getCountriesList() {
     this.countryService.getCountriesList().subscribe(data => {
-const country = JSON.parse(data.resultData);
-this.countryList = country.Codes.map(item => {
-  return {
-    name: item.CodeValue,
-    value: item.CodeId
-  };
-});
+      const country = JSON.parse(data.resultData);
+      this.countryList = country.Codes.map(item => {
+        return {
+          name: item.CodeValue,
+          value: item.CodeId
+        };
+      });
+      this.setValue();
     }, (err) => {
     });
   }
   countrySelection(event) {
-this.countryId.emit(event);
+    this.countryId.emit(event);
+  }
+
+  setValue() {
+    if (this.selectedCountryId !== undefined) {
+      this.country = this.selectedCountryId;
+    }
+    
   }
 
 }

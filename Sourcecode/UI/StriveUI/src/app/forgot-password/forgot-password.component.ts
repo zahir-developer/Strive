@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ForgotPasswordService } from '../shared/services/common-service/forgot-password.service';
 import { MustMatch } from '../shared/Validator/must-match.validator';
+import { MessageServiceToastr } from '../shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -17,17 +18,29 @@ export class ForgotPasswordComponent implements OnInit {
   otpForm: FormGroup;
   newPasswordForm: FormGroup;
   passwordValidation: boolean;
+  isOTPScreen: boolean;
+  userId = '';
+  otpCode = '';
+  isForgotPassword: boolean;
+  isOtpCode: boolean;
+  isResetPassword: boolean;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private forgotPasswordService: ForgotPasswordService) { }
+    private forgotPasswordService: ForgotPasswordService,
+    private messageService: MessageServiceToastr
+  ) { }
 
   ngOnInit(): void {
     this.isEmail = false;
     this.isMobileNumber = false;
     this.submitted = false;
     this.passwordValidation = false;
+    this.isOTPScreen = false;
+    this.isForgotPassword = true;
+    this.isOtpCode = false;
+    this.isResetPassword = false;
     this.forgotPasswordForm = this.formBuilder.group({
       email: [''],
       mobile: ['']
@@ -75,17 +88,43 @@ export class ForgotPasswordComponent implements OnInit {
       this.submitted = true;
       return;
     }
-    let userId = '';
     if (this.isEmail) {
-      userId = form.value.email;
+      this.userId = form.value.email;
     } else if (this.isMobileNumber) {
-      userId = form.value.mobile;
+      this.userId = form.value.mobile;
     }
-    
-    this.forgotPasswordService.getOTPCode(userId).subscribe( res => {
+
+    this.forgotPasswordService.getOTPCode(this.userId).subscribe(res => {
       console.log(res, 'OTP');
+      if (res.status === 'Success') {
+        this.isOTPScreen = true;
+        this.isForgotPassword = false;
+        this.isResetPassword = false;
+      }
     });
 
+  }
+
+  verifyOtp(form) {
+    this.otpCode = form.value.otp;
+
+    this.forgotPasswordService.verifyOtp(this.userId, this.otpCode).subscribe(res => {
+      console.log(res, 'res');
+      if (res.status === 'Success') {
+        this.isOTPScreen = false;
+        this.isForgotPassword = false;
+        this.isResetPassword = true;
+      }
+    });
+  }
+
+  resendOtp() {
+    this.forgotPasswordService.getOTPCode(this.userId).subscribe(res => {
+      console.log(res, 'OTP');
+      if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Your OTP has been Resent' });
+      }
+    });
   }
 
   resetPassword(newPasswordForm) {
@@ -93,6 +132,19 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.newPasswordForm.invalid) {
       return;
     }
+
+    const finalObj = {
+      otp: this.otpCode,
+      newPassword: newPasswordForm.value.confirm,
+      userId: this.userId
+    };
+
+    this.forgotPasswordService.resetPassword(finalObj).subscribe(res => {
+      if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Password is updated successfully' });
+        this.router.navigate([`/login`], { relativeTo: this.route });
+      }
+    });
   }
 
   get g() { return this.newPasswordForm.controls; }

@@ -10,5 +10,7 @@ namespace Strive.Core.Utils
         public const string URL_CUST_SIGN_UP = "/Admin/CreateLogin";
 
         public const string URL_CUST_FORGOT_PASSWORD = "/Admin/ForgotPassword";
+
+        public const string URL_CUST_CONFIRM_PASSWORD = "/Admin/ResetPassword";
     }
 }

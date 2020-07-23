@@ -29,9 +29,9 @@ export class TokenInterceptor implements HttpInterceptor {
         });
         // return next.handle(request);
         return next.handle(request).pipe(tap(event => { }, err => {
-            if (err.status === 401) {
-                this.authService.logout();
-                this.router.navigate([`/login`], { relativeTo: this.route });
+            // if (err.status === 401) {
+            //     this.authService.logout();
+            //     this.router.navigate([`/login`], { relativeTo: this.route });
                 // const params = {
                 //     token: localStorage.getItem('authorizationToken'),
                 //     refreshToken: localStorage.getItem('refreshToken'),
@@ -53,10 +53,10 @@ export class TokenInterceptor implements HttpInterceptor {
                 //     }
                 // });
 
-            } else {
-                this.authService.logout();
-                this.router.navigate([`/login`], { relativeTo: this.route });
-            }
+            // } else {
+            //     this.authService.logout();
+            //     this.router.navigate([`/login`], { relativeTo: this.route });
+            // }
         }));
     }
 }

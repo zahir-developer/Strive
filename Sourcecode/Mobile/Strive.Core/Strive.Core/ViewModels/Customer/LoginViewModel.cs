@@ -36,8 +36,13 @@ namespace Strive.Core.ViewModels.Customer
         {
             if(validateCommand())
             {
-                
+                _userDialog.ShowLoading("Loading...",MaskType.Gradient);
                 var loginResponse = await AdminService.CustomerLogin(new CustomerLoginRequest(loginEmailPhone, loginPassword));
+                if(!string.IsNullOrEmpty(loginResponse.Token))
+                {
+
+                }
+                _userDialog.HideLoading();
             }
             
             
