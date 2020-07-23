@@ -35,12 +35,13 @@ export class LocationSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);
-        console.log(this.locationSetupDetails);
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
           this.isTableEmpty = false;
         }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -56,13 +57,15 @@ export class LocationSetupListComponent implements OnInit {
           this.confirmDelete(data);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }
   confirmDelete(data) {
     this.locationService.deleteLocation(data.LocationId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAllLocationSetupDetails();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }

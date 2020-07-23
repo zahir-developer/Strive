@@ -85,7 +85,6 @@ export class CashinRegisterComponent implements OnInit {
       if (data.status === "Success") {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
-        console.log(this.cashDetails);
         if (this.cashDetails.length != 0) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
@@ -129,13 +128,11 @@ export class CashinRegisterComponent implements OnInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
         }
-        //this.cashRegisterCoinForm.reset();
       }
     });
   }
 
   submit() {
-    const sourceObj = [];
     const coin = {
       cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
@@ -189,8 +186,6 @@ export class CashinRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
-    sourceObj.push(formObj);
-    console.log(sourceObj);
     this.registerService.saveCashRegister(formObj, "CASHIN").subscribe(data => {
       if (data.status === "Success") {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
@@ -200,7 +195,6 @@ export class CashinRegisterComponent implements OnInit {
   }
 
   cancel() {
-    //this.getCashRegister();
   }
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
