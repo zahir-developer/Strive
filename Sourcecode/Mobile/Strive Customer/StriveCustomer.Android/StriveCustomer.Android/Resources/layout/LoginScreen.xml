@@ -30,41 +30,38 @@
             android:layout_marginLeft="20dp"          
             android:textColor="@color/defaultLabelColor"        
             android:fontFamily="@font/opensans_bold"/>
-            <android.support.design.widget.TextInputLayout
+           <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"    
-                app:boxBackgroundColor="@android:color/white"
-                app:boxCornerRadiusBottomStart="3dp"
-                app:boxCornerRadiusBottomEnd = "3dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                android:layout_marginRight="20dp" 
+                app:hintEnabled="false">
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:hint="@string/email_or_phone"
                     android:textColorHint="@color/defaultHintColor"
+                    android:background="@drawable/edittext"
+                    android:inputType="textEmailAddress"
                     android:id="@+id/emailPhoneInputs"
                     android:textSize="16dp"
-                    android:fontFamily="@font/opensans_regular"/>  
+                    android:fontFamily="@font/opensans_regular"/> 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"    
-                app:boxBackgroundColor="@android:color/white"  
-                app:passwordToggleEnabled="true"
-                app:boxCornerRadiusBottomStart="3dp"
-                app:boxCornerRadiusBottomEnd = "3dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                android:layout_marginRight="20dp" 
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true">
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:hint="@string/password"
                     android:textColorHint="@color/defaultHintColor"
+                    android:background="@drawable/edittext"
                     android:inputType="textPassword"
                     android:id="@+id/passwordInputs"
                     android:textSize="16dp"

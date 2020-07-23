@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="OpenSans-Bold.ttf">
@@ -24,16 +23,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClockedInView">
             <connections>
+                <outlet property="ClockInTimeLabel" destination="gUY-nT-Axs" id="name-outlet-gUY-nT-Axs"/>
                 <outlet property="ClockOutButton" destination="yvc-Vw-gkh" id="name-outlet-yvc-Vw-gkh"/>
                 <outlet property="ClockinView" destination="VEo-dW-CIM" id="name-outlet-VEo-dW-CIM"/>
                 <outlet property="ClockoutView" destination="ihM-GA-J4n" id="name-outlet-ihM-GA-J4n"/>
+                <outlet property="DateLabel" destination="48q-zd-U9g" id="name-outlet-48q-zd-U9g"/>
                 <outlet property="LogoutButton" destination="fVp-0s-9Wm" id="name-outlet-fVp-0s-9Wm"/>
                 <outlet property="RoleLabel" destination="i7U-ih-WjJ" id="name-outlet-i7U-ih-WjJ"/>
                 <outlet property="TitleLabel" destination="G0x-GA-Dep" id="name-outlet-G0x-GA-Dep"/>
                 <outlet property="WelcomeLabel" destination="jdD-3S-4TG" id="name-outlet-jdD-3S-4TG"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
-                <outlet property="DateLabel" destination="48q-zd-U9g" id="name-outlet-48q-zd-U9g"/>
-                <outlet property="ClockInTimeLabel" destination="gUY-nT-Axs" id="name-outlet-gUY-nT-Axs"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -42,7 +41,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="gIp-bD-gHv">
-                    <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                    <rect key="frame" x="-10" y="-10" width="854" height="1214"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvc-Vw-gkh">
                     <rect key="frame" x="254.5" y="807" width="325" height="55"/>
@@ -91,7 +90,7 @@
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VEo-dW-CIM">
-                    <rect key="frame" x="214" y="537" width="203" height="120"/>
+                    <rect key="frame" x="219" y="537" width="203" height="120"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clock-in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhW-yn-4rb">
                             <rect key="frame" x="74.5" y="26" width="54" height="20"/>
@@ -126,7 +125,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihM-GA-J4n">
-                    <rect key="frame" x="417" y="537" width="203" height="120"/>
+                    <rect key="frame" x="422" y="537" width="203" height="120"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TabIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Pxm-ph-3Wk">
                             <rect key="frame" x="16" y="56" width="20" height="20"/>
@@ -179,7 +178,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome John!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdD-3S-4TG">
-                    <rect key="frame" x="251" y="297.5" width="332.5" height="61.5"/>
+                    <rect key="frame" x="251" y="297" width="332.5" height="61.5"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="45"/>
                     <color key="textColor" red="0.69258880619999996" green="0.98452872039999995" blue="0.95296400790000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <nil key="highlightedColor"/>
@@ -188,9 +187,9 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="ihM-GA-J4n" firstAttribute="centerY" secondItem="gIp-bD-gHv" secondAttribute="centerY" id="6CM-Rh-8K5"/>
-                <constraint firstAttribute="bottom" secondItem="gIp-bD-gHv" secondAttribute="bottom" id="8OS-b3-vBs"/>
+                <constraint firstAttribute="bottom" secondItem="gIp-bD-gHv" secondAttribute="bottom" constant="-10" id="8OS-b3-vBs"/>
                 <constraint firstItem="VEo-dW-CIM" firstAttribute="centerY" secondItem="gIp-bD-gHv" secondAttribute="centerY" id="BWc-Ts-vg1"/>
-                <constraint firstItem="gIp-bD-gHv" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="GQH-fW-bkl"/>
+                <constraint firstItem="gIp-bD-gHv" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="GQH-fW-bkl"/>
                 <constraint firstItem="48q-zd-U9g" firstAttribute="top" secondItem="i7U-ih-WjJ" secondAttribute="bottom" constant="50" id="Mh7-Tz-WTe"/>
                 <constraint firstItem="48q-zd-U9g" firstAttribute="leading" secondItem="bwe-q5-TuR" secondAttribute="trailing" constant="6" id="SWa-q8-bgp"/>
                 <constraint firstItem="bwe-q5-TuR" firstAttribute="centerY" secondItem="48q-zd-U9g" secondAttribute="centerY" id="Sve-CF-NjP"/>
@@ -198,12 +197,12 @@
                 <constraint firstItem="yvc-Vw-gkh" firstAttribute="top" secondItem="VEo-dW-CIM" secondAttribute="bottom" constant="150" id="a5K-q7-w9Q"/>
                 <constraint firstAttribute="trailing" secondItem="p5D-FJ-4gz" secondAttribute="trailing" id="alN-QT-PIE"/>
                 <constraint firstItem="ihM-GA-J4n" firstAttribute="leading" secondItem="VEo-dW-CIM" secondAttribute="trailing" id="gQF-wA-PRU"/>
-                <constraint firstAttribute="trailing" secondItem="gIp-bD-gHv" secondAttribute="trailing" id="guS-S9-hQE"/>
+                <constraint firstAttribute="trailing" secondItem="gIp-bD-gHv" secondAttribute="trailing" constant="-10" id="guS-S9-hQE"/>
                 <constraint firstItem="VEo-dW-CIM" firstAttribute="top" secondItem="48q-zd-U9g" secondAttribute="bottom" constant="10" id="gwJ-Jb-QEe"/>
                 <constraint firstItem="i7U-ih-WjJ" firstAttribute="centerX" secondItem="gIp-bD-gHv" secondAttribute="centerX" id="hsU-13-WNH"/>
                 <constraint firstItem="iyT-7P-Aza" firstAttribute="top" secondItem="jdD-3S-4TG" secondAttribute="bottom" constant="16" id="i7W-hT-qKk"/>
                 <constraint firstItem="p5D-FJ-4gz" firstAttribute="top" secondItem="2" secondAttribute="top" id="kQp-hF-KSh"/>
-                <constraint firstItem="gIp-bD-gHv" firstAttribute="top" secondItem="2" secondAttribute="top" id="m5w-H9-b1q"/>
+                <constraint firstItem="gIp-bD-gHv" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="m5w-H9-b1q"/>
                 <constraint firstItem="p5D-FJ-4gz" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="o4y-q9-7gr"/>
                 <constraint firstItem="i7U-ih-WjJ" firstAttribute="top" secondItem="iyT-7P-Aza" secondAttribute="bottom" constant="3" id="oV3-ud-C9I"/>
                 <constraint firstItem="yvc-Vw-gkh" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="oqS-qu-vQI"/>

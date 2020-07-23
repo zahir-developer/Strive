@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
@@ -79,10 +79,10 @@ export class CashinRegisterComponent implements OnInit {
 
   getCashRegister() {
     const today = moment(new Date()).format('YYYY-MM-DD');
-    const cashRegisterType = "CASHIN";
+    const cashRegisterType = 'CASHIN';
     const locationId = 1;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
-      if (data.status === "Success") {
+      if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.length != 0) {
@@ -186,8 +186,8 @@ export class CashinRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
-    this.registerService.saveCashRegister(formObj, "CASHIN").subscribe(data => {
-      if (data.status === "Success") {
+    this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
+      if (data.status === 'Success') {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
       }
     });
@@ -269,5 +269,4 @@ export class CashinRegisterComponent implements OnInit {
   getTotalCash() {
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }
-
 }
