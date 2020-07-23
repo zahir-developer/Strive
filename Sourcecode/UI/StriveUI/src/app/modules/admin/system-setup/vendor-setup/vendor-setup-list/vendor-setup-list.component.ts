@@ -25,7 +25,6 @@ export class VendorSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
         this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === true);
-        console.log(this.vendorSetupDetails);
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

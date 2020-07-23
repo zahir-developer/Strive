@@ -62,7 +62,8 @@
                 <select class="form-control" formControlName="commissionType" (change)="getCtype($event.target.value)"
                     [ngClass]="{ 'is-invalid': submitted  && f.commissionType.errors }">
                     <option value="" selected hidden>Choose </option>
-                    <option *ngFor="let commissionType of CommissionType">{{commissionType}}</option>
+                    <option *ngFor="let commissionType of CommissionType" value="{{commissionType.CodeId}}">
+                        {{commissionType.CodeValue}}</option>
                 </select>
                 <div *ngIf="submitted  && f.commissionType.errors" class="invalid-feedback">
                     <div *ngIf="f.commissionType.errors.required">Commision Type is required</div>

@@ -21,7 +21,6 @@ export class ServiceSetupListComponent implements OnInit {
   ngOnInit() {
     this.isTableEmpty = true;
     this.getAllserviceSetupDetails();
-    console.log(this.serviceSetupDetails.length);
 
   }
   getAllserviceSetupDetails() {
@@ -29,7 +28,6 @@ export class ServiceSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.serviceSetupDetails = serviceDetails.ServiceSetup;
-        console.log(this.serviceSetupDetails);
         if (this.serviceSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

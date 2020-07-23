@@ -87,6 +87,7 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getCode.getCodeByCategory("COMMISIONTYPE").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
+        this.CommissionType = cType.Codes;        
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -105,7 +106,7 @@ export class ServiceCreateEditComponent implements OnInit {
   }
 
   getCtype(data) {
-    this.ctypeLabel = data;
+    this.ctypeLabel = this.CommissionType.filter(item => item.CodeId === Number(data))[0].CodeValue;
   }
   getAllServiceType() {
     this.serviceSetup.getServiceType().subscribe(data => {

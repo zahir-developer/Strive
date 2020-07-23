@@ -29,7 +29,6 @@ const adminRoutes: Routes = [
         { path: 'service', component: ServiceSetupComponent },
         { path: 'product', component: ProductSetupComponent },
         { path: 'vendor', component: VendorSetupComponent },
-        { path: '', redirectTo: 'location' },
       ]
     }
     ]
