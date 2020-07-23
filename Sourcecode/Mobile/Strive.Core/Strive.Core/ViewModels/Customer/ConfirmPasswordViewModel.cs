@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using MvvmCross;
+using Strive.Core.Models.Customer;
 using Strive.Core.Resources;
 
 
@@ -8,14 +9,14 @@ namespace Strive.Core.ViewModels.Customer
    public class ConfirmPasswordViewModel : BaseViewModel
     {
 
-      //  IUserDialogs dialogs = Mvx.IoCProvider.Resolve<IUserDialogs>();
         #region Commands
         
         public async void SubmitCommand()
         {
             if(string.Equals(NewPassword,ConfirmPassword))
             {
-
+                 _userDialog.ShowLoading("Loading...",MaskType.Gradient);
+                 var resetPasswordResponse = await AdminService.CustomerResetPassword(new CustomerResetPassword(SentOTP,ConfirmPassword,UserId));
             }
             else if(string.IsNullOrEmpty(NewPassword) || string.IsNullOrEmpty(ConfirmPassword))
             {
@@ -41,6 +42,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             set { }
         }
+        public string SentOTP { get; set; }
 
         public string Submit
         {
@@ -51,6 +53,7 @@ namespace Strive.Core.ViewModels.Customer
             set { }
         }
         
+        public string UserId { get; set; }
         #endregion
 
     }
