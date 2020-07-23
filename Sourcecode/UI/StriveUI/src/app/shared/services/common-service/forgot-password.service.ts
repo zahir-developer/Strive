@@ -11,6 +11,6 @@ export class ForgotPasswordService {
   constructor(private http: HttpUtilsService) { }
 
   getOTPCode(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getOtpCode}`, obj);
+    return this.http.put(`${UrlConfig.totalUrl.getOtpCode}`  + obj);
   }
 }
