@@ -33,11 +33,12 @@ export const UrlConfig = {
     deleteEmployee: `Admin/Employee/`,
     getAllRoles: `Admin/Employee/GetAllRoles`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
-    getOtpCode: `Admin/SendOTP/`,
+    getOtpCode: `Auth/SendOTP/`,
     uploadDocument: `Admin/Document/SaveDocument`,
     getAllDocument: `Admin/Document/GetAllDocument/`,
     getDocumentById: `Admin/Document/GetDocumentById/`,
     getWeather: `Admin/Weather/GetWeatherPrediction/`,
-    saveWeather:`Admin/Weather/SaveWeatherPrediction`
+    verifyOtp: `Auth/VerfiyOTP/`,
+    resetPassword: `Auth/ResetPassword`
   }
 };

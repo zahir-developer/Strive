@@ -16,18 +16,18 @@ namespace Strive.Core.ViewModels.Customer
             if (Validations.validateEmail(resetEmail))
             {
                _userDialog.ShowLoading("Loading...",Acr.UserDialogs.MaskType.Gradient);
-               var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
+              // var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
 
-                //if (responseResult == "true")
-                //{
+                if (true)
+                {
                     await _navigationService.Close(this);
                     await _navigationService.Navigate<OTPViewModel>();
-                //}
-                //else
-                //{
-                //    _userDialog.Alert("email does not exist");
-                //}
-                    
+                }
+                else
+                {
+                    _userDialog.Alert("responseResult.Exception");
+                }
+
             }
             else
             {
