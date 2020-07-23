@@ -34,4 +34,13 @@ export class EmployeeService {
   getCountryList() {
     return this.http.get(`${UrlConfig.totalUrl.countryList}`);
   }
+  uploadDocument(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.uploadDocument}`, obj);
+  }
+  getAllDocument(employeeId, locationId) {
+    return this.http.get(`${UrlConfig.totalUrl.getAllDocument}` + employeeId + ',' + locationId);
+  }
+  getDocumentById(documentId, employeeId, password) {
+    return this.http.get(`${UrlConfig.totalUrl.getDocumentById}` + documentId + ',' + employeeId + ',' + password);
+  }
 }

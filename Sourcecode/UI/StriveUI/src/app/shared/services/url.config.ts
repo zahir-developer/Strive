@@ -34,6 +34,9 @@ export const UrlConfig = {
     getAllRoles: `Admin/Employee/GetAllRoles`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     getOtpCode: `Admin/ForgotPassword`,
+    uploadDocument: `Admin/Document/SaveDocument`,
+    getAllDocument: `Admin/Document/GetAllDocument/`,
+    getDocumentById: `Admin/Document/GetDocumentById/`,
     getWeather: `Admin/Weather/GetWeatherPrediction/`
   }
 };

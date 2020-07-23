@@ -7,11 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
 import { TokenInterceptor } from 'src/app/shared/interceptor/token.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { TableModule} from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { CreateEditComponent } from './employees/create-edit/create-edit.component';
-import {DialogModule} from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
 import { SchedulingComponent } from './scheduling/scheduling.component';
-import {SharedModule} from 'src/app/shared/shared.module'
+import { SharedModule } from 'src/app/shared/shared.module'
 import { SetupComponent } from './system-setup/setup.component';
 import { ConfirmationService } from 'primeng/api';
 import { ThemeComponent } from './theme/theme.component';
@@ -21,7 +21,7 @@ import { CardComponent } from './card/card.component';
 import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
 import { RouterModule } from '@angular/router';
-import {MultiSelectModule} from 'primeng/multiselect';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { OnlynumberDirective } from 'src/app/shared/Directive/only-number.directive';
 import { LocationSetupComponent } from './system-setup/location-setup/location-setup.component';
 import { LocationCreateEditComponent } from './system-setup/location-setup/location-create-edit/location-create-edit.component';
@@ -38,11 +38,11 @@ import { VendorSetupListComponent } from './system-setup/vendor-setup/vendor-set
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
-     ThemeComponent, HeaderComponent, CardComponent,CashinRegisterComponent,CloseoutRegisterComponent,
-     LocationSetupComponent,LocationCreateEditComponent,LocationSetupListComponent,
-     ServiceCreateEditComponent,ServiceSetupListComponent,ServiceSetupComponent,ProductSetupComponent,
-     ProductSetupListComponent,ProductCreateEditComponent,VendorSetupComponent,VendorCreateEditComponent,
-     VendorSetupListComponent,OnlynumberDirective,SetupComponent],
+    ThemeComponent, HeaderComponent, CardComponent, CashinRegisterComponent, CloseoutRegisterComponent,
+    LocationSetupComponent, LocationCreateEditComponent, LocationSetupListComponent,
+    ServiceCreateEditComponent, ServiceSetupListComponent, ServiceSetupComponent, ProductSetupComponent,
+    ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
+    VendorSetupListComponent, OnlynumberDirective, SetupComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -60,10 +60,10 @@ import { VendorSetupListComponent } from './system-setup/vendor-setup/vendor-set
     ConfirmationService,
     ThemeService,
     {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }],
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AdminModule { }

@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { threadId } from 'worker_threads';
 @Component({
   selector: 'app-create-edit',
   templateUrl: './create-edit.component.html',
@@ -18,9 +19,14 @@ export class CreateEditComponent implements OnInit {
   @Input() state?: any;
   @Input() country?: any;
   @Input() employeeData?: any;
+  documentDailog: boolean;
+  documentForm: FormGroup;
+  fileName: any = '';
+  fileUploadformData: any;
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
+    this.documentDailog = false;
     this.sampleForm = this.fb.group({
       firstName: ['', Validators.required],
       middleName: [''],
@@ -48,9 +54,14 @@ export class CreateEditComponent implements OnInit {
       country: [''],
       zipcode: ['']
     });
+    this.documentForm = this.fb.group({
+      password: ['', Validators.required]
+    });
     // console.log(this.selectedData);
     this.employeRole();
     this.setValue();
+    this.getAllDocument();
+    this.getDocumentById();
     // if (this.selectedData !== undefined && this.selectedData.length !== 0) {
     //   this.sampleForm.reset();
     //   this.sampleForm.setValue({
@@ -206,6 +217,78 @@ export class CreateEditComponent implements OnInit {
   }
 
   addCollision() {
-    
+
+  }
+
+  upload() {
+    this.documentDailog = true;
+  }
+
+  fileNameChanged() {
+    let filesSelected: any;
+    filesSelected = document.getElementById('filepaths');
+    filesSelected = filesSelected.files;
+    if (filesSelected.length > 0) {
+      const fileToLoad = filesSelected[0];
+      this.fileName = fileToLoad.name;
+      let fileReader: any;
+      fileReader = new FileReader();
+      fileReader.onload = function (fileLoadedEventTigger) {
+        let textAreaFileContents: any;
+        textAreaFileContents = document.getElementById('filepaths');
+        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
+      };
+      fileReader.readAsDataURL(fileToLoad);
+      setTimeout(() => {
+        let fileTosaveName: any;
+        fileTosaveName = fileReader.result.split(',')[1];
+        this.fileUploadformData = fileTosaveName;
+      }, 5000);
+    }
+  }
+
+  uploadDocument() {
+    const finalObj = [];
+    const uploadbj = {
+      documentId: 0,
+      employeeId: 1,
+      fileName: this.fileName,
+      filePath: 'D:\\Upload\\',
+      password: this.documentForm.value.password,
+      createdDate: '2020 - 07 - 21T12: 41: 47.395Z',
+      modifiedDate: '2020 - 07 - 21T12: 41: 47.395Z',
+      isActive: true,
+      base64Url: this.fileUploadformData
+    };
+    finalObj.push(uploadbj);
+    this.employeeService.uploadDocument(finalObj).subscribe( res => {
+      console.log(res, 'uploadDcument');
+      if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Document addedd successfully' });
+        this.documentDailog = false;
+        this.getAllDocument();
+      }
+    });
+  }
+
+  getAllDocument() {
+    const employeeId = 1;
+    const locationId = 3;
+    this.employeeService.getAllDocument(employeeId, locationId).subscribe( res => {
+      console.log(res, 'allDocument');
+    });
+  }
+
+  getDocumentById() {
+    const documentId = 1;
+    const employeeId = 1;
+    const password = '123456789';
+    this.employeeService.getDocumentById(documentId, employeeId, password).subscribe( res => {
+
+    });
+  }
+
+  closeDocumentPopup() {
+    this.documentDailog = false;
   }
 }

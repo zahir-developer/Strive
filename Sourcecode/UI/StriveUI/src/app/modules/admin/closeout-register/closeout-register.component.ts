@@ -85,7 +85,6 @@ export class CloseoutRegisterComponent implements OnInit {
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
-        console.log(this.closeOutDetails);
         if (this.closeOutDetails.length != 0) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
@@ -137,7 +136,6 @@ export class CloseoutRegisterComponent implements OnInit {
   }
 
   submit() {
-    const sourceObj = [];
     const coin = {
       cashRegCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
@@ -191,8 +189,6 @@ export class CloseoutRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
-    sourceObj.push(formObj);
-    console.log(sourceObj);
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       if (data.status === "Success") {
         this.toastr.success('Record Saved Successfully!!', 'Success!');
@@ -202,7 +198,6 @@ export class CloseoutRegisterComponent implements OnInit {
   }
 
   cancel() {
-    //this.getCloseOutRegister();
   }
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
