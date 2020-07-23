@@ -37,7 +37,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Coins</h4>
                                             </div>
-                                            <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()">
+                                            <form [formGroup]="cashRegisterCoinForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputpennies">Pennies</label>
@@ -77,7 +77,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Bills</h4>
                                             </div>
-                                            <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()">
+                                            <form [formGroup]="cashRegisterBillForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="input1s">1's</label>
@@ -121,7 +121,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Rolls</h4>
                                             </div>
-                                            <form [formGroup]="cashRegisterForm" (ngSubmit)="submit()">
+                                            <form [formGroup]="cashRegisterRollForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputpennies">Pennies</label>
@@ -159,20 +159,20 @@
                                                 <div class="col-lg-8 col-xl-6">
                                                     <div class="btn-group">
                                                         <label class="default-name"> Coins</label>
-                                                        <label class="default-amount"> ${{totalCoin  | number:'1.2-2'}}</label>
+                                                        <label class="default-amount"> {{totalCoin  | currency}}</label>
                                                     </div>
                                                     <div class="btn-group">
                                                         <label class="default-name sm-bill"> Bills</label>
-                                                        <label class="default-amount"> ${{totalBill  | number:'1.2-2'}}</label>
+                                                        <label class="default-amount"> {{totalBill  | currency}}</label>
                                                     </div>
                                                     <div class="btn-group">
                                                         <label class="default-name sm-roll"> Rolls</label>
-                                                        <label class="default-amount"> ${{totalRoll  | number:'1.2-2'}}</label>
+                                                        <label class="default-amount"> {{totalRoll  | currency}}</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-xl-6 text-center m-t-20">
                                                     <h6 class="font-weight-bold">Total Available Cash</h6> <span
-                                                        class="cash-box"> <span class="text-cash">${{totalCash | number:'1.2-2'}} </span> </span>
+                                                        class="cash-box"> <span class="text-cash">{{totalCash | currency}} </span> </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -300,8 +300,8 @@
                             </div>
                         </div>
                         <div class="m-t-12 pull-right mw-100">
-                            <button type="button" class="btn theme-optional-button-color">Cancel</button>
-                            <button type="button" class="btn theme-primary-button-color">Save</button>
+                            <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+                            <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
                         </div>
                     </div>
                 </div>

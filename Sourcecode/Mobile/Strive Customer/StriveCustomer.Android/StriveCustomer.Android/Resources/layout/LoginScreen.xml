@@ -6,84 +6,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mobile_portrait_bg">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginTop="40dp"    
-    android:gravity="center">
-   <ImageView
-       android:layout_width="320dp"
-       android:layout_height="70dp"
-        android:src="@drawable/Strive_Logo_Page"/>
-</LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginTop="30dp">
-<TextView
-    android:id="@+id/loginTextView"              
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20dp"  
-    android:layout_marginLeft="20dp"          
-    android:textColor="@color/defaultLabelColor"        
-    android:textStyle="bold"/>
-     <android.support.design.widget.TextInputLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="20dp"
-          android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"    
-          app:boxBackgroundColor="@android:color/white"
-          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email_or_phone"
-                android:textColorHint="@color/defaultHintColor"
-                android:id="@+id/emailPhoneInputs" />  
-     </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         android:layout_marginTop="20dp"
-         android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"
-          app:boxBackgroundColor="@android:color/white"  
-          app:passwordToggleEnabled="true"
-          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:textColorHint="@color/defaultHintColor"
-                android:inputType="textPassword"
-                android:id="@+id/passwordInputs" /> 
-     </android.support.design.widget.TextInputLayout>
- </LinearLayout>
-        
-        <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"    
+        android:gravity="center">
+       <ImageView
+           android:layout_width="320dp"
+           android:layout_height="70dp"
+            android:src="@drawable/Strive_Logo_Page"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:id="@+id/loginTextView"              
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
-         <CheckBox
-                 android:id="@+id/rememberMeCheck"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginLeft="20dp"
-                 android:layout_marginRight="7dp"
-                 android:buttonTint="@android:color/white"/>
+            android:textSize="20dp"  
+            android:layout_marginLeft="20dp"          
+            android:textColor="@color/defaultLabelColor"        
+            android:fontFamily="@font/opensans_bold"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"    
+                app:boxBackgroundColor="@android:color/white"
+                app:boxCornerRadiusBottomStart="3dp"
+                app:boxCornerRadiusBottomEnd = "3dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_or_phone"
+                    android:textColorHint="@color/defaultHintColor"
+                    android:id="@+id/emailPhoneInputs"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/opensans_regular"/>  
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"    
+                app:boxBackgroundColor="@android:color/white"  
+                app:passwordToggleEnabled="true"
+                app:boxCornerRadiusBottomStart="3dp"
+                app:boxCornerRadiusBottomEnd = "3dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:textColorHint="@color/defaultHintColor"
+                    android:inputType="textPassword"
+                    android:id="@+id/passwordInputs"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/opensans_regular"/> 
+             </android.support.design.widget.TextInputLayout>
+    </LinearLayout> 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <CheckBox
+            android:id="@+id/rememberMeCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="7dp"
+            android:buttonTint="@android:color/white"/>
         <TextView
             android:id="@+id/rememberMeLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/defaultLabelColor"/>
-        </LinearLayout>
-
+            android:textColor="@color/defaultLabelColor"
+            android:fontFamily="@font/opensans_regular"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,13 +102,14 @@
             android:textColor="@color/defaultLabelColor"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@color/defaultButtonColor"
+            android:background="@drawable/primarybutton"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/forgotPasswordLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/defaultLinkColor"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
@@ -112,21 +119,21 @@
         android:orientation="horizontal"
         android:layout_marginTop="50dp"
         android:gravity="center">
-    <TextView
-        android:id="@+id/newAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/defaultLabelColor"    
-        android:layout_marginLeft="10dp"    
-        android:gravity="center"/>
-     <TextView
-        android:id="@+id/signUpLinkText"    
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"    
-        android:textStyle="bold"
-        android:textColor="@color/defaultLinkColor"
-        android:gravity="right"/>
+        <TextView
+            android:id="@+id/newAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/defaultLabelColor" 
+            android:fontFamily="@font/opensans_regular"    
+            android:layout_marginLeft="10dp"    
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/signUpLinkText"    
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"    
+            android:fontFamily="@font/opensans_bold"
+            android:textColor="@color/defaultLinkColor"
+            android:gravity="right"/>
     </LinearLayout>
-
 </LinearLayout>

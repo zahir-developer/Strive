@@ -73,8 +73,7 @@ namespace Admin.API.Filters
                  !context.HttpContext.Request.Path.Value.Contains("Admin/Refresh") &&
                   !context.HttpContext.Request.Path.Value.Contains("Admin/ForgotPassword") &&
                    !context.HttpContext.Request.Path.Value.Contains("Admin/ResetPassword") &&
-                   !context.HttpContext.Request.Path.Value.Contains("Admin/CreateLogin") &&
-                 !context.HttpContext.Request.Path.Value.Contains("Admin/Weather"))
+                   !context.HttpContext.Request.Path.Value.Contains("Admin/CreateLogin"))
             {
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;

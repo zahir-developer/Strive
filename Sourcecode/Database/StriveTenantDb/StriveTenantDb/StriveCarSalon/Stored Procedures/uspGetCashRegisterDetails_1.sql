@@ -1,4 +1,5 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetCashRegisterDetails] 
+﻿
+CREATE PROC [StriveCarSalon].[uspGetCashRegisterDetails] 
 (
 @LocationId int,
 @CashRegisterType varchar(10), 
@@ -22,12 +23,12 @@ CR.LocationId AS LocationId,
 CR.DrawerId AS DrawerId,
 CR.UserId AS UserId,
 CR.EnteredDateTime AS EnteredDateTime,
-CR.CashRegisterCoinId AS CashRegCoinId,
-CR.CashRegisterBillId AS CashRegBillId,
-CR.CashRegisterRollId AS CashRegRollId,
-CR.CashRegisterOtherId AS CashRegOtherId,
+CR.CashRegisterCoinId,
+CR.CashRegisterBillId, 
+CR.CashRegisterRollId,
+CR.CashRegisterOtherId,
 
-CRC.CashRegCoinId AS CashRegisterCoin_CashRegCoinId,
+CRC.CashRegCoinId AS CashRegisterCoin_CashRegisterCoinId,
 CRC.Pennies AS CashRegisterCoin_Pennies,
 CRC.Nickels AS CashRegisterCoin_Nickels,
 CRC.Dimes AS CashRegisterCoin_Dimes,
@@ -35,7 +36,7 @@ CRC.Quarters AS CashRegisterCoin_Quarters,
 CRC.HalfDollars AS CashRegisterCoin_HalfDollars,
 CRC.DateEntered AS CashRegisterCoin_DateEntered,
 
-CRB.CashRegBillId AS CashRegisterBill_CashRegBillId,
+CRB.CashRegBillId AS CashRegisterBill_CashRegisterBillId,
 CRB.[1s] AS CashRegisterBill_Ones,
 CRB.[5s] AS CashRegisterBill_Fives,
 CRB.[10s] AS CashRegisterBill_Tens,
@@ -44,7 +45,7 @@ CRB.[50s] AS CashRegisterBill_Fifties,
 CRB.[100s] AS CashRegisterBill_Hundreds,
 CRB.DateEntered AS CashRegisterBill_DateEntered,
 
-CRR.CashRegRollId AS CashRegisterRoll_CashRegRollId,
+CRR.CashRegRollId AS CashRegisterRoll_CashRegisterRollId,
 CRR.Pennies AS CashRegisterRoll_Pennies,
 CRR.Nickels AS CashRegisterRoll_Nickels,
 CRR.Dimes AS CashRegisterRoll_Dimes,
@@ -52,7 +53,7 @@ CRR.Quarters AS CashRegisterRoll_Quarters,
 CRR.HalfDollars AS CashRegisterRoll_HalfDollars,
 CRR.DateEntered AS CashRegisterRoll_DateEntered,
 
-CRO.CashRegOtherId AS CashRegisterOther_CashRegOtherId,
+CRO.CashRegOtherId AS CashRegisterOther_CashRegisterOtherId,
 CRO.CreditCard1 AS CashRegisterOther_CreditCard1,
 CRO.CreditCard2 AS CashRegisterOther_CreditCard2,
 CRO.CreditCard3 AS CashRegisterOther_CreditCard3,
@@ -70,5 +71,5 @@ LEFT JOIN [StriveCarSalon].[tblCashRegisterOthers] CRO on CRO.CashRegOtherId = C
 WHERE CR.LocationId=@LocationId
 AND CV.id = @CodeValueID
 AND CONVERT(date, CR.EnteredDateTime) = @EnteredDate
-AND CR.DrawerId in (SELECT DrawerId FROM tblDrawer WHERE LocationId=@LocationId) ORDER BY CR.EnteredDateTime DESC
+AND CR.DrawerId in (SELECT DrawerId FROM [StriveCarSalon].[tblDrawer] WHERE LocationId=@LocationId) ORDER BY CR.EnteredDateTime DESC
 END

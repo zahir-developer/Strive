@@ -13,21 +13,33 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void GetOTPCommand()
         {
-            if(Validations.validatePhone(resetMobile))
+            if (Validations.validateEmail(resetEmail))
             {
-                await _navigationService.Navigate<OTPViewModel>();
+               _userDialog.ShowLoading("Loading...",Acr.UserDialogs.MaskType.Gradient);
+               var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
+
+                //if (responseResult == "true")
+                //{
+                    await _navigationService.Close(this);
+                    await _navigationService.Navigate<OTPViewModel>();
+                //}
+                //else
+                //{
+                //    _userDialog.Alert("email does not exist");
+                //}
+                    
             }
             else
             {
-                _userDialog.Alert(Strings.ValidMobile);
-            }        
+                _userDialog.Alert(Strings.ValidEmail);
+            }
         }
 
         #endregion Commands
 
         #region Properties
 
-        public string resetMobile { get; set; }
+        public string resetEmail { get; set; }
         public string GetOTP
         {
             get

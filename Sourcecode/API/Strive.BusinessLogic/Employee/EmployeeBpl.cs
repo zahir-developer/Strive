@@ -6,17 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Strive.BusinessEntities.Employee;
+using Strive.BusinessEntities.Auth;
+using System.Linq;
+using Strive.BusinessLogic.Common;
 
 namespace Strive.BusinessLogic
 {
     public class EmployeeBpl : Strivebase, IEmployeeBpl
     {
         readonly ITenantHelper _tenant;
+        readonly IDistributedCache _cache;
         readonly JObject _resultContent = new JObject();
         Result _result;
         public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
             _tenant = tenantHelper;
+            _cache = cache;
         }
         public Result GetEmployeeDetails()
         {
@@ -60,11 +65,25 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveEmployeeDetails(EmployeeView lstEmployee)
+        public Result SaveEmployeeDetails(EmployeeView employee)
         {
             try
             {
-                var blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(lstEmployee);
+                var empDetails = employee.EmployeeDetail.FirstOrDefault();
+                UserLogin lstEmployeelst = new UserLogin();
+                lstEmployeelst.AuthId = 0;
+                lstEmployeelst.EmailId = employee.EmployeeAddress.Select(a => a.Email).FirstOrDefault();
+                lstEmployeelst.MobileNumber = employee.EmployeeAddress.Select(a => a.PhoneNumber).FirstOrDefault();
+                lstEmployeelst.PasswordHash = "";
+                lstEmployeelst.CreatedDate = employee.CreatedDate;
+                var newitem = new CommonBpl(_cache, _tenant).CreateLogin(lstEmployeelst);
+
+
+                lstEmployeelst.AuthId = newitem;
+                empDetails.AuthId = newitem.toInt();
+
+                var blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(employee);
+
 
                 //if (blnStatus)
                 //{

@@ -47,7 +47,7 @@
                 <label for="inputParentType">Parent Name</label>
                 <select class="form-control" formControlName="parentName">
                     <option value="" selected hidden>Choose </option>
-                    <option *ngFor="let parent of parent">{{parent}}</option>
+                    <option *ngFor="let parent of parent" value="{{parent.ServiceId}}">{{parent.ServiceName}}</option>
                 </select>
             </div>
             <div class="form-group col-lg-3">

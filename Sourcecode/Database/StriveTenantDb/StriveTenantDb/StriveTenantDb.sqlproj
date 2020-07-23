@@ -205,5 +205,14 @@
     <Build Include="StriveCarSalon\User Defined Types\tvpCashRegisterBills.sql" />
     <Build Include="StriveCarSalon\User Defined Types\tvpCashRegister.sql" />
     <Build Include="dbo\User Defined Types\tvpVendorAddress.sql" />
+    <Build Include="StriveCarSalon\Tables\tblTimeClock.sql" />
+    <Build Include="StriveCarSalon\Tables\tblSchedule.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobPayment.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobItem.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobDetail.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJob.sql" />
+    <Build Include="StriveCarSalon\Tables\tblGiftCardHistory.sql" />
+    <Build Include="StriveCarSalon\Tables\tblGiftCard.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllDocumentById.sql" />
   </ItemGroup>
 </Project>

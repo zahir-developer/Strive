@@ -1,36 +1,47 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.Weather;
+using Strive.BusinessLogic;
 using Strive.BusinessLogic.Common;
+using Strive.BusinessLogic.Weather;
+using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Admin.Api.Controllers
 {
     public class WeatherController : ControllerBase
     {
-        readonly ICommonBpl _commonBpl;
+        readonly IWeatherBpl _weatherBpl;
 
-        public WeatherController(ICommonBpl commonBpl)
+        public WeatherController(IWeatherBpl weatherBpl)
         {
-            _commonBpl = commonBpl;
+            _weatherBpl = weatherBpl;
         }
 
-        [HttpGet]
-        [Route("/Admin/[controller]")]
-        [AllowAnonymous]
-        public void GetWeather()
+
+        [HttpPost]
+        [Route("/Admin/[controller]/GetWeatherPrediction/{locationId}")]
+        public Result UpdateWeatherPrediction(int locationId)
         {
-            var result = _commonBpl.GetWeather();
+            return _weatherBpl.GetWeatherPrediction(locationId);
+        }
+
+
+        [HttpPost]
+        [Route("/Admin/[controller]/AddWeatherPrediction")]
+        public Result WeatherPrediction([FromBody] WeatherPrediction weatherPrediction)
+        {
+            return _weatherBpl.AddWeatherPrediction(weatherPrediction);
         }
 
         [HttpPost]
-        [Route("/Admin/[controller]/AddLocation")]
-        [AllowAnonymous]
-        public void AddWeatherLocation()
+        [Route("/Admin/[controller]/UpdateWeatherPrediction")]
+        public Result UpdateWeatherPrediction([FromBody] WeatherPrediction weatherPrediction)
         {
-            var result = _commonBpl.CreateLocationForWeatherPortal();
+            return _weatherBpl.UpdateWeatherPrediction(weatherPrediction);
         }
 
-        
+
     }
 }

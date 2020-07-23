@@ -11,9 +11,9 @@ export class CashRegisterService {
 
   constructor(private http: HttpUtilsService) { }
    getCashRegisterByDate(cashRegisterType : string , locationId : number , date : string){
-    return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`+cashRegisterType + '&' + locationId + '&' + date);
+    return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`+cashRegisterType + '/' + locationId + '/' + date);
   }
-  saveCashRegister(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.saveCashRegister}`, obj);
+  saveCashRegister(obj,cashRegisterType : string) {
+    return this.http.post(`${UrlConfig.totalUrl.saveCashRegister}`, obj,cashRegisterType);
   }
 }

@@ -68,8 +68,8 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Properties
 
-        public string loginEmailPhone { get; set; } = "caradmin@strive.com";
-        public string loginPassword { get; set; } = "pass@123";
+        public string loginEmailPhone { get; set; } 
+        public string loginPassword { get; set; }
         public bool rememberMe { get; set; }
         public string Title
         {

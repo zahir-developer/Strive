@@ -36,5 +36,14 @@ namespace Admin.API.Controllers
         {
             return _commonBpl.GetCodesByCategory(globalCode);
         }
+
+
+        [HttpGet]
+        [Route("/Admin/[controller]")]
+        [AllowAnonymous]
+        public void GetWeather()
+        {
+            var result = _commonBpl.GetWeather();
+        }
     }
 }

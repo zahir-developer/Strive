@@ -22,7 +22,7 @@ namespace Admin.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetCashRegisterDetails")]
+        [Route("GetCashRegisterDetails/{cashRegisterType}/{locationId}/{dateTime}")]
         public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
             return _CashRegisterBpl.GetCashRegisterDetails(cashRegisterType, locationId, dateTime);

@@ -29,14 +29,15 @@
             android:textSize="20dp"
             android:layout_marginLeft="20dp"
             android:textColor="@color/defaultLabelColor"
-            android:textStyle="bold" />
+            android:fontFamily="@font/opensans_bold" />
 <TextView
     android:id="@+id/OTPTextView"        
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="14dp"
+    android:textSize="16dp"
     android:layout_marginTop="20dp"
-    android:layout_marginLeft="20dp"          
+    android:layout_marginLeft="20dp"
+    android:fontFamily="@font/opensans_regular"         
     android:textColor="@color/secondaryLabelColor" />
 </LinearLayout>
 <LinearLayout
@@ -46,8 +47,8 @@
     android:layout_marginTop="10dp">
     <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -62,8 +63,8 @@
 </android.support.design.widget.TextInputLayout>
 <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -78,15 +79,15 @@
 </android.support.design.widget.TextInputLayout>
 <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:inputType="number"
+            android:inputType="number"
             android:maxLength="1"    
             android:textSize ="12dp"
             android:gravity="center"
@@ -94,8 +95,8 @@
 </android.support.design.widget.TextInputLayout>
 <android.support.design.widget.TextInputLayout
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         app:boxBackgroundColor="@android:color/white"  
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -119,14 +120,15 @@
         android:layout_height="wrap_content"
         android:textColor="@color/secondaryLabelColor"    
         android:layout_marginLeft="20dp" 
-        android:layout_marginTop ="10dp" />
+        android:layout_marginTop ="10dp"
+        android:fontFamily="@font/opensans_regular"/>
      <TextView
         android:id="@+id/resendOTPTextView"    
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"  
         android:layout_marginTop ="10dp"    
-        android:textStyle="bold"
+        android:fontFamily="@font/opensans_bold" 
         android:textColor="@color/defaultButtonColor"/>
 </LinearLayout>
 <LinearLayout
@@ -142,7 +144,7 @@
             android:textColor="@android:color/white"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@color/defaultButtonColor"
+            android:background="@drawable/primarybutton"
             android:textStyle="bold" />
 
 </LinearLayout>

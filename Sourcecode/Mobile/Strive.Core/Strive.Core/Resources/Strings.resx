@@ -144,7 +144,7 @@
     <comment>login screen signup label</comment>
   </data>
   <data name="ReceiveOTP" xml:space="preserve">
-    <value>Enter registered mobile # to receive OTP</value>
+    <value>Enter registered email to receive OTP</value>
     <comment>OTP screen label</comment>
   </data>
   <data name="ForgotPassword_fpScreen" xml:space="preserve">
@@ -163,8 +163,8 @@
     <value>VERIFY</value>
     <comment>OTP Screen - OTP verify button label</comment>
   </data>
-  <data name="OTPSent" xml:space="preserve">
-    <value>OTP sent to your registered mobile #</value>
+  <data name="OTPSentEmail" xml:space="preserve">
+    <value>OTP sent to your registered email </value>
     <comment>OTP screen sent to registered mobile number label</comment>
   </data>
   <data name="ResendOTP" xml:space="preserve">
@@ -184,7 +184,7 @@
     <comment>ConfirmPasswordScreen - Alert when password are not same </comment>
   </data>
   <data name="ReceiveOTPLabel" xml:space="preserve">
-    <value>Enter registered mobile # to receive OTP</value>
+    <value>Enter registered email to receive OTP</value>
     <comment>OTP screen label</comment>
   </data>
   <data name="UsernamePasswordIncorrect" xml:space="preserve">
@@ -210,5 +210,8 @@
   <data name="NotReceiveOTP" xml:space="preserve">
     <value>Didn't receive the OTP?</value>
     <comment>OTP screen OTP not received </comment>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

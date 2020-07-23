@@ -142,11 +142,11 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OTP sent to your registered mobile #.
+        ///   Looks up a localized string similar to OTP sent to your registered email .
         /// </summary>
-        internal static string OTPSent {
+        internal static string OTPSentEmail {
             get {
-                return ResourceManager.GetString("OTPSent", resourceCulture);
+                return ResourceManager.GetString("OTPSentEmail", resourceCulture);
             }
         }
         
@@ -178,7 +178,7 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter registered mobile # to receive OTP.
+        ///   Looks up a localized string similar to Enter registered email to receive OTP.
         /// </summary>
         internal static string ReceiveOTP {
             get {
@@ -187,7 +187,7 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter registered mobile # to receive OTP.
+        ///   Looks up a localized string similar to Enter registered email to receive OTP.
         /// </summary>
         internal static string ReceiveOTPLabel {
             get {
@@ -219,6 +219,15 @@ namespace Strive.Core.Resources {
         internal static string SignUp {
             get {
                 return ResourceManager.GetString("SignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

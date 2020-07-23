@@ -29,6 +29,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("Category", codeCategory.ToString());
+            dynParams.Add("CategoryId", null);
             List<Code> lstCode = new List<Code>();
             lstCode = db.Fetch<Code>(SPEnum.USPGETCODES.ToString(), dynParams);
             return lstCode;
@@ -37,6 +38,7 @@ namespace Strive.ResourceAccess
         public List<Code> GetCodeByCategoryId(int CategoryId)
         {
             DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("Category", null);
             dynParams.Add("CategoryId", CategoryId);
             List<Code> lstCode = new List<Code>();
             lstCode = db.Fetch<Code>(SPEnum.USPGETCODES.ToString(), dynParams);
@@ -61,7 +63,7 @@ namespace Strive.ResourceAccess
         }
 
         public void SaveOTP(string userId, string otp)
-        {            
+        {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@Email", userId);
             dynParams.Add("@OTP", otp);
@@ -86,6 +88,14 @@ namespace Strive.ResourceAccess
             {
                 throw ex;
             }
+        }
+
+        public int VerifyOTP(string emailId, string otp)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@Email", emailId);
+            dynParams.Add("@OTP", otp);
+            return db.QuerySingleOrDefault<int>(SPEnum.USPVERIFYOTP.ToString(), dynParams);
         }
     }
 }

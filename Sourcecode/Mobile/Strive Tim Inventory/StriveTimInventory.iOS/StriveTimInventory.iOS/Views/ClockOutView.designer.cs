@@ -16,6 +16,26 @@ namespace StriveTimInventory.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel ClockInTimeLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ClockInView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel ClockOutTimeLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ClockOutViewBox { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel DateLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LogoutButton { get; set; }
 
         [Outlet]
@@ -30,8 +50,37 @@ namespace StriveTimInventory.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel TotalHoursLabel { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel WelcomeBackLabel { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
+            if (ClockInTimeLabel != null) {
+                ClockInTimeLabel.Dispose ();
+                ClockInTimeLabel = null;
+            }
+
+            if (ClockInView != null) {
+                ClockInView.Dispose ();
+                ClockInView = null;
+            }
+
+            if (ClockOutTimeLabel != null) {
+                ClockOutTimeLabel.Dispose ();
+                ClockOutTimeLabel = null;
+            }
+
+            if (ClockOutViewBox != null) {
+                ClockOutViewBox.Dispose ();
+                ClockOutViewBox = null;
+            }
+
+            if (DateLabel != null) {
+                DateLabel.Dispose ();
+                DateLabel = null;
+            }
+
             if (LogoutButton != null) {
                 LogoutButton.Dispose ();
                 LogoutButton = null;
@@ -50,6 +99,11 @@ namespace StriveTimInventory.iOS.Views
             if (TotalHoursLabel != null) {
                 TotalHoursLabel.Dispose ();
                 TotalHoursLabel = null;
+            }
+
+            if (WelcomeBackLabel != null) {
+                WelcomeBackLabel.Dispose ();
+                WelcomeBackLabel = null;
             }
         }
     }
