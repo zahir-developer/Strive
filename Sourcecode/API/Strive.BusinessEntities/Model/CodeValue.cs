@@ -14,7 +14,7 @@ public class CodeValue
 	public int CategoryId { get; set; }
 
 	[Column]
-	public string CodeValue { get; set; }
+	public string codeValue { get; set; }
 
 	[Column]
 	public string Description { get; set; }
