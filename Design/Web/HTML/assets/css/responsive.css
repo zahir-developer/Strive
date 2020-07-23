@@ -69,10 +69,20 @@
     .web-goal {
         display: none !important;
     }
+		.search-container{
+		
+		float:none !important;
+	}
+	
 }
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px) {
+	.search-container{
+		
+		float:none !important;
+	}
+	
     .web-display {
         display: none !important;
     }
@@ -152,6 +162,10 @@
     .mob-goal {
         display: none !important;
     }
+	  .col-ipad {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -202,10 +216,12 @@
     }
 }
 
-@media (min-width: 1206px) and (max-width: 1418px) {
+@media (min-width: 1200px) and (max-width: 1418px) {
     .weather-title {
         font-size: 13px !important;
         padding-left: 7px !important;
+		font-weight: 500 !important;
+
     }
 }
 
@@ -224,10 +240,10 @@
         padding: 5px 12px;
     }
     .list-group-horizontal > li > span {
-        font-size: 11px !important;
+         font-size: 9px !important;
     }
     .list-group-horizontal > li {
-        padding: 4px 1px !important;
+        padding: 4px 4px !important;
     }
 }
 

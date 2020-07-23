@@ -148,7 +148,7 @@ export class CashinRegisterComponent implements OnInit {
 
   submit() {
     const coin = {
-      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
+      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoin.CashRegCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
       nickels: this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes,
@@ -157,7 +157,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const bill = {
-      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBillId : 0,
+      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBill.CashRegBillId : 0,
       ones: this.cashRegisterBillForm.value.billOnes,
       fives: this.cashRegisterBillForm.value.billFives,
       tens: this.cashRegisterBillForm.value.billTens,
@@ -167,7 +167,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const roll = {
-      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRollId : 0,
+      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRoll.CashRegRollId : 0,
       pennies: this.cashRegisterRollForm.value.pennieRolls,
       nickels: this.cashRegisterRollForm.value.nickelRolls,
       dimes: this.cashRegisterRollForm.value.dimeRolls,
@@ -176,7 +176,7 @@ export class CashinRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const other = {
-      cashRegOthersId: this.isUpdate ? this.cashDetails[0].CashRegisterOtherId : 0,
+      cashRegOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOther.CashRegOtherId : 0,
       creditCard1: 0,
       creditCard2: 0,
       creditCard3: 0,
@@ -191,10 +191,10 @@ export class CashinRegisterComponent implements OnInit {
       drawerId: 1,
       userId: 1,
       enteredDateTime: moment(new Date()).format('YYYY-MM-DD'),
-      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRollId : 0,
-      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
-      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBillId : 0,
-      cashRegOthersId: this.isUpdate ? this.cashDetails[0].CashRegisterOtherId : 0,
+      cashRegisterRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRollId : 0,
+      cashRegisterCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
+      cashRegisterBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBillId : 0,
+      cashRegisterOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOtherId : 0,
       cashRegisterCoin: coin,
       CashRegisterBill: bill,
       CashRegisterRoll: roll,
@@ -211,7 +211,8 @@ export class CashinRegisterComponent implements OnInit {
     };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.success('Record Saved Successfully!!', 'Success!');
+        this.toastr.success('Record Saved Successfully!!', 'Success!');          
+        this.getCashRegister();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
