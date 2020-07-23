@@ -41,12 +41,12 @@ namespace Strive.Core.ViewModels.TIMInventory
             _RolesList = new List<EmployeeRole>
             {
                 new EmployeeRole("Washer","icon-washer",0,"icon-washer"),
-                new EmployeeRole("Detailer","icon-cashier",1,"icon-cashier"),
-                new EmployeeRole("Runner","icon-detailer",2,"icon-detailer"),
-                new EmployeeRole("Cashier","icon-finish-bay",3,"icon-finish-bay"),
-                new EmployeeRole("Manager","icon-greetbay",4,"icon-greetbay"),
-                new EmployeeRole("Greet Bay","icon-manager",5,"icon-manager"),
-                new EmployeeRole("Finish Bay","icon-runner",6,"icon-runner"),
+                new EmployeeRole("Cashier","icon-cashier",1,"icon-cashier"),
+                new EmployeeRole("Detailer","icon-detailer",2,"icon-detailer"),
+                new EmployeeRole("Finish Bay","icon-finish-bay",3,"icon-finish-bay"),
+                new EmployeeRole("Greet Bay","icon-greetbay",4,"icon-greetbay"),
+                new EmployeeRole("Manager","icon-manager",5,"icon-manager"),
+                new EmployeeRole("Runner","icon-runner",6,"icon-runner"),
                 new EmployeeRole("Unknown","icon-unknown",7,"icon-unknown")
             };
         }
