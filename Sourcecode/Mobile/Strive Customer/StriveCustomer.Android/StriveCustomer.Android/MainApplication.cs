@@ -10,7 +10,7 @@ using StriveCustomer.Android.MvvmCross;
 
 namespace StriveCustomer.Android
 {
-    [Application]
+    [Application(UsesCleartextTraffic = true)]
     public class MainApplication : MvxAppCompatApplication<Setup, App>
     {
         public MainApplication()
