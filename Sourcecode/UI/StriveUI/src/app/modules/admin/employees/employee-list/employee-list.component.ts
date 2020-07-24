@@ -19,6 +19,7 @@ export class EmployeeListComponent implements OnInit {
   state: any;
   country: any;
   employeeData: any;
+  commissionType: any;
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit() {
@@ -36,8 +37,8 @@ export class EmployeeListComponent implements OnInit {
         const employees = JSON.parse(data.resultData);
         this.isTableEmpty = false;
         if (employees.Employee.length > 0) {
-          const employeeDetail = employees.Employee[0];
-          this.employeeDetails = employeeDetail.EmployeeDetail;
+          const employeeDetail = employees.Employee;
+          this.employeeDetails = employeeDetail;
           this.employeeDetails = this.employeeDetails.filter(item => item.IsActive === true);
           console.log(this.employeeDetails, 'detail');
         }
@@ -123,7 +124,16 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getDropdownValue('MARITALSTATUS').subscribe(res => {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
-        this.maritalStatus = status.Codes;
+        this.commissionType = status.Codes;
+      }
+    });
+  }
+
+  getCommisionDropdownValue() {
+    this.employeeService.getDropdownValue('COMMISIONTYPE').subscribe(res => {
+      if (res.status === 'Success') {
+        const type = JSON.parse(res.resultData);
+        this.maritalStatus = type.Codes;
       }
     });
   }
@@ -145,4 +155,11 @@ export class EmployeeListComponent implements OnInit {
       }
     });
   }
+
+  addEmployee() {
+    this.headerData = 'Create Employees';
+    this.isEdit = false;
+    this.showDialog = true;
+  }
+
 }
