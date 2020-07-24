@@ -33,7 +33,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result SaveVendorDetails(List<VendorList> lstVendor)
+        public Result SaveVendorDetails(VendorView lstVendor)
         {
             try
             {

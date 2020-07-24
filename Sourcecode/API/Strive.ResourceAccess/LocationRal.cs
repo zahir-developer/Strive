@@ -30,7 +30,8 @@ namespace Strive.ResourceAccess
         public bool SaveLocationDetails(LocationView location)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tvpLocation", location.TableName("tvpLocation"));
+            Location loc = location; //(TVP. Issue)Workaround - Save Error.
+            dynParams.Add("@tvpLocation", loc.TableName("tvpLocation"));
             dynParams.Add("@tvpLocationAddress", location.LocationAddress.TableName("tvpLocationAddress"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOCATION.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             _db.Save(cmd);
@@ -60,7 +61,7 @@ namespace Strive.ResourceAccess
             foreach (var location in lstLocation)
             {
                 int locationId = Convert.ToInt32(_db.Insert<LocationView>(location));
-                LocationAddress locAddress = location.LocationAddress.FirstOrDefault();
+                LocationAddress locAddress = location.LocationAddress;
                 locAddress.RelationshipId = locationId;
                 long addressId = _db.Insert<LocationAddress>(locAddress);
                 if (locationId > 0 && addressId > 0)
@@ -75,7 +76,7 @@ namespace Strive.ResourceAccess
             foreach (var location in lstLocation)
             {
                 bool locResult = _db.Update<LocationView>(location);
-                LocationAddress locAddress = location.LocationAddress.FirstOrDefault();
+                LocationAddress locAddress = location.LocationAddress;
                 locAddress.RelationshipId = location.LocationId;
                 var addResult = _db.Update<LocationAddress>(locAddress);
                 if (locResult && addResult)

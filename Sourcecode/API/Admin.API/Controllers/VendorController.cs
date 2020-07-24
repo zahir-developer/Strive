@@ -32,7 +32,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveTodayCashRegister([FromBody] List<Strive.BusinessEntities.Vendor.VendorList> lstVendor)
+        public Result SaveVendorDetails([FromBody]VendorView lstVendor)
         {
             return _vendorBpl.SaveVendorDetails(lstVendor);
         }
