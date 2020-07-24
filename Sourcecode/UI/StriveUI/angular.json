@@ -44,7 +44,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/popper.min.js",
-              "src/assets/js/default.js",
+              // "src/assets/js/default.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/chart.js/dist/Chart.js",
