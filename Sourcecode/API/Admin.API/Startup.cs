@@ -81,6 +81,7 @@ namespace Admin.API
                 // swag.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "StriveAdminApi", Version = "v1" });
                 swag.AddSecurityDefinition("Bearer", new Swashbuckle.AspNetCore.Swagger.ApiKeyScheme { In = "header", Name = "Authorization", Type = "apiKey" });
                 swag.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
+                swag.ResolveConflictingActions(apiDesc => apiDesc.First());
             });
             #endregion
 
