@@ -7,30 +7,30 @@
       <li class=""><a href="#" ><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
       <li class=""><a href="#" ><i class="fa-2x mdi mdi-cash-usd"></i>Sales</a></li>
       <li class=""><a href="#" ><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
-      <li class="active"><a [routerLink]='["./admin"]' [routerLinkActive]='["link-active"]' (click)="openNav()"><i class="fa fa-2x fa-user-o"></i>Admin</a></li>
+      <li class="active"><a [routerLink]='["./admin"]' [routerLinkActive]='["link-active"]' onclick="openNav()"><i class="fa fa-2x fa-user-o"></i>Admin</a></li>
       <li class=""><a href="#" ><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
       <li class=""><a href="#" ><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
     </ul>
   </div>
-  <div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block"> <a href="#" class="closebtn" (click)="closeNav()">×</a>
+  <div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block"> <a href="#" class="closebtn" onclick="closeNav()">×</a>
     <div class="p-l-15 p-r-15 m-b-10">
       <h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Admin</h5>
     </div>
     <ul class="nav-slider-menu-items">
-      <li><a [routerLink]='["./admin/cashregister"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Cash Register Setup</a> </li>
-      <li><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Close Out Register</a> </li>
+      <li><a [routerLink]='["./admin/cashregister"]' [routerLinkActive]='["link-active"]' onclick="closeNav()">Cash Register Setup</a> </li>
+      <li><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]' onclick="closeNav()">Close Out Register</a> </li>
       <li><a href="#">Time Clock Maintenance</a></li>
       <li><a href="#">Employees</a></li>
       <li><a href="#">Clients</a></li>
       <li> <a href="#">Vehicles</a></li>
       <li><a href="#">Schedules</a></li>
       <li><a href="#">Gift Cards</a></li>
-      <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">System Setup</a></li>
+      <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' onclick="closeNav()">System Setup</a></li>
     </ul>
   </div>
 
   <div id="mySidenav" class="mobile-view-nav">
-  <span class="closebtn" (click)="closembsidebar()"><i class="fa fa-close"></i></span>
+  <span class="closebtn" onclick="closembsidebar()"><i class="fa fa-close"></i></span>
   <ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
     <li><a href="#"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a></li>
 					<li><a href="#"><i class="mdi mdi-car-wash"></i><span>Washes</span></a></li>
@@ -46,15 +46,15 @@
           <a href="#" class="back-to-list"> <i class="fa fa-arrow-left"></i> Back</a>
   <h5 class="m-r-14 m-l-20 m-t-12 text-white">Admin</h5>
   <ul class="mobile-view-title mb-view" id="hide-mainmenu">
-      <li><a [routerLink]='["./admin/cashregister"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">Cash Register Setup</a> </li>
-      <li><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">Close Out Register</a> </li>
+      <li><a [routerLink]='["./admin/cashregister"]' [routerLinkActive]='["link-active"]' onclick="closembsidebar()">Cash Register Setup</a> </li>
+      <li><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]' onclick="closembsidebar()">Close Out Register</a> </li>
       <li><a href="#">Time Clock Maintenance</a></li>
       <li><a href="#">Employees</a></li>
       <li><a href="#">Clients</a></li>
       <li> <a href="#">Vehicles</a></li>
       <li><a href="#">Schedules</a></li>
       <li><a href="#">Gift Cards</a></li>
-      <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">System Setup</a></li>
+      <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' onclick="closembsidebar()">System Setup</a></li>
 
   </ul>
   
