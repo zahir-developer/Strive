@@ -18,10 +18,7 @@ namespace Admin.Api.Controllers
         #region POST
 
         [HttpPost, Route("Login")]
-        public Result Login([FromBody] Authentication authentication)
-        {
-            return _bplManager.Login(authentication, GetSecretKey(), GetTenantConnection());
-        }
+        public Result Login([FromBody] Authentication authentication) => _bplManager.Login(authentication, GetSecretKey(), GetTenantConnection());
 
         [HttpPost, Route("Refresh")]
         public Result Refresh([FromBody] RegenerateToken regToken) => _bplManager.GenerateTokenByRefreshKey(regToken.Token, regToken.RefreshToken, GetSecretKey());
@@ -38,7 +35,7 @@ namespace Admin.Api.Controllers
             _result = Helper.BindSuccessResult(_resultContent);
             return _result;
 
-        }        
+        }
 
         [HttpPost, Route("ResetPassword")]
         public Result ResetPassword([FromBody]ResetPassword resetPassword) => _bplManager.ResetPassword(resetPassword);
