@@ -8,13 +8,13 @@ namespace Strive.Core.Models.Customer
     {
         public CustomerResetPassword(string sentOTP,string password,string userId)
         {
-            this.sentOTP = sentOTP;
-            this.confirmedPassword = password;
+            this.otp = sentOTP;
+            this.newPassword = password;
             this.userId = userId;
         }
-        public string sentOTP { get; set; }
+        public string otp { get; set; }
 
-        public string confirmedPassword { get; set; }
+        public string newPassword { get; set; }
 
         public string userId { get; set; }
 
