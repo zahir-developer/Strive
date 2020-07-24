@@ -4,7 +4,7 @@ namespace Strive.BusinessEntities.CashRegister
 {
     public class CashRegisterBill
     {
-        public int CashRegBillId { get; set; }
+        public int CashRegisterBillId { get; set; }
         public int? Ones { get; set; }
         public int? Fives { get; set; }
         public int? Tens { get; set; }

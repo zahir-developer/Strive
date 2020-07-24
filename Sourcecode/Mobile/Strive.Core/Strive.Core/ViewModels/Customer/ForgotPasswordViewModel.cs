@@ -1,4 +1,8 @@
-﻿using Strive.Core.Resources;
+﻿using Acr.UserDialogs;
+using MvvmCross;
+using MvvmCross.Navigation;
+using Strive.Core.Models.Customer;
+using Strive.Core.Resources;
 using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -15,23 +19,24 @@ namespace Strive.Core.ViewModels.Customer
         {
             if (Validations.validateEmail(resetEmail))
             {
-               _userDialog.ShowLoading("Loading...",Acr.UserDialogs.MaskType.Gradient);
+               _userDialog.ShowLoading(Strings.Loading,MaskType.Gradient);
                var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
 
-                //if (responseResult == "true")
-                //{
+                if (responseResult.Status == "true")
+                {
+                    CustomerOTPInfo.resetEmail = resetEmail;
                     await _navigationService.Close(this);
                     await _navigationService.Navigate<OTPViewModel>();
-                //}
-                //else
-                //{
-                //    _userDialog.Alert("email does not exist");
-                //}
-                    
+                }
+                else
+                {
+                    _userDialog.Alert(Strings.NotRegisteredEmail);
+                }
+
             }
             else
             {
-                _userDialog.Alert(Strings.ValidEmail);
+                _userDialog.Alert(Strings.NotRegisteredEmail);
             }
         }
 

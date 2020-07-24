@@ -33,11 +33,11 @@ namespace Admin.API.Controllers
         {
             return _documentBpl.GetDocumentById(documentId, employeeId, password);
         }
-        [HttpPut]
-        [Route("UpdatePassword/{documentId},{employeeId},{password}")] 
-        public Result UpdatePassword(long documentId, long employeeId, string password)
+        [HttpPost]
+        [Route("UpdatePassword")] 
+        public Result UpdatePassword([FromBody] Strive.BusinessEntities.Document.DocumentView lstUpdateDocument)
         {
-            return _documentBpl.UpdatePassword(documentId, employeeId, password);
+            return _documentBpl.UpdatePassword(lstUpdateDocument);
         }
         [HttpGet]
         [Route("GetAllDocument/{employeeId},{locationId}")]

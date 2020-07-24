@@ -34,14 +34,24 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<EmployeeResultData>(ApiUtils.URL_LOGIN_EMPLOYEE, HttpMethod.Post, loginRequest);
         }
 
-        public async Task<BaseResponse> CustomerSignUp(CustomerSignUp signUpRequest)
+        public async Task<string> CustomerSignUp(CustomerSignUp signUpRequest)
         {
-            return await _restClient.MakeApiCall<BaseResponse>(ApiUtils.URL_CUST_SIGN_UP, HttpMethod.Post, signUpRequest);
+            return await _restClient.MakeApiCall<string>(ApiUtils.URL_CUST_SIGN_UP, HttpMethod.Post, signUpRequest);
         }
 
-        public async Task<string> CustomerForgotPassword(string emailID)
+        public async Task<CustomerResponse> CustomerForgotPassword(string emailID)
         {
-            return await _restClient.MakeApiCall<string>(ApiUtils.URL_CUST_FORGOT_PASSWORD, HttpMethod.Post, emailID);
+            return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_FORGOT_PASSWORD,emailID),HttpMethod.Put,emailID);
+        }
+
+        public async Task<CustomerResponse> CustomerConfirmPassword(CustomerResetPassword resetPasswordRequest)
+        {
+            return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_CUST_CONFIRM_PASSWORD, HttpMethod.Post, resetPasswordRequest);
+        }
+
+        public async Task<CustomerResponse> CustomerVerifyOTP(CustomerVerifyOTPRequest otpRequest)
+        {
+            return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_VERIFY_OTP, otpRequest.emailId,otpRequest.otp), HttpMethod.Get, otpRequest);
         }
     }
 }

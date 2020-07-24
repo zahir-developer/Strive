@@ -14,8 +14,13 @@ namespace Strive.Core.Services.Interfaces
 
         Task<EmployeeResultData> CustomerLogin(CustomerLoginRequest loginRequest);
 
-        Task<BaseResponse> CustomerSignUp(CustomerSignUp signUpRequest);
+        Task<string> CustomerSignUp(CustomerSignUp signUpRequest);
 
-        Task<string> CustomerForgotPassword(string email);
+        Task<CustomerResponse> CustomerForgotPassword(string email);
+
+        Task<CustomerResponse> CustomerVerifyOTP(CustomerVerifyOTPRequest otpRequest);
+
+        Task<CustomerResponse> CustomerConfirmPassword(CustomerResetPassword resetPasswordRequest);
+
     }
 }

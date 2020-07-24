@@ -20,6 +20,8 @@ export class VendorCreateEditComponent implements OnInit {
   submitted: boolean;
   address: any;
   selectedVendor: any;
+  selectedStateId: any;
+  selectedCountryId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vendorService: VendorService) { }
 
   ngOnInit() {
@@ -49,6 +51,9 @@ export class VendorCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
         this.selectedVendor = vendor.VendorDetail[0];
+        const vendorAddress = this.selectedVendor.VendorAddress[0];
+        this.selectedStateId = vendorAddress.State;
+        // this.selectedCountryId = vendorAddress.Country;
         this.vendorSetupForm.patchValue({
           vin: this.selectedVendor.VIN,
           vendorAlias: this.selectedVendor.VendorAlias,

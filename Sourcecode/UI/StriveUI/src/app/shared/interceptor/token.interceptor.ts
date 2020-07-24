@@ -32,6 +32,9 @@ export class TokenInterceptor implements HttpInterceptor {
             if (err.status === 401) {
                 this.authService.logout();
                 this.router.navigate([`/login`], { relativeTo: this.route });
+            }
+            //     this.authService.logout();
+            //     this.router.navigate([`/login`], { relativeTo: this.route });
                 // const params = {
                 //     token: localStorage.getItem('authorizationToken'),
                 //     refreshToken: localStorage.getItem('refreshToken'),
@@ -53,10 +56,10 @@ export class TokenInterceptor implements HttpInterceptor {
                 //     }
                 // });
 
-            } else {
-                this.authService.logout();
-                this.router.navigate([`/login`], { relativeTo: this.route });
-            }
+            // } else {
+            //     this.authService.logout();
+            //     this.router.navigate([`/login`], { relativeTo: this.route });
+            // }
         }));
     }
 }
