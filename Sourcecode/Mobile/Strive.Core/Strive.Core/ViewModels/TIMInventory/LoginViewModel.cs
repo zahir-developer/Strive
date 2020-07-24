@@ -67,7 +67,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             bool isValid = true;
             if(!Validations.validateEmail(UserId))
             {
-                await _userDialog.AlertAsync("Invalid Email", "Alert");
+                await _userDialog.AlertAsync(Strings.ValidEmail, "Alert");
                 return !isValid;
             }
             else if (string.IsNullOrEmpty(Password))
