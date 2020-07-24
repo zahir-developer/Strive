@@ -1,4 +1,12 @@
-﻿using Strive.Core.Resources;
+﻿using Acr.UserDialogs;
+using MvvmCross;
+using MvvmCross.Navigation;
+using MvvmCross.Plugin.Messenger;
+using MvvmCross.ViewModels;
+using Strive.Core.Models.Customer;
+using Strive.Core.Resources;
+using Strive.Core.Services.Implementations;
+using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,16 +15,32 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class OTPViewModel : BaseViewModel
     {
+        public OTPViewModel()
+        {
+            this.resetEmail = CustomerOTPInfo.resetEmail;
+        }
         #region Commands
         public async void VerifyCommand()
         {
             if (string.IsNullOrEmpty(OTPValue))
             {
-                _userDialog.Alert("Enter OTP Value");
+                _userDialog.Alert(Strings.enterOTPError);
             }
             else
             {
-                await _navigationService.Navigate<ConfirmPasswordViewModel>();
+                CustomerOTPInfo.OTP = this.OTPValue;
+                _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+                var otpResponse = await AdminService.CustomerVerifyOTP(new CustomerVerifyOTPRequest(resetEmail,OTPValue));
+                if (otpResponse.Status == "true")
+                {
+                    await _navigationService.Close(this);
+                    await _navigationService.Navigate<ConfirmPasswordViewModel>();
+                }
+                else
+                {
+                    _userDialog.Alert(Strings.enterOTPError);
+                }
+                
             }
         }
 
@@ -68,6 +92,8 @@ namespace Strive.Core.ViewModels.Customer
         }
 
         public string OTPValue { get; set; }
+
+        public string resetEmail { get; set; }
 
         #endregion Properties
 

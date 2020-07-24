@@ -88,6 +88,15 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter otp sent to your email.
+        /// </summary>
+        internal static string enterOTPError {
+            get {
+                return ResourceManager.GetString("enterOTPError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot Password.
         /// </summary>
         internal static string ForgotPassword_fpScreen {
@@ -115,6 +124,15 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        internal static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string Login {
@@ -138,6 +156,15 @@ namespace Strive.Core.Resources {
         internal static string NotReceiveOTP {
             get {
                 return ResourceManager.GetString("NotReceiveOTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a registered email Id.
+        /// </summary>
+        internal static string NotRegisteredEmail {
+            get {
+                return ResourceManager.GetString("NotRegisteredEmail", resourceCulture);
             }
         }
         

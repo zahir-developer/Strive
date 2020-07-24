@@ -132,7 +132,7 @@ export class CashinRegisterComponent implements OnInit {
           this.totalQuaterRoll = (40 * 25 * this.cashDetails[0].CashRegisterRoll.Quarters) / 100;
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.cashRegisterForm.patchValue({
-            goal: this.weatherDetails.TargetBusiness
+            goal: this.weatherDetails?.TargetBusiness
           });
           this.getTotalCash();
         }
@@ -142,7 +142,9 @@ export class CashinRegisterComponent implements OnInit {
 
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
+      if (data !== undefined) {
       this.weatherDetails = data;
+    }
   });
 }
 
@@ -201,16 +203,17 @@ export class CashinRegisterComponent implements OnInit {
       cashRegisterOther: other
     };
     // const weatherObj = {
-    //   weatherId: this.weatherDetails.WeatherId,
-    //   locaionId: this.weatherDetails.LocationId,
-    //   weather: this.weatherDetails.Weather,
-    //   rainProbability: this.weatherDetails.RainProbability,
-    //   predictedBusiness: this.weatherDetails.PredictedBusiness,
-    //   targetBusiness: Number(this.cashRegisterForm.value.goal),
+    //   weatherId: this.weatherDetails?.WeatherId,
+    //   locaionId: this.weatherDetails?.LocationId,
+    //   weather: this.weatherDetails?.Weather,
+    //   rainProbability: this.weatherDetails?.RainProbability,
+    //   predictedBusiness: this.weatherDetails?.PredictedBusiness,
+    //   targetBusiness: this.cashRegisterForm.value.goal,
     //   createdDate: moment(new Date()).format('YYYY-MM-DD')
     // };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       if (data.status === 'Success') {
+        this.toggleTab = 0;
         this.toastr.success('Record Saved Successfully!!', 'Success!');
         this.getCashRegister();
       } else {
@@ -218,13 +221,13 @@ export class CashinRegisterComponent implements OnInit {
       }
     });
     // this.weatherService.UpdateWeather(weatherObj).subscribe(data => {
-    //   if(data.status === 'Success') {
+    //   if (data.status === 'Success') {
     //     this.toastr.success('Goal Saved Successfully!!', 'Success!');
     //   } else {
     //     this.toastr.error('Weather Communication Error', 'Error!');
-    //   }
+    //   }  
     // });
-    this.toggleTab = 0;
+    // this.toggleTab = 0;
     //this.getCashRegister();
   }
 
@@ -307,6 +310,7 @@ export class CashinRegisterComponent implements OnInit {
     this.getTotalCash();
   }
   getTotalCash() {
+    console.log(this.totalCash);
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }
 }

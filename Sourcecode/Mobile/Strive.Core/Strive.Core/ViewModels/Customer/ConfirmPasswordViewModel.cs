@@ -9,6 +9,12 @@ namespace Strive.Core.ViewModels.Customer
    public class ConfirmPasswordViewModel : BaseViewModel
     {
 
+        public ConfirmPasswordViewModel()
+        {
+            this.UserId = CustomerOTPInfo.resetEmail;
+            this.SentOTP = CustomerOTPInfo.OTP;
+        }
+
         #region Commands
         
         public async void SubmitCommand()
@@ -16,7 +22,12 @@ namespace Strive.Core.ViewModels.Customer
             if(string.Equals(NewPassword,ConfirmPassword))
             {
                  _userDialog.ShowLoading("Loading...",MaskType.Gradient);
-                 var resetPasswordResponse = await AdminService.CustomerResetPassword(new CustomerResetPassword(SentOTP,ConfirmPassword,UserId));
+                 var resetPasswordResponse = await AdminService.CustomerConfirmPassword(new CustomerResetPassword(SentOTP,ConfirmPassword,UserId));
+                 if(resetPasswordResponse.Status == "true")
+                 {
+                    _userDialog.Toast("Password reset successful");
+                    await _navigationService.Close(this);
+                 }
             }
             else if(string.IsNullOrEmpty(NewPassword) || string.IsNullOrEmpty(ConfirmPassword))
             {

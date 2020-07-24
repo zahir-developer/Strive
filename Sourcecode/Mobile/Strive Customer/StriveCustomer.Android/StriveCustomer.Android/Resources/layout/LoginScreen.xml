@@ -10,75 +10,77 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="40dp"    
+        android:layout_marginTop="@dimen/forty"    
         android:gravity="center">
        <ImageView
-           android:layout_width="320dp"
-           android:layout_height="70dp"
+           android:layout_width="@dimen/Strive_Logo_Width"
+           android:layout_height="@dimen/Strive_Logo_Height"
             android:src="@drawable/Strive_Logo_Page"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="@dimen/thirty">
         <TextView
             android:id="@+id/loginTextView"              
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"  
-            android:layout_marginLeft="20dp"          
+            android:textSize="@dimen/twenty"  
+            android:layout_marginLeft="@dimen/twenty"          
             android:textColor="@color/defaultLabelColor"        
             android:fontFamily="@font/opensans_bold"/>
-           <android.support.design.widget.TextInputLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" 
-                app:hintEnabled="false">
+                android:layout_height="wrap_content"    
+                android:layout_marginTop="@dimen/twenty"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty" 
+                app:hintEnabled="true">
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/fifty"
+                    android:translationY="@dimen/four"
                     android:hint="@string/email_or_phone"
                     android:textColorHint="@color/defaultHintColor"
                     android:background="@drawable/edittext"
                     android:inputType="textEmailAddress"
                     android:id="@+id/emailPhoneInputs"
-                    android:textSize="16dp"
+                    android:textSize="@dimen/sixteen"
                     android:fontFamily="@font/opensans_regular"/> 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" 
-                app:hintEnabled="false"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty" 
+                app:hintEnabled="true"
                 app:passwordToggleEnabled="true">
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/fifty"
+                    android:translationY="@dimen/two"
                     android:hint="@string/password"
                     android:textColorHint="@color/defaultHintColor"
                     android:background="@drawable/edittext"
                     android:inputType="textPassword"
                     android:id="@+id/passwordInputs"
-                    android:textSize="16dp"
+                    android:textSize="@dimen/sixteen"
                     android:fontFamily="@font/opensans_regular"/> 
-             </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
     </LinearLayout> 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="@dimen/ten">
         <CheckBox
             android:id="@+id/rememberMeCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="7dp"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginRight="@dimen/seven"
             android:buttonTint="@android:color/white"/>
         <TextView
             android:id="@+id/rememberMeLabel"
@@ -91,30 +93,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="@dimen/twenty">
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/defaultLabelColor"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginRight="@dimen/twenty"
             android:background="@drawable/primarybutton"
-            android:textStyle="bold" />
+            android:fontFamily="@font/opensans_bold" />
         <TextView
             android:id="@+id/forgotPasswordLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/defaultLinkColor"
             android:fontFamily="@font/opensans_regular"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginTop="@dimen/twenty"
+            android:layout_marginLeft="@dimen/twenty"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/fifty"
         android:gravity="center">
         <TextView
             android:id="@+id/newAccount"
@@ -122,13 +124,13 @@
             android:layout_height="wrap_content"
             android:textColor="@color/defaultLabelColor" 
             android:fontFamily="@font/opensans_regular"    
-            android:layout_marginLeft="10dp"    
+            android:layout_marginLeft="@dimen/ten"    
             android:gravity="center"/>
         <TextView
             android:id="@+id/signUpLinkText"    
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"    
+            android:layout_marginLeft="@dimen/five"    
             android:fontFamily="@font/opensans_bold"
             android:textColor="@color/defaultLinkColor"
             android:gravity="right"/>
