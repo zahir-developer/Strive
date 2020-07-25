@@ -24,14 +24,10 @@ namespace Strive.BusinessLogic.Common
 {
     public class CommonBpl : Strivebase, ICommonBpl
     {
-        readonly ITenantHelper _tenant;
         private static Random random;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
 
-        public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
         }
 
         public Result GetAllCodes()

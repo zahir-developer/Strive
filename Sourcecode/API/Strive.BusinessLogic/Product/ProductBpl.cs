@@ -11,12 +11,8 @@ namespace Strive.BusinessLogic
 {
     public class ProductBpl : Strivebase, IProductBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public ProductBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public ProductBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
         }
 
         public Result GetAllProduct()

@@ -1,4 +1,5 @@
 ﻿using Cocoon.ORM;
+using Dapper;
 //using FastDeepCloner;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,6 @@ namespace Strive.Repository
             Expression exp = Expression.Equal(nameProperty, Expression.Constant(id));
             return Expression.Lambda<Func<T, bool>>(exp, argParam);
         }
-
 
         //dynamic expando = new ExpandoObject();
 

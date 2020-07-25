@@ -12,12 +12,8 @@ namespace Strive.BusinessLogic.ServiceSetup
 {
     public class ServiceSetupBpl : Strivebase, IServiceSetupBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public ServiceSetupBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public ServiceSetupBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
         }
         public Result GetServiceSetupDetails()
         {

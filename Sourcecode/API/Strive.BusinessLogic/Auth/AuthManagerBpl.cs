@@ -24,13 +24,8 @@ namespace Strive.BusinessLogic.Auth
 {
     public class AuthManagerBpl : Strivebase, IAuthManagerBpl
     {
-        private readonly ITenantHelper _tenant;
-        private readonly IDistributedCache _cache;
-
-        public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
-            _cache = cache;
         }
 
         public TenantSchema GetTenantSchema(Guid userGuid)

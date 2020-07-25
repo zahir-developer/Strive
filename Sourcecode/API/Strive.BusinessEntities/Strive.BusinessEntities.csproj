@@ -49,6 +49,13 @@
     <Compile Include="DTO\CashRegister\CashRegisterRoll.cs" />
     <Compile Include="DTO\CashRegister\CashRegisterView.cs" />
     <Compile Include="DTO\CashRegister\CR.cs" />
+    <Compile Include="DTO\Employee\EmployeeDetailDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeDocumentDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeInfoDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeLiabilityDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeLocationDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeRoleDto.cs" />
     <Compile Include="Model\Bay.cs" />
     <Compile Include="Model\CashRegister.cs" />
     <Compile Include="Model\CashRegisterBills.cs" />

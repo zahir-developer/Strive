@@ -1,4 +1,5 @@
-﻿using Strive.Common;
+﻿using Dapper;
+using Strive.Common;
 using Strive.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,13 @@ namespace Strive.ResourceAccess
         public IDbConnection _dbconnection;
         public ITenantHelper _tenant;
         public Db db;
+        protected DynamicParameters dynParams;
         public RalBase(ITenantHelper tenant)
         {
             _tenant = tenant;
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
+            dynParams = new DynamicParameters();
         }
         public RalBase(ITenantHelper tenant, bool isAuth)
         {

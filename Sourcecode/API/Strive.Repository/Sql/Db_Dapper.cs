@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Slapper;
+using Newtonsoft.Json;
+using System.Collections;
 
 namespace Strive.Repository
 {
@@ -243,6 +245,51 @@ namespace Strive.Repository
                 throw ex;
             }
             return fetchlist;
+        }
+
+
+        public T FetchMultiResult<T>(string spName, DynamicParameters dynParams) where T: new()
+        {
+            T tnew = new T();
+            Type type = typeof(T);
+
+            using (var multi = dbcon.QueryMultiple(spName, dynParams, commandType: CommandType.StoredProcedure))
+            {
+                foreach (PropertyInfo prp in type.GetProperties())
+                {
+                    FetchMultiResultSet(tnew, multi, prp);
+                }
+            }
+            return tnew;
+        }
+
+        private void FetchMultiResultSet<T>(T tnew, SqlMapper.GridReader multi, PropertyInfo prp)
+        {
+            bool isList = false;
+            Type tp;
+            if (prp.PropertyType.FullName.Contains("System.Collections.Generic.List"))
+            {
+                isList = true;
+                tp = prp.PropertyType.GenericTypeArguments.First();
+            }
+            else
+            {
+                tp = prp.PropertyType;
+            }
+
+            var source = multi.Read<dynamic>();
+            var jString1 = JsonConvert.SerializeObject(source);
+            var components = (IList)JsonConvert.DeserializeObject(jString1, typeof(List<>).MakeGenericType(new[] { tp }));
+
+            if (components is IList && components.Count > 0)
+            {
+                var dbValue = isList ? components : components[0];
+                prp.SetValue(tnew, dbValue, null);
+            }
+            else
+            {
+                prp.SetValue(tnew, null, null);
+            }
         }
 
         public T FetchFirstResult<T>(string spName, DynamicParameters dynParam)

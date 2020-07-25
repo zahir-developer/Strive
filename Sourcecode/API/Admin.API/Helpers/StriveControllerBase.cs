@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
+using Strive.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,8 @@ namespace Admin.API.Helpers
     {
         protected readonly T _bplManager;
         protected readonly IConfiguration _config;
-        public StriveControllerBase(T bpl, IConfiguration config)
+
+        public StriveControllerBase(T bpl, IConfiguration config = null)
         {
             _bplManager = bpl;
             _config = config;

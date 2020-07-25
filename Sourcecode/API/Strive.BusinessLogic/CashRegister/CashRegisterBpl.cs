@@ -11,12 +11,8 @@ namespace Strive.BusinessLogic.CashRegister
 {
     public class CashRegisterBpl : Strivebase, ICashRegisterBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public CashRegisterBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public CashRegisterBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
-            _tenant = tenantHelper;
         }
         
         public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)

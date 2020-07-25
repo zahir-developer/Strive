@@ -11,12 +11,8 @@ namespace Strive.BusinessLogic.Collision
 {
     public class CollisionBpl : Strivebase, ICollisionBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public CollisionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public CollisionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
         }
         public Result GetAllCollison()
         {

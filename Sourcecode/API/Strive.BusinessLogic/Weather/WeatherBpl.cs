@@ -13,12 +13,8 @@ namespace Strive.BusinessLogic
 {
     public class WeatherBpl : Strivebase, IWeatherBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public WeatherBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public WeatherBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
         }
 
         public Result GetWeatherPrediction(int locationId, DateTime dateTime)

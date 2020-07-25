@@ -6,6 +6,13 @@ using System.Data;
 using System.Linq;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Code;
+using System;
+using Strive.BusinessEntities.DTO.Employee;
+using System.Reflection;
+using FastDeepCloner;
+using Jitbit.Utils;
+using Newtonsoft.Json;
+using System.Collections;
 
 namespace Strive.ResourceAccess
 {
@@ -21,6 +28,18 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             var lstEmployee = db.FetchRelation3<EmployeeView, EmployeeDetail, EmployeeAddress, EmployeeRole>(SPEnum.USPGETEMPLOYEE.ToString(), dynParams);
             return lstEmployee;
+        }
+
+        public EmployeeDetailDto GetEmployeeById(int employeeId)
+        {
+            dynParams.Add("EmployeeId", employeeId);
+            var lstResult = db.FetchMultiResult<EmployeeDetailDto>(SPEnum.USPGETEMPLOYEEBYID.ToString(), dynParams);
+            return lstResult;
+        }
+
+        public List<EmployeeDto> GetEmployeeList()
+        {
+            return db.Fetch<EmployeeDto>(SPEnum.USPGETEMPLOYEELIST.ToString(), dynParams);
         }
 
         public List<Code> GetAllEmployeeRoles()

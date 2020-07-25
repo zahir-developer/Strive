@@ -65,7 +65,9 @@ namespace Strive.BusinessEntities
         USPSAVEOTP,
         USPRESETPASSWORD,
         USPSAVECLIENT,
-        USPVERIFYOTP
+        USPVERIFYOTP,
+        USPGETEMPLOYEELIST,
+        USPGETEMPLOYEEBYID
     }
 
 
