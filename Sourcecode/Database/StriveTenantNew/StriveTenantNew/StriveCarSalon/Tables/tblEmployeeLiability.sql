@@ -1,0 +1,22 @@
+﻿CREATE TABLE [StriveCarSalon].[tblEmployeeLiability] (
+    [LiabilityId]          INT                IDENTITY (1, 1) NOT NULL,
+    [EmployeeId]           INT                NULL,
+    [LiabilityType]        INT                NOT NULL,
+    [LiabilityDescription] VARCHAR (20)       NULL,
+    [ProductId]            INT                NULL,
+    [Status]               INT                NULL,
+    [IsActive]             BIT                NULL,
+    [IsDeleted]            BIT                NULL,
+    [CreatedBy]            INT                NULL,
+    [CreatedDate]          DATETIMEOFFSET (7) NULL,
+    [UpdatedBy]            INT                NULL,
+    [UpdatedDate]          DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblEmployeeLiability] PRIMARY KEY CLUSTERED ([LiabilityId] ASC),
+    CONSTRAINT [FK_tblEmployeeLiability_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [tblemployeeliabili_idx_employeeid]
+    ON [StriveCarSalon].[tblEmployeeLiability]([EmployeeId] ASC);
+
