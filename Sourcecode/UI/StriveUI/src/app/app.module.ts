@@ -14,21 +14,21 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/token.interceptor';
-import { TableModule} from 'primeng/table';
-import {MomentModule} from 'angular2-moment';
+import { TableModule } from 'primeng/table';
+import { MomentModule } from 'angular2-moment';
 import { HelpsComponent } from './helps/helps.component'
 import { ViewCustomerDetailsComponent } from './helps/view-customer-details/view-customer-details.component';
 import { CreateCustomerDetailsComponent } from './helps/create-customer-details/create-customer-details.component';
 import { ToastrModule } from 'ngx-toastr';
-import {environment} from 'src/environments/environment';
-import {DialogModule} from 'primeng/dialog';
+import { environment } from 'src/environments/environment';
+import { DialogModule } from 'primeng/dialog';
 import { EnvironmentService } from './shared/util/environment.service';
 import { DynamicTextboxComponent } from './helps/dynamic-textbox/dynamic-textbox.component';
 import { AuthService } from './shared/services/common-service/auth.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { HttpUtilsService } from './shared/util/http-utils.service';
 import { RouterModule } from '@angular/router';
-import {MultiSelectModule} from 'primeng/multiselect';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -36,7 +36,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsOpacity: 0.5,
   bgsPosition: 'bottom-right',
   bgsSize: 60,
-  bgsType: 'ball-spin-clockwise', 
+  bgsType: 'ball-spin-clockwise',
   blur: 5,
   fgsColor: '#FF7900',
   fgsPosition: 'center-center',
@@ -58,14 +58,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
 const load = (http: HttpClient) => {
   return () => {
-    if (!environment.production) {
-      // for temporary use
-      return http.get('assets/config/config.json').toPromise()
-          .then((data: any) => {
-            // console.log(data);
-            return EnvironmentService.environment = data;
-          });
-    } 
+
+    return http.get('assets/config/config.json').toPromise()
+      .then((data: any) => {
+        return EnvironmentService.environment = data;
+      });
   };
 };
 @NgModule({
@@ -100,7 +97,7 @@ const load = (http: HttpClient) => {
       autoDismiss: true,
       positionClass: 'toast-top-full-width',
       preventDuplicates: false,
-     enableHtml : true
+      enableHtml: true
     }),
     NgxSkeletonLoaderModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
@@ -122,13 +119,13 @@ const load = (http: HttpClient) => {
       multi: true
     },
     {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  },
-  AuthService,
-  HttpUtilsService
-],
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    AuthService,
+    HttpUtilsService
+  ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
