@@ -250,6 +250,24 @@ namespace Strive.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sign up successful.
+        /// </summary>
+        internal static string SignUpSuccessful {
+            get {
+                return ResourceManager.GetString("SignUpSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign up failed.
+        /// </summary>
+        internal static string SignUpUnSuccessful {
+            get {
+                return ResourceManager.GetString("SignUpUnSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string String1 {

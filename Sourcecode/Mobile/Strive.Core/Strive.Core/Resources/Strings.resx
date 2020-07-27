@@ -226,4 +226,12 @@
     <value>Please enter a registered email Id</value>
     <comment>ForgotPasswordScreen - not registered email</comment>
   </data>
+  <data name="SignUpSuccessful" xml:space="preserve">
+    <value>Sign up successful</value>
+    <comment>SignUpScreen - success</comment>
+  </data>
+  <data name="SignUpUnSuccessful" xml:space="preserve">
+    <value>Sign up failed</value>
+    <comment>SignUpScreen - unsuccessful</comment>
+  </data>
 </root>
