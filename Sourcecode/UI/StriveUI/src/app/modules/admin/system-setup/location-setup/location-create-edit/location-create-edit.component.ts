@@ -49,28 +49,22 @@ export class LocationCreateEditComponent implements OnInit {
   }
 
   getLocationById() {
-    this.locationService.getLocationById(this.selectedData.LocationId).subscribe(data => {
-      if (data.status === 'Success') {
-        const location = JSON.parse(data.resultData);
-        this.selectedLocation = location.Location[0];
-        console.log(this.selectedLocation);
-        const locationAddress = this.selectedLocation.LocationAddress[0];
+        console.log(this.selectedData);    
+        const locationAddress = this.selectedData.LocationAddress;
         this.selectedStateId = locationAddress.State;
+        this.State = this.selectedStateId;
         this.selectedCountryId = locationAddress.Country;
+        this.Country = this.selectedCountryId;
         this.locationSetupForm.patchValue({
-          locationName: this.selectedLocation.LocationName,
-          locationAddress: this.selectedLocation.LocationAddress[0].Address1,
-          locationAddress2: this.selectedLocation.LocationAddress[0].Address2,
-          workHourThreshold: this.selectedLocation.WorkhourThreshold,
-          zipcode: this.selectedLocation.LocationAddress[0].Zip,
-          phoneNumber: this.selectedLocation.LocationAddress[0].PhoneNumber,
-          email: this.selectedLocation.LocationAddress[0].Email,
-          franchise: this.selectedLocation.IsFranchise
-        });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
+          locationName: this.selectedData.LocationName,
+          locationAddress: this.selectedData.LocationAddress.Address1,
+          locationAddress2: this.selectedData.LocationAddress.Address2,
+          workHourThreshold: this.selectedData.WorkhourThreshold,
+          zipcode: this.selectedData.LocationAddress.Zip,
+          phoneNumber: this.selectedData.LocationAddress.PhoneNumber,
+          email: this.selectedData.LocationAddress.Email,
+          franchise: this.selectedData.IsFranchise
+        });      
   }
 
   change(data) {
@@ -88,9 +82,10 @@ export class LocationCreateEditComponent implements OnInit {
       return;
     }
     const sourceObj = [];
-    this.address = [{
-      relationshipId: this.isEdit ? this.selectedLocation.LocationId : 0,
-      locationAddressId: this.isEdit ? this.selectedLocation.LocationAddress[0].LocationAddressId : 0,
+    console.log(this.State,this.Country);
+    this.address = {
+      relationshipId: this.isEdit ? this.selectedData.LocationId : 0,
+      locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,
       address1: this.locationSetupForm.value.locationAddress,
       address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber2: "",
@@ -101,9 +96,9 @@ export class LocationCreateEditComponent implements OnInit {
       country: this.Country,
       phoneNumber: this.locationSetupForm.value.phoneNumber,
       email: this.locationSetupForm.value.email
-    }]
+    }
     const formObj = {
-      locationId: this.isEdit ? this.selectedLocation.LocationId : 0,
+      locationId: this.isEdit ? this.selectedData.LocationId : 0,
       locationType: 1,
       locationName: this.locationSetupForm.value.locationName,
       locationDescription: "",

@@ -90,6 +90,7 @@ export class VendorCreateEditComponent implements OnInit {
       zip: this.vendorSetupForm.value.zipcode,
       state: this.State,
       city: 1,
+      Country: this.Country,
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
       email: this.vendorSetupForm.value.email,
       fax: this.vendorSetupForm.value.fax
