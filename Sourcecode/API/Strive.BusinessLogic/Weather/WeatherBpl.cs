@@ -66,11 +66,10 @@ namespace Strive.BusinessLogic
 
             return _result;
         }
-        public async Task<WeatherInfo> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId)
+        public async Task<WeatherView> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId)
         {
-            WeatherInfo weatherInfoView = new WeatherInfo();
+            WeatherView weatherInfoView = new WeatherView();
 
-            WeatherInfo weatherInfo = new WeatherInfo();
             var addresssDetail = new LocationRal(_tenant).GetLocationAddressDetails(locationId);
 
             //Get Current weather:
@@ -88,17 +87,18 @@ namespace Strive.BusinessLogic
 
         }
 
-        public async Task<WeatherInfo> GetWeatherInfoAsync(string baseUrl, string apiKey, string apiMethod, string query)
+        public async Task<WeatherView> GetWeatherInfoAsync(string baseUrl, string apiKey, string apiMethod, string query)
         {
             var result = "";
-            int laseWeekRainPer = 45;
-            int laseWeekTemp = 32;
-            int laseMonthRainPer = 45;
-            int laseMonthTemp = 32;
+            string rainPercentage = "-";
+            string Temperature = "-";
+            
+            WeatherView weatherInfoView = new WeatherView();
+            weatherInfoView.CurrentWeather = new WeatherInfo();
+            weatherInfoView.LastWeekWeather = new WeatherInfo();
+            weatherInfoView.LastMonthWeather = new WeatherInfo();
 
-            WeatherInfo weatherInfoView = new WeatherInfo();
-            LastWeekWeather lastWeekWeather = new LastWeekWeather();
-            LastMonthWeather lastMonthWeather = new LastMonthWeather();
+            WeatherInfo weatherInfo = new WeatherInfo();
             try
             {
                 using (var client = new HttpClient())
@@ -117,16 +117,19 @@ namespace Strive.BusinessLogic
                         result = await response.Content.ReadAsStringAsync();
                     }
                     var res = JsonConvert.DeserializeObject<List<WeatherData>>(result);
-                    weatherInfoView.Temporature = res.FirstOrDefault().Temp[0].Min.Value;
-                    weatherInfoView.Rain = res.FirstOrDefault().Precipitation[0].Max.Value;
-                    weatherInfoView.RainPercentage = res.FirstOrDefault().PrecipitationProbability.Value;
 
-                    lastWeekWeather.Temporature = laseWeekTemp;
-                    lastWeekWeather.RainPercentage = laseWeekRainPer;
-                    lastMonthWeather.Temporature = laseMonthTemp;
-                    lastMonthWeather.RainPercentage = laseMonthRainPer;
-                    weatherInfoView.lastWeekWeather = lastWeekWeather;
-                    weatherInfoView.LastMonthWeather = lastMonthWeather;
+                    //Current Weather
+                    weatherInfo.Temporature = res.FirstOrDefault().Temp[0].Min.Value.ToString();
+                    weatherInfo.RainPercentage = res.FirstOrDefault().PrecipitationProbability.Value.ToString();
+                    weatherInfoView.CurrentWeather = weatherInfo;
+
+                    //LastWeekWeather
+                    weatherInfoView.LastWeekWeather.Temporature = "-";
+                    weatherInfoView.LastWeekWeather.RainPercentage = "-";
+
+                    //LastMonthWeather
+                    weatherInfoView.LastMonthWeather.Temporature = Temperature;
+                    weatherInfoView.LastMonthWeather.RainPercentage = rainPercentage;
                 }
             }
             catch (Exception ex)

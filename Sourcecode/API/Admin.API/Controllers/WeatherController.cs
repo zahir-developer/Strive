@@ -48,9 +48,9 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetWeatherData/{locationId}")]
         [AllowAnonymous]
-        public async System.Threading.Tasks.Task<WeatherInfo> GetWeatherAsync(int locationId)
+        public async System.Threading.Tasks.Task<WeatherView> GetWeatherAsync(int locationId)
         {
-            var result = new WeatherInfo();
+            var result = new WeatherView();
             try
             {
                 string baseurl = Pick("Weather", "BaseUrl");
