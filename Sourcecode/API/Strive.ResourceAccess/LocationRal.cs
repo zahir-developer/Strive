@@ -26,6 +26,13 @@ namespace Strive.ResourceAccess
             var res = _db.FetchRelation1<LocationView,LocationAddress>(SPEnum.USPGETLOCATION.ToString(), dynParams);
             return res;
         }
+        public List<LocationAddressModel> GetAllLocationAddress()
+        {
+            List<LocationAddressModel> lam = new List<LocationAddressModel>();
+            var allAddress = _db.GetAll<LocationAddressModel>();
+            lam.AddRange(allAddress);
+            return lam;
+        }
 
         public bool SaveLocationDetails(LocationView location)
         {

@@ -1,4 +1,5 @@
 ﻿using Dapper.Contrib.Extensions;
+using System;
 using System.ComponentModel.DataAnnotations;
 using KeyAttribute = Dapper.Contrib.Extensions.KeyAttribute;
 
@@ -29,6 +30,8 @@ namespace Strive.BusinessEntities.Location
         public int Country { get; set; }
         public decimal Longitude { get; set; }
         public decimal Latitude { get; set; }
+        public TimeSpan OpenTime { get; set; }
+        public TimeSpan CloseTime { get; set; }
         [MaxLength(100)]
         public string WeatherLocationId { get; set; }
 

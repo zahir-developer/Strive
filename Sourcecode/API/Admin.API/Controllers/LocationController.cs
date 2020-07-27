@@ -58,5 +58,11 @@ namespace Admin.API.Controllers
         {
             return _locationBpl.UpdateLocation(lstLocation);
         }
+        [HttpGet]
+        [Route("GetAllLocationAddress")]
+        public Result GetAllLocationAddress()
+        {
+            return _locationBpl.GetAllLocationAddress();
+        }
     }
 }
