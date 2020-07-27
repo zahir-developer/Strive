@@ -200,5 +200,11 @@
     <Build Include="Security\Cus.sql" />
     <Build Include="Security\Adm.sql" />
     <Build Include="StriveCarSalon\Tables\tblEmployeeLocation.sql" />
+    <Build Include="StriveCarSalon\Tables\tblReminderFrequency.sql" />
+    <Build Include="StriveCarSalon\Tables\tblChatUserGroup.sql" />
+    <Build Include="StriveCarSalon\Tables\tblChatMessageRecipient.sql" />
+    <Build Include="StriveCarSalon\Tables\tblChatMessage.sql" />
+    <Build Include="StriveCarSalon\Tables\tblChatGroup.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetChatMessage.sql" />
   </ItemGroup>
 </Project>
