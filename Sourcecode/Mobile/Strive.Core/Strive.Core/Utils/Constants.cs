@@ -7,13 +7,13 @@ namespace Strive.Core.Utils
 
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
 
-        public const string URL_CUST_SIGN_UP = "/Auth/Login";
+        public const string URL_CUST_SIGN_UP = "/Auth/CreateLogin";
 
         public const string URL_CUST_FORGOT_PASSWORD = "/Auth/SendOTP/{0}";
 
         public const string URL_CUST_CONFIRM_PASSWORD = "/Auth/ResetPassword";
 
-        public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP/{0}/{1}";
-
+        public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP/{0}/{1}";   
+    
     }
 }
