@@ -205,13 +205,15 @@ export class CashinRegisterComponent implements OnInit {
       cashRegisterOther: other
     };
     const weatherObj = {
-      weatherId: this.weatherDetails?.WeatherId,
-      locationId: this.weatherDetails?.LocationId,
-      weather: this.weatherDetails?.Weather,
-      rainProbability: this.weatherDetails?.RainProbability,
-      predictedBusiness: this.weatherDetails?.PredictedBusiness,
+      weatherId: 0,
+      locationId: 1,
+      weather: Math.floor(this.weatherDetails?.temporature).toString(),
+      rainProbability: Math.floor(this.weatherDetails?.rainPercentage).toString(),
+      predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.value.goal,
-      createdDate: moment(new Date()).format('YYYY-MM-DD')
+      // moment(new Date()).format('YYYY-MM-DD')
+
+      createdDate:     moment(new Date()).format('YYYY-MM-DD')
     };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       if (data.status === 'Success') {
