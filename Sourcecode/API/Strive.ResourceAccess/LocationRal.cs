@@ -84,5 +84,19 @@ namespace Strive.ResourceAccess
             }
             return successCount == lstLocation.Count;
         }
+        public LocationAddressModel GetLocationAddressDetails(int locationId)
+        {
+
+            var result = new LocationAddressModel();
+            var allAddress = _db.GetAll<LocationAddressModel>();
+
+            var locationAddress = allAddress.Where(s => s.RelationshipId == locationId).FirstOrDefault();
+
+            result.Latitude = locationAddress.Latitude;
+            result.Longitude = locationAddress.Longitude;
+            result.WeatherLocationId = locationAddress.WeatherLocationId;
+
+            return result;
+        }
     }
 }

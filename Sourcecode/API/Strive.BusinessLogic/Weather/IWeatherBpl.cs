@@ -3,6 +3,7 @@ using Strive.BusinessEntities.Weather;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.Weather
 {
@@ -11,6 +12,9 @@ namespace Strive.BusinessLogic.Weather
         Result GetWeatherPrediction(int locationId, DateTime date);
 
         Result AddWeatherPrediction(WeatherPrediction weatherPrediction);
+
+        Task<WeatherInfo> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId);
+
 
     }
 }
