@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblClientVehicle] (
-    [VehicleId]      INT                NOT NULL,
+    [VehicleId]      INT                IDENTITY (1, 1) NOT NULL,
     [ClientId]       INT                NULL,
     [LocationId]     INT                NULL,
     [VehicleNumber]  VARCHAR (20)       NULL,
@@ -16,6 +16,11 @@
     [CreatedBy]      INT                NULL,
     [CreatedDate]    DATETIMEOFFSET (7) NULL,
     [UpdatedBy]      INT                NULL,
-    [UpdatedDate]    DATETIMEOFFSET (7) NULL
+    [UpdatedDate]    DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblClientVehicle] PRIMARY KEY CLUSTERED ([VehicleId] ASC),
+    CONSTRAINT [FK_tblClientVehicle_tblClient] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
+    CONSTRAINT [FK_tblClientVehicle_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 

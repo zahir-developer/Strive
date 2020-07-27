@@ -8,6 +8,10 @@
     [CreatedBy]             INT                NULL,
     [CreatedDate]           DATETIMEOFFSET (7) NULL,
     [UpdatedBy]             INT                NULL,
-    [UpdatedDate]           DATETIMEOFFSET (7) NULL
+    [UpdatedDate]           DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblNotificationHistory] PRIMARY KEY CLUSTERED ([NotificationHistoryId] ASC),
+    CONSTRAINT [FK_tblNotificationHistory_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 

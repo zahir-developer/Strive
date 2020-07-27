@@ -12,6 +12,11 @@
     [CreatedBy]         INT                NULL,
     [CreatedDate]       DATETIMEOFFSET (7) NULL,
     [UpdatedBy]         INT                NULL,
-    [UpdatedDate]       DATETIMEOFFSET (7) NULL
+    [UpdatedDate]       DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblGiftCardHistory] PRIMARY KEY CLUSTERED ([GiftCardHistoryId] ASC),
+    CONSTRAINT [FK_tblGiftCardHistory_tblGiftCard] FOREIGN KEY ([GiftCardId]) REFERENCES [StriveCarSalon].[tblGiftCard] ([GiftCardId]),
+    CONSTRAINT [FK_tblGiftCardHistory_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 

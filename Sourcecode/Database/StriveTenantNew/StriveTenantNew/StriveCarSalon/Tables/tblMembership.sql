@@ -8,6 +8,11 @@
     [CreatedBy]      INT                NULL,
     [CreatedDate]    DATETIMEOFFSET (7) NULL,
     [UpdatedBy]      INT                NULL,
-    [UpdatedDate]    DATETIMEOFFSET (7) NULL
+    [UpdatedDate]    DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblMembership] PRIMARY KEY CLUSTERED ([MembershipId] ASC),
+    CONSTRAINT [FK_tblMembership_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
+    CONSTRAINT [FK_tblMembership_tblService] FOREIGN KEY ([ServiceId]) REFERENCES [StriveCarSalon].[tblService] ([ServiceId])
 );
+
+
 

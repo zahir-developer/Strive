@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblTimeClock] (
-    [Id]          INT                IDENTITY (1, 1) NOT NULL,
-    [UserId]      INT                NOT NULL,
+    [TimeClockId] INT                IDENTITY (1, 1) NOT NULL,
+    [EmployeeId]  INT                NOT NULL,
     [LocationId]  INT                NOT NULL,
     [RoleId]      INT                NULL,
     [EventDate]   DATETIMEOFFSET (7) NULL,
@@ -15,6 +15,12 @@
     [CreatedBy]   INT                NULL,
     [CreatedDate] DATETIMEOFFSET (7) NULL,
     [UpdatedBy]   INT                NULL,
-    [UpdatedDate] DATETIMEOFFSET (7) NULL
+    [UpdatedDate] DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblTimeClock] PRIMARY KEY CLUSTERED ([TimeClockId] ASC),
+    CONSTRAINT [FK_tblTimeClock_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
+    CONSTRAINT [FK_tblTimeClock_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
+    CONSTRAINT [FK_tblTimeClock_tblRoleMaster] FOREIGN KEY ([RoleId]) REFERENCES [StriveCarSalon].[tblRoleMaster] ([RoleMasterId])
 );
+
+
 

@@ -15,6 +15,12 @@
     [CreatedBy]        INT                NULL,
     [CreatedDate]      DATETIMEOFFSET (7) NULL,
     [UpdatedBy]        INT                NULL,
-    [UpdatedDate]      DATETIMEOFFSET (7) NULL
+    [UpdatedDate]      DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblJob] PRIMARY KEY CLUSTERED ([JobId] ASC),
+    CONSTRAINT [FK_tblJob_tblClient] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
+    CONSTRAINT [FK_tblJob_tblClientVehicle] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId]),
+    CONSTRAINT [FK_tblJob_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 

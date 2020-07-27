@@ -28,6 +28,7 @@ where isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and emp.Em
 select row_number() OVER (
 	ORDER BY  empdoc.DocumentId
    ) DocumentSequence , 
+    empdoc.EmployeeId,
    empdoc.DocumentId, 
    empdoc.[FileName], 
    empdoc.CreatedDate, 
@@ -40,13 +41,14 @@ select row_number() OVER (
 select row_number() OVER (
 	ORDER BY  empLi.LiabilityId
    ) CollisionSequence,
+    empli.EmployeeId,
    empLi.LiabilityId,
    empLiD.liabilityDetailId,
    lcv.valuedesc as LiabilityType,
    dcv.valuedesc as LiabilityDetailType,
    empLi.LiabilityDescription,
    empLiD.Amount,
-   empLiD.LiabilityDetailType
+   empLiD.LiabilityDetailType as LiabilityDetailTypeId
    from 
    StriveCarSalon.tblEmployeeLiability empLi inner join 
    [StriveCarSalon].[GetTable]('LiabilityType') lcv on empLi.LiabilityType = lcv.valueid 
@@ -56,11 +58,14 @@ select row_number() OVER (
    [StriveCarSalon].[GetTable]('LiabilityDetailType') dcv on empLid.LiabilityDetailType = dcv.valueid
    where isnull(empLi.IsActive,1)=1 and isnull(empLi.IsDeleted,0)=0  and empLi.EmployeeId = @EmployeeId  
 
-   select empr.roleid,rm.RoleName as rolename from strivecarsalon.tblEmployeeRole empr inner join
+   select  empr.EmployeeId,empr.roleid,rm.RoleName as rolename from strivecarsalon.tblEmployeeRole empr inner join
    StriveCarSalon.tblRoleMaster rm on empr.RoleId = rm.RoleMasterId where empr.EmployeeId=@EmployeeId
 
+   select emplo.EmployeeId,emplo.LocationId,lo.Locationname from strivecarsalon.tblEmployeeLocation emplo inner join
+   StriveCarSalon.tblLocation lo on emplo.locationid=lo.locationid where emplo.employeeid=@EmployeeId
+
 END
---StriveCarSalon.uspGetEmployeeById  1
+--	[StriveCarSalon].uspGetEmployeeById 1
 --select * from [StriveCarSalon].[GetTable]('LiabilityType')
 --select * from [StriveCarSalon].[GetTable]('LiabilityDetailType')
 --select * from StriveCarSalon.tblEmployeeLiability

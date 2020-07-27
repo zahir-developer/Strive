@@ -17,6 +17,9 @@
     [CreatedBy]           INT                NULL,
     [CreatedDate]         DATETIMEOFFSET (7) NULL,
     [UpdatedBy]           INT                NULL,
-    [UpdatedDate]         DATETIMEOFFSET (7) NULL
+    [UpdatedDate]         DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [PK_tblLocation] PRIMARY KEY CLUSTERED ([LocationId] ASC)
 );
+
+
 

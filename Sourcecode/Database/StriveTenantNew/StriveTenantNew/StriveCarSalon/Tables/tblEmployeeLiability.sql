@@ -12,11 +12,13 @@
     [UpdatedBy]            INT                NULL,
     [UpdatedDate]          DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblEmployeeLiability] PRIMARY KEY CLUSTERED ([LiabilityId] ASC),
-    CONSTRAINT [FK_tblEmployeeLiability_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
+    CONSTRAINT [FK_tblEmployeeLiability_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
+    CONSTRAINT [FK_tblEmployeeLiability_tblProduct] FOREIGN KEY ([ProductId]) REFERENCES [StriveCarSalon].[tblProduct] ([ProductId])
 );
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [tblemployeeliabili_idx_employeeid]
-    ON [StriveCarSalon].[tblEmployeeLiability]([EmployeeId] ASC);
+
 

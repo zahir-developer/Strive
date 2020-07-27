@@ -199,5 +199,6 @@
     <Build Include="Security\StriveCarSalon.sql" />
     <Build Include="Security\Cus.sql" />
     <Build Include="Security\Adm.sql" />
+    <Build Include="StriveCarSalon\Tables\tblEmployeeLocation.sql" />
   </ItemGroup>
 </Project>

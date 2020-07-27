@@ -1,4 +1,4 @@
-﻿CREATE PROC StriveCarSalon.uspGetEmployeeList
+﻿CREATE PROC [StriveCarSalon].[uspGetEmployeeList]
 AS
 BEGIN
 
@@ -11,7 +11,7 @@ stuff((SELECT '/'+ phoneNumber FROM strivecarsalon.tblemployeeaddress
 WHERE EmployeeId = emp.EmployeeId
 FOR XML PATH('')),1,1,'') as MobileNo,
 (SELECT COUNT(1) FROM StriveCarSalon.tblEmployeeLiability WHERE employeeid=emp.employeeid) as Collisions,
-(SELECT COUNT(1) FROM StriveCarSalon.tblDocument WHERE employeeid=emp.employeeid) as Documents,
+(SELECT COUNT(1) FROM StriveCarSalon.tblEmployeeDocument WHERE employeeid=emp.employeeid) as Documents,
 0 as Schedules,
 isnull(emp.IsActive,1) as Status
 FROM 
@@ -19,6 +19,6 @@ StriveCarSalon.tblEmployee emp
 LEFT JOIN strivecarsalon.tblEmployeeLiability empli on emp.EmployeeId = empli.EmployeeId   
 LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId
 LEFT JOIN StriveCarSalon.tblEmployeeLiability emplic on emp.EmployeeId = emplic.EmployeeId
-LEFT JOIN StriveCarSalon.tblDocument empdoc on emp.EmployeeId = empdoc.EmployeeId
+LEFT JOIN StriveCarSalon.tblEmployeeDocument empdoc on emp.EmployeeId = empdoc.EmployeeId
 
 END
