@@ -38,7 +38,7 @@ namespace Strive.ResourceAccess
         public bool UpdateWeather(WeatherPrediction weatherPrediction)
         {
 
-            int WeatherPredictionId = Convert.ToInt32(_db.Update<WeatherPrediction>(weatherPrediction));
+          int WeatherPredictionId = Convert.ToInt32(_db.Update<WeatherPrediction>(weatherPrediction));
 
             return WeatherPredictionId > 0;
         }
