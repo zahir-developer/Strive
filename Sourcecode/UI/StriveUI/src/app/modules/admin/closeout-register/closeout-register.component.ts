@@ -86,7 +86,6 @@ export class CloseoutRegisterComponent implements OnInit {
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
         if (this.closeOutDetails.length != 0) {
-          console.log(this.closeOutDetails);
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.closeOutDetails[0].CashRegisterCoin.Pennies,
@@ -197,7 +196,7 @@ export class CloseoutRegisterComponent implements OnInit {
       } else {
         this.toastr.error('Weather Communication Error', 'Error!');
       }
-    });    
+    });
   }
 
   cancel() {

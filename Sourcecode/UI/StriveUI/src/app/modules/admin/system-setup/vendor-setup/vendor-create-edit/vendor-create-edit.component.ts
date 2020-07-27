@@ -45,24 +45,22 @@ export class VendorCreateEditComponent implements OnInit {
       fax: ['',]
     });
   }
-  getVendorById() {    
-        const vendorAddress = this.selectedData.VendorAddress[0];
-        //console.log(vendorAddress);
-        this.selectedStateId = vendorAddress.State;
-        this.State = this.selectedStateId;
-        this.selectedCountryId = vendorAddress.Country;
-        this.Country = this.selectedCountryId;
-        this.vendorSetupForm.patchValue({
-          vin: this.selectedData.VIN,
-          vendorAlias: this.selectedData.VendorAlias,
-          name: this.selectedData.VendorName,
-          supplierAddress: this.selectedData.VendorAddress[0].Address1,
-          zipcode: this.selectedData.VendorAddress[0].Zip,
-          phoneNumber: this.selectedData.VendorAddress[0].PhoneNumber,
-          email: this.selectedData.VendorAddress[0].Email,
-          fax: this.selectedData.VendorAddress[0].Fax
-        });  
-        console.log(this.State,this.Country);    
+  getVendorById() {
+    const vendorAddress = this.selectedData.VendorAddress[0];
+    this.selectedStateId = vendorAddress.State;
+    this.State = this.selectedStateId;
+    this.selectedCountryId = vendorAddress.Country;
+    this.Country = this.selectedCountryId;
+    this.vendorSetupForm.patchValue({
+      vin: this.selectedData.VIN,
+      vendorAlias: this.selectedData.VendorAlias,
+      name: this.selectedData.VendorName,
+      supplierAddress: this.selectedData.VendorAddress[0].Address1,
+      zipcode: this.selectedData.VendorAddress[0].Zip,
+      phoneNumber: this.selectedData.VendorAddress[0].PhoneNumber,
+      email: this.selectedData.VendorAddress[0].Email,
+      fax: this.selectedData.VendorAddress[0].Fax
+    });
   }
 
   get f() {
@@ -74,7 +72,6 @@ export class VendorCreateEditComponent implements OnInit {
     if (this.vendorSetupForm.invalid) {
       return;
     }
-    console.log(this.State,this.Country);
     this.address = [{
       relationshipId: this.isEdit ? this.selectedData.VendorId : 0,
       vendorAddressId: this.isEdit ? this.selectedData.VendorAddress[0].VendorAddressId : 0,

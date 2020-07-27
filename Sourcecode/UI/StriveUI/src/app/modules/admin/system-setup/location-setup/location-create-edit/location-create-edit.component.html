@@ -43,30 +43,25 @@
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputState">State<span class="required">*</span></label>
-                <!-- <select class="form-control" formControlName="state"
-                    [ngClass]="{ 'is-invalid': submitted  && f.state.errors }">
-                    <option value="">Choose </option>
-                    <option *ngFor="let state of State">{{state}}</option>
-                </select> -->
-                <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"></app-state-dropdown>
-                <!-- <div *ngIf="submitted  && f.state.errors" class="invalid-feedback">
-                    <div *ngIf="f.state.errors.required">State is required</div>
-                </div> -->
+                <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)">
+                </app-state-dropdown>
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputCountry">Country</label>
-                <app-country-dropdown [selectedCountryId]="selectedCountryId" (countryId)="getSelectedCountryId($event)"></app-country-dropdown>
+                <app-country-dropdown [selectedCountryId]="selectedCountryId"
+                    (countryId)="getSelectedCountryId($event)"></app-country-dropdown>
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputPhoneNumber">Phone Number</label>
                 <input appPhoneMask type="text" class="form-control" formControlName="phoneNumber"
-                    placeholder="(123) 456-7890">
+                    placeholder="(XXX) XXX-XXXX">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputEmail">Email</label>
-                <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                <input type="email" class="form-control" formControlName="email" placeholder="Email"
+                    [ngClass]="{ 'is-invalid': f.email.errors }">
                 <div *ngIf="f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors">Please enter valid email address</div>
                 </div>

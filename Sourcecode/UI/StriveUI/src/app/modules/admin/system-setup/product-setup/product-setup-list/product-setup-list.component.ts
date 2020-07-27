@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/data-service/product.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
-//import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
   selector: 'app-product-setup-list',

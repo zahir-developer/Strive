@@ -80,10 +80,9 @@ export class VendorSetupListComponent implements OnInit {
   getVendorById(data) {
     this.vendorService.getVendorById(data.VendorId).subscribe(data => {
       if (data.status === 'Success') {
-        const vendor = JSON.parse(data.resultData);        
+        const vendor = JSON.parse(data.resultData);
         this.headerData = 'Edit Vendor';
         this.selectedData = vendor.VendorDetail[0];
-        console.log(this.selectedData);
         this.isEdit = true;
         this.showDialog = true;
       } else {
