@@ -69,12 +69,29 @@ namespace StriveTimInventory.iOS.Views
             base.ViewDidLayoutSubviews();
             var totalCellWidth = 150 * RolesCollectionView.NumberOfItemsInSection(0);
             var totalSpacingWidth = 20 * (RolesCollectionView.NumberOfItemsInSection(0) - 1);
+            var topInset = 10;
+            var bottomInset = 10;
+            var leftInset = 300;
+            var itemsCount = RolesCollectionView.NumberOfItemsInSection(0);
 
-            var leftInset = RolesCollectionView.Layer.Frame.Size.Width - (totalCellWidth + totalSpacingWidth) / 2;
+            if (itemsCount > 2)
+            {   if (itemsCount % 2 != 0)
+                    itemsCount++;
+                leftInset = (int)(leftInset - ((itemsCount / 1.35) * 50));
+            }
+            else
+            {
+                topInset = bottomInset = 75;
+                leftInset = 150;
+            }
+            if (itemsCount == 1)
+            {
+                leftInset = 300;
+            }
             var rightInset = leftInset;
             var layout = new UICollectionViewFlowLayout
             {
-                SectionInset = new UIEdgeInsets(10, 5, 10, 5),
+                SectionInset = new UIEdgeInsets(topInset, leftInset, bottomInset, rightInset),
                 MinimumInteritemSpacing = 15,
                 MinimumLineSpacing = 15,
                 ItemSize = new SizeF(150, 150) 
