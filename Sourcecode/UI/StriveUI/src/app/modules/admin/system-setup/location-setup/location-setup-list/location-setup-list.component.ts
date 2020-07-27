@@ -83,7 +83,7 @@ export class LocationSetupListComponent implements OnInit {
       this.isEdit = false;
       this.showDialog = true;
     } else {
-      this.getLocationById(locationDetails);     
+      this.getLocationById(locationDetails);
     }
   }
 
@@ -92,7 +92,7 @@ export class LocationSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.selectedLocation = location.Location[0];
-        this.headerData = 'Edit Location';      
+        this.headerData = 'Edit Location';
         this.selectedData = this.selectedLocation;
         this.isEdit = true;
         this.showDialog = true;

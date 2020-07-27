@@ -145,10 +145,10 @@ export class CashinRegisterComponent implements OnInit {
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
-      this.weatherDetails = data;
-    }
-  });
-}
+        this.weatherDetails = data;
+      }
+    });
+  }
 
   submit() {
     const coin = {
@@ -205,47 +205,43 @@ export class CashinRegisterComponent implements OnInit {
       cashRegisterOther: other
     };
     const weatherObj = {
-      weatherId: this.weatherDetails?.WeatherId,
-      locationId: this.weatherDetails?.LocationId,
-      weather: this.weatherDetails?.Weather,
-      rainProbability: this.weatherDetails?.RainProbability,
-      predictedBusiness: this.weatherDetails?.PredictedBusiness,
+      weatherId: 0,
+      locationId: 1,
+      weather: Math.floor(this.weatherDetails?.temporature).toString(),
+      rainProbability: Math.floor(this.weatherDetails?.rainPercentage).toString(),
+      predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.value.goal,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
     };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       if (data.status === 'Success') {
         this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
-            if (response.status === 'Success') {
-              this.toggleTab = 0;
-              this.toastr.success('Record Saved Successfully!!', 'Success!');
-              this.weatherService.getWeather();
-              this.getCashRegister();
-            } else {
-              this.toastr.error('Weather Communication Error', 'Error!');
-            }
-          });
+          if (response.status === 'Success') {
+            this.toggleTab = 0;
+            this.toastr.success('Record Saved Successfully!!', 'Success!');
+            this.weatherService.getWeather();
+            this.getCashRegister();
+          } else {
+            this.toastr.error('Weather Communication Error', 'Error!');
+          }
+        });
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
-    // this.weatherService.UpdateWeather(weatherObj).subscribe(data => {
-    //   if (data.status === 'Success') {
-    //     this.toastr.success('Goal Saved Successfully!!', 'Success!');
-    //   } else {
-    //     this.toastr.error('Weather Communication Error', 'Error!');
-    //   }  
-    // });
-    // this.toggleTab = 0;
-    //this.getCashRegister();
+    this.toggleTab = 0;
   }
 
   cancel() {
-    this.toggleTab = 0
+    this.toggleTab = 0;
   }
 
-  next(){
-    this.toggleTab = 1;
+  next() {
+    if (this.toggleTab === 0) {
+      this.toggleTab = 1;
+    } else {
+      this.toggleTab = 0;
+    }
   }
 
   getTotalCoin(name: string, amt: number) {

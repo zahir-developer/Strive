@@ -72,8 +72,9 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputhalfdollars">Half Dollars</label>
-                                                        <input type="number" numbersOnly formControlName="coinHalfDollars"
-                                                            class="form-control" placeholder="0"
+                                                        <input type="number" numbersOnly
+                                                            formControlName="coinHalfDollars" class="form-control"
+                                                            placeholder="0"
                                                             (change)="getTotalCoin('H',$event.target.value)"> </div>
                                                 </div>
                                             </form>
@@ -283,9 +284,6 @@
                             <div class="col-lg-9 col-xl-4">
                                 <app-last-month></app-last-month>
                             </div>
-                            <!-- <div class="col-lg-6 col-xl-3">
-                                <app-last-three-month></app-last-three-month>
-                            </div> -->
                         </div>
                         <div class="row no-gutter">
                             <div class="col-12">

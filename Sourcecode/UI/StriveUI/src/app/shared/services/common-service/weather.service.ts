@@ -20,10 +20,9 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
   }
 getWeather() {
   const locationId = 1;
-  const date = moment(new Date()).format('MM-DD-YYYY');
-  this.http.get(`${UrlConfig.totalUrl.getWeather}` + locationId + '/' + date).subscribe((data: any) => {
-    this.weatherData = JSON.parse(data.resultData);
-    this.data.next(this.weatherData.WeatherPrediction);
+  this.http.get(`${UrlConfig.totalUrl.getWeather}` + locationId).subscribe((data: any) => {
+    this.weatherData = data.currentWeather;
+    this.data.next(this.weatherData);
   });
 }
 UpdateWeather(obj){

@@ -49,22 +49,21 @@ export class LocationCreateEditComponent implements OnInit {
   }
 
   getLocationById() {
-        console.log(this.selectedData);    
-        const locationAddress = this.selectedData.LocationAddress;
-        this.selectedStateId = locationAddress.State;
-        this.State = this.selectedStateId;
-        this.selectedCountryId = locationAddress.Country;
-        this.Country = this.selectedCountryId;
-        this.locationSetupForm.patchValue({
-          locationName: this.selectedData.LocationName,
-          locationAddress: this.selectedData.LocationAddress.Address1,
-          locationAddress2: this.selectedData.LocationAddress.Address2,
-          workHourThreshold: this.selectedData.WorkhourThreshold,
-          zipcode: this.selectedData.LocationAddress.Zip,
-          phoneNumber: this.selectedData.LocationAddress.PhoneNumber,
-          email: this.selectedData.LocationAddress.Email,
-          franchise: this.selectedData.IsFranchise
-        });      
+    const locationAddress = this.selectedData.LocationAddress;
+    this.selectedStateId = locationAddress.State;
+    this.State = this.selectedStateId;
+    this.selectedCountryId = locationAddress.Country;
+    this.Country = this.selectedCountryId;
+    this.locationSetupForm.patchValue({
+      locationName: this.selectedData.LocationName,
+      locationAddress: this.selectedData.LocationAddress.Address1,
+      locationAddress2: this.selectedData.LocationAddress.Address2,
+      workHourThreshold: this.selectedData.WorkhourThreshold,
+      zipcode: this.selectedData.LocationAddress.Zip,
+      phoneNumber: this.selectedData.LocationAddress.PhoneNumber,
+      email: this.selectedData.LocationAddress.Email,
+      franchise: this.selectedData.IsFranchise
+    });
   }
 
   change(data) {
@@ -82,7 +81,6 @@ export class LocationCreateEditComponent implements OnInit {
       return;
     }
     const sourceObj = [];
-    console.log(this.State,this.Country);
     this.address = {
       relationshipId: this.isEdit ? this.selectedData.LocationId : 0,
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,

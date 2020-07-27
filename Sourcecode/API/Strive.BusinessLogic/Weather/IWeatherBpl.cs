@@ -13,7 +13,7 @@ namespace Strive.BusinessLogic.Weather
 
         Result AddWeatherPrediction(WeatherPrediction weatherPrediction);
 
-        Task<WeatherInfo> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId);
+        Task<WeatherView> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId);
 
 
     }

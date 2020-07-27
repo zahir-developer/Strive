@@ -73,10 +73,21 @@ export class VendorSetupListComponent implements OnInit {
       this.isEdit = false;
       this.showDialog = true;
     } else {
-      this.headerData = 'Edit Vendor';
-      this.selectedData = vendorDetails;
-      this.isEdit = true;
-      this.showDialog = true;
+      this.getVendorById(vendorDetails);
     }
+  }
+
+  getVendorById(data) {
+    this.vendorService.getVendorById(data.VendorId).subscribe(data => {
+      if (data.status === 'Success') {
+        const vendor = JSON.parse(data.resultData);
+        this.headerData = 'Edit Vendor';
+        this.selectedData = vendor.VendorDetail[0];
+        this.isEdit = true;
+        this.showDialog = true;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
 }

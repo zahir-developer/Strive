@@ -1,15 +1,6 @@
 ﻿using Acr.UserDialogs;
-using MvvmCross;
-using MvvmCross.Navigation;
-using MvvmCross.Plugin.Messenger;
-using MvvmCross.ViewModels;
 using Strive.Core.Models.Customer;
 using Strive.Core.Resources;
-using Strive.Core.Services.Implementations;
-using Strive.Core.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -43,12 +34,20 @@ namespace Strive.Core.ViewModels.Customer
                 
             }
         }
+        public async void resendOTPCommand()
+        {
+            var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
+            if (responseResult.Status == "true")
+            {
+                _userDialog.Toast(Strings.OTPSentEmail);
+            }
+        }
 
 
 
         #endregion Commands
 
-        #region Properties
+            #region Properties
 
         public string EnterOTP
         {

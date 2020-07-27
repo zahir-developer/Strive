@@ -42,6 +42,7 @@ namespace StriveCustomer.Android.Views
             notReceiveOTPTextView = FindViewById<TextView>(Resource.Id.notReceiveOTPTextView);
             resendOTPTextView = FindViewById<TextView>(Resource.Id.resendOTPTextView);
             resendOTPTextView.PaintFlags = PaintFlags.UnderlineText;
+            resendOTPTextView.Click += resendOTP;
             verifyButton = FindViewById<Button>(Resource.Id.verifyButton);
             otpBox1 = FindViewById<EditText>(Resource.Id.otpBox1);
             otpBox2 = FindViewById<EditText>(Resource.Id.otpBox2);
@@ -75,7 +76,7 @@ namespace StriveCustomer.Android.Views
             else
                 otpBox4.RequestFocus();
         }
-        private void bindOTP(object o , EventArgs e)
+        private void bindOTP(object o, EventArgs e)
         {
             builder.Clear();
             builder.Append(otpBox1.Text.ToString());
@@ -86,6 +87,9 @@ namespace StriveCustomer.Android.Views
             ViewModel.OTPValue = otpValue;
             ViewModel.VerifyCommand();
         }
-       
+        private void resendOTP(object o, EventArgs e)
+        {
+            ViewModel.resendOTPCommand();
+        }
     }
 }
