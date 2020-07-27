@@ -173,28 +173,7 @@ namespace Strive.Core.Resources {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Sign up successful.
-        /// </summary>
-        internal static string SignUpSuccessful {
-            get {
-                return ResourceManager.GetString("SignUpSuccessful", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sign up failed.
-        /// </summary>
-        internal static string SignUpUnSuccessful {
-            get {
-                return ResourceManager.GetString("SignUpUnSuccessful", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string String1 {
+        internal static string ValidMobile {
             get {
                 return ResourceManager.GetString("ValidMobile", resourceCulture);
             }
@@ -233,6 +212,114 @@ namespace Strive.Core.Resources {
         internal static string NotRegisteredEmail {
             get {
                 return ResourceManager.GetString("NotRegisteredEmail", resourceCulture);
+            }
+        }
+        
+        internal static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        internal static string UserId {
+            get {
+                return ResourceManager.GetString("UserId", resourceCulture);
+            }
+        }
+        
+        internal static string LoggingIn {
+            get {
+                return ResourceManager.GetString("LoggingIn", resourceCulture);
+            }
+        }
+        
+        internal static string Alert {
+            get {
+                return ResourceManager.GetString("Alert", resourceCulture);
+            }
+        }
+        
+        internal static string EnterPassword {
+            get {
+                return ResourceManager.GetString("EnterPassword", resourceCulture);
+            }
+        }
+        
+        internal static string SelectRoleAlert {
+            get {
+                return ResourceManager.GetString("SelectRoleAlert", resourceCulture);
+            }
+        }
+        
+        internal static string WelcomeBack {
+            get {
+                return ResourceManager.GetString("WelcomeBack", resourceCulture);
+            }
+        }
+        
+        internal static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        internal static string Washer {
+            get {
+                return ResourceManager.GetString("Washer", resourceCulture);
+            }
+        }
+        
+        internal static string Cashier {
+            get {
+                return ResourceManager.GetString("Cashier", resourceCulture);
+            }
+        }
+        
+        internal static string Detailer {
+            get {
+                return ResourceManager.GetString("Detailer", resourceCulture);
+            }
+        }
+        
+        internal static string FinishBay {
+            get {
+                return ResourceManager.GetString("FinishBay", resourceCulture);
+            }
+        }
+        
+        internal static string Manager {
+            get {
+                return ResourceManager.GetString("Manager", resourceCulture);
+            }
+        }
+        
+        internal static string GreetBay {
+            get {
+                return ResourceManager.GetString("GreetBay", resourceCulture);
+            }
+        }
+        
+        internal static string Runner {
+            get {
+                return ResourceManager.GetString("Runner", resourceCulture);
+            }
+        }
+        
+        internal static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpSuccessful {
+            get {
+                return ResourceManager.GetString("SignUpSuccessful", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpUnSuccessful {
+            get {
+                return ResourceManager.GetString("SignUpUnSuccessful", resourceCulture);
             }
         }
     }

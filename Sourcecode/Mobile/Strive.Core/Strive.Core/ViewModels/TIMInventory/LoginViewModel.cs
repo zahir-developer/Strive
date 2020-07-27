@@ -30,7 +30,22 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public string UserId { get; set; } 
 
-        public string Password { get; set; } 
+        public string Password { get; set; }
+
+        public string UserIdText
+        {
+            get
+            {
+                return Strings.UserId;
+            }
+        }
+        public string PasswordText
+        {
+            get
+            {
+                return Strings.Password;
+            }
+        }
 
         public string Title
         {
@@ -51,7 +66,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             if (await ValidateCredentialsAsync())
             {
-                _userDialog.ShowLoading("Logging in", Acr.UserDialogs.MaskType.Gradient);
+                _userDialog.ShowLoading(Strings.LoggingIn, Acr.UserDialogs.MaskType.Gradient);
                 var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
                 if(response.Token != null)
                 {
@@ -67,12 +82,12 @@ namespace Strive.Core.ViewModels.TIMInventory
             bool isValid = true;
             if(!Validations.validateEmail(UserId))
             {
-                await _userDialog.AlertAsync(Strings.ValidEmail, "Alert");
+                await _userDialog.AlertAsync(Strings.ValidEmail, Strings.Alert);
                 return !isValid;
             }
             else if (string.IsNullOrEmpty(Password))
             {
-                await _userDialog.AlertAsync("Enter Password", "Alert");
+                await _userDialog.AlertAsync(Strings.EnterPassword, Strings.Alert);
                 return !isValid;
             }
             return isValid;
@@ -81,16 +96,6 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void PasswordToggleCommand()
         {
             isPasswordSecure = !_isPasswordSecure;
-        }
-
-        public void UserIDHintToggleCommand()
-        {
-            ShowUserIdHint = !_ShowUserIdHint;
-        }
-
-        public void PasswordHintToggleCommand()
-        {
-            ShowPasswordHint = !_ShowPasswordHint;
         }
 
         public void DoLogin()
