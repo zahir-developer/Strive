@@ -11,5 +11,7 @@ namespace Strive.Core.Utils.TimInventory
         public const string ICON_FINISH_BAY = "icon-finish-bay";
         public const string ICON_RUNNER = "icon-runner";
         public const string ICON_UNKNOWN = "icon-unknown";
+        public const string ICON_EYE_FILLED = "eye-filled";
+        public const string ICON_EYE_FILLED_SLASH = "eye-filled-slash";
     }
 }

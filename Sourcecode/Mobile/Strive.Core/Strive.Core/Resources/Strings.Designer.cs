@@ -214,5 +214,101 @@ namespace Strive.Core.Resources {
                 return ResourceManager.GetString("NotRegisteredEmail", resourceCulture);
             }
         }
+        
+        internal static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        internal static string UserId {
+            get {
+                return ResourceManager.GetString("UserId", resourceCulture);
+            }
+        }
+        
+        internal static string LoggingIn {
+            get {
+                return ResourceManager.GetString("LoggingIn", resourceCulture);
+            }
+        }
+        
+        internal static string Alert {
+            get {
+                return ResourceManager.GetString("Alert", resourceCulture);
+            }
+        }
+        
+        internal static string EnterPassword {
+            get {
+                return ResourceManager.GetString("EnterPassword", resourceCulture);
+            }
+        }
+        
+        internal static string SelectRoleAlert {
+            get {
+                return ResourceManager.GetString("SelectRoleAlert", resourceCulture);
+            }
+        }
+        
+        internal static string WelcomeBack {
+            get {
+                return ResourceManager.GetString("WelcomeBack", resourceCulture);
+            }
+        }
+        
+        internal static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        internal static string Washer {
+            get {
+                return ResourceManager.GetString("Washer", resourceCulture);
+            }
+        }
+        
+        internal static string Cashier {
+            get {
+                return ResourceManager.GetString("Cashier", resourceCulture);
+            }
+        }
+        
+        internal static string Detailer {
+            get {
+                return ResourceManager.GetString("Detailer", resourceCulture);
+            }
+        }
+        
+        internal static string FinishBay {
+            get {
+                return ResourceManager.GetString("FinishBay", resourceCulture);
+            }
+        }
+        
+        internal static string Manager {
+            get {
+                return ResourceManager.GetString("Manager", resourceCulture);
+            }
+        }
+        
+        internal static string GreetBay {
+            get {
+                return ResourceManager.GetString("GreetBay", resourceCulture);
+            }
+        }
+        
+        internal static string Runner {
+            get {
+                return ResourceManager.GetString("Runner", resourceCulture);
+            }
+        }
+        
+        internal static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
     }
 }
