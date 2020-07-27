@@ -47,7 +47,7 @@ export class VendorCreateEditComponent implements OnInit {
   }
   getVendorById() {    
         const vendorAddress = this.selectedData.VendorAddress[0];
-        console.log(vendorAddress);
+        //console.log(vendorAddress);
         this.selectedStateId = vendorAddress.State;
         this.State = this.selectedStateId;
         this.selectedCountryId = vendorAddress.Country;
@@ -58,7 +58,6 @@ export class VendorCreateEditComponent implements OnInit {
           name: this.selectedData.VendorName,
           supplierAddress: this.selectedData.VendorAddress[0].Address1,
           zipcode: this.selectedData.VendorAddress[0].Zip,
-          state: this.selectedData.VendorAddress[0].State,
           phoneNumber: this.selectedData.VendorAddress[0].PhoneNumber,
           email: this.selectedData.VendorAddress[0].Email,
           fax: this.selectedData.VendorAddress[0].Fax
@@ -84,9 +83,9 @@ export class VendorCreateEditComponent implements OnInit {
       phoneNumber2: "",
       isActive: true,
       zip: this.vendorSetupForm.value.zipcode,
-      state: this.State,
+      state: this.Country,
       city: 1,
-      Country: this.Country,
+      country: this.State,
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
       email: this.vendorSetupForm.value.email,
       fax: this.vendorSetupForm.value.fax

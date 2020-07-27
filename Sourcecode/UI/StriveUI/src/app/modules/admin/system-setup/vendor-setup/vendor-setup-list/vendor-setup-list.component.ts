@@ -83,6 +83,7 @@ export class VendorSetupListComponent implements OnInit {
         const vendor = JSON.parse(data.resultData);        
         this.headerData = 'Edit Vendor';
         this.selectedData = vendor.VendorDetail[0];
+        console.log(this.selectedData);
         this.isEdit = true;
         this.showDialog = true;
       } else {
