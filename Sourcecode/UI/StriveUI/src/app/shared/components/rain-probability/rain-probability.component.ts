@@ -16,7 +16,9 @@ export class RainProbabilityComponent implements OnInit {
   }
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
+      if (data !== undefined) {
       this.rainPrediction = data.RainProbability;
+      }
   });
 }
 }

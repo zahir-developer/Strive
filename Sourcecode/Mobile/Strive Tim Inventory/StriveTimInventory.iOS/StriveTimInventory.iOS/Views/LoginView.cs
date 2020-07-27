@@ -39,7 +39,8 @@ namespace StriveTimInventory.iOS.Views
         {
             NavigationController.NavigationBarHidden = true;
             LoginButton.Layer.CornerRadius = 3;
-           
+            UserIdHintLabel.Hidden = true;
+            PasswordHintLabel.Hidden = true;
         }
 
         partial void PasswordToggle(UIButton sender)
@@ -56,6 +57,64 @@ namespace StriveTimInventory.iOS.Views
                 return;
             }
             PasswordToggleButton.SetImage(UIImage.FromBundle("eye-filled-slash"), UIControlState.Normal);
+        }
+
+        partial void TextFieldBeginEdit(UITextField sender)
+        {
+            if(sender.Tag == 1)
+            {
+                UserIdHintLabel.Hidden = false;
+                UserIdTxtField.Placeholder = "";
+                return;
+            }
+            PasswordHintLabel.Hidden = false;
+            PasswordTxtField.Placeholder = "";
+        }
+
+        partial void TextFieldChange(UITextField sender)
+        {
+            if (sender.Tag == 1)
+            {
+                if (string.IsNullOrEmpty(sender.Text))
+                {
+                    UserIdHintLabel.Hidden = true;
+                    UserIdTxtField.Placeholder = "User ID";
+                }
+                else
+                {
+                    UserIdHintLabel.Hidden = false;
+                    UserIdTxtField.Placeholder = "";
+                }
+                return;
+            }
+            if (string.IsNullOrEmpty(sender.Text))
+            {
+                PasswordHintLabel.Hidden = true;
+                PasswordTxtField.Placeholder = "Password";
+            }
+            else
+            {
+                PasswordHintLabel.Hidden = false;
+                PasswordTxtField.Placeholder = "";
+            }
+        }
+
+        partial void TextFieldEnd(UITextField sender)
+        {
+            if(sender.Tag == 1)
+            {
+                if(string.IsNullOrEmpty(UserIdTxtField.Text))
+                {
+                    UserIdHintLabel.Hidden = true;
+                }
+                UserIdTxtField.Placeholder = "User ID";
+                return;
+            }
+            if (string.IsNullOrEmpty(PasswordTxtField.Text))
+            {
+                PasswordHintLabel.Hidden = true;
+            }
+            PasswordTxtField.Placeholder = "Password";
         }
     }
 }

@@ -3,12 +3,9 @@ namespace Strive.Core.Models.TimInventory
 {
     public class EmployeeRole
     {
-        public EmployeeRole(string Title, string ImageUri, int Tag,string ImageUriHover)
+        public EmployeeRole()
         {
-            this.Title = Title;
-            this.ImageUri = ImageUri;
-            this.Tag = Tag;
-            this.ImageUriHover = ImageUriHover;
+    
         }
         public string Title { get; set; }
 

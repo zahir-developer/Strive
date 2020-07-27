@@ -20,11 +20,19 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel PasswordHintLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton PasswordToggleButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField PasswordTxtField { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel UserIdHintLabel { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -34,11 +42,28 @@ namespace StriveTimInventory.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void PasswordToggle (UIKit.UIButton sender);
 
+        [Action ("TextFieldBeginEdit:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void TextFieldBeginEdit (UIKit.UITextField sender);
+
+        [Action ("TextFieldChange:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void TextFieldChange (UIKit.UITextField sender);
+
+        [Action ("TextFieldEnd:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void TextFieldEnd (UIKit.UITextField sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (LoginButton != null) {
                 LoginButton.Dispose ();
                 LoginButton = null;
+            }
+
+            if (PasswordHintLabel != null) {
+                PasswordHintLabel.Dispose ();
+                PasswordHintLabel = null;
             }
 
             if (PasswordToggleButton != null) {
@@ -49,6 +74,11 @@ namespace StriveTimInventory.iOS.Views
             if (PasswordTxtField != null) {
                 PasswordTxtField.Dispose ();
                 PasswordTxtField = null;
+            }
+
+            if (UserIdHintLabel != null) {
+                UserIdHintLabel.Dispose ();
+                UserIdHintLabel = null;
             }
 
             if (UserIdTxtField != null) {

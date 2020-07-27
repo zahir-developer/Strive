@@ -42,7 +42,8 @@ namespace Strive.BusinessLogic.Location
             try
             {
                 CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-                var lstGeocode = commonBpl.GetGeocode(lstLocation.LocationAddress.FirstOrDefault());
+                //var lstGeocode = commonBpl.GetGeocode(lstLocation.LocationAddress.FirstOrDefault());
+                //Commented - Throws Exception - Blocker for location save.
 
                 bool blnStatus = new LocationRal(_tenant).SaveLocationDetails(lstLocation);
                 _resultContent.Add(blnStatus.WithName("Status"));

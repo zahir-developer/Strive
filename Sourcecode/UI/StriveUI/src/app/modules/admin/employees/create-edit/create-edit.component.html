@@ -1,4 +1,173 @@
-<div class="container-fluid">
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="#">Employees</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Employee</li>
+                </ol>
+            </nav>
+            <!--bread crumb-->
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3>Add New Employee</h3>
+            </div>
+            <div class="col-12 p-l-0 p-r-0">
+                <!-- 	<div class="row"> -->
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5">
+                            <h6 class="d-inline-block font-weight-600">Personal Details</h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a id="personaltoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
+                            </div>
+                        </div>
+                        <form id="personalform">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputFirstName">First Name</label>
+                                    <input type="number" class="form-control" id="inputFirstName"
+                                        placeholder="First Name"> </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputLastName">Last Name</label>
+                                    <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputgender">Gender</label>
+                                    <select id="inputgender" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option *ngFor="let g of gender" value="{{g.CodeId}}">{{g.CodeValue}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputaddress">Address</label>
+                                    <input type="text" class="form-control" id="inputaddress"> </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputPhone">Mobile Number</label>
+                                    <input type="phone" class="form-control" id="inputPhone"> </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputImmigration">Immigration Status</label>
+                                    <input type="text" class="form-control" id="inputImmigration"> </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputssn">SSN</label>
+                                    <input type="text" class="form-control" id="inputssn"> </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Employement Details </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a id="Employeelisttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
+                            </div>
+                        </div>
+                        <form id="emplistform">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputLoginid">Login ID</label>
+                                    <input type="text" class="form-control" id="inputLoginid" placeholder="Login ID">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputPassword">Password</label>
+                                    <input type="password" class="form-control" id="inputPassword"> </div>
+                                <div class="form-group col-md-3">
+                                    <label>Date of Hire</label>
+                                    <input type="text" class="form-control date datepicker-view"
+                                        data-toggle="date-picker" data-single-date-picker="true"> </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputhourrate">Hourly Rate-Wash</label>
+                                    <input type="text" class="form-control" id="inputhourrate"> </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputhourdetail">Hourly Rate-Details</label>
+                                    <input type="text" class="form-control" id="inputhourdetail"> </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputcommission">Commission</label>
+                                    <select id="inputcommission" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputStatus">Status</label>
+                                    <select id="inputStatus" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option *ngFor="let status of Status">{{status}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputtip">Tip</label>
+                                    <input type="text" class="form-control" id="inputtip"> </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputexemptions">Exemptions </label>
+                                    <input type="phone" class="form-control" id="inputexemptions"> </div>
+                                <div class="form-group col-md-3">
+                                    <label class="d-block">Roles </label>
+                                    <select multiple="multiple" class="form-control multiselect">
+                                        <option value="1">Washer </option>
+                                        <option value="2">Detailer </option>
+                                        <option value="3">Greeter </option>
+                                        <option value="4">Checkout Station User </option>
+                                        <option value="5">Cashier </option>
+                                        <option value="6">Manager </option>
+                                        <option value="7">Operator </option>
+                                        <option value="8">Admin </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="d-block">Location </label>
+                                    <select multiple="multiple" class="form-control multiselect">
+                                        <option value="1">Franklin </option>
+                                        <option value="2">Arlington </option>
+                                        <option value="3">Bristol </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Documents </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a id="documenttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
+                            </div>
+                        </div>
+                        <div class="form-row" id="docform">
+                            <div class="form-group col-md-4">
+                                <label for="customFile">Document</label>
+                                <div >
+                                    <!-- <input type="file" size="60" name="areaofmouth" id="filepaths" dirname="S:\"
+                                        accept=".pdf, .png, .jpg, .jpeg, .gif" class="form-control"
+                                        (change)="fileNameChanged()" /> -->
+                                    <input type="file" class="form-control-file"
+                                        accept=".pdf, .png, .jpg, .jpeg, .gif" id="customFile" dirname="S:\"
+                                        name="filename">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-t-12 pull-right mw-100">
+                    <button type="button" class="btn theme-optional-button-color">Cancel</button>
+                    <button type="button" class="btn theme-primary-button-color" (click)="checking()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="container-fluid">
     <form [formGroup]="sampleForm">
         <div class="form-row">
             <div class="form-group col-lg-4">
@@ -62,7 +231,6 @@
             <div class="form-group col-lg-4">
                 <div>
                     <label>Status: </label><br>
-                    <!-- <input type="text" class="form-control" formControlName="status"> -->
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="status" id="inlineRadio1"
                             formControlName="status" value="true">
@@ -249,4 +417,4 @@
             </div>
         </div>
     </div>
-</p-dialog>
+</p-dialog> -->

@@ -25,30 +25,20 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-        public List<VendorList> GetVendorDetails()
+        public List<VendorView> GetVendorDetails()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<VendorList> lstVendor = new List<VendorList>();
-            lstVendor= db.FetchRelation1<VendorList, VendorAddress>(SPEnum.USPGETALLVENDOR.ToString(), dynParams);
+            List<VendorView> lstVendor = new List<VendorView>();
+            lstVendor= db.FetchRelation1<VendorView, VendorAddress>(SPEnum.USPGETALLVENDOR.ToString(), dynParams);
             return lstVendor;
         }
 
-        public bool SaveVendorDetails(List<VendorList> lstvendor)
+        public bool SaveVendorDetails(VendorView vendor)
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<Vendor> lstvendorlst = new List<Vendor>();
-            var vendorlst = lstvendor.FirstOrDefault();
-            lstvendorlst.Add(new Vendor
-            {
-                VendorId = vendorlst.VendorId,
-                VendorName = vendorlst.VendorName,
-                VendorAlias = vendorlst.VendorAlias,
-                VIN = vendorlst.VIN,
-                IsActive = vendorlst.IsActive,
-
-            });
-            dynParams.Add("@tvpVendor", lstvendorlst.ToDataTable().AsTableValuedParameter("tvpVendor"));
-            dynParams.Add("@tvpVendorAddress", vendorlst.VendorAddress.ToDataTable().AsTableValuedParameter("tvpVendorAddress"));
+            dynParams.Add("@tvpVendor", vendor.TableName<Vendor>("tvpVendor"));
+            dynParams.Add("@tvpVendorAddress", vendor.VendorAddress.ToDataTable().AsTableValuedParameter("tvpVendorAddress"));
 
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEVENDOR.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
@@ -65,12 +55,12 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<VendorList> GetVendorById(long id)
+        public List<VendorView> GetVendorById(long id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@VendorId", id);
-            List<VendorList> lstVendorById = new List<VendorList>();
-            lstVendorById = db.FetchRelation1<VendorList, VendorAddress>(SPEnum.USPGETVENDORBYID.ToString(), dynParams);
+            List<VendorView> lstVendorById = new List<VendorView>();
+            lstVendorById = db.FetchRelation1<VendorView, VendorAddress>(SPEnum.USPGETVENDORBYID.ToString(), dynParams);
             return lstVendorById;
         }
     }

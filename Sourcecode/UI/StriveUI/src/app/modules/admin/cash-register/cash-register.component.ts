@@ -131,9 +131,11 @@ export class CashinRegisterComponent implements OnInit {
           this.totalDimeRoll = (50 * 10 * this.cashDetails[0].CashRegisterRoll.Dimes) / 100;
           this.totalQuaterRoll = (40 * 25 * this.cashDetails[0].CashRegisterRoll.Quarters) / 100;
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
-          this.cashRegisterForm.patchValue({
-            goal: this.weatherDetails.TargetBusiness
-          });
+          setTimeout(() => {
+            this.cashRegisterForm.patchValue({
+              goal: this.weatherDetails?.TargetBusiness
+            });
+          }, 1200);
           this.getTotalCash();
         }
       }
@@ -142,7 +144,9 @@ export class CashinRegisterComponent implements OnInit {
 
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
+      if (data !== undefined) {
       this.weatherDetails = data;
+    }
   });
 }
 
@@ -200,31 +204,39 @@ export class CashinRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
-    // const weatherObj = {
-    //   weatherId: this.weatherDetails.WeatherId,
-    //   locaionId: this.weatherDetails.LocationId,
-    //   weather: this.weatherDetails.Weather,
-    //   rainProbability: this.weatherDetails.RainProbability,
-    //   predictedBusiness: this.weatherDetails.PredictedBusiness,
-    //   targetBusiness: Number(this.cashRegisterForm.value.goal),
-    //   createdDate: moment(new Date()).format('YYYY-MM-DD')
-    // };
+    const weatherObj = {
+      weatherId: this.weatherDetails?.WeatherId,
+      locationId: this.weatherDetails?.LocationId,
+      weather: this.weatherDetails?.Weather,
+      rainProbability: this.weatherDetails?.RainProbability,
+      predictedBusiness: this.weatherDetails?.PredictedBusiness,
+      targetBusiness: this.cashRegisterForm.value.goal,
+      createdDate: moment(new Date()).format('YYYY-MM-DD')
+    };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.success('Record Saved Successfully!!', 'Success!');
-        this.getCashRegister();
+        this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
+            if (response.status === 'Success') {
+              this.toggleTab = 0;
+              this.toastr.success('Record Saved Successfully!!', 'Success!');
+              this.weatherService.getWeather();
+              this.getCashRegister();
+            } else {
+              this.toastr.error('Weather Communication Error', 'Error!');
+            }
+          });
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
     // this.weatherService.UpdateWeather(weatherObj).subscribe(data => {
-    //   if(data.status === 'Success') {
+    //   if (data.status === 'Success') {
     //     this.toastr.success('Goal Saved Successfully!!', 'Success!');
     //   } else {
     //     this.toastr.error('Weather Communication Error', 'Error!');
-    //   }
+    //   }  
     // });
-    this.toggleTab = 0;
+    // this.toggleTab = 0;
     //this.getCashRegister();
   }
 
