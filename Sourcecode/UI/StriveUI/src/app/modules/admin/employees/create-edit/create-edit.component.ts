@@ -23,9 +23,13 @@ export class CreateEditComponent implements OnInit {
   documentForm: FormGroup;
   fileName: any = '';
   fileUploadformData: any;
+  mulitselected: any;
+  Status: any;
+  @Input() commissionType: any;
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
+    this.Status = ['Active', 'InActive'];
     this.documentDailog = false;
     this.sampleForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -58,6 +62,7 @@ export class CreateEditComponent implements OnInit {
       password: ['', Validators.required]
     });
     // console.log(this.selectedData);
+    console.log(this.gender, 'gender');
     this.employeRole();
     this.setValue();
     this.getAllDocument();
@@ -116,6 +121,10 @@ export class CreateEditComponent implements OnInit {
       };
     });
     console.log(this.employeeRoles, 'employeerolesmuliti');
+  }
+
+  checking() {
+    console.log(this.mulitselected, 'multi');
   }
 
   submit(sampleForm) {

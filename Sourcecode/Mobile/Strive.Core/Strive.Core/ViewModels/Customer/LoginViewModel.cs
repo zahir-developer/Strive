@@ -34,17 +34,30 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task DoLoginCommand()
         {
-            if(validateCommand())
+            if (validateCommand())
             {
-                
+                _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var loginResponse = await AdminService.CustomerLogin(new CustomerLoginRequest(loginEmailPhone, loginPassword));
+                if (!string.IsNullOrEmpty(loginResponse.Token))
+                {
+                    _userDialog.Toast("Success");
+                }
+                else
+                {
+                    _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                }
+                _userDialog.HideLoading();
+            }
+            else 
+            {
+                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
             }
             
             
         }
         public bool validateCommand()
         {
-            bool isValid = false;
+            bool isValid ;
 
             if (Validations.validateEmail(loginEmailPhone)
                 || Validations.validatePhone(loginEmailPhone))
@@ -54,11 +67,11 @@ namespace Strive.Core.ViewModels.Customer
             else if (String.IsNullOrEmpty(loginEmailPhone)
                 || String.IsNullOrEmpty(loginPassword))
             {
-                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                isValid = false;
             }
             else
             {
-                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                isValid = false;
             }
             return isValid;
         }

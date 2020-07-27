@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9ABEC4F7-4203-43A9-BD0F-D7CDA591C623}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Strive.RepositoryNew</RootNamespace>
-    <AssemblyName>Strive.RepositoryNew</AssemblyName>
+    <RootNamespace>Strive.Repository</RootNamespace>
+    <AssemblyName>Strive.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,9 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sql\BaseRepository.cs" />
-    <Compile Include="Sql\Db.cs" />
+    <Compile Include="Sql\Db_Cocoon.cs" />
+    <Compile Include="Sql\Db_Contrib.cs" />
+    <Compile Include="Sql\Db_Dapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="cocoon-orm, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\cocoon-orm.2.9.0\lib\netstandard2.0\cocoon-orm.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
     </Reference>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WeatherService } from '../../services/common-service/weather.service';
 
 @Component({
   selector: 'app-last-week',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LastWeekComponent implements OnInit {
 
-  constructor() { }
+  constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
+    this.getWeatherDetails();
   }
-
+  getWeatherDetails = () => {
+    this.weatherService.data.subscribe(data => {
+  });
+}
 }

@@ -1,40 +1,23 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.Common;
-using Strive.Repository;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Linq;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Code;
-using Strive.BusinessEntities.Auth;
 
 namespace Strive.ResourceAccess
 {
-    public class EmployeeRal
+    public class EmployeeRal : RalBase
     {
-        IDbConnection _dbconnection;
-        public Db db;
-        public EmployeeRal(IDbConnection dbconnection)
-        {
-            _dbconnection = dbconnection;
-        }
+        public EmployeeRal(ITenantHelper tenant) : base(tenant) { }
 
-        public EmployeeRal(ITenantHelper tenant, bool isAuth)
-        {
-            if (isAuth)
-                _dbconnection = tenant.dbAuth();
-        }
-
-        public EmployeeRal(ITenantHelper tenant)
-        {
-            _dbconnection = tenant.db();
-            db = new Db(_dbconnection);
-        }
         public List<EmployeeView> GetEmployeeDetails()
         {
+            ///... To get Employee Details by EmployeeId field
+            var empDetails = db.GetListByFkId<EmployeeDetail>(1, "EmployeeId");
+
             DynamicParameters dynParams = new DynamicParameters();
             var lstEmployee = db.FetchRelation3<EmployeeView, EmployeeDetail, EmployeeAddress, EmployeeRole>(SPEnum.USPGETEMPLOYEE.ToString(), dynParams);
             return lstEmployee;

@@ -1,87 +1,157 @@
-<!-- <input type="button" value="Add" class="" (click)="add('add',[])">
-<p-table [value]="employeeDetails">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Role</th>
-            <th>Action</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-employee>
-        <tr>
-            <td>{{employee.FirstName}}</td>
-            <td>{{employee.LastName}}</td>
-            <td>{{employee.Role}}</td>
-            <td>
-                <em class="fa fa-pencil" style="color:orange" pTooltip="edit" tooltipPosition="bottom"
-                                (click)="add('edit', employee)"></em>&nbsp;&nbsp;
-                            <em class="fa fa-close" style="color:orange" pTooltip="delete" tooltipPosition="bottom"
-                                (click)="delete(employee)"></em>
-            </td>
-        </tr>
-    </ng-template>
-</p-table> -->
-<div class="card m-t-10 m-b-10">
-    <div class="card-body">
-        <div class="tab-content">
-            <div class="title-border p-b-10 m-b-15">
-                <h5 class="d-inline-block">Users</h5>&nbsp;
-                <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                    (click)="add('add',[])">Filter</button>
-                <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                    (click)="add('add',[])">New</button>
+<div id="page-content" *ngIf="!showDialog">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Employee</li>
+                </ol>
+            </nav>
+            <!--bread crumb-->
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3>Employee</h3>
             </div>
-            <div class="setup-wrapper">
-                <div class="setup-content" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No
-                        Records Found</span></div>
-                <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
-                    <div class="search-container pull-right">
-
+            <div class="col-12 p-l-0 p-r-0">
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-10 m-b-15">
+                            <h5 class="d-inline-block">Employee List</h5>
+                            <button type="button" class="btn theme-primary-button-color btn-md"
+                                (click)="addEmployee()">Add New Employee</button>
+                            <div class="pull-right m-t-4 pointer">
+                                <a id="Employeelisttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
+                            </div>
+                        </div>
+                        <div class="setup-wrapper" id="emplistform">
+                            <div class="setup-content">
+                                <div class="search-container  pull-right">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group d-flex"> <span
+                                                    class="Search text-right p-r-10 p-t-5">Search</span> </div>
+                                            <div class="form-group col-sm m-l-5">
+                                                <input type="search" class="form-control" id="inputSearchbyName"
+                                                    placeholder="By Login ID,Name"> </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table border table-hover" aria-describedby="employee-list">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Login ID</th>
+                                                <th scope="col">First Name</th>
+                                                <th scope="col">Last Name</th>
+                                                <th scope="col">Mobile # </th>
+                                                <th scope="col">Collision</th>
+                                                <th scope="col">Documents</th>
+                                                <th scope="col">Schedules</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let employee of employeeDetails">
+                                                <td>{{employee.EmployeeId}}</td>
+                                                <td>{{employee.FirstName}}</td>
+                                                <td> {{employee.LastName}} </td>
+                                                <td>167-2344-123</td>
+                                                <td> <a href="#"
+                                                        class="text-underline theme-primary-color font-size--9"> View
+                                                    </a> </td>
+                                                <td> <a href="#documentModal"
+                                                        class="text-underline theme-primary-color font-size--9"
+                                                        data-toggle="modal"> View </a> </td>
+                                                <td> <a href="#" class="text-underline theme-primary-color font-size--9"
+                                                        data-toggle="modal"> View </a> </td>
+                                                <td>Active</td>
+                                                <td> <i class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
+                                                        onclick="window.location.href='ViewEdit Employee.html';"></i> <i
+                                                        class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
+                                                        onclick="window.location.href='Employee- edit doc.html';"></i>
+                                                    <i class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
+                                                        data-toggle="modal" href="#deleteemployeeModal"></i> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <ul class="pagination justify-content-end">
+                                        <li class="page-item"><a class="page-link" href="#"><i
+                                                    class="fa fa-angle-left"></i></a></li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#"><i
+                                                    class="fa fa-angle-right"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p-table [value]="employeeDetails" class="table table-responsive-xl table-striped table-hover"
-                        [paginator]="true" [rows]="50">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th scope="col">Login</th>
-                                <th scope="col">User Name</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-employeeDetails>
-                            <tr>
-                                <td>{{employeeDetails.AuthId}}</td>
-                                <td>{{employeeDetails.EmployeeCode}}</td>
-                                <td>{{employeeDetails.IsActive === true ? 'Active' : 'InActive'}}</td>
-                                <td>
-                                    <!-- <em class="fa fa-eye edit-list theme-secondary-icon-color m-r-10"
-                                        style="color:green" pTooltip="view" tooltipPosition="bottom"
-                                        (click)="add('view', employeeDetails)"></em>&nbsp;&nbsp; -->
-                                    <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                        style="color:green" pTooltip="edit" tooltipPosition="bottom"
-                                        (click)="add('edit', employeeDetails)"></em>&nbsp;&nbsp;
-                                    <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                        style="color:red" pTooltip="delete" tooltipPosition="bottom"
-                                        (click)="deleteEmployee(employeeDetails)"></em>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                    <!-- <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
-                        [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
-                        <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData"
-                            [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
-                        </app-location-create-edit>
-                    </p-dialog> -->
+                </div>
+                <!--Delete Employee Modal-->
+                <div class="modal fade" id="deleteemployeeModal" tabindex="-1" role="dialog"
+                    aria-labelledby="deleteemployeeModal" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete Employee</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                                        aria-hidden="true">&times;</span> </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete Employee Full Name? All related information will be
+                                    deleted and the Employee details cannot be retrieved?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn theme-optional-button-color"
+                                    data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn theme-primary-button-color">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--collision modal--->
+                <div class="modal fade" id="collisiontModal" tabindex="-1" role="dialog"
+                    aria-labelledby="collisiontModal" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New Collision</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                                        aria-hidden="true">&times;</span> </button>
+                            </div>
+                            <div class="modal-body">
+                                <!--modal body-->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Date of Collision</label>
+                                        <input type="text" class="form-control date datepicker-view"
+                                            data-toggle="date-picker" data-single-date-picker="true"> </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputamount">Amount</label>
+                                        <input type="text" class="form-control" id="inputamount"> </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label>Reason</label>
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--modal body-->
+                            <div class="modal-footer">
+                                <button type="button" class="btn theme-optional-button-color"
+                                    data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn theme-primary-button-color">Save</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
-<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" 
-    [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
-    <app-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
-        (closeDialog)="closePopupEmit($event)" [employeeRoles]="employeeRoles" [gender]="gender" 
-        [maritalStatus]="maritalStatus" [state]="state" [country]="country" [employeeData]="employeeData"></app-create-edit>
-</p-dialog>
+</div>
+<div *ngIf="showDialog">
+<app-create-edit *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles" [commissionType]="commissionType"></app-create-edit>
+</div>

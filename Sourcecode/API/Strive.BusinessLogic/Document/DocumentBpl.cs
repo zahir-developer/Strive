@@ -129,11 +129,11 @@ namespace Strive.BusinessLogic.Document
             }
             return _result;
         }
-        public Result UpdatePassword(long documentId, long employeeId, string password)
+        public Result UpdatePassword(Strive.BusinessEntities.Document.DocumentView lstUpdateDocument)
         {
             try
             {
-                var updatePasswordForDocId = new DocumentRal(_tenant).UpdatePassword(documentId, employeeId, password);
+                var updatePasswordForDocId = new DocumentRal(_tenant).UpdatePassword(lstUpdateDocument);
                 _resultContent.Add(updatePasswordForDocId.WithName("PasswordUpdated"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

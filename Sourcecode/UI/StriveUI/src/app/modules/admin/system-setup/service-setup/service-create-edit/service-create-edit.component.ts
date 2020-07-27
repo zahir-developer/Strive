@@ -150,7 +150,7 @@ export class ServiceCreateEditComponent implements OnInit {
       commision: this.isChecked,
       commisionType: this.isChecked== true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
-      parentServiceId: this.serviceSetupForm.value.parentName,
+      parentServiceId: this.serviceSetupForm.value.parentName ==="" ? 0 : this.serviceSetupForm.value.parentName,
       isActive: true,
       locationId: 1,
       commisionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
