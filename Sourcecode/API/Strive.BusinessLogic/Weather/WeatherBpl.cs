@@ -119,7 +119,7 @@ namespace Strive.BusinessLogic
                     var res = JsonConvert.DeserializeObject<List<WeatherData>>(result);
 
                     //Current Weather
-                    weatherInfo.Temporature = res.FirstOrDefault().Temp[0].Min.Value.ToString();
+                    weatherInfo.Temporature = ConvertToFahrenheit(res.FirstOrDefault().Temp[0].Min.Value.GetValueOrDefault(0)).ToString();
                     weatherInfo.RainPercentage = res.FirstOrDefault().PrecipitationProbability.Value.ToString();
                     weatherInfoView.CurrentWeather = weatherInfo;
 
@@ -139,6 +139,11 @@ namespace Strive.BusinessLogic
 
             return weatherInfoView;
 
+        }
+
+        public decimal ConvertToFahrenheit(decimal celsius)
+        {
+            return decimal.Round((celsius * 9/5) + 32);
         }
     }
 

@@ -17,7 +17,7 @@ export class TemperatureComponent implements OnInit {
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
-      this.temperature = data.Weather;
+      this.temperature = Math.floor(data.temporature);
       }
   });
 

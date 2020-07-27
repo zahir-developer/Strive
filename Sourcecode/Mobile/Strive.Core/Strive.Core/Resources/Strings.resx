@@ -289,5 +289,13 @@
      <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
     <comment>General</comment>
+  </data>      
+  <data name="SignUpSuccessful" xml:space="preserve">
+    <value>Sign up successful</value>
+    <comment>SignUpScreen - success</comment>
+  </data>
+  <data name="SignUpUnSuccessful" xml:space="preserve">
+    <value>Sign up failed</value>
+    <comment>SignUpScreen - unsuccessful</comment>
   </data>
 </root>

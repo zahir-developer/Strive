@@ -3,8 +3,6 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -44,10 +42,18 @@ namespace Strive.Core.ViewModels.Customer
                 customerSignUp.passwordHash = signUpPassword;
                 customerSignUp.createdDate = createdDate ;
                 
-                _userDialog.ShowLoading("Loading...", Acr.UserDialogs.MaskType.Gradient);
+                _userDialog.ShowLoading(Strings.Loading,MaskType.Gradient);
                 
-                var response = await AdminService.CustomerSignUp(customerSignUp);
-                await _navigationService.Close(this);
+                var signUpResponse = await AdminService.CustomerSignUp(customerSignUp);
+                if(signUpResponse.Status == "true")
+                {
+                    _userDialog.Toast(Strings.SignUpSuccessful);
+                    await _navigationService.Close(this);
+                }
+                else
+                {
+                    _userDialog.Toast(Strings.SignUpSuccessful);
+                }               
             }
         }
 

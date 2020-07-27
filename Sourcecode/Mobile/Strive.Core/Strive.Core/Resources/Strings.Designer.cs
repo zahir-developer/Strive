@@ -310,5 +310,17 @@ namespace Strive.Core.Resources {
                 return ResourceManager.GetString("Unknown", resourceCulture);
             }
         }
+        
+        internal static string SignUpSuccessful {
+            get {
+                return ResourceManager.GetString("SignUpSuccessful", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpUnSuccessful {
+            get {
+                return ResourceManager.GetString("SignUpUnSuccessful", resourceCulture);
+            }
+        }
     }
 }
