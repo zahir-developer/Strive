@@ -32,6 +32,7 @@ namespace Strive.BusinessEntities.Location
         public decimal Latitude { get; set; }
         public TimeSpan OpenTime { get; set; }
         public TimeSpan CloseTime { get; set; }
+        public TimeSpan WashTiming { get; set; }
         [MaxLength(100)]
         public string WeatherLocationId { get; set; }
 
