@@ -19,6 +19,7 @@ export class LocationSetupListComponent implements OnInit {
   searchById = '';
   isEdit: boolean;
   isTableEmpty: boolean;
+  selectedLocation: any;
   constructor(private locationService: LocationService, private toastr: ToastrService, private fb: FormBuilder,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -82,10 +83,22 @@ export class LocationSetupListComponent implements OnInit {
       this.isEdit = false;
       this.showDialog = true;
     } else {
-      this.headerData = 'Edit Location';
-      this.selectedData = locationDetails;
-      this.isEdit = true;
-      this.showDialog = true;
+      this.getLocationById(locationDetails);     
     }
+  }
+
+  getLocationById(data) {
+    this.locationService.getLocationById(data.LocationId).subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.selectedLocation = location.Location[0];
+        this.headerData = 'Edit Location';      
+        this.selectedData = this.selectedLocation;
+        this.isEdit = true;
+        this.showDialog = true;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
 }
