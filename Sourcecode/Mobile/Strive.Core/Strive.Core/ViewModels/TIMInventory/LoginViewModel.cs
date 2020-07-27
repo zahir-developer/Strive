@@ -85,12 +85,12 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void UserIDHintToggleCommand()
         {
-            ShowUserIdHint = !_ShowUserIdHint;
+            //ShowUserIdHint = !_ShowUserIdHint;
         }
 
         public void PasswordHintToggleCommand()
         {
-            ShowPasswordHint = !_ShowPasswordHint;
+            //ShowPasswordHint = !_ShowPasswordHint;
         }
 
         public void DoLogin()

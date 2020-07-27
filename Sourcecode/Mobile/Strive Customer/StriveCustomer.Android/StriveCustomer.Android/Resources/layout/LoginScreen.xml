@@ -62,7 +62,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
-                    android:paddingBottom="@dimen/five"
+                    android:paddingBottom="@dimen/twelve"
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"
                     android:hint="@string/password"
