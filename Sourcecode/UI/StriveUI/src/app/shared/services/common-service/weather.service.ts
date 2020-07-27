@@ -15,15 +15,17 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
   constructor(private http: HttpUtilsService) {
 
     setTimeout(() => {
-      const locationId = 1;
-      const date = moment(new Date()).format('MM-DD-YYYY');
-      this.http.get(`${UrlConfig.totalUrl.getWeather}` + locationId + '/' + date).subscribe((data: any) => {
-        this.weatherData = JSON.parse(data.resultData);
-        this.data.next(this.weatherData.WeatherPrediction);
-      });
+     this.getWeather();
     }, 1000);
   }
-
+getWeather() {
+  const locationId = 1;
+  const date = moment(new Date()).format('MM-DD-YYYY');
+  this.http.get(`${UrlConfig.totalUrl.getWeather}` + locationId + '/' + date).subscribe((data: any) => {
+    this.weatherData = JSON.parse(data.resultData);
+    this.data.next(this.weatherData.WeatherPrediction);
+  });
+}
 UpdateWeather(obj){
   return this.http.post(`${UrlConfig.totalUrl.saveWeather}`, obj);
 }

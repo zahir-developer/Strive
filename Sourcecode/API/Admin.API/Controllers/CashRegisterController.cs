@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Admin.API.Controllers
 {
-    [AllowAnonymous]
     [Route("Admin/[Controller]")]
     public class CashRegisterController : ControllerBase
     {

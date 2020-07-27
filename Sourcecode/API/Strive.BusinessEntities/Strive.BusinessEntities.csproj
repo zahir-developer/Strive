@@ -76,7 +76,7 @@
     <Compile Include="User.cs" />
     <Compile Include="Vendor\Vendor.cs" />
     <Compile Include="Vendor\VendorAddress.cs" />
-    <Compile Include="Vendor\VendorList.cs" />
+    <Compile Include="Vendor\VendorView.cs" />
     <Compile Include="Wash.cs" />
   </ItemGroup>
   <ItemGroup>
