@@ -28,9 +28,9 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        public string UserId { get; set; } = "caradmin@strive.com";
+        public string UserId { get; set; } 
 
-        public string Password { get; set; } = "pass@123";
+        public string Password { get; set; } 
 
         public string Title
         {
@@ -67,7 +67,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             bool isValid = true;
             if(!Validations.validateEmail(UserId))
             {
-                await _userDialog.AlertAsync("Invalid Email", "Alert");
+                await _userDialog.AlertAsync(Strings.ValidEmail, "Alert");
                 return !isValid;
             }
             else if (string.IsNullOrEmpty(Password))
@@ -81,6 +81,16 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void PasswordToggleCommand()
         {
             isPasswordSecure = !_isPasswordSecure;
+        }
+
+        public void UserIDHintToggleCommand()
+        {
+            ShowUserIdHint = !_ShowUserIdHint;
+        }
+
+        public void PasswordHintToggleCommand()
+        {
+            ShowPasswordHint = !_ShowPasswordHint;
         }
 
         public void DoLogin()
