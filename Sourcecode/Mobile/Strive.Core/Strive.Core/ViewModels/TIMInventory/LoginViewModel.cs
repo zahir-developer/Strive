@@ -98,6 +98,16 @@ namespace Strive.Core.ViewModels.TIMInventory
             isPasswordSecure = !_isPasswordSecure;
         }
 
+        public void UserIDHintToggleCommand()
+        {
+            //ShowUserIdHint = !_ShowUserIdHint;
+        }
+
+        public void PasswordHintToggleCommand()
+        {
+            //ShowPasswordHint = !_ShowPasswordHint;
+        }
+
         public void DoLogin()
         {
             AdminService.Login("Admin", "Admin"); 

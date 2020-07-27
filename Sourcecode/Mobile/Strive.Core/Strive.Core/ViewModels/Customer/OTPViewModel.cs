@@ -34,12 +34,20 @@ namespace Strive.Core.ViewModels.Customer
                 
             }
         }
+        public async void resendOTPCommand()
+        {
+            var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
+            if (responseResult.Status == "true")
+            {
+                _userDialog.Toast(Strings.OTPSentEmail);
+            }
+        }
 
 
 
         #endregion Commands
 
-        #region Properties
+            #region Properties
 
         public string EnterOTP
         {
