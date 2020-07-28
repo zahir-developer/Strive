@@ -50,6 +50,8 @@
     <Compile Include="CashRegister\CashRegisterView.cs" />
     <Compile Include="CashRegister\CR.cs" />
     <Compile Include="Location\LocationAddressModel.cs" />
+    <Compile Include="Product\ProductView.cs" />
+    <Compile Include="ServiceSetup\ServiceView.cs" />
     <Compile Include="Weather\Weather.cs" />
     <Compile Include="Weather\WeatherInfoView.cs" />
     <Compile Include="Weather\WeatherPrediction.cs" />
@@ -70,10 +72,9 @@
     <Compile Include="Location\Location.cs" />
     <Compile Include="Location\LocationAddress.cs" />
     <Compile Include="Location\LocationView.cs" />
-    <Compile Include="Product.cs" />
+    <Compile Include="Product\Product.cs" />
     <Compile Include="RefreshToken.cs" />
-    <Compile Include="ServiceSetup\tblCodeValue.cs" />
-    <Compile Include="ServiceSetup\tblService.cs" />
+    <Compile Include="ServiceSetup\Service.cs" />
     <Compile Include="SPEnum.cs" />
     <Compile Include="TenantSchema.cs" />
     <Compile Include="User.cs" />
