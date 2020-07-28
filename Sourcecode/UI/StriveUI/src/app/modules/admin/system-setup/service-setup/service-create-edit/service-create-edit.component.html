@@ -6,7 +6,7 @@
                 <select class="form-control" formControlName="serviceType"
                     [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
                     <option value="" selected hidden>Choose </option>
-                    <option *ngFor="let serviceType of serviceType" value="{{serviceType.id}}">
+                    <option *ngFor="let serviceType of serviceType" value="{{serviceType.CodeId}}">
                         {{serviceType.CodeValue}}</option>
                 </select>
                 <div *ngIf="submitted && f.serviceType.errors" class="invalid-feedback">

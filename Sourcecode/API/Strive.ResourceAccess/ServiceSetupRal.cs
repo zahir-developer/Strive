@@ -24,23 +24,14 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-        public List<tblService> GetServiceSetupDetails()
+        public List<ServiceView> GetServiceSetupDetails()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<tblService> lstResource = new List<tblService>();
-            var res = db.Fetch<tblService>(SPEnum.USPGETSERVICE.ToString(), dynParams);
+            var res = db.Fetch<ServiceView>(SPEnum.USPGETSERVICE.ToString(), dynParams);
             return res;
         }
 
-        public List<tblCodeValue> GetAllServiceType()
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<tblCodeValue> lstResource = new List<tblCodeValue>();
-            var res = db.Fetch<tblCodeValue>(SPEnum.USPGETALLSERVICETYPE.ToString(), dynParams);
-            return res;
-        }
-
-        public bool SaveNewServiceDetails(List<tblService> lstServiceSetup)
+        public bool SaveNewServiceDetails(List<Service> lstServiceSetup)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@tvpService", lstServiceSetup.ToDataTable().AsTableValuedParameter("tvpService"));
@@ -56,12 +47,12 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public List<tblService> GetServiceSetupById(int id)
+        public List<Service> GetServiceSetupById(int id)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<tblService> lstResource = new List<tblService>();
+            List<Service> lstResource = new List<Service>();
             dynParams.Add("@tblServiceId", id.toInt());
-            var res = db.Fetch<tblService>(SPEnum.USPGETSERVICEBYID.ToString(), dynParams);
+            var res = db.Fetch<Service>(SPEnum.USPGETSERVICEBYID.ToString(), dynParams);
             return res;
         }
     }
