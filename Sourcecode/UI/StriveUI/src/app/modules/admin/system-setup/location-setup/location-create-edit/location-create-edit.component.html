@@ -54,7 +54,12 @@
             <div class="form-group col-lg-3">
                 <label for="inputPhoneNumber">Phone Number</label>
                 <input appPhoneMask type="text" class="form-control" formControlName="phoneNumber"
-                    placeholder="(XXX) XXX-XXXX">
+                    placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid':submitted  && f.phoneNumber.errors }">
+                <div *ngIf="submitted  && f.phoneNumber.errors" class="invalid-feedback">
+                    <div *ngIf="f.phoneNumber.errors.minlength">Phone number must be at
+                        least 10 characters
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-row">

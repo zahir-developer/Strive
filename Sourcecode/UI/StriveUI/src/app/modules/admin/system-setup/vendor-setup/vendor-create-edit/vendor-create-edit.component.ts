@@ -40,7 +40,7 @@ export class VendorCreateEditComponent implements OnInit {
       zipcode: ['', [Validators.required]],
       state: ['',],
       country: ['',],
-      phoneNumber: ['',],
+      phoneNumber: ['', [Validators.minLength(14)]],
       email: ['', Validators.email],
       fax: ['',]
     });
