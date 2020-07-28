@@ -127,15 +127,11 @@ export class ServiceCreateEditComponent implements OnInit {
     if (data === true) {
       this.isChecked = true;
       this.getCtype(this.selectedService.CommisionType);
-      this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
-      this.serviceSetupForm.get('fee').setValidators([Validators.required]);
     } else {
       this.isChecked = false;
       this.ctypeLabel = 'none';
       this.serviceSetupForm.get('commissionType').reset();
       this.serviceSetupForm.get('fee').reset();
-      this.serviceSetupForm.get('commissionType').clearValidators();
-      this.serviceSetupForm.get('fee').clearValidators();
     }
   }
   submit() {
