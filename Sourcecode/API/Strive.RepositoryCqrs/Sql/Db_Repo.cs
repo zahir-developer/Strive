@@ -9,7 +9,7 @@ namespace Strive.RepositoryCqrs
 {
     public static class DbRepo
     {
-        public static bool InsertPc<T>(T tview, string PrimaryField, string cs)
+        public static bool InsertPc<T>(T tview, string PrimaryField, string cs, string sc)
         {
 
             SqlServerBootstrap.Initialize();
@@ -35,7 +35,7 @@ namespace Strive.RepositoryCqrs
                                 subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
                             }
 
-                            var insertId = (int)dbcon.Insert("[StriveCarSalon].tbl" + prp.Name, entity: model, transaction: transaction);
+                            var insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                             primeId = (!primInsert) ? insertId : primeId;
                             primInsert = true;
                         }
@@ -51,7 +51,7 @@ namespace Strive.RepositoryCqrs
             return true;
         }
 
-        public static bool UpdatePc<T>(T tview, string PrimaryField, string cs)
+        public static bool UpdatePc<T>(T tview, string PrimaryField, string cs,string sc)
         {
 
             SqlServerBootstrap.Initialize();
@@ -67,7 +67,7 @@ namespace Strive.RepositoryCqrs
                         foreach (PropertyInfo prp in type.GetProperties())
                         {
                             var model = prp.GetValue(tview, null);
-                            var id = dbcon.Update("[StriveCarSalon].tbl" + prp.Name, entity: model, transaction: transaction);
+                            var id = dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                         }
                     }
                     catch (Exception ex)

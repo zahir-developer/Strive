@@ -114,6 +114,7 @@ namespace Admin.API.Filters
             _tenant.Port = Pick("SMTP", "Port").ToString();
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress").ToString();
             _tenant.EmployeeId = employeeId;
+            _tenant.SchemaName = schemaName;
         }
     }
 }

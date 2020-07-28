@@ -29,17 +29,17 @@ namespace Strive.ResourceAccess
 
         public bool AddLocation(LocationDto location)
         {
-            return DbRepo.InsertPc(location, "LocationId", cs);
+            return DbRepo.InsertPc(location, "LocationId", cs, _tenant.SchemaName);
         }
 
         public bool SaveLocationDetails(LocationDto location)
         {
-            return DbRepo.UpdatePc(location, "LocationId", cs);
+            return DbRepo.UpdatePc(location, "LocationId", cs, _tenant.SchemaName);
         }
 
         public bool UpdateLocation(LocationDto location)
         {
-            return DbRepo.UpdatePc(location, "LocationId", cs);
+            return DbRepo.UpdatePc(location, "LocationId", cs, _tenant.SchemaName);
         }
 
         public bool DeleteLocationDetails(int id)
