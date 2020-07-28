@@ -40,6 +40,7 @@ export const UrlConfig = {
     getWeather: `Admin/Weather/GetWeatherPrediction/`,
     saveWeather:`Admin/Weather/SaveWeatherPrediction`,
     verifyOtp: `Auth/VerfiyOTP/`,
-    resetPassword: `Auth/ResetPassword`
+    resetPassword: `Auth/ResetPassword`,
+    getAllCollision: `Admin/Collision/GetAll`
   }
 };

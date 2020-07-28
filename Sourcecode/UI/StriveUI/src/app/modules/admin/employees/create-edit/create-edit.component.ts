@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
-import { threadId } from 'worker_threads';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
 @Component({
   selector: 'app-create-edit',
   templateUrl: './create-edit.component.html',
@@ -13,12 +14,13 @@ export class CreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
-  @Input() employeeRoles?: any;
+  @Input() employeeRoles?: any = [];
   @Input() gender?: any;
   @Input() maritalStatus?: any;
   @Input() state?: any;
   @Input() country?: any;
-  @Input() employeeData?: any;
+  @Input() employeeId?: any;
+  @Input() location?: any;
   documentDailog: boolean;
   documentForm: FormGroup;
   fileName: any = '';
@@ -26,89 +28,91 @@ export class CreateEditComponent implements OnInit {
   mulitselected: any;
   Status: any;
   @Input() commissionType: any;
+  @Input() actionType: string;
+  employeeData: any;
+  personalform: FormGroup;
+  emplistform: FormGroup;
+  dropdownSettings: IDropdownSettings = {};
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
     this.Status = ['Active', 'InActive'];
     this.documentDailog = false;
-    this.sampleForm = this.fb.group({
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      role: ['', Validators.required],
+    this.personalform = this.fb.group({
+      firstName: [''],
+      lastName: [''],
       gender: [''],
-      marital: [''],
-      ssn: [''],
-      dob: [''],
-      status: [''],
-      exemption: [''],
-      hireDate: [''],
-      lrtDate: [''],
-      tip: [''],
-      sick: [''],
-      vacation: [''],
-      hourly: [''],
-      salary: [''],
-      commission: [''],
-      phone: [''],
-      cell: [''],
-      email: [''],
       address: [''],
-      state: [''],
-      country: [''],
-      zipcode: ['']
+      mobile: [''],
+      immigrationStatus: [''],
+      ssn: ['']
+    });
+    this.emplistform = this.fb.group({
+      loginId: [''],
+      password: [''],
+      dateOfHire: [''],
+      hourlyRateWash: [''],
+      hourlyRateDetail: [''],
+      commission: [''],
+      status: [''],
+      tip: [''],
+      exemptions: [''],
+      roles: [''],
+      location: ['']
     });
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
     });
-    // console.log(this.selectedData);
-    console.log(this.gender, 'gender');
     this.employeRole();
-    this.setValue();
+    this.locationDropDown();
+    this.employeeDetail();
     this.getAllDocument();
     this.getDocumentById();
-    // if (this.selectedData !== undefined && this.selectedData.length !== 0) {
-    //   this.sampleForm.reset();
-    //   this.sampleForm.setValue({
-    //     firstName: this.selectedData.FirstName,
-    //     lastName: this.selectedData.LastName, role: this.selectedData.Role
-    //   });
-    // }
+  }
+
+  employeeDetail() {
+    const id = this.employeeId;
+    this.employeeService.getEmployeeDetail(id).subscribe(res => {
+      console.log(res, 'getEmployeById');
+      if (res.status === 'Success') {
+        const employees = JSON.parse(res.resultData);
+        console.log(employees, 'employeDeatil');
+        if (employees.EmployeeDetail.length > 0) {
+          this.employeeData = employees.EmployeeDetail[0];
+          this.setValue();
+        }
+      }
+    });
   }
 
   setValue() {
-    if (this.employeeData !== undefined && this.isEdit === true) {
+    if (this.employeeData !== undefined && this.actionType === 'edit') {
       console.log(this.employeeData, 'data');
       const employee = this.employeeData;
       const employeeDetail = employee.EmployeeDetail[0];
       const employeeAddress = employee.EmployeeAddress[0];
-      const employeeRole = employee.EmployeeRoles[0];
-      this.sampleForm.patchValue({
+      const employeeRole = employee.EmployeeRole !== null ? employee.EmployeeRole[0] : '';
+      this.personalform.patchValue({
         firstName: employee.FirstName ? employee.FirstName : '',
-        middleName: employee.MiddleName ? employee.MiddleName : '',
         lastName: employee.LastName ? employee.LastName : '',
-        role: employeeRole.RoleId ? employeeRole.RoleId : '',
         gender: employee.Gender ? employee.Gender : '',
-        marital: employee.MaritalStatus ? employee.MaritalStatus : '',
-        ssn: employee.SSNo ? employee.SSNo : '',
-        dob: employee.BirthDate ? employee.BirthDate : '',
-        status: employee.IsActive ? 'true' : 'false',
-        exemption: employeeDetail.Exemptions ? employeeDetail.Exemptions : '',
-        hireDate: employeeDetail.HiredDate ? employeeDetail.HiredDate : '',
-        lrtDate: employeeDetail.LRT ? employeeDetail.LRT : '',
-        tip: employeeDetail.Tip ? employeeDetail.Tip : '',
-        sick: employeeDetail.SickRate ? employeeDetail.SickRate : '',
-        vacation: employeeDetail.VacRate ? employeeDetail.VacRate : '',
-        hourly: employeeDetail.PayRate ? employeeDetail.PayRate : '',
-        salary: employeeDetail.Salary ? employeeDetail.Salary : '',
-        commission: employeeDetail.ComRate ? employeeDetail.ComRate : '',
-        phone: employeeAddress.PhoneNumber ? employeeAddress.PhoneNumber : '',
-        cell: employeeAddress.PhoneNumber2 ? employeeAddress.PhoneNumber2 : '',
-        email: employeeAddress.Email ? employeeAddress.Email : '',
         address: employeeAddress.Address1 ? employeeAddress.Address1 : '',
-        state: employeeAddress.State ? employeeAddress.State : '',
-        country: employeeAddress.Country ? employeeAddress.Country : '',
-        zipcode: employeeAddress.Zip ? employeeAddress.Zip : ''
+        mobile: employeeAddress.PhoneNumber ? employeeAddress.PhoneNumber : '',
+        immigrationStatus: employee.ImmigrationStatus ? employee.ImmigrationStatus : '',
+        ssn: employee.SSNo ? employee.SSNo : '',
+      });
+      this.emplistform.patchValue({
+        loginId: [''],
+        password: [''],
+        dateOfHire: employeeDetail.HiredDate ? employeeDetail.HiredDate : '',
+        hourlyRateWash: [''],
+        hourlyRateDetail: [''],
+        commission: employeeDetail.ComRate ? employeeDetail.ComRate : '',
+        status: employee.IsActive ? 'Active' : 'InActive',
+        tip: employeeDetail.Tip ? employeeDetail.Tip : '',
+        exemptions: employeeDetail.Exemptions ? employeeDetail.Exemptions : '',
+        roles: employeeRole.RoleId ? employeeRole.RoleId : '',
+        location: employeeDetail.LocationId ? employeeDetail.LocationId : ''
       });
     }
   }
@@ -116,15 +120,34 @@ export class CreateEditComponent implements OnInit {
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
       return {
-        label: item.CodeValue,
-        value: item.CodeId
+        item_id: item.CodeId,
+        item_text: item.CodeValue
       };
     });
     console.log(this.employeeRoles, 'employeerolesmuliti');
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: false
+    };
+  }
+
+  locationDropDown() {
+    this.location = this.location.map( item => {
+      return {
+        item_id: item.LocationId,
+        item_text: item.LocationName
+      };
+    });
   }
 
   checking() {
-    console.log(this.mulitselected, 'multi');
+    console.log(this.emplistform, 'multi');
   }
 
   submit(sampleForm) {
@@ -270,7 +293,7 @@ export class CreateEditComponent implements OnInit {
       base64Url: this.fileUploadformData
     };
     finalObj.push(uploadbj);
-    this.employeeService.uploadDocument(finalObj).subscribe( res => {
+    this.employeeService.uploadDocument(finalObj).subscribe(res => {
       console.log(res, 'uploadDcument');
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Document addedd successfully' });
@@ -283,7 +306,7 @@ export class CreateEditComponent implements OnInit {
   getAllDocument() {
     const employeeId = 1;
     const locationId = 3;
-    this.employeeService.getAllDocument(employeeId, locationId).subscribe( res => {
+    this.employeeService.getAllDocument(employeeId, locationId).subscribe(res => {
       console.log(res, 'allDocument');
     });
   }
@@ -292,7 +315,7 @@ export class CreateEditComponent implements OnInit {
     const documentId = 1;
     const employeeId = 1;
     const password = '123456789';
-    this.employeeService.getDocumentById(documentId, employeeId, password).subscribe( res => {
+    this.employeeService.getDocumentById(documentId, employeeId, password).subscribe(res => {
 
     });
   }
@@ -300,4 +323,6 @@ export class CreateEditComponent implements OnInit {
   closeDocumentPopup() {
     this.documentDailog = false;
   }
+
+
 }

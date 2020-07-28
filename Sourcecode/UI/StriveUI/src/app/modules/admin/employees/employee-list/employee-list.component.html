@@ -19,7 +19,7 @@
                         <div class="title-border p-b-10 m-b-15">
                             <h5 class="d-inline-block">Employee List</h5>
                             <button type="button" class="btn theme-primary-button-color btn-md"
-                                (click)="addEmployee()">Add New Employee</button>
+                                (click)="addEmployee('create', '')">Add New Employee</button>
                             <div class="pull-right m-t-4 pointer">
                                 <a id="Employeelisttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
                             </div>
@@ -37,6 +37,7 @@
                                         </div>
                                     </form>
                                 </div>
+                                
                                 <div class="table-responsive">
                                     <table class="table border table-hover" aria-describedby="employee-list">
                                         <thead>
@@ -58,8 +59,8 @@
                                                 <td>{{employee.FirstName}}</td>
                                                 <td> {{employee.LastName}} </td>
                                                 <td>167-2344-123</td>
-                                                <td> <a href="#"
-                                                        class="text-underline theme-primary-color font-size--9"> View
+                                                <td> <a (click)="openCollisionModal()"
+                                                        class="text-underline theme-primary-color font-size--9"> Add
                                                     </a> </td>
                                                 <td> <a href="#documentModal"
                                                         class="text-underline theme-primary-color font-size--9"
@@ -67,12 +68,12 @@
                                                 <td> <a href="#" class="text-underline theme-primary-color font-size--9"
                                                         data-toggle="modal"> View </a> </td>
                                                 <td>Active</td>
-                                                <td> <i class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
-                                                        onclick="window.location.href='ViewEdit Employee.html';"></i> <i
-                                                        class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
-                                                        onclick="window.location.href='Employee- edit doc.html';"></i>
-                                                    <i class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                                                        data-toggle="modal" href="#deleteemployeeModal"></i> </td>
+                                                <td> <em class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
+                                                        onclick="window.location.href='ViewEdit Employee.html';"></em>
+                                                    <em class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
+                                                        (click)="addEmployee('edit', employee)"></em>
+                                                    <em class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
+                                                        (click)="deleteEmployee(employee)"></em> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -152,6 +153,13 @@
         </div>
     </div>
 </div>
-<div *ngIf="showDialog">
-<app-create-edit *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles" [commissionType]="commissionType"></app-create-edit>
+<div *ngIf="showDialog && actionType === 'create'">
+    <app-create-edit *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles" [location]="location"
+        [commissionType]="commissionType" [actionType]="actionType" [employeeId]="employeeId"
+        (closeDialog)="closeDialog($event)"></app-create-edit>
+</div>
+<div *ngIf="showDialog && actionType === 'edit'">
+    <app-edit-employee *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles"
+        [commissionType]="commissionType" [actionType]="actionType" [employeeId]="employeeId"
+        (closeDialog)="closeDialog($event)"></app-edit-employee>
 </div>

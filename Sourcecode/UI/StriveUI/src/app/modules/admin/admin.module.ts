@@ -35,6 +35,10 @@ import { ProductCreateEditComponent } from './system-setup/product-setup/product
 import { VendorSetupComponent } from './system-setup/vendor-setup/vendor-setup.component';
 import { VendorCreateEditComponent } from './system-setup/vendor-setup/vendor-create-edit/vendor-create-edit.component';
 import { VendorSetupListComponent } from './system-setup/vendor-setup/vendor-setup-list/vendor-setup-list.component';
+import { EditEmployeeComponent } from './employees/edit-employee/edit-employee.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { EmployeeCollisionComponent } from './employees/employee-collision/employee-collision.component';
+import { CollisionListComponent } from './employees/collision-list/collision-list.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -42,7 +46,7 @@ import { VendorSetupListComponent } from './system-setup/vendor-setup/vendor-set
     LocationSetupComponent, LocationCreateEditComponent, LocationSetupListComponent,
     ServiceCreateEditComponent, ServiceSetupListComponent, ServiceSetupComponent, ProductSetupComponent,
     ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
-    VendorSetupListComponent, OnlynumberDirective, SetupComponent],
+    VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent, EmployeeCollisionComponent, CollisionListComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -53,7 +57,8 @@ import { VendorSetupListComponent } from './system-setup/vendor-setup/vendor-set
     TableModule,
     DialogModule,
     SharedModule,
-    MultiSelectModule
+    MultiSelectModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [RouterModule],
   providers: [

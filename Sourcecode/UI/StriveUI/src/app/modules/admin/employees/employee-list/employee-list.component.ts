@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
-
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { EmployeeCollisionComponent } from '../../employees/employee-collision/employee-collision.component';
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -20,7 +22,14 @@ export class EmployeeListComponent implements OnInit {
   country: any;
   employeeData: any;
   commissionType: any;
-  constructor(private employeeService: EmployeeService) { }
+  actionType: string;
+  employeeId: any;
+  location: any;
+  constructor(
+    private employeeService: EmployeeService,
+    private confirmationService: ConfirmationUXBDialogService,
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
     this.isTableEmpty = true;
@@ -30,6 +39,8 @@ export class EmployeeListComponent implements OnInit {
     this.getMaritalStatusDropdownValue();
     this.getCountry();
     this.getStateList();
+    this.getCommisionDropdownValue();
+    this.getLocation();
   }
   getAllEmployeeDetails() {
     this.employeeService.getEmployees().subscribe(data => {
@@ -90,6 +101,16 @@ export class EmployeeListComponent implements OnInit {
   }
 
   deleteEmployee(employeeDetail) {
+    this.confirmationService.confirm('Delete Employee', `Are you sure you want to delete` + '\t' + employeeDetail.FirstName, 'Confirm', 'Cancel')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmDelete(employeeDetail);
+        }
+      })
+      .catch(() => { });
+  }
+
+  confirmDelete(employeeDetail) {
     const id = employeeDetail.EmployeeId;
     this.employeeService.deleteEmployee(id).subscribe(res => {
       console.log(res, 'deleteEmployee');
@@ -124,7 +145,7 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getDropdownValue('MARITALSTATUS').subscribe(res => {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
-        this.commissionType = status.Codes;
+        this.maritalStatus = status.Codes;
       }
     });
   }
@@ -133,7 +154,7 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getDropdownValue('COMMISIONTYPE').subscribe(res => {
       if (res.status === 'Success') {
         const type = JSON.parse(res.resultData);
-        this.maritalStatus = type.Codes;
+        this.commissionType = type.Codes;
       }
     });
   }
@@ -156,10 +177,43 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  addEmployee() {
-    this.headerData = 'Create Employees';
-    this.isEdit = false;
-    this.showDialog = true;
+  addEmployee(mode: string, employee?: any) {
+    if (mode === 'create') {
+      this.headerData = 'Create Employees';
+      this.isEdit = false;
+      this.showDialog = true;
+      this.actionType = mode;
+    } else if (mode === 'edit') {
+      this.isEdit = true;
+      this.actionType = mode;
+      this.employeeId = employee.EmployeeId;
+      this.showDialog = true;
+      // this.employeeDetail(employee);
+    }
+
+  }
+
+  closeDialog(event) {
+    this.showDialog = event.isOpenPopup;
+  }
+
+  getLocation() {
+    this.employeeService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+        console.log(this.location, 'location');
+      }
+    });
+  }
+
+  openCollisionModal() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
   }
 
 }
