@@ -30,10 +30,10 @@ body .ui-widget {
   color:red;
   }
 
-  .modal-body {
+  /* .modal-body {
     width: 50rem;
     height: 20rem;    
-  }
+  } */
   .form-control.is-invalid, .was-validated .form-control:invalid {
     background-image: none !important;
 }
