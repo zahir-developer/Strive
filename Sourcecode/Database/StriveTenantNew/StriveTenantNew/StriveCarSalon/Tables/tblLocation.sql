@@ -12,14 +12,21 @@
     [Instagram]           VARCHAR (100)      NULL,
     [WifiDetail]          VARCHAR (20)       NULL,
     [WorkhourThreshold]   INT                NULL,
+    [StartTime]           DATETIMEOFFSET (7) NULL,
+    [EndTime]             DATETIMEOFFSET (7) NULL,
     [IsActive]            BIT                NULL,
     [IsDeleted]           BIT                NULL,
     [CreatedBy]           INT                NULL,
     [CreatedDate]         DATETIMEOFFSET (7) NULL,
     [UpdatedBy]           INT                NULL,
     [UpdatedDate]         DATETIMEOFFSET (7) NULL,
-    CONSTRAINT [PK_tblLocation] PRIMARY KEY CLUSTERED ([LocationId] ASC)
+    CONSTRAINT [PK_tblLocation] PRIMARY KEY CLUSTERED ([LocationId] ASC),
+    CONSTRAINT [FK_tblLocation_tblCodeValue] FOREIGN KEY ([LocationType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblLocation_tblCodeValue1] FOREIGN KEY ([LocationType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblLocation_tblCodeValue2] FOREIGN KEY ([LocationType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

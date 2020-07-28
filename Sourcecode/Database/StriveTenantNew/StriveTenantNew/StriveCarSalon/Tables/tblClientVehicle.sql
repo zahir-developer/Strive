@@ -3,7 +3,7 @@
     [ClientId]       INT                NULL,
     [LocationId]     INT                NULL,
     [VehicleNumber]  VARCHAR (20)       NULL,
-    [VehicleMake]    INT                NULL,
+    [VehicleMfr]     INT                NULL,
     [VehicleModel]   INT                NULL,
     [VehicleModelNo] INT                NULL,
     [VehicleYear]    VARCHAR (6)        NULL,
@@ -19,8 +19,13 @@
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblClientVehicle] PRIMARY KEY CLUSTERED ([VehicleId] ASC),
     CONSTRAINT [FK_tblClientVehicle_tblClient] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
+    CONSTRAINT [FK_tblClientVehicle_tblCodeValue] FOREIGN KEY ([VehicleMfr]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblClientVehicle_tblCodeValue1] FOREIGN KEY ([VehicleModel]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblClientVehicle_tblCodeValue2] FOREIGN KEY ([VehicleColor]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClientVehicle_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 
 
 

@@ -20,8 +20,13 @@
     [UpdatedBy]         INT                NULL,
     [UpdatedDate]       DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblLocationAddress] PRIMARY KEY CLUSTERED ([LocationAddressId] ASC),
+    CONSTRAINT [FK_tblLocationAddress_tblCodeValue] FOREIGN KEY ([City]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblLocationAddress_tblCodeValue1] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblLocationAddress_tblCodeValue2] FOREIGN KEY ([Country]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblLocationAddress_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 
 
 

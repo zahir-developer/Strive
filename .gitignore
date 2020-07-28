@@ -91,3 +91,7 @@
 /Sourcecode/API/Strive.Domain/obj/Debug
 /Sourcecode/API/Strive.Library/bin/Debug
 /Sourcecode/API/Strive.Library/obj/Debug
+/Sourcecode/Database/StriveTenantNew/StriveTenantNew/StriveTenantNew.dbmdl
+*.dll
+*.pdb
+/Sourcecode/Database/StriveTenantNew/StriveTenantNew/obj/Debug/StriveTenantNew.sqlproj.FileListAbsolute.txt

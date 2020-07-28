@@ -3,7 +3,7 @@
     [EmployeeId]    INT                NULL,
     [LocationId]    INT                NULL,
     [RoleId]        INT                NULL,
-    [ScheduledDate] DATETIMEOFFSET (7) NULL,
+    [ScheduledDate] DATE               NULL,
     [StartTime]     DATETIMEOFFSET (7) NULL,
     [EndTime]       DATETIMEOFFSET (7) NULL,
     [ScheduleType]  INT                NULL,
@@ -15,9 +15,13 @@
     [UpdatedBy]     INT                NULL,
     [UpdatedDate]   DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblSchedule] PRIMARY KEY CLUSTERED ([ScheduleId] ASC),
+    CONSTRAINT [FK_tblSchedule_tblCodeValue] FOREIGN KEY ([ScheduleType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblSchedule_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
+    CONSTRAINT [FK_tblSchedule_tblRoleMaster] FOREIGN KEY ([ScheduleId]) REFERENCES [StriveCarSalon].[tblRoleMaster] ([RoleMasterId]),
     CONSTRAINT [FK_tblSchedule_tblSchedule] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
+
+
 
 
 
