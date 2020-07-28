@@ -128,7 +128,7 @@ export class CloseoutRegisterComponent implements OnInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
-            cardAmount: this.closeOutDetails[0].cashRegisterOther.CreditCard1
+            cardAmount: this.closeOutDetails[0].CashRegisterOther.CreditCard1
           });
         }
       }
@@ -137,7 +137,7 @@ export class CloseoutRegisterComponent implements OnInit {
 
   submit() {
     const coin = {
-      cashRegCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoin.CashRegisterCoinId : 0,
+      cashRegisterCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoin.CashRegisterCoinId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
       nickels: this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes,
@@ -146,7 +146,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const bill = {
-      cashRegBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBill.CashRegisterBillId : 0,
+      cashRegisterBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBill.CashRegisterBillId : 0,
       ones: this.cashRegisterBillForm.value.billOnes,
       fives: this.cashRegisterBillForm.value.billFives,
       tens: this.cashRegisterBillForm.value.billTens,
@@ -156,7 +156,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const roll = {
-      cashRegRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRoll.CashRegisterRollId : 0,
+      cashRegisterRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRoll.CashRegisterRollId : 0,
       pennies: this.cashRegisterRollForm.value.pennieRolls,
       nickels: this.cashRegisterRollForm.value.nickelRolls,
       dimes: this.cashRegisterRollForm.value.dimeRolls,
@@ -165,7 +165,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dateEntered: moment(new Date()).format('YYYY-MM-DD')
     }
     const other = {
-      cashRegOtherId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOther.CashRegisterOtherId : 0,
+      cashRegisterOtherId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOther.CashRegisterOtherId : 0,
       creditCard1: this.closeoutRegisterForm.value.cardAmount,
       creditCard2: 0,
       creditCard3: 0,
@@ -196,7 +196,7 @@ export class CloseoutRegisterComponent implements OnInit {
       } else {
         this.toastr.error('Weather Communication Error', 'Error!');
       }
-    });    
+    });
   }
 
   cancel() {

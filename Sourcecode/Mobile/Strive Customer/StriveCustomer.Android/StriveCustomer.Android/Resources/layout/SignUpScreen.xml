@@ -32,17 +32,18 @@
             android:fontFamily="@font/opensans_bold"/>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/fifty"
                 android:layout_marginTop="@dimen/twenty"
                 android:layout_marginLeft="@dimen/twenty"
                 android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/edittext"
                 app:hintEnabled="true">
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/fifty"
-                    android:translationY="@dimen/four"
+                    android:layout_height="@dimen/forty"
+                    android:paddingBottom="@dimen/ten"
                     android:inputType="phone"
-                    android:textSize="@dimen/fourteen"
+                    android:textSize="@dimen/textSixteen"
                     android:background="@drawable/edittext"
                     android:fontFamily="@font/opensans_regular"
                     android:hint="@string/mobile_number"
@@ -51,85 +52,89 @@
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five"
+                android:layout_height="@dimen/fifty"
+                android:layout_marginTop="@dimen/ten"
                 android:layout_marginLeft="@dimen/twenty"
                 android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/edittext"
                 app:hintEnabled="true">
                 <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty"
-                        android:translationY="@dimen/four"
-                        android:hint="@string/email_Id"
-                        android:textSize="@dimen/fourteen"
-                        android:background="@drawable/edittext"
-                        android:fontFamily="@font/opensans_regular"
-                        android:textColorHint = "@color/defaultHintColor"
-                        android:inputType="textEmailAddress"
-                        android:id="@+id/signUpEmail" /> 
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty"
+                    android:paddingBottom="@dimen/ten"
+                    android:hint="@string/email_Id"
+                    android:textSize="@dimen/textSixteen"
+                    android:background="@drawable/edittext"
+                    android:fontFamily="@font/opensans_regular"
+                    android:textColorHint = "@color/defaultHintColor"
+                    android:inputType="textEmailAddress"
+                    android:id="@+id/signUpEmail" /> 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five"
+                android:layout_height="@dimen/fifty"
+                android:layout_marginTop="@dimen/ten"
                 android:layout_marginLeft="@dimen/twenty"
                 android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/edittext"
                 app:hintEnabled="true">
                 <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty"
-                        android:translationY="@dimen/four"  
-                        android:hint="@string/Name"
-                        android:textSize="@dimen/fourteen"
-                        android:background="@drawable/edittext"   
-                        android:fontFamily="@font/opensans_regular"
-                        android:textColorHint = "@color/defaultHintColor"
-                        android:inputType="textPersonName"
-                        android:id="@+id/signUpName" /> 
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty"
+                    android:paddingBottom="@dimen/ten"
+                    android:hint="@string/Name"
+                    android:textSize="@dimen/textSixteen"
+                    android:background="@drawable/edittext"   
+                    android:fontFamily="@font/opensans_regular"
+                    android:textColorHint = "@color/defaultHintColor"
+                    android:inputType="textPersonName"
+                    android:id="@+id/signUpName" /> 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five"
+                android:layout_height="@dimen/fifty"
+                android:layout_marginTop="@dimen/ten"
                 android:layout_marginLeft="@dimen/twenty"
                 android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/edittext"
                 app:hintEnabled="true">
                 <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty"
-                        android:translationY="@dimen/four"    
-                        android:hint="@string/password"
-                        android:textSize="@dimen/fourteen"
-                        android:background="@drawable/edittext"
-                        android:fontFamily="@font/opensans_regular"
-                        android:textColorHint = "@color/defaultHintColor"
-                        android:inputType="textPassword"
-                        android:id="@+id/signUpPassword" /> 
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty"
+                    android:paddingBottom="@dimen/ten"    
+                    android:hint="@string/password"
+                    android:textSize="@dimen/textSixteen"
+                    android:background="@drawable/edittext"
+                    android:fontFamily="@font/opensans_regular"
+                    android:textColorHint = "@color/defaultHintColor"
+                    android:inputType="textPassword"
+                    android:id="@+id/signUpPassword" /> 
             </android.support.design.widget.TextInputLayout> 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five"
+                android:layout_height="@dimen/fifty"
+                android:layout_marginTop="@dimen/ten"
                 android:layout_marginLeft="@dimen/twenty"
                 android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/edittext"
                 app:hintEnabled="true">
                 <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/fifty"
-                        android:translationY="@dimen/four"      
-                        android:hint="@string/confirm_password"
-                        android:textSize="@dimen/fourteen"
-                        android:background="@drawable/edittext"
-                        android:fontFamily="@font/opensans_regular"
-                        android:textColorHint = "@color/defaultHintColor"                
-                        android:inputType="textPassword"
-                        android:id="@+id/signUpConfirmPassword" /> 
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty"
+                    android:paddingBottom="@dimen/ten"      
+                    android:hint="@string/confirm_password"
+                    android:textSize="@dimen/textSixteen"
+                    android:background="@drawable/edittext"
+                    android:fontFamily="@font/opensans_regular"
+                    android:textColorHint = "@color/defaultHintColor"                
+                    android:inputType="textPassword"
+                    android:id="@+id/signUpConfirmPassword" /> 
             </android.support.design.widget.TextInputLayout> 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/five">
+        android:layout_marginTop="@dimen/ten">
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"

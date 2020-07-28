@@ -36,6 +36,20 @@ namespace Strive.BusinessLogic.Location
             }
             return _result;
         }
+        public Result GetAllLocationAddress()
+        {
+            try
+            {
+                var lstLocation = new LocationRal(_tenant).GetAllLocationAddress();
+                _resultContent.Add(lstLocation.WithName("LocationAddress"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
 
         public Result SaveLocationDetails(LocationView lstLocation)
         {

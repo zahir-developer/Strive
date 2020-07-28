@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Strive.Core.Resources;
 using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
 
@@ -24,7 +25,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             get
             {
-                return "Welcome Back " + Name;
+                return Strings.WelcomeBack + Name + "!";
             }
             set { }
         }
@@ -36,7 +37,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 var EmployeeDetail = EmployeeData.EmployeeDetails;
                 Name = EmployeeDetail.FirstName;
                 Role = EmployeeData.CurrentRole;
-                CurrentDate = GetTodayDate();
+                CurrentDate = GeneralUtils.GetTodayDateString();
                 ClockInTime = GetClockInTimeString();
                 ClockOutTime = GetClockOutTimeString();
                 TotalHours = GetTotalHours();
@@ -47,12 +48,6 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             await _navigationService.Close(this);
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "boo!"));
-        }
-
-        string GetTodayDate()
-        {
-            var Date = DateTime.Now;
-            return Date.Day + "/" + Date.Month.ToString("D2") + "/" + Date.Year;
         }
 
         string GetClockOutTimeString()

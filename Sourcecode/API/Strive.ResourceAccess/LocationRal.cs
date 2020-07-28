@@ -26,6 +26,13 @@ namespace Strive.ResourceAccess
             var res = _db.FetchRelation1<LocationView,LocationAddress>(SPEnum.USPGETLOCATION.ToString(), dynParams);
             return res;
         }
+        public List<LocationAddressModel> GetAllLocationAddress()
+        {
+            List<LocationAddressModel> lam = new List<LocationAddressModel>();
+            var allAddress = _db.GetAll<LocationAddressModel>();
+            lam.AddRange(allAddress);
+            return lam;
+        }
 
         public bool SaveLocationDetails(LocationView location)
         {
@@ -83,6 +90,20 @@ namespace Strive.ResourceAccess
                     successCount++;
             }
             return successCount == lstLocation.Count;
+        }
+        public LocationAddressModel GetLocationAddressDetails(int locationId)
+        {
+
+            var result = new LocationAddressModel();
+            var allAddress = _db.GetAll<LocationAddressModel>();
+
+            var locationAddress = allAddress.Where(s => s.RelationshipId == locationId).FirstOrDefault();
+
+            result.Latitude = locationAddress.Latitude;
+            result.Longitude = locationAddress.Longitude;
+            result.WeatherLocationId = locationAddress.WeatherLocationId;
+
+            return result;
         }
     }
 }

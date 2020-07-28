@@ -21,7 +21,8 @@ namespace Strive.Core.ViewModels.Customer
             {
                _userDialog.ShowLoading(Strings.Loading,MaskType.Gradient);
                var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
-
+                if (responseResult == null)
+                    return;
                 if (responseResult.Status == "true")
                 {
                     CustomerOTPInfo.resetEmail = resetEmail;

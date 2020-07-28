@@ -29,18 +29,11 @@ export class ServiceCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.Status = ["Active", "InActive"];
-    this.CommissionType = ["Percentage", "Flat Fee"];
     this.formInitialize();
     this.ctypeLabel = 'none';
-    this.getAllServiceType();
     this.getCommissionType();
-    this.getParentType();
     this.isChecked = false;
     this.submitted = false;
-    if (this.isEdit === true) {
-      this.serviceSetupForm.reset();
-      this.getServiceById();
-    }
   }
 
   formInitialize() {
@@ -72,7 +65,7 @@ export class ServiceCreateEditComponent implements OnInit {
           cost: this.selectedService.Cost,
           commission: this.selectedService.Commision,
           commissionType: this.selectedService.CommisionType,
-          fee: this.selectedService.CommisionCost,
+          fee: this.selectedService.CommissionCost,
           upcharge: this.selectedService.Upcharges,
           parentName: this.selectedService.ParentServiceId,
           status: this.selectedData.IsActive ? this.Status[0] : this.Status[1]
@@ -88,7 +81,8 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getCode.getCodeByCategory("COMMISIONTYPE").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
-        this.CommissionType = cType.Codes;        
+        this.CommissionType = cType.Codes;
+        this.getParentType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -100,6 +94,7 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.parent = serviceDetails.ServiceSetup;
+        this.getAllServiceType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -107,13 +102,20 @@ export class ServiceCreateEditComponent implements OnInit {
   }
 
   getCtype(data) {
-    this.ctypeLabel = this.CommissionType.filter(item => item.CodeId === Number(data))[0].CodeValue;
+    const label = this.CommissionType.filter(item => item.CodeId === Number(data));
+    if (label.length !== 0) {
+      this.ctypeLabel = label[0].CodeValue;
+    }
   }
   getAllServiceType() {
     this.serviceSetup.getServiceType().subscribe(data => {
       if (data.status === "Success") {
         const sType = JSON.parse(data.resultData);
         this.serviceType = sType.ServiceType;
+        if (this.isEdit === true) {
+          this.serviceSetupForm.reset();
+          this.getServiceById();
+        }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -124,15 +126,12 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm.value.commission = data;
     if (data === true) {
       this.isChecked = true;
-      this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
-      this.serviceSetupForm.get('fee').setValidators([Validators.required]);
+      this.getCtype(this.selectedService.CommisionType);
     } else {
       this.isChecked = false;
       this.ctypeLabel = 'none';
       this.serviceSetupForm.get('commissionType').reset();
       this.serviceSetupForm.get('fee').reset();
-      this.serviceSetupForm.get('commissionType').clearValidators();
-      this.serviceSetupForm.get('fee').clearValidators();
     }
   }
   submit() {
@@ -148,12 +147,12 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
       commision: this.isChecked,
-      commisionType: this.isChecked== true ? this.serviceSetupForm.value.commissionType : 0,
+      commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
-      parentServiceId: this.serviceSetupForm.value.parentName,
+      parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
       isActive: true,
       locationId: 1,
-      commisionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
+      commissionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
       dateEntered: moment(this.today).format('YYYY-MM-DD')
     };
     sourceObj.push(formObj);

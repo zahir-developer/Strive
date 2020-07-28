@@ -21,11 +21,11 @@ namespace Strive.Core.ViewModels.Customer
         {
             if(string.Equals(NewPassword,ConfirmPassword))
             {
-                 _userDialog.ShowLoading("Loading...",MaskType.Gradient);
+                 _userDialog.ShowLoading(Strings.Loading,MaskType.Gradient);
                  var resetPasswordResponse = await AdminService.CustomerConfirmPassword(new CustomerResetPassword(SentOTP,ConfirmPassword,UserId));
                  if(resetPasswordResponse.Status == "true")
                  {
-                    _userDialog.Toast("Password reset successful");
+
                     await _navigationService.Close(this);
                  }
             }

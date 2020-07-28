@@ -13,7 +13,8 @@
             <div class="setup-content" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No records
                 Found</span></div>
             <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
-              <p-table [value]="vendorSetupDetails">
+              <p-table [value]="vendorSetupDetails" class="table table-responsive-xl table-striped table-hover"
+                [paginator]="true" [rows]="5">
                 <ng-template pTemplate="header">
                   <tr>
                     <th>Name</th>

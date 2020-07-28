@@ -26,4 +26,10 @@
   <dimen name="Strive_Logo_Width">320dp</dimen>
   <dimen name="Strive_Logo_Height">70dp</dimen>
 
+  <!--Text dimensions-->
+  <dimen name="textFourteen">14sp</dimen>
+  <dimen name="textFifteen">15sp</dimen>
+  <dimen name="textSixteen">16sp</dimen>
+  <dimen name="textTwenty">20sp</dimen>
+
 </resources> 

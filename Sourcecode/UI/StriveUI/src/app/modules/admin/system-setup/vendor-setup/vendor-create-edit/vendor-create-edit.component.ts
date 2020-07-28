@@ -19,7 +19,6 @@ export class VendorCreateEditComponent implements OnInit {
   @Input() isEdit?: any;
   submitted: boolean;
   address: any;
-  selectedVendor: any;
   selectedStateId: any;
   selectedCountryId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vendorService: VendorService) { }
@@ -47,27 +46,20 @@ export class VendorCreateEditComponent implements OnInit {
     });
   }
   getVendorById() {
-    this.vendorService.getVendorById(this.selectedData.VendorId).subscribe(data => {
-      if (data.status === 'Success') {
-        const vendor = JSON.parse(data.resultData);
-        this.selectedVendor = vendor.VendorDetail[0];
-        const vendorAddress = this.selectedVendor.VendorAddress[0];
-        this.selectedStateId = vendorAddress.State;
-        // this.selectedCountryId = vendorAddress.Country;
-        this.vendorSetupForm.patchValue({
-          vin: this.selectedVendor.VIN,
-          vendorAlias: this.selectedVendor.VendorAlias,
-          name: this.selectedVendor.VendorName,
-          supplierAddress: this.selectedVendor.VendorAddress[0].Address1,
-          zipcode: this.selectedVendor.VendorAddress[0].Zip,
-          state: this.selectedVendor.VendorAddress[0].State,
-          phoneNumber: this.selectedVendor.VendorAddress[0].PhoneNumber,
-          email: this.selectedVendor.VendorAddress[0].Email,
-          fax: this.selectedVendor.VendorAddress[0].Fax
-        });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
+    const vendorAddress = this.selectedData.VendorAddress[0];
+    this.selectedStateId = vendorAddress.State;
+    this.State = this.selectedStateId;
+    this.selectedCountryId = vendorAddress.Country;
+    this.Country = this.selectedCountryId;
+    this.vendorSetupForm.patchValue({
+      vin: this.selectedData.VIN,
+      vendorAlias: this.selectedData.VendorAlias,
+      name: this.selectedData.VendorName,
+      supplierAddress: this.selectedData.VendorAddress[0].Address1,
+      zipcode: this.selectedData.VendorAddress[0].Zip,
+      phoneNumber: this.selectedData.VendorAddress[0].PhoneNumber,
+      email: this.selectedData.VendorAddress[0].Email,
+      fax: this.selectedData.VendorAddress[0].Fax
     });
   }
 
@@ -81,22 +73,23 @@ export class VendorCreateEditComponent implements OnInit {
       return;
     }
     this.address = [{
-      relationshipId: this.isEdit ? this.selectedVendor.VendorId : 0,
-      vendorAddressId: this.isEdit ? this.selectedVendor.VendorAddress[0].VendorAddressId : 0,
+      relationshipId: this.isEdit ? this.selectedData.VendorId : 0,
+      vendorAddressId: this.isEdit ? this.selectedData.VendorAddress[0].VendorAddressId : 0,
       address1: this.vendorSetupForm.value.supplierAddress,
       address2: "",
       phoneNumber2: "",
       isActive: true,
       zip: this.vendorSetupForm.value.zipcode,
-      state: this.State,
+      state: this.Country,
       city: 1,
+      country: this.State,
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
       email: this.vendorSetupForm.value.email,
       fax: this.vendorSetupForm.value.fax
     }]
     const sourceObj = [];
     const formObj = {
-      vendorId: this.isEdit ? this.selectedVendor.VendorId : 0,
+      vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       vin: this.vendorSetupForm.value.vin,
       vendorAlias: this.vendorSetupForm.value.vendorAlias,
       vendorName: this.vendorSetupForm.value.name,
@@ -104,7 +97,7 @@ export class VendorCreateEditComponent implements OnInit {
       vendorAddress: this.address,
     };
     sourceObj.push(formObj);
-    this.vendorService.updateVendor(sourceObj).subscribe(data => {
+    this.vendorService.updateVendor(formObj).subscribe(data => {
       if (data.status === 'Success') {
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
