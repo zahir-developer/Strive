@@ -14,43 +14,68 @@ namespace Strive.RepositoryCqrs
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
-            //return true;
-            ////RepoDb.SqlServerInitializer();
+
             using (var dbcon = new SqlConnection(cs).EnsureOpen())
             {
 
                 Type type = typeof(T);
                 int primeId = 0;
-                foreach (PropertyInfo prp in type.GetProperties())
+                bool primInsert = false;
+                using (var transaction = dbcon.BeginTransaction())
                 {
-                    var model = prp.GetValue(tview, null);
-
-
-                    if (primeId > 0)
+                    try
                     {
-                        //bool isList = false;
-                        Type subModelType = model.GetType();
+                        foreach (PropertyInfo prp in type.GetProperties())
+                        {
+                            var model = prp.GetValue(tview, null);
 
-                        //if (subModelType.FullName.Contains("System.Collections.Generic.List"))
-                        //{
-                        //    isList = true;
-                        //    tp = prp.PropertyType.GenericTypeArguments.First();
-                        //}
-                        //else
-                        //{
-                        //    tp = prp.PropertyType;
-                        //}
+                            if (primInsert)
+                            {
+                                Type subModelType = model.GetType();
+                                subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
+                            }
 
-
-
-                        //var subModel = prp.GetValue(tview, null);
-
-                        subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
-                        //var jString1 = JsonConvert.SerializeObject(model);
-                        //var components = (IList)JsonConvert.DeserializeObject(jString1, typeof(List<>).MakeGenericType(new[] { subModelType }));
-                        //(IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(prp.GetValue(tview, null)), typeof(List<>).MakeGenericType(new[] { type }));
+                            var insertId = (int)dbcon.Insert("[StriveCarSalon].tbl" + prp.Name, entity: model, transaction: transaction);
+                            primeId = (!primInsert) ? insertId : primeId;
+                            primInsert = true;
+                        }
                     }
-                    var id = dbcon.Insert("[StriveCarSalon].tbl" + prp.Name, entity: model);
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                    transaction.Commit();
+                }
+            }
+            return true;
+        }
+
+        public static bool UpdatePc<T>(T tview, string PrimaryField, string cs)
+        {
+
+            SqlServerBootstrap.Initialize();
+            DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
+
+            using (var dbcon = new SqlConnection(cs).EnsureOpen())
+            {
+                Type type = typeof(T);
+                using (var transaction = dbcon.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (PropertyInfo prp in type.GetProperties())
+                        {
+                            var model = prp.GetValue(tview, null);
+                            var id = dbcon.Update("[StriveCarSalon].tbl" + prp.Name, entity: model, transaction: transaction);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                    transaction.Commit();
                 }
             }
             return true;

@@ -3,6 +3,7 @@ using Dapper;
 //using FastDeepCloner;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -31,6 +32,12 @@ namespace Strive.Repository
             Expression nameProperty = Expression.Property(argParam, fkField);
             Expression exp = Expression.Equal(nameProperty, Expression.Constant(id));
             return Expression.Lambda<Func<T, bool>>(exp, argParam);
+        }
+
+        public void Save(string sp, DynamicParameters dynParams)
+        {
+            CommandDefinition cmd = new CommandDefinition(sp, dynParams, commandType: CommandType.StoredProcedure);
+            Save(cmd);
         }
 
         //dynamic expando = new ExpandoObject();

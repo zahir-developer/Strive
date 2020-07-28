@@ -13,9 +13,8 @@ namespace Strive.BusinessLogic.Location
 {
     public class LocationBpl : Strivebase, ILocationBpl
     {
-        public LocationBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
-        {
-        }
+        public LocationBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
         public Result GetLocationDetails()
         {
             try

@@ -31,14 +31,14 @@ namespace Strive.ResourceAccess
 
         public EmployeeDetailDto GetEmployeeById(int employeeId)
         {
-            dynParams.Add("EmployeeId", employeeId);
-            var lstResult = db.FetchMultiResult<EmployeeDetailDto>(SPEnum.USPGETEMPLOYEEBYID.ToString(), dynParams);
+            _prm.Add("EmployeeId", employeeId);
+            var lstResult = db.FetchMultiResult<EmployeeDetailDto>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
             return lstResult;
         }
 
         public List<EmployeeDto> GetEmployeeList()
         {
-            return db.Fetch<EmployeeDto>(SPEnum.USPGETEMPLOYEELIST.ToString(), dynParams);
+            return db.Fetch<EmployeeDto>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
         }
 
         public List<Code> GetAllEmployeeRoles()

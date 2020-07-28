@@ -18,69 +18,34 @@ namespace Strive.ResourceAccess
 
         public List<LocationDto> GetLocationDetails()
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<LocationDto> lstResource = new List<LocationDto>();
-            var res = db.FetchRelation1<LocationDto, LocationAddress>(SPEnum.USPGETLOCATION.ToString(), dynParams);
-            return res;
-        }
-
-        public bool SaveLocationDetails(LocationDto location)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tvpLocation", location.TableName("tvpLocation"));
-            dynParams.Add("@tvpLocationAddress", location.LocationAddress.TableName("tvpLocationAddress"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOCATION.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-            return true;
-        }
-        public bool DeleteLocationDetails(int id)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tblLocationId", id.toInt());
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETELOCATION.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-            return true;
+            return db.FetchRelation1<LocationDto, LocationAddress>(SPEnum.USPGETLOCATION.ToString(), _prm);
         }
 
         public List<LocationDto> GetLocationById(int id)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tblLocationId", id.toInt());
-            List<LocationDto> lstResource = new List<LocationDto>();
-            var res = db.FetchRelation1<LocationDto, LocationAddress>(SPEnum.USPGETLOCATIONBYID.ToString(), dynParams);
-            return res;
+            _prm.Add("@tblLocationId", id.toInt());
+            return db.FetchRelation1<LocationDto, LocationAddress>(SPEnum.USPGETLOCATIONBYID.ToString(), _prm);
         }
 
         public bool AddLocation(LocationDto location)
         {
-            bool addResult = DbRepo.InsertPc<LocationDto>(location,"LocationId",cs);
-            return true;
+            return DbRepo.InsertPc(location, "LocationId", cs);
         }
 
-        public bool AddLocation(List<LocationDto> lstLocation)
+        public bool SaveLocationDetails(LocationDto location)
         {
-            int successCount = 0;
-            foreach (var location in lstLocation)
-            {
-                int locationId = Convert.ToInt32(db.Insert<LocationDto>(location));
-                LocationAddress locAddress = location.LocationAddress;
-                locAddress.LocationId = locationId;
-                long addressId = db.Insert<LocationAddress>(locAddress);
-                if (locationId > 0 && addressId > 0)
-                    successCount++;
-            }
-            return successCount == lstLocation.Count;
+            return DbRepo.UpdatePc(location, "LocationId", cs);
         }
 
         public bool UpdateLocation(LocationDto location)
         {
-            int successCount = 0;
-                bool locResult = db.Update<LocationDto>(location);
-                LocationAddress locAddress = location.LocationAddress;
-                locAddress.LocationId = location.Location.LocationId;
-                var addResult = db.Update<LocationAddress>(locAddress);
-                if (locResult && addResult)
-                    successCount++;
+            return DbRepo.UpdatePc(location, "LocationId", cs);
+        }
+
+        public bool DeleteLocationDetails(int id)
+        {
+            _prm.Add("@tblLocationId", id.toInt());
+            db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
             return true;
         }
     }
