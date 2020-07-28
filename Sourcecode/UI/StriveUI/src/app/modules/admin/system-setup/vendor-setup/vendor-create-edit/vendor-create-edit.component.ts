@@ -26,6 +26,7 @@ export class VendorCreateEditComponent implements OnInit {
   ngOnInit() {
     this.formInitialize();
     this.submitted = false;
+    this.Country = 38;
     if (this.isEdit === true) {
       this.vendorSetupForm.reset();
       this.getVendorById();

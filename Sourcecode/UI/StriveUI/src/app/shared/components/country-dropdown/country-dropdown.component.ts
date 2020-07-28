@@ -37,7 +37,6 @@ export class CountryDropdownComponent implements OnInit {
     if (this.selectedCountryId !== undefined) {
       this.country = this.selectedCountryId;
     }
-    
   }
 
 }

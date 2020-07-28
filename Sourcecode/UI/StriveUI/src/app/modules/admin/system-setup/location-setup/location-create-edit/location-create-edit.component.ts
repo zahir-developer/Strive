@@ -27,6 +27,7 @@ export class LocationCreateEditComponent implements OnInit {
   ngOnInit() {
     this.formInitialize();
     this.submitted = false;
+    this.Country = 38;
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
       this.getLocationById();
@@ -42,7 +43,7 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['',],
+      email: ['',Validators.email],
       franchise: ['',],
       workHourThreshold: ['',]
     });
