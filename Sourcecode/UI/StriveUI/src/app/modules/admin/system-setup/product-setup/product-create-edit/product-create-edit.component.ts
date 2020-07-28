@@ -83,7 +83,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.Vendor = vendor.Vendor
+        this.Vendor = vendor.Vendor.filter(item => item.IsActive === true);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -94,7 +94,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.locationService.getLocation().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        this.locationName = location.Location;
+        this.locationName = location.Location.filter(item => item.IsActive === true);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }

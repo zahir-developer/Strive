@@ -109,10 +109,10 @@ export class ServiceCreateEditComponent implements OnInit {
     }
   }
   getAllServiceType() {
-    this.serviceSetup.getServiceType().subscribe(data => {
+    this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
       if (data.status === "Success") {
-        const sType = JSON.parse(data.resultData);
-        this.serviceType = sType.ServiceType;
+        const cType = JSON.parse(data.resultData);
+        this.serviceType = cType.Codes;
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
@@ -155,7 +155,7 @@ export class ServiceCreateEditComponent implements OnInit {
       commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
-      isActive: true,
+      isActive: this.serviceSetupForm.value.status =="Active" ? true : false,
       locationId: 1,
       commissionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
       dateEntered: moment(this.today).format('YYYY-MM-DD')

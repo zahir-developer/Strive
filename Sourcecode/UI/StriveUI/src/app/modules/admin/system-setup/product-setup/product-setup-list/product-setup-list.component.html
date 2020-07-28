@@ -4,7 +4,7 @@
         <div class="card m-t-10 m-b-10">
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="title-border p-b-10 m-b-15">
+                    <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Product List</h5>&nbsp;
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
                             (click)="add('add',[])">Add
@@ -22,6 +22,7 @@
                                         <th>Product Type</th>
                                         <th>Product Name</th>
                                         <th>Cost</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </ng-template>
@@ -30,6 +31,7 @@
                                         <td>{{productSetup.ProductType}}</td>
                                         <td>{{productSetup.ProductName}}</td>
                                         <td>{{productSetup.Cost | currency}}</td>
+                                        <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                         <td>
                                             <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                 style="color:green" pTooltip="edit" tooltipPosition="bottom"
