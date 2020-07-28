@@ -7,8 +7,7 @@ namespace Strive.BusinessLogic
     public interface IServiceSetupBpl
     {
         Result GetServiceSetupDetails();
-        Result GetAllServiceType();
-        Result SaveNewServiceDetails(List<tblService> lstServiceSetup);
+        Result SaveNewServiceDetails(List<Service> lstServiceSetup);
         Result DeleteServiceById(int id);
         Result GetServiceSetupById(int id);
     }

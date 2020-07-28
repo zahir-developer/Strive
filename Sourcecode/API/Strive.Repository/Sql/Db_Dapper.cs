@@ -232,11 +232,11 @@ namespace Strive.Repository
 
         public List<T> Fetch<T>(string spName, DynamicParameters dynParam)
         {
-            List<T> fetchlist;
+            List<T> fetchlist = new List<T>();
             try
             {
-                fetchlist = (List<T>)dbcon.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
-
+                var list = dbcon.Query<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
+                fetchlist = (List<T>)list;
             }
             catch (Exception ex)
             {
