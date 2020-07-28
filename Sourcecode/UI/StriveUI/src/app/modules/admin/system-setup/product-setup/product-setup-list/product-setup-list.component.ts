@@ -26,7 +26,7 @@ export class ProductSetupListComponent implements OnInit {
     this.productService.getProduct().subscribe(data => {
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
-        this.productSetupDetails = product.Product.filter(item => item.IsActive === true);
+        this.productSetupDetails = product.Product;
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
