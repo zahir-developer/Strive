@@ -28,9 +28,9 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveLocation([FromBody]  List<LocationView> lstLocation)
+        public Result SaveLocation([FromBody]  LocationDto location)
         {
-            return _locationBpl.SaveLocationDetails(lstLocation.FirstOrDefault());
+            return _locationBpl.SaveLocationDetails(location);
         }
         [HttpDelete]
         [Route("{id}")]
@@ -47,16 +47,16 @@ namespace Admin.API.Controllers
         }
         [HttpPost]
         [Route("Add")]
-        public Result AddLocation([FromBody] List<LocationView> lstLocation)
+        public Result AddLocation([FromBody] LocationDto location)
         {
-            return _locationBpl.AddLocation(lstLocation);
+            return _locationBpl.AddLocation(location);
         }
 
         [HttpPost]
         [Route("Update")]
-        public Result UpdateLocation([FromBody] List<LocationView> lstLocation)
+        public Result UpdateLocation([FromBody] LocationDto location)
         {
-            return _locationBpl.UpdateLocation(lstLocation);
+            return _locationBpl.UpdateLocation(location);
         }
     }
 }

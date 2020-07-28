@@ -31,14 +31,14 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result SaveLocationDetails(LocationView lstLocation)
+        public Result SaveLocationDetails(LocationDto location)
         {
             try
             {
                 CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-                var lstGeocode = commonBpl.GetGeocode(lstLocation.LocationAddress.FirstOrDefault());
+                var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 
-                bool blnStatus = new LocationRal(_tenant).SaveLocationDetails(lstLocation);
+                bool blnStatus = new LocationRal(_tenant).SaveLocationDetails(location);
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -78,11 +78,11 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result AddLocation(List<LocationView> lstLocation)
+        public Result AddLocation(LocationDto location)
         {
             try
             {
-                bool blnStatus = new LocationRal(_tenant).AddLocation(lstLocation);
+                bool blnStatus = new LocationRal(_tenant).AddLocation(location);
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -93,11 +93,11 @@ namespace Strive.BusinessLogic.Location
             return _result;
         }
 
-        public Result UpdateLocation(List<LocationView> lstLocation)
+        public Result UpdateLocation(LocationDto location)
         {
             try
             {
-                bool blnStatus = new LocationRal(_tenant).UpdateLocation(lstLocation);
+                bool blnStatus = new LocationRal(_tenant).UpdateLocation(location);
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

@@ -5,8 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Slapper;
-using Newtonsoft.Json;
 using System.Collections;
+using Newtonsoft.Json;
 
 namespace Strive.Repository
 {

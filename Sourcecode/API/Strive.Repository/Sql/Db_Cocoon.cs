@@ -16,6 +16,15 @@ namespace Strive.Repository
             return new CocoonORM(dbcon.ConnectionString).GetList<T>(where: Exp<T>(id, fkField)).ToList();
         }
 
+        public List<T> DoSearch<T>(string searchTerm)
+        {
+            return null;
+            //return new CocoonORM(dbcon.ConnectionString).GetList<T>(where: Exp<T>(id, fkField)).ToList();
+        }
+
+
+
+
         private static Expression<Func<T, bool>> Exp<T>(int id, string fkField)
         {
             ParameterExpression argParam = Expression.Parameter(typeof(T), "s");

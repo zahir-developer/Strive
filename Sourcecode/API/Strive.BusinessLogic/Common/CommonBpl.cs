@@ -19,6 +19,7 @@ using Strive.BusinessEntities;
 using System.IO;
 using System.Collections.Generic;
 using MimeKit.Text;
+using Strive.BusinessEntities.Model;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -26,8 +27,13 @@ namespace Strive.BusinessLogic.Common
     {
         private static Random random;
 
-        public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
+        public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
+        public Result GetSearchResult<T>(string searchTerm)
         {
+            ///...Yet to be implemented
+            var res = new CommonRal(_tenant).DoSearch(searchTerm);
+            return null;
         }
 
         public Result GetAllCodes()
@@ -287,7 +293,7 @@ namespace Strive.BusinessLogic.Common
         private void SendMail(string email, string body, string subject)
         {
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Admin",_tenant.FromMailAddress));
+            message.From.Add(new MailboxAddress("Admin", _tenant.FromMailAddress));
             message.To.Add(new MailboxAddress(email, email));
             message.Subject = subject;
 
@@ -307,6 +313,7 @@ namespace Strive.BusinessLogic.Common
                 client.Disconnect(true);
             }
         }
+
 
     }
 }
