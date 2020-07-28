@@ -17,17 +17,27 @@ namespace Strive.BusinessLogic.Location
 
         public Result GetLocationDetails()
         {
-            try
-            {
-                var lstLocation = new LocationRal(_tenant).GetLocationDetails();
-                _resultContent.Add(lstLocation.WithName("Location"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new LocationRal(_tenant).GetLocationDetails, "Location");
+        }
+
+        public Result GetLocationById(int id)
+        {
+            return ResultWrap(new LocationRal(_tenant).GetLocationById, id, "Location");
+        }
+
+        public Result DeleteLocationDetails(int id)
+        {
+            return ResultWrap(new LocationRal(_tenant).DeleteLocationDetails, id, "Location");
+        }
+
+        public Result AddLocation(LocationDto location)
+        {
+            return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
+        }
+
+        public Result UpdateLocation(LocationDto location)
+        {
+            return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 
         public Result SaveLocationDetails(LocationDto location)
@@ -47,64 +57,6 @@ namespace Strive.BusinessLogic.Location
             }
             return _result;
         }
-        public Result DeleteLocationDetails(int id)
-        {
-            try
-            {
-                var lstLocation = new LocationRal(_tenant).DeleteLocationDetails(id);
-                _resultContent.Add(lstLocation.WithName("Location"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
 
-        public Result GetLocationById(int id)
-        {
-            try
-            {
-                var lstLocation = new LocationRal(_tenant).GetLocationById(id);
-                _resultContent.Add(lstLocation.WithName("Location"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
-
-        public Result AddLocation(LocationDto location)
-        {
-            try
-            {
-                bool blnStatus = new LocationRal(_tenant).AddLocation(location);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
-
-        public Result UpdateLocation(LocationDto location)
-        {
-            try
-            {
-                bool blnStatus = new LocationRal(_tenant).UpdateLocation(location);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
     }
 }

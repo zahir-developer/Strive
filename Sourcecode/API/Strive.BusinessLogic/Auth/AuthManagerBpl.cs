@@ -100,6 +100,7 @@ namespace Strive.BusinessLogic.Auth
             var claims = new[]
             {
                 new Claim("UserGuid", $"{tenant.UserGuid}"),
+                new Claim("EmployeeId", $"{employee.EmployeeId}"),
                 new Claim("SchemaName", $"{tenant.Schemaname}"),
                  new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("AuthId", $"{employee.EmployeeDetail.Select(n=> n.AuthId)}"),

@@ -32,16 +32,6 @@ namespace Admin.API.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            //string actionName = context.ActionDescriptor.RouteValues["action"];
-            //string controllerName = context.ActionDescriptor.RouteValues["controller"];
-
-            //// our code after action executes
-            //if (context.HttpContext.Request.Path.Value.Contains("/Login"))
-            //{
-            //    GData gdata = new GData();
-            //    gdata = (GData)context.HttpContext.Items["gdata"];
-            //    context.HttpContext.Response.Headers.Add("Token", gdata.gToken);
-            //}
         }
 
         private string Pick(string section, string name)
@@ -69,17 +59,20 @@ namespace Admin.API.Filters
             var userGuid = string.Empty;
             var TenantGuid = string.Empty;
             var schemaName = string.Empty;
+            var EmployeeId = string.Empty;
+
             if (!context.HttpContext.Request.Path.Value.Contains("/Auth/"))
             {
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
                 TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid")).Value;
                 schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
+                EmployeeId = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId")).Value;
             }
-            SetDbConnection(userGuid, schemaName, isAuth, TenantGuid);
+            SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId);
         }
 
-        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid =null)
+        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null)
         {
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
 
@@ -105,14 +98,14 @@ namespace Admin.API.Filters
                     throw new Exception("Invalid Login");
                 }
 
-                if(isSchemaAvailable)
+                if (isSchemaAvailable)
                 {
                     _tenant.SetTenantGuid(tenantGuid);
                 }
-                
+
                 strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
                 _tenant.SetConnection(strConnectionString);
-                
+
             }
             _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
 
@@ -120,6 +113,7 @@ namespace Admin.API.Filters
             _tenant.SMTPPassword = Pick("SMTP", "Password").ToString();
             _tenant.Port = Pick("SMTP", "Port").ToString();
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress").ToString();
+            _tenant.EmployeeId = employeeId;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Cocoon.ORM;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -6,7 +7,9 @@ using Strive.BusinessEntities;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 
 namespace Strive.BusinessLogic
 {
@@ -17,7 +20,7 @@ namespace Strive.BusinessLogic
         public readonly IConfiguration _config;
         public JObject _resultContent;
         public Result _result;
-        public Strivebase(ITenantHelper tenantHelper, IDistributedCache cache=null, IConfiguration config=null)
+        public Strivebase(ITenantHelper tenantHelper, IDistributedCache cache = null, IConfiguration config = null)
         {
             _cache = cache;
             _tenant = tenantHelper;
@@ -55,7 +58,7 @@ namespace Strive.BusinessLogic
         {
             conString = conString.Replace("[UserName]", tenantSchema.Username);
             conString = conString.Replace("[Password]", tenantSchema.Password);
-            
+
             return conString;
         }
 
@@ -102,6 +105,71 @@ namespace Strive.BusinessLogic
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
             return _result;
+        }
+
+
+        protected Result ResultWrap<T, T1>(Func<T1, T> ralmethod, T1 model, string ResultName)
+        {
+            try
+            {
+                AddAudit(model);
+                var res = ralmethod.Invoke(model);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        protected void AddAudit<T>(T tdata)
+        {
+            string action = "ADD";
+            Type type = typeof(T);
+
+            foreach (PropertyInfo prp in type.GetProperties())
+            {
+                var model = prp.GetValue(tdata, null);
+                Type subModelType = model.GetType();
+                PropertyInfo prInfo = default;
+
+                if (subModelType.IsClass)
+                {
+                    prInfo = subModelType.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
+                    action = (prInfo.GetValue(model, null).toInt() > 0) ? "UPD" : action;
+                    SetAuditDetails(action, ref model, subModelType);
+                }
+                else if (subModelType.IsGenericType)
+                {
+                    ///... to-do.
+                }
+                else
+                {
+                    prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
+                    action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
+                    SetAuditDetails(action, ref model, type);
+                }
+
+                
+            }
+        }
+
+        private void SetAuditDetails(string action, ref object model, Type subModelType)
+        {
+            if (action == "ADD")
+            {
+                subModelType.GetProperty("CreatedBy").SetValue(model, _tenant.EmployeeId.toInt());
+                subModelType.GetProperty("CreatedDate").SetValue(model, DateTimeOffset.UtcNow);
+                subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
+                subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
+            }
+            if (action == "UPD")
+            {
+                subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
+                subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
+            }
         }
     }
 }
