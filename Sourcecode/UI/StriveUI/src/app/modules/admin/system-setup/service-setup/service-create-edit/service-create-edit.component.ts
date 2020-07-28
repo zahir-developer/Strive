@@ -48,6 +48,7 @@ export class ServiceCreateEditComponent implements OnInit {
       status: ['',],
       fee: ['',]
     });
+    this.serviceSetupForm.patchValue({status : 0});
   }
 
   get f() {
