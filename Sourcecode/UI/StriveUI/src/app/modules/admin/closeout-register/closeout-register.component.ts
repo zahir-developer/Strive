@@ -70,9 +70,9 @@ export class CloseoutRegisterComponent implements OnInit {
     this.closeoutRegisterForm = this.fb.group({
       cardAmount: ['',]
     });
-    this.totalCoin = 0;
-    this.totalRoll = 0;
-    this.totalBill = 0;
+    this.totalCoin = this.totalPennie = this.totalQuater = this.totalNickel = this.totalDime = this.totalHalf = 0;
+    this.totalRoll = this.totalPennieRoll = this.totalQuaterRoll = this.totalNickelRoll = this.totalDimeRoll = 0;
+    this.totalBill = this.totalOnes = this.totalFives = this.totalTens = this.totalTwenties = this.totalFifties = this.totalHunderds = 0;
     this.totalCash = 0;
     this.getCloseOutRegister();
   }
@@ -191,7 +191,11 @@ export class CloseoutRegisterComponent implements OnInit {
     };
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       if (data.status === "Success") {
-        this.toastr.success('Record Saved Successfully!!', 'Success!');
+        if(this.isUpdate){
+          this.toastr.success('Record Updated Successfully!!', 'Success!');
+        }else{
+          this.toastr.success('Record Saved Successfully!!', 'Success!');
+        }        
         this.getCloseOutRegister();
       } else {
         this.toastr.error('Weather Communication Error', 'Error!');

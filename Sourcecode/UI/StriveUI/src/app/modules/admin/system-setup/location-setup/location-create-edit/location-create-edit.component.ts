@@ -42,7 +42,7 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['',],
+      email: ['',Validators.email],
       franchise: ['',],
       workHourThreshold: ['',]
     });

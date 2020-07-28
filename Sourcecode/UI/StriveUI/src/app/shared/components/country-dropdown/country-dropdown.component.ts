@@ -25,7 +25,7 @@ export class CountryDropdownComponent implements OnInit {
           value: item.CodeId
         };
       });
-      this.setValue();
+      this.default();
     }, (err) => {
     });
   }
@@ -33,11 +33,16 @@ export class CountryDropdownComponent implements OnInit {
     this.countryId.emit(event);
   }
 
+  default(){
+    const temp = this.countryList.filter(item => item.CodeId === 38);
+    this.country = temp[0].CodeId;
+    this.setValue();
+  }
+
   setValue() {
     if (this.selectedCountryId !== undefined) {
       this.country = this.selectedCountryId;
     }
-    
   }
 
 }

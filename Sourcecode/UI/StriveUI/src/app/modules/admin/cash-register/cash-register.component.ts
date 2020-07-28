@@ -75,9 +75,9 @@ export class CashinRegisterComponent implements OnInit {
       goal: ['',]
     });
     this.toggleTab = 0;
-    this.totalCoin = 0;
-    this.totalRoll = 0;
-    this.totalBill = 0;
+    this.totalCoin = this.totalPennie = this.totalQuater = this.totalNickel = this.totalDime = this.totalHalf = 0;
+    this.totalRoll = this.totalPennieRoll = this.totalQuaterRoll = this.totalNickelRoll = this.totalDimeRoll = 0;
+    this.totalBill = this.totalOnes = this.totalFives = this.totalTens = this.totalTwenties = this.totalFifties = this.totalHunderds = 0;
     this.totalCash = 0;
     this.getCashRegister();
   }
@@ -218,7 +218,11 @@ export class CashinRegisterComponent implements OnInit {
         this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
           if (response.status === 'Success') {
             this.toggleTab = 0;
-            this.toastr.success('Record Saved Successfully!!', 'Success!');
+            if(this.isUpdate){
+              this.toastr.success('Record Updated Successfully!!', 'Success!');
+            }else{
+              this.toastr.success('Record Saved Successfully!!', 'Success!');
+            }            
             this.weatherService.getWeather();
             this.getCashRegister();
           } else {
