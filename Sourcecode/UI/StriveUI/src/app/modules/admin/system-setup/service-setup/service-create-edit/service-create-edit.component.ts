@@ -105,6 +105,7 @@ export class ServiceCreateEditComponent implements OnInit {
     const label = this.CommissionType.filter(item => item.CodeId === Number(data));
     if (label.length !== 0) {
       this.ctypeLabel = label[0].CodeValue;
+      this.serviceSetupForm.get('fee').setValidators([Validators.required]);
     }
   }
   getAllServiceType() {
@@ -126,10 +127,14 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm.value.commission = data;
     if (data === true) {
       this.isChecked = true;
+      this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
       this.getCtype(this.selectedService.CommisionType);
     } else {
       this.isChecked = false;
       this.ctypeLabel = 'none';
+      this.serviceSetupForm.get('commissionType').clearValidators();
+      this.serviceSetupForm.get('fee').clearValidators();
+      this.serviceSetupForm.get('fee').reset();
       this.serviceSetupForm.get('commissionType').reset();
       this.serviceSetupForm.get('fee').reset();
     }

@@ -104,8 +104,11 @@ export class ProductCreateEditComponent implements OnInit {
   showText(data) {
     if (data === '33') {
       this.textDisplay = true;
+      this.productSetupForm.get('other').setValidators([Validators.required]);
     } else {
       this.textDisplay = false;
+      this.productSetupForm.get('other').clearValidators();
+      this.productSetupForm.get('other').reset();
     }
   }
 
@@ -146,8 +149,10 @@ export class ProductCreateEditComponent implements OnInit {
     this.productSetupForm.value.taxable = data;
     if (data === true) {
       this.isChecked = true;
+      this.productSetupForm.get('taxAmount').setValidators([Validators.required]);
     } else {
       this.isChecked = false;
+      this.productSetupForm.get('taxAmount').clearValidators();
       this.productSetupForm.get('taxAmount').reset();
     }
   }
