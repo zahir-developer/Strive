@@ -2,11 +2,6 @@
     <form [formGroup]="locationSetupForm">
         <div class="form-row">
             <div class="form-group col-lg-3">
-                <label for="inputWorkThreshold">Work Threshold</label>
-                <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
-                    placeholder="Threshold #" numbersOnly>
-            </div>
-            <div class="form-group col-lg-3">
                 <label for="inputLocationName">Location Name<span class="required">*</span></label>
                 <input type="text" maxlength="100" class="form-control" formControlName="locationName"
                     placeholder="Location Name" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
@@ -30,8 +25,6 @@
                     <div *ngIf="f.locationAddress2.errors.required">Location Address 2 is required</div>
                 </div>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputZipcode">ZipCode<span class="required">*</span></label>
                 <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip"
@@ -41,6 +34,8 @@
                     <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode</div>
                 </div>
             </div>
+        </div>
+        <div class="form-row">            
             <div class="form-group col-lg-3">
                 <label for="inputState">State<span class="required">*</span></label>
                 <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)">
@@ -59,8 +54,6 @@
                     <div *ngIf="f.phoneNumber.errors.minlength">PhoneNumber must be 10 numbers</div>
                 </div>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputEmail">Email</label>
                 <input type="email" class="form-control" formControlName="email" placeholder="Email"
@@ -69,6 +62,13 @@
                     <div *ngIf="f.email.errors">Please enter valid email address</div>
                 </div>
             </div>
+        </div>
+        <div class="form-row">            
+            <div class="form-group col-lg-3">
+                <label for="inputWorkThreshold">Work Threshold</label>
+                <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
+                    placeholder="Threshold #" numbersOnly>
+            </div>            
             <div class="form-group col-lg-3">
                 <label></label>
                 <div class="form-check">
