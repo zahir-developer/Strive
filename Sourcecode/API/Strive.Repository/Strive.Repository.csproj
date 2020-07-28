@@ -50,7 +50,6 @@
     <Compile Include="Sql\Db_Cocoon.cs" />
     <Compile Include="Sql\Db_Contrib.cs" />
     <Compile Include="Sql\Db_Dapper.cs" />
-    <Compile Include="Sql\Db_Repo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="cocoon-orm, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">

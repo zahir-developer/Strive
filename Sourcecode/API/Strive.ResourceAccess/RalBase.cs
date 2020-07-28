@@ -16,12 +16,15 @@ namespace Strive.ResourceAccess
         public ITenantHelper _tenant;
         public Db db;
         protected DynamicParameters dynParams;
+        protected string cs;
+
         public RalBase(ITenantHelper tenant)
         {
             _tenant = tenant;
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
             dynParams = new DynamicParameters();
+            cs = _dbconnection.ConnectionString;
         }
         public RalBase(ITenantHelper tenant, bool isAuth)
         {
