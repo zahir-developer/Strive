@@ -25,18 +25,12 @@ export class CountryDropdownComponent implements OnInit {
           value: item.CodeId
         };
       });
-      this.default();
+      this.setValue();
     }, (err) => {
     });
   }
   countrySelection(event) {
     this.countryId.emit(event);
-  }
-
-  default(){
-    const temp = this.countryList.filter(item => item.CodeId === 38);
-    this.country = temp[0].CodeId;
-    this.setValue();
   }
 
   setValue() {
