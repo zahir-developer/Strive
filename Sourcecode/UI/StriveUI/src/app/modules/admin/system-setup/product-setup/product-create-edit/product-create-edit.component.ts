@@ -177,7 +177,7 @@ export class ProductCreateEditComponent implements OnInit {
       sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
       quantity: this.productSetupForm.value.quantity,
       quantityDescription: null,
-      isActive: this.productSetupForm.value.status === 0 ? true : false,
+      isActive: this.productSetupForm.value.status == 0 ? true : false,
       vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount
     };

@@ -68,7 +68,7 @@ export class ServiceCreateEditComponent implements OnInit {
           fee: this.selectedService.CommissionCost,
           upcharge: this.selectedService.Upcharges,
           parentName: this.selectedService.ParentServiceId,
-          status: this.selectedData.IsActive ? 0 : 1
+          status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
       } else {
@@ -144,7 +144,7 @@ export class ServiceCreateEditComponent implements OnInit {
     if (this.serviceSetupForm.invalid) {
       return;
     }
-
+    console.log(this.serviceSetupForm.value.status);
     const sourceObj = [];
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,
