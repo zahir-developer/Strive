@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
@@ -11,7 +10,6 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 })
 export class LocationSetupListComponent implements OnInit {
   locationSetupDetails = [];
-  locationSetupForm: FormGroup;
   showDialog = false;
   selectedData: any;
   headerData: string;
@@ -20,14 +18,10 @@ export class LocationSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
-  constructor(private locationService: LocationService, private toastr: ToastrService, private fb: FormBuilder,
+  constructor(private locationService: LocationService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.locationSetupForm = this.fb.group({
-      workHour: ['', Validators.required, Validators.maxLength(2)]
-    });
-
     this.getAllLocationSetupDetails();
 
   }
