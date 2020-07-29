@@ -39,7 +39,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 var EmployeeDetail = EmployeeData.EmployeeDetails;
                 Name = EmployeeDetail.FirstName + " " + EmployeeDetail.LastName;
                 Role = EmployeeData.CurrentRole;
-                CurrentDate = GeneralUtils.GetTodayDateString();
+                CurrentDate = DateUtils.GetTodayDateString();
                 ClockInTime = GetClockInTimeString();
             }
         }
