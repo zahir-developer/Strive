@@ -57,10 +57,10 @@
     <Compile Include="Weather\WeatherPrediction.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\ClientAddress.cs" />
-    <Compile Include="Client\ClientList.cs" />
+    <Compile Include="Client\ClientView.cs" />
     <Compile Include="Code\Code.cs" />
     <Compile Include="Collision\Collision.cs" />
-    <Compile Include="Collision\CollisionList.cs" />
+    <Compile Include="Collision\CollisionListView.cs" />
     <Compile Include="Collision\LiabilityDetail.cs" />
     <Compile Include="Document\Document.cs" />
     <Compile Include="Document\DocumentView.cs" />

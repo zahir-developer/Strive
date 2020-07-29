@@ -36,7 +36,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveCollison([FromBody] List<Strive.BusinessEntities.Collision.CollisionList> lstCollision)
+        public Result SaveCollison([FromBody] List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision)
         {
             return _collisionBpl.SaveCollison(lstCollision);
         }

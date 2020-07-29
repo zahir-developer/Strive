@@ -26,7 +26,7 @@ namespace Strive.ResourceAccess
              db = new Db(_dbconnection);
         }
 
-        public bool SaveClientDetails(ClientList lstClient)
+        public bool SaveClientDetails(ClientView lstClient)
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<Client> lstclientlst = new List<Client>();
@@ -54,6 +54,21 @@ namespace Strive.ResourceAccess
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVECLIENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
 
+            return true;
+        }
+        public List<ClientView> GetAllClient()
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            List<ClientView> lstClientList = new List<ClientView>();
+            lstClientList = db.FetchRelation1<ClientView, ClientAddress>(SPEnum.USPGETALLCLIENT.ToString(), dynParams);
+            return lstClientList;
+        }
+        public bool DeleteClient(int clientId)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@ClientId", clientId);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETECLIENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
             return true;
         }
 
