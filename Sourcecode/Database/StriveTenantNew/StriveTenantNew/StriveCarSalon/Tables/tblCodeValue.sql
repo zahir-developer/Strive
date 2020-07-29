@@ -12,8 +12,10 @@
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblCodeValue] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_tblCodeValue_tblCodeCategory] FOREIGN KEY ([CategoryId]) REFERENCES [StriveCarSalon].[tblCodeCategory] ([id])
+    CONSTRAINT [FK_tblCodeValue_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [StriveCarSalon].[tblCodeCategory] ([id])
 );
+
+
 
 
 

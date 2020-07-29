@@ -14,10 +14,22 @@
     [UpdatedBy]   INT                NULL,
     [UpdatedDate] DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblJobDetail] PRIMARY KEY CLUSTERED ([JobDetailId] ASC),
-    CONSTRAINT [FK_tblJobDetail_tblBay] FOREIGN KEY ([BayId]) REFERENCES [StriveCarSalon].[tblBay] ([BayId]),
-    CONSTRAINT [FK_tblJobDetail_tblEmployee] FOREIGN KEY ([Labour]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
-    CONSTRAINT [FK_tblJobDetail_tblJob] FOREIGN KEY ([JobId]) REFERENCES [StriveCarSalon].[tblJob] ([JobId])
+    CONSTRAINT [FK_tblJobDetail_BayId] FOREIGN KEY ([BayId]) REFERENCES [StriveCarSalon].[tblBay] ([BayId]),
+    CONSTRAINT [FK_tblJobDetail_JobId] FOREIGN KEY ([JobId]) REFERENCES [StriveCarSalon].[tblJob] ([JobId]),
+    CONSTRAINT [FK_tblJobDetail_Labour] FOREIGN KEY ([Labour]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
 
 
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblJobDetail_Labour]
+    ON [StriveCarSalon].[tblJobDetail]([Labour] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblJobDetail_JobId]
+    ON [StriveCarSalon].[tblJobDetail]([JobId] ASC);
 

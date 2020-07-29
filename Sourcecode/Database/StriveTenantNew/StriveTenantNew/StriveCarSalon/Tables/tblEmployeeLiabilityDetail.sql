@@ -13,10 +13,12 @@
     [UpdatedBy]           INT                NULL,
     [UpdatedDate]         DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblEmployeeLiabilityDetail] PRIMARY KEY CLUSTERED ([LiabilityDetailId] ASC),
-    CONSTRAINT [FK_tblEmployeeLiabilityDetail_tblCodeValue] FOREIGN KEY ([LiabilityDetailType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblEmployeeLiabilityDetail_tblCodeValue1] FOREIGN KEY ([PaymentType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblEmployeeLiabilityDetail_tblEmployeeLiability] FOREIGN KEY ([LiabilityId]) REFERENCES [StriveCarSalon].[tblEmployeeLiability] ([LiabilityId])
+    CONSTRAINT [FK_tblEmployeeLiabilityDetail_LiabilityDetailType] FOREIGN KEY ([LiabilityDetailType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblEmployeeLiabilityDetail_LiabilityId] FOREIGN KEY ([LiabilityId]) REFERENCES [StriveCarSalon].[tblEmployeeLiability] ([LiabilityId]),
+    CONSTRAINT [FK_tblEmployeeLiabilityDetail_PaymentType] FOREIGN KEY ([PaymentType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

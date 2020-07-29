@@ -1,4 +1,4 @@
-﻿CREATE TABLE [StriveCarSalon].[tblEmployeeAddress] (
+CREATE TABLE [StriveCarSalon].[tblEmployeeAddress] (
     [EmployeeAddressId] INT                IDENTITY (1, 1) NOT NULL,
     [EmployeeId]        INT                NULL,
     [Address1]          NVARCHAR (50)      NULL,
@@ -17,16 +17,18 @@
     [UpdatedBy]         INT                NULL,
     [UpdatedDate]       DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblEmployeeAddress] PRIMARY KEY CLUSTERED ([EmployeeAddressId] ASC),
-    CONSTRAINT [FK_tblEmployeeAddress_tblCodeValue] FOREIGN KEY ([City]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblEmployeeAddress_tblCodeValue1] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblEmployeeAddress_tblCodeValue2] FOREIGN KEY ([Country]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblEmployeeAddress_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
+    CONSTRAINT [FK_tblEmployeeAddress_City] FOREIGN KEY ([City]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblEmployeeAddress_Country] FOREIGN KEY ([Country]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblEmployeeAddress_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
+    CONSTRAINT [FK_tblEmployeeAddress_State] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
 
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [tblemployeeaddress_idx_employeeid]
+CREATE NONCLUSTERED INDEX [IX_tblEmployeeAddress_EmployeeId]
     ON [StriveCarSalon].[tblEmployeeAddress]([EmployeeId] ASC);
 

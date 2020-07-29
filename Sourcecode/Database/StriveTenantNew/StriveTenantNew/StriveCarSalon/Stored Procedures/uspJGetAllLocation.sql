@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocation]
+CREATE PROCEDURE [StriveCarSalon].[uspJGetAllLocation]
 
 AS 
 BEGIN
@@ -10,7 +10,6 @@ SELECT tbll.LocationId,
 	   tbll.LocationName,
 	   tblla.PhoneNumber,
 	   tblla.Email,
-	   tbll.WorkhourThreshold,
 	   isnull(tbll.IsActive,1) AS IsActive  	   
 FROM [StriveCarSalon].[tblLocation] tbll 
 LEFT JOIN [StriveCarSalon].[tblLocationAddress] tblla ON(tbll.LocationId = tblla.LocationId)

@@ -208,5 +208,6 @@
     <Build Include="StriveCarSalon\User Defined Types\tvpCashRegisterCoins.sql" />
     <Build Include="StriveCarSalon\User Defined Types\tvpCashRegisterBills.sql" />
     <Build Include="StriveCarSalon\User Defined Types\tvpCashRegister.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspJGetAllLocation.sql" />
   </ItemGroup>
 </Project>

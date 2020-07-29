@@ -14,8 +14,15 @@
     [UpdatedBy]           INT                NULL,
     [UpdatedDate]         DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblEmployeeDocument] PRIMARY KEY CLUSTERED ([EmployeeDocumentId] ASC),
-    CONSTRAINT [FK_tblEmployeeDocument_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
+    CONSTRAINT [FK_tblEmployeeDocument_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
 
 
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblEmployeeDocument_EmployeeId]
+    ON [StriveCarSalon].[tblEmployeeDocument]([EmployeeId] ASC);
 

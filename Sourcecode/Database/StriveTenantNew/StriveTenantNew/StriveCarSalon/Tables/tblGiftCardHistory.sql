@@ -13,12 +13,19 @@
     [UpdatedBy]         INT                NULL,
     [UpdatedDate]       DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblGiftCardHistory] PRIMARY KEY CLUSTERED ([GiftCardHistoryId] ASC),
-    CONSTRAINT [FK_tblGiftCardHistory_tblCodeValue] FOREIGN KEY ([TransactionType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblGiftCardHistory_tblGiftCard] FOREIGN KEY ([GiftCardId]) REFERENCES [StriveCarSalon].[tblGiftCard] ([GiftCardId]),
-    CONSTRAINT [FK_tblGiftCardHistory_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
+    CONSTRAINT [FK_tblGiftCardHistory_GiftCardId] FOREIGN KEY ([GiftCardId]) REFERENCES [StriveCarSalon].[tblGiftCard] ([GiftCardId]),
+    CONSTRAINT [FK_tblGiftCardHistory_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
+    CONSTRAINT [FK_tblGiftCardHistory_TransactionType] FOREIGN KEY ([TransactionType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
 
 
 
 
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblGiftCardHistory_GiftCardId]
+    ON [StriveCarSalon].[tblGiftCardHistory]([GiftCardId] ASC);
 

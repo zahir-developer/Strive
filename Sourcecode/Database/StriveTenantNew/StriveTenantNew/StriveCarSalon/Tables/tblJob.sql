@@ -18,12 +18,14 @@
     [UpdatedBy]        INT                NULL,
     [UpdatedDate]      DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblJob] PRIMARY KEY CLUSTERED ([JobId] ASC),
-    CONSTRAINT [FK_tblJob_tblClient] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
-    CONSTRAINT [FK_tblJob_tblClientVehicle] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId]),
-    CONSTRAINT [FK_tblJob_tblCodeValue] FOREIGN KEY ([JobType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblJob_tblCodeValue1] FOREIGN KEY ([JobStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblJob_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
+    CONSTRAINT [FK_tblJob_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
+    CONSTRAINT [FK_tblJob_JobStatus] FOREIGN KEY ([JobStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblJob_JobType] FOREIGN KEY ([JobType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblJob_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
+    CONSTRAINT [FK_tblJob_VehicleId] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId])
 );
+
+
 
 
 

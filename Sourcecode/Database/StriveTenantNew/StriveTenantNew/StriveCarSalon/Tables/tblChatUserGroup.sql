@@ -7,7 +7,19 @@
     [CreatedBy]       INT NULL,
     [CreatedDate]     INT NULL,
     CONSTRAINT [PK_tblChatUserGroup] PRIMARY KEY CLUSTERED ([ChatGroupUserId] ASC),
-    CONSTRAINT [FK_tblChatUserGroup_tblChatGroup] FOREIGN KEY ([GroupId]) REFERENCES [StriveCarSalon].[tblChatGroup] ([ChatGroupId]),
-    CONSTRAINT [FK_tblChatUserGroup_tblEmployee] FOREIGN KEY ([UserId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
+    CONSTRAINT [FK_tblChatUserGroup_GroupId] FOREIGN KEY ([GroupId]) REFERENCES [StriveCarSalon].[tblChatGroup] ([ChatGroupId]),
+    CONSTRAINT [FK_tblChatUserGroup_UserId] FOREIGN KEY ([UserId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblChatUserGroup_UserId]
+    ON [StriveCarSalon].[tblChatUserGroup]([UserId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblChatUserGroup_GroupId]
+    ON [StriveCarSalon].[tblChatUserGroup]([GroupId] ASC);
 

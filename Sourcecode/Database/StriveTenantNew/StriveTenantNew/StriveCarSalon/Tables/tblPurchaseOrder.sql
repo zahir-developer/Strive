@@ -14,9 +14,11 @@
     [UpdatedBy]       INT                NULL,
     [UpdatedDate]     DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblPurchaseOrder] PRIMARY KEY CLUSTERED ([PurchaseOrderId] ASC),
-    CONSTRAINT [FK_tblPurchaseOrder_tblProduct] FOREIGN KEY ([ProductId]) REFERENCES [StriveCarSalon].[tblProduct] ([ProductId]),
-    CONSTRAINT [FK_tblPurchaseOrder_tblVendor] FOREIGN KEY ([VendorId]) REFERENCES [StriveCarSalon].[tblVendor] ([VendorId])
+    CONSTRAINT [FK_tblPurchaseOrder_ProductId] FOREIGN KEY ([ProductId]) REFERENCES [StriveCarSalon].[tblProduct] ([ProductId]),
+    CONSTRAINT [FK_tblPurchaseOrder_VendorId] FOREIGN KEY ([VendorId]) REFERENCES [StriveCarSalon].[tblVendor] ([VendorId])
 );
+
+
 
 
 

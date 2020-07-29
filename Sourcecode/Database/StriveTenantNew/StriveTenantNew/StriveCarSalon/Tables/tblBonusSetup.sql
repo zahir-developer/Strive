@@ -16,8 +16,10 @@
     [UpdatedBy]              INT                NULL,
     [UpdatedDate]            DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblBonusSetup] PRIMARY KEY CLUSTERED ([BonusSetupId] ASC),
-    CONSTRAINT [FK_tblBonusSetup_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
+    CONSTRAINT [FK_tblBonusSetup_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 
 
 

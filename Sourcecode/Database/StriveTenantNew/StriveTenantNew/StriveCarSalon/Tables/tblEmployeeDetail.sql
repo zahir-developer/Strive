@@ -1,4 +1,4 @@
-﻿CREATE TABLE [StriveCarSalon].[tblEmployeeDetail] (
+CREATE TABLE [StriveCarSalon].[tblEmployeeDetail] (
     [EmployeeDetailId] INT                IDENTITY (1, 1) NOT NULL,
     [EmployeeId]       INT                NULL,
     [EmployeeCode]     VARCHAR (10)       NULL,
@@ -20,8 +20,8 @@
     [UpdatedBy]        INT                NULL,
     [UpdatedDate]      DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblEmployeeDetail] PRIMARY KEY CLUSTERED ([EmployeeDetailId] ASC),
-    CONSTRAINT [FK_tblEmployeeDetail_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
-    CONSTRAINT [FK_tblEmployeeDetail_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
+    CONSTRAINT [FK_tblEmployeeDetail_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
+    CONSTRAINT [FK_tblEmployeeDetail_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
 
 
@@ -29,7 +29,9 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [tblemployeedetail_idx_employeeid]
+CREATE NONCLUSTERED INDEX [IX_tblEmployeeDetail_EmployeeId]
     ON [StriveCarSalon].[tblEmployeeDetail]([EmployeeId] ASC);
 

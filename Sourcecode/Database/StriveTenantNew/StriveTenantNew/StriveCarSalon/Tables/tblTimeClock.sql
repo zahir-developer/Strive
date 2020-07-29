@@ -3,7 +3,7 @@
     [EmployeeId]  INT                NOT NULL,
     [LocationId]  INT                NOT NULL,
     [RoleId]      INT                NULL,
-    [EventDate]   DATETIMEOFFSET (7) NULL,
+    [EventDate]   DATE               NULL,
     [InTime]      DATETIMEOFFSET (7) NULL,
     [OutTime]     DATETIMEOFFSET (7) NULL,
     [EventType]   INT                NULL,
@@ -17,13 +17,20 @@
     [UpdatedBy]   INT                NULL,
     [UpdatedDate] DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblTimeClock] PRIMARY KEY CLUSTERED ([TimeClockId] ASC),
-    CONSTRAINT [FK_tblTimeClock_tblCodeValue] FOREIGN KEY ([EventType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblTimeClock_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
-    CONSTRAINT [FK_tblTimeClock_tblLocation] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
-    CONSTRAINT [FK_tblTimeClock_tblRoleMaster] FOREIGN KEY ([RoleId]) REFERENCES [StriveCarSalon].[tblRoleMaster] ([RoleMasterId])
+    CONSTRAINT [FK_tblTimeClock_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
+    CONSTRAINT [FK_tblTimeClock_EventType] FOREIGN KEY ([EventType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblTimeClock_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
+    CONSTRAINT [FK_tblTimeClock_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [StriveCarSalon].[tblRoleMaster] ([RoleMasterId])
 );
 
 
 
 
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblTimeClock_EmployeeId]
+    ON [StriveCarSalon].[tblTimeClock]([EmployeeId] ASC);
 

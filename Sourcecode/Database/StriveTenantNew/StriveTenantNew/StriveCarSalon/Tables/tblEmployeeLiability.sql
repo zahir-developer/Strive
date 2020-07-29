@@ -1,4 +1,4 @@
-﻿CREATE TABLE [StriveCarSalon].[tblEmployeeLiability] (
+CREATE TABLE [StriveCarSalon].[tblEmployeeLiability] (
     [LiabilityId]          INT                IDENTITY (1, 1) NOT NULL,
     [EmployeeId]           INT                NULL,
     [LiabilityType]        INT                NOT NULL,
@@ -12,9 +12,9 @@
     [UpdatedBy]            INT                NULL,
     [UpdatedDate]          DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblEmployeeLiability] PRIMARY KEY CLUSTERED ([LiabilityId] ASC),
-    CONSTRAINT [FK_tblEmployeeLiability_tblCodeValue] FOREIGN KEY ([LiabilityType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblEmployeeLiability_tblEmployee] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
-    CONSTRAINT [FK_tblEmployeeLiability_tblProduct] FOREIGN KEY ([ProductId]) REFERENCES [StriveCarSalon].[tblProduct] ([ProductId])
+    CONSTRAINT [FK_tblEmployeeLiability_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
+    CONSTRAINT [FK_tblEmployeeLiability_LiabilityType] FOREIGN KEY ([LiabilityType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblEmployeeLiability_ProductId] FOREIGN KEY ([ProductId]) REFERENCES [StriveCarSalon].[tblProduct] ([ProductId])
 );
 
 
@@ -22,6 +22,9 @@
 
 
 
-GO
 
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblEmployeeLiability_EmployeeId]
+    ON [StriveCarSalon].[tblEmployeeLiability]([EmployeeId] ASC);
 

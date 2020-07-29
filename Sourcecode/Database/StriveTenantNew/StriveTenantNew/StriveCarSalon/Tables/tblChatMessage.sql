@@ -10,6 +10,8 @@
     [CreatedBy]           INT                NULL,
     [CreatedDate]         DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblChatMessage] PRIMARY KEY CLUSTERED ([ChatMessageId] ASC),
-    CONSTRAINT [FK_tblChatMessage_tblReminderFrequency] FOREIGN KEY ([ReminderFrequencyId]) REFERENCES [StriveCarSalon].[tblReminderFrequency] ([ReminderFrequencyId])
+    CONSTRAINT [FK_tblChatMessage_ReminderFrequencyId] FOREIGN KEY ([ReminderFrequencyId]) REFERENCES [StriveCarSalon].[tblReminderFrequency] ([ReminderFrequencyId])
 );
+
+
 

@@ -14,8 +14,10 @@
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblWhiteLabel] PRIMARY KEY CLUSTERED ([WhiteLabelId] ASC),
-    CONSTRAINT [FK_tblWhiteLabel_tblThemes] FOREIGN KEY ([ThemeId]) REFERENCES [StriveCarSalon].[tblThemes] ([ThemeId])
+    CONSTRAINT [FK_tblWhiteLabel_ThemeId] FOREIGN KEY ([ThemeId]) REFERENCES [StriveCarSalon].[tblThemes] ([ThemeId])
 );
+
+
 
 
 

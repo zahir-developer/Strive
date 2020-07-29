@@ -1,4 +1,4 @@
-﻿CREATE PROC  StriveCarSalon.uspGetEmployeeById 
+﻿CREATE PROC  [StriveCarSalon].[uspGetEmployeeById] 
 (@EmployeeId int)
 AS
 BEGIN
@@ -26,10 +26,10 @@ left join StriveCarSalon.tblEmployeeDetail empDetail on emp.EmployeeId = empDeta
 where isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and emp.EmployeeId = @EmployeeId
 
 select row_number() OVER (
-	ORDER BY  empdoc.DocumentId
+	ORDER BY  empdoc.EmployeeDocumentId
    ) DocumentSequence , 
     empdoc.EmployeeId,
-   empdoc.DocumentId, 
+   empdoc.EmployeeDocumentId, 
    empdoc.[FileName], 
    empdoc.CreatedDate, 
    empdoc.UpdatedDate, 

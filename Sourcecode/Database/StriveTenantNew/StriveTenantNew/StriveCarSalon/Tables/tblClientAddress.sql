@@ -17,13 +17,20 @@
     [UpdatedBy]       INT                NULL,
     [UpdatedDate]     DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblClientAddress] PRIMARY KEY CLUSTERED ([ClientAddressId] ASC),
-    CONSTRAINT [FK_tblClientAddress_tblClient] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
-    CONSTRAINT [FK_tblClientAddress_tblCodeValue] FOREIGN KEY ([City]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblClientAddress_tblCodeValue1] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblClientAddress_tblCodeValue2] FOREIGN KEY ([Country]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
+    CONSTRAINT [FK_tblClientAddress_City] FOREIGN KEY ([City]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblClientAddress_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
+    CONSTRAINT [FK_tblClientAddress_Country] FOREIGN KEY ([Country]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblClientAddress_State] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
 
 
 
 
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblClientAddress_ClientId]
+    ON [StriveCarSalon].[tblClientAddress]([ClientId] ASC);
 

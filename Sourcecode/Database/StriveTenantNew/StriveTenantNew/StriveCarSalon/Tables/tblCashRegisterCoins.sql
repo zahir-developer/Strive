@@ -13,8 +13,15 @@
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblCashRegisterCoins] PRIMARY KEY CLUSTERED ([CashRegCoinId] ASC),
-    CONSTRAINT [FK_tblCashRegisterCoins_tblCashRegister] FOREIGN KEY ([CashRegisterId]) REFERENCES [StriveCarSalon].[tblCashRegister] ([CashRegisterId])
+    CONSTRAINT [FK_tblCashRegisterCoins_CashRegisterId] FOREIGN KEY ([CashRegisterId]) REFERENCES [StriveCarSalon].[tblCashRegister] ([CashRegisterId])
 );
 
 
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_tblCashRegisterCoins_CashRegisterId]
+    ON [StriveCarSalon].[tblCashRegisterCoins]([CashRegisterId] ASC);
 
