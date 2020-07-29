@@ -39,39 +39,58 @@ namespace Strive.ResourceAccess
             db = new Db(_dbconnection);
         }
 
-        protected T AddAudit<T>() where T : class,new()
+        protected (T, string, int,string,string) AddAudit<T>(int id,string cs, string sc) where T : class, new()
         {
             var tdata = new T();
-            string action = "ADD";
             Type type = typeof(T);
-            foreach (PropertyInfo prp in type.GetProperties())
-            {
-                var model = prp.GetValue(tdata, null);
+            //var model = type.GetValue(tdata, null);
 
+            var prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
 
-                var propertiesWithMyAttribute = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
-                if(propertiesWithMyAttribute.GetValue(tdata,null).toInt() > 0 )
-                {
-                    action = "UPD";
-                }
+            prInfo.SetValue(tdata, id);
 
-                Type subModelType = model.GetType();
-                if (action == "ADD")
-                {
-                    subModelType.GetProperty("CreatedBy").SetValue(model, _tenant.EmployeeId);
-                    subModelType.GetProperty("CreatedDate").SetValue(model, DateTime.Now.ToString());
-                    subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId);
-                    subModelType.GetProperty("UpdatedDate").SetValue(model, DateTime.Now.ToString());
-                }
-                if (action == "UPD")
-                {
-                    subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId);
-                    subModelType.GetProperty("UpdatedDate").SetValue(model, DateTime.Now.ToString());
-                }
-            }
-
-            return tdata;
+            type.GetProperty("IsActive").SetValue(tdata, false);
+            type.GetProperty("IsDeleted").SetValue(tdata, true);
+            type.GetProperty("UpdatedBy").SetValue(tdata, _tenant.EmployeeId.toInt());
+            type.GetProperty("UpdatedDate").SetValue(tdata, DateTimeOffset.UtcNow);
+            return (tdata, prInfo.Name, id,cs,sc);
         }
+
+
+
+        //protected T AddAudit<T>() where T : class,new()
+        //{
+        //    var tdata = new T();
+        //    string action = "ADD";
+        //    Type type = typeof(T);
+        //    foreach (PropertyInfo prp in type.GetProperties())
+        //    {
+        //        var model = prp.GetValue(tdata, null);
+
+
+        //        var propertiesWithMyAttribute = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
+        //        if(propertiesWithMyAttribute.GetValue(tdata,null).toInt() > 0 )
+        //        {
+        //            action = "UPD";
+        //        }
+
+        //        Type subModelType = model.GetType();
+        //        if (action == "ADD")
+        //        {
+        //            subModelType.GetProperty("CreatedBy").SetValue(model, _tenant.EmployeeId);
+        //            subModelType.GetProperty("CreatedDate").SetValue(model, DateTime.Now.ToString());
+        //            subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId);
+        //            subModelType.GetProperty("UpdatedDate").SetValue(model, DateTime.Now.ToString());
+        //        }
+        //        if (action == "UPD")
+        //        {
+        //            subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId);
+        //            subModelType.GetProperty("UpdatedDate").SetValue(model, DateTime.Now.ToString());
+        //        }
+        //    }
+
+        //    return tdata;
+        //}
     }
 
 }

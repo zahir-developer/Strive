@@ -44,11 +44,16 @@ namespace Strive.ResourceAccess
 
         public bool DeleteLocation(int id)
         {
-            var location = AddAudit<Location>();
-            location.LocationId = id;            
-            DbRepo.Delete<Location>(location, cs, _tenant.SchemaName);
-            //_prm.Add("@tblLocationId", id.toInt());
-            //db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
+
+            //DbRepo.Delete<Location>(AddAudit<Location>(id, cs, _tenant.SchemaName));
+            //DbRepo.Delete<Location>("LocationId",id, cs, _tenant.SchemaName);
+
+            //var location = AddAudit<Location>(id);
+            //location.LocationId = id;     
+            _prm.Add("LocationId", id.toInt());
+            _prm.Add("UserId", _tenant.EmployeeId);
+            _prm.Add("Date", DateTime.UtcNow);
+            db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
             return true;
         }
     }

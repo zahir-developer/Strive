@@ -48,19 +48,19 @@ namespace Strive.BusinessEntities.Model
         public int? WorkhourThreshold { get; set; }
 
         [Column]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         [Column]
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
 
         [Column]
-        public int? CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
 
         [Column]
         public DateTimeOffset? CreatedDate { get; set; }
 
         [Column]
-        public int? UpdatedBy { get; set; }
+        public int UpdatedBy { get; set; }
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }

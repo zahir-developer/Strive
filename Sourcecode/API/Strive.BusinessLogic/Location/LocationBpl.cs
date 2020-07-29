@@ -37,7 +37,7 @@ namespace Strive.BusinessLogic.Location
 
         public Result DeleteLocation(int id)
         {
-            return ResultWrap(new LocationRal(_tenant).DeleteLocation, id, "Location");
+            return ResultWrap(new LocationRal(_tenant).DeleteLocation, id, "LocationDelete");
         }
 
         public Result SaveLocation(LocationDto location)

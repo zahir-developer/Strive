@@ -51,17 +51,7 @@ namespace Strive.RepositoryCqrs
             }
             return true;
         }
-
-        public static void Delete<T>(T tdata, string cs, string schemaName) where T: class,new()
-        {
-            SqlServerBootstrap.Initialize();
-            DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
-
-            using (var dbcon = new SqlConnection(cs).EnsureOpen())
-            {
-                dbcon.Update(ClassMappedNameCache.Get<T>(), tdata);
-            }
-        }
+            
 
         public static bool UpdatePc<T>(T tview, string PrimaryField, string cs, string sc)
         {
@@ -93,6 +83,19 @@ namespace Strive.RepositoryCqrs
             return true;
         }
 
+
+
+        //public static void Delete<T>(string primeField, int id, string cs, string schemaName) where T : class, new()
+        //{
+        //    SqlServerBootstrap.Initialize();
+        //    DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
+
+        //    using (var dbcon = new SqlConnection(cs).EnsureOpen())
+        //    {
+        //        dbcon.Update("tbl" + ClassMappedNameCache.Get<T>(), tdata);
+        //        //dbcon.Update("tbl" + ClassMappedNameCache.Get<T>(), new { primeField.ToString() = id, IsDeleted = true });
+        //    }
+        //}
 
         //public static T Get<T>(int id)
         //{
