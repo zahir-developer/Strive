@@ -1,14 +1,19 @@
 ﻿using System;
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Preferences;
+using Android.Support.V4.App;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Customer;
+using StriveCustomer.Android.Services;
+using static Android.Manifest;
 
 namespace StriveCustomer.Android.Views
 {
@@ -61,8 +66,7 @@ namespace StriveCustomer.Android.Views
 
             rememberMeCheck.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             this.isCredentialStored(rememberMeCheck.Checked);
-            
-
+            AndroidPermissions.checkPermissions(this);
             rememberMeCheck.Click += checkStoredCredentials;
             signUp.Click += navigateToSignUp;
             forgotPassword.Click += navigateToForgotPassword;

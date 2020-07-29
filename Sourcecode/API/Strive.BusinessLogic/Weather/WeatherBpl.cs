@@ -74,7 +74,7 @@ namespace Strive.BusinessLogic
 
             //Get Current weather:
             string startTime = "now";
-            string endTime = "2020-07-27T14%3A09%3A50Z";
+            string endTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH\\:mm").ToString();
             string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
             var query = "?location_id=" + addresssDetail.WeatherLocationId + "&lat=" + addresssDetail.Latitude + "&lon=" + addresssDetail.Longitude + "&start_time=" + startTime + "&end_time=" + endTime + "&unit_system=si&fields=temp&fields=precipitation_probability&fields=precipitation";
