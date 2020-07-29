@@ -71,13 +71,17 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public EmployeeView GetEmployeeByAuthId(int authId)
+        public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("AuthId", authId);
-            List<EmployeeView> lstEmployee = new List<EmployeeView>();
-            lstEmployee = db.FetchRelation1<EmployeeView, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
-            return lstEmployee.FirstOrDefault();
+            _prm.Add("AuthId", authId);
+            var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(SPEnum.USPGETUSERBYAUTHID.ToString(), _prm);
+            return lstResult;
+
+
+            //DynamicParameters dynParams = new DynamicParameters();
+            //dynParams.Add("AuthId", authId);
+            //lstEmployee = db.FetchRelation1<EmployeeView, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
+            //return lstEmployee.FirstOrDefault();
         }
 
         public bool DeleteEmployeeDetails(long empId)

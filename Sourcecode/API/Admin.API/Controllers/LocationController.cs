@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Strive.Common;
-using System.Collections.Generic;
-using Strive.BusinessLogic.Location;
 using Strive.BusinessEntities.Location;
-using System.Linq;
-using Admin.API.Helpers;
+using Strive.BusinessLogic.Location;
+using Strive.Common;
 
 namespace Admin.API.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
+
     [Route("Admin/[Controller]")]
     public class LocationController : StriveControllerBase<ILocationBpl>
     {
         public LocationController(ILocationBpl locBpl) : base(locBpl) { }
 
+        #region POST
         [HttpPost]
         [Route("Add")]
         public Result AddLocation([FromBody] LocationDto location) => _bplManager.AddLocation(location);
@@ -30,15 +31,16 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteLocation(int id) => _bplManager.DeleteLocation(id);
+        #endregion
 
+        #region GET
         [HttpGet]
         [Route("GetAll")]
         public Result GetAllLocation() => _bplManager.GetAllLocation();
 
         [HttpGet]
         [Route("GetById")]
-        public Result GetLocationById(int id) => _bplManager.GetLocationById(id);
-
-
+        public Result GetLocationById(int id) => _bplManager.GetLocationById(id); 
+        #endregion
     }
 }
