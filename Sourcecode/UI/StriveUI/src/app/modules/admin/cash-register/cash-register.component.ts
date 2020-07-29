@@ -40,12 +40,14 @@ export class CashinRegisterComponent implements OnInit {
   cashRegisterForm: FormGroup;
   weatherDetails: any;
   toggleTab: number;
+  targetBusiness: any;
 
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService, private weatherService: WeatherService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('YYYY-MM-DD');
     this.formInitialize();
+    this.getTargetBusinessData();
     this.getWeatherDetails();
   }
 
@@ -81,7 +83,15 @@ export class CashinRegisterComponent implements OnInit {
     this.totalCash = 0;
     this.getCashRegister();
   }
-
+  getTargetBusinessData() {
+    const locationId = 1;
+    const date = moment(new Date()).format('YYYY-MM-DD');
+    this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
+      if (data && data.resultData) {
+this.targetBusiness = JSON.parse(data.resultData);
+      }
+    });
+  }
   getCashRegister() {
     const today = moment(new Date()).format('YYYY-MM-DD');
     const cashRegisterType = 'CASHIN';
@@ -133,7 +143,7 @@ export class CashinRegisterComponent implements OnInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           setTimeout(() => {
             this.cashRegisterForm.patchValue({
-              goal: this.weatherDetails?.TargetBusiness
+              goal: this.targetBusiness?.WeatherPrediction?.TargetBusiness
             });
           }, 1200);
           this.getTotalCash();
@@ -204,13 +214,22 @@ export class CashinRegisterComponent implements OnInit {
       CashRegisterRoll: roll,
       cashRegisterOther: other
     };
+    // const weatherObj = {
+    //   weatherId: 0,
+    //   locationId: 1,
+    //   weather: Math.floor(this.weatherDetails?.temporature).toString(),
+    //   rainProbability: Math.floor(this.weatherDetails?.rainPercentage).toString(),
+    //   predictedBusiness: '-',
+    //   targetBusiness: this.cashRegisterForm.controls.goal.value,
+    //   createdDate: moment(new Date()).format('YYYY-MM-DD')
+    // };
     const weatherObj = {
       weatherId: 0,
       locationId: 1,
-      weather: Math.floor(this.weatherDetails?.temporature).toString(),
-      rainProbability: Math.floor(this.weatherDetails?.rainPercentage).toString(),
+      weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
+      rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
       predictedBusiness: '-',
-      targetBusiness: this.cashRegisterForm.value.goal,
+      targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
     };
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
@@ -222,8 +241,9 @@ export class CashinRegisterComponent implements OnInit {
               this.toastr.success('Record Updated Successfully!!', 'Success!');
             }else{
               this.toastr.success('Record Saved Successfully!!', 'Success!');
-            }            
+            }
             this.weatherService.getWeather();
+            this.getTargetBusinessData();
             this.getCashRegister();
           } else {
             this.toastr.error('Weather Communication Error', 'Error!');
@@ -232,15 +252,19 @@ export class CashinRegisterComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
-    });
-    this.toggleTab = 0;
+    });    
+      this.toggleTab = 0;
   }
 
-  cancel() {
-    this.toggleTab = 0;
+  cancel() {    
+      this.toggleTab = 0; 
   }
 
-  next() {
+  next(){
+    this.toggleTab = 1;
+  }
+
+  toggle() {
     if (this.toggleTab === 0) {
       this.toggleTab = 1;
     } else {

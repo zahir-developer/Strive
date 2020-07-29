@@ -44,15 +44,16 @@
                                 </ng-template>
                             </p-table>
                         </div>
-                        <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
-                            [responsive]="true" [focusOnShow]="false" [closable]="false">
-                            <app-service-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
-                                (closeDialog)="closePopupEmit($event)">
-                            </app-service-create-edit>
-                        </p-dialog>
+                       
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
+[responsive]="true" [focusOnShow]="false" [closable]="false">
+<app-service-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
+    (closeDialog)="closePopupEmit($event)">
+</app-service-create-edit>
+</p-dialog>
