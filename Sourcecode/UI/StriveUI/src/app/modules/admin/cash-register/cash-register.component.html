@@ -10,28 +10,28 @@
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
                 <h3 class="d-inline-block">Cash Register -</h3>
                 <div id="datepicker" class="date d-inline-block " data-date-format="dd-mm-yyyy">
-                    <input type="text" class="datepick" [(ngModel)]="selectDate" /> <span class="input-group-addon"><i
-                            class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div>
+                    <span class="datepick">{{selectDate}}</span>
+                </div>
             </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  cashreg-tab  mb-2" *ngIf="toggleTab === 0">
                     <li>
                         <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links active"> <i
-                                class="fa fa-money"></i> <span>Cash</span> </a>
+                                class="fa fa-money"></i>&nbsp;<span>Cash</span> </a>
                     </li>
                     <li>
                         <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links"> <i
-                                class="mdi mdi-bullseye"></i> <span>Business Goal</span> </a>
+                                class="mdi mdi-bullseye"></i><span>Business Goal</span> </a>
                     </li>
                 </ul>
                 <ul class="nav  cashreg-tab  mb-2" *ngIf="toggleTab === 1">
                     <li>
                         <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links"> <i
-                                class="fa fa-money"></i> <span>Cash</span> </a>
+                                class="fa fa-money"></i>&nbsp; <span>Cash</span> </a>
                     </li>
                     <li>
                         <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links active"> <i
-                                class="mdi mdi-bullseye"></i> <span>Business Goal</span> </a>
+                                class="mdi mdi-bullseye"></i><span>Business Goal</span> </a>
                     </li>
                 </ul>
                 <div class="tab-content">
