@@ -19,7 +19,6 @@ export class ServiceSetupListComponent implements OnInit {
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.isTableEmpty = true;
     this.getAllserviceSetupDetails();
 
   }

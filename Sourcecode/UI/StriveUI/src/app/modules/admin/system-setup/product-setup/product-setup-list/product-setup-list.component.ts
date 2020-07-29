@@ -18,7 +18,6 @@ export class ProductSetupListComponent implements OnInit {
   constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.isTableEmpty = true;
     this.getAllproductSetupDetails();
 
   }
