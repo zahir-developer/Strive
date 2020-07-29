@@ -48,7 +48,5 @@ namespace Admin.Api.Controllers
         {
             return _ProductBpl.DeleteProduct(productId);
         }
-
-
     }
 }

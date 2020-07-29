@@ -25,13 +25,6 @@ namespace Admin.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllServiceType")]
-        public Result GetAllServiceType()
-        {
-            return _serviceSetupBpl.GetAllServiceType();
-        }
-
-        [HttpGet]
         [Route("GetServiceById/{id}")]
         public Result GetServiceSetupById(int id)
         {
@@ -40,7 +33,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveNewService([FromBody] List<Strive.BusinessEntities.ServiceSetup.tblService> lstServiceSetup)
+        public Result SaveNewService([FromBody] List<Strive.BusinessEntities.ServiceSetup.Service> lstServiceSetup)
         {
             return _serviceSetupBpl.SaveNewServiceDetails(lstServiceSetup);
         }

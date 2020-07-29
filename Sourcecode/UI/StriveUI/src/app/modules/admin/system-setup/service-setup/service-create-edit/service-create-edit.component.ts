@@ -28,7 +28,7 @@ export class ServiceCreateEditComponent implements OnInit {
   constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.Status = ["Active", "InActive"];
+    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];
     this.formInitialize();
     this.ctypeLabel = 'none';
     this.getCommissionType();
@@ -48,6 +48,7 @@ export class ServiceCreateEditComponent implements OnInit {
       status: ['',],
       fee: ['',]
     });
+    this.serviceSetupForm.patchValue({status : 0});
   }
 
   get f() {
@@ -68,7 +69,7 @@ export class ServiceCreateEditComponent implements OnInit {
           fee: this.selectedService.CommissionCost,
           upcharge: this.selectedService.Upcharges,
           parentName: this.selectedService.ParentServiceId,
-          status: this.selectedData.IsActive ? this.Status[0] : this.Status[1]
+          status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
       } else {
@@ -109,10 +110,10 @@ export class ServiceCreateEditComponent implements OnInit {
     }
   }
   getAllServiceType() {
-    this.serviceSetup.getServiceType().subscribe(data => {
+    this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
       if (data.status === "Success") {
-        const sType = JSON.parse(data.resultData);
-        this.serviceType = sType.ServiceType;
+        const cType = JSON.parse(data.resultData);
+        this.serviceType = cType.Codes;
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
@@ -144,7 +145,7 @@ export class ServiceCreateEditComponent implements OnInit {
     if (this.serviceSetupForm.invalid) {
       return;
     }
-
+    console.log(this.serviceSetupForm.value.status);
     const sourceObj = [];
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,
@@ -155,7 +156,7 @@ export class ServiceCreateEditComponent implements OnInit {
       commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : 0,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
-      isActive: true,
+      isActive: this.serviceSetupForm.value.status == 0 ? true : false,
       locationId: 1,
       commissionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
       dateEntered: moment(this.today).format('YYYY-MM-DD')

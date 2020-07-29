@@ -30,7 +30,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.getProductType();
     this.getAllLocation();
     this.getAllVendor();
-    this.Status = ["Active", "InActive"];
+    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];    
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
@@ -55,6 +55,7 @@ export class ProductCreateEditComponent implements OnInit {
       thresholdAmount: ['',],
       other: ['',]
     });
+    this.productSetupForm.patchValue({status : 0});
   }
 
   getProductType() {
@@ -83,7 +84,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.Vendor = vendor.Vendor
+        this.Vendor = vendor.Vendor.filter(item => item.IsActive === true);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -94,7 +95,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.locationService.getLocation().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        this.locationName = location.Location;
+        this.locationName = location.Location.filter(item => item.IsActive === true);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -126,7 +127,7 @@ export class ProductCreateEditComponent implements OnInit {
           taxAmount: this.selectedProduct.TaxAmount !== 0 ? this.selectedProduct.TaxAmount : "",
           size: this.selectedProduct.Size,
           quantity: this.selectedProduct.Quantity,
-          status: this.selectedProduct.IsActive ? "Active" : "InActive",
+          status: this.selectedProduct.IsActive ? 0 : 1,
           vendor: this.selectedProduct.VendorId,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
@@ -176,7 +177,7 @@ export class ProductCreateEditComponent implements OnInit {
       sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
       quantity: this.productSetupForm.value.quantity,
       quantityDescription: null,
-      isActive: this.productSetupForm.value.status === "Active" ? true : false,
+      isActive: this.productSetupForm.value.status == 0 ? true : false,
       vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount
     };

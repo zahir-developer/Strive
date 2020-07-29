@@ -33,20 +33,6 @@ namespace Strive.BusinessLogic.ServiceSetup
             }
             return _result;
         }
-        public Result GetAllServiceType()
-        {
-            try
-            {
-                var lstServiceSetup = new ServiceSetupRal(_tenant).GetAllServiceType();
-                _resultContent.Add(lstServiceSetup.WithName("ServiceType"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
         public Result GetServiceSetupById(int id)
         {
             try
@@ -61,7 +47,7 @@ namespace Strive.BusinessLogic.ServiceSetup
             }
             return _result;
         }
-        public Result SaveNewServiceDetails(List<tblService> lstServiceSetup)
+        public Result SaveNewServiceDetails(List<Service> lstServiceSetup)
         {
             try
             {
