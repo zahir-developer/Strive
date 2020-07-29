@@ -233,11 +233,21 @@ export class CashinRegisterComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
-    this.toggleTab = 0;
+    if (this.toggleTab === 0) {
+      this.toggleTab = 1;
+    } else {
+      this.toggleTab = 0;
+    }
+    console.log(this.toggleTab);
   }
 
   cancel() {
-    this.toggleTab = 0;
+    if (this.toggleTab === 0) {
+      this.toggleTab = 1;
+    } else {
+      this.toggleTab = 0;
+    }
+    console.log(this.toggleTab);
   }
 
   next() {
@@ -246,6 +256,7 @@ export class CashinRegisterComponent implements OnInit {
     } else {
       this.toggleTab = 0;
     }
+    console.log(this.toggleTab);
   }
 
   getTotalCoin(name: string, amt: number) {

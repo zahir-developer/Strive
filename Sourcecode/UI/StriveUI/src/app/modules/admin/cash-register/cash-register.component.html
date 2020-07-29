@@ -16,21 +16,21 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  cashreg-tab  mb-2" *ngIf="toggleTab === 0">
                     <li>
-                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links active"> <i
+                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links active" (click)="next()"> <i
                                 class="fa fa-money"></i>&nbsp;<span>Cash</span> </a>
                     </li>
                     <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links"> <i
+                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links" (click)="next()"> <i
                                 class="mdi mdi-bullseye"></i><span>Business Goal</span> </a>
                     </li>
                 </ul>
                 <ul class="nav  cashreg-tab  mb-2" *ngIf="toggleTab === 1">
                     <li>
-                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links"> <i
+                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links" (click)="next()"> <i
                                 class="fa fa-money"></i>&nbsp; <span>Cash</span> </a>
                     </li>
                     <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links active"> <i
+                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links active" (click)="next()"> <i
                                 class="mdi mdi-bullseye"></i><span>Business Goal</span> </a>
                     </li>
                 </ul>
