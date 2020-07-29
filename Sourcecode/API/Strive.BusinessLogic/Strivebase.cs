@@ -133,7 +133,7 @@ namespace Strive.BusinessLogic
             {
                 var model = prp.GetValue(tdata, null);
                 Type subModelType = model.GetType();
-                PropertyInfo prInfo = default;
+                PropertyInfo prInfo = null;
 
                 if (subModelType.IsClass)
                 {
