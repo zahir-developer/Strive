@@ -13,7 +13,7 @@ namespace Strive.BusinessEntities.Model
         public int LocationAddressId { get; set; }
 
         [Column]
-        public int? LocationId { get; set; }
+        public int LocationId { get; set; }
 
         [Column]
         public string Address1 { get; set; }
@@ -52,10 +52,10 @@ namespace Strive.BusinessEntities.Model
         public int? WeatherLocationId { get; set; }
 
         [Column]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         [Column]
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
 
         [Column]
         public int? CreatedBy { get; set; }

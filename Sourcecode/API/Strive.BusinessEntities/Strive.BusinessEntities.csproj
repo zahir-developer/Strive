@@ -56,6 +56,7 @@
     <Compile Include="DTO\Employee\EmployeeLiabilityDto.cs" />
     <Compile Include="DTO\Employee\EmployeeLocationDto.cs" />
     <Compile Include="DTO\Employee\EmployeeRoleDto.cs" />
+    <Compile Include="DTO\Location\LocationViewModel.cs" />
     <Compile Include="Model\Bay.cs" />
     <Compile Include="Model\CashRegister.cs" />
     <Compile Include="Model\CashRegisterBills.cs" />

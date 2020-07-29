@@ -6,12 +6,11 @@ namespace Strive.BusinessLogic.Location
 {
     public interface ILocationBpl
     {
-        Result GetLocationDetails();
-        Result SaveLocationDetails(LocationDto lstLocation);
-        Result DeleteLocationDetails(int id);
-        Result GetLocationById(int id);
         Result AddLocation(LocationDto location);
         Result UpdateLocation(LocationDto lstLocation);
-
+        Result GetAllLocation();
+        Result GetLocationById(int id);
+        Result DeleteLocation(int id);
+        Result SaveLocation(LocationDto lstLocation);
     }
 }

@@ -164,6 +164,8 @@ namespace Strive.BusinessLogic
                 subModelType.GetProperty("CreatedDate").SetValue(model, DateTimeOffset.UtcNow);
                 subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
                 subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
+                subModelType.GetProperty("IsActive").SetValue(model, true);
+                subModelType.GetProperty("IsDeleted").SetValue(model, false);
             }
             if (action == "UPD")
             {

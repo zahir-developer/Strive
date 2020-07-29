@@ -39,8 +39,9 @@ namespace Strive.ResourceAccess
             db = new Db(_dbconnection);
         }
 
-        protected void AddAudit<T>(T tdata)
+        protected T AddAudit<T>() where T : class,new()
         {
+            var tdata = new T();
             string action = "ADD";
             Type type = typeof(T);
             foreach (PropertyInfo prp in type.GetProperties())
@@ -68,6 +69,8 @@ namespace Strive.ResourceAccess
                     subModelType.GetProperty("UpdatedDate").SetValue(model, DateTime.Now.ToString());
                 }
             }
+
+            return tdata;
         }
     }
 

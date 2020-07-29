@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using RepoDb;
 using RepoDb.SqlServer;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Strive.RepositoryCqrs
@@ -51,7 +52,18 @@ namespace Strive.RepositoryCqrs
             return true;
         }
 
-        public static bool UpdatePc<T>(T tview, string PrimaryField, string cs,string sc)
+        public static void Delete<T>(T tdata, string cs, string schemaName) where T: class,new()
+        {
+            SqlServerBootstrap.Initialize();
+            DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
+
+            using (var dbcon = new SqlConnection(cs).EnsureOpen())
+            {
+                dbcon.Update(ClassMappedNameCache.Get<T>(), tdata);
+            }
+        }
+
+        public static bool UpdatePc<T>(T tview, string PrimaryField, string cs, string sc)
         {
 
             SqlServerBootstrap.Initialize();
@@ -80,6 +92,18 @@ namespace Strive.RepositoryCqrs
             }
             return true;
         }
+
+
+        //public static T Get<T>(int id)
+        //{
+        //    SqlServerBootstrap.Initialize();
+        //    DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
+
+        //    using (var dbcon = new SqlConnection(cs).EnsureOpen())
+        //    {
+        //        dbcon.
+        //    }
+        //}
 
         //public static Child ConvertToChildObject(this PropertyInfo propertyInfo, object parent)
         //{

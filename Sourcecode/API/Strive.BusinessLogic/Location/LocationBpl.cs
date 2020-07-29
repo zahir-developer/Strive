@@ -15,21 +15,6 @@ namespace Strive.BusinessLogic.Location
     {
         public LocationBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public Result GetLocationDetails()
-        {
-            return ResultWrap(new LocationRal(_tenant).GetLocationDetails, "Location");
-        }
-
-        public Result GetLocationById(int id)
-        {
-            return ResultWrap(new LocationRal(_tenant).GetLocationById, id, "Location");
-        }
-
-        public Result DeleteLocationDetails(int id)
-        {
-            return ResultWrap(new LocationRal(_tenant).DeleteLocationDetails, id, "Location");
-        }
-
         public Result AddLocation(LocationDto location)
         {
             return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
@@ -40,7 +25,22 @@ namespace Strive.BusinessLogic.Location
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 
-        public Result SaveLocationDetails(LocationDto location)
+        public Result GetAllLocation()
+        {
+            return ResultWrap(new LocationRal(_tenant).GetAllLocation, "Location");
+        }
+
+        public Result GetLocationById(int id)
+        {
+            return ResultWrap(new LocationRal(_tenant).GetLocationDetailById, id, "Location");
+        }
+
+        public Result DeleteLocation(int id)
+        {
+            return ResultWrap(new LocationRal(_tenant).DeleteLocation, id, "Location");
+        }
+
+        public Result SaveLocation(LocationDto location)
         {
             try
             {

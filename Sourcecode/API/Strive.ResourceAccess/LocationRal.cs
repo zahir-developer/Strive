@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.Location;
 using Strive.BusinessEntities.Location;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
@@ -16,15 +17,14 @@ namespace Strive.ResourceAccess
     {
         public LocationRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<LocationDto> GetLocationDetails()
+        public List<LocationViewModel> GetAllLocation()
         {
-            return db.FetchRelation1<LocationDto, LocationAddress>(SPEnum.USPGETLOCATION.ToString(), _prm);
+            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
         }
 
-        public List<LocationDto> GetLocationById(int id)
+        public LocationAddress GetLocationDetailById(int locationId)
         {
-            _prm.Add("@tblLocationId", id.toInt());
-            return db.FetchRelation1<LocationDto, LocationAddress>(SPEnum.USPGETLOCATIONBYID.ToString(), _prm);
+            return db.GetSingleByFkId<LocationAddress>(locationId, "LocationId");
         }
 
         public bool AddLocation(LocationDto location)
@@ -42,10 +42,13 @@ namespace Strive.ResourceAccess
             return DbRepo.UpdatePc(location, "LocationId", cs, _tenant.SchemaName);
         }
 
-        public bool DeleteLocationDetails(int id)
+        public bool DeleteLocation(int id)
         {
-            _prm.Add("@tblLocationId", id.toInt());
-            db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
+            var location = AddAudit<Location>();
+            location.LocationId = id;            
+            DbRepo.Delete<Location>(location, cs, _tenant.SchemaName);
+            //_prm.Add("@tblLocationId", id.toInt());
+            //db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
             return true;
         }
     }

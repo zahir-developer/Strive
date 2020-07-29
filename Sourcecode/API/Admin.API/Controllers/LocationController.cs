@@ -25,19 +25,19 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveLocation([FromBody]  LocationDto location) => _bplManager.SaveLocationDetails(location);
+        public Result SaveLocation([FromBody]  LocationDto location) => _bplManager.SaveLocation(location);
 
         [HttpDelete]
-        [Route("{id}")]
-        public Result DeleteLocation(int id) => _bplManager.DeleteLocationDetails(id);
+        [Route("Delete")]
+        public Result DeleteLocation(int id) => _bplManager.DeleteLocation(id);
 
         [HttpGet]
         [Route("GetAll")]
-        public Result GetAllLocation() => _bplManager.GetLocationDetails();
+        public Result GetAllLocation() => _bplManager.GetAllLocation();
 
         [HttpGet]
-        [Route("{id}")]
-        public Result GeteLocationById(int id) => _bplManager.GetLocationById(id);
+        [Route("GetById")]
+        public Result GetLocationById(int id) => _bplManager.GetLocationById(id);
 
 
     }
