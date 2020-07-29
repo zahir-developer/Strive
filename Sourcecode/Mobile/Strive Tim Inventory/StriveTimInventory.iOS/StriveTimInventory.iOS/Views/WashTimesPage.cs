@@ -5,6 +5,7 @@ using CoreGraphics;
 using CoreLocation;
 using Foundation;
 using MapKit;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Utils;
 using Strive.Core.ViewModels.TIMInventory;
@@ -24,6 +25,9 @@ namespace StriveTimInventory.iOS.Views
         {
             base.ViewDidLoad();
             DoInitialSetup();
+            var set = this.CreateBindingSet<WashTimesPage, WashTimesViewModel>();
+            set.Bind(LogOutButton).To(vm => vm.Commands["NavigateBack"]);
+            set.Apply();
             MapView.MapType = MKMapType.MutedStandard;
             SetMapCenter();
             MapView.Delegate = new MapViewDelegate();

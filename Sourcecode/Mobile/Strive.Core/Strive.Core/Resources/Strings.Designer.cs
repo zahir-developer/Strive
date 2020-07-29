@@ -173,8 +173,7 @@ namespace Strive.Core.Resources {
             }
         }
         
-        internal static string String1
-        {
+        internal static string ValidMobile {
             get {
                 return ResourceManager.GetString("ValidMobile", resourceCulture);
             }
@@ -189,12 +188,6 @@ namespace Strive.Core.Resources {
         internal static string NotReceiveOTP {
             get {
                 return ResourceManager.GetString("NotReceiveOTP", resourceCulture);
-            }
-        }
-        
-        internal static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

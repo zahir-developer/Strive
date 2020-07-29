@@ -16,13 +16,31 @@ namespace StriveTimInventory.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton LogOutButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         MapKit.MKMapView MapView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel Title { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (LogOutButton != null) {
+                LogOutButton.Dispose ();
+                LogOutButton = null;
+            }
+
             if (MapView != null) {
                 MapView.Dispose ();
                 MapView = null;
+            }
+
+            if (Title != null) {
+                Title.Dispose ();
+                Title = null;
             }
         }
     }
