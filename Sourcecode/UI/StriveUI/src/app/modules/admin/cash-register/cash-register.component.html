@@ -16,26 +16,26 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  cashreg-tab  mb-2" *ngIf="toggleTab === 0">
                     <li>
-                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links active" (click)="next()"> <i
+                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links active" (click)="toggle()"> <i
                                 class="fa fa-money"></i>&nbsp;<span>Cash</span> </a>
                     </li>
                     <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links" (click)="next()"> <i
+                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links" (click)="toggle()"> <i
                                 class="mdi mdi-bullseye"></i><span>Business Goal</span> </a>
                     </li>
                 </ul>
                 <ul class="nav  cashreg-tab  mb-2" *ngIf="toggleTab === 1">
                     <li>
-                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links" (click)="next()"> <i
+                        <a href="#cash" data-toggle="tab" aria-expanded="false" class="nav-links" (click)="toggle()"> <i
                                 class="fa fa-money"></i>&nbsp; <span>Cash</span> </a>
                     </li>
                     <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links active" (click)="next()"> <i
+                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-links active" (click)="toggle()"> <i
                                 class="mdi mdi-bullseye"></i><span>Business Goal</span> </a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="cash">
+                    <div class="tab-pane active" id="cash" *ngIf="toggleTab === 0">
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-xl-5 no-space">
@@ -196,13 +196,13 @@
                             </div>
                         </div>
                         <div class="m-t-12 pull-right mw-100">
-                            <a href="#business-goal" data-toggle="tab" aria-expanded="false">
-                                <button type="button" (click)="next()"
+                            <a href="#business-goal" data-toggle="tab" aria-expanded="false" (click)="next()">
+                                <button type="button" 
                                     class="btn theme-primary-button-color  col-12 col-sm-auto col-md-auto col-lg-auto co-xl-auto">
                                     Next</button></a>
                         </div>
                     </div>
-                    <div class="tab-pane show" id="business-goal">
+                    <div class="tab-pane show" id="business-goal" *ngIf="toggleTab === 1">
                         <div class="row no-gutter mob-goal">
                             <div class="col-lg-12">
                                 <div class="list-group  m-b-10">
@@ -305,12 +305,12 @@
                             </div>
                         </div>
                         <div class="m-t-12 pull-right mw-100 modal-footer">
-                            <a href="#cash" data-toggle="tab" aria-expanded="false">
+                            <a href="#cash" data-toggle="tab" aria-expanded="false" (click)="cancel()">
                                 <button type="button" class="btn theme-optional-button-color"
-                                    (click)="cancel()">Cancel</button></a>
-                            <a href="#cash" data-toggle="tab" aria-expanded="false">
+                                    >Cancel</button></a>
+                            <a href="#cash" data-toggle="tab" aria-expanded="false" (click)="submit()">
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="submit()">Save</button></a>
+                                    >Save</button></a>
                         </div>
                     </div>
                 </div>
