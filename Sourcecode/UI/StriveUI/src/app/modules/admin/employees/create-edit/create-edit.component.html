@@ -88,9 +88,15 @@
                                         formControlName="password"> </div>
                                 <div class="form-group col-md-3">
                                     <label>Date of Hire</label>
-                                    <input type="text" class="form-control date datepicker-view"
+                                    <!-- <input type="text" class="form-control date datepicker-view"
                                         data-toggle="date-picker" data-single-date-picker="true"
-                                        formControlName="dateOfHire"> </div>
+                                        formControlName="dateOfHire"> -->
+                                    <!-- <dp-date-picker [config]="datePickerConfig">
+                                    </dp-date-picker> -->
+                                    <input type="text" placeholder="Datepicker" formControlName="dateOfHire" class="form-control" bsDatepicker>
+                                    <!-- <ng2-datepicker  name="date" [options]="datePickerConfig">
+                                    </ng2-datepicker> -->
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputhourrate">Hourly Rate-Wash</label>
                                     <input type="text" class="form-control" id="inputhourrate"
@@ -127,14 +133,14 @@
                                         formControlName="exemptions"> </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
-                                    <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings" [data]="employeeRoles"
-                                        formControlName="roles" >
+                                    <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
+                                        [data]="employeeRoles" formControlName="roles">
                                     </ng-multiselect-dropdown>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Location </label>
-                                    <ng-multiselect-dropdown [placeholder]="'Select Location'" [settings]="dropdownSettings" [data]="location"
-                                        formControlName="location" >
+                                    <ng-multiselect-dropdown [placeholder]="'Select Location'"
+                                        [settings]="dropdownSettings" [data]="location" formControlName="location">
                                     </ng-multiselect-dropdown>
                                 </div>
                             </div>

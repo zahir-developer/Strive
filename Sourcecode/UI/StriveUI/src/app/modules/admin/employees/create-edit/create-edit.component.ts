@@ -33,6 +33,10 @@ export class CreateEditComponent implements OnInit {
   personalform: FormGroup;
   emplistform: FormGroup;
   dropdownSettings: IDropdownSettings = {};
+  datePickerConfig = {
+    format: 'DD-MM-YYYY',
+    showTwentyFourHours: true
+  };
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
