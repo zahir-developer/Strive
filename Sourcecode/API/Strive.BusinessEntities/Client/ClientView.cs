@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.Client
 {
-    public class ClientList
+    public class ClientView
     {
         public int ClientId { get; set; }
         public string FirstName { get; set; }

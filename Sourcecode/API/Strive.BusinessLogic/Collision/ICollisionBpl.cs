@@ -8,7 +8,7 @@ namespace Strive.BusinessLogic.Collision
     public interface ICollisionBpl
     {
         Result GetAllCollison();
-        Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionList> lstCollision);
+        Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision);
         Result DeleteCollision(long id);
         Result GetCollisionById(long id);
     }

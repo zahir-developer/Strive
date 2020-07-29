@@ -25,24 +25,24 @@ namespace Strive.ResourceAccess
             _dbconnection = tenant.db();
             db = new Db(_dbconnection);
         }
-        public List<CollisionList> GetAllCollison()
+        public List<CollisionListView> GetAllCollison()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<CollisionList> lstCollision = new List<CollisionList>();
-            lstCollision = db.FetchRelation1<CollisionList, LiabilityDetail>(SPEnum.USPGETCOLLISION.ToString(), dynParams);
+            List<CollisionListView> lstCollision = new List<CollisionListView>();
+            lstCollision = db.FetchRelation1<CollisionListView, LiabilityDetail>(SPEnum.USPGETCOLLISION.ToString(), dynParams);
             return lstCollision;
         }
 
-        public List<CollisionList> GetCollisionById(long id)
+        public List<CollisionListView> GetCollisionById(long id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@CollisionId", id);
-            List<CollisionList> lstCollisionById = new List<CollisionList>();
-            lstCollisionById = db.FetchRelation1<CollisionList, LiabilityDetail>(SPEnum.USPGETCOLLISIONBYID.ToString(), dynParams);
+            List<CollisionListView> lstCollisionById = new List<CollisionListView>();
+            lstCollisionById = db.FetchRelation1<CollisionListView, LiabilityDetail>(SPEnum.USPGETCOLLISIONBYID.ToString(), dynParams);
             return lstCollisionById;
         }
 
-        public bool SaveCollison(List<CollisionList> lstCollision)
+        public bool SaveCollison(List<CollisionListView> lstCollision)
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<Collision> lstColli = new List<Collision>();

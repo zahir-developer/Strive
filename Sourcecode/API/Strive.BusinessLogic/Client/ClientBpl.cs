@@ -27,7 +27,7 @@ namespace Strive.BusinessLogic
             _cache = cache;
         }
 
-        public Result SaveClientDetails(ClientList lstClient)
+        public Result SaveClientDetails(ClientView lstClient)
         {
             try
             {
@@ -43,6 +43,34 @@ namespace Strive.BusinessLogic
 
                 
                 _resultContent.Add(blnStatus.WithName("Status"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result GetAllClient()
+        {
+            try
+            {
+                var lstClient = new ClientRal(_tenant).GetAllClient();
+                _resultContent.Add(lstClient.WithName("Clients"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result DeleteClient(int clientId)
+        {
+            try
+            {
+                var lstClient = new ClientRal(_tenant).DeleteClient(clientId);
+                _resultContent.Add(lstClient.WithName("Client"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)

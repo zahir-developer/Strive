@@ -32,12 +32,24 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveClientDetails([FromBody] ClientList client)
+        public Result SaveClientDetails([FromBody] ClientView client)
         {
             return _clientBpl.SaveClientDetails(client);
 
         }
-    
+        [HttpGet]
+        [Route("GetAllClient")]
+        public Result GetAllClient()
+        {
+            return _clientBpl.GetAllClient();
+
+        }
+        [HttpDelete]
+        [Route("{clientId}")]
+        public Result DeleteClient(int clientId)
+        {
+            return _clientBpl.DeleteClient(clientId);
+        }
 
     }
 }
