@@ -37,7 +37,6 @@ body .ui-widget {
   .form-control.is-invalid, .was-validated .form-control:invalid {
     background-image: none !important;
 }
-  .toast-top-center {
-    width: 50%;
-    top: 30px
+  .toast-top-right {
+    top: 53px
 }
