@@ -249,7 +249,8 @@ namespace Strive.Core.Resources {
             }
         }
         
-        internal static string ValidMobile {
+        internal static string String1
+        {
             get {
                 return ResourceManager.GetString("String1", resourceCulture);
             }
