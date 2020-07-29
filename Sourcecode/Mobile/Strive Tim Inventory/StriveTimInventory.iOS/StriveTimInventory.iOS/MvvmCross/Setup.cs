@@ -21,6 +21,7 @@ namespace StriveTimInventory.iOS.MvvmCross
             Mvx.IoCProvider.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<ILocationService, LocationService>();
         }
 
         protected override void InitializeLastChance()

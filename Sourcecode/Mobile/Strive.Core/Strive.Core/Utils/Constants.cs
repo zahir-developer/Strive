@@ -5,6 +5,8 @@ namespace Strive.Core.Utils
     { 
         public const string BASE_URL = "http://14.141.185.75:5001";
 
+        public static string Token { get; set; }
+
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
 
         public const string URL_CUST_SIGN_UP = "/Auth/CreateLogin";
@@ -13,7 +15,9 @@ namespace Strive.Core.Utils
 
         public const string URL_CUST_CONFIRM_PASSWORD = "/Auth/ResetPassword";
 
-        public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP/{0}/{1}";   
-    
+        public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP/{0}/{1}";
+
+        public const string URL_GET_ALL_LOCATION_ADDRESS = "/Admin/Location/GetAllLocationAddress";
+
     }
 }
