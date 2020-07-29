@@ -46,7 +46,7 @@ namespace Strive.BusinessLogic.Collision
             }
             return _result;
         }
-        public Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionList> lstCollision)
+        public Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision)
         {
             try
             {

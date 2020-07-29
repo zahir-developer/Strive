@@ -71,6 +71,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 if(response.Token != null)
                 {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
+                    ApiUtils.Token = response.Token;
                     await _navigationService.Navigate<RootViewModel>();
                 }
                 _userDialog.HideLoading();

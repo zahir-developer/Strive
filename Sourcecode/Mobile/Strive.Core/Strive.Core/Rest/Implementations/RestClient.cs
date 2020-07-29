@@ -35,7 +35,7 @@ namespace Strive.Core.Rest.Implementations
 
             using (var httpClient = new HttpClient())
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiUtils.Token);
                 using (var request = new HttpRequestMessage { RequestUri = new Uri(url), Method = method })
                 {
                     if (method != HttpMethod.Get)
