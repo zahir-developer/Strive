@@ -6,6 +6,7 @@ using CoreLocation;
 using Foundation;
 using MapKit;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.TIMInventory;
 using StriveTimInventory.iOS.UIUtils;
 using UIKit;
@@ -24,34 +25,52 @@ namespace StriveTimInventory.iOS.Views
             base.ViewDidLoad();
             DoInitialSetup();
             MapView.MapType = MKMapType.MutedStandard;
-            double lat = 42.364260;
-            double lon = -71.120824;
-            CLLocationCoordinate2D mapCenter = new CLLocationCoordinate2D(lat, lon);
-            MKCoordinateRegion mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1000, 1000);
+            SetMapCenter();
+            MapView.Delegate = new MapViewDelegate();
+        }
+
+        async void SetMapCenter()
+        {
+            var location = await ViewModel.GetAllLocationAddress();
+            if(location != null)
+            {
+                SetMapAnnotations();
+            }           
+        }
+
+        void SetMapAnnotations()
+        {
+            double LatCenter = 0.0;
+            double LongCenter = 0.0;
+            int AddressCount = 0;
+            var locationAddress = ViewModel.Location.LocationAddress;
+            MKPointAnnotation[] annotations = new MKPointAnnotation[locationAddress.Count];
+            for (int i = 0 ; i< locationAddress.Count;i++)
+            {
+                var subtitle = "";
+                if (locationAddress[i].Latitude > 0 || locationAddress[i].Longitude > 0)
+                {
+                    LatCenter += locationAddress[i].Latitude;
+                    LongCenter += locationAddress[i].Longitude;
+                    ++AddressCount;
+                    var WashTime = DateUtils.GetDateFromString(locationAddress[i].WashTiming);
+                    var OpenTime = DateUtils.GetDateFromString(locationAddress[i].OpenTime);
+                    var CloseTime = DateUtils.GetDateFromString(locationAddress[i].CloseTime);
+                    subtitle = WashTime.Minute.ToString();
+                }
+                annotations[i] = new MKPointAnnotation()
+                {
+                    Title = locationAddress[i].Address1,
+                    Subtitle = subtitle,
+                    Coordinate = new CLLocationCoordinate2D(locationAddress[i].Latitude,locationAddress[i].Longitude)
+                };
+            }
+            LatCenter = LatCenter / AddressCount;
+            LongCenter = LongCenter / AddressCount;
+            CLLocationCoordinate2D mapCenter = new CLLocationCoordinate2D(LatCenter, LongCenter);
+            MKCoordinateRegion mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 10000, 10000);
             MapView.CenterCoordinate = mapCenter;
             MapView.Region = mapRegion;
-            MapView.Delegate = new MapViewDelegate();
-
-            MKPointAnnotation[] annotations = new MKPointAnnotation[3];
-            annotations[0] = new MKPointAnnotation()
-            {
-                Title = "Alpharetta",
-                Subtitle = "10 AM",
-                Coordinate = new CLLocationCoordinate2D(42.364260, -71.120824)
-            };
-            annotations[1] = new MKPointAnnotation()
-            {
-                Title = "Peachtree Corners",
-                Subtitle = "45",
-                Coordinate = new CLLocationCoordinate2D(42.364260, -71.12824)
-            };
-            annotations[2] = new MKPointAnnotation()
-            {
-                Title = "Texas",
-                Subtitle = "30",
-                Coordinate = new CLLocationCoordinate2D(42.362260, -71.12824)
-            };
-
             MapView.AddAnnotations(annotations);
         }
 
