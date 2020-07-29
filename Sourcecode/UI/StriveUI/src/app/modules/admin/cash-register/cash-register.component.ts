@@ -252,15 +252,19 @@ this.targetBusiness = JSON.parse(data.resultData);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
-    });
-    this.toggleTab = 0;
+    });    
+      this.toggleTab = 0;
   }
 
-  cancel() {
-    this.toggleTab = 0;
+  cancel() {    
+      this.toggleTab = 0; 
   }
 
-  next() {
+  next(){
+    this.toggleTab = 1;
+  }
+
+  toggle() {
     if (this.toggleTab === 0) {
       this.toggleTab = 1;
     } else {

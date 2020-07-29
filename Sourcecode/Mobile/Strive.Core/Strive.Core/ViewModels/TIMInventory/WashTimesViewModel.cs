@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MvvmCross;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Services.Interfaces;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -21,6 +22,12 @@ namespace Strive.Core.ViewModels.TIMInventory
            Location = await LocationService.GetAllLocationAddress();
             _userDialog.HideLoading();
             return Location;
+        }
+
+        public async Task NavigateBackCommand()
+        {
+            await _navigationService.Close(this);
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit!"));
         }
     }
 }
