@@ -20,6 +20,7 @@ import { TemperatureComponent } from './components/temperature/temperature.compo
 import { LastWeekComponent } from './components/last-week/last-week.component';
 import { LastThreeMonthComponent } from './components/last-three-month/last-three-month.component';
 import { LastMonthComponent } from './components/last-month/last-month.component';
+import { TwoDecimalNumberDirective } from './Directive/two-decimal-number.directive';
 
 
 
@@ -41,11 +42,11 @@ import { LastMonthComponent } from './components/last-month/last-month.component
     ConfirmationDialogComponent
   ],
   declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective,
-    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent],
+    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent, TwoDecimalNumberDirective],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, 
     AccordionModule, ConfirmationDialogComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
-    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent],
+    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent, TwoDecimalNumberDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 
