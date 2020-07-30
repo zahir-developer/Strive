@@ -50,7 +50,6 @@ namespace Strive.ResourceAccess
         public List<Service> GetServiceSetupById(int id)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Service> lstResource = new List<Service>();
             dynParams.Add("@tblServiceId", id.toInt());
             var res = db.Fetch<Service>(SPEnum.USPGETSERVICEBYID.ToString(), dynParams);
             return res;

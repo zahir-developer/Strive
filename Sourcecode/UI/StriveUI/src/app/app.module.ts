@@ -95,7 +95,7 @@ const load = (http: HttpClient) => {
     ToastrModule.forRoot({
       timeOut: 2000,
       autoDismiss: true,
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-top-right',
       preventDuplicates: false,
       enableHtml: true
     }),
