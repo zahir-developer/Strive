@@ -24,7 +24,7 @@ namespace Strive.ResourceAccess
             var allPredictions = _db.GetAll<WeatherPrediction>();
 
             return allPredictions.Where(s => s.LocationId == locationId && s.CreatedDate.Date == dateTime.Date)
-                                 .OrderByDescending(s=>s.CreatedDate).FirstOrDefault();
+                                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
         }
 
         public bool AddWeather(WeatherPrediction weatherPrediction)
@@ -38,7 +38,7 @@ namespace Strive.ResourceAccess
         public bool UpdateWeather(WeatherPrediction weatherPrediction)
         {
 
-          int WeatherPredictionId = Convert.ToInt32(_db.Update<WeatherPrediction>(weatherPrediction));
+            int WeatherPredictionId = Convert.ToInt32(_db.Update<WeatherPrediction>(weatherPrediction));
 
             return WeatherPredictionId > 0;
         }

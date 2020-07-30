@@ -33,6 +33,12 @@ namespace Admin.API.Controllers
         {
             return _collisionBpl.GetCollisionById(id);
         }
+        [HttpGet]
+        [Route("GetCollisionByEmpId/{id}")]
+        public Result GetCollisionByEmpId(long id)
+        {
+            return _collisionBpl.GetCollisionByEmpId(id);
+        }
 
         [HttpPost]
         [Route("Save")]

@@ -97,11 +97,11 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
-        public Result GetAllDocument(long employeeId, long locationId)
+        public Result GetAllDocument(long employeeId)
         {
             try
             {
-                var lstDocumentById = new DocumentRal(_tenant).GetAllDocument(employeeId, locationId);
+                var lstDocumentById = new DocumentRal(_tenant).GetAllDocument(employeeId);
                 if (lstDocumentById.Count>0)
                 {
                     foreach(var item in lstDocumentById)

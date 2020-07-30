@@ -41,6 +41,7 @@ namespace Strive.Core.ViewModels.Customer
                 if (!string.IsNullOrEmpty(loginResponse.Token))
                 {
                     _userDialog.Toast("Success");
+                    await _navigationService.Navigate<DashboardViewModel>();
                 }
                 else
                 {
