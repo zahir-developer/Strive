@@ -11,5 +11,6 @@ namespace Strive.BusinessLogic.Collision
         Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision);
         Result DeleteCollision(long id);
         Result GetCollisionById(long id);
+        Result GetCollisionByEmpId(long id);
     }
 }
