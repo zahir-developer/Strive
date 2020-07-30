@@ -70,6 +70,7 @@ namespace Strive.BusinessEntities
         USPRESETPASSWORD,
         USPSAVECLIENT,
         USPVERIFYOTP,
+        USPGETCOLLISIONBYEMPID,
         //MembershipSetup
         USPGETMEMBERSHIPSETUP,
         USPGETSERVICEWITHPRICE,

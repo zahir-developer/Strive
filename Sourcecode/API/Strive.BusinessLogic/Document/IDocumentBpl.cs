@@ -12,6 +12,6 @@ namespace Strive.BusinessLogic.Document
         Result UploadDocument(List<Strive.BusinessEntities.Document.DocumentView> lstDocument);
         Result GetDocumentById(long documentId, long employeeId, string password);
         Result UpdatePassword(Strive.BusinessEntities.Document.DocumentView lstUpdateDocument);
-        Result GetAllDocument(long employeeId, long locationId);
+        Result GetAllDocument(long employeeId);
     }
 }
