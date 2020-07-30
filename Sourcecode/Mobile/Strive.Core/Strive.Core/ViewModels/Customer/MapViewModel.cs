@@ -8,7 +8,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public void GetLocationsCommand()
         {
-            _userDialog.Toast("Success");
+            
         }
     }
 }

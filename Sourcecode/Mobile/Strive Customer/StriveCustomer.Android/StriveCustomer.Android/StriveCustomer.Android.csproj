@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\DealsFragment.cs" />
-    <Compile Include="Fragments\MapFragment.cs" />
+    <Compile Include="Fragments\MapsFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -159,6 +159,9 @@
     </PackageReference>
     <PackageReference Include="MvvmCross.Plugin.Json">
       <Version>6.4.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Maps">
+      <Version>71.1610.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

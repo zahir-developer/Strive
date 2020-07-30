@@ -26,6 +26,7 @@ namespace StriveCustomer.Android.Views
     {
         private BottomNavigationView bottomNav;
         MvxFragment fragment = null;
+        MapsFragment mapFrag = new MapsFragment();
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -38,23 +39,25 @@ namespace StriveCustomer.Android.Views
         private void NavigateFrag(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
             fragment = null;
+            //if(fragment == null)
+            //{
+            //    SupportFragmentManager.BeginTransaction().Remove(fragment).Commit();
+            //}
+
             switch (e.Item.ItemId)
             {
-                
                 case Resource.Id.menu_Map:
-                    fragment = new MapFragment();
-                    SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
+                    fragment = new MapsFragment();
                     break;
                 case Resource.Id.menu_Deals:
                     fragment = new DealsFragment();
-                    SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
                     break;
                 case Resource.Id.menu_AboutUs:
+                    fragment = new DealsFragment();
                     break;
-
             }
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
 
-            
         }
     }
 }
