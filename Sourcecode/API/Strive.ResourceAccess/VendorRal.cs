@@ -55,7 +55,7 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<VendorView> GetVendorById(long id)
+        public List<VendorView> GetVendorById(int id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@VendorId", id);

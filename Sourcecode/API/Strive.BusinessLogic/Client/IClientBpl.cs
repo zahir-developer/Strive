@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic.Client
        Result SaveClientDetails(ClientView lstClient);
         Result GetAllClient();
         Result DeleteClient(int clientId);
+        Result GetClientById(int id);
     }
 }
