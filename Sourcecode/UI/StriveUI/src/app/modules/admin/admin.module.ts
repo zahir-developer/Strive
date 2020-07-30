@@ -39,6 +39,7 @@ import { EditEmployeeComponent } from './employees/edit-employee/edit-employee.c
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EmployeeCollisionComponent } from './employees/employee-collision/employee-collision.component';
 import { CollisionListComponent } from './employees/collision-list/collision-list.component';
+import { DocumentListComponent } from './employees/document-list/document-list.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -46,7 +47,7 @@ import { CollisionListComponent } from './employees/collision-list/collision-lis
     LocationSetupComponent, LocationCreateEditComponent, LocationSetupListComponent,
     ServiceCreateEditComponent, ServiceSetupListComponent, ServiceSetupComponent, ProductSetupComponent,
     ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
-    VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent, EmployeeCollisionComponent, CollisionListComponent],
+    VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent, EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent],
   imports: [
     CommonModule,
     RouterModule,

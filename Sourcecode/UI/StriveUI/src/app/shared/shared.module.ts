@@ -22,8 +22,7 @@ import { LastThreeMonthComponent } from './components/last-three-month/last-thre
 import { LastMonthComponent } from './components/last-month/last-month.component';
 import { TwoDecimalNumberDirective } from './Directive/two-decimal-number.directive';
 import { MaxLengthDirective } from './Directive/max-length.directive';
-
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
@@ -37,7 +36,8 @@ import { MaxLengthDirective } from './Directive/max-length.directive';
     FullCalendarModule,
     AutoCompleteModule,
     AccordionModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   entryComponents: [
     ConfirmationDialogComponent
@@ -47,7 +47,7 @@ import { MaxLengthDirective } from './Directive/max-length.directive';
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule, 
     AccordionModule, ConfirmationDialogComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
-    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective],
+    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, BsDatepickerModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-
+declare var $: any;
 @Component({
   selector: 'app-create-edit',
   templateUrl: './create-edit.component.html',
@@ -261,8 +261,12 @@ export class CreateEditComponent implements OnInit {
   }
 
   fileNameChanged() {
+    $('custom-file-input').on('change', function() {
+      const fileName = $(this).val().split('\\').pop();
+      $(this).siblings('custom-file-label').addClass('selected').html(fileName);
+    });
     let filesSelected: any;
-    filesSelected = document.getElementById('filepaths');
+    filesSelected = document.getElementById('customFile');
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
@@ -271,7 +275,7 @@ export class CreateEditComponent implements OnInit {
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
         let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('filepaths');
+        textAreaFileContents = document.getElementById('customFile');
         textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
       };
       fileReader.readAsDataURL(fileToLoad);
