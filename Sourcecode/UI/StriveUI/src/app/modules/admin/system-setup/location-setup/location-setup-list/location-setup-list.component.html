@@ -51,7 +51,7 @@
         </div>
     </div>
 </div>
-<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
+<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
 [modal]="true" [focusOnShow]="false" [closable]="false">
 <app-location-create-edit *ngIf="showDialog" [selectedData]="selectedData"
     [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
