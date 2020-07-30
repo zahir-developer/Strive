@@ -61,6 +61,8 @@
     <Compile Include="Location\ILocationBpl.cs" />
     <Compile Include="Location\LocationBpl.cs" />
     <Compile Include="Location\WeatherLocation.cs" />
+    <Compile Include="MembershipSetup\IMembershipBpl.cs" />
+    <Compile Include="MembershipSetup\MembershipBpl.cs" />
     <Compile Include="Product\IProductBpl.cs" />
     <Compile Include="Product\ProductBpl.cs" />
     <Compile Include="ServiceSetup\IServiceSetupBpl.cs" />

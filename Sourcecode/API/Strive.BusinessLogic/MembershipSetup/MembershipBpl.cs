@@ -1,29 +1,34 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Strive.BusinessLogic.Collision
+namespace Strive.BusinessLogic.MembershipSetup
 {
-    public class CollisionBpl : Strivebase, ICollisionBpl
+    public class MembershipBpl : Strivebase, IMembershipBpl
     {
         readonly ITenantHelper _tenant;
+        readonly IDistributedCache _cache;
         readonly JObject _resultContent = new JObject();
         Result _result;
-        public CollisionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public MembershipBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
         {
             _tenant = tenantHelper;
+            _cache = cache;
         }
-        public Result GetAllCollison()
+        public Result GetAllMembership()
         {
             try
             {
-                var lstCollision = new CollisionRal(_tenant).GetAllCollison();
-                _resultContent.Add(lstCollision.WithName("Collision"));
+                var lstMembership = new MembershipSetupRal(_tenant).GetAllMembership();
+                _resultContent.Add(lstMembership.WithName("MembershipSetup"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -32,12 +37,12 @@ namespace Strive.BusinessLogic.Collision
             }
             return _result;
         }
-        public Result GetCollisionById(long id)
+        public Result GetServicesWithPrice()
         {
             try
             {
-                var lstCollisionById = new CollisionRal(_tenant).GetCollisionById(id);
-                _resultContent.Add(lstCollisionById.WithName("CollisionDetail"));
+                var lstServiceWithPrice = new MembershipSetupRal(_tenant).GetServicesWithPrice();
+                _resultContent.Add(lstServiceWithPrice.WithName("GetServiceWithPrice"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -46,12 +51,12 @@ namespace Strive.BusinessLogic.Collision
             }
             return _result;
         }
-        public Result GetCollisionByEmpId(long id)
+        public Result GetMembershipById(int membershipid)
         {
             try
             {
-                var lstCollisionByEmpId = new CollisionRal(_tenant).GetCollisionByEmpId(id);
-                _resultContent.Add(lstCollisionByEmpId.WithName("CollisionDetailOfEmployee"));
+                var lstMembershipById = new MembershipSetupRal(_tenant).GetMembershipById(membershipid);
+                _resultContent.Add(lstMembershipById.WithName("MembershipDetail"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -60,11 +65,11 @@ namespace Strive.BusinessLogic.Collision
             }
             return _result;
         }
-        public Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision)
+        public Result SaveMembershipSetup(List<MembershipView> member)
         {
             try
             {
-                bool blnStatus = new CollisionRal(_tenant).SaveCollison(lstCollision);
+                bool blnStatus = new MembershipSetupRal(_tenant).SaveMembershipSetup(member);
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -73,13 +78,14 @@ namespace Strive.BusinessLogic.Collision
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
             return _result;
+
         }
-        public Result DeleteCollision(long id)
+        public Result DeleteMembershipById(int membershipid)
         {
             try
             {
-                var lstCollision = new CollisionRal(_tenant).DeleteCollisionDetails(id);
-                _resultContent.Add(lstCollision.WithName("Collision"));
+                var lstMembership = new MembershipSetupRal(_tenant).DeleteMembershipById(membershipid);
+                _resultContent.Add(lstMembership.WithName("Membership"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)

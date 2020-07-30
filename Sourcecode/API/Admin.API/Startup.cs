@@ -25,6 +25,7 @@ using Microsoft.Extensions.Options;
 using Strive.Crypto;
 using Strive.BusinessLogic.Document;
 using Strive.BusinessLogic.Weather;
+using Strive.BusinessLogic.MembershipSetup;
 
 namespace Admin.API
 {
@@ -48,6 +49,7 @@ namespace Admin.API
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<ICommonBpl, CommonBpl>();
             services.AddTransient<IDocumentBpl, DocumentBpl>();
+            services.AddTransient<IMembershipBpl, MembershipBpl>();
             services.AddTransient<ICollisionBpl, CollisionBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();
