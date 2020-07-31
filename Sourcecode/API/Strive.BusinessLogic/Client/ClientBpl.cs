@@ -65,6 +65,20 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        public Result GetClientById(int id)
+        {
+            try
+            {
+                var lstClientById = new ClientRal(_tenant).GetClientById(id);
+                _resultContent.Add(lstClientById.WithName("ClientDetail"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
         public Result DeleteClient(int clientId)
         {
             try

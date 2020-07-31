@@ -30,6 +30,7 @@ namespace Strive.BusinessEntities
         //Client
         USPGETALLCLIENT,
         USPDELETECLIENT,
+        USPGETCLIENTBYID,
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,

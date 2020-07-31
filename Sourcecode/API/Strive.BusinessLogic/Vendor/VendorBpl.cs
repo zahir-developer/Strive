@@ -62,7 +62,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        public Result GetVendorById(long id)
+        public Result GetVendorById(int id)
         {
             try
             {

@@ -29,28 +29,9 @@ namespace Strive.ResourceAccess
         public bool SaveClientDetails(ClientView lstClient)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Client> lstclientlst = new List<Client>();
-            //var clientlst = new ClientList();
-            lstclientlst.Add(new Client
-            {
-                ClientId = lstClient.ClientId,
-                FirstName = lstClient.FirstName,
-                MiddleName = lstClient.MiddleName,
-                LastName = lstClient.LastName,
-                Gender = lstClient.Gender,
-                MaritalStatus= lstClient.MaritalStatus,
-                BirthDate= lstClient.BirthDate,
-                CreatedDate = lstClient.CreatedDate,
-                IsActive = lstClient.IsActive,
-                Notes = lstClient.Notes,
-                RecNotes = lstClient.RecNotes,
-                Score = lstClient.Score,
-                NoEmail = lstClient.NoEmail,
-                ClientType = lstClient.ClientType,
-
-            });
-            dynParams.Add("@tvpClient", lstclientlst.ToDataTable().AsTableValuedParameter("tvpClient"));
-            dynParams.Add("@tvpClientAddress", lstClient.ClientAddress.ToDataTable().AsTableValuedParameter("tvpClientAddress"));
+            Client cli = lstClient;
+            dynParams.Add("@tvpClient", cli.TableName("tvpClient"));
+            dynParams.Add("@tvpClientAddress", lstClient.ClientAddress.TableName("tvpClientAddress"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVECLIENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
 
@@ -62,6 +43,13 @@ namespace Strive.ResourceAccess
             List<ClientView> lstClientList = new List<ClientView>();
             lstClientList = db.FetchRelation1<ClientView, ClientAddress>(SPEnum.USPGETALLCLIENT.ToString(), dynParams);
             return lstClientList;
+        }
+        public List<ClientView> GetClientById(int id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@ClientId", id);
+            var lstClientInfo = db.FetchRelation1<ClientView, ClientAddress>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
+            return lstClientInfo;
         }
         public bool DeleteClient(int clientId)
         {
