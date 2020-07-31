@@ -21,6 +21,7 @@ export class ClientCreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
+  @Input() isView?:any;
   selectedStateId: any;
   selectedCountryId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService) { }
@@ -32,6 +33,9 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.clientForm.reset();
       this.getClientById();
+    }
+    if(this.isView === true){
+      this.viewClient();
     }
   }
 
@@ -77,6 +81,11 @@ export class ClientCreateEditComponent implements OnInit {
     });
     this.changeEmail(this.selectedData.NoEmail);
   }
+
+  viewClient(){
+    this.clientForm.disable();
+  }
+
   change(data) {
     this.clientForm.value.creditAccount = data;
   }

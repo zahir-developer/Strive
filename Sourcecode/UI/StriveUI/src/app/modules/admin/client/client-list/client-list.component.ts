@@ -17,6 +17,7 @@ export class ClientListComponent implements OnInit {
   searchById = '';
   isEdit: boolean;
   isTableEmpty: boolean;
+  isView: boolean;
   constructor(private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -74,12 +75,20 @@ export class ClientListComponent implements OnInit {
       this.headerData = 'Add New Client';
       this.showDialog = true;
       this.selectedData = clientDetails;
-      this.isEdit = false;      
-    } else {
+      this.isEdit = false;
+      this.isView = false;      
+    } else if(data === 'edit'){
       this.headerData = 'Edit Client';
-        this.selectedData = clientDetails;
-        this.isEdit = true;
-        this.showDialog = true;
+      this.selectedData = clientDetails;
+      this.isEdit = true;
+      this.isView = false;
+      this.showDialog = true;
+    }else {
+      this.headerData = 'View Client';
+      this.selectedData = clientDetails;
+      this.isEdit = true;
+      this.isView = true;
+      this.showDialog = true;
     }
   }  
 }

@@ -45,6 +45,9 @@
                                             <td>{{client.ClientType}}</td>
                                             <td>{{client.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
+                                                <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
+                                                    style="color:orange" pTooltip="view" tooltipPosition="bottom"
+                                                    (click)="add('view', client)"></em>&nbsp;&nbsp;
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="edit" tooltipPosition="bottom"
                                                     (click)="add('edit', client)"></em>&nbsp;&nbsp;
@@ -59,7 +62,7 @@
                             <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
                                 [modal]="true" [focusOnShow]="false" [closable]="false" width="1000px" height="500px">
                                 <app-client-create-edit *ngIf="showDialog" [selectedData]="selectedData"
-                                    [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
+                                    [isEdit]="isEdit" [isView]="isView" (closeDialog)="closePopupEmit($event)">
                                 </app-client-create-edit>
                             </p-dialog>
                         </div>
