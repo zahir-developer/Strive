@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-location-setup-list',
@@ -18,15 +19,18 @@ export class LocationSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
+  isLoading = true;
   constructor(private locationService: LocationService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
     this.getAllLocationSetupDetails();
 
   }
   getAllLocationSetupDetails() {
+    this.isLoading =  true;
     this.locationService.getLocation().subscribe(data => {
+      this.isLoading =  false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);

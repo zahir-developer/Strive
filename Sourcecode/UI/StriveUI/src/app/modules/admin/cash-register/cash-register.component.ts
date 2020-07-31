@@ -45,7 +45,7 @@ export class CashinRegisterComponent implements OnInit {
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService, private weatherService: WeatherService) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('YYYY-MM-DD');
+    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
     this.formInitialize();
     this.getTargetBusinessData();
     this.getWeatherDetails();

@@ -13,14 +13,14 @@
                     <div class="setup-wrapper">
                         <div class="setup-content" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No
                                 Records Found</span></div>
-                        <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
+                        <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false && isLoading === false">
                             <p-table [value]="productSetupDetails"
                                 class="table table-responsive-xl table-striped table-hover" [paginator]="true"
                                 [rows]="5">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th>Product Type</th>
                                         <th>Product Name</th>
+                                        <th>Product Type</th>
                                         <th>Cost</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -28,8 +28,8 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-productSetup>
                                     <tr>
-                                        <td>{{productSetup.ProductTypeName}}</td>
                                         <td>{{productSetup.ProductName}}</td>
+                                        <td>{{productSetup.ProductTypeName}}</td>
                                         <td>{{productSetup.Cost | currency}}</td>
                                         <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                         <td>
@@ -44,7 +44,10 @@
                                 </ng-template>
                             </p-table>
                         </div>
-                       
+                        <div class="loadingDiv" *ngIf="isLoading">
+                            <em class="fa fa-spin fa-spinner"
+                                                        style="font-size:50px;"></em><br />
+                        </div>
                     </div>
                 </div>
             </div>

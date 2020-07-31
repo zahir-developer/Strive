@@ -16,6 +16,7 @@ export class ServiceSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
+  isLoading = true;
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -23,7 +24,9 @@ export class ServiceSetupListComponent implements OnInit {
 
   }
   getAllserviceSetupDetails() {
+    this.isLoading = true;
     this.serviceSetup.getServiceSetup().subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.serviceSetupDetails = serviceDetails.ServiceSetup;

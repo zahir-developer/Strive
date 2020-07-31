@@ -40,3 +40,23 @@ body .ui-widget {
   .toast-top-right {
     top: 53px
 }
+.loadingDiv {
+  color: #1DC5B3;
+  padding: 10px;
+  text-align: center;
+}
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
+  background-color: #1DC5B3;
+  color: #ffffff;
+}
+body .ui-inputtext {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+body .ui-inputtext:enabled:hover {
+  border-color: #ced4da !important;
+}
+body .ui-inputtext:enabled::placeholder {
+  color: #4d545b;
+}
+ui-inputtext:focus::-webkit-input-placeholder { color:#ced4da; }

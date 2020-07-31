@@ -11,9 +11,16 @@ export class CountryDropdownComponent implements OnInit {
   country = 38;
   @Output() countryId = new EventEmitter();
   @Input() selectedCountryId: any;
+  @Input() isdisable: any;
   constructor(private countryService: CountryService) { }
 
   ngOnInit(): void {
+    if (this.isdisable === undefined || this.isdisable === false) {
+      this.isdisable = false;
+    } else {
+this.isdisable = true;
+    }
+
     this.getCountriesList();
   }
   getCountriesList() {

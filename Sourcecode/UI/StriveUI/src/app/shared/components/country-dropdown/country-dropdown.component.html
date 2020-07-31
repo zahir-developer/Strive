@@ -1,5 +1,5 @@
 <!-- [ngClass]="{'is-invalid': state === '' && submitted}" -->
-<select name="country"  [(ngModel)]="country" class="form-control" (change)="countrySelection($event)" >
+<select name="country"  [(ngModel)]="country" class="form-control" (change)="countrySelection($event)" disabled="isdisable">
     <!-- <option value=38 >Choose </option> -->
     <option *ngFor="let country of countryList" value="{{country.value}}">{{country.name}}</option>
 </select>
