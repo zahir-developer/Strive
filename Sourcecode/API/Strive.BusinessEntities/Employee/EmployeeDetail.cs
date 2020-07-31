@@ -1,5 +1,6 @@
 ﻿using Cocoon.ORM;
 using System;
+using System.Collections.Generic;
 
 namespace Strive.BusinessEntities.Employee
 {
@@ -15,7 +16,7 @@ namespace Strive.BusinessEntities.Employee
         [Column]
         public int AuthId { get; set; }
         [Column]
-        public int LocationId { get; set; }
+        public List<int> LocationId { get; set; }
         [Column]
         public string PayRate { get; set; }
         [Column]

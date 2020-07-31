@@ -263,8 +263,21 @@ namespace Strive.BusinessLogic.Common
         _result = Helper.BindSuccessResult(_resultContent);
         return _result;
     }
-
-    private void SendLoginCreationEmail(string emailId, string defaultPassword)
+    public Result GetAllEmail()
+    {
+            try
+            {
+                var lstEmail = new CommonRal(_tenant).GetAllEmail();
+                _resultContent.Add(lstEmail.WithName("EmailList"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+    }
+        private void SendLoginCreationEmail(string emailId, string defaultPassword)
     {
         SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
             <p> You have successfully signed up with Strive.& nbsp;</p>
