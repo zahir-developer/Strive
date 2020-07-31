@@ -1,19 +1,21 @@
 <div class="card  m-b-10">
     <div class="card-body">
-        <div class="title-border p-b-5 m-b-5 m-t-10">
-            <h6 class="d-inline-block font-weight-600">Documents <em
-                    class="mdi mdi-pencil-circle pointer theme-secondary-icon-color m-l-5 font-size-1-3"
-                    id="doc-enable"></em>
-                <span class="d-none btn-enable"><button type="button"
-                        class="btn theme-primary-button-color btn-md m-l-10" href="#documentModal"
-                        data-toggle="modal">Add New Document</button>
-                </span> </h6>
-            <div class="pull-right m-t-4 pointer">
-                <a id="documenttoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
+        <div class="row title-border p-b-10 m-b-15">
+            <div class="col-12">
+                <h6 class="d-inline-block font-weight-600">Documents <em
+                        class="mdi mdi-pencil-circle pointer  m-l-5 font-size-1-3"
+                        [ngClass]="{'theme-secondary-icon-color':!isEditDocument }" id="doc-enable"
+                        style="color: rgb(236, 233, 233);" (click)="editDocument()"></em>
+                    <span class="d-none btn-enable">
+                    </span> </h6>
+                <button type="button" *ngIf="isEditDocument"
+                    class="btn float-right theme-primary-button-color btn-md m-l-10"
+                    (click)="openCreateDocumentModal()">Add New
+                    Document</button>
             </div>
         </div>
         <div class="table-responsive m-t-10" id="docform">
-            <table class="table border table-striped">
+            <table class="table border table-striped" aria-describedby="document-list">
                 <thead>
                     <tr>
                         <th scope="col">Doc#</th>
@@ -25,35 +27,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>01</td>
-                        <td>SSN.pdf</td>
-                        <td> 20/7/2020 </td>
-                        <td>26/7/2020 </td>
+                    <tr *ngFor="let document of documentList">
+                        <td>{{document.DocumentId}}</td>
+                        <td>{{document.FileName}}</td>
+                        <td>{{document.CreatedDate | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{document.ModifiedDate | date: 'MM/dd/yyyy'}}</td>
                         <td>-</td>
-                        <td> <i class="mdi mdi-file-download-outline pointer theme-disabled-icon-color  md-doc m-r-2 font-size-1-1"
-                                href="#uploadModal" data-toggle="modal"></i> <i
-                                class="mdi mdi-close-circle pointer  theme-disabled-icon-color md-close font-size-1-1"
-                                href="#deletedocModal" data-toggle="modal"></i> </td>
-                    </tr>
-                    <tr>
-                        <td>02</td>
-                        <td>Address-proof.pdf</td>
-                        <td> 20/7/2020 </td>
-                        <td>26/7/2020 </td>
-                        <td>-</td>
-                        <td> <i class="mdi mdi-file-download-outline pointer theme-disabled-icon-color m-r-2 md-doc font-size-1-1"
-                                href="#uploadModal" data-toggle="modal"></i> <i
-                                class="mdi mdi-close-circle pointer theme-disabled-icon-color md-close font-size-1-1"
-                                href="#deletedocModal" data-toggle="modal"></i> </td>
+                        <td> <em class="mdi mdi-file-download-outline pointer  md-doc m-r-2 font-size-1-1"
+                                href="#uploadModal" data-toggle="modal"
+                                [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-primary-icon-color': isEditDocument  }"></em>
+                            <em class="mdi mdi-close-circle pointer  md-close font-size-1-1"
+                                [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-optional-icon-color': isEditDocument  }"
+                                href="#deletedocModal" data-toggle="modal" (click)="deleteDocument(document)"></em> </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="display-none" id="doc-enable-btn">
+        <div *ngIf="isEditDocument" id="doc-enable-btn">
             <div class="title-border"></div>
             <div class="pull-right mw-100 m-t-5">
-                <button type="button" class="btn theme-optional-button-color" id="doc-disable">Cancel</button>
+                <button type="button" class="btn theme-optional-button-color" id="doc-disable"
+                    (click)="closeEditDocument()">Cancel</button>
                 <button type="button" class="btn theme-primary-button-color">Save</button>
             </div>
         </div>

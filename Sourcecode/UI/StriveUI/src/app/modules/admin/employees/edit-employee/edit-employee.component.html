@@ -100,9 +100,8 @@
                                         formControlName="password"> </div>
                                 <div class="form-group col-md-3">
                                     <label>Date of Hire</label>
-                                    <input type="text" class="form-control date datepicker-view"
-                                        data-toggle="date-picker" data-single-date-picker="true"
-                                        formControlName="dateOfHire"> </div>
+                                    <input type="text" class="form-control" bsDatepicker formControlName="dateOfHire">
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputhourrate">Hourly Rate-Wash</label>
                                     <input type="text" class="form-control" id="inputhourrate"
@@ -139,26 +138,15 @@
                                         formControlName="exemptions"> </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
-                                    <select multiple="multiple" class="form-control multiselect"
-                                        formControlName="roles">
-                                        <option value="1">Washer </option>
-                                        <option value="2">Detailer </option>
-                                        <option value="3">Greeter </option>
-                                        <option value="4">Checkout Station User </option>
-                                        <option value="5">Cashier </option>
-                                        <option value="6">Manager </option>
-                                        <option value="7">Operator </option>
-                                        <option value="8">Admin </option>
-                                    </select>
+                                    <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings" [disabled]="!isEditEmployeeList"
+                                        [data]="employeeRoles" formControlName="roles">
+                                    </ng-multiselect-dropdown>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Location </label>
-                                    <select multiple="multiple" class="form-control multiselect"
-                                        formControlName="location">
-                                        <option value="1">Franklin </option>
-                                        <option value="2">Arlington </option>
-                                        <option value="3">Bristol </option>
-                                    </select>
+                                    <ng-multiselect-dropdown [placeholder]="'Select Location'" [disabled]="!isEditEmployeeList"
+                                        [settings]="dropdownSettings" [data]="location" formControlName="location">
+                                    </ng-multiselect-dropdown>
                                 </div>
                             </div>
                         </form>
@@ -172,71 +160,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="card  m-b-10">
-                    <div class="card-body">
-                        <div class="title-border p-b-5 m-b-5 m-t-10">
-                            <h6 class="d-inline-block font-weight-600">Documents <em
-                                    class="mdi mdi-pencil-circle pointer theme-secondary-icon-color m-l-5 font-size-1-3"
-                                    id="doc-enable"></em>
-                                <span class="d-none btn-enable"><button type="button"
-                                        class="btn theme-primary-button-color btn-md m-l-10" href="#documentModal"
-                                        data-toggle="modal">Add New Document</button>
-                                </span> </h6>
-                            <div class="pull-right m-t-4 pointer">
-                                <a id="documenttoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div>
-                        </div>
-                        <div class="table-responsive m-t-10" id="docform">
-                            <table class="table border table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Doc#</th>
-                                        <th scope="col">File Name</th>
-                                        <th scope="col">Date Created </th>
-                                        <th scope="col">Last Modified</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>SSN.pdf</td>
-                                        <td> 20/7/2020 </td>
-                                        <td>26/7/2020 </td>
-                                        <td>-</td>
-                                        <td> <i class="mdi mdi-file-download-outline pointer theme-disabled-icon-color  md-doc m-r-2 font-size-1-1"
-                                                href="#uploadModal" data-toggle="modal"></i> <i
-                                                class="mdi mdi-close-circle pointer  theme-disabled-icon-color md-close font-size-1-1"
-                                                href="#deletedocModal" data-toggle="modal"></i> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>02</td>
-                                        <td>Address-proof.pdf</td>
-                                        <td> 20/7/2020 </td>
-                                        <td>26/7/2020 </td>
-                                        <td>-</td>
-                                        <td> <i class="mdi mdi-file-download-outline pointer theme-disabled-icon-color m-r-2 md-doc font-size-1-1"
-                                                href="#uploadModal" data-toggle="modal"></i> <i
-                                                class="mdi mdi-close-circle pointer theme-disabled-icon-color md-close font-size-1-1"
-                                                href="#deletedocModal" data-toggle="modal"></i> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="display-none" id="doc-enable-btn">
-                            <div class="title-border"></div>
-                            <div class="pull-right mw-100 m-t-5">
-                                <button type="button" class="btn theme-optional-button-color"
-                                    id="doc-disable">Cancel</button>
-                                <button type="button" class="btn theme-primary-button-color">Save</button>
-                            </div>
-                        </div>
-                    </div>
+                <div *ngIf="documentList.length > 0">
+                    <app-document-list [employeeId]="employeeId" [documentList]="documentList"></app-document-list>
                 </div>
-                <app-collision-list></app-collision-list>
+                <div *ngIf="employeeCollision.length > 0">
+                    <app-collision-list [employeeId]="employeeId" [employeeCollision]="employeeCollision"></app-collision-list>
+                </div>
                 <div class="m-t-12 pull-right mw-100">
-                    <button type="button" class="btn theme-optional-button-color">Cancel</button>
+                    <button type="button" class="btn theme-optional-button-color" (click)="backToGrid()">Cancel</button>
                     <button type="button" class="btn theme-primary-button-color">Save</button>
                 </div>
                 <!--document modal--->

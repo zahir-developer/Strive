@@ -41,7 +41,7 @@ export const UrlConfig = {
     saveWeather:`Admin/Weather/SaveWeatherPrediction`,
     verifyOtp: `Auth/VerfiyOTP/`,
     resetPassword: `Auth/ResetPassword`,
-    getAllCollision: `Admin/Collision/GetAll`,
+    getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`
   }
 };

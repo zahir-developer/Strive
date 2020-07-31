@@ -275,7 +275,7 @@ export class CreateEditComponent implements OnInit {
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
         let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('customFile');
+        textAreaFileContents = document.getElementById('filepaths');
         textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
       };
       fileReader.readAsDataURL(fileToLoad);
@@ -314,8 +314,11 @@ export class CreateEditComponent implements OnInit {
   getAllDocument() {
     const employeeId = 1;
     const locationId = 3;
-    this.employeeService.getAllDocument(employeeId, locationId).subscribe(res => {
+    this.employeeService.getAllDocument(employeeId).subscribe(res => {
       console.log(res, 'allDocument');
+      if (res.status === 'Success') {
+        const document = JSON.parse(res.resultData);
+      }
     });
   }
 

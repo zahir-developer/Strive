@@ -207,13 +207,15 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  openCollisionModal() {
+  openCollisionModal(employee) {
+    const empId = employee.EmployeeId;
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
       size: 'lg'
     };
-    this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
+    const modalRef =  this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = empId;
   }
 
 }

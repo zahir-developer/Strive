@@ -1,0 +1,49 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Add New Document</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                aria-hidden="true">&times;</span> </button>
+    </div>
+    <div class="modal-body">
+        <!--modal body-->
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <!-- <label for="customFile">Select Document</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile" name="filename">
+                    <label class="custom-file-label" for="customFile">Choose file</label> <small
+                        class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv et</small>
+                </div> -->
+                <label>Select Document</label>
+                <input type="file" class="form-control" accept=".pdf, .png, .jpg, .jpeg, .gif" id="filepaths"
+                    dirname="S:\" name="filename" (change)="fileNameChanged()">
+                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv et</small>
+            </div>
+        </div>
+        <div class="form-row m-t-10 m-b-5">
+            <div class="form-group col-md-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="password-protect"
+                        (change)="protectPassword($event)" />
+                    <label class="form-check-label" for="password-protect"> Password Protected
+                    </label>
+                </div>
+            </div>
+        </div>
+        <form [formGroup]="passwordForm" *ngIf="isPassword">
+            <div class="form-row" id="password-form">
+                <div class="form-group col-md-6">
+                    <label for="inputPassword">Password</label>
+                    <input type="text" class="form-control" formControlName="password" id="inputPassword"> </div>
+                <div class="form-group col-md-6">
+                    <label for="inputconPassword">Confirm Password</label>
+                    <input type="text" class="form-control" formControlName="confirm" id="inputconPassword"> </div>
+            </div>
+        </form>
+    </div>
+    <!--modal body-->
+    <div class="modal-footer">
+        <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn theme-primary-button-color" (click)="uploadDocument()">Upload</button>
+    </div>
+</div>

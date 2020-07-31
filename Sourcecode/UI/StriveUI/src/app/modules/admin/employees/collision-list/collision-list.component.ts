@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-collision-list',
@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./collision-list.component.css']
 })
 export class CollisionListComponent implements OnInit {
-
+  @Input() employeeId?: any;
+  @Input() employeeCollision?: any;
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.employeeCollision, 'collision');
   }
 
 }
