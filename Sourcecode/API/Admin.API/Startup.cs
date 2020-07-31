@@ -57,6 +57,7 @@ namespace Admin.API
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IClientBpl, ClientBpl>();
             services.AddTransient<IWeatherBpl, WeatherBpl>();
+            services.AddTransient<IVendorBpl,VendorBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
