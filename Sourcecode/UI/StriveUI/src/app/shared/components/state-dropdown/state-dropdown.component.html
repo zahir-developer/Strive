@@ -1,4 +1,4 @@
-<select name="state"  [(ngModel)]="state" class="form-control" (change)="stateSelection($event)" [ngClass]="{'is-invalid': state === '' && submitted}">
+<select name="state" [disabled]="isView"  [(ngModel)]="state" class="form-control" (change)="stateSelection($event)" [ngClass]="{'is-invalid': state === '' && submitted}">
     <option value="" selected hidden>Choose </option>
     <option *ngFor="let state of stateList" value="{{state.value}}">{{state.name}}</option>
 </select>

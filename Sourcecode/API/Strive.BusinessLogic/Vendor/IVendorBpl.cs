@@ -9,6 +9,6 @@ namespace Strive.BusinessLogic
         Result GetVendorDetails();
         Result SaveVendorDetails(VendorView lstVendor);
         Result DeleteVendorById(int id);
-        Result GetVendorById(long id);
+        Result GetVendorById(int id);
     }
 }

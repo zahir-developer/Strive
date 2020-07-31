@@ -12,6 +12,7 @@ export class StateDropdownComponent implements OnInit {
   submitted: boolean;
   @Output() stateId = new EventEmitter();
   @Input() selectedStateId: any;
+  @Input() isView:any;
   constructor(private stateService: StateService) { }
 
   ngOnInit(): void {

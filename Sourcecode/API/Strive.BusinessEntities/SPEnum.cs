@@ -30,6 +30,7 @@ namespace Strive.BusinessEntities
         //Client
         USPGETALLCLIENT,
         USPDELETECLIENT,
+        USPGETCLIENTBYID,
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,
@@ -69,7 +70,15 @@ namespace Strive.BusinessEntities
         USPSAVEOTP,
         USPRESETPASSWORD,
         USPSAVECLIENT,
-        USPVERIFYOTP
+        USPVERIFYOTP,
+        USPGETCOLLISIONBYEMPID,
+        //MembershipSetup
+        USPGETMEMBERSHIPSETUP,
+        USPGETSERVICEWITHPRICE,
+        USPDELETEMEMBERSHIP,
+        USPGETMEMBERSHIPBYID,
+        USPSAVEMEMBERSHIPSETUP,
+        USPGETALLVEHICLE
     }
 
 

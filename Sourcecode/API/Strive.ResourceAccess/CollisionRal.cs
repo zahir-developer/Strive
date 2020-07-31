@@ -41,6 +41,14 @@ namespace Strive.ResourceAccess
             lstCollisionById = db.FetchRelation1<CollisionListView, LiabilityDetail>(SPEnum.USPGETCOLLISIONBYID.ToString(), dynParams);
             return lstCollisionById;
         }
+        public List<CollisionListView> GetCollisionByEmpId(long id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@EmployeeId", id);
+            List<CollisionListView> lstCollisionById = new List<CollisionListView>();
+            lstCollisionById = db.FetchRelation1<CollisionListView, LiabilityDetail>(SPEnum.USPGETCOLLISIONBYEMPID.ToString(), dynParams);
+            return lstCollisionById;
+        }
 
         public bool SaveCollison(List<CollisionListView> lstCollision)
         {

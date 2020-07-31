@@ -42,6 +42,10 @@ export const UrlConfig = {
     verifyOtp: `Auth/VerfiyOTP/`,
     resetPassword: `Auth/ResetPassword`,
     getAllCollision: `Admin/Collision/GetAll`,
-    getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`
+    getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
+    getClient: `Admin/Client/GetAllClient`,
+    updateClient: `Admin/Client/Save`,
+    deleteClient: `Admin/Client/`,
+    getClientById:`Admin/Client/GetClientById/`
   }
 };

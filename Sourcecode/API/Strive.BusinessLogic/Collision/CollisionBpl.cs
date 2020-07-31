@@ -46,6 +46,20 @@ namespace Strive.BusinessLogic.Collision
             }
             return _result;
         }
+        public Result GetCollisionByEmpId(long id)
+        {
+            try
+            {
+                var lstCollisionByEmpId = new CollisionRal(_tenant).GetCollisionByEmpId(id);
+                _resultContent.Add(lstCollisionByEmpId.WithName("CollisionDetailOfEmployee"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
         public Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision)
         {
             try

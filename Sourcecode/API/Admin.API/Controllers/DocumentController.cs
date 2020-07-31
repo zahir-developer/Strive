@@ -40,10 +40,10 @@ namespace Admin.API.Controllers
             return _documentBpl.UpdatePassword(lstUpdateDocument);
         }
         [HttpGet]
-        [Route("GetAllDocument/{employeeId},{locationId}")]
-        public Result GetAllDocument(long employeeId, long locationId)
+        [Route("GetAllDocument/{employeeId}")]
+        public Result GetAllDocument(long employeeId)
         {
-            return _documentBpl.GetAllDocument(employeeId, locationId);
+            return _documentBpl.GetAllDocument(employeeId);
         }
     }
 }
