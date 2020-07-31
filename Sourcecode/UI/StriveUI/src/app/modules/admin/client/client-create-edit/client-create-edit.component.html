@@ -7,17 +7,17 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-lg-3">
-                        <label for="inputLocationName">First Name</label>
+                        <label for="inputFirstName">First Name</label>
                         <input type="text" maxlength="100" class="form-control" formControlName="fName"
                             placeholder="First Name">
                     </div>
                     <div class="form-group col-lg-3">
-                        <label for="inputLocationAddress">Last Name</label>
+                        <label for="inputLastName">Last Name</label>
                         <input type="text" maxlength="50" class="form-control" formControlName="lName"
                             placeholder="Last Name">
                     </div>
                     <div class="form-group col-lg-3">
-                        <label for="inputLocationAddress">Address</label>
+                        <label for="inputAddress">Address</label>
                         <input type="text" maxlength="50" class="form-control" formControlName="address"
                             placeholder="Address">
                     </div>
@@ -44,7 +44,7 @@
                                     placeholder="(XXX) XXX-XXXX">
                             </div>
                             <div class="form-group col-lg-4">
-                                <label for="inputStatus">Score</label>
+                                <label for="inputScore">Score</label>
                                 <select class="form-control" formControlName="score">
                                     <option hidden selected value="">Choose</option>
                                     <option *ngFor="let status of Score" value="{{status.id}}">{{status.Value}}</option>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-lg-4">
-                                <label for="inputWorkThreshold">City</label>
+                                <label for="inputCity">City</label>
                                 <input type="text" class="form-control" formControlName="city" placeholder="City">
                             </div>
                             <div class="form-group col-lg-4">
@@ -94,9 +94,9 @@
                     <div class="col-xl-3 one-space">
                         <div class="form-row">
                             <div class="form-group col-lg-12">
-                                <label for="inputLocationName">Notes</label>
-                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea" formControlName="notes"
-                                    placeholder="Notes"></textarea>
+                                <label for="inputNotes">Notes</label>
+                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea"
+                                    formControlName="notes" placeholder="Notes"></textarea>
                             </div>
                         </div>
                     </div>
@@ -108,41 +108,43 @@
                                     class="btn theme-primary-button-color btn-md float-right">New</button>
                             </div>
                             <div class="setup-wrapper">
-                                <div class="setup-content" id="open-collapse">
-                                    <div class="table-responsive">
-                                        <table class="table border table-hover">
-                                            <thead style="background-color: lightgray;">
-                                                <tr>
-                                                    <th scope="col">Acc</th>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">UPC</th>
-                                                    <th scope="col">Tag</th>
-                                                    <th scope="col">Color</th>
-                                                    <th scope="col">Make</th>
-                                                    <th scope="col">Model</th>
-                                                    <th scope="col">Upcharge</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                            style="color:red" pTooltip="delete"
-                                                            tooltipPosition="bottom"></em>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="setup-content" *ngIf="isTableEmpty === true"> <span
+                                        class="col-12 row d-block">No Vehicles Found</span></div>
+                                <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
+                                    <p-table [value]="vehicleDetails"
+                                        class="table table-responsive-xl table-striped table-hover" [paginator]="true"
+                                        [rows]="5">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th scope="col">Acc</th>
+                                                <th scope="col">#</th>
+                                                <th scope="col">UPC</th>
+                                                <th scope="col">Tag</th>
+                                                <th scope="col">Color</th>
+                                                <th scope="col">Make</th>
+                                                <th scope="col">Model</th>
+                                                <th scope="col">Upcharge</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-vehicle>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                        style="color:red" pTooltip="delete"
+                                                        tooltipPosition="bottom"></em>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
                                 </div>
                             </div>
                         </div>
@@ -150,9 +152,9 @@
                     <div class="col-xl-3 one-space">
                         <div class="form-row">
                             <div class="form-group col-lg-12">
-                                <label for="inputLocationName">Check Out Note</label>
-                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea" formControlName="checkOut"
-                                    placeholder="Check Out Note"></textarea>
+                                <label for="inputRecNotes">Check Out Note</label>
+                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea"
+                                    formControlName="checkOut" placeholder="Check Out Note"></textarea>
                             </div>
                         </div>
                     </div>

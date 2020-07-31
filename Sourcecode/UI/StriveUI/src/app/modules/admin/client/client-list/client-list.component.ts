@@ -77,24 +77,24 @@ export class ClientListComponent implements OnInit {
       this.showDialog = true;
       this.selectedData = clientDet;
       this.isEdit = false;
-      this.isView = false;      
-    }else {
-      this.getClientById(data,clientDet);
-    } 
-  }  
+      this.isView = false;
+    } else {
+      this.getClientById(data, clientDet);
+    }
+  }
 
-  getClientById(data,client){
+  getClientById(data, client) {
     this.client.getClientById(client.ClientId).subscribe(res => {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         this.selectedClient = client.ClientDetail[0];
-        if(data === 'edit'){
+        if (data === 'edit') {
           this.headerData = 'Edit Client';
           this.selectedData = this.selectedClient;
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
-        }else {
+        } else {
           this.headerData = 'View Client';
           this.selectedData = this.selectedClient;
           this.isEdit = true;
