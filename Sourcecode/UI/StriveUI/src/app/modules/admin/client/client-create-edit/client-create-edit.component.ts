@@ -29,14 +29,15 @@ export class ClientCreateEditComponent implements OnInit {
   ngOnInit() {
     this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}]; 
     this.Score = [{id : 0,Value :"Score1"}, {id :1 , Value:"Score2"}];  
-    this.formInitialize();  
+    this.formInitialize();
+    console.log(this.selectedData);
+    if(this.isView === true){
+      this.viewClient();
+    }  
     if (this.isEdit === true) {
       this.clientForm.reset();
       this.getClientById();
-    }
-    if(this.isView === true){
-      this.viewClient();
-    }
+    }    
   }
 
   formInitialize() {

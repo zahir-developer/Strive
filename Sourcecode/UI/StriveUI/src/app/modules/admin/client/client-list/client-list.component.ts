@@ -18,6 +18,7 @@ export class ClientListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isView: boolean;
+  selectedClient: any;
   constructor(private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -70,25 +71,39 @@ export class ClientListComponent implements OnInit {
     }
     this.showDialog = event.isOpenPopup;
   }
-  add(data, clientDetails?) {
+  add(data, clientDet?) {
     if (data === 'add') {
       this.headerData = 'Add New Client';
       this.showDialog = true;
-      this.selectedData = clientDetails;
+      this.selectedData = clientDet;
       this.isEdit = false;
       this.isView = false;      
-    } else if(data === 'edit'){
-      this.headerData = 'Edit Client';
-      this.selectedData = clientDetails;
-      this.isEdit = true;
-      this.isView = false;
-      this.showDialog = true;
     }else {
-      this.headerData = 'View Client';
-      this.selectedData = clientDetails;
-      this.isEdit = true;
-      this.isView = true;
-      this.showDialog = true;
-    }
+      this.getClientById(data,clientDet);
+    } 
   }  
+
+  getClientById(data,client){
+    this.client.getClientById(client.ClientId).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        this.selectedClient = client.ClientDetail[0];
+        if(data === 'edit'){
+          this.headerData = 'Edit Client';
+          this.selectedData = this.selectedClient;
+          this.isEdit = true;
+          this.isView = false;
+          this.showDialog = true;
+        }else {
+          this.headerData = 'View Client';
+          this.selectedData = this.selectedClient;
+          this.isEdit = true;
+          this.isView = true;
+          this.showDialog = true;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
 }

@@ -45,6 +45,7 @@ export const UrlConfig = {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
     getClient: `Admin/Client/GetAllClient`,
     updateClient: `Admin/Client/Save`,
-    deleteClient: `Admin/Client/`
+    deleteClient: `Admin/Client/`,
+    getClientById:`Admin/Client/GetClientById/`
   }
 };

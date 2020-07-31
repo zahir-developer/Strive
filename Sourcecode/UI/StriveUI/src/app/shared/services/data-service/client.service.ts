@@ -19,4 +19,7 @@ export class ClientService {
   deleteClient(id : number){
       return this.http.delete(`${UrlConfig.totalUrl.deleteClient}`+ id);
   }
+  getClientById(id : number){
+    return this.http.get(`${UrlConfig.totalUrl.getClientById}`+ id);
+  }
 }
