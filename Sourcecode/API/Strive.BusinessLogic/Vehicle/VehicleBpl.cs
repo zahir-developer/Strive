@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.Vehicle
 {
-    public class VehicleBpl : Strivebase , IVehicleBpl
+    public class VehicleBpl : Strivebase, IVehicleBpl
     {
         readonly ITenantHelper _tenant;
         readonly JObject _resultContent = new JObject();
@@ -29,7 +29,7 @@ namespace Strive.BusinessLogic.Vehicle
                 _resultContent.Add(list.WithName("Vehicle"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }

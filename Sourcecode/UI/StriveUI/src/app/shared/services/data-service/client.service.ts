@@ -10,16 +10,16 @@ import { UrlConfig } from '../url.config';
 export class ClientService {
 
   constructor(private http: HttpUtilsService) { }
-   getClient(): Observable<any> {
+  getClient(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
   updateClient(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateClient}`, obj);
   }
-  deleteClient(id : number){
-      return this.http.delete(`${UrlConfig.totalUrl.deleteClient}`+ id);
+  deleteClient(id: number) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteClient}` + id);
   }
-  getClientById(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.getClientById}`+ id);
+  getClientById(id: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getClientById}` + id);
   }
 }

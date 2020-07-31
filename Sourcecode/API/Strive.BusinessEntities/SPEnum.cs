@@ -27,6 +27,7 @@ namespace Strive.BusinessEntities
         USPGETDOCUMENTBYEMPID,
         USPUPDATEDOCUMENTPASSWORD,
         USPGETALLDOCUMENTBYID,
+        USPDELETEDOCUMENT,
         //Client
         USPGETALLCLIENT,
         USPDELETECLIENT,
