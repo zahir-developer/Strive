@@ -50,6 +50,12 @@ namespace Admin.API.Controllers
         {
             return _clientBpl.DeleteClient(clientId);
         }
+        [HttpGet]
+        [Route("GetClientById/{id}")]
+        public Result GetClientById(int id)
+        {
+            return _clientBpl.GetClientById(id);
+        }
 
     }
 }

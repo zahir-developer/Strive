@@ -49,6 +49,8 @@
     <Compile Include="CashRegister\CashRegisterRoll.cs" />
     <Compile Include="CashRegister\CashRegisterView.cs" />
     <Compile Include="CashRegister\CR.cs" />
+    <Compile Include="Client\ClientVehicle.cs" />
+    <Compile Include="Client\ClientVehicleView.cs" />
     <Compile Include="Location\LocationAddressModel.cs" />
     <Compile Include="MembershipSetup\ClientMembershipDetails.cs" />
     <Compile Include="MembershipSetup\JobItem.cs" />

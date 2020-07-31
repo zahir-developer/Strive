@@ -26,6 +26,7 @@ using Strive.Crypto;
 using Strive.BusinessLogic.Document;
 using Strive.BusinessLogic.Weather;
 using Strive.BusinessLogic.MembershipSetup;
+using Strive.BusinessLogic.Vehicle;
 
 namespace Admin.API
 {
@@ -57,6 +58,8 @@ namespace Admin.API
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IClientBpl, ClientBpl>();
             services.AddTransient<IWeatherBpl, WeatherBpl>();
+            services.AddTransient<IVendorBpl,VendorBpl>();
+            services.AddTransient<IVehicleBpl,VehicleBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

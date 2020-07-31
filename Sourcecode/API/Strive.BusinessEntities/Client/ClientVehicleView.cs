@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Strive.BusinessEntities.Client
 {
-    public class ClientView: Client
+    public class ClientVehicleView : Client
     {
-        public List<ClientAddress> ClientAddress { get; set; }
-
+        public List<ClientVehicle> ClientVehicle { get; set; }
     }
 }

@@ -42,6 +42,9 @@ import { CollisionListComponent } from './employees/collision-list/collision-lis
 import { ClientComponent } from './client/client.component';
 import { ClientListComponent } from './client/client-list/client-list.component';
 import { ClientCreateEditComponent } from './client/client-create-edit/client-create-edit.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.component';
+import { VehicleCreateEditComponent } from './vehicle/vehicle-create-edit/vehicle-create-edit.component';
 import { DocumentListComponent } from './employees/document-list/document-list.component';
 import { CreateDocumentComponent } from './employees/create-document/create-document.component';
 
@@ -52,6 +55,7 @@ import { CreateDocumentComponent } from './employees/create-document/create-docu
     ServiceCreateEditComponent, ServiceSetupListComponent, ServiceSetupComponent, ProductSetupComponent,
     ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent, EmployeeCollisionComponent,
+    CollisionListComponent,ClientComponent,ClientListComponent,ClientCreateEditComponent, VehicleComponent, VehicleListComponent, VehicleCreateEditComponent],
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent],

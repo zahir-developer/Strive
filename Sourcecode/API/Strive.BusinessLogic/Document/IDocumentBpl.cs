@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic.Document
         Result GetDocumentById(long documentId, long employeeId, string password);
         Result UpdatePassword(Strive.BusinessEntities.Document.DocumentView lstUpdateDocument);
         Result GetAllDocument(long employeeId);
+        Result DeleteDocument(long id);
     }
 }

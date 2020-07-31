@@ -47,7 +47,7 @@ namespace Admin.API.Controllers
 
         [HttpGet]
         [Route("GetVendorById/{id}")]
-        public Result GetCollisionById(long id)
+        public Result GetCollisionById(int id)
         {
             return _vendorBpl.GetVendorById(id);
         }

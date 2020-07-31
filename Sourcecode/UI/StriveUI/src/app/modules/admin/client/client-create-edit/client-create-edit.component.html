@@ -1,86 +1,169 @@
 <div class="modal-body">
-    <form [formGroup]="locationSetupForm">
-        <div class="form-row">
-            <div class="form-group col-lg-3">
-                <label for="inputLocationName">Location Name<span class="required">*</span></label>
-                <input type="text" maxlength="100" class="form-control" formControlName="locationName"
-                    placeholder="Location Name" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
-                <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
-                    <div *ngIf="f.locationName.errors.required">Location Name is required</div>
+    <form [formGroup]="clientForm">
+        <div class="card">
+            <div class="card-body">
+                <div class="title-border p-b-5 m-b-5">
+                    Client No.
                 </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputLocationAddress">Location Address<span class="required">*</span></label>
-                <input type="text" maxlength="50" class="form-control" formControlName="locationAddress" placeholder="Location Address"
-                    [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
-                <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
-                    <div *ngIf="f.locationAddress.errors.required">Location Address is required</div>
+                <div class="form-row">
+                    <div class="form-group col-lg-3">
+                        <label for="inputFirstName">First Name</label>
+                        <input type="text" maxlength="100" class="form-control" formControlName="fName"
+                            placeholder="First Name">
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputLastName">Last Name</label>
+                        <input type="text" maxlength="50" class="form-control" formControlName="lName"
+                            placeholder="Last Name">
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputAddress">Address</label>
+                        <input type="text" maxlength="50" class="form-control" formControlName="address"
+                            placeholder="Address">
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" formControlName="creditAccount"
+                                (change)="change($event.target.checked)">
+                            <label class="form-check-label" for="gridCheck">Credit Account</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputLocationAddress">Location Address 2<span class="required">*</span></label>
-                <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2" placeholder="Address 2"
-                    [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
-                <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
-                    <div *ngIf="f.locationAddress2.errors.required">Location Address 2 is required</div>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputZipcode">ZipCode<span class="required">*</span></label>
-                <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip"
-                    formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
-                <div *ngIf="submitted  && f.zipcode.errors" class="invalid-feedback">
-                    <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
-                    <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode</div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">            
-            <div class="form-group col-lg-3">
-                <label for="inputState">State<span class="required">*</span></label>
-                <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)">
-                </app-state-dropdown>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputCountry">Country</label>
-                <app-country-dropdown [selectedCountryId]="selectedCountryId"
-                    (countryId)="getSelectedCountryId($event)"></app-country-dropdown>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputPhoneNumber">Phone Number</label>
-                <input appPhoneMask type="text" class="form-control" formControlName="phoneNumber"
-                    placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid':submitted  && f.phoneNumber.errors }">
-                <div *ngIf="submitted  && f.phoneNumber.errors" class="invalid-feedback">
-                    <div *ngIf="f.phoneNumber.errors.minlength">PhoneNumber must be 10 numbers</div>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputEmail">Email</label>
-                <input type="email" maxlength="50" class="form-control" formControlName="email" placeholder="Email"
-                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors">Please enter valid email address</div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">            
-            <div class="form-group col-lg-3">
-                <label for="inputWorkThreshold">Work Threshold</label>
-                <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
-                    placeholder="Threshold #" numbersOnly>
-            </div>            
-            <div class="form-group col-lg-3">
-                <label></label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="franchise"
-                        (change)="change($event.target.checked)">
-                    <label class="form-check-label" for="gridCheck">Franchise</label>
+                <div class="row">
+                    <div class="col-xl-9 one-space">
+                        <div class="form-row">
+                            <div class="form-group col-lg-4">
+                                <label for="inputPhoneNumber">Phone 1</label>
+                                <input appPhoneMask type="text" class="form-control" formControlName="phone1"
+                                    placeholder="(XXX) XXX-XXXX">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="inputPhoneNumber">Phone 2</label>
+                                <input appPhoneMask type="text" class="form-control" formControlName="phone2"
+                                    placeholder="(XXX) XXX-XXXX">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="inputScore">Score</label>
+                                <select class="form-control" formControlName="score">
+                                    <option hidden selected value="">Choose</option>
+                                    <option *ngFor="let status of Score" value="{{status.id}}">{{status.Value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-lg-4">
+                                <label for="inputEmail">Email</label>
+                                <input type="email" maxlength="50" class="form-control" formControlName="email"
+                                    placeholder="Email">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label></label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" formControlName="noEmail"
+                                        (change)="changeEmail($event.target.checked)">
+                                    <label class="form-check-label" for="gridCheck">No Email</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="inputStatus">Status</label>
+                                <select class="form-control" formControlName="status">
+                                    <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-lg-4">
+                                <label for="inputCity">City</label>
+                                <input type="text" class="form-control" formControlName="city" placeholder="City">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="inputState">State</label>
+                                <app-state-dropdown [selectedStateId]="selectedStateId"
+                                    (stateId)="getSelectedStateId($event)" [isView]="isView">
+                                </app-state-dropdown>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="inputZipcode">ZipCode</label>
+                                <input numbersOnly type="text" maxlength="5" class="form-control" placeholder="Zip"
+                                    formControlName="zipcode">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 one-space">
+                        <div class="form-row">
+                            <div class="form-group col-lg-12">
+                                <label for="inputNotes">Notes</label>
+                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea"
+                                    formControlName="notes" placeholder="Notes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 one-space">
+                        <div class="tab-content">
+                            <div class="title-border p-b-15 m-b-15">
+                                <h5 class="d-inline-block">Vehicle List</h5>&nbsp;
+                                <button type="button"
+                                    class="btn theme-primary-button-color btn-md float-right">New</button>
+                            </div>
+                            <div class="setup-wrapper">
+                                <div class="setup-content" *ngIf="isTableEmpty === true"> <span
+                                        class="col-12 row d-block">No Vehicles Found</span></div>
+                                <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
+                                    <p-table [value]="vehicleDetails"
+                                        class="table table-responsive-xl table-striped table-hover" [paginator]="true"
+                                        [rows]="5">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th scope="col">Acc</th>
+                                                <th scope="col">#</th>
+                                                <th scope="col">UPC</th>
+                                                <th scope="col">Tag</th>
+                                                <th scope="col">Color</th>
+                                                <th scope="col">Make</th>
+                                                <th scope="col">Model</th>
+                                                <th scope="col">Upcharge</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-vehicle>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                        style="color:red" pTooltip="delete"
+                                                        tooltipPosition="bottom"></em>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 one-space">
+                        <div class="form-row">
+                            <div class="form-group col-lg-12">
+                                <label for="inputRecNotes">Check Out Note</label>
+                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea"
+                                    formControlName="checkOut" placeholder="Check Out Note"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
 </div>
-<div class="modal-footer">
+<div class="modal-footer foot">
     <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-    <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
+    <button *ngIf="!isView" type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
 </div>

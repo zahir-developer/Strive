@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { LocationService } from 'src/app/shared/services/data-service/location.service';
-import { log } from 'console';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import * as moment from 'moment';
+import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -12,110 +13,146 @@ import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown
 })
 export class ClientCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
-  locationSetupForm: FormGroup;
+  clientForm: FormGroup;
+  Status: any;
   State: any;
-  Country: any;
+  Score: any;
   address: any;
   selectedLocation: any;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
-  submitted: boolean;
+  @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService) { }
+  vehicleDetails: any;
+  isTableEmpty: boolean;
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
 
   ngOnInit() {
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
+    this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
     this.formInitialize();
-    this.submitted = false;
-    this.Country = 38;
+    if (this.isView === true) {
+      this.viewClient();
+    }
     if (this.isEdit === true) {
-      this.locationSetupForm.reset();
-      this.getLocationById();
+      this.clientForm.reset();
+      this.getClientById();
     }
   }
 
   formInitialize() {
-    this.locationSetupForm = this.fb.group({
-      locationAddress2: ['', Validators.required],
-      locationName: ['', Validators.required],
-      locationAddress: ['', Validators.required],
-      zipcode: ['', Validators.required],
+    this.clientForm = this.fb.group({
+      fName: ['',],
+      lName: ['',],
+      address: ['',],
+      zipcode: ['',],
       state: ['',],
-      country: ['',],
-      phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', Validators.email],
-      franchise: ['',],
-      workHourThreshold: ['',]
+      city: ['',],
+      phone1: ['',],
+      email: ['',],
+      phone2: ['',],
+      creditAccount: ['',],
+      noEmail: ['',],
+      score: ['',],
+      status: ['',],
+      notes: ['',],
+      checkOut: ['',]
+    });
+    this.clientForm.get('status').patchValue(0);
+    this.getAllVehicle();
+  }
+
+  getAllVehicle() {
+    this.vehicle.getVehicle().subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicleDetails = vehicle.Vehicle;
+        console.log(this.vehicleDetails);
+        if (this.vehicleDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
     });
   }
 
-  getLocationById() {
-    const locationAddress = this.selectedData.LocationAddress;
-    this.selectedStateId = locationAddress.State;
+  getClientById() {
+    const clientAddress = this.selectedData.ClientAddress[0];
+    this.selectedStateId = clientAddress.State;
     this.State = this.selectedStateId;
-    this.selectedCountryId = locationAddress.Country;
-    this.Country = this.selectedCountryId;
-    this.locationSetupForm.patchValue({
-      locationName: this.selectedData.LocationName,
-      locationAddress: this.selectedData.LocationAddress.Address1,
-      locationAddress2: this.selectedData.LocationAddress.Address2,
-      workHourThreshold: this.selectedData.WorkhourThreshold,
-      zipcode: this.selectedData.LocationAddress.Zip,
-      phoneNumber: this.selectedData.LocationAddress.PhoneNumber,
-      email: this.selectedData.LocationAddress.Email,
-      franchise: this.selectedData.IsFranchise
+    this.clientForm.patchValue({
+      fName: this.selectedData.FirstName,
+      lName: this.selectedData.LastName,
+      noEmail: this.selectedData.NoEmail,
+      status: this.selectedData.IsActive ? 0 : 1,
+      score: this.selectedData.Score,
+      notes: this.selectedData.Notes,
+      checkOut: this.selectedData.RecNotes,
+      address: clientAddress.Address1,
+      phone1: clientAddress.PhoneNumber,
+      zipcode: clientAddress.Zip,
+      phone2: clientAddress.PhoneNumber2,
+      email: clientAddress.Email,
+      city: clientAddress.City
     });
+    this.changeEmail(this.selectedData.NoEmail);
+  }
+
+  viewClient() {
+    this.clientForm.disable();
   }
 
   change(data) {
-    this.locationSetupForm.value.franchise = data;
+    this.clientForm.value.creditAccount = data;
   }
-
-  get f() {
-    return this.locationSetupForm.controls;
+  changeEmail(data) {
+    this.clientForm.value.noEmail = data;
+    if (data) {
+      this.clientForm.get('email').disable();
+      //this.clientForm.get('email').reset();
+    } else {
+      this.clientForm.get('email').enable();
+    }
   }
 
   submit() {
-    this.submitted = true;
-    this.stateDropdownComponent.submitted = true;
-    if (this.locationSetupForm.invalid) {
-      return;
-    }
-    const sourceObj = [];
-    this.address = {
-      relationshipId: this.isEdit ? this.selectedData.LocationId : 0,
-      locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,
-      address1: this.locationSetupForm.value.locationAddress,
-      address2: this.locationSetupForm.value.locationAddress2,
-      phoneNumber2: "",
+    this.address = [{
+      relationshipId: this.isEdit ? this.selectedData.ClientId : 0,
+      clientAddressId: this.isEdit ? this.selectedData.ClientAddress[0].ClientAddressId : 0,
+      address1: this.clientForm.value.address,
+      address2: "",
+      phoneNumber2: this.clientForm.value.phone2,
       isActive: true,
-      zip: this.locationSetupForm.value.zipcode,
+      zip: this.clientForm.value.zipcode,
       state: this.State,
-      city: 1,
-      country: this.Country,
-      phoneNumber: this.locationSetupForm.value.phoneNumber,
-      email: this.locationSetupForm.value.email
-    }
+      city: this.clientForm.value.city,
+      country: 38,
+      phoneNumber: this.clientForm.value.phone1,
+      email: this.clientForm.value.email
+    }]
     const formObj = {
-      locationId: this.isEdit ? this.selectedData.LocationId : 0,
-      locationType: 1,
-      locationName: this.locationSetupForm.value.locationName,
-      locationDescription: "",
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
+      firstName: this.clientForm.value.fName,
+      middleName: "",
+      lastName: this.clientForm.value.lName,
+      gender: 0,
+      maritalStatus: 0,
+      birthDate: "",
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
-      taxRate: "",
-      siteUrl: "",
-      currency: 0,
-      facebook: "",
-      twitter: "",
-      instagram: "",
-      wifiDetail: "",
-      workHourThreshold: this.locationSetupForm.value.workHourThreshold,
-      locationAddress: this.address,
-      isFranchise: this.locationSetupForm.value.franchise == "" ? false : this.locationSetupForm.value.franchise
+      notes: this.clientForm.value.notes,
+      recNotes: this.clientForm.value.checkOut,
+      score: this.clientForm.value.Score,
+      noEmail: this.clientForm.value.noEmail == "" ? false : this.clientForm.value.noEmail,
+      clientAddress: this.address,
+      clientType: 0
     };
-    sourceObj.push(formObj);
-    this.locationService.updateLocation(sourceObj).subscribe(data => {
+    this.client.updateClient(formObj).subscribe(data => {
       if (data.status === 'Success') {
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
@@ -125,8 +162,7 @@ export class ClientCreateEditComponent implements OnInit {
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
         this.toastr.error('Communication Error', 'Error!');
-        this.locationSetupForm.reset();
-        this.submitted = false;
+        this.clientForm.reset();
       }
     });
   }
@@ -135,10 +171,6 @@ export class ClientCreateEditComponent implements OnInit {
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
-  }
-  getSelectedCountryId(event) {
-    this.Country = event.target.value;
-
   }
 }
 

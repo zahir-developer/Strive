@@ -30,7 +30,6 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<Client> lstclientlst = new List<Client>();
-            //var clientlst = new ClientList();
             lstclientlst.Add(new Client
             {
                 ClientId = lstClient.ClientId,
@@ -38,8 +37,8 @@ namespace Strive.ResourceAccess
                 MiddleName = lstClient.MiddleName,
                 LastName = lstClient.LastName,
                 Gender = lstClient.Gender,
-                MaritalStatus= lstClient.MaritalStatus,
-                BirthDate= lstClient.BirthDate,
+                MaritalStatus = lstClient.MaritalStatus,
+                BirthDate = lstClient.BirthDate,
                 CreatedDate = lstClient.CreatedDate,
                 IsActive = lstClient.IsActive,
                 Notes = lstClient.Notes,
@@ -62,6 +61,13 @@ namespace Strive.ResourceAccess
             List<ClientView> lstClientList = new List<ClientView>();
             lstClientList = db.FetchRelation1<ClientView, ClientAddress>(SPEnum.USPGETALLCLIENT.ToString(), dynParams);
             return lstClientList;
+        }
+        public List<ClientView> GetClientById(int id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@ClientId", id);
+            var lstClientInfo = db.FetchRelation1<ClientView, ClientAddress>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
+            return lstClientInfo;
         }
         public bool DeleteClient(int clientId)
         {

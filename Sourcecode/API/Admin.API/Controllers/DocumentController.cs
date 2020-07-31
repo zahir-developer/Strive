@@ -45,5 +45,12 @@ namespace Admin.API.Controllers
         {
             return _documentBpl.GetAllDocument(employeeId);
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public Result DeleteDocument(long id)
+        {
+            return _documentBpl.DeleteDocument(id);
+        }
+
     }
 }
