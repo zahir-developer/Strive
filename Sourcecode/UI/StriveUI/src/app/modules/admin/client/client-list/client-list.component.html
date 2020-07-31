@@ -59,8 +59,9 @@
                                     </ng-template>
                                 </p-table>
                             </div>
-                            <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true"
-                                [modal]="true" [focusOnShow]="false" [closable]="false" width="1000px" height="500px">
+                            <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog"
+                                [blockScroll]="true" [modal]="true" [focusOnShow]="false" [closable]="false"
+                                width="1000px" height="500px">
                                 <app-client-create-edit *ngIf="showDialog" [selectedData]="selectedData"
                                     [isEdit]="isEdit" [isView]="isView" (closeDialog)="closePopupEmit($event)">
                                 </app-client-create-edit>

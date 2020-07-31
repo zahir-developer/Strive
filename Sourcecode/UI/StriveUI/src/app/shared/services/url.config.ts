@@ -38,7 +38,7 @@ export const UrlConfig = {
     getAllDocument: `Admin/Document/GetAllDocument/`,
     getDocumentById: `Admin/Document/GetDocumentById/`,
     getWeather: `Admin/Weather/GetWeatherData/`,
-    saveWeather:`Admin/Weather/SaveWeatherPrediction`,
+    saveWeather: `Admin/Weather/SaveWeatherPrediction`,
     verifyOtp: `Auth/VerfiyOTP/`,
     resetPassword: `Auth/ResetPassword`,
     getAllCollision: `Admin/Collision/GetAll`,
@@ -46,6 +46,7 @@ export const UrlConfig = {
     getClient: `Admin/Client/GetAllClient`,
     updateClient: `Admin/Client/Save`,
     deleteClient: `Admin/Client/`,
-    getClientById:`Admin/Client/GetClientById/`
+    getClientById: `Admin/Client/GetClientById/`,
+    getAllVehicle: `Admin/Vehicle/GetAllVehicle`
   }
 };
