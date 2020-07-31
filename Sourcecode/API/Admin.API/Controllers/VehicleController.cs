@@ -26,5 +26,11 @@ namespace Admin.API.Controllers
         {
             return _IVehicleBpl.GetAllVehicle();
         }
+        //[HttpPost]
+        //[Route("UpdateVehicle")]
+        //public Result UpdateVehicleById([FromBody] Strive.BusinessEntities.Client.ClientVehicle lstUpdateVehicle)
+        //{
+        //    return _IVehicleBpl.(lstUpdateDocument);
+        //}
     }
 }

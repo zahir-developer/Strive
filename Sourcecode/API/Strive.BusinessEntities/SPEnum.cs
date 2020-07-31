@@ -79,7 +79,8 @@ namespace Strive.BusinessEntities
         USPDELETEMEMBERSHIP,
         USPGETMEMBERSHIPBYID,
         USPSAVEMEMBERSHIPSETUP,
-        USPGETALLVEHICLE
+        USPGETALLVEHICLE,
+        USPUPDATEVEHICLE
     }
 
 
