@@ -13,6 +13,7 @@ import { ServiceSetupComponent } from './system-setup/service-setup/service-setu
 import { ProductSetupComponent } from './system-setup/product-setup/product-setup.component';
 import { VendorSetupComponent } from './system-setup/vendor-setup/vendor-setup.component';
 import { ClientComponent } from './client/client.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 
 
 const adminRoutes: Routes = [
@@ -25,6 +26,7 @@ const adminRoutes: Routes = [
     { path: 'cashregister', component: CashinRegisterComponent },
     { path: 'closeoutregister', component: CloseoutRegisterComponent },
     { path: 'client', component: ClientComponent },
+    { path: 'vehicle', component: VehicleComponent },
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },
