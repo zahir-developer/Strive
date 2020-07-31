@@ -26,7 +26,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<ClientVehicleView> lstResource = new List<ClientVehicleView>();
-            var result = db.FetchRelation1<ClientVehicleView,ClientVehicle>(SPEnum.USPGETALLVEHICLE.ToString(), dynParams);
+            var result = db.FetchRelation1<ClientVehicleView, ClientVehicle>(SPEnum.USPGETALLVEHICLE.ToString(), dynParams);
             return result;
         }
     }
