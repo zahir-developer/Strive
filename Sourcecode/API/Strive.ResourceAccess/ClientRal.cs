@@ -29,9 +29,27 @@ namespace Strive.ResourceAccess
         public bool SaveClientDetails(ClientView lstClient)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            Client cli = lstClient;
-            dynParams.Add("@tvpClient", cli.TableName("tvpClient"));
-            dynParams.Add("@tvpClientAddress", lstClient.ClientAddress.TableName("tvpClientAddress"));
+            List<Client> lstclientlst = new List<Client>();
+            lstclientlst.Add(new Client
+            {
+                ClientId = lstClient.ClientId,
+                FirstName = lstClient.FirstName,
+                MiddleName = lstClient.MiddleName,
+                LastName = lstClient.LastName,
+                Gender = lstClient.Gender,
+                MaritalStatus = lstClient.MaritalStatus,
+                BirthDate = lstClient.BirthDate,
+                CreatedDate = lstClient.CreatedDate,
+                IsActive = lstClient.IsActive,
+                Notes = lstClient.Notes,
+                RecNotes = lstClient.RecNotes,
+                Score = lstClient.Score,
+                NoEmail = lstClient.NoEmail,
+                ClientType = lstClient.ClientType,
+
+            });
+            dynParams.Add("@tvpClient", lstclientlst.ToDataTable().AsTableValuedParameter("tvpClient"));
+            dynParams.Add("@tvpClientAddress", lstClient.ClientAddress.ToDataTable().AsTableValuedParameter("tvpClientAddress"));
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVECLIENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
 
