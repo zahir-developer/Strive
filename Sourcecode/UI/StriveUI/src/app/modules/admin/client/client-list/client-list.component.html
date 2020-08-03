@@ -176,10 +176,8 @@
                                                 </form>
                                             </div>
                                             <div class="table-responsive">
-                                                <p-table styleClass="table table-striped table-hover"
-                                                    [value]="clientDetails" [paginator]="true"
-                                                    [rows]="5">
-                                                    <ng-template pTemplate="header">
+                                                <table class="table  table-striped m-t-10">
+                                                    <thead>
                                                         <tr>
                                                             <th scope="col">First Name</th>
                                                             <th scope="col">Last Name</th>
@@ -188,10 +186,11 @@
                                                             <th scope="col">Status</th>
                                                             <th scope="col">Action</th>
                                                         </tr>
-                                                    </ng-template>
-                                                    <ng-template pTemplate="body" let-client>
-                                                        <tr>
-                                                            <td>{{client.FirstName}}</td>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr
+                                                            *ngFor="let client of clientDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                            <th scope="row">{{client.FirstName}}</th>
                                                             <td>{{client.LastName}}</td>
                                                             <td>{{client.ClientAddress[0].PhoneNumber}}</td>
                                                             <td>{{client.ClientType}}</td>
@@ -212,8 +211,12 @@
                                                                     (click)="delete(client)"></em>
                                                             </td>
                                                         </tr>
-                                                    </ng-template>
-                                                </p-table>
+                                                    </tbody>
+                                                </table>
+                                                <ngb-pagination [collectionSize]="clientLength" [(page)]="page"
+                                                    [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                                    [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                </ngb-pagination>
                                             </div>
                                         </div>
                                     </div>

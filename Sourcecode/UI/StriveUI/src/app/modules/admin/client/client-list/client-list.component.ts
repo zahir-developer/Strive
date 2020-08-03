@@ -21,6 +21,9 @@ export class ClientListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
+  page = 1;
+  pageSize = 5;
+  clientLength: number;
   constructor(private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private fb: FormBuilder) { }
 
@@ -40,6 +43,7 @@ export class ClientListComponent implements OnInit {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.Clients;
+        this.clientLength = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
