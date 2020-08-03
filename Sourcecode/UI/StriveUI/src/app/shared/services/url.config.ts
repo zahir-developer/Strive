@@ -48,6 +48,9 @@ export const UrlConfig = {
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAllVehicle`,
-    deleteDocument: `Admin/Document/`
+    deleteDocument: `Admin/Document/`,
+    updateVehicle: `Admin/Vehicle/UpdateVehicle`,
+    deleteVehicle: `Admin/Vehicle/`,
+    getVehicleById: `Admin/Vehicle/GetVehicleById/`,
   }
 };
