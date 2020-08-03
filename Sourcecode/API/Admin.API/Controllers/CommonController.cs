@@ -45,5 +45,12 @@ namespace Admin.API.Controllers
         {
             var result = _commonBpl.GetWeather();
         }
+
+        [HttpGet]
+        [Route("GetAllEmail")]
+        public Result GetAllEmail()
+        {
+            return _commonBpl.GetAllEmail();
+        }
     }
 }

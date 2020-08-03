@@ -42,6 +42,9 @@ import { CollisionListComponent } from './employees/collision-list/collision-lis
 import { ClientComponent } from './client/client.component';
 import { ClientListComponent } from './client/client-list/client-list.component';
 import { ClientCreateEditComponent } from './client/client-create-edit/client-create-edit.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.component';
+import { VehicleCreateEditComponent } from './vehicle/vehicle-create-edit/vehicle-create-edit.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -50,7 +53,7 @@ import { ClientCreateEditComponent } from './client/client-create-edit/client-cr
     ServiceCreateEditComponent, ServiceSetupListComponent, ServiceSetupComponent, ProductSetupComponent,
     ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent, EmployeeCollisionComponent,
-    CollisionListComponent,ClientComponent,ClientListComponent,ClientCreateEditComponent],
+    CollisionListComponent,ClientComponent,ClientListComponent,ClientCreateEditComponent, VehicleComponent, VehicleListComponent, VehicleCreateEditComponent],
   imports: [
     CommonModule,
     RouterModule,

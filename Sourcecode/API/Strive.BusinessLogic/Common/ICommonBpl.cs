@@ -10,5 +10,6 @@ namespace Strive.BusinessLogic.Common
         Result GetCodesByCategory(int codeCategoryId);
         Task<Result> GetWeather();
         Task<Result> CreateLocationForWeatherPortal();
+        Result GetAllEmail();
     }
 }

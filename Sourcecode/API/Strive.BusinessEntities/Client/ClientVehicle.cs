@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.Client
 {
     public class ClientVehicle
     {
-        public int VehicleId { get; set; }
+        public int ClientVehicleId { get; set; }
         public int ClientId { get; set; }
         public int LocationId { get; set; }
         public string VehicleNumber { get; set; }

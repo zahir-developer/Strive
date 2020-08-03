@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import * as moment from 'moment';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -14,42 +15,47 @@ export class ClientCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   clientForm: FormGroup;
   Status: any;
-  State:any;
+  State: any;
   Score: any;
   address: any;
   selectedLocation: any;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
-  @Input() isView?:any;
+  @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService) { }
+  vehicleDetails: any;
+  isTableEmpty: boolean;
+  headerData: string;
+  selectedVehicle: any;
+  showVehicleDialog: boolean;
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
 
   ngOnInit() {
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}]; 
-    this.Score = [{id : 0,Value :"Score1"}, {id :1 , Value:"Score2"}];  
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
+    this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
+    this.Score = 0;
     this.formInitialize();
-    console.log(this.selectedData);
-    if(this.isView === true){
+    if (this.isView === true) {
       this.viewClient();
-    }  
+    }
     if (this.isEdit === true) {
       this.clientForm.reset();
       this.getClientById();
-    }    
+    }
   }
 
   formInitialize() {
     this.clientForm = this.fb.group({
-      fName: ['', ],
-      lName: ['', ],
-      address: ['', ],
-      zipcode: ['', ],
+      fName: ['',],
+      lName: ['',],
+      address: ['',],
+      zipcode: ['',],
       state: ['',],
       city: ['',],
       phone1: ['',],
-      email: ['', ],
+      email: ['',],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
@@ -59,20 +65,38 @@ export class ClientCreateEditComponent implements OnInit {
       checkOut: ['',]
     });
     this.clientForm.get('status').patchValue(0);
-  }  
+    this.getAllVehicle();
+  }
 
-  getClientById(){
+  getAllVehicle() {
+    this.vehicle.getVehicle().subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicleDetails = vehicle.Vehicle;
+        console.log(this.vehicleDetails);
+        if (this.vehicleDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  getClientById() {
     const clientAddress = this.selectedData.ClientAddress[0];
     this.selectedStateId = clientAddress.State;
     this.State = this.selectedStateId;
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
       lName: this.selectedData.LastName,
-      noEmail:this.selectedData.NoEmail,
-      status:this.selectedData.IsActive ? 0 : 1,
+      noEmail: this.selectedData.NoEmail,
+      status: this.selectedData.IsActive ? 0 : 1,
       score: this.selectedData.Score,
-      notes:this.selectedData.Notes,
-      checkOut:this.selectedData.RecNotes,
+      notes: this.selectedData.Notes,
+      checkOut: this.selectedData.RecNotes,
       address: clientAddress.Address1,
       phone1: clientAddress.PhoneNumber,
       zipcode: clientAddress.Zip,
@@ -83,40 +107,40 @@ export class ClientCreateEditComponent implements OnInit {
     this.changeEmail(this.selectedData.NoEmail);
   }
 
-  viewClient(){
+  viewClient() {
     this.clientForm.disable();
   }
 
   change(data) {
     this.clientForm.value.creditAccount = data;
   }
-  changeEmail(data){
+  changeEmail(data) {
     this.clientForm.value.noEmail = data;
-    if(data){
+    if (data) {
       this.clientForm.get('email').disable();
       //this.clientForm.get('email').reset();
-    }else{
+    } else {
       this.clientForm.get('email').enable();
     }
   }
 
   submit() {
     this.address = [{
-      relationshipId: 0,
-      addressId: 0,
+      relationshipId: this.isEdit ? this.selectedData.ClientId : 0,
+      clientAddressId: this.isEdit ? this.selectedData.ClientAddress[0].ClientAddressId : 0,
       address1: this.clientForm.value.address,
       address2: "",
       phoneNumber2: this.clientForm.value.phone2,
       isActive: true,
       zip: this.clientForm.value.zipcode,
-      state: this.State,
-      city: this.clientForm.value.city,
-      country:38,
+      state: 0,
+      city: this.clientForm.value.city !== "" ? this.clientForm.value.city : 0,
+      country: 38,
       phoneNumber: this.clientForm.value.phone1,
       email: this.clientForm.value.email
     }]
     const formObj = {
-      clientId: 0,
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
       firstName: this.clientForm.value.fName,
       middleName: "",
       lastName: this.clientForm.value.lName,
@@ -127,7 +151,7 @@ export class ClientCreateEditComponent implements OnInit {
       isActive: true,
       notes: this.clientForm.value.notes,
       recNotes: this.clientForm.value.checkOut,
-      score: this.clientForm.value.Score,
+      score: 0,
       noEmail: this.clientForm.value.noEmail == "" ? false : this.clientForm.value.noEmail,
       clientAddress: this.address,
       clientType: 0
@@ -151,6 +175,16 @@ export class ClientCreateEditComponent implements OnInit {
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
+  }
+  closePopupEmit(event) {
+    if (event.status === 'saved') {
+      this.showVehicleDialog = false;
+    }
+    this.showVehicleDialog = event.isOpenPopup;
+  }
+  add() {
+    this.headerData = 'Add New vehicle';
+    this.showVehicleDialog = true;
   }
 }
 

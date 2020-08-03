@@ -144,7 +144,20 @@ namespace Strive.BusinessLogic.Document
             return _result;
 
         }
-
+        public Result DeleteDocument(long id)
+        {
+            try
+            {
+                var lstDocument = new DocumentRal(_tenant).DeleteDocument(id);
+                _resultContent.Add(lstDocument.WithName("Document"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
 
     }
 }

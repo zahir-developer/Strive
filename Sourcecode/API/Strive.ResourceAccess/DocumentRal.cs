@@ -73,5 +73,13 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+        public bool DeleteDocument(long id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@DocumentId", id);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEDOCUMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
     }
 }
