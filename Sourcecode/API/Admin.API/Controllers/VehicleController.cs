@@ -26,11 +26,23 @@ namespace Admin.API.Controllers
         {
             return _IVehicleBpl.GetAllVehicle();
         }
-        //[HttpPost]
-        //[Route("UpdateVehicle")]
-        //public Result UpdateVehicleById([FromBody] Strive.BusinessEntities.Client.ClientVehicle lstUpdateVehicle)
-        //{
-        //    return _IVehicleBpl.(lstUpdateDocument);
-        //}
+        [HttpPost]
+        [Route("UpdateVehicle")]
+        public Result UpdateVehicleById([FromBody] Strive.BusinessEntities.Client.ClientVehicle lstUpdateVehicle)
+        {
+            return _IVehicleBpl.UpdateClientVehicle(lstUpdateVehicle);
+        }
+        [HttpDelete]
+        [Route("id")]
+        public Result DeleteVehicleById(int id)
+        {
+            return _IVehicleBpl.DeleteVehicle(id);
+        }
+        [HttpGet]
+        [Route("GetVehicleById/{id}")]
+        public Result GetEmployeeById(int id)
+        {
+            return _IVehicleBpl.GetClientVehicleById(id);
+        }
     }
 }
