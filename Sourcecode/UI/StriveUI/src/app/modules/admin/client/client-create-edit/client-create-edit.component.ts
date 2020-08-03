@@ -146,7 +146,7 @@ export class ClientCreateEditComponent implements OnInit {
       lastName: this.clientForm.value.lName,
       gender: 0,
       maritalStatus: 0,
-      birthDate: "",
+      birthDate: new Date(),
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
       notes: this.clientForm.value.notes,
