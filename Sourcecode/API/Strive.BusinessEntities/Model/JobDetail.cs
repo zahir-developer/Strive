@@ -7,10 +7,10 @@ namespace Strive.BusinessEntities.Model
 public class JobDetail
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int JobDetailId { get; set; }
 
-	[Column]
+	[Column, PrimaryKey]
 	public int? JobId { get; set; }
 
 	[Column]
@@ -22,7 +22,7 @@ public class JobDetail
 	[Column]
 	public int? QABy { get; set; }
 
-	[Column]
+	[Column, PrimaryKey]
 	public int? Labour { get; set; }
 
 	[Column]

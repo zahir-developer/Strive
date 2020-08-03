@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json.Linq;
-using Strive.BusinessEntities.Location;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
-using System.Linq;
-using Strive.BusinessLogic.Common;
+using System;
+using System.Net;
 
 namespace Strive.BusinessLogic.Location
 {
@@ -17,6 +14,7 @@ namespace Strive.BusinessLogic.Location
 
         public Result AddLocation(LocationDto location)
         {
+            location.Drawer = new BusinessEntities.Model.Drawer();
             return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
         }
 

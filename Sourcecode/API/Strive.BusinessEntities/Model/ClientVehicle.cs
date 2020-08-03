@@ -7,10 +7,10 @@ namespace Strive.BusinessEntities.Model
 public class ClientVehicle
 {
 
-	[Column]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int VehicleId { get; set; }
 
-	[Column]
+	[Column, PrimaryKey]
 	public int? ClientId { get; set; }
 
 	[Column]
@@ -20,7 +20,7 @@ public class ClientVehicle
 	public string VehicleNumber { get; set; }
 
 	[Column]
-	public int? VehicleMake { get; set; }
+	public int? VehicleMfr { get; set; }
 
 	[Column]
 	public int? VehicleModel { get; set; }

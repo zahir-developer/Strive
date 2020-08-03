@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class NotificationTemplate
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int NotificationId { get; set; }
 
 	[Column]

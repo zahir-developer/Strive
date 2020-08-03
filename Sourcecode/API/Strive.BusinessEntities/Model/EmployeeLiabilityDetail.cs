@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class EmployeeLiabilityDetail
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int LiabilityDetailId { get; set; }
 
 	[Column]
@@ -17,7 +17,7 @@ public class EmployeeLiabilityDetail
 	public int LiabilityDetailType { get; set; }
 
 	[Column]
-	public Double? Amount { get; set; }
+	public decimal? Amount { get; set; }
 
 	[Column]
 	public int? PaymentType { get; set; }

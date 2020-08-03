@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Product
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int ProductId { get; set; }
 
 	[Column]
@@ -35,19 +35,19 @@ public class Product
 	public string SizeDescription { get; set; }
 
 	[Column]
-	public Double? Quantity { get; set; }
+	public short? Quantity { get; set; }
 
 	[Column]
 	public string QuantityDescription { get; set; }
 
 	[Column]
-	public Double? Cost { get; set; }
+	public decimal? Cost { get; set; }
 
 	[Column]
 	public bool? IsTaxable { get; set; }
 
 	[Column]
-	public Double? TaxAmount { get; set; }
+	public decimal? TaxAmount { get; set; }
 
 	[Column]
 	public int? ThresholdLimit { get; set; }
@@ -69,6 +69,9 @@ public class Product
 
 	[Column]
 	public DateTimeOffset? UpdatedDate { get; set; }
+
+	[Column]
+	public decimal? Price { get; set; }
 
 }
 }

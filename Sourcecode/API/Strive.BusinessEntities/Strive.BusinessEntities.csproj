@@ -40,14 +40,8 @@
     <Compile Include="DTO\Authentication.cs" />
     <Compile Include="DTO\Auth\ResetPassword.cs" />
     <Compile Include="DTO\Auth\User.cs" />
-    <Compile Include="DTO\CashRegister\CashInRegister.cs" />
-    <Compile Include="DTO\CashRegister\CashRegister.cs" />
-    <Compile Include="DTO\CashRegister\CashRegisterBill.cs" />
-    <Compile Include="DTO\CashRegister\CashRegisterCoin.cs" />
     <Compile Include="DTO\CashRegister\CashRegisterConsolidate.cs" />
-    <Compile Include="DTO\CashRegister\CashRegisterOther.cs" />
-    <Compile Include="DTO\CashRegister\CashRegisterRoll.cs" />
-    <Compile Include="DTO\CashRegister\CashRegisterView.cs" />
+    <Compile Include="DTO\CashRegister\CashRegisterDto.cs" />
     <Compile Include="DTO\CashRegister\CR.cs" />
     <Compile Include="DTO\Employee\EmployeeDetailDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDocumentDto.cs" />

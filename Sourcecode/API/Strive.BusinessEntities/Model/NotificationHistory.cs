@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class NotificationHistory
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int NotificationHistoryId { get; set; }
 
 	[Column]

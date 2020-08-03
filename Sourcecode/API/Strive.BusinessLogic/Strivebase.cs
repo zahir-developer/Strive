@@ -78,6 +78,23 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
+
+
+        protected Result ResultWrap<T>(Func<string, int, DateTime, T> RALMethod, string cashRegType, int locationId, DateTime cashRegDate, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke(cashRegType,locationId,cashRegDate);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         protected Result ResultWrap<T>(Func<int, List<T>> RALMethod, int id, string ResultName)
         {
             try

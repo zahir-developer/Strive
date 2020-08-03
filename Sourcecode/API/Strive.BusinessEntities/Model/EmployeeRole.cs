@@ -7,7 +7,10 @@ namespace Strive.BusinessEntities.Model
 public class EmployeeRole
 {
 
-	[Column]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
+	public int EmployeeRoleId { get; set; }
+
+	[Column, PrimaryKey]
 	public int? EmployeeId { get; set; }
 
 	[Column]

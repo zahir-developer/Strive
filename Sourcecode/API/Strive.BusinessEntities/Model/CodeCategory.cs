@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class CodeCategory
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int id { get; set; }
 
 	[Column]

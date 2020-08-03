@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Location;
-using Strive.BusinessEntities.Location;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.Repository;
@@ -29,6 +29,7 @@ namespace Strive.ResourceAccess
 
         public bool AddLocation(LocationDto location)
         {
+            location.Drawer.DrawerName = $"Drawer-{location.Location.LocationName}-1";
             return dbRepo.InsertPc(location, "LocationId");
         }
 

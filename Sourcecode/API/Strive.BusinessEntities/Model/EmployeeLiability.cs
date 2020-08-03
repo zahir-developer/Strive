@@ -7,10 +7,10 @@ namespace Strive.BusinessEntities.Model
 public class EmployeeLiability
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int LiabilityId { get; set; }
 
-	[Column]
+	[Column, PrimaryKey]
 	public int? EmployeeId { get; set; }
 
 	[Column]

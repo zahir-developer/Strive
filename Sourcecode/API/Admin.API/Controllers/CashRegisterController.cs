@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.CashRegister;
+using Strive.BusinessEntities.CashRegister.DTO;
 using Strive.BusinessLogic.CashRegister;
 using Strive.Common;
 using System;
@@ -10,36 +12,26 @@ using System.Threading.Tasks;
 
 namespace Admin.API.Controllers
 {
-    [AllowAnonymous]
-    [Route("Admin/[Controller]")]
-    public class CashRegisterController : ControllerBase
-    {
-        ICashRegisterBpl _CashRegisterBpl = null;
+    [Authorize]
+    //[AutoValidateAntiforgeryToken]
 
-        public CashRegisterController(ICashRegisterBpl CashRegisterBpl)
+    [Route("Admin/[Controller]")]
+    public class CashRegisterController : StriveControllerBase<ICashRegisterBpl>
+    {
+        public CashRegisterController(ICashRegisterBpl cashRegBpl) : base(cashRegBpl) { }
+        
+        [HttpPost]
+        [Route("Save")]
+        public Result SaveCashRegister([FromBody] CashRegisterDto cashRegister)
         {
-            _CashRegisterBpl = CashRegisterBpl;
+            return _bplManager.SaveCashRegister(cashRegister);
         }
 
         [HttpGet]
-        [Route("GetCashRegisterDetails/{cashRegisterType}/{locationId}/{dateTime}")]
+        [Route("Get")]
         public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
-            return _CashRegisterBpl.GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
-        }
-
-        [HttpPost]
-        [Route("Save")]
-        public Result SaveTodayCashRegister([FromBody] Strive.BusinessEntities.CashRegister.CashRegisterView lstCashRegister, CashRegisterType cashRegisterType)
-        {
-            return _CashRegisterBpl.SaveTodayCashRegister(lstCashRegister);
-        }
-
-        [HttpPost]
-        [Route("SaveNewApproach")]
-        public Result SaveCashRegisterNewApproach([FromBody] List<Strive.BusinessEntities.CashRegister.CashRegisterView> lstCashRegisterConsolidate)
-        {
-            return _CashRegisterBpl.SaveCashRegisterNewApproach(lstCashRegisterConsolidate);
+            return _bplManager.GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
         }
     }
 }

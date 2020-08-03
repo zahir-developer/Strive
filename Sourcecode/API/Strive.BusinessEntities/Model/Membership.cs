@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Membership
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int MembershipId { get; set; }
 
 	[Column]

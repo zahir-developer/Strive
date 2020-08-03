@@ -7,11 +7,11 @@ namespace Strive.BusinessEntities.Model
 public class ClientMembershipDetails
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int ClientMembershipId { get; set; }
 
 	[Column]
-	public int ClientId { get; set; }
+	public int ClientVehicleId { get; set; }
 
 	[Column]
 	public int LocationId { get; set; }
@@ -20,10 +20,10 @@ public class ClientMembershipDetails
 	public int MembershipId { get; set; }
 
 	[Column]
-	public DateTimeOffset? StartDate { get; set; }
+	public DateTime? StartDate { get; set; }
 
 	[Column]
-	public DateTimeOffset? EndDate { get; set; }
+	public DateTime? EndDate { get; set; }
 
 	[Column]
 	public bool? Status { get; set; }

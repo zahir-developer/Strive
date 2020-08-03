@@ -9,7 +9,7 @@ using Strive.Common;
 namespace Admin.Api.Controllers
 {
     [Authorize]
-    [AutoValidateAntiforgeryToken]
+    //[AutoValidateAntiforgeryToken]
     [Route("Admin/[Controller]")]
     public class EmployeeController : StriveControllerBase<IEmployeeBpl>
     {

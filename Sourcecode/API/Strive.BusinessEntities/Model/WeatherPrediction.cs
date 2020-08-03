@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class WeatherPrediction
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int WeatherId { get; set; }
 
 	[Column]

@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Service
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int ServiceId { get; set; }
 
 	[Column]
@@ -20,7 +20,7 @@ public class Service
 	public int? LocationId { get; set; }
 
 	[Column]
-	public Double? Cost { get; set; }
+	public decimal? Cost { get; set; }
 
 	[Column]
 	public bool? Commision { get; set; }
@@ -29,7 +29,7 @@ public class Service
 	public int? CommisionType { get; set; }
 
 	[Column]
-	public Double? Upcharges { get; set; }
+	public decimal? Upcharges { get; set; }
 
 	[Column]
 	public int? ParentServiceId { get; set; }

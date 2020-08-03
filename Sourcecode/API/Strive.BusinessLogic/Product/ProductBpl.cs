@@ -37,6 +37,5 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ProductRal(_tenant).DeleteProduct, productId, "Status");
         }
-
     }
 }

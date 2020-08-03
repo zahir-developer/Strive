@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Drawer
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int DrawerId { get; set; }
 
 	[Column]

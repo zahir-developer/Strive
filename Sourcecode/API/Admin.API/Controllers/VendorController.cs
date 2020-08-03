@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Admin.API.Controllers
 {
     [Authorize]
-    [AutoValidateAntiforgeryToken]
+    //[AutoValidateAntiforgeryToken]
 
     [Route("Admin/[Controller]")]
     public class VendorController : StriveControllerBase<IVendorBpl>

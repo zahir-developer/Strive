@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Bay
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int BayId { get; set; }
 
 	[Column]

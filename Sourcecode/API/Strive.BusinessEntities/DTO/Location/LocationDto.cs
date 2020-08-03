@@ -1,10 +1,11 @@
-﻿using Model = Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities.Model;
 
-namespace Strive.BusinessEntities.Location
+namespace Strive.BusinessEntities.DTO
 {
     public class LocationDto
     {
         public Model.Location Location { get; set; }
-        public Model.LocationAddress LocationAddress { get; set; }
+        public LocationAddress LocationAddress { get; set; }
+        public Drawer Drawer { get; set; }
     }
 }

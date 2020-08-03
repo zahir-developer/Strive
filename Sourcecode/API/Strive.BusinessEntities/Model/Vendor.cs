@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Vendor
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int VendorId { get; set; }
 
 	[Column]
@@ -36,6 +36,12 @@ public class Vendor
 
 	[Column]
 	public DateTimeOffset? UpdatedDate { get; set; }
+
+	[Column]
+	public string websiteAddress { get; set; }
+
+	[Column]
+	public string AccountNumber { get; set; }
 
 }
 }

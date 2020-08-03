@@ -7,11 +7,11 @@ namespace Strive.BusinessEntities.Model
 public class TimeClock
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
-	public int Id { get; set; }
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
+	public int TimeClockId { get; set; }
 
-	[Column]
-	public int UserId { get; set; }
+	[Column, PrimaryKey]
+	public int EmployeeId { get; set; }
 
 	[Column]
 	public int LocationId { get; set; }
@@ -20,7 +20,7 @@ public class TimeClock
 	public int? RoleId { get; set; }
 
 	[Column]
-	public DateTimeOffset? EventDate { get; set; }
+	public DateTime? EventDate { get; set; }
 
 	[Column]
 	public DateTimeOffset? InTime { get; set; }

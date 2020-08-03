@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Strive.BusinessEntities.Location;
+using Strive.BusinessEntities.DTO;
 using Strive.Common;
 
 namespace Strive.BusinessLogic.Location

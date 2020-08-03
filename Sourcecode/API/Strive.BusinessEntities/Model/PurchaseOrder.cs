@@ -7,6 +7,9 @@ namespace Strive.BusinessEntities.Model
 public class PurchaseOrder
 {
 
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
+	public int PurchaseOrderId { get; set; }
+
 	[Column]
 	public int? ProductId { get; set; }
 

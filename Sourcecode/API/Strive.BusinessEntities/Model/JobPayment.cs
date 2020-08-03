@@ -7,10 +7,10 @@ namespace Strive.BusinessEntities.Model
 public class JobPayment
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int JobPaymentId { get; set; }
 
-	[Column]
+	[Column, PrimaryKey]
 	public int? JobId { get; set; }
 
 	[Column]
@@ -38,13 +38,16 @@ public class JobPayment
 	public bool? Approval { get; set; }
 
 	[Column]
-	public byte[] CheckNumber { get; set; }
+	public string CheckNumber { get; set; }
 
 	[Column]
 	public int? GiftCardId { get; set; }
 
 	[Column]
 	public string Signature { get; set; }
+
+	[Column]
+	public int? PaymentStatus { get; set; }
 
 	[Column]
 	public string Comments { get; set; }

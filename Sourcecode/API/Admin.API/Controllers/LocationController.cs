@@ -1,14 +1,14 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Strive.BusinessEntities.Location;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessLogic.Location;
 using Strive.Common;
 
 namespace Admin.API.Controllers
 {
     [Authorize]
-    [AutoValidateAntiforgeryToken]
+    //[AutoValidateAntiforgeryToken]
 
     [Route("Admin/[Controller]")]
     public class LocationController : StriveControllerBase<ILocationBpl>

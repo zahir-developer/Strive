@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class VendorAddress
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int VendorAddressId { get; set; }
 
 	[Column]

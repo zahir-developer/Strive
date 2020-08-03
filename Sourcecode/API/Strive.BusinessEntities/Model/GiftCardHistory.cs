@@ -7,10 +7,10 @@ namespace Strive.BusinessEntities.Model
 public class GiftCardHistory
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int GiftCardHistoryId { get; set; }
 
-	[Column]
+	[Column, PrimaryKey]
 	public int? GiftCardId { get; set; }
 
 	[Column]
@@ -23,10 +23,7 @@ public class GiftCardHistory
 	public decimal? TransactionAmount { get; set; }
 
 	[Column]
-	public int? TransactionUserId { get; set; }
-
-	[Column]
-	public DateTimeOffset? TransactionDate { get; set; }
+	public DateTime? TransactionDate { get; set; }
 
 	[Column]
 	public string Comments { get; set; }

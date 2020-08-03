@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class GiftCard
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int GiftCardId { get; set; }
 
 	[Column]

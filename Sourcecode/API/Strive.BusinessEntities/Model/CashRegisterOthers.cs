@@ -7,8 +7,11 @@ namespace Strive.BusinessEntities.Model
 public class CashRegisterOthers
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int CashRegOtherId { get; set; }
+
+	[Column, PrimaryKey]
+	public int CashRegisterId { get; set; }
 
 	[Column]
 	public decimal? CreditCard1 { get; set; }

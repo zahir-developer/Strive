@@ -7,11 +7,11 @@ namespace Strive.BusinessEntities.Model
 public class Schedule
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
-	public int Id { get; set; }
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
+	public int ScheduleId { get; set; }
 
 	[Column]
-	public int? UserId { get; set; }
+	public int? EmployeeId { get; set; }
 
 	[Column]
 	public int? LocationId { get; set; }
@@ -20,7 +20,7 @@ public class Schedule
 	public int? RoleId { get; set; }
 
 	[Column]
-	public DateTimeOffset? ScheduledDate { get; set; }
+	public DateTime? ScheduledDate { get; set; }
 
 	[Column]
 	public DateTimeOffset? StartTime { get; set; }

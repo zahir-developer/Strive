@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Job
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int JobId { get; set; }
 
 	[Column]
@@ -17,16 +17,19 @@ public class Job
 	public string BarCode { get; set; }
 
 	[Column]
-	public int? LocationId { get; set; }
+	public int LocationId { get; set; }
+
+	[Column, PrimaryKey]
+	public int? ClientId { get; set; }
 
 	[Column]
-	public int? ClientId { get; set; }
+	public int? VehicleId { get; set; }
 
 	[Column]
 	public int? JobType { get; set; }
 
-	[Column]
-	public int? VehicleId { get; set; }
+	[Column, PrimaryKey]
+	public DateTime JobDate { get; set; }
 
 	[Column]
 	public DateTimeOffset? TimeIn { get; set; }

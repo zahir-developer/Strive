@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.CashRegister;
+using Strive.BusinessEntities.CashRegister.DTO;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -11,56 +12,16 @@ namespace Strive.BusinessLogic.CashRegister
 {
     public class CashRegisterBpl : Strivebase, ICashRegisterBpl
     {
-        public CashRegisterBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
+        public CashRegisterBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
+        public Result SaveCashRegister(CashRegisterDto cashRegister)
         {
-        }
-        
-        public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
-        {
-            try
-            {
-                var lstCashRegisterConsolidate = new CashRegisterRal(_tenant).GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
-                _resultContent.Add(lstCashRegisterConsolidate.WithName("CashRegister"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
-        public Result SaveTodayCashRegister(Strive.BusinessEntities.CashRegister.CashRegisterView lstCashRegister)
-        {
-            try
-            {
-                bool blnStatus = new CashRegisterRal(_tenant).SaveTodayCashRegister(lstCashRegister);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new CashRegisterRal(_tenant).SaveCashRegister, cashRegister, "Status");
         }
 
-        public Result SaveCashRegisterNewApproach(List<Strive.BusinessEntities.CashRegister.CashRegisterView> lstCashRegisterConsolidate)
+        public Result GetCashRegisterDetails(CashRegisterType cashRegType, int locationId, DateTime cashRegDate)
         {
-            try
-            {
-                bool blnStatus = new CashRegisterRal(_tenant).SaveCashRegisterNewApproach(lstCashRegisterConsolidate);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new CashRegisterRal(_tenant).GetCashRegisterDetails, cashRegType.ToString(), locationId, cashRegDate, "CashRegister");
         }
-
-
-        
-
     }
 }

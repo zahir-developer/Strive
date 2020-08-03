@@ -7,10 +7,10 @@ namespace Strive.BusinessEntities.Model
 public class ClientAddress
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int ClientAddressId { get; set; }
 
-	[Column]
+	[Column, PrimaryKey]
 	public int? ClientId { get; set; }
 
 	[Column]

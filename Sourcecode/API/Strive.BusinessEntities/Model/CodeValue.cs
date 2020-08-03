@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class CodeValue
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int id { get; set; }
 
 	[Column]

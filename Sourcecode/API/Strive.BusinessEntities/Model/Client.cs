@@ -7,7 +7,7 @@ namespace Strive.BusinessEntities.Model
 public class Client
 {
 
-	[Column, IgnoreOnInsert, IgnoreOnUpdate]
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
 	public int ClientId { get; set; }
 
 	[Column]
