@@ -35,17 +35,7 @@ namespace Strive.BusinessLogic
 
         public Result DeleteProduct(int productId)
         {
-            try
-            {
-                var success = new ProductRal(_tenant).DeleteProduct(productId);
-                _resultContent.Add(success.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new ProductRal(_tenant).DeleteProduct, productId, "Status");
         }
 
     }

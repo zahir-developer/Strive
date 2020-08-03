@@ -25,22 +25,22 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(product);
         }
 
+        public List<Product> GetAllProduct()
+        {
+            return db.Fetch<Product>(SPEnum.USPGETPRODUCTS.ToString(), null);
+        }
+
         public Product GetProductById(int productId)
         {
             _prm.Add("@ProductId", productId);
             return db.FetchSingle<Product>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
 
-        public List<Product> GetAllProduct()
+        public bool DeleteProduct(int productId)
         {
-            return db.Fetch<Product>(SPEnum.USPGETPRODUCTS.ToString(), null);
-        }
-
-        public int DeleteProduct(int productId)
-        {
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("ProductId", productId, DbType.Int32, ParameterDirection.Input);
-            return db.Execute<int>(SPEnum.USPDELETEPRODUCT.ToString(), parameters);
+            _prm.Add("ProductId", productId);
+            db.Save(SPEnum.USPDELETEPRODUCT.ToString(), _prm);
+            return true;
         }
     }
 }
