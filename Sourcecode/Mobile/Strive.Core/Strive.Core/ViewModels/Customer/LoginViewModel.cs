@@ -16,10 +16,6 @@ namespace Strive.Core.ViewModels.Customer
         {
         }
 
-
-        
-
-
         #region Commands
         
         public async void SignUpCommand()
@@ -38,6 +34,7 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var loginResponse = await AdminService.CustomerLogin(new CustomerLoginRequest(loginEmailPhone, loginPassword));
+                ApiUtils.Token = loginResponse.Token;
                 if (!string.IsNullOrEmpty(loginResponse.Token))
                 {
                     _userDialog.Toast("Success");
