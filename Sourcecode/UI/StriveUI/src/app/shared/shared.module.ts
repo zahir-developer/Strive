@@ -24,7 +24,7 @@ import { TwoDecimalNumberDirective } from './Directive/two-decimal-number.direct
 import { MaxLengthDirective } from './Directive/max-length.directive';
 import { CityComponent } from './components/city/city.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
@@ -39,6 +39,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     AutoCompleteModule,
     AccordionModule,
     TimepickerModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
   ],
   entryComponents: [
@@ -51,7 +52,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     AccordionModule, ConfirmationDialogComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent, 
-    LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule],
+    LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 

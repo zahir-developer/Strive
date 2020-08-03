@@ -9,9 +9,13 @@
             </nav>
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
                 <h3 class="d-inline-block">Cash Register  &nbsp;&nbsp;</h3>
-                <div id="datepicker" class="date d-inline-block " data-date-format="mm-dd-yyyy">
-                    <span class="datepick">{{selectDate}}</span>
+                <div id="datepicker" class="date d-inline-block datepicker-view " data-date-format="mm-dd-yyyy">
+                    <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" 
+                    [bsConfig]="bsConfig"  bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+                        <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+                    <!-- <span class="datepick">{{selectDate}}</span> -->
                 </div>
+                
             </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  cashreg-tab  mb-2" *ngIf="toggleTab === 0">

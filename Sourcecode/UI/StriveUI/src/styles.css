@@ -62,3 +62,13 @@ body .ui-inputtext:enabled::placeholder {
   color: #4d545b;
 }
 ui-inputtext:focus::-webkit-input-placeholder { color:#ced4da; }
+
+.theme-green .bs-datepicker-head {
+    background-color: #1DC5B3;
+}
+.theme-green .bs-datepicker-body table td span.selected, .theme-green .bs-datepicker-body table td.selected span, .theme-green .bs-datepicker-body table td span[class*="select-"]:after, .theme-green .bs-datepicker-body table td[class*="select-"] span:after {
+  background-color: #1DC5B3;
+}
+.theme-green .bs-datepicker-body table td.week span {
+  color: #1DC5B3;
+}
