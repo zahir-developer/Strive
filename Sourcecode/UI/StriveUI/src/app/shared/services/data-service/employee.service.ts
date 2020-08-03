@@ -49,4 +49,7 @@ export class EmployeeService {
   getAllCollision(empId) {
     return this.http.get(`${UrlConfig.totalUrl.getAllCollision}` + empId);
   }
+  deleteDocument(docId) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteDocument}` + docId);
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CreateDocumentComponent } from '../../employees/create-document/create-document.component';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-document-list',
@@ -11,10 +12,11 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 export class DocumentListComponent implements OnInit {
   isEditDocument: boolean;
   @Input() employeeId?: any;
-  @Input() documentList?: any;
+  @Input() documentList?: any = [];
   constructor(
     private modalService: NgbModal,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private confirmationService: ConfirmationUXBDialogService,
   ) { }
 
   ngOnInit(): void {
@@ -56,7 +58,22 @@ export class DocumentListComponent implements OnInit {
   }
 
   deleteDocument(document) {
+    this.confirmationService.confirm('Delete Document', 'Are you sure you want to delete this Document? All related information will be deleted and the document cannot be retrieved?', 'Delete', 'Cancel')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmDelete(document);
+        }
+      })
+      .catch(() => { });
+  }
+
+  confirmDelete(document) {
     const docId = document.DocumentId;
+    this.employeeService.deleteDocument(docId).subscribe( res => {
+      if (res.status === 'Success') {
+        this.getAllDocument();
+      }
+    });
   }
 
 }

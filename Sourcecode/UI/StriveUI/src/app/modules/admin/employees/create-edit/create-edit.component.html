@@ -24,15 +24,15 @@
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5">
                             <h6 class="d-inline-block font-weight-600">Personal Details</h6>
-                            <div class="pull-right m-t-4 pointer">
+                            <!-- <div class="pull-right m-t-4 pointer">
                                 <a id="personaltoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div>
+                            </div> -->
                         </div>
                         <form id="personalform" [formGroup]="personalform">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputFirstName">First Name</label>
-                                    <input type="number" class="form-control" id="inputFirstName"
+                                    <input type="text" class="form-control" id="inputFirstName"
                                         formControlName="firstName" placeholder="First Name"> </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputLastName">Last Name</label>
@@ -54,7 +54,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number</label>
-                                    <input type="phone" class="form-control" id="inputPhone" formControlName="mobile">
+                                    <input type="text" class="form-control" id="inputPhone" formControlName="mobile">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputImmigration">Immigration Status</label>
@@ -71,16 +71,16 @@
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5 m-t-10">
                             <h6 class="d-inline-block font-weight-600">Employement Details </h6>
-                            <div class="pull-right m-t-4 pointer">
+                            <!-- <div class="pull-right m-t-4 pointer">
                                 <a id="Employeelisttoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div>
+                            </div> -->
                         </div>
                         <form id="emplistform" [formGroup]="emplistform">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputLoginid">Login ID</label>
-                                    <input type="text" class="form-control" id="inputLoginid" formControlName="loginId"
-                                        placeholder="Login ID">
+                                    <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
+                                        placeholder="Email ID">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputPassword">Password</label>
@@ -145,33 +145,23 @@
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5 m-t-10">
                             <h6 class="d-inline-block font-weight-600">Documents </h6>
-                            <div class="pull-right m-t-4 pointer">
+                            <!-- <div class="pull-right m-t-4 pointer">
                                 <a id="documenttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="form-row" id="docform">
                             <div class="form-group col-md-4">
-                                <label for="customFile">Document</label>
-                                <div>
-                                    <!-- <input type="file" size="60" name="areaofmouth" id="filepaths" dirname="S:\"
-                                        accept=".pdf, .png, .jpg, .jpeg, .gif" class="form-control"
-                                        (change)="fileNameChanged()" /> -->
-                                    <input type="file" class="form-control-file" accept=".pdf, .png, .jpg, .jpeg, .gif"
-                                        id="customFile" dirname="S:\" name="filename">
-                                </div>
-                                <!-- <label for="customFile">Select Document</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" dirname="S:\" accept=".pdf, .png, .jpg, .jpeg, .gif" (change)="fileNameChanged()" id="customFile" name="filename">
-                                    <label class="custom-file-label" for="customFile">Choose file</label> <small
-                                        class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv et</small>
-                                </div> -->
+                                <label>Select Document</label>
+                                <input type="file" class="form-control" accept=".pdf, .png, .jpg, .jpeg, .gif"
+                                    id="filepaths" dirname="S:\" name="filename" (change)="fileNameChanged()">
+                                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv et</small>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="m-t-12 pull-right mw-100">
                     <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-                    <button type="button" class="btn theme-primary-button-color" (click)="checking()">Save</button>
+                    <button type="button" class="btn theme-primary-button-color" (click)="saveEmployee()">Save</button>
                 </div>
             </div>
         </div>

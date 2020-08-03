@@ -41,14 +41,13 @@ export const UrlConfig = {
     saveWeather: `Admin/Weather/SaveWeatherPrediction`,
     verifyOtp: `Auth/VerfiyOTP/`,
     resetPassword: `Auth/ResetPassword`,
-    getAllCollision: `Admin/Collision/GetAll`,
+    getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
     getClient: `Admin/Client/GetAllClient`,
     updateClient: `Admin/Client/Save`,
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
-    getAllVehicle: `Admin/Vehicle/GetAllVehicle`
-    getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
-    getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`
+    getAllVehicle: `Admin/Vehicle/GetAllVehicle`,
+    deleteDocument: `Admin/Document/`
   }
 };

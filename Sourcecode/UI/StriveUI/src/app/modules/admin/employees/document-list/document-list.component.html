@@ -14,7 +14,7 @@
                     Document</button>
             </div>
         </div>
-        <div class="table-responsive m-t-10" id="docform">
+        <div class="table-responsive m-t-10" id="docform" *ngIf="documentList.length > 0">
             <table class="table border table-striped" aria-describedby="document-list">
                 <thead>
                     <tr>
@@ -38,17 +38,18 @@
                                 [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-primary-icon-color': isEditDocument  }"></em>
                             <em class="mdi mdi-close-circle pointer  md-close font-size-1-1"
                                 [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-optional-icon-color': isEditDocument  }"
-                                href="#deletedocModal" data-toggle="modal" (click)="deleteDocument(document)"></em> </td>
+                                href="#deletedocModal" data-toggle="modal" (click)="deleteDocument(document)"></em>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div class="setup-content" *ngIf="documentList.length === 0"> <span class="col-12 row d-block">No
+                Records Found</span></div>
         <div *ngIf="isEditDocument" id="doc-enable-btn">
-            <div class="title-border"></div>
             <div class="pull-right mw-100 m-t-5">
                 <button type="button" class="btn theme-optional-button-color" id="doc-disable"
                     (click)="closeEditDocument()">Cancel</button>
-                <button type="button" class="btn theme-primary-button-color">Save</button>
             </div>
         </div>
     </div>

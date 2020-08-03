@@ -24,9 +24,9 @@
                                     [ngClass]="{'theme-secondary-icon-color':!isEditPersonalDetail }"
                                     style="color: rgb(236, 233, 233);" id="enable-form"
                                     (click)="editPersonalDetail()"></em></h6>
-                            <div class="pull-right m-t-4 pointer">
+                            <!-- <div class="pull-right m-t-4 pointer">
                                 <a id="personaltoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div>
+                            </div> -->
                         </div>
                         <form id="personalform" [formGroup]="personalform">
                             <div class="form-row">
@@ -83,9 +83,9 @@
                                     [ngClass]="{'theme-secondary-icon-color':!isEditEmployeeList }"
                                     (click)="editEmployeeList()" style="color: rgb(236, 233, 233);"></em>
                             </h6>
-                            <div class="pull-right m-t-4 pointer">
+                            <!-- <div class="pull-right m-t-4 pointer">
                                 <a id="Employeelisttoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div>
+                            </div> -->
                         </div>
                         <form id="emplistform" [formGroup]="emplistform">
                             <div class="form-row">
@@ -160,7 +160,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="documentList.length > 0">
+                <div>
                     <app-document-list [employeeId]="employeeId" [documentList]="documentList"></app-document-list>
                 </div>
                 <div *ngIf="employeeCollision.length > 0">
