@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Strive.BusinessEntities
+namespace Strive.BusinessEntities.DTO
 {
-    public class Product
+    public class ProductDto
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }

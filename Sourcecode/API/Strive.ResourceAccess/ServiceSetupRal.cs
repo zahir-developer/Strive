@@ -32,10 +32,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
         }
 
-        public List<ServiceViewModel> GetServiceSetupById(int id)
+        public ServiceViewModel GetServiceSetupById(int id)
         {
-            _prm.Add("@ServiceId", id.toInt());
-            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            _prm.Add("@ServiceId", id);
+            return db.FetchSingle<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
         }
 
         public bool DeleteServiceById(int id)

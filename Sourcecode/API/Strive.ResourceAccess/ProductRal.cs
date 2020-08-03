@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.Repository;
 using System;
@@ -10,33 +11,29 @@ using System.Text;
 namespace Strive.ResourceAccess
 {
 
-    public class ProductRal
+    public class ProductRal : RalBase
     {
-        private Db db;
+        public ProductRal(ITenantHelper tenant) : base(tenant) { }
 
-        public ProductRal(ITenantHelper tenant)
+        public bool AddProduct(Product product)
         {
-            var dbConnection = tenant.db();
-            db = new Db(dbConnection);
+            return dbRepo.Insert(product);
         }
 
-        public List<Product> GetProductDetails()
+        public bool UpdateProduct(Product product)
         {
-            return db.Fetch<Product>(SPEnum.USPGETAllPRODUCT.ToString(), null);
+            return dbRepo.Update(product);
         }
 
-        public Product GetProduct(int productId)
+        public Product GetProductById(int productId)
         {
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("ProductId", productId, DbType.Int32, ParameterDirection.Input);
-            return db.FetchFirstResult<Product>(SPEnum.USPGETPRODUCT.ToString(), parameters);
+            _prm.Add("@ProductId", productId);
+            return db.FetchSingle<Product>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
 
-        public int SaveProduct(List<Product> products)
+        public List<Product> GetAllProduct()
         {
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@tvpProduct", products.ToDataTable().AsTableValuedParameter());
-            return db.Execute<Product>("USPSaveProduct".ToString(), parameters);
+            return db.Fetch<Product>(SPEnum.USPGETPRODUCTS.ToString(), null);
         }
 
         public int DeleteProduct(int productId)

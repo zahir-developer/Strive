@@ -70,7 +70,8 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEBYID,
         USPGETALLLOCATION,
         USPGETALLSERVICE,
-        USPGETSERVICES
+        USPGETSERVICES,
+        USPGETPRODUCTS
     }
 
 

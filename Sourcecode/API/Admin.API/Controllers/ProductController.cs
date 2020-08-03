@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Strive.BusinessEntities;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
 using Strive.Common;
 using System;
@@ -11,44 +12,33 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 namespace Admin.Api.Controllers
 {
     [Authorize]
+    //[AutoValidateAntiforgeryToken]
+
     [Route("Admin/[Controller]")]
-    public class ProductController : ControllerBase
+    public class ProductController : StriveControllerBase<IProductBpl>
     {
-        IProductBpl _ProductBpl = null;
-
-        public ProductController(IProductBpl ProductBpl)
-        {
-            _ProductBpl = ProductBpl;
-        }
-
-        [HttpGet]
-        [Route("GetAllProduct")]
-        public Result GetAllProduct()
-        {
-            return _ProductBpl.GetAllProduct();
-        }
-
-        [HttpGet]
-        [Route("GetProduct/{productId}")]
-        public Result GetProduct(int productId)
-        {
-            return _ProductBpl.GetProduct(productId);
-        }
+        public ProductController(IProductBpl prdBpl) : base(prdBpl) { }
 
         [HttpPost]
-        [Route("Save")]
-        public Result SaveEmployee([FromBody] List<Product> products)
-        {
-            return _ProductBpl.SaveProduct(products);
-        }
+        [Route("Add")]
+        public Result Add([FromBody] Product product) => _bplManager.AddProduct(product);
+
+
+        [HttpPost]
+        [Route("Update")]
+        public Result Update([FromBody] Product product) => _bplManager.UpdateProduct(product);
+
 
         [HttpDelete]
-        [Route("DeleteProduct/{productId}")]
-        public Result DeleteProduct(int productId)
-        {
-            return _ProductBpl.DeleteProduct(productId);
-        }
+        [Route("Delete")]
+        public Result DeleteProduct(int productId) => _bplManager.DeleteProduct(productId);
 
+        [HttpGet]
+        [Route("GetAll")]
+        public Result GetAllProduct() => _bplManager.GetAllProduct();
 
+        [HttpGet]
+        [Route("GetProductById")]
+        public Result GetProduct(int productId) => _bplManager.GetProduct(productId);
     }
 }

@@ -247,6 +247,21 @@ namespace Strive.Repository
             return fetchlist;
         }
 
+        public T FetchSingle<T>(string spName, DynamicParameters dynParam)
+        {
+            T fetchlist;
+            try
+            {
+                fetchlist = dbcon.QuerySingleOrDefault<T>(spName, dynParam, commandType: CommandType.StoredProcedure);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return fetchlist;
+        }
+
 
         public T FetchMultiResult<T>(string spName, DynamicParameters dynParams) where T: new()
         {

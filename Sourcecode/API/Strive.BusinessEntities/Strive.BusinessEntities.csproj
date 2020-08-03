@@ -117,7 +117,7 @@
     <Compile Include="DTO\Employee\EmployeeRole.cs" />
     <Compile Include="DTO\Employee\EmployeeView.cs" />
     <Compile Include="DTO\Location\LocationDto.cs" />
-    <Compile Include="DTO\Product.cs" />
+    <Compile Include="DTO\Product\ProductDto.cs" />
     <Compile Include="DTO\RefreshToken.cs" />
     <Compile Include="DTO\ServiceSetup\tblCodeValue.cs" />
     <Compile Include="DTO\ServiceSetup\tblService.cs" />
