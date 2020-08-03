@@ -40,7 +40,7 @@ namespace Admin.API.Controllers
         }
         [HttpGet]
         [Route("GetVehicleById/{id}")]
-        public Result GetEmployeeById(int id)
+        public Result GetVehicleById(int id)
         {
             return _IVehicleBpl.GetClientVehicleById(id);
         }
