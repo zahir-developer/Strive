@@ -160,51 +160,63 @@
                                     </div>
                                 </div>
                                 <div id="Clientlist" class="collapse show">
-                                    <div class="search-container pull-right">
-                                        <form [formGroup]="clientSearch">
-                                            <div class="form-row">
-                                                <div class="form-group d-flex"> <span
-                                                        class="Search text-right p-r-10 p-t-5">Search</span> </div>
-                                                <div class="form-group col-sm m-l-5">
-                                                    <input type="search" class="form-control"
-                                                        placeholder="By Name" formControlName="searchByName"> </div>
+                                    <div class="setup-wrapper" id="clientlistform">
+                                        <div class="setup-content">
+                                            <div class="search-container  pull-right">
+                                                <form>
+                                                    <div class="form-row">
+                                                        <div class="form-group d-flex"> <span
+                                                                class="Search text-right p-r-10 p-t-5">Search</span>
+                                                        </div>
+                                                        <div class="form-group col-sm m-l-5">
+                                                            <input type="search" class="form-control"
+                                                                id="inputSearchbyName" placeholder="By Name">
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </form>
+                                            <div class="table-responsive">
+                                                <p-table styleClass="table table-striped table-hover"
+                                                    [value]="clientDetails" [paginator]="true"
+                                                    [rows]="5">
+                                                    <ng-template pTemplate="header">
+                                                        <tr>
+                                                            <th scope="col">First Name</th>
+                                                            <th scope="col">Last Name</th>
+                                                            <th scope="col">Phone Number</th>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Status</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="body" let-client>
+                                                        <tr>
+                                                            <td>{{client.FirstName}}</td>
+                                                            <td>{{client.LastName}}</td>
+                                                            <td>{{client.ClientAddress[0].PhoneNumber}}</td>
+                                                            <td>{{client.ClientType}}</td>
+                                                            <td>{{client.IsActive === true ? "Active" : "InActive"}}
+                                                            </td>
+                                                            <td>
+                                                                <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
+                                                                    style="color:orange" pTooltip="view"
+                                                                    tooltipPosition="bottom"
+                                                                    (click)="add('view', client)"></em>&nbsp;&nbsp;
+                                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
+                                                                    style="color:green" pTooltip="edit"
+                                                                    tooltipPosition="bottom"
+                                                                    (click)="add('edit', client)"></em>&nbsp;&nbsp;
+                                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                                    style="color:red" pTooltip="delete"
+                                                                    tooltipPosition="bottom"
+                                                                    (click)="delete(client)"></em>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p-table [value]="clientDetails"
-                                    class="table table-responsive-xl table-striped table-hover" [paginator]="true"
-                                        [rows]="5">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th scope="col">First Name</th>
-                                                <th scope="col">Last Name</th>
-                                                <th scope="col">Phone Number</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-client>
-                                            <tr>
-                                                <td>{{client.FirstName}}</td>
-                                                <td>{{client.LastName}}</td>
-                                                <td>{{client.ClientAddress[0].PhoneNumber}}</td>
-                                                <td>{{client.ClientType}}</td>
-                                                <td>{{client.IsActive === true ? "Active" : "InActive"}}</td>
-                                                <td>
-                                                    <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
-                                                        style="color:orange" pTooltip="view" tooltipPosition="bottom"
-                                                        (click)="add('view', client)"></em>&nbsp;&nbsp;
-                                                    <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                                        style="color:green" pTooltip="edit" tooltipPosition="bottom"
-                                                        (click)="add('edit', client)"></em>&nbsp;&nbsp;
-                                                    <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                        style="color:red" pTooltip="delete" tooltipPosition="bottom"
-                                                        (click)="delete(client)"></em>
-                                                </td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
                                 </div>
                             </div>
                         </div>
