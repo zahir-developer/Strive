@@ -16,7 +16,7 @@ namespace Strive.BusinessEntities.Employee
         [Column]
         public int AuthId { get; set; }
         [Column]
-        public List<int> LocationId { get; set; }
+        public int LocationId { get; set; }
         [Column]
         public string PayRate { get; set; }
         [Column]
