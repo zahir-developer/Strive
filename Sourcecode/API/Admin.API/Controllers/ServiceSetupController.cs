@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
 using Strive.Common;
 using System.Collections.Generic;
@@ -7,49 +9,35 @@ using System.Collections.Generic;
 namespace Admin.API.Controllers
 {
     [Authorize]
-    [Route("Admin/[Controller]")]
-    public class ServiceSetupController : ControllerBase
-    {
-        readonly IServiceSetupBpl _serviceSetupBpl = null;
+    //[AutoValidateAntiforgeryToken]
 
-        public ServiceSetupController(IServiceSetupBpl serviceSetupBpl)
-        {
-            _serviceSetupBpl = serviceSetupBpl;
-        }
+    [Route("Admin/[Controller]")]
+    public class ServiceSetupController : StriveControllerBase<IServiceSetupBpl>
+    {
+        public ServiceSetupController(IServiceSetupBpl svcBpl) : base(svcBpl) { }
+
+        [HttpPost]
+        [Route("Add")]
+        public Result AddService([FromBody] Service serviceSetup) => _bplManager.AddService(serviceSetup);
+
+        [HttpPost]
+        [Route("Update")]
+        public Result UpdateService([FromBody] Service serviceSetup) => _bplManager.UpdateService(serviceSetup);
+
+        [HttpDelete]
+        [Route("Delete")]
+        public Result Delete(int id) => _bplManager.DeleteServiceById(id);
 
         [HttpGet]
         [Route("GetAll")]
-        public Result GetAllServiceSetup()
-        {
-            return _serviceSetupBpl.GetServiceSetupDetails();
-        }
+        public Result GetAllServiceSetup() => _bplManager.GetAllServiceSetup();
+
+        [HttpGet]
+        [Route("GetServiceById")]
+        public Result GetServiceSetupById(int id) => _bplManager.GetServiceSetupById(id);
 
         [HttpGet]
         [Route("GetAllServiceType")]
-        public Result GetAllServiceType()
-        {
-            return _serviceSetupBpl.GetAllServiceType();
-        }
-
-        [HttpGet]
-        [Route("GetServiceById/{id}")]
-        public Result GetServiceSetupById(int id)
-        {
-            return _serviceSetupBpl.GetServiceSetupById(id);
-        }
-
-        [HttpPost]
-        [Route("Save")]
-        public Result SaveNewService([FromBody] List<Strive.BusinessEntities.ServiceSetup.tblService> lstServiceSetup)
-        {
-            return _serviceSetupBpl.SaveNewServiceDetails(lstServiceSetup);
-        }
-
-        [HttpDelete]
-        [Route("Delete/{id}")]
-        public Result DeleteServiceById(int id)
-        {
-            return _serviceSetupBpl.DeleteServiceById(id);
-        }
+        public Result GetAllServiceType() => _bplManager.GetAllServiceType();
     }
 }

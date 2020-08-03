@@ -62,11 +62,12 @@ namespace Strive.BusinessLogic
             return conString;
         }
 
-        protected Result ResultWrap<T>(Func<List<T>> getEmployeeList, string ResultName)
+
+        protected Result ResultWrap<T>(Func<List<T>> RALMethod, string ResultName)
         {
             try
             {
-                var res = getEmployeeList.Invoke();
+                var res = RALMethod.Invoke();
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -77,11 +78,11 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        protected Result ResultWrap<T>(Func<int, List<T>> getEmployeeList, int id, string ResultName)
+        protected Result ResultWrap<T>(Func<int, List<T>> RALMethod, int id, string ResultName)
         {
             try
             {
-                var res = getEmployeeList.Invoke(id);
+                var res = RALMethod.Invoke(id);
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -92,11 +93,11 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        protected Result ResultWrap<T>(Func<int, T> getEmployeeList, int id, string ResultName)
+        protected Result ResultWrap<T>(Func<int, T> RALMethod, int id, string ResultName)
         {
             try
             {
-                var res = getEmployeeList.Invoke(id);
+                var res = RALMethod.Invoke(id);
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -128,50 +129,61 @@ namespace Strive.BusinessLogic
         {
             string action = "ADD";
             Type type = typeof(T);
-
-            foreach (PropertyInfo prp in type.GetProperties())
+            var clsProperty = type.GetProperties().Any(x => !x.PropertyType.FullName.StartsWith("System."));// type.GetProperties().Any(x => x.PropertyType.IsClass == true);
+            //var prpTypes = type.GetProperties().Select(x => x.PropertyType);
+            if (clsProperty)
             {
-                var model = prp.GetValue(tdata, null);
-                Type subModelType = model.GetType();
-                PropertyInfo prInfo = null;
 
-                if (subModelType.IsClass)
+                foreach (PropertyInfo prp in type.GetProperties())
                 {
-                    prInfo = subModelType.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
-                    action = (prInfo.GetValue(model, null).toInt() > 0) ? "UPD" : action;
-                    SetAuditDetails(action, ref model, subModelType);
+                    var model = prp.GetValue(tdata, null);
+                    Type subModelType = model.GetType();
+                    PropertyInfo prInfo = null;
+                    if (subModelType.IsClass)
+                    {
+                        prInfo = subModelType.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
+                        action = (prInfo.GetValue(model, null).toInt() > 0) ? "UPD" : action;
+                        SetAuditDetails(action, ref model, subModelType);
+                    }
+                    else if (subModelType.IsGenericType)
+                    {
+                        ///... to-do.
+                    }
+                    else
+                    {
+                        prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
+                        action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
+                        SetAuditDetails(action, ref model, type);
+                    }
                 }
-                else if (subModelType.IsGenericType)
-                {
-                    ///... to-do.
-                }
-                else
-                {
-                    prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
-                    action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
-                    SetAuditDetails(action, ref model, type);
-                }
-
-                
+            }
+            else
+            {
+                var obj = (object)tdata;
+                SetAuditDetails(action, ref obj, type);
             }
         }
 
         private void SetAuditDetails(string action, ref object model, Type subModelType)
         {
-            if (action == "ADD")
+            if (subModelType.HasProperty("CreatedBy"))
             {
-                subModelType.GetProperty("CreatedBy").SetValue(model, _tenant.EmployeeId.toInt());
-                subModelType.GetProperty("CreatedDate").SetValue(model, DateTimeOffset.UtcNow);
-                subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
-                subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
-                subModelType.GetProperty("IsActive").SetValue(model, true);
-                subModelType.GetProperty("IsDeleted").SetValue(model, false);
-            }
-            if (action == "UPD")
-            {
-                subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
-                subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
+                if (action == "ADD")
+                {
+                    subModelType.GetProperty("CreatedBy").SetValue(model, _tenant.EmployeeId.toInt());
+                    subModelType.GetProperty("CreatedDate").SetValue(model, DateTimeOffset.UtcNow);
+                    subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
+                    subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
+                    subModelType.GetProperty("IsActive").SetValue(model, true);
+                    subModelType.GetProperty("IsDeleted").SetValue(model, false);
+                }
+                if (action == "UPD")
+                {
+                    subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
+                    subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
+                }
             }
         }
+
     }
 }

@@ -59,6 +59,11 @@ namespace Strive.Common
             };
         }
 
+        public static bool HasProperty(this Type obj, string propertyName)
+        {
+            return obj.GetProperty(propertyName) != null;
+        }
+
 
         public static DataTable ToDataTable<T>(this List<T> list, string tableName = null)
         {

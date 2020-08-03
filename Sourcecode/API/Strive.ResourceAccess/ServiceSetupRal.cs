@@ -1,69 +1,50 @@
-﻿using Dapper;
-using Strive.BusinessEntities;
-using Strive.BusinessEntities.ServiceSetup;
+﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.Code;
+using Strive.BusinessEntities.DTO.ServiceSetup;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
-using Strive.Repository;
-using System;
+using Strive.RepositoryCqrs;
 using System.Collections.Generic;
-using System.Data;
-using System.Text;
 
 namespace Strive.ResourceAccess
 {
-    public class ServiceSetupRal
+    public class ServiceSetupRal : RalBase
     {
-        IDbConnection _dbconnection;
-        public Db db;
-        public ServiceSetupRal(IDbConnection dbconnection)
+        public ServiceSetupRal(ITenantHelper tenant) : base(tenant) { }
+
+        public bool AddService(Service service)
         {
-            _dbconnection = dbconnection;
+            return dbRepo.Insert(service);
         }
 
-        public ServiceSetupRal(ITenantHelper tenant)
+        public bool UpdateService(Service service)
         {
-            _dbconnection = tenant.db();
-            db = new Db(_dbconnection);
-        }
-        public List<tblService> GetServiceSetupDetails()
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<tblService> lstResource = new List<tblService>();
-            var res = db.Fetch<tblService>(SPEnum.USPGETSERVICE.ToString(), dynParams);
-            return res;
+            return dbRepo.Update(service);
         }
 
-        public List<tblCodeValue> GetAllServiceType()
+        public List<Code> GetAllServiceType()
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<tblCodeValue> lstResource = new List<tblCodeValue>();
-            var res = db.Fetch<tblCodeValue>(SPEnum.USPGETALLSERVICETYPE.ToString(), dynParams);
-            return res;
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SERVICETYPE);
         }
 
-        public bool SaveNewServiceDetails(List<tblService> lstServiceSetup)
+        public List<ServiceViewModel> GetAllServiceSetup()
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tvpService", lstServiceSetup.ToDataTable().AsTableValuedParameter("tvpService"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVESERVICE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-            return true;
+            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
         }
+
+        public List<ServiceViewModel> GetServiceSetupById(int id)
+        {
+            _prm.Add("@ServiceId", id.toInt());
+            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+        }
+
         public bool DeleteServiceById(int id)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tblServiceId", id.toInt());
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETESERVICEBYID.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
+            _prm.Add("@tblServiceId", id.toInt());
+            db.Save(SPEnum.USPDELETESERVICEBYID.ToString(), _prm);
             return true;
         }
-        public List<tblService> GetServiceSetupById(int id)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<tblService> lstResource = new List<tblService>();
-            dynParams.Add("@tblServiceId", id.toInt());
-            var res = db.Fetch<tblService>(SPEnum.USPGETSERVICEBYID.ToString(), dynParams);
-            return res;
-        }
+
     }
 }
 

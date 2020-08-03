@@ -6,11 +6,19 @@ namespace Strive.Common
 {
     public enum GlobalCodes
     {
+        CARDTYPE,
+        CASHREGISTERTYPE,
+        CITY,
+        CLIENTTYPE,
         COMMISIONTYPE,
         COUNTRY,
         CURRENCY,
         EMPLOYEEROLE,
+        EVENTTYPE,
         GENDER,
+        GIFTCARDTRANSACTIONTYPE,
+        JOBSTATUS,
+        JOBTYPE,
         LIABILITYDETAILTYPE,
         LIABILITYSTATUS,
         LIABILITYTYPE,
@@ -18,10 +26,15 @@ namespace Strive.Common
         LOCATIONTYPE,
         MARITALSTATUS,
         NOTIFICATIONTYPE,
+        PAYMENTSTATUS,
         PAYMENTTYPE,
         PRODUCTTYPE,
+        SCHEDULETYPE,
         SERVICETYPE,
         SIZE,
         STATE,
+        VEHICLECOLOR,
+        VEHICLEMANUFACTURER,
+        VEHICLEMODEL
     }
 }

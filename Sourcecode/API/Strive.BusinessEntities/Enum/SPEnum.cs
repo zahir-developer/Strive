@@ -68,7 +68,9 @@ namespace Strive.BusinessEntities
         USPVERIFYOTP,
         USPGETEMPLOYEELIST,
         USPGETEMPLOYEEBYID,
-        USPGETALLLOCATION
+        USPGETALLLOCATION,
+        USPGETALLSERVICE,
+        USPGETSERVICES
     }
 
 

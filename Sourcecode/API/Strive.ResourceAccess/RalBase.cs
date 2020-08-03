@@ -2,6 +2,7 @@
 using Dapper;
 using Strive.Common;
 using Strive.Repository;
+using Strive.RepositoryCqrs;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,8 @@ namespace Strive.ResourceAccess
         public Db db;
         protected DynamicParameters _prm;
         protected string cs;
+        public DbRepo dbRepo;
+            
 
         public RalBase(ITenantHelper tenant)
         {
@@ -27,6 +30,9 @@ namespace Strive.ResourceAccess
             db = new Db(_dbconnection);
             _prm = new DynamicParameters();
             cs = _dbconnection.ConnectionString;
+            dbRepo = new DbRepo(cs, _tenant.SchemaName);
+
+
         }
         public RalBase(ITenantHelper tenant, bool isAuth)
         {
