@@ -27,27 +27,25 @@
                                     [rows]="5">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th scope="col">Acc</th>
-                                            <th scope="col">#</th>
-                                            <th scope="col">UPC</th>
-                                            <th scope="col">Tag</th>
+                                            <th scope="col">Client Name</th>
+                                            <th scope="col">vehicle #</th>
                                             <th scope="col">Color</th>
                                             <th scope="col">Make</th>
                                             <th scope="col">Model</th>
                                             <th scope="col">Upcharge</th>
+                                            <th scope="col">Barcode</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-vehicle>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{vehicle.FirstName}}</td>
+                                            <td>{{vehicle.ClientVehicle[0].VehicleNumber}}</td>
+                                            <td>{{vehicle.ClientVehicle[0].VehicleColor}}</td>
+                                            <td>{{vehicle.ClientVehicle[0].VehicleMake}}</td>
+                                            <td>{{vehicle.ClientVehicle[0].VehicleModel}}</td>
+                                            <td>{{vehicle.ClientVehicle[0].Upcharge}}</td>
+                                            <td>{{vehicle.ClientVehicle[0].Barcode}}</td>
                                             <td>
                                                 <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
                                                     style="color:orange" pTooltip="view" tooltipPosition="bottom"

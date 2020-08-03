@@ -105,15 +105,14 @@
                             <div class="title-border p-b-15 m-b-15">
                                 <h5 class="d-inline-block">Vehicle List</h5>&nbsp;
                                 <button type="button"
-                                    class="btn theme-primary-button-color btn-md float-right">New</button>
+                                    class="btn theme-primary-button-color btn-md float-right" (click)="add()">New</button>
                             </div>
                             <div class="setup-wrapper">
                                 <div class="setup-content" *ngIf="isTableEmpty === true"> <span
                                         class="col-12 row d-block">No Vehicles Found</span></div>
                                 <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
                                     <p-table [value]="vehicleDetails"
-                                        class="table table-responsive-xl table-striped table-hover" [paginator]="true"
-                                        [rows]="5">
+                                        class="table table-responsive-xl table-striped table-hover">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th scope="col">Acc</th>
@@ -129,14 +128,14 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-vehicle>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{vehicle.ClientVehicle[0].Barcode}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].VehicleNumber}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].VehicleModelNo}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].Notes}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].VehicleColor}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].VehicleMake}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].VehicleModel}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].Upcharge}}</td>
                                                 <td>
                                                     <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                         style="color:red" pTooltip="delete"
@@ -146,6 +145,12 @@
                                         </ng-template>
                                     </p-table>
                                 </div>
+                                <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showVehicleDialog"
+                                    [blockScroll]="true" [modal]="true" [focusOnShow]="false" [closable]="false">
+                                    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]"
+                                        (closeDialog)="closePopupEmit($event)">
+                                    </app-vehicle-create-edit>
+                                </p-dialog>
                             </div>
                         </div>
                     </div>
