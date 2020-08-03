@@ -33,21 +33,13 @@ export class VehicleCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.vehicleForm = this.fb.group({
-      fName: ['',],
-      lName: ['',],
-      address: ['',],
-      zipcode: ['',],
-      state: ['',],
-      city: ['',],
-      phone1: ['',],
-      email: ['',],
-      phone2: ['',],
-      creditAccount: ['',],
-      noEmail: ['',],
-      score: ['',],
-      status: ['',],
-      notes: ['',],
-      checkOut: ['',]
+      barcode: ['',],
+      tag: ['',],
+      make: ['',],
+      model: ['',],
+      color: ['',],
+      upcharge: ['',],
+      monthlyCharge: ['',]
     });
   }
 

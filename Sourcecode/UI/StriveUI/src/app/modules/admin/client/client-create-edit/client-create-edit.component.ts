@@ -27,11 +27,15 @@ export class ClientCreateEditComponent implements OnInit {
   selectedCountryId: any;
   vehicleDetails: any;
   isTableEmpty: boolean;
+  headerData: string;
+  selectedVehicle: any;
+  showVehicleDialog: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
+    this.Score = 0;
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
@@ -129,8 +133,8 @@ export class ClientCreateEditComponent implements OnInit {
       phoneNumber2: this.clientForm.value.phone2,
       isActive: true,
       zip: this.clientForm.value.zipcode,
-      state: this.State,
-      city: this.clientForm.value.city,
+      state: 0,
+      city: this.clientForm.value.city !== "" ? this.clientForm.value.city : 0,
       country: 38,
       phoneNumber: this.clientForm.value.phone1,
       email: this.clientForm.value.email
@@ -147,7 +151,7 @@ export class ClientCreateEditComponent implements OnInit {
       isActive: true,
       notes: this.clientForm.value.notes,
       recNotes: this.clientForm.value.checkOut,
-      score: this.clientForm.value.Score,
+      score: 0,
       noEmail: this.clientForm.value.noEmail == "" ? false : this.clientForm.value.noEmail,
       clientAddress: this.address,
       clientType: 0
@@ -171,6 +175,16 @@ export class ClientCreateEditComponent implements OnInit {
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
+  }
+  closePopupEmit(event) {
+    if (event.status === 'saved') {
+      this.showVehicleDialog = false;
+    }
+    this.showVehicleDialog = event.isOpenPopup;
+  }
+  add() {
+    this.headerData = 'Add New vehicle';
+    this.showVehicleDialog = true;
   }
 }
 
