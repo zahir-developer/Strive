@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-
+declare var $: any;
 @Component({
   selector: 'app-create-edit',
   templateUrl: './create-edit.component.html',
@@ -52,7 +52,7 @@ export class CreateEditComponent implements OnInit {
       ssn: ['']
     });
     this.emplistform = this.fb.group({
-      loginId: [''],
+      emailId: [''],
       password: [''],
       dateOfHire: [''],
       hourlyRateWash: [''],
@@ -142,7 +142,7 @@ export class CreateEditComponent implements OnInit {
   }
 
   locationDropDown() {
-    this.location = this.location.map( item => {
+    this.location = this.location.map(item => {
       return {
         item_id: item.LocationId,
         item_text: item.LocationName
@@ -310,8 +310,11 @@ export class CreateEditComponent implements OnInit {
   getAllDocument() {
     const employeeId = 1;
     const locationId = 3;
-    this.employeeService.getAllDocument(employeeId, locationId).subscribe(res => {
+    this.employeeService.getAllDocument(employeeId).subscribe(res => {
       console.log(res, 'allDocument');
+      if (res.status === 'Success') {
+        const document = JSON.parse(res.resultData);
+      }
     });
   }
 
@@ -326,6 +329,79 @@ export class CreateEditComponent implements OnInit {
 
   closeDocumentPopup() {
     this.documentDailog = false;
+  }
+
+  saveEmployee() {
+    console.log(this.emplistform, 'empdorm');
+    const sourceObj = [];
+    const employeeDetails = [];
+    const employeAddress = [];
+    const employeeRoles = [];
+    const employeeAddressObj = {
+      employeeAddressId: 0,
+      relationshipId: 0,
+      address1: this.personalform.value.address,
+      address2: '',
+      phoneNumber: this.personalform.value.mobile,
+      phoneNumber2: '',
+      email: this.emplistform.value.emailId,
+      state: '',
+      country: '',
+      zip: '',
+      city: 1,
+      isActive: this.emplistform.value.status === 'true' ? true : false
+    };
+    const employeeRoleObj = this.emplistform.value.roles.map(item => {
+      return {
+        employeeRoleId: 0,
+        employeeId: 0,
+        roleId: item.item_id,
+        isDefault: true,
+        isActive: true
+      };
+    });
+    const employeeDetailObj = this.emplistform.value.location.map(item => {
+      return {
+        employeeDetailId: 0,
+        employeeId: 0,
+        employeeCode: 'string',
+        authId: 0,
+        locationId: item.item_id,
+        payRate: 'string',
+        sickRate: 'string',
+        vacRate: 'string',
+        comRate: 'string',
+        hiredDate: this.emplistform.value.dateOfHire,
+        salary: 'string',
+        tip: this.emplistform.value.tip,
+        lrt: '2020 - 08 - 03T10: 00: 31.411Z',
+        exemptions: 89, // this.emplistform.value.exemptions,
+        isActive: true
+      };
+    });
+    employeAddress.push(employeeAddressObj);
+    const employeeObj = {
+      employeeId: 0,
+      firstName: this.personalform.value.firstName,
+      middleName: 'string',
+      lastName: this.personalform.value.lastName,
+      gender: this.personalform.value.gender,
+      ssNo: this.personalform.value.ssn,
+      maritalStatus: 0,
+      isCitizen: true,
+      alienNo: 'string',
+      birthDate: '2020-08-03T10:00:31.412Z',
+      immigrationStatus: 7, // this.personalform.value.immigrationStatus,
+      createdDate: '2020-08-03T10:00:31.412Z',
+      isActive: this.emplistform.value.status === 'true' ? true : false,
+      employeeDetail: employeeDetailObj,
+      employeeAddress: employeAddress,
+      employeeRole: employeeRoleObj
+    };
+    console.log(employeeObj, 'finalObj');
+    this.employeeService.updateEmployee(employeeObj).subscribe( res => {
+
+    });
   }
 
 
