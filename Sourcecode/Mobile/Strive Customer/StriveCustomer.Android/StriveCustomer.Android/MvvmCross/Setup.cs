@@ -42,7 +42,8 @@ namespace StriveCustomer.Android.MvvmCross
             Mvx.IoCProvider.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
-            
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<ILocationService, LocationService>();
+
             base.InitializeFirstChance();
         }
 

@@ -1,5 +1,6 @@
 ﻿using Cocoon.ORM;
 using System;
+using System.Collections.Generic;
 
 namespace Strive.BusinessEntities.Employee
 {

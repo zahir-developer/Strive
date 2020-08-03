@@ -14,6 +14,7 @@ export class ProductSetupListComponent implements OnInit {
   selectedData: any;
   headerData: string;
   isEdit: boolean;
+  isLoading = true;
   isTableEmpty: boolean;
   constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -22,7 +23,9 @@ export class ProductSetupListComponent implements OnInit {
 
   }
   getAllproductSetupDetails() {
+    this.isLoading = true;
     this.productService.getProduct().subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
         this.productSetupDetails = product.Product;

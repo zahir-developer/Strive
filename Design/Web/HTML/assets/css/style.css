@@ -45,6 +45,14 @@ section#login button[type="submit"]
 ::-webkit-scrollbar {
 		width: 2px;
 }
+.card .card-widgets>a.collapsed i:before {
+    
+	  content: "\F0140";
+}
+.mdi-minus::before {
+  content: "\F0143";
+}
+
 	.table td,
 	.table th {
 		white-space: nowrap !important;
@@ -337,7 +345,7 @@ table th
 	}
 	
 	.form-row > .form-group {
-		margin-bottom: 5px !important;
+		margin-bottom: 12px !important;
 	}
 	
 	.default-name {
@@ -406,9 +414,7 @@ table th
 		padding: 12.5px;
 	}
 	
-	.theme-light-yellow-color {
-		color: #FFB822;
-	}
+	
 	
 	.datepick {
 		background: transparent;
@@ -516,3 +522,25 @@ vertical-align:middle;
 	.display-none{
 	display:none;
 	}
+	
+/**washes **/
+.weather-notification{
+	border:1px solid #DDE7E9;
+padding: 5px;
+border-radius: 5px;
+}
+.weather-notification > .mr-2{
+	color:#5F6281;
+	font-size: 1.2rem;
+}
+/*Client */
+	.notes-textarea {
+		resize: none;
+	}
+	. line-height{
+		line-height: 30px;
+	}
+	.modal-open .modal {
+    overflow-x: scroll !important;
+    overflow-y: auto;
+} 

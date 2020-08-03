@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
@@ -15,6 +15,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 
 namespace StriveCustomer.Android.Fragments
@@ -22,9 +23,11 @@ namespace StriveCustomer.Android.Fragments
     public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback
     {
         private GoogleMap googlemap;
-        private MarkerOptions markers;
+        private Location locations;
         SupportMapFragment gmaps;
         private static View rootView;
+        private LatLng[] latlngs;
+        private MarkerOptions[] markers;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -34,6 +37,7 @@ namespace StriveCustomer.Android.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            this.ViewModel = new MapViewModel();
             if (rootView != null)
             {
                 ViewGroup parent = (ViewGroup)rootView.Parent;
@@ -43,6 +47,7 @@ namespace StriveCustomer.Android.Fragments
             try
             {
                 var ignore = base.OnCreateView(inflater, container, savedInstanceState);
+                rootView = null;
                 if (rootView == null)
                 {
                     rootView = inflater.Inflate(Resource.Layout.MapScreenFragment, container, false);
@@ -75,14 +80,23 @@ namespace StriveCustomer.Android.Fragments
             else
                 return;
         }
-
         public void OnMapReady(GoogleMap googleMap)
         {
-           
+            var count = 0;
+            latlngs = new LatLng[locations.LocationAddress.Count];
+            markers = new MarkerOptions[locations.LocationAddress.Count];
+            foreach(var location in locations.LocationAddress)
+            {
+                latlngs[count] = new LatLng(location.Latitude,location.Longitude);
+                markers[count] = new MarkerOptions().SetPosition(latlngs[count]).SetTitle(location.WashTiming);
+                googleMap.AddMarker(markers[count]);
+                count++;
+            }
         }
 
-        private void setUpMaps()
+        private async void setUpMaps()
         {
+            locations = await ViewModel.GetAllLocationsCommand();
             gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
             if (gmaps != null)
             {

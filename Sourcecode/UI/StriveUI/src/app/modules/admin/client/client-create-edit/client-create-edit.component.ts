@@ -27,11 +27,16 @@ export class ClientCreateEditComponent implements OnInit {
   selectedCountryId: any;
   vehicleDetails: any;
   isTableEmpty: boolean;
+  headerData: string;
+  selectedVehicle: any;
+  showVehicleDialog: boolean;
+  Type: { id: number; Value: string; }[];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
+    this.Type = [{ id: 0, Value: "Type1" }, { id: 1, Value: "Type2" }];
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
@@ -58,7 +63,8 @@ export class ClientCreateEditComponent implements OnInit {
       score: ['',],
       status: ['',],
       notes: ['',],
-      checkOut: ['',]
+      checkOut: ['',],
+      type: ['',]
     });
     this.clientForm.get('status').patchValue(0);
     this.getAllVehicle();
@@ -100,7 +106,6 @@ export class ClientCreateEditComponent implements OnInit {
       email: clientAddress.Email,
       city: clientAddress.City
     });
-    this.changeEmail(this.selectedData.NoEmail);
   }
 
   viewClient() {
@@ -109,16 +114,7 @@ export class ClientCreateEditComponent implements OnInit {
 
   change(data) {
     this.clientForm.value.creditAccount = data;
-  }
-  changeEmail(data) {
-    this.clientForm.value.noEmail = data;
-    if (data) {
-      this.clientForm.get('email').disable();
-      //this.clientForm.get('email').reset();
-    } else {
-      this.clientForm.get('email').enable();
-    }
-  }
+  }  
 
   submit() {
     this.address = [{
@@ -130,7 +126,7 @@ export class ClientCreateEditComponent implements OnInit {
       isActive: true,
       zip: this.clientForm.value.zipcode,
       state: this.State,
-      city: this.clientForm.value.city,
+      city: this.clientForm.value.city !== "" ? this.clientForm.value.city : 0,
       country: 38,
       phoneNumber: this.clientForm.value.phone1,
       email: this.clientForm.value.email
@@ -142,15 +138,15 @@ export class ClientCreateEditComponent implements OnInit {
       lastName: this.clientForm.value.lName,
       gender: 0,
       maritalStatus: 0,
-      birthDate: "",
+      birthDate: new Date(),
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      isActive: true,
+      isActive: this.clientForm.value.status == 0 ? true : false,
       notes: this.clientForm.value.notes,
       recNotes: this.clientForm.value.checkOut,
-      score: this.clientForm.value.Score,
-      noEmail: this.clientForm.value.noEmail == "" ? false : this.clientForm.value.noEmail,
+      score: (this.clientForm.value.score == "" || this.clientForm.value.score == null) ? 0 : this.clientForm.value.score,
+      noEmail: false,
       clientAddress: this.address,
-      clientType: 0
+      clientType: (this.clientForm.value.type == "" || this.clientForm.value.type == null) ? 0 : this.clientForm.value.type
     };
     this.client.updateClient(formObj).subscribe(data => {
       if (data.status === 'Success') {
@@ -171,6 +167,16 @@ export class ClientCreateEditComponent implements OnInit {
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
+  }
+  closePopupEmit(event) {
+    if (event.status === 'saved') {
+      this.showVehicleDialog = false;
+    }
+    this.showVehicleDialog = event.isOpenPopup;
+  }
+  add() {
+    this.headerData = 'Add New vehicle';
+    this.showVehicleDialog = true;
   }
 }
 

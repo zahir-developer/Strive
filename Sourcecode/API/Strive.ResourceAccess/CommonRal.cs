@@ -61,7 +61,13 @@ namespace Strive.ResourceAccess
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOGIN.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             return db.SaveGetId(cmd).toInt();
         }
-
+        public List<Email> GetAllEmail()
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            List<Email> lstEmail = new List<Email>();
+            lstEmail = db.Fetch<Email>(SPEnum.USPGETALLEMAIL.ToString(), dynParams);
+            return lstEmail;
+        }
         public void SaveOTP(string userId, string otp)
         {
             DynamicParameters dynParams = new DynamicParameters();

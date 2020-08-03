@@ -42,7 +42,7 @@ export class CloseoutRegisterComponent implements OnInit {
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('YYYY-MM-DD');
+    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
     this.formInitialize();
   }
   formInitialize() {

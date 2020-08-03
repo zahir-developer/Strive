@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Authentication.cs" />
+    <Compile Include="Auth\Email.cs" />
     <Compile Include="Auth\ResetPassword.cs" />
     <Compile Include="Auth\User.cs" />
     <Compile Include="CashRegister\CashInRegister.cs" />

@@ -13,6 +13,7 @@ namespace Strive.BusinessEntities
         USPGETUSERS,
         USPSAVEUSER,
         USPSAVELOGIN,
+        USPGETALLEMAIL,
         //Employee
         USPGETEMPLOYEE,
         USPSAVEEMPLOYEE,
@@ -80,7 +81,9 @@ namespace Strive.BusinessEntities
         USPGETMEMBERSHIPBYID,
         USPSAVEMEMBERSHIPSETUP,
         USPGETALLVEHICLE,
-        USPUPDATEVEHICLE
+        USPUPDATEVEHICLE,
+        USPDELETECLIENTVEHICLE,
+        USPGETVEHICLEBYID
     }
 
 

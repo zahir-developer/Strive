@@ -15,13 +15,16 @@ export class VendorSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
+  isLoading = true;
   constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.getAllvendorSetupDetails();
   }
   getAllvendorSetupDetails() {
+    this.isLoading = true;
     this.vendorService.getVendor().subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
         this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === true);

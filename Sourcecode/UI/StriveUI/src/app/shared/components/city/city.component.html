@@ -1,0 +1,15 @@
+<!-- <input [(ngModel)]="city"
+       [typeahead]="states"
+       placeholder="City"
+       [typeaheadScrollable]="true"
+       [typeaheadOptionsInScrollableView]="5"
+       class="form-control"> -->
+       <div class="ui-fluid">
+        <div class="p-grid forms-grid">
+            <div class="p-col-3 p-md-6">
+       <p-autoComplete [(ngModel)]="country" [suggestions]="filteredCountriesSingle"
+        (completeMethod)="filterCountrySingle($event)" field="name" [size]="10" appendTo="body"
+        placeholder="City" ></p-autoComplete>
+    </div>
+        </div>
+        </div>

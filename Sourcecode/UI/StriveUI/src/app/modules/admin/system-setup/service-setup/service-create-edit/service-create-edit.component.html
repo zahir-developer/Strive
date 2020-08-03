@@ -30,19 +30,11 @@
                 </div>
             </div>
             <div class="form-group col-lg-3">
-                <label></label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="commission"
-                        (change)="change($event.target.checked)">
-                    <label class="form-check-label" for="gridCheck">Commission</label>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-lg-3">
                 <label for="inputUpcharge">Upcharge</label>
                 <input type="text" [appMaxLength]="9" class="form-control" formControlName="upcharge" placeholder="Upcharge">
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputParentType">Parent Name</label>
                 <select class="form-control" formControlName="parentName">
@@ -51,10 +43,12 @@
                 </select>
             </div>
             <div class="form-group col-lg-3">
-                <label for="inputStatus">Status</label>
-                <select class="form-control" formControlName="status">
-                    <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>
-                </select>
+                <label></label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="commission"
+                        (change)="change($event.target.checked)">
+                    <label class="form-check-label" for="gridCheck">Commission</label>
+                </div>
             </div>
             <div class="form-group col-lg-3" *ngIf="isChecked === true">
                 <label for="inputCommissionType">Commission Type<span class="required">*</span></label>
@@ -68,8 +62,6 @@
                     <div *ngIf="f.commissionType.errors.required">Commision Type is required</div>
                 </div>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-lg-3" *ngIf="ctypeLabel !== 'none' && isChecked === true">
                 <label for="inputUpcharge">{{ctypeLabel}}<span class="required">*</span></label>
                 <input type="text" [appMaxLength]="9" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}" numbersOnly
@@ -78,6 +70,16 @@
                     <div *ngIf="f.fee.errors.required">{{ctypeLabel}} is required</div>
                 </div>
             </div>
+            <div class="form-group col-lg-3">
+                <label for="inputStatus">Status</label>
+                <select class="form-control" formControlName="status">
+                    <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>
+                </select>
+            </div>
+          
+        </div>
+        <div class="form-row">
+           
         </div>
     </form>
 </div>

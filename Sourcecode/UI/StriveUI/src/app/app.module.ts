@@ -107,7 +107,9 @@ const load = (http: HttpClient) => {
     HttpClientModule,
     SharedModule,
     RouterModule,
-    MultiSelectModule
+    MultiSelectModule,
+    BrowserAnimationsModule,
+    NgxUiLoaderModule
   ],
   providers: [
     EnvironmentService,

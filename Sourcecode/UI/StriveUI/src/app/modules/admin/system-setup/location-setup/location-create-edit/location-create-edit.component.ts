@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -22,7 +23,8 @@ export class LocationCreateEditComponent implements OnInit {
   submitted: boolean;
   selectedStateId: any;
   selectedCountryId: any;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
+              private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -36,7 +38,7 @@ export class LocationCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.locationSetupForm = this.fb.group({
-      locationAddress2: ['', Validators.required],
+      locationAddress2: [''],
       locationName: ['', Validators.required],
       locationAddress: ['', Validators.required],
       zipcode: ['', Validators.required],
@@ -114,7 +116,9 @@ export class LocationCreateEditComponent implements OnInit {
       isFranchise: this.locationSetupForm.value.franchise == "" ? false : this.locationSetupForm.value.franchise
     };
     sourceObj.push(formObj);
+    // this.uiLoaderService.start();
     this.locationService.updateLocation(sourceObj).subscribe(data => {
+      // this.uiLoaderService.stop();
       if (data.status === 'Success') {
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');

@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
 import { WeatherService } from 'src/app/shared/services/common-service/weather.service';
+import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-cash-register',
   templateUrl: './cash-register.component.html',
   styleUrls: ['./cash-register.component.css']
 })
-export class CashinRegisterComponent implements OnInit {
+export class CashinRegisterComponent implements OnInit, AfterViewInit {
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  bsConfig: Partial<BsDatepickerConfig>;
+  maxDate = new Date();
 
   cashRegisterCoinForm: FormGroup;
   cashDetails: any;
@@ -41,16 +48,22 @@ export class CashinRegisterComponent implements OnInit {
   weatherDetails: any;
   toggleTab: number;
   targetBusiness: any;
-
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService, private weatherService: WeatherService) { }
+  date = moment(new Date()).format('MM-DD-YYYY');
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService,
+    private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('YYYY-MM-DD');
+    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
+
     this.formInitialize();
     this.getTargetBusinessData();
     this.getWeatherDetails();
   }
-
+  ngAfterViewInit() {
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.datepicker.setConfig();
+    this.cd.detectChanges();
+  }
   formInitialize() {
     this.cashRegisterCoinForm = this.fb.group({
       coinPennies: ['',],
@@ -88,7 +101,7 @@ export class CashinRegisterComponent implements OnInit {
     const date = moment(new Date()).format('YYYY-MM-DD');
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data && data.resultData) {
-this.targetBusiness = JSON.parse(data.resultData);
+        this.targetBusiness = JSON.parse(data.resultData);
       }
     });
   }
@@ -237,9 +250,9 @@ this.targetBusiness = JSON.parse(data.resultData);
         this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
           if (response.status === 'Success') {
             this.toggleTab = 0;
-            if(this.isUpdate){
+            if (this.isUpdate) {
               this.toastr.success('Record Updated Successfully!!', 'Success!');
-            }else{
+            } else {
               this.toastr.success('Record Saved Successfully!!', 'Success!');
             }
             this.weatherService.getWeather();
@@ -252,15 +265,15 @@ this.targetBusiness = JSON.parse(data.resultData);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
-    });    
-      this.toggleTab = 0;
+    });
+    this.toggleTab = 0;
   }
 
-  cancel() {    
-      this.toggleTab = 0; 
+  cancel() {
+    this.toggleTab = 0;
   }
 
-  next(){
+  next() {
     this.toggleTab = 1;
   }
 
@@ -344,5 +357,26 @@ this.targetBusiness = JSON.parse(data.resultData);
   }
   getTotalCash() {
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
+  }
+  onValueChange(event) {
+    let selectedDate = event;
+    let today;
+    if (selectedDate !== null) {
+      selectedDate = moment(event.toISOString()).format('YYYY-MM-DD');
+      today = moment(new Date().toISOString()).format('YYYY-MM-DD');
+      if (moment(today).isSame(selectedDate)) {
+        this.cashRegisterCoinForm.enable();
+        this.cashRegisterBillForm.enable();
+        this.cashRegisterRollForm.enable();
+      } else if (moment(today).isAfter(selectedDate)) {
+        this.cashRegisterCoinForm.disable();
+        this.cashRegisterBillForm.disable();
+        this.cashRegisterRollForm.disable();
+      } else {
+        this.cashRegisterCoinForm.enable();
+        this.cashRegisterBillForm.enable();
+        this.cashRegisterRollForm.enable();
+      }
+    }
   }
 }
