@@ -18,8 +18,8 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@LocationId", locationId);
             _prm.Add("@CashRegisterType", cashRegisterType);
-            _prm.Add("@EnteredDate", dateTime.ToString("yyy-MM-dd"));
-            var result = db.FetchMultiResult<CashRegisterDto>(SPEnum.USPGETCASHREGISTERDETAILS.ToString(), _prm);
+            _prm.Add("@CashRegisterDate", dateTime.ToString("yyy-MM-dd"));
+            var result = db.FetchMultiResult<CashRegisterDto>(SPEnum.USPGETCASHREGISTER.ToString(), _prm);
             return result;
         }
     }

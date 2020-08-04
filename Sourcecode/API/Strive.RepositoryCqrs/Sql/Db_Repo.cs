@@ -75,16 +75,17 @@ namespace Strive.RepositoryCqrs
                             var prInfo = model.GetType().GetProperties().FirstOrDefault().GetValue(model, null) ?? 0;
                             if (Convert.ToInt32(prInfo) > 0)
                             {
-                                insertId = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                var Updated = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                             }
                             else
                             {
                                 insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                primeId = (!primInsert) ? insertId : primeId;
+                                primInsert = true;
                             }
 
 
-                            primeId = (!primInsert) ? insertId : primeId;
-                            primInsert = true;
+                           
                         }
                     }
                     catch (Exception)

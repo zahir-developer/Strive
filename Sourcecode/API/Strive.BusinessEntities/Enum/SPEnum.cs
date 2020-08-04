@@ -71,7 +71,8 @@ namespace Strive.BusinessEntities
         USPGETALLLOCATION,
         USPGETALLSERVICE,
         USPGETSERVICES,
-        USPGETPRODUCTS
+        USPGETPRODUCTS,
+        USPGETCASHREGISTER
     }
 
 
