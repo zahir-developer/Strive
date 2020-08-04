@@ -49,6 +49,8 @@
     <Compile Include="CashRegister\ICashRegisterBpl.cs" />
     <Compile Include="Client\ClientBpl.cs" />
     <Compile Include="Client\IClientBpl.cs" />
+    <Compile Include="TimeClock\TimeClockBpl.cs" />
+    <Compile Include="TimeClock\ITimeClockBpl.cs" />
     <Compile Include="Collision\CollisionBpl.cs" />
     <Compile Include="Collision\ICollisionBpl.cs" />
     <Compile Include="Common\CommonBpl.cs" />
@@ -176,10 +178,6 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
-    <Reference Include="System.Security.Permissions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Permissions.4.5.0\lib\net461\System.Security.Permissions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

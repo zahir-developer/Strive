@@ -2,6 +2,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit-employee',
@@ -18,6 +20,7 @@ export class EditEmployeeComponent implements OnInit {
   @Input() state?: any;
   @Input() country?: any;
   @Input() employeeId?: any;
+  @Input() location?: any;
   Status: any;
   @Input() commissionType: any;
   @Input() actionType: string;
@@ -26,6 +29,9 @@ export class EditEmployeeComponent implements OnInit {
   emplistform: FormGroup;
   isEditPersonalDetail: boolean;
   isEditEmployeeList: boolean;
+  employeeCollision: any = [];
+  dropdownSettings: IDropdownSettings = {};
+  documentList: any = [];
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit(): void {
@@ -54,8 +60,10 @@ export class EditEmployeeComponent implements OnInit {
       location: ['']
     });
     this.employeRole();
+    this.locationDropDown();
     this.employeeDetail();
     this.getAllCollision();
+    this.getAllDocument();
   }
 
   employeeDetail() {
@@ -92,7 +100,7 @@ export class EditEmployeeComponent implements OnInit {
       this.emplistform.patchValue({
         loginId: [''],
         password: [''],
-        dateOfHire: employeeDetail.HiredDate ? employeeDetail.HiredDate : '',
+        dateOfHire: employeeDetail.HiredDate ? moment(employeeDetail.HiredDate).toDate() : '',
         hourlyRateWash: [''],
         hourlyRateDetail: [''],
         commission: employeeDetail.ComRate ? employeeDetail.ComRate : '',
@@ -110,11 +118,30 @@ export class EditEmployeeComponent implements OnInit {
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
       return {
-        label: item.CodeValue,
-        value: item.CodeId
+        item_id: item.CodeId,
+        item_text: item.CodeValue
       };
     });
     console.log(this.employeeRoles, 'employeerolesmuliti');
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: false
+    };
+  }
+
+  locationDropDown() {
+    this.location = this.location.map( item => {
+      return {
+        item_id: item.LocationId,
+        item_text: item.LocationName
+      };
+    });
   }
 
   editPersonalDetail() {
@@ -138,8 +165,29 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   getAllCollision() {
-    this.employeeService.getAllCollision().subscribe( res => {
+    this.employeeService.getAllCollision(this.employeeId).subscribe( res => {
+      console.log(res, 'allcollistion');
+      if (res.status === 'Success') {
+        const employeesCollison = JSON.parse(res.resultData);
+        console.log(employeesCollison, 'employeDeatil');
+        if (employeesCollison.CollisionDetailOfEmployee.length > 0) {
+          this.employeeCollision = employeesCollison.CollisionDetailOfEmployee;
+        }
+      }
+    });
+  }
 
+  backToGrid() {
+    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  getAllDocument() {
+    this.employeeService.getAllDocument(this.employeeId).subscribe(res => {
+      if (res.status === 'Success') {
+        const document = JSON.parse(res.resultData);
+        this.documentList = document.GetAllDocuments;
+        console.log(this.documentList, 'documentlst');
+      }
     });
   }
 

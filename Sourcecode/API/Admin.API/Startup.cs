@@ -27,6 +27,7 @@ using Strive.BusinessLogic.Document;
 using Strive.BusinessLogic.Weather;
 using Strive.BusinessLogic.MembershipSetup;
 using Strive.BusinessLogic.Vehicle;
+using Strive.BusinessLogic.TimeClock;
 
 namespace Admin.API
 {
@@ -50,7 +51,7 @@ namespace Admin.API
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<ICommonBpl, CommonBpl>();
             services.AddTransient<IDocumentBpl, DocumentBpl>();
-            services.AddTransient<IMembershipBpl, MembershipBpl>();
+            //services.AddTransient<IMembershipBpl, MembershipBpl>();
             services.AddTransient<ICollisionBpl, CollisionBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();
@@ -60,6 +61,7 @@ namespace Admin.API
             services.AddTransient<IWeatherBpl, WeatherBpl>();
             services.AddTransient<IVendorBpl,VendorBpl>();
             services.AddTransient<IVehicleBpl,VehicleBpl>();
+            services.AddTransient<ITimeClockBpl, TimeClockBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

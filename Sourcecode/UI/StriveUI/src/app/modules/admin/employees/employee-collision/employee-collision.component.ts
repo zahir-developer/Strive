@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -10,8 +10,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class EmployeeCollisionComponent implements OnInit {
 
   constructor(private activeModal: NgbActiveModal) { }
-
+  @Input() public employeeId?: any;
   ngOnInit(): void {
+    console.log(this.employeeId, 'employeeid');
   }
 
   closeModal() {

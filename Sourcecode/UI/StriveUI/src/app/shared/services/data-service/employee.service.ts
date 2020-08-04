@@ -37,8 +37,8 @@ export class EmployeeService {
   uploadDocument(obj) {
     return this.http.post(`${UrlConfig.totalUrl.uploadDocument}`, obj);
   }
-  getAllDocument(employeeId, locationId) {
-    return this.http.get(`${UrlConfig.totalUrl.getAllDocument}` + employeeId + ',' + locationId);
+  getAllDocument(employeeId) {
+    return this.http.get(`${UrlConfig.totalUrl.getAllDocument}` + employeeId);
   }
   getDocumentById(documentId, employeeId, password) {
     return this.http.get(`${UrlConfig.totalUrl.getDocumentById}` + documentId + ',' + employeeId + ',' + password);
@@ -46,7 +46,10 @@ export class EmployeeService {
   getLocation() {
     return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
   }
-  getAllCollision() {
-    return this.http.get(`${UrlConfig.totalUrl.getAllCollision}`);
+  getAllCollision(empId) {
+    return this.http.get(`${UrlConfig.totalUrl.getAllCollision}` + empId);
+  }
+  deleteDocument(docId) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteDocument}` + docId);
   }
 }
