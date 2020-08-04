@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.Gms.Location;
 using Android.Gms.Maps;
@@ -21,12 +22,13 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Services;
+using static Android.Gms.Common.Apis.GoogleApiClient;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback,IResultCallback
+    public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback,IResultCallback, IConnectionCallbacks, IOnConnectionFailedListener
     {
-        private GoogleMap googlemap;
+        private GoogleMap Googlemap;
         private GoogleApiClient googleAPI;
         private Circle geofenceCircle;
         private CircleOptions[] circleOptions;
@@ -43,7 +45,12 @@ namespace StriveCustomer.Android.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            googleAPI = new GoogleApiClient.Builder(this.Context)
+                        .AddApi(LocationServices.API)
+                        .AddConnectionCallbacks(this)
+                        .AddOnConnectionFailedListener(this)
+                        .Build();
+            googleAPI.Connect();
             // Create your fragment here
         }
 
@@ -66,7 +73,7 @@ namespace StriveCustomer.Android.Fragments
                     setUpMaps();
                 }
                 else
-                {
+                {      
                     return rootView;
                 }
             }
@@ -94,15 +101,17 @@ namespace StriveCustomer.Android.Fragments
         }
         public void OnMapReady(GoogleMap googleMap)
         {
+            Googlemap = googleMap;
             var count = 0;
             latlngs = new LatLng[locations.LocationAddress.Count];
             markers = new MarkerOptions[locations.LocationAddress.Count];
+            
             foreach(var location in locations.LocationAddress)
             {
                 latlngs[count] = new LatLng(location.Latitude,location.Longitude);
                 markers[count] = new MarkerOptions().SetPosition(latlngs[count]).SetTitle(location.WashTiming);
                 googleMap.AddMarker(markers[count]);
-                
+               
                 count++;
             }
             startGeoFence(latlngs);
@@ -131,15 +140,19 @@ namespace StriveCustomer.Android.Fragments
             var circlesOptionCount = 0;
             foreach(var latlng in latlngs)
             {
-                circleOptions[circlesOptionCount].InvokeCenter(latlng).InvokeRadius(400f).InvokeFillColor(0X66FF0000);
-                geofenceCircle = googlemap.AddCircle(circleOptions[circlesOptionCount]);
+                circleOptions[circlesOptionCount] = new CircleOptions();
+                circleOptions[circlesOptionCount].InvokeCenter(latlng).InvokeRadius(400).InvokeFillColor(0X66FF0000);
+                geofenceCircle = Googlemap.AddCircle(circleOptions[circlesOptionCount]);
             }
             
         }
 
         private void addGeoFences(IList<IGeofence> geofencesall)
         {
-            LocationServices.GeofencingApi.AddGeofences(googleAPI, geofencesall, createGeoFencePendingIntent()).SetResultCallback(this);
+            if (googleAPI.IsConnected)
+                LocationServices.GeofencingApi.AddGeofences(googleAPI, geofencesall, createGeoFencePendingIntent()).SetResultCallback(this);
+            else
+                googleAPI.Reconnect();
         }
         private PendingIntent createGeoFencePendingIntent()
         {
@@ -179,6 +192,7 @@ namespace StriveCustomer.Android.Fragments
         private async void setUpMaps()
         {
             locations = await ViewModel.GetAllLocationsCommand();
+            
             gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
             if (gmaps != null)
             {
@@ -186,6 +200,19 @@ namespace StriveCustomer.Android.Fragments
             }
         }
 
-        
+        public void OnConnected(Bundle connectionHint)
+        {
+            //
+        }
+
+        public void OnConnectionSuspended(int cause)
+        {
+            //
+        }
+
+        public void OnConnectionFailed(ConnectionResult result)
+        {
+            //
+        }
     }
 }

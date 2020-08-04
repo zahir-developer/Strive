@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Gms.Location;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -12,14 +13,22 @@ using Android.Widget;
 
 namespace StriveCustomer.Android.Services
 {
-    [Activity(Label = "GeoFencingTransitionService")]
-    public class GeoFencingTransitionService : Activity
+    public class GeoFencingTransitionService : IntentService
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        private string geoFencingError;
+        public GeoFencingTransitionService(string name) : base(name)
         {
-            base.OnCreate(savedInstanceState);
 
-            // Create your application here
+        }
+
+        protected override void OnHandleIntent(Intent intent)
+        {
+            GeofencingEvent geofencingEvent = GeofencingEvent.FromIntent(intent);
+
+            if(geofencingEvent.HasError)
+            {
+
+            }
         }
     }
 }
