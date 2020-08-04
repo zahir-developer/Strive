@@ -68,6 +68,7 @@
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\DealsFragment.cs" />
     <Compile Include="Fragments\MapsFragment.cs" />
+    <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -277,6 +278,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MapScreenFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleScreenFragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

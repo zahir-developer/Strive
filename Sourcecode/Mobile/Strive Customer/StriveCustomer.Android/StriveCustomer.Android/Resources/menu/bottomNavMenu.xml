@@ -18,4 +18,10 @@
       android:enabled="true"
       android:title="About Us"
       app:showAsAction="ifRoom" />
+
+  <item
+     android:id="@+id/menu_Schedule"
+     android:enabled="true"
+     android:title="Schedule"
+     app:showAsAction="ifRoom" />
 </menu>
