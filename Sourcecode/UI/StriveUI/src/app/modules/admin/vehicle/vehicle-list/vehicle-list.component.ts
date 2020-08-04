@@ -18,6 +18,9 @@ export class VehicleListComponent implements OnInit {
   isView: boolean;
   selectedVehicle: any;
   clientName: any;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -29,12 +32,12 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle[0].ClientVehicle;
-        this.clientName = vehicle.Vehicle[0].FirstName;
-        console.log(this.vehicleDetails);
+        this.vehicleDetails = vehicle.Vehicle;  
+        console.log(vehicle.Vehicle);
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
-        } else {
+        } else {      
+          this.collectionSize = Math.ceil(this.vehicleDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -85,10 +88,10 @@ export class VehicleListComponent implements OnInit {
   }
 
   getVehicleById(data, vehicleDet) {
-    this.vehicle.getVehicleById(vehicleDet.ClientVehicle[0].ClientVehicleId).subscribe(res => {
+    this.vehicle.getVehicleById(vehicleDet.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
-        this.selectedVehicle = vehicle.GetVehicle[0].ClientVehicle;
+        this.selectedVehicle = vehicle.GetVehicle;
         console.log(this.selectedVehicle);
         if (data === 'edit') {
           this.headerData = 'Edit vehicle';

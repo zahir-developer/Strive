@@ -46,7 +46,7 @@ export class VehicleCreateEditComponent implements OnInit {
   getVehicleById() {
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
-      tag: this.selectedData.Notes,
+      tag: this.selectedData.VehicleNumber,
       make: this.selectedData.VehicleMake,
       model: this.selectedData.VehicleModel,
       color: this.selectedData.VehicleColor,
@@ -60,9 +60,21 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   submit() {   
-    const formObj = {
-      
-    };
+    const formObj = [{
+      clientVehicleId: 0,
+      clientId: 1,
+      locationId: 1,
+      vehicleNumber: this.vehicleForm.value.tag,
+      vehicleMake: this.vehicleForm.value.make,
+      vehicleModel: this.vehicleForm.value.model,
+      vehicleModelNo:0,
+      vehicleYear:"",
+      vehicleColor: this.vehicleForm.value.color,
+      upcharge: this.vehicleForm.value.upcharge,
+      barcode: this.vehicleForm.value.barcode,
+      notes: "",
+      createdDate: new Date()
+    }];
     this.vehicle.updateVehicle(formObj).subscribe(data => {
       if (data.status === 'Success') {
         if (this.isEdit === true) {
