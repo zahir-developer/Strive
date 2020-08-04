@@ -24,10 +24,10 @@ namespace Strive.ResourceAccess
             _db = new Db(dbConnection);
         }
 
-        public List<ClientVehicle> GetVehicleDetails()
+        public List<ClientVehicleView> GetVehicleDetails()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            var result = _db.Fetch<ClientVehicle>(SPEnum.USPGETALLVEHICLE.ToString(), dynParams);
+            var result = _db.FetchRelation1<ClientVehicleView, ClientVehicle>(SPEnum.USPGETALLVEHICLE.ToString(), dynParams);
             return result;
         }
         public int SaveVehicle(List<ClientVehicle> products)
