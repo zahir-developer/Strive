@@ -16,6 +16,9 @@ export class VendorSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -31,6 +34,7 @@ export class VendorSetupListComponent implements OnInit {
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.collectionSize = Math.ceil(this.vendorSetupDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
