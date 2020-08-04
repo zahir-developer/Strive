@@ -36,12 +36,12 @@ namespace Strive.BusinessLogic.Vehicle
             }
             return _result;
         }
-        public Result UpdateClientVehicle(Strive.BusinessEntities.Client.ClientVehicle lstUpdateVehicle)
+        public Result SaveClientVehicle(List<ClientVehicle> vehicle)
         {
             try
             {
-                var res = new VehicleRal(_tenant).UpdateVehicle(lstUpdateVehicle);
-                _resultContent.Add(res.WithName("UpdateVehicle"));
+                var res = new VehicleRal(_tenant).SaveVehicle(vehicle);
+                _resultContent.Add(res.WithName("SaveVehicle"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch(Exception ex)
@@ -78,5 +78,6 @@ namespace Strive.BusinessLogic.Vehicle
             }
             return _result;
         }
+        
     }
 }
