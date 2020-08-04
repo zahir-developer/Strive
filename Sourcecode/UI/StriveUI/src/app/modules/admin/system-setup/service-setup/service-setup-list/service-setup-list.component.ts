@@ -17,6 +17,9 @@ export class ServiceSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -33,6 +36,7 @@ export class ServiceSetupListComponent implements OnInit {
         if (this.serviceSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.collectionSize = Math.ceil(this.serviceSetupDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {

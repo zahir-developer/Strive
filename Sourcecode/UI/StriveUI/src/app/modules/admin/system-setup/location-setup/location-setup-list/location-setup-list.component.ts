@@ -20,6 +20,9 @@ export class LocationSetupListComponent implements OnInit {
   isTableEmpty: boolean;
   selectedLocation: any;
   isLoading = true;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private locationService: LocationService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
 
@@ -37,6 +40,7 @@ export class LocationSetupListComponent implements OnInit {
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.collectionSize = Math.ceil(this.locationSetupDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
