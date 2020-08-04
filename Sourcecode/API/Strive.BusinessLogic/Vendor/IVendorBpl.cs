@@ -10,5 +10,6 @@ namespace Strive.BusinessLogic
         Result SaveVendorDetails(VendorView lstVendor);
         Result DeleteVendorById(int id);
         Result GetVendorById(int id);
+        Result AddVendor(VendorDTO vendor);
     }
 }

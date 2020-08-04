@@ -22,44 +22,49 @@
                             <div class="setup-content" *ngIf="isTableEmpty === true"> <span
                                     class="col-12 row d-block">No Vehicles Found</span></div>
                             <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
-                                <p-table [value]="vehicleDetails"
-                                    class="table table-responsive-xl table-striped table-hover" [paginator]="true"
-                                    [rows]="5">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th scope="col">Client Name</th>
-                                            <th scope="col">vehicle #</th>
-                                            <th scope="col">Color</th>
-                                            <th scope="col">Make</th>
-                                            <th scope="col">Model</th>
-                                            <th scope="col">Upcharge</th>
-                                            <th scope="col">Barcode</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-vehicle>
-                                        <tr>
-                                            <td>{{vehicle.FirstName}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleNumber}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleColor}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleMake}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleModel}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].Upcharge}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].Barcode}}</td>
-                                            <td>
-                                                <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
-                                                    style="color:orange" pTooltip="view" tooltipPosition="bottom"
-                                                    (click)="add('view', vehicle)"></em>&nbsp;&nbsp;
-                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                                    style="color:green" pTooltip="edit" tooltipPosition="bottom"
-                                                    (click)="add('edit', vehicle)"></em>&nbsp;&nbsp;
-                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                    style="color:red" pTooltip="delete" tooltipPosition="bottom"
-                                                    (click)="delete(vehicle)"></em>
-                                            </td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div class="table-responsive">
+                                    <table class="table  table-striped m-t-10">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Client Name</th>
+                                                <th scope="col">vehicle #</th>
+                                                <th scope="col">Color</th>
+                                                <th scope="col">Make</th>
+                                                <th scope="col">Model</th>
+                                                <th scope="col">Upcharge</th>
+                                                <th scope="col">Barcode</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                <th scope="row">{{clientName}}</th>
+                                                <td>{{vehicle.VehicleNumber}}</td>
+                                                <td>{{vehicle.VehicleColor}}</td>
+                                                <td>{{vehicle.VehicleMake}}</td>
+                                                <td>{{vehicle.VehicleModel}}</td>
+                                                <td>{{vehicle.Upcharge}}</td>
+                                                <td>{{vehicle.Barcode}}</td>
+                                                <td>
+                                                    <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
+                                                        style="color:orange" pTooltip="view" tooltipPosition="bottom"
+                                                        (click)="add('view', vehicle)"></em>&nbsp;&nbsp;
+                                                    <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
+                                                        style="color:green" pTooltip="edit" tooltipPosition="bottom"
+                                                        (click)="add('edit', vehicle)"></em>&nbsp;&nbsp;
+                                                    <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                        style="color:red" pTooltip="delete" tooltipPosition="bottom"
+                                                        (click)="delete(vehicle)"></em>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                        class="d-flex justify-content-end">
+                                    </ngb-pagination>
+                                </div>
                             </div>
                             <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog"
                                 [blockScroll]="true" [modal]="true" [focusOnShow]="false" [closable]="false">

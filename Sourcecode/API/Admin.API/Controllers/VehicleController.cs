@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.Client;
 using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
 
@@ -28,9 +29,9 @@ namespace Admin.API.Controllers
         }
         [HttpPost]
         [Route("UpdateVehicle")]
-        public Result UpdateVehicleById([FromBody] Strive.BusinessEntities.Client.ClientVehicle lstUpdateVehicle)
+        public Result UpdateVehicleById([FromBody] List<ClientVehicle> vehicle)
         {
-            return _IVehicleBpl.UpdateClientVehicle(lstUpdateVehicle);
+            return _IVehicleBpl.SaveClientVehicle(vehicle);
         }
         [HttpDelete]
         [Route("DeleteVehicleById/{id}")]

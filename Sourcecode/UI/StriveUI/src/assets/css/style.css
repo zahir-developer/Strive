@@ -3,7 +3,8 @@ section#login
 	background: url(../img/login-bg@2x.jpg);
     background-size: cover;
     height: 100%;
-    min-height: 100vh;
+	min-height: 100vh;
+	overflow: hidden;
 }
 
 section#login .login-panel
@@ -44,6 +45,17 @@ section#login button[type="submit"]
 ::-webkit-scrollbar {
 		width: 2px;
 }
+.card .card-widgets>a.collapsed i:before {
+    
+	content: "\F0140";
+}
+.mdi-minus::before {
+content: "\F0143";
+}
+  .table td,
+  .table th {
+	  white-space: nowrap !important;
+  }
  .menu >ul li:first-child  {
 	background:transparent !important;
  }
@@ -332,7 +344,7 @@ table th
 	}
 	
 	.form-row > .form-group {
-		margin-bottom: 5px !important;
+		margin-bottom: 12px !important;
 	}
 	
 	.default-name {
@@ -381,7 +393,7 @@ table th
 		font-weight: 600;
 		border-bottom: 1px solid #EBEBEB;
 		padding-left: 10px;
-		font-size: 15px;
+		font-size: 14px;
 	}
 	
 	.weather >.card-body > .align-items-center {
@@ -397,8 +409,8 @@ table th
 		font-size: 11px;
 	}
 	
-	.p-13 {
-		padding: 13px;
+	.p-12 {
+		padding: 12.5px;
 	}
 	
 	.theme-light-yellow-color {
@@ -442,8 +454,19 @@ table th
     height: 30px !important;
 }
 .datepicker {
-    padding: 10px !important;
-    margin-top: 15px !important;
+	padding: 10px !important;
+	margin-top: 15px !important;
+}
+.datepicker table tr td.active.active, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled.disabled, .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active.disabled:hover.active, .datepicker table tr td.active.disabled:hover.disabled, .datepicker table tr td.active.disabled:hover:active, .datepicker table tr td.active.disabled:hover:hover, .datepicker table tr td.active.disabled:hover[disabled], .datepicker table tr td.active.disabled[disabled], .datepicker table tr td.active:active, .datepicker table tr td.active:hover, .datepicker table tr td.active:hover.active, .datepicker table tr td.active:hover.disabled, .datepicker table tr td.active:hover:active, .datepicker table tr td.active:hover:hover, .datepicker table tr td.active:hover[disabled], .datepicker table tr td.active[disabled] {
+	background-color: #1DC9B7 !important;
+}
+.datepicker table tr td.active, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:hover {
+background-image: none !important;
+}
+.datepicker table tr td.today, .datepicker table tr td.today.disabled, .datepicker table tr td.today.disabled:hover, .datepicker table tr td.today:hover {
+background-color: #6c757d !important;
+background-image: none !important;
+color: white !important;
 }
 .list-group-horizontal > li {
     position: relative;
@@ -453,6 +476,10 @@ table th
 	    font-size: 17px;
     font-weight: 600;
 	text-align: center;
+	border-left: 1px solid #ddd;
+}
+.list-group-horizontal > li:first-child{
+	border-left:0px !important;
 }
 .list-group > a:hover {
 color: black;
@@ -468,4 +495,55 @@ font-size:12px;
 .align-mid {
 vertical-align:middle;
 }
+.font-size-1-1
+{
+	font-size: 1.1rem !important;
+}
 /*** ends ***/	
+/**employee screen **/
+	.btn-default {
+		color: #333 !important;
+		background-color: #fff;
+		border-color: #ccc;
+		text-align: left !important;
+	}
+	
+	.btn-default.disabled {
+		background-color: #e9ecef !important;
+		opacity: unset !important;
+	}
+	
+	.multiselect-container {
+		padding: 10px !important;
+		width: 100%;
+	}
+	
+	.dropdown-toggle::after {
+		float: right;
+		margin-top: 10px;
+	} 
+	.display-none{
+	display:none;
+	}
+	
+/**washes **/
+.weather-notification{
+	border:1px solid #DDE7E9;
+padding: 5px;
+border-radius: 5px;
+}
+.weather-notification > .mr-2{
+	color:#5F6281;
+	font-size: 1.2rem;
+}
+/*Client */
+	.notes-textarea {
+		resize: none;
+	}
+	.line-height{
+		line-height: 30px;
+	}
+	.modal-open .modal {
+    overflow-x: scroll !important;
+    overflow-y: auto;
+} 

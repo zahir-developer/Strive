@@ -12,11 +12,10 @@ namespace Strive.BusinessLogic.Vehicle
     public interface IVehicleBpl
     {
         Result GetAllVehicle();
-        //Result UpdateClientVehicle(List<ClientVehicleView> clientVehicleViews);
-
-        Result UpdateClientVehicle(Strive.BusinessEntities.Client.ClientVehicle lstUpdateVehicle);
+        Result SaveClientVehicle(List<ClientVehicle> vehicle);
 
         Result DeleteVehicle(int id);
         Result GetClientVehicleById(int id);
+        
     }
 }

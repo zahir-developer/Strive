@@ -15,14 +15,8 @@ namespace Strive.BusinessLogic.Document
 {
     public class DocumentBpl : Strivebase, IDocumentBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        private IConfiguration configuration;
-        public DocumentBpl(IDistributedCache cache, ITenantHelper tenantHelper, IConfiguration iConfig) : base(cache)
+        public DocumentBpl(IDistributedCache cache, ITenantHelper tenantHelper, IConfiguration iConfig) : base(tenantHelper,cache,iConfig)
         {
-            _tenant = tenantHelper;
-            configuration = iConfig;
         }
 
         public Result UploadDocument(List<Strive.BusinessEntities.Document.DocumentView> lstDocument)
@@ -35,7 +29,7 @@ namespace Strive.BusinessLogic.Document
                     if (fileFormat == ".doc" || fileFormat == ".docx" || fileFormat == ".pdf" || fileFormat == ".xls" || fileFormat == ".csv")
                     {
                         string FileName = item.FileName;
-                        string UploadPath = configuration.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + FileName;
+                        string UploadPath = _config.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + FileName;
                         byte[] tempBytes = Convert.FromBase64String(item.Base64Url);
                         File.WriteAllBytes(UploadPath, tempBytes);
                     }
@@ -68,7 +62,7 @@ namespace Strive.BusinessLogic.Document
                 {
                     if (lstDocumentById.Password == password)
                     {
-                        string path = configuration.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + lstDocumentById.FileName;
+                        string path = _config.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + lstDocumentById.FileName;
                         string base64data = string.Empty;
                         using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
                         {
@@ -106,7 +100,7 @@ namespace Strive.BusinessLogic.Document
                 {
                     foreach(var item in lstDocumentById)
                     {
-                        string path = configuration.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + item.FileName;
+                        string path = _config.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + item.FileName;
                         string base64data = string.Empty;
                         using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
                         {

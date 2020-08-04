@@ -6,6 +6,12 @@ using System.Data;
 using System.Linq;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Code;
+using System;
+using Strive.BusinessEntities.DTO.Employee;
+using System.Reflection;
+using FastDeepCloner;
+using Newtonsoft.Json;
+using System.Collections;
 
 namespace Strive.ResourceAccess
 {
@@ -21,6 +27,18 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             var lstEmployee = db.FetchRelation3<EmployeeView, EmployeeDetail, EmployeeAddress, EmployeeRole>(SPEnum.USPGETEMPLOYEE.ToString(), dynParams);
             return lstEmployee;
+        }
+
+        public EmployeeDetailDto GetEmployeeById(int employeeId)
+        {
+            _prm.Add("EmployeeId", employeeId);
+            var lstResult = db.FetchMultiResult<EmployeeDetailDto>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
+            return lstResult;
+        }
+
+        public List<EmployeeDto> GetEmployeeList()
+        {
+            return db.Fetch<EmployeeDto>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
         }
 
         public List<Code> GetAllEmployeeRoles()
@@ -53,13 +71,17 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public EmployeeView GetEmployeeByAuthId(int authId)
+        public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("AuthId", authId);
-            List<EmployeeView> lstEmployee = new List<EmployeeView>();
-            lstEmployee = db.FetchRelation1<EmployeeView, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
-            return lstEmployee.FirstOrDefault();
+            _prm.Add("AuthId", authId);
+            var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(SPEnum.USPGETUSERBYAUTHID.ToString(), _prm);
+            return lstResult;
+
+
+            //DynamicParameters dynParams = new DynamicParameters();
+            //dynParams.Add("AuthId", authId);
+            //lstEmployee = db.FetchRelation1<EmployeeView, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
+            //return lstEmployee.FirstOrDefault();
         }
 
         public bool DeleteEmployeeDetails(long empId)
