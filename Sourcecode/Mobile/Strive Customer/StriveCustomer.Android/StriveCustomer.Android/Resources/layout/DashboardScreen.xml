@@ -15,7 +15,8 @@
       android:layout_height="56dp"
       android:layout_gravity="start"
       android:layout_alignParentBottom="true"
-      android:background="@android:color/white"
+      android:background="@android:color/white"  
+      app:labelVisibilityMode="labeled"  
       app:elevation="16dp"/>
       <!-- Note: background color is required to get elevation -->
   </RelativeLayout>
