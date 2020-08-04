@@ -11,5 +11,7 @@ namespace Strive.BusinessLogic
         Result SaveEmployeeDetails(EmployeeView lstEmployee);
         Result DeleteEmployeeDetails(long empId);
         Result GetEmployeeByIdDetails(long id);
+        Result GetEmployeeList();
+        Result GetEmployeeById(int empId);
     }
 }

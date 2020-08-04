@@ -1,0 +1,74 @@
+using Cocoon.ORM;
+using System;
+
+namespace Strive.BusinessEntities.Model
+{
+[OverrideName("tblJobPayment")]
+public class JobPayment
+{
+
+	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
+	public int JobPaymentId { get; set; }
+
+	[Column, PrimaryKey]
+	public int? JobId { get; set; }
+
+	[Column]
+	public int? DrawerId { get; set; }
+
+	[Column]
+	public int? PaymentType { get; set; }
+
+	[Column]
+	public decimal? Amount { get; set; }
+
+	[Column]
+	public decimal? TaxAmount { get; set; }
+
+	[Column]
+	public decimal? Cashback { get; set; }
+
+	[Column]
+	public int? CardType { get; set; }
+
+	[Column]
+	public string CardNumber { get; set; }
+
+	[Column]
+	public bool? Approval { get; set; }
+
+	[Column]
+	public string CheckNumber { get; set; }
+
+	[Column]
+	public int? GiftCardId { get; set; }
+
+	[Column]
+	public string Signature { get; set; }
+
+	[Column]
+	public int? PaymentStatus { get; set; }
+
+	[Column]
+	public string Comments { get; set; }
+
+	[Column]
+	public bool? IsActive { get; set; }
+
+	[Column]
+	public bool? IsDeleted { get; set; }
+
+	[Column]
+	public int? CreatedBy { get; set; }
+
+	[Column]
+	public DateTimeOffset? CreatedDate { get; set; }
+
+	[Column]
+	public int? UpdatedBy { get; set; }
+
+	[Column]
+	public DateTimeOffset? UpdatedDate { get; set; }
+
+}
+}

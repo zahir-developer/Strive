@@ -14,13 +14,7 @@ namespace Strive.BusinessLogic.Vehicle
 {
     public class VehicleBpl : Strivebase, IVehicleBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public VehicleBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
-        {
-            _tenant = tenantHelper;
-        }
+        public VehicleBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper) { }
 
         public Result GetAllVehicle()
         {

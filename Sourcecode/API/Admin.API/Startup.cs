@@ -25,7 +25,8 @@ using Microsoft.Extensions.Options;
 using Strive.Crypto;
 using Strive.BusinessLogic.Document;
 using Strive.BusinessLogic.Weather;
-using Strive.BusinessLogic.MembershipSetup;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Antiforgery;
 using Strive.BusinessLogic.Vehicle;
 using Strive.BusinessLogic.TimeClock;
 
@@ -81,16 +82,15 @@ namespace Admin.API
 
             #endregion
 
-
             #region Add Swagger
             services.AddSwaggerGen(swag =>
             {
                 // swag.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "StriveAdminApi", Version = "v1" });
                 swag.AddSecurityDefinition("Bearer", new Swashbuckle.AspNetCore.Swagger.ApiKeyScheme { In = "header", Name = "Authorization", Type = "apiKey" });
                 swag.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
+                swag.ResolveConflictingActions(apiDesc => apiDesc.First());
             });
             #endregion
-
 
             #region Add Authentication
 
@@ -129,11 +129,17 @@ namespace Admin.API
             });
             #endregion
 
+            #region Anti Forgery Token
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+            #endregion
+
             services.AddOptions();
             services.Configure<SecureHeadersMiddlewareConfiguration>(Configuration.GetSection("SecureHeadersMiddlewareConfiguration"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwagger();
+
+
         }
 
         public static SecureHeadersMiddlewareConfiguration CustomConfiguration()
@@ -151,7 +157,7 @@ namespace Admin.API
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings)
+    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings, IAntiforgery antiforgery)
         {
             app.UseSwagger();
             //app.UseSwaggerUI(options => { options.SwaggerEndpoint(Configuration["StriveAdminSettings:VirtualDirectory"] + "swagger.json", "Strive-Admin - v1"); });
@@ -166,6 +172,16 @@ namespace Admin.API
             app.UseSecureHeadersMiddleware(Middleware.SecureHeaders.CustomConfiguration());
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
+            app.Use(next => context =>
+            {
+                if (context.Request.Path == "/")
+                {
+                    //send the request token as a JavaScript-readable cookie, and Angular will use it by default
+                    var tokens = antiforgery.GetAndStoreTokens(context);
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Secure = false });
+                }
+                return next(context);
+            });
         }
     }
 }

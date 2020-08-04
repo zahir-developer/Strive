@@ -13,15 +13,11 @@ using System.Data;
 
 namespace Strive.ResourceAccess
 {
-    public class VehicleRal
+    public class VehicleRal : RalBase
     {
         private Db _db;
 
-        public VehicleRal(ITenantHelper tenant)
-        {
-            var dbConnection = tenant.db();
-            _db = new Db(dbConnection);
-        }
+        public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
         public List<ClientVehicleView> GetVehicleDetails()
         {
