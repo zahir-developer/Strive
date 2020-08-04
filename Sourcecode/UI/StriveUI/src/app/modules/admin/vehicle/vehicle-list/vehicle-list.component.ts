@@ -17,6 +17,7 @@ export class VehicleListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedVehicle: any;
+  clientName: any;
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -28,7 +29,9 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle;
+        this.vehicleDetails = vehicle.Vehicle[0].ClientVehicle;
+        this.clientName = vehicle.Vehicle[0].FirstName;
+        console.log(this.vehicleDetails);
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

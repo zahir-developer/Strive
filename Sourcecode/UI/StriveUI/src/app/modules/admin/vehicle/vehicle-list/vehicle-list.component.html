@@ -39,13 +39,13 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-vehicle>
                                         <tr>
-                                            <td>{{vehicle.FirstName}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleNumber}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleColor}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleMake}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].VehicleModel}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].Upcharge}}</td>
-                                            <td>{{vehicle.ClientVehicle[0].Barcode}}</td>
+                                            <td>{{clientName}}</td>
+                                            <td>{{vehicle.VehicleNumber}}</td>
+                                            <td>{{vehicle.VehicleColor}}</td>
+                                            <td>{{vehicle.VehicleMake}}</td>
+                                            <td>{{vehicle.VehicleModel}}</td>
+                                            <td>{{vehicle.Upcharge}}</td>
+                                            <td>{{vehicle.Barcode}}</td>
                                             <td>
                                                 <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
                                                     style="color:orange" pTooltip="view" tooltipPosition="bottom"
