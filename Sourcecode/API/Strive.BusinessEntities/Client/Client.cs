@@ -22,6 +22,6 @@ namespace Strive.BusinessEntities.Client
         public int Score { get; set; }
         public bool NoEmail { get; set; }
         public int ClientType { get; set; }
-
+        public List<ClientVehicle> ClientVehicle { get; set; }
     }
 }
