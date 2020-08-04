@@ -33,7 +33,7 @@ namespace Admin.API.Controllers
             return _IVehicleBpl.UpdateClientVehicle(lstUpdateVehicle);
         }
         [HttpDelete]
-        [Route("id")]
+        [Route("DeleteVehicleById/{id}")]
         public Result DeleteVehicleById(int id)
         {
             return _IVehicleBpl.DeleteVehicle(id);
