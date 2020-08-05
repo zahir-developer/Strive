@@ -17,14 +17,8 @@ namespace Strive.BusinessLogic
 {
     public class ClientBpl : Strivebase,IClientBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly IDistributedCache _cache;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
-            _cache = cache;
         }
 
         public Result SaveClientDetails(ClientView lstClient)

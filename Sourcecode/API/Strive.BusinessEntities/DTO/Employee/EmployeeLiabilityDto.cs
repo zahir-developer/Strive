@@ -1,0 +1,15 @@
+﻿namespace Strive.BusinessEntities.DTO.Employee
+{
+    public class EmployeeLiabilityDto
+    {
+        public int CollisionSequence { get; set; }
+        public int EmployeeId { get; set; }
+        public int LiabilityId { get; set; }
+        public int liabilityDetailId { get; set; }
+        public string LiabilityType { get; set; }
+        public string LiabilityDetailType { get; set; }
+        public string LiabilityDescription { get; set; }
+        public decimal? Amount { get; set; }
+        public string LiabilityDetailTypeId { get; set; }
+    }
+}

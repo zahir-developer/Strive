@@ -14,15 +14,8 @@ namespace Strive.BusinessLogic.MembershipSetup
 {
     public class MembershipBpl : Strivebase, IMembershipBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly IDistributedCache _cache;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public MembershipBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
-        {
-            _tenant = tenantHelper;
-            _cache = cache;
-        }
+        public MembershipBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper) { }
+
         public Result GetAllMembership()
         {
             try

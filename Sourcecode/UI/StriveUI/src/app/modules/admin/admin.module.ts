@@ -47,6 +47,7 @@ import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.compon
 import { VehicleCreateEditComponent } from './vehicle/vehicle-create-edit/vehicle-create-edit.component';
 import { DocumentListComponent } from './employees/document-list/document-list.component';
 import { CreateDocumentComponent } from './employees/create-document/create-document.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -70,6 +71,7 @@ import { CreateDocumentComponent } from './employees/create-document/create-docu
     TableModule,
     DialogModule,
     SharedModule,
+    NgbPaginationModule,
     MultiSelectModule,
     NgMultiSelectDropDownModule.forRoot()
   ],

@@ -16,6 +16,8 @@ namespace Strive.Common
         string SMTPPassword { get; set; }
         string Port { get; set; }
         string FromMailAddress { get; set; }
+        string EmployeeId { get; set; }
+        string SchemaName { get; set; }
 
         IDbConnection db();
         IDbConnection dbAuth();
@@ -43,6 +45,8 @@ namespace Strive.Common
         public string SMTPPassword { get; set; }
         public string Port { get; set; }
         public string FromMailAddress { get; set; }
+        public string EmployeeId { get; set; }
+        public string SchemaName { get; set; }
 
         public TenantHelper(IDistributedCache cache)
         {

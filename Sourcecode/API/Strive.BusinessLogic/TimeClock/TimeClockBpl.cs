@@ -13,15 +13,8 @@ namespace Strive.BusinessLogic.TimeClock
 {
     public class TimeClockBpl : Strivebase, ITimeClockBpl
     {
-
-        readonly ITenantHelper _tenant;
-        readonly IDistributedCache _cache;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public TimeClockBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public TimeClockBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper)
         {
-            _tenant = tenantHelper;
-            _cache = cache;
         }
 
         public Result GetTimeClock(int userId, DateTime date)

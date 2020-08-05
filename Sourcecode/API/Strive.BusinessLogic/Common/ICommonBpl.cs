@@ -11,5 +11,6 @@ namespace Strive.BusinessLogic.Common
         Task<Result> GetWeather();
         Task<Result> CreateLocationForWeatherPortal();
         Result GetAllEmail();
+        Result GetSearchResult<T>(string searchTerm);
     }
 }
