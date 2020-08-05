@@ -56,6 +56,10 @@
     <Compile Include="DTO\Employee\EmployeeLocationDto.cs" />
     <Compile Include="DTO\Employee\EmployeeLoginDto.cs" />
     <Compile Include="DTO\Employee\EmployeeRoleDto.cs" />
+    <Compile Include="DTO\GiftCard\GiftCard.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardHistory.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
