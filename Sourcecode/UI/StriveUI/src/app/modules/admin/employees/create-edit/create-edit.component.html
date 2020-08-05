@@ -6,7 +6,7 @@
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
                     <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="#">Employees</a></li>
+                    <li class="breadcrumb-item"><a (click)="navigatePage()">Employees</a></li>
                     <li class="breadcrumb-item active" aria-current="page" *ngIf="actionType === 'create'">Add Employee
                     </li>
                     <li class="breadcrumb-item active" aria-current="page" *ngIf="actionType !== 'create'">View/Edit
@@ -24,11 +24,11 @@
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5">
                             <h6 class="d-inline-block font-weight-600">Personal Details</h6>
-                            <!-- <div class="pull-right m-t-4 pointer">
-                                <a id="personaltoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div> -->
+                            <div class="pull-right m-t-4 pointer">
+                                <a > <em class="fa font-size-1-4" [ngClass]="{'fa-angle-up':!isPersonalCollapsed, 'fa-angle-down': isPersonalCollapsed  }" (click)="pesonalCollapsed()"></em> </a>
+                            </div>
                         </div>
-                        <form id="personalform" [formGroup]="personalform">
+                        <form id="personalform" [formGroup]="personalform" [style.display]="isPersonalCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputFirstName">First Name</label>
@@ -54,12 +54,12 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number</label>
-                                    <input type="text" class="form-control" id="inputPhone" formControlName="mobile">
+                                    <input type="number" class="form-control" id="inputPhone" formControlName="mobile" >
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputImmigration">Immigration Status</label>
                                     <input type="text" class="form-control" id="inputImmigration"
-                                        formControlName="immigrationStatus"> </div>
+                                        formControlName="immigrationStatus" numbersOnly> </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN</label>
                                     <input type="text" class="form-control" id="inputssn" formControlName="ssn"> </div>
@@ -71,11 +71,11 @@
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5 m-t-10">
                             <h6 class="d-inline-block font-weight-600">Employement Details </h6>
-                            <!-- <div class="pull-right m-t-4 pointer">
-                                <a id="Employeelisttoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div> -->
+                            <div class="pull-right m-t-4 pointer">
+                                <a > <em class="fa font-size-1-4" [ngClass]="{'fa-angle-up':!isDetailCollapsed, 'fa-angle-down': isDetailCollapsed  }" (click)="detailCollapsed()"></em> </a>
+                            </div>
                         </div>
-                        <form id="emplistform" [formGroup]="emplistform">
+                        <form id="emplistform" [formGroup]="emplistform" [style.display]="isDetailCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputLoginid">Login ID</label>
@@ -123,8 +123,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
-                                    <input type="phone" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions"> </div>
+                                    <input type="text" class="form-control" id="inputexemptions"
+                                        formControlName="exemptions" numbersOnly > </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
@@ -145,11 +145,11 @@
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5 m-t-10">
                             <h6 class="d-inline-block font-weight-600">Documents </h6>
-                            <!-- <div class="pull-right m-t-4 pointer">
-                                <a id="documenttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
-                            </div> -->
+                            <div class="pull-right m-t-4 pointer">
+                                <a id="documenttoggle"> <em class="fa font-size-1-4" [ngClass]="{'fa-angle-up':!isDocumentCollapsed, 'fa-angle-down': isDocumentCollapsed  }" (click)="documentCollapsed()"></em> </a>
+                            </div>
                         </div>
-                        <div class="form-row" id="docform">
+                        <div class="form-row" id="docform" [style.display]="isDocumentCollapsed ? 'none' : 'block'">
                             <div class="form-group col-md-4">
                                 <label>Select Document</label>
                                 <input type="file" class="form-control" accept=".pdf, .png, .jpg, .jpeg, .gif"
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <div class="m-t-12 pull-right mw-100">
-                    <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+                    <button type="button" class="btn theme-optional-button-color m-r-5" (click)="cancel()">Cancel</button>
                     <button type="button" class="btn theme-primary-button-color" (click)="saveEmployee()">Save</button>
                 </div>
             </div>

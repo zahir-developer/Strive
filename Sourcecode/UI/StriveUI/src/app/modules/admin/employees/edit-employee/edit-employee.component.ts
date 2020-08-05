@@ -32,6 +32,8 @@ export class EditEmployeeComponent implements OnInit {
   employeeCollision: any = [];
   dropdownSettings: IDropdownSettings = {};
   documentList: any = [];
+  isPersonalCollapsed = false;
+  isDetailCollapsed = false;
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class EditEmployeeComponent implements OnInit {
       ssn: ['']
     });
     this.emplistform = this.fb.group({
-      loginId: [''],
+      emailId: [''],
       password: [''],
       dateOfHire: [''],
       hourlyRateWash: [''],
@@ -82,34 +84,42 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   setValue() {
-    if (this.employeeData !== undefined && this.actionType === 'edit') {
-      console.log(this.employeeData, 'data');
-      const employee = this.employeeData;
-      const employeeDetail = employee.EmployeeDetail[0];
-      const employeeAddress = employee.EmployeeAddress[0];
-      const employeeRole = employee.EmployeeRole !== null ? employee.EmployeeRole[0] : '';
-      this.personalform.patchValue({
-        firstName: employee.FirstName ? employee.FirstName : '',
-        lastName: employee.LastName ? employee.LastName : '',
-        gender: employee.Gender ? employee.Gender : '',
-        address: employeeAddress.Address1 ? employeeAddress.Address1 : '',
-        mobile: employeeAddress.PhoneNumber ? employeeAddress.PhoneNumber : '',
-        immigrationStatus: employee.ImmigrationStatus ? employee.ImmigrationStatus : '',
-        ssn: employee.SSNo ? employee.SSNo : '',
+    console.log(this.employeeData, 'data');
+    const employee = this.employeeData;
+    const employeeDetail = employee.EmployeeDetail[0];
+    const employeeAddress = employee.EmployeeAddress[0];
+    const employeeRole = employee.EmployeeRole !== null ? employee.EmployeeRole[0] : '';
+    const locationId = [];
+    employee.EmployeeDetail.forEach( detail => {
+      this.location.forEach( item => {
+        if (+item.item_id === +detail.LocationId) {
+          locationId.push(item);
+        }
       });
-      this.emplistform.patchValue({
-        loginId: [''],
-        password: [''],
-        dateOfHire: employeeDetail.HiredDate ? moment(employeeDetail.HiredDate).toDate() : '',
-        hourlyRateWash: [''],
-        hourlyRateDetail: [''],
-        commission: employeeDetail.ComRate ? employeeDetail.ComRate : '',
-        status: employee.IsActive ? 'Active' : 'InActive',
-        tip: employeeDetail.Tip ? employeeDetail.Tip : '',
-        exemptions: employeeDetail.Exemptions ? employeeDetail.Exemptions : '',
-        roles: employeeRole.RoleId ? employeeRole.RoleId : '',
-        location: employeeDetail.LocationId ? employeeDetail.LocationId : ''
-      });
+    });
+    this.personalform.patchValue({
+      firstName: employee.FirstName ? employee.FirstName : '',
+      lastName: employee.LastName ? employee.LastName : '',
+      gender: employee.Gender ? employee.Gender : '',
+      address: employeeAddress.Address1 ? employeeAddress.Address1 : '',
+      mobile: employeeAddress.PhoneNumber ? employeeAddress.PhoneNumber : '',
+      immigrationStatus: employee.ImmigrationStatus ? employee.ImmigrationStatus : '',
+      ssn: employee.SSNo ? employee.SSNo : '',
+    });
+    this.emplistform.patchValue({
+      emailId: employeeAddress.Email ? employeeAddress.Email : '',
+      password: [''],
+      dateOfHire: employeeDetail.HiredDate ? moment(employeeDetail.HiredDate).toDate() : '',
+      hourlyRateWash: [''],
+      hourlyRateDetail: [''],
+      commission: employeeDetail.ComRate ? employeeDetail.ComRate : '',
+      status: employee.IsActive ? 'Active' : 'InActive',
+      tip: employeeDetail.Tip ? employeeDetail.Tip : '',
+      exemptions: employeeDetail.Exemptions ? employeeDetail.Exemptions : '',
+      roles: employeeRole.RoleId ? employeeRole.RoleId : '',
+      location: locationId
+    });
+    if (this.actionType === 'view') {
       this.personalform.disable();
       this.emplistform.disable();
     }
@@ -136,7 +146,7 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   locationDropDown() {
-    this.location = this.location.map( item => {
+    this.location = this.location.map(item => {
       return {
         item_id: item.LocationId,
         item_text: item.LocationName
@@ -165,7 +175,7 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   getAllCollision() {
-    this.employeeService.getAllCollision(this.employeeId).subscribe( res => {
+    this.employeeService.getAllCollision(this.employeeId).subscribe(res => {
       console.log(res, 'allcollistion');
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
@@ -181,6 +191,10 @@ export class EditEmployeeComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 
+  navigatePage() {
+    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
   getAllDocument() {
     this.employeeService.getAllDocument(this.employeeId).subscribe(res => {
       if (res.status === 'Success') {
@@ -189,6 +203,89 @@ export class EditEmployeeComponent implements OnInit {
         console.log(this.documentList, 'documentlst');
       }
     });
+  }
+
+  updateEmployee() {
+    const employee = this.employeeData;
+    const employeeDetail = employee.EmployeeDetail[0];
+    const employeeAddress = employee.EmployeeAddress[0];
+    const employeeRole = employee.EmployeeRole !== null ? employee.EmployeeRole[0] : '';
+    const employeAddress = [];
+    const employeeAddressObj = {
+      employeeAddressId: employeeAddress.EmployeeAddressId,
+      relationshipId: 0,
+      address1: this.personalform.value.address,
+      address2: '',
+      phoneNumber: +this.personalform.value.mobile,
+      phoneNumber2: '',
+      email: this.emplistform.value.emailId,
+      state: 0,
+      country: 0,
+      zip: '',
+      city: 1,
+      isActive: this.emplistform.value.status === 'Active' ? true : false
+    };
+    const employeeRoleObj = this.emplistform.value.roles.map(item => {
+      return {
+        employeeRoleId: 0,
+        employeeId: employee.EmployeeId,
+        roleId: item.item_id,
+        isDefault: true,
+        isActive: this.emplistform.value.status === 'Active' ? true : false
+      };
+    });
+    const employeeDetailObj = this.emplistform.value.location.map(item => {
+      return {
+        employeeDetailId: employeeDetail.EmployeeDetailId,
+        employeeId: employee.EmployeeId,
+        employeeCode: 'string',
+        authId: 0,
+        locationId: item.item_id,
+        payRate: 'string',
+        sickRate: 'string',
+        vacRate: 'string',
+        comRate: 'string',
+        hiredDate: this.emplistform.value.dateOfHire,
+        salary: 'string',
+        tip: this.emplistform.value.tip,
+        lrt: '2020 - 08 - 03T10: 00: 31.411Z',
+        exemptions: +this.emplistform.value.exemptions,
+        isActive: this.emplistform.value.status === 'Active' ? true : false
+      };
+    });
+    employeAddress.push(employeeAddressObj);
+    const employeeObj = {
+      employeeId: employee.EmployeeId,
+      firstName: this.personalform.value.firstName,
+      middleName: 'string',
+      lastName: this.personalform.value.lastName,
+      gender: this.personalform.value.gender,
+      ssNo: this.personalform.value.ssn,
+      maritalStatus: 0,
+      isCitizen: true,
+      alienNo: 'string',
+      birthDate: '2020-08-03T10:00:31.412Z',
+      immigrationStatus: this.personalform.value.immigrationStatus,
+      createdDate: '2020-08-03T10:00:31.412Z',
+      isActive: this.emplistform.value.status === 'Active' ? true : false,
+      employeeDetail: employeeDetailObj,
+      employeeAddress: employeAddress,
+      employeeRole: employeeRoleObj
+    };
+    console.log(employeeObj, 'finalObj');
+    this.employeeService.updateEmployee(employeeObj).subscribe( res => {
+      if (res.status === 'Success') {
+        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      }
+    });
+  }
+
+  pesonalCollapsed() {
+    this.isPersonalCollapsed = !this.isPersonalCollapsed;
+  }
+
+  detailCollapsed() {
+    this.isDetailCollapsed = !this.isDetailCollapsed;
   }
 
 

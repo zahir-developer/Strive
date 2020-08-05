@@ -3,6 +3,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeCollisionComponent } from '../../employees/employee-collision/employee-collision.component';
+import { DocumentListComponent } from '../../employees/document-list/document-list.component';
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -25,6 +26,7 @@ export class EmployeeListComponent implements OnInit {
   actionType: string;
   employeeId: any;
   location: any;
+  public isCollapsed = false;
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -75,9 +77,11 @@ export class EmployeeListComponent implements OnInit {
       this.selectedData = empDetails;
       this.isEdit = false;
       this.showDialog = true;
+      this.actionType = data;
     } else {
       this.headerData = 'Edit Employees';
       this.isEdit = true;
+      this.actionType = data;
       // this.selectedData = empDetails;
       // this.isEdit = true;
       // this.showDialog = true;
@@ -183,7 +187,7 @@ export class EmployeeListComponent implements OnInit {
       this.isEdit = false;
       this.showDialog = true;
       this.actionType = mode;
-    } else if (mode === 'edit') {
+    } else {
       this.isEdit = true;
       this.actionType = mode;
       this.employeeId = employee.EmployeeId;
@@ -195,6 +199,7 @@ export class EmployeeListComponent implements OnInit {
 
   closeDialog(event) {
     this.showDialog = event.isOpenPopup;
+    this.getAllEmployeeDetails();
   }
 
   getLocation() {
@@ -216,6 +221,24 @@ export class EmployeeListComponent implements OnInit {
     };
     const modalRef =  this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
+    modalRef.componentInstance.mode = 'create';
+  }
+
+  viewDocument(employee) {
+    const empId = employee.EmployeeId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef =  this.modalService.open(DocumentListComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = empId;
+    modalRef.componentInstance.actionType = 'view';
+    modalRef.componentInstance.isModal = true;
+  }
+
+  collapsed() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
 }

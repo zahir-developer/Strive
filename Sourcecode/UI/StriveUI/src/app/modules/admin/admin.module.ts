@@ -47,6 +47,7 @@ import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.compon
 import { VehicleCreateEditComponent } from './vehicle/vehicle-create-edit/vehicle-create-edit.component';
 import { DocumentListComponent } from './employees/document-list/document-list.component';
 import { CreateDocumentComponent } from './employees/create-document/create-document.component';
+import { ViewDocumentComponent } from './employees/view-document/view-document.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -59,7 +60,7 @@ import { CreateDocumentComponent } from './employees/create-document/create-docu
     VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent],
   imports: [
     CommonModule,
     RouterModule,
