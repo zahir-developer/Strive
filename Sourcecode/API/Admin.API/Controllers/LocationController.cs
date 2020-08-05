@@ -24,9 +24,9 @@ namespace Admin.API.Controllers
         [Route("Update")]
         public Result UpdateLocation([FromBody] LocationDto location) => _bplManager.UpdateLocation(location);
 
-        [HttpPost]
-        [Route("Save")]
-        public Result SaveLocation([FromBody]  LocationDto location) => _bplManager.SaveLocation(location);
+        //[HttpPost]
+        //[Route("Save")]
+        //public Result SaveLocation([FromBody]  LocationDto location) => _bplManager.SaveLocation(location);
 
         [HttpDelete]
         [Route("Delete")]
