@@ -1,28 +1,32 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO.Employee;
+using Strive.BusinessEntities.Employee;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using Strive.BusinessEntities.Employee;
-using Strive.BusinessEntities.Auth;
 using System.Linq;
-using Strive.BusinessLogic.Common;
+using System.Net;
 
 namespace Strive.BusinessLogic
 {
     public class EmployeeBpl : Strivebase, IEmployeeBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly IDistributedCache _cache;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
+
+        public Result GetEmployeeList()
         {
-            _tenant = tenantHelper;
-            _cache = cache;
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeList, "EmployeeList");
         }
+
+        public Result GetEmployeeById(int employeeId)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeById, employeeId, "Employee");
+        }
+                          
         public Result GetEmployeeDetails()
         {
             try
@@ -115,6 +119,5 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-
     }
 }

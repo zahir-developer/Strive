@@ -19,19 +19,21 @@ using Strive.BusinessEntities;
 using System.IO;
 using System.Collections.Generic;
 using MimeKit.Text;
+using Strive.BusinessEntities.Model;
 
 namespace Strive.BusinessLogic.Common
 {
     public class CommonBpl : Strivebase, ICommonBpl
     {
-        readonly ITenantHelper _tenant;
         private static Random random;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
 
-        public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
+        public Result GetSearchResult<T>(string searchTerm)
         {
-            _tenant = tenantHelper;
+            ///...Yet to be implemented
+            var res = new CommonRal(_tenant).DoSearch(searchTerm);
+            return null;
         }
 
         public Result GetAllCodes()
@@ -325,5 +327,6 @@ namespace Strive.BusinessLogic.Common
         }
     }
 
-}
+
+    }
 }

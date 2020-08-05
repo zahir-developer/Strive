@@ -21,6 +21,9 @@ export class ClientListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private fb: FormBuilder) { }
 
@@ -43,6 +46,7 @@ export class ClientListComponent implements OnInit {
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {

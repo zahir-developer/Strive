@@ -1,59 +1,44 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.Employee;
 using Strive.BusinessLogic;
 using Strive.Common;
-using System;
-using System.Collections.Generic;
-using Strive.BusinessEntities.Employee;
-using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+
 
 namespace Admin.Api.Controllers
 {
     [Authorize]
+    //[AutoValidateAntiforgeryToken]
     [Route("Admin/[Controller]")]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController : StriveControllerBase<IEmployeeBpl>
     {
-        IEmployeeBpl _employeeBpl = null;
+        public EmployeeController(IEmployeeBpl empBpl) : base(empBpl) { }
 
-        public EmployeeController(IEmployeeBpl employeeBpl)
-        {
-            _employeeBpl = employeeBpl;
-        }
-
-        [HttpGet]
-        [Route("GetAll")]
-        public Result GetAllEmployee()
-        {
-            return _employeeBpl.GetEmployeeDetails();
-        }
-
-        [HttpGet]
-        [Route("GetAllRoles")]
-        public Result GetAllEmployeeRoles()
-        {
-            return _employeeBpl.GetAllEmployeeRoles();
-        }
-
-        [HttpGet]
-        [Route("GetEmployeeById/{id}")]
-        public Result GetEmployeeById(long id)
-        {
-            return _employeeBpl.GetEmployeeByIdDetails(id);
-        }
+        #region POST
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee([FromBody] EmployeeView lstEmployee)
-        {
-            return _employeeBpl.SaveEmployeeDetails(lstEmployee);
-        }
+        public Result SaveEmployee([FromBody] EmployeeView lstEmployee) => _bplManager.SaveEmployeeDetails(lstEmployee);
 
-        [HttpDelete]
-        [Route("{id}")]
-        public Result DeleteEmployee(long empId)
-        {
-            return _employeeBpl.DeleteEmployeeDetails(empId);
-        }
+        [HttpPost]
+        [Route("Delete")]
+        public Result DeleteEmployee(long empId) => _bplManager.DeleteEmployeeDetails(empId);
 
+        #endregion
+
+        #region GET
+        [HttpGet]
+        [Route("GetAll")]
+        public Result GetAllEmployee() => _bplManager.GetEmployeeList();
+
+        [HttpGet]
+        [Route("GetAllRoles")]
+        public Result GetAllEmployeeRoles() => _bplManager.GetAllEmployeeRoles();
+
+        [HttpGet]
+        [Route("GetEmployeeById")]
+        public Result GetEmployeeById(int id) => _bplManager.GetEmployeeById(id); 
+        #endregion
     }
 }

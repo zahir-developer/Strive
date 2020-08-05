@@ -35,6 +35,11 @@ namespace Strive.ResourceAccess
             return lstCode;
         }
 
+        public object DoSearch(string searchTerm)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Code> GetCodeByCategoryId(int CategoryId)
         {
             DynamicParameters dynParams = new DynamicParameters();

@@ -16,6 +16,9 @@ export class ProductSetupListComponent implements OnInit {
   isEdit: boolean;
   isLoading = true;
   isTableEmpty: boolean;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -32,6 +35,7 @@ export class ProductSetupListComponent implements OnInit {
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.collectionSize = Math.ceil(this.productSetupDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {

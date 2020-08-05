@@ -40,6 +40,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDbConnection.cs" />
+    <Compile Include="FastDeepcloner\AttributesCollections.cs" />
+    <Compile Include="FastDeepcloner\CloneLevel.cs" />
+    <Compile Include="FastDeepcloner\ConfigrationManager.cs" />
+    <Compile Include="FastDeepcloner\ConvertToInterfaceTypeGenerator.cs" />
+    <Compile Include="FastDeepcloner\DeepClone.cs" />
+    <Compile Include="FastDeepcloner\Extensions.cs" />
+    <Compile Include="FastDeepcloner\FastDeepClonerCachedItems.cs" />
+    <Compile Include="FastDeepcloner\FastDeepClonerColumn.cs" />
+    <Compile Include="FastDeepcloner\FastDeepClonerIgnore.cs" />
+    <Compile Include="FastDeepcloner\FastDeepClonerPrimaryIdentifire.cs" />
+    <Compile Include="FastDeepcloner\FastDeepClonerProperty.cs" />
+    <Compile Include="FastDeepcloner\FastDeepClonerSettings.cs" />
+    <Compile Include="FastDeepcloner\FieldType.cs" />
+    <Compile Include="FastDeepcloner\IFastDeepClonerProperty.cs" />
+    <Compile Include="FastDeepcloner\INotifyPropertyChangedProxyTypeGenerator.cs" />
+    <Compile Include="FastDeepcloner\NoneCloneable.cs" />
+    <Compile Include="FastDeepcloner\ReferenceClone.cs" />
+    <Compile Include="FastDeepcloner\SafeValueType.cs" />
     <Compile Include="GlobalCodes.cs" />
     <Compile Include="GlobalCodeValues.cs" />
     <Compile Include="GlobalConstants.cs" />

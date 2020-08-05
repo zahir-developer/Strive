@@ -14,13 +14,7 @@ namespace Strive.BusinessLogic.Vehicle
 {
     public class VehicleBpl : Strivebase, IVehicleBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public VehicleBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
-        {
-            _tenant = tenantHelper;
-        }
+        public VehicleBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper) { }
 
         public Result GetAllVehicle()
         {
@@ -36,12 +30,12 @@ namespace Strive.BusinessLogic.Vehicle
             }
             return _result;
         }
-        public Result UpdateClientVehicle(Strive.BusinessEntities.Client.ClientVehicle lstUpdateVehicle)
+        public Result SaveClientVehicle(List<ClientVehicle> vehicle)
         {
             try
             {
-                var res = new VehicleRal(_tenant).UpdateVehicle(lstUpdateVehicle);
-                _resultContent.Add(res.WithName("UpdateVehicle"));
+                var res = new VehicleRal(_tenant).SaveVehicle(vehicle);
+                _resultContent.Add(res.WithName("SaveVehicle"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch(Exception ex)
@@ -78,5 +72,6 @@ namespace Strive.BusinessLogic.Vehicle
             }
             return _result;
         }
+        
     }
 }
