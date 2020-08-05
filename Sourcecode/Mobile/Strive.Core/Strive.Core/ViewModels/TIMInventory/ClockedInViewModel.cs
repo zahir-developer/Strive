@@ -14,7 +14,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             //Timer checkForTime = new Timer(15000);
             //checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             //checkForTime.Enabled = true;
-            Init();
+            Init();     
         }
 
         public string Name { get; set; }
@@ -40,7 +40,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 Name = EmployeeDetail.FirstName + " " + EmployeeDetail.LastName;
                 Role = EmployeeData.CurrentRole;
                 CurrentDate = DateUtils.GetTodayDateString();
-                ClockInTime = GetClockInTimeString();
+                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.inTime);
             }
         }
 
@@ -57,13 +57,9 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockOutCommand()
         {
-            EmployeeData.ClockOutTime = DateTime.Now;
+            EmployeeData.ClockInStatus.outTime = DateUtils.GetStringFromDate(DateTime.UtcNow);
+            var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
             await _navigationService.Navigate<ClockOutViewModel>();
-        }
-
-        string GetClockInTimeString()
-        {
-            return string.Format("{0:hh.mmtt}", EmployeeData.ClockInTime);
         }
     }
 }

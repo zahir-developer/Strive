@@ -342,6 +342,8 @@
         <InterfaceDefinition Include="Views\ClockedInView.xib" />
         <InterfaceDefinition Include="Views\WashTimesPage.xib" />
         <InterfaceDefinition Include="Views\ClockOutView.xib" />
+        <InterfaceDefinition Include="Views\InventoryView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -391,6 +393,14 @@
           <DependentUpon>ClockOutView.cs</DependentUpon>
         </Compile>
         <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
+        <Compile Include="Views\InventoryView.cs" />
+        <Compile Include="Views\InventoryView.designer.cs">
+          <DependentUpon>InventoryView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView.cs" />
+        <Compile Include="Views\MembershipView.designer.cs">
+          <DependentUpon>MembershipView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
