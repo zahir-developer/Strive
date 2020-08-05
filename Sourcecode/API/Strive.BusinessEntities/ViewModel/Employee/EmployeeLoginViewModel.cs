@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Strive.BusinessEntities.DTO.Employee;
+using System.Collections.Generic;
 
-namespace Strive.BusinessEntities.DTO.Employee
+namespace Strive.BusinessEntities.ViewModel.Employee
 {
     public class EmployeeLoginViewModel
     {

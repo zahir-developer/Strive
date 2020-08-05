@@ -238,16 +238,16 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public int CreateLogin(UserLogin userLogin)
+        public int CreateLogin(AuthMaster authMaster)
         {
             string randomPassword = RandomString(6);
-            bool isValidEmail = VerifyEmail(userLogin.EmailId);
-            userLogin.PasswordHash = Pass.Hash(randomPassword);
-            userLogin.EmailVerified = isValidEmail.toInt();
-            userLogin.LockoutEnabled = 0;
-            userLogin.UserGuid = Guid.NewGuid();
-            var authId = new CommonRal(_tenant, true).CreateLogin(userLogin);
-            SendLoginCreationEmail(userLogin.EmailId, randomPassword);
+            bool isValidEmail = VerifyEmail(authMaster.EmailId);
+            authMaster.PasswordHash = Pass.Hash(randomPassword);
+            authMaster.EmailVerified = Int16.Parse(isValidEmail ? "1" : "0");
+            authMaster.LockoutEnabled = 0;
+            authMaster.UserGuid = Guid.NewGuid().ToString();
+            var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
+            SendLoginCreationEmail(authMaster.EmailId, randomPassword);
             return authId;
         }
 

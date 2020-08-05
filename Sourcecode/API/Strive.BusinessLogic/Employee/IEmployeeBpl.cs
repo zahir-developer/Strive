@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using Strive.BusinessEntities.Employee;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 
 namespace Strive.BusinessLogic
 {
     public interface IEmployeeBpl
     {
-        Result GetEmployeeDetails();
         Result GetAllEmployeeRoles();
-        Result SaveEmployeeDetails(EmployeeView lstEmployee);
+        Result SaveEmployeeDetails(EmployeeModel lstEmployee);
         Result DeleteEmployeeDetails(long empId);
-        Result GetEmployeeByIdDetails(long id);
+        Result GetEmployeeById(int id);
         Result GetEmployeeList();
-        Result GetEmployeeById(int empId);
     }
 }

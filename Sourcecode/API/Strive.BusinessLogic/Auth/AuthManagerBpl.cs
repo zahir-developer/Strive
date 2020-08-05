@@ -16,6 +16,8 @@ using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Employee;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.Crypto;
@@ -100,7 +102,7 @@ namespace Strive.BusinessLogic.Auth
                 new Claim("SchemaName", $"{tenant.Schemaname}"),
                 new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("AuthId", $"{tenant.AuthId}"),
-                new Claim("RoleId", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.Roleid.ToString()).ToList())}"),
+                new Claim("RoleId", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.RoleId.ToString()).ToList())}"),
                 new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.RoleName).ToList())}"),
             }.ToList();
 
@@ -139,9 +141,9 @@ namespace Strive.BusinessLogic.Auth
             throw new NotImplementedException();
         }
 
-        public int CreateLogin(UserLogin userLogin)
+        public int CreateLogin(AuthMaster authMaster)
         {
-            return new CommonBpl(_cache, _tenant).CreateLogin(userLogin);
+            return new CommonBpl(_cache, _tenant).CreateLogin(authMaster);
         }
 
         public bool ForgotPassword(string userId)

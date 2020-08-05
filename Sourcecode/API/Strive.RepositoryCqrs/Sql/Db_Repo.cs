@@ -45,6 +45,7 @@ namespace Strive.RepositoryCqrs
             return true;
         }
 
+        
         public bool SavePc<T>(T tview, string PrimaryField)
         {
             SqlServerBootstrap.Initialize();
@@ -97,6 +98,57 @@ namespace Strive.RepositoryCqrs
                 }
             }
             return true;
+        }
+
+        public int Save<T>(T tview, string PrimaryField)
+        {
+            SqlServerBootstrap.Initialize();
+            DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
+            int insertId = 0;
+            using (var dbcon = new SqlConnection(cs).EnsureOpen())
+            {
+
+                Type type = typeof(T);
+                int primeId = 0;
+                bool primInsert = false;
+                
+                using (var transaction = dbcon.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (PropertyInfo prp in type.GetProperties())
+                        {
+                            var model = prp.GetValue(tview, null);
+
+
+                            if (primInsert)
+                            {
+                                Type subModelType = model.GetType();
+                                subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
+                            }
+
+                            var prInfo = model.GetType().GetProperties().FirstOrDefault().GetValue(model, null) ?? 0;
+                            if (Convert.ToInt32(prInfo) > 0)
+                            {
+                                var Updated = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                            }
+                            else
+                            {
+                                insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                primeId = (!primInsert) ? insertId : primeId;
+                                primInsert = true;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                    transaction.Commit();
+                }
+            }
+            return insertId;
         }
 
         public bool Update<T>(T tview)
@@ -197,6 +249,32 @@ namespace Strive.RepositoryCqrs
                 }
             }
             return true;
+        }
+
+        public int Add<T>(T tview)
+        {
+
+            SqlServerBootstrap.Initialize();
+            DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
+            int insertId;
+            using (var dbcon = new SqlConnection(cs).EnsureOpen())
+            {
+                Type type = typeof(T);
+                using (var transaction = dbcon.BeginTransaction())
+                {
+                    try
+                    {
+                        insertId = (int)dbcon.Insert($"{sc}.tbl" + type.Name, entity: tview, transaction: transaction);
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                    transaction.Commit();
+                }
+            }
+            return insertId;
         }
 
 

@@ -43,6 +43,8 @@ namespace Strive.ResourceAccess
                 _dbconnection = tenant.db();
 
             db = new Db(_dbconnection);
+            cs = _dbconnection.ConnectionString;
+            dbRepo = new DbRepo(cs, _tenant.SchemaName);
         }
 
         protected (T, string, int,string,string) AddAudit<T>(int id,string cs, string sc) where T : class, new()
