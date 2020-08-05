@@ -17,6 +17,10 @@ export class VehicleListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedVehicle: any;
+  clientName: any;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -28,11 +32,12 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle;
-        console.log(this.vehicleDetails);
+        this.vehicleDetails = vehicle.Vehicle;  
+        console.log(vehicle.Vehicle);
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
-        } else {
+        } else {      
+          this.collectionSize = Math.ceil(this.vehicleDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -49,21 +54,21 @@ export class VehicleListComponent implements OnInit {
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          //this.confirmDelete(data);
+          this.confirmDelete(data.ClientVehicle[0]);
         }
       })
       .catch(() => { });
   }
-  // confirmDelete(data) {
-  //   this.vehicle.deletevehicle(data.vehicleId).subscribe(res => {
-  //     if (res.status === 'Success') {
-  //       this.toastr.success('Record Deleted Successfully!!', 'Success!');
-  //       this.getAllvehicleDetails();
-  //     } else {
-  //       this.toastr.error('Communication Error', 'Error!');
-  //     }
-  //   });
-  // }
+  confirmDelete(data) {
+    this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
+      if (res.status === 'Success') {
+        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.getAllVehicleDetails();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
   closePopupEmit(event) {
     if (event.status === 'saved') {
       this.getAllVehicleDetails();
@@ -78,32 +83,33 @@ export class VehicleListComponent implements OnInit {
       this.isEdit = false;
       this.isView = false;
     } else {
-      //this.getVehicleById(data, vehicleDet);
+      this.getVehicleById(data, vehicleDet);
     }
   }
 
-  // getVehicleById(data, vehicle) {
-  //   this.vehicle.getvehicleById(vehicle.vehicleId).subscribe(res => {
-  //     if (res.status === 'Success') {
-  //       const vehicle = JSON.parse(res.resultData);
-  //       this.selectedVehicle = vehicle.vehicleDetail[0];
-  //       if (data === 'edit') {
-  //         this.headerData = 'Edit vehicle';
-  //         this.selectedData = this.selectedVehicle;
-  //         this.isEdit = true;
-  //         this.isView = false;
-  //         this.showDialog = true;
-  //       } else {
-  //         this.headerData = 'View vehicle';
-  //         this.selectedData = this.selectedVehicle;
-  //         this.isEdit = true;
-  //         this.isView = true;
-  //         this.showDialog = true;
-  //       }
-  //     } else {
-  //       this.toastr.error('Communication Error', 'Error!');
-  //     }
-  //   });
-  // }
+  getVehicleById(data, vehicleDet) {
+    this.vehicle.getVehicleById(vehicleDet.ClientVehicleId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vehicle = JSON.parse(res.resultData);
+        this.selectedVehicle = vehicle.GetVehicle;
+        console.log(this.selectedVehicle);
+        if (data === 'edit') {
+          this.headerData = 'Edit vehicle';
+          this.selectedData = this.selectedVehicle[0];
+          this.isEdit = true;
+          this.isView = false;
+          this.showDialog = true;
+        } else {
+          this.headerData = 'View vehicle';
+          this.selectedData = this.selectedVehicle;
+          this.isEdit = true;
+          this.isView = true;
+          this.showDialog = true;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
 }
 

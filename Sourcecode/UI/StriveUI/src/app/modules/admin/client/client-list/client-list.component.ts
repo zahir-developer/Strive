@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-client-list',
@@ -10,6 +11,7 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 })
 export class ClientListComponent implements OnInit {
   clientDetails = [];
+  clientSearch: FormGroup;
   showDialog = false;
   selectedData: any;
   headerData: string;
@@ -19,13 +21,23 @@ export class ClientListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.getAllClientDetails();
-
+    this.formInitialize();
   }
+
+  formInitialize() {
+    this.clientSearch = this.fb.group({
+      searchByName: ['',]
+    });
+  }
+
   getAllClientDetails() {
     this.client.getClient().subscribe(data => {
       if (data.status === 'Success') {
@@ -34,6 +46,7 @@ export class ClientListComponent implements OnInit {
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {

@@ -3,6 +3,8 @@ using MvvmCross;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using MvvmCross.ViewModels;
+using Strive.Core.Utils;
+using Strive.Core.Utils.TimInventory;
 using Strive.Core.ViewModels.TIMInventory;
 using StriveTimInventory.iOS.UIUtils;
 using UIKit;
@@ -30,13 +32,25 @@ namespace StriveTimInventory.iOS.Views
 
             base.ViewDidLoad();
 
-            var viewControllers = new UIViewController[]
+            var viewControllers = new UIViewController[4];
+            var ClockStatus = EmployeeData.ClockInStatus;
+            var difference = new TimeSpan();
+            if(ClockStatus != null)
             {
-            CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockInViewModel)),
-            CreateTabFor(1, "Wash Times", "icon-wash-time", typeof(WashTimesViewModel)),
-             CreateTabFor(0, "Membership", "icon-membership", typeof(MembershipViewModel)),
-            CreateTabFor(1, "Inventory", "icon-inventory", typeof(InventoryViewModel))
-            };
+                difference = DateUtils.GetTimeDifferenceValue(ClockStatus.outTime, ClockStatus.inTime);
+            }
+            if (ClockStatus == null || difference.Hours > 0)
+            {
+                viewControllers[0] = CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockInViewModel));
+            }
+            else
+            {
+                viewControllers[0] = CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockedInViewModel));
+            }
+            
+            viewControllers[1] = CreateTabFor(1, "Wash Times", "icon-wash-time", typeof(WashTimesViewModel));
+            viewControllers[2] = CreateTabFor(0, "Membership", "icon-membership", typeof(MembershipViewModel));
+            viewControllers[3] = CreateTabFor(1, "Inventory", "icon-inventory", typeof(InventoryViewModel));
 
             ViewControllers = viewControllers;
             CustomizableViewControllers = new UIViewController[] { };

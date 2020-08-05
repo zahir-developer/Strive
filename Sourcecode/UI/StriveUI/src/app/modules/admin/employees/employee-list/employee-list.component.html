@@ -16,12 +16,12 @@
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
-                        <div class="title-border p-b-10 m-b-15">
-                            <h5 class="d-inline-block">Employee List</h5>
-                            <button type="button" class="btn theme-primary-button-color btn-md"
-                                (click)="addEmployee('create', '')">Add New Employee</button>
-                            <div class="pull-right m-t-4 pointer">
-                                <a id="Employeelisttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
+                        <div class="row title-border p-b-10 m-b-15">
+                            <div class="col-12">
+                                <h5 class="d-inline-block">Employee List
+                                </h5>
+                                <button type="button" class=" float-right btn theme-primary-button-color btn-md"
+                                    (click)="addEmployee('create', '')">Add New Employee</button>
                             </div>
                         </div>
                         <div class="setup-wrapper" id="emplistform">
@@ -37,7 +37,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                
+
                                 <div class="table-responsive">
                                     <table class="table border table-hover" aria-describedby="employee-list">
                                         <thead>
@@ -59,7 +59,7 @@
                                                 <td>{{employee.FirstName}}</td>
                                                 <td> {{employee.LastName}} </td>
                                                 <td>167-2344-123</td>
-                                                <td> <a (click)="openCollisionModal()"
+                                                <td> <a (click)="openCollisionModal(employee)"
                                                         class="text-underline theme-primary-color font-size--9"> Add
                                                     </a> </td>
                                                 <td> <a href="#documentModal"
@@ -159,7 +159,7 @@
         (closeDialog)="closeDialog($event)"></app-create-edit>
 </div>
 <div *ngIf="showDialog && actionType === 'edit'">
-    <app-edit-employee *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles"
+    <app-edit-employee *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles" [location]="location"
         [commissionType]="commissionType" [actionType]="actionType" [employeeId]="employeeId"
         (closeDialog)="closeDialog($event)"></app-edit-employee>
 </div>

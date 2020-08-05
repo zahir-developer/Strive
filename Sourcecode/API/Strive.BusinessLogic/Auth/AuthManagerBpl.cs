@@ -14,6 +14,7 @@ using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
@@ -24,62 +25,52 @@ namespace Strive.BusinessLogic.Auth
 {
     public class AuthManagerBpl : Strivebase, IAuthManagerBpl
     {
-        private readonly ITenantHelper _tenant;
-        private readonly IDistributedCache _cache;
+        public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public AuthManagerBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public Result Login(Authentication authentication, string secretKey, string tcon)
         {
-            _tenant = tenantHelper;
-            _cache = cache;
-        }
-
-        public TenantSchema GetTenantSchema(Guid userGuid)
-        {
-            TenantSchema tenantSchema = new AuthRal(_tenant).GetSchema(userGuid);
-            SetTenantSchematoCache(tenantSchema);
-            return tenantSchema;
-        }
-
-
-        public Result Login(Authentication authentication, string secretKey, string tenantConString)
-        {
-            Result result;
-            JObject resultContent = new JObject();
             try
             {
-                Token tkn = new Token();
-                TenantSchema tenantSchema = null;
-                var dbPassHash = new AuthRal(_tenant).GetPassword(authentication.Email);
+                ValidateLogin(authentication);
+                TenantSchema tSchema = new AuthRal(_tenant).Login(authentication);
+                CacheLogin(tSchema, tcon);
 
-                if (!Pass.Validate(authentication.PasswordHash, dbPassHash))
-                {
-                    throw new Exception("UnAuthorized");
-                }
+                EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId);
+                (string token, string refreshToken) = GetTokens(tSchema, employee, secretKey);
 
-                tenantSchema = new AuthRal(_tenant).Login(authentication);
-                SetTenantSchematoCache(tenantSchema);
-                _tenant.SetConnection(GetTenantConnectionString(tenantSchema, tenantConString));
-                EmployeeView employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tenantSchema.AuthId);
-                (string token, string refreshToken) = GetTokens(tenantSchema, employee, secretKey);
-                SaveRefreshToken(tenantSchema.UserGuid, refreshToken);
-                resultContent.Add(token.WithName("Token"));
-                resultContent.Add(refreshToken.WithName("RefreshToken"));
-                resultContent.Add(employee.WithName("EmployeeDetails"));
-                result = Helper.BindSuccessResult(resultContent);
+                SaveRefreshToken(tSchema.UserGuid, refreshToken);
+                _resultContent.Add(token.WithName("Token"));
+                _resultContent.Add(refreshToken.WithName("RefreshToken"));
+                _resultContent.Add(employee.WithName("EmployeeDetails"));
+                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
-                result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
-            return result;
+            return _result;
+        }
+
+        private void CacheLogin(TenantSchema tSchema, string tcon)
+        {
+            SetTenantSchematoCache(tSchema);
+            _tenant.SetConnection(GetTenantConnectionString(tSchema, tcon));
+
+        }
+
+        private void ValidateLogin(Authentication authentication)
+        {
+            if (!Pass.Validate(authentication.PasswordHash, new AuthRal(_tenant).GetPassword(authentication.Email)))
+            {
+                throw new Exception("UnAuthorized");
+            }
         }
 
         public Result GenerateTokenByRefreshKey(string token, string refreshToken, string secretKey)
         {
             Token tkn = new Token();
             JObject resultContent = new JObject();
-            //var claims = tkn.GetPrincipalFromExpiredToken(token, secretKey);
-            var userGuid = tkn.GetUserGuidFromToken(token,secretKey);// claims.Find(a => a.Type.Contains("UserGuid")).Value;
+            var userGuid = tkn.GetUserGuidFromToken(token, secretKey);// claims.Find(a => a.Type.Contains("UserGuid")).Value;
 
             var savedRefreshToken = GetRefreshToken(userGuid); //retrieve the refresh token from a data store
 
@@ -99,26 +90,30 @@ namespace Strive.BusinessLogic.Auth
             return result;
         }
 
-        private (string, string) GetTokens(TenantSchema tenant, EmployeeView employee, string secretKey)
+        private (string, string) GetTokens(TenantSchema tenant, EmployeeLoginViewModel employee, string secretKey)
         {
             Token tkn = new Token();
             var claims = new[]
             {
                 new Claim("UserGuid", $"{tenant.UserGuid}"),
+                new Claim("EmployeeId", $"{employee.EmployeeLogin.EmployeeId}"),
                 new Claim("SchemaName", $"{tenant.Schemaname}"),
-                 new Claim("TenantGuid", $"{tenant.TenantGuid}"),
-                new Claim("AuthId", $"{employee.EmployeeDetail.Select(n=> n.AuthId)}"),
-                new Claim("RoleId",
-                    $"{string.Join(",", employee.EmployeeRole.Select(x => x.EmployeeRoleId.ToString()).ToList())}"),
-                new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRole.Select(x => x.RoleId).ToList())}"),
-
+                new Claim("TenantGuid", $"{tenant.TenantGuid}"),
+                new Claim("AuthId", $"{tenant.AuthId}"),
+                new Claim("RoleId", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.Roleid.ToString()).ToList())}"),
+                new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.RoleName).ToList())}"),
             }.ToList();
 
             var token = tkn.Generate(claims, secretKey, "Strive", "Strive", _tenant.TokenExpiryMintues);
             var reToken = tkn.GenerateRefreshToken();
             return (token, reToken);
-            //return GetTokenWithClaims(claims, secretKey);
+        }
 
+        public TenantSchema GetTenantSchema(Guid userGuid)
+        {
+            TenantSchema tenantSchema = new AuthRal(_tenant).GetSchema(userGuid);
+            SetTenantSchematoCache(tenantSchema);
+            return tenantSchema;
         }
 
         public void Logout(string token, string secretKey)
@@ -128,11 +123,6 @@ namespace Strive.BusinessLogic.Auth
             var userGuid = claims.Find(a => a.Type.Contains("UserGuid")).Value;
             DeleteRefreshToken(userGuid, null);
         }
-
-        //public Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         AuthenticationProperties IAuthManagerBpl.ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
         {

@@ -1,141 +1,189 @@
-<div class="modal-body">
-    <form [formGroup]="clientForm">
-        <div class="card">
-            <div class="card-body">
-                <div class="title-border p-b-5 m-b-5">
-                    Client No.
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-lg-3">
-                        <label for="inputFirstName">First Name</label>
-                        <input type="text" maxlength="100" class="form-control" formControlName="fName"
-                            placeholder="First Name">
-                    </div>
-                    <div class="form-group col-lg-3">
-                        <label for="inputLastName">Last Name</label>
-                        <input type="text" maxlength="50" class="form-control" formControlName="lName"
-                            placeholder="Last Name">
-                    </div>
-                    <div class="form-group col-lg-3">
-                        <label for="inputAddress">Address</label>
-                        <input type="text" maxlength="50" class="form-control" formControlName="address"
-                            placeholder="Address">
-                    </div>
-                    <div class="form-group col-lg-3">
-                        <label></label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" formControlName="creditAccount"
-                                (change)="change($event.target.checked)">
-                            <label class="form-check-label" for="gridCheck">Credit Account</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-9 one-space">
-                        <div class="form-row">
-                            <div class="form-group col-lg-4">
-                                <label for="inputPhoneNumber">Phone 1</label>
-                                <input appPhoneMask type="text" class="form-control" formControlName="phone1"
-                                    placeholder="(XXX) XXX-XXXX">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="inputPhoneNumber">Phone 2</label>
-                                <input appPhoneMask type="text" class="form-control" formControlName="phone2"
-                                    placeholder="(XXX) XXX-XXXX">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="inputScore">Score</label>
-                                <select class="form-control" formControlName="score">
-                                    <option hidden selected value="">Choose</option>
-                                    <option *ngFor="let status of Score" value="{{status.id}}">{{status.Value}}</option>
-                                </select>
+<div id="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="#">Client</a></li>
+                    <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Client</li>
+                    <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Client</li>
+                    <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Client</li>
+                </ol>
+            </nav>
+            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+                <h3 *ngIf="!isEdit" class="d-inline-block">New Client</h3>
+                <h3 *ngIf="isEdit && !isView" class="d-inline-block">Edit Client</h3>
+                <h3 *ngIf="isEdit && isView" class="d-inline-block">View Client</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 line-height">
+                            <h5 class="d-inline-block font-weight-600">Client No <span
+                                    class="theme-secondary-color"></span></h5>
+                            <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Clientviewedit"
+                                    role="button" aria-expanded="false" aria-controls="Clientviewedit"><i
+                                        class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-lg-4">
-                                <label for="inputEmail">Email</label>
-                                <input type="email" maxlength="50" class="form-control" formControlName="email"
-                                    placeholder="Email">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label></label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" formControlName="noEmail"
-                                        (change)="changeEmail($event.target.checked)">
-                                    <label class="form-check-label" for="gridCheck">No Email</label>
+                        <div id="Clientviewedit" class="collapse show">
+                            <form [formGroup]="clientForm">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputFirstName">First Name</label>
+                                        <input type="text" maxlength="100" class="form-control" formControlName="fName"
+                                            placeholder="First Name">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputLastName">Last Name</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="lName"
+                                            placeholder="Last Name">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputAddress">Address</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="address"
+                                            placeholder="Address">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputEmail">Email</label>
+                                        <input type="email" maxlength="50" class="form-control" formControlName="email"
+                                            placeholder="Email">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="inputStatus">Status</label>
-                                <select class="form-control" formControlName="status">
-                                    <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-lg-4">
-                                <label for="inputCity">City</label>
-                                <input type="text" class="form-control" formControlName="city" placeholder="City">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="inputState">State</label>
-                                <app-state-dropdown [selectedStateId]="selectedStateId"
-                                    (stateId)="getSelectedStateId($event)" [isView]="isView">
-                                </app-state-dropdown>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="inputZipcode">ZipCode</label>
-                                <input numbersOnly type="text" maxlength="5" class="form-control" placeholder="Zip"
-                                    formControlName="zipcode">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 one-space">
-                        <div class="form-row">
-                            <div class="form-group col-lg-12">
-                                <label for="inputNotes">Notes</label>
-                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea"
-                                    formControlName="notes" placeholder="Notes"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-9 one-space">
-                        <div class="tab-content">
-                            <div class="title-border p-b-15 m-b-15">
-                                <h5 class="d-inline-block">Vehicle List</h5>&nbsp;
-                                <button type="button"
-                                    class="btn theme-primary-button-color btn-md float-right" (click)="add()">New</button>
-                            </div>
-                            <div class="setup-wrapper">
-                                <div class="setup-content" *ngIf="isTableEmpty === true"> <span
-                                        class="col-12 row d-block">No Vehicles Found</span></div>
-                                <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
+                                <div class="form-row">
+                                    <div class="col-lg-6 col-xl-3">
+                                        <div class="row no-gutter   form-row">
+                                            <div class="col-md-6  form-group">
+                                                <label for="inputPhoneNumber1">Phone 1</label>
+                                                <input numbersOnly type="text" class="form-control"
+                                                    formControlName="phone1" placeholder="(XXX) XXX-XXXX"> </div>
+                                            <div class="col-md-6 p-r-0  form-group">
+                                                <label></label>
+                                                <select class="form-control m-t-8" [disabled]="isView">
+                                                    <option selected="">Cell</option>
+                                                    <option>...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-3">
+                                        <div class="row  no-gutter form-row">
+                                            <div class="col-md-6 col-ipad form-group">
+                                                <label for="inputPhoneNumber2">Phone 2</label>
+                                                <input numbersOnly type="text" class="form-control"
+                                                    formControlName="phone2" placeholder="(XXX) XXX-XXXX"> </div>
+                                            <div class="col-lg-6 p-r-0 col-ipad form-group">
+                                                <label></label>
+                                                <select class="form-control  m-t-8" [disabled]="isView">
+                                                    <option selected="">Work</option>
+                                                    <option>...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-xl-3">
+                                        <label for="inputState">State</label>
+                                        <app-state-dropdown [selectedStateId]="selectedStateId"
+                                            (stateId)="getSelectedStateId($event)" [isView]="isView">
+                                        </app-state-dropdown>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-xl-3">
+                                        <label for="inputCity">City</label>
+                                        <input type="text" class="form-control" formControlName="city"
+                                            placeholder="City">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-lg-6 col-xl-3">
+                                        <div class="row no-gutter   form-row">
+                                            <div class="col-md-6  form-group">
+                                                <label for="inputZipcode">ZipCode</label>
+                                                <input numbersOnly type="text" maxlength="5" class="form-control"
+                                                    placeholder="Zip" formControlName="zipcode"> </div>
+                                            <div class="col-md-6 p-r-0  form-group">
+                                                <label for="inputStatus">Status</label>
+                                                <select class="form-control" formControlName="status">
+                                                    <option *ngFor="let status of Status" value="{{status.id}}">
+                                                        {{status.Value}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-xl-3 ">
+                                        <label for="inputScore">Score</label>
+                                        <select class="form-control" formControlName="score">
+                                            <option hidden selected value="">Choose</option>
+                                            <option *ngFor="let score of Score" value="{{score.id}}">{{score.Value}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-xl-3">
+                                        <label for="inputType">Type</label>
+                                        <select class="form-control" formControlName="type">
+                                            <option hidden selected value="">Choose</option>
+                                            <option *ngFor="let type of Type" value="{{type.id}}">{{type.Value}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-xl-3  m-t-40">
+                                        <div class="custom-control custom-checkbox custom-control-inline m-r-0">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    formControlName="creditAccount"
+                                                    (change)="change($event.target.checked)">
+                                                <label class="form-check-label" for="gridCheck">Credit Account</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="inputNotes">Notes</label>
+                                            <textarea rows="4" class="form-control m-t-5 notes-textarea"
+                                                formControlName="notes" placeholder="Notes"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="inputRecNotes">Check Out Note</label>
+                                            <textarea rows="4" class="form-control m-t-5 notes-textarea"
+                                                formControlName="checkOut" placeholder="Check Out Note"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row" *ngIf="isEdit">
+                                <div class="col-lg-12">
+                                    <div class="title-border p-b-15 m-b-15">
+                                        <h5 class="d-inline-block font-weight-600">Vehicle List</h5>&nbsp;
+                                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                                            (click)="add()" [disabled]="isView">New</button>
+                                    </div>
                                     <p-table [value]="vehicleDetails"
                                         class="table table-responsive-xl table-striped table-hover">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th scope="col">Acc</th>
-                                                <th scope="col">#</th>
-                                                <th scope="col">UPC</th>
-                                                <th scope="col">Tag</th>
+                                                <th scope="col">Vehicle No</th>
                                                 <th scope="col">Color</th>
                                                 <th scope="col">Make</th>
                                                 <th scope="col">Model</th>
                                                 <th scope="col">Upcharge</th>
+                                                <th scope="col">Barcode</th>
+                                                <th scope="col">Membership</th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-vehicle>
                                             <tr>
-                                                <td>{{vehicle.ClientVehicle[0].Barcode}}</td>
                                                 <td>{{vehicle.ClientVehicle[0].VehicleNumber}}</td>
-                                                <td>{{vehicle.ClientVehicle[0].VehicleModelNo}}</td>
-                                                <td>{{vehicle.ClientVehicle[0].Notes}}</td>
                                                 <td>{{vehicle.ClientVehicle[0].VehicleColor}}</td>
                                                 <td>{{vehicle.ClientVehicle[0].VehicleMake}}</td>
                                                 <td>{{vehicle.ClientVehicle[0].VehicleModel}}</td>
                                                 <td>{{vehicle.ClientVehicle[0].Upcharge}}</td>
+                                                <td>{{vehicle.ClientVehicle[0].Barcode}}</td>
+                                                <td></td>
                                                 <td>
                                                     <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                         style="color:red" pTooltip="delete"
@@ -145,30 +193,22 @@
                                         </ng-template>
                                     </p-table>
                                 </div>
-                                <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showVehicleDialog"
-                                    [blockScroll]="true" [modal]="true" [focusOnShow]="false" [closable]="false">
-                                    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]"
-                                        (closeDialog)="closePopupEmit($event)">
-                                    </app-vehicle-create-edit>
-                                </p-dialog>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 one-space">
-                        <div class="form-row">
-                            <div class="form-group col-lg-12">
-                                <label for="inputRecNotes">Check Out Note</label>
-                                <textarea style="height: 150px;" maxlength="100" class="form-control textarea"
-                                    formControlName="checkOut" placeholder="Check Out Note"></textarea>
+                            <div class="m-t-12 mw-100 pull-right">
+                                <button type="button" class="btn theme-optional-button-color"
+                                    (click)="cancel()">Cancel</button>&nbsp;
+                                <button *ngIf="!isView" type="button" class="btn theme-primary-button-color"
+                                    (click)="submit()">Save</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
-<div class="modal-footer foot">
-    <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-    <button *ngIf="!isView" type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
-</div>
+<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true"
+    [modal]="true" [focusOnShow]="false" [closable]="false">
+    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" (closeDialog)="closePopupEmit($event)">
+    </app-vehicle-create-edit>
+</p-dialog>
