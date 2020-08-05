@@ -28,9 +28,9 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        public string UserId { get; set; } 
+        public string UserId { get; set; } = "caradmin@strive.com";
 
-        public string Password { get; set; }
+        public string Password { get; set; } = "pass@123";
 
         public string UserIdText
         {
@@ -72,6 +72,11 @@ namespace Strive.Core.ViewModels.TIMInventory
                 {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     ApiUtils.Token = response.Token;
+                    var status = await AdminService.GetClockInStatus(11, DateUtils.GetTodayDateString());
+                    if(status.TimeClock != null)
+                    {
+                        EmployeeData.ClockInStatus = status.TimeClock;
+                    }
                     await _navigationService.Navigate<RootViewModel>();
                 }
                 _userDialog.HideLoading();
