@@ -38,7 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DTO\Auth\Email.cs" />
-    <Compile Include="DTO\Client\ClientVehicle.cs" />
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
     <Compile Include="DTO\Collision\CollisionListView.cs" />
@@ -60,6 +59,33 @@
     <Compile Include="DTO\GiftCard\GiftCardHistory.cs" />
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
+    <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="ViewModel\ClientViewModel.cs" />
+    <Compile Include="Model\AuthMaster.cs" />
+    <Compile Include="Model\AuthOTP.cs" />
+    <Compile Include="Model\BonusSetup.cs" />
+    <Compile Include="Model\ChatGroup.cs" />
+    <Compile Include="Model\ChatMessage.cs" />
+    <Compile Include="Model\ChatMessageRecipient.cs" />
+    <Compile Include="Model\ChatUserGroup.cs" />
+    <Compile Include="Model\EmployeeDocument.cs" />
+    <Compile Include="Model\EmployeeLocation.cs" />
+    <Compile Include="Model\LastAuth.cs" />
+    <Compile Include="Model\Log.cs" />
+    <Compile Include="Model\ReminderFrequency.cs" />
+    <Compile Include="Model\ResetAuth.cs" />
+    <Compile Include="Model\ResetAuthAction.cs" />
+    <Compile Include="Model\RoleMaster.cs" />
+    <Compile Include="Model\SchemaAccess.cs" />
+    <Compile Include="Model\SchemaMaster.cs" />
+    <Compile Include="Model\SubscriptionMaster.cs" />
+    <Compile Include="Model\TenantConfig.cs" />
+    <Compile Include="Model\TenantDetail.cs" />
+    <Compile Include="Model\TenantFeature.cs" />
+    <Compile Include="Model\TenantIntegration.cs" />
+    <Compile Include="Model\TenantMaster.cs" />
+    <Compile Include="Model\TenantModule.cs" />
+    <Compile Include="Model\Themes.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
@@ -137,6 +163,8 @@
     <Compile Include="DTO\Vendor\VendorView.cs" />
     <Compile Include="DTO\Weather\Weather.cs" />
     <Compile Include="DTO\Weather\WeatherInfoView.cs" />
+    <Compile Include="ViewModel\VehicleMembershipModel.cs" />
+    <Compile Include="ViewModel\VehicleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
