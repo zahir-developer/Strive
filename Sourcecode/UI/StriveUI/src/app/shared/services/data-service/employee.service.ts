@@ -10,14 +10,14 @@ import { UrlConfig } from '../url.config';
 export class EmployeeService {
 
   constructor(private http: HttpUtilsService) { }
-   getEmployees(): Observable<any> {
+  getEmployees(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
   }
   updateEmployee(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateEmployees}`, obj);
   }
   getEmployeeDetail(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}` + id);
+    return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}`, { params : id  });
   }
   deleteEmployee(id) {
     return this.http.delete(`${UrlConfig.totalUrl.deleteEmployee}` + id);
@@ -51,5 +51,14 @@ export class EmployeeService {
   }
   deleteDocument(docId) {
     return this.http.delete(`${UrlConfig.totalUrl.deleteDocument}` + docId);
+  }
+  deleteCollision(collisionId) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteCollision}` + collisionId);
+  }
+  getDetailCollision(collisionId) {
+    return this.http.get(`${UrlConfig.totalUrl.getDetailCollision}` + collisionId);
+  }
+  saveCollision(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
   }
 }

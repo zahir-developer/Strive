@@ -37,25 +37,32 @@ export class CreateEditComponent implements OnInit {
     format: 'DD-MM-YYYY',
     showTwentyFourHours: true
   };
+  isPersonalCollapsed = false;
+  isDetailCollapsed = false;
+  isDocumentCollapsed = false;
+  submitted: boolean;
+  ctypeLabel: any;
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
+    this.ctypeLabel = 'none';
     this.Status = ['Active', 'InActive'];
     this.documentDailog = false;
+    this.submitted = false;
     this.personalform = this.fb.group({
-      firstName: [''],
-      lastName: [''],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       gender: [''],
-      address: [''],
-      mobile: [''],
-      immigrationStatus: [''],
-      ssn: ['']
+      address: ['', Validators.required],
+      mobile: ['', Validators.required],
+      immigrationStatus: ['', Validators.required],
+      ssn: ['', Validators.required]
     });
     this.emplistform = this.fb.group({
-      emailId: [''],
-      password: [''],
-      dateOfHire: [''],
-      hourlyRateWash: [''],
+      emailId: ['', Validators.required],
+      password: ['', Validators.required],
+      dateOfHire: ['', Validators.required],
+      hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       commission: [''],
       status: [''],
@@ -69,9 +76,7 @@ export class CreateEditComponent implements OnInit {
     });
     this.employeRole();
     this.locationDropDown();
-    this.employeeDetail();
-    this.getAllDocument();
-    this.getDocumentById();
+    // this.employeeDetail();
   }
 
   employeeDetail() {
@@ -83,42 +88,9 @@ export class CreateEditComponent implements OnInit {
         console.log(employees, 'employeDeatil');
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
-          this.setValue();
         }
       }
     });
-  }
-
-  setValue() {
-    if (this.employeeData !== undefined && this.actionType === 'edit') {
-      console.log(this.employeeData, 'data');
-      const employee = this.employeeData;
-      const employeeDetail = employee.EmployeeDetail[0];
-      const employeeAddress = employee.EmployeeAddress[0];
-      const employeeRole = employee.EmployeeRole !== null ? employee.EmployeeRole[0] : '';
-      this.personalform.patchValue({
-        firstName: employee.FirstName ? employee.FirstName : '',
-        lastName: employee.LastName ? employee.LastName : '',
-        gender: employee.Gender ? employee.Gender : '',
-        address: employeeAddress.Address1 ? employeeAddress.Address1 : '',
-        mobile: employeeAddress.PhoneNumber ? employeeAddress.PhoneNumber : '',
-        immigrationStatus: employee.ImmigrationStatus ? employee.ImmigrationStatus : '',
-        ssn: employee.SSNo ? employee.SSNo : '',
-      });
-      this.emplistform.patchValue({
-        loginId: [''],
-        password: [''],
-        dateOfHire: employeeDetail.HiredDate ? employeeDetail.HiredDate : '',
-        hourlyRateWash: [''],
-        hourlyRateDetail: [''],
-        commission: employeeDetail.ComRate ? employeeDetail.ComRate : '',
-        status: employee.IsActive ? 'Active' : 'InActive',
-        tip: employeeDetail.Tip ? employeeDetail.Tip : '',
-        exemptions: employeeDetail.Exemptions ? employeeDetail.Exemptions : '',
-        roles: employeeRole.RoleId ? employeeRole.RoleId : '',
-        location: employeeDetail.LocationId ? employeeDetail.LocationId : ''
-      });
-    }
   }
 
   employeRole() {
@@ -154,94 +126,6 @@ export class CreateEditComponent implements OnInit {
     console.log(this.emplistform, 'multi');
   }
 
-  submit(sampleForm) {
-    console.log(sampleForm);
-    const sourceObj = [];
-    const employeeDetails = [];
-    const employeAddress = [];
-    const employeeRole = [];
-    const employeeDetailObj = {
-      employeeId: this.employeeData !== undefined ? this.employeeData.EmployeeId : 0,
-      employeeDetailId: this.employeeData !== undefined ? this.employeeData.EmployeeDetail[0].EmployeeDetailId : 0,
-      exemptions: sampleForm.value.exemption,
-      hiredDate: sampleForm.value.hireDate,
-      lrt: sampleForm.value.lrtDate,
-      tip: sampleForm.value.tip,
-      sickRate: sampleForm.value.sick,
-      vacRate: sampleForm.value.vacation,
-      payRate: sampleForm.value.hourly,
-      salary: sampleForm.value.salary,
-      comRate: sampleForm.value.commission,
-      authId: 0,
-      locationId: 0,
-      isActive: sampleForm.value.status === 'true' ? true : false
-    };
-    const employeeAddressObj = {
-      employeeAddressId: this.employeeData !== undefined ? this.employeeData.EmployeeAddress[0].EmployeeAddressId : 0,
-      relationshipId: 0,
-      address1: sampleForm.value.address,
-      address2: '',
-      phoneNumber: sampleForm.value.phone,
-      phoneNumber2: sampleForm.value.cell,
-      email: sampleForm.value.email,
-      state: sampleForm.value.state,
-      country: sampleForm.value.country,
-      zip: sampleForm.value.zipcode,
-      city: 1,
-      isActive: sampleForm.value.status === 'true' ? true : false
-    };
-    const employeeRoleObj = {
-      employeeId: this.employeeData !== undefined ? this.employeeData.EmployeeId : 0,
-      employeeRolesId: this.employeeData !== undefined ? this.employeeData.EmployeeRoles[0].EmployeeRolesId : 0,
-      roleId: sampleForm.value.role,
-      isDefault: true, // need to check
-      isActive: sampleForm.value.status === 'true' ? true : false
-    };
-    employeeRole.push(employeeRoleObj);
-    employeAddress.push(employeeAddressObj);
-    employeeDetails.push(employeeDetailObj);
-    const role = [
-      {
-        employeeRoleId: 0,
-        employeeId: 0,
-        roleName: 'name',
-        roleId: 3,
-        isActive: sampleForm.value.status === 'true' ? true : false
-      }
-    ];
-    const employeeObj = {
-      employeeId: this.employeeData !== undefined ? this.employeeData.EmployeeId : 0,
-      firstName: sampleForm.value.firstName,
-      lastName: sampleForm.value.lastName,
-      middleName: sampleForm.value.middleName,
-      gender: sampleForm.value.gender,
-      ssNo: sampleForm.value.ssn,
-      maritalStatus: sampleForm.value.marital,
-      birthDate: sampleForm.value.dob,
-      isActive: sampleForm.value.status === 'true' ? true : false,
-      isCitizen: true,  //  need to check
-      alienNo: '123252', // need to check
-      immigrationStatus: 1, // need to check
-      createdDate: '',
-      employeeDetail: employeeDetails,
-      employeeAddress: employeAddress,
-      employeeRoles: employeeRole,
-      employeeRole: role
-    };
-    sourceObj.push(employeeObj);
-    console.log(sourceObj, 'sourceobj');
-    this.employeeService.updateEmployee(sourceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        if (this.isEdit === true) {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
-        } else {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Record Saved Successfully!!' });
-        }
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      }
-    });
-    // }
-  }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
@@ -250,10 +134,6 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.getAllRoles().subscribe(res => {
       console.log(res, 'getAllRoles');
     });
-  }
-
-  addCollision() {
-
   }
 
   upload() {
@@ -283,56 +163,24 @@ export class CreateEditComponent implements OnInit {
     }
   }
 
-  uploadDocument() {
-    const finalObj = [];
-    const uploadbj = {
-      documentId: 0,
-      employeeId: 1,
-      fileName: this.fileName,
-      filePath: 'D:\\Upload\\',
-      password: this.documentForm.value.password,
-      createdDate: '2020 - 07 - 21T12: 41: 47.395Z',
-      modifiedDate: '2020 - 07 - 21T12: 41: 47.395Z',
-      isActive: true,
-      base64Url: this.fileUploadformData
-    };
-    finalObj.push(uploadbj);
-    this.employeeService.uploadDocument(finalObj).subscribe(res => {
-      console.log(res, 'uploadDcument');
-      if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Document addedd successfully' });
-        this.documentDailog = false;
-        this.getAllDocument();
-      }
-    });
-  }
-
-  getAllDocument() {
-    const employeeId = 1;
-    const locationId = 3;
-    this.employeeService.getAllDocument(employeeId).subscribe(res => {
-      console.log(res, 'allDocument');
-      if (res.status === 'Success') {
-        const document = JSON.parse(res.resultData);
-      }
-    });
-  }
-
-  getDocumentById() {
-    const documentId = 1;
-    const employeeId = 1;
-    const password = '123456789';
-    this.employeeService.getDocumentById(documentId, employeeId, password).subscribe(res => {
-
-    });
-  }
-
   closeDocumentPopup() {
     this.documentDailog = false;
   }
 
+  get f() {
+    return this.personalform.controls;
+  }
+
+  get g() {
+    return this.emplistform.controls;
+  }
+
   saveEmployee() {
     console.log(this.emplistform, 'empdorm');
+    this.submitted = true;
+    if (this.personalform.invalid || this.emplistform.invalid) {
+      return;
+    }
     const sourceObj = [];
     const employeeDetails = [];
     const employeAddress = [];
@@ -342,14 +190,14 @@ export class CreateEditComponent implements OnInit {
       relationshipId: 0,
       address1: this.personalform.value.address,
       address2: '',
-      phoneNumber: this.personalform.value.mobile,
+      phoneNumber: +this.personalform.value.mobile,
       phoneNumber2: '',
       email: this.emplistform.value.emailId,
-      state: '',
-      country: '',
+      state: 0,
+      country: 0,
       zip: '',
       city: 1,
-      isActive: this.emplistform.value.status === 'true' ? true : false
+      isActive: this.emplistform.value.status === 'Active' ? true : false
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
@@ -357,7 +205,7 @@ export class CreateEditComponent implements OnInit {
         employeeId: 0,
         roleId: item.item_id,
         isDefault: true,
-        isActive: true
+        isActive: this.emplistform.value.status === 'Active' ? true : false
       };
     });
     const employeeDetailObj = this.emplistform.value.location.map(item => {
@@ -375,8 +223,8 @@ export class CreateEditComponent implements OnInit {
         salary: 'string',
         tip: this.emplistform.value.tip,
         lrt: '2020 - 08 - 03T10: 00: 31.411Z',
-        exemptions: 89, // this.emplistform.value.exemptions,
-        isActive: true
+        exemptions: +this.emplistform.value.exemptions,
+        isActive: this.emplistform.value.status === 'Active' ? true : false
       };
     });
     employeAddress.push(employeeAddressObj);
@@ -391,18 +239,43 @@ export class CreateEditComponent implements OnInit {
       isCitizen: true,
       alienNo: 'string',
       birthDate: '2020-08-03T10:00:31.412Z',
-      immigrationStatus: 7, // this.personalform.value.immigrationStatus,
+      immigrationStatus: this.personalform.value.immigrationStatus,
       createdDate: '2020-08-03T10:00:31.412Z',
-      isActive: this.emplistform.value.status === 'true' ? true : false,
+      isActive: this.emplistform.value.status === 'Active' ? true : false,
       employeeDetail: employeeDetailObj,
       employeeAddress: employeAddress,
       employeeRole: employeeRoleObj
     };
     console.log(employeeObj, 'finalObj');
     this.employeeService.updateEmployee(employeeObj).subscribe( res => {
-
+      if (res.status === 'Success') {
+        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      }
     });
   }
 
+  pesonalCollapsed() {
+    this.isPersonalCollapsed = !this.isPersonalCollapsed;
+  }
 
+  detailCollapsed() {
+    this.isDetailCollapsed = !this.isDetailCollapsed;
+  }
+
+  documentCollapsed() {
+    this.isDocumentCollapsed = !this.isDocumentCollapsed;
+  }
+
+  navigatePage() {
+    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  getCtype(data) {
+    const label = this.commissionType.filter(item => item.CodeId === Number(data));
+    if (label.length !== 0) {
+      this.ctypeLabel = label[0].CodeValue;
+    } else {
+      this.ctypeLabel = 'none';
+    }
+  }
 }

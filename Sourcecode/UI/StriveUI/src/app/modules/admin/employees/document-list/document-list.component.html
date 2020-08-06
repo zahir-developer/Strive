@@ -3,53 +3,64 @@
         <div class="row title-border p-b-10 m-b-15">
             <div class="col-12">
                 <h6 class="d-inline-block font-weight-600">Documents <em
-                        class="mdi mdi-pencil-circle pointer  m-l-5 font-size-1-3"
+                        class="mdi mdi-pencil-circle pointer  m-l-5 font-size-1-3" *ngIf="actionType=== 'view'"
                         [ngClass]="{'theme-secondary-icon-color':!isEditDocument }" id="doc-enable"
                         style="color: rgb(236, 233, 233);" (click)="editDocument()"></em>
-                    <span class="d-none btn-enable">
+                    <span class="collision-btn" *ngIf="isEditDocument">
+                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                            (click)="openCreateDocumentModal()">Add New Document</button>
                     </span> </h6>
-                <button type="button" *ngIf="isEditDocument"
-                    class="btn float-right theme-primary-button-color btn-md m-l-10"
-                    (click)="openCreateDocumentModal()">Add New
-                    Document</button>
+                <div class="pull-right m-t-4 pointer">
+                    <button type="button" class="btn theme-optional-button-color" id="doc-disable"
+                        *ngIf="showCloseButton && !isEditDocument" (click)="closeModal()">Close</button>
+                    <a  *ngIf="!showCloseButton"> <em class="fa font-size-1-4" [ngClass]="{'fa-angle-up':!isDocumentCollapsed, 'fa-angle-down': isDocumentCollapsed  }" (click)="documentCollapsed()"></em>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="table-responsive m-t-10" id="docform" *ngIf="documentList.length > 0">
-            <table class="table border table-striped" aria-describedby="document-list">
-                <thead>
-                    <tr>
-                        <th scope="col">Doc#</th>
-                        <th scope="col">File Name</th>
-                        <th scope="col">Date Created </th>
-                        <th scope="col">Last Modified</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let document of documentList">
-                        <td>{{document.DocumentId}}</td>
-                        <td>{{document.FileName}}</td>
-                        <td>{{document.CreatedDate | date: 'MM/dd/yyyy'}}</td>
-                        <td>{{document.ModifiedDate | date: 'MM/dd/yyyy'}}</td>
-                        <td>-</td>
-                        <td> <em class="mdi mdi-file-download-outline pointer  md-doc m-r-2 font-size-1-1"
-                                href="#uploadModal" data-toggle="modal"
-                                [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-primary-icon-color': isEditDocument  }"></em>
-                            <em class="mdi mdi-close-circle pointer  md-close font-size-1-1"
-                                [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-optional-icon-color': isEditDocument  }"
-                                href="#deletedocModal" data-toggle="modal" (click)="deleteDocument(document)"></em>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="setup-content" *ngIf="documentList.length === 0"> <span class="col-12 row d-block">No
-                Records Found</span></div>
-        <div *ngIf="isEditDocument" id="doc-enable-btn">
-            <div class="pull-right mw-100 m-t-5">
-                <button type="button" class="btn theme-optional-button-color" id="doc-disable"
-                    (click)="closeEditDocument()">Cancel</button>
+        <div [style.display]="isDocumentCollapsed ? 'none' : 'block'">
+            <div class="table-responsive m-t-10" id="docform" *ngIf="documentList.length > 0">
+                <table class="table border table-striped" aria-describedby="document-list">
+                    <thead>
+                        <tr>
+                            <th scope="col">Doc#</th>
+                            <th scope="col">File Name</th>
+                            <th scope="col">Date Created </th>
+                            <th scope="col">Last Modified</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let document of documentList">
+                            <td>{{document.DocumentId}}</td>
+                            <td>{{document.FileName}}</td>
+                            <td>{{document.CreatedDate | date: 'MM/dd/yyyy'}}</td>
+                            <td>{{document.ModifiedDate | date: 'MM/dd/yyyy'}}</td>
+                            <td>-</td>
+                            <td> <em class="mdi mdi-file-download-outline pointer  md-doc m-r-2 font-size-1-1"
+                                    *ngIf="actionType === 'view'" (click)="viewDocument(document)"
+                                    [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-primary-icon-color': isEditDocument  }"></em>
+                                <em class="mdi mdi-close-circle pointer  md-close font-size-1-1"
+                                    *ngIf="actionType === 'view'"
+                                    [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-optional-icon-color': isEditDocument  }"
+                                    (click)="deleteDocument(document)"></em>
+                                <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
+                                    *ngIf="actionType === 'edit'" (click)="viewDocument(document)"></em>
+                                <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
+                                    *ngIf="actionType === 'edit'" (click)="deleteDocument(document)"></em>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="setup-content" *ngIf="documentList.length === 0"> <span class="col-12 row d-block">No
+                    Records Found</span></div>
+            <div *ngIf="isEditDocument" id="doc-enable-btn">
+                <div class="pull-right mw-100 m-t-5">
+                    <button type="button" class="btn theme-optional-button-color" id="doc-disable"
+                        (click)="closeEditDocument()">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
