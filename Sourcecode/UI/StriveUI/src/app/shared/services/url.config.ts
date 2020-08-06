@@ -56,6 +56,7 @@ export const UrlConfig = {
     getVehicleById: `Admin/Vehicle/GetVehicleById`,
     deleteCollision: `Admin/Collision/Delete/`,
     getDetailCollision: `Admin/Collision/GetCollisionById/`,
-    saveCollision: `Admin/Collision/Save`
+    saveCollision: `Admin/Collision/Save`,
+    getVehicleColor: `Admin/Vehicle/GetCodeType`,
   }
 };

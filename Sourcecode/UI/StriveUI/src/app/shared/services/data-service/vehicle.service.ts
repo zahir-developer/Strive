@@ -22,4 +22,7 @@ export class VehicleService {
     getVehicleById(vehicleId: number) {
         return this.http.get(`${UrlConfig.totalUrl.getVehicleById}` , { params: { id: vehicleId } });
     }
+    getVehicleColor(): Observable<any> {
+        return this.http.get(`${UrlConfig.totalUrl.getVehicleColor}`);
+    }
 }
