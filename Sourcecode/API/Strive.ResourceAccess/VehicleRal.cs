@@ -13,6 +13,8 @@ using System.Data;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Vehicle;
+using Strive.BusinessEntities.Code;
 
 namespace Strive.ResourceAccess
 {
@@ -51,6 +53,10 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", clientId);
              return db.FetchSingle<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
-       
+        public List<Code> GetAllCodeType()
+        {
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLECOLOR);
+        }
+
     }
 }
