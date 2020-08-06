@@ -16,6 +16,7 @@ using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.Crypto;
@@ -139,9 +140,9 @@ namespace Strive.BusinessLogic.Auth
             throw new NotImplementedException();
         }
 
-        public int CreateLogin(UserLogin userLogin)
+        public int CreateLogin(string emailId, string mobileNumber)
         {
-            return new CommonBpl(_cache, _tenant).CreateLogin(userLogin);
+            return new CommonBpl(_cache, _tenant).CreateLogin(emailId, mobileNumber);
         }
 
         public bool ForgotPassword(string userId)

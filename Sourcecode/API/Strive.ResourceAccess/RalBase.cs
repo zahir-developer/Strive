@@ -36,13 +36,22 @@ namespace Strive.ResourceAccess
         }
         public RalBase(ITenantHelper tenant, bool isAuth)
         {
+            string schemaName = tenant.SchemaName;
             _tenant = tenant;
             if (isAuth)
+            {
                 _dbconnection = tenant.dbAuth();
+                schemaName = "dbo";
+            }
             else
+            {
                 _dbconnection = tenant.db();
-
+                schemaName = tenant.SchemaName;
+            }
             db = new Db(_dbconnection);
+            cs = _dbconnection.ConnectionString;
+            
+            dbRepo = new DbRepo(cs, schemaName);
         }
 
         protected (T, string, int,string,string) AddAudit<T>(int id,string cs, string sc) where T : class, new()

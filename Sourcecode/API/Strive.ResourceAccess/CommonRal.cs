@@ -8,6 +8,7 @@ using System.Data;
 using System.Text;
 using Strive.BusinessEntities.Code;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.Model;
 
 namespace Strive.ResourceAccess
 {
@@ -58,13 +59,9 @@ namespace Strive.ResourceAccess
         //    db.Save(cmd);
         //}
 
-        public int CreateLogin(UserLogin userLogin)
+        public int CreateLogin(AuthMaster authMaster)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@Logintbl", userLogin.TableName("tvpAuthMaster"));
-            dynParams.Add("@TenantGuid", _tenant.TenantGuid);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOGIN.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            return db.SaveGetId(cmd).toInt();
+            return dbRepo.Add<AuthMaster>(authMaster);
         }
         public List<Email> GetAllEmail()
         {

@@ -100,8 +100,9 @@ namespace Strive.BusinessLogic.Common
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
 
-            return _result;
-        }
+        return _result;
+    }
+
 
         public string GetApiResponse(string baseUrl, string apiMethod, string apiKey, string request)
         {
@@ -261,16 +262,22 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public int CreateLogin(UserLogin userLogin)
+        public int CreateLogin(string emailId, string mobileNo)
         {
+            AuthMaster authMaster = new AuthMaster
+            {
+                UserGuid = Guid.NewGuid().ToString(),
+                EmailId = emailId,
+                MobileNumber = mobileNo,
+                PasswordHash = "",
+                SecurityStamp = "1",
+                LockoutEnabled = 0,
+                CreatedDate = DateTime.Now
+            };
+
             string randomPassword = RandomString(6);
-            bool isValidEmail = VerifyEmail(userLogin.EmailId);
-            userLogin.PasswordHash = Pass.Hash(randomPassword);
-            userLogin.EmailVerified = isValidEmail.toInt();
-            userLogin.LockoutEnabled = 0;
-            userLogin.UserGuid = Guid.NewGuid();
-            var authId = new CommonRal(_tenant, true).CreateLogin(userLogin);
-            SendLoginCreationEmail(userLogin.EmailId, randomPassword);
+            var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
+            SendLoginCreationEmail(authMaster.EmailId, randomPassword);
             return authId;
         }
 
