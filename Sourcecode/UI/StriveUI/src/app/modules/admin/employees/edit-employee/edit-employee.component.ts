@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
@@ -34,25 +34,27 @@ export class EditEmployeeComponent implements OnInit {
   documentList: any = [];
   isPersonalCollapsed = false;
   isDetailCollapsed = false;
+  submitted: boolean;
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit(): void {
     this.isEditPersonalDetail = false;
+    this.submitted = false;
     this.Status = ['Active', 'InActive'];
     this.personalform = this.fb.group({
-      firstName: [''],
-      lastName: [''],
+      firstName: ['' , Validators.required],
+      lastName: ['', Validators.required],
       gender: [''],
-      address: [''],
-      mobile: [''],
-      immigrationStatus: [''],
-      ssn: ['']
+      address: ['', Validators.required],
+      mobile: ['', Validators.required],
+      immigrationStatus: ['', Validators.required],
+      ssn: ['', Validators.required]
     });
     this.emplistform = this.fb.group({
-      emailId: [''],
-      password: [''],
-      dateOfHire: [''],
-      hourlyRateWash: [''],
+      emailId: ['', Validators.required],
+      password: ['', Validators.required],
+      dateOfHire: ['', Validators.required],
+      hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       commission: [''],
       status: [''],
@@ -205,7 +207,19 @@ export class EditEmployeeComponent implements OnInit {
     });
   }
 
+  get f() {
+    return this.personalform.controls;
+  }
+
+  get g() {
+    return this.emplistform.controls;
+  }
+
   updateEmployee() {
+    this.submitted = true;
+    if (this.personalform.invalid || this.emplistform.invalid) {
+      return;
+    }
     const employee = this.employeeData;
     const employeeDetail = employee.EmployeeDetail[0];
     const employeeAddress = employee.EmployeeAddress[0];

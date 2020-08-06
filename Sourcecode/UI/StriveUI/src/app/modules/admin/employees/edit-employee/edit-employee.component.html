@@ -13,8 +13,8 @@
             <!--bread crumb-->
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
                 <h3>View/Edit Employee
-                    <button *ngIf="actionType === 'view'" type="button" class="btn theme-optional-button-color float-right"
-                        (click)="backToGrid()">Back</button>
+                    <button *ngIf="actionType === 'view'" type="button"
+                        class="btn theme-optional-button-color float-right" (click)="backToGrid()">Back</button>
                 </h3>
             </div>
             <div class="col-12 p-l-0 p-r-0">
@@ -37,13 +37,22 @@
                             [style.display]="isPersonalCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputFirstName">First Name</label>
-                                    <input type="number" class="form-control" id="inputFirstName"
-                                        formControlName="firstName" placeholder="First Name"> </div>
+                                    <label for="inputFirstName">First Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="inputFirstName"
+                                        formControlName="firstName" placeholder="First Name"
+                                        [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputLastName">Last Name</label>
+                                    <label for="inputLastName">Last Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLastName" placeholder="Last Name"
-                                        formControlName="lastName">
+                                        formControlName="lastName"
+                                        [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputgender">Gender</label>
@@ -53,29 +62,49 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputaddress">Address</label>
-                                    <input type="text" class="form-control" id="inputaddress" formControlName="address">
+                                    <label for="inputaddress">Address <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="inputaddress" formControlName="address"
+                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                                    <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                        <div *ngIf="f.address.errors.required">Address is required</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputPhone">Mobile Number</label>
-                                    <input type="number" class="form-control" id="inputPhone" formControlName="mobile">
+                                    <label for="inputPhone">Mobile Number <span class="required">*</span></label>
+                                    <input type="number" class="form-control" id="inputPhone" formControlName="mobile"
+                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
+                                    <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                                        <div *ngIf="f.mobile.errors.required">Mobile Number is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputImmigration">Immigration Status</label>
+                                    <label for="inputImmigration">Immigration Status <span class="required">*</span></label>
                                     <input type="number" class="form-control" id="inputImmigration"
-                                        formControlName="immigrationStatus"> </div>
+                                        formControlName="immigrationStatus"
+                                        [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }">
+                                    <div *ngIf="submitted && f.immigrationStatus.errors" class="invalid-feedback">
+                                        <div *ngIf="f.immigrationStatus.errors.required">Immigration Status is required
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputssn">SSN</label>
-                                    <input type="text" class="form-control" id="inputssn" formControlName="ssn"> </div>
+                                    <label for="inputssn">SSN <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="inputssn" formControlName="ssn"
+                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
+                                    <div *ngIf="submitted && f.ssn.errors" class="invalid-feedback"
+                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
+                                        <div *ngIf="f.ssn.errors.required">SSN is required</div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="m-t-9 " id="edit-personalform"
                                 *ngIf="isEditPersonalDetail && actionType === 'view'">
                                 <div class="title-border"></div>
                                 <div class="pull-right mw-100 m-t-5">
-                                    <button type="button" class="btn theme-optional-button-color m-r-5" id="disable-form"
-                                        (click)="cancelPersonalDetail()">Cancel</button>
+                                    <button type="button" class="btn theme-optional-button-color m-r-5"
+                                        id="disable-form" (click)="cancelPersonalDetail()">Cancel</button>
                                     <button type="button" class="btn theme-primary-button-color"
                                         (click)="updateEmployee()">Save</button>
                                 </div>
@@ -102,22 +131,40 @@
                             [style.display]="isDetailCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputLoginid">Login ID</label>
+                                    <label for="inputLoginid">Login ID <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
-                                        placeholder="Login ID">
+                                        placeholder="Login ID"
+                                        [ngClass]="{ 'is-invalid': submitted && g.emailId.errors }">
+                                    <div *ngIf="submitted && g.emailId.errors" class="invalid-feedback">
+                                        <div *ngIf="g.emailId.errors.required">Login Id is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputPassword">Password</label>
+                                    <label for="inputPassword">Password <span class="required">*</span></label>
                                     <input type="password" class="form-control" id="inputPassword"
-                                        formControlName="password"> </div>
-                                <div class="form-group col-md-3">
-                                    <label>Date of Hire</label>
-                                    <input type="text" class="form-control" bsDatepicker formControlName="dateOfHire">
+                                        formControlName="password"
+                                        [ngClass]="{ 'is-invalid': submitted && g.password.errors }">
+                                    <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
+                                        <div *ngIf="g.password.errors.required">Password is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputhourrate">Hourly Rate-Wash</label>
+                                    <label>Date of Hire <span class="required">*</span></label>
+                                    <input type="text" class="form-control" bsDatepicker formControlName="dateOfHire"
+                                        [ngClass]="{ 'is-invalid': submitted && g.dateOfHire.errors }">
+                                    <div *ngIf="submitted && g.dateOfHire.errors" class="invalid-feedback">
+                                        <div *ngIf="g.dateOfHire.errors.required">Date of Hire is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputhourrate"
-                                        formControlName="hourlyRateWash"> </div>
+                                        formControlName="hourlyRateWash"
+                                        [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
+                                    <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
+                                        <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
@@ -176,7 +223,8 @@
                 </div>
                 <div>
                     <app-document-list [employeeId]="employeeId" [actionType]="actionType"
-                        [documentList]="documentList"></app-document-list>
+                        [documentList]="documentList">
+                    </app-document-list>
                 </div>
                 <div *ngIf="employeeCollision.length > 0">
                     <app-collision-list [employeeId]="employeeId" [actionType]="actionType"
@@ -184,7 +232,8 @@
                     </app-collision-list>
                 </div>
                 <div class="m-t-12 pull-right mw-100" *ngIf="actionType === 'edit'">
-                    <button type="button" class="btn theme-optional-button-color m-r-5" (click)="backToGrid()">Cancel</button>
+                    <button type="button" class="btn theme-optional-button-color m-r-5"
+                        (click)="backToGrid()">Cancel</button>
                     <button type="button" class="btn theme-primary-button-color"
                         (click)="updateEmployee()">Save</button>
                 </div>

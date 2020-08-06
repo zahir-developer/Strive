@@ -40,25 +40,29 @@ export class CreateEditComponent implements OnInit {
   isPersonalCollapsed = false;
   isDetailCollapsed = false;
   isDocumentCollapsed = false;
+  submitted: boolean;
+  ctypeLabel: any;
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
+    this.ctypeLabel = 'none';
     this.Status = ['Active', 'InActive'];
     this.documentDailog = false;
+    this.submitted = false;
     this.personalform = this.fb.group({
-      firstName: [''],
-      lastName: [''],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       gender: [''],
-      address: [''],
-      mobile: [''],
-      immigrationStatus: [''],
-      ssn: ['']
+      address: ['', Validators.required],
+      mobile: ['', Validators.required],
+      immigrationStatus: ['', Validators.required],
+      ssn: ['', Validators.required]
     });
     this.emplistform = this.fb.group({
-      emailId: [''],
-      password: [''],
-      dateOfHire: [''],
-      hourlyRateWash: [''],
+      emailId: ['', Validators.required],
+      password: ['', Validators.required],
+      dateOfHire: ['', Validators.required],
+      hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       commission: [''],
       status: [''],
@@ -72,9 +76,7 @@ export class CreateEditComponent implements OnInit {
     });
     this.employeRole();
     this.locationDropDown();
-    this.employeeDetail();
-    this.getAllDocument();
-    this.getDocumentById();
+    // this.employeeDetail();
   }
 
   employeeDetail() {
@@ -134,10 +136,6 @@ export class CreateEditComponent implements OnInit {
     });
   }
 
-  addCollision() {
-
-  }
-
   upload() {
     this.documentDailog = true;
   }
@@ -165,56 +163,24 @@ export class CreateEditComponent implements OnInit {
     }
   }
 
-  uploadDocument() {
-    const finalObj = [];
-    const uploadbj = {
-      documentId: 0,
-      employeeId: 1,
-      fileName: this.fileName,
-      filePath: 'D:\\Upload\\',
-      password: this.documentForm.value.password,
-      createdDate: '2020 - 07 - 21T12: 41: 47.395Z',
-      modifiedDate: '2020 - 07 - 21T12: 41: 47.395Z',
-      isActive: true,
-      base64Url: this.fileUploadformData
-    };
-    finalObj.push(uploadbj);
-    this.employeeService.uploadDocument(finalObj).subscribe(res => {
-      console.log(res, 'uploadDcument');
-      if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Document addedd successfully' });
-        this.documentDailog = false;
-        this.getAllDocument();
-      }
-    });
-  }
-
-  getAllDocument() {
-    const employeeId = 1;
-    const locationId = 3;
-    this.employeeService.getAllDocument(employeeId).subscribe(res => {
-      console.log(res, 'allDocument');
-      if (res.status === 'Success') {
-        const document = JSON.parse(res.resultData);
-      }
-    });
-  }
-
-  getDocumentById() {
-    const documentId = 1;
-    const employeeId = 1;
-    const password = '123456789';
-    this.employeeService.getDocumentById(documentId, employeeId, password).subscribe(res => {
-
-    });
-  }
-
   closeDocumentPopup() {
     this.documentDailog = false;
   }
 
+  get f() {
+    return this.personalform.controls;
+  }
+
+  get g() {
+    return this.emplistform.controls;
+  }
+
   saveEmployee() {
     console.log(this.emplistform, 'empdorm');
+    this.submitted = true;
+    if (this.personalform.invalid || this.emplistform.invalid) {
+      return;
+    }
     const sourceObj = [];
     const employeeDetails = [];
     const employeAddress = [];
@@ -302,5 +268,14 @@ export class CreateEditComponent implements OnInit {
 
   navigatePage() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  getCtype(data) {
+    const label = this.commissionType.filter(item => item.CodeId === Number(data));
+    if (label.length !== 0) {
+      this.ctypeLabel = label[0].CodeValue;
+    } else {
+      this.ctypeLabel = 'none';
+    }
   }
 }

@@ -25,7 +25,8 @@
                                     </span>
                                 </h5>
                                 <div class="pull-right m-t-4 pointer">
-                                    <a> <em class="font-size-1-4 fa" [ngClass]="{'fa-angle-up':!isCollapsed, 'fa-angle-down': isCollapsed  }"
+                                    <a> <em class="font-size-1-4 fa"
+                                            [ngClass]="{'fa-angle-up':!isCollapsed, 'fa-angle-down': isCollapsed  }"
                                             (click)="collapsed()"></em>
                                     </a>
                                 </div>
@@ -61,18 +62,28 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let employee of employeeDetails">
-                                                <td>{{employee.EmployeeId}}</td>
+                                            <tr
+                                                *ngFor="let employee of employeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                <td>{{employee.EmployeeCode}}</td>
                                                 <td>{{employee.FirstName}}</td>
-                                                <td> {{employee.LastName}} </td>
-                                                <td>167-2344-123</td>
-                                                <td> <span (click)="openCollisionModal(employee)"
+                                                <td>{{employee.LastName}}</td>
+                                                <td>{{employee.MobileNo}}</td>
+                                                <td> <span (click)="openCollisionModal(employee)" *ngIf="employee.Collisions === 0"
                                                         class="text-underline theme-primary-color font-size--9"
                                                         style="cursor: pointer;"> Add
-                                                    </span> </td>
-                                                <td> <span class="text-underline theme-primary-color font-size--9"
+                                                    </span>
+                                                    <span (click)="viewCollision(employee)" *ngIf="employee.Collisions === 1"
+                                                        class="text-underline theme-primary-color font-size--9"
+                                                        style="cursor: pointer;"> View
+                                                    </span>
+                                                </td>
+                                                <td> <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === 0"
+                                                        style="cursor: pointer;" (click)="addDocument(employee)"> Add
+                                                    </span>
+                                                    <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === 1"
                                                         style="cursor: pointer;" (click)="viewDocument(employee)"> View
-                                                    </span> </td>
+                                                    </span>
+                                                </td>
                                                 <td> <a href="#" class="text-underline theme-primary-color font-size--9"
                                                         data-toggle="modal"> View </a> </td>
                                                 <td>Active</td>
@@ -85,14 +96,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ul class="pagination justify-content-end">
-                                        <li class="page-item"><a class="page-link" href="#"><i
-                                                    class="fa fa-angle-left"></i></a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#"><i
-                                                    class="fa fa-angle-right"></i></a></li>
-                                    </ul>
+                                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                        class="d-flex justify-content-end">
+                                    </ngb-pagination>
                                 </div>
                             </div>
                         </div>

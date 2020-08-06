@@ -25,19 +25,31 @@
                         <div class="title-border p-b-5 m-b-5">
                             <h6 class="d-inline-block font-weight-600">Personal Details</h6>
                             <div class="pull-right m-t-4 pointer">
-                                <a > <em class="fa font-size-1-4" [ngClass]="{'fa-angle-up':!isPersonalCollapsed, 'fa-angle-down': isPersonalCollapsed  }" (click)="pesonalCollapsed()"></em> </a>
+                                <a> <em class="fa font-size-1-4"
+                                        [ngClass]="{'fa-angle-up':!isPersonalCollapsed, 'fa-angle-down': isPersonalCollapsed  }"
+                                        (click)="pesonalCollapsed()"></em> </a>
                             </div>
                         </div>
-                        <form id="personalform" [formGroup]="personalform" [style.display]="isPersonalCollapsed ? 'none' : 'block'">
+                        <form id="personalform" [formGroup]="personalform"
+                            [style.display]="isPersonalCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputFirstName">First Name</label>
+                                    <label for="inputFirstName">First Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputFirstName"
-                                        formControlName="firstName" placeholder="First Name"> </div>
+                                        formControlName="firstName" placeholder="First Name"
+                                        [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputLastName">Last Name</label>
+                                    <label for="inputLastName">Last Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLastName" placeholder="Last Name"
-                                        formControlName="lastName">
+                                        formControlName="lastName"
+                                        [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputgender">Gender</label>
@@ -47,22 +59,41 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputaddress">Address</label>
-                                    <input type="text" class="form-control" id="inputaddress" formControlName="address">
+                                    <label for="inputaddress">Address <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="inputaddress" formControlName="address"
+                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                                    <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                        <div *ngIf="f.address.errors.required">Address is required</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputPhone">Mobile Number</label>
-                                    <input type="number" class="form-control" id="inputPhone" formControlName="mobile" >
+                                    <label for="inputPhone">Mobile Number <span class="required">*</span></label>
+                                    <input type="number" class="form-control" id="inputPhone" formControlName="mobile"
+                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
+                                    <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                                        <div *ngIf="f.mobile.errors.required">Mobile Number is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputImmigration">Immigration Status</label>
+                                    <label for="inputImmigration">Immigration Status <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputImmigration"
-                                        formControlName="immigrationStatus" numbersOnly> </div>
+                                        [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }"
+                                        formControlName="immigrationStatus">
+                                    <div *ngIf="submitted && f.immigrationStatus.errors" class="invalid-feedback">
+                                        <div *ngIf="f.immigrationStatus.errors.required">Immigration Status is required
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputssn">SSN</label>
-                                    <input type="text" class="form-control" id="inputssn" formControlName="ssn"> </div>
+                                    <label for="inputssn">SSN <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="inputssn" formControlName="ssn"
+                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
+                                    <div *ngIf="submitted && f.ssn.errors" class="invalid-feedback">
+                                        <div *ngIf="f.ssn.errors.required">SSN is required</div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -72,29 +103,50 @@
                         <div class="title-border p-b-5 m-b-5 m-t-10">
                             <h6 class="d-inline-block font-weight-600">Employement Details </h6>
                             <div class="pull-right m-t-4 pointer">
-                                <a > <em class="fa font-size-1-4" [ngClass]="{'fa-angle-up':!isDetailCollapsed, 'fa-angle-down': isDetailCollapsed  }" (click)="detailCollapsed()"></em> </a>
+                                <a> <em class="fa font-size-1-4"
+                                        [ngClass]="{'fa-angle-up':!isDetailCollapsed, 'fa-angle-down': isDetailCollapsed  }"
+                                        (click)="detailCollapsed()"></em> </a>
                             </div>
                         </div>
-                        <form id="emplistform" [formGroup]="emplistform" [style.display]="isDetailCollapsed ? 'none' : 'block'">
+                        <form id="emplistform" [formGroup]="emplistform"
+                            [style.display]="isDetailCollapsed ? 'none' : 'block'">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputLoginid">Login ID</label>
+                                    <label for="inputLoginid">Login ID <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
+                                        [ngClass]="{ 'is-invalid': submitted && g.emailId.errors }"
                                         placeholder="Email ID">
+                                    <div *ngIf="submitted && g.emailId.errors" class="invalid-feedback">
+                                        <div *ngIf="g.emailId.errors.required">Login Id is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputPassword">Password</label>
+                                    <label for="inputPassword">Password <span class="required">*</span></label>
                                     <input type="password" class="form-control" id="inputPassword"
-                                        formControlName="password"> </div>
-                                <div class="form-group col-md-3">
-                                    <label>Date of Hire</label>
-                                    <input type="text" placeholder="Datepicker" formControlName="dateOfHire"
-                                        class="form-control" bsDatepicker>
+                                        [ngClass]="{ 'is-invalid': submitted && g.password.errors }"
+                                        formControlName="password">
+                                    <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
+                                        <div *ngIf="g.password.errors.required">Password is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputhourrate">Hourly Rate-Wash</label>
+                                    <label>Date of Hire <span class="required">*</span></label>
+                                    <input type="text" placeholder="Datepicker" formControlName="dateOfHire"
+                                        [ngClass]="{ 'is-invalid': submitted && g.dateOfHire.errors }"
+                                        class="form-control" bsDatepicker>
+                                    <div *ngIf="submitted && g.dateOfHire.errors" class="invalid-feedback">
+                                        <div *ngIf="g.dateOfHire.errors.required">Date of Hire is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputhourrate"
-                                        formControlName="hourlyRateWash"> </div>
+                                        [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }"
+                                        formControlName="hourlyRateWash">
+                                    <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
+                                        <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
@@ -103,11 +155,17 @@
                                         formControlName="hourlyRateDetail"> </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputcommission">Commission</label>
-                                    <select id="inputcommission" class="form-control" formControlName="commission">
-                                        <option selected>Choose...</option>
+                                    <select id="inputcommission" class="form-control" formControlName="commission"
+                                        (change)="getCtype($event.target.value)">
+                                        <option value="" selected >Choose...</option>
                                         <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
                                         </option>
                                     </select>
+                                </div>
+                                <div class="form-group col-lg-3" *ngIf="ctypeLabel !== 'none'">
+                                    <label for="inputUpcharge">{{ctypeLabel}}</label>
+                                    <input type="text" class="form-control" placeholder="{{ctypeLabel}}" numbersOnly>
+
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputStatus">Status</label>
@@ -119,12 +177,10 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputtip">Tip</label>
                                     <input type="text" class="form-control" id="inputtip" formControlName="tip"> </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
                                     <input type="text" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" numbersOnly > </div>
+                                        formControlName="exemptions" numbersOnly> </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
@@ -146,7 +202,9 @@
                         <div class="title-border p-b-5 m-b-5 m-t-10">
                             <h6 class="d-inline-block font-weight-600">Documents </h6>
                             <div class="pull-right m-t-4 pointer">
-                                <a id="documenttoggle"> <em class="fa font-size-1-4" [ngClass]="{'fa-angle-up':!isDocumentCollapsed, 'fa-angle-down': isDocumentCollapsed  }" (click)="documentCollapsed()"></em> </a>
+                                <a id="documenttoggle"> <em class="fa font-size-1-4"
+                                        [ngClass]="{'fa-angle-up':!isDocumentCollapsed, 'fa-angle-down': isDocumentCollapsed  }"
+                                        (click)="documentCollapsed()"></em> </a>
                             </div>
                         </div>
                         <div class="form-row" id="docform" [style.display]="isDocumentCollapsed ? 'none' : 'block'">
@@ -160,7 +218,8 @@
                     </div>
                 </div>
                 <div class="m-t-12 pull-right mw-100">
-                    <button type="button" class="btn theme-optional-button-color m-r-5" (click)="cancel()">Cancel</button>
+                    <button type="button" class="btn theme-optional-button-color m-r-5"
+                        (click)="cancel()">Cancel</button>
                     <button type="button" class="btn theme-primary-button-color" (click)="saveEmployee()">Save</button>
                 </div>
             </div>
