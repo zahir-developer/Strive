@@ -14,6 +14,7 @@ using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.Code;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Strive.ResourceAccess
 {

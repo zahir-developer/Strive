@@ -1,7 +1,6 @@
-﻿using Strive.BusinessEntities.Client;
-using Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities.Model;
 
-namespace Strive.BusinessEntities.DTO
+namespace Strive.BusinessEntities.DTO.Vehicle
 {
     public class VehicleDto
     {

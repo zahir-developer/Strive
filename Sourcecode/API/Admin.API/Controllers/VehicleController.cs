@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
