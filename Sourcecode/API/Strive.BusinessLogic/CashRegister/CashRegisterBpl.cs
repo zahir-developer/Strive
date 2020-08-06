@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
-using Strive.BusinessEntities.CashRegister;
 using Strive.BusinessEntities.CashRegister.DTO;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -23,5 +22,6 @@ namespace Strive.BusinessLogic.CashRegister
         {
             return ResultWrap(new CashRegisterRal(_tenant).GetCashRegisterDetails, cashRegType.ToString(), locationId, cashRegDate, "CashRegister");
         }
+
     }
 }

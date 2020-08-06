@@ -101,7 +101,7 @@
       <Name>Strive.Crypto</Name>
     </ProjectReference>
     <ProjectReference Include="..\Strive.ResourceAccess\Strive.ResourceAccess.csproj">
-      <Project>{1924CAB4-4E81-4C41-9626-0236C51C2488}</Project>
+      <Project>{1924cab4-4e81-4c41-9626-0236c51c2488}</Project>
       <Name>Strive.ResourceAccess</Name>
     </ProjectReference>
   </ItemGroup>
