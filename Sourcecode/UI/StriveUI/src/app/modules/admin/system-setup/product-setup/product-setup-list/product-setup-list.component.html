@@ -30,7 +30,7 @@
                                         <tr
                                             *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>
-                                            <td>{{productSetup.ProductTypeName}}</td>
+                                            <td>{{productSetup.ProductType}}</td>
                                             <td>{{productSetup.Cost | currency}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
