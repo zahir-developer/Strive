@@ -15,13 +15,8 @@ namespace Strive.BusinessLogic
 {
     public class UserBpl : Strivebase, IUserBpl
     {
-        private readonly ITenantHelper _tenant;
-        private readonly IDistributedCache _cache;
-
-        public UserBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
+        public UserBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
-            _tenant = tenantHelper;
-            _cache = cache;
         }
 
         public Result AddUser(User user)

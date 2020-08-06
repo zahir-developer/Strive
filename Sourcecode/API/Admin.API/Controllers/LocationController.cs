@@ -1,68 +1,46 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Strive.Common;
-using System.Collections.Generic;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessLogic.Location;
-using Strive.BusinessEntities.Location;
-using System.Linq;
+using Strive.Common;
 
 namespace Admin.API.Controllers
 {
     [Authorize]
+    //[AutoValidateAntiforgeryToken]
+
     [Route("Admin/[Controller]")]
-    public class LocationController : ControllerBase
+    public class LocationController : StriveControllerBase<ILocationBpl>
     {
-        readonly ILocationBpl _locationBpl = null;
+        public LocationController(ILocationBpl locBpl) : base(locBpl) { }
 
-        public LocationController(ILocationBpl locationBpl)
-        {
-            _locationBpl = locationBpl;
-        }
-
-        [HttpGet]
-        [Route("GetAll")]
-        public Result GetAllLocation()
-        {
-            return _locationBpl.GetLocationDetails();
-        }
-
-        [HttpPost]
-        [Route("Save")]
-        public Result SaveLocation([FromBody]  List<LocationView> lstLocation)
-        {
-            return _locationBpl.SaveLocationDetails(lstLocation.FirstOrDefault());
-        }
-        [HttpDelete]
-        [Route("{id}")]
-        public Result DeleteLocation(int id)
-        {
-            return _locationBpl.DeleteLocationDetails(id);
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        public Result GeteLocationById(int id)
-        {
-            return _locationBpl.GetLocationById(id);
-        }
+        #region POST
         [HttpPost]
         [Route("Add")]
-        public Result AddLocation([FromBody] List<LocationView> lstLocation)
-        {
-            return _locationBpl.AddLocation(lstLocation);
-        }
+        public Result AddLocation([FromBody] LocationDto location) => _bplManager.AddLocation(location);
 
         [HttpPost]
         [Route("Update")]
-        public Result UpdateLocation([FromBody] List<LocationView> lstLocation)
-        {
-            return _locationBpl.UpdateLocation(lstLocation);
-        }
+        public Result UpdateLocation([FromBody] LocationDto location) => _bplManager.UpdateLocation(location);
+
+        //[HttpPost]
+        //[Route("Save")]
+        //public Result SaveLocation([FromBody]  LocationDto location) => _bplManager.SaveLocation(location);
+
+        [HttpDelete]
+        [Route("Delete")]
+        public Result DeleteLocation(int id) => _bplManager.DeleteLocation(id);
+        #endregion
+
+        #region GET
         [HttpGet]
-        [Route("GetAllLocationAddress")]
-        public Result GetAllLocationAddress()
-        {
-            return _locationBpl.GetAllLocationAddress();
-        }
+        [Route("GetAll")]
+        public Result GetAllLocation() => _bplManager.GetAllLocation();
+
+        [HttpGet]
+        [Route("GetById")]
+        public Result GetLocationById(int id) => _bplManager.GetLocationById(id); 
+        #endregion
     }
 }

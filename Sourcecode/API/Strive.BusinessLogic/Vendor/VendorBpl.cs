@@ -11,13 +11,8 @@ namespace Strive.BusinessLogic
 {
     public class VendorBpl : Strivebase, IVendorBpl
     {
-        readonly ITenantHelper _tenant;
-        readonly JObject _resultContent = new JObject();
-        Result _result;
-        public VendorBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(cache)
-        {
-            _tenant = tenantHelper;
-        }
+        public VendorBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
         public Result GetVendorDetails()
         {
             try
@@ -75,6 +70,11 @@ namespace Strive.BusinessLogic
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
             return _result;
+        }
+
+        public Result AddVendor(VendorDTO vendor)
+        {
+            throw new NotImplementedException();
         }
 
         //    public Result GetVendorDetails()

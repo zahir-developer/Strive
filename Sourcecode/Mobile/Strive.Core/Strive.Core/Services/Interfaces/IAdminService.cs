@@ -22,5 +22,9 @@ namespace Strive.Core.Services.Interfaces
 
         Task<CustomerResponse> CustomerConfirmPassword(CustomerResetPassword resetPasswordRequest);
 
+        Task<TimeClockRoot> GetClockInStatus(int Id, string Datetime);
+
+        Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest);
+
     }
 }

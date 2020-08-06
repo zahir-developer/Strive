@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
-using Strive.BusinessEntities.Location;
+using Strive.BusinessEntities.DTO;
 using Strive.Common;
 
 namespace Strive.BusinessLogic.Location
 {
     public interface ILocationBpl
     {
-        Result GetLocationDetails();
-        Result GetAllLocationAddress();
-        Result SaveLocationDetails(LocationView lstLocation);
-        Result DeleteLocationDetails(int id);
+        Result AddLocation(LocationDto location);
+        Result UpdateLocation(LocationDto lstLocation);
+        Result GetAllLocation();
         Result GetLocationById(int id);
-        Result AddLocation(List<LocationView> lstLocation);
-        Result UpdateLocation(List<LocationView> lstLocation);
-
+        Result DeleteLocation(int id);
+        //Result SaveLocation(LocationDto lstLocation);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Strive.Repository
 {
@@ -20,6 +22,18 @@ namespace Strive.Repository
         {
             return SqlMapperExtensions.Insert<T>(dbcon, list);
         }
+
+        //public bool InsertPc<Tview,TParent,TChild>(T list) 
+        //{
+        //    Type type = typeof(T);
+
+        //    foreach (PropertyInfo prp in type.GetProperties())
+        //    {
+        //        SqlMapperExtensions.inse
+        //    }
+        //    //return SqlMapperExtensions.Insert<T>(dbcon, list);
+        //}
+
 
         public List<T> GetAll<T>() where T : class
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using MvvmCross;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
@@ -52,6 +53,22 @@ namespace Strive.Core.Services.Implementations
         public async Task<CustomerResponse> CustomerVerifyOTP(CustomerVerifyOTPRequest otpRequest)
         {
             return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_VERIFY_OTP, otpRequest.emailId,otpRequest.otp), HttpMethod.Get, otpRequest);
+        }
+
+        public async Task<TimeClockRoot> GetClockInStatus(int Id, string Datetime)
+        {
+            var uriBuilder = new UriBuilder(ApiUtils.URL_GET_CLOCKIN_STATUS);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["userId"] = Id.ToString();
+            query["dateTime"] = Datetime;
+            uriBuilder.Query = query.ToString();
+            var url = uriBuilder.Uri.PathAndQuery.ToString();
+            return await _restClient.MakeApiCall<TimeClockRoot>(url, HttpMethod.Get);
+        }
+
+        public async Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest)
+        {
+            return await _restClient.MakeApiCall<TimeClock>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
         }
     }
 }
