@@ -13,7 +13,6 @@ using System.Data;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO;
-using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.Code;
 
 namespace Strive.ResourceAccess

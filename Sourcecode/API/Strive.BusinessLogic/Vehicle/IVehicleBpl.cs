@@ -1,4 +1,4 @@
-﻿using Strive.BusinessEntities.DTO.Vehicle;
+﻿using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 
