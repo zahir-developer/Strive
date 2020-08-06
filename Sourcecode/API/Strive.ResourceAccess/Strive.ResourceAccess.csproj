@@ -109,7 +109,7 @@
     <Compile Include="ClientRal.cs" />
     <Compile Include="GiftCardRal.cs" />
     <Compile Include="TimeClockRal.cs" />
-    <Compile Include="CollisionRal.cs" />
+    <Compile Include="CollissionRal.cs" />
     <Compile Include="CommonRal.cs" />
     <Compile Include="DocumentRal.cs" />
     <Compile Include="EmployeeRal.cs" />

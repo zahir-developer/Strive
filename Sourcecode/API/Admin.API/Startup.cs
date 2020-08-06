@@ -17,7 +17,7 @@ using Strive.BusinessLogic.ServiceSetup;
 using Strive.BusinessLogic.CashRegister;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Location;
-using Strive.BusinessLogic.Collision;
+using Strive.BusinessLogic.Collission;
 using Strive.BusinessLogic.Client;
 using OwaspHeaders.Core.Extensions;
 using OwaspHeaders.Core.Models;
@@ -54,7 +54,7 @@ namespace Admin.API
             services.AddTransient<ICommonBpl, CommonBpl>();
             services.AddTransient<IDocumentBpl, DocumentBpl>();
             //services.AddTransient<IMembershipBpl, MembershipBpl>();
-            services.AddTransient<ICollisionBpl, CollisionBpl>();
+            services.AddTransient<ICollissionBpl, CollissionBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
