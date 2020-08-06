@@ -8,6 +8,7 @@ namespace Strive.BusinessEntities.Client
 {
     public class ClientVehicleView : Client
     {
+        //to-do.
        // public List<ClientVehicle> ClientVehicle { get; set; }
     }
 }
