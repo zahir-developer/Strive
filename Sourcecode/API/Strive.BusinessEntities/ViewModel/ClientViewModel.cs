@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.Client
+namespace Strive.BusinessEntities.ViewModel
 {
-    public class Client
+    public class ClientViewModel
     {
         public int ClientId { get; set; }
         public string FirstName { get; set; }
@@ -22,6 +22,17 @@ namespace Strive.BusinessEntities.Client
         public int Score { get; set; }
         public bool NoEmail { get; set; }
         public int ClientType { get; set; }
-        //public List<ClientVehicle> ClientVehicle { get; set; }
+        public int ClientAddressId { get; set; }
+        public int RelationshipId { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string PhoneNumber { get; set; }
+        public string PhoneNumber2 { get; set; }
+        public string Email { get; set; }
+        public int City { get; set; }
+        public int State { get; set; }
+        public int Country { get; set; }
+        public string Zip { get; set; }
+
     }
 }

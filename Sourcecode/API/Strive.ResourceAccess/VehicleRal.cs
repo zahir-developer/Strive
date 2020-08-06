@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Strive.BusinessEntities.Client;
 using System.Data;
 using Strive.BusinessEntities.MembershipSetup;
+using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.ResourceAccess
 {
@@ -20,34 +22,34 @@ namespace Strive.ResourceAccess
 
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<ClientVehicleView> GetVehicleDetails()
+        public List<VehicleViewModel> GetAllVehicle()
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            var result = _db.FetchRelation1<ClientVehicleView, ClientVehicle>(SPEnum.USPGETALLVEHICLE.ToString(), dynParams);
-            return result;
+            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), null);
         }
-        public int SaveVehicle(List<ClientVehicle> products)
+        public List<VehicleMembershipModel> GetVehicleMembership()
         {
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@tvpVehicle", products.ToDataTable().AsTableValuedParameter());
-            return _db.Execute<ClientVehicle>("uspSaveVehicle".ToString(), parameters);
+            return db.Fetch<VehicleMembershipModel>(SPEnum.uspGetVihicleMembership.ToString(), null);
+        }
+        public bool UpdateVehicleMembership(Membership Membership)
+        {
+            return dbRepo.Update(Membership);
         }
 
-        public bool DeleteVehicleById(int id)
+        public bool SaveVehicle(VehicleDto client)
         {
-            DynamicParameters dynamicParameters = new DynamicParameters();
-            dynamicParameters.Add("@tblClientVehicleId", id.toInt());
-            CommandDefinition commandDefinition = new CommandDefinition(SPEnum.USPDELETECLIENTVEHICLE.ToString(), dynamicParameters, commandType: CommandType.StoredProcedure);
-            _db.Save(commandDefinition);
+            return dbRepo.InsertPc(client, "ClientId");
+        }
+
+        public bool DeleteVehicleById(int vehicleId)
+        {
+            _prm.Add("VehicleId", vehicleId);
+            db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-
-        public List<ClientVehicleView> GetVehicleById(int id)
+        public VehicleViewModel GetVehicleById(int clientId)
         {
-            DynamicParameters dynamicParameters = new DynamicParameters();
-            dynamicParameters.Add("@tblClientId", id.toInt());
-            var result = _db.FetchRelation1<ClientVehicleView, ClientVehicle>(SPEnum.USPGETVEHICLEBYID.ToString(), dynamicParameters);
-            return result;
+            _prm.Add("ClientId", clientId);
+             return db.FetchSingle<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
        
     }
