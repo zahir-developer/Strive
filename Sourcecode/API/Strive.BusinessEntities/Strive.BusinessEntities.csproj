@@ -38,7 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DTO\Auth\Email.cs" />
-    <Compile Include="DTO\Client\ClientVehicle.cs" />
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
     <Compile Include="DTO\Collission\CollissionDto.cs" />
