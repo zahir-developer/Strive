@@ -19,8 +19,12 @@ namespace Admin.Api.Controllers
         #region POST
 
         [HttpPost]
-        [Route("Save")]
-        public Result SaveEmployee([FromBody] EmployeeModel lstEmployee) => _bplManager.SaveEmployeeDetails(lstEmployee);
+        [Route("Add")]
+        public Result AddEmployee([FromBody] EmployeeModel employee) => _bplManager.AddEmployee(employee);
+
+        [HttpPost]
+        [Route("Update")]
+        public Result UpdateEmployee([FromBody] EmployeeModel employee) => _bplManager.UpdateEmployee(employee);
 
         [HttpPost]
         [Route("Delete")]

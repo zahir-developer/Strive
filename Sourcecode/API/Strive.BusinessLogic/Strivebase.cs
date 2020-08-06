@@ -169,6 +169,9 @@ namespace Strive.BusinessLogic
                 foreach (PropertyInfo prp in type.GetProperties())
                 {
                     var model = prp.GetValue(tdata, null);
+
+                    if (model is null) continue;
+
                     Type subModelType = model.GetType();
                     PropertyInfo prInfo = null;
                     if (subModelType.IsGenericType)

@@ -1,8 +1,10 @@
 ﻿
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using RepoDb;
 using RepoDb.SqlServer;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -188,6 +190,8 @@ namespace Strive.RepositoryCqrs
                 Type type = typeof(T);
                 int primeId = 0;
                 bool primInsert = false;
+                bool isGeneric = false;
+                int insertId = 0;
                 using (var transaction = dbcon.BeginTransaction())
                 {
                     try
@@ -196,13 +200,43 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
+                            if (model is null) continue;
+
                             if (primInsert)
                             {
                                 Type subModelType = model.GetType();
-                                subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
+
+                                if (subModelType.IsGenericType)
+                                {
+                                    isGeneric = true;
+                                    var jString = JsonConvert.SerializeObject(model);
+                                    var components = (IList)JsonConvert.DeserializeObject(jString, typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
+
+                                    foreach (var m in components)
+                                    {
+                                        var smt = m.GetType();
+                                        smt.GetProperty(PrimaryField).SetValue(m, primeId);
+                                    }
+
+                                    model = components;
+                                }
+                                else
+                                {
+                                    subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
+                                }
                             }
 
-                            var insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                            if (isGeneric)
+                            {
+                                var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
+                                insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+                                isGeneric = false;
+                            }
+                            else
+                            {
+                                insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                            }
+
                             primeId = (!primInsert) ? insertId : primeId;
                             primInsert = true;
                         }
@@ -228,6 +262,7 @@ namespace Strive.RepositoryCqrs
             using (var dbcon = new SqlConnection(cs).EnsureOpen())
             {
                 Type type = typeof(T);
+
                 using (var transaction = dbcon.BeginTransaction())
                 {
                     try
@@ -235,6 +270,9 @@ namespace Strive.RepositoryCqrs
                         foreach (PropertyInfo prp in type.GetProperties())
                         {
                             var model = prp.GetValue(tview, null);
+
+                            if (model is null) continue;
+
                             var id = dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                         }
                     }

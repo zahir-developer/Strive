@@ -1,7 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Strive.BusinessLogic.Collission;
+using Strive.BusinessLogic.Collision;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -12,9 +12,9 @@ namespace Admin.API.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class CollissionController: StriveControllerBase<ICollissionBpl>
+    public class CollisionController: StriveControllerBase<ICollisionBpl>
     {
-        public CollissionController(ICollissionBpl colBpl) : base(colBpl) { }
+        public CollisionController(ICollisionBpl colBpl) : base(colBpl) { }
 
         //[HttpGet]
         //[Route("GetAll")]
@@ -36,8 +36,8 @@ namespace Admin.API.Controllers
         //#endregion
         #region
         [HttpGet]
-        [Route("GetCollisionById/{id}")]
-        public Result GetCollisionById(int id) => _bplManager.GetCollissionById(id);
+        [Route("GetCollisionById")]
+        public Result GetCollisionById(int id) => _bplManager.GetCollisionById(id);
         #endregion
         //[HttpGet]
         //[Route("GetCollisionByEmpId/{id}")]

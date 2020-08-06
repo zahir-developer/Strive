@@ -33,6 +33,16 @@ namespace Strive.ResourceAccess
             return db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
         }
 
+        public bool AddEmployee(EmployeeModel employee)
+        {
+            return dbRepo.InsertPc(employee, "EmployeeId");
+        }
+
+        public bool UpdateEmployee(EmployeeModel employee)
+        {
+            return dbRepo.UpdatePc(employee);
+        }
+
         public List<Code> GetAllEmployeeRoles()
         {
             DynamicParameters dynParams = new DynamicParameters();
@@ -41,10 +51,7 @@ namespace Strive.ResourceAccess
             return lstEmployee;
         }
 
-        public bool SaveEmployeeDetails(EmployeeModel employee)
-        {
-            return dbRepo.InsertPc(employee, "EmployeeId");
-        }
+       
 
         public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
         {

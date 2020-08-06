@@ -53,8 +53,8 @@
     <Compile Include="GiftCard\IGiftCardBpl.cs" />
     <Compile Include="TimeClock\TimeClockBpl.cs" />
     <Compile Include="TimeClock\ITimeClockBpl.cs" />
-    <Compile Include="Collission\CollissionBpl.cs" />
-    <Compile Include="Collission\ICollissionBpl.cs" />
+    <Compile Include="Collision\CollisionBpl.cs" />
+    <Compile Include="Collision\ICollisionBpl.cs" />
     <Compile Include="Common\CommonBpl.cs" />
     <Compile Include="Common\ICommonBpl.cs" />
     <Compile Include="Document\DocumentBpl.cs" />

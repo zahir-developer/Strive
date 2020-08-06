@@ -18,6 +18,33 @@ namespace Strive.BusinessLogic
         public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
 
+        public Result AddEmployee(EmployeeModel employee)
+        {
+            int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
+            employee.EmployeeDetail.AuthId = authId;
+            return ResultWrap(new EmployeeRal(_tenant).AddEmployee, employee, "Status");
+        }
+
+        public Result UpdateEmployee(EmployeeModel employee)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).UpdateEmployee, employee, "Status");
+        }
+
+        public Result DeleteEmployeeDetails(int empId)
+        {
+            try
+            {
+                var lstEmployee = new EmployeeRal(_tenant).DeleteEmployeeDetails(empId);
+                _resultContent.Add(lstEmployee.WithName("Employee"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         public Result GetEmployeeList()
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeList, "EmployeeList");
@@ -42,39 +69,6 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveEmployeeDetails(EmployeeModel employee)
-        {
-            try
-            {
 
-                int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
-
-                employee.EmployeeDetail.AuthId = authId;
-
-                var blnStatus = new EmployeeRal(_tenant).SaveEmployeeDetails(employee);
-
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
-        public Result DeleteEmployeeDetails(int empId)
-        {
-            try
-            {
-                var lstEmployee = new EmployeeRal(_tenant).DeleteEmployeeDetails(empId);
-                _resultContent.Add(lstEmployee.WithName("Employee"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
     }
 }

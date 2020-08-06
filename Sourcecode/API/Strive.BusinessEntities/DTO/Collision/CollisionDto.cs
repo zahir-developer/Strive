@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO.Collision
 {
-    public class CollissionDto
+    public class CollisionDto
     {
         public Model.EmployeeLiability EmployeeLiability { get; set; }
         public EmployeeLiabilityDetail EmployeeLiabilityDetail { get; set; }
