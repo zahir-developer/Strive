@@ -14,6 +14,7 @@ namespace Strive.BusinessEntities.Collision
         public int Status { get; set; }
         public DateTime? CreatedDate { get; set; }
         public bool IsActive { get; set; }
+
         
     }
 }
