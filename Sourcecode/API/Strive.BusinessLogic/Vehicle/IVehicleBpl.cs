@@ -1,4 +1,6 @@
 ﻿using Strive.BusinessEntities.Client;
+using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,11 @@ namespace Strive.BusinessLogic.Vehicle
     public interface IVehicleBpl
     {
         Result GetAllVehicle();
-        Result SaveClientVehicle(List<ClientVehicle> vehicle);
+        Result GetVehicleMembership();
+        Result UpdateVehicleMembership(Membership Membership);
+        Result SaveClientVehicle(VehicleDto vehicle);
+        Result DeleteVehicle(int vehicleId);
+        Result GetClientVehicleById(int clientId);
 
-        Result DeleteVehicle(int id);
-        Result GetClientVehicleById(int id);
-        
     }
 }

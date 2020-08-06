@@ -17,6 +17,8 @@ export class VehicleCreateEditComponent implements OnInit {
   model:any;
   color:any;
   upcharge:any;
+  upchargeType: { id: number; Value: string; }[];
+  membership: { id: number; Value: string; }[];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -25,6 +27,8 @@ export class VehicleCreateEditComponent implements OnInit {
     this.model = [{ id: 0, Value: "Model1" }, { id: 1, Value: "Model2" }];
     this.color = [{ id: 0, Value: "Color1" }, { id: 1, Value: "Color2" }];
     this.upcharge = [{ id: 0, Value: "None" }, { id: 1, Value: "Upcharge1" }, { id: 2, Value: "Upcharge2" }];
+    this.upchargeType = [{ id: 0, Value: "None" }, { id: 1, Value: "UpchargeType1" }, { id: 2, Value: "UpchargeType2" }];
+    this.membership = [{ id: 0, Value: "Member1" }, { id: 1, Value: "Member2" }, { id: 2, Value: "Member3" }];
     if (this.isEdit === true) {
       this.vehicleForm.reset();
       this.getVehicleById();
@@ -34,12 +38,13 @@ export class VehicleCreateEditComponent implements OnInit {
   formInitialize() {
     this.vehicleForm = this.fb.group({
       barcode: ['',],
-      tag: ['',],
       make: ['',],
       model: ['',],
       color: ['',],
       upcharge: ['',],
-      monthlyCharge: ['',]
+      upchargeType: ['',],
+      monthlyCharge: ['',],
+      membership: ['',]
     });
   }
 
