@@ -73,6 +73,7 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Services\AndroidPermissions.cs" />
+    <Compile Include="Services\GeoFencingTransitionService.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="MvvmCross\App.cs" />
     <Compile Include="MvvmCross\AppStart.cs" />
@@ -160,6 +161,9 @@
     </PackageReference>
     <PackageReference Include="MvvmCross.Plugin.Json">
       <Version>6.4.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Location">
+      <Version>71.1600.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Maps">
       <Version>71.1610.4</Version>

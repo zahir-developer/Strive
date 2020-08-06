@@ -30,6 +30,9 @@ export class ClientCreateEditComponent implements OnInit {
   headerData: string;
   selectedVehicle: any;
   showVehicleDialog: boolean;
+  page = 1;
+  pageSize = 3;
+  collectionSize: number;
   Type: { id: number; Value: string; }[];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
 
@@ -67,18 +70,19 @@ export class ClientCreateEditComponent implements OnInit {
       type: ['',]
     });
     this.clientForm.get('status').patchValue(0);
-    this.getAllVehicle();
   }
 
-  getAllVehicle() {
+  getAllVehicle(id) {
     this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle;
+        this.vehicleDetails = vehicle.Vehicle[0].ClientVehicle;
         console.log(this.vehicleDetails);
+        this.vehicleDetails = this.vehicleDetails.filter(item => item.ClientId === id);
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -105,7 +109,9 @@ export class ClientCreateEditComponent implements OnInit {
       phone2: clientAddress.PhoneNumber2,
       email: clientAddress.Email,
       city: clientAddress.City
-    });
+    });    
+    console.log(this.selectedData.ClientId);
+    this.getAllVehicle(this.selectedData.ClientId);
   }
 
   viewClient() {
@@ -114,7 +120,7 @@ export class ClientCreateEditComponent implements OnInit {
 
   change(data) {
     this.clientForm.value.creditAccount = data;
-  }  
+  }
 
   submit() {
     this.address = [{

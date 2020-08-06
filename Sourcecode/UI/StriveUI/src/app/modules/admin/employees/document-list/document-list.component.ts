@@ -3,6 +3,7 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CreateDocumentComponent } from '../../employees/create-document/create-document.component';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { ViewDocumentComponent } from '../../employees/view-document/view-document.component';
 
 @Component({
   selector: 'app-document-list',
@@ -13,14 +14,26 @@ export class DocumentListComponent implements OnInit {
   isEditDocument: boolean;
   @Input() employeeId?: any;
   @Input() documentList?: any = [];
+  @Input() actionType?: any;
+  @Input() isModal?: any;
+  showCloseButton: boolean;
+  documentId: any;
+  isDocumentCollapsed = false;
   constructor(
     private modalService: NgbModal,
     private employeeService: EmployeeService,
-    private confirmationService: ConfirmationUXBDialogService,
+    private confirmationService: ConfirmationUXBDialogService
   ) { }
 
   ngOnInit(): void {
     this.isEditDocument = false;
+    this.showCloseButton = false;
+    this.getAllDocument();
+    if (this.isModal !== undefined) {
+      this.showCloseButton = true;
+    } else {
+      this.showCloseButton = false;
+    }
   }
 
   editDocument() {
@@ -74,6 +87,26 @@ export class DocumentListComponent implements OnInit {
         this.getAllDocument();
       }
     });
+  }
+
+  viewDocument(document) {
+    this.documentId = document.DocumentId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(ViewDocumentComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = this.employeeId;
+    modalRef.componentInstance.documentId = this.documentId;
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+  }
+
+  documentCollapsed() {
+    this.isDocumentCollapsed = !this.isDocumentCollapsed;
   }
 
 }

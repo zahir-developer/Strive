@@ -3,6 +3,10 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeCollisionComponent } from '../../employees/employee-collision/employee-collision.component';
+import { DocumentListComponent } from '../../employees/document-list/document-list.component';
+import { CreateDocumentComponent } from '../../employees/create-document/create-document.component';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -25,10 +29,15 @@ export class EmployeeListComponent implements OnInit {
   actionType: string;
   employeeId: any;
   location: any;
+  public isCollapsed = false;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -47,12 +56,15 @@ export class EmployeeListComponent implements OnInit {
       if (data.status === 'Success') {
         const employees = JSON.parse(data.resultData);
         this.isTableEmpty = false;
-        if (employees.Employee.length > 0) {
-          const employeeDetail = employees.Employee;
+        if (employees.EmployeeList.length > 0) {
+          const employeeDetail = employees.EmployeeList;
           this.employeeDetails = employeeDetail;
-          this.employeeDetails = this.employeeDetails.filter(item => item.IsActive === true);
+          this.employeeDetails = this.employeeDetails.filter(item => item.Status === true);
+          this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
           console.log(this.employeeDetails, 'detail');
         }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -75,9 +87,11 @@ export class EmployeeListComponent implements OnInit {
       this.selectedData = empDetails;
       this.isEdit = false;
       this.showDialog = true;
+      this.actionType = data;
     } else {
       this.headerData = 'Edit Employees';
       this.isEdit = true;
+      this.actionType = data;
       // this.selectedData = empDetails;
       // this.isEdit = true;
       // this.showDialog = true;
@@ -96,6 +110,8 @@ export class EmployeeListComponent implements OnInit {
           this.employeeData = employees.EmployeeDetail[0];
           this.showDialog = true;
         }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -137,6 +153,8 @@ export class EmployeeListComponent implements OnInit {
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -146,6 +164,8 @@ export class EmployeeListComponent implements OnInit {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
         this.maritalStatus = status.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -155,6 +175,8 @@ export class EmployeeListComponent implements OnInit {
       if (res.status === 'Success') {
         const type = JSON.parse(res.resultData);
         this.commissionType = type.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -164,6 +186,8 @@ export class EmployeeListComponent implements OnInit {
       if (res.status === 'Success') {
         const state = JSON.parse(res.resultData);
         this.state = state.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -173,6 +197,8 @@ export class EmployeeListComponent implements OnInit {
       if (res.status === 'Success') {
         const country = JSON.parse(res.resultData);
         this.country = country.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -183,7 +209,7 @@ export class EmployeeListComponent implements OnInit {
       this.isEdit = false;
       this.showDialog = true;
       this.actionType = mode;
-    } else if (mode === 'edit') {
+    } else {
       this.isEdit = true;
       this.actionType = mode;
       this.employeeId = employee.EmployeeId;
@@ -195,6 +221,7 @@ export class EmployeeListComponent implements OnInit {
 
   closeDialog(event) {
     this.showDialog = event.isOpenPopup;
+    this.getAllEmployeeDetails();
   }
 
   getLocation() {
@@ -203,6 +230,8 @@ export class EmployeeListComponent implements OnInit {
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
         console.log(this.location, 'location');
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -216,6 +245,44 @@ export class EmployeeListComponent implements OnInit {
     };
     const modalRef =  this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
+    modalRef.componentInstance.mode = 'create';
+  }
+
+  viewCollision(employee) {
+    const empId = employee.EmployeeId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+  }
+
+  viewDocument(employee) {
+    const empId = employee.EmployeeId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef =  this.modalService.open(DocumentListComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = empId;
+    modalRef.componentInstance.actionType = 'view';
+    modalRef.componentInstance.isModal = true;
+  }
+
+  addDocument(employee) {
+    const empId = employee.EmployeeId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef =  this.modalService.open(CreateDocumentComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = empId;
+  }
+
+  collapsed() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
 }
