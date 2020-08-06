@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -14,10 +15,16 @@ namespace Strive.BusinessLogic.Location
 
         public Result AddLocation(LocationDto location)
         {
-            //CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-            //var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
-            location.Drawer = new BusinessEntities.Model.Drawer();
+            ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+
+            //var LocationGeo = GetLocationGeo(location.LocationAddress);
+            //var apiLocationId = CreateLocationForWeatherPortal();
+
+            //location.Drawer = new BusinessEntities.Model.Drawer();
+            //bool status = new LocationRal(_tenant).AddLocation(location);
             return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
+
         }
 
         public Result UpdateLocation(LocationDto location)
@@ -42,23 +49,38 @@ namespace Strive.BusinessLogic.Location
             return ResultWrap(new LocationRal(_tenant).DeleteLocation, id, "LocationDelete");
         }
 
-        ////public Result SaveLocation(LocationDto location)
-        ////{
-        ////    try
-        ////    {
-        ////        CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-        ////        var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 
-        ////        bool blnStatus = new LocationRal(_tenant).SaveLocationDetails(location);
-        ////        _resultContent.Add(blnStatus.WithName("Status"));
-        ////        _result = Helper.BindSuccessResult(_resultContent);
-        ////    }
-        ////    catch (Exception ex)
-        ////    {
-        ////        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-        ////    }
-        ////    return _result;
-        ////}
+        private string GetLocationGeo(LocationAddress locationAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public async Task<Result> CreateLocationForWeatherPortal()
+        //{
+        //    const string baseUrl = "https://api.climacell.co/";
+        //    const string apiMethod = "v3/locations";
+        //    //const string apiKey = "sbXIC0D1snD0d4SrQEXPdG8iNiD1mOLV";
+        //    const string apiKey = "YdGO72oCIGiaTxqfGEOhD9fty8fHAVdr";
+
+
+
+        //    var weatherlocation = new WeatherLocation()
+        //    {
+        //        name = "Strive-Location1",
+        //        point = new point() { lat = 34.07, lon = -84.29 }
+        //    };
+        //    var wlocation = JsonConvert.SerializeObject(weatherlocation);
+        //    var stringContent = new StringContent(wlocation, UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
+
+
+
+
+            
+
+
+
+        //    return null;
+        //}
 
     }
 }
