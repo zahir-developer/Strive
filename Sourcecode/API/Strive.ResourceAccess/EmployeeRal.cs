@@ -12,6 +12,8 @@ using System.Reflection;
 using FastDeepCloner;
 using Newtonsoft.Json;
 using System.Collections;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Employee;
 
 namespace Strive.ResourceAccess
 {
@@ -19,26 +21,16 @@ namespace Strive.ResourceAccess
     {
         public EmployeeRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<EmployeeView> GetEmployeeDetails()
-        {
-            ///... To get Employee Details by EmployeeId field
-            var empDetails = db.GetListByFkId<EmployeeDetail>(1, "EmployeeId");
-
-            DynamicParameters dynParams = new DynamicParameters();
-            var lstEmployee = db.FetchRelation3<EmployeeView, EmployeeDetail, EmployeeAddress, EmployeeRole>(SPEnum.USPGETEMPLOYEE.ToString(), dynParams);
-            return lstEmployee;
-        }
-
-        public EmployeeDetailDto GetEmployeeById(int employeeId)
+        public EmployeeViewModel GetEmployeeById(int employeeId)
         {
             _prm.Add("EmployeeId", employeeId);
-            var lstResult = db.FetchMultiResult<EmployeeDetailDto>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
+            var lstResult = db.FetchMultiResult<EmployeeViewModel>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
             return lstResult;
         }
 
-        public List<EmployeeDto> GetEmployeeList()
+        public List<EmployeeViewModel> GetEmployeeList()
         {
-            return db.Fetch<EmployeeDto>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+            return db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
         }
 
         public List<Code> GetAllEmployeeRoles()
@@ -48,27 +40,10 @@ namespace Strive.ResourceAccess
             lstEmployee = db.Fetch<Code>(SPEnum.USPGETEMPLOYEEROLES.ToString(), dynParams);
             return lstEmployee;
         }
-        public List<EmployeeView> GetEmployeeByIdDetails(long id)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@EmployeeId", id);
-            var lstEmployeeInfo = db.FetchRelation3<EmployeeView, EmployeeDetail, EmployeeAddress, EmployeeRole>(SPEnum.USPGETEMPLOYEEBYEMPID.ToString(), dynParams);
-            return lstEmployeeInfo;
-        }
 
-        public bool SaveEmployeeDetails(EmployeeView employee)
+        public bool SaveEmployeeDetails(EmployeeModel employee)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            var lstEmp = new List<Employee>();
-            lstEmp.Add(employee);
-
-            dynParams.Add("@tvpEmployee", lstEmp.ToDataTable().AsTableValuedParameter("tvpEmployee"));
-            dynParams.Add("@tvpEmployeeDetail", employee.EmployeeDetail.ToDataTable().AsTableValuedParameter("tvpEmployeeDetail"));
-            dynParams.Add("@tvpEmployeeAddress", employee.EmployeeAddress.ToDataTable().AsTableValuedParameter("tvpEmployeeAddress"));
-            dynParams.Add("@tvpEmployeeRole", employee.EmployeeRole.ToDataTable().AsTableValuedParameter("tvpEmployeeRole"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-            return true;
+            return dbRepo.InsertPc(employee, "EmployeeId");
         }
 
         public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
@@ -77,11 +52,6 @@ namespace Strive.ResourceAccess
             var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(SPEnum.USPGETUSERBYAUTHID.ToString(), _prm);
             return lstResult;
 
-
-            //DynamicParameters dynParams = new DynamicParameters();
-            //dynParams.Add("AuthId", authId);
-            //lstEmployee = db.FetchRelation1<EmployeeView, EmployeeRole>(SPEnum.USPGETUSERBYAUTHID.ToString(), dynParams);
-            //return lstEmployee.FirstOrDefault();
         }
 
         public bool DeleteEmployeeDetails(long empId)

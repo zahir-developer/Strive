@@ -12,12 +12,13 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessLogic.Client;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.Model;
 
 namespace Strive.BusinessLogic
 {
-    public class ClientBpl : Strivebase,IClientBpl
+    public class ClientBpl : Strivebase, IClientBpl
     {
-        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
+        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
 
@@ -26,16 +27,9 @@ namespace Strive.BusinessLogic
             try
             {
 
-                    UserLogin lstclientlst = new UserLogin();
-                    lstclientlst.AuthId = 0;
-                    lstclientlst.EmailId = lstClient.ClientAddress.FirstOrDefault().Email;
-                    lstclientlst.MobileNumber = lstClient.ClientAddress.FirstOrDefault().PhoneNumber;
-                    lstclientlst.PasswordHash = "";
-                    lstclientlst.CreatedDate = lstClient.CreatedDate;
-                    var newitem = new CommonBpl(_cache, _tenant).CreateLogin(lstclientlst);
-                    bool blnStatus = new ClientRal(_tenant).SaveClientDetails(lstClient);
+                var newitem = new CommonBpl(_cache, _tenant).CreateLogin(lstClient.ClientAddress.FirstOrDefault().Email, lstClient.ClientAddress.FirstOrDefault().PhoneNumber);
+                bool blnStatus = new ClientRal(_tenant).SaveClientDetails(lstClient);
 
-                
                 _resultContent.Add(blnStatus.WithName("Status"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

@@ -17,7 +17,7 @@ public class AuthMaster
 	public string EmailId { get; set; }
 
 	[Column, PrimaryKey]
-	public long MobileNumber { get; set; }
+	public string MobileNumber { get; set; }
 
 	[Column]
 	public short EmailVerified { get; set; }

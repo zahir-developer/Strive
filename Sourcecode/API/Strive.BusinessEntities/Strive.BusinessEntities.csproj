@@ -61,6 +61,7 @@
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CollisionViewModel.cs" />
     <Compile Include="Model\AuthMaster.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Model\TenantModule.cs" />
     <Compile Include="Model\Themes.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
     <Compile Include="DTO\Vendor\VendorDTO.cs" />
