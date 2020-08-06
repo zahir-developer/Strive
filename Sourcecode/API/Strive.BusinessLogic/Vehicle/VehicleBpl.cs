@@ -1,16 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json.Linq;
-using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.Vehicle
 {
@@ -50,6 +44,10 @@ namespace Strive.BusinessLogic.Vehicle
         public Result GetClientVehicleById(int clientId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleById, clientId, "Status");
+        }
+        public Result GetAllCodeType()
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetAllCodeType, "CodeType");
         }
     }
 }

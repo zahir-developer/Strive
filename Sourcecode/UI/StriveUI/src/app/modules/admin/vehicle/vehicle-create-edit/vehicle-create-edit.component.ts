@@ -25,10 +25,11 @@ export class VehicleCreateEditComponent implements OnInit {
     this.formInitialize();
     this.make = [{ id: 0, Value: "Make1" }, { id: 1, Value: "Make2" }];
     this.model = [{ id: 0, Value: "Model1" }, { id: 1, Value: "Model2" }];
-    this.color = [{ id: 0, Value: "Color1" }, { id: 1, Value: "Color2" }];
+    //this.color = [{ id: 0, Value: "Color1" }, { id: 1, Value: "Color2" }];
     this.upcharge = [{ id: 0, Value: "None" }, { id: 1, Value: "Upcharge1" }, { id: 2, Value: "Upcharge2" }];
     this.upchargeType = [{ id: 0, Value: "None" }, { id: 1, Value: "UpchargeType1" }, { id: 2, Value: "UpchargeType2" }];
     this.membership = [{ id: 0, Value: "Member1" }, { id: 1, Value: "Member2" }, { id: 2, Value: "Member3" }];
+    this.getVehicleColor();
     if (this.isEdit === true) {
       this.vehicleForm.reset();
       this.getVehicleById();
@@ -51,12 +52,23 @@ export class VehicleCreateEditComponent implements OnInit {
   getVehicleById() {
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
-      tag: this.selectedData.VehicleNumber,
+      //tag: this.selectedData.VehicleNumber,
       make: this.selectedData.VehicleMake,
       model: this.selectedData.VehicleModel,
       color: this.selectedData.VehicleColor,
-      upcharge: this.selectedData.Upcharge,
-      //monthlyCharge: 0 ,
+      upcharge: this.selectedData.Upcharge
+    });
+    //this.getVehicleColor();
+  }
+
+  getVehicleColor(){
+    this.vehicle.getVehicleColor().subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.color = vehicle.CodeType;
+      }else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
     });
   }
 

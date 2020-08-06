@@ -46,6 +46,8 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetVehicleMembership();
         }
-
+        [HttpGet]
+        [Route("GetCodeType")]
+        public Result GetAllCodeType() => _bplManager.GetAllCodeType();
     }
 }
