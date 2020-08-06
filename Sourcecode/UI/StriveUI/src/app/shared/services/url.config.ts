@@ -57,6 +57,11 @@ export const UrlConfig = {
     deleteCollision: `Admin/Collision/Delete/`,
     getDetailCollision: `Admin/Collision/GetCollisionById/`,
     saveCollision: `Admin/Collision/Save`,
-    getVehicleColor: `Admin/Vehicle/GetCodeType`,
+    getVehicleColor: `Admin/Vehicle/GetCodeTypeColour`,
+    getVehicleMake: `Admin/Vehicle/GetCodeMake`,
+    getVehicleModel: `Admin/Vehicle/GetCodeTypeModel`,
+    getVehicleUpcharge: `Admin/Vehicle/GetCodeUpcharge`,
+    getVehicleId: `Admin/Vehicle/GetVehicleId`,
+    getVehicleMembership: `Admin/Vehicle/GetVehicleMembership`,
   }
 };
