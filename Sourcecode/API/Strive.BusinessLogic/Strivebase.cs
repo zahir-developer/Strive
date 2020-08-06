@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -156,15 +157,17 @@ namespace Strive.BusinessLogic
                     var model = prp.GetValue(tdata, null);
                     Type subModelType = model.GetType();
                     PropertyInfo prInfo = null;
-                    if (subModelType.IsClass)
+                    if (subModelType.IsGenericType)
+                    {
+                        //SetAuditDetailsForList(action, ref model, type);
+                        model = SetAuditDetailsForList(action, ref model, type);
+                        prp.SetValue(tdata, model);
+                    }
+                    else if (subModelType.IsClass)
                     {
                         prInfo = subModelType.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
                         action = (prInfo.GetValue(model, null).toInt() > 0) ? "UPD" : action;
                         SetAuditDetails(action, ref model, subModelType);
-                    }
-                    else if (subModelType.IsGenericType)
-                    {
-                        ///... to-do.
                     }
                     else
                     {
@@ -176,7 +179,10 @@ namespace Strive.BusinessLogic
             }
             else
             {
+                var prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
+                action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
                 var obj = (object)tdata;
+
                 SetAuditDetails(action, ref obj, type);
             }
         }
@@ -200,6 +206,36 @@ namespace Strive.BusinessLogic
                     subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
                 }
             }
+        }
+
+        private object SetAuditDetailsForList(string action, ref object model, Type subModelType)
+        {
+            var tp = model.GetType().GenericTypeArguments.First();
+            var jString1 = JsonConvert.SerializeObject(model);
+            var components = (IList)JsonConvert.DeserializeObject(jString1, typeof(List<>).MakeGenericType(new[] { tp }));
+
+            foreach (var m in components)
+            {
+                var smt = m.GetType();
+                if (smt.HasProperty("CreatedBy"))
+                {
+                    if (action == "ADD")
+                    {
+                        smt.GetProperty("CreatedBy").SetValue(m, _tenant.EmployeeId.toInt());
+                        smt.GetProperty("CreatedDate").SetValue(m, DateTimeOffset.UtcNow);
+                        smt.GetProperty("UpdatedBy").SetValue(m, _tenant.EmployeeId.toInt());
+                        smt.GetProperty("UpdatedDate").SetValue(m, DateTimeOffset.UtcNow);
+                        smt.GetProperty("IsActive").SetValue(m, true);
+                        smt.GetProperty("IsDeleted").SetValue(m, false);
+                    }
+                    if (action == "UPD")
+                    {
+                        smt.GetProperty("UpdatedBy").SetValue(m, _tenant.EmployeeId.toInt());
+                        smt.GetProperty("UpdatedDate").SetValue(m, DateTimeOffset.UtcNow);
+                    }
+                }
+            }
+            return components;
         }
 
     }

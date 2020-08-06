@@ -162,7 +162,6 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.productSetupForm.invalid) {
       return;
     }
-    const sourceObj = [];
     const formObj = {
       productCode: null,
       productDescription: null,
@@ -179,23 +178,37 @@ export class ProductCreateEditComponent implements OnInit {
       quantityDescription: null,
       isActive: this.productSetupForm.value.status == 0 ? true : false,
       vendorId: this.productSetupForm.value.vendor,
-      thresholdLimit: this.productSetupForm.value.thresholdAmount
+      thresholdLimit: this.productSetupForm.value.thresholdAmount,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
+      updatedBy: 0,
+      updatedDate: new Date(),
+      price: 0
     };
-    sourceObj.push(formObj);
-    this.product.updateProduct(sourceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        if (this.isEdit === true) {
+    if (this.isEdit === true) {
+      this.product.updateProduct(formObj).subscribe(data => {
+        if (data.status === 'Success') {        
           this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.error('Communication Error', 'Error!');
+          this.productSetupForm.reset();
+          this.submitted = false;
         }
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-        this.productSetupForm.reset();
-        this.submitted = false;
-      }
-    });
+      });
+    } else {
+      this.product.addProduct(formObj).subscribe(data => {
+        if (data.status === 'Success') {        
+          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+          this.productSetupForm.reset();
+          this.submitted = false;
+        }
+      });
+    }    
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });

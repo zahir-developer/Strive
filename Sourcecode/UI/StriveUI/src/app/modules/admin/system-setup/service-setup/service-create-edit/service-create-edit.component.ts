@@ -59,9 +59,9 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetup.getServiceSetupById(this.selectedData.ServiceId).subscribe(data => {
       if (data.status === "Success") {
         const sType = JSON.parse(data.resultData);
-        this.selectedService = sType.ServiceSetupById[0];
+        this.selectedService = sType.ServiceSetup;
         this.serviceSetupForm.patchValue({
-          serviceType: this.selectedService.ServiceType,
+          serviceType: this.selectedService.ServiceTypeId,
           name: this.selectedService.ServiceName,
           cost: this.selectedService.Cost,
           commission: this.selectedService.Commision,
@@ -153,29 +153,41 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceName: this.serviceSetupForm.value.name,
       cost: this.serviceSetupForm.value.cost,
       commision: this.isChecked,
-      commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : 0,
+      commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : null,
       upcharges: (this.serviceSetupForm.value.upcharge == "" || this.serviceSetupForm.value.upcharge == null) ? 0.00 : this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
       isActive: this.serviceSetupForm.value.status == 0 ? true : false,
       locationId: 1,
-      commissionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : 0,
-      dateEntered: moment(this.today).format('YYYY-MM-DD')
+      commissionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : null,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
+      updatedBy: 0,
+      updatedDate: new Date()
     };
-    sourceObj.push(formObj);
-    this.serviceSetup.updateServiceSetup(sourceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        if (this.isEdit === true) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+    if (this.isEdit === true) {
+      this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
+        if (data.status === 'Success') {   
+          this.toastr.success('Record Updated Successfully!!', 'Success!');     
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.error('Communication Error', 'Error!');
+          this.serviceSetupForm.reset();
+          this.submitted = false;
         }
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-        this.serviceSetupForm.reset();
-        this.submitted = false;
-      }
-    });
+      });
+    } else {
+      this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
+        if (data.status === 'Success') { 
+          this.toastr.success('Record Saved Successfully!!', 'Success!');       
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+          this.serviceSetupForm.reset();
+          this.submitted = false;
+        }
+      });
+    }
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
