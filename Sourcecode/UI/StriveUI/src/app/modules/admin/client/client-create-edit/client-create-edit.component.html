@@ -154,7 +154,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <div class="row" *ngIf="isEdit">
+                            <div class="row">
                                 <div class="col-lg-12">
                                     <div class="title-border p-b-15 m-b-15">
                                         <h5 class="d-inline-block font-weight-600">Vehicle List</h5>&nbsp;
@@ -200,11 +200,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="m-t-12 mw-100 pull-right">
-                                <button type="button" class="btn theme-optional-button-color"
-                                    (click)="cancel()">Cancel</button>&nbsp;
-                                <button *ngIf="!isView" type="button" class="btn theme-primary-button-color"
-                                    (click)="submit()">Save</button>
+                            <div class="m-t-12">
+                                <span class="mw-100" *ngIf="isEdit">
+                                    <button type="button"
+                                        class="btn theme-primary-button-color">Statement</button>&nbsp;
+                                    <button *ngIf="!isView" type="button"
+                                        class="btn theme-primary-button-color">History</button>
+                                </span>
+                                <span class="mw-100 pull-right">
+                                    <button type="button" class="btn theme-optional-button-color"
+                                        (click)="cancel()">Cancel</button>&nbsp;
+                                    <button *ngIf="!isView" type="button" class="btn theme-primary-button-color"
+                                        (click)="submit()">Save</button>
+                                </span>
                             </div>
                         </div>
                     </div>
