@@ -48,6 +48,7 @@ import { VehicleCreateEditComponent } from './vehicle/vehicle-create-edit/vehicl
 import { DocumentListComponent } from './employees/document-list/document-list.component';
 import { CreateDocumentComponent } from './employees/create-document/create-document.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ViewDocumentComponent } from './employees/view-document/view-document.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -60,7 +61,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent],
   imports: [
     CommonModule,
     RouterModule,

@@ -14,12 +14,16 @@ namespace Strive.BusinessLogic.Location
 
         public Result AddLocation(LocationDto location)
         {
+            //CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            //var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
             location.Drawer = new BusinessEntities.Model.Drawer();
             return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
         }
 
         public Result UpdateLocation(LocationDto location)
         {
+           // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+           // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 
@@ -38,23 +42,23 @@ namespace Strive.BusinessLogic.Location
             return ResultWrap(new LocationRal(_tenant).DeleteLocation, id, "LocationDelete");
         }
 
-        public Result SaveLocation(LocationDto location)
-        {
-            try
-            {
-                CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-                var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+        ////public Result SaveLocation(LocationDto location)
+        ////{
+        ////    try
+        ////    {
+        ////        CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+        ////        var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 
-                bool blnStatus = new LocationRal(_tenant).SaveLocationDetails(location);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
+        ////        bool blnStatus = new LocationRal(_tenant).SaveLocationDetails(location);
+        ////        _resultContent.Add(blnStatus.WithName("Status"));
+        ////        _result = Helper.BindSuccessResult(_resultContent);
+        ////    }
+        ////    catch (Exception ex)
+        ////    {
+        ////        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+        ////    }
+        ////    return _result;
+        ////}
 
     }
 }

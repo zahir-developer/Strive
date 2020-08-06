@@ -38,7 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DTO\Auth\Email.cs" />
-    <Compile Include="DTO\Client\ClientVehicle.cs" />
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
     <Compile Include="DTO\Collision\CollisionListView.cs" />
@@ -56,6 +55,12 @@
     <Compile Include="DTO\Employee\EmployeeLocationDto.cs" />
     <Compile Include="DTO\Employee\EmployeeLoginDto.cs" />
     <Compile Include="DTO\Employee\EmployeeRoleDto.cs" />
+    <Compile Include="DTO\GiftCard\GiftCard.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardHistory.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardView.cs" />
+    <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="Model\AuthMaster.cs" />
     <Compile Include="Model\AuthOTP.cs" />
     <Compile Include="Model\BonusSetup.cs" />
@@ -158,6 +163,8 @@
     <Compile Include="DTO\Vendor\VendorView.cs" />
     <Compile Include="DTO\Weather\Weather.cs" />
     <Compile Include="DTO\Weather\WeatherInfoView.cs" />
+    <Compile Include="ViewModel\VehicleMembershipModel.cs" />
+    <Compile Include="ViewModel\VehicleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

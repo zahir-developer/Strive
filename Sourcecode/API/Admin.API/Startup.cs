@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Antiforgery;
 using Strive.BusinessLogic.Vehicle;
 using Strive.BusinessLogic.TimeClock;
+using Strive.BusinessLogic.GiftCard;
 
 namespace Admin.API
 {
@@ -59,6 +60,7 @@ namespace Admin.API
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IClientBpl, ClientBpl>();
+            services.AddTransient<IGiftCardBpl, GiftCardBpl>();
             services.AddTransient<IWeatherBpl, WeatherBpl>();
             services.AddTransient<IVendorBpl,VendorBpl>();
             services.AddTransient<IVehicleBpl,VehicleBpl>();

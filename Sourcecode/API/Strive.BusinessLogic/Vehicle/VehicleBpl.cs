@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.Client;
+using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -18,25 +20,21 @@ namespace Strive.BusinessLogic.Vehicle
 
         public Result GetAllVehicle()
         {
-            try
-            {
-                var list = new VehicleRal(_tenant).GetVehicleDetails();
-                _resultContent.Add(list.WithName("Vehicle"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new VehicleRal(_tenant).GetAllVehicle, "Vehicle");
         }
-        public Result SaveClientVehicle(List<ClientVehicle> vehicle)
+        public Result GetVehicleMembership()
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleMembership, "VehicleMembership");
+        }
+        public Result UpdateVehicleMembership(Membership Membership)
+        {
+            return ResultWrap(new VehicleRal(_tenant).UpdateVehicleMembership, Membership, "Status");
+        }
+        public Result SaveClientVehicle(VehicleDto vehicle)
         {
             try
             {
-                var res = new VehicleRal(_tenant).SaveVehicle(vehicle);
-                _resultContent.Add(res.WithName("SaveVehicle"));
-                _result = Helper.BindSuccessResult(_resultContent);
+                return ResultWrap(new VehicleRal(_tenant).SaveVehicle, vehicle, "Status");
             }
             catch(Exception ex)
             {
@@ -44,34 +42,14 @@ namespace Strive.BusinessLogic.Vehicle
             }
             return _result;
         }
-        public Result DeleteVehicle(int id)
+
+        public Result DeleteVehicle(int vehicleId)
         {
-            try
-            {
-                var res = new VehicleRal(_tenant).DeleteVehicleById(id);
-                _resultContent.Add(res.WithName("DeleteVehicle"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch(Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new VehicleRal(_tenant).DeleteVehicleById, vehicleId, "Status");
         }
-        public Result GetClientVehicleById(int id)
+        public Result GetClientVehicleById(int clientId)
         {
-            try
-            {
-                var res = new VehicleRal(_tenant).GetVehicleById(id);
-                _resultContent.Add(res.WithName("GetVehicle"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch(Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleById, clientId, "Status");
         }
-        
     }
 }

@@ -8,6 +8,6 @@ namespace Strive.BusinessEntities.Client
 {
     public class ClientVehicleView : Client
     {
-        public List<ClientVehicle> ClientVehicle { get; set; }
+       // public List<ClientVehicle> ClientVehicle { get; set; }
     }
 }

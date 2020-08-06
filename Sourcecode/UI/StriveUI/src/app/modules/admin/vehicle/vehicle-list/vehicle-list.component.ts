@@ -32,8 +32,7 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle;  
-        console.log(vehicle.Vehicle);
+        this.vehicleDetails = vehicle.Vehicle[0].ClientVehicle;  
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {      
@@ -50,11 +49,12 @@ export class VehicleListComponent implements OnInit {
     this.showDialog = true;
   }
   delete(data) {
+    console.log(data);
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete(data.ClientVehicle[0]);
+          this.confirmDelete(data);
         }
       })
       .catch(() => { });
@@ -88,6 +88,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   getVehicleById(data, vehicleDet) {
+    console.log(vehicleDet);
     this.vehicle.getVehicleById(vehicleDet.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
@@ -95,7 +96,7 @@ export class VehicleListComponent implements OnInit {
         console.log(this.selectedVehicle);
         if (data === 'edit') {
           this.headerData = 'Edit vehicle';
-          this.selectedData = this.selectedVehicle[0];
+          this.selectedData = this.selectedVehicle;
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;

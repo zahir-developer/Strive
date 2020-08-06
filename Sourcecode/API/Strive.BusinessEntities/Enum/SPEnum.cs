@@ -33,6 +33,11 @@ namespace Strive.BusinessEntities
         USPGETALLCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
+        //GiftCard
+        USPGETALLGIFTCARD,
+        USPGETGIFTCARDBYID,
+        USPGIFTCARDCHANGESTATUS,
+        USPSAVEGIFTCARD,
         //Location
         USPGETLOCATION,
         USPSAVELOCATION,
@@ -91,7 +96,10 @@ namespace Strive.BusinessEntities
         USPUPDATEVEHICLE,
         USPDELETECLIENTVEHICLE,
         USPGETVEHICLEBYID,
-        USPSAVEVEHICLE
+        USPSAVEVEHICLE,
+        USPGETVEHICLE,
+        uspGetVihicleMembership,
+        uspUpdateVechicleMembership
     }
 
 
