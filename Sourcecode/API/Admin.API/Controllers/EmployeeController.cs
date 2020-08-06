@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.Employee;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
 using Strive.Common;
 
@@ -19,11 +20,11 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveEmployee([FromBody] EmployeeView lstEmployee) => _bplManager.SaveEmployeeDetails(lstEmployee);
+        public Result SaveEmployee([FromBody] EmployeeModel lstEmployee) => _bplManager.SaveEmployeeDetails(lstEmployee);
 
         [HttpPost]
         [Route("Delete")]
-        public Result DeleteEmployee(long empId) => _bplManager.DeleteEmployeeDetails(empId);
+        public Result DeleteEmployee(int empId) => _bplManager.DeleteEmployeeDetails(empId);
 
         #endregion
 
