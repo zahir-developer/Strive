@@ -179,7 +179,7 @@ export class ProductCreateEditComponent implements OnInit {
       isActive: this.productSetupForm.value.status == 0 ? true : false,
       vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount,
-      isDeleted: true,
+      isDeleted: false,
       createdBy: 0,
       createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
       updatedBy: 0,
