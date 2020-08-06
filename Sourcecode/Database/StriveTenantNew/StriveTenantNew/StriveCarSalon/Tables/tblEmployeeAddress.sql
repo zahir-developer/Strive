@@ -1,8 +1,8 @@
-CREATE TABLE [StriveCarSalon].[tblEmployeeAddress] (
+﻿CREATE TABLE [StriveCarSalon].[tblEmployeeAddress] (
     [EmployeeAddressId] INT                IDENTITY (1, 1) NOT NULL,
     [EmployeeId]        INT                NULL,
-    [Address1]          NVARCHAR (50)      NULL,
-    [Address2]          NVARCHAR (50)      NULL,
+    [Address1]          VARCHAR (50)       NULL,
+    [Address2]          VARCHAR (50)       NULL,
     [PhoneNumber]       VARCHAR (50)       NULL,
     [PhoneNumber2]      VARCHAR (50)       NULL,
     [Email]             VARCHAR (50)       NULL,
@@ -22,6 +22,8 @@ CREATE TABLE [StriveCarSalon].[tblEmployeeAddress] (
     CONSTRAINT [FK_tblEmployeeAddress_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
     CONSTRAINT [FK_tblEmployeeAddress_State] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

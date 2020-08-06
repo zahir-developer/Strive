@@ -45,7 +45,22 @@ ON EmpDet.EmployeeId = EmpLo.EmployeeId
 WHERE
 EmpDet.AuthId = @AuthId AND EmpLo.IsActive=1 AND EmpLo.IsDeleted=0
 
+SELECT EmpLoDr.drawerid,EmpLoDr.DrawerName, Lo.LocationId
+FROM
+StriveCarSalon.tblDrawer EmpLoDr
+INNER JOIN
+StriveCarSalon.tblLocation Lo 
+ON EmpLoDr.LocationId=Lo.LocationId
+INNER JOIN 
+StriveCarSalon.tblEmployeeLocation EmpLo
+ON EmpLo.LocationId = EmpLoDr.LocationId
+INNER JOIN
+StriveCarSalon.tblEmployeeDetail EmpDet
+ON EmpDet.EmployeeId = EmpLo.EmployeeId 
+WHERE
+EmpDet.AuthId = @AuthId AND EmpLoDr.IsActive=1 AND EmpLoDr.IsDeleted=0
 
+--select * from StriveCarSalon.tbldrawer
 --select * from StriveCarSalon.tblEmployeeLocation
 
 --select 

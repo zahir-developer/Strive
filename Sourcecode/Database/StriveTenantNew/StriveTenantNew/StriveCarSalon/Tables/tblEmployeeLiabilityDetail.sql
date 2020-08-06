@@ -2,7 +2,7 @@
     [LiabilityDetailId]   INT                IDENTITY (1, 1) NOT NULL,
     [LiabilityId]         INT                NULL,
     [LiabilityDetailType] INT                NOT NULL,
-    [Amount]              FLOAT (53)         NULL,
+    [Amount]              DECIMAL (19, 4)    NULL,
     [PaymentType]         INT                NULL,
     [DocumentPath]        VARCHAR (200)      NULL,
     [Description]         VARCHAR (100)      NULL,
@@ -17,6 +17,8 @@
     CONSTRAINT [FK_tblEmployeeLiabilityDetail_LiabilityId] FOREIGN KEY ([LiabilityId]) REFERENCES [StriveCarSalon].[tblEmployeeLiability] ([LiabilityId]),
     CONSTRAINT [FK_tblEmployeeLiabilityDetail_PaymentType] FOREIGN KEY ([PaymentType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

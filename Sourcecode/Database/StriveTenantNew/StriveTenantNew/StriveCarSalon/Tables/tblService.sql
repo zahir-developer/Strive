@@ -3,10 +3,10 @@
     [ServiceName]     VARCHAR (50)       NULL,
     [ServiceType]     INT                NULL,
     [LocationId]      INT                NULL,
-    [Cost]            FLOAT (53)         NULL,
+    [Cost]            DECIMAL (19, 4)    NULL,
     [Commision]       BIT                NULL,
     [CommisionType]   INT                NULL,
-    [Upcharges]       FLOAT (53)         NULL,
+    [Upcharges]       DECIMAL (19, 4)    NULL,
     [ParentServiceId] INT                NULL,
     [CommissionCost]  DECIMAL (18, 2)    NULL,
     [IsActive]        BIT                NULL,
@@ -20,6 +20,8 @@
     CONSTRAINT [FK_tblService_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblService_ServiceType] FOREIGN KEY ([ServiceType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

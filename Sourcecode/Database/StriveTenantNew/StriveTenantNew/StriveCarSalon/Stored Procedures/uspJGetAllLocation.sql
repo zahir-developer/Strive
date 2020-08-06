@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [StriveCarSalon].[uspJGetAllLocation]
 
 AS 
@@ -16,5 +17,5 @@ LEFT JOIN [StriveCarSalon].[tblLocationAddress] tblla ON(tbll.LocationId = tblla
 LEFT JOIN [StriveCarSalon].GetTable('LocationType') tblcv ON(tbll.LocationType = tblcv.valueid)
 
 WHERE
-isnull(tbll.IsDeleted,0)=0 and isnull(tblla.IsDeleted,0)=0 and isnull(tblla.IsActive,1)=1 
+isnull(tbll.IsDeleted,0)=0 and isnull(tblla.IsDeleted,0)=0 
 END

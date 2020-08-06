@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [StriveCarSalon].uspGet
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGet]
 AS
 BEGIN
 SELECT 
@@ -26,8 +26,8 @@ SELECT
 ,tblEmployee.[BirthDate]              AS Employee_BirthDate	
 ,tblEmployee.[ImmigrationStatus]      AS Employee_ImmigrationStatus	
 ,tblEmployee.[CreatedDate]            AS Employee_CreatedDate	
-,tblEmployeeAddress.[AddressId]       AS EmployeeAddress_AddressId	
-,tblEmployeeAddress.[RelationshipId]  AS EmployeeAddress_RelationshipId	
+,tblEmployeeAddress.[EmployeeAddressId]       AS EmployeeAddress_EmployeeAddressId	
+,tblEmployeeAddress.[EmployeeId]  AS EmployeeAddress_EmployeeId	
 ,tblEmployeeAddress.[Address1]        AS EmployeeAddress_Address1	
 ,tblEmployeeAddress.[Address2]        AS EmployeeAddress_Address2	
 ,tblEmployeeAddress.[PhoneNumber]     AS EmployeeAddress_PhoneNumber	
@@ -37,8 +37,7 @@ SELECT
 ,tblEmployeeAddress.[State]           AS EmployeeAddress_State	
 ,tblEmployeeAddress.[Zip]             AS EmployeeAddress_Zip	
 ,tblEmployeeAddress.[IsActive]        AS EmployeeAddress_IsActive	
-,tblEmployeeAddress.[AddressId]       AS EmployeeAddress_AddressId	
-,tblEmployeeAddress.[RelationshipId]  AS EmployeeAddress_RelationshipId	
+,tblEmployeeAddress.[EmployeeId]  AS EmployeeAddress_EmployeeId	
 ,tblEmployeeAddress.[Address1]        AS EmployeeAddress_Address1	
 ,tblEmployeeAddress.[Address2]        AS EmployeeAddress_Address2	
 ,tblEmployeeAddress.[PhoneNumber]     AS EmployeeAddress_PhoneNumber	
@@ -78,6 +77,6 @@ SELECT
 ,tblEmployeeDetail.[Exemptions]       AS EmployeeDetail_Exemptions
 FROM 
 [StriveCarSalon].[tblEmployee]					WITH (NOLOCK)
-LEFT JOIN [StriveCarSalon].[tblEmployeeAddress]	WITH (NOLOCK) ON tblEmployee.EmployeeId=tblEmployeeAddress.RelationshipId
+LEFT JOIN [StriveCarSalon].[tblEmployeeAddress]	WITH (NOLOCK) ON tblEmployee.EmployeeId=tblEmployeeAddress.EmployeeId
 LEFT JOIN [StriveCarSalon].[tblEmployeeDetail]	WITH (NOLOCK) ON tblEmployee.EmployeeId=tblEmployeeDetail.EmployeeId
 END

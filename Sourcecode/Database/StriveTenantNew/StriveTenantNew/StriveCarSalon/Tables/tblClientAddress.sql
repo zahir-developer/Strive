@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblClientAddress] (
     [ClientAddressId] INT                IDENTITY (1, 1) NOT NULL,
     [ClientId]        INT                NULL,
-    [Address1]        NVARCHAR (50)      NULL,
-    [Address2]        NVARCHAR (50)      NULL,
+    [Address1]        VARCHAR (50)       NULL,
+    [Address2]        VARCHAR (50)       NULL,
     [PhoneNumber]     VARCHAR (50)       NULL,
     [PhoneNumber2]    VARCHAR (50)       NULL,
     [Email]           VARCHAR (50)       NULL,
@@ -22,6 +22,8 @@
     CONSTRAINT [FK_tblClientAddress_Country] FOREIGN KEY ([Country]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClientAddress_State] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

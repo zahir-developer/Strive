@@ -9,7 +9,7 @@
     [VehicleYear]    VARCHAR (6)        NULL,
     [VehicleColor]   INT                NULL,
     [Upcharge]       INT                NULL,
-    [Barcode]        NVARCHAR (50)      NULL,
+    [Barcode]        VARCHAR (50)       NULL,
     [Notes]          VARCHAR (20)       NULL,
     [IsActive]       BIT                NULL,
     [IsDeleted]      BIT                NULL,
@@ -24,6 +24,8 @@
     CONSTRAINT [FK_tblClientVehicle_VehicleMfr] FOREIGN KEY ([VehicleMfr]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClientVehicle_VehicleModel] FOREIGN KEY ([VehicleModel]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 
