@@ -34,6 +34,10 @@ namespace Admin.API.Controllers
         public Result GetVehicleById(int id) => _bplManager.GetClientVehicleById(id);
 
         [HttpGet]
+        [Route("GetVehicleId")]
+        public Result GetVehicleId(int id) => _bplManager.GetVehicleId(id);
+
+        [HttpGet]
         [Route("GetAll")]
         public Result GetAllVehicle()
         {
@@ -47,7 +51,20 @@ namespace Admin.API.Controllers
             return _bplManager.GetVehicleMembership();
         }
         [HttpGet]
-        [Route("GetCodeType")]
-        public Result GetAllCodeType() => _bplManager.GetAllCodeType();
+        [Route("GetCodeTypeColour")]
+        public Result GetVehicleColour() => _bplManager.GetVehicleColour();
+        [HttpGet]
+        [Route("GetCodeTypeModel")]
+        public Result GetCodeTypeModel() => _bplManager.GetCodeTypeModel();
+        [HttpGet]
+        [Route("GetCodeModel")]
+        public Result GetCodeModel() => _bplManager.GetCodeModel();
+        [HttpGet]
+        [Route("GetCodeUpcharge")]
+        public Result GetCodeUpcharge() => _bplManager.GetCodeUpcharge();
+        [HttpGet]
+        [Route("GetCodeMake")]
+        public Result GetCodeMake() => _bplManager.GetCodeMake();
+        
     }
 }

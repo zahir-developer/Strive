@@ -45,9 +45,31 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleById, clientId, "Status");
         }
-        public Result GetAllCodeType()
+        public Result GetVehicleId(int vehicleId)
         {
-            return ResultWrap(new VehicleRal(_tenant).GetAllCodeType, "CodeType");
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleId, vehicleId, "Status");
         }
+        public Result GetVehicleColour()
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleColour, "CodeType");
+        }
+        public Result GetCodeTypeModel()
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetCodeTypeModel, "CodeType");
+        }
+        public Result GetCodeModel()
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetCodeModel, "CodeType");
+        }
+        public Result GetCodeUpcharge()
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetCodeUpcharge, "CodeType");
+        }
+        public Result GetCodeMake()
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetCodeMake, "CodeType");
+        }
+
+        
     }
 }
