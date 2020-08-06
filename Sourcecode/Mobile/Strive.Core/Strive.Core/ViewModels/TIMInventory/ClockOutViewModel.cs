@@ -35,12 +35,13 @@ namespace Strive.Core.ViewModels.TIMInventory
             if (EmployeeData.EmployeeDetails != null)
             {
                 var EmployeeDetail = EmployeeData.EmployeeDetails;
+                var ClockInStatus = EmployeeData.ClockInStatus;
                 Name = EmployeeDetail.FirstName;
                 Role = EmployeeData.CurrentRole;
                 CurrentDate = DateUtils.GetTodayDateString();
-                ClockInTime = GetClockInTimeString();
-                ClockOutTime = GetClockOutTimeString();
-                TotalHours = GetTotalHours();
+                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.inTime);
+                ClockOutTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.outTime);
+                TotalHours = DateUtils.GetTimeDifferenceString(ClockInStatus.outTime, ClockInStatus.inTime);
             }
         }
 
@@ -48,22 +49,6 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             await _navigationService.Close(this);
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "boo!"));
-        }
-
-        string GetClockOutTimeString()
-        {
-            return string.Format("{0:hh.mmtt}", EmployeeData.ClockOutTime);
-        }
-
-        string GetClockInTimeString()
-        {
-            return string.Format("{0:hh.mmtt}", EmployeeData.ClockInTime);
-        }
-
-        string GetTotalHours()
-        {
-            TimeSpan difference = EmployeeData.ClockOutTime - EmployeeData.ClockInTime;
-            return string.Format("{0:D2}.{1:D2}", difference.Hours, difference.Minutes);
         }
     }
 }

@@ -50,7 +50,7 @@ export const UrlConfig = {
     getAllVehicle: `Admin/Vehicle/GetAllVehicle`,
     deleteDocument: `Admin/Document/`,
     updateVehicle: `Admin/Vehicle/UpdateVehicle`,
-    deleteVehicle: `Admin/Vehicle/DeleteVehicleById`,
+    deleteVehicle: `Admin/Vehicle/DeleteVehicleById/`,
     getVehicleById: `Admin/Vehicle/GetVehicleById/`,
     deleteCollision: `Admin/Collision/Delete/`,
     getDetailCollision: `Admin/Collision/GetCollisionById/`,

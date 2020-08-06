@@ -49,6 +49,8 @@
     <Compile Include="CashRegister\ICashRegisterBpl.cs" />
     <Compile Include="Client\ClientBpl.cs" />
     <Compile Include="Client\IClientBpl.cs" />
+    <Compile Include="GiftCard\GiftCardBpl.cs" />
+    <Compile Include="GiftCard\IGiftCardBpl.cs" />
     <Compile Include="TimeClock\TimeClockBpl.cs" />
     <Compile Include="TimeClock\ITimeClockBpl.cs" />
     <Compile Include="Collision\CollisionBpl.cs" />

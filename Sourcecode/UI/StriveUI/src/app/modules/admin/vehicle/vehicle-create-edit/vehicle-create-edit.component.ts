@@ -62,7 +62,7 @@ export class VehicleCreateEditComponent implements OnInit {
   submit() {   
     const formObj = [{
       clientVehicleId: 0,
-      clientId: 1,
+      clientId: 2,
       locationId: 1,
       vehicleNumber: this.vehicleForm.value.tag,
       vehicleMake: this.vehicleForm.value.make,
