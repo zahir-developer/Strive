@@ -163,6 +163,7 @@
     <Compile Include="DTO\Vendor\VendorView.cs" />
     <Compile Include="DTO\Weather\Weather.cs" />
     <Compile Include="DTO\Weather\WeatherInfoView.cs" />
+    <Compile Include="ViewModel\VehicleDetailViewModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipModel.cs" />
     <Compile Include="ViewModel\VehicleViewModel.cs" />
   </ItemGroup>
