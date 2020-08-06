@@ -51,12 +51,11 @@ export class VehicleCreateEditComponent implements OnInit {
   getVehicleById() {
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
-      tag: this.selectedData.VehicleNumber,
+      //tag: this.selectedData.VehicleNumber,
       make: this.selectedData.VehicleMake,
       model: this.selectedData.VehicleModel,
       color: this.selectedData.VehicleColor,
-      upcharge: this.selectedData.Upcharge,
-      //monthlyCharge: 0 ,
+      upcharge: this.selectedData.Upcharge
     });
   }
 

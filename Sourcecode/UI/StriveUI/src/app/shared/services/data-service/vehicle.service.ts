@@ -16,10 +16,10 @@ export class VehicleService {
     updateVehicle(obj) {
         return this.http.post(`${UrlConfig.totalUrl.updateVehicle}`, obj);
     }
-    deleteVehicle(id: number) {
-        return this.http.delete(`${UrlConfig.totalUrl.deleteVehicle}` + id);
+    deleteVehicle(vehicleId: number) {
+        return this.http.delete(`${UrlConfig.totalUrl.deleteVehicle}` , { params: { id: vehicleId } });
     }
-    getVehicleById(id: number) {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleById}` + id);
+    getVehicleById(vehicleId: number) {
+        return this.http.get(`${UrlConfig.totalUrl.getVehicleById}` , { params: { id: vehicleId } });
     }
 }
