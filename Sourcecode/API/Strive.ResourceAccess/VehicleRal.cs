@@ -14,6 +14,7 @@ using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.Code;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Strive.ResourceAccess
 {
@@ -52,9 +53,30 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", clientId);
              return db.FetchSingle<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
-        public List<Code> GetAllCodeType()
+        public VehicleDetailViewModel GetVehicleId(int vehicleId)
+        {
+            _prm.Add("VehicleId", vehicleId);
+            return db.FetchSingle<VehicleDetailViewModel>(SPEnum.uspGetVehicleById.ToString(), _prm);
+        }
+        public List<Code> GetVehicleColour()
         {
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLECOLOR);
+        }
+        public List<Code> GetCodeTypeModel()
+        {
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLEMODEL);
+        }
+        public List<Code> GetCodeModel()
+        {
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLEMANUFACTURER);
+        }
+        public List<Code> GetCodeUpcharge()
+        {
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.UPCHARGE);
+        }
+        public List<Code> GetCodeMake()
+        {
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.UPCHARGE);
         }
 
     }

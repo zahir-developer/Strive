@@ -53,8 +53,8 @@
     <Compile Include="GiftCard\IGiftCardBpl.cs" />
     <Compile Include="TimeClock\TimeClockBpl.cs" />
     <Compile Include="TimeClock\ITimeClockBpl.cs" />
-    <Compile Include="Collision\CollisionBpl.cs" />
-    <Compile Include="Collision\ICollisionBpl.cs" />
+    <Compile Include="Collission\CollissionBpl.cs" />
+    <Compile Include="Collission\ICollissionBpl.cs" />
     <Compile Include="Common\CommonBpl.cs" />
     <Compile Include="Common\ICommonBpl.cs" />
     <Compile Include="Document\DocumentBpl.cs" />
@@ -101,7 +101,7 @@
       <Name>Strive.Crypto</Name>
     </ProjectReference>
     <ProjectReference Include="..\Strive.ResourceAccess\Strive.ResourceAccess.csproj">
-      <Project>{1924CAB4-4E81-4C41-9626-0236C51C2488}</Project>
+      <Project>{1924cab4-4e81-4c41-9626-0236c51c2488}</Project>
       <Name>Strive.ResourceAccess</Name>
     </ProjectReference>
   </ItemGroup>

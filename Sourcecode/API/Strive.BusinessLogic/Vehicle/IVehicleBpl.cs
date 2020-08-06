@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 
@@ -13,6 +14,11 @@ namespace Strive.BusinessLogic.Vehicle
         Result SaveClientVehicle(VehicleDto vehicle);
         Result DeleteVehicle(int vehicleId);
         Result GetClientVehicleById(int clientId);
-        Result GetAllCodeType();
+        Result GetVehicleId(int vehicleId);
+        Result GetVehicleColour();
+        Result GetCodeTypeModel();
+        Result GetCodeModel();
+        Result GetCodeUpcharge();
+        Result GetCodeMake();
     }
 }

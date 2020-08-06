@@ -35,6 +35,8 @@ namespace Strive.Common
         STATE,
         VEHICLECOLOR,
         VEHICLEMANUFACTURER,
-        VEHICLEMODEL
+        VEHICLEMODEL,
+        UPCHARGE,
+        MAKE
     }
 }
