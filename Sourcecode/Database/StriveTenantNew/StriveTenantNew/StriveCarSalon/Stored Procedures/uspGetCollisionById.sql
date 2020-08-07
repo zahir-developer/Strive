@@ -1,28 +1,42 @@
 ﻿
-CREATE proc [StriveCarSalon].[uspGetCollisionById] 
-(@CollisionId int)
-as
-begin
-select tblempl.LiabilityId,
-tblempl.EmployeeId,
-tblempl.LiabilityType,
-tblempl.LiabilityDescription,
-tblempl.ProductId,
-tblempl.Status,
-tblempL.CreatedDate,
 
-tblempld.LiabilityDetailId      AS LiabilityDetail_LiabilityDetailId,
-tblempld.LiabilityId            AS LiabilityDetail_LiabilityId,
-tblempld.LiabilityDetailType          AS LiabilityDetail_LiabilityDetailType,
-tblempld.Amount                AS LiabilityDetail_Amount,
-tblempld.PaymentType            AS LiabilityDetail_PaymentType,
-tblempld.DocumentPath               AS LiabilityDetail_DocumentPath,
-tblempld.Description              AS LiabilityDetail_Description,
-tblempld.CreatedDate               AS LiabilityDetail_CreatedDate,
-tblempld.IsActive               AS LiabilityDetail_IsActive
 
-from [StriveCarSalon].tblEmployeeLiability tblempl inner join 
-[StriveCarSalon].tblEmployeeLiabilityDetail tblempld on(tblempl.LiabilityId = tblempld.LiabilityId)
 
-where tblempl.LiabilityId = @CollisionId
-end
+CREATE PROC [StriveCarSalon].[uspGetCollisionById]
+(@LiabilityId int = null)
+AS
+BEGIN
+
+
+Select
+LiabilityId,
+EmployeeId,
+LiabilityType,
+LiabilityDescription,
+ProductId,
+Status
+FROM 
+strivecarsalon.tblEmployeeLiability  
+WHERE
+isnull(isDeleted,0) = 0  AND
+(@LiabilityId is null or LiabilityId = @LiabilityId)
+
+SELECT 
+tbleld.LiabilityDetailId,
+tbleld.LiabilityId,
+tbleld.LiabilityDetailType,
+tbleld.Amount,
+tbleld.PaymentType ,
+tbleld.DocumentPath, 
+tbleld.Description 
+FROM
+[StriveCarSalon].[tblEmployeeLiabilityDetail] tbleld
+INNER JOIN
+strivecarsalon.tblEmployeeLiability tblel 
+ON tbleld.LiabilityId = tblel.LiabilityId
+WHERE
+
+isnull(tblel.isDeleted,0) = 0 and
+(@LiabilityId is null or tbleld.LiabilityId = @LiabilityId)
+
+END

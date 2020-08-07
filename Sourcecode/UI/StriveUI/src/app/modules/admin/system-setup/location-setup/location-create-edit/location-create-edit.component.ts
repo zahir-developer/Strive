@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -24,7 +25,7 @@ export class LocationCreateEditComponent implements OnInit {
   selectedStateId: any;
   selectedCountryId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
-              private uiLoaderService: NgxUiLoaderService) { }
+    private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -45,26 +46,26 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['',Validators.email],
+      email: ['', Validators.email],
       franchise: ['',],
       workHourThreshold: ['',]
     });
   }
 
   getLocationById() {
-    const locationAddress = this.selectedData.LocationAddress;
+    const locationAddress = this.selectedData;
     this.selectedStateId = locationAddress.State;
     this.State = this.selectedStateId;
     this.selectedCountryId = locationAddress.Country;
     this.Country = this.selectedCountryId;
     this.locationSetupForm.patchValue({
       locationName: this.selectedData.LocationName,
-      locationAddress: this.selectedData.LocationAddress.Address1,
-      locationAddress2: this.selectedData.LocationAddress.Address2,
+      locationAddress: this.selectedData.Address1,
+      locationAddress2: this.selectedData.Address2,
       workHourThreshold: this.selectedData.WorkhourThreshold,
-      zipcode: this.selectedData.LocationAddress.Zip,
-      phoneNumber: this.selectedData.LocationAddress.PhoneNumber,
-      email: this.selectedData.LocationAddress.Email,
+      zipcode: this.selectedData.Zip,
+      phoneNumber: this.selectedData.PhoneNumber,
+      email: this.selectedData.Email,
       franchise: this.selectedData.IsFranchise
     });
   }
@@ -85,53 +86,83 @@ export class LocationCreateEditComponent implements OnInit {
     }
     const sourceObj = [];
     this.address = {
-      relationshipId: this.isEdit ? this.selectedData.LocationId : 0,
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,
+      locationId: this.isEdit ? this.selectedData.LocationId : 0,
       address1: this.locationSetupForm.value.locationAddress,
       address2: this.locationSetupForm.value.locationAddress2,
-      phoneNumber2: "",
-      isActive: true,
-      zip: this.locationSetupForm.value.zipcode,
-      state: this.State,
-      city: 1,
-      country: this.Country,
       phoneNumber: this.locationSetupForm.value.phoneNumber,
-      email: this.locationSetupForm.value.email
-    }
+      phoneNumber2: '',
+      email: this.locationSetupForm.value.email,
+      city: 1,
+      state: this.State,
+      zip: this.locationSetupForm.value.zipcode,
+      country: this.Country,
+      longitude: 0,
+      latitude: 0,
+      weatherLocationId: 0,
+      isActive: true,
+      isDeleted: false,
+      // createdBy: 0,
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      // updatedBy: 0,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+    };
     const formObj = {
       locationId: this.isEdit ? this.selectedData.LocationId : 0,
       locationType: 1,
       locationName: this.locationSetupForm.value.locationName,
-      locationDescription: "",
-      isActive: true,
-      taxRate: "",
-      siteUrl: "",
+      locationDescription: '',
+      isFranchise: this.locationSetupForm.value.franchise === '' ? false : this.locationSetupForm.value.franchise,
+      taxRate: '',
+      siteUrl: '',
       currency: 0,
-      facebook: "",
-      twitter: "",
-      instagram: "",
-      wifiDetail: "",
-      workHourThreshold: this.locationSetupForm.value.workHourThreshold,
-      locationAddress: this.address,
-      isFranchise: this.locationSetupForm.value.franchise == "" ? false : this.locationSetupForm.value.franchise
+      facebook: '',
+      twitter: '',
+      instagram: '',
+      wifiDetail: '',
+      workhourThreshold: this.locationSetupForm.value.workHourThreshold,
+      startTime: '',
+      endTime: '',
+      isActive: true,
+      isDeleted: false,
+      // createdBy: 0,
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      // updatedBy: 0,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
-    sourceObj.push(formObj);
-    // this.uiLoaderService.start();
-    this.locationService.updateLocation(sourceObj).subscribe(data => {
-      // this.uiLoaderService.stop();
-      if (data.status === 'Success') {
-        if (this.isEdit === true) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
-        } else {
+    const finalObj = {
+      location: this.address,
+      locationAddress: formObj
+    };
+    if (this.isEdit === false) {
+      this.locationService.saveLocation(finalObj).subscribe(data => {
+        if (data.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+          this.locationSetupForm.reset();
+          this.submitted = false;
+
+          // if (this.isEdit === true) {
+          //   this.toastr.success('Record Updated Successfully!!', 'Success!');
+          // } else {
+
+          // }
         }
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-        this.locationSetupForm.reset();
-        this.submitted = false;
-      }
-    });
+      });
+    } else {
+      this.locationService.updateLocation(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+          this.locationSetupForm.reset();
+          this.submitted = false;
+        }
+      });
+    }
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });

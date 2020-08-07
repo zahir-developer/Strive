@@ -41,8 +41,8 @@
     <Compile Include="DTO\Client\ClientDto.cs" />
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
-    <Compile Include="DTO\Collission\CollissionDto.cs" />
-    <Compile Include="DTO\Collission\CollisionListView.cs" />
+    <Compile Include="DTO\Collision\CollisionDto.cs" />
+    <Compile Include="DTO\Collision\CollisionListView.cs" />
     <Compile Include="DTO\Authentication.cs" />
     <Compile Include="DTO\Auth\ResetPassword.cs" />
     <Compile Include="DTO\Auth\User.cs" />
@@ -62,6 +62,8 @@
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="Model\EmployeeModel.cs" />
+    <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CollisionViewModel.cs" />
     <Compile Include="Model\AuthMaster.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Model\TenantModule.cs" />
     <Compile Include="Model\Themes.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
     <Compile Include="DTO\Vendor\VendorDTO.cs" />
@@ -142,9 +145,9 @@
     <Compile Include="DTO\Client\ClientAddress.cs" />
     <Compile Include="DTO\Client\ClientList.cs" />
     <Compile Include="DTO\Code\Code.cs" />
-    <Compile Include="DTO\Collission\Collision.cs" />
-    <Compile Include="DTO\Collission\CollisionList.cs" />
-    <Compile Include="DTO\Collission\LiabilityDetail.cs" />
+    <Compile Include="DTO\Collision\Collision.cs" />
+    <Compile Include="DTO\Collision\CollisionList.cs" />
+    <Compile Include="DTO\Collision\LiabilityDetail.cs" />
     <Compile Include="DTO\Document\Document.cs" />
     <Compile Include="DTO\Document\DocumentView.cs" />
     <Compile Include="DTO\Employee\Employee.cs" />

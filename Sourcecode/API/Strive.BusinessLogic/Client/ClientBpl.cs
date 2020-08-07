@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessLogic.Client;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.Auth;
-using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.Model;
 
 namespace Strive.BusinessLogic
 {

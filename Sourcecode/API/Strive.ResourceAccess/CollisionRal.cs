@@ -11,9 +11,9 @@ using System.Text;
 
 namespace Strive.ResourceAccess
 {
-    public class CollissionRal : RalBase
+    public class CollisionRal : RalBase
     {
-        public CollissionRal(ITenantHelper tenant) : base(tenant) { }
+        public CollisionRal(ITenantHelper tenant) : base(tenant) { }
         //IDbConnection _dbconnection;
         //    public Db db;
         //    public CollisionRal(IDbConnection dbconnection)
@@ -35,15 +35,15 @@ namespace Strive.ResourceAccess
         //{
         //    return db.GetSingleByFkId<LocationAddress>(locationId, "LocationId");
         //}
-        //public CollissionDto GetAllCollission()
+        //public CollisionDto GetAllCollision()
         //{
-        //    var result = db.FetchMultiResult<CollissionDto>(SPEnum.USPGETCOLLISION.ToString(), _prm);
+        //    var result = db.FetchMultiResult<CollisionDto>(SPEnum.USPGETCOLLISION.ToString(), _prm);
         //    return result;
         //}
-        public CollissionDto GetCollissionById(int id)
+        public CollisionDto GetCollisionById(int id)
         {
             _prm.Add("@LiabilityId", id);
-            var result = db.FetchMultiResult<CollissionDto>(SPEnum.USPGETCOLLISIONBYID.ToString(), _prm);
+            var result = db.FetchMultiResult<CollisionDto>(SPEnum.USPGETCOLLISIONBYID.ToString(), _prm);
             return result;
         }
         //public List<CollisionListView> GetCollisionById(long id)

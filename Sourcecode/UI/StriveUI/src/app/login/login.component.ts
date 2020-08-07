@@ -50,8 +50,8 @@ export class LoginComponent implements OnInit {
         if (data.status === 'Success') {
           // this.display = true;
           const token = JSON.parse(data.resultData);
-          this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' +
-            token.EmployeeDetails.EmployeeRole[0].RoleName;
+          // this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' +
+          //   token.EmployeeDetails.EmployeeRole[0].RoleName;
           this.loadTheLandingPage();
         } else {
           this.errorFlag = true;

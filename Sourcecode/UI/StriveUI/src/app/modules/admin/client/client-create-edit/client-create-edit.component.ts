@@ -25,14 +25,14 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  vehicleDetails: any;
+  vehicleDetails: any =[];
   isTableEmpty: boolean;
   headerData: string;
   selectedVehicle: any;
   showVehicleDialog: boolean;
   page = 1;
   pageSize = 3;
-  collectionSize: number;
+  collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
 
@@ -69,7 +69,7 @@ export class ClientCreateEditComponent implements OnInit {
       checkOut: ['',],
       type: ['',]
     });
-    this.clientForm.get('status').patchValue(0);
+    this.clientForm.get('status').patchValue(0);   
   }
 
   getClientVehicle(id) {
@@ -86,7 +86,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error('Communication Error', 'Error!'); 
       }
     });
   }
@@ -169,12 +169,16 @@ export class ClientCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+    this.vehicle.addVehicle = [];
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.vehicleDetails = this.vehicle.addVehicle;       
+      this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
+      console.log(this.vehicleDetails);
       this.showVehicleDialog = false;
     }
     this.showVehicleDialog = event.isOpenPopup;

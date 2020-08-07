@@ -9,7 +9,7 @@
     [CardType]      INT                NULL,
     [CardNumber]    VARCHAR (50)       NULL,
     [Approval]      BIT                NULL,
-    [CheckNumber]   VARBINARY (50)     NULL,
+    [CheckNumber]   VARCHAR (50)       NULL,
     [GiftCardId]    INT                NULL,
     [Signature]     VARCHAR (10)       NULL,
     [PaymentStatus] INT                NULL,
@@ -28,6 +28,8 @@
     CONSTRAINT [FK_tblJobPayment_PaymentStatus] FOREIGN KEY ([PaymentStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblJobPayment_PaymentType] FOREIGN KEY ([PaymentType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

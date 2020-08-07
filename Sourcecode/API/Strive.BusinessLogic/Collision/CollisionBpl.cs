@@ -7,21 +7,21 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace Strive.BusinessLogic.Collission
+namespace Strive.BusinessLogic.Collision
 {
-    public class CollissionBpl : Strivebase, ICollissionBpl
+    public class CollisionBpl : Strivebase, ICollisionBpl
     {
-        public CollissionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
+        public CollisionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
         {
         }
-        //public Result GetAllCollission()
+        //public Result GetAllCollision()
         //{
-        //    return ResultWrap(new CollissionRal(_tenant).GetAllCollission, "Collision");
+        //    return ResultWrap(new CollisionRal(_tenant).GetAllCollision, "Collision");
         //}
 
-        public Result GetCollissionById(int id)
+        public Result GetCollisionById(int id)
         {
-            return ResultWrap(new CollissionRal(_tenant).GetCollissionById, id, "Collision");
+            return ResultWrap(new CollisionRal(_tenant).GetCollisionById, id, "Collision");
         }
         //public Result GetAllCollison()
         //{

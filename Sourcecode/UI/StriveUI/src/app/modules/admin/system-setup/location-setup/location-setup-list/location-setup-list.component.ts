@@ -22,7 +22,7 @@ export class LocationSetupListComponent implements OnInit {
   isLoading = true;
   page = 1;
   pageSize = 5;
-  collectionSize: number;
+  collectionSize: number = 0;
   constructor(private locationService: LocationService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
 
@@ -36,11 +36,13 @@ export class LocationSetupListComponent implements OnInit {
       this.isLoading =  false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);
+        console.log(location, 'location');
+        // this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);
+        this.locationSetupDetails = location.Location;
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.locationSetupDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.locationSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -90,10 +92,11 @@ export class LocationSetupListComponent implements OnInit {
   }
 
   getLocationById(data) {
-    this.locationService.getLocationById(data.LocationId).subscribe(data => {
-      if (data.status === 'Success') {
-        const location = JSON.parse(data.resultData);
-        this.selectedLocation = location.Location[0];
+    this.locationService.getLocationById(data.LocationId).subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        console.log(location, 'locationByid');
+        this.selectedLocation = location.Location;
         this.headerData = 'Edit Location';
         this.selectedData = this.selectedLocation;
         this.isEdit = true;
@@ -103,5 +106,5 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-  
+
 }

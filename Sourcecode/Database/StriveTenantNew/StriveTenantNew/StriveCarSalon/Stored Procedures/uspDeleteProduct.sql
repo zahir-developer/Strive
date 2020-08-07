@@ -1,7 +1,9 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspDeleteProduct] (@productId int)
+﻿
+
+CREATE PROCEDURE [StriveCarSalon].[uspDeleteProduct] (@productId int)
 AS
 BEGIN
 
-Update [StriveCarSalon].[tblProduct] SET IsActive = 0 WHERE ProductId = @productId
+Update [StriveCarSalon].[tblProduct] SET  IsDeleted=1 WHERE ProductId = @productId
 
 END

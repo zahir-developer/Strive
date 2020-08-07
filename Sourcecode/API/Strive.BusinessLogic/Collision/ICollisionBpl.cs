@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Strive.BusinessLogic.Collission
+namespace Strive.BusinessLogic.Collision
 {
-    public interface ICollissionBpl
+    public interface ICollisionBpl
     {
         //Result GetAllCollission();
         //Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision);
        // Result DeleteCollision(long id);
-        Result GetCollissionById(int id);
+        Result GetCollisionById(int id);
         //Result GetCollisionByEmpId(long id);
     }
 }

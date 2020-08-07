@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblVendorAddress] (
     [VendorAddressId] INT                IDENTITY (1, 1) NOT NULL,
     [VendorId]        INT                NULL,
-    [Address1]        NVARCHAR (50)      NULL,
-    [Address2]        NVARCHAR (50)      NULL,
+    [Address1]        VARCHAR (50)       NULL,
+    [Address2]        VARCHAR (50)       NULL,
     [PhoneNumber]     VARCHAR (50)       NULL,
     [PhoneNumber2]    VARCHAR (50)       NULL,
     [Email]           VARCHAR (50)       NULL,
@@ -20,6 +20,8 @@
     CONSTRAINT [PK_tblVendorAddress] PRIMARY KEY CLUSTERED ([VendorAddressId] ASC),
     CONSTRAINT [FK_tblVendorAddress_VendorId] FOREIGN KEY ([VendorId]) REFERENCES [StriveCarSalon].[tblVendor] ([VendorId])
 );
+
+
 
 
 

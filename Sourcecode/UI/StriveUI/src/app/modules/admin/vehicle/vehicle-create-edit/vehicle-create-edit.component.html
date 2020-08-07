@@ -10,14 +10,14 @@
                 <label for="inputMake">Make</label>
                 <select class="form-control" formControlName="make">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let make of make" value="{{make.id}}">{{make.Value}}</option>
+                    <option *ngFor="let make of make" value="{{make.CodeId}}">{{make.CodeValue}}</option>
                 </select>
             </div>
             <div class="form-group col-lg-4">
                 <label for="inputModel">Model</label>
                 <select class="form-control" formControlName="model">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let model of model" value="{{model.id}}">{{model.Value}}</option>
+                    <option *ngFor="let model of model" value="{{model.CodeId}}">{{model.CodeValue}}</option>
                 </select>
             </div>  
         </div>
@@ -33,7 +33,7 @@
                 <label for="inputUpcharge">Upcharge</label>
                 <select class="form-control" formControlName="upcharge">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let upcharge of upcharge" value="{{upcharge.id}}">{{upcharge.Value}}</option>
+                    <option *ngFor="let upcharge of upcharge" value="{{upcharge.CodeId}}">{{upcharge.CodeValue}}</option>
                 </select>
             </div>
             <div class="form-group col-lg-4">
@@ -49,7 +49,7 @@
                 <label for="inputMembership">Membership</label>
                 <select class="form-control" formControlName="membership">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let member of membership" value="{{member.id}}">{{member.Value}}</option>
+                    <option *ngFor="let member of membership" value="{{member.MembershipName}}">{{member.MembershipName}}</option>
                 </select>
             </div>
             <div class="form-group col-lg-4">

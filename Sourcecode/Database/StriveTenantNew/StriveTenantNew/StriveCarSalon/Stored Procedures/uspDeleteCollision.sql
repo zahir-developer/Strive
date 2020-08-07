@@ -1,10 +1,11 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspDeleteCollision]
+﻿
+CREATE PROCEDURE [StriveCarSalon].[uspDeleteCollision]
     (
      @tvpEmployeeLiabilityId int)
 AS 
 BEGIN
     UPDATE [StriveCarSalon].[tblEmployeeLiability] 
-    SET IsActive=0 WHERE LiabilityId = @tvpEmployeeLiabilityId
+    SET IsDeleted=1 WHERE LiabilityId = @tvpEmployeeLiabilityId
 	UPDATE [StriveCarSalon].[tblEmployeeLiabilityDetail] 
-    SET IsActive=0 WHERE LiabilityId = @tvpEmployeeLiabilityId
+    SET IsDeleted=1 WHERE LiabilityId = @tvpEmployeeLiabilityId
 END

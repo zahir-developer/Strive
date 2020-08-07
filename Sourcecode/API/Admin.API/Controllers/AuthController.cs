@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
 
@@ -24,12 +25,12 @@ namespace Admin.Api.Controllers
         public Result Refresh([FromBody] RegenerateToken regToken) => _bplManager.GenerateTokenByRefreshKey(regToken.Token, regToken.RefreshToken, GetSecretKey());
 
         [HttpPost, Route("CreateLogin")]
-        public Result CreateLogin([FromBody]UserLogin userLogin)
+        public Result CreateLogin([FromBody]AuthMaster authMaster)
         {
             Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
             Result _result;
 
-            var result = _bplManager.CreateLogin(userLogin);
+            var result = _bplManager.CreateLogin(authMaster.EmailId, authMaster.MobileNumber);
 
             _resultContent.Add((result > 0).WithName("Status"));
             _result = Helper.BindSuccessResult(_resultContent);

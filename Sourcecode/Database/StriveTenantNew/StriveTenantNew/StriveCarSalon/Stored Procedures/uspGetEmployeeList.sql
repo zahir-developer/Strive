@@ -1,4 +1,5 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetEmployeeList]
+﻿
+CREATE PROC [StriveCarSalon].[uspGetEmployeeList]
 AS
 BEGIN
 
@@ -20,5 +21,6 @@ LEFT JOIN strivecarsalon.tblEmployeeLiability empli on emp.EmployeeId = empli.Em
 LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId
 LEFT JOIN StriveCarSalon.tblEmployeeLiability emplic on emp.EmployeeId = emplic.EmployeeId
 LEFT JOIN StriveCarSalon.tblEmployeeDocument empdoc on emp.EmployeeId = empdoc.EmployeeId
+AND emp.IsDeleted =0 AND empli.IsDeleted=0 and empdet.IsDeleted=0 and emplic.IsDeleted=0 and empdoc.IsDeleted=0
 
 END
