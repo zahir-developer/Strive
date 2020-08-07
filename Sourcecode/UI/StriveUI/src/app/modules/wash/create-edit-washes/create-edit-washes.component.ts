@@ -20,4 +20,8 @@ export class CreateEditWashesComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  cancel() {
+    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
 }

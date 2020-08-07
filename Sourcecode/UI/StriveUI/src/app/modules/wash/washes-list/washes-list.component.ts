@@ -34,7 +34,7 @@ export class WashesListComponent implements OnInit {
     } else if (data === 'edit') {
       this.headerData = 'Edit Service';
       this.selectedData = washDetails;
-      this.isEdit = false;
+      this.isEdit = true;
       this.isView = false;
       this.showDialog = true;
     } else {
