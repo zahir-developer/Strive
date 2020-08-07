@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessLogic.Client;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.Model;
 
 namespace Strive.BusinessLogic
@@ -22,7 +23,7 @@ namespace Strive.BusinessLogic
         {
         }
 
-        public Result SaveClientDetails(ClientView lstClient)
+        public Result SaveClientDetails(ClientDto client)
         {
             try
             {
@@ -41,45 +42,15 @@ namespace Strive.BusinessLogic
         }
         public Result GetAllClient()
         {
-            try
-            {
-                var lstClient = new ClientRal(_tenant).GetAllClient();
-                _resultContent.Add(lstClient.WithName("Clients"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new ClientRal(_tenant).GetAllClient, "Client");
         }
-        public Result GetClientById(int id)
+        public Result GetClientById(int clientId)
         {
-            try
-            {
-                var lstClientById = new ClientRal(_tenant).GetClientById(id);
-                _resultContent.Add(lstClientById.WithName("ClientDetail"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new ClientRal(_tenant).GetClientById, clientId, "Status");
         }
         public Result DeleteClient(int clientId)
         {
-            try
-            {
-                var lstClient = new ClientRal(_tenant).DeleteClient(clientId);
-                _resultContent.Add(lstClient.WithName("Client"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new ClientRal(_tenant).DeleteClient, clientId, "Status");
         }
     }
 }
