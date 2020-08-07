@@ -10,11 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Strive.BusinessEntities.Client;
 using System.Data;
-using Strive.BusinessEntities.MembershipSetup;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.Code;
 using Strive.BusinessEntities.DTO.Vehicle;
+
 
 namespace Strive.ResourceAccess
 {
@@ -35,6 +36,11 @@ namespace Strive.ResourceAccess
         public bool UpdateVehicleMembership(Membership Membership)
         {
             return dbRepo.Update(Membership);
+        }
+
+        public bool UpdateClientVehicle(ClientVehicle ClientVehicle)
+        {
+            return dbRepo.Update(ClientVehicle);
         }
 
         public bool SaveVehicle(VehicleDto client)
