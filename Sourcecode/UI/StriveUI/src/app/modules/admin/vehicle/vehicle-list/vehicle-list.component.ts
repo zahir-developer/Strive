@@ -19,7 +19,7 @@ export class VehicleListComponent implements OnInit {
   selectedVehicle: any;
   page = 1;
   pageSize = 5;
-  collectionSize: number;
+  collectionSize: number = 0;
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 

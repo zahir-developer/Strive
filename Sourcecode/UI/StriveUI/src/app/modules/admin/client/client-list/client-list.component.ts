@@ -23,7 +23,7 @@ export class ClientListComponent implements OnInit {
   selectedClient: any;
   page = 1;
   pageSize = 5;
-  collectionSize: number;
+  collectionSize: number = 0;
   constructor(private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private fb: FormBuilder) { }
 

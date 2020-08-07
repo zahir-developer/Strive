@@ -37,7 +37,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
                   [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
                 </ngb-pagination>
               </div>

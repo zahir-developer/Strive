@@ -3,8 +3,8 @@
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="#">Client</a></li>
+                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item">Client</li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Client</li>
                     <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Client</li>
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Client</li>
@@ -193,7 +193,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                        <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
                                             [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                                             class="d-flex justify-content-end">
                                         </ngb-pagination>

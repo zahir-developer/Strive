@@ -18,7 +18,7 @@ export class VendorSetupListComponent implements OnInit {
   isLoading = true;
   page = 1;
   pageSize = 5;
-  collectionSize: number;
+  collectionSize: number = 0;
   constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {

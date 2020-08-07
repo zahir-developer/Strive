@@ -18,7 +18,7 @@ export class ProductSetupListComponent implements OnInit {
   isTableEmpty: boolean;
   page = 1;
   pageSize = 5;
-  collectionSize: number;
+  collectionSize: number = 0;
   constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {

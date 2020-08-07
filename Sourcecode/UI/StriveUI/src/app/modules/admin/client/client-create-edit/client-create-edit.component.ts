@@ -32,7 +32,7 @@ export class ClientCreateEditComponent implements OnInit {
   showVehicleDialog: boolean;
   page = 1;
   pageSize = 3;
-  collectionSize: number;
+  collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
 

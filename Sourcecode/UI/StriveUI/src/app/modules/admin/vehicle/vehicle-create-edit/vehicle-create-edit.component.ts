@@ -13,6 +13,7 @@ export class VehicleCreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
+  @Input() isView?: any;
   make:any;
   model:any;
   color:any;
@@ -25,6 +26,9 @@ export class VehicleCreateEditComponent implements OnInit {
     this.formInitialize();
     this.upchargeType = [{ id: 0, Value: "None" }, { id: 1, Value: "UpchargeType1" }, { id: 2, Value: "UpchargeType2" }];
     this.membership = [{ id: 0, Value: "Member1" }, { id: 1, Value: "Member2" }, { id: 2, Value: "Member3" }];
+    if (this.isView === true) {
+      this.viewVehicle();
+    }
     if (this.isEdit === true) {
       this.vehicleForm.reset();
       this.getVehicleById();
@@ -58,6 +62,10 @@ export class VehicleCreateEditComponent implements OnInit {
       color: this.selectedData.VehicleColor,
       upcharge: this.selectedData.Upcharge
     });
+  }
+
+  viewVehicle(){
+    this.vehicleForm.disable();
   }
 
   getVehicleMembership(){
@@ -122,19 +130,24 @@ export class VehicleCreateEditComponent implements OnInit {
   submit() {  
     const sourceObj=[]; 
     const formObj = {
-      clientVehicleId: 0,
-      clientId: 2,
+      clientVehicleId: this.selectedData.ClientVehicleId,
+      clientId: this.selectedData.ClientId,
       locationId: 1,
-      vehicleNumber: this.vehicleForm.value.tag,
-      vehicleMake: this.vehicleForm.value.make,
-      vehicleModel: this.vehicleForm.value.model,
+      vehicleNumber: this.selectedData.VehicleNumber,
+      vehicleMfr: this.selectedData.VehicleMakeId,
+      vehicleModel: this.selectedData.VehicleModelId,
       vehicleModelNo:0,
       vehicleYear:"",
-      vehicleColor: this.vehicleForm.value.color,
-      upcharge: this.vehicleForm.value.upcharge,
-      barcode: this.vehicleForm.value.barcode,
+      vehicleColor: this.selectedData.ColorId,
+      upcharge: this.selectedData.Upcharge,
+      barcode: this.selectedData.Barcode,
       notes: "",
-      createdDate: new Date()
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: new Date(),
+      updatedBy: 0,
+      updatedDate: new Date()
     };
     const add = {
       VehicleNumber: null,
