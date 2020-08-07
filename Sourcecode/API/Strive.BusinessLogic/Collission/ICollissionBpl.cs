@@ -1,4 +1,5 @@
-﻿using Strive.Common;
+﻿using Strive.BusinessEntities.DTO.Collision;
+using Strive.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +8,11 @@ namespace Strive.BusinessLogic.Collission
 {
     public interface ICollissionBpl
     {
-        //Result GetAllCollission();
-        //Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision);
-       // Result DeleteCollision(long id);
+        Result GetAllCollission();
         Result GetCollissionById(int id);
-        //Result GetCollisionByEmpId(long id);
+        Result GetCollissionByEmpId(int id);
+        Result DeleteCollission(int id);
+        Result AddCollission(CollissionDto collission);
+        Result UpdateCollission(CollissionDto collission);
     }
 }

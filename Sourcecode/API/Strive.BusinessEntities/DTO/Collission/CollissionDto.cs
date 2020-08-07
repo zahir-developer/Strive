@@ -10,6 +10,6 @@ namespace Strive.BusinessEntities.DTO.Collision
     public class CollissionDto
     {
         public Model.EmployeeLiability EmployeeLiability { get; set; }
-        public List<EmployeeLiabilityDetail> EmployeeLiabilityDetail { get; set; }
+        public EmployeeLiabilityDetail EmployeeLiabilityDetail { get; set; }
     }
 }
