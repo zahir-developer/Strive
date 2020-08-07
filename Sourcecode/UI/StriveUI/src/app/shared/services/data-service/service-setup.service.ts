@@ -16,13 +16,16 @@ export class ServiceSetupService {
   getServiceType(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getServiceType}`);
   }
+  addServiceSetup(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.addServiceSetup}`, obj);
+  }
   updateServiceSetup(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateServiceSetup}`, obj);
   }
-  deleteServiceSetup(id : number){
-      return this.http.delete(`${UrlConfig.totalUrl.deleteServiceSetup}`+ id);
+  deleteServiceSetup(serviceId : number){
+      return this.http.delete(`${UrlConfig.totalUrl.deleteServiceSetup}`,  { params: { id: serviceId } });
   }
-  getServiceSetupById(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.getServiceSetupById}`+ id);
+  getServiceSetupById(serviceId : number){
+    return this.http.get(`${UrlConfig.totalUrl.getServiceSetupById}`, { params: { id: serviceId } });
 }
 }

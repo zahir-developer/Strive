@@ -10,9 +10,11 @@
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     [websiteAddress] VARCHAR (250)      NULL,
-    [AccountNumber]  NVARCHAR (10)      NULL,
+    [AccountNumber]  VARCHAR (25)       NULL,
     CONSTRAINT [PK_tblVendor] PRIMARY KEY CLUSTERED ([VendorId] ASC)
 );
+
+
 
 
 

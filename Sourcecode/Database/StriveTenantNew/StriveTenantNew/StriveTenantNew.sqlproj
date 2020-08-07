@@ -209,5 +209,26 @@
     <Build Include="StriveCarSalon\User Defined Types\tvpCashRegisterBills.sql" />
     <Build Include="StriveCarSalon\User Defined Types\tvpCashRegister.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspJGetAllLocation.sql" />
+    <Build Include="StriveCarSalon\Tables\tblLocationWeather.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateVechicleMembership.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSoftDeleteRestrictReturnTable.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSoftDeleteRestrict.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSaveVehicle.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSaveGiftCard.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGiftCardChangeStatus.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetVihicleMembership.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetVehicleById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetVehicle.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetServices.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetProducts.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetGiftCardById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetClient.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllService.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllGiftCard.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllClient.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteClientVehicle.sql" />
+    <Build Include="dbo\Stored Procedures\uspClockTimeDetails.sql" />
+    <Build Include="StriveCarSalon\User Defined Types\tvpGiftCardHistory.sql" />
+    <Build Include="StriveCarSalon\User Defined Types\tvpGiftCard.sql" />
   </ItemGroup>
 </Project>

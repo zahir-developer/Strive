@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE PROCEDURE [StriveCarSalon].[uspGetLocation]
 
 AS 
@@ -35,4 +36,5 @@ SELECT tbll.LocationId,
 
 FROM [StriveCarSalon].[tblLocation] tbll inner join [StriveCarSalon].[tblLocationAddress] tblla
 		   ON(tbll.LocationId = tblla.LocationId)
+		   AND tbll.IsDeleted=0 AND tblla.IsDeleted=0
 END

@@ -13,14 +13,17 @@ export class ProductService {
    getProduct(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getProduct}`);
   }
+  addProduct(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.addProduct}`, obj);
+  }
   updateProduct(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateProduct}`, obj);
   } 
   deleteProduct(id : number){
-    return this.http.delete(`${UrlConfig.totalUrl.deleteProduct}`+ id);
+    return this.http.delete(`${UrlConfig.totalUrl.deleteProduct}`,  { params: { productId: id } });
   }
   getProductById(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.getProductById}`+ id);
+    return this.http.get(`${UrlConfig.totalUrl.getProductById}`,  { params: { productId: id } });
   } 
   getVendor(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getVendor}`);

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllProduct] 
+﻿
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllProduct] 
 --(@LocationId int = null)
 AS
 BEGIN
@@ -9,6 +10,6 @@ Cost, IsTaxable, TaxAmount, IsActive, ThresholdLimit
 
 FROM [StriveCarSalon].[tblProduct] WHERE 
 --LocationId = @LocationId and 
-IsActive = 1
+IsDeleted = 0
 
 END

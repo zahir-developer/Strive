@@ -4,6 +4,7 @@
 
 
 
+
 CREATE proc [StriveCarSalon].[uspGetEmployeeByEmpId] 
 (@EmployeeId int)
 as
@@ -38,8 +39,8 @@ tblempdet.LRT                   AS EmployeeDetail_LRT,
 tblempdet.Exemptions            AS EmployeeDetail_Exemptions,
 tblempdet.IsActive              AS EmployeeDetail_IsActive,
 
-tblempadd.AddressId             AS EmployeeAddress_EmployeeAddressId,
-tblempadd.RelationshipId        AS EmployeeAddress_RelationshipId,
+tblempadd.EmployeeAddressId             AS EmployeeAddress_EmployeeAddressId,
+tblempadd.EmployeeId        AS EmployeeAddress_EmployeeId,
 tblempadd.Address1              AS EmployeeAddress_Address1,
 tblempadd.Address2              AS EmployeeAddress_Address2,
 tblempadd.PhoneNumber           AS EmployeeAddress_PhoneNumber,
@@ -55,12 +56,13 @@ tblemprol.EmployeeId	    AS EmployeeRoles_EmployeeId,
 tblemprol.RoleId		    AS EmployeeRoles_RoleId,
 tblemprol.IsActive          AS EmployeeRoles_IsActive,
 tblemprol.IsDefault         AS EmployeeRoles_IsDefault,
-tblemprol.tblEmployeeRoleId AS EmployeeRoles_EmployeeRolesId
+tblemprol.EmployeeRoleId AS EmployeeRoles_EmployeeRolesId
 
 from [StriveCarSalon].tblEmployee tblemp inner join 
 [StriveCarSalon].tblEmployeeDetail tblempdet on(tblemp.EmployeeId = tblempdet.EmployeeId) inner join 
-[StriveCarSalon].tblEmployeeAddress tblempadd on(tblemp.EmployeeId = tblempadd.RelationshipId) inner join
+[StriveCarSalon].tblEmployeeAddress tblempadd on(tblemp.EmployeeId = tblempadd.EmployeeId) inner join
 [StriveCarSalon].tblEmployeeRole tblemprol on (tblemp.EmployeeId = tblemprol.EmployeeId)
 
 WHERE tblemp.EmployeeId = @EmployeeId
+AND tblemp.IsDeleted=0 AND tblempdet.IsDeleted=0 AND tblempadd.IsDeleted=0 AND tblemprol.IsDeleted=0
 end

@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE PROC [StriveCarSalon].[uspGetVendorById] 
 (@VendorId int)
 AS
@@ -12,8 +13,8 @@ tblVendor.VendorAlias,
 tblVendor.IsActive,
 
 
-tblVenaddress.AddressId      AS VendorAddress_VendorAddressId,
-tblVenaddress.RelationshipId            AS VendorAddress_RelationshipId,
+tblVenaddress.VendorAddressId      AS VendorAddress_VendorAddressId,
+tblVenaddress.VendorId            AS VendorAddress_VendorId,
 tblVenaddress.Address1          AS VendorAddress_Address1,
 tblVenaddress.Address2                AS VendorAddress_Address2,
 tblVenaddress.PhoneNumber               AS VendorAddress_PhoneNumber,
@@ -26,7 +27,8 @@ tblVenaddress.Zip                AS VendorAddress_Zip,
 tblVenaddress.Fax                AS VendorAddress_Fax,
 tblVenaddress.IsActive           AS VendorAddress_IsActive
 from  [StriveCarSalon].[tblVendor] tblVendor LEFT JOIN 
- [StriveCarSalon].[tblVendorAddress] tblVenaddress ON (tblVendor.VendorId = tblVenaddress.RelationshipId)
+ [StriveCarSalon].[tblVendorAddress] tblVenaddress ON (tblVendor.VendorId = tblVenaddress.VendorId)
 
 WHERE tblVendor.VendorId=@VendorId and tblVendor.IsActive=1
+AND tblVendor.IsDeleted=0 AND tblVenaddress.IsDeleted=0
 END

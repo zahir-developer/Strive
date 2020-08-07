@@ -32,6 +32,7 @@ export class ProductSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
         this.productSetupDetails = product.Product;
+        console.log(this.productSetupDetails);
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

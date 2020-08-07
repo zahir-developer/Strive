@@ -2,40 +2,68 @@
 
 
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById]
+
+CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] 
     (
      @tblLocationId int)
 AS 
 BEGIN
-SELECT tbll.LocationId,
-	   tbll.LocationType,
-	   tbll.LocationName,
-	   tbll.LocationDescription,
-	   tbll.IsFranchise,
-	   tbll.IsActive,
-	   tbll.TaxRate,
-	   tbll.SiteUrl,
-	   tbll.Currency,
-	   tbll.Facebook,
-	   tbll.Twitter,
-	   tbll.Instagram,
-	   tbll.WifiDetail,
-	   tbll.WorkhourThreshold,
+SELECT LocationId,
+	   LocationType,
+	   LocationName,
+	   LocationDescription,
+	   IsFranchise,
+	   IsActive,
+	   IsDeleted,
+	   TaxRate,
+	   SiteUrl,
+	   Currency,
+	   Facebook,
+	   Twitter,
+	   Instagram,
+	   WifiDetail,
+	   WorkhourThreshold,
+	   StartTime,
+	   EndTime
+	   
 
-	   tblla.AddressId					AS LocationAddress_LocationAddressId,
-	   tblla.RelationshipId				AS LocationAddress_RelationshipId,
-	   tblla.Address1					AS LocationAddress_Address1,
-	   tblla.Address2					AS LocationAddress_Address2,
-	   tblla.PhoneNumber				AS LocationAddress_PhoneNumber,
-	   tblla.PhoneNumber2				AS LocationAddress_PhoneNumber2,
-	   tblla.Email						AS LocationAddress_Email,
-	   tblla.City						AS LocationAddress_City,
-	   tblla.State						AS LocationAddress_State,
-	   tblla.Zip						AS LocationAddress_Zip,
-	   tblla.IsActive					AS LocationAddress_IsActive,
-	   tblla.Country					AS LocationAddress_Country
+FROM [StriveCarSalon].[tblLocation]  
+WHERE isnull(IsActive,1) = 1 AND
+isnull(isDeleted,0) = 0  AND
+LocationId = @tblLocationId
 
-FROM [StriveCarSalon].[tblLocation] tbll inner join [StriveCarSalon].[tblLocationAddress] tblla
-		   ON(tbll.LocationId = tblla.RelationshipId)
-           WHERE tbll.LocationId = @tblLocationId
+select 
+tblla.LocationAddressId	,
+	   tblla.LocationId	,			
+	   tblla.Address1,				
+	   tblla.Address2,				
+	   tblla.PhoneNumber,		
+	   tblla.PhoneNumber2,		
+	   tblla.Email,				
+	   tblla.City,					
+	   tblla.State,				
+	   tblla.Zip,					
+	   tblla.IsActive,			
+	   tblla.Country,				
+	   tblla.Longitude,
+	   tblla.Latitude,
+	   tblla.WeatherLocationId,
+	   tblla.IsDeleted
+	   from [StriveCarSalon].[tblLocation] tbll inner join [StriveCarSalon].[tblLocationAddress] tblla
+		   ON(tbll.LocationId = tblla.LocationId)
+           WHERE tbll.LocationId = @tblLocationId AND
+		   isnull(tblla.IsActive,1) = 1 AND
+		isnull(tblla.isDeleted,0) = 0  
+
+SELECT 
+DrawerId,
+DrawerName,
+LocationId,
+IsActive,
+IsDeleted
+
+FROM [StriveCarSalon].[tblDrawer]
+WHERE LocationId =@tblLocationId AND
+isnull(IsActive,1) = 1 AND
+isnull(isDeleted,0) = 0
 END

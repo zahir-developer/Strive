@@ -1,20 +1,21 @@
 ﻿
+
+
+
 CREATE proc [StriveCarSalon].[uspGetAllDocumentById] 
-(@EmployeeId int,
-@LocationId int)
+(@EmployeeId int)
 as
 begin
-select tbld.DocumentId,
+select tbld.EmployeeDocumentId,
        tbld.EmployeeId,
        tbld.Filename,
        tbld.Filepath,
        tbld.Password,
        tbld.CreatedDate,
-       tbld.ModifiedDate,
        tbld.IsActive
 
-from [StriveCarSalon].[tblDocument]  tbld inner join [StriveCarSalon].[tblEmployeeDetail] tbll
+from [StriveCarSalon].[tblEmployeeDocument]  tbld inner join [StriveCarSalon].[tblEmployeeDetail] tbll
 ON(tbld.EmployeeId = tbll.EmployeeId)
-WHERE tbld.EmployeeId=@EmployeeId and 
-	  tbll.LocationId =@LocationId 
+WHERE tbld.EmployeeId=@EmployeeId 
+and tbld.IsDeleted = 0
 end

@@ -18,8 +18,18 @@ namespace Strive.BusinessLogic
 {
     public class WeatherBpl : Strivebase, IWeatherBpl
     {
-        public WeatherBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
+        public WeatherBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
+        void SaveWeathertoDB_AutoProcess()
         {
+            //var weatherSchema = GetWeatherSchemaList();
+            //var weatherDetails
+
+        }
+
+        void IWeatherBpl.SaveWeathertoDB_AutoProcess()
+        {
+            throw new System.NotImplementedException();
         }
 
         public Result GetWeatherPrediction(int locationId, DateTime dateTime)
@@ -89,7 +99,7 @@ namespace Strive.BusinessLogic
             var result = "";
             string rainPercentage = "-";
             string Temperature = "-";
-            
+
             WeatherView weatherInfoView = new WeatherView();
             weatherInfoView.CurrentWeather = new WeatherInfo();
             weatherInfoView.LastWeekWeather = new WeatherInfo();
@@ -140,7 +150,7 @@ namespace Strive.BusinessLogic
 
         public decimal ConvertToFahrenheit(decimal celsius)
         {
-            return decimal.Round((celsius * 9/5) + 32);
+            return decimal.Round((celsius * 9 / 5) + 32);
         }
     }
 

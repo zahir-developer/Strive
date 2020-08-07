@@ -17,7 +17,6 @@ export class VehicleListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedVehicle: any;
-  clientName: any;
   page = 1;
   pageSize = 5;
   collectionSize: number;
@@ -32,7 +31,8 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle[0].ClientVehicle;  
+        this.vehicleDetails = vehicle.Vehicle;
+        console.log(this.vehicleDetails);  
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {      
@@ -76,23 +76,14 @@ export class VehicleListComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
   add(data, vehicleDet?) {
-    if (data === 'add') {
-      this.headerData = 'Add New vehicle';
-      this.showDialog = true;
-      this.selectedData = vehicleDet;
-      this.isEdit = false;
-      this.isView = false;
-    } else {
       this.getVehicleById(data, vehicleDet);
-    }
   }
 
   getVehicleById(data, vehicleDet) {
-    console.log(vehicleDet);
-    this.vehicle.getVehicleById(vehicleDet.ClientVehicleId).subscribe(res => {
+    this.vehicle.getVehicleId(vehicleDet.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
-        this.selectedVehicle = vehicle.GetVehicle;
+        this.selectedVehicle = vehicle.Status;
         console.log(this.selectedVehicle);
         if (data === 'edit') {
           this.headerData = 'Edit vehicle';

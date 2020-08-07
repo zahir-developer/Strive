@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE proc [StriveCarSalon].[uspGetEmployeeRoles]
 as
 begin
@@ -15,5 +16,5 @@ tblcv.SortOrder
 from [StriveCarSalon].[tblCodeValue] tblcv inner join 
 [StriveCarSalon].[tblCodeCategory] tblcc on(tblcv.CategoryId = tblcc.id) 
 where tblcc.Category='EmployeeRole'
-
+AND tblcv.IsDeleted=0 AND tblcc.IsDeleted=0
 end

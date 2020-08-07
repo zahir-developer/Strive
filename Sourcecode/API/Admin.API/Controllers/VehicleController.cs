@@ -1,49 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.Client;
+using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Vehicle;
+using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
+using System.Collections.Generic;
 
 namespace Admin.API.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class VehicleController : ControllerBase
+    public class VehicleController : StriveControllerBase<IVehicleBpl>
     {
-        readonly IVehicleBpl _IVehicleBpl = null;
+        public VehicleController(IVehicleBpl vehicleBpl) : base(vehicleBpl) { }
 
-        public VehicleController(IVehicleBpl vehicleBpl)
-        {
-            _IVehicleBpl = vehicleBpl;
-        }
+        [HttpPost]
+        [Route("Update")]
+        public Result UpdateVehicle([FromBody] VehicleDto vehicle) => _bplManager.SaveClientVehicle(vehicle);
+
+        [HttpPost]
+        [Route("UpdateMembership")]
+        public Result Update([FromBody] Membership Membership) => _bplManager.UpdateVehicleMembership(Membership);
+
+        [HttpDelete]
+        [Route("Delete")]
+        public Result DeleteVehicle(int id) => _bplManager.DeleteVehicle(id);
+
+
         [HttpGet]
-        [Route("GetAllVehicle")]
+        [Route("GetVehicleById")]
+        public Result GetVehicleById(int id) => _bplManager.GetClientVehicleById(id);
+
+        [HttpGet]
+        [Route("GetVehicleId")]
+        public Result GetVehicleId(int id) => _bplManager.GetVehicleId(id);
+
+        [HttpGet]
+        [Route("GetAll")]
         public Result GetAllVehicle()
         {
-            return _IVehicleBpl.GetAllVehicle();
+            return _bplManager.GetAllVehicle();
         }
-        [HttpPost]
-        [Route("UpdateVehicle")]
-        public Result UpdateVehicleById([FromBody] List<ClientVehicle> vehicle)
+
+        [HttpGet]
+        [Route("GetVehicleMembership")]
+        public Result GetVehicleMembership()
         {
-            return _IVehicleBpl.SaveClientVehicle(vehicle);
-        }
-        [HttpDelete]
-        [Route("DeleteVehicleById/{id}")]
-        public Result DeleteVehicleById(int id)
-        {
-            return _IVehicleBpl.DeleteVehicle(id);
+            return _bplManager.GetVehicleMembership();
         }
         [HttpGet]
-        [Route("GetVehicleById/{id}")]
-        public Result GetVehicleById(int id)
-        {
-            return _IVehicleBpl.GetClientVehicleById(id);
-        }
+        [Route("GetCodeTypeColour")]
+        public Result GetVehicleColour() => _bplManager.GetVehicleColour();
+        [HttpGet]
+        [Route("GetCodeTypeModel")]
+        public Result GetCodeTypeModel() => _bplManager.GetCodeTypeModel();
+        [HttpGet]
+        [Route("GetCodeModel")]
+        public Result GetCodeModel() => _bplManager.GetCodeModel();
+        [HttpGet]
+        [Route("GetCodeUpcharge")]
+        public Result GetCodeUpcharge() => _bplManager.GetCodeUpcharge();
+        [HttpGet]
+        [Route("GetCodeMake")]
+        public Result GetCodeMake() => _bplManager.GetCodeMake();
+        
     }
 }
