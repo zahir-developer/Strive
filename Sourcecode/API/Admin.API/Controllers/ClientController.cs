@@ -13,48 +13,39 @@ using Admin.Api.Controllers;
 using Strive.BusinessLogic.Auth;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities.Client;
+using Admin.API.Helpers;
+using Strive.BusinessEntities.DTO.Client;
 
 namespace Admin.API.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class ClientController
+    public class ClientController : StriveControllerBase<IClientBpl>
     {
-        IClientBpl _clientBpl = null;
-        readonly IAuthManagerBpl _authManager;
-        readonly IConfiguration _configuration;
-
-        public ClientController(IClientBpl clientBpl, IAuthManagerBpl authManager)
-        {
-            _clientBpl = clientBpl;
-            _authManager = authManager;
-        }
+        public ClientController(IClientBpl clientBpl) : base(clientBpl) { }
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveClientDetails([FromBody] ClientView client)
-        {
-            return _clientBpl.SaveClientDetails(client);
+        public Result SaveClientDetails([FromBody] ClientDto vehicle) => _bplManager.SaveClientDetails(vehicle);
 
-        }
         [HttpGet]
         [Route("GetAllClient")]
         public Result GetAllClient()
         {
-            return _clientBpl.GetAllClient();
+            return _bplManager.GetAllClient();
 
         }
         [HttpDelete]
         [Route("{clientId}")]
         public Result DeleteClient(int clientId)
         {
-            return _clientBpl.DeleteClient(clientId);
+            return _bplManager.DeleteClient(clientId);
         }
         [HttpGet]
-        [Route("GetClientById/{id}")]
-        public Result GetClientById(int id)
+        [Route("GetClientById/{clientId}")]
+        public Result GetClientById(int clientId)
         {
-            return _clientBpl.GetClientById(id);
+            return _bplManager.GetClientById(clientId);
         }
 
     }

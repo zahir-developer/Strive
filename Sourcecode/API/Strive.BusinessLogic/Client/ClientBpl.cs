@@ -12,32 +12,21 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessLogic.Client;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO.Client;
 
 namespace Strive.BusinessLogic
 {
-    public class ClientBpl : Strivebase,IClientBpl
+    public class ClientBpl : Strivebase, IClientBpl
     {
-        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
+        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
 
-        public Result SaveClientDetails(ClientView lstClient)
+        public Result SaveClientDetails(ClientDto client)
         {
             try
             {
-
-                    UserLogin lstclientlst = new UserLogin();
-                    lstclientlst.AuthId = 0;
-                    lstclientlst.EmailId = lstClient.ClientAddress.FirstOrDefault().Email;
-                    lstclientlst.MobileNumber = lstClient.ClientAddress.FirstOrDefault().PhoneNumber;
-                    lstclientlst.PasswordHash = "";
-                    lstclientlst.CreatedDate = lstClient.CreatedDate;
-                    var newitem = new CommonBpl(_cache, _tenant).CreateLogin(lstclientlst);
-                    bool blnStatus = new ClientRal(_tenant).SaveClientDetails(lstClient);
-
-                
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
+                return ResultWrap(new ClientRal(_tenant).SaveClientDetails, client, "Status");
             }
             catch (Exception ex)
             {
@@ -47,45 +36,15 @@ namespace Strive.BusinessLogic
         }
         public Result GetAllClient()
         {
-            try
-            {
-                var lstClient = new ClientRal(_tenant).GetAllClient();
-                _resultContent.Add(lstClient.WithName("Clients"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new ClientRal(_tenant).GetAllClient, "Client");
         }
-        public Result GetClientById(int id)
+        public Result GetClientById(int clientId)
         {
-            try
-            {
-                var lstClientById = new ClientRal(_tenant).GetClientById(id);
-                _resultContent.Add(lstClientById.WithName("ClientDetail"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new ClientRal(_tenant).GetClientById, clientId, "Status");
         }
         public Result DeleteClient(int clientId)
         {
-            try
-            {
-                var lstClient = new ClientRal(_tenant).DeleteClient(clientId);
-                _resultContent.Add(lstClient.WithName("Client"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new ClientRal(_tenant).DeleteClient, clientId, "Status");
         }
     }
 }
