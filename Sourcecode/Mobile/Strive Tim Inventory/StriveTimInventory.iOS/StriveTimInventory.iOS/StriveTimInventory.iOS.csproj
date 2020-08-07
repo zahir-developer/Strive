@@ -292,6 +292,12 @@
         <ImageAsset Include="Resources\Assets.xcassets\map-car-icon.imageset\Icon material-local-car-wash.png" />
         <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Ellipse 85.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8%402x-1.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -331,6 +337,7 @@
         <Folder Include="Resources\Assets.xcassets\MapPointer.imageset\" />
         <Folder Include="Resources\Assets.xcassets\map-car-icon.imageset\" />
         <Folder Include="Resources\Assets.xcassets\white-ellipse.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-artboard.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -344,6 +351,7 @@
         <InterfaceDefinition Include="Views\ClockOutView.xib" />
         <InterfaceDefinition Include="Views\InventoryView.xib" />
         <InterfaceDefinition Include="Views\MembershipView.xib" />
+        <InterfaceDefinition Include="Views\InventoryViewCell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -401,6 +409,11 @@
         <Compile Include="Views\MembershipView.designer.cs">
           <DependentUpon>MembershipView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\InventoryViewCell.cs" />
+        <Compile Include="Views\InventoryViewCell.designer.cs">
+          <DependentUpon>InventoryViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\InventoryTableViewDataSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

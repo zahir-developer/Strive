@@ -1,6 +1,6 @@
 ﻿// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
+// This file has been generated automatically by Visual Studio from the outlets and
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
@@ -11,11 +11,46 @@ using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {
-    [Register("InventoryView")]
+    [Register ("InventoryView")]
     partial class InventoryView
     {
-        void ReleaseDesignerOutlets()
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView InventoryListTableView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UISearchBar InventorySearch { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton LogoutButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel Title { get; set; }
+
+        void ReleaseDesignerOutlets ()
         {
+            if (InventoryListTableView != null) {
+                InventoryListTableView.Dispose ();
+                InventoryListTableView = null;
+            }
+
+            if (InventorySearch != null) {
+                InventorySearch.Dispose ();
+                InventorySearch = null;
+            }
+
+            if (LogoutButton != null) {
+                LogoutButton.Dispose ();
+                LogoutButton = null;
+            }
+
+            if (Title != null) {
+                Title.Dispose ();
+                Title = null;
+            }
         }
     }
 }
