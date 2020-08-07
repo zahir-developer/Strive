@@ -1,4 +1,4 @@
-<div id="page-content">
+<div id="page-content" *ngIf="!showDialog">
     <!--page Content-->
     <div class="container-fluid">
         <div class="row">
@@ -91,13 +91,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="p-b-5">
-                                    <h4 class="d-inline-block align-middle">Washes <span
-                                            class="text-muted font-size-1">(29/7/20)</span> <button type="button"
+                                <div class="p-b-20">
+                                    <h4 class="d-inline-block align-middle">Washes &nbsp;<span
+                                            class="text-muted font-size-1">(29/7/20)</span></h4>
+                                    <div class="pull-right card-widgets"><button type="button"
                                             class="btn theme-primary-button-color  mw-100"
-                                            onclick="window.location.href='new-wash.html';">New</button></h4>
-                                    <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#washeslist"
-                                            role="button" aria-expanded="false" aria-controls="washeslist"><i
+                                            (click)="add('add',[])">New</button>&nbsp;&nbsp;
+                                        <a data-toggle="collapse" href="#washeslist" role="button" aria-expanded="false"
+                                            aria-controls="washeslist"><i
                                                 class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
                                     </div>
                                 </div>
@@ -130,8 +131,8 @@
                                                         <button type="button"
                                                             class="btn theme-notification-background-icon-color btn-sm pt-0 pb-0 p-l-12 p-r-12">Pay</button>
                                                     </td>
-                                                    <td> <i
-                                                            class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
+                                                    <td> <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
+                                                            (click)="add('edit',[])"></i>
                                                         <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             href="#deletewashModal" data-toggle="modal"></i> </td>
                                                 </tr>
@@ -164,8 +165,10 @@
                                                         <button type="button"
                                                             class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12">Pay</button>
                                                     </td>
-                                                    <td> <i
-                                                            class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
+                                                    <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
+                                                            (click)="add('edit',[])"></i>
+                                                        <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
+                                                            (click)="add('view',[])"></i>
                                                         <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             href="#deletewashModal" data-toggle="modal"></i> </td>
                                                 </tr>
@@ -205,4 +208,12 @@
             </div>
         </div>
     </div>
+</div>
+<div *ngIf="showDialog">
+    <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="false"
+        [focusOnShow]="false" [closable]="false">
+        <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
+            (closeDialog)="closePopupEmit($event)">
+        </app-create-edit-washes>
+    </p-dialog>
 </div>

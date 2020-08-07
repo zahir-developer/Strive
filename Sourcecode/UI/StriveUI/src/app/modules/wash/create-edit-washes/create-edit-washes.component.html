@@ -1,0 +1,126 @@
+<div id="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item">Wash</li>
+                    <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Wash</li>
+                    <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Wash</li>
+                    <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Wash</li>
+                </ol>
+            </nav>
+            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+                <h3 *ngIf="!isEdit" class="d-inline-block">New Wash</h3>
+                <h3 *ngIf="isEdit && !isView" class="d-inline-block">Edit Wash</h3>
+                <h3 *ngIf="isEdit && isView" class="d-inline-block">View Wash</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 line-height">
+                            <h5 class="d-inline-block font-weight-600">Ticket No <span
+                                    class="theme-secondary-color"></span></h5>
+                            <div class="pull-right card-widgets">
+                                <span>Time In: {{timeIn}} |</span>
+                                <span>Est.Time Out: {{timeOut}} |</span>
+                                <span>Est.Min: {{minutes}} min</span>
+                            </div>
+                        </div>
+                        <div id="Washviewedit" class="collapse show">
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputFirstName">barcode</label>
+                                        <input type="text" maxlength="100" class="form-control" placeholder="BarCode">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputLastName">Client</label>
+                                        <input type="text" maxlength="50" class="form-control" placeholder="Client">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputAddress">Vehicle</label>
+                                        <input type="text" maxlength="50" class="form-control" placeholder="Vehicle">
+                                    </div>&nbsp;
+                                    <div class="form-group">
+                                        <label></label>
+                                        <div>
+                                            <button type="button"
+                                                class="btn theme-primary-button-color">Select</button>&nbsp;
+                                            <button type="button" class="btn theme-primary-button-color">Add
+                                                Client</button>&nbsp;
+                                            <button type="button" class="btn theme-primary-button-color">Add
+                                                Vehicle</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputFirstName">Type</label>
+                                        <input type="text" maxlength="100" class="form-control" placeholder="Type">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputLastName">Model</label>
+                                        <input type="text" maxlength="50" class="form-control" placeholder="Model">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputAddress">Color</label>
+                                        <input type="text" maxlength="50" class="form-control" placeholder="Color">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputFirstName">Washes</label>
+                                        <input type="text" maxlength="100" class="form-control" placeholder="Washes">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputFirstName">Upcharge Type</label>
+                                        <input type="text" maxlength="100" class="form-control"
+                                            placeholder="Upcharge Type">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputLastName">Upcharges</label>
+                                        <input type="text" maxlength="50" class="form-control" placeholder="Upcharges">
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputAddress">Air Freshners</label>
+                                        <input type="text" maxlength="50" class="form-control"
+                                            placeholder="Air Freshners">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="inputNotes">Notes</label>
+                                            <textarea rows="1" class="form-control m-t-5 notes-textarea"
+                                                placeholder="Notes"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="inputRecNotes">View Past Client Notes</label>
+                                            <textarea rows="1" class="form-control m-t-5 notes-textarea"
+                                                placeholder="Past Client Notes"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="m-t-12">
+                                <span class="mw-100" *ngIf="isEdit">
+                                    <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;
+                                    <button type="button" class="btn theme-primary-button-color">Print</button>
+                                </span>
+                                <span class="mw-100 pull-right">
+                                    <button type="button" class="btn theme-optional-button-color">Cancel</button>&nbsp;
+                                    <button *ngIf="!isView" type="button"
+                                        class="btn theme-primary-button-color">Save</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
