@@ -31,8 +31,8 @@
                                             *ngFor="let locationSetup of locationSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{locationSetup.LocationName}}</th>
                                             <td>{{locationSetup.IsFranchise}}</td>
-                                            <td>{{locationSetup.LocationAddress.PhoneNumber}}</td>
-                                            <td>{{locationSetup.LocationAddress.Email}}</td>
+                                            <td>{{locationSetup.PhoneNumber}}</td>
+                                            <td>{{locationSetup.Email}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="edit" tooltipPosition="bottom"

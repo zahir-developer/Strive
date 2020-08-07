@@ -10,16 +10,19 @@ import { UrlConfig } from '../url.config';
 export class LocationService {
 
   constructor(private http: HttpUtilsService) { }
-   getLocation(): Observable<any> {
+  getLocation(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
+  }
+  saveLocation(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveLocation}`, obj);
+  }
+  deleteLocation(locId: number) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteLocation}`, { params: { id: locId } });
+  }
+  getLocationById(locId: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getLocationById}`, { params: { id: locId } });
   }
   updateLocation(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateLocation}`, obj);
   }
-  deleteLocation(id : number){
-      return this.http.delete(`${UrlConfig.totalUrl.deleteLocation}`+ id);
-  }
-  getLocationById(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.getLocationById}` + id);
-}
 }
