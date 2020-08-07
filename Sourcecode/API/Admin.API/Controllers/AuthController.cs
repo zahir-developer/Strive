@@ -18,6 +18,9 @@ namespace Admin.Api.Controllers
 
         #region POST
 
+        /// <summary>
+        /// Login for Employee and Client.
+        /// </summary>
         [HttpPost, Route("Login")]
         public Result Login([FromBody] Authentication authentication) => _bplManager.Login(authentication, GetSecretKey(), GetTenantConnection());
 
