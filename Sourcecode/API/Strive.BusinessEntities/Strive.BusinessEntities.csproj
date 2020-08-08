@@ -92,6 +92,7 @@
     <Compile Include="Model\TenantModule.cs" />
     <Compile Include="Model\Themes.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeSearchViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="ViewModel\VehicleDetailViewModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipModel.cs" />
     <Compile Include="ViewModel\VehicleViewModel.cs" />
+    <Compile Include="ViewModel\VendorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -13,6 +13,7 @@ using Strive.BusinessLogic.Client;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.DTO.Client;
 
 namespace Strive.BusinessLogic
 {

@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Employee;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.ResourceAccess
 {
@@ -68,6 +69,14 @@ namespace Strive.ResourceAccess
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
+        }
+        public List<EmployeeViewModel> GetEmployeeSearch(EmployeeSearchViewModel employeeSearchViewModel)
+        {
+
+            _prm.Add("@EmployeeId", employeeSearchViewModel.loginId);
+            _prm.Add("@name", employeeSearchViewModel.name);
+            var result = db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+            return result;
         }
     }
 }
