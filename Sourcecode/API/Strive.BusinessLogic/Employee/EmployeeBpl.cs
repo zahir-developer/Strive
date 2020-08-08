@@ -3,6 +3,7 @@ using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -68,6 +69,10 @@ namespace Strive.BusinessLogic
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
             return _result;
+        }
+        public Result GetEmployeeSearch(EmployeeSearchViewModel employeeSearchViewModel)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeSearch, employeeSearchViewModel, "EmployeeSearch");
         }
 
     }
