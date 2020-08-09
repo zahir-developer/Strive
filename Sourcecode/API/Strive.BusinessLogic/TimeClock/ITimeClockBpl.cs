@@ -1,17 +1,17 @@
-﻿using Strive.Common;
+﻿using Strive.BusinessEntities.DTO.TimeClock;
+using Strive.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Strive.BusinessEntities.TimeClock;
 
 namespace Strive.BusinessLogic.TimeClock
 {
     public interface ITimeClockBpl
     {
-        Result GetTimeClock(int userId, DateTime date);
+        Result GetTimeClock(TimeClockDto timeClock);
 
-        Result SaveTimeClock(Strive.BusinessEntities.TimeClock.TimeClock timeClock);
+        Result SaveTimeClock(Strive.BusinessEntities.Model.TimeClockModel timeClock);
     }
 }

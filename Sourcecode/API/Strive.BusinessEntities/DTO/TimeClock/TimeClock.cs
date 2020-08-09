@@ -3,27 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dapper.Contrib;
-using Dapper.Contrib.Extensions;
 
-namespace Strive.BusinessEntities.TimeClock
+namespace Strive.BusinessEntities.DTO.TimeClock
 {
-    [Table("tblTimeClock")]
-    public class TimeClock
+    public class TimeClockDto
     {
-        [Key]
-        public long id { get; set; }
-        public int UserId { get; set; }
         public int LocationId { get; set; }
+        public int EmployeeId { get; set; }
         public int RoleId { get; set; }
-        public DateTime EventDate { get; set; }
-        public DateTime InTime { get; set; }
-        public DateTime OutTime { get; set; }
-        public int EventType { get; set; }
-        public int UpdatedBy { get; set; }
-        public string UpdatedFrom { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public bool Status { get; set; }
-        public string Comments { get; set; }
+        public DateTime Date { get; set; }
     }
 }
