@@ -29,19 +29,25 @@ using StriveCustomer.Android.Services;
 using static Android.Gms.Common.Apis.GoogleApiClient;
 using Android.Locations;
 using ILocationListener = Android.Gms.Location.ILocationListener;
+using Android.Graphics;
+using Android.Gms.Tasks;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback, IConnectionCallbacks, IOnConnectionFailedListener, ILocationListener
+    public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback,IOnSuccessListener,IConnectionCallbacks, IOnConnectionFailedListener, ILocationListener
     {
+        float Radius = 1500;
+        string GeofenceID = "SOMEID1";
         private GoogleMap Googlemap;
         private GeofencingClient geofencingClient;
         private GoogleApiClient googleAPI;
         private Location lastLocation;
         private LatLng userLatLng;
         private MarkerOptions userMarkerOption;
-        private Marker userMarker;
+        private MarkerOptions geofenceMarkerOptions;
+        private CircleOptions geofenceCircleOptions;
         private LocationRequest userLocationRequest;
+        private GeofenceHelper geofenceHelper;
         private SupportMapFragment gmaps;
         private static View rootView;
         public override void OnCreate(Bundle savedInstanceState)
@@ -56,7 +62,7 @@ namespace StriveCustomer.Android.Fragments
             googleAPI.Connect();
 
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
-           
+            geofenceHelper = new GeofenceHelper(this.Context);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -129,11 +135,42 @@ namespace StriveCustomer.Android.Fragments
             {
                 Googlemap.MyLocationEnabled = true;
                 Googlemap.UiSettings.MyLocationButtonEnabled = true;
+                Googlemap.MapLongClick += Googlemap_MapLongClick;
             }
             else
             {
                 RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
             }
+        }
+
+        private void Googlemap_MapLongClick(object sender, GoogleMap.MapLongClickEventArgs e)
+        {
+            Googlemap.Clear();
+            addMarker(new LatLng(e.Point.Latitude,e.Point.Longitude));
+            addGeoCircle(new LatLng(e.Point.Latitude, e.Point.Longitude),Radius);
+            addGeofence(new LatLng(e.Point.Latitude, e.Point.Longitude), Radius);
+        }
+        private void addGeofence(LatLng latlng, float Radius)
+        {
+            IGeofence geofence = geofenceHelper.getGeofence(GeofenceID,latlng,Radius,Geofence.GeofenceTransitionEnter|Geofence.GeofenceTransitionDwell|Geofence.GeofenceTransitionExit);
+            GeofencingRequest geofencingRequest = geofenceHelper.GetGeofencingRequest(geofence);
+            PendingIntent pendingIntent = geofenceHelper.getPendingIntent();
+            geofencingClient.AddGeofences(geofencingRequest,pendingIntent).AddOnSuccessListener(this);
+        }
+        private void addMarker(LatLng latLng)
+        {
+            geofenceMarkerOptions = new MarkerOptions().SetPosition(latLng);
+            Googlemap.AddMarker(geofenceMarkerOptions);
+        }
+        private void addGeoCircle(LatLng latLng, float Radius)
+        {
+            geofenceCircleOptions = new CircleOptions();
+            geofenceCircleOptions.InvokeCenter(latLng);
+            geofenceCircleOptions.InvokeRadius(Radius);
+            geofenceCircleOptions.InvokeStrokeColor(Color.Argb(255,255,0,0));
+            geofenceCircleOptions.InvokeFillColor(Color.Argb(64,255,0,0));
+            geofenceCircleOptions.InvokeStrokeWidth(4);
+            Googlemap.AddCircle(geofenceCircleOptions);
         }
         private void lastUserLocation()
         {
@@ -143,7 +180,7 @@ namespace StriveCustomer.Android.Fragments
             {
                 userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
                 userMarkerOption = new MarkerOptions();
-                userMarkerOption.SetPosition(userLatLng);
+                userMarkerOption.SetPosition(userLatLng);   
                 //userMarker = Googlemap.AddMarker(userMarkerOption);
                 Googlemap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(userLatLng,15));
                 
@@ -172,14 +209,14 @@ namespace StriveCustomer.Android.Fragments
 
         public void OnLocationChanged(Location location)
         {
-            if(userMarker != null)
-            {
-               // userMarker.Dispose();
-            }
             userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
             userMarkerOption = new MarkerOptions();
             userMarkerOption.SetPosition(userLatLng);       
-            //userMarker = Googlemap.AddMarker(userMarkerOption);
+        }
+
+        public void OnSuccess(Java.Lang.Object result)
+        {
+            
         }
     }
 }

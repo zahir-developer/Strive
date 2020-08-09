@@ -73,6 +73,8 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Services\AndroidPermissions.cs" />
+    <Compile Include="Services\GeofenceBroadcastReceiver.cs" />
+    <Compile Include="Services\GeofenceHelper.cs" />
     <Compile Include="Services\GeoFencingTransitionService.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="MvvmCross\App.cs" />
