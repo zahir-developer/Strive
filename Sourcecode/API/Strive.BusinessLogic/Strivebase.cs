@@ -85,7 +85,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var res = RALMethod.Invoke(cashRegType,locationId,cashRegDate);
+                var res = RALMethod.Invoke(cashRegType, locationId, cashRegDate);
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -99,7 +99,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-               // var res = RALMethod.Invoke();
+                // var res = RALMethod.Invoke();
                 _resultContent.Add(ResultName);
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -110,7 +110,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        protected Result ResultWrap<T>(Func<int, List<T>> RALMethod, int id, string ResultName)
+        protected Result ResultWrap<T>(Func<int, List<T>> RALMethod, int id, int employeeId, int roleId, DateTime date, string ResultName)
         {
             try
             {
@@ -197,10 +197,13 @@ namespace Strive.BusinessLogic
             else
             {
                 var prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
-                action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
-                var obj = (object)tdata;
+                if (prInfo != null)
+                {
+                    action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
+                    var obj = (object)tdata;
 
-                SetAuditDetails(action, ref obj, type);
+                    SetAuditDetails(action, ref obj, type);
+                }
             }
         }
 
