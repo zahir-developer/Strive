@@ -115,6 +115,8 @@ namespace Admin.API.Filters
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress").ToString();
             _tenant.EmployeeId = employeeId;
             _tenant.SchemaName = schemaName;
+            _tenant.DocumentUploadFolder = Pick("EmployeeDocument", "FolderPath").ToString();
+            _tenant.DocumentFormat = Pick("EmployeeDocument", "FileFormat").ToString();
         }
     }
 }

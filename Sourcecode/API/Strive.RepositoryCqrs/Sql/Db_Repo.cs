@@ -202,10 +202,15 @@ namespace Strive.RepositoryCqrs
 
                             if (model is null) continue;
 
+                            Type subModelType = model.GetType();
+
+                            if (subModelType.IsGenericType)
+                            {
+                                isGeneric = true;
+                            }
                             if (primInsert)
                             {
-                                Type subModelType = model.GetType();
-
+                                
                                 if (subModelType.IsGenericType)
                                 {
                                     isGeneric = true;

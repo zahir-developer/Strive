@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Document;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.Repository;
 using System;
@@ -12,40 +13,16 @@ using System.Threading.Tasks;
 
 namespace Strive.ResourceAccess
 {
-    public class DocumentRal
+    public class DocumentRal : RalBase
     {
-        IDbConnection _dbconnection;
-        public Db db;
-        public DocumentRal(ITenantHelper tenant)
-        {
-            _dbconnection = tenant.db();
-            db = new Db(_dbconnection);
-        }
-        public bool UploadDocument(List<Strive.BusinessEntities.Document.DocumentView> lstDocument)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<Document> lstDoc = new List<Document>();
-            foreach (var item in lstDocument)
-            {
-                lstDoc.Add(new Document
-                {
-                    DocumentId = item.DocumentId,
-                    EmployeeId = item.EmployeeId,
-                    FileName = item.FileName,
-                    FilePath = item.FilePath,
-                    Password = item.Password,
-                    CreatedDate = item.CreatedDate,
-                    ModifiedDate = item.ModifiedDate,
-                    IsActive = item.IsActive
+        public DocumentRal(ITenantHelper tenant) : base(tenant) { }
 
-                });
-
-            }
-            dynParams.Add("@tvpDocument", lstDoc.ToDataTable().AsTableValuedParameter("tvpDocument"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEDOCUMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
+        public bool SaveDocument(EmployeeDocumentModel documents)
+        {
+            dbRepo.InsertPc<EmployeeDocumentModel>(documents, "EmployeeDocumentId");
             return true;
         }
+
         public DocumentView GetDocumentById(long documentId, long employeeId, string password)
         {
             DynamicParameters dynParams = new DynamicParameters();

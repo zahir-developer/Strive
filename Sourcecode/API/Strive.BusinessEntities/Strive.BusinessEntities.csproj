@@ -63,6 +63,7 @@
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
@@ -114,7 +115,6 @@
     <Compile Include="Model\ClientVehicle.cs" />
     <Compile Include="Model\CodeCategory.cs" />
     <Compile Include="Model\CodeValue.cs" />
-    <Compile Include="Model\Document.cs" />
     <Compile Include="Model\Drawer.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\EmployeeAddress.cs" />
