@@ -11,13 +11,14 @@ namespace Strive.Common
     {
         int TokenExpiryMintues { get; set; }
         string TenantGuid { get; set; }
-
         string SMTPClient { get; set; }
         string SMTPPassword { get; set; }
         string Port { get; set; }
         string FromMailAddress { get; set; }
         string EmployeeId { get; set; }
         string SchemaName { get; set; }
+        string DocumentUploadFolder { get; set; }
+        string DocumentFormat { get; set; }
 
         IDbConnection db();
         IDbConnection dbAuth();
@@ -47,6 +48,8 @@ namespace Strive.Common
         public string FromMailAddress { get; set; }
         public string EmployeeId { get; set; }
         public string SchemaName { get; set; }
+        public string DocumentUploadFolder { get; set; }
+        public string DocumentFormat{ get; set; }
 
         public TenantHelper(IDistributedCache cache)
         {

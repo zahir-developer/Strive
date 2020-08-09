@@ -5,6 +5,7 @@ using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
+using Strive.BusinessLogic.Document;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -23,6 +24,12 @@ namespace Strive.BusinessLogic
         {
             int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
             employee.EmployeeDetail.AuthId = authId;
+
+            //Documents Upload & Get File Names
+            List<EmployeeDocument> employeeDocument = new DocumentBpl(_cache, _tenant).UploadFiles(employee.EmployeeDocument);
+
+            employee.EmployeeDocument = employeeDocument;
+
             return ResultWrap(new EmployeeRal(_tenant).AddEmployee, employee, "Status");
         }
 
