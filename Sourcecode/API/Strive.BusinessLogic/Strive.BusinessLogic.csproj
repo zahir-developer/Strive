@@ -37,6 +37,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\Debug\Strive.BusinessLogic.csprojAssemblyReference.cache" />
     <None Include="obj\Debug\Strive.BusinessLogicNew.csprojAssemblyReference.cache" />

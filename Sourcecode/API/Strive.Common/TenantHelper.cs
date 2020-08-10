@@ -18,6 +18,7 @@ namespace Strive.Common
         string FromMailAddress { get; set; }
         string EmployeeId { get; set; }
         string SchemaName { get; set; }
+        string TenatId { get; set; }
 
         IDbConnection db();
         IDbConnection dbAuth();
@@ -47,6 +48,7 @@ namespace Strive.Common
         public string FromMailAddress { get; set; }
         public string EmployeeId { get; set; }
         public string SchemaName { get; set; }
+        public string TenatId { get; set; }
 
         public TenantHelper(IDistributedCache cache)
         {
