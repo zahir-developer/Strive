@@ -24,7 +24,7 @@ namespace Strive.ResourceAccess
         public GiftCardViewModel GetGiftCardByGiftCardId(int giftCardId)
         {
             _prm.Add("@GiftCardId", giftCardId);
-            var result = db.GetSingleByPkId<GiftCardViewModel>(giftCardId, "GiftCardId");
+            var result = db.FetchSingle<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
             return result;
         }
         public GiftCardHistoryViewModel GetAllGiftCardHistory(int giftCardId)
