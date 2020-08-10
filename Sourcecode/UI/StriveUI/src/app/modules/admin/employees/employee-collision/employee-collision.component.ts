@@ -56,33 +56,41 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   saveCollision() {
-    const finalObj = [];
-    const liabilityDetails = [];
     const liabilityDetailObj = {
       liabilityDetailId: this.mode === 'edit' ? this.collisionDetail.LiabilityDetailId : 0,
       liabilityId: this.mode === 'edit' ? this.collisionDetail.LiabilityId : 0,
       liabilityDetailType: 1,
-      amount: this.collisionForm.value.amount,
+      amount: +this.collisionForm.value.amount,
       paymentType: 1,
       documentPath: 'string',
       description: this.collisionForm.value.reason,
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      isActive: true
+      updatedBy: 0,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
-    liabilityDetails.push(liabilityDetailObj);
     const liabilityObj = {
       liabilityId: this.mode === 'edit' ? this.collisionDetail.LiabilityId : 0,
       employeeId: this.employeeId,
-      liabilityType: 1,
+      liabilityType: 0,
       liabilityDescription: 'string',
-      productId: 1,
+      productId: 2,
+      totalAmount: 0,
       status: 0,
-      createdDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
-      liabilityDetail: liabilityDetails
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      updatedBy: 0,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
-    finalObj.push(liabilityObj);
-    this.employeeService.saveCollision(finalObj).subscribe( res => {
+    const finalObj = {
+      employeeLiability: liabilityObj,
+      employeeLiabilityDetail: liabilityDetailObj
+    };
+    this.employeeService.saveCollision(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.activeModal.close(true);
       }
