@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.Collision;
 using Strive.BusinessEntities.DTO.GiftCard;
 using Strive.BusinessLogic.GiftCard;
 using Strive.Common;
@@ -12,39 +14,48 @@ namespace Admin.API.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class GiftCardController : ControllerBase
+    public class GiftCardController : StriveControllerBase<IGiftCardBpl>
     {
-        IGiftCardBpl _giftCardBpl = null;
-
-        public GiftCardController(IGiftCardBpl giftCardBpl)
-        {
-            _giftCardBpl = giftCardBpl;
-        }
-
+        public GiftCardController(IGiftCardBpl giftBpl) : base(giftBpl) { }
+        #region GET
         [HttpGet]
-        [Route("GetAll")]
-        public Result GetAllGiftCard(int locationId)
-        {
-            return _giftCardBpl.GetAllGiftCard(locationId);
-        }
-
+        [Route("GetAllGiftCard/{locationId}")]
+        public Result GetAllGiftCard(int locationId) => _bplManager.GetAllGiftCard(locationId);
+        #endregion
+        #region GET
         [HttpGet]
-        [Route("GiftCardDetail")]
-        public Result GiftCardDetailByGiftCardId(int giftCardId)
-        {
-            return _giftCardBpl.GiftCardDetailByGiftCardId(giftCardId);
-        }
+        [Route("GetAllGiftCard/{giftCardId}")]
+        public Result GetGiftCardByGiftCardId(int giftCardId) => _bplManager.GetGiftCardByGiftCardId(giftCardId);
+        #endregion
+        #region GET
+        [HttpGet]
+        [Route("GetAllGiftCardHistory/{locationId}")]
+        public Result GetAllGiftCardHistory(int giftCardId) => _bplManager.GetAllGiftCardHistory(giftCardId);
+        #endregion
+        #region
         [HttpPost]
         [Route("ChangeStatus")]
-        public Result ActivateorDeactivateGiftCard([FromBody] GiftCardStatus giftCard)
-        {
-            return _giftCardBpl.ActivateorDeactivateGiftCard(giftCard);
-        }
+        public Result ActivateorDeactivateGiftCard([FromBody] GiftCardStatus giftCard) => _bplManager.ActivateorDeactivateGiftCard(giftCard);
+        #endregion
+        #region
         [HttpPost]
         [Route("AddGiftCard")]
-        public Result SaveGiftCard([FromBody] GiftCardView giftCard)
-        {
-            return _giftCardBpl.SaveGiftCard(giftCard);
-        }
+        public Result AddGiftCard([FromBody] GiftCardDto addGiftCard) => _bplManager.AddGiftCard(addGiftCard);
+        #endregion
+        #region
+        [HttpPost]
+        [Route("UpdateGiftCard")]
+        public Result UpdateGiftCard([FromBody] GiftCardDto updateGiftCard) => _bplManager.UpdateGiftCard(updateGiftCard);
+        #endregion
+        #region
+        [HttpPost]
+        [Route("AddGiftCardHistory")]
+        public Result AddGiftCardHistory([FromBody] GiftCardHistoryDto addGiftCardHistory) => _bplManager.AddGiftCardHistory(addGiftCardHistory);
+        #endregion
+        #region
+        [HttpPost]
+        [Route("UpdateGiftCardHistory")]
+        public Result UpdateGiftCardHistory([FromBody] GiftCardHistoryDto updateGiftCardHistory) => _bplManager.UpdateGiftCardHistory(updateGiftCardHistory);
+        #endregion
     }
 }
