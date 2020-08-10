@@ -5,6 +5,7 @@ using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
 using System.Collections.Generic;
@@ -35,8 +36,8 @@ namespace Admin.API.Controllers
 
 
         [HttpGet]
-        [Route("GetVehicleById")]
-        public Result GetVehicleById(int id) => _bplManager.GetClientVehicleById(id);
+        [Route("GetVehicleByClientId")]
+        public Result GetVehicleByClientId(int id) => _bplManager.GetVehicleByClientId(id);
 
         [HttpGet]
         [Route("GetVehicleId")]
@@ -55,21 +56,9 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetVehicleMembership();
         }
-        [HttpGet]
-        [Route("GetCodeTypeColour")]
-        public Result GetVehicleColour() => _bplManager.GetVehicleColour();
-        [HttpGet]
-        [Route("GetCodeTypeModel")]
-        public Result GetCodeTypeModel() => _bplManager.GetCodeTypeModel();
-        [HttpGet]
-        [Route("GetCodeModel")]
-        public Result GetCodeModel() => _bplManager.GetCodeModel();
-        [HttpGet]
-        [Route("GetCodeUpcharge")]
-        public Result GetCodeUpcharge() => _bplManager.GetCodeUpcharge();
-        [HttpGet]
-        [Route("GetCodeMake")]
-        public Result GetCodeMake() => _bplManager.GetCodeMake();
+        [HttpPost]
+        [Route("GetVehicleCodes")]
+        public Result GetVehicleCodes() => _bplManager.GetVehicleCodes();
         
     }
 }
