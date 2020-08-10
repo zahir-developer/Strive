@@ -2,6 +2,7 @@
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -47,35 +48,17 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).DeleteVehicleById, vehicleId, "Status");
         }
-        public Result GetClientVehicleById(int clientId)
+        public Result GetVehicleByClientId(int clientId)
         {
-            return ResultWrap(new VehicleRal(_tenant).GetVehicleById, clientId, "Status");
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleByClientId, clientId, "Status");
         }
         public Result GetVehicleId(int vehicleId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleId, vehicleId, "Status");
         }
-        public Result GetVehicleColour()
+        public Result GetVehicleCodes()
         {
-            return ResultWrap(new VehicleRal(_tenant).GetVehicleColour, "CodeType");
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleCodes, "VehicleDetails");
         }
-        public Result GetCodeTypeModel()
-        {
-            return ResultWrap(new VehicleRal(_tenant).GetCodeTypeModel, "CodeType");
-        }
-        public Result GetCodeModel()
-        {
-            return ResultWrap(new VehicleRal(_tenant).GetCodeModel, "CodeType");
-        }
-        public Result GetCodeUpcharge()
-        {
-            return ResultWrap(new VehicleRal(_tenant).GetCodeUpcharge, "CodeType");
-        }
-        public Result GetCodeMake()
-        {
-            return ResultWrap(new VehicleRal(_tenant).GetCodeMake, "CodeType");
-        }
-
-        
     }
 }
