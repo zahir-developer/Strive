@@ -188,7 +188,7 @@ namespace StriveCustomer.Android.Fragments
             userLocationRequest = new LocationRequest();
             userLocationRequest.SetInterval(5000);
             userLocationRequest.SetFastestInterval(3000);
-            userLocationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
+            userLocationRequest.SetPriority(LocationRequest.PriorityBalancedPowerAccuracy);
 
             LocationServices.FusedLocationApi.RequestLocationUpdates(googleAPI,userLocationRequest,this);
         }
