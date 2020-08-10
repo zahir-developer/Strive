@@ -182,8 +182,8 @@ export class EditEmployeeComponent implements OnInit {
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
         console.log(employeesCollison, 'employeDeatil');
-        if (employeesCollison.CollisionDetailOfEmployee.length > 0) {
-          this.employeeCollision = employeesCollison.CollisionDetailOfEmployee;
+        if (employeesCollison.Collision.length > 0) {
+          this.employeeCollision = employeesCollison.Collision;
         }
       }
     });

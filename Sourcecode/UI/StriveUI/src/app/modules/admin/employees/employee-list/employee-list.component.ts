@@ -6,6 +6,7 @@ import { EmployeeCollisionComponent } from '../../employees/employee-collision/e
 import { DocumentListComponent } from '../../employees/document-list/document-list.component';
 import { CreateDocumentComponent } from '../../employees/create-document/create-document.component';
 import { ToastrService } from 'ngx-toastr';
+import { CollisionListComponent } from '../../employees/collision-list/collision-list.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -247,6 +248,11 @@ export class EmployeeListComponent implements OnInit {
     const modalRef =  this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.mode = 'create';
+    modalRef.result.then((result) => {
+      if (result) {
+        this.getAllEmployeeDetails();
+      }
+    });
   }
 
   viewCollision(employee) {
@@ -256,6 +262,10 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
+    const modalRef =  this.modalService.open(CollisionListComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = empId;
+    modalRef.componentInstance.actionType = 'view';
+    modalRef.componentInstance.isModal = true;
   }
 
   viewDocument(employee) {
