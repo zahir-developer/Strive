@@ -54,7 +54,7 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-        public VehicleViewModel GetVehicleById(int clientId)
+        public VehicleViewModel GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
              return db.FetchSingle<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
@@ -64,26 +64,10 @@ namespace Strive.ResourceAccess
             _prm.Add("VehicleId", vehicleId);
             return db.FetchSingle<VehicleDetailViewModel>(SPEnum.uspGetVehicleById.ToString(), _prm);
         }
-        public List<Code> GetVehicleColour()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLECOLOR);
-        }
-        public List<Code> GetCodeTypeModel()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLEMODEL);
-        }
-        public List<Code> GetCodeModel()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLEMANUFACTURER);
-        }
-        public List<Code> GetCodeUpcharge()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.UPCHARGE);
-        }
-        public List<Code> GetCodeMake()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.UPCHARGE);
-        }
 
+        public List<VehicleColourViewModel> GetVehicleCodes()
+        {
+            return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
+        }
     }
 }
