@@ -13,14 +13,49 @@ using Strive.BusinessLogic.Client;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.DTO.User;
+using System.Runtime.Remoting.Channels;
 
 namespace Strive.BusinessLogic
 {
     public class ClientBpl : Strivebase, IClientBpl
     {
-        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
+        public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+
+
+
+        public Result Signup(UserSignupDto clientSignup)
         {
+            var commonBpl = new CommonBpl(_cache, _tenant);
+            //clientSignup.UserType = UserType.Client.toInt();
+            //var authId = new CommonBpl(_cache, _tenant).Signup(clientSignup);
+            if (clientSignup.InvitationCode is null) return null;
+            var dec = commonBpl.GetDetailsFromInviteCode(clientSignup.InvitationCode);
+            var details = dec.Split(',');
+
+            if (details[2].toInt() != (int)UserType.Client) return null;
+
+            clientSignup.TenantId = details[0].toInt();
+            clientSignup.ClientId = details[3].toInt();
+
+            var client =  new ClientRal(_tenant).GetClientByClientId(clientSignup.ClientId);
+            var res = commonBpl.Signup(clientSignup, client);
+
+            return null;
         }
+
+        public Result AddClient(ClientView client)
+        {
+            string enc = new CommonBpl(_cache, _tenant).GetUserSignupInviteCode(UserType.Client);
+            return null;
+        }
+
+        public BusinessEntities.Model.Client GetClientByClientId(int id)
+        {
+                return new ClientRal(_tenant).GetById(id);
+        }
+
+
 
         public Result SaveClientDetails(ClientView lstClient)
         {
@@ -81,5 +116,6 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+
     }
 }

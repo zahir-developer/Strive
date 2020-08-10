@@ -1,25 +1,25 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json.Linq;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Caching.Distributed;
+using MimeKit;
+using MimeKit.Text;
+using Newtonsoft.Json;
+using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.Client;
+using Strive.BusinessEntities.DTO.User;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessLogic.Location;
 using Strive.Common;
+using Strive.Crypto;
 using Strive.ResourceAccess;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Strive.BusinessLogic.Location;
-using System.Linq;
-using Strive.BusinessEntities.Auth;
-using Strive.Crypto;
-using MimeKit;
-using MailKit.Net.Smtp;
-using Strive.BusinessEntities;
-using System.IO;
-using System.Collections.Generic;
-using MimeKit.Text;
-using Strive.BusinessEntities.Model;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -100,8 +100,8 @@ namespace Strive.BusinessLogic.Common
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
 
-        return _result;
-    }
+            return _result;
+        }
 
 
         public string GetApiResponse(string baseUrl, string apiMethod, string apiKey, string request)
@@ -280,6 +280,45 @@ namespace Strive.BusinessLogic.Common
             SendLoginCreationEmail(authMaster.EmailId, randomPassword);
             return authId;
         }
+
+        public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
+        {
+            var commonRal = new CommonRal(_tenant, true);
+            AuthMaster authMaster = new AuthMaster
+            {
+                UserGuid = Guid.NewGuid().ToString(),
+                EmailId = userSignup.EmailId,
+                MobileNumber = userSignup.MobileNumber,
+                SecurityStamp = "1",
+                LockoutEnabled = 0,
+                CreatedDate = DateTime.Now,
+                UserType= userSignup.UserType,
+                TenantId=userSignup.TenantId                
+            };
+            string randomPassword = RandomString(6);
+            var authId = commonRal.CreateLogin(authMaster);
+            client.AuthId = authId;
+            client.UpdatedDate = DateTime.Now;
+
+            ///... Get the Tenant Connectionstring
+            commonRal.UpdateClientAuth(client);
+            return true;
+        }
+
+        public string GetUserSignupInviteCode(UserType userType, bool TenantHasClientData = false, int clientId = 0)
+        {
+            string invitationCode = $"{_tenant.TenatId},{userType},{TenantHasClientData.toInt()},{clientId}{DateTime.Today.ToString()}";
+            string encryptedInvitationCode = Crypt.Encrypt(invitationCode);
+            return encryptedInvitationCode;
+        }
+
+        public string GetDetailsFromInviteCode(string inviteCode)
+        {
+            string detail = Crypt.Decrypt(inviteCode);
+            return detail;
+        }
+
+
 
         public Result SendOTP(string emailId)
         {

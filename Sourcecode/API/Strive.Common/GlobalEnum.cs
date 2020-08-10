@@ -18,4 +18,10 @@ namespace Strive.Common
             NoAccess,
             Admin,
         }
+
+    public enum UserType
+    {
+        Employee =1,
+        Client=2
+    }
 }

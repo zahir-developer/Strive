@@ -8,6 +8,7 @@ using System.Data;
 using System.Text;
 using System.Linq;
 using Strive.BusinessEntities.Client;
+using Strive.RepositoryCqrs;
 
 namespace Strive.ResourceAccess
 {
@@ -29,8 +30,8 @@ namespace Strive.ResourceAccess
         public bool SaveClientDetails(ClientView lstClient)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Client> lstclientlst = new List<Client>();
-            lstclientlst.Add(new Client
+            List<BusinessEntities.Client.Client> lstclientlst = new List<BusinessEntities.Client.Client>();
+            lstclientlst.Add(new BusinessEntities.Client.Client
             {
                 ClientId = lstClient.ClientId,
                 FirstName = lstClient.FirstName,
@@ -55,18 +56,32 @@ namespace Strive.ResourceAccess
 
             return true;
         }
+
+        public BusinessEntities.Model.Client GetClientByClientId(int clientId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BusinessEntities.Model.Client GetById(int id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@ClientId", id);
+            var lstClientInfo = db.FetchSingle<BusinessEntities.Model.Client>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
+            return lstClientInfo;
+        }
+
         public List<ClientView> GetAllClient()
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<ClientView> lstClientList = new List<ClientView>();
-            lstClientList = db.FetchRelation1<ClientView, ClientAddress>(SPEnum.USPGETALLCLIENT.ToString(), dynParams);
+            lstClientList = db.FetchRelation1<ClientView, BusinessEntities.Client.ClientAddress>(SPEnum.USPGETALLCLIENT.ToString(), dynParams);
             return lstClientList;
         }
-        public List<ClientView> GetClientById(int id)
+        public ClientView GetClientById(int id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@ClientId", id);
-            var lstClientInfo = db.FetchRelation1<ClientView, ClientAddress>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
+            var lstClientInfo = db.FetchSingle<ClientView>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
             return lstClientInfo;
         }
         public bool DeleteClient(int clientId)
