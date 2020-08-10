@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Strive - Professional Car Cleaning Service</title>
+	<!-- Bootstrap -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.css" rel="stylesheet" />
+	<link href="assets/css/sidebar.css" rel="stylesheet" />
+	<link href="assets/css/layout.css" rel="stylesheet" />
+	<link href="assets/css/responsive.css" rel="stylesheet" />
+	<link href="assets/css/color.css" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" /> </head>
+
+<body>
+	<div id="wrapper">
+		<!--Wrapper-->
+		<section class="navbar-nav web-nav theme-primary-background-color">
+			<!--Sidebar-->
+			<div class="menu d-none d-sm-none d-md-block d-lg-block d-xl-block">
+				<ul>
+					<li class="logo-container">
+						<a href="#" class="navbar-brand p-10"><img src="assets/img/w-strive-logo@2x.png" alt="" width="50" /></a>
+					</li>
+					<li class="p-t-10" onclick="openNav()"> <a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a> </li>
+					<li class=""> <a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-car-wash"></i>Washes</a> </li>
+					<li class=""> <a href="#" onclick="openNav()"><i class="fa-2x fa fa-drivers-license-o"></i>Details</a> </li>
+					<li class=""> <a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-cash-usd-outline"></i>Sales</a> </li>
+					<li class=""> <a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-file-document"></i>Reports</a> </li>
+					<li class="active"> <a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-account-circle"></i>Admin</a> </li>
+					<li class=""> <a href="#" onclick="openNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a> </li>
+					<li class=""> <a href="#" onclick="openNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a> </li>
+				</ul>
+			</div>
+			<div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color d-none d-sm-none d-md-block d-lg-block d-xl-block"> <a href="#" class="closebtn" onclick="closeNav()">×</a>
+				<div class="p-l-15 p-r-15 m-b-10">
+					<h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Admin</h5> </div>
+				<ul class="nav-slider-menu-items">
+					<li><a href="#">Cash Register Setup</a></li>
+					<li><a href="#">Close Out Register</a></li>
+					<li><a href="#">Time Clock Maintenance</a></li>
+					<li><a href="#">Employees</a></li>
+					<li><a href="#">Clients</a></li>
+					<li><a href="#">Vehicles</a></li>
+					<li><a href="#">Schedules</a></li>
+					<li><a href="#">Gift Cards</a></li>
+					<li><a href="#">System Setup</a></li>
+				</ul>
+			</div>
+			<div id="mySidenav" class="mobile-view-nav"> <a href="#" class="closebtn" onclick="closembsidebar()"><i class="fa fa-close"></i></a>
+				<ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
+					<li> <a href="#"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a> </li>
+					<li> <a href="#"><i class="mdi mdi-car-wash"></i><span>Washes</span></a> </li>
+					<li> <a href="#"><i class="fa fa-drivers-license-o"></i><span>Details</span></a> </li>
+					<li> <a href="#"><i class="mdi mdi-cash-usd-outline"></i><span>Sales</span></a> </li>
+					<li> <a href="#"><i class="mdi mdi-file-document"></i><span>Reports</span></a> </li>
+					<li> <a href="#"><i class="mdi mdi-account-circle"></i><span>Admin</span></a> </li>
+					<li> <a href="#"><i class="fa fa-flag-checkered"></i><span>Checkout</span></a> </li>
+					<li> <a href="#"><i class="fa fa-dollar"></i><span>Payroll</span></a> </li>
+				</ul>
+				<div id="show-submenu" class="hide">
+					<a href="#" class="back-to-list"> <i class="fa fa-arrow-left"></i> Back</a>
+					<h5 class="m-r-14 m-l-20 m-t-12 text-white">Admin</h5>
+					<ul class="mobile-view-title mb-view" id="hide-mainmenu">
+						<li><a href="#">Cash Register Setup</a></li>
+						<li><a href="#">Close Out Register</a></li>
+						<li><a href="#">Time Clock Maintenance</a></li>
+						<li><a href="#">Employees</a></li>
+						<li><a href="#">Clients</a></li>
+						<li><a href="#">Vehicles</a></li>
+						<li><a href="#">Schedules</a></li>
+						<li><a href="#">Gift Cards</a></li>
+						<li><a href="#">System Setup</a></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<section id="content-wrapper" class="d-flex flex-column">
+			<!--Content Wrapper-->
+			<div id="content">
+				<!--Content-->
+				<nav class="nav navbar p-0">
+					<!--header-->
+					<ul class="w-100 bg-light">
+						<!--mobile-nav-trigger-->
+						<li class="mobile-nav-trigger d-none d-block d-md-none d-lg-none d-xl-none">
+							<ul>
+								<li>
+									<button class="d-flex d-block float-left button-menu-mobile nav-link p-t-18" onclick="openmbsidebar()"><i class="fa fa-bars font-size-1-1 theme-primary-color"></i></button>
+								</li>
+								<li class="mobile-logo-wrapper">
+									<ul>
+										<li class="mobile-logo"> <span> <img src="assets/img/strive-mobile-logo-blue.png" alt="" /> </span> </li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<!--mobile-nav-trigger-->
+						<li class="admin-menu">
+							<ul class="d-flex float-right align-self-center m-r-20">
+								<li class="p-2 mob-washes-notification">
+									<p class="mb-0 text-muted bg-white weather-notification"> <span class="mr-2"><i class="mdi mdi-weather-partly-cloudy theme-light-yellow-color"></i> 25°/60%</span> <span class="text-nowrap">Mainstreet,GA</span> </p>
+								</li>
+								<li> <a href="#"><i class="fa fa-gear"></i></a> </li>
+								<li class="message-notification">
+									<a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"> <i class="fa fa-comment"></i> <span class="badge position-absolute theme-notification-background-icon-color">1</span> <span class="sr-only">unread messages</span> </a>
+									<div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
+										<h6 class="font-weight-bold font-size--8">Message Notification</h6>
+										<div class="dropdown-divider"></div> <a class="dropdown-item p-0 m-t-5 font-size--8" href="#"><i class="fa fa-user-md"></i>unread messgage john doe</a> </div>
+								</li>
+								<li class="admin">
+									<a href="#" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle" data-toggle="dropdown"> <i class="fa fa-user-circle"><span class="i-text web-display">Admin</span></i> </a>
+									<div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle"> <a class="dropdown-item" href="#"><i class="fa fa-user-md"></i> Edit Profile</a>
+										<div class="dropdown-divider"></div> <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a> </div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+				<!--header-->
+				<div id="page-content">
+					<!--page Content-->
+					<div class="container-fluid">
+						<div class="row">
+							<nav class="col-12 p-0" aria-label="breadcrumb">
+								<!--bread crumb-->
+								<ol class="breadcrumb font-size--9">
+									<li class="breadcrumb-item"><a href="#">Home</a></li>
+									<li class="breadcrumb-item"><a href="#">Washes</a></li>
+									<li class="breadcrumb-item active" aria-current="page">New Wash</li>
+								</ol>
+							</nav>
+							<div class="border-bottom col-12 p-b-10 m-b-15 p-l-0">
+								<h3 class="d-inline-block">New Wash</h3> </div>
+							<div class="col-lg-12 p-l-0 p-r-0">
+								<div class="card">
+									<div class="card-body">
+										<form>
+											<div class="form-row border-bottom m-b-8">
+												<div class="form-group col-xl-3">
+													<h5 class="d-inline-block font-weight-600">Ticket No. <span style="color: #1dc5b3;">3456</span></h5> <span class="font-size-1 font-weight-600"></span> </div>
+												<div class="form-group col-xl-9">
+													<div class="pull-right">
+														<p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Time in: 09-09-2020 15:36</p>
+														<p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Est.Time Out: 09-09-2020 15:36</p>
+														<p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min: 29min</p>
+													</div>
+												</div>
+											</div>
+											<div class="form-row">
+												<div class="form-group col-lg-2 col-md-2 col-xl-3">
+													<label>Bar Code</label>
+													<input type="text" class="form-control" /> </div>
+												<div class="form-group col-md-3">
+													<label>Client</label>
+													<input type="text" class="form-control" placeholder="John Rambo" /> </div>
+												<div class="form-group col-md-3">
+													<label>Vehicle</label>
+													<select class="form-control">
+														<option selected="">Choose...</option>
+														<option>...</option>
+													</select>
+												</div>
+												<div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
+													<div class="pull-right">
+														<button type="button" class="btn theme-primary-button-color btn-responsive" href="#searchModal" data-toggle="modal">Select</button>
+														<button type="button" class="btn theme-primary-button-color btn-responsive" href="#addNewvehicleModal" data-toggle="modal">Add Vehicle</button>
+														<button type="button" class="btn theme-primary-button-color btn-responsive" onclick="window.location.href='New-client.html';">Add Client</button>
+													</div>
+												</div>
+											</div>
+											<div class="form-row">
+												<div class="form-group col-md-3">
+													<label>Type</label>
+													<select class="form-control">
+														<option selected="">Choose...</option>
+														<option>...</option>
+													</select>
+												</div>
+												<div class="form-group col-md-3">
+													<label for="inputmodel">Model</label>
+													<input type="text" class="form-control" id="inputmodel" placeholder="45789" /> </div>
+												<div class="form-group col-md-3">
+													<label>Color</label>
+													<select class="form-control">
+														<option selected="">Choose...</option>
+														<option>...</option>
+													</select>
+												</div>
+												<div class="form-group col-md-3">
+													<label>Washes</label>
+													<select class="form-control">
+														<option selected="">Choose...</option>
+														<option>...</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-row">
+												<div class="form-group col-md-3">
+													<label>Upcharge Type</label>
+													<select class="form-control">
+														<option selected="">Choose...</option>
+														<option>...</option>
+													</select>
+												</div>
+												<div class="form-group col-md-3">
+													<label>Upcharges</label>
+													<select class="form-control">
+														<option selected="">Choose...</option>
+														<option>...</option>
+													</select>
+												</div>
+												<div class="form-group col-md-3">
+													<label>Air Fresheners</label>
+													<select class="form-control">
+														<option selected="">Choose...</option>
+														<option>...</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-row">
+												<div class="col-md-6">
+													<div class="form-group mb-3">
+														<label>Notes</label>
+														<textarea class="form-control m-t-5 notes-textarea" rows="4"></textarea>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group mb-3">
+														<label> View Past Client Notes</label>
+														<textarea class="form-control m-t-5 notes-textarea" rows="4"></textarea>
+													</div>
+												</div>
+											</div>
+										</form>
+										<div class="title-border p-b-5 m-b-5">
+											<h5 class="d-inline-block font-weight-600">Additional Service</h5> </div>
+										<div class="row">
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-1" />
+													<label class="custom-control-label" for="Additionalservice-1">Clean Inside Rims</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-2" />
+													<label class="custom-control-label" for="Additionalservice-2">Shampoo Spot</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-3" />
+													<label class="custom-control-label" for="Additionalservice-3">Cond.Leather Seats</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-4" />
+													<label class="custom-control-label" for="Additionalservice-4">Silicon Ext Rubber</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-5" />
+													<label class="custom-control-label" for="Additionalservice-5">No Silicone</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-6" />
+													<label class="custom-control-label" for="Additionalservice-6">Clean Trunk Bed</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-7" />
+													<label class="custom-control-label" for="Additionalservice-7">Headliner Cleaned</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-8" />
+													<label class="custom-control-label" for="Additionalservice-8">Daily Duties</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-9" />
+													<label class="custom-control-label" for="Additionalservice-9">Shampoo Floormat</label>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-1" />
+													<label class="custom-control-label" for="Additional-Service-1">Shampoo Floormat</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-2" />
+													<label class="custom-control-label" for="Additional-Service-2">Clean Leather Seats</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-3" />
+													<label class="custom-control-label" for="Additional-Service-3">Condition Dash</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-4" />
+													<label class="custom-control-label" for="Additional-Service-4">Detail Add-Ons</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-5" />
+													<label class="custom-control-label" for="Additional-Service-5">No Brush/No Sapillo</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-6" />
+													<label class="custom-control-label" for="Additional-Service-6">Bid Older Remover</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-7" />
+													<label class="custom-control-label" for="Additional-Service-7">Frabric Sealer</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-8" />
+													<label class="custom-control-label" for="Additional-Service-8">Prepare Vehicles</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-9" />
+													<label class="custom-control-label" for="Additional-Service-9">Shampoo Carpets</label>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-19" />
+													<label class="custom-control-label" for="Additional Service-19">Shampoo Carpets</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-20" />
+													<label class="custom-control-label" for="Additional Service-20">Clean Door Panel</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-21" />
+													<label class="custom-control-label" for="Additional Service-21">Condition Door(per)</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-22" />
+													<label class="custom-control-label" for="Additional Service-22">Clean Engine</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-23" />
+													<label class="custom-control-label" for="Additional Service-23">Wash Mitts</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-24" />
+													<label class="custom-control-label" for="Additional Service-24">Sticker Removal(per)</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-25" />
+													<label class="custom-control-label" for="Additional Service-25">Vacuum Trunk</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-26" />
+													<label class="custom-control-label" for="Additional Service-26">Photo Of Vehicle</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-27" />
+													<label class="custom-control-label" for="Additional Service-27">Shampoo Seat</label>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-1" />
+													<label class="custom-control-label" for="Service-1">Shampoo Seat</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-2" />
+													<label class="custom-control-label" for="Service-2">Dog Hair</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-3" />
+													<label class="custom-control-label" for="Service-3">Excessive Mud</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-4" />
+													<label class="custom-control-label" for="Service-4">Ultra Clrcoat Prtect</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-5" />
+													<label class="custom-control-label" for="Service-5">Rain X Protection</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-6" />
+													<label class="custom-control-label" for="Service-6">Ozone Treatment</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-7" />
+													<label class="custom-control-label" for="Service-7">Headlamp Restoration</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-8" />
+													<label class="custom-control-label" for="Service-8">Clean Inside Rims</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-9" />
+													<label class="custom-control-label" for="Service-9">Shampoo Spot</label>
+												</div>
+											</div>
+										</div>
+										<div class="m-t-20 mw-100">
+											<button type="button" class="btn theme-primary-button-color">Pay</button>
+											<button type="button" class="btn theme-primary-button-color">Print</button>
+											<div class="pull-right">
+												<button type="button" class="btn theme-optional-button-color">Cancel</button>
+												<button type="button" class="btn theme-primary-button-color">Save</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- end card-->
+						</div>
+					</div>
+					<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
+						<div class="modal-dialog modal-md" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Search</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<!--modal body-->
+									<form>
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<label>Client</label>
+												<select class="form-control">
+													<option selected>Choose...</option>
+													<option>...</option>
+												</select>
+											</div>
+											<div class="form-group col-md-6">
+												<label>Ticket No</label>
+												<input type="number" class="form-control" placeholder="789#" /> </div>
+										</div>
+									</form>
+								</div>
+								<!--modal body-->
+								<div class="modal-footer">
+									<button type="button" class="btn theme-optional-button-color" data-dismiss="modal">Cancel</button>
+									<button type="button" class="btn theme-primary-button-color">Save</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Add New Vehicle Modal -->
+					<div class="modal fade" id="addNewvehicleModal" tabindex="-1" role="dialog" aria-labelledby="addNewvehicleModal" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Add New Vehicle</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<!--modal body-->
+									<form>
+										<div class="form-row">
+											<div class="form-group col-md-3">
+												<label>Vehicle No</label>
+												<input type="number" class="form-control" placeholder="789#" /> </div>
+											<div class="form-group col-md-3">
+												<label>Color</label>
+												<input type="text" class="form-control" placeholder="Silver" /> </div>
+											<div class="form-group col-md-3">
+												<label>Make</label>
+												<input type="text" class="form-control" placeholder="Suzuki" /> </div>
+											<div class="form-group col-md-3">
+												<label>Model</label>
+												<input type="text" class="form-control" placeholder="Swift" /> </div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col-md-3">
+												<label>Upcharge</label>
+												<select class="form-control">
+													<option selected>Choose...</option>
+													<option>...</option>
+												</select>
+											</div>
+											<div class="form-group col-md-3">
+												<label>Barcode</label>
+												<input type="text" class="form-control" placeholder="#ER89" /> </div>
+											<div class="form-group col-md-3">
+												<label>Membership</label>
+												<select class="form-control">
+													<option selected>Choose...</option>
+													<option>...</option>
+												</select>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!--modal body-->
+								<div class="modal-footer">
+									<button type="button" class="btn theme-optional-button-color" data-dismiss="modal">Cancel</button>
+									<button type="button" class="btn theme-primary-button-color">Save</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 	</div> -->
+				</div>
+				<!--page Content-->
+			</div>
+			<!--Content-->
+		</section>
+		<!--Content Wrapper-->
+	</div>
+	<!--Wrapper-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/default.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+</body>
+
+</html>

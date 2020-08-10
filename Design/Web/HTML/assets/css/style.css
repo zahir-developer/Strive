@@ -544,3 +544,101 @@ border-radius: 5px;
     overflow-x: scroll !important;
     overflow-y: auto;
 } 
+
+/*Schedule */
+	   .Schedules-tab-icon {
+	   color:#B2B2BC;
+	   font-size: 1.1rem;
+	   vertical-align:middle;
+	   }
+	   .Schedules-tab > li {
+    margin-right: 8px;
+    margin-bottom: 10px;
+}
+	.Schedules-tab  > li > a:hover {
+		color: black;
+	}
+	   .Schedules-tab div a.active > i, .Schedules-tab.show>.nav-tab-link, .Schedules-tab .nav-tab-link.active > i, .Schedules-tab .show>.nav-tab-link > i{
+	   color:white;
+	   }
+	   .Schedules-tab div a.active > p, .Schedules-tab.show>.nav-tab-link, .Schedules-tab .nav-tab-link.active > p, .Schedules-tab .show>.nav-tab-link > p{
+	  background-color:#FAFAFA;
+	  color:#333333;
+	   }
+	   .Schedules-tab div a.active, .Schedules-tab.show>.nav-tab-link, .Schedules-tab .nav-tab-link.active, .Schedules-tab .show>.nav-tab-link {
+    background-color: #1DC9B7;
+    color: white;
+    border-radius: 3px;
+    padding: .3rem 1rem;
+    font-size: 16px;
+    border: 1px solid #21f6e0;
+
+}
+	   .nav-tab-link {
+    padding: .3rem 0.6rem .3rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: black;
+    font-size: 16px;
+    background-color: #FAFAFA;
+}
+.Schedules-badge{
+    border-radius: 3px;
+    color: white;
+    background-color: #1DC9B7;
+	padding: 5px 5px;
+}
+
+
+
+
+
+
+.Search-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+.Search-item-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+	.Search-boxox-widget .Search-boxox-item .Search-boxox-item-img img {
+		width: 40px;
+	}
+	
+	.Search-box .Search-item {
+		border-bottom: 1px solid #dddd;
+		padding: 4px 10px;
+	}
+	
+	.font-13 {
+		font-size: 13px!important;
+	}
+.input-icon {
+    position: relative;
+}
+.input-icon.right>i {
+    left: auto;
+    right: 21px;
+    float: right;
+}
+.input-icon>i {
+    color: #A8AEBB;
+    position: absolute;
+    margin: 2px 2px 4px 10px;
+    z-index: 3;
+    width: 16px;
+    font-size: 22px;
+    text-align: center;
+    left: 0;
+}
+
+
+
+
+
