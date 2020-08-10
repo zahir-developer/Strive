@@ -73,7 +73,7 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   getClientVehicle(id) {
-    this.vehicle.getVehicleById(id).subscribe(data => {
+    this.vehicle.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Status;
@@ -121,7 +121,7 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   submit() {
-    this.address = [{
+    this.address = {
       relationshipId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
       address1: this.clientForm.value.address,
@@ -139,7 +139,7 @@ export class ClientCreateEditComponent implements OnInit {
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
       updatedBy: 0,
       updatedDate: new Date()
-    }]
+    }
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       firstName: this.clientForm.value.fName,

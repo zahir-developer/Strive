@@ -80,7 +80,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   getVehicleById(data, vehicleDet) {
-    this.vehicle.getVehicleId(vehicleDet.ClientVehicleId).subscribe(res => {
+    this.vehicle.getVehicleById(vehicleDet.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.selectedVehicle = vehicle.Status;
