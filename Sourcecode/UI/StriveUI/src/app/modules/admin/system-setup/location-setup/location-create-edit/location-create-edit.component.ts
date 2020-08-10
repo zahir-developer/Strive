@@ -102,9 +102,9 @@ export class LocationCreateEditComponent implements OnInit {
       weatherLocationId: 0,
       isActive: true,
       isDeleted: false,
-      // createdBy: 0,
+      createdBy: 0,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      // updatedBy: 0,
+      updatedBy: 0,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const formObj = {
@@ -125,9 +125,9 @@ export class LocationCreateEditComponent implements OnInit {
       endTime: '',
       isActive: true,
       isDeleted: false,
-      // createdBy: 0,
+      createdBy: 0,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      // updatedBy: 0,
+      updatedBy: 0,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {

@@ -287,7 +287,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeRole: employeeRoleObj
     };
     console.log(employeeObj, 'finalObj');
-    this.employeeService.updateEmployee(employeeObj).subscribe( res => {
+    this.employeeService.saveEmployee(employeeObj).subscribe( res => {
       if (res.status === 'Success') {
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       }

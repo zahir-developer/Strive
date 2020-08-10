@@ -58,6 +58,7 @@ export class EmployeeListComponent implements OnInit {
         this.isTableEmpty = false;
         if (employees.EmployeeList.length > 0) {
           const employeeDetail = employees.EmployeeList;
+          console.log(employeeDetail, 'employeeList');
           this.employeeDetails = employeeDetail;
           this.employeeDetails = this.employeeDetails.filter(item => item.Status === true);
           this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;

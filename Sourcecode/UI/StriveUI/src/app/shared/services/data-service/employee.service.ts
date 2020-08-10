@@ -13,14 +13,14 @@ export class EmployeeService {
   getEmployees(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
   }
-  updateEmployee(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateEmployees}`, obj);
+  saveEmployee(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveEmployees}`, obj);
   }
-  getEmployeeDetail(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}`, { params : id  });
+  getEmployeeDetail(empId) {
+    return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}`, { params : { id: empId }});
   }
   deleteEmployee(id) {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteEmployee}` + id);
+    return this.http.post(`${UrlConfig.totalUrl.deleteEmployee}` ,  { params: { empId: id }});
   }
   getAllRoles() {
     return this.http.get(`${UrlConfig.totalUrl.getAllRoles}`);
