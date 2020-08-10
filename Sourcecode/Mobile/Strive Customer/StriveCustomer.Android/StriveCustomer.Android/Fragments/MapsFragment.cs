@@ -29,6 +29,7 @@ using StriveCustomer.Android.Services;
 using static Android.Gms.Common.Apis.GoogleApiClient;
 using Android.Locations;
 using ILocationListener = Android.Gms.Location.ILocationListener;
+using CarWashLocation = Strive.Core.Models.TimInventory.Location;
 using Android.Graphics;
 using Android.Gms.Tasks;
 
@@ -37,18 +38,27 @@ namespace StriveCustomer.Android.Fragments
     public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback,IOnSuccessListener,IConnectionCallbacks, IOnConnectionFailedListener, ILocationListener
     {
         float Radius = 1500;
-        string GeofenceID = "SOMEID1";
+        string GeofenceID = "LatLng";
+        string[] GeofenceIDS;
+        private int carWashLocationsCount , geofencesCount, geofenceCirclesCount;
+        IList<IGeofence> carWashGeofences;
         private GoogleMap Googlemap;
         private GeofencingClient geofencingClient;
         private GoogleApiClient googleAPI;
         private Location lastLocation;
         private LatLng userLatLng;
+        private LatLng[] carWashLatLng;
         private MarkerOptions userMarkerOption;
         private MarkerOptions geofenceMarkerOptions;
+        private MarkerOptions[] carWashMarkerOptions;
         private CircleOptions geofenceCircleOptions;
+        private CircleOptions[] geofenceCircles;
         private LocationRequest userLocationRequest;
+        private GeofencingRequest geofencingRequests;
         private GeofenceHelper geofenceHelper;
         private SupportMapFragment gmaps;
+        private CarWashLocation carWashLocations;
+        private PendingIntent geoPendingIntent;
         private static View rootView;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -114,8 +124,24 @@ namespace StriveCustomer.Android.Fragments
             Googlemap = googleMap;
             Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
             enableUserLocation( );
+            carWashLocationsCount = 0;
+            carWashLatLng = new LatLng[carWashLocations.LocationAddress.Count];
+            carWashMarkerOptions = new MarkerOptions[carWashLocations.LocationAddress.Count];
+            foreach (var carWashLocation in carWashLocations.LocationAddress)
+            {
+                carWashLatLng[carWashLocationsCount] = new LatLng(carWashLocation.Latitude,carWashLocation.Longitude);
+                carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTiming);
+                if(carWashLocationsCount == 3)
+                {
+                  carWashLatLng[3] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                  carWashMarkerOptions[3] = new MarkerOptions().SetPosition(carWashLatLng[3]).SetTitle(carWashLocation.WashTiming);
+                }
+                Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]);
+                carWashLocationsCount++;
+            }
+            
+            addCarwashGeoFence(carWashLatLng,Radius);
         }
-
         private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)
         {
             lastUserLocation();
@@ -123,6 +149,7 @@ namespace StriveCustomer.Android.Fragments
 
         private async void setUpMaps()
         {
+            carWashLocations = await ViewModel.GetAllLocationsCommand();
             gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
             if (gmaps != null)
             {
@@ -157,6 +184,20 @@ namespace StriveCustomer.Android.Fragments
             PendingIntent pendingIntent = geofenceHelper.getPendingIntent();
             geofencingClient.AddGeofences(geofencingRequest,pendingIntent).AddOnSuccessListener(this);
         }
+        private void addCarwashGeoFence(LatLng[] latlngs, float Radius)
+        {
+            geofencesCount = 0;
+            carWashGeofences = new List<IGeofence>();
+            foreach(var latlng in latlngs)
+            {
+                carWashGeofences.Add(geofenceHelper.getGeofence(GeofenceID+geofencesCount,latlng,Radius, Geofence.GeofenceTransitionEnter | Geofence.GeofenceTransitionDwell | Geofence.GeofenceTransitionExit));
+                geofencesCount++; 
+            }
+            geofencingRequests = geofenceHelper.GetGeofencingRequests(carWashGeofences);
+            geoPendingIntent = geofenceHelper.getPendingIntent();
+            geofencingClient.AddGeofences(geofencingRequests,geoPendingIntent);
+            addGeoCircles(latlngs,Radius);
+        }
         private void addMarker(LatLng latLng)
         {
             geofenceMarkerOptions = new MarkerOptions().SetPosition(latLng);
@@ -171,6 +212,22 @@ namespace StriveCustomer.Android.Fragments
             geofenceCircleOptions.InvokeFillColor(Color.Argb(64,255,0,0));
             geofenceCircleOptions.InvokeStrokeWidth(4);
             Googlemap.AddCircle(geofenceCircleOptions);
+        }
+        private void addGeoCircles(LatLng[] latLngs, float Radius)
+        {
+            geofenceCirclesCount = 0;
+            geofenceCircles = new CircleOptions[latLngs.Length];
+            foreach (var latlng in latLngs )
+            {
+                geofenceCircles[geofenceCirclesCount] = new CircleOptions();
+                geofenceCircles[geofenceCirclesCount].InvokeCenter(latlng);
+                geofenceCircles[geofenceCirclesCount].InvokeRadius(Radius);
+                geofenceCircles[geofenceCirclesCount].InvokeStrokeColor(Color.Argb(255, 255, 0, 0));
+                geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(64, 255, 0, 0));
+                geofenceCircles[geofenceCirclesCount].InvokeStrokeWidth(4);
+                Googlemap.AddCircle(geofenceCircles[geofenceCirclesCount]);
+
+            }
         }
         private void lastUserLocation()
         {

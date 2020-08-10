@@ -31,6 +31,13 @@ namespace StriveCustomer.Android.Services
                         .SetInitialTrigger(Geofence.GeofenceTransitionEnter)
                         .Build();
         }
+        public GeofencingRequest GetGeofencingRequests(IList<IGeofence> geofences)
+        {
+            return new GeofencingRequest.Builder()
+                        .AddGeofences(geofences)
+                        .SetInitialTrigger(Geofence.GeofenceTransitionEnter)
+                        .Build();
+        }
         public IGeofence getGeofence(String ID, LatLng latlng,float Radius,int TransititonTypes )
         {
             return new GeofenceBuilder()
