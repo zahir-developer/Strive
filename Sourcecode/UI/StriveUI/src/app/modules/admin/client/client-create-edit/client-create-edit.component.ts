@@ -92,8 +92,7 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   getClientById() {
-    const clientAddress = this.selectedData.ClientAddress[0];
-    this.selectedStateId = clientAddress.State;
+    this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
@@ -103,12 +102,12 @@ export class ClientCreateEditComponent implements OnInit {
       score: this.selectedData.Score,
       notes: this.selectedData.Notes,
       checkOut: this.selectedData.RecNotes,
-      address: clientAddress.Address1,
-      phone1: clientAddress.PhoneNumber,
-      zipcode: clientAddress.Zip,
-      phone2: clientAddress.PhoneNumber2,
-      email: clientAddress.Email,
-      city: clientAddress.City
+      address: this.selectedData.Address1,
+      phone1: this.selectedData.PhoneNumber,
+      zipcode: this.selectedData.Zip,
+      phone2: this.selectedData.PhoneNumber2,
+      email: this.selectedData.Email,
+      city: this.selectedData.City
     });    
     this.getClientVehicle(this.selectedData.ClientId);
   }
@@ -124,7 +123,7 @@ export class ClientCreateEditComponent implements OnInit {
   submit() {
     this.address = [{
       relationshipId: this.isEdit ? this.selectedData.ClientId : 0,
-      clientAddressId: this.isEdit ? this.selectedData.ClientAddress[0].ClientAddressId : 0,
+      clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
       address1: this.clientForm.value.address,
       address2: "",
       phoneNumber2: this.clientForm.value.phone2,
@@ -134,7 +133,12 @@ export class ClientCreateEditComponent implements OnInit {
       city: this.clientForm.value.city !== "" ? this.clientForm.value.city : 0,
       country: 38,
       phoneNumber: this.clientForm.value.phone1,
-      email: this.clientForm.value.email
+      email: this.clientForm.value.email,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+      updatedBy: 0,
+      updatedDate: new Date()
     }]
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
@@ -143,9 +147,13 @@ export class ClientCreateEditComponent implements OnInit {
       lastName: this.clientForm.value.lName,
       gender: 0,
       maritalStatus: 0,
-      birthDate: new Date(),
-      createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      isActive: this.clientForm.value.status == 0 ? true : false,
+      birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
+      isActive: this.clientForm.value.status == 0 ? true : false,      
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+      updatedBy: 0,
+      updatedDate: new Date(),
       notes: this.clientForm.value.notes,
       recNotes: this.clientForm.value.checkOut,
       score: (this.clientForm.value.score == "" || this.clientForm.value.score == null) ? 0 : this.clientForm.value.score,

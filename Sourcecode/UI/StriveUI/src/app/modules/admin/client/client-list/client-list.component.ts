@@ -42,7 +42,7 @@ export class ClientListComponent implements OnInit {
     this.client.getClient().subscribe(data => {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Clients;
+        this.clientDetails = client.Client;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -100,7 +100,7 @@ export class ClientListComponent implements OnInit {
     this.client.getClientById(client.ClientId).subscribe(res => {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
-        this.selectedClient = client.ClientDetail[0];
+        this.selectedClient = client.Status;
         if (data === 'edit') {
           this.headerData = 'Edit Client';
           this.selectedData = this.selectedClient;
