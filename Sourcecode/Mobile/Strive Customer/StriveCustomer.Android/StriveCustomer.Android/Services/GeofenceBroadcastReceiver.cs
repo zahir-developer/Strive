@@ -77,7 +77,7 @@ namespace StriveCustomer.Android.Services
         void buildSendNotification(Intent mapIntent,Context context) 
         {
             Intent intent = new Intent(context,typeof(MapsFragment));
-            PendingIntent pendingIntent = PendingIntent.GetActivity(context,267,intent,PendingIntentFlags.UpdateCurrent);
+            PendingIntent pendingIntent = PendingIntent.GetActivity(context,267,mapIntent,PendingIntentFlags.UpdateCurrent);
             NotificationCompat.Builder builder = (NotificationCompat.Builder)new NotificationCompat.Builder(context)
                                           .SetSmallIcon(Resource.Drawable.world_location)
                                           .SetPriority(NotificationCompat.PriorityHigh)
