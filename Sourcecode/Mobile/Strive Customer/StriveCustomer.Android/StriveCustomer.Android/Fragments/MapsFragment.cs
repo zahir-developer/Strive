@@ -32,6 +32,8 @@ using ILocationListener = Android.Gms.Location.ILocationListener;
 using CarWashLocation = Strive.Core.Models.TimInventory.Location;
 using Android.Graphics;
 using Android.Gms.Tasks;
+using Xamarin.Essentials;
+using Location = Android.Locations.Location;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -163,11 +165,18 @@ namespace StriveCustomer.Android.Fragments
                 Googlemap.MyLocationEnabled = true;
                 Googlemap.UiSettings.MyLocationButtonEnabled = true;
                 Googlemap.MapLongClick += Googlemap_MapLongClick;
+                Googlemap.MarkerClick += Googlemap_MarkerClick;
             }
             else
             {
                 RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
             }
+        }
+
+        private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+        {
+            LatLng markerlatlng = e.Marker.Position;
+            await Map.OpenAsync(markerlatlng.Latitude,markerlatlng.Longitude);
         }
 
         private void Googlemap_MapLongClick(object sender, GoogleMap.MapLongClickEventArgs e)
