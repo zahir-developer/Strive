@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import * as moment from 'moment';
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -42,9 +43,13 @@ export class CreateEditComponent implements OnInit {
   isDocumentCollapsed = false;
   submitted: boolean;
   ctypeLabel: any;
+  multipleFileUpload: any = [];
+  fileType: any;
+  isLoading: boolean;
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
 
   ngOnInit() {
+    this.isLoading = false;
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'InActive'];
     this.documentDailog = false;
@@ -68,8 +73,8 @@ export class CreateEditComponent implements OnInit {
       status: [''],
       tip: [''],
       exemptions: [''],
-      roles: [''],
-      location: ['']
+      roles: [[]],
+      location: [[]]
     });
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
@@ -142,29 +147,50 @@ export class CreateEditComponent implements OnInit {
 
   fileNameChanged() {
     let filesSelected: any;
-    filesSelected = document.getElementById('filepaths');
+    filesSelected = document.getElementById('customFile');
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
       this.fileName = fileToLoad.name;
+      const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
         let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('filepaths');
+        textAreaFileContents = document.getElementById('customFile');
         textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
       };
       fileReader.readAsDataURL(fileToLoad);
+      this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
+        const fileObj = {
+          fileName: this.fileName,
+          fileUploadDate: this.fileUploadformData,
+          fileType: fileExtension
+        };
+        this.multipleFileUpload.push(fileObj);
+        this.isLoading = false;
+        console.log(this.multipleFileUpload, 'fileupload');
       }, 5000);
     }
   }
 
+  clearDocument(i) {
+    this.multipleFileUpload = this.multipleFileUpload.filter((item, index) => index !== i);
+  }
+
   closeDocumentPopup() {
     this.documentDailog = false;
+  }
+
+  onBlurMethod() {
+    $('.custom-file-input').on('change', function () {
+      const fileName = $(this).val().split('\\').pop();
+      $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+    });
   }
 
   get f() {
@@ -187,67 +213,101 @@ export class CreateEditComponent implements OnInit {
     const employeeRoles = [];
     const employeeAddressObj = {
       employeeAddressId: 0,
-      relationshipId: 0,
+      employeeId: 0,
       address1: this.personalform.value.address,
-      address2: '',
-      phoneNumber: +this.personalform.value.mobile,
+      address2: 'string',
+      phoneNumber: this.personalform.value.mobile,
       phoneNumber2: '',
       email: this.emplistform.value.emailId,
-      state: 0,
-      country: 0,
-      zip: '',
-      city: 1,
-      isActive: this.emplistform.value.status === 'Active' ? true : false
+      city: 303,
+      state: 48,
+      zip: 'string',
+      country: 38
     };
-    const employeeRoleObj = this.emplistform.value.roles.map(item => {
+    // const employeeRoleObj = this.emplistform.value.roles.map(item => {
+    //   return {
+    //     employeeRoleId: 0,
+    //     employeeId: 0,
+    //     roleId: item.item_id
+    //   };
+    // });
+    const employeeRoleObj = [{
+      employeeRoleId: 0,
+      employeeId: 0,
+      roleId: 5
+    }];
+    const employeeDetailObj = {
+      employeeDetailId: 0,
+      employeeId: 0,
+      employeeCode: 'string',
+      hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
+      lrt: '2020 - 08 - 06T19: 24: 48.817Z',
+      exemptions: +this.emplistform.value.exemptions
+    };
+    const locationObj = this.emplistform.value.location.map(item => {
       return {
-        employeeRoleId: 0,
+        employeeLocationId: 0,
         employeeId: 0,
-        roleId: item.item_id,
-        isDefault: true,
-        isActive: this.emplistform.value.status === 'Active' ? true : false
+        locationId: item.item_id
       };
     });
-    const employeeDetailObj = this.emplistform.value.location.map(item => {
-      return {
-        employeeDetailId: 0,
-        employeeId: 0,
-        employeeCode: 'string',
-        authId: 0,
-        locationId: item.item_id,
-        payRate: 'string',
-        sickRate: 'string',
-        vacRate: 'string',
-        comRate: 'string',
-        hiredDate: this.emplistform.value.dateOfHire,
-        salary: 'string',
-        tip: this.emplistform.value.tip,
-        lrt: '2020 - 08 - 03T10: 00: 31.411Z',
-        exemptions: +this.emplistform.value.exemptions,
-        isActive: this.emplistform.value.status === 'Active' ? true : false
-      };
-    });
-    employeAddress.push(employeeAddressObj);
     const employeeObj = {
       employeeId: 0,
       firstName: this.personalform.value.firstName,
       middleName: 'string',
       lastName: this.personalform.value.lastName,
-      gender: this.personalform.value.gender,
+      gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: 0,
+      maritalStatus: 117,
       isCitizen: true,
       alienNo: 'string',
-      birthDate: '2020-08-03T10:00:31.412Z',
-      immigrationStatus: this.personalform.value.immigrationStatus,
-      createdDate: '2020-08-03T10:00:31.412Z',
-      isActive: this.emplistform.value.status === 'Active' ? true : false,
-      employeeDetail: employeeDetailObj,
-      employeeAddress: employeAddress,
-      employeeRole: employeeRoleObj
+      birthDate: '2020 - 08 - 06T19: 24: 48.817Z',
+      immigrationStatus: this.personalform.value.immigrationStatus
     };
-    console.log(employeeObj, 'finalObj');
-    this.employeeService.updateEmployee(employeeObj).subscribe( res => {
+    const documentObj = this.multipleFileUpload.map(item => {
+      return {
+        employeeDocumentId: 0,
+        employeeId: 0,
+        filename: item.fileName,
+        filepath: item.fileUploadDate,
+        fileType: item.fileType,
+        isPasswordProtected: false,
+        password: 'string',
+        comments: 'string',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 0,
+        createdDate: moment(new Date()).format('YYYY-MM-DD'),
+        updatedBy: 0,
+        updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      };
+    });
+    // const documentObj = [{
+    //   employeeDocumentId: 0,
+    //   employeeId: 0,
+    //   filename: 'string',
+    //   filepath: 'string',
+    //   fileType: 'string',
+    //   isPasswordProtected: true,
+    //   password: 'string',
+    //   comments: 'string',
+    //   isActive: true,
+    //   isDeleted: true,
+    //   createdBy: 0,
+    //   createdDate: moment(new Date()).format('YYYY-MM-DD'),
+    //   updatedBy: 0,
+    //   updatedDate: moment(new Date()).format('YYYY-MM-DD')
+    // }];
+    const finalObj = {
+      employee: employeeObj,
+      employeeDetail: employeeDetailObj,
+      employeeAddress: employeeAddressObj,
+      emploxyeeRole: employeeRoleObj,
+      employeeLocation: locationObj,
+      employeeDocument: documentObj
+    };
+    console.log(finalObj, 'finalObj');
+    this.employeeService.saveEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       }
