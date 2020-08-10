@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json.Linq;
-using Strive.Common;
-using Strive.ResourceAccess;
+﻿using Strive.Common;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using Strive.BusinessEntities.Vendor;
+using Strive.ResourceAccess;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Strive.BusinessLogic
 {
@@ -15,71 +14,25 @@ namespace Strive.BusinessLogic
 
         public Result GetVendorDetails()
         {
-            try
-            {
-                var lstVendor = new VendorRal(_tenant).GetVendorDetails();
-                _resultContent.Add(lstVendor.WithName("Vendor"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new VendorRal(_tenant).GetVendorDetails, "Vendor");
+        }
+        public Result AddVendor(VendorDTO vendor)
+        {
+            return ResultWrap(new VendorRal(_tenant).AddVendor, vendor, "Status");
         }
 
-        public Result SaveVendorDetails(VendorView lstVendor)
+        public Result UpdateVendor(VendorDTO vendor)
         {
-            try
-            {
-                bool blnStatus = new VendorRal(_tenant).SaveVendorDetails(lstVendor);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new VendorRal(_tenant).UpdateVendor, vendor, "Status");
         }
         public Result DeleteVendorById(int id)
         {
-            try
-            {
-                var lstVendor = new VendorRal(_tenant).DeleteVendorById(id);
-                _resultContent.Add(lstVendor.WithName("Vendor"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new VendorRal(_tenant).DeleteVendorById, id, "Vendor");
         }
 
         public Result GetVendorById(int id)
         {
-            try
-            {
-                var lstVendorById = new VendorRal(_tenant).GetVendorById(id);
-                _resultContent.Add(lstVendorById.WithName("VendorDetail"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new VendorRal(_tenant).GetVendorById, id, "VendorDetail");
         }
-
-        public Result AddVendor(VendorDTO vendor)
-        {
-            throw new NotImplementedException();
-        }
-
-        //    public Result GetVendorDetails()
-        //    {
-        //        throw new NotImplementedException();
-        //    }
     }
 }

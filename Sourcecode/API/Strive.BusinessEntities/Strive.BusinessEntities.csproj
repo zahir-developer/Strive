@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DTO\Auth\Email.cs" />
+    <Compile Include="DTO\Client\ClientDto.cs" />
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
     <Compile Include="DTO\Collision\CollisionDto.cs" />
@@ -60,7 +61,9 @@
     <Compile Include="DTO\GiftCard\GiftCardHistory.cs" />
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
+    <Compile Include="DTO\TimeClock\TimeClock.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Model\TenantModule.cs" />
     <Compile Include="Model\Themes.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeSearchViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
@@ -111,7 +115,6 @@
     <Compile Include="Model\ClientVehicle.cs" />
     <Compile Include="Model\CodeCategory.cs" />
     <Compile Include="Model\CodeValue.cs" />
-    <Compile Include="Model\Document.cs" />
     <Compile Include="Model\Drawer.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\EmployeeAddress.cs" />
@@ -164,13 +167,15 @@
     <Compile Include="DTO\Vendor\VendorAddress.cs" />
     <Compile Include="DTO\Vendor\VendorList.cs" />
     <Compile Include="DTO\Wash.cs" />
-    <Compile Include="DTO\TimeClock\TimeClock.cs" />
+    <Compile Include="Model\TimeClockModel.cs" />
     <Compile Include="DTO\Vendor\VendorView.cs" />
     <Compile Include="DTO\Weather\Weather.cs" />
     <Compile Include="DTO\Weather\WeatherInfoView.cs" />
+    <Compile Include="ViewModel\TimeClockViewModel.cs" />
     <Compile Include="ViewModel\VehicleDetailViewModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipModel.cs" />
     <Compile Include="ViewModel\VehicleViewModel.cs" />
+    <Compile Include="ViewModel\VendorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

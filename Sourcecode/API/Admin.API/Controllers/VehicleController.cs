@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Vehicle;
-using Strive.BusinessEntities.MembershipSetup;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
 using System.Collections.Generic;
@@ -24,6 +24,10 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateMembership")]
         public Result Update([FromBody] Membership Membership) => _bplManager.UpdateVehicleMembership(Membership);
+
+        [HttpPost]
+        [Route("UpdateClientVehicle")]
+        public Result UpdateClientVehicle([FromBody] ClientVehicle ClientVehicle) => _bplManager.UpdateClientVehicle(ClientVehicle);
 
         [HttpDelete]
         [Route("Delete")]

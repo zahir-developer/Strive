@@ -100,7 +100,8 @@ namespace Strive.BusinessEntities
         USPGETVEHICLE,
         uspGetVihicleMembership,
         uspUpdateVechicleMembership,
-        uspGetVehicleById
+        uspGetVehicleById,
+        USPCLOCKTIMEDETAILS
     }
 
 

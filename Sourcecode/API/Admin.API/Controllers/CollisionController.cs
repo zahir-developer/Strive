@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.Collision;
 using Strive.BusinessLogic.Collision;
 using Strive.Common;
 using System;
@@ -12,53 +13,36 @@ namespace Admin.API.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class CollisionController: StriveControllerBase<ICollisionBpl>
+    public class CollisionController : StriveControllerBase<ICollisionBpl>
     {
         public CollisionController(ICollisionBpl colBpl) : base(colBpl) { }
-
-        //[HttpGet]
-        //[Route("GetAll")]
-        //public Result GetAllCollison()
-        //{
-        //    return _collisionBpl.GetAllCollison();
-        //}
-
-        //[HttpGet]
-        //[Route("GetCollisionById/{id}")]
-        //public Result GetCollisionById(long id)
-        //{
-        //    return _collisionBpl.GetCollisionById(id);
-        //}
-        //#region GET
-        //[HttpGet]
-        //[Route("GetAll/")]
-        //public Result GetAllCollission(int id) => _bplManager.GetAllCollission();
-        //#endregion
+        #region GET
+        [HttpGet]
+        [Route("GetAll")]
+        public Result GetAllCollission() => _bplManager.GetAllCollision();
+        #endregion
         #region
         [HttpGet]
-        [Route("GetCollisionById")]
+        [Route("GetCollisionById/{id}")]
         public Result GetCollisionById(int id) => _bplManager.GetCollisionById(id);
         #endregion
-        //[HttpGet]
-        //[Route("GetCollisionByEmpId/{id}")]
-        //public Result GetCollisionByEmpId(long id)
-        //{
-        //    return _collisionBpl.GetCollisionByEmpId(id);
-        //}
-
-        //[HttpPost]
-        //[Route("Save")]
-        //public Result SaveCollison([FromBody] List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision)
-        //{
-        //    return _collisionBpl.SaveCollison(lstCollision);
-        //}
-
-        //[HttpDelete]
-        //[Route("Delete/{id}")]
-        //public Result DeleteCollision(long id)
-        //{
-        //    return _collisionBpl.DeleteCollision(id);
-        //}
-
+        #region
+        [HttpGet]
+        [Route("GetCollisionByEmpId/{id}")]
+        public Result GetCollisionByEmpId(int id) => _bplManager.GetCollisionByEmpId(id);
+        #endregion
+        #region
+        [HttpDelete]
+        [Route("Delete")]
+        public Result DeleteCollission(int id) => _bplManager.DeleteCollision(id);
+        #endregion
+        [HttpPost]
+        [Route("Add")]
+        public Result Add([FromBody] CollisionDto collission) => _bplManager.AddCollision(collission);
+        #region
+        [HttpPost]
+        [Route("Update")]
+        public Result Update([FromBody] CollisionDto collission) => _bplManager.UpdateCollision(collission);
+        #endregion
     }
 }

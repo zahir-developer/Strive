@@ -3,7 +3,9 @@ using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
+using Strive.BusinessLogic.Document;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -22,6 +24,12 @@ namespace Strive.BusinessLogic
         {
             int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
             employee.EmployeeDetail.AuthId = authId;
+
+            //Documents Upload & Get File Names
+            List<EmployeeDocument> employeeDocument = new DocumentBpl(_cache, _tenant).UploadFiles(employee.EmployeeDocument);
+
+            employee.EmployeeDocument = employeeDocument;
+
             return ResultWrap(new EmployeeRal(_tenant).AddEmployee, employee, "Status");
         }
 
@@ -68,6 +76,10 @@ namespace Strive.BusinessLogic
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
             return _result;
+        }
+        public Result GetEmployeeSearch(EmployeeSearchViewModel employeeSearchViewModel)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeSearch, employeeSearchViewModel, "EmployeeSearch");
         }
 
     }

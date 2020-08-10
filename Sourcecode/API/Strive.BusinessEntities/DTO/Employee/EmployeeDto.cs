@@ -13,9 +13,9 @@ namespace Strive.BusinessEntities.DTO.Employee
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MobileNo { get; set; }
-        public int? Collisions { get; set; }
-        public int? Documents { get; set; }
-        public int? Schedules { get; set; }
+        public bool? Collisions { get; set; }
+        public bool? Documents { get; set; }
+        public bool? Schedules { get; set; }
         public bool Status { get; set; }
     }
 }

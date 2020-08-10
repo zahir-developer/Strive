@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic;
 using Strive.Common;
 
@@ -43,7 +44,13 @@ namespace Admin.Api.Controllers
 
         [HttpGet]
         [Route("GetEmployeeById")]
-        public Result GetEmployeeById(int id) => _bplManager.GetEmployeeById(id); 
+        public Result GetEmployeeById(int id) => _bplManager.GetEmployeeById(id);
+        #endregion
+
+        #region
+        [HttpPost]
+        [Route("GetEmployeeSearch")]
+        public Result GetEmployeeSearch([FromBody]EmployeeSearchViewModel employeeSearchViewModel) => _bplManager.GetEmployeeSearch(employeeSearchViewModel);
         #endregion
     }
 }
