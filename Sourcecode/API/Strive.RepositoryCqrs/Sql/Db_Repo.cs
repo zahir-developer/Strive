@@ -104,7 +104,7 @@ namespace Strive.RepositoryCqrs
         {
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
-            int insertId = 0;
+            int Id = 0;
             using (var dbcon = new SqlConnection(cs).EnsureOpen())
             {
 
@@ -130,12 +130,12 @@ namespace Strive.RepositoryCqrs
                             var prInfo = model.GetType().GetProperties().FirstOrDefault().GetValue(model, null) ?? 0;
                             if (Convert.ToInt32(prInfo) > 0)
                             {
-                                var Updated = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                Id = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                             }
                             else
                             {
-                                insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
-                                primeId = (!primInsert) ? insertId : primeId;
+                                Id = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                primeId = (!primInsert) ? Id : primeId;
                                 primInsert = true;
                             }
                         }
@@ -148,7 +148,7 @@ namespace Strive.RepositoryCqrs
                     transaction.Commit();
                 }
             }
-            return insertId;
+            return Id;
         }
 
         public bool Update<T>(T tview)
@@ -202,10 +202,15 @@ namespace Strive.RepositoryCqrs
 
                             if (model is null) continue;
 
+                            Type subModelType = model.GetType();
+
+                            if (subModelType.IsGenericType)
+                            {
+                                isGeneric = true;
+                            }
                             if (primInsert)
                             {
-                                Type subModelType = model.GetType();
-
+                                
                                 if (subModelType.IsGenericType)
                                 {
                                     isGeneric = true;

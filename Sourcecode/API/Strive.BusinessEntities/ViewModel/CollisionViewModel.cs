@@ -8,14 +8,11 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class CollisionViewModel
     {
-        public long? LiabilityId { get; set; }
-        public long? EmployeeId { get; set; }
-        public int? LiabilityType { get; set; }
-        public string LiabilityDescription { get; set; }
-        public int ProductId { get; set; }
-        public int Status { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public bool IsActive { get; set; }
-        //public List<LiabilityDetail> LiabilityDetail { get; set; }
+        public string LiabilityId { get; set; }
+        public int TypeId { get; set; }
+        public int LiabilityType { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
     }
 }

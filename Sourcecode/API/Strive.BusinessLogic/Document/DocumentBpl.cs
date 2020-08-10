@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -15,37 +16,38 @@ namespace Strive.BusinessLogic.Document
 {
     public class DocumentBpl : Strivebase, IDocumentBpl
     {
-        public DocumentBpl(IDistributedCache cache, ITenantHelper tenantHelper, IConfiguration iConfig) : base(tenantHelper,cache,iConfig)
+        public DocumentBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
 
-        public Result UploadDocument(List<Strive.BusinessEntities.Document.DocumentView> lstDocument)
+        public Result UploadDocument(EmployeeDocumentModel documentModel)
         {
             try
             {
-                foreach (var item in lstDocument)
+                documentModel.EmployeeDocument = UploadFiles(documentModel.EmployeeDocument);
+                var documentSave = false;
+                if (documentModel.EmployeeDocument != null)
                 {
-                    var fileFormat = Path.GetExtension(item.FileName);
-                    if (fileFormat == ".doc" || fileFormat == ".docx" || fileFormat == ".pdf" || fileFormat == ".xls" || fileFormat == ".csv")
+                    if (!documentModel.EmployeeDocument.Any(s => s.Filename == string.Empty))
                     {
-                        string FileName = item.FileName;
-                        string UploadPath = _config.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + FileName;
-                        byte[] tempBytes = Convert.FromBase64String(item.Base64Url);
-                        File.WriteAllBytes(UploadPath, tempBytes);
+                        documentSave = SaveDocument(documentModel);
+
+                        if (!documentSave)
+                        {
+                            DeleteFiles(documentModel.EmployeeDocument);
+                        }
+
+                        _resultContent.Add(documentSave.WithName("Status"));
+                        _result = Helper.BindSuccessResult(_resultContent);
                     }
                     else
                     {
-                        string errorMessage = "Invalid File Format";
-                        _result = Helper.ErrorMessageResult(errorMessage);
-                        return _result;
+                        documentSave = false;
+                        _resultContent.Add(documentSave.WithName("Status"));
+                        _result = Helper.BindSuccessResult(_resultContent);
                     }
-
+                   
                 }
-
-                var uploadDoc = new DocumentRal(_tenant).UploadDocument(lstDocument);
-
-                _resultContent.Add(uploadDoc.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {
@@ -53,24 +55,78 @@ namespace Strive.BusinessLogic.Document
             }
             return _result;
         }
+
+        public List<EmployeeDocument> UploadFiles(List<EmployeeDocument> employeeDocuments)
+        {
+            foreach (var doc in employeeDocuments)
+            {
+                doc.Filename = Upload(doc.Base64, doc.Filename);
+                if (doc.Filename == string.Empty)
+                {
+                    DeleteFiles(employeeDocuments);
+                }
+            }
+
+            return employeeDocuments;
+        }
+
+        public string Upload(string Base64Url, string fileName)
+        {
+            fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
+            var fileFormat = Path.GetExtension(fileName);
+            if (ValidateFileFormat(fileName))
+            {
+                string UploadPath = _tenant.DocumentUploadFolder + fileName;
+                byte[] tempBytes = Convert.FromBase64String(Base64Url);
+                File.WriteAllBytes(UploadPath, tempBytes);
+                return fileName;
+            }
+            else
+            {
+                string errorMessage = "Invalid File Format. Valid file formats: " + _tenant.DocumentFormat;
+                _result = Helper.ErrorMessageResult(errorMessage);
+                return string.Empty;
+            }
+        }
+
+        public bool ValidateFileFormat(string fileName)
+        {
+            return _tenant.DocumentFormat.Contains(Path.GetExtension(fileName));
+        }
+
+        public void DeleteFiles(List<EmployeeDocument> documents)
+        {
+            string UploadPath = _tenant.DocumentUploadFolder;
+
+            string filePath = string.Empty;
+            foreach (var doc in documents)
+            {
+                filePath = UploadPath + doc.Filename;
+                if (File.Exists(UploadPath))
+                {
+                    File.Delete(UploadPath);
+                }
+
+            }
+        }
+
+        public bool SaveDocument(EmployeeDocumentModel documentModel)
+        {
+            return new DocumentRal(_tenant).SaveDocument(documentModel);
+        }
+
+
         public Result GetDocumentById(long documentId, long employeeId, string password)
         {
             try
             {
-                var lstDocumentById = new DocumentRal(_tenant).GetDocumentById(documentId, employeeId, password);
-                if (lstDocumentById != null)
+                var document = new DocumentRal(_tenant).GetDocumentById(documentId, employeeId, password);
+                string base64 = string.Empty;
+                if (document != null)
                 {
-                    if (lstDocumentById.Password == password)
+                    if (document.Password == password)
                     {
-                        string path = _config.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + lstDocumentById.FileName;
-                        string base64data = string.Empty;
-                        using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                        {
-                            byte[] data = new byte[(int)fileStream.Length];
-                            fileStream.Read(data, 0, data.Length);
-                            base64data = Convert.ToBase64String(data);
-                            lstDocumentById.Base64Url = base64data;
-                        }
+                        base64 = GetBase64(document.FileName);
                     }
                     else
                     {
@@ -81,7 +137,7 @@ namespace Strive.BusinessLogic.Document
 
                 }
 
-                _resultContent.Add(lstDocumentById.WithName("DocumentDetail"));
+                _resultContent.Add(base64.WithName("Document"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -91,27 +147,32 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
+        public string GetBase64(string fileName)
+        {
+            string path = _tenant.DocumentUploadFolder + fileName;
+            string base64data = string.Empty;
+
+            using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                byte[] data = new byte[(int)fileStream.Length];
+                fileStream.Read(data, 0, data.Length);
+                base64data = Convert.ToBase64String(data);
+            }
+
+            return base64data;
+        }
+
         public Result GetAllDocument(long employeeId)
         {
             try
             {
                 var lstDocumentById = new DocumentRal(_tenant).GetAllDocument(employeeId);
-                if (lstDocumentById.Count>0)
+                if (lstDocumentById.Count > 0)
                 {
-                    foreach(var item in lstDocumentById)
+                    foreach (var item in lstDocumentById)
                     {
-                        string path = _config.GetSection("StriveAdminSettings").GetSection("UploadPath").Value + item.FileName;
-                        string base64data = string.Empty;
-                        using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                        {
-                            byte[] data = new byte[(int)fileStream.Length];
-                            fileStream.Read(data, 0, data.Length);
-                            base64data = Convert.ToBase64String(data);
-                            item.Base64Url = base64data;
-                        }
+                        string base64data = GetBase64(item.FileName);
                     }
-                       
-
                 }
 
                 _resultContent.Add(lstDocumentById.WithName("GetAllDocuments"));

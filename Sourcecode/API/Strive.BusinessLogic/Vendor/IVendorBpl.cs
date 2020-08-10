@@ -7,9 +7,10 @@ namespace Strive.BusinessLogic
     public interface IVendorBpl
     {
         Result GetVendorDetails();
-        Result SaveVendorDetails(VendorView lstVendor);
-        Result DeleteVendorById(int id);
-        Result GetVendorById(int id);
         Result AddVendor(VendorDTO vendor);
+        Result UpdateVendor(VendorDTO vendor);
+        Result DeleteVendorById(int id);
+        //Result GetAllVendor();
+        Result GetVendorById(int id);
     }
 }

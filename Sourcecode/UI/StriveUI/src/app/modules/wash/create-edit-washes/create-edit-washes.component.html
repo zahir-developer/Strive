@@ -28,19 +28,22 @@
                             </div>
                         </div>
                         <div id="Washviewedit" class="collapse show">
-                            <form>
+                            <form [formGroup]="washForm">
                                 <div class="form-row">
                                     <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">barcode</label>
-                                        <input type="text" maxlength="100" class="form-control" placeholder="BarCode">
+                                        <label for="inputBarcode">barcode</label>
+                                        <input type="text" maxlength="100" class="form-control" formControlName="barcode"
+                                            placeholder="BarCode">
                                     </div>
                                     <div class="form-group col-lg-3">
-                                        <label for="inputLastName">Client</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Client">
+                                        <label for="inputClient">Client</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="client"
+                                            placeholder="Client">
                                     </div>
                                     <div class="form-group col-lg-3">
-                                        <label for="inputAddress">Vehicle</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Vehicle">
+                                        <label for="inputVehicle">Vehicle</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="vehicle"
+                                            placeholder="Vehicle">
                                     </div>&nbsp;
                                     <div class="form-group">
                                         <label></label>
@@ -56,35 +59,40 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">Type</label>
-                                        <input type="text" maxlength="100" class="form-control" placeholder="Type">
+                                        <label for="inputType">Type</label>
+                                        <input type="text" maxlength="100" class="form-control" formControlName="type"
+                                            placeholder="Type">
                                     </div>
                                     <div class="form-group col-lg-3">
-                                        <label for="inputLastName">Model</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Model">
+                                        <label for="inputModel">Model</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="model"
+                                            placeholder="Model">
                                     </div>
                                     <div class="form-group col-lg-3">
-                                        <label for="inputAddress">Color</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Color">
+                                        <label for="inputColor">Color</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="color"
+                                            placeholder="Color">
                                     </div>
                                     <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">Washes</label>
-                                        <input type="text" maxlength="100" class="form-control" placeholder="Washes">
+                                        <label for="inputWashes">Washes</label>
+                                        <input type="text" maxlength="100" class="form-control" formControlName="washes"
+                                            placeholder="Washes">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">Upcharge Type</label>
-                                        <input type="text" maxlength="100" class="form-control"
+                                        <label for="inputUpchargeType">Upcharge Type</label>
+                                        <input type="text" maxlength="100" class="form-control" formControlName="upchargeType"
                                             placeholder="Upcharge Type">
                                     </div>
                                     <div class="form-group col-lg-3">
-                                        <label for="inputLastName">Upcharges</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Upcharges">
+                                        <label for="inputUpcharges">Upcharges</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="upcharges"
+                                            placeholder="Upcharges">
                                     </div>
                                     <div class="form-group col-lg-3">
-                                        <label for="inputAddress">Air Freshners</label>
-                                        <input type="text" maxlength="50" class="form-control"
+                                        <label for="inputAirFreshners">Air Freshners</label>
+                                        <input type="text" maxlength="50" class="form-control" formControlName="airFreshners"
                                             placeholder="Air Freshners">
                                     </div>
                                 </div>
@@ -93,14 +101,14 @@
                                         <div class="form-group mb-3">
                                             <label for="inputNotes">Notes</label>
                                             <textarea rows="1" class="form-control m-t-5 notes-textarea"
-                                                placeholder="Notes"></textarea>
+                                                placeholder="Notes" formControlName="notes"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="inputRecNotes">View Past Client Notes</label>
+                                            <label for="inputPastNotes">View Past Client Notes</label>
                                             <textarea rows="1" class="form-control m-t-5 notes-textarea"
-                                                placeholder="Past Client Notes"></textarea>
+                                                placeholder="Past Client Notes" formControlName="pastNotes"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -210,7 +218,8 @@
                                     <div class="form-group col-lg-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Ultra Clrcoat protect</label>
+                                            <label class="form-check-label" for="gridCheck">Ultra Clrcoat
+                                                protect</label>
                                         </div>
                                     </div>
                                 </div>
@@ -324,8 +333,7 @@
                     <span class="mw-100 pull-right">
                         <button type="button" class="btn theme-optional-button-color"
                             (click)="cancel()">Cancel</button>&nbsp;
-                        <button *ngIf="!isView" type="button"
-                            class="btn theme-primary-button-color">Save</button>
+                        <button *ngIf="!isView" type="button" class="btn theme-primary-button-color">Save</button>
                     </span>
                 </div>
             </div>

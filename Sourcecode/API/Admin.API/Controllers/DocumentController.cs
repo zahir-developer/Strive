@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Document;
 using Strive.Common;
 using System;
@@ -23,9 +24,9 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("SaveDocument")]
-        public Result UploadDocument([FromBody] List<Strive.BusinessEntities.Document.DocumentView> lstDocument)
+        public Result UploadDocument([FromBody]EmployeeDocumentModel documentModel)
         {
-            return _documentBpl.UploadDocument(lstDocument);
+            return _documentBpl.UploadDocument(documentModel);
         }
         [HttpGet]
         [Route("GetDocumentById/{documentId},{employeeId},{password}")] 
