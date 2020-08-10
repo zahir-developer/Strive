@@ -132,7 +132,7 @@
                                                             *ngFor="let client of clientDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <th scope="row">{{client.FirstName}}</th>
                                                             <td>{{client.LastName}}</td>
-                                                            <td>{{client.ClientAddress[0].PhoneNumber}}</td>
+                                                            <td>{{client.PhoneNumber}}</td>
                                                             <td>{{client.ClientType}}</td>
                                                             <td>{{client.IsActive === true ? "Active" : "InActive"}}
                                                             </td>

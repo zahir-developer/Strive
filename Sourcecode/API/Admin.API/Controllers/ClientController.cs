@@ -26,7 +26,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveClientDetails([FromBody] ClientDto vehicle) => _bplManager.SaveClientDetails(vehicle);
+        public Result SaveClientDetails([FromBody] ClientDto client) => _bplManager.SaveClientDetails(client);
 
         [HttpGet]
         [Route("GetAllClient")]

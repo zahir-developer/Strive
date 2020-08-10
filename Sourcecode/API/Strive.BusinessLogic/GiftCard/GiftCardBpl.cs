@@ -19,61 +19,38 @@ namespace Strive.BusinessLogic.GiftCard
         }
         public Result GetAllGiftCard(int locationId)
         {
-            try
-            {
-                var lstGiftCardById = new GiftCardRal(_tenant).GetAllGiftCard(locationId);
-                _resultContent.Add(lstGiftCardById.WithName("GiftCard"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCard,locationId, "GiftCard");
         }
 
-        public Result GiftCardDetailByGiftCardId(int giftCardId)
+        public Result GetGiftCardByGiftCardId(int giftCardId)
         {
-            try
-            {
-                var lstGiftCardById = new GiftCardRal(_tenant).GiftCardDetailByGiftCardId(giftCardId);
-                _resultContent.Add(lstGiftCardById.WithName("GiftCardDetail"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new GiftCardRal(_tenant).GetGiftCardByGiftCardId, giftCardId, "GiftCardDetail");
+        }
+        public Result GetAllGiftCardHistory(int giftCardId)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCardHistory, giftCardId, "GiftCardHistory");
         }
         public Result ActivateorDeactivateGiftCard(GiftCardStatus giftCard)
         {
-            try
-            {
-                var blnStatus = new GiftCardRal(_tenant).ActivateorDeactivateGiftCard(giftCard);
-
-                _resultContent.Add(blnStatus.WithName("StatusChange"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new GiftCardRal(_tenant).ActivateorDeactivateGiftCard, giftCard, "ChangeStatus");
         }
-        public Result SaveGiftCard(GiftCardView giftCard)
+        public Result AddGiftCard(GiftCardDto giftCardDto)
         {
-            try
-            {
-                var blnStatus = new GiftCardRal(_tenant).SaveGiftCard(giftCard);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new GiftCardRal(_tenant).AddGiftCard, giftCardDto, "Status");
+        }
+
+        public Result UpdateGiftCard(GiftCardDto giftCardDto)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).UpdateGiftCard, giftCardDto, "Status");
+        }
+        public Result AddGiftCardHistory(GiftCardHistoryDto giftCardHistoryDto)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).AddGiftCardHistory, giftCardHistoryDto, "Status");
+        }
+
+        public Result UpdateGiftCardHistory(GiftCardHistoryDto giftCardHistoryDto)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).UpdateGiftCardHistory, giftCardHistoryDto, "Status");
         }
     }
 }
