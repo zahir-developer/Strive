@@ -157,6 +157,21 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
+        protected Result ResultWrap<T>(Func<int, string, T> RALMethod, int id, string str, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke(id, str);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         protected void AddAudit<T>(T tdata)
         {
             string action = "ADD";

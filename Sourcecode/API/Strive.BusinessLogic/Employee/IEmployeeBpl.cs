@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Strive.BusinessEntities.Employee;
+﻿using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Model;
-using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 
 namespace Strive.BusinessLogic
@@ -14,6 +12,6 @@ namespace Strive.BusinessLogic
         Result DeleteEmployeeDetails(int empId);
         Result GetEmployeeById(int id);
         Result GetEmployeeList();
-        Result GetEmployeeSearch(EmployeeSearchViewModel employeeSearchViewModel);
+        Result GetEmployeeSearch(EmployeeSearchDto employeeSearchDto);
     }
 }

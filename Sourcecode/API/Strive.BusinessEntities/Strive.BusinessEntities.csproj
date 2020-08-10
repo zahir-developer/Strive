@@ -57,6 +57,7 @@
     <Compile Include="DTO\Employee\EmployeeLocationDto.cs" />
     <Compile Include="DTO\Employee\EmployeeLoginDto.cs" />
     <Compile Include="DTO\Employee\EmployeeRoleDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeSearchDto.cs" />
     <Compile Include="DTO\GiftCard\GiftCard.cs" />
     <Compile Include="DTO\GiftCard\GiftCardDto.cs" />
     <Compile Include="DTO\GiftCard\GiftCardHistory.cs" />
@@ -95,8 +96,8 @@
     <Compile Include="Model\TenantMaster.cs" />
     <Compile Include="Model\TenantModule.cs" />
     <Compile Include="Model\Themes.cs" />
+    <Compile Include="ViewModel\EmployeeDetailViewModel.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
-    <Compile Include="ViewModel\EmployeeSearchViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
@@ -160,7 +161,6 @@
     <Compile Include="DTO\Employee\EmployeeAddress.cs" />
     <Compile Include="DTO\Employee\EmployeeDetail.cs" />
     <Compile Include="DTO\Employee\EmployeeRole.cs" />
-    <Compile Include="DTO\Employee\EmployeeView.cs" />
     <Compile Include="DTO\Location\LocationDto.cs" />
     <Compile Include="DTO\Product\ProductDto.cs" />
     <Compile Include="DTO\RefreshToken.cs" />
