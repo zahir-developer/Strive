@@ -11,59 +11,65 @@
                 </span>
             </h6>
             <div class="pull-right m-t-4 pointer">
-                <a id="Collisiontoggle"> <em class="fa fa-angle-up font-size-1-4"></em> </a>
+                <button type="button" class="btn theme-optional-button-color" id="doc-disable"
+                        *ngIf="showCloseButton && !isEditCollision" (click)="closeModal()">Close</button>
+                <a *ngIf="!showCloseButton"> <em class="fa font-size-1-4"
+                        [ngClass]="{'fa-angle-up':!isCollisionCollapsed, 'fa-angle-down': isCollisionCollapsed  }"
+                        (click)="collisionCollapsed()"></em> </a>
             </div>
         </div>
-        <div class="table-responsive m-t-10" id="collisionform">
-            <div *ngIf="collisionList.length > 0">
-                <table aria-describedby="collision-grid" class="table border table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Act#</th>
-                            <th scope="col">Date Created </th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let collision of collisionList">
-                            <td>{{collision.LiabilityId}}</td>
-                            <td>{{collision.CreatedDate | date: 'MM/dd/yyyy'}}</td>
-                            <td>{{collision.Description}}
-                            </td>
-                            <td>{{collision.Amount | currency }}</td>
-                            <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil"
-                                    *ngIf="actionType === 'view'"
-                                    [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"
-                                    (click)="updateCollision(collision)"></em>
-                                <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete"
-                                    *ngIf="actionType === 'view'"
-                                    [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"
-                                    (click)="deleteCollision(collision)"></em><em
-                                    class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
-                                    *ngIf="actionType === 'edit'" (click)="updateCollision(collision)"></em>
-                                <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
-                                    *ngIf="actionType === 'edit'" (click)="deleteCollision(collision)"></em>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="2" scope="col"></th>
-                            <th class="text-right" scope="col"> Balance Due: </th>
-                            <td>{{totalAmount | currency }}</td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="setup-content" *ngIf="collisionList.length === 0"> <span class="col-12 row d-block">No
-                    Records Found</span></div>
-            <div *ngIf="isEditCollision" id="collision-enable-btn">
-                <div class="pull-right mw-100 m-t-5">
-                    <button type="button" class="btn theme-optional-button-color" id="collision-view"
-                        (click)="cancelEditCollision()">Cancel</button>
+        <div [style.display]="isCollisionCollapsed ? 'none' : 'block'">
+            <div class="table-responsive m-t-10" id="collisionform">
+                <div *ngIf="collisionList.length > 0">
+                    <table aria-describedby="collision-grid" class="table border table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Act#</th>
+                                <th scope="col">Date Created </th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let collision of collisionList">
+                                <td>{{collision.LiabilityId}}</td>
+                                <td>{{collision.CreatedDate | date: 'MM/dd/yyyy'}}</td>
+                                <td>{{collision.Description}}
+                                </td>
+                                <td>{{collision.Amount | currency }}</td>
+                                <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil"
+                                        *ngIf="actionType === 'view'"
+                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"
+                                        (click)="updateCollision(collision)"></em>
+                                    <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete"
+                                        *ngIf="actionType === 'view'"
+                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"
+                                        (click)="deleteCollision(collision)"></em><em
+                                        class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
+                                        *ngIf="actionType === 'edit'" (click)="updateCollision(collision)"></em>
+                                    <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
+                                        *ngIf="actionType === 'edit'" (click)="deleteCollision(collision)"></em>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" scope="col"></th>
+                                <th class="text-right" scope="col"> Balance Due: </th>
+                                <td>{{totalAmount | currency }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="setup-content" *ngIf="collisionList.length === 0"> <span class="col-12 row d-block">No
+                        Records Found</span></div>
+                <div *ngIf="isEditCollision" id="collision-enable-btn">
+                    <div class="pull-right mw-100 m-t-5">
+                        <button type="button" class="btn theme-optional-button-color" id="collision-view"
+                            (click)="cancelEditCollision()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>

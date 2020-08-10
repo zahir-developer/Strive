@@ -53,12 +53,15 @@ export class EmployeeService {
     return this.http.delete(`${UrlConfig.totalUrl.deleteDocument}` + docId);
   }
   deleteCollision(collisionId) {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteCollision}` + collisionId);
+    return this.http.delete(`${UrlConfig.totalUrl.deleteCollision}` , { params : { id: collisionId }});
   }
   getDetailCollision(collisionId) {
     return this.http.get(`${UrlConfig.totalUrl.getDetailCollision}` + collisionId);
   }
   saveCollision(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
+  }
+  searchEmployee(obj) {
     return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
   }
 }

@@ -68,19 +68,19 @@
                                                 <td>{{employee.FirstName}}</td>
                                                 <td>{{employee.LastName}}</td>
                                                 <td>{{employee.MobileNo}}</td>
-                                                <td> <span (click)="openCollisionModal(employee)" *ngIf="employee.Collisions === 0"
+                                                <td> <span (click)="openCollisionModal(employee)" *ngIf="employee.Collisions === false"
                                                         class="text-underline theme-primary-color font-size--9"
                                                         style="cursor: pointer;"> Add
                                                     </span>
-                                                    <span (click)="viewCollision(employee)" *ngIf="employee.Collisions === 1"
+                                                    <span (click)="viewCollision(employee)" *ngIf="employee.Collisions === true"
                                                         class="text-underline theme-primary-color font-size--9"
                                                         style="cursor: pointer;"> View
                                                     </span>
                                                 </td>
-                                                <td> <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === 0"
+                                                <td> <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === false"
                                                         style="cursor: pointer;" (click)="addDocument(employee)"> Add
                                                     </span>
-                                                    <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === 1"
+                                                    <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === true"
                                                         style="cursor: pointer;" (click)="viewDocument(employee)"> View
                                                     </span>
                                                 </td>

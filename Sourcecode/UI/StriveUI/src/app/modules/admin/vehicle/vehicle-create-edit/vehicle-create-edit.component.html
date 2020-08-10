@@ -40,7 +40,7 @@
                 <label for="inputUpcharge">Upcharge Type</label>
                 <select class="form-control" formControlName="upchargeType">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.id}}">{{upcharge.Value}}</option>
+                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.CodeId}}">{{upcharge.CodeValue}}</option>
                 </select>
             </div>
         </div>

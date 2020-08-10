@@ -20,25 +20,16 @@ export class VehicleService {
     deleteVehicle(vehicleId: number) {
         return this.http.delete(`${UrlConfig.totalUrl.deleteVehicle}`, { params: { id: vehicleId } });
     }
+    getVehicleByClientId(clientId: number) {
+        return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });
+    }
     getVehicleById(vehicleId: number) {
         return this.http.get(`${UrlConfig.totalUrl.getVehicleById}`, { params: { id: vehicleId } });
-    }
-    getVehicleId(vehicleId: number) {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleId}`, { params: { id: vehicleId } });
     }
     getVehicleMembership(): Observable<any> {
         return this.http.get(`${UrlConfig.totalUrl.getVehicleMembership}`);
     }
-    getVehicleColor(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleColor}`);
-    }
-    getVehicleMake(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleMake}`);
-    }
-    getVehicleModel(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleModel}`);
-    }
-    getVehicleUpcharge(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleUpcharge}`);
+    getVehicleCodes() {
+        return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
     }
 }

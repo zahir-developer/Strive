@@ -13,9 +13,12 @@ export class CollisionListComponent implements OnInit {
   @Input() employeeId?: any;
   @Input() employeeCollision?: any = [];
   @Input() actionType?: any;
+  @Input() isModal?: any;
   isEditCollision: boolean;
   totalAmount: any = 0;
   collisionList: any = [];
+  isCollisionCollapsed = false;
+  showCloseButton: boolean;
   constructor(
     private employeeService: EmployeeService,
     private modalService: NgbModal,
@@ -23,6 +26,11 @@ export class CollisionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEditCollision = false;
+    if (this.isModal !== undefined) {
+      this.showCloseButton = true;
+    } else {
+      this.showCloseButton = false;
+    }
     console.log(this.employeeCollision, 'collision');
     this.getAllCollision();
   }
@@ -38,7 +46,7 @@ export class CollisionListComponent implements OnInit {
   collistionGrid() {
     this.totalAmount = 0;
     if (this.employeeCollision.length > 0) {
-      this.collisionList = this.employeeCollision[0].LiabilityDetail;
+      this.collisionList = this.employeeCollision;
       if (this.collisionList.length > 0) {
         this.collisionList.forEach(item => {
           this.totalAmount = this.totalAmount + item.Amount;
@@ -71,12 +79,16 @@ export class CollisionListComponent implements OnInit {
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
         console.log(employeesCollison, 'employeDeatil');
-        if (employeesCollison.CollisionDetailOfEmployee.length > 0) {
-          this.employeeCollision = employeesCollison.CollisionDetailOfEmployee;
+        if (employeesCollison.Collision.length > 0) {
+          this.employeeCollision = employeesCollison.Collision;
           this.collistionGrid();
         }
       }
     });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
   }
 
   updateCollision(collision) {
@@ -113,6 +125,10 @@ export class CollisionListComponent implements OnInit {
         this.getAllCollision();
       }
     });
+  }
+
+  collisionCollapsed() {
+    this.isCollisionCollapsed = !this.isCollisionCollapsed;
   }
 
 

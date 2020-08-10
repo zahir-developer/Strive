@@ -15,7 +15,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int Gender { get; set; }
         public int MaritalStatus { get; set; }
         public DateTime BirthDate { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
         public bool IsActive { get; set; }
         public string Notes { get; set; }
         public string RecNotes { get; set; }
