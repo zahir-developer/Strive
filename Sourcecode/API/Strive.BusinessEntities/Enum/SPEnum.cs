@@ -39,21 +39,17 @@ namespace Strive.BusinessEntities
         USPGIFTCARDCHANGESTATUS,
         USPSAVEGIFTCARD,
         //Location
-        USPGETLOCATION,
         USPSAVELOCATION,
         USPDELETELOCATION,
         USPGETPRODUCT,
         USPDELETEPRODUCT,
         USPGETAllPRODUCT,
         USPGETAllPRODUCTNEW,
-        USPGETAllLOCATION,
-        USPSaveLOCATION,
+        USPGETALLLOCATION,
         USPGETLOCATIONBYID,
         //Service Setup
-        USPGETSERVICE,
-        USPSAVESERVICE,
         USPDELETESERVICEBYID,
-        USPGETSERVICEBYID,
+        USPGETSERVICES,
         //Cash Register
         USPSAVETODAYCASHREGISTER,
         USPGETCASHREGISTERDETAILS,
@@ -65,24 +61,14 @@ namespace Strive.BusinessEntities
         USPSAVECASHREGISTERROLLS,
         USPSAVECASHREGISTER,
         //Collison
-        USPGETCOLLISION,
-        USPGETCOLLISIONBYID,
-        USPSAVECOLLISION,
         USPDELETECOLLISION,
-        USPGETALLVENDOR,
-        USPSAVEVENDOR,
-        USPDELETEVENDOR,
-        USPGETVENDORBYID,
         USPGETPASSWORDHASH,
         USPSAVEOTP,
         USPRESETPASSWORD,
-        USPSAVECLIENT,
         USPVERIFYOTP,
         USPGETEMPLOYEELIST,
         USPGETEMPLOYEEBYID,
-        USPGETALLLOCATION,
         USPGETALLSERVICE,
-        USPGETSERVICES,
         USPGETPRODUCTS,
         USPGETCASHREGISTER,
         USPGETCOLLISIONBYEMPID,
@@ -92,6 +78,7 @@ namespace Strive.BusinessEntities
         USPDELETEMEMBERSHIP,
         USPGETMEMBERSHIPBYID,
         USPSAVEMEMBERSHIPSETUP,
+        //Vehicle
         USPGETALLVEHICLE,
         USPUPDATEVEHICLE,
         USPDELETECLIENTVEHICLE,
@@ -102,6 +89,9 @@ namespace Strive.BusinessEntities
         uspUpdateVechicleMembership,
         uspGetVehicleById,
         USPCLOCKTIMEDETAILS,
+        //Vendor
+        USPGETALLVENDOR,
+        USPDELETEVENDOR
         uspGetVehicleCodes
     }
 
