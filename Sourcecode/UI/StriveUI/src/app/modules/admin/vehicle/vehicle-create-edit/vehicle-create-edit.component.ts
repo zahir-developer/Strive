@@ -24,8 +24,8 @@ export class VehicleCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.formInitialize();
-    this.upchargeType = [{ id: 0, Value: "None" }, { id: 1, Value: "UpchargeType1" }, { id: 2, Value: "UpchargeType2" }];
-    this.membership = [{ id: 0, Value: "Member1" }, { id: 1, Value: "Member2" }, { id: 2, Value: "Member3" }];
+    this.upcharge = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "Upcharge1" }, { CodeId: 2, CodeValue: "Upcharge2" }];
+    this.upchargeType = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "UpchargeType1" }, { CodeId: 2, CodeValue: "UpchargeType2" }];
     if (this.isView === true) {
       this.viewVehicle();
     }
@@ -46,10 +46,7 @@ export class VehicleCreateEditComponent implements OnInit {
       monthlyCharge: ['',],
       membership: ['',]
     });
-    this.getVehicleColor();
-    this.getVehicleMake();
-    this.getVehicleModel();
-    this.getVehicleUpcharge();
+    this.getVehicleCodes();
     this.getVehicleMembership();
   }
 
@@ -57,9 +54,9 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
       //tag: this.selectedData.VehicleNumber,
-      make: this.selectedData.VehicleMake,
-      model: this.selectedData.VehicleModel,
-      color: this.selectedData.VehicleColor,
+      make: this.selectedData.VehicleMakeId,
+      model: this.selectedData.VehicleModelId,
+      color: this.selectedData.ColorId,
       upcharge: this.selectedData.Upcharge
     });
   }
@@ -79,44 +76,14 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
-  getVehicleColor(){
-    this.vehicle.getVehicleColor().subscribe(data => {
+  getVehicleCodes(){
+    this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.color = vehicle.CodeType;
-      }else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
-
-  getVehicleUpcharge(){
-    this.vehicle.getVehicleUpcharge().subscribe(data => {
-      if (data.status === 'Success') {
-        const vehicle = JSON.parse(data.resultData);
-        this.upcharge = vehicle.CodeType;
-      }else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
-
-  getVehicleModel(){
-    this.vehicle.getVehicleModel().subscribe(data => {
-      if (data.status === 'Success') {
-        const vehicle = JSON.parse(data.resultData);
-        this.model = vehicle.CodeType;
-      }else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
-
-  getVehicleMake(){
-    this.vehicle.getVehicleMake().subscribe(data => {
-      if (data.status === 'Success') {
-        const vehicle = JSON.parse(data.resultData);
-        this.make = vehicle.CodeType;
+        this.make = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
+        this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
+        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
+        console.log(this.make,this.model,this.color);
       }else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -128,25 +95,24 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   submit() {  
-    const sourceObj=[]; 
     const formObj = {
-      clientVehicleId: this.selectedData.ClientVehicleId,
+      vehicleId: this.selectedData.ClientVehicleId,
       clientId: this.selectedData.ClientId,
       locationId: 1,
       vehicleNumber: this.selectedData.VehicleNumber,
-      vehicleMfr: this.selectedData.VehicleMakeId,
-      vehicleModel: this.selectedData.VehicleModelId,
+      vehicleMfr: this.vehicleForm.value.make,
+      vehicleModel: this.vehicleForm.value.model,
       vehicleModelNo:0,
       vehicleYear:"",
-      vehicleColor: this.selectedData.ColorId,
-      upcharge: this.selectedData.Upcharge,
-      barcode: this.selectedData.Barcode,
+      vehicleColor: Number(this.vehicleForm.value.color),
+      upcharge: Number(this.vehicleForm.value.upcharge),
+      barcode: this.vehicleForm.value.barcode,
       notes: "",
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: 1,
       createdDate: new Date(),
-      updatedBy: 0,
+      updatedBy: 1,
       updatedDate: new Date()
     };
     const add = {
@@ -158,9 +124,8 @@ export class VehicleCreateEditComponent implements OnInit {
       Barcode: this.vehicleForm.value.barcode,
       CreatedDate: new Date()
     };
-    sourceObj.push(formObj);
     if (this.isEdit === true) {
-      this.vehicle.updateVehicle(sourceObj).subscribe(data => {
+      this.vehicle.updateVehicle(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

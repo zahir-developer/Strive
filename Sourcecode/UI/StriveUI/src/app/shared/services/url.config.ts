@@ -52,7 +52,7 @@ export const UrlConfig = {
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAll`,
     deleteDocument: `Admin/Document/`,
-    updateVehicle: `Admin/Vehicle/Update`,
+    updateVehicle: `Admin/Vehicle/UpdateClientVehicle`,
     deleteVehicle: `Admin/Vehicle/Delete`,
     getVehicleById: `Admin/Vehicle/GetVehicleById`,
     deleteCollision: `Admin/Collision/Delete`,
