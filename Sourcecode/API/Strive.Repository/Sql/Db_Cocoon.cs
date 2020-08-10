@@ -20,7 +20,10 @@ namespace Strive.Repository
         {
             return new CocoonORM(dbcon.ConnectionString).GetList<T>(where: Exp1<T>(id, fkField)).ToList().FirstOrDefault();
         }
-
+        public T GetSingleByPkId<T>(int id, string pkField)
+        {
+            return new CocoonORM(dbcon.ConnectionString).GetList<T>(where: Exp1<T>(id, pkField)).ToList().FirstOrDefault();
+        }
         public List<T> DoSearch<T>(string searchTerm)
         {
             return null;
