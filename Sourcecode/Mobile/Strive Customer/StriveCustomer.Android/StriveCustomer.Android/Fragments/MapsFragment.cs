@@ -139,7 +139,7 @@ namespace StriveCustomer.Android.Fragments
                 Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]);
                 carWashLocationsCount++;
             }
-            
+                
             addCarwashGeoFence(carWashLatLng,Radius);
         }
         private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)
