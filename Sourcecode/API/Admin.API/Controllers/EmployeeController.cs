@@ -51,7 +51,7 @@ namespace Admin.Api.Controllers
         #region
         [HttpPost]
         [Route("GetEmployeeSearch")]
-        public Result GetEmployeeSearch([FromBody]EmployeeSearchDto employeeSearchViewModel) => _bplManager.GetEmployeeSearch(employeeSearchViewModel);
+        public Result GetEmployeeSearch(string employeeName) => _bplManager.GetEmployeeSearch(employeeName);
         #endregion
     }
 }

@@ -145,8 +145,8 @@ export class ClientCreateEditComponent implements OnInit {
       firstName: this.clientForm.value.fName,
       middleName: "",
       lastName: this.clientForm.value.lName,
-      gender: 0,
-      maritalStatus: 0,
+      gender: 1,
+      maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
       isActive: this.clientForm.value.status == 0 ? true : false,      
       isDeleted: false,
@@ -158,10 +158,13 @@ export class ClientCreateEditComponent implements OnInit {
       recNotes: this.clientForm.value.checkOut,
       score: (this.clientForm.value.score == "" || this.clientForm.value.score == null) ? 0 : this.clientForm.value.score,
       noEmail: false,
-      clientAddress: this.address,
       clientType: (this.clientForm.value.type == "" || this.clientForm.value.type == null) ? 0 : this.clientForm.value.type
     };
-    this.client.updateClient(formObj).subscribe(data => {
+    const myObj = {
+      client: formObj,
+      clientAddress: this.address
+    }
+    this.client.updateClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
