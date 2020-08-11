@@ -33,6 +33,10 @@ namespace Strive.Crypto
         public static bool Validate(string password, string correctHash)
         {
             char[] delimiter = { '-' };
+
+            if (string.IsNullOrEmpty(correctHash))
+                return false;
+
             var split = correctHash.Split(delimiter);
             var iterations = Pbkdf2Iterations;// Int32.Parse(split[IterationIndex]);
             var salt = Convert.FromBase64String(split[SaltIndex]);

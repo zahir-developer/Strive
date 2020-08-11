@@ -23,38 +23,36 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public DocumentView GetDocumentById(long documentId, long employeeId, string password)
+        public DocumentViewModel GetDocumentById(long documentId)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@DocumentId", documentId);
-            dynParams.Add("@EmployeeId", employeeId);
-            List<DocumentView> lstDocument = new List<DocumentView>();
-            lstDocument = db.Fetch<DocumentView>(SPEnum.USPGETDOCUMENTBYEMPID.ToString(), dynParams);
+            List<DocumentViewModel> lstDocument = new List<DocumentViewModel>();
+            lstDocument = db.Fetch<DocumentViewModel>(SPEnum.USPGETEMPLOYEEDOCUMENTBYID.ToString(), dynParams);
             return lstDocument.FirstOrDefault();
         }
-        public List<DocumentView> GetAllDocument(long employeeId)
+        public List<DocumentViewModel> GetDocumentByEmployeeId(long employeeId)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@EmployeeId", employeeId);
-            List<DocumentView> lstDocument = new List<DocumentView>();
-            lstDocument = db.Fetch<DocumentView>(SPEnum.USPGETALLDOCUMENTBYID.ToString(), dynParams);
+            List<DocumentViewModel> lstDocument = new List<DocumentViewModel>();
+            lstDocument = db.Fetch<DocumentViewModel>(SPEnum.USPGETEMPLOYEEDOCUMENTBYEMPID.ToString(), dynParams);
             return lstDocument;
         }
-        public bool UpdatePassword(Strive.BusinessEntities.Document.DocumentView lstUpdateDocument)
+        public bool UpdatePassword(int documentId, string password)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@DocumentId", lstUpdateDocument.DocumentId);
-            dynParams.Add("@EmployeeId", lstUpdateDocument.EmployeeId);
-            dynParams.Add("@Password", lstUpdateDocument.Password);
+            dynParams.Add("@DocumentId", documentId);
+            dynParams.Add("@Password", password);
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPUPDATEDOCUMENTPASSWORD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
-        public bool DeleteDocument(long id)
+        public bool DeleteDocument(int documentId)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@DocumentId", id);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEDOCUMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            dynParams.Add("@DocumentId", documentId);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEEMPLOYEEDOCUMENTBYID.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
