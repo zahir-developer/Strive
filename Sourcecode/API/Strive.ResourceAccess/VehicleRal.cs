@@ -1,20 +1,11 @@
-﻿using Dapper;
-using Strive.BusinessEntities;
-using Strive.Common;
-using Strive.Repository;
-using System;
-using System.Collections.Generic;
-using Strive.BusinessEntities;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Strive.BusinessEntities.Client;
-using System.Data;
-using Strive.BusinessEntities.MembershipSetup;
-using Strive.BusinessEntities.ViewModel;
-using Strive.BusinessEntities.DTO;
+﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.Code;
 using Strive.BusinessEntities.DTO.Vehicle;
+using Strive.BusinessEntities.MembershipSetup;
+using Strive.BusinessEntities.ViewModel;
+using Strive.Common;
+using Strive.Repository;
+using System.Collections.Generic;
 
 namespace Strive.ResourceAccess
 {

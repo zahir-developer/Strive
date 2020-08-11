@@ -5,6 +5,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <UserSecretsId>842e5f37-b314-4a5b-b2e7-ff901236cab3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

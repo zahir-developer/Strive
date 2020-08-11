@@ -6,11 +6,11 @@ using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.Owin;
+//using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Owin.Security;
+//using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
@@ -126,15 +126,15 @@ namespace Strive.BusinessLogic.Auth
             DeleteRefreshToken(userGuid, null);
         }
 
-        AuthenticationProperties IAuthManagerBpl.ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
-        {
-            throw new NotImplementedException();
-        }
+        //AuthenticationProperties IAuthManagerBpl.ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        Task<ExternalLoginInfo> IAuthManagerBpl.GetExternalLoginInfoAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //Task<ExternalLoginInfo> IAuthManagerBpl.GetExternalLoginInfoAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         Task<dynamic> IAuthManagerBpl.ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor)
         {
@@ -166,5 +166,14 @@ namespace Strive.BusinessLogic.Auth
             return new CommonBpl(_cache, _tenant).VerfiyOTP(emailId, otp);
         }
 
+        //public Microsoft.Owin.Security.AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<Microsoft.AspNet.Identity.Owin.ExternalLoginInfo> GetExternalLoginInfoAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
