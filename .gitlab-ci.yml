@@ -16,8 +16,9 @@ before_script:
 build:
     stage:  build
     
-    image: $DOTNET_IMAGE
+    
     image: $BUILD_IMAGE
+    image: $DOTNET_IMAGE
     script:
         - echo "Building"
         - dotnet build --configuration Release      
