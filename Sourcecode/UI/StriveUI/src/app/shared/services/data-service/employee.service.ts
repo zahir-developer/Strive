@@ -40,8 +40,8 @@ export class EmployeeService {
   getAllDocument(employeeId) {
     return this.http.get(`${UrlConfig.totalUrl.getAllDocument}` + employeeId);
   }
-  getDocumentById(documentId, employeeId, password) {
-    return this.http.get(`${UrlConfig.totalUrl.getDocumentById}` + documentId + ',' + employeeId + ',' + password);
+  getDocumentById(documentId, password) {
+    return this.http.get(`${UrlConfig.totalUrl.getDocumentById}` + documentId +  ',' + password);
   }
   getLocation() {
     return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
@@ -66,5 +66,8 @@ export class EmployeeService {
   }
   updateCollision(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateCollision}`, obj);
+  }
+  updateEmployee(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.updateEmployee}`, obj);
   }
 }

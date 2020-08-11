@@ -112,10 +112,10 @@ export class CreateDocumentComponent implements OnInit {
         comments: 'string',
         isActive: true,
         isDeleted: false,
-        // createdBy: 0,
-        // createdDate: moment(new Date()),
-        // updatedBy: 0,
-        // updatedDate: moment(new Date())
+        createdBy: 0,
+        createdDate: moment(new Date()),
+        updatedBy: 0,
+        updatedDate: moment(new Date())
       };
     });
     const finalObj = {
