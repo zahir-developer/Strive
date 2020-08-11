@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.GiftCard;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.Repository;
@@ -18,20 +19,21 @@ namespace Strive.ResourceAccess
         public GiftCardRal(ITenantHelper tenant) : base(tenant) { }
         public List<GiftCardViewModel> GetAllGiftCard(int locationId)
         {
-            return db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), null);
+            _prm.Add("@LocationId", locationId);
+            return db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
         }
 
-        public GiftCardViewModel GetGiftCardByGiftCardId(int giftCardId)
+        public List<GiftCardViewModel> GetGiftCardByGiftCardId(int giftCardId)
         {
             _prm.Add("@GiftCardId", giftCardId);
-            var result = db.FetchSingle<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
+            var result = db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
             return result;
         }
-        public GiftCardHistoryViewModel GetAllGiftCardHistory(int giftCardId)
+        public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(int giftCardId)
         {
 
-            _prm.Add("@GiftCardId", giftCardId);
-            var result = db.GetSingleByFkId<GiftCardHistoryViewModel>(giftCardId, "GiftCardId");
+            _prm.Add("GiftCardId", giftCardId);
+            var result = db.Fetch<GiftCardHistoryViewModel>(SPEnum.USPGETGIFTCARDHISTORY.ToString(), _prm);
             return result;
         }
         public bool ActivateorDeactivateGiftCard(GiftCardStatus giftCard)

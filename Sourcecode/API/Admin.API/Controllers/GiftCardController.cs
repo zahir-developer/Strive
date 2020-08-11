@@ -29,7 +29,7 @@ namespace Admin.API.Controllers
         #endregion
         #region GET
         [HttpGet]
-        [Route("GetAllGiftCardHistory/{locationId}")]
+        [Route("GetAllGiftCardHistory/{giftCardId}")]
         public Result GetAllGiftCardHistory(int giftCardId) => _bplManager.GetAllGiftCardHistory(giftCardId);
         #endregion
         #region
