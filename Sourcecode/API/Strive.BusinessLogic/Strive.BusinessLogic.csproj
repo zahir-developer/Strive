@@ -51,6 +51,8 @@
     <Compile Include="Client\IClientBpl.cs" />
     <Compile Include="GiftCard\GiftCardBpl.cs" />
     <Compile Include="GiftCard\IGiftCardBpl.cs" />
+    <Compile Include="Schedule\IScheduleBpl.cs" />
+    <Compile Include="Schedule\ScheduleBpl.cs" />
     <Compile Include="TimeClock\TimeClockBpl.cs" />
     <Compile Include="TimeClock\ITimeClockBpl.cs" />
     <Compile Include="Collision\CollisionBpl.cs" />
