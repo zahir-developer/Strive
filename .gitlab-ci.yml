@@ -11,11 +11,12 @@ before_script:
     - echo "pre script"
     - echo Sourcecode/API/Admin.API
     - "cd Sourcecode/API/Admin.API"
-    - "nuget restore"
+    - "dotnet restore"
     
 build:
     stage:  build
     image: $BUILD_IMAGE
+    image: $DOTNET_IMAGE
     script:
         - echo "Building"
         - dotnet build --configuration Release      
