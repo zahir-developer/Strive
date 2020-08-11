@@ -35,6 +35,7 @@ namespace Strive.BusinessEntities
         USPGETCLIENTBYID,
         //GiftCard
         USPGETALLGIFTCARD,
+        USPGETGIFTCARDHISTORY,
         USPGETGIFTCARDBYID,
         USPGIFTCARDCHANGESTATUS,
         USPSAVEGIFTCARD,
