@@ -38,13 +38,11 @@ namespace Strive.BusinessLogic
             return ResultWrap(new EmployeeRal(_tenant).UpdateEmployee, employee, "Status");
         }
 
-        public Result DeleteEmployeeDetails(int empId)
+        public Result DeleteEmployeeDetails(int employeeId)
         {
             try
             {
-                var lstEmployee = new EmployeeRal(_tenant).DeleteEmployeeDetails(empId);
-                _resultContent.Add(lstEmployee.WithName("Employee"));
-                _result = Helper.BindSuccessResult(_resultContent);
+                return ResultWrap(new EmployeeRal(_tenant).DeleteEmployeeDetails, employeeId, "Status");
             }
             catch (Exception ex)
             {
@@ -65,21 +63,11 @@ namespace Strive.BusinessLogic
 
         public Result GetAllEmployeeRoles()
         {
-            try
-            {
-                var lstEmployeeRoles = new EmployeeRal(_tenant).GetAllEmployeeRoles();
-                _resultContent.Add(lstEmployeeRoles.WithName("EmployeeRoles"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles,"EmployeeRoles");
         }
-        public Result GetEmployeeSearch(EmployeeSearchViewModel employeeSearchViewModel)
+        public Result GetEmployeeSearch(EmployeeSearchDto employeeSearchViewModel)
         {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeSearch, employeeSearchViewModel, "EmployeeSearch");
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeSearch, employeeSearchViewModel, "EmployeeList");
         }
 
     }

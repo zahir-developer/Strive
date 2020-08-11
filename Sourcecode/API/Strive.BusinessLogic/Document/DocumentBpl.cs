@@ -46,7 +46,7 @@ namespace Strive.BusinessLogic.Document
                         _resultContent.Add(documentSave.WithName("Status"));
                         _result = Helper.BindSuccessResult(_resultContent);
                     }
-                   
+
                 }
             }
             catch (Exception ex)
@@ -61,6 +61,7 @@ namespace Strive.BusinessLogic.Document
             foreach (var doc in employeeDocuments)
             {
                 doc.Filename = Upload(doc.Base64, doc.Filename);
+                doc.FileType = Path.GetExtension(doc.Filename);
                 if (doc.Filename == string.Empty)
                 {
                     DeleteFiles(employeeDocuments);
@@ -106,7 +107,6 @@ namespace Strive.BusinessLogic.Document
                 {
                     File.Delete(UploadPath);
                 }
-
             }
         }
 
@@ -116,25 +116,29 @@ namespace Strive.BusinessLogic.Document
         }
 
 
-        public Result GetDocumentById(long documentId, long employeeId, string password)
+        public Result GetDocumentById(int documentId, string password)
         {
             try
             {
-                var document = new DocumentRal(_tenant).GetDocumentById(documentId, employeeId, password);
+                var document = new DocumentRal(_tenant).GetDocumentById(documentId);
                 string base64 = string.Empty;
                 if (document != null)
                 {
-                    if (document.Password == password)
+                    if (document.IsPasswordProtected)
                     {
-                        base64 = GetBase64(document.FileName);
+                        if (document.Password == password)
+                            base64 = GetBase64(document.FileName);
+                        else
+                        {
+                            string errorMessage = "Invalid Password !!!";
+                            _result = Helper.ErrorMessageResult(errorMessage);
+                            return _result;
+                        }
                     }
                     else
                     {
-                        string errorMessage = "Invalid Password";
-                        _result = Helper.ErrorMessageResult(errorMessage);
-                        return _result;
+                        base64 = GetBase64(document.FileName);
                     }
-
                 }
 
                 _resultContent.Add(base64.WithName("Document"));
@@ -152,6 +156,9 @@ namespace Strive.BusinessLogic.Document
             string path = _tenant.DocumentUploadFolder + fileName;
             string base64data = string.Empty;
 
+            if (!File.Exists(path))
+                return string.Empty;
+
             using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 byte[] data = new byte[(int)fileStream.Length];
@@ -162,16 +169,16 @@ namespace Strive.BusinessLogic.Document
             return base64data;
         }
 
-        public Result GetAllDocument(long employeeId)
+        public Result GetDocumentByEmployeeId(int employeeId)
         {
             try
             {
-                var lstDocumentById = new DocumentRal(_tenant).GetAllDocument(employeeId);
+                var lstDocumentById = new DocumentRal(_tenant).GetDocumentByEmployeeId(employeeId);
                 if (lstDocumentById.Count > 0)
                 {
                     foreach (var item in lstDocumentById)
                     {
-                        string base64data = GetBase64(item.FileName);
+                        item.Base64Url = GetBase64(item.FileName);
                     }
                 }
 
@@ -184,13 +191,11 @@ namespace Strive.BusinessLogic.Document
             }
             return _result;
         }
-        public Result UpdatePassword(Strive.BusinessEntities.Document.DocumentView lstUpdateDocument)
+        public Result UpdatePassword(int documentId, string password)
         {
             try
             {
-                var updatePasswordForDocId = new DocumentRal(_tenant).UpdatePassword(lstUpdateDocument);
-                _resultContent.Add(updatePasswordForDocId.WithName("PasswordUpdated"));
-                _result = Helper.BindSuccessResult(_resultContent);
+                return ResultWrap(new DocumentRal(_tenant).UpdatePassword, documentId, password, "Result");
             }
             catch (Exception ex)
             {
@@ -199,13 +204,11 @@ namespace Strive.BusinessLogic.Document
             return _result;
 
         }
-        public Result DeleteDocument(long id)
+        public Result DeleteDocument(int documentId)
         {
             try
             {
-                var lstDocument = new DocumentRal(_tenant).DeleteDocument(id);
-                _resultContent.Add(lstDocument.WithName("Document"));
-                _result = Helper.BindSuccessResult(_resultContent);
+                return ResultWrap(new DocumentRal(_tenant).DeleteDocument, documentId, "Result");
             }
             catch (Exception ex)
             {

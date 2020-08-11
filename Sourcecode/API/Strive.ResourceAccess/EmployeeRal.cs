@@ -22,10 +22,10 @@ namespace Strive.ResourceAccess
     {
         public EmployeeRal(ITenantHelper tenant) : base(tenant) { }
 
-        public EmployeeViewModel GetEmployeeById(int employeeId)
+        public EmployeeDetailViewModel GetEmployeeById(int employeeId)
         {
             _prm.Add("EmployeeId", employeeId);
-            var lstResult = db.FetchMultiResult<EmployeeViewModel>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
+            var lstResult = db.FetchMultiResult<EmployeeDetailViewModel>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
             return lstResult;
         }
 
@@ -52,29 +52,25 @@ namespace Strive.ResourceAccess
             return lstEmployee;
         }
 
-       
-
         public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
         {
             _prm.Add("AuthId", authId);
             var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(SPEnum.USPGETUSERBYAUTHID.ToString(), _prm);
             return lstResult;
-
         }
 
-        public bool DeleteEmployeeDetails(long empId)
+        public bool DeleteEmployeeDetails(int employeeId)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tblEmployeeId", empId);
+            dynParams.Add("@EmployeeId", employeeId);
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
-        public List<EmployeeViewModel> GetEmployeeSearch(EmployeeSearchViewModel employeeSearchViewModel)
+        public List<EmployeeViewModel> GetEmployeeSearch(EmployeeSearchDto employeeSearch)
         {
-
-            _prm.Add("@EmployeeCode", employeeSearchViewModel.loginId);
-            _prm.Add("@name", employeeSearchViewModel.name);
+            _prm.Add("@EmployeeCode", employeeSearch.EmployeeCode);
+            _prm.Add("@EmployeeName", employeeSearch.EmployeeName);
             var result = db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
             return result;
         }

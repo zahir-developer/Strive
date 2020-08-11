@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
@@ -50,7 +51,7 @@ namespace Admin.Api.Controllers
         #region
         [HttpPost]
         [Route("GetEmployeeSearch")]
-        public Result GetEmployeeSearch([FromBody]EmployeeSearchViewModel employeeSearchViewModel) => _bplManager.GetEmployeeSearch(employeeSearchViewModel);
+        public Result GetEmployeeSearch([FromBody]EmployeeSearchDto employeeSearchViewModel) => _bplManager.GetEmployeeSearch(employeeSearchViewModel);
         #endregion
     }
 }
