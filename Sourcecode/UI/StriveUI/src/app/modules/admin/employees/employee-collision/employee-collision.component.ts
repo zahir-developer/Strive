@@ -74,7 +74,7 @@ export class EmployeeCollisionComponent implements OnInit {
     const liabilityObj = {
       liabilityId: this.mode === 'edit' ? this.collisionDetail.LiabilityId : 0,
       employeeId: this.employeeId,
-      liabilityType: 0,
+      liabilityType: 103,
       liabilityDescription: 'string',
       productId: 2,
       totalAmount: 0,
@@ -90,11 +90,19 @@ export class EmployeeCollisionComponent implements OnInit {
       employeeLiability: liabilityObj,
       employeeLiabilityDetail: liabilityDetailObj
     };
-    this.employeeService.saveCollision(finalObj).subscribe(res => {
-      if (res.status === 'Success') {
-        this.activeModal.close(true);
-      }
-    });
+    if (this.mode === 'create') {
+      this.employeeService.saveCollision(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.activeModal.close(true);
+        }
+      });
+    } else {
+      this.employeeService.updateCollision(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.activeModal.close(true);
+        }
+      });
+    }
   }
 
 }

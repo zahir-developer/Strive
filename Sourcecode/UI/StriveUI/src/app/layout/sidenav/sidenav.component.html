@@ -5,8 +5,8 @@
       <li class="logo-container"> <a href="#" class="navbar-brand p-10"><img src="assets/img/w-strive-logo@2x.png"
             alt="" width="50" /></a> </li>
       <li class="p-t-10"><a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
-      <li class="active"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]'
-          (click)="closeNav()"><i class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
+      <li class="active"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
+            class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
       <li class=""><a href="#"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
       <li class=""><a href="#"><i class="fa-2x mdi mdi-cash-usd"></i>Sales</a></li>
       <li class=""><a href="#"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
@@ -35,7 +35,8 @@
       <li> <a [routerLink]='["./admin/vehicle"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Vehicles</a>
       </li>
       <li><a href="#">Schedules</a></li>
-      <li><a href="#">Gift Cards</a></li>
+      <li><a [routerLink]='["./admin/gift-card"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Gift
+          Cards</a></li>
       <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">System
           Setup</a></li>
     </ul>
@@ -70,7 +71,8 @@
         <li><a href="#">Clients</a></li>
         <li> <a href="#">Vehicles</a></li>
         <li><a href="#">Schedules</a></li>
-        <li><a href="#">Gift Cards</a></li>
+        <li><a [routerLink]='["./admin/gift-card"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">Gift
+            Cards</a></li>
         <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]'
             (click)="closembsidebar()">System Setup</a></li>
 

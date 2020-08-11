@@ -64,5 +64,7 @@ export const UrlConfig = {
     getVehicleUpcharge: `Admin/Vehicle/GetCodeUpcharge`,
     getVehicleId: `Admin/Vehicle/GetVehicleId`,
     getVehicleMembership: `Admin/Vehicle/GetVehicleMembership`,
+    updateCollision: `Admin/Collision/Update`,
+    getAllGiftCard: `Admin/GiftCard/GetAllGiftCard/`
   }
 };

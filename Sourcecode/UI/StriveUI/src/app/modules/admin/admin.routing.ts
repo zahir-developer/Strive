@@ -14,7 +14,7 @@ import { ProductSetupComponent } from './system-setup/product-setup/product-setu
 import { VendorSetupComponent } from './system-setup/vendor-setup/vendor-setup.component';
 import { ClientComponent } from './client/client.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
-
+import { GiftCardComponent } from './gift-card/gift-card.component';
 
 const adminRoutes: Routes = [
   { path: 'admin', canActivate: [AuthGuard], component: AdminComponent }, {
@@ -27,6 +27,7 @@ const adminRoutes: Routes = [
     { path: 'closeoutregister', component: CloseoutRegisterComponent },
     { path: 'client', component: ClientComponent },
     { path: 'vehicle', component: VehicleComponent },
+    { path: 'gift-card', component: GiftCardComponent },
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },

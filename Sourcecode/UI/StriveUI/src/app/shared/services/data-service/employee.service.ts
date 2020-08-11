@@ -64,4 +64,7 @@ export class EmployeeService {
   searchEmployee(obj) {
     return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
   }
+  updateCollision(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.updateCollision}`, obj);
+  }
 }
