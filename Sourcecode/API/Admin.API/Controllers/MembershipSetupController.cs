@@ -21,47 +21,21 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetAll")]
         public Result GetAllMembership() => _bplManager.GetAllMembership();
-        //[HttpGet]
-        //[Route("GetAll")]
-        //public Result GetAllMembership()
-        //{
-        //    return _membershipBpl.GetAllMembership();
-        //}
         [HttpGet]
         [Route("GetService")]
         public Result GetServiceWithPrice() => _bplManager.GetServicesWithPrice();
-        //[HttpGet]
-        //[Route("GetService")]
-        //public Result GetServiceWithPrice()
-        //{
-        //    return _membershipBpl.GetServicesWithPrice();
-        //}
         [HttpGet]
         [Route("GetAllMembershipById/{membershipId}")]
         public Result GetMembershipById(int membershipId) => _bplManager.GetMembershipById(membershipId);
         [HttpPost]
         [Route("Add")]
         public Result AddMembership([FromBody] List<MembershipDto> member) => _bplManager.AddMembership(member);
-
-
         [HttpPost]
         [Route("Update")]
         public Result UpdateMembership([FromBody] List<MembershipDto> member) => _bplManager.UpdateMembership(member);
-        [HttpPost]
-        //[Route("Save")]
-        //public Result SaveMembershipSetup([FromBody] List<MembershipView> member)
-        //{
-        //    return _membershipBpl.SaveMembershipSetup(member);
-        //}
         [HttpDelete]
         [Route("Delete/{membershipId}")]
         public Result DeleteMembershipById(int membershipId) => _bplManager.DeleteMembershipById(membershipId);
-        //[HttpDelete]
-        //[Route("{membershipId}")]
-        //public Result DeleteMembershipById(int membershipId)
-        //{
-        //    return _membershipBpl.DeleteMembershipById(membershipId);
-        //}
 
     }
 }
