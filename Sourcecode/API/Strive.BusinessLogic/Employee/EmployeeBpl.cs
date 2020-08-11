@@ -65,9 +65,9 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles,"EmployeeRoles");
         }
-        public Result GetEmployeeSearch(EmployeeSearchDto employeeSearchViewModel)
+        public Result GetEmployeeSearch(string employeeName)
         {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeSearch, employeeSearchViewModel, "EmployeeList");
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeSearch, employeeName, "EmployeeList");
         }
 
     }
