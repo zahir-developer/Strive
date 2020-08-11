@@ -32,6 +32,7 @@ using Strive.BusinessLogic.TimeClock;
 using Strive.BusinessLogic.GiftCard;
 using System.Reflection;
 using System.IO;
+using Strive.BusinessLogic.MembershipSetup;
 
 namespace Admin.API
 {
@@ -55,7 +56,7 @@ namespace Admin.API
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<ICommonBpl, CommonBpl>();
             services.AddTransient<IDocumentBpl, DocumentBpl>();
-            //services.AddTransient<IMembershipBpl, MembershipBpl>();
+            services.AddTransient<IMembershipBpl, MembershipBpl>();
             services.AddTransient<ICollisionBpl, CollisionBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Admin.API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Document;
@@ -13,44 +14,39 @@ namespace Admin.API.Controllers
 
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class DocumentController : ControllerBase
+    public class DocumentController : StriveControllerBase<IDocumentBpl>
     {
-        readonly IDocumentBpl _documentBpl = null;
-
-        public DocumentController(IDocumentBpl documentBpl)
-        {
-            _documentBpl = documentBpl;
-        }
+        public DocumentController(IDocumentBpl documentBpl) : base(documentBpl) { }
 
         [HttpPost]
         [Route("SaveDocument")]
         public Result UploadDocument([FromBody]EmployeeDocumentModel documentModel)
         {
-            return _documentBpl.UploadDocument(documentModel);
+            return _bplManager.UploadDocument(documentModel);
         }
         [HttpGet]
-        [Route("GetDocumentById/{documentId},{employeeId},{password}")] 
-        public Result GetDocumentById(long documentId, long employeeId, string password)
+        [Route("GetDocumentById/{documentId},{password}")]
+        public Result GetDocumentById(int documentId, string password)
         {
-            return _documentBpl.GetDocumentById(documentId, employeeId, password);
+            return _bplManager.GetDocumentById(documentId, password);
         }
-        [HttpPost]
-        [Route("UpdatePassword")] 
-        public Result UpdatePassword([FromBody] Strive.BusinessEntities.Document.DocumentView lstUpdateDocument)
+        [HttpPut]
+        [Route("UpdatePassword")]
+        public Result UpdatePassword(int documentId, string password)
         {
-            return _documentBpl.UpdatePassword(lstUpdateDocument);
+            return _bplManager.UpdatePassword(documentId, password);
         }
         [HttpGet]
-        [Route("GetAllDocument/{employeeId}")]
-        public Result GetAllDocument(long employeeId)
+        [Route("GetDocument/{employeeId}")]
+        public Result GetDocument(int employeeId)
         {
-            return _documentBpl.GetAllDocument(employeeId);
+            return _bplManager.GetDocumentByEmployeeId(employeeId);
         }
         [HttpDelete]
-        [Route("{id}")]
-        public Result DeleteDocument(long id)
+        [Route("{documentId}")]
+        public Result DeleteDocument(int documentId)
         {
-            return _documentBpl.DeleteDocument(id);
+            return _bplManager.DeleteDocument(documentId);
         }
 
     }

@@ -15,9 +15,9 @@ namespace Strive.BusinessLogic.Document
         List<EmployeeDocument> UploadFiles(List<EmployeeDocument> employeeDocuments);
         void DeleteFiles(List<EmployeeDocument> documents);
         string Upload(string Base64Url, string fileName);
-        Result GetDocumentById(long documentId, long employeeId, string password);
-        Result UpdatePassword(Strive.BusinessEntities.Document.DocumentView lstUpdateDocument);
-        Result GetAllDocument(long employeeId);
-        Result DeleteDocument(long id);
+        Result GetDocumentById(int documentId, string password);
+        Result UpdatePassword(int documentId, string password);
+        Result GetDocumentByEmployeeId(int employeeId);
+        Result DeleteDocument(int documentId);
     }
 }
