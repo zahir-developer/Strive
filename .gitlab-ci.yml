@@ -4,7 +4,7 @@ stages:
     
 variables:
     PROJECT_NAME: "Admin.API"
-    BUILD_IMAGE: "mcr.microsoft.com/dotnet/core/sdk:3.1"
+    BUILD_IMAGE: "microsoft/dotnet:latest, mcr.microsoft.com/dotnet/core/sdk:3.1"
     DOTNET_IMAGE: microsoft/dotnet:latest
     
 before_script:
