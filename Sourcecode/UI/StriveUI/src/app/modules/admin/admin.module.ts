@@ -49,6 +49,7 @@ import { DocumentListComponent } from './employees/document-list/document-list.c
 import { CreateDocumentComponent } from './employees/create-document/create-document.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewDocumentComponent } from './employees/view-document/view-document.component';
+import { GiftCardComponent } from './gift-card/gift-card.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -61,7 +62,7 @@ import { ViewDocumentComponent } from './employees/view-document/view-document.c
     VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent],
   imports: [
     CommonModule,
     RouterModule,
