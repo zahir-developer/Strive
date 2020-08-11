@@ -67,10 +67,9 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public List<EmployeeViewModel> GetEmployeeSearch(EmployeeSearchDto employeeSearch)
+        public List<EmployeeViewModel> GetEmployeeSearch(string employeeName)
         {
-            _prm.Add("@EmployeeCode", employeeSearch.EmployeeCode);
-            _prm.Add("@EmployeeName", employeeSearch.EmployeeName);
+            _prm.Add("@EmployeeName", employeeName);
             var result = db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
             return result;
         }

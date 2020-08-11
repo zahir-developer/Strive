@@ -95,19 +95,20 @@ export class ClientCreateEditComponent implements OnInit {
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.clientForm.patchValue({
-      fName: this.selectedData.FirstName,
-      lName: this.selectedData.LastName,
-      noEmail: this.selectedData.NoEmail,
-      status: this.selectedData.IsActive ? 0 : 1,
-      score: this.selectedData.Score,
-      notes: this.selectedData.Notes,
-      checkOut: this.selectedData.RecNotes,
-      address: this.selectedData.Address1,
-      phone1: this.selectedData.PhoneNumber,
-      zipcode: this.selectedData.Zip,
-      phone2: this.selectedData.PhoneNumber2,
-      email: this.selectedData.Email,
-      city: this.selectedData.City
+      fName: this.selectedData.Client.FirstName,
+      lName: this.selectedData.Client.LastName,
+      noEmail: this.selectedData.Client.NoEmail,
+      status: this.selectedData.Client.IsActive ? 0 : 1,
+      score: this.selectedData.Client.Score,      
+      type: this.selectedData.Client.ClientType,
+      notes: this.selectedData.Client.Notes,
+      checkOut: this.selectedData.Client.RecNotes,
+      address: this.selectedData.ClientAddress.Address1,
+      phone1: this.selectedData.ClientAddress.PhoneNumber,
+      zipcode: this.selectedData.ClientAddress.Zip,
+      phone2: this.selectedData.ClientAddress.PhoneNumber2,
+      email: this.selectedData.ClientAddress.Email,
+      city: this.selectedData.ClientAddress.City
     });    
     this.getClientVehicle(this.selectedData.ClientId);
   }
@@ -145,8 +146,8 @@ export class ClientCreateEditComponent implements OnInit {
       firstName: this.clientForm.value.fName,
       middleName: "",
       lastName: this.clientForm.value.lName,
-      gender: 0,
-      maritalStatus: 0,
+      gender: 1,
+      maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
       isActive: this.clientForm.value.status == 0 ? true : false,      
       isDeleted: false,
@@ -158,10 +159,13 @@ export class ClientCreateEditComponent implements OnInit {
       recNotes: this.clientForm.value.checkOut,
       score: (this.clientForm.value.score == "" || this.clientForm.value.score == null) ? 0 : this.clientForm.value.score,
       noEmail: false,
-      clientAddress: this.address,
       clientType: (this.clientForm.value.type == "" || this.clientForm.value.type == null) ? 0 : this.clientForm.value.type
     };
-    this.client.updateClient(formObj).subscribe(data => {
+    const myObj = {
+      client: formObj,
+      clientAddress: this.address
+    }
+    this.client.updateClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
         if (this.isEdit === true) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
