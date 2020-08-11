@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoreGraphics;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
@@ -19,7 +20,7 @@ namespace StriveTimInventory.iOS.Views
             DoInitialSetup();
             // Perform any additional setup after loading the view, typically from a nib.
 
-            var InventoryTableSource = new InventoryTableViewDataSource(InventoryListTableView);
+            var InventoryTableSource = new InventoryTableViewDataSource(InventoryListTableView,ViewModel);
 
             var set = this.CreateBindingSet<InventoryView, InventoryViewModel>();
             set.Bind(InventoryTableSource).To(vm => vm.FilteredList);
@@ -29,10 +30,23 @@ namespace StriveTimInventory.iOS.Views
 
             InventoryListTableView.Source = InventoryTableSource;
             InventoryListTableView.TableFooterView = new UIView(CGRect.Empty);
+            InventoryListTableView.DelaysContentTouches = false;
             InventoryListTableView.ReloadData();
 
             InventorySearch.Placeholder = "Search";
             InventorySearch.TextChanged += SearchTextChanged;
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            GetProducts();
+        }
+
+        private async Task GetProducts()
+        {
+            ViewModel.ClearCommand();
+            await ViewModel.GetProductsCommand();
+           ViewModel.InventorySearchCommand("");
         }
 
         private void SearchTextChanged(object sender, UISearchBarTextChangedEventArgs e)

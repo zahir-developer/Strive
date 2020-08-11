@@ -6,6 +6,8 @@ using System.Linq;
 using Foundation;
 using MvvmCross.Base;
 using MvvmCross.Platforms.Ios.Binding.Views;
+using Strive.Core.Models.TimInventory;
+using Strive.Core.ViewModels.TIMInventory;
 using UIKit;
 
 namespace StriveTimInventory.iOS.Views
@@ -15,11 +17,16 @@ namespace StriveTimInventory.iOS.Views
 
         private static string CellId = "InventoryViewCell";
 
-        private ObservableCollection<string> ItemList;
+        private InventoryViewModel ViewModel;
 
-        public InventoryTableViewDataSource(UITableView tableView) : base(tableView)
+        private ObservableCollection<ProductDetail> ItemList;
+
+
+
+        public InventoryTableViewDataSource(UITableView tableView, InventoryViewModel ViewModel) : base(tableView)
         {
             tableView.RegisterNibForCellReuse(InventoryViewCell.Nib, CellId);
+            this.ViewModel = ViewModel;
         }
 
         public override IEnumerable ItemsSource
@@ -29,11 +36,11 @@ namespace StriveTimInventory.iOS.Views
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<string>)value;
+                    ItemList = (ObservableCollection<ProductDetail>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<string>();
+                    ItemList = new ObservableCollection<ProductDetail>();
                 }
 
                 base.ItemsSource = value;
@@ -73,7 +80,7 @@ namespace StriveTimInventory.iOS.Views
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             InventoryViewCell cell = (InventoryViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetCell(cell);
+            cell.SetCell(cell,ViewModel,indexPath.Row);
             return cell;
         }
     }

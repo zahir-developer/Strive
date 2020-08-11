@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Strive.Core.Models.TimInventory;
+using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -10,42 +12,50 @@ namespace Strive.Core.ViewModels.TIMInventory
     {
         public InventoryViewModel()
         {
-            PopulateData();
-            InventorySearchCommand("");
         }
 
-        public ObservableCollection<string> FilteredList { get; private set; } = new ObservableCollection<string>();
+        public ObservableCollection<ProductDetail> FilteredList { get; set; } = new ObservableCollection<ProductDetail>();
 
-        private ObservableCollection<string> _InventoryItemList = new ObservableCollection<string>();
+        private ObservableCollection<ProductDetail> _InventoryItemList = new ObservableCollection<ProductDetail>();
 
-        public ObservableCollection<string> InventoryItemList
+        private ObservableCollection<ProductDetail> EditableList = new ObservableCollection<ProductDetail>();
+
+        public async Task GetProductsCommand()
         {
-            get => PopulateData();
-            protected set { }
-        }
-
-        private ObservableCollection<string> PopulateData()
-        {
-            _InventoryItemList.Add("Men's Western Tan");
-            _InventoryItemList.Add("Premium wash");
-            _InventoryItemList.Add("Milk - 100 ml");
-            _InventoryItemList.Add("Synthetic sealant");
-            _InventoryItemList.Add("Water Bottle");
-            _InventoryItemList.Add("car shampoo");
-            _InventoryItemList.Add("Men's Western Black");
-            _InventoryItemList.Add("Cleaning Cap");
-            _InventoryItemList.Add("Brush");
-            _InventoryItemList.Add("Premium shoes");
-            _InventoryItemList.Add("Car wash foam");
-            return _InventoryItemList;
+            _userDialog.ShowLoading(Strings.Loading);
+            Products products = await AdminService.GetAllProducts();
+            foreach(var product in products.Product)
+            {
+                _InventoryItemList.Add(product);
+            }
+            _userDialog.HideLoading();
+            await RaiseAllPropertiesChanged();
         }
 
         public void InventorySearchCommand(string SearchText)
         {
-            FilteredList = new ObservableCollection<string>(_InventoryItemList.
-                Where(s => s.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+            FilteredList = new ObservableCollection<ProductDetail>(_InventoryItemList.
+                Where(s => s.ProductName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+            EditableList = FilteredList;
             RaiseAllPropertiesChanged();
         }
 
+        public void IncrementCommand(int index)
+        {
+            FilteredList[index].Quantity++;
+            RaiseAllPropertiesChanged();
+        }
+
+        public void DecrementCommand(int index)
+        {
+            FilteredList[index].Quantity--;
+            RaiseAllPropertiesChanged();
+        }
+
+        public void ClearCommand()
+        {
+            FilteredList.Clear();
+            _InventoryItemList.Clear();
+        }
     }
 }

@@ -76,11 +76,13 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXt-4y-QMU">
                                 <rect key="frame" x="611" y="47.5" width="20" height="25"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="cUO-vl-R8h"/>
                                     <constraint firstAttribute="width" constant="20" id="drR-9W-XpJ"/>
                                 </constraints>
-                                <state key="normal" image="trash.fill" catalog="system"/>
+                                <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="icon-artboard"/>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qXA-2c-d7A">
                                 <rect key="frame" x="436" y="42.5" width="145" height="35"/>
@@ -155,6 +157,7 @@
                             <constraint firstItem="tXt-4y-QMU" firstAttribute="leading" secondItem="qXA-2c-d7A" secondAttribute="trailing" constant="30" id="kp4-h1-VKJ"/>
                             <constraint firstItem="4he-hv-hEH" firstAttribute="top" secondItem="cG4-L1-Vh9" secondAttribute="bottom" id="mw4-RN-nGC"/>
                             <constraint firstAttribute="height" constant="120" id="oRd-Xa-5iy"/>
+                            <constraint firstAttribute="width" constant="651" id="su3-aw-YqF"/>
                             <constraint firstItem="sr0-yY-ktq" firstAttribute="top" secondItem="tMd-hV-MyX" secondAttribute="top" constant="10" id="uzO-XL-hVS"/>
                         </constraints>
                     </view>
@@ -162,7 +165,6 @@
                 <constraints>
                     <constraint firstItem="tMd-hV-MyX" firstAttribute="centerX" secondItem="YTl-1W-gDM" secondAttribute="centerX" id="Isx-iL-GrS"/>
                     <constraint firstItem="tMd-hV-MyX" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="RXc-SK-Af7"/>
-                    <constraint firstItem="tMd-hV-MyX" firstAttribute="width" secondItem="YTl-1W-gDM" secondAttribute="width" id="kY4-SY-Tnr"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -184,6 +186,5 @@
     </objects>
     <resources>
         <image name="icon-artboard" width="67" height="62"/>
-        <image name="trash.fill" catalog="system" width="121" height="128"/>
     </resources>
 </document>

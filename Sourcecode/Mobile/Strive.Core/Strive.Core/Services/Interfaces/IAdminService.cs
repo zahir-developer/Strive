@@ -26,5 +26,6 @@ namespace Strive.Core.Services.Interfaces
 
         Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest);
 
+        Task<Products> GetAllProducts();
     }
 }

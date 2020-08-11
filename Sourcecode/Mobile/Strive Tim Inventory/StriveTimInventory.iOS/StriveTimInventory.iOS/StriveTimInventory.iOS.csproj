@@ -48,9 +48,9 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>iPhone Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignKey>Apple Development: Mohamed Siad (ZS6XP788AZ)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>Strive Tim Distribution</CodesignProvision>
+        <CodesignProvision>VS: WildCard Development</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -352,6 +352,7 @@
         <InterfaceDefinition Include="Views\InventoryView.xib" />
         <InterfaceDefinition Include="Views\MembershipView.xib" />
         <InterfaceDefinition Include="Views\InventoryViewCell.xib" />
+        <InterfaceDefinition Include="Views\InventoryEditView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -414,6 +415,10 @@
           <DependentUpon>InventoryViewCell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\InventoryTableViewDataSource.cs" />
+        <Compile Include="Views\InventoryEditView.cs" />
+        <Compile Include="Views\InventoryEditView.designer.cs">
+          <DependentUpon>InventoryEditView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

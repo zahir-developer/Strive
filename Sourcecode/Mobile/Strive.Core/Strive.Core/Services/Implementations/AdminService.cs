@@ -70,5 +70,10 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<TimeClock>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
         }
+
+        public async Task<Products> GetAllProducts()
+        {
+            return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Get);
+        }
     }
 }
