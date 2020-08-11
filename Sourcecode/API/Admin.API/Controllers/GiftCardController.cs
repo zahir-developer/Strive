@@ -24,7 +24,7 @@ namespace Admin.API.Controllers
         #endregion
         #region GET
         [HttpGet]
-        [Route("GetAllGiftCard/{giftCardId}")]
+        [Route("GetGiftCard/{giftCardId}")]
         public Result GetGiftCardByGiftCardId(int giftCardId) => _bplManager.GetGiftCardByGiftCardId(giftCardId);
         #endregion
         #region GET
