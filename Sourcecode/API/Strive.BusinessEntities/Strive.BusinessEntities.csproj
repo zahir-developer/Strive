@@ -64,6 +64,7 @@
     <Compile Include="DTO\GiftCard\GiftCardHistoryDto.cs" />
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
+    <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
     <Compile Include="Model\EmployeeDocumentModel.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
+    <Compile Include="ViewModel\MembershipViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
     <Compile Include="DTO\Vendor\VendorDTO.cs" />
     <Compile Include="DTO\MembershipSetup\ClientMembershipDetails.cs" />
