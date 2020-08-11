@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.MembershipSetup;
+﻿using Strive.BusinessEntities.DTO.MembershipSetup;
+using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace Strive.BusinessLogic.MembershipSetup
         Result GetServicesWithPrice();
         //Result GetServiceWithPrice();
         Result GetMembershipById(int membershipId);
-        Result SaveMembershipSetup(List<MembershipView> member);
+        Result AddMembership(List<MembershipDto> member);
+        Result UpdateMembership(List<MembershipDto> member);
         Result DeleteMembershipById(int membershipId);
 
     }
