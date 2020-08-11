@@ -14,11 +14,13 @@ before_script:
     - "dotnet restore"
     
 build:
-    stage:  build
-    
-    
-    image: $BUILD_IMAGE
+    stage:  build  
     image: $DOTNET_IMAGE
+    
+build:
+    stage:  build      
+    image: $BUILD_IMAGE
+    
     script:
         - echo "Building"
         - dotnet build --configuration Release      
