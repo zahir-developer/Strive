@@ -12,11 +12,7 @@ before_script:
     - echo Sourcecode/API/Admin.API
     - "cd Sourcecode/API/Admin.API"
     - "dotnet restore"
-    
-build:
-    stage:  build  
-    image: $DOTNET_IMAGE
-    
+      
 build:
     stage:  build      
     image: $BUILD_IMAGE
