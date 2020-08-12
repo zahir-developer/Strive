@@ -22,5 +22,18 @@ namespace Strive.BusinessLogic.Schedule
         {
             return ResultWrap(new ScheduleRal(_tenant).UpdateSchedule, schedule, "Status");
         }
+        public Result DeleteSchedule(int scheduleId)
+        {
+            return ResultWrap(new ScheduleRal(_tenant).DeleteSchedule, scheduleId, "Status");
+        }
+        public Result GetSchedule()
+        {
+            return ResultWrap(new ScheduleRal(_tenant).GetSchedule, "Status");
+        }
+        public Result GetScheduleById(int scheduleId)
+        {
+            return ResultWrap(new ScheduleRal(_tenant).GetScheduleById, scheduleId, "Status");
+        }
+        
     }
 }

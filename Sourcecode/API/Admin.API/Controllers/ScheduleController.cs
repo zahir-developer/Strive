@@ -31,5 +31,16 @@ namespace Admin.API.Controllers
        {
             return _bplManager.UpdateSchedule(schedule);
        }
+        [HttpDelete]
+        [Route("DeleteSchedule")]
+        public Result DeleteSchedule(int id) => _bplManager.DeleteSchedule(id);
+        
+        [HttpGet]
+        [Route("GetSchedule")]
+        public Result GetSchedule() => _bplManager.GetSchedule();
+
+        [HttpGet]
+        [Route("GetScheduleById")]
+        public Result GetScheduleById(int scheduleId) => _bplManager.GetScheduleById(scheduleId);
     }
 }
