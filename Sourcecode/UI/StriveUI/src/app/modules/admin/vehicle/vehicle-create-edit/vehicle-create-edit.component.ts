@@ -25,7 +25,7 @@ export class VehicleCreateEditComponent implements OnInit {
   ngOnInit() {
     this.formInitialize();
     this.upcharge = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "Upcharge1" }, { CodeId: 2, CodeValue: "Upcharge2" }];
-    this.upchargeType = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "UpchargeType1" }, { CodeId: 2, CodeValue: "UpchargeType2" }];
+    //this.upchargeType = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "UpchargeType1" }, { CodeId: 2, CodeValue: "UpchargeType2" }];
     if (this.isView === true) {
       this.viewVehicle();
     }
@@ -83,6 +83,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.make = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
+        this.upchargeType = vehicle.VehicleDetails.filter(item => item.CategoryId === 34);
       }else {
         this.toastr.error('Communication Error', 'Error!');
       }

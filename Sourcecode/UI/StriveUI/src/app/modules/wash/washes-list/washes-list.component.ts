@@ -71,6 +71,7 @@ export class WashesListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.getAllWashDetails();
     }
     this.showDialog = event.isOpenPopup;
   }
@@ -83,14 +84,14 @@ export class WashesListComponent implements OnInit {
       this.isView = false;
       this.showDialog = true;
     } else {
-
+      this.getWashById(data,washDetails);
     }
   }
   getWashById(label, washDet) {
     this.washes.getWashById(washDet.JobId).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-        this.washDetails = wash.WashesDetail;
+        this.washDetails = wash.WashesDetail[0];
         if (label === 'edit') {
           this.headerData = 'Edit Service';
           this.selectedData = this.washDetails;
