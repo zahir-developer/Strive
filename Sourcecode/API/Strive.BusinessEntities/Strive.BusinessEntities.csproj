@@ -105,6 +105,7 @@
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\MembershipViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
     <Compile Include="DTO\Vendor\VendorDTO.cs" />
     <Compile Include="DTO\MembershipSetup\ClientMembershipDetails.cs" />

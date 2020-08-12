@@ -1,4 +1,6 @@
-﻿using Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -26,13 +28,28 @@ namespace Strive.ResourceAccess
         {
             try
             {
-                //return dbRepo.UpdatePc(location);
                 return dbRepo.UpdatePc(schedule);
             }
             catch(Exception ex)
             {
                 throw ex;
             }
+        }
+        public bool DeleteSchedule(int scheduleId)
+        {
+            _prm.Add("tblScheduleId", scheduleId);
+            db.Save(SPEnum.uspDeleteSchedule.ToString(), _prm);
+            return true;
+        }
+        public List<ScheduleViewModel> GetSchedule()
+        {
+            return db.Fetch<ScheduleViewModel>(SPEnum.uspGetSchedule.ToString(), null);
+        }
+        public List<ScheduleViewModel> GetScheduleById(int scheduleId)
+        {
+            _prm.Add("ScheduleId", scheduleId);
+            var result =  db.Fetch<ScheduleViewModel>(SPEnum.uspGetSchedule.ToString(), _prm);
+            return result;
         }
     }
 }
