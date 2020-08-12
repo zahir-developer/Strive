@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities.DTO.ServiceSetup;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 using System.Collections.Generic;
 
@@ -12,5 +13,6 @@ namespace Strive.BusinessLogic
         Result GetAllServiceSetup();
         Result GetServiceSetupById(int id);
         Result DeleteServiceById(int id);
+        Result GetServiceSearch(ServiceSearchDto search);
     }
 }

@@ -65,6 +65,7 @@
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
+    <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
     <Compile Include="Model\EmployeeDocumentModel.cs" />
@@ -221,8 +222,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DTO\ServiceSetup\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
