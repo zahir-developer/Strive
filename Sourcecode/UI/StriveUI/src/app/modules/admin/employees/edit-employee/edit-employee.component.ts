@@ -20,6 +20,7 @@ export class EditEmployeeComponent implements OnInit {
   @Input() state?: any;
   @Input() country?: any;
   @Input() employeeId?: any;
+  @Input() employeeDetailId?: any;
   @Input() location?: any;
   Status: any;
   @Input() commissionType: any;
@@ -61,7 +62,8 @@ export class EditEmployeeComponent implements OnInit {
       tip: [''],
       exemptions: [''],
       roles: [[]],
-      location: [[]]
+      location: [[]],
+      employeeCode : ['']
     });
     this.employeRole();
     this.locationDropDown();
@@ -87,7 +89,8 @@ export class EditEmployeeComponent implements OnInit {
     console.log(this.employeeData, 'data');
     const employee = this.employeeData;
     const employeeInfo = employee.EmployeeInfo;
-    const employeeRole = employee.EmployeeRoles.map( item => {
+    
+    const employeeRole = employee.EmployeeRoles?.map( item => {
       return {
         item_id: item.Roleid,
         item_text: item.RoleName
@@ -99,8 +102,9 @@ export class EditEmployeeComponent implements OnInit {
         item_text: item.LocationName
       };
     });
+    this.employeeDetailId = employeeInfo.EmployeeDetailId;
     this.personalform.patchValue({
-      firstName: employeeInfo.firstname ? employeeInfo.firstname : '',
+      firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
       lastName: employeeInfo.LastName ? employeeInfo.LastName : '',
       gender: employeeInfo.Gender ? employeeInfo.Gender : '',
       address: employeeInfo.Address1 ? employeeInfo.Address1 : '',
@@ -112,8 +116,8 @@ export class EditEmployeeComponent implements OnInit {
       emailId: employeeInfo.Email ? employeeInfo.Email : '',
       password: [''],
       dateOfHire: employeeInfo.HiredDate ? moment(employeeInfo.HiredDate).toDate() : '',
-      hourlyRateWash: [''],
-      hourlyRateDetail: [''],
+      hourlyRateWash: employeeInfo.PayRate,
+      hourlyRateDetail: employeeInfo.ComRate,
       commission: employeeInfo.ComRate ? employeeInfo.ComRate : '',
       status: employee.IsActive ? 'Active' : 'InActive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
@@ -245,12 +249,16 @@ export class EditEmployeeComponent implements OnInit {
       };
     });
     const employeeDetailObj = {
-      employeeDetailId: 0,
+      employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
-      employeeCode: 'string',
+      employeeCode: '',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
+      PayRate: this.emplistform.value.hourlyRateWash,
+      ComRate: this.emplistform.value.hourlyRateDetail,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
-      exemptions: +this.emplistform.value.exemptions
+      exemptions: +this.emplistform.value.exemptions,
+      isActive: true,
+      isDeleted: false,
     };
     const locationObj = this.emplistform.value.location.map(item => {
       return {
@@ -269,8 +277,10 @@ export class EditEmployeeComponent implements OnInit {
       maritalStatus: 117,
       isCitizen: true,
       alienNo: 'string',
-      birthDate: '2020 - 08 - 06T19: 24: 48.817Z',
-      immigrationStatus: this.personalform.value.immigrationStatus
+      birthDate: '',
+      immigrationStatus: this.personalform.value.immigrationStatus,
+      isActive: true,
+      isDeleted: false,
     };
     const finalObj = {
       employee: employeeObj,
