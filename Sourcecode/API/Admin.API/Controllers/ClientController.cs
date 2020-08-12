@@ -26,12 +26,12 @@ namespace Admin.API.Controllers
         public ClientController(IClientBpl clientBpl) : base(clientBpl) { }
 
         [HttpPost]
-        [Route("Save")]
-        public Result SaveClientDetails([FromBody] ClientDto client) => _bplManager.SaveClientDetails(client);
+        [Route("InsertClientDetails")]
+        public Result InsertClientDetails([FromBody] ClientDto client) => _bplManager.SaveClientDetails(client);
 
         [HttpPost]
-        [Route("ClientVehicleSave")]
-        public Result ClientVehicleSave([FromBody] VehicleDto vehicle) => _bplManager.SaveClientVehicle(vehicle);
+        [Route("UpdateClientVehicle")]
+        public Result ClientVehicleSave([FromBody] ClientDto client) => _bplManager.UpdateClientVehicle(client);
 
         [HttpGet]
         [Route("GetAllClient")]

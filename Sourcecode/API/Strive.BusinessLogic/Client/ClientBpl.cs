@@ -42,11 +42,11 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveClientVehicle(VehicleDto vehicle)
+        public Result UpdateClientVehicle(ClientDto vehicle)
         {
             try
             {
-                return ResultWrap(new ClientRal(_tenant).SaveClientVehicle, vehicle, "Status");
+                return ResultWrap(new ClientRal(_tenant).UpdateClientVehicle, vehicle, "Status");
             }
             catch (Exception ex)
             {
