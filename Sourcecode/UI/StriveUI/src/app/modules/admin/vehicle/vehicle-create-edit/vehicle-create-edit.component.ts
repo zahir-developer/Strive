@@ -83,7 +83,6 @@ export class VehicleCreateEditComponent implements OnInit {
         this.make = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
-        console.log(this.make,this.model,this.color);
       }else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -117,10 +116,10 @@ export class VehicleCreateEditComponent implements OnInit {
     };
     const add = {
       VehicleNumber: null,
-      VehicleMake: null,// this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
-      VehicleModel: null, // this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
-      VehicleColor: null, // this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
-      Upcharge: null, //this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
+      VehicleMake: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
+      VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
+      VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
+      Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
       Barcode: this.vehicleForm.value.barcode,
       CreatedDate: new Date()
     };
@@ -135,7 +134,7 @@ export class VehicleCreateEditComponent implements OnInit {
         }
       });
     } else {
-      this.vehicle.addVehicle.push(add);
+      this.vehicle.addVehicle = add;
       this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       this.toastr.success('Record Saved Successfully!!', 'Success!');
     }    
