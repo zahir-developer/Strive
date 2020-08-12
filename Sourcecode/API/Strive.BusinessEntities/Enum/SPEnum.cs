@@ -96,8 +96,7 @@ namespace Strive.BusinessEntities
         USPGETALLVENDOR,
         USPDELETEVENDOR,
         uspDeleteSchedule,
-        uspGetSchedule
-        USPDELETEVENDOR,
+        uspGetSchedule,
         //Washes
         USPGETJOB
     }
