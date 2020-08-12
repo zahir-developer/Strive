@@ -10,6 +10,7 @@ using System.Linq;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Strive.ResourceAccess
 {
@@ -23,7 +24,10 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(client, "ClientId");
         }
-
+        public bool SaveClientVehicle(VehicleDto client)
+        {
+            return dbRepo.InsertPc(client, "ClientId");
+        }
         public List<ClientViewModel> GetAllClient()
         {
             return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), null);
