@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities.Client;
 using Admin.API.Helpers;
 using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Admin.API.Controllers
 {
@@ -27,6 +28,10 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("Save")]
         public Result SaveClientDetails([FromBody] ClientDto client) => _bplManager.SaveClientDetails(client);
+
+        [HttpPost]
+        [Route("ClientVehicleSave")]
+        public Result ClientVehicleSave([FromBody] VehicleDto vehicle) => _bplManager.SaveClientVehicle(vehicle);
 
         [HttpGet]
         [Route("GetAllClient")]
