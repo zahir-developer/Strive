@@ -28,7 +28,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                return ResultWrap(new ClientRal(_tenant).SaveClientDetails, client, "Status");
+                return ResultWrap(new ClientRal(_tenant).InsertClientDetails, client, "Status");
             }
             catch (Exception ex)
             {
@@ -36,11 +36,11 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        public Result SaveClientVehicle(VehicleDto vehicle)
+        public Result UpdateClientVehicle(ClientDto vehicle)
         {
             try
             {
-                return ResultWrap(new ClientRal(_tenant).SaveClientVehicle, vehicle, "Status");
+                return ResultWrap(new ClientRal(_tenant).UpdateClientVehicle, vehicle, "Status");
             }
             catch (Exception ex)
             {

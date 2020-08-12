@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities.DTO.Client
     public class ClientDto
     {
         public Model.Client Client { get; set; }
-        public ClientAddress ClientAddress { get; set; }
+        public List<ClientVehicle> ClientVehicle { get; set; }
+        public List<ClientAddress> ClientAddress { get; set; }
     }
 }
