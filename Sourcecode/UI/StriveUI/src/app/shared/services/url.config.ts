@@ -47,7 +47,7 @@ export const UrlConfig = {
     getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
     getClient: `Admin/Client/GetAllClient`,
-    updateClient: `Admin/Client/Save`,
+    updateClient: `Admin/Client/InsertClientDetails`,
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAll`,
@@ -67,6 +67,11 @@ export const UrlConfig = {
     getGiftCard: `Admin/GiftCard/GetGiftCard/`,
     updateEmployee: `Admin/Employee/Update`,
     saveGiftCard: `Admin/GiftCard/AddGiftCard`,
-    updateStatus: `Admin/GiftCard/ChangeStatus`
+    updateStatus: `Admin/GiftCard/ChangeStatus`,
+    getAllWash:`Admin/Washes/GetAllWashTime`,
+    getWashById:`Admin/Washes/GetWashTimeDetail/`,
+    addWash:`Admin/Washes/AddWashTime`,
+    updateWash:`Admin/Washes/UpdateWashTime`,
+    deleteWash:`Admin/washes/Delete/`
   }
 };

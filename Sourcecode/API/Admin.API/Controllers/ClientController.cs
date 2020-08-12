@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities.Client;
 using Admin.API.Helpers;
 using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Admin.API.Controllers
 {
@@ -25,8 +26,12 @@ namespace Admin.API.Controllers
         public ClientController(IClientBpl clientBpl) : base(clientBpl) { }
 
         [HttpPost]
-        [Route("Save")]
-        public Result SaveClientDetails([FromBody] ClientDto client) => _bplManager.SaveClientDetails(client);
+        [Route("InsertClientDetails")]
+        public Result InsertClientDetails([FromBody] ClientDto client) => _bplManager.SaveClientDetails(client);
+
+        [HttpPost]
+        [Route("UpdateClientVehicle")]
+        public Result ClientVehicleSave([FromBody] ClientDto client) => _bplManager.UpdateClientVehicle(client);
 
         [HttpGet]
         [Route("GetAllClient")]

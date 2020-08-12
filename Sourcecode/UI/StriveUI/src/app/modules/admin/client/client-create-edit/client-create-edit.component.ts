@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -26,7 +27,8 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  vehicleDetails: any =[];
+  vehicleDetails: any =[];  
+  vehicleDet: any =[];
   isTableEmpty: boolean;
   headerData: string;
   selectedVehicle: any;
@@ -36,12 +38,12 @@ export class ClientCreateEditComponent implements OnInit {
   collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
-    private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService) { }
+    private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService,private getCode: GetCodeService) { }
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
-    this.Type = [{ id: 0, Value: "Type1" }, { id: 1, Value: "Type2" }];
+    //this.Type = [{ id: 0, Value: "Type1" }, { id: 1, Value: "Type2" }];
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
@@ -72,6 +74,18 @@ export class ClientCreateEditComponent implements OnInit {
       type: ['',]
     });
     this.clientForm.get('status').patchValue(0);   
+    this.getClientType();
+  }
+
+  getClientType(){
+    this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
+      if (data.status === "Success") {
+        const cType = JSON.parse(data.resultData);
+        this.Type = cType.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
 
   getClientVehicle(id) {
@@ -124,8 +138,8 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   submit() {
-    this.address = {
-      relationshipId: this.isEdit ? this.selectedData.ClientId : 0,
+    this.address = [{
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
       address1: this.clientForm.value.address,
       address2: "",
@@ -138,11 +152,11 @@ export class ClientCreateEditComponent implements OnInit {
       phoneNumber: this.clientForm.value.phone1,
       email: this.clientForm.value.email,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 0,
+      updatedBy: 1,
       updatedDate: new Date()
-    }
+    }]
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       firstName: this.clientForm.value.fName,
@@ -153,9 +167,9 @@ export class ClientCreateEditComponent implements OnInit {
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
       isActive: this.clientForm.value.status == 0 ? true : false,      
       isDeleted: false,
-      createdBy: 0,
+      createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 0,
+      updatedBy: 1,
       updatedDate: new Date(),
       notes: this.clientForm.value.notes,
       recNotes: this.clientForm.value.checkOut,
@@ -165,6 +179,7 @@ export class ClientCreateEditComponent implements OnInit {
     };
     const myObj = {
       client: formObj,
+      clientVehicle: this.vehicleDetails,
       clientAddress: this.address
     }
     this.client.updateClient(myObj).subscribe(data => {
@@ -190,7 +205,8 @@ export class ClientCreateEditComponent implements OnInit {
   closePopupEmit(event) {
     if (event.status === 'saved') {
       this.vehicleDetails.push(this.vehicle.addVehicle);
-      this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
+      this.vehicleDet.push(this.vehicle.vehicleValue);
+      this.collectionSize = Math.ceil(this.vehicleDet.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     }
     this.showVehicleDialog = event.isOpenPopup;
@@ -206,7 +222,9 @@ export class ClientCreateEditComponent implements OnInit {
       .catch(() => { });
   }
   confirmDelete(data) {
-    this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
+    this.vehicleDetails = this.vehicleDetails.filter(item => item.Barcode !== data.Barcode);
+    this.vehicleDet = this.vehicleDet.filter(item => item !== data);
+    console.log(this.vehicleDetails,this.vehicleDet);
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;    
   }
   add() {

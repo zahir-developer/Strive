@@ -10,18 +10,21 @@ using System.Linq;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Strive.ResourceAccess
 {
     public class ClientRal : RalBase
     {
-        private Db _db;
-
         public ClientRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool SaveClientDetails(ClientDto client)
+        public bool InsertClientDetails(ClientDto client)
         {
             return dbRepo.InsertPc(client, "ClientId");
+        }
+        public bool UpdateClientVehicle(ClientDto client)
+        {
+            return dbRepo.UpdatePc(client);
         }
 
         public List<ClientViewModel> GetAllClient()

@@ -48,7 +48,7 @@ namespace Strive.ResourceAccess
         public bool DeleteSchedule(int scheduleId)
 
         {
-            _prm.Add("tblScheduleId", scheduleId);
+            _prm.Add("@tblScheduleId", scheduleId);
             db.Save(SPEnum.uspDeleteSchedule.ToString(), _prm);
             return true;
         }

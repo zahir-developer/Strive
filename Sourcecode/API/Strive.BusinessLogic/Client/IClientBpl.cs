@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.Common;
 
 namespace Strive.BusinessLogic.Client
@@ -16,5 +17,7 @@ namespace Strive.BusinessLogic.Client
         Result GetAllClient();
         Result DeleteClient(int clientId);
         Result GetClientById(int clientId);
+        //Result SaveClientVehicle(VehicleDto vehicle);
+        Result UpdateClientVehicle(ClientDto vehicle);
     }
 }
