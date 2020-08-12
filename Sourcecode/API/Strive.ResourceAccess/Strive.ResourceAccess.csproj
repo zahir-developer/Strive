@@ -115,6 +115,7 @@
     <Compile Include="EmployeeRal.cs" />
     <Compile Include="MembershipSetupRal.cs" />
     <Compile Include="VehicleRal.cs" />
+    <Compile Include="WashesRal.cs" />
     <Compile Include="WeatherRal.cs" />
     <Compile Include="LocationRal.cs" />
     <Compile Include="ProductRal.cs" />

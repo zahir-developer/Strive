@@ -33,6 +33,7 @@ using Strive.BusinessLogic.GiftCard;
 using System.Reflection;
 using System.IO;
 using Strive.BusinessLogic.MembershipSetup;
+using Strive.BusinessLogic.Washes;
 
 namespace Admin.API
 {
@@ -58,6 +59,7 @@ namespace Admin.API
             services.AddTransient<IDocumentBpl, DocumentBpl>();
             services.AddTransient<IMembershipBpl, MembershipBpl>();
             services.AddTransient<ICollisionBpl, CollisionBpl>();
+            services.AddTransient<IWashesBpl, WashesBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();

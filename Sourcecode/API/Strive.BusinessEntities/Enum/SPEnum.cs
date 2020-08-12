@@ -93,7 +93,9 @@ namespace Strive.BusinessEntities
         USPCLOCKTIMEDETAILS,
         //Vendor
         USPGETALLVENDOR,
-        USPDELETEVENDOR
+        USPDELETEVENDOR,
+        //Washes
+        USPGETJOB
     }
 
 
