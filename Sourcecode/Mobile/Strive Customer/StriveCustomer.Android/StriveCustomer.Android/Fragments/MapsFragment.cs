@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.Gms.Location;
@@ -12,6 +14,8 @@ using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V13.App;
+using Android.Support.V4.Content;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -19,29 +23,43 @@ using Java.Lang;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Strive.Core.Models.TimInventory;
+using Locations = Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Services;
+using Android.Locations;
+using Android.Graphics;
+using Android.Gms.Tasks;
+using Xamarin.Essentials;
 using static Android.Gms.Common.Apis.GoogleApiClient;
+using Location = Android.Locations.Location;
+using ILocationListener = Android.Gms.Location.ILocationListener;
+using CarWashLocation = Strive.Core.Models.TimInventory.Location;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback,IResultCallback, IConnectionCallbacks, IOnConnectionFailedListener
+    public class MapsFragment : MvxFragment<MapViewModel>,IOnMapReadyCallback,IOnSuccessListener,IConnectionCallbacks, IOnConnectionFailedListener, ILocationListener
     {
+        float Radius = 1500;
+        string GeofenceID = "LatLng";
+        string[] GeofenceIDS;
+        private int carWashLocationsCount , geofencesCount, geofenceCirclesCount;
+        IList<IGeofence> carWashGeofences;
         private GoogleMap Googlemap;
+        private GeofencingClient geofencingClient;
         private GoogleApiClient googleAPI;
-        private Circle geofenceCircle;
-        private CircleOptions[] circleOptions;
-        private IList<IGeofence> geofencesall;
-        private GeofencingRequest geofencingRequest;
-        private Geofence geofence;
-        private GeofenceBuilder geofenceBuilder;
-        private Location locations;
-        private PendingIntent geofencingPendingIntent;
+        private Location lastLocation;
+        private LatLng userLatLng;
+        private LatLng[] carWashLatLng;
+        private MarkerOptions userMarkerOption;
+        private MarkerOptions[] carWashMarkerOptions;
+        private CircleOptions[] geofenceCircles;
+        private LocationRequest userLocationRequest;
+        private GeofencingRequest geofencingRequests;
+        private GeofenceHelper geofenceHelper;
         private SupportMapFragment gmaps;
+        private CarWashLocation carWashLocations;
+        private PendingIntent geoPendingIntent;
         private static View rootView;
-        private LatLng[] latlngs;
-        private MarkerOptions[] markers;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -50,10 +68,12 @@ namespace StriveCustomer.Android.Fragments
                         .AddConnectionCallbacks(this)
                         .AddOnConnectionFailedListener(this)
                         .Build();
+                        
             googleAPI.Connect();
-            // Create your fragment here
-        }
 
+            geofencingClient = LocationServices.GetGeofencingClient(this.Context);
+            geofenceHelper = new GeofenceHelper(this.Context);
+        }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             this.ViewModel = new MapViewModel();
@@ -82,9 +102,7 @@ namespace StriveCustomer.Android.Fragments
                 return rootView;
             }
             return rootView;
-
         }
-
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
@@ -102,115 +120,126 @@ namespace StriveCustomer.Android.Fragments
         public void OnMapReady(GoogleMap googleMap)
         {
             Googlemap = googleMap;
-            var count = 0;
-            latlngs = new LatLng[locations.LocationAddress.Count];
-            markers = new MarkerOptions[locations.LocationAddress.Count];
-            
-            foreach(var location in locations.LocationAddress)
+            Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
+            enableUserLocation( );
+            carWashLocationsCount = 0;
+            carWashLatLng = new LatLng[carWashLocations.LocationAddress.Count];
+            carWashMarkerOptions = new MarkerOptions[carWashLocations.LocationAddress.Count];
+            foreach (var carWashLocation in carWashLocations.LocationAddress)
             {
-                latlngs[count] = new LatLng(location.Latitude,location.Longitude);
-                markers[count] = new MarkerOptions().SetPosition(latlngs[count]).SetTitle(location.WashTiming);
-                googleMap.AddMarker(markers[count]);
-               
-                count++;
+                carWashLatLng[carWashLocationsCount] = new LatLng(carWashLocation.Latitude,carWashLocation.Longitude);
+                carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTiming);
+                if(carWashLocationsCount == 3)
+                {
+                  carWashLatLng[3] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                  carWashMarkerOptions[3] = new MarkerOptions().SetPosition(carWashLatLng[3]).SetTitle(carWashLocation.WashTiming);
+                }
+                Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]);
+                carWashLocationsCount++;
             }
-            startGeoFence(latlngs);
+                
+            addCarwashGeoFence(carWashLatLng,Radius);
         }
-        private void startGeoFence(LatLng[] latlngs)
+        private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)
         {
-            if(markers != null)
-            {
-                geofencesall = createGeoFence(latlngs , 400f);
-                geofencingRequest = createGeoFenceRequest(geofencesall);
-                addGeoFences(geofencesall);
-
-            }
+            lastUserLocation();
         }
-        public void OnResult(Java.Lang.Object result)
-        {
-            drawGeoFences();
-        }
-        private void drawGeoFences()
-        {
-            if(geofenceCircle != null)
-            {
-                geofenceCircle.Remove();
-            }
-            circleOptions = new CircleOptions[locations.LocationAddress.Count];
-            var circlesOptionCount = 0;
-            foreach(var latlng in latlngs)
-            {
-                circleOptions[circlesOptionCount] = new CircleOptions();
-                circleOptions[circlesOptionCount].InvokeCenter(latlng).InvokeRadius(400).InvokeFillColor(0X66FF0000);
-                geofenceCircle = Googlemap.AddCircle(circleOptions[circlesOptionCount]);
-            }
-            
-        }
-
-        private void addGeoFences(IList<IGeofence> geofencesall)
-        {
-            if (googleAPI.IsConnected)
-                LocationServices.GeofencingApi.AddGeofences(googleAPI, geofencesall, createGeoFencePendingIntent()).SetResultCallback(this);
-            else
-                googleAPI.Reconnect();
-        }
-        private PendingIntent createGeoFencePendingIntent()
-        {
-            if(geofencingPendingIntent != null)
-            {
-                return geofencingPendingIntent;
-            }
-            Intent geoIntent = new Intent(this.Context, typeof(GeoFencingTransitionService));
-
-            return PendingIntent.GetService(this.Context,0,geoIntent,PendingIntentFlags.UpdateCurrent);
-        }
-        private GeofencingRequest createGeoFenceRequest(IList<IGeofence> geofences)
-        {
-            return new GeofencingRequest.Builder()
-                .SetInitialTrigger(GeofencingRequest.InitialTriggerEnter)
-                .AddGeofences(geofences)
-                .Build();
-        }
-
-        private IList<IGeofence> createGeoFence(LatLng[] latlngs, float radius)
-        {
-            IList<IGeofence> createdGeoFences = new List<IGeofence>();
-            int geofencecount = 0;
-            foreach(var latlng in latlngs)
-            {
-                var geofences = new GeofenceBuilder().SetTransitionTypes(Geofence.GeofenceTransitionEnter | Geofence.GeofenceTransitionExit)
-                                           .SetRequestId("Geofence"+geofencecount)
-                                           .SetCircularRegion(latlng.Latitude, latlng.Longitude, radius)
-                                           .SetExpirationDuration(Geofence.NeverExpire)
-                                           .Build();
-                createdGeoFences.Add(geofences);
-                geofencecount++;
-            }
-            return createdGeoFences;
-        }
-
         private async void setUpMaps()
         {
-            locations = await ViewModel.GetAllLocationsCommand();
-            
+            carWashLocations = await ViewModel.GetAllLocationsCommand();
             gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
             if (gmaps != null)
             {
                gmaps.GetMapAsync(this);
             }
         }
+        private void enableUserLocation()
+        {
+            if(ContextCompat.CheckSelfPermission(Context,Manifest.Permission.AccessFineLocation) == Permission.Granted)
+            {
+                Googlemap.MyLocationEnabled = true;
+                Googlemap.UiSettings.MyLocationButtonEnabled = true;
+                Googlemap.MarkerClick += Googlemap_MarkerClick;
+            }
+            else
+            {
+                RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
+            }
+        }
+        private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+        {
+            LatLng markerlatlng = e.Marker.Position;
+            await Map.OpenAsync(markerlatlng.Latitude,markerlatlng.Longitude);
+        }
+        private void addCarwashGeoFence(LatLng[] latlngs, float Radius)
+        {
+            geofencesCount = 0;
+            carWashGeofences = new List<IGeofence>();
+            foreach(var latlng in latlngs)
+            {
+                carWashGeofences.Add(geofenceHelper.getGeofence(GeofenceID+geofencesCount,latlng,Radius, Geofence.GeofenceTransitionEnter | Geofence.GeofenceTransitionDwell | Geofence.GeofenceTransitionExit));
+                geofencesCount++; 
+            }
+            geofencingRequests = geofenceHelper.GetGeofencingRequests(carWashGeofences);
+            geoPendingIntent = geofenceHelper.getPendingIntent();
+            geofencingClient.AddGeofences(geofencingRequests,geoPendingIntent);
+            addGeoCircles(latlngs,Radius);
+        }
+        private void addGeoCircles(LatLng[] latLngs, float Radius)
+        {
+            geofenceCirclesCount = 0;
+            geofenceCircles = new CircleOptions[latLngs.Length];
+            foreach (var latlng in latLngs )
+            {
+                geofenceCircles[geofenceCirclesCount] = new CircleOptions();
+                geofenceCircles[geofenceCirclesCount].InvokeCenter(latlng);
+                geofenceCircles[geofenceCirclesCount].InvokeRadius(Radius);
+                geofenceCircles[geofenceCirclesCount].InvokeStrokeColor(Color.Argb(255, 255, 0, 0));
+                geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(64, 255, 0, 0));
+                geofenceCircles[geofenceCirclesCount].InvokeStrokeWidth(4);
+                Googlemap.AddCircle(geofenceCircles[geofenceCirclesCount]);
 
+            }
+        }
+        private void lastUserLocation()
+        {
+             lastLocation = LocationServices.FusedLocationApi.GetLastLocation(googleAPI);
+           
+            if(lastLocation != null)
+            {
+                userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
+                userMarkerOption = new MarkerOptions();
+                userMarkerOption.SetPosition(userLatLng);   
+                //userMarker = Googlemap.AddMarker(userMarkerOption);
+                Googlemap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(userLatLng,15));
+                
+            }
+            userLocationRequest = new LocationRequest();
+            userLocationRequest.SetInterval(5000);
+            userLocationRequest.SetFastestInterval(3000);
+            userLocationRequest.SetPriority(LocationRequest.PriorityBalancedPowerAccuracy);
+
+            LocationServices.FusedLocationApi.RequestLocationUpdates(googleAPI,userLocationRequest,this);
+        }
+        public void OnLocationChanged(Location location)
+        {
+            userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
+            userMarkerOption = new MarkerOptions();
+            userMarkerOption.SetPosition(userLatLng);
+        }
         public void OnConnected(Bundle connectionHint)
         {
             //
         }
-
         public void OnConnectionSuspended(int cause)
         {
             //
         }
-
         public void OnConnectionFailed(ConnectionResult result)
+        {
+            //
+        }
+        public void OnSuccess(Java.Lang.Object result)
         {
             //
         }

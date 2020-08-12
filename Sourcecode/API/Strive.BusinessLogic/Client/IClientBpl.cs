@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Strive.BusinessEntities.Client;
+using Strive.BusinessEntities.DTO.User;
 using Strive.Common;
 
 namespace Strive.BusinessLogic.Client
@@ -14,5 +15,6 @@ namespace Strive.BusinessLogic.Client
         Result GetAllClient();
         Result DeleteClient(int clientId);
         Result GetClientById(int id);
+        Result Signup(UserSignupDto clientSignup);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ServiceSetup
 {
-    public class ServiceView : Service
+    public class ServiceView : Model.Service
     {
         public string ServiceTypeName { get; set; }
     }

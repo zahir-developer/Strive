@@ -1,8 +1,6 @@
-﻿
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using RepoDb;
-using RepoDb.SqlServer;
 using System;
 using System.Collections;
 using System.Collections.Generic;

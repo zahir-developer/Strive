@@ -73,6 +73,8 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Services\AndroidPermissions.cs" />
+    <Compile Include="Services\GeofenceBroadcastReceiver.cs" />
+    <Compile Include="Services\GeofenceHelper.cs" />
     <Compile Include="Services\GeoFencingTransitionService.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="MvvmCross\App.cs" />
@@ -143,6 +145,9 @@
     <PackageReference Include="Xamarin.Android.Support.Fragment">
       <Version>28.0.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v13">
+      <Version>28.0.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v4">
       <Version>28.0.0.3</Version>
     </PackageReference>
@@ -162,11 +167,20 @@
     <PackageReference Include="MvvmCross.Plugin.Json">
       <Version>6.4.2</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Base">
+      <Version>71.1610.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Basement">
+      <Version>71.1620.4</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Location">
       <Version>71.1600.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Maps">
       <Version>71.1610.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Tasks">
+      <Version>71.1601.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +303,9 @@
     <AndroidResource Include="Resources\layout\ScheduleScreenFragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\world_location.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

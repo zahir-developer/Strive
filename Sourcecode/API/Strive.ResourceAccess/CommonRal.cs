@@ -61,7 +61,7 @@ namespace Strive.ResourceAccess
 
         public int CreateLogin(AuthMaster authMaster)
         {
-            return dbRepo.Add<AuthMaster>(authMaster);
+            return dbRepo.Add(authMaster);
         }
         public List<Email> GetAllEmail()
         {
@@ -104,6 +104,11 @@ namespace Strive.ResourceAccess
             dynParams.Add("@Email", emailId);
             dynParams.Add("@OTP", otp);
             return db.QuerySingleOrDefault<int>(SPEnum.USPVERIFYOTP.ToString(), dynParams);
+        }
+
+        public void UpdateClientAuth(Client client)
+        {
+            dbRepo.Update<Client>(client);
         }
     }
 }

@@ -167,3 +167,78 @@ function passwordform() {
         text.style.display = "none";
     }
 }
+
+//vehicle
+$("#idmake").on("change", function () {
+    $modal = $("#addmakeModal");
+    if ($(this).val() === "Others") {
+        $modal.modal("show");
+    }
+});
+$("#idmodel").on("change", function () {
+    $modal = $("#addmodelModal");
+    if ($(this).val() === "Others-model") {
+        $modal.modal("show");
+    }
+});
+$("#idcolor").on("change", function () {
+    $modal = $("#addcolorModal");
+    if ($(this).val() === "Others-color") {
+        $modal.modal("show");
+    }
+});
+
+//calendar
+document.addEventListener("DOMContentLoaded", function () {
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendarInteraction.Draggable;
+    var containerEl = document.getElementById("external-events");
+    var calendarEl = document.getElementById("calendar");
+    //var checkbox = document.getElementById('drop-remove');
+    // initialize the external events
+    // -----------------------------------------------------------------
+    new Draggable(containerEl, {
+        itemSelector: ".fc-event",
+        eventData: function (eventEl) {
+            return {
+                title: eventEl.innerText,
+                customAttribute: "custom attribute",
+            };
+        },
+    });
+    // initialize the calendar
+    // -----------------------------------------------------------------
+    var calendar = new Calendar(calendarEl, {
+        plugins: ["interaction", "dayGrid", "timeGrid"],
+        header: {
+            left: "",
+            center: "prev,title,next",
+            right: "timeGridDay,timeGridWeek",
+        },
+        defaultView: "timeGridDay",
+        editable: true,
+        droppable: true,
+        // this allows things to be dropped onto the calendar
+        eventClick: function (info) {
+            console.log(info.event.title);
+            console.log(info.event.customAttribute);
+            $("#calendarModal").modal();
+        },
+    });
+    calendar.render();
+});
+
+//timepicker
+$(function () {
+    $(".timepicker").timepicker({
+        use24hours: true,
+        minuteStep: 5,
+        showSeconds: true,
+        showMeridian: true,
+        format: "hh:mm:ss",
+        icons: {
+            up: "fa fa-angle-up",
+            down: "fa fa-angle-down",
+        },
+    });
+});

@@ -76,6 +76,16 @@
 	.mob-washes-notification{
 		display:none;
 	}
+		.nav-tab-link {
+    padding: .3rem 0.2rem .3rem 0.2rem;
+    font-size: 14px;
+	}
+	.nav-tab-link > .p-r-15 {
+		padding-right:0px;
+	}
+	.nav-tab-link > .p-l-10 {
+		padding-left:0px;
+	}
 	
 }
 
@@ -141,6 +151,16 @@
 		font-size: 0.75rem !important;
 		    padding: 6px 8px !important;
 	}
+		.nav-tab-link {
+    padding: .3rem 0.2rem .3rem 0.2rem;
+    font-size: 14px;
+	}
+	.nav-tab-link > .p-r-15 {
+		padding-right:0px;
+	}
+	.nav-tab-link > .p-l-10 {
+		padding-left:0px;
+	}
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -180,7 +200,16 @@
 		font-size: 0.70rem !important;
 		    padding: 6px 4px !important;
 	}
-	
+	.nav-tab-link {
+    padding: .3rem 0.2rem .3rem 0.2rem;
+    font-size: 14px;
+	}
+	.nav-tab-link > .p-r-15 {
+		padding-right:0px;
+	}
+	.nav-tab-link > .p-l-10 {
+		padding-left:0px;
+	}
 
 }
 

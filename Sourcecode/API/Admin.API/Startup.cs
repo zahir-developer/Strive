@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Antiforgery;
 using Strive.BusinessLogic.Vehicle;
 using Strive.BusinessLogic.TimeClock;
 using Strive.BusinessLogic.GiftCard;
+using System.Reflection;
+using System.IO;
 
 namespace Admin.API
 {
@@ -91,6 +93,13 @@ namespace Admin.API
                 swag.AddSecurityDefinition("Bearer", new Swashbuckle.AspNetCore.Swagger.ApiKeyScheme { In = "header", Name = "Authorization", Type = "apiKey" });
                 swag.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
                 swag.ResolveConflictingActions(apiDesc => apiDesc.First());
+                //swag.OperationFilter<ApplySwaggerOperationSummaryFilterAttributes>();
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                swag.IncludeXmlComments(xmlPath);
+
             });
             #endregion
 

@@ -60,14 +60,18 @@ namespace Admin.API.Filters
             var TenantGuid = string.Empty;
             var schemaName = string.Empty;
             var EmployeeId = string.Empty;
+            var tid = string.Empty;
+            var requestPath = context.HttpContext.Request.Path.Value;
 
-            if (!context.HttpContext.Request.Path.Value.Contains("/Auth/"))
+            if (!requestPath.Contains("/Auth/") && !requestPath.Contains("/Signup/"))
             {
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
                 TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid")).Value;
                 schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
                 EmployeeId = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId")).Value;
+                tid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("tid")).Value;
+                _tenant.TenatId = tid;
             }
             SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId);
         }
