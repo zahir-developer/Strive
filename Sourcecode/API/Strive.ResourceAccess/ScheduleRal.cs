@@ -17,9 +17,9 @@ namespace Strive.ResourceAccess
     public class ScheduleRal : RalBase
     {
         public ScheduleRal(ITenantHelper tenant) : base(tenant) { }
-        public BoolResultDto SaveSchedule(ScheduleDto schedule)
+        public EmployeeScheduleDto SaveSchedule(ScheduleDto schedule)
         {
-                BoolResultDto brdto = new BoolResultDto();
+                EmployeeScheduleDto esto = new EmployeeScheduleDto();
                 DynamicParameters dynParams = new DynamicParameters();
                 dynParams.Add("@ScheduleId", schedule.ScheduleId);
                 dynParams.Add("@EmployeeId", schedule.EmployeeId);
@@ -31,17 +31,17 @@ namespace Strive.ResourceAccess
                 dynParams.Add("@ScheduleType", schedule.ScheduleType);
                 dynParams.Add("@Comments", schedule.Comments);
                 dynParams.Add("@IsActive", schedule.IsActive);
-                var result = db.Fetch<BoolResultDto>(SPEnum.USPSAVESCHEDULE.ToString(), dynParams);
+                var result = db.Fetch<EmployeeScheduleDto>(SPEnum.USPSAVESCHEDULE.ToString(), dynParams);
                 foreach (var item in result)
                 {
-                    brdto.Result =  item.Result;
+                   esto.Result =  item.Result;
                 }
-                if(brdto.Result != null)
+                if(esto.Result != null)
                 {
                     CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVESCHEDULE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
                     db.Save(cmd);
                 }
-                return brdto;
+                return esto;
                 
                 
         }

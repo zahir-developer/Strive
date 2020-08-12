@@ -33,6 +33,10 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
         }
+        public Result GetDailyDashboard(int id)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetDailyDashboard,id, "Dashboard");
+        }
 
     }
 }

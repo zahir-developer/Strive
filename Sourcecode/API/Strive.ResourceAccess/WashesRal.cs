@@ -33,5 +33,11 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(washes, "JobId");
         }
+        public WashesDashboardViewModel GetDailyDashboard(int id)
+        {
+            _prm.Add("@LocationId",id);
+            var result =  db.FetchMultiResult<WashesDashboardViewModel>(SPEnum.USPGETDAILYDASHBOARD.ToString(), _prm);
+            return result;
+        }
     }
 }

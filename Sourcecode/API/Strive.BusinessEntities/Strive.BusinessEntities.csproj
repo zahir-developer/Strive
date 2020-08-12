@@ -65,6 +65,7 @@
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
+    <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />
     <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
-    <Compile Include="ViewModel\BoolResultDto.cs" />
+    <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CollisionViewModel.cs" />
     <Compile Include="Model\AuthMaster.cs" />
@@ -102,9 +103,13 @@
     <Compile Include="Model\TenantMaster.cs" />
     <Compile Include="Model\TenantModule.cs" />
     <Compile Include="Model\Themes.cs" />
+    <Compile Include="ViewModel\CurrentViewModel.cs" />
+    <Compile Include="ViewModel\DetailsCountViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeCountViewModel.cs" />
     <Compile Include="ViewModel\EmployeeDetailViewModel.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
+    <Compile Include="ViewModel\ForecastedCarsViewModel.cs" />
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
@@ -189,6 +194,8 @@
     <Compile Include="ViewModel\VehicleMembershipModel.cs" />
     <Compile Include="ViewModel\VehicleViewModel.cs" />
     <Compile Include="ViewModel\VendorViewModel.cs" />
+    <Compile Include="ViewModel\WashesCountViewModel.cs" />
+    <Compile Include="ViewModel\WashesDashboardViewModel.cs" />
     <Compile Include="ViewModel\WashesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

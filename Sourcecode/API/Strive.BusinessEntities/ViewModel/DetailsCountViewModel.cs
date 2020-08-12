@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class BoolResultDto
+    public class DetailsCountViewModel
     {
-        public string Result { get; set; }
+        public int DetailsCount { get; set; }
     }
 }
