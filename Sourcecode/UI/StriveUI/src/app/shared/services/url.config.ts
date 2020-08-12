@@ -38,7 +38,7 @@ export const UrlConfig = {
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     getOtpCode: `Auth/SendOTP/`,
     uploadDocument: `Admin/Document/SaveDocument`,
-    getAllDocument: `Admin/Document/GetAllDocument/`,
+    getAllDocument: `Admin/Document/GetDocument/`,
     getDocumentById: `Admin/Document/GetDocumentById/`,
     getWeather: `Admin/Weather/GetWeatherData/`,
     saveWeather: `Admin/Weather/SaveWeatherPrediction`,
@@ -57,9 +57,16 @@ export const UrlConfig = {
     getVehicleByClientId: `Admin/Vehicle/GetVehicleByClientId`,
     deleteCollision: `Admin/Collision/Delete/`,
     getDetailCollision: `Admin/Collision/GetCollisionById/`,
-    saveCollision: `Admin/Collision/Save`,
+    saveCollision: `Admin/Collision/Add`,
     getVehicleCodes: `Admin/Vehicle/GetVehicleCodes`,
     getVehicleById: `Admin/Vehicle/GetVehicleId`,
     getVehicleMembership: `Admin/Vehicle/GetVehicleMembership`,
+    updateCollision: `Admin/Collision/Update`,
+    getAllGiftCard: `Admin/GiftCard/GetAllGiftCard/`,
+    getAllGiftCardHistory: `Admin/GiftCard/GetAllGiftCardHistory/`,
+    getGiftCard: `Admin/GiftCard/GetGiftCard/`,
+    updateEmployee: `Admin/Employee/Update`,
+    saveGiftCard: `Admin/GiftCard/AddGiftCard`,
+    updateStatus: `Admin/GiftCard/ChangeStatus`
   }
 };

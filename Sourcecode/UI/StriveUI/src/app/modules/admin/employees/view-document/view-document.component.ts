@@ -30,7 +30,7 @@ export class ViewDocumentComponent implements OnInit {
 
   viewDocument() {
     const password = this.passwordForm.value.password;
-    this.employeeService.getDocumentById(this.documentId, this.employeeId, password).subscribe( res => {
+    this.employeeService.getDocumentById(this.documentId, password).subscribe( res => {
       if (res.status === 'Success') {
         const documentDetail = JSON.parse(res.resultData);
         console.log(documentDetail);

@@ -49,7 +49,6 @@ export class VehicleListComponent implements OnInit {
     this.showDialog = true;
   }
   delete(data) {
-    console.log(data);
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
