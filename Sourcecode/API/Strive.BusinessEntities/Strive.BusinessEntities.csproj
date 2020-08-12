@@ -72,6 +72,7 @@
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
+    <Compile Include="Model\ScheduleModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CollisionViewModel.cs" />
     <Compile Include="Model\AuthMaster.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\MembershipViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
     <Compile Include="DTO\Vendor\VendorDTO.cs" />
     <Compile Include="DTO\MembershipSetup\ClientMembershipDetails.cs" />

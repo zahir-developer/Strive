@@ -14,6 +14,7 @@ using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Strive.BusinessLogic
 {
@@ -28,6 +29,18 @@ namespace Strive.BusinessLogic
             try
             {
                 return ResultWrap(new ClientRal(_tenant).SaveClientDetails, client, "Status");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result SaveClientVehicle(VehicleDto vehicle)
+        {
+            try
+            {
+                return ResultWrap(new ClientRal(_tenant).SaveClientVehicle, vehicle, "Status");
             }
             catch (Exception ex)
             {
