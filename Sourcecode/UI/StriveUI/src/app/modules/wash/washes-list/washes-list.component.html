@@ -123,12 +123,12 @@
                                             <tbody>
                                                 <tr
                                                     *ngFor="let wash of washDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                    <th scope="row">{{wash.ClientName}}</th>
+                                                    <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td>{{wash.VehicleNumber}}</td>
                                                     <td>{{wash.Color}}</td>
                                                     <td>{{wash.VehicleMake}}</td>
-                                                    <td class="font-weight-600">{{wash.VehicleModel}}</td>
-                                                    <td class="font-weight-600">{{wash.Upcharge}}</td>
+                                                    <td class="font-weight-600">{{wash.TimeIn | date:'mediumTime'}}</td>
+                                                    <td class="font-weight-600">{{wash.EstimatedTimeOut | date:'mediumTime'}}</td>
                                                     <td>{{wash.Barcode}}</td>
                                                     <td>
                                                         <button type="button"
