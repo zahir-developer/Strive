@@ -27,7 +27,8 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  vehicleDetails: any =[];
+  vehicleDetails: any =[];  
+  vehicleDet: any =[];
   isTableEmpty: boolean;
   headerData: string;
   selectedVehicle: any;
@@ -137,8 +138,8 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   submit() {
-    this.address = {
-      relationshipId: this.isEdit ? this.selectedData.ClientId : 0,
+    this.address = [{
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
       address1: this.clientForm.value.address,
       address2: "",
@@ -151,11 +152,11 @@ export class ClientCreateEditComponent implements OnInit {
       phoneNumber: this.clientForm.value.phone1,
       email: this.clientForm.value.email,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 0,
+      updatedBy: 1,
       updatedDate: new Date()
-    }
+    }]
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       firstName: this.clientForm.value.fName,
@@ -166,9 +167,9 @@ export class ClientCreateEditComponent implements OnInit {
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
       isActive: this.clientForm.value.status == 0 ? true : false,      
       isDeleted: false,
-      createdBy: 0,
+      createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 0,
+      updatedBy: 1,
       updatedDate: new Date(),
       notes: this.clientForm.value.notes,
       recNotes: this.clientForm.value.checkOut,
@@ -178,6 +179,7 @@ export class ClientCreateEditComponent implements OnInit {
     };
     const myObj = {
       client: formObj,
+      clientVehicle: this.vehicleDetails,
       clientAddress: this.address
     }
     this.client.updateClient(myObj).subscribe(data => {
@@ -203,7 +205,8 @@ export class ClientCreateEditComponent implements OnInit {
   closePopupEmit(event) {
     if (event.status === 'saved') {
       this.vehicleDetails.push(this.vehicle.addVehicle);
-      this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
+      this.vehicleDet.push(this.vehicle.vehicleValue);
+      this.collectionSize = Math.ceil(this.vehicleDet.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     }
     this.showVehicleDialog = event.isOpenPopup;
@@ -219,7 +222,9 @@ export class ClientCreateEditComponent implements OnInit {
       .catch(() => { });
   }
   confirmDelete(data) {
-    this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
+    this.vehicleDetails = this.vehicleDetails.filter(item => item.Barcode !== data.Barcode);
+    this.vehicleDet = this.vehicleDet.filter(item => item !== data);
+    console.log(this.vehicleDetails,this.vehicleDet);
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;    
   }
   add() {

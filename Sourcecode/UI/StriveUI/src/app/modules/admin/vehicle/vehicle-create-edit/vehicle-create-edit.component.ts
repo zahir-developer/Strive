@@ -116,13 +116,32 @@ export class VehicleCreateEditComponent implements OnInit {
       updatedDate: new Date()
     };
     const add = {
-      VehicleNumber: null,
-      VehicleMake: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
+      VehicleId: 0,
+      ClientId: 0,
+      LocationId: 1,
+      VehicleNumber: "",
+      VehicleMfr: Number(this.vehicleForm.value.make),
+      VehicleModel: Number(this.vehicleForm.value.model),
+      VehicleColor: Number(this.vehicleForm.value.color),
+      Upcharge: Number(this.vehicleForm.value.upcharge),
+      Barcode: this.vehicleForm.value.barcode,
+      VehicleModelNo:0,
+      VehicleYear:"",
+      Notes: "",
+      IsActive: true,
+      IsDeleted: false,
+      CreatedBy: 1,
+      CreatedDate: new Date(),
+      UpdatedBy: 1,
+      UpdatedDate: new Date()
+    };
+    const value = {  
+      VehicleNumber: "",    
+      VehicleMfr: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
       VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
       VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
       Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
       Barcode: this.vehicleForm.value.barcode,
-      CreatedDate: new Date()
     };
     if (this.isEdit === true) {
       this.vehicle.updateVehicle(formObj).subscribe(data => {
@@ -136,8 +155,9 @@ export class VehicleCreateEditComponent implements OnInit {
       });
     } else {
       this.vehicle.addVehicle = add;
+      this.vehicle.vehicleValue = value;
       this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      this.toastr.success('Record Saved Successfully!!', 'Success!');
+      this.toastr.success('Vehicle Saved Successfully!!', 'Success!');
     }    
   }
   cancel() {
