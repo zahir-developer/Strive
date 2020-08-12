@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -36,12 +37,12 @@ export class ClientCreateEditComponent implements OnInit {
   collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
-    private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService) { }
+    private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService,private getCode: GetCodeService) { }
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
-    this.Type = [{ id: 0, Value: "Type1" }, { id: 1, Value: "Type2" }];
+    //this.Type = [{ id: 0, Value: "Type1" }, { id: 1, Value: "Type2" }];
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
@@ -72,6 +73,18 @@ export class ClientCreateEditComponent implements OnInit {
       type: ['',]
     });
     this.clientForm.get('status').patchValue(0);   
+    this.getClientType();
+  }
+
+  getClientType(){
+    this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
+      if (data.status === "Success") {
+        const cType = JSON.parse(data.resultData);
+        this.Type = cType.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
 
   getClientVehicle(id) {

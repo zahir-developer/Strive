@@ -18,17 +18,20 @@ export class CreateEditWashesComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
+  Score : any;
+  ticketNumber : any;
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
     this.formInitialize();
+    this.Score = [{ CodeId: 1, CodeValue: "None" }, { CodeId: 2, CodeValue: "Option1" }, { CodeId: 3, CodeValue: "Option2" }];
     if (this.isView === true) {
       this.viewWash();
     }
     if (this.isEdit === true) {
       this.washForm.reset();
-      //this.getWashById();
+      this.getWashById();
     }
   }
 
@@ -50,14 +53,15 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashById() {
+    console.log(this.selectedData);
     this.washForm.patchValue({
-      barcode: this.selectedData.Barcode,
-      //tag: this.selectedData.VehicleNumber,
-      make: this.selectedData.VehicleMake,
-      model: this.selectedData.VehicleModel,
-      color: this.selectedData.VehicleColor,
-      upcharge: this.selectedData.Upcharge
+      barcode: this.selectedData.BarCode,
+      // make: this.selectedData.VehicleMake,
+      // model: this.selectedData.VehicleModel,
+      // color: this.selectedData.VehicleColor,
+      // upcharge: this.selectedData.Upcharge
     });
+    this.ticketNumber = this.selectedData.TicketNumber;
   }
 
   viewWash(){

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-washes-list',
@@ -19,7 +20,7 @@ export class WashesListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
-  constructor(private vehicle: VehicleService, private toastr: ToastrService,
+  constructor(private washes: WashService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -27,14 +28,15 @@ export class WashesListComponent implements OnInit {
 
   }
   getAllWashDetails() {
-    this.vehicle.getVehicle().subscribe(data => {
+    this.washes.getAllWashes().subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-        this.washDetails = wash.Vehicle;
+        this.washDetails = wash.Washes;
+        console.log(this.washDetails);
         if (this.washDetails.length === 0) {
           this.isTableEmpty = true;
-        } else {      
-          this.collectionSize = Math.ceil(this.washDetails.length/this.pageSize) * 10;
+        } else {
+          this.collectionSize = Math.ceil(this.washDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -58,7 +60,7 @@ export class WashesListComponent implements OnInit {
       .catch(() => { });
   }
   confirmDelete(data) {
-    this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
+    this.washes.deleteWash(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAllWashDetails();
@@ -69,6 +71,7 @@ export class WashesListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.getAllWashDetails();
     }
     this.showDialog = event.isOpenPopup;
   }
@@ -80,19 +83,31 @@ export class WashesListComponent implements OnInit {
       this.isEdit = false;
       this.isView = false;
       this.showDialog = true;
-    } else if (data === 'edit') {
-      this.headerData = 'Edit Service';
-      this.selectedData = washDetails;
-      this.isEdit = true;
-      this.isView = false;
-      this.showDialog = true;
     } else {
-      this.headerData = 'View Service';
-      this.selectedData = washDetails;
-      this.isEdit = true;
-      this.isView = true;
-      this.showDialog = true;
+      this.getWashById(data,washDetails);
     }
   }
-
+  getWashById(label, washDet) {
+    this.washes.getWashById(washDet.JobId).subscribe(data => {
+      if (data.status === 'Success') {
+        const wash = JSON.parse(data.resultData);
+        this.washDetails = wash.WashesDetail[0];
+        if (label === 'edit') {
+          this.headerData = 'Edit Service';
+          this.selectedData = this.washDetails;
+          this.isEdit = true;
+          this.isView = false;
+          this.showDialog = true;
+        } else {
+          this.headerData = 'View Service';
+          this.selectedData = this.washDetails;
+          this.isEdit = true;
+          this.isView = true;
+          this.showDialog = true;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
 }
