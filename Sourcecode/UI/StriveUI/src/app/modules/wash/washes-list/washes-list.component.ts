@@ -32,7 +32,7 @@ export class WashesListComponent implements OnInit {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.washDetails = wash.Washes;
-        console.log(this.washDetails);
+        console.log(wash);
         if (this.washDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -91,16 +91,15 @@ export class WashesListComponent implements OnInit {
     this.washes.getWashById(washDet.JobId).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-        this.washDetails = wash.WashesDetail[0];
         if (label === 'edit') {
           this.headerData = 'Edit Service';
-          this.selectedData = this.washDetails;
+          this.selectedData = wash.WashesDetail[0];
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
         } else {
           this.headerData = 'View Service';
-          this.selectedData = this.washDetails;
+          this.selectedData = wash.WashesDetail[0];
           this.isEdit = true;
           this.isView = true;
           this.showDialog = true;

@@ -96,15 +96,12 @@
                                             class="text-muted font-size-1">(29/7/20)</span></h4>
                                     <div class="pull-right card-widgets"><button type="button"
                                             class="btn theme-primary-button-color  mw-100"
-                                            (click)="add('add',[])">New</button>&nbsp;&nbsp;
-                                        <a data-toggle="collapse" href="#washeslist" role="button" aria-expanded="false"
-                                            aria-controls="washeslist"><i
-                                                class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                            (click)="add('add',[])">New</button>
                                     </div>
                                 </div>
                                 <div class="setup-content" *ngIf="isTableEmpty === true"> <span
                                         class="col-12 row d-block">No Washes Found</span></div>
-                                <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
+                                <div class="setup-content" *ngIf="isTableEmpty === false">
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <thead>
@@ -124,12 +121,13 @@
                                                 <tr
                                                     *ngFor="let wash of washDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
-                                                    <td>{{wash.VehicleNumber}}</td>
-                                                    <td>{{wash.Color}}</td>
-                                                    <td>{{wash.VehicleMake}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td class="font-weight-600">{{wash.TimeIn | date:'mediumTime'}}</td>
-                                                    <td class="font-weight-600">{{wash.EstimatedTimeOut | date:'mediumTime'}}</td>
-                                                    <td>{{wash.Barcode}}</td>
+                                                    <td class="font-weight-600">
+                                                        {{wash.EstimatedTimeOut | date:'mediumTime'}}</td>
+                                                    <td>{{wash.BarCode}}</td>
                                                     <td>
                                                         <button type="button"
                                                             class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12">Pay</button>
@@ -138,8 +136,9 @@
                                                             (click)="add('view',wash)"></i>
                                                         <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
                                                             (click)="add('edit',wash)"></i>
-                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            ></i> </td>
+                                                        <i
+                                                            class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"></i>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -158,10 +157,7 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="false"
-        [focusOnShow]="false" [closable]="false">
-        <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
-            (closeDialog)="closePopupEmit($event)">
-        </app-create-edit-washes>
-    </p-dialog>
+    <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
+        (closeDialog)="closePopupEmit($event)">
+    </app-create-edit-washes>
 </div>
