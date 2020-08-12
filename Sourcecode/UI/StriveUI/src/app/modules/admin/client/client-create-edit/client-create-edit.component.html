@@ -177,10 +177,10 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let vehicle of vehicleDet | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
                                                     <td>{{vehicle.VehicleColor}}</td>
-                                                    <td>{{vehicle.VehicleMake}}</td>
+                                                    <td>{{vehicle.VehicleMfr}}</td>
                                                     <td>{{vehicle.VehicleModel}}</td>
                                                     <td>{{vehicle.Upcharge}}</td>
                                                     <td>{{vehicle.Barcode}}</td>

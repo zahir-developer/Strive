@@ -9,6 +9,7 @@ import { UrlConfig } from '../url.config';
 })
 export class VehicleService {
     addVehicle: object;
+    vehicleValue: object;
 
     constructor(private http: HttpUtilsService) { }
     getVehicle(): Observable<any> {

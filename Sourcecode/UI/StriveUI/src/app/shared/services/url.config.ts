@@ -47,7 +47,7 @@ export const UrlConfig = {
     getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
     getClient: `Admin/Client/GetAllClient`,
-    updateClient: `Admin/Client/Save`,
+    updateClient: `Admin/Client/InsertClientDetails`,
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAll`,
