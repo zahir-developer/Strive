@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Strive.Core.Models.TimInventory;
+using Strive.Core.Utils.TimInventory;
 using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.TIMInventory
@@ -56,6 +57,12 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             FilteredList.Clear();
             _InventoryItemList.Clear();
+        }
+
+        public async void EditCommand(int index)
+        {
+            EmployeeData.EditableProduct = FilteredList[index];
+            await _navigationService.Navigate<InventoryEditViewModel>();
         }
     }
 }

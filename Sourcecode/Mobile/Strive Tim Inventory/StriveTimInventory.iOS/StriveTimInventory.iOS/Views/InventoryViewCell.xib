@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
@@ -24,7 +24,7 @@
             <rect key="frame" x="0.0" y="0.0" width="651" height="370"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxk-wN-pdQ" id="YTl-1W-gDM">
-                <rect key="frame" x="0.0" y="0.0" width="651" height="370"/>
+                <rect key="frame" x="0.0" y="0.0" width="651" height="369"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tMd-hV-MyX">
@@ -62,13 +62,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show your love for your favourite Hand Wash." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4he-hv-hEH">
-                                <rect key="frame" x="105" y="56.5" width="299" height="18"/>
+                                <rect key="frame" x="105" y="56.5" width="298.5" height="18"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="13"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HVf-3A-QFB">
-                                <rect key="frame" x="105" y="74.5" width="74" height="33"/>
+                                <rect key="frame" x="105" y="74.5" width="74" height="32.5"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
                                         <fragment content="View More">
@@ -169,7 +169,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Af4-Fa-WEv">
-                        <rect key="frame" x="15" y="109" width="621" height="250"/>
+                        <rect key="frame" x="20" y="112" width="623" height="250"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Supplier" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKP-cL-PV2">
                                 <rect key="frame" x="30" y="10" width="87" height="29"/>
@@ -178,7 +178,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2B-5G-PQx">
-                                <rect key="frame" x="30" y="49" width="57" height="22"/>
+                                <rect key="frame" x="30" y="49" width="56.5" height="22"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Name ">
                                         <attributes>
@@ -232,7 +232,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83s-lp-ZQm">
-                                <rect key="frame" x="30" y="139" width="73" height="22"/>
+                                <rect key="frame" x="30" y="139" width="72.5" height="22"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Address ">
                                         <attributes>
@@ -277,9 +277,12 @@
                                 <state key="normal" title="Click Here to edit the item">
                                     <color key="titleColor" red="0.14107435939999999" green="0.28358918430000002" blue="0.60295563939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="EditItemTouch:" destination="cxk-wN-pdQ" id="786" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0M-nv-yfQ">
-                                <rect key="frame" x="456" y="199.5" width="160" height="40"/>
+                                <rect key="frame" x="451" y="199.5" width="160" height="40"/>
                                 <color key="backgroundColor" red="0.1145514473" green="0.78911465410000003" blue="0.71918755769999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="IZh-rF-Qod"/>
@@ -291,7 +294,7 @@
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Rambo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UmU-cH-Onu">
-                                <rect key="frame" x="92" y="49" width="91" height="22"/>
+                                <rect key="frame" x="91.5" y="49" width="91" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -309,7 +312,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pine Grove Township, PA 17963" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnv-3r-LMk">
-                                <rect key="frame" x="108" y="139" width="236" height="22"/>
+                                <rect key="frame" x="107.5" y="139" width="235.5" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -321,7 +324,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="bKP-cL-PV2" firstAttribute="top" secondItem="Af4-Fa-WEv" secondAttribute="top" constant="10" id="3Q6-1Q-xqZ"/>
                             <constraint firstItem="bKP-cL-PV2" firstAttribute="leading" secondItem="Af4-Fa-WEv" secondAttribute="leading" constant="30" id="89B-OR-WEM"/>
@@ -370,11 +372,20 @@
                 <outlet property="ItemCountView" destination="OLl-Gm-C4g" id="name-outlet-OLl-Gm-C4g"/>
                 <outlet property="ItemDeleteButton" destination="tXt-4y-QMU" id="name-outlet-tXt-4y-QMU"/>
                 <outlet property="ItemDescritption" destination="4he-hv-hEH" id="name-outlet-4he-hv-hEH"/>
+                <outlet property="ItemEditButton" destination="w6e-CB-2M4" id="name-outlet-w6e-CB-2M4"/>
                 <outlet property="ItemId" destination="2rZ-OU-hzn" id="name-outlet-2rZ-OU-hzn"/>
                 <outlet property="ItemIdBackground" destination="sr0-yY-ktq" id="name-outlet-sr0-yY-ktq"/>
                 <outlet property="ItemImage" destination="4j3-sM-Im6" id="name-outlet-4j3-sM-Im6"/>
                 <outlet property="ItemTitle" destination="cG4-L1-Vh9" id="name-outlet-cG4-L1-Vh9"/>
+                <outlet property="RequestButton" destination="d0M-nv-yfQ" id="name-outlet-d0M-nv-yfQ"/>
+                <outlet property="RequestView" destination="Af4-Fa-WEv" id="name-outlet-Af4-Fa-WEv"/>
+                <outlet property="SupplierAddress" destination="Xnv-3r-LMk" id="name-outlet-Xnv-3r-LMk"/>
+                <outlet property="SupplierContact" destination="vhv-sc-SQc" id="name-outlet-vhv-sc-SQc"/>
+                <outlet property="SupplierEmail" destination="N2s-FO-kaq" id="name-outlet-N2s-FO-kaq"/>
+                <outlet property="SupplierFax" destination="Ff5-V8-MJ8" id="name-outlet-Ff5-V8-MJ8"/>
+                <outlet property="SupplierName" destination="UmU-cH-Onu" id="name-outlet-UmU-cH-Onu"/>
                 <outlet property="ViewMoreButton" destination="HVf-3A-QFB" id="name-outlet-HVf-3A-QFB"/>
+                <outlet property="SupplierHeightConstraint" destination="sFC-hR-rXy" id="name-outlet-sFC-hR-rXy"/>
             </connections>
             <point key="canvasLocation" x="28.417266187050362" y="89.949748743718587"/>
         </tableViewCell>

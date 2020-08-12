@@ -21,8 +21,6 @@ namespace StriveTimInventory.iOS.Views
 
         private ObservableCollection<ProductDetail> ItemList;
 
-
-
         public InventoryTableViewDataSource(UITableView tableView, InventoryViewModel ViewModel) : base(tableView)
         {
             tableView.RegisterNibForCellReuse(InventoryViewCell.Nib, CellId);
@@ -55,7 +53,9 @@ namespace StriveTimInventory.iOS.Views
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 130;
+            return ItemList[indexPath.Row].DisplayRequestView
+                ? InventoryViewCell.ExpandedHeight
+                : InventoryViewCell.NormalHeight; 
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
@@ -81,6 +81,8 @@ namespace StriveTimInventory.iOS.Views
         {
             InventoryViewCell cell = (InventoryViewCell)tableView.DequeueReusableCell(CellId, indexPath);
             cell.SetCell(cell,ViewModel,indexPath.Row);
+            cell.SetupCell(ItemList[indexPath.Row], () =>
+               tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None));
             return cell;
         }
     }

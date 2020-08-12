@@ -17,6 +17,12 @@ namespace StriveTimInventory.iOS.Views
         InventoryViewCell cell;
         InventoryViewModel ViewModel;
 
+        private ProductDetail model;
+        private Action reloadParentRow { get; set; }
+
+        public static readonly int ExpandedHeight = 380;
+
+        public static readonly int NormalHeight = 120;
         static InventoryViewCell()
         {
             Nib = UINib.FromName("InventoryViewCell", NSBundle.MainBundle);
@@ -44,11 +50,14 @@ namespace StriveTimInventory.iOS.Views
             cell.ItemCountView.Layer.BorderColor = cell.ItemCountOuterView.Layer.BorderColor = UIColor.Gray.CGColor;
             cell.IncrementButton.SetBackgroundImage(UIImage.FromBundle(ImageUtils.ICON_WASHER), UIControlState.Highlighted);
             cell.ItemCountLabel.Text = ViewModel.FilteredList[index].Quantity.ToString();
-            cell.IncrementButton.Tag = cell.DecrementButton.Tag = index;
+            cell.RequestView.Hidden = false;
+            cell.IncrementButton.Tag = cell.DecrementButton.Tag = cell.ItemEditButton.Tag = index;
             cell.IncrementButton.TouchUpInside -= IncrementButtonPressed;
             cell.IncrementButton.TouchUpInside += IncrementButtonPressed;
             cell.DecrementButton.TouchUpInside -= DecrementButtonPressed;
             cell.DecrementButton.TouchUpInside += DecrementButtonPressed;
+            cell.ViewMoreButton.TouchUpInside -= ShowMoreButtonPressed;
+            cell.ViewMoreButton.TouchUpInside += ShowMoreButtonPressed;
         }
 
         private void IncrementButtonPressed(object sender, EventArgs e)
@@ -63,6 +72,54 @@ namespace StriveTimInventory.iOS.Views
             UIButton button = (UIButton)sender;
             ViewModel.DecrementCommand((int)button.Tag);
             cell.ItemCountLabel.Text = ViewModel.FilteredList[(int)button.Tag].Quantity.ToString();
+        }
+
+        private void ShowMoreButtonPressed(object sender, EventArgs e)
+        {
+            if (SupplierHeightConstraint.Constant == 0)
+            {
+                ShowNotes();
+                model.DisplayRequestView = true;
+            }
+            else
+            {
+                HideNotes();
+                model.DisplayRequestView = false;
+            }
+            LayoutSubviews();
+            reloadParentRow();
+        }
+
+        public void SetupCell(ProductDetail model, Action reloadParentRow)
+        {
+            this.model = model;
+            this.reloadParentRow = reloadParentRow;
+
+            if (model.DisplayRequestView)
+            {
+                ShowNotes();
+            }
+            else
+            {
+                HideNotes();
+            }
+        }
+
+        public void HideNotes()
+        {
+            SupplierHeightConstraint.Constant = 0;
+            cell.RequestView.Hidden = true;
+        }
+
+        public void ShowNotes()
+        {
+            SupplierHeightConstraint.Constant = 260;
+            cell.RequestView.Hidden = false;
+        }
+
+        partial void EditItemTouch(UIButton sender)
+        {
+            ViewModel.EditCommand((int)sender.Tag);
         }
     }
 }

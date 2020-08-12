@@ -10,5 +10,7 @@ namespace Strive.Core.Utils.TimInventory
         public static string CurrentRole { get; set; }
 
         public static TimeClock ClockInStatus { get; set; }
+
+        public static ProductDetail EditableProduct { get; set; }
     }
 }
