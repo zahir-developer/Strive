@@ -1,0 +1,43 @@
+<div class="card  m-b-10">
+    <div class="card-body">
+        <div class="title-border p-b-5 m-b-5 m-t-10">
+            <h6 class="d-inline-block font-weight-600">Add Gift Card
+            </h6>
+        </div>
+        <form [formGroup]="giftCardForm">
+            <div class="form-row">
+                <label class="col-sm-2">Number:</label>
+                <input type="text" class="form-control col-sm-6" formControlName="number" />
+                <button type="button" class="btn theme-primary-button-color btn-md m-l-10 col-sm-3">Generate Gift Card
+                </button>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-2">Active Date:</label>
+                <div class="input-group col-sm-4" id="datepicker">
+                    <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="activeDate"
+                        [outsideClick]="true">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><em
+                                class="font-size-1-0 theme-secondary-color mdi mdi-calendar-month"
+                                (click)="dp.show()"></em></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-2">Amount:</label>
+                <select id="inputgender" class="form-control col-sm-4" formControlName="amount"
+                    (change)="selectedAmount($event)">
+                    <option selected>Choose...</option>
+                    <option *ngFor="let a of amountList" value="{{a.value}}">{{a.label}}</option>
+                </select>
+                <div class="m-l-10" *ngIf="isOtherAmount">
+                    <input type="text" class="form-control" formControlName="others">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn theme-optional-button-color btn-sm" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn theme-primary-button-color btn-sm" (click)="saveGiftCard()">Process</button>
+    </div>
+</div>

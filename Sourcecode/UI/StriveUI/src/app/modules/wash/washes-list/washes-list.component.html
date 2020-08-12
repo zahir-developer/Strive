@@ -158,7 +158,7 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="false"
+    <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="false"
         [focusOnShow]="false" [closable]="false">
         <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
             (closeDialog)="closePopupEmit($event)">

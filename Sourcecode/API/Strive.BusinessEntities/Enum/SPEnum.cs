@@ -31,6 +31,7 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEEDOCUMENTBYID,
         //Client
         USPGETALLCLIENT,
+        USPGETCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
         //GiftCard
@@ -96,6 +97,9 @@ namespace Strive.BusinessEntities
         USPDELETEVENDOR,
         uspDeleteSchedule,
         uspGetSchedule
+        USPDELETEVENDOR,
+        //Washes
+        USPGETJOB
     }
 
 

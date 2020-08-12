@@ -25,14 +25,14 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<JobItem>(SPEnum.USPGETSERVICEWITHPRICE.ToString(), null);
         }
-        public bool AddMembership(List<MembershipDto> member)
+        public bool AddMembership(MembershipDto member)
         {
-            return dbRepo.Insert(member);
+            return dbRepo.InsertPc(member,"MembershipId");
         }
 
-        public bool UpdateMembership(List<MembershipDto> member)
+        public bool UpdateMembership(MembershipDto member)
         {
-            return dbRepo.Update(member);
+            return dbRepo.UpdatePc(member);
         }
         public bool DeleteMembershipById(int membershipid)
         {

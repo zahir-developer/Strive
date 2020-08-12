@@ -37,9 +37,9 @@ export class EmployeeCollisionComponent implements OnInit {
     this.employeeService.getDetailCollision(this.collisionId).subscribe(res => {
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
-        console.log(employeesCollison.CollisionDetail);
-        if (employeesCollison.CollisionDetail.length > 0) {
-          const detail = employeesCollison.CollisionDetail[0].LiabilityDetail[0];
+        console.log(employeesCollison.Collision);
+        if (employeesCollison.Collision.length > 0) {
+          const detail = employeesCollison.Collision[0];
           this.collisionDetail = detail;
           this.setValue(detail);
         }
@@ -58,7 +58,7 @@ export class EmployeeCollisionComponent implements OnInit {
   saveCollision() {
     const liabilityDetailObj = {
       liabilityDetailId: this.mode === 'edit' ? this.collisionDetail.LiabilityDetailId : 0,
-      liabilityId: this.mode === 'edit' ? this.collisionDetail.LiabilityId : 0,
+      liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       liabilityDetailType: 1,
       amount: +this.collisionForm.value.amount,
       paymentType: 1,
@@ -72,12 +72,12 @@ export class EmployeeCollisionComponent implements OnInit {
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const liabilityObj = {
-      liabilityId: this.mode === 'edit' ? this.collisionDetail.LiabilityId : 0,
+      liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       employeeId: this.employeeId,
-      liabilityType: 0,
-      liabilityDescription: 'string',
+      liabilityType: 103,
+      liabilityDescription: this.collisionForm.value.reason,
       productId: 2,
-      totalAmount: 0,
+      totalAmount: +this.collisionForm.value.amount,
       status: 0,
       isActive: true,
       isDeleted: false,
@@ -90,11 +90,19 @@ export class EmployeeCollisionComponent implements OnInit {
       employeeLiability: liabilityObj,
       employeeLiabilityDetail: liabilityDetailObj
     };
-    this.employeeService.saveCollision(finalObj).subscribe(res => {
-      if (res.status === 'Success') {
-        this.activeModal.close(true);
-      }
-    });
+    if (this.mode === 'create') {
+      this.employeeService.saveCollision(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.activeModal.close(true);
+        }
+      });
+    } else {
+      this.employeeService.updateCollision(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.activeModal.close(true);
+        }
+      });
+    }
   }
 
 }

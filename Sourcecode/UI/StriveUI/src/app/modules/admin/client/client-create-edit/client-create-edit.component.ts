@@ -5,6 +5,7 @@ import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown
 import * as moment from 'moment';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -34,7 +35,8 @@ export class ClientCreateEditComponent implements OnInit {
   pageSize = 3;
   collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService, private vehicle: VehicleService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
+    private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService) { }
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
@@ -95,19 +97,20 @@ export class ClientCreateEditComponent implements OnInit {
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.clientForm.patchValue({
-      fName: this.selectedData.FirstName,
-      lName: this.selectedData.LastName,
-      noEmail: this.selectedData.NoEmail,
-      status: this.selectedData.IsActive ? 0 : 1,
-      score: this.selectedData.Score,
-      notes: this.selectedData.Notes,
-      checkOut: this.selectedData.RecNotes,
-      address: this.selectedData.Address1,
-      phone1: this.selectedData.PhoneNumber,
-      zipcode: this.selectedData.Zip,
-      phone2: this.selectedData.PhoneNumber2,
-      email: this.selectedData.Email,
-      city: this.selectedData.City
+      fName: this.selectedData.Client.FirstName,
+      lName: this.selectedData.Client.LastName,
+      noEmail: this.selectedData.Client.NoEmail,
+      status: this.selectedData.Client.IsActive ? 0 : 1,
+      score: this.selectedData.Client.Score,      
+      type: this.selectedData.Client.ClientType,
+      notes: this.selectedData.Client.Notes,
+      checkOut: this.selectedData.Client.RecNotes,
+      address: this.selectedData.ClientAddress.Address1,
+      phone1: this.selectedData.ClientAddress.PhoneNumber,
+      zipcode: this.selectedData.ClientAddress.Zip,
+      phone2: this.selectedData.ClientAddress.PhoneNumber2,
+      email: this.selectedData.ClientAddress.Email,
+      city: this.selectedData.ClientAddress.City
     });    
     this.getClientVehicle(this.selectedData.ClientId);
   }
@@ -180,19 +183,31 @@ export class ClientCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
-    this.vehicle.addVehicle = [];
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.vehicleDetails = this.vehicle.addVehicle;       
+      this.vehicleDetails.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
-      console.log(this.vehicleDetails);
       this.showVehicleDialog = false;
     }
     this.showVehicleDialog = event.isOpenPopup;
+  }
+  delete(data){
+    this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
+    information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmDelete(data);
+        }
+      })
+      .catch(() => { });
+  }
+  confirmDelete(data) {
+    this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
+    this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;    
   }
   add() {
     this.headerData = 'Add New vehicle';

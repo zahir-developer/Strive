@@ -44,6 +44,13 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETESERVICEBYID.ToString(), _prm);
             return true;
         }
+        public List<ServiceViewModel> GetServiceSearch(ServiceSearchDto search)
+        {
+            _prm.Add("@ServiceType", search.ServiceType);
+            _prm.Add("@ServiceName", search.ServiceName);
+            _prm.Add("@Status", search.Status);
+            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+        }
 
     }
 }

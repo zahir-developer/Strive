@@ -29,12 +29,12 @@ namespace Strive.BusinessLogic.MembershipSetup
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipById,membershipid, "MembershipDetail");
         }
-        public Result AddMembership(List<MembershipDto> member)
+        public Result AddMembership(MembershipDto member)
         {
             return ResultWrap(new MembershipSetupRal(_tenant).AddMembership, member, "Status");
         }
 
-        public Result UpdateMembership(List<MembershipDto> member)
+        public Result UpdateMembership(MembershipDto member)
         {
             return ResultWrap(new MembershipSetupRal(_tenant).UpdateMembership, member, "Status");
         }

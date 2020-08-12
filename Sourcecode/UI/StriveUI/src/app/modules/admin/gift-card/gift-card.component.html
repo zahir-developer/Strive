@@ -1,0 +1,72 @@
+<div id="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item active" aria-current="page">Gift Cards</li>
+                </ol>
+            </nav>
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Gift Cards &nbsp;&nbsp;</h3>
+            </div>
+            <div class="col-12 p-l-0 p-r-0">
+                <div class="card  m-b-10 h-100">
+                    <div class="card-body">
+                        <form [formGroup]="giftCardForm">
+                            <div class="form-row">
+                                <label class="col-sm-2">Number:</label>
+                                <input type="text" class="form-control col-sm-8" formControlName="number" />
+                                <button type="button" class="btn theme-primary-button-color btn-md m-l-10 col-sm-1"
+                                    (click)="getGiftCardDetail()">Select
+                                </button>
+                            </div>
+                        </form>
+                        <div class="form-row">
+                            <div>
+                                <span>Active Date: </span><span>None</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <span>Value: </span><span>$0.00</span>
+                            </div>
+                        </div>
+                        <div class="form-row" *ngIf="!isActivity">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn float-right theme-primary-button-color btn-md m-l-10"
+                                    (click)="addGiftCard()">Add Gift Card
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="isActivity">
+                            <div class="col-12 p-l-0 p-r-0">
+                                <div class="table-responsive">
+                                    <table class="table border table-hover" aria-describedby="giftCard-history">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Ticket # </th>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let card of giftCardHistory">
+                                                <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}</td>
+                                                <td>{{card.GiftCardHistoryId}}</td>
+                                                <td>{{card.TransactionAmount | currency}}</td>
+                                                <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
+                                                <td><i class="fa fa-edit" (click)="statusUpdate(card)"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -90,7 +90,7 @@ export class DocumentListComponent implements OnInit {
   }
 
   viewDocument(document) {
-    this.documentId = document.DocumentId;
+    this.documentId = document.EmployeeDocumentId;
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,

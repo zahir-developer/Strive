@@ -303,7 +303,7 @@ export class CreateEditComponent implements OnInit {
       employee: employeeObj,
       employeeDetail: employeeDetailObj,
       employeeAddress: employeeAddressObj,
-      emploxyeeRole: employeeRoleObj,
+      employeeRole: employeeRoleObj,
       employeeLocation: locationObj,
       employeeDocument: documentObj
     };

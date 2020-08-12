@@ -29,10 +29,10 @@ namespace Admin.Api.Controllers
         public Result GetMembershipById(int membershipId) => _bplManager.GetMembershipById(membershipId);
         [HttpPost]
         [Route("Add")]
-        public Result AddMembership([FromBody] List<MembershipDto> member) => _bplManager.AddMembership(member);
+        public Result AddMembership([FromBody] MembershipDto member) => _bplManager.AddMembership(member);
         [HttpPost]
         [Route("Update")]
-        public Result UpdateMembership([FromBody] List<MembershipDto> member) => _bplManager.UpdateMembership(member);
+        public Result UpdateMembership([FromBody] MembershipDto member) => _bplManager.UpdateMembership(member);
         [HttpDelete]
         [Route("Delete/{membershipId}")]
         public Result DeleteMembershipById(int membershipId) => _bplManager.DeleteMembershipById(membershipId);

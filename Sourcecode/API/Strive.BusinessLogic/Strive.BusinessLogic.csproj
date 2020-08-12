@@ -80,6 +80,8 @@
     <Compile Include="Vehicle\VehicleBpl.cs" />
     <Compile Include="Vendor\IVendorBpl.cs" />
     <Compile Include="Vendor\VendorBpl.cs" />
+    <Compile Include="Washes\IWashesBpl.cs" />
+    <Compile Include="Washes\WashesBpl.cs" />
     <Compile Include="Wash\IWashManager.cs" />
     <Compile Include="Weather\IWeatherBpl.cs" />
     <Compile Include="Weather\WeatherBpl.cs" />
