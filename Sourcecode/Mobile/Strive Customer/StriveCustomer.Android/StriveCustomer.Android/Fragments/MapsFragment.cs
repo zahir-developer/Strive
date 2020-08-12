@@ -26,14 +26,14 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Locations = Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Services;
-using static Android.Gms.Common.Apis.GoogleApiClient;
 using Android.Locations;
-using ILocationListener = Android.Gms.Location.ILocationListener;
-using CarWashLocation = Strive.Core.Models.TimInventory.Location;
 using Android.Graphics;
 using Android.Gms.Tasks;
 using Xamarin.Essentials;
+using static Android.Gms.Common.Apis.GoogleApiClient;
 using Location = Android.Locations.Location;
+using ILocationListener = Android.Gms.Location.ILocationListener;
+using CarWashLocation = Strive.Core.Models.TimInventory.Location;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -51,9 +51,7 @@ namespace StriveCustomer.Android.Fragments
         private LatLng userLatLng;
         private LatLng[] carWashLatLng;
         private MarkerOptions userMarkerOption;
-        private MarkerOptions geofenceMarkerOptions;
         private MarkerOptions[] carWashMarkerOptions;
-        private CircleOptions geofenceCircleOptions;
         private CircleOptions[] geofenceCircles;
         private LocationRequest userLocationRequest;
         private GeofencingRequest geofencingRequests;
@@ -76,7 +74,6 @@ namespace StriveCustomer.Android.Fragments
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
             geofenceHelper = new GeofenceHelper(this.Context);
         }
-
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             this.ViewModel = new MapViewModel();
@@ -106,7 +103,6 @@ namespace StriveCustomer.Android.Fragments
             }
             return rootView;
         }
-
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
@@ -148,7 +144,6 @@ namespace StriveCustomer.Android.Fragments
         {
             lastUserLocation();
         }
-
         private async void setUpMaps()
         {
             carWashLocations = await ViewModel.GetAllLocationsCommand();
@@ -164,7 +159,6 @@ namespace StriveCustomer.Android.Fragments
             {
                 Googlemap.MyLocationEnabled = true;
                 Googlemap.UiSettings.MyLocationButtonEnabled = true;
-                Googlemap.MapLongClick += Googlemap_MapLongClick;
                 Googlemap.MarkerClick += Googlemap_MarkerClick;
             }
             else
@@ -172,26 +166,10 @@ namespace StriveCustomer.Android.Fragments
                 RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
             }
         }
-
         private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
         {
             LatLng markerlatlng = e.Marker.Position;
             await Map.OpenAsync(markerlatlng.Latitude,markerlatlng.Longitude);
-        }
-
-        private void Googlemap_MapLongClick(object sender, GoogleMap.MapLongClickEventArgs e)
-        {
-            Googlemap.Clear();
-            addMarker(new LatLng(e.Point.Latitude,e.Point.Longitude));
-            addGeoCircle(new LatLng(e.Point.Latitude, e.Point.Longitude),Radius);
-            addGeofence(new LatLng(e.Point.Latitude, e.Point.Longitude), Radius);
-        }
-        private void addGeofence(LatLng latlng, float Radius)
-        {
-            IGeofence geofence = geofenceHelper.getGeofence(GeofenceID,latlng,Radius,Geofence.GeofenceTransitionEnter|Geofence.GeofenceTransitionDwell|Geofence.GeofenceTransitionExit);
-            GeofencingRequest geofencingRequest = geofenceHelper.GetGeofencingRequest(geofence);
-            PendingIntent pendingIntent = geofenceHelper.getPendingIntent();
-            geofencingClient.AddGeofences(geofencingRequest,pendingIntent).AddOnSuccessListener(this);
         }
         private void addCarwashGeoFence(LatLng[] latlngs, float Radius)
         {
@@ -206,21 +184,6 @@ namespace StriveCustomer.Android.Fragments
             geoPendingIntent = geofenceHelper.getPendingIntent();
             geofencingClient.AddGeofences(geofencingRequests,geoPendingIntent);
             addGeoCircles(latlngs,Radius);
-        }
-        private void addMarker(LatLng latLng)
-        {
-            geofenceMarkerOptions = new MarkerOptions().SetPosition(latLng);
-            Googlemap.AddMarker(geofenceMarkerOptions);
-        }
-        private void addGeoCircle(LatLng latLng, float Radius)
-        {
-            geofenceCircleOptions = new CircleOptions();
-            geofenceCircleOptions.InvokeCenter(latLng);
-            geofenceCircleOptions.InvokeRadius(Radius);
-            geofenceCircleOptions.InvokeStrokeColor(Color.Argb(255,255,0,0));
-            geofenceCircleOptions.InvokeFillColor(Color.Argb(64,255,0,0));
-            geofenceCircleOptions.InvokeStrokeWidth(4);
-            Googlemap.AddCircle(geofenceCircleOptions);
         }
         private void addGeoCircles(LatLng[] latLngs, float Radius)
         {
@@ -258,31 +221,27 @@ namespace StriveCustomer.Android.Fragments
 
             LocationServices.FusedLocationApi.RequestLocationUpdates(googleAPI,userLocationRequest,this);
         }
-        public void OnConnected(Bundle connectionHint)
-        {
-            //
-        }
-
-        public void OnConnectionSuspended(int cause)
-        {
-            //
-        }
-
-        public void OnConnectionFailed(ConnectionResult result)
-        {
-            //
-        }
-
         public void OnLocationChanged(Location location)
         {
             userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
             userMarkerOption = new MarkerOptions();
-            userMarkerOption.SetPosition(userLatLng);       
+            userMarkerOption.SetPosition(userLatLng);
         }
-
+        public void OnConnected(Bundle connectionHint)
+        {
+            //
+        }
+        public void OnConnectionSuspended(int cause)
+        {
+            //
+        }
+        public void OnConnectionFailed(ConnectionResult result)
+        {
+            //
+        }
         public void OnSuccess(Java.Lang.Object result)
         {
-            
+            //
         }
     }
 }
