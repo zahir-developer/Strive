@@ -93,7 +93,7 @@ namespace Admin.API
                 swag.AddSecurityDefinition("Bearer", new Swashbuckle.AspNetCore.Swagger.ApiKeyScheme { In = "header", Name = "Authorization", Type = "apiKey" });
                 swag.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
                 swag.ResolveConflictingActions(apiDesc => apiDesc.First());
-                swag.OperationFilter<ApplySwaggerOperationSummaryFilterAttributes>();
+                //swag.OperationFilter<ApplySwaggerOperationSummaryFilterAttributes>();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

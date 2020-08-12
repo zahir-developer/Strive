@@ -5,16 +5,18 @@ stages:
 variables:
     PROJECT_NAME: "Admin.API"
     BUILD_IMAGE: "mcr.microsoft.com/dotnet/core/sdk:3.1"
+    DOTNET_IMAGE: microsoft/dotnet:latest
     
 before_script:
     - echo "pre script"
     - echo Sourcecode/API/Admin.API
     - "cd Sourcecode/API/Admin.API"
     - "dotnet restore"
-    
+      
 build:
-    stage:  build
+    stage:  build      
     image: $BUILD_IMAGE
+    
     script:
         - echo "Building"
         - dotnet build --configuration Release      

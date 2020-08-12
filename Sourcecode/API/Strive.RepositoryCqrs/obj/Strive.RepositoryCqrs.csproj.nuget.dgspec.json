@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Workspace\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj": {}
+  },
+  "projects": {
+    "D:\\Workspace\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Workspace\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj",
+        "projectName": "Strive.RepositoryCqrs",
+        "projectPath": "D:\\Workspace\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj",
+        "packagesPath": "C:\\Users\\ndhasarathan\\.nuget\\packages\\",
+        "outputPath": "D:\\Workspace\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ndhasarathan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net461"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net461": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net461": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "RepoDb.SqlServer": {
+              "target": "Package",
+              "version": "[1.0.13, )"
+            },
+            "System.ComponentModel": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

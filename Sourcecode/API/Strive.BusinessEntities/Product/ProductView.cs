@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities
 {
-    public class ProductView : Product
+    public class ProductView : Model.Product
     {
         public string ProductTypeName { get; set; }
     }

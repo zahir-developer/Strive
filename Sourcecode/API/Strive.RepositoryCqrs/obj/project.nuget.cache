@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "dgSpecHash": "cAd0+e+7+2s1MXCJjAJTJnFHniF7P+IXtSlI1iJZh/lTgdlz3SFtrrty2nwIbSAVdoG/hLKF0tcYpxnvbgjU7A==",
+  "success": true,
+  "projectFilePath": "D:\\Workspace\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.0\\microsoft.data.sqlclient.2.0.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.data.sqlclient.sni\\2.0.0\\microsoft.data.sqlclient.sni.2.0.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.identity.client\\4.14.0\\microsoft.identity.client.4.14.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\5.6.0\\microsoft.identitymodel.jsonwebtokens.5.6.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.identitymodel.logging\\5.6.0\\microsoft.identitymodel.logging.5.6.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.identitymodel.protocols\\5.6.0\\microsoft.identitymodel.protocols.5.6.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\5.6.0\\microsoft.identitymodel.protocols.openidconnect.5.6.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\microsoft.identitymodel.tokens\\5.6.0\\microsoft.identitymodel.tokens.5.6.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\repodb\\1.11.6\\repodb.1.11.6.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\repodb.sqlserver\\1.0.13\\repodb.sqlserver.1.0.13.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.componentmodel\\4.3.0\\system.componentmodel.4.3.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.data.common\\4.3.0\\system.data.common.4.3.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.data.sqlclient\\4.8.1\\system.data.sqlclient.4.8.1.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.dynamic.runtime\\4.3.0\\system.dynamic.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.identitymodel.tokens.jwt\\5.6.0\\system.identitymodel.tokens.jwt.5.6.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.reflection.emit.lightweight\\4.7.0\\system.reflection.emit.lightweight.4.7.0.nupkg.sha512",
+    "C:\\Users\\ndhasarathan\\.nuget\\packages\\system.reflection.typeextensions\\4.7.0\\system.reflection.typeextensions.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}
