@@ -77,6 +77,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.getClientType();
   }
 
+  // Get ClientType
   getClientType(){
     this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
       if (data.status === "Success") {
@@ -88,6 +89,7 @@ export class ClientCreateEditComponent implements OnInit {
     });
   }
 
+  // Get Vehicle By ClientId
   getClientVehicle(id) {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
@@ -137,6 +139,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.clientForm.value.creditAccount = data;
   }
 
+  // Add/Update Client
   submit() {
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
@@ -182,19 +185,27 @@ export class ClientCreateEditComponent implements OnInit {
       clientVehicle: this.vehicleDetails,
       clientAddress: this.address
     }
-    this.client.updateClient(myObj).subscribe(data => {
-      if (data.status === 'Success') {
-        if (this.isEdit === true) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+    if (this.isEdit === true) {
+      this.client.updateClient(myObj).subscribe(data => {
+        if (data.status === 'Success') { 
+          this.toastr.success('Record Updated Successfully!!', 'Success!');       
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.error('Communication Error', 'Error!');
+          this.clientForm.reset();
         }
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-        this.clientForm.reset();
-      }
-    });
+      });
+    } else {
+      this.client.addClient(myObj).subscribe(data => {
+        if (data.status === 'Success') {  
+          this.toastr.success('Record Saved Successfully!!', 'Success!');      
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+          this.clientForm.reset();
+        }
+      });
+    }    
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
@@ -221,12 +232,16 @@ export class ClientCreateEditComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete Vehicle 
   confirmDelete(data) {
     this.vehicleDetails = this.vehicleDetails.filter(item => item.Barcode !== data.Barcode);
     this.vehicleDet = this.vehicleDet.filter(item => item !== data);
     console.log(this.vehicleDetails,this.vehicleDet);
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;    
   }
+
+  // Add New Vehicle
   add() {
     this.headerData = 'Add New vehicle';
     this.showVehicleDialog = true;

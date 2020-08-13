@@ -25,6 +25,8 @@ export class ProductSetupListComponent implements OnInit {
     this.getAllproductSetupDetails();
 
   }
+
+  // Get All Product
   getAllproductSetupDetails() {
     this.isLoading = true;
     this.productService.getProduct().subscribe(data => {
@@ -59,6 +61,7 @@ export class ProductSetupListComponent implements OnInit {
       .catch(() => { });
   }
 
+  // Delete Product
   confirmDelete(data) {
     this.productService.deleteProduct(data.ProductId).subscribe(res => {
       if (res.status === "Success") {

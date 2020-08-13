@@ -13,6 +13,9 @@ export class ClientService {
   getClient(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
+  addClient(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.addClient}`, obj);
+  }
   updateClient(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateClient}`, obj);
   }

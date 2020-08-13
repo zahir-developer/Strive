@@ -68,6 +68,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.washForm.disable();
   }
 
+  // Add/Update Wash
   submit() {  
     const job = {
       jobId: this.isEdit ? this.selectedData.JobId : 0,
@@ -76,7 +77,7 @@ export class CreateEditWashesComponent implements OnInit {
       barCode: this.washForm.value.barcode,
       clientId: 1,
       vehicleId: 1,
-      jobType: 7,
+      jobType: 15,
       jobDate: new Date(),
       timeIn: new Date(),
       estimatedTimeOut: new Date(),
