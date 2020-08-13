@@ -27,8 +27,7 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  vehicleDetails: any =[];  
-  vehicleDet: any =[];
+  vehicleDetails =[];
   isTableEmpty: boolean;
   headerData: string;
   selectedVehicle: any;
@@ -51,7 +50,8 @@ export class ClientCreateEditComponent implements OnInit {
     }
     if (this.isEdit === true) {
       this.clientForm.reset();
-      this.getClientById();
+      this.getClientById();      
+      this.getClientVehicle(this.selectedData.ClientId);
     }
   }
 
@@ -95,9 +95,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Status;
-        console.log(this.vehicleDetails);
-        this.vehicleDetails = this.vehicleDetails;
+        this.vehicleDetails.push(vehicle.Status);
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -130,7 +128,6 @@ export class ClientCreateEditComponent implements OnInit {
       email: this.selectedData.Email,
       city: this.selectedData.City
     });    
-    this.getClientVehicle(this.selectedData.ClientId);
     this.clientId = this.selectedData.ClientId;
   }
 
@@ -219,8 +216,7 @@ export class ClientCreateEditComponent implements OnInit {
   closePopupEmit(event) {
     if (event.status === 'saved') {
       this.vehicleDetails.push(this.vehicle.addVehicle);
-      this.vehicleDet.push(this.vehicle.vehicleValue);
-      this.collectionSize = Math.ceil(this.vehicleDet.length / this.pageSize) * 10;
+      this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     }
     this.showVehicleDialog = event.isOpenPopup;
@@ -238,9 +234,8 @@ export class ClientCreateEditComponent implements OnInit {
 
   // Delete Vehicle 
   confirmDelete(data) {
-    this.vehicleDetails = this.vehicleDetails.filter(item => item.Barcode !== data.Barcode);
-    this.vehicleDet = this.vehicleDet.filter(item => item !== data);
-    console.log(this.vehicleDetails,this.vehicleDet);
+    this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
+    console.log(this.vehicleDetails);
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;    
   }
 
