@@ -27,9 +27,12 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
     return this.http.get(`${UrlConfig.totalUrl.deleteWash}` + id);
   }
   getDashboard() {
-    const locationId = 1;
-    this.http.get(`${UrlConfig.totalUrl.getDashBoardCount}` + locationId).subscribe((data: any) => {
-      this.dashboardData = data.currentWeather;
+    const obj ={
+      id : 1,
+      date : new Date()
+    }
+    this.http.get(`${UrlConfig.totalUrl.getDashBoardCount}`, obj).subscribe((data: any) => {
+      this.dashboardData = data.Dashboard;
       this.data.next(this.dashboardData);
     });
   }
