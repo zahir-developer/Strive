@@ -10,8 +10,9 @@ import { UrlConfig } from '../url.config';
 export class CashRegisterService {
 
   constructor(private http: HttpUtilsService) { }
-   getCashRegisterByDate(cashRegisterType : string , locationId : number , date : string){
-    return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`+cashRegisterType + '/' + locationId + '/' + date);
+   getCashRegisterByDate(type, id, date){
+    return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`, {params: {cashRegisterType: type, locationId:  id, dateTime: date  }});
+    // return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`+cashRegisterType + '/' + locationId + '/' + date);
   }
   saveCashRegister(obj,cashRegisterType : string) {
     return this.http.post(`${UrlConfig.totalUrl.saveCashRegister}`, obj,cashRegisterType);

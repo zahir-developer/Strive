@@ -28,7 +28,7 @@ export const UrlConfig = {
     updateVendor: `Admin/Vendor/Save`,
     deleteVendor: `Admin/Vendor/Delete/`,
     getVendorById: `Admin/Vendor/GetVendorById/`,
-    getCashRegister: `Admin/CashRegister/GetCashRegisterDetails/`,
+    getCashRegister: `Admin/CashRegister/Get/`,
     saveCashRegister: `Admin/CashRegister/Save`,
     stateList: `Admin/Common/StateList`,
     countryList: `Admin/Common/CountryList`,

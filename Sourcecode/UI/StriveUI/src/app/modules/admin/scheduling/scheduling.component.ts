@@ -2,14 +2,16 @@ import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, AfterViewI
 // import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin , { Draggable } from '@fullcalendar/interaction';
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timelinePlugin from '@fullcalendar/timeline';
 import * as moment from 'moment';
+// import { FullCalendarComponent } from '@fullcalendar/angular';
 import { FullCalendar } from 'primeng';
+import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
-
+declare var $: any;
 @Component({
-  selector: 'app-scheduling', 
+  selector: 'app-scheduling',
   templateUrl: './scheduling.component.html',
   styleUrls: ['./scheduling.component.css'],
   encapsulation: ViewEncapsulation.None
@@ -27,16 +29,31 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   selectedEvent = [];
   // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('fc') fc: FullCalendar;
-  @ViewChild('external') external: ElementRef;
-  empList: { id: number; name: string; }[];
+  
+  @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
+  empList: any;
   showDialog: boolean;
-  constructor() { }
+  constructor(private empService: EmployeeService) { }
   ngAfterViewInit() {
-    // this.calendar = this.fc.getCalendar();
-    // console.log('CALENDAR: ' + this.calendar);
+    console.log("PEOPLE LIST ngAfterViewInit() START !!!")
+    const self = this;
+
+    new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
+      itemSelector: '.fc-event',
+      eventData: function (eventEl) {
+        console.log("DRAG !!!");
+        // console.log("SELECTED SHIFT: " + self.selectedShift.value);
+        console.log('DRAGGABLE OBJECT: ' + self.draggablePeopleExternalElement.nativeElement);
+
+        // let returnedEvent = self.createEventObject(self.selectedShift.value, eventEl.innerText);
+
+        // return returnedEvent;
+      }
+    });
 
   }
   ngOnInit(): void {
+    this.getEmployeeList();
     console.log(this.today);
     this.empList = [{ id: 1, name: 'employee1' },
     { id: 2, name: 'employee2' },
@@ -58,27 +75,30 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         color: '#ffcccb',
         borderColor: '#D3D3D3'
       },
-    {
-      id: 3,
-      title: 'Repeating Event3',
-      start: '2020-06-28T11:00:00',
-      end: '2020-06-28T16:30:00',
-      color: '#ffcccb',
-      borderColor: '#D3D3D3'
-    }];
+      {
+        id: 3,
+        title: 'Repeating Event3',
+        start: '2020-06-28T11:00:00',
+        end: '2020-06-28T16:30:00',
+        color: '#ffcccb',
+        borderColor: '#D3D3D3'
+      }];
     const imgUrl = 'assets/images/orange.png';
     this.options = {
       plugins: [dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin],
+
       header: {
-        left: 'custom1, prev',
-        center: 'title',
-        right: 'next, dayGridWeek, timelineDay, custom2'
+        left: '',
+        center: 'prev, title, next',
+        right: 'timeGridDay,timeGridWeek'
       },
+      allDaySlot: false,
       editable: true,
-      // nextDayThreshold: '09:00:00',
-      // allDayDefault: false,
-      slotDuration: '01:00:00',
-      slotLabelInterval: '01:00:00',
+      droppable: true,
+      slotDuration: '00:30:00',
+      minTime: '09:00:00',
+      maxTime: '18:00:00',
+      // slotLabelInterval: '00:30:00',
       customButtons: {
         custom1: {
           text: 'Today event',
@@ -93,17 +113,13 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           },
         },
       },
-      defaultView: 'dayGridWeek',
+      defaultView: 'timeGridWeek',
       defaultDate: new Date(),
-      // allDaySlot: false,
-      minTime: '09:00:00',
-      maxTime: '17:00:00',
+
       slotEventOverlap: false,
-      // slotDuration: '01:00:00',
-      // slotLabelInterval: '01:00:00',
-      height: '300',
-      contentHeight: '300',
-      displayEventTime: true,
+      // height: 400,
+      // contentHeight: 400,
+      // displayEventTime: true,
       eventRender(element) {
         const html = `<span class="float-right">`
           + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
@@ -123,16 +139,15 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       },
       datesRender(event) {
         console.log(event, 'datesRender');
-// console.log( this.fc.getCalendar().getDate(), 'days Rendar');
+        // console.log( this.fc.getCalendar().getDate(), 'days Rendar');
       },
       eventDrop(event) {
         console.log(event, 'eventDrop');
       },
-      dblclick(event)  {
-console.log(event, 'double Click');
+      dblclick(event) {
+        console.log(event, 'double Click');
       }
     };
-
   }
   test() {
     console.log('event Clicked');
@@ -159,5 +174,16 @@ console.log(event, 'double Click');
   tester() {
     console.log('image clicked');
   }
-
+  getEmployeeList() {
+    this.empService.getEmployees().subscribe(data => {
+      if (data.status === 'Success') {
+        this.empList = JSON.parse(data.resultData);
+        // this.empList = _.uniq(this.empList.EmployeeList);
+        // this.isTableEmpty = false;
+        // if (this.empList.EmployeeList.length > 0) {
+        //   const employeeDetail = employees.EmployeeList; }
+        console.log(this.empList.EmployeeList, 'employeeList');
+      }
+    });
+  }
 }

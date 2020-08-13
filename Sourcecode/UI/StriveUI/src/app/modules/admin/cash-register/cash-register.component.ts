@@ -106,14 +106,14 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     });
   }
   getCashRegister() {
-    const today = moment(new Date()).format('YYYY-MM-DD');
+    const today = moment(new Date()).format('MM-DD-YYYY');
     const cashRegisterType = 'CASHIN';
-    const locationId = 1;
+    const locationId = +localStorage.getItem('empLocation');
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
-        if (this.cashDetails.length != 0) {
+        if (this.cashDetails.length !== 0) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails[0].CashRegisterCoin.Pennies,
