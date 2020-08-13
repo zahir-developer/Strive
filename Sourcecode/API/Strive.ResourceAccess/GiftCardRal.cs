@@ -22,10 +22,10 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId", locationId);
             return db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
         }
-
-        public List<GiftCardViewModel> GetGiftCardByGiftCardId(int giftCardId)
+        //
+        public List<GiftCardViewModel> GetGiftCardByGiftCardId(string giftCardNumber)
         {
-            _prm.Add("@GiftCardId", giftCardId);
+            _prm.Add("@GiftCardCode", giftCardNumber);
             var result = db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
             return result;
         }
@@ -35,10 +35,11 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<GiftCardViewModel>(SPEnum.uspGetGiftCardHistoryByNumber.ToString(), _prm);
             return result;
         }
-        public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(int giftCardId)
+        //
+        public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(string giftCardNumber)
         {
 
-            _prm.Add("GiftCardId", giftCardId);
+            _prm.Add("@GiftCardCode", giftCardNumber);
             var result = db.Fetch<GiftCardHistoryViewModel>(SPEnum.USPGETGIFTCARDHISTORY.ToString(), _prm);
             return result;
         }
