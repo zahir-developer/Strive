@@ -117,6 +117,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
+        console.log(this.cashDetails);
         if (this.cashDetails.length != 0) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
@@ -133,12 +134,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.totalHalf = (50 * this.cashDetails[0].CashRegisterCoin.HalfDollars) / 100;
           this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
           this.cashRegisterBillForm.patchValue({
-            billOnes: this.cashDetails[0].CashRegisterBill.Ones,
-            billFives: this.cashDetails[0].CashRegisterBill.Fives,
-            billTens: this.cashDetails[0].CashRegisterBill.Tens,
-            billTwenties: this.cashDetails[0].CashRegisterBill.Twenties,
-            billFifties: this.cashDetails[0].CashRegisterBill.Fifties,
-            billHundreds: this.cashDetails[0].CashRegisterBill.Hundreds,
+            billOnes: this.cashDetails[0].CashRegisterBill.s1,
+            billFives: this.cashDetails[0].CashRegisterBill.s5,
+            billTens: this.cashDetails[0].CashRegisterBill.s10,
+            billTwenties: this.cashDetails[0].CashRegisterBill.s20,
+            billFifties: this.cashDetails[0].CashRegisterBill.s50,
+            billHundreds: this.cashDetails[0].CashRegisterBill.s100,
           });
           this.totalOnes = this.cashDetails[0].CashRegisterBill.Ones;
           this.totalFives = (5 * this.cashDetails[0].CashRegisterBill.Fives);
@@ -181,58 +182,86 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   // Add/Update CashInRegister
   submit() {
     const coin = {
-      cashRegisterCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoin.CashRegisterCoinId : 0,
+      cashRegCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoin.CashRegCoinId : 0,
+      cashRegisterId: this.isUpdate ? this.cashDetails[0].CashRegisterId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
       nickels: this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes,
       quarters: this.cashRegisterCoinForm.value.coinQuaters,
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
     const bill = {
-      cashRegisterBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBill.CashRegisterBillId : 0,
-      ones: this.cashRegisterBillForm.value.billOnes,
-      fives: this.cashRegisterBillForm.value.billFives,
-      tens: this.cashRegisterBillForm.value.billTens,
-      twenties: this.cashRegisterBillForm.value.billTwenties,
-      fifties: this.cashRegisterBillForm.value.billFifties,
-      hundreds: this.cashRegisterBillForm.value.billHundreds,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      cashRegBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBill.CashRegisterBillId : 0,
+      cashRegisterId: this.isUpdate ? this.cashDetails[0].CashRegisterId : 0,
+      s1: this.cashRegisterBillForm.value.billOnes,
+      s5: this.cashRegisterBillForm.value.billFives,
+      s10: this.cashRegisterBillForm.value.billTens,
+      s20: this.cashRegisterBillForm.value.billTwenties,
+      s50: this.cashRegisterBillForm.value.billFifties,
+      s100: this.cashRegisterBillForm.value.billHundreds,
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
     const roll = {
-      cashRegisterRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRoll.CashRegisterRollId : 0,
+      cashRegRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRoll.CashRegisterRollId : 0,
+      cashRegisterId: this.isUpdate ? this.cashDetails[0].CashRegisterId : 0,
       pennies: this.cashRegisterRollForm.value.pennieRolls,
       nickels: this.cashRegisterRollForm.value.nickelRolls,
       dimes: this.cashRegisterRollForm.value.dimeRolls,
       quarters: this.cashRegisterRollForm.value.quaterRolls,
       halfDollars: 0,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
     const other = {
-      cashRegisterOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOther.CashRegisterOtherId : 0,
+      cashRegOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOther.CashRegisterOtherId : 0,
+      cashRegisterId: this.isUpdate ? this.cashDetails[0].CashRegisterId : 0,
       creditCard1: 0,
       creditCard2: 0,
       creditCard3: 0,
       checks: 0,
       payouts: 0,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
-    const formObj = {
+    const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails[0].CashRegisterId : 0,
       cashRegisterType: 119,
       locationId: 1,
       drawerId: 1,
-      userId: 1,
-      enteredDateTime: moment(new Date()).format('YYYY-MM-DD'),
-      cashRegisterRollId: this.isUpdate ? this.cashDetails[0].CashRegisterRollId : 0,
-      cashRegisterCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoinId : 0,
-      cashRegisterBillId: this.isUpdate ? this.cashDetails[0].CashRegisterBillId : 0,
-      cashRegisterOtherId: this.isUpdate ? this.cashDetails[0].CashRegisterOtherId : 0,
-      cashRegisterCoin: coin,
-      CashRegisterBill: bill,
-      CashRegisterRoll: roll,
-      cashRegisterOther: other
+      cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     };
+    const formObj = {
+      cashregister: cashregister,
+      cashRegisterCoins: coin,
+      cashRegisterBills: bill,
+      cashRegisterRolls: roll,
+      cashregisterOthers: other
+    }
     // const weatherObj = {
     //   weatherId: 0,
     //   locationId: 1,
