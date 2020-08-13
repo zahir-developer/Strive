@@ -40,5 +40,12 @@ namespace Strive.ResourceAccess
             var result =  db.FetchMultiResult<WashesDashboardViewModel>(SPEnum.USPGETDAILYDASHBOARD.ToString(), _prm);
             return result;
         }
+        public List<ClientVehicleViewModel> GetByBarCode(string barcode)
+        {
+
+            _prm.Add("@BarCode", barcode);
+            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETCLIENTANDVEHICLEDETAIL.ToString(), _prm);
+            return result;
+        }
     }
 }
