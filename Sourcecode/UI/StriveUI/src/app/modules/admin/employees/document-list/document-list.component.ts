@@ -81,7 +81,7 @@ export class DocumentListComponent implements OnInit {
   }
 
   confirmDelete(document) {
-    const docId = document.DocumentId;
+    const docId = document.EmployeeDocumentId;
     this.employeeService.deleteDocument(docId).subscribe( res => {
       if (res.status === 'Success') {
         this.getAllDocument();

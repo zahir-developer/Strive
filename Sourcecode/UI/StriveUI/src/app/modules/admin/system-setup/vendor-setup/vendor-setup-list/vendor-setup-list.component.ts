@@ -30,11 +30,12 @@ export class VendorSetupListComponent implements OnInit {
       this.isLoading = false;
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === true);
+        this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === 'True');
+        console.log(this.vendorSetupDetails, 'vendor');
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.vendorSetupDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -85,9 +86,9 @@ export class VendorSetupListComponent implements OnInit {
   }
 
   getVendorById(data) {
-    this.vendorService.getVendorById(data.VendorId).subscribe(data => {
-      if (data.status === 'Success') {
-        const vendor = JSON.parse(data.resultData);
+    this.vendorService.getVendorById(data.VendorId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vendor = JSON.parse(res.resultData);
         this.headerData = 'Edit Vendor';
         this.selectedData = vendor.VendorDetail[0];
         this.isEdit = true;
