@@ -68,6 +68,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.washForm.disable();
   }
 
+  // Add/Update Wash
   submit() {  
     const job = {
       jobId: this.isEdit ? this.selectedData.JobId : 0,

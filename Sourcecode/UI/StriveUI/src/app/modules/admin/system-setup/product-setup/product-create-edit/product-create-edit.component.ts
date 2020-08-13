@@ -57,7 +57,7 @@ export class ProductCreateEditComponent implements OnInit {
     });
     this.productSetupForm.patchValue({status : 0});
   }
-
+  // Get ProductType
   getProductType() {
     this.getCode.getCodeByCategory("PRODUCTTYPE").subscribe(data => {
       if (data.status === "Success") {
@@ -69,6 +69,7 @@ export class ProductCreateEditComponent implements OnInit {
     });
     this.getSize();
   }
+  // Get Size
   getSize() {
     this.getCode.getCodeByCategory("SIZE").subscribe(data => {
       if (data.status === "Success") {
@@ -79,7 +80,7 @@ export class ProductCreateEditComponent implements OnInit {
       }
     });
   }
-
+  // Get All Vendors
   getAllVendor() {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
@@ -90,7 +91,7 @@ export class ProductCreateEditComponent implements OnInit {
       }
     })
   }
-
+  // Get All Location
   getAllLocation() {
     this.locationService.getLocation().subscribe(data => {
       if (data.status === 'Success') {
@@ -112,7 +113,7 @@ export class ProductCreateEditComponent implements OnInit {
       this.productSetupForm.get('other').reset();
     }
   }
-
+  // Get Product By Id
   getProductById() {
     this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
       if (data.status === "Success") {
@@ -157,6 +158,8 @@ export class ProductCreateEditComponent implements OnInit {
       this.productSetupForm.get('taxAmount').reset();
     }
   }
+
+  // Add/Update Product
   submit() {
     this.submitted = true;
     if (this.productSetupForm.invalid) {

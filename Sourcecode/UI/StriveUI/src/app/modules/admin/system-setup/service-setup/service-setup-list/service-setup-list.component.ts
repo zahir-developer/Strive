@@ -26,6 +26,8 @@ export class ServiceSetupListComponent implements OnInit {
     this.getAllserviceSetupDetails();
 
   }
+
+  // Get All Services
   getAllserviceSetupDetails() {
     this.isLoading = true;
     this.serviceSetup.getServiceSetup().subscribe(data => {
@@ -58,6 +60,8 @@ export class ServiceSetupListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete Service
   confirmDelete(data) {
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
       if (res.status === "Success") {

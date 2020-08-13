@@ -69,6 +69,7 @@ export class VendorCreateEditComponent implements OnInit {
     return this.vendorSetupForm.controls;
   }
 
+  // Add/Update Vendor
   submit() {
     this.submitted = true;
     if (this.vendorSetupForm.invalid) {

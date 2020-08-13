@@ -77,6 +77,7 @@ export class CloseoutRegisterComponent implements OnInit {
     this.getCloseOutRegister();
   }
 
+  // Get CloseOutRegister By Date
   getCloseOutRegister() {
     const today = moment(new Date).format('YYYY-MM-DD');
     const cashRegisterType = "CLOSEOUT";
@@ -135,6 +136,7 @@ export class CloseoutRegisterComponent implements OnInit {
     });
   }
 
+  // Add/Update CloseOutRegister
   submit() {
     const coin = {
       cashRegisterCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoin.CashRegisterCoinId : 0,
@@ -205,6 +207,8 @@ export class CloseoutRegisterComponent implements OnInit {
 
   cancel() {
   }
+
+  // Calculate TotalCoins
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennie = 0;
@@ -230,6 +234,8 @@ export class CloseoutRegisterComponent implements OnInit {
     this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
     this.getTotalCash();
   }
+
+  // Calculate TotalBills
   getTotalBill(name: number, amt: number) {
     amt = Number(amt);
     if (name === 1) {
@@ -254,6 +260,8 @@ export class CloseoutRegisterComponent implements OnInit {
     this.totalBill = this.totalOnes + this.totalFives + this.totalTens + this.totalTwenties + this.totalFifties + this.totalHunderds;
     this.getTotalCash();
   }
+
+  // Calculate TotalRolls
   getTotalRoll(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennieRoll = 0;
@@ -274,6 +282,8 @@ export class CloseoutRegisterComponent implements OnInit {
     } this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
     this.getTotalCash();
   }
+
+  // Calculate TotalCash
   getTotalCash() {
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }
