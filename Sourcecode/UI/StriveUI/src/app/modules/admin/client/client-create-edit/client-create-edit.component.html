@@ -122,7 +122,7 @@
                                         <label for="inputType">Type</label>
                                         <select class="form-control" formControlName="type">
                                             <option hidden selected value="">Choose</option>
-                                            <option *ngFor="let type of Type" value="{{type.id}}">{{type.Value}}
+                                            <option *ngFor="let type of Type" value="{{type.CodeId}}">{{type.CodeValue}}
                                             </option>
                                         </select>
                                     </div>
@@ -177,17 +177,17 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let vehicle of vehicleDet | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
                                                     <td>{{vehicle.VehicleColor}}</td>
-                                                    <td>{{vehicle.VehicleMake}}</td>
+                                                    <td>{{vehicle.VehicleMfr}}</td>
                                                     <td>{{vehicle.VehicleModel}}</td>
                                                     <td>{{vehicle.Upcharge}}</td>
                                                     <td>{{vehicle.Barcode}}</td>
                                                     <td></td>
                                                     <td>
                                                         <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                            style="color:red" pTooltip="delete"
+                                                            style="color:red" pTooltip="delete" (click)="delete(vehicle)"
                                                             tooltipPosition="bottom"></em>
                                                     </td>
                                                 </tr>

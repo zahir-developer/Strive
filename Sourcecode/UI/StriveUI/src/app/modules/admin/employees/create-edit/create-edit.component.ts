@@ -71,7 +71,6 @@ export class CreateEditComponent implements OnInit {
       hourlyRateDetail: [''],
       commission: [''],
       status: [''],
-      tip: [''],
       exemptions: [''],
       roles: [[]],
       location: [[]]
@@ -262,7 +261,9 @@ export class CreateEditComponent implements OnInit {
       isCitizen: true,
       alienNo: 'string',
       birthDate: '2020 - 08 - 06T19: 24: 48.817Z',
-      immigrationStatus: this.personalform.value.immigrationStatus
+      immigrationStatus: this.personalform.value.immigrationStatus,
+      isActive: true,
+      isDeleted: false,
     };
     const documentObj = this.multipleFileUpload.map(item => {
       return {

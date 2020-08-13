@@ -108,6 +108,7 @@
     <Compile Include="CashRegisterRal.cs" />
     <Compile Include="ClientRal.cs" />
     <Compile Include="GiftCardRal.cs" />
+    <Compile Include="ScheduleRal.cs" />
     <Compile Include="TimeClockRal.cs" />
     <Compile Include="CollisionRal.cs" />
     <Compile Include="CommonRal.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="EmployeeRal.cs" />
     <Compile Include="MembershipSetupRal.cs" />
     <Compile Include="VehicleRal.cs" />
+    <Compile Include="WashesRal.cs" />
     <Compile Include="WeatherRal.cs" />
     <Compile Include="LocationRal.cs" />
     <Compile Include="ProductRal.cs" />

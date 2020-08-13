@@ -86,7 +86,7 @@ namespace Strive.BusinessEntities
         USPDELETECLIENTVEHICLE,
         USPGETVEHICLEBYID,
         USPSAVEVEHICLE,
-        USPGETVEHICLE,
+        uspGetVehicleByClientId,
         uspGetVihicleMembership,
         uspUpdateVechicleMembership,
         uspGetVehicleById,
@@ -94,7 +94,15 @@ namespace Strive.BusinessEntities
         USPCLOCKTIMEDETAILS,
         //Vendor
         USPGETALLVENDOR,
-        USPDELETEVENDOR
+        USPDELETEVENDOR,
+        uspDeleteSchedule,
+        uspGetSchedule,
+        USPGETVEHICLE,
+        //Washes
+        USPGETJOB,
+        USPGETDAILYDASHBOARD,
+        //Schedule
+        USPSAVESCHEDULE
     }
 
 

@@ -18,323 +18,317 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="card">
                     <div class="card-body">
-                        <div class="title-border p-b-5 m-b-5 line-height">
-                            <h5 class="d-inline-block font-weight-600">Ticket No <span
-                                    class="theme-secondary-color"></span></h5>
-                            <div class="pull-right card-widgets">
-                                <span>Time In: {{timeIn}} |</span>
-                                <span>Est.Time Out: {{timeOut}} |</span>
-                                <span>Est.Min: {{minutes}} min</span>
+                        <form [formGroup]="washForm">
+                            <div class="form-row border-bottom m-b-8">
+                                <div class="form-group col-xl-3">
+                                    <h5 class="d-inline-block font-weight-600">Ticket No. <span
+                                            style="color: #1dc5b3;">{{ticketNumber}}</span></h5> <span
+                                        class="font-size-1 font-weight-600"></span>
+                                </div>
+                                <div class="form-group col-xl-9">
+                                    <div class="pull-right">
+                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Time in:
+                                            09-09-2020 15:36</p>
+                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Est.Time
+                                            Out: 09-09-2020 15:36</p>
+                                        <p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min: 29min</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-lg-2 col-md-2 col-xl-3">
+                                    <label for="inputBarcode">barcode</label>
+                                    <input type="text" maxlength="100" class="form-control" formControlName="barcode"
+                                        placeholder="BarCode">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputClient">Client</label>
+                                    <input type="text" maxlength="50" class="form-control" formControlName="client"
+                                        placeholder="Client">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputVehicle">Vehicle</label>
+                                    <select class="form-control" formControlName="vehicle">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
+                                    <div class="pull-right">
+                                        <button type="button"
+                                            class="btn theme-primary-button-color btn-responsive">Select</button>&nbsp;
+                                        <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                            Vehicle</button>&nbsp;
+                                        <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                            Client</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputType">Type</label>
+                                    <select class="form-control" formControlName="type">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputModel">Model</label>
+                                    <input type="text" maxlength="50" class="form-control" formControlName="model"
+                                        placeholder="Model">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputColor">Color</label>
+                                    <select class="form-control" formControlName="color">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputWashes">Washes</label>
+                                    <select class="form-control" formControlName="washes">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputUpchargeType">Upcharge Type</label>
+                                    <select class="form-control" formControlName="upchargeType">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputUpcharges">Upcharges</label>
+                                    <select class="form-control" formControlName="upcharges">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputAirFreshners">Air Freshners</label>
+                                    <select class="form-control" formControlName="airFreshners">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="inputNotes">Notes</label>
+                                        <textarea rows="1" class="form-control m-t-5 notes-textarea" placeholder="Notes"
+                                            formControlName="notes"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="inputPastNotes">View Past Client Notes</label>
+                                        <textarea rows="1" class="form-control m-t-5 notes-textarea"
+                                            placeholder="Past Client Notes" formControlName="pastNotes"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="title-border p-b-5 m-b-5">
+                            <h5 class="d-inline-block font-weight-600">Additional Service </h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-1" />
+                                    <label class="custom-control-label" for="Additionalservice-1">Clean Inside
+                                        Rims</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-2" />
+                                    <label class="custom-control-label" for="Additionalservice-2">Shampoo Spot</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-3" />
+                                    <label class="custom-control-label" for="Additionalservice-3">Cond.Leather
+                                        Seats</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-4" />
+                                    <label class="custom-control-label" for="Additionalservice-4">Silicon Ext
+                                        Rubber</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-5" />
+                                    <label class="custom-control-label" for="Additionalservice-5">No Silicone</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-6" />
+                                    <label class="custom-control-label" for="Additionalservice-6">Clean Trunk
+                                        Bed</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-7" />
+                                    <label class="custom-control-label" for="Additionalservice-7">Headliner
+                                        Cleaned</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-8" />
+                                    <label class="custom-control-label" for="Additionalservice-8">Daily Duties</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-9" />
+                                    <label class="custom-control-label" for="Additionalservice-9">Shampoo
+                                        Floormat</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-1" />
+                                    <label class="custom-control-label" for="Additional-Service-1">Shampoo
+                                        Floormat</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-2" />
+                                    <label class="custom-control-label" for="Additional-Service-2">Clean Leather
+                                        Seats</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-3" />
+                                    <label class="custom-control-label" for="Additional-Service-3">Condition
+                                        Dash</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-4" />
+                                    <label class="custom-control-label" for="Additional-Service-4">Detail
+                                        Add-Ons</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-5" />
+                                    <label class="custom-control-label" for="Additional-Service-5">No Brush/No
+                                        Sapillo</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-6" />
+                                    <label class="custom-control-label" for="Additional-Service-6">Bid Older
+                                        Remover</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-7" />
+                                    <label class="custom-control-label" for="Additional-Service-7">Frabric
+                                        Sealer</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-8" />
+                                    <label class="custom-control-label" for="Additional-Service-8">Prepare
+                                        Vehicles</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-9" />
+                                    <label class="custom-control-label" for="Additional-Service-9">Shampoo
+                                        Carpets</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-19" />
+                                    <label class="custom-control-label" for="Additional Service-19">Shampoo
+                                        Carpets</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-20" />
+                                    <label class="custom-control-label" for="Additional Service-20">Clean Door
+                                        Panel</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-21" />
+                                    <label class="custom-control-label" for="Additional Service-21">Condition
+                                        Door(per)</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-22" />
+                                    <label class="custom-control-label" for="Additional Service-22">Clean Engine</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-23" />
+                                    <label class="custom-control-label" for="Additional Service-23">Wash Mitts</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-24" />
+                                    <label class="custom-control-label" for="Additional Service-24">Sticker
+                                        Removal(per)</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-25" />
+                                    <label class="custom-control-label" for="Additional Service-25">Vacuum Trunk</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-26" />
+                                    <label class="custom-control-label" for="Additional Service-26">Photo Of
+                                        Vehicle</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Additional Service-27" />
+                                    <label class="custom-control-label" for="Additional Service-27">Shampoo Seat</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-1" />
+                                    <label class="custom-control-label" for="Service-1">Shampoo Seat</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-2" />
+                                    <label class="custom-control-label" for="Service-2">Dog Hair</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-3" />
+                                    <label class="custom-control-label" for="Service-3">Excessive Mud</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-4" />
+                                    <label class="custom-control-label" for="Service-4">Ultra Clrcoat Prtect</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-5" />
+                                    <label class="custom-control-label" for="Service-5">Rain X Protection</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-6" />
+                                    <label class="custom-control-label" for="Service-6">Ozone Treatment</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-7" />
+                                    <label class="custom-control-label" for="Service-7">Headlamp Restoration</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-8" />
+                                    <label class="custom-control-label" for="Service-8">Clean Inside Rims</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="Service-9" />
+                                    <label class="custom-control-label" for="Service-9">Shampoo Spot</label>
+                                </div>
                             </div>
                         </div>
-                        <div id="Washviewedit" class="collapse show">
-                            <form [formGroup]="washForm">
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputBarcode">barcode</label>
-                                        <input type="text" maxlength="100" class="form-control" formControlName="barcode"
-                                            placeholder="BarCode">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputClient">Client</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="client"
-                                            placeholder="Client">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputVehicle">Vehicle</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="vehicle"
-                                            placeholder="Vehicle">
-                                    </div>&nbsp;
-                                    <div class="form-group">
-                                        <label></label>
-                                        <div>
-                                            <button type="button"
-                                                class="btn theme-primary-button-color">Select</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color">Add
-                                                Client</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color">Add
-                                                Vehicle</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputType">Type</label>
-                                        <input type="text" maxlength="100" class="form-control" formControlName="type"
-                                            placeholder="Type">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputModel">Model</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="model"
-                                            placeholder="Model">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputColor">Color</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="color"
-                                            placeholder="Color">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputWashes">Washes</label>
-                                        <input type="text" maxlength="100" class="form-control" formControlName="washes"
-                                            placeholder="Washes">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputUpchargeType">Upcharge Type</label>
-                                        <input type="text" maxlength="100" class="form-control" formControlName="upchargeType"
-                                            placeholder="Upcharge Type">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputUpcharges">Upcharges</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="upcharges"
-                                            placeholder="Upcharges">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputAirFreshners">Air Freshners</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="airFreshners"
-                                            placeholder="Air Freshners">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="inputNotes">Notes</label>
-                                            <textarea rows="1" class="form-control m-t-5 notes-textarea"
-                                                placeholder="Notes" formControlName="notes"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="inputPastNotes">View Past Client Notes</label>
-                                            <textarea rows="1" class="form-control m-t-5 notes-textarea"
-                                                placeholder="Past Client Notes" formControlName="pastNotes"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="title-border p-b-5 m-b-5 line-height">
-                                <h5 class="d-inline-block font-weight-600">Additional Service <span
-                                        class="theme-secondary-color"></span></h5>
-                            </div>
-                            <form>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Clean Inside Rims</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Shampoo Floormat</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Shampoo Carpets</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Shampoo Seat</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Shampoo Spot</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Clean Leather Seats</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Clean Door Panel</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Dog Hair</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Cond.Leather Seats</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Condition Dash</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Condition Door(per)</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Excessive Mud</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Silicone Ext Rubber</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Detail Add-Ons</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Clean Engine</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Ultra Clrcoat
-                                                protect</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">No Silicone</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">No Brush/No Sapillo</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Wash Mitts</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Rain X Protection</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Clean Trunk Bed</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Bid Older Remover</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Sticker Removal(per)</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Ozone Treatment</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Headliner Cleaned</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Fabric Sealer</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Vaccum Trunk</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Headlamp Restoration</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Daily Duties</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Prep Vehicles</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label" for="gridCheck">Photo of Vehicle</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="m-t-20 mw-100">
+                            <span *ngIf="isEdit">
+                                <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color">Print</button>
+                            </span>
+                            <span class="pull-right">
+                                <button type="button" class="btn theme-optional-button-color"
+                                    (click)="cancel()">Cancel</button>&nbsp;
+                                <button *ngIf="!isView" type="button"
+                                    class="btn theme-primary-button-color" (click)="submit()">Save</button>
+                            </span>
                         </div>
                     </div>
-                </div>
-                <div class="m-t-12">
-                    <span class="mw-100" *ngIf="isEdit">
-                        <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color">Print</button>
-                    </span>
-                    <span class="mw-100 pull-right">
-                        <button type="button" class="btn theme-optional-button-color"
-                            (click)="cancel()">Cancel</button>&nbsp;
-                        <button *ngIf="!isView" type="button" class="btn theme-primary-button-color">Save</button>
-                    </span>
                 </div>
             </div>
         </div>

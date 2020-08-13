@@ -21,8 +21,6 @@ namespace Strive.ResourceAccess
 {
     public class VehicleRal : RalBase
     {
-        private Db _db;
-
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
         public List<VehicleViewModel> GetAllVehicle()

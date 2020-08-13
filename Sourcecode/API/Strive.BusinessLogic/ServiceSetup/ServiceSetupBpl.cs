@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -38,6 +39,10 @@ namespace Strive.BusinessLogic.ServiceSetup
         public Result DeleteServiceById(int id)
         {
             return ResultWrap(new ServiceSetupRal(_tenant).DeleteServiceById, id, "ServiceDelete");
+        }
+        public Result GetServiceSearch(ServiceSearchDto search)
+        {
+            return ResultWrap(new ServiceSetupRal(_tenant).GetServiceSearch, search, "ServiceSearch");
         }
 
     }

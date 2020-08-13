@@ -33,6 +33,9 @@ using Strive.BusinessLogic.GiftCard;
 using System.Reflection;
 using System.IO;
 using Strive.BusinessLogic.MembershipSetup;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessLogic.Schedule;
+using Strive.BusinessLogic.Washes;
 
 namespace Admin.API
 {
@@ -58,6 +61,7 @@ namespace Admin.API
             services.AddTransient<IDocumentBpl, DocumentBpl>();
             services.AddTransient<IMembershipBpl, MembershipBpl>();
             services.AddTransient<ICollisionBpl, CollisionBpl>();
+            services.AddTransient<IWashesBpl, WashesBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
@@ -68,6 +72,7 @@ namespace Admin.API
             services.AddTransient<IVendorBpl,VendorBpl>();
             services.AddTransient<IVehicleBpl,VehicleBpl>();
             services.AddTransient<ITimeClockBpl, TimeClockBpl>();
+            services.AddTransient<IScheduleBpl, ScheduleBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
