@@ -26,6 +26,11 @@ namespace Strive.BusinessLogic.GiftCard
         {
             return ResultWrap(new GiftCardRal(_tenant).GetGiftCardByGiftCardId, giftCardId, "GiftCardDetail");
         }
+        public Result GetGiftCardHistoryByNumber(string giftCardNumber)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).GetGiftCardHistoryByNumber, giftCardNumber, "GiftCardDetail");
+        }
+        
         public Result GetAllGiftCardHistory(int giftCardId)
         {
             return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCardHistory, giftCardId, "GiftCardHistory");
