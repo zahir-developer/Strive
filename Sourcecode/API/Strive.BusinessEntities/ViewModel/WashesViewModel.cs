@@ -13,6 +13,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string BarCode { get; set; }
         public int LocationId { get; set; }
         public int ClientId { get; set; }
+        public string ClientName { get; set; }
         public int VehicleId { get; set; }
         public string VehicleName { get; set; }
         public int JobType { get; set; }
