@@ -32,7 +32,7 @@ namespace Strive.BusinessEntities.Model
         public string ComRate { get; set; }
 
         [Column]
-        public DateTimeOffset? HiredDate { get; set; }
+        public DateTime? HiredDate { get; set; }
 
         [Column]
         public string Salary { get; set; }
