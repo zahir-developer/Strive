@@ -96,6 +96,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalCash = 0;
     this.getCashRegister();
   }
+
+  // Get targetBusinessData
   getTargetBusinessData() {
     const locationId = 1;
     const date = moment(new Date()).format('YYYY-MM-DD');
@@ -105,6 +107,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  // Get CashInRegister By Date
   getCashRegister() {
     const today = moment(new Date()).format('MM-DD-YYYY');
     const cashRegisterType = 'CASHIN';
@@ -165,6 +169,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Get WeatherDetails
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
@@ -173,6 +178,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Add/Update CashInRegister
   submit() {
     const coin = {
       cashRegisterCoinId: this.isUpdate ? this.cashDetails[0].CashRegisterCoin.CashRegisterCoinId : 0,
@@ -285,6 +291,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Calcualte TotalCoins
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennie = 0;
@@ -310,6 +317,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
     this.getTotalCash();
   }
+
+  // Calcualte TotalBills
   getTotalBill(name: number, amt: number) {
     amt = Number(amt);
     if (name === 1) {
@@ -334,6 +343,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalBill = this.totalOnes + this.totalFives + this.totalTens + this.totalTwenties + this.totalFifties + this.totalHunderds;
     this.getTotalCash();
   }
+
+  // Calcualte TotalRolls
   getTotalRoll(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennieRoll = 0;
@@ -355,6 +366,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
     this.getTotalCash();
   }
+
+  // Calculate TotalCash
   getTotalCash() {
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }

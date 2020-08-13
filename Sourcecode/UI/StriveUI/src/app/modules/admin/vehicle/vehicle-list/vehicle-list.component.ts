@@ -27,6 +27,8 @@ export class VehicleListComponent implements OnInit {
     this.getAllVehicleDetails();
 
   }
+
+  // Get All Vehicles
   getAllVehicleDetails() {
     this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
@@ -49,7 +51,6 @@ export class VehicleListComponent implements OnInit {
     this.showDialog = true;
   }
   delete(data) {
-    console.log(data);
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
@@ -59,6 +60,8 @@ export class VehicleListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete vehicle
   confirmDelete(data) {
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
@@ -79,6 +82,7 @@ export class VehicleListComponent implements OnInit {
       this.getVehicleById(data, vehicleDet);
   }
 
+  // Get Vehicle By Id
   getVehicleById(data, vehicleDet) {
     this.vehicle.getVehicleById(vehicleDet.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {

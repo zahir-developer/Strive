@@ -46,7 +46,8 @@ export class ServiceCreateEditComponent implements OnInit {
       upcharge: ['',],
       parentName: ['',],
       status: ['',],
-      fee: ['',]
+      fee: ['',],
+      suggested: ['']
     });
     this.serviceSetupForm.patchValue({status : 0});
   }
@@ -55,6 +56,7 @@ export class ServiceCreateEditComponent implements OnInit {
     return this.serviceSetupForm.controls;
   }
 
+  // Get Service By Id
   getServiceById() {
     this.serviceSetup.getServiceSetupById(this.selectedData.ServiceId).subscribe(data => {
       if (data.status === "Success") {
@@ -78,6 +80,7 @@ export class ServiceCreateEditComponent implements OnInit {
     });
   }
 
+  // Get CommisionType
   getCommissionType() {
     this.getCode.getCodeByCategory("COMMISIONTYPE").subscribe(data => {
       if (data.status === "Success") {
@@ -90,6 +93,7 @@ export class ServiceCreateEditComponent implements OnInit {
     });
   }
 
+  // Get ParentType
   getParentType() {
     this.serviceSetup.getServiceSetup().subscribe(data => {
       if (data.status === 'Success') {
@@ -109,6 +113,8 @@ export class ServiceCreateEditComponent implements OnInit {
       this.serviceSetupForm.get('fee').setValidators([Validators.required]);
     }
   }
+
+  // Get ServiceType
   getAllServiceType() {
     this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
       if (data.status === "Success") {
@@ -140,6 +146,8 @@ export class ServiceCreateEditComponent implements OnInit {
       this.serviceSetupForm.get('fee').reset();
     }
   }
+
+  // Add/Update Service
   submit() {
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {

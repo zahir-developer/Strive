@@ -5,6 +5,7 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
+import { CityComponent } from 'src/app/shared/components/city/city.component';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -13,6 +14,7 @@ import * as moment from 'moment';
 })
 export class LocationCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
   locationSetupForm: FormGroup;
   State: any;
   Country: any;
@@ -78,6 +80,7 @@ export class LocationCreateEditComponent implements OnInit {
     return this.locationSetupForm.controls;
   }
 
+  // Add / Update location 
   submit() {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
@@ -143,12 +146,6 @@ export class LocationCreateEditComponent implements OnInit {
           this.toastr.error('Communication Error', 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;
-
-          // if (this.isEdit === true) {
-          //   this.toastr.success('Record Updated Successfully!!', 'Success!');
-          // } else {
-
-          // }
         }
       });
     } else {

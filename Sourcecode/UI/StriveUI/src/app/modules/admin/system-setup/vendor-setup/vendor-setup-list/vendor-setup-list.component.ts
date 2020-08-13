@@ -24,17 +24,20 @@ export class VendorSetupListComponent implements OnInit {
   ngOnInit() {
     this.getAllvendorSetupDetails();
   }
+
+  // Get All Vendors
   getAllvendorSetupDetails() {
     this.isLoading = true;
     this.vendorService.getVendor().subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === true);
+        this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === 'True');
+        console.log(this.vendorSetupDetails, 'vendor');
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.vendorSetupDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -57,6 +60,7 @@ export class VendorSetupListComponent implements OnInit {
       .catch(() => { });
   }
 
+  // Delete Vendor
   confirmDelete(data) {
     this.vendorService.deleteVendor(data.VendorId).subscribe(res => {
       if (res.status === "Success") {
@@ -84,10 +88,11 @@ export class VendorSetupListComponent implements OnInit {
     }
   }
 
+  // Get vendor By Id
   getVendorById(data) {
-    this.vendorService.getVendorById(data.VendorId).subscribe(data => {
-      if (data.status === 'Success') {
-        const vendor = JSON.parse(data.resultData);
+    this.vendorService.getVendorById(data.VendorId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vendor = JSON.parse(res.resultData);
         this.headerData = 'Edit Vendor';
         this.selectedData = vendor.VendorDetail[0];
         this.isEdit = true;

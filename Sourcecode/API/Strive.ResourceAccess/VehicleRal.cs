@@ -21,8 +21,6 @@ namespace Strive.ResourceAccess
 {
     public class VehicleRal : RalBase
     {
-        private Db _db;
-
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
         public List<VehicleViewModel> GetAllVehicle()
@@ -54,10 +52,10 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-        public VehicleViewModel GetVehicleByClientId(int clientId)
+        public List<VehicleViewModel> GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
-             return db.FetchSingle<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+             return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {

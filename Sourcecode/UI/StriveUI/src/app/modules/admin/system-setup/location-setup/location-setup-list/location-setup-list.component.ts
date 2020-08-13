@@ -30,14 +30,14 @@ export class LocationSetupListComponent implements OnInit {
     this.getAllLocationSetupDetails();
 
   }
+
+  // get all location
   getAllLocationSetupDetails() {
     this.isLoading =  true;
     this.locationService.getLocation().subscribe(data => {
       this.isLoading =  false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        console.log(location, 'location');
-        // this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);
         this.locationSetupDetails = location.Location;
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
@@ -64,6 +64,8 @@ export class LocationSetupListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete location
   confirmDelete(data) {
     this.locationService.deleteLocation(data.LocationId).subscribe(res => {
       if (res.status === 'Success') {
@@ -91,11 +93,12 @@ export class LocationSetupListComponent implements OnInit {
     }
   }
 
+
+  // get location detail by locationId
   getLocationById(data) {
     this.locationService.getLocationById(data.LocationId).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
-        console.log(location, 'locationByid');
         this.selectedLocation = location.Location;
         this.headerData = 'Edit Location';
         this.selectedData = this.selectedLocation;

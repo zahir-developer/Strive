@@ -21,7 +21,7 @@
                                         <tr>
                                             <th>Service Name</th>
                                             <th>Service Type</th>
-                                            <th>Cost</th>
+                                            <th>Price</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -58,7 +58,7 @@
         </div>
     </div>
 </div>
-<p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="true"
+<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="true"
     appendTo="body" [focusOnShow]="false" [closable]="false">
     <app-service-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
         (closeDialog)="closePopupEmit($event)">

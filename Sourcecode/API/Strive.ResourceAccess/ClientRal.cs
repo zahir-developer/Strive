@@ -10,28 +10,32 @@ using System.Linq;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Strive.ResourceAccess
 {
     public class ClientRal : RalBase
     {
-        private Db _db;
-
         public ClientRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool SaveClientDetails(ClientDto client)
+        public bool InsertClientDetails(ClientDto client)
         {
             return dbRepo.InsertPc(client, "ClientId");
+        }
+        public bool UpdateClientVehicle(ClientDto client)
+        {
+            return dbRepo.UpdatePc(client);
         }
 
         public List<ClientViewModel> GetAllClient()
         {
             return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), null);
         }
-        public ClientDto GetClientById(int clientId)
+        public List<ClientDetailViewModel> GetClientById(int clientId)
         {
             _prm.Add("@ClientId", clientId);
-            return db.FetchMultiResult<ClientDto>(SPEnum.USPGETCLIENT.ToString(), _prm);
+            return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
+            
         }
         public bool DeleteClient(int clientId)
         {

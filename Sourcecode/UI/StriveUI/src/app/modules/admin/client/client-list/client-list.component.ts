@@ -38,6 +38,7 @@ export class ClientListComponent implements OnInit {
     });
   }
 
+  // Get All Client
   getAllClientDetails() {
     this.client.getClient().subscribe(data => {
       if (data.status === 'Success') {
@@ -68,6 +69,8 @@ export class ClientListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete Client
   confirmDelete(data) {
     this.client.deleteClient(data.ClientId).subscribe(res => {
       if (res.status === 'Success') {
@@ -96,6 +99,7 @@ export class ClientListComponent implements OnInit {
     }
   }
 
+  // Get Client By Id
   getClientById(data, client) {
     this.client.getClientById(client.ClientId).subscribe(res => {
       if (res.status === 'Success') {

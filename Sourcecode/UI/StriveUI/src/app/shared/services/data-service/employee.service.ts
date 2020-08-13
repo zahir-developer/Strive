@@ -62,7 +62,7 @@ export class EmployeeService {
     return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
   }
   searchEmployee(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
+    return this.http.post(`${UrlConfig.totalUrl.searchEmployee}`, null , { params :  { employeeName : obj  }});
   }
   updateCollision(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateCollision}`, obj);

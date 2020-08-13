@@ -12,6 +12,7 @@ export class VehicleCreateEditComponent implements OnInit {
   vehicleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
+  @Input() clientId?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
   make:any;
@@ -25,7 +26,7 @@ export class VehicleCreateEditComponent implements OnInit {
   ngOnInit() {
     this.formInitialize();
     this.upcharge = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "Upcharge1" }, { CodeId: 2, CodeValue: "Upcharge2" }];
-    this.upchargeType = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "UpchargeType1" }, { CodeId: 2, CodeValue: "UpchargeType2" }];
+    //this.upchargeType = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "UpchargeType1" }, { CodeId: 2, CodeValue: "UpchargeType2" }];
     if (this.isView === true) {
       this.viewVehicle();
     }
@@ -65,6 +66,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.disable();
   }
 
+  // Get VehicleMembership
   getVehicleMembership(){
     this.vehicle.getVehicleMembership().subscribe(data => {
       if (data.status === 'Success') {
@@ -76,6 +78,7 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
+  // Get vehicleCodes
   getVehicleCodes(){
     this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
@@ -83,7 +86,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.make = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
-        console.log(this.make,this.model,this.color);
+        this.upchargeType = vehicle.VehicleDetails.filter(item => item.CategoryId === 34);
       }else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -94,6 +97,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.value.franchise = data;
   }
 
+  // Add/Update Vehicle
   submit() {  
     const formObj = {
       vehicleId: this.selectedData.ClientVehicleId,
@@ -116,13 +120,32 @@ export class VehicleCreateEditComponent implements OnInit {
       updatedDate: new Date()
     };
     const add = {
-      VehicleNumber: null,
-      VehicleMake: null,// this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
-      VehicleModel: null, // this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
-      VehicleColor: null, // this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
-      Upcharge: null, //this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
+      VehicleId: 0,
+      ClientId: this.clientId,
+      LocationId: 1,
+      VehicleNumber: "",
+      VehicleMfr: Number(this.vehicleForm.value.make),
+      VehicleModel: Number(this.vehicleForm.value.model),
+      VehicleColor: Number(this.vehicleForm.value.color),
+      Upcharge: Number(this.vehicleForm.value.upcharge),
       Barcode: this.vehicleForm.value.barcode,
-      CreatedDate: new Date()
+      VehicleModelNo:0,
+      VehicleYear:"",
+      Notes: "",
+      IsActive: true,
+      IsDeleted: false,
+      CreatedBy: 1,
+      CreatedDate: new Date(),
+      UpdatedBy: 1,
+      UpdatedDate: new Date()
+    };
+    const value = {  
+      VehicleNumber: "",    
+      VehicleMfr: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
+      VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
+      VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
+      Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
+      Barcode: this.vehicleForm.value.barcode,
     };
     if (this.isEdit === true) {
       this.vehicle.updateVehicle(formObj).subscribe(data => {
@@ -135,9 +158,10 @@ export class VehicleCreateEditComponent implements OnInit {
         }
       });
     } else {
-      this.vehicle.addVehicle.push(add);
+      this.vehicle.addVehicle = add;
+      this.vehicle.vehicleValue = value;
       this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      this.toastr.success('Record Saved Successfully!!', 'Success!');
+      this.toastr.success('Vehicle Saved Successfully!!', 'Success!');
     }    
   }
   cancel() {

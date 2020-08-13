@@ -32,8 +32,8 @@ body .ui-widget {
 
   .MyDialog.ui-dialog {
     width: 60%;
-    height: 40%; 
-    overflow: unset;
+    /* height: 100%;
+    overflow: unset; */
   }
 
   .form-control.is-invalid, .was-validated .form-control:invalid {

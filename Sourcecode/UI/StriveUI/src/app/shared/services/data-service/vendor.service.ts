@@ -10,16 +10,19 @@ import { UrlConfig } from '../url.config';
 export class VendorService {
 
   constructor(private http: HttpUtilsService) { }
-   getVendor(): Observable<any> {
+  getVendor(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getVendor}`);
+  }
+  saveVendor(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveVendor}`, obj);
+  }
+  deleteVendor(id: number) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteVendor}` + id);
+  }
+  getVendorById(id: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getVendorById}` + id);
   }
   updateVendor(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateVendor}`, obj);
   }
-  deleteVendor(id : number){
-      return this.http.delete(`${UrlConfig.totalUrl.deleteVendor}`+ id);
-  }
-  getVendorById(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.getVendorById}`+ id);
-}
 }

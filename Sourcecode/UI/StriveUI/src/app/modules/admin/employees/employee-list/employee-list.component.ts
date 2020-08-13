@@ -34,6 +34,7 @@ export class EmployeeListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number;
+  search: any = '';
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -134,6 +135,16 @@ export class EmployeeListComponent implements OnInit {
       console.log(res, 'deleteEmployee');
       if (res.status === 'Success') {
         this.getAllEmployeeDetails();
+      }
+    });
+  }
+
+  seachEmployee() {
+    this.employeeService.searchEmployee(this.search).subscribe( res => {
+      if (res.status === 'Success') {
+        const seachList = JSON.parse(res.resultData);
+        this.employeeDetails = seachList.EmployeeList;
+        this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
       }
     });
   }
