@@ -78,6 +78,7 @@
     <Compile Include="Model\ScheduleModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
+    <Compile Include="ViewModel\ClientVehicleViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CollisionViewModel.cs" />
     <Compile Include="Model\AuthMaster.cs" />

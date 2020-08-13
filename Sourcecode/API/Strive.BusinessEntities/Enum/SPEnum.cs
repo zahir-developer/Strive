@@ -101,6 +101,7 @@ namespace Strive.BusinessEntities
         //Washes
         USPGETJOB,
         USPGETDAILYDASHBOARD,
+        USPGETCLIENTANDVEHICLEDETAIL,
         //Schedule
         USPSAVESCHEDULE
     }

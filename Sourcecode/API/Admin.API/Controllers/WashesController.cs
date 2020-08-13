@@ -39,5 +39,10 @@ namespace Admin.API.Controllers
         [Route("DashboardCount")]
         public Result GetDailyDashboard([FromBody]DashboardDto dashboard) => _bplManager.GetDailyDashboard(dashboard);
         #endregion
+        #region
+        [HttpGet]
+        [Route("GetByBarCode/{barcode}")]
+        public Result GetByBarCode(string barcode) => _bplManager.GetByBarCode(barcode);
+        #endregion
     }
 }
