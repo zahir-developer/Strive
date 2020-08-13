@@ -35,9 +35,14 @@ namespace Admin.API.Controllers
         public Result UpdateWashTime([FromBody] WashesDto washes) => _bplManager.UpdateWashTime(washes);
         #endregion
         #region
+        [HttpPost]
+        [Route("DashboardCount")]
+        public Result GetDailyDashboard([FromBody]DashboardDto dashboard) => _bplManager.GetDailyDashboard(dashboard);
+        #endregion
+        #region
         [HttpGet]
-        [Route("DashboardCount/{id}")]
-        public Result GetDailyDashboard(int id) => _bplManager.GetDailyDashboard(id);
+        [Route("GetByBarCode/{barcode}")]
+        public Result GetByBarCode(string barcode) => _bplManager.GetByBarCode(barcode);
         #endregion
     }
 }

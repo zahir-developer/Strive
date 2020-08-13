@@ -14,6 +14,7 @@ namespace Strive.BusinessLogic.Washes
         Result GetWashTimeDetail(int id);
         Result AddWashTime(WashesDto washes);
         Result UpdateWashTime(WashesDto washes);
-        Result GetDailyDashboard(int id);
+        Result GetDailyDashboard(DashboardDto dashboard);
+        Result GetByBarCode(string barcode);
     }
 }

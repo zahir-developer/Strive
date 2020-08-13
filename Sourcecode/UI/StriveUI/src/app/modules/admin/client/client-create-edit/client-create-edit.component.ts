@@ -27,16 +27,18 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  vehicleDetails: any =[];  
-  vehicleDet: any =[];
+  vehicleDetails =[];
+  vehicleDet =[];
   isTableEmpty: boolean;
   headerData: string;
   selectedVehicle: any;
   showVehicleDialog: boolean;
+  clientId: number = 0;
   page = 1;
   pageSize = 3;
   collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
+  deleteIds = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService,private getCode: GetCodeService) { }
 
@@ -50,7 +52,8 @@ export class ClientCreateEditComponent implements OnInit {
     }
     if (this.isEdit === true) {
       this.clientForm.reset();
-      this.getClientById();
+      this.getClientById();      
+      this.getClientVehicle(this.selectedData.ClientId);
     }
   }
 
@@ -77,6 +80,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.getClientType();
   }
 
+  // Get ClientType
   getClientType(){
     this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
       if (data.status === "Success") {
@@ -88,13 +92,12 @@ export class ClientCreateEditComponent implements OnInit {
     });
   }
 
+  // Get Vehicle By ClientId
   getClientVehicle(id) {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Status;
-        console.log(this.vehicleDetails);
-        this.vehicleDetails = this.vehicleDetails;
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -108,25 +111,26 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   getClientById() {
+    console.log(this.selectedData);
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.clientForm.patchValue({
-      fName: this.selectedData.Client.FirstName,
-      lName: this.selectedData.Client.LastName,
-      noEmail: this.selectedData.Client.NoEmail,
-      status: this.selectedData.Client.IsActive ? 0 : 1,
-      score: this.selectedData.Client.Score,      
-      type: this.selectedData.Client.ClientType,
-      notes: this.selectedData.Client.Notes,
-      checkOut: this.selectedData.Client.RecNotes,
-      address: this.selectedData.ClientAddress.Address1,
-      phone1: this.selectedData.ClientAddress.PhoneNumber,
-      zipcode: this.selectedData.ClientAddress.Zip,
-      phone2: this.selectedData.ClientAddress.PhoneNumber2,
-      email: this.selectedData.ClientAddress.Email,
-      city: this.selectedData.ClientAddress.City
+      fName: this.selectedData.FirstName,
+      lName: this.selectedData.LastName,
+      noEmail: this.selectedData.NoEmail,
+      status: this.selectedData.IsActive ? 0 : 1,
+      score: this.selectedData.Score,      
+      type: this.selectedData.ClientType,
+      notes: this.selectedData.Notes,
+      checkOut: this.selectedData.RecNotes,
+      address: this.selectedData.Address1,
+      phone1: this.selectedData.PhoneNumber,
+      zipcode: this.selectedData.Zip,
+      phone2: this.selectedData.PhoneNumber2,
+      email: this.selectedData.Email,
+      city: this.selectedData.City
     });    
-    this.getClientVehicle(this.selectedData.ClientId);
+    this.clientId = this.selectedData.ClientId;
   }
 
   viewClient() {
@@ -137,6 +141,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.clientForm.value.creditAccount = data;
   }
 
+  // Add/Update Client
   submit() {
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
@@ -179,22 +184,40 @@ export class ClientCreateEditComponent implements OnInit {
     };
     const myObj = {
       client: formObj,
-      clientVehicle: this.vehicleDetails,
+      clientVehicle: this.vehicleDet,
       clientAddress: this.address
     }
-    this.client.updateClient(myObj).subscribe(data => {
-      if (data.status === 'Success') {
-        if (this.isEdit === true) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+    if (this.isEdit === true) {
+      this.client.updateClient(myObj).subscribe(data => {
+        if (data.status === 'Success') { 
+          console.log(this.deleteIds);
+          this.deleteIds.forEach(element => {
+            this.vehicle.deleteVehicle(element.ClientVehicleId).subscribe(res => {
+              if (res.status === 'Success') {
+                this.toastr.success('Vehicle Deleted Successfully!!', 'Success!');
+              } else {
+                this.toastr.error('Communication Error', 'Error!');
+              }
+            });
+          })
+          this.toastr.success('Record Updated Successfully!!', 'Success!');       
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.error('Communication Error', 'Error!');
+          this.clientForm.reset();
         }
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-        this.clientForm.reset();
-      }
-    });
+      });
+    } else {
+      this.client.addClient(myObj).subscribe(data => {
+        if (data.status === 'Success') {  
+          this.toastr.success('Record Saved Successfully!!', 'Success!');      
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+          this.clientForm.reset();
+        }
+      });
+    }    
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
@@ -204,9 +227,10 @@ export class ClientCreateEditComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.vehicleDetails.push(this.vehicle.addVehicle);
-      this.vehicleDet.push(this.vehicle.vehicleValue);
-      this.collectionSize = Math.ceil(this.vehicleDet.length / this.pageSize) * 10;
+      this.vehicleDetails.push(this.vehicle.vehicleValue);
+      this.vehicleDet.push(this.vehicle.addVehicle);
+      console.log(this.vehicleDetails,this.vehicleDet);
+      this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     }
     this.showVehicleDialog = event.isOpenPopup;
@@ -221,12 +245,21 @@ export class ClientCreateEditComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete Vehicle 
   confirmDelete(data) {
-    this.vehicleDetails = this.vehicleDetails.filter(item => item.Barcode !== data.Barcode);
-    this.vehicleDet = this.vehicleDet.filter(item => item !== data);
+    this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
+    this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
     console.log(this.vehicleDetails,this.vehicleDet);
-    this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;    
+    this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
+    if(data.ClientVehicleId !== 0){
+      this.deleteIds.push(data);      
+    }  else{
+      this.toastr.success('Record Deleted Successfully!!', 'Success!');      
+    }  
   }
+
+  // Add New Vehicle
   add() {
     this.headerData = 'Add New vehicle';
     this.showVehicleDialog = true;

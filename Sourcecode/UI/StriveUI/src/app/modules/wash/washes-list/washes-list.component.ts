@@ -27,6 +27,8 @@ export class WashesListComponent implements OnInit {
     this.getAllWashDetails();
 
   }
+
+  // Get All Washes
   getAllWashDetails() {
     this.washes.getAllWashes().subscribe(data => {
       if (data.status === 'Success') {
@@ -59,6 +61,8 @@ export class WashesListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete Wash
   confirmDelete(data) {
     this.washes.deleteWash(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
@@ -87,6 +91,8 @@ export class WashesListComponent implements OnInit {
       this.getWashById(data,washDetails);
     }
   }
+
+  // Get Wash By Id
   getWashById(label, washDet) {
     this.washes.getWashById(washDet.JobId).subscribe(data => {
       if (data.status === 'Success') {

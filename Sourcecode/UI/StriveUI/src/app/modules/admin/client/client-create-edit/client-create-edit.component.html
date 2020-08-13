@@ -177,10 +177,10 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let vehicle of vehicleDet | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
-                                                    <td>{{vehicle.VehicleColor}}</td>
-                                                    <td>{{vehicle.VehicleMfr}}</td>
+                                                    <td>{{vehicle.Color}}</td>
+                                                    <td>{{vehicle.VehicleMake }}</td>
                                                     <td>{{vehicle.VehicleModel}}</td>
                                                     <td>{{vehicle.Upcharge}}</td>
                                                     <td>{{vehicle.Barcode}}</td>
@@ -223,6 +223,6 @@
 </div>
 <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true"
     [modal]="true" [focusOnShow]="false" [closable]="false">
-    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" (closeDialog)="closePopupEmit($event)">
+    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [clientId]="clientId" (closeDialog)="closePopupEmit($event)">
     </app-vehicle-create-edit>
 </p-dialog>

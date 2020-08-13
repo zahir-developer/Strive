@@ -33,10 +33,18 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(washes, "JobId");
         }
-        public WashesDashboardViewModel GetDailyDashboard(int id)
+        public WashesDashboardViewModel GetDailyDashboard(DashboardDto dashboard)
         {
-            _prm.Add("@LocationId",id);
+            _prm.Add("@LocationId",dashboard.id);
+            _prm.Add("@CurrentDate",dashboard.date);
             var result =  db.FetchMultiResult<WashesDashboardViewModel>(SPEnum.USPGETDAILYDASHBOARD.ToString(), _prm);
+            return result;
+        }
+        public List<ClientVehicleViewModel> GetByBarCode(string barcode)
+        {
+
+            _prm.Add("@BarCode", barcode);
+            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETCLIENTANDVEHICLEDETAIL.ToString(), _prm);
             return result;
         }
     }

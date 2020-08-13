@@ -33,9 +33,13 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
         }
-        public Result GetDailyDashboard(int id)
+        public Result GetDailyDashboard(DashboardDto dashboard)
         {
-            return ResultWrap(new WashesRal(_tenant).GetDailyDashboard,id, "Dashboard");
+            return ResultWrap(new WashesRal(_tenant).GetDailyDashboard,dashboard, "Dashboard");
+        }
+        public Result GetByBarCode(string barcode)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetByBarCode, barcode, "ClientAndVehicleDetail");
         }
 
     }

@@ -12,6 +12,7 @@ export class VehicleCreateEditComponent implements OnInit {
   vehicleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
+  @Input() clientId?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
   make:any;
@@ -65,6 +66,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.disable();
   }
 
+  // Get VehicleMembership
   getVehicleMembership(){
     this.vehicle.getVehicleMembership().subscribe(data => {
       if (data.status === 'Success') {
@@ -76,6 +78,7 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
+  // Get vehicleCodes
   getVehicleCodes(){
     this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
@@ -94,6 +97,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.value.franchise = data;
   }
 
+  // Add/Update Vehicle
   submit() {  
     const formObj = {
       vehicleId: this.selectedData.ClientVehicleId,
@@ -117,7 +121,7 @@ export class VehicleCreateEditComponent implements OnInit {
     };
     const add = {
       VehicleId: 0,
-      ClientId: 0,
+      ClientId: this.clientId,
       LocationId: 1,
       VehicleNumber: "",
       VehicleMfr: Number(this.vehicleForm.value.make),
@@ -135,11 +139,12 @@ export class VehicleCreateEditComponent implements OnInit {
       UpdatedBy: 1,
       UpdatedDate: new Date()
     };
-    const value = {  
+    const value = { 
+      ClientVehicleId: 0, 
       VehicleNumber: "",    
-      VehicleMfr: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
+      VehicleMake: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
       VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
-      VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
+      Color: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
       Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
       Barcode: this.vehicleForm.value.barcode,
     };
