@@ -21,6 +21,9 @@ export class WashService {
   getWashById(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getWashById}` + id);
   }
+  getByBarcode(id: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getByBarcode}` + id);
+  }
   deleteWash(id : number){
     return this.http.get(`${UrlConfig.totalUrl.deleteWash}` + id);
   }
