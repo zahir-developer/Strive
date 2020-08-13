@@ -18,6 +18,7 @@ namespace StriveTimInventory.iOS.Views
         {
             base.ViewDidLoad();
             DoInitialSetup();
+            GetProducts();
             // Perform any additional setup after loading the view, typically from a nib.
 
             var InventoryTableSource = new InventoryTableViewDataSource(InventoryListTableView,ViewModel);
@@ -35,11 +36,6 @@ namespace StriveTimInventory.iOS.Views
 
             InventorySearch.Placeholder = "Search";
             InventorySearch.TextChanged += SearchTextChanged;
-        }
-
-        public override void ViewDidAppear(bool animated)
-        {
-            GetProducts();
         }
 
         private async Task GetProducts()

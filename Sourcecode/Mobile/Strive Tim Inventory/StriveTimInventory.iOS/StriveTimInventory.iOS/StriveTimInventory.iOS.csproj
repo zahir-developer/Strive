@@ -298,6 +298,14 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-artboard.imageset\Artboard – 8%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-camera.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-camera.imageset\camera.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-camera.imageset\camera%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-camera.imageset\camera%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-folder.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-folder.imageset\folder.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-folder.imageset\folder%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-folder.imageset\folder%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -338,6 +346,8 @@
         <Folder Include="Resources\Assets.xcassets\map-car-icon.imageset\" />
         <Folder Include="Resources\Assets.xcassets\white-ellipse.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-artboard.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-camera.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-folder.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -353,6 +363,7 @@
         <InterfaceDefinition Include="Views\MembershipView.xib" />
         <InterfaceDefinition Include="Views\InventoryViewCell.xib" />
         <InterfaceDefinition Include="Views\InventoryEditView.xib" />
+        <InterfaceDefinition Include="Views\ChooseImageView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -418,6 +429,10 @@
         <Compile Include="Views\InventoryEditView.cs" />
         <Compile Include="Views\InventoryEditView.designer.cs">
           <DependentUpon>InventoryEditView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\ChooseImageView.cs" />
+        <Compile Include="Views\ChooseImageView.designer.cs">
+          <DependentUpon>ChooseImageView.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

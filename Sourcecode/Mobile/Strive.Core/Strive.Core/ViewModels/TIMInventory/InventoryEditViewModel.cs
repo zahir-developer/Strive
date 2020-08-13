@@ -38,9 +38,29 @@ namespace Strive.Core.ViewModels.TIMInventory
         public string SupplierAddress { get; set; }
         public string SupplierEmail { get; set; }
 
+        private float _ViewAlpha = 1f;
+
+        public float ViewAlpha
+        {
+            get
+            {
+                return _ViewAlpha;
+            }
+            set
+            {
+                SetProperty(ref _ViewAlpha, value);
+            }
+        }
+
         public async Task NavigateBackCommand()
         {
             await _navigationService.Close(this);
+        }
+
+        public async Task NavigateUploadImageCommand()
+        {
+            ViewAlpha = 0.5f;
+            await _navigationService.Navigate<ChooseImageViewModel>();
         }
     }
 }

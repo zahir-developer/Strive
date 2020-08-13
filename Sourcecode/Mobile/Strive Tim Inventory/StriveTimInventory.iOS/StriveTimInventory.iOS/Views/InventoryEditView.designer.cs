@@ -24,11 +24,19 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton EditImageButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField ItemCode { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField ItemDescription { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView ItemImage { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -41,6 +49,10 @@ namespace StriveTimInventory.iOS.Views
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LogoutButtton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView RootView { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -82,6 +94,11 @@ namespace StriveTimInventory.iOS.Views
                 CancelButton = null;
             }
 
+            if (EditImageButton != null) {
+                EditImageButton.Dispose ();
+                EditImageButton = null;
+            }
+
             if (ItemCode != null) {
                 ItemCode.Dispose ();
                 ItemCode = null;
@@ -90,6 +107,11 @@ namespace StriveTimInventory.iOS.Views
             if (ItemDescription != null) {
                 ItemDescription.Dispose ();
                 ItemDescription = null;
+            }
+
+            if (ItemImage != null) {
+                ItemImage.Dispose ();
+                ItemImage = null;
             }
 
             if (ItemName != null) {
@@ -105,6 +127,11 @@ namespace StriveTimInventory.iOS.Views
             if (LogoutButtton != null) {
                 LogoutButtton.Dispose ();
                 LogoutButtton = null;
+            }
+
+            if (RootView != null) {
+                RootView.Dispose ();
+                RootView = null;
             }
 
             if (SaveButton != null) {

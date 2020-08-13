@@ -46,5 +46,9 @@
 		<string>OpenSans-ExtraBold.ttf</string>
 		<string>OpenSans-SemiBold.ttf</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>App wants to access the Camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App wants to access the Photos</string>
 </dict>
 </plist>
