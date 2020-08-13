@@ -13,6 +13,7 @@ namespace Strive.BusinessLogic.GiftCard
         Result GetAllGiftCard(int locationId);
         Result GetAllGiftCardHistory(int giftCardId);
         Result GetGiftCardByGiftCardId(int giftCardId);
+        Result GetGiftCardHistoryByNumber(string giftCardNumber);
         Result ActivateorDeactivateGiftCard(GiftCardStatus giftCard);
         Result AddGiftCard(GiftCardDto addGiftCard);
         Result UpdateGiftCard(GiftCardDto updateGiftCard);
