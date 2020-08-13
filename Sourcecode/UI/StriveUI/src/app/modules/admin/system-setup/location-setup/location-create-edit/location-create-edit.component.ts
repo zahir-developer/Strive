@@ -80,6 +80,7 @@ export class LocationCreateEditComponent implements OnInit {
     return this.locationSetupForm.controls;
   }
 
+  // Add / Update location 
   submit() {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
@@ -145,12 +146,6 @@ export class LocationCreateEditComponent implements OnInit {
           this.toastr.error('Communication Error', 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;
-
-          // if (this.isEdit === true) {
-          //   this.toastr.success('Record Updated Successfully!!', 'Success!');
-          // } else {
-
-          // }
         }
       });
     } else {
