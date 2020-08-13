@@ -63,7 +63,7 @@ export class EditEmployeeComponent implements OnInit {
       exemptions: [''],
       roles: [[]],
       location: [[]],
-      employeeCode : ['']
+      employeeCode: ['']
     });
     this.employeRole();
     this.locationDropDown();
@@ -86,17 +86,18 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   setValue() {
-    console.log(this.employeeData, 'data');
+    let employeeRole = [];
     const employee = this.employeeData;
     const employeeInfo = employee.EmployeeInfo;
-    
-    const employeeRole = employee.EmployeeRoles?.map( item => {
-      return {
-        item_id: item.Roleid,
-        item_text: item.RoleName
-      };
-    });
-    const locationId = employee.EmployeeLocations.map( item => {
+    if (employee.EmployeeRoles !== null) {
+      employeeRole = employee.EmployeeRoles?.map(item => {
+        return {
+          item_id: item.Roleid,
+          item_text: item.RoleName
+        };
+      });
+    }
+    const locationId = employee.EmployeeLocations.map(item => {
       return {
         item_id: item.LocationId,
         item_text: item.LocationName
@@ -251,7 +252,7 @@ export class EditEmployeeComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
-      employeeCode: '',
+      employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       PayRate: this.emplistform.value.hourlyRateWash,
       ComRate: this.emplistform.value.hourlyRateDetail,
