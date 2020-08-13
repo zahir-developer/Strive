@@ -75,6 +75,7 @@ export const UrlConfig = {
     addWash:`Admin/Washes/AddWashTime`,
     updateWash:`Admin/Washes/UpdateWashTime`,
     deleteWash:`Admin/washes/Delete/`,
-    searchEmployee: `Admin/Employee/GetEmployeeSearch`
+    searchEmployee: `Admin/Employee/GetEmployeeSearch`,
+    getDashBoardCount:`Admin/Washes/DashboardCount/`
   }
 };
