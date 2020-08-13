@@ -12,6 +12,7 @@ export class VehicleCreateEditComponent implements OnInit {
   vehicleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
+  @Input() clientId?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
   make:any;
@@ -120,7 +121,7 @@ export class VehicleCreateEditComponent implements OnInit {
     };
     const add = {
       VehicleId: 0,
-      ClientId: 0,
+      ClientId: this.clientId,
       LocationId: 1,
       VehicleNumber: "",
       VehicleMfr: Number(this.vehicleForm.value.make),

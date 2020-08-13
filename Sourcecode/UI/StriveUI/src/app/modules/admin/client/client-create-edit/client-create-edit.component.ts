@@ -33,6 +33,7 @@ export class ClientCreateEditComponent implements OnInit {
   headerData: string;
   selectedVehicle: any;
   showVehicleDialog: boolean;
+  clientId: number = 0;
   page = 1;
   pageSize = 3;
   collectionSize: number = 0;
@@ -110,25 +111,27 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   getClientById() {
+    console.log(this.selectedData);
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.clientForm.patchValue({
-      fName: this.selectedData.Client.FirstName,
-      lName: this.selectedData.Client.LastName,
-      noEmail: this.selectedData.Client.NoEmail,
-      status: this.selectedData.Client.IsActive ? 0 : 1,
-      score: this.selectedData.Client.Score,      
-      type: this.selectedData.Client.ClientType,
-      notes: this.selectedData.Client.Notes,
-      checkOut: this.selectedData.Client.RecNotes,
-      address: this.selectedData.ClientAddress.Address1,
-      phone1: this.selectedData.ClientAddress.PhoneNumber,
-      zipcode: this.selectedData.ClientAddress.Zip,
-      phone2: this.selectedData.ClientAddress.PhoneNumber2,
-      email: this.selectedData.ClientAddress.Email,
-      city: this.selectedData.ClientAddress.City
+      fName: this.selectedData.FirstName,
+      lName: this.selectedData.LastName,
+      noEmail: this.selectedData.NoEmail,
+      status: this.selectedData.IsActive ? 0 : 1,
+      score: this.selectedData.Score,      
+      type: this.selectedData.ClientType,
+      notes: this.selectedData.Notes,
+      checkOut: this.selectedData.RecNotes,
+      address: this.selectedData.Address1,
+      phone1: this.selectedData.PhoneNumber,
+      zipcode: this.selectedData.Zip,
+      phone2: this.selectedData.PhoneNumber2,
+      email: this.selectedData.Email,
+      city: this.selectedData.City
     });    
     this.getClientVehicle(this.selectedData.ClientId);
+    this.clientId = this.selectedData.ClientId;
   }
 
   viewClient() {
