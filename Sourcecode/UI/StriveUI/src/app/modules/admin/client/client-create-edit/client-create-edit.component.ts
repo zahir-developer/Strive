@@ -185,19 +185,27 @@ export class ClientCreateEditComponent implements OnInit {
       clientVehicle: this.vehicleDetails,
       clientAddress: this.address
     }
-    this.client.updateClient(myObj).subscribe(data => {
-      if (data.status === 'Success') {
-        if (this.isEdit === true) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+    if (this.isEdit === true) {
+      this.client.updateClient(myObj).subscribe(data => {
+        if (data.status === 'Success') { 
+          this.toastr.success('Record Updated Successfully!!', 'Success!');       
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.error('Communication Error', 'Error!');
+          this.clientForm.reset();
         }
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-        this.clientForm.reset();
-      }
-    });
+      });
+    } else {
+      this.client.addClient(myObj).subscribe(data => {
+        if (data.status === 'Success') {  
+          this.toastr.success('Record Saved Successfully!!', 'Success!');      
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+          this.clientForm.reset();
+        }
+      });
+    }    
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
