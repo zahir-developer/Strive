@@ -14,6 +14,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int LocationId { get; set; }
         public int ClientId { get; set; }
         public int VehicleId { get; set; }
+        public string VehicleName { get; set; }
         public int JobType { get; set; }
         public DateTime JobDate { get; set; }
         public DateTimeOffset TimeIn { get; set; }
