@@ -24,6 +24,8 @@ export class VendorSetupListComponent implements OnInit {
   ngOnInit() {
     this.getAllvendorSetupDetails();
   }
+
+  // Get All Vendors
   getAllvendorSetupDetails() {
     this.isLoading = true;
     this.vendorService.getVendor().subscribe(data => {
@@ -58,6 +60,7 @@ export class VendorSetupListComponent implements OnInit {
       .catch(() => { });
   }
 
+  // Delete Vendor
   confirmDelete(data) {
     this.vendorService.deleteVendor(data.VendorId).subscribe(res => {
       if (res.status === "Success") {
@@ -85,6 +88,7 @@ export class VendorSetupListComponent implements OnInit {
     }
   }
 
+  // Get vendor By Id
   getVendorById(data) {
     this.vendorService.getVendorById(data.VendorId).subscribe(res => {
       if (res.status === 'Success') {

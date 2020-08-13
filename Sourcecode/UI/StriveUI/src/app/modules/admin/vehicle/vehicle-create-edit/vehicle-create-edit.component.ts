@@ -65,6 +65,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.disable();
   }
 
+  // Get VehicleMembership
   getVehicleMembership(){
     this.vehicle.getVehicleMembership().subscribe(data => {
       if (data.status === 'Success') {
@@ -76,6 +77,7 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
+  // Get vehicleCodes
   getVehicleCodes(){
     this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
@@ -94,6 +96,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.value.franchise = data;
   }
 
+  // Add/Update Vehicle
   submit() {  
     const formObj = {
       vehicleId: this.selectedData.ClientVehicleId,
