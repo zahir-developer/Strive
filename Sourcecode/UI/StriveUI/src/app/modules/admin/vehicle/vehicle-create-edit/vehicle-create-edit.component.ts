@@ -139,11 +139,12 @@ export class VehicleCreateEditComponent implements OnInit {
       UpdatedBy: 1,
       UpdatedDate: new Date()
     };
-    const value = {  
+    const value = { 
+      ClientVehicleId: 0, 
       VehicleNumber: "",    
-      VehicleMfr: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
+      VehicleMake: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
       VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
-      VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
+      Color: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
       Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
       Barcode: this.vehicleForm.value.barcode,
     };

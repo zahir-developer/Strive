@@ -15,23 +15,56 @@
                     <div class="card-body">
                         <form [formGroup]="giftCardForm">
                             <div class="form-row">
-                                <label class="col-sm-2">Number:</label>
-                                <input type="text" class="form-control col-sm-8" formControlName="number" />
-                                <button type="button" class="btn theme-primary-button-color btn-md m-l-10 col-sm-1"
-                                    (click)="getGiftCardDetail()">Select
-                                </button>
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-row">
+                                        <div class="col-sm-4">
+                                            <label class="float-right">Number:</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" formControlName="number" />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                                (click)="getGiftCardDetail()">Select
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
+                        <br />
                         <div class="form-row">
-                            <div>
-                                <span>Active Date: </span><span>None</span>
+                            <div class="col-sm-4">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-row">
+                                    <div class="col-sm-4">
+                                        <label class="float-right">Active Date:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span>None</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <br />
                         <div class="form-row">
-                            <div>
-                                <span>Value: </span><span>$0.00</span>
+                            <div class="col-sm-4">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-row">
+                                    <div class="col-sm-4">
+                                        <label class="float-right">Value:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span>$00.00</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <br />
                         <div class="form-row" *ngIf="!isActivity">
                             <div class="col-sm-12">
                                 <button type="button" class="btn float-right theme-primary-button-color btn-md m-l-10"
@@ -39,8 +72,32 @@
                                 </button>
                             </div>
                         </div>
+                        <br />
                         <div class="row" *ngIf="isActivity">
-                            <div class="col-12 p-l-0 p-r-0">
+                            <div class="col-sm-2"></div>
+                            <div class="col-8 p-l-0 p-r-0">
+                                <div class="setup-wrapper">
+                                    <div class="setup-content">
+                                        <div class="float-left">
+                                            <div class="form-row">
+                                                <div class="form-group col-sm m-l-5">
+                                                    <label>Activity</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="search-container pull-right">
+                                            <form>
+                                                <div class="form-row">
+                                                    <div class="form-group col-sm m-l-5">
+                                                        <button type="button"
+                                                            class="btn theme-primary-button-color btn-sm m-l-10"
+                                                            (click)="addActivity()">Add Activity</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table border table-hover" aria-describedby="giftCard-history">
                                         <thead>
@@ -62,6 +119,12 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div id="collision-enable-btn">
+                                        <div class="pull-right mw-100 m-t-5">
+                                            <button type="button" class="btn theme-optional-button-color"
+                                                id="collision-view" (click)="cancelActvity()">Cancel</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

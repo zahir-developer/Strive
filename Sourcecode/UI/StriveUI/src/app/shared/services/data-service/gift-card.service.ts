@@ -25,4 +25,7 @@ export class GiftCardService {
   updateStatus(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateStatus}` , obj);
   }
+  addCardHistory(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.addCardHistory}` , obj);
+  }
 }

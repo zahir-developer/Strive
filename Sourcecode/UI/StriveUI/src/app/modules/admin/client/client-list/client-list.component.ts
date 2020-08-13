@@ -104,7 +104,7 @@ export class ClientListComponent implements OnInit {
     this.client.getClientById(client.ClientId).subscribe(res => {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
-        this.selectedClient = client.Status;
+        this.selectedClient = client.Status[0];
         if (data === 'edit') {
           this.headerData = 'Edit Client';
           this.selectedData = this.selectedClient;
