@@ -14,5 +14,7 @@ namespace Strive.BusinessEntities.ViewModel
         public bool IsActive { get; set; }
         public int ClientType { get; set; }
         public string PhoneNumber { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
     }
 }
