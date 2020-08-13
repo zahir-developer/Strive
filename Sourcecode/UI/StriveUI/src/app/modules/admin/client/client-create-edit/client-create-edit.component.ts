@@ -28,6 +28,7 @@ export class ClientCreateEditComponent implements OnInit {
   selectedStateId: any;
   selectedCountryId: any;
   vehicleDetails =[];
+  vehicleDet =[];
   isTableEmpty: boolean;
   headerData: string;
   selectedVehicle: any;
@@ -37,6 +38,7 @@ export class ClientCreateEditComponent implements OnInit {
   pageSize = 3;
   collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
+  deleteIds = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService,private getCode: GetCodeService) { }
 
@@ -95,7 +97,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails.push(vehicle.Status);
+        this.vehicleDetails = vehicle.Status;
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -182,12 +184,22 @@ export class ClientCreateEditComponent implements OnInit {
     };
     const myObj = {
       client: formObj,
-      clientVehicle: this.vehicleDetails,
+      clientVehicle: this.vehicleDet,
       clientAddress: this.address
     }
     if (this.isEdit === true) {
       this.client.updateClient(myObj).subscribe(data => {
         if (data.status === 'Success') { 
+          console.log(this.deleteIds);
+          this.deleteIds.forEach(element => {
+            this.vehicle.deleteVehicle(element.ClientVehicleId).subscribe(res => {
+              if (res.status === 'Success') {
+                this.toastr.success('Vehicle Deleted Successfully!!', 'Success!');
+              } else {
+                this.toastr.error('Communication Error', 'Error!');
+              }
+            });
+          })
           this.toastr.success('Record Updated Successfully!!', 'Success!');       
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
@@ -215,7 +227,9 @@ export class ClientCreateEditComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.vehicleDetails.push(this.vehicle.addVehicle);
+      this.vehicleDetails.push(this.vehicle.vehicleValue);
+      this.vehicleDet.push(this.vehicle.addVehicle);
+      console.log(this.vehicleDetails,this.vehicleDet);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     }
@@ -235,8 +249,14 @@ export class ClientCreateEditComponent implements OnInit {
   // Delete Vehicle 
   confirmDelete(data) {
     this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
-    console.log(this.vehicleDetails);
-    this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;    
+    this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
+    console.log(this.vehicleDetails,this.vehicleDet);
+    this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
+    if(data.ClientVehicleId !== 0){
+      this.deleteIds.push(data);      
+    }  else{
+      this.toastr.success('Record Deleted Successfully!!', 'Success!');      
+    }  
   }
 
   // Add New Vehicle
