@@ -33,9 +33,6 @@ namespace Strive.BusinessEntities.ViewModel
         public int Country { get; set; }
         public string Zip { get; set; }
         public bool IsActive { get; set; }
-        public int ClientVehicleId { get; set; }
-        public string VehicleNumber { get; set; }
-        public int VehicleModel { get; set; }
         //public ClientAddressDto ClientAddressDto { get; set; }
         //public List<ClientAddressDetailDto> ClientAddressDetailDto { get; set; }
         //public List<ClientVehicleDto> ClientVehicleDto { get; set; }
