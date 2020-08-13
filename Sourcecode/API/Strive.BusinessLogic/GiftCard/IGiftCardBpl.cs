@@ -11,8 +11,9 @@ namespace Strive.BusinessLogic.GiftCard
     public interface IGiftCardBpl
     {
         Result GetAllGiftCard(int locationId);
-        Result GetAllGiftCardHistory(int giftCardId);
-        Result GetGiftCardByGiftCardId(int giftCardId);
+        //Result GetAllGiftCardHistory(int giftCardId);
+        Result GetAllGiftCardHistory(string giftCardNumber);
+        Result GetGiftCardByGiftCardId(string giftCardNumber);
         Result GetGiftCardHistoryByNumber(string giftCardNumber);
         Result ActivateorDeactivateGiftCard(GiftCardStatus giftCard);
         Result AddGiftCard(GiftCardDto addGiftCard);

@@ -24,8 +24,8 @@ namespace Admin.API.Controllers
         #endregion
         #region GET
         [HttpGet]
-        [Route("GetGiftCard/{giftCardId}")]
-        public Result GetGiftCardByGiftCardId(int giftCardId) => _bplManager.GetGiftCardByGiftCardId(giftCardId);
+        [Route("GetGiftCard/{giftCardNumber}")]
+        public Result GetGiftCardByGiftCardId(string giftCardNumber) => _bplManager.GetGiftCardByGiftCardId(giftCardNumber);
         [HttpGet]
         [Route("GetGiftCardHistoryByNumber/{giftCardNumber}")]
         public Result GetGiftCardHistoryByNumber(string giftCardNumber) => _bplManager.GetGiftCardHistoryByNumber(giftCardNumber);
@@ -33,8 +33,8 @@ namespace Admin.API.Controllers
         #endregion
         #region GET
         [HttpGet]
-        [Route("GetAllGiftCardHistory/{giftCardId}")]
-        public Result GetAllGiftCardHistory(int giftCardId) => _bplManager.GetAllGiftCardHistory(giftCardId);
+        [Route("GetAllGiftCardHistory/{giftCardNumber}")]
+        public Result GetAllGiftCardHistory(string giftCardNumber) => _bplManager.GetAllGiftCardHistory(giftCardNumber);
         #endregion
         #region
         [HttpPost]
