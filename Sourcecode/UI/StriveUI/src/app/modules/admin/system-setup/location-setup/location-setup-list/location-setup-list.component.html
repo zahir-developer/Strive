@@ -20,6 +20,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Location Name</th>
+                                            <th scope="col">Address</th>
                                             <th scope="col">Franchise</th>
                                             <th scope="col">Phone Number</th>
                                             <th scope="col">Email</th>
@@ -30,6 +31,7 @@
                                         <tr
                                             *ngFor="let locationSetup of locationSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{locationSetup.LocationName}}</th>
+                                            <td>{{locationSetup.Address1}}</td>
                                             <td>{{locationSetup.IsFranchise}}</td>
                                             <td>{{locationSetup.PhoneNumber}}</td>
                                             <td>{{locationSetup.Email}}</td>

@@ -8,9 +8,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CityComponent implements OnInit {
   city: string;
-  country: any;
+  country: any = '';
   filteredCountriesSingle = [];
   countries: any[];
+  submitted: boolean;
   states: string[] = [
     'Alabama',
     'Alaska',
@@ -27,6 +28,7 @@ export class CityComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
+    this.submitted = false;
   }
   filterCountrySingle(event) {
     const query = event.query;

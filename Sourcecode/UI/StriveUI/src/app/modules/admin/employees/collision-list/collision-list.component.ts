@@ -46,6 +46,7 @@ export class CollisionListComponent implements OnInit {
   collistionGrid() {
     this.totalAmount = 0;
     if (this.employeeCollision.length > 0) {
+      this.collisionList = [];
       this.collisionList = this.employeeCollision;
       if (this.collisionList.length > 0) {
         this.collisionList.forEach(item => {

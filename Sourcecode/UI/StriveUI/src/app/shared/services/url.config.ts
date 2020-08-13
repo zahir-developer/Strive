@@ -25,7 +25,8 @@ export const UrlConfig = {
     updateProduct: `Admin/Product/Update`,
     deleteProduct: `Admin/Product/Delete`,
     getVendor: `Admin/Vendor/GetAll`,
-    updateVendor: `Admin/Vendor/Save`,
+    saveVendor: `Admin/Vendor/Add`,
+    updateVendor: `Admin/Vendor/Update`,
     deleteVendor: `Admin/Vendor/Delete/`,
     getVendorById: `Admin/Vendor/GetVendorById/`,
     getCashRegister: `Admin/CashRegister/GetCashRegisterDetails/`,
@@ -67,6 +68,7 @@ export const UrlConfig = {
     getGiftCard: `Admin/GiftCard/GetGiftCard/`,
     updateEmployee: `Admin/Employee/Update`,
     saveGiftCard: `Admin/GiftCard/AddGiftCard`,
-    updateStatus: `Admin/GiftCard/ChangeStatus`
+    updateStatus: `Admin/GiftCard/ChangeStatus`,
+    searchEmployee: `Admin/Employee/GetEmployeeSearch`
   }
 };

@@ -46,7 +46,8 @@ export class ServiceCreateEditComponent implements OnInit {
       upcharge: ['',],
       parentName: ['',],
       status: ['',],
-      fee: ['',]
+      fee: ['',],
+      suggested: ['']
     });
     this.serviceSetupForm.patchValue({status : 0});
   }

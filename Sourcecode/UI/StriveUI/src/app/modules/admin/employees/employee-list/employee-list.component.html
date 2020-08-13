@@ -37,11 +37,14 @@
                                 <div class="search-container  pull-right">
                                     <form>
                                         <div class="form-row">
-                                            <div class="form-group d-flex"> <span
-                                                    class="Search text-right p-r-10 p-t-5">Search</span> </div>
+                                            <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="search" name="search" id="inputSearchbyName"
+                                                placeholder="By Login ID,Name"> </div>
                                             <div class="form-group col-sm m-l-5">
-                                                <input type="search" class="form-control" id="inputSearchbyName"
-                                                    placeholder="By Login ID,Name"> </div>
+                                                
+                                                <button type="button"
+                                                    class="btn theme-primary-button-color btn-sm m-l-10"
+                                                    (click)="seachEmployee()">Search</button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -68,20 +71,24 @@
                                                 <td>{{employee.FirstName}}</td>
                                                 <td>{{employee.LastName}}</td>
                                                 <td>{{employee.MobileNo}}</td>
-                                                <td> <span (click)="openCollisionModal(employee)" *ngIf="employee.Collisions === false"
+                                                <td> <span (click)="openCollisionModal(employee)"
+                                                        *ngIf="employee.Collisions === false"
                                                         class="text-underline theme-primary-color font-size--9"
                                                         style="cursor: pointer;"> Add
                                                     </span>
-                                                    <span (click)="viewCollision(employee)" *ngIf="employee.Collisions === true"
+                                                    <span (click)="viewCollision(employee)"
+                                                        *ngIf="employee.Collisions === true"
                                                         class="text-underline theme-primary-color font-size--9"
                                                         style="cursor: pointer;"> View
                                                     </span>
                                                 </td>
-                                                <td> <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === false"
-                                                        style="cursor: pointer;" (click)="addDocument(employee)"> Add
+                                                <td> <span class="text-underline theme-primary-color font-size--9"
+                                                        *ngIf="employee.Documents === false" style="cursor: pointer;"
+                                                        (click)="addDocument(employee)"> Add
                                                     </span>
-                                                    <span class="text-underline theme-primary-color font-size--9" *ngIf="employee.Documents === true"
-                                                        style="cursor: pointer;" (click)="viewDocument(employee)"> View
+                                                    <span class="text-underline theme-primary-color font-size--9"
+                                                        *ngIf="employee.Documents === true" style="cursor: pointer;"
+                                                        (click)="viewDocument(employee)"> View
                                                     </span>
                                                 </td>
                                                 <td> <a href="#" class="text-underline theme-primary-color font-size--9"
