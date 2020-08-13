@@ -29,6 +29,12 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
             return result;
         }
+        public List<GiftCardViewModel> GetGiftCardHistoryByNumber(string giftCardNumber)
+        {
+            _prm.Add("@GiftCardCode", giftCardNumber);
+            var result = db.Fetch<GiftCardViewModel>(SPEnum.uspGetGiftCardHistoryByNumber.ToString(), _prm);
+            return result;
+        }
         public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(int giftCardId)
         {
 
