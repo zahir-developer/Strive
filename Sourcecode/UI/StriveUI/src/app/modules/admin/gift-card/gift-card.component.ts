@@ -3,6 +3,7 @@ import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGiftCardComponent } from '../gift-card/add-gift-card/add-gift-card.component';
+import { AddActivityComponent } from '../gift-card/add-activity/add-activity.component';
 
 @Component({
   selector: 'app-gift-card',
@@ -63,7 +64,7 @@ export class GiftCardComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef = this.modalService.open(AddGiftCardComponent, ngbModalOptions);
+    this.modalService.open(AddGiftCardComponent, ngbModalOptions);
   }
 
   statusUpdate(card) {
@@ -76,6 +77,26 @@ export class GiftCardComponent implements OnInit {
         this.getAllGiftCardHistory(card.GiftCardId);
       }
     });
+  }
+
+  addActivity() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(AddActivityComponent, ngbModalOptions);
+    modalRef.componentInstance.giftCardId = +this.giftCardForm.value.number;
+    modalRef.result.then((result) => {
+      if (result) {
+        this.getAllGiftCardHistory(+this.giftCardForm.value.number);
+      }
+    });
+  }
+
+  cancelActvity() {
+    this.isActivity = false;
+    this.giftCardForm.reset();
   }
 
 }

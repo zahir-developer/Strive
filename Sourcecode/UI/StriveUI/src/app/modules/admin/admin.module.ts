@@ -51,6 +51,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewDocumentComponent } from './employees/view-document/view-document.component';
 import { GiftCardComponent } from './gift-card/gift-card.component';
 import { AddGiftCardComponent } from './gift-card/add-gift-card/add-gift-card.component';
+import { AddActivityComponent } from './gift-card/add-activity/add-activity.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -63,7 +64,7 @@ import { AddGiftCardComponent } from './gift-card/add-gift-card/add-gift-card.co
     VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent],
   imports: [
     CommonModule,
     RouterModule,
