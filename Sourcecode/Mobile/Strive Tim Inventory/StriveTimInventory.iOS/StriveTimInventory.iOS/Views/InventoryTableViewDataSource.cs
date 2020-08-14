@@ -19,7 +19,7 @@ namespace StriveTimInventory.iOS.Views
 
         private InventoryViewModel ViewModel;
 
-        private ObservableCollection<ProductDetail> ItemList;
+        private ObservableCollection<InventoryDataModel> ItemList;
 
         public InventoryTableViewDataSource(UITableView tableView, InventoryViewModel ViewModel) : base(tableView)
         {
@@ -34,11 +34,11 @@ namespace StriveTimInventory.iOS.Views
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<ProductDetail>)value;
+                    ItemList = (ObservableCollection<InventoryDataModel>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<ProductDetail>();
+                    ItemList = new ObservableCollection<InventoryDataModel>();
                 }
 
                 base.ItemsSource = value;

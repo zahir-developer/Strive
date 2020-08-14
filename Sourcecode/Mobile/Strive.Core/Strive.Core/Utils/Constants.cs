@@ -3,7 +3,7 @@ namespace Strive.Core.Utils
 {
     public class ApiUtils
     { 
-        public const string BASE_URL = "http://192.168.1.100:60001";
+        public const string BASE_URL = "http://localhost:60001";
 
         public static string Token { get; set; }
 
@@ -24,5 +24,10 @@ namespace Strive.Core.Utils
         public const string URL_SAVE_CLOCKIN_TIME = "/Admin/TimeClock/Save";
 
         public const string URL_GET_ALL_PRODUCTS = "/Admin/Product/GetAll";
+
+        public const string URL_GET_ALL_VENDORS = "/Admin/Vendor/GetAll";
+
+        public const string URL_ADD_PRODUCT = "/Admin/Product/Add";
+        
     }
 }

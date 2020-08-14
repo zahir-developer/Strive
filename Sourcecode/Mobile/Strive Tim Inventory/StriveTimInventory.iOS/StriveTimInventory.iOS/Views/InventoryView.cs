@@ -14,17 +14,22 @@ namespace StriveTimInventory.iOS.Views
         {
         }
 
-        public override void ViewDidLoad()
+        public override async void ViewDidLoad()
         {
             base.ViewDidLoad();
             DoInitialSetup();
-            GetProducts();
+            var vendors = await GetVendors();
+            if(vendors)
+            {
+                GetProducts();
+            }
             // Perform any additional setup after loading the view, typically from a nib.
 
             var InventoryTableSource = new InventoryTableViewDataSource(InventoryListTableView,ViewModel);
 
             var set = this.CreateBindingSet<InventoryView, InventoryViewModel>();
             set.Bind(InventoryTableSource).To(vm => vm.FilteredList);
+            set.Bind(AddProductButton).To(vm => vm.Commands["AddProduct"]);
             //set.Bind(OtherInformationTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             //set.Bind(BackButton).To(vm => vm.Commands["NavigationBack"]);
             set.Apply();
@@ -42,7 +47,14 @@ namespace StriveTimInventory.iOS.Views
         {
             ViewModel.ClearCommand();
             await ViewModel.GetProductsCommand();
-           ViewModel.InventorySearchCommand("");
+            ViewModel.InventorySearchCommand("");
+        }
+
+        private async Task<bool> GetVendors()
+        {
+            ViewModel.ClearCommand();
+            await ViewModel.GetVendorsCommand();
+            return true;
         }
 
         private void SearchTextChanged(object sender, UISearchBarTextChangedEventArgs e)

@@ -434,6 +434,7 @@
         <Compile Include="Views\ChooseImageView.designer.cs">
           <DependentUpon>ChooseImageView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\InventoryPicker.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

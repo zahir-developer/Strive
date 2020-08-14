@@ -11,6 +11,8 @@ namespace Strive.Core.Utils.TimInventory
 
         public static TimeClock ClockInStatus { get; set; }
 
-        public static ProductDetail EditableProduct { get; set; }
+        public static InventoryDataModel EditableProduct { get; set; }
+
+        public static Vendors Vendors { get; set; }
     }
 }

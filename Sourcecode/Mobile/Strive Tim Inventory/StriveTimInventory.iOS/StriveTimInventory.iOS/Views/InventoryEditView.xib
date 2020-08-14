@@ -20,11 +20,14 @@
             <connections>
                 <outlet property="BackButton" destination="yea-iE-Ua2" id="name-outlet-yea-iE-Ua2"/>
                 <outlet property="CancelButton" destination="e2A-MS-GA4" id="name-outlet-e2A-MS-GA4"/>
+                <outlet property="EditImageButton" destination="gcB-WE-Mb8" id="name-outlet-gcB-WE-Mb8"/>
                 <outlet property="ItemCode" destination="rVN-wk-bcv" id="name-outlet-rVN-wk-bcv"/>
                 <outlet property="ItemDescription" destination="haj-hE-vBz" id="name-outlet-haj-hE-vBz"/>
+                <outlet property="ItemImage" destination="pGn-LI-Fjc" id="name-outlet-pGn-LI-Fjc"/>
                 <outlet property="ItemName" destination="e2Y-Be-Kx3" id="name-outlet-e2Y-Be-Kx3"/>
                 <outlet property="ItemQuantity" destination="YRc-0i-7Ob" id="name-outlet-YRc-0i-7Ob"/>
                 <outlet property="LogoutButtton" destination="Iwq-lN-lD3" id="name-outlet-Iwq-lN-lD3"/>
+                <outlet property="RootView" destination="2" id="name-outlet-2"/>
                 <outlet property="SaveButton" destination="e31-0o-v6g" id="name-outlet-e31-0o-v6g"/>
                 <outlet property="SupplierAddress" destination="kVh-R8-6Be" id="name-outlet-kVh-R8-6Be"/>
                 <outlet property="SupplierContact" destination="qBW-4U-8s1" id="name-outlet-qBW-4U-8s1"/>
@@ -33,9 +36,6 @@
                 <outlet property="SupplierName" destination="ned-Hl-LCU" id="name-outlet-ned-Hl-LCU"/>
                 <outlet property="Title" destination="eE5-D8-xvJ" id="name-outlet-eE5-D8-xvJ"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
-                <outlet property="EditImageButton" destination="gcB-WE-Mb8" id="name-outlet-gcB-WE-Mb8"/>
-                <outlet property="ItemImage" destination="pGn-LI-Fjc" id="name-outlet-pGn-LI-Fjc"/>
-                <outlet property="RootView" destination="2" id="name-outlet-2"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -125,7 +125,7 @@
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Contact" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qBW-4U-8s1">
+                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Contact" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qBW-4U-8s1">
                     <rect key="frame" x="105" y="733.5" width="624" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="hPx-jM-0VO"/>
@@ -134,7 +134,7 @@
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Fax" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V0L-GT-NvC">
+                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Fax" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V0L-GT-NvC">
                     <rect key="frame" x="105" y="798.5" width="624" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="aGh-gR-QwK"/>
@@ -143,7 +143,7 @@
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kVh-R8-6Be">
+                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kVh-R8-6Be">
                     <rect key="frame" x="105" y="863.5" width="624" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="oWA-Wb-HXt"/>
@@ -152,7 +152,7 @@
                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ycj-Vk-YEv">
+                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ycj-Vk-YEv">
                     <rect key="frame" x="105" y="928.5" width="624" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Kge-Jv-SKd"/>
@@ -279,7 +279,7 @@
                 <constraint firstItem="rVN-wk-bcv" firstAttribute="centerX" secondItem="e2Y-Be-Kx3" secondAttribute="centerX" id="yiO-d7-Pwv"/>
                 <constraint firstItem="rVN-wk-bcv" firstAttribute="height" secondItem="e2Y-Be-Kx3" secondAttribute="height" id="zFc-GK-xPW"/>
             </constraints>
-            <point key="canvasLocation" x="25" y="52"/>
+            <point key="canvasLocation" x="81" y="52"/>
         </view>
     </objects>
     <resources>

@@ -17,7 +17,7 @@ namespace StriveTimInventory.iOS.Views
         InventoryViewCell cell;
         InventoryViewModel ViewModel;
 
-        private ProductDetail model;
+        private InventoryDataModel model;
         private Action reloadParentRow { get; set; }
 
         public static readonly int ExpandedHeight = 380;
@@ -32,11 +32,16 @@ namespace StriveTimInventory.iOS.Views
         {   
             // Note: this .ctor should not contain any initialization logic.
             this.DelayBind(() => {
-                var set = this.CreateBindingSet<InventoryViewCell, ProductDetail>();
-                set.Bind(ItemTitle).To(item => item.ProductName);
-                set.Bind(ItemId).To(item => item.ProductId);
-                set.Bind(ItemDescritption).To(item => item.ProductDescription);
-                set.Bind(ItemCountLabel).To(item => item.Quantity);
+                var set = this.CreateBindingSet<InventoryViewCell, InventoryDataModel>();
+                set.Bind(ItemTitle).To(item => item.Product.ProductName);
+                set.Bind(ItemId).To(item => item.Product.ProductId);
+                set.Bind(ItemDescritption).To(item => item.Product.ProductDescription);
+                set.Bind(ItemCountLabel).To(item => item.Product.Quantity);
+                set.Bind(SupplierName).To(item => item.Vendor.VendorName);
+                set.Bind(SupplierContact).To(item => item.Vendor.PhoneNumber);
+                set.Bind(SupplierFax).To(item => item.Vendor.Fax);
+                set.Bind(SupplierAddress).To(item => item.Vendor.Address1);
+                set.Bind(SupplierEmail).To(item => item.Vendor.Email);
                 set.Apply();
             });
         }
@@ -49,7 +54,7 @@ namespace StriveTimInventory.iOS.Views
             cell.ItemCountView.Layer.BorderWidth = cell.ItemCountOuterView.Layer.BorderWidth = 1;
             cell.ItemCountView.Layer.BorderColor = cell.ItemCountOuterView.Layer.BorderColor = UIColor.Gray.CGColor;
             cell.IncrementButton.SetBackgroundImage(UIImage.FromBundle(ImageUtils.ICON_WASHER), UIControlState.Highlighted);
-            cell.ItemCountLabel.Text = ViewModel.FilteredList[index].Quantity.ToString();
+            cell.ItemCountLabel.Text = ViewModel.FilteredList[index].Product.Quantity.ToString();
             cell.RequestView.Hidden = false;
             cell.IncrementButton.Tag = cell.DecrementButton.Tag = cell.ItemEditButton.Tag = index;
             cell.IncrementButton.TouchUpInside -= IncrementButtonPressed;
@@ -64,54 +69,54 @@ namespace StriveTimInventory.iOS.Views
         {
             UIButton button = (UIButton)sender;
             ViewModel.IncrementCommand((int)button.Tag);
-            cell.ItemCountLabel.Text = ViewModel.FilteredList[(int)button.Tag].Quantity.ToString();
+            cell.ItemCountLabel.Text = ViewModel.FilteredList[(int)button.Tag].Product.Quantity.ToString();
         }
 
         private void DecrementButtonPressed(object sender, EventArgs e)
         {
             UIButton button = (UIButton)sender;
             ViewModel.DecrementCommand((int)button.Tag);
-            cell.ItemCountLabel.Text = ViewModel.FilteredList[(int)button.Tag].Quantity.ToString();
+            cell.ItemCountLabel.Text = ViewModel.FilteredList[(int)button.Tag].Product.Quantity.ToString();
         }
 
         private void ShowMoreButtonPressed(object sender, EventArgs e)
         {
             if (SupplierHeightConstraint.Constant == 0)
             {
-                ShowNotes();
+                ShowRequestView();
                 model.DisplayRequestView = true;
             }
             else
             {
-                HideNotes();
+                HideRequestView();
                 model.DisplayRequestView = false;
             }
             LayoutSubviews();
             reloadParentRow();
         }
 
-        public void SetupCell(ProductDetail model, Action reloadParentRow)
+        public void SetupCell(InventoryDataModel model, Action reloadParentRow)
         {
             this.model = model;
             this.reloadParentRow = reloadParentRow;
 
             if (model.DisplayRequestView)
             {
-                ShowNotes();
+                ShowRequestView();
             }
             else
             {
-                HideNotes();
+                HideRequestView();
             }
         }
 
-        public void HideNotes()
+        public void HideRequestView()
         {
             SupplierHeightConstraint.Constant = 0;
             cell.RequestView.Hidden = true;
         }
 
-        public void ShowNotes()
+        public void ShowRequestView()
         {
             SupplierHeightConstraint.Constant = 260;
             cell.RequestView.Hidden = false;

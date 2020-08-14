@@ -7,6 +7,8 @@ using MvvmCross.Plugin.Messenger;
 using Strive.Core.ViewModels.TIMInventory;
 using Strive.Core.Utils;
 using Foundation;
+using MvvmCross.Platforms.Ios.Binding.Views;
+using System.Collections;
 
 namespace StriveTimInventory.iOS.Views
 {
@@ -25,6 +27,11 @@ namespace StriveTimInventory.iOS.Views
         {
             base.ViewDidLoad();
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
+            var pickerView = new UIPickerView();
+            var PickerViewModel = new InventoryPicker(pickerView,ViewModel);
+            pickerView.Model = PickerViewModel;
+            pickerView.ShowSelectionIndicator = true;
+            SupplierName.InputView = pickerView;
 
             var set = this.CreateBindingSet<InventoryEditView, InventoryEditViewModel>();
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
@@ -34,8 +41,15 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(ItemName).To(vm => vm.ItemName);
             set.Bind(ItemDescription).To(vm => vm.ItemDescription);
             set.Bind(ItemQuantity).To(vm => vm.ItemQuantity);
+            set.Bind(SupplierName).To(vm => vm.SupplierName);
+            set.Bind(SupplierContact).To(vm => vm.SupplierContact);
+            set.Bind(SupplierFax).To(vm => vm.SupplierFax);
+            set.Bind(SupplierAddress).To(vm => vm.SupplierAddress);
+            set.Bind(SupplierEmail).To(vm => vm.SupplierEmail);
             set.Apply();
         }
+
+      
 
         private async void OnReceivedMessageAsync(ValuesChangedMessage message)
         {

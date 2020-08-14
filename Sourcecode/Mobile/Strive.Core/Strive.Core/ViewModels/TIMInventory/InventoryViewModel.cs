@@ -15,11 +15,15 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
         }
 
-        public ObservableCollection<ProductDetail> FilteredList { get; set; } = new ObservableCollection<ProductDetail>();
+        public ObservableCollection<InventoryDataModel> FilteredList { get; set; } = new ObservableCollection<InventoryDataModel>();
 
-        private ObservableCollection<ProductDetail> _InventoryItemList = new ObservableCollection<ProductDetail>();
+        private ObservableCollection<ProductDetail> ProductList = new ObservableCollection<ProductDetail>();
 
-        private ObservableCollection<ProductDetail> EditableList = new ObservableCollection<ProductDetail>();
+        private ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
+
+        private ObservableCollection<InventoryDataModel> InventoryList = new ObservableCollection<InventoryDataModel>();
+
+        private ObservableCollection<InventoryDataModel> EditableList = new ObservableCollection<InventoryDataModel>();
 
         public async Task GetProductsCommand()
         {
@@ -27,41 +31,64 @@ namespace Strive.Core.ViewModels.TIMInventory
             Products products = await AdminService.GetAllProducts();
             foreach(var product in products.Product)
             {
-                _InventoryItemList.Add(product);
+                ProductList.Add(product);
+                var vendor = VendorList.Where(s => s.VendorId == product.VendorId).FirstOrDefault();
+                if(vendor != null)
+                {
+                    InventoryList.Add(new InventoryDataModel() { Product = product, Vendor = vendor });
+                }               
             }
+            _userDialog.HideLoading();
+            await RaiseAllPropertiesChanged();
+        }
+
+        public async Task GetVendorsCommand()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            Vendors vendors = await AdminService.GetAllVendors();
+            foreach (var vendor in vendors.Vendor)
+            {
+                VendorList.Add(vendor);
+            }
+            EmployeeData.Vendors = vendors;
             _userDialog.HideLoading();
             await RaiseAllPropertiesChanged();
         }
 
         public void InventorySearchCommand(string SearchText)
         {
-            FilteredList = new ObservableCollection<ProductDetail>(_InventoryItemList.
-                Where(s => s.ProductName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+            FilteredList = new ObservableCollection<InventoryDataModel>(InventoryList.
+                Where(s => s.Product.ProductName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
             EditableList = FilteredList;
             RaiseAllPropertiesChanged();
         }
 
         public void IncrementCommand(int index)
         {
-            FilteredList[index].Quantity++;
+            FilteredList[index].Product.Quantity++;
             RaiseAllPropertiesChanged();
         }
 
         public void DecrementCommand(int index)
         {
-            FilteredList[index].Quantity--;
+            FilteredList[index].Product.Quantity--;
             RaiseAllPropertiesChanged();
         }
 
         public void ClearCommand()
         {
             FilteredList.Clear();
-            _InventoryItemList.Clear();
+            ProductList.Clear();
         }
 
         public async void EditCommand(int index)
         {
             EmployeeData.EditableProduct = FilteredList[index];
+            await _navigationService.Navigate<InventoryEditViewModel>();
+        }
+
+        public async void AddProductCommand()
+        {
             await _navigationService.Navigate<InventoryEditViewModel>();
         }
     }

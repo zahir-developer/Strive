@@ -27,7 +27,6 @@ namespace Strive.Core.Models.TimInventory
         public object UpdatedBy { get; set; }
         public object UpdatedDate { get; set; }
         public double? Price { get; set; }
-        public bool DisplayRequestView { get; set; }
     }
 
     public class Products

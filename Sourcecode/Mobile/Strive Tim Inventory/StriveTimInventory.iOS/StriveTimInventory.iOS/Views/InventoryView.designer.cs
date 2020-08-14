@@ -16,6 +16,10 @@ namespace StriveTimInventory.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton AddProductButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITableView InventoryListTableView { get; set; }
 
         [Outlet]
@@ -32,6 +36,11 @@ namespace StriveTimInventory.iOS.Views
 
         void ReleaseDesignerOutlets ()
         {
+            if (AddProductButton != null) {
+                AddProductButton.Dispose ();
+                AddProductButton = null;
+            }
+
             if (InventoryListTableView != null) {
                 InventoryListTableView.Dispose ();
                 InventoryListTableView = null;
