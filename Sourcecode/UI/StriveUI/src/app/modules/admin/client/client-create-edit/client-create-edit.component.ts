@@ -126,8 +126,7 @@ export class ClientCreateEditComponent implements OnInit {
       phone1: this.selectedData.PhoneNumber,
       zipcode: this.selectedData.Zip,
       phone2: this.selectedData.PhoneNumber2,
-      email: this.selectedData.Email,
-      city: this.selectedData.City
+      email: this.selectedData.Email
     });    
     this.clientId = this.selectedData.ClientId;
   }
@@ -151,7 +150,7 @@ export class ClientCreateEditComponent implements OnInit {
       isActive: true,
       zip: this.clientForm.value.zipcode,
       state: this.State,
-      city: this.clientForm.value.city !== "" ? this.clientForm.value.city : 0,
+      city: 1,
       country: 38,
       phoneNumber: this.clientForm.value.phone1,
       email: this.clientForm.value.email,
