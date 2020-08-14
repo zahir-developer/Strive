@@ -7,6 +7,7 @@ import { DocumentListComponent } from '../../employees/document-list/document-li
 import { CreateDocumentComponent } from '../../employees/create-document/create-document.component';
 import { ToastrService } from 'ngx-toastr';
 import { CollisionListComponent } from '../../employees/collision-list/collision-list.component';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -39,7 +40,8 @@ export class EmployeeListComponent implements OnInit {
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private messageService: MessageServiceToastr
   ) { }
 
   ngOnInit() {
@@ -60,14 +62,12 @@ export class EmployeeListComponent implements OnInit {
         this.isTableEmpty = false;
         if (employees.EmployeeList.length > 0) {
           const employeeDetail = employees.EmployeeList;
-          console.log(employeeDetail, 'employeeList');
           this.employeeDetails = employeeDetail;
           this.employeeDetails = this.employeeDetails.filter(item => item.Status === true);
           this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
-          console.log(this.employeeDetails, 'detail');
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -95,9 +95,6 @@ export class EmployeeListComponent implements OnInit {
       this.headerData = 'Edit Employees';
       this.isEdit = true;
       this.actionType = data;
-      // this.selectedData = empDetails;
-      // this.isEdit = true;
-      // this.showDialog = true;
       this.employeeDetail(empDetails);
     }
   }
@@ -114,7 +111,7 @@ export class EmployeeListComponent implements OnInit {
           this.showDialog = true;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -132,9 +129,11 @@ export class EmployeeListComponent implements OnInit {
   confirmDelete(employeeDetail) {
     const id = employeeDetail.EmployeeId;
     this.employeeService.deleteEmployee(id).subscribe(res => {
-      console.log(res, 'deleteEmployee');
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Deleted Successfull!' });
         this.getAllEmployeeDetails();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -145,6 +144,8 @@ export class EmployeeListComponent implements OnInit {
         const seachList = JSON.parse(res.resultData);
         this.employeeDetails = seachList.EmployeeList;
         this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -153,7 +154,6 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getDropdownValue('EMPLOYEEROLE').subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
-        console.log(roles, 'roles');
         this.employeeRoles = roles.Codes;
       }
     });
@@ -226,7 +226,6 @@ export class EmployeeListComponent implements OnInit {
       this.actionType = mode;
       this.employeeId = employee.EmployeeId;
       this.showDialog = true;
-      // this.employeeDetail(employee);
     }
 
   }
@@ -241,9 +240,6 @@ export class EmployeeListComponent implements OnInit {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
-        console.log(this.location, 'location');
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
