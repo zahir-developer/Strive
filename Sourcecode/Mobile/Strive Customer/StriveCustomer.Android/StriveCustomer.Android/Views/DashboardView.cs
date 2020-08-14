@@ -25,6 +25,7 @@ namespace StriveCustomer.Android.Views
     public class DashboardView : MvxAppCompatActivity<DashboardViewModel>
     {
         private BottomNavigationView bottomNav;
+        private NotificationSettingsView notificationSettingsView;
         MvxFragment fragment = null;
         MapsFragment mapFrag = new MapsFragment();
         DealsFragment dealFrag = new DealsFragment();
@@ -33,6 +34,7 @@ namespace StriveCustomer.Android.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.DashboardScreen);
+            notificationSettingsView = new NotificationSettingsView(this);
             bottomNav = FindViewById<BottomNavigationView>(Resource.Id.bottomNav);
             bottomNav.InflateMenu(Resource.Menu.bottomNavMenu);
             bottomNav.NavigationItemSelected += NavigateFrag;
@@ -45,7 +47,6 @@ namespace StriveCustomer.Android.Views
             //{
             //    SupportFragmentManager.BeginTransaction().Remove(fragment).Commit();
             //}
-
             switch (e.Item.ItemId)
             {
                 case Resource.Id.menu_Map:
