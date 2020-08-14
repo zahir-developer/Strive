@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class GiftCardViewModel
+    public class GiftCardDetailsViewModel
     {
         public int GiftCardId { get; set; }
         public int LocationId { get; set; }
