@@ -29,12 +29,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-
-                var newitem = new CommonBpl(_cache, _tenant).CreateLogin(lstClient.ClientAddress.FirstOrDefault().Email, lstClient.ClientAddress.FirstOrDefault().PhoneNumber);
-                bool blnStatus = new ClientRal(_tenant).SaveClientDetails(lstClient);
-
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
+                return ResultWrap(new ClientRal(_tenant).InsertClientDetails, client, "Status");
             }
             catch (Exception ex)
             {

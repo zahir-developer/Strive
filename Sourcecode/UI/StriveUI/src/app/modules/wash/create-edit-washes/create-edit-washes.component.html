@@ -39,7 +39,7 @@
                                 <div class="form-group col-lg-2 col-md-2 col-xl-3">
                                     <label for="inputBarcode">barcode</label>
                                     <input type="text" maxlength="100" class="form-control" formControlName="barcode"
-                                        placeholder="BarCode">
+                                        placeholder="BarCode" (change)="getByBarcode($event.target.value)">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputClient">Client</label>

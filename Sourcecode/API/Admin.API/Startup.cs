@@ -33,9 +33,9 @@ using Strive.BusinessLogic.GiftCard;
 using System.Reflection;
 using System.IO;
 using Strive.BusinessLogic.MembershipSetup;
-using Strive.BusinessLogic.Washes;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Schedule;
+using Strive.BusinessLogic.Washes;
 
 namespace Admin.API
 {

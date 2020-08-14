@@ -150,12 +150,11 @@ export class EmployeeListComponent implements OnInit {
   }
 
   getAllRoles() {
-    this.employeeService.getAllRoles().subscribe(res => {
-      console.log(res, 'getAllRoles');
+    this.employeeService.getDropdownValue('EMPLOYEEROLE').subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
         console.log(roles, 'roles');
-        this.employeeRoles = roles.EmployeeRoles;
+        this.employeeRoles = roles.Codes;
       }
     });
   }
