@@ -240,6 +240,8 @@ export class CreateEditComponent implements OnInit {
       employeeId: 0,
       employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
+      PayRate: this.emplistform.value.hourlyRateWash,
+      ComRate: null,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
       exemptions: +this.emplistform.value.exemptions
     };
