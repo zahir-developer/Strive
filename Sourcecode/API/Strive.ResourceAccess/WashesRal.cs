@@ -47,5 +47,11 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETCLIENTANDVEHICLEDETAIL.ToString(), _prm);
             return result;
         }
+        public bool DeleteWashes(int id)
+        {
+            _prm.Add("@JobId", id);
+            db.Save(SPEnum.USPDELETEWASHES.ToString(), _prm);
+            return true;
+        }
     }
 }

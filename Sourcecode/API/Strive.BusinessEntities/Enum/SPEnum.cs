@@ -105,7 +105,8 @@ namespace Strive.BusinessEntities
         //Schedule
         USPSAVESCHEDULE,
         uspGetGiftCardHistoryByNumber,
-        uspGetGiftCardByLocation
+        uspGetGiftCardByLocation,
+        USPDELETEWASHES
     }
 
 
