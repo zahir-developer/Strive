@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGiftCardComponent } from '../gift-card/add-gift-card/add-gift-card.component';
 import { AddActivityComponent } from '../gift-card/add-activity/add-activity.component';
+import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-gift-card',
@@ -14,46 +17,73 @@ export class GiftCardComponent implements OnInit {
   giftCardForm: FormGroup;
   giftCardHistory: any = [];
   isActivity: boolean;
-  constructor(private giftCardService: GiftCardService, private fb: FormBuilder, private modalService: NgbModal) { }
+  activeDate: any = 'none';
+  totalAmount: any = 0;
+  submitted: boolean;
+  giftCardID: any;
+  constructor(
+      private giftCardService: GiftCardService,
+      private fb: FormBuilder,
+      private modalService: NgbModal,
+      private toastr: ToastrService,
+      private messageService: MessageServiceToastr
+    ) { }
 
   ngOnInit(): void {
+    this.submitted = false;
     this.isActivity = false;
     this.giftCardForm = this.fb.group({
-      number: ['']
+      number: ['', Validators.required]
     });
     this.getAllGiftCard();
-    // this.getAllGiftCardHistory();
-    // this.getGiftCard();
   }
 
   getAllGiftCard() {
     const locationId = 1;
-    this.giftCardService.getAllGiftCard(locationId).subscribe( res => {
+    this.giftCardService.getAllGiftCard(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const giftcard = JSON.parse(res.resultData);
-        console.log(giftcard);
       }
     });
   }
 
-  getAllGiftCardHistory(giftId) {
-    this.giftCardService.getAllGiftCardHistory(giftId).subscribe(res => {
+  getAllGiftCardHistory(giftCardNumber) {
+    this.giftCardService.getAllGiftCardHistory(giftCardNumber).subscribe(res => {
       if (res.status === 'Success') {
         const cardHistory = JSON.parse(res.resultData);
         this.giftCardHistory = cardHistory.GiftCardHistory;
-        console.log(cardHistory, 'giftcardHistory');
       }
     });
   }
 
+  get f() {
+    return this.giftCardForm.controls;
+  }
+
   getGiftCardDetail() {
-    const giftId = +this.giftCardForm.value.number;
-    this.giftCardService.getGiftCard(giftId).subscribe(res => {
+    this.submitted = true;
+    if (this.giftCardForm.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      return;
+    }
+    const giftCardNumber = +this.giftCardForm.value.number;
+    this.giftCardService.getGiftCard(giftCardNumber).subscribe(res => {
       if (res.status === 'Success') {
         const giftcardDetail = JSON.parse(res.resultData);
-        console.log(giftcardDetail, 'giftcardDetail');
-        this.isActivity = true;
-        this.getAllGiftCardHistory(giftId);
+        if (giftcardDetail.GiftCardDetail.length > 0) {
+          this.activeDate = moment(giftcardDetail.GiftCardDetail[0].ExpiryDate).format('YYYY-MM-DD');
+          this.totalAmount = giftcardDetail.GiftCardDetail[0].TotalAmount;
+          this.giftCardID = giftcardDetail.GiftCardDetail[0].GiftCardId;
+          this.isActivity = true;
+          this.getAllGiftCardHistory(giftCardNumber);
+        } else {
+          this.messageService.showMessage({ severity: 'info', title: 'Information', body: 'Invalid Card Number' });
+          this.isActivity = false;
+          this.activeDate = 'none';
+          this.totalAmount = 0;
+        }
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -72,7 +102,7 @@ export class GiftCardComponent implements OnInit {
       giftCardId: card.GiftCardId,
       isActive: card.IsActive ? false : true
     };
-    this.giftCardService.updateStatus(finalObj).subscribe( res => {
+    this.giftCardService.updateStatus(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.getAllGiftCardHistory(card.GiftCardId);
       }
@@ -86,7 +116,10 @@ export class GiftCardComponent implements OnInit {
       size: 'lg'
     };
     const modalRef = this.modalService.open(AddActivityComponent, ngbModalOptions);
-    modalRef.componentInstance.giftCardId = +this.giftCardForm.value.number;
+    modalRef.componentInstance.giftCardNumber = +this.giftCardForm.value.number;
+    modalRef.componentInstance.activeDate = this.activeDate;
+    modalRef.componentInstance.totalAmount = this.totalAmount;
+    modalRef.componentInstance.giftCardId = this.giftCardID;
     modalRef.result.then((result) => {
       if (result) {
         this.getAllGiftCardHistory(+this.giftCardForm.value.number);
@@ -95,6 +128,8 @@ export class GiftCardComponent implements OnInit {
   }
 
   cancelActvity() {
+    this.activeDate = 'none';
+    this.totalAmount = 0;
     this.isActivity = false;
     this.giftCardForm.reset();
   }

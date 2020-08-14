@@ -4,6 +4,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-employee',
@@ -36,7 +37,12 @@ export class EditEmployeeComponent implements OnInit {
   isPersonalCollapsed = false;
   isDetailCollapsed = false;
   submitted: boolean;
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit(): void {
     this.isEditPersonalDetail = false;
@@ -73,12 +79,20 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   employeeDetail() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 2,
+      allowSearchFilter: false
+    };
     const id = this.employeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
-      console.log(res, 'getEmployeById');
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
         this.employeeData = employees.Employee;
         this.setValue();
       }
@@ -120,7 +134,7 @@ export class EditEmployeeComponent implements OnInit {
       hourlyRateWash: employeeInfo.PayRate,
       hourlyRateDetail: employeeInfo.ComRate,
       commission: employeeInfo.ComRate ? employeeInfo.ComRate : '',
-      status: employee.IsActive ? 'Active' : 'InActive',
+      status: employeeInfo.Status ? 'Active' : 'InActive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
       roles: employeeRole,
@@ -139,17 +153,6 @@ export class EditEmployeeComponent implements OnInit {
         item_text: item.CodeValue
       };
     });
-    console.log(this.employeeRoles, 'employeerolesmuliti');
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
   }
 
   locationDropDown() {
@@ -183,10 +186,8 @@ export class EditEmployeeComponent implements OnInit {
 
   getAllCollision() {
     this.employeeService.getAllCollision(this.employeeId).subscribe(res => {
-      console.log(res, 'allcollistion');
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
-        console.log(employeesCollison, 'employeDeatil');
         if (employeesCollison.Collision.length > 0) {
           this.employeeCollision = employeesCollison.Collision;
         }
@@ -207,7 +208,6 @@ export class EditEmployeeComponent implements OnInit {
       if (res.status === 'Success') {
         const document = JSON.parse(res.resultData);
         this.documentList = document.GetAllDocuments;
-        console.log(this.documentList, 'documentlst');
       }
     });
   }
@@ -223,6 +223,7 @@ export class EditEmployeeComponent implements OnInit {
   updateEmployee() {
     this.submitted = true;
     if (this.personalform.invalid || this.emplistform.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
     }
     const sourceObj = [];
@@ -291,10 +292,12 @@ export class EditEmployeeComponent implements OnInit {
       employeeLocation: locationObj,
       employeeDocument: this.employeeData.EmployeeDocument
     };
-    console.log(finalObj, 'finalObj');
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Updated Successfull!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }

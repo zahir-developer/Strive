@@ -69,6 +69,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.washForm.disable();
   }
 
+  // Get Client And Vehicle Details By Barcode
   getByBarcode(barcode){
     this.wash.getByBarcode(barcode).subscribe(data => {
       if (data.status === 'Success') {
