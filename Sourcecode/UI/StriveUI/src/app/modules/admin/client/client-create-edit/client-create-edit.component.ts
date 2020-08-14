@@ -45,7 +45,6 @@ export class ClientCreateEditComponent implements OnInit {
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
-    //this.Type = [{ id: 0, Value: "Type1" }, { id: 1, Value: "Type2" }];
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
@@ -184,7 +183,7 @@ export class ClientCreateEditComponent implements OnInit {
     };
     const myObj = {
       client: formObj,
-      clientVehicle: this.vehicleDet,
+      clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,
       clientAddress: this.address
     }
     if (this.isEdit === true) {
@@ -251,12 +250,11 @@ export class ClientCreateEditComponent implements OnInit {
     this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
     console.log(this.vehicleDetails,this.vehicleDet);
+    this.toastr.success('Record Deleted Successfully!!', 'Success!'); 
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
     if(data.ClientVehicleId !== 0){
       this.deleteIds.push(data);      
-    }  else{
-      this.toastr.success('Record Deleted Successfully!!', 'Success!');      
-    }  
+    }
   }
 
   // Add New Vehicle

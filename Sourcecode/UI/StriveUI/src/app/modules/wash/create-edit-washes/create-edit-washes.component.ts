@@ -20,6 +20,7 @@ export class CreateEditWashesComponent implements OnInit {
   @Input() isView?: any;
   Score : any;
   ticketNumber : any;
+  barcodeDetails: any;
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private wash: WashService) { }
 
@@ -68,6 +69,17 @@ export class CreateEditWashesComponent implements OnInit {
     this.washForm.disable();
   }
 
+  getByBarcode(barcode){
+    this.wash.getByBarcode(barcode).subscribe(data => {
+      if (data.status === 'Success') {
+        const wash = JSON.parse(data.resultData);
+        this.barcodeDetails = wash.ClientAndVehicleDetail;
+        console.log(this.barcodeDetails);
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
   // Add/Update Wash
   submit() {  
     const job = {
