@@ -110,9 +110,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
   // Get CashInRegister By Date
   getCashRegister() {
-    const today = moment(new Date()).format('YYYY-MM-DD');
+    const today = moment(new Date()).format('MM-DD-YYYY');
     const cashRegisterType = 'CASHIN';
-    const locationId = 1;
+    const locationId = +localStorage.getItem('empLocation');
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);

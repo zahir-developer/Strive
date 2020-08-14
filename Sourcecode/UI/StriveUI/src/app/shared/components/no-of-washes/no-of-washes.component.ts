@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { WashService } from '../../services/data-service/wash.service';
 
 @Component({
   selector: 'app-no-of-washes',
@@ -6,14 +7,19 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./no-of-washes.component.css']
 })
 export class NoOfWashesComponent implements OnInit {
-
-  @Input() dashBoard? : any;
   washCount: any;
-  constructor() { }
+  constructor(private wash: WashService) { }
 
   ngOnInit() {
-    console.log(this.dashBoard);
-    this.washCount = this.dashBoard.WashesCount.WashesCount;
+    this.getDashboardDetails();
   }
 
+  // Get Wash Count
+  getDashboardDetails = () => {
+    this.wash.data.subscribe((data: any) => {
+      if (data.WashesCount !== undefined) {
+        this.washCount = data.WashesCount.WashesCount;
+      }
+    });
+  }
 }
