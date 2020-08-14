@@ -91,14 +91,34 @@ export class DocumentListComponent implements OnInit {
 
   viewDocument(document) {
     this.documentId = document.EmployeeDocumentId;
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg'
-    };
-    const modalRef = this.modalService.open(ViewDocumentComponent, ngbModalOptions);
-    modalRef.componentInstance.employeeId = this.employeeId;
-    modalRef.componentInstance.documentId = this.documentId;
+    if (document.IsPasswordProtected) {
+      const ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'lg'
+      };
+      const modalRef = this.modalService.open(ViewDocumentComponent, ngbModalOptions);
+      modalRef.componentInstance.employeeId = this.employeeId;
+      modalRef.componentInstance.documentId = this.documentId;
+    } else  {
+      this.downloadDocument(document.EmployeeDocumentId);
+    }
+  }
+
+  downloadDocument(documentId) {
+    this.employeeService.getDocumentById(this.documentId, 'string').subscribe( res => {
+      if (res.status === 'Success') {
+        const documentDetail = JSON.parse(res.resultData);
+        console.log(documentDetail);
+        const base64 = documentDetail.DocumentDetail.Base64Url;
+        const linkSource = 'data:application/pdf;base64,' + base64;
+        const downloadLink = document.createElement('a');
+        const fileName = documentDetail.DocumentDetail.FileName;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+      }
+    });
   }
 
   closeModal() {

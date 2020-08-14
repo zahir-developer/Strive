@@ -17,22 +17,29 @@ namespace Strive.ResourceAccess
     public class GiftCardRal : RalBase
     {
         public GiftCardRal(ITenantHelper tenant) : base(tenant) { }
-        public List<GiftCardViewModel> GetAllGiftCard(int locationId)
+        public List<GiftCardDetailsViewModel> GetAllGiftCard(int locationId)
         {
             _prm.Add("@LocationId", locationId);
-            return db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
+            return db.Fetch<GiftCardDetailsViewModel>(SPEnum.uspGetGiftCardByLocation.ToString(), _prm);
         }
-
-        public List<GiftCardViewModel> GetGiftCardByGiftCardId(int giftCardId)
+        //
+        public List<GiftCardViewModel> GetGiftCardByGiftCardId(string giftCardNumber)
         {
-            _prm.Add("@GiftCardId", giftCardId);
+            _prm.Add("@GiftCardCode", giftCardNumber);
             var result = db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
             return result;
         }
-        public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(int giftCardId)
+        public List<GiftCardViewModel> GetGiftCardHistoryByNumber(string giftCardNumber)
+        {
+            _prm.Add("@GiftCardCode", giftCardNumber);
+            var result = db.Fetch<GiftCardViewModel>(SPEnum.uspGetGiftCardHistoryByNumber.ToString(), _prm);
+            return result;
+        }
+        //
+        public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(string giftCardNumber)
         {
 
-            _prm.Add("GiftCardId", giftCardId);
+            _prm.Add("@GiftCardCode", giftCardNumber);
             var result = db.Fetch<GiftCardHistoryViewModel>(SPEnum.USPGETGIFTCARDHISTORY.ToString(), _prm);
             return result;
         }

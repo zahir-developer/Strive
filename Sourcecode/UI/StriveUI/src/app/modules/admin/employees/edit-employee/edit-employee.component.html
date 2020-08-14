@@ -73,8 +73,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
-                                    <input type="number" class="form-control" id="inputPhone" formControlName="mobile"
-                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
+                                    <input type="text" class="form-control" appPhoneMask id="inputPhone" formControlName="mobile"
+                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" >
                                     <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
                                         <div *ngIf="f.mobile.errors.required">Mobile Number is required</div>
                                     </div>

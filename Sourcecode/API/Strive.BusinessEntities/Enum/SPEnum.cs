@@ -103,7 +103,10 @@ namespace Strive.BusinessEntities
         USPGETDAILYDASHBOARD,
         USPGETCLIENTANDVEHICLEDETAIL,
         //Schedule
-        USPSAVESCHEDULE
+        USPSAVESCHEDULE,
+        uspGetGiftCardHistoryByNumber,
+        uspGetGiftCardByLocation,
+        USPDELETEWASHES
     }
 
 

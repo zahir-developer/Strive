@@ -21,8 +21,11 @@ public class GiftCard
 
 	[Column]
 	public DateTimeOffset? ExpiryDate { get; set; }
-
-	[Column]
+    [Column]
+    public decimal TotalAmount { get; set; }
+    [Column]
+    public decimal BalanceAmount { get; set; }
+    [Column]
 	public string Comments { get; set; }
 
 	[Column]

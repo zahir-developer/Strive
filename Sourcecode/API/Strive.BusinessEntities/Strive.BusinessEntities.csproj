@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DTO\Auth\Email.cs" />
+    <Compile Include="DTO\ClientSearchDto.cs" />
     <Compile Include="DTO\Client\ClientDto.cs" />
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Model\ScheduleModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
+    <Compile Include="ViewModel\ClientSearchViewModel.cs" />
     <Compile Include="ViewModel\ClientVehicleViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CollisionViewModel.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\ForecastedCarsViewModel.cs" />
+    <Compile Include="ViewModel\GiftCardDetailsViewModel.cs" />
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />

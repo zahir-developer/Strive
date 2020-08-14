@@ -7,8 +7,6 @@ import { UrlConfig } from '../url.config';
   providedIn: 'root'
 })
 export class WashService {  
-public data: BehaviorSubject<string> = new BehaviorSubject('');
-  dashboardData: any;
 
   constructor(private http: HttpUtilsService) { }
   getAllWashes(): Observable<any> {
@@ -23,17 +21,13 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
   getWashById(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getWashById}` + id);
   }
+  getByBarcode(id: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getByBarcode}` + id);
+  }
   deleteWash(id : number){
     return this.http.get(`${UrlConfig.totalUrl.deleteWash}` + id);
   }
-  getDashboard() {
-    const obj ={
-      id : 1,
-      date : new Date()
-    }
-    this.http.get(`${UrlConfig.totalUrl.getDashBoardCount}`, obj).subscribe((data: any) => {
-      this.dashboardData = data.Dashboard;
-      this.data.next(this.dashboardData);
-    });
-  }
+  getDashboard(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj)
+  }    
 }

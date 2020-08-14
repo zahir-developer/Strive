@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-no-of-washes',
@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NoOfWashesComponent implements OnInit {
 
+  @Input() dashBoard? : any;
+  washCount: any;
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    console.log(this.dashBoard);
+    this.washCount = this.dashBoard.WashesCount.WashesCount;
   }
 
 }

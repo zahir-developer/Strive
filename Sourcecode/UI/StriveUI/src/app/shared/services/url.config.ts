@@ -29,7 +29,7 @@ export const UrlConfig = {
     updateVendor: `Admin/Vendor/Update`,
     deleteVendor: `Admin/Vendor/Delete/`,
     getVendorById: `Admin/Vendor/GetVendorById/`,
-    getCashRegister: `Admin/CashRegister/Get/`,
+    getCashRegister: `Admin/CashRegister/Get`,
     saveCashRegister: `Admin/CashRegister/Save`,
     stateList: `Admin/Common/StateList`,
     countryList: `Admin/Common/CountryList`,
@@ -76,6 +76,8 @@ export const UrlConfig = {
     updateWash:`Admin/Washes/UpdateWashTime`,
     deleteWash:`Admin/washes/Delete/`,
     searchEmployee: `Admin/Employee/GetEmployeeSearch`,
-    getDashBoardCount:`Admin/Washes/DashboardCount`
+    getDashBoardCount:`Admin/Washes/DashboardCount`,
+    addCardHistory: `Admin/GiftCard/AddGiftCardHistory`,
+    getByBarcode:`Admin/Washes/GetByBarCode/`
   }
 };
