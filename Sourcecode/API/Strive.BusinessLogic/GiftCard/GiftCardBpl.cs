@@ -57,5 +57,10 @@ namespace Strive.BusinessLogic.GiftCard
         {
             return ResultWrap(new GiftCardRal(_tenant).UpdateGiftCardHistory, giftCardHistoryDto, "Status");
         }
+        public Result UpdateGiftCardBalance(int giftCardId)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).UpdateGiftCardBalance, giftCardId, "Status");
+        }
+        
     }
 }

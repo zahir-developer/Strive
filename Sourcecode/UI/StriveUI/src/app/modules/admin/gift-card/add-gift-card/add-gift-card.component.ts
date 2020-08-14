@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-add-gift-card',
@@ -13,17 +15,25 @@ export class AddGiftCardComponent implements OnInit {
   giftCardForm: FormGroup;
   amountList: any = [];
   isOtherAmount: boolean;
-  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder, private giftCardService: GiftCardService) { }
+  submitted: boolean;
+  constructor(
+    private activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private giftCardService: GiftCardService,
+    private toastr: ToastrService,
+    private messageService: MessageServiceToastr
+    ) { }
 
   ngOnInit(): void {
+    this.submitted = false;
     this.isOtherAmount = false;
     this.giftCardForm = this.fb.group({
-      number: [''],
-      activeDate: [''],
-      amount: [''],
+      number: ['', Validators.required],
+      activeDate: ['', Validators.required],
+      amount: ['', Validators.required],
       others: ['']
     });
-    this.amountList = [ // $10, $25, $50 or $100 
+    this.amountList = [
       {
         label: '$10',
         value: 10
@@ -52,7 +62,6 @@ export class AddGiftCardComponent implements OnInit {
   }
 
   selectedAmount(event) {
-    console.log(event, 'amount');
     if (+event.target.value === 0) {
       this.isOtherAmount = true;
     } else {
@@ -60,16 +69,26 @@ export class AddGiftCardComponent implements OnInit {
     }
   }
 
+  get f() {
+    return this.giftCardForm.controls;
+  }
+
   saveGiftCard() {
+    this.submitted = true;
+    if (this.giftCardForm.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      return;
+    }
     const cardObj = {
       giftCardId: 0,
       locationId: 1,
-      giftCardCode: 'string',
+      giftCardCode: this.giftCardForm.value.number,
       giftCardName: 'string',
       expiryDate: moment(this.giftCardForm.value.activeDate),
       comments: 'string',
       isActive: true,
       isDeleted: false,
+      totalAmount: this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
       createdBy: 0,
       createdDate: moment(new Date()),
       updatedBy: 0,
@@ -80,7 +99,11 @@ export class AddGiftCardComponent implements OnInit {
     };
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Gift Card Added Successfully!!' });
         this.activeModal.close();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.giftCardForm.reset();
       }
     });
   }

@@ -60,6 +60,11 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateGiftCardHistory")]
         public Result UpdateGiftCardHistory([FromBody] GiftCardHistoryDto updateGiftCardHistory) => _bplManager.UpdateGiftCardHistory(updateGiftCardHistory);
+
+        [HttpPost]
+        [Route("UpdateGiftCardBalance")]
+        public Result UpdateGiftCardBalance(int giftCardId) => _bplManager.UpdateGiftCardBalance(giftCardId);
+        
         #endregion
     }
 }

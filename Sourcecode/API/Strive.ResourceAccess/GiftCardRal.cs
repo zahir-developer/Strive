@@ -22,6 +22,10 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId", locationId);
             return db.Fetch<GiftCardDetailsViewModel>(SPEnum.uspGetGiftCardByLocation.ToString(), _prm);
         }
+        public bool UpdateGiftCardBalance(int giftCardId)
+        {
+            return dbRepo.SavePc(giftCardId, "GiftCardId");
+        }
         //
         public List<GiftCardViewModel> GetGiftCardByGiftCardId(string giftCardNumber)
         {
@@ -68,5 +72,6 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(giftCardHistoryDto, "GiftCardHistoryId");
         }
+       
     }
 }

@@ -4,6 +4,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -46,7 +47,12 @@ export class CreateEditComponent implements OnInit {
   multipleFileUpload: any = [];
   fileType: any;
   isLoading: boolean;
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit() {
     this.isLoading = false;
@@ -70,10 +76,10 @@ export class CreateEditComponent implements OnInit {
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       commission: [''],
-      status: [''],
+      status: ['Active'],
       exemptions: [''],
-      roles: [[]],
-      location: [[]]
+      roles: [[], Validators.required],
+      location: [[], Validators.required]
     });
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
@@ -86,7 +92,6 @@ export class CreateEditComponent implements OnInit {
   employeeDetail() {
     const id = this.employeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
-      console.log(res, 'getEmployeById');
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
         console.log(employees, 'employeDeatil');
@@ -126,17 +131,12 @@ export class CreateEditComponent implements OnInit {
     });
   }
 
-  checking() {
-    console.log(this.emplistform, 'multi');
-  }
-
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 
   getAllRoles() {
     this.employeeService.getAllRoles().subscribe(res => {
-      console.log(res, 'getAllRoles');
     });
   }
 
@@ -204,6 +204,7 @@ export class CreateEditComponent implements OnInit {
     console.log(this.emplistform, 'empdorm');
     this.submitted = true;
     if (this.personalform.invalid || this.emplistform.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
     }
     const sourceObj = [];
@@ -223,18 +224,13 @@ export class CreateEditComponent implements OnInit {
       zip: 'string',
       country: 38
     };
-    // const employeeRoleObj = this.emplistform.value.roles.map(item => {
-    //   return {
-    //     employeeRoleId: 0,
-    //     employeeId: 0,
-    //     roleId: item.item_id
-    //   };
-    // });
-    const employeeRoleObj = [{
-      employeeRoleId: 0,
-      employeeId: 0,
-      roleId: 5
-    }];
+    const employeeRoleObj = this.emplistform.value.roles.map(item => {
+      return {
+        employeeRoleId: 0,
+        employeeId: 0,
+        roleId: item.item_id
+      };
+    });
     const employeeDetailObj = {
       employeeDetailId: 0,
       employeeId: 0,
@@ -286,22 +282,6 @@ export class CreateEditComponent implements OnInit {
         updatedDate: moment(new Date()).format('YYYY-MM-DD')
       };
     });
-    // const documentObj = [{
-    //   employeeDocumentId: 0,
-    //   employeeId: 0,
-    //   filename: 'string',
-    //   filepath: 'string',
-    //   fileType: 'string',
-    //   isPasswordProtected: true,
-    //   password: 'string',
-    //   comments: 'string',
-    //   isActive: true,
-    //   isDeleted: true,
-    //   createdBy: 0,
-    //   createdDate: moment(new Date()).format('YYYY-MM-DD'),
-    //   updatedBy: 0,
-    //   updatedDate: moment(new Date()).format('YYYY-MM-DD')
-    // }];
     const finalObj = {
       employee: employeeObj,
       employeeDetail: employeeDetailObj,
@@ -310,10 +290,12 @@ export class CreateEditComponent implements OnInit {
       employeeLocation: locationObj,
       employeeDocument: documentObj
     };
-    console.log(finalObj, 'finalObj');
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfull!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
