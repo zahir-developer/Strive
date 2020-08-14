@@ -34,6 +34,8 @@ using static Android.Gms.Common.Apis.GoogleApiClient;
 using Location = Android.Locations.Location;
 using ILocationListener = Android.Gms.Location.ILocationListener;
 using CarWashLocation = Strive.Core.Models.TimInventory.Location;
+using System.Timers;
+using Task = System.Threading.Tasks.Task;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -59,6 +61,7 @@ namespace StriveCustomer.Android.Fragments
         private SupportMapFragment gmaps;
         private CarWashLocation carWashLocations;
         private PendingIntent geoPendingIntent;
+        private Timer refreshWashTimer;
         private static View rootView;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -73,6 +76,7 @@ namespace StriveCustomer.Android.Fragments
 
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
             geofenceHelper = new GeofenceHelper(this.Context);
+           
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -122,6 +126,7 @@ namespace StriveCustomer.Android.Fragments
             Googlemap = googleMap;
             Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
             enableUserLocation( );
+            RefreshWashTimes();
             setUpMarkers();
             addCarwashGeoFence(carWashLatLng,Radius);
         }
@@ -144,7 +149,7 @@ namespace StriveCustomer.Android.Fragments
             {
                 Googlemap.MyLocationEnabled = true;
                 Googlemap.UiSettings.MyLocationButtonEnabled = true;
-                Googlemap.MarkerClick += Googlemap_MarkerClick;
+                //Googlemap.MarkerClick += Googlemap_MarkerClick;
             }
             else
             {
@@ -165,15 +170,15 @@ namespace StriveCustomer.Android.Fragments
                     carWashLatLng[3] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
                     carWashMarkerOptions[3] = new MarkerOptions().SetPosition(carWashLatLng[3]).SetTitle(carWashLocation.WashTiming);
                 }
-                Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]);
+                Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
                 carWashLocationsCount++;
             }
         }
-        private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
-        {
-            LatLng markerlatlng = e.Marker.Position;
-            await Map.OpenAsync(markerlatlng.Latitude,markerlatlng.Longitude);
-        }
+        //private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+        //{
+        //    LatLng markerlatlng = e.Marker.Position;
+        //    await Map.OpenAsync(markerlatlng.Latitude,markerlatlng.Longitude);
+        //}
         private void addCarwashGeoFence(LatLng[] latlngs, float Radius)
         {
             geofencesCount = 0;
@@ -230,6 +235,34 @@ namespace StriveCustomer.Android.Fragments
             userMarkerOption = new MarkerOptions();
             userMarkerOption.SetPosition(userLatLng);
         }
+        private void RefreshWashTimes()
+        {
+            refreshWashTimer = new Timer(10000);
+            refreshWashTimer.AutoReset = true;
+            refreshWashTimer.Elapsed += RefreshWashTimer_Elapsed;
+            refreshWashTimer.Start();
+        }
+        private async void RefreshWashTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            carWashLocations = await ViewModel.GetAllLocationsCommand();
+
+            carWashLocationsCount = 0;
+            carWashLatLng = new LatLng[carWashLocations.LocationAddress.Count];
+            carWashMarkerOptions = new MarkerOptions[carWashLocations.LocationAddress.Count];
+            foreach (var carWashLocation in carWashLocations.LocationAddress)
+            {
+                carWashLatLng[carWashLocationsCount] = new LatLng(carWashLocation.Latitude, carWashLocation.Longitude);
+                carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTiming);
+                if (carWashLocationsCount == 3)
+                {
+                    carWashLatLng[3] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                    carWashMarkerOptions[3] = new MarkerOptions().SetPosition(carWashLatLng[3]).SetTitle(carWashLocation.WashTiming);
+                }
+                carWashLocationsCount++;
+            }
+
+        }
+
         public void OnConnected(Bundle connectionHint)
         {
             //
