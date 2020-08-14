@@ -84,6 +84,7 @@ export const UrlConfig = {
     getMembershipById:`Admin/MembershipSetup/GetAllMembershipById/`,
     addMembership:`Admin/MembershipSetup/Add`,
     updateMembership:`Admin/MembershipSetup/Update`,
-    deleteMembership:`Admin/MembershipSetup/Delete/`
+    deleteMembership:`Admin/MembershipSetup/Delete/`,
+    getClientByName:`Admin/Client/GetClientSearch`
   }
 };
