@@ -12,8 +12,10 @@ export class ScoreComponent implements OnInit {
   constructor(private wash: WashService) { }
 
   ngOnInit() {
-    this.getDashboardDetails
+    this.getDashboardDetails();
   }
+
+  // Get Score
   getDashboardDetails = () => {
     this.wash.data.subscribe((data: any) => {
       if (data.Current !== undefined) {

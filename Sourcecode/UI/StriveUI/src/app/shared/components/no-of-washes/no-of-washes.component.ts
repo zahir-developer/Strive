@@ -13,6 +13,8 @@ export class NoOfWashesComponent implements OnInit {
   ngOnInit() {
     this.getDashboardDetails();
   }
+
+  // Get Wash Count
   getDashboardDetails = () => {
     this.wash.data.subscribe((data: any) => {
       if (data.WashesCount !== undefined) {

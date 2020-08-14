@@ -14,6 +14,8 @@ export class AverageWashTimeComponent implements OnInit {
   ngOnInit() {
     this.getDashboardDetails();
   }
+
+  // Get Averege Wash Time
   getDashboardDetails = () => {
     this.wash.data.subscribe((data: any) => {
       if (data.AverageWashTime !== undefined) {

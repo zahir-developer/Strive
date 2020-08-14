@@ -33,9 +33,8 @@ export class WashService {
   deleteWash(id : number){
     return this.http.get(`${UrlConfig.totalUrl.deleteWash}` + id);
   }
-  // getDashboard(obj) {
-  //   return this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj)
-  // } 
+
+  // Get Dashboard Count
   getDashBoard() {
     const obj = {
       id: 1,

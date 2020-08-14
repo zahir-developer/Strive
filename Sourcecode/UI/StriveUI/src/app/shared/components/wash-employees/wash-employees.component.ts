@@ -14,6 +14,8 @@ export class WashEmployeesComponent implements OnInit {
   ngOnInit() {
     this.getDashboardDetails();
   }
+
+  // Get Employee Count
   getDashboardDetails = () => {
     this.wash.data.subscribe((data: any) => {
       if (data.EmployeeCount !== undefined) {

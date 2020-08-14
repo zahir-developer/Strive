@@ -14,6 +14,8 @@ export class NoOfDetailsComponent implements OnInit {
   ngOnInit() {
     this.getDashboardDetails();
   }
+
+  // Get Details Count
   getDashboardDetails = () => {
     this.wash.data.subscribe((data: any) => {
       if (data.DetailsCount !== undefined) {

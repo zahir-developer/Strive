@@ -14,6 +14,8 @@ export class ForecastedCarsComponent implements OnInit {
   ngOnInit() {
     this.getDashboardDetails();
   }
+
+  // Get ForecastedCars
   getDashboardDetails = () => {
     this.wash.data.subscribe((data: any) => {
       if (data.ForecastedCars !== undefined) {
