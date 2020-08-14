@@ -43,5 +43,10 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENT.ToString(), _prm);
             return true;
         }
+        public List<ClientSearchViewModel> GetClientSearch(ClientSearchDto search)
+        {
+            _prm.Add("@FirstName", search.FirstName);
+            return db.Fetch<ClientSearchViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+        }
     }
 }
