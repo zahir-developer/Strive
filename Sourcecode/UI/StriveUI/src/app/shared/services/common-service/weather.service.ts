@@ -19,9 +19,9 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
     }, 1000);
   }
 getWeather() {
-  const locationId = 1;
+  const locationId = localStorage.getItem('empLocationId');
   this.http.get(`${UrlConfig.totalUrl.getWeather}` + locationId).subscribe((data: any) => {
-    this.weatherData = data.currentWeather;
+    this.weatherData = data?.currentWeather;
     this.data.next(this.weatherData);
   });
 }

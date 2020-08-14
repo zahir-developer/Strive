@@ -14,6 +14,7 @@ export class UserDataService {
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
     localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
+    localStorage.setItem('drawerId', token.EmployeeDetails.Drawer[0].DrawerId);
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }
 }
