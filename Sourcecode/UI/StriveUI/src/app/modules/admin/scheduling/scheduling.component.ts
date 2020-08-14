@@ -27,6 +27,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   headerData = '';
   mytime: any;
   selectedEvent = [];
+  startTime: Date = new Date();
   // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('fc') fc: FullCalendar;
   
@@ -35,108 +36,68 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   showDialog: boolean;
   constructor(private empService: EmployeeService) { }
   ngAfterViewInit() {
-    console.log("PEOPLE LIST ngAfterViewInit() START !!!")
+    this.calendar = this.fc.getCalendar();
     const self = this;
 
+    // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {
-        console.log("DRAG !!!");
-        // console.log("SELECTED SHIFT: " + self.selectedShift.value);
-        console.log('DRAGGABLE OBJECT: ' + self.draggablePeopleExternalElement.nativeElement);
-
-        // let returnedEvent = self.createEventObject(self.selectedShift.value, eventEl.innerText);
-
-        // return returnedEvent;
+        console.log('DRAG !!!');
+        return {
+          title: eventEl.innerText,
+          backgroundColor: '#ddddd'
+        };
       }
     });
 
   }
   ngOnInit(): void {
     this.getEmployeeList();
-    console.log(this.today);
-    this.empList = [{ id: 1, name: 'employee1' },
-    { id: 2, name: 'employee2' },
-    { id: 3, name: 'employee3' }];
-    this.events = [
-      {
-        id: 2,
-        title: 'WilFord 21412779 Main Street 2-5',
-        start: '2020-06-28T14:00:00',
-        end: '2020-06-28T17:00:00',
-        color: '#ffcccb',
-        borderColor: '#D3D3D3'
-      },
-      {
-        id: 3,
-        title: 'oxford 21412779 Old Street 3-5',
-        start: '2020-06-28T11:00:00',
-        end: '2020-06-28T16:30:00',
-        color: '#ffcccb',
-        borderColor: '#D3D3D3'
-      },
-      {
-        id: 3,
-        title: 'Repeating Event3',
-        start: '2020-06-28T11:00:00',
-        end: '2020-06-28T16:30:00',
-        color: '#ffcccb',
-        borderColor: '#D3D3D3'
-      }];
-    const imgUrl = 'assets/images/orange.png';
+    
     this.options = {
       plugins: [dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin],
-
+      defaultDate: new Date(),
       header: {
         left: '',
         center: 'prev, title, next',
         right: 'timeGridDay,timeGridWeek'
       },
-      allDaySlot: false,
       editable: true,
+      allDaySlot: false,
+      nextDayThreshold: '09:00:00',
+        allDayDefault: false,
       droppable: true,
       slotDuration: '00:30:00',
       minTime: '09:00:00',
       maxTime: '18:00:00',
-      // slotLabelInterval: '00:30:00',
-      customButtons: {
-        custom1: {
-          text: 'Today event',
-          click() {
-            alert('clicked custom button 1!');
-          },
-        }, custom2: {
-          text: 'Schedule',
-          color: 'red',
-          click() {
-            alert('Schedule Clicked');
-          },
-        },
-      },
       defaultView: 'timeGridWeek',
-      defaultDate: new Date(),
-
       slotEventOverlap: false,
       // height: 400,
       // contentHeight: 400,
       // displayEventTime: true,
-      eventRender(element) {
-        const html = `<span class="float-right">`
-          + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
-        element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
-          element.event.title + html + `<br>` + `</div></div>`;
-        element.el.addEventListener('dblclick', () => {
-          console.log(element.event.start + ' ' + element.event.end + 'double click');
-        });
-      },
+      // eventRender(element) {
+      //   const html = `<span class="float-right">`
+      //     + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
+      //   element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
+      //     element.event.title + html + `<br>` + `</div></div>`;
+      //   element.el.addEventListener('dblclick', () => {
+      //     console.log(element.event.start + ' ' + element.event.end + 'double click');
+      //   });
+      // },
       eventClick(event) {
-        if (event.jsEvent.target.tagName === 'IMG') {
-          console.log(event, 'image clicked');
-        }
+        // if (event.jsEvent.target.tagName === 'IMG') {
+        // }
+        $('#calendarModal').modal();
       },
       eventResize(event) {
         console.log(event, 'event resize');
       },
+      eventReceive: (eventReceiveEvent) => { 
+        console.log(eventReceiveEvent);
+        console.log(this.events, 'events');
+      },
+
       datesRender(event) {
         console.log(event, 'datesRender');
         // console.log( this.fc.getCalendar().getDate(), 'days Rendar');
@@ -149,9 +110,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     };
   }
-  test() {
-    console.log('event Clicked');
-  }
+  
   DragStart(event) {
     // this.showDialog = true;
     this.selectedEvent.push({
@@ -171,9 +130,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     console.log(this.events, 'allEvents');
     console.log(this.selectedEvent, 'selectedEvents');
   }
-  tester() {
-    console.log('image clicked');
-  }
+  
+  // Get all the Employees details
   getEmployeeList() {
     this.empService.getEmployees().subscribe(data => {
       if (data.status === 'Success') {

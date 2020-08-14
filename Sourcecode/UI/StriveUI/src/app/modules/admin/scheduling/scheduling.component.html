@@ -138,13 +138,13 @@
                                         <input type="text" class="form-control rounded-0" placeholder="Search Employee"> </div>
                                       
                                     <div class="Search-box " #draggable_people>
-                                        <div *ngFor="let emp of this.empList.EmployeeList" >
-                                        <div class="Search-item border-top fc-event" style="background-color: transparent; color:black !important;border: 0px !important; display: flex; border-top: 1px solod #dddd;"> <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search image">
+                                        <div *ngFor="let emp of this.empList?.EmployeeList" >
+                                            <!--  -->
+                                        <div class="fc-event Search-item border-top " style=" display: flex;background-color: transparent; color:black !important;border-top: 1px solid #dddd!important;"> <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search image">
                                             <div class="Search-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label" for="customCheck1"></label>
+                                                <input type="checkbox" >
                                             </div></span>
-                                                <h6 class="theme-mid-gray">{{emp.FirstName + ' ' + emp.LastName }}</h6> <span class="theme-mid-gray font-size-7">emp.EmployeeId</span> </div>
+                                                <h6 class="theme-mid-gray">{{emp.FirstName + ' ' + emp.LastName }}</h6> <span class="theme-mid-gray font-size-7">{{emp.EmployeeId}}</span> </div>
                                         </div>
                                     </div>
                                     </div>
@@ -193,7 +193,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="timepicker">Start Time</label>
-                            <input type="text" class="form-control  timepicker timepicker-24"> </div>
+                            <timepicker [(ngModel)]="startTime" [ngModelOptions]="{standalone: true}" [showMinutes]="true" [showSeconds]="true"></timepicker>
+                            <!-- <input type="text" class="form-control  timepicker timepicker-24"> --> </div> 
                         <div class="form-group col-md-6">
                             <label for="timepicker">End Time</label>
                             <input type="text" class="form-control  timepicker timepicker-24"> </div>

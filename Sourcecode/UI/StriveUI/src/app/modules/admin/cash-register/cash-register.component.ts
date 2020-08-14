@@ -117,7 +117,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
-        if (this.cashDetails.length !== 0) {
+        if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails[0].CashRegisterCoin.Pennies,
