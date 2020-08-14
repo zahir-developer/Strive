@@ -25,25 +25,6 @@ export class WashesListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    //this.getAllWashDetails();
-    this.getDashboard();
-  }
-
-  // Get Dashboard  
-  getDashboard() {
-    const obj = {
-      id: 1,
-      date: new Date()
-    };
-    this.washes.getDashboard(obj).subscribe(data => {
-      if (data.status === 'Success') {
-        const dash = JSON.parse(data.resultData);
-        this.dashboardDetails = dash.Dashboard;
-        console.log(this.dashboardDetails);
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
     this.getAllWashDetails();
   }
   

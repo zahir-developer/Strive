@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WashService } from '../../services/data-service/wash.service';
 
 @Component({
   selector: 'app-score',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./score.component.css']
 })
 export class ScoreComponent implements OnInit {
+  score: any;
 
-  constructor() { }
+  constructor(private wash: WashService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.getDashboardDetails
   }
-
+  getDashboardDetails = () => {
+    this.wash.data.subscribe((data: any) => {
+      if (data.Current !== undefined) {
+        this.score = data.Current.Current;
+      }
+    });
+  }
 }
