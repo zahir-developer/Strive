@@ -11,6 +11,7 @@ using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
+using Strive.BusinessEntities.Code;
 
 namespace Strive.ResourceAccess
 {
@@ -47,6 +48,10 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@FirstName", search.FirstName);
             return db.Fetch<ClientSearchViewModel>(SPEnum.uspGetClientName.ToString(), _prm);
+        }
+        public List<Code> GetClientCode()
+        {
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SCORE);
         }
     }
 }

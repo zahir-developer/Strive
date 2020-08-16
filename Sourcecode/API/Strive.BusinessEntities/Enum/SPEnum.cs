@@ -107,7 +107,9 @@ namespace Strive.BusinessEntities
         uspGetGiftCardHistoryByNumber,
         uspGetGiftCardByLocation,
         USPDELETEWASHES,
-        uspGetClientName
+        uspGetClientName,
+        uspGetClientCodes,
+        uspGetGiftCardBalance
     }
 
 

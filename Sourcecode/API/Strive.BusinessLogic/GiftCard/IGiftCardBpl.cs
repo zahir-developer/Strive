@@ -20,6 +20,6 @@ namespace Strive.BusinessLogic.GiftCard
         Result UpdateGiftCard(GiftCardDto updateGiftCard);
         Result AddGiftCardHistory(GiftCardHistoryDto addGiftCardHistory);
         Result UpdateGiftCardHistory(GiftCardHistoryDto updateGiftCardHistory);
-        Result UpdateGiftCardBalance(int giftCardId);
+        Result GetGiftCardBalance(string giftCardNumber);
     }
 }
