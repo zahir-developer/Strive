@@ -11,31 +11,22 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ClientListComponent implements OnInit {
   clientDetails = [];
-  clientSearch: FormGroup;
   showDialog = false;
   selectedData: any;
   headerData: string;
-  searchByName = '';
-  searchById = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
+  search: any='';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
   constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService, private fb: FormBuilder) { }
+    private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.getAllClientDetails();
-    this.formInitialize();
-  }
-
-  formInitialize() {
-    this.clientSearch = this.fb.group({
-      searchByName: ['',]
-    });
   }
 
   // Get All Client
@@ -55,9 +46,25 @@ export class ClientListComponent implements OnInit {
       }
     });
   }
-  edit(data) {
-    this.selectedData = data;
-    this.showDialog = true;
+
+  clientSearch(){
+    const obj = {
+       firstName: this.search
+    }
+    this.client.ClientSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const client = JSON.parse(data.resultData);
+        this.clientDetails = client.ClientSearch;
+        if (this.clientDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
   delete(data) {
     this.confirmationService.confirm('Delete Client', `Are you sure you want to delete this client? All related 

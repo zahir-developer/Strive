@@ -25,4 +25,7 @@ export class ClientService {
   getClientById(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getClientById}` + id);
   }
+  ClientSearch(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getClientByName}`, obj);
+  }
 }
