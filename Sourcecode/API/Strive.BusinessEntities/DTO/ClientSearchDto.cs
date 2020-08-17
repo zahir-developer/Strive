@@ -8,6 +8,6 @@ namespace Strive.BusinessEntities.DTO.Client
 {
     public class ClientSearchDto
     {
-        public string FirstName { get; set; }
+        public string ClientName { get; set; }
     }
 }

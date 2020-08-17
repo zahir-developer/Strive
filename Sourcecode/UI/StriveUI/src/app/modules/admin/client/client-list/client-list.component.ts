@@ -49,7 +49,7 @@ export class ClientListComponent implements OnInit {
 
   clientSearch(){
     const obj = {
-       firstName: this.search
+       clientName: this.search
     }
     this.client.ClientSearch(obj).subscribe(data => {
       if (data.status === 'Success') {
