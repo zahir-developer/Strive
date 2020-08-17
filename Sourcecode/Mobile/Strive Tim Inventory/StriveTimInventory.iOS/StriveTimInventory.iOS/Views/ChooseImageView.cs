@@ -28,6 +28,7 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(NotNowButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(CameraButton).To(vm => vm.Commands["NavigateCamera"]);
             set.Bind(BrowseButton).To(vm => vm.Commands["NavigatePhotoLibrary"]);
+            set.Bind(IconButton).To(vm => vm.Commands["NavigateIconView"]);
             set.Apply();
             // Perform any additional setup after loading the view, typically from a nib.
         }

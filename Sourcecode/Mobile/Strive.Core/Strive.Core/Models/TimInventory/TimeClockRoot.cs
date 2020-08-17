@@ -5,4 +5,12 @@ namespace Strive.Core.Models.TimInventory
     {
         public TimeClock TimeClock { get; set; }
     }
+
+    public class TimeClockRequest
+    {
+        public int locationId { get; set; }
+        public int employeeId { get; set; }
+        public int roleId { get; set; }
+        public string date { get; set; }
+    }
 }

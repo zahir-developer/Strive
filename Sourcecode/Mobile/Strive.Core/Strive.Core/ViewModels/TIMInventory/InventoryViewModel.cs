@@ -78,7 +78,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void ClearCommand()
         {
             FilteredList.Clear();
-            ProductList.Clear();
+            InventoryList.Clear();
         }
 
         public async void EditCommand(int index)

@@ -34,7 +34,7 @@ namespace StriveTimInventory.iOS.Views
             this.DelayBind(() => {
                 var set = this.CreateBindingSet<InventoryViewCell, InventoryDataModel>();
                 set.Bind(ItemTitle).To(item => item.Product.ProductName);
-                set.Bind(ItemId).To(item => item.Product.ProductId);
+                set.Bind(ItemId).To(item => item.Product.ProductCode);
                 set.Bind(ItemDescritption).To(item => item.Product.ProductDescription);
                 set.Bind(ItemCountLabel).To(item => item.Product.Quantity);
                 set.Bind(SupplierName).To(item => item.Vendor.VendorName);

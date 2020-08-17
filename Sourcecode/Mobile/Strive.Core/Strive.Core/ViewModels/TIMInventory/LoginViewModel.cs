@@ -72,11 +72,18 @@ namespace Strive.Core.ViewModels.TIMInventory
                 {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     ApiUtils.Token = response.Token;
-                    //var status = await AdminService.GetClockInStatus(11, DateUtils.GetTodayDateString());
-                    //if (status.TimeClock != null)
-                    //{
-                    //    EmployeeData.ClockInStatus = status.TimeClock;
-                    //}
+                    var request = new TimeClockRequest()
+                    {
+                        locationId = 2010,
+                        employeeId = response.EmployeeDetails.EmployeeLogin.EmployeeId,
+                        roleId = 0,
+                        date = DateUtils.GetTodayDateString()
+                    };
+                    var status = await AdminService.GetClockInStatus(request);
+                    if (status.TimeClock != null)
+                    {
+                        EmployeeData.ClockInStatus = status.TimeClock;
+                    }
                     await _navigationService.Navigate<RootViewModel>();
                 }
             }

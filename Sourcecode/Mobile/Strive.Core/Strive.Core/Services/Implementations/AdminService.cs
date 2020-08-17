@@ -55,15 +55,15 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_VERIFY_OTP, otpRequest.emailId,otpRequest.otp), HttpMethod.Get, otpRequest);
         }
 
-        public async Task<TimeClockRoot> GetClockInStatus(int Id, string Datetime)
+        public async Task<TimeClockRoot> GetClockInStatus(TimeClockRequest request)
         {
-            var uriBuilder = new UriBuilder(ApiUtils.URL_GET_CLOCKIN_STATUS);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["userId"] = Id.ToString();
-            query["dateTime"] = Datetime;
-            uriBuilder.Query = query.ToString();
-            var url = uriBuilder.Uri.PathAndQuery.ToString();
-            return await _restClient.MakeApiCall<TimeClockRoot>(url, HttpMethod.Get);
+            //var uriBuilder = new UriBuilder(ApiUtils.URL_GET_CLOCKIN_STATUS);
+            //var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            //query["userId"] = Id.ToString();
+            //query["dateTime"] = Datetime;
+            //uriBuilder.Query = query.ToString();
+            //var url = uriBuilder.Uri.PathAndQuery.ToString();
+            return await _restClient.MakeApiCall<TimeClockRoot>(ApiUtils.URL_GET_CLOCKIN_STATUS, HttpMethod.Post,request);
         }
 
         public async Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest)

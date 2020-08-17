@@ -36,6 +36,7 @@ namespace StriveTimInventory.iOS.Views
             var set = this.CreateBindingSet<InventoryEditView, InventoryEditViewModel>();
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(EditImageButton).To(vm => vm.Commands["NavigateUploadImage"]);
+            set.Bind(SaveButton).To(vm => vm.Commands["AddProduct"]);
             set.Bind(RootView).For(v=> v.Alpha).To(vm => vm.ViewAlpha);
             set.Bind(ItemCode).To(vm => vm.ItemCode);
             set.Bind(ItemName).To(vm => vm.ItemName);
@@ -63,6 +64,10 @@ namespace StriveTimInventory.iOS.Views
             {
                 CaptureFromPhotoLibrary();
             }
+            else if (message.Valuea == 4)
+            {
+                SetImage(message.Valueb);
+            }
         }
 
         private void CaptureFromCamera()
@@ -75,6 +80,11 @@ namespace StriveTimInventory.iOS.Views
         {
             imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
             PickImage();
+        }
+
+        private void SetImage(string url)
+        {
+            ItemImage.Image = UIImage.FromBundle(url);
         }
 
         private void PickImage()

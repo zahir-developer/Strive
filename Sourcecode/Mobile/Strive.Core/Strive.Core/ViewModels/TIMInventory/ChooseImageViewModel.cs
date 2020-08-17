@@ -22,6 +22,12 @@ namespace Strive.Core.ViewModels.TIMInventory
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 3, ""));
         }
 
+        public async Task NavigateIconViewCommand()
+        {
+            await _navigationService.Close(this);
+            await _navigationService.Navigate<IconsViewModel>();
+        }
+
         public async Task NavigateBackCommand()
         {
             await _navigationService.Close(this);

@@ -306,6 +306,82 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-folder.imageset\folder.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-folder.imageset\folder%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-folder.imageset\folder%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffee.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffee.imageset\coffee %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffee.imageset\coffee %281%29%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffee.imageset\coffee %281%29%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Wiper.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Wiper.imageset\Wiper.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Wiper.imageset\Wiper%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Wiper.imageset\Wiper%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can.imageset\can.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can.imageset\can%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can.imageset\can%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Water.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Water.imageset\water.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Water.imageset\water%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Water.imageset\water%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Broom.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Broom.imageset\broom.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Broom.imageset\broom%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Broom.imageset\broom%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\shampoo.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\shampoo.imageset\shampoo.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\shampoo.imageset\shampoo%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\shampoo.imageset\shampoo%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffeeCup.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffeeCup.imageset\coffee.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffeeCup.imageset\coffee%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\coffeeCup.imageset\coffee%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Trainers.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Trainers.imageset\trainers.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Trainers.imageset\trainers%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Trainers.imageset\trainers%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Cap.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Cap.imageset\cap.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Cap.imageset\cap%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Cap.imageset\cap%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Chips.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Chips.imageset\chips.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Chips.imageset\chips%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Chips.imageset\chips%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Soap.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Soap.imageset\soap.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Soap.imageset\soap%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Soap.imageset\soap%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Blue.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Blue.imageset\can.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Blue.imageset\can%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Blue.imageset\can%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Coffee-Red.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Coffee-Red.imageset\coffee %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Coffee-Red.imageset\coffee %281%29%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Coffee-Red.imageset\coffee %281%29%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Shampoo-new.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Shampoo-new.imageset\shampoo %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Shampoo-new.imageset\shampoo %281%29%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Shampoo-new.imageset\shampoo %281%29%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Orange.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Orange.imageset\can.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Orange.imageset\can%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Orange.imageset\can%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Milk.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Milk.imageset\milk.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Milk.imageset\milk%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Milk.imageset\milk%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Red.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Red.imageset\can.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Red.imageset\can%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Can-Red.imageset\can%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Bottle.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Bottle.imageset\Image 3.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Bottle.imageset\Image 3%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Bottle.imageset\Image 3%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\glass.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\glass%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\glass%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -348,6 +424,25 @@
         <Folder Include="Resources\Assets.xcassets\icon-artboard.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-camera.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-folder.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\coffee.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Wiper.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Can.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Water.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Broom.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\shampoo.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\coffeeCup.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Trainers.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Cap.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Chips.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Soap.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Can-Blue.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Coffee-Red.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Shampoo-new.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Can-Orange.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Milk.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Can-Red.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Bottle.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Glass.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -364,6 +459,8 @@
         <InterfaceDefinition Include="Views\InventoryViewCell.xib" />
         <InterfaceDefinition Include="Views\InventoryEditView.xib" />
         <InterfaceDefinition Include="Views\ChooseImageView.xib" />
+        <InterfaceDefinition Include="Views\IconsView.xib" />
+        <InterfaceDefinition Include="Views\IconViewCell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -435,6 +532,16 @@
           <DependentUpon>ChooseImageView.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\InventoryPicker.cs" />
+        <Compile Include="Views\IconsView.cs" />
+        <Compile Include="Views\IconsView.designer.cs">
+          <DependentUpon>IconsView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\IconViewCell.cs" />
+        <Compile Include="Views\IconViewCell.designer.cs">
+          <DependentUpon>IconViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\IconsViewSource.cs" />
+        <Compile Include="Views\IconsViewDelegate.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

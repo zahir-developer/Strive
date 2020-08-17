@@ -19,7 +19,7 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_ALL_LOCATION_ADDRESS = "/Admin/Location/GetAllLocationAddress";
 
-        public const string URL_GET_CLOCKIN_STATUS = "/Admin/TimeClock/TimeClock/userId/datetime";
+        public const string URL_GET_CLOCKIN_STATUS = "/Admin/TimeClock/TimeClockDetails";
 
         public const string URL_SAVE_CLOCKIN_TIME = "/Admin/TimeClock/Save";
 

@@ -4,6 +4,7 @@ using Strive.Core.Utils.TimInventory;
 using Strive.Core.Models.TimInventory;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -12,6 +13,8 @@ namespace Strive.Core.ViewModels.TIMInventory
         private InventoryDataModel EditInventoryItem;
 
         public ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
+
+        private VendorDetail CurrentVendor = new VendorDetail();
 
         public InventoryEditViewModel()
         {
@@ -28,28 +31,37 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 PickerSelectionCommand(EditInventoryItem.Vendor);
             }
+            if (EditInventoryItem != null)
+            {
+                SetProductCommand(EditInventoryItem.Product);
+            }
             RaiseAllPropertiesChanged();
         }
 
         public string ItemCode { get
             {
-                return EditInventoryItem != null ? EditInventoryItem.Product.ProductCode : string.Empty; 
-            } set { } }
+                return _SelectedItemCode;
+            }
+            set { SetProperty(ref _SelectedItemCode, value); }
+        }
         public string ItemName { get
             {
-                return EditInventoryItem != null ? EditInventoryItem.Product.ProductName : string.Empty;
+                return _SelectedItemName;
             }
-            set { } }
+            set { SetProperty(ref _SelectedItemName, value); }
+        }
         public string ItemDescription { get
             {
-                return EditInventoryItem != null ? EditInventoryItem.Product.ProductDescription : string.Empty;
+                return _SelectedItemDescription;
             }
-            set { } }
+            set { SetProperty(ref _SelectedItemDescription, value); }
+        }
         public string ItemQuantity { get
             {
-                return EditInventoryItem != null ? EditInventoryItem.Product.Quantity.ToString() : string.Empty;
+                return _SelectedItemQuantity;
             }
-            set { } }
+            set { SetProperty(ref _SelectedItemQuantity, value); }
+        }
         public string SupplierName { get
             {
                 return _SelectedSupplierName;
@@ -101,6 +113,11 @@ namespace Strive.Core.ViewModels.TIMInventory
         private string _SelectedSupplierFax;
         private string _SelectedSupplierAddress;
 
+        private string _SelectedItemName;
+        private string _SelectedItemCode;
+        private string _SelectedItemDescription;
+        private string _SelectedItemQuantity;
+
         private ObservableCollection<string> _VendorNames = new ObservableCollection<string>();
         public virtual ObservableCollection<string> VendorNames
         {
@@ -120,7 +137,54 @@ namespace Strive.Core.ViewModels.TIMInventory
             SupplierEmail = SelectedVendor.Email;
             SupplierFax = SelectedVendor.Fax;
             SupplierAddress = SelectedVendor.Address1;
-            RaiseAllPropertiesChanged();
+            CurrentVendor = SelectedVendor;
+        }
+
+        public void SetProductCommand(ProductDetail SelectedProduct)
+        {
+            ItemCode = SelectedProduct.ProductCode;
+            ItemName = SelectedProduct.ProductName;
+            ItemDescription = SelectedProduct.ProductDescription;
+            ItemQuantity = SelectedProduct.Quantity.ToString();
+        }
+
+        public async Task AddProductCommand()
+        {
+            var product = PrepareAddProduct();
+            var result = await AdminService.AddProduct(product);
+            if(result.Status == "true")
+            {
+                NavigateBackCommand();
+            }
+        }
+
+        private ProductDetail PrepareAddProduct()
+        {
+            ProductDetail AddProduct = new ProductDetail()
+            {
+                ProductCode = _SelectedItemCode,
+                ProductName = _SelectedItemName,
+                ProductDescription = _SelectedItemDescription,
+                ProductType = 1,
+                LocationId = 1,
+                VendorId = CurrentVendor.VendorId,
+                Size = 1,
+                SizeDescription = "",
+                Quantity = int.Parse(_SelectedItemQuantity),
+                QuantityDescription = "",
+                Cost = 10,
+                IsTaxable = true,
+                TaxAmount = 10,
+                ThresholdLimit = 5,
+                IsActive = true,
+                IsDeleted = false,
+                CreatedBy = 0,
+                CreatedDate = DateUtils.GetTodayDateString(),
+                UpdatedBy = 0,
+                UpdatedDate = DateUtils.GetTodayDateString(),
+                Price = 20
+            };
+            return AddProduct;
         }
 
         public async Task NavigateUploadImageCommand()
