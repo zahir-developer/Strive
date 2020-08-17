@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-view-document',
@@ -12,15 +13,22 @@ export class ViewDocumentComponent implements OnInit {
   passwordForm: FormGroup;
   @Input() employeeId?: any;
   @Input() documentId?: any;
-  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder, private employeeService: EmployeeService,) { }
+  submitted: boolean;
+  constructor(
+    private activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr
+    ) { }
 
   ngOnInit(): void {
+    this.submitted = false;
     this.formInitialize();
   }
 
   formInitialize() {
     this.passwordForm = this.fb.group({
-      password: ['']
+      password: ['', Validators.required]
     });
   }
 
@@ -28,7 +36,15 @@ export class ViewDocumentComponent implements OnInit {
     this.activeModal.close();
   }
 
+  get f() {
+    return this.passwordForm.controls;
+  }
+
   viewDocument() {
+    this.submitted = true;
+    if (this.passwordForm.invalid) {
+      return;
+    }
     const password = this.passwordForm.value.password;
     this.employeeService.getDocumentById(this.documentId, password).subscribe( res => {
       if (res.status === 'Success') {
@@ -41,8 +57,9 @@ export class ViewDocumentComponent implements OnInit {
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
-        // const base64 = documentDetail.
         this.activeModal.close();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }

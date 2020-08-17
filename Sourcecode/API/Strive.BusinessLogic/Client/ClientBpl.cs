@@ -64,5 +64,9 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetClientSearch, search, "ClientSearch");
         }
+        public Result GetClientCodes()
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientCode, "ClientDetails");
+        }
     }
 }

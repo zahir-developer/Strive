@@ -20,10 +20,14 @@
                                 <div class="col-sm-4">
                                     <div class="form-row">
                                         <div class="col-sm-4">
-                                            <label class="float-right">Number:</label>
+                                            <label class="float-right">Number:<span class="required">*</span></label>
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" formControlName="number" />
+                                            <input type="text" class="form-control" formControlName="number"
+                                                [ngClass]="{ 'is-invalid': submitted && f.number.errors }" />
+                                                <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.number.errors.required">Card Number is required</div>
+                                                </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
@@ -44,7 +48,7 @@
                                         <label class="float-right">Active Date:</label>
                                     </div>
                                     <div class="col-sm-4">
-                                        <span>None</span>
+                                        <span>{{activeDate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +63,7 @@
                                         <label class="float-right">Value:</label>
                                     </div>
                                     <div class="col-sm-4">
-                                        <span>$00.00</span>
+                                        <span>{{totalAmount | currency}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +85,9 @@
                                         <div class="float-left">
                                             <div class="form-row">
                                                 <div class="form-group col-sm m-l-5">
-                                                    <label>Activity</label>
+                                                    <label>
+                                                        <h3>Activity</h3>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -109,13 +115,20 @@
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody *ngIf="giftCardHistory.length > 0">
                                             <tr *ngFor="let card of giftCardHistory">
                                                 <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}</td>
                                                 <td>{{card.GiftCardHistoryId}}</td>
                                                 <td>{{card.TransactionAmount | currency}}</td>
                                                 <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
                                                 <td><i class="fa fa-edit" (click)="statusUpdate(card)"></i></td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="giftCardHistory.length === 0">
+                                            <tr>
+                                                <td colspan="5">
+                                                    No Records Found
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

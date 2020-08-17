@@ -87,10 +87,9 @@
                                             (stateId)="getSelectedStateId($event)" [isView]="isView">
                                         </app-state-dropdown>
                                     </div>
-                                    <div class="form-group col-lg-6 col-xl-3">
+                                    <div class="form-group col-lg-6 col-xl-3" [disabled]="isView">
                                         <label for="inputCity">City</label>
-                                        <input type="text" class="form-control" formControlName="city"
-                                            placeholder="City">
+                                        <app-city [isView]="isView"></app-city>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -114,7 +113,7 @@
                                         <label for="inputScore">Score</label>
                                         <select class="form-control" formControlName="score">
                                             <option hidden selected value="">Choose</option>
-                                            <option *ngFor="let score of Score" value="{{score.id}}">{{score.Value}}
+                                            <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
                                             </option>
                                         </select>
                                     </div>
@@ -181,7 +180,7 @@
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
                                                     <td>{{vehicle.Color}}</td>
                                                     <td>{{vehicle.VehicleMake }}</td>
-                                                    <td>{{vehicle.VehicleModel}}</td>
+                                                    <td>{{vehicle.ModelName}}</td>
                                                     <td>{{vehicle.Upcharge}}</td>
                                                     <td>{{vehicle.Barcode}}</td>
                                                     <td></td>
@@ -204,7 +203,7 @@
                                 <span class="mw-100" *ngIf="isEdit">
                                     <button type="button"
                                         class="btn theme-primary-button-color">Statement</button>&nbsp;
-                                    <button *ngIf="!isView" type="button"
+                                    <button type="button"
                                         class="btn theme-primary-button-color">History</button>
                                 </span>
                                 <span class="mw-100 pull-right">

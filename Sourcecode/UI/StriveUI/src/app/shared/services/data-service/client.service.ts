@@ -25,4 +25,10 @@ export class ClientService {
   getClientById(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getClientById}` + id);
   }
+  ClientSearch(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getClientByName}`, obj);
+  }
+  getClientScore(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getClientScore}`);
+  }
 }

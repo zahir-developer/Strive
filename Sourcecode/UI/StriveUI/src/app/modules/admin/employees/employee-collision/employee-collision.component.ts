@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import * as moment from 'moment';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-employee-collision',
@@ -11,14 +12,18 @@ import * as moment from 'moment';
 })
 export class EmployeeCollisionComponent implements OnInit {
 
-  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder, private employeeService: EmployeeService) { }
+  constructor(
+    private activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr
+    ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
   @Input() public mode?: any;
   collisionForm: FormGroup;
   collisionDetail: any;
   ngOnInit(): void {
-    console.log(this.employeeId, 'employeeid');
     this.collisionForm = this.fb.group({
       dateOfCollision: [''],
       amount: [''],
@@ -93,13 +98,19 @@ export class EmployeeCollisionComponent implements OnInit {
     if (this.mode === 'create') {
       this.employeeService.saveCollision(finalObj).subscribe(res => {
         if (res.status === 'Success') {
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Added Successfull!' });
           this.activeModal.close(true);
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
       });
     } else {
       this.employeeService.updateCollision(finalObj).subscribe(res => {
         if (res.status === 'Success') {
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Updated Successfull!' });
           this.activeModal.close(true);
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
       });
     }

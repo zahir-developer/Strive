@@ -14,7 +14,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string GiftCardName { get; set; }
         public DateTimeOffset ExpiryDate { get; set; }
         public decimal TotalAmount { get; set; }
-        public decimal BalanceAmount { get; set; }
         public string Comments { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }

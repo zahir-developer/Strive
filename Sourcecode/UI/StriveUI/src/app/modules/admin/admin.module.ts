@@ -53,6 +53,9 @@ import { GiftCardComponent } from './gift-card/gift-card.component';
 import { AddGiftCardComponent } from './gift-card/add-gift-card/add-gift-card.component';
 import { AddActivityComponent } from './gift-card/add-activity/add-activity.component';
 import { AddScheduleComponent } from './scheduling/add-schedule/add-schedule.component';
+import { MembershipComponent } from './system-setup/membership/membership.component';
+import { MembershipListComponent } from './system-setup/membership/membership-list/membership-list.component';
+import { MembershipCreateEditComponent } from './system-setup/membership/membership-create-edit/membership-create-edit.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -65,7 +68,8 @@ import { AddScheduleComponent } from './scheduling/add-schedule/add-schedule.com
     VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent, AddScheduleComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent],
+    AddScheduleComponent],
   imports: [
     CommonModule,
     RouterModule,
