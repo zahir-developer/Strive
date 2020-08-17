@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Strive.Core.Models.TimInventory
 {
     public class TimeClockRoot
     {
-        public TimeClock TimeClock { get; set; }
+        public List<TimeClock> TimeClock { get; set; }
     }
 
     public class TimeClockRequest
