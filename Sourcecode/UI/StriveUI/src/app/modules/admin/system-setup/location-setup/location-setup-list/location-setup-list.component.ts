@@ -14,8 +14,10 @@ export class LocationSetupListComponent implements OnInit {
   showDialog = false;
   selectedData: any;
   headerData: string;
-  searchByName = '';
-  searchById = '';
+  searchName : any ='';
+  searchAddress : any = '';
+  searchPhoneNo : any ='';
+  searchEmail : any = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
