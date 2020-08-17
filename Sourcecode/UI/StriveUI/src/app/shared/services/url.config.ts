@@ -88,8 +88,7 @@ export const UrlConfig = {
     getClientByName:`Admin/Client/GetClientSearch`,
     getClientScore:`Admin/Client/GetClientCodes`,
     updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`,
-    getBalance: `Admin/GiftCard/GetGiftCardBalance/`
-    getByBarcode:`Admin/Washes/GetByBarCode/`,
+    getBalance: `Admin/GiftCard/GetGiftCardBalance/`,
     addSchedule: `Admin/Schedule/ScheduleSave`,
     getSchedule: `Admin/Schedule/GetSchedule`,
     deleteSchedule: `Admin/Schedule/DeleteSchedule`,

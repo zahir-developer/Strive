@@ -68,8 +68,9 @@ import { MembershipCreateEditComponent } from './system-setup/membership/members
     VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent],
-    AddScheduleComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, 
+    CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent, 
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent],
   imports: [
     CommonModule,
     RouterModule,
