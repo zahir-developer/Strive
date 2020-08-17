@@ -53,6 +53,7 @@
     <Compile Include="DTO\Employee\EmployeeDetailDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDocumentDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeEmailDto.cs" />
     <Compile Include="DTO\Employee\EmployeeInfoDto.cs" />
     <Compile Include="DTO\Employee\EmployeeLiabilityDto.cs" />
     <Compile Include="DTO\Employee\EmployeeLocationDto.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
+    <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientSearchViewModel.cs" />

@@ -23,6 +23,7 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEE,
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
+        USPEMAILEXIST,
         //Document
         USPSAVEDOCUMENT,
         USPGETEMPLOYEEDOCUMENTBYID,
@@ -100,6 +101,7 @@ namespace Strive.BusinessEntities
         USPGETVEHICLE,
         //Washes
         USPGETJOB,
+        USPGETALLJOB,
         USPGETDAILYDASHBOARD,
         USPGETCLIENTANDVEHICLEDETAIL,
         //Schedule
