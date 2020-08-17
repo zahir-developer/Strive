@@ -52,6 +52,7 @@ import { ViewDocumentComponent } from './employees/view-document/view-document.c
 import { GiftCardComponent } from './gift-card/gift-card.component';
 import { AddGiftCardComponent } from './gift-card/add-gift-card/add-gift-card.component';
 import { AddActivityComponent } from './gift-card/add-activity/add-activity.component';
+import { AddScheduleComponent } from './scheduling/add-schedule/add-schedule.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -64,7 +65,7 @@ import { AddActivityComponent } from './gift-card/add-activity/add-activity.comp
     VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent, AddScheduleComponent],
   imports: [
     CommonModule,
     RouterModule,
