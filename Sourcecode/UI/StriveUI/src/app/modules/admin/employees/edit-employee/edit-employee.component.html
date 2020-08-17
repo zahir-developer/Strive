@@ -193,14 +193,14 @@
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'"
-                                        [disabled]="!isEditEmployeeList" [settings]="dropdownSettings" [data]="employeeRoles"
+                                        [disabled]="!isEditEmployeeList && actionType === 'view'" [settings]="dropdownSettings" [data]="employeeRoles"
                                          formControlName="roles">
                                     </ng-multiselect-dropdown>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Location </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Location'"
-                                        [disabled]="!isEditEmployeeList" [settings]="dropdownSettings" [data]="location"
+                                        [disabled]="!isEditEmployeeList && actionType === 'view'" [settings]="dropdownSettings" [data]="location"
                                         formControlName="location">
                                     </ng-multiselect-dropdown>
                                 </div>

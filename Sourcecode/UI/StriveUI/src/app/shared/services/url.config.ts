@@ -78,6 +78,7 @@ export const UrlConfig = {
     searchEmployee: `Admin/Employee/GetEmployeeSearch`,
     getDashBoardCount:`Admin/Washes/DashboardCount`,
     addCardHistory: `Admin/GiftCard/AddGiftCardHistory`,
-    getByBarcode:`Admin/Washes/GetByBarCode/`
+    getByBarcode:`Admin/Washes/GetByBarCode/`,
+    updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`
   }
 };

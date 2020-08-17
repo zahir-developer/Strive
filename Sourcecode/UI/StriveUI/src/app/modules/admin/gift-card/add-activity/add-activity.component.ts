@@ -67,12 +67,17 @@ export class AddActivityComponent implements OnInit {
     };
     this.giftCardService.addCardHistory(finalObj).subscribe( res => {
       if (res.status === 'Success') {
+        this.updateBalance();
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Activity Added Successfully!!' });
         this.activeModal.close(true);
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
+  }
+
+  updateBalance() {
+    this.giftCardService.updateBalance(this.giftCardId).subscribe( res => {});
   }
 
 }
