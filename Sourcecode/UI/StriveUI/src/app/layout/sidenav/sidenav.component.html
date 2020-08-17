@@ -27,14 +27,16 @@
           Register Setup</a> </li>
       <li><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Close
           Out Register</a> </li>
-      <li><a href="#">Time Clock Maintenance</a></li>
+      <li><a [routerLink]='["./admin/time-cost"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Time Clock
+          Maintenance</a></li>
       <li><a [routerLink]='["./admin/employees"]' [routerLinkActive]='["link-active"]'
           (click)="closeNav()">Employees</a></li>
       <li><a [routerLink]='["./admin/client"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Clients</a>
       </li>
       <li> <a [routerLink]='["./admin/vehicle"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Vehicles</a>
       </li>
-      <li><a [routerLink]='["./admin/scheduling"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Schedules</a></li>
+      <li><a [routerLink]='["./admin/scheduling"]' [routerLinkActive]='["link-active"]'
+          (click)="closeNav()">Schedules</a></li>
       <li><a [routerLink]='["./admin/gift-card"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Gift
           Cards</a></li>
       <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">System
@@ -65,7 +67,8 @@
             (click)="closembsidebar()">Cash Register Setup</a> </li>
         <li><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]'
             (click)="closembsidebar()">Close Out Register</a> </li>
-        <li><a href="#">Time Clock Maintenance</a></li>
+        <li><a [routerLink]='["./admin/time-cost"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">Time
+            Clock Maintenance</a></li>
         <li><a [routerLink]='["./admin/employees"]' [routerLinkActive]='["link-active"]'
             (click)="closembsidebar()">Employees</a></li>
         <li><a href="#">Clients</a></li>

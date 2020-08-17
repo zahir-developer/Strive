@@ -39,12 +39,12 @@
                             <td>{{document.ModifiedDate | date: 'MM/dd/yyyy'}}</td>
                             <td>{{document.FileType}}</td>
                             <td> <em class="mdi mdi-file-download-outline pointer  md-doc m-r-2 font-size-1-1"
-                                    *ngIf="actionType === 'view'" (click)="viewDocument(document)"
+                                    *ngIf="actionType === 'view'" 
                                     [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-primary-icon-color': isEditDocument  }"></em>
                                 <em class="mdi mdi-close-circle pointer  md-close font-size-1-1"
                                     *ngIf="actionType === 'view'"
                                     [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-optional-icon-color': isEditDocument  }"
-                                    (click)="deleteDocument(document)"></em>
+                                    ></em>
                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                     *ngIf="actionType === 'edit'" (click)="viewDocument(document)"></em>
                                 <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
