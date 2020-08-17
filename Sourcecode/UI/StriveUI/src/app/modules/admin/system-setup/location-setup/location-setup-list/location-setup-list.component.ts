@@ -52,10 +52,31 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-  edit(data) {
-    this.selectedData = data;
-    this.showDialog = true;
+  
+  // Get Location Search
+  locationSearch(){
+    const obj ={
+       locationName: this.searchName,
+       locationAddress: this.searchAddress,
+       phoneNumber: this.searchPhoneNo,
+       email: this.searchEmail
+    }
+    this.locationService.LocationSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.locationSetupDetails = location.Search;
+        if (this.locationSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.locationSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
+
   delete(data) {
     this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
     information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
