@@ -14,6 +14,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int LocationId { get; set; }
         public int ClientId { get; set; }
         public string ClientName { get; set; }
+        public string PhoneNumber { get; set; }
         public int VehicleId { get; set; }
         public string VehicleName { get; set; }
         public int JobType { get; set; }
@@ -22,13 +23,14 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTimeOffset EstimatedTimeOut { get; set; }
         public DateTimeOffset ActualTimeOut { get; set; }
         public int JobStatus { get; set; }
+        public string ServiceName { get; set; }
         public int JobDetailId { get; set; }
         public int BayId { get; set; }
         public int SalesRep { get; set; }
         public int QABy    { get; set; }
         public int Labour  { get; set; }
-        public int Review { get; set; }
         public string ReviewNote { get; set; }
+        public string PastHistoryNote { get; set; }
 
     }
 }

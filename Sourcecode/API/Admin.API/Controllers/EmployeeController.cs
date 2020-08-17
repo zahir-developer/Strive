@@ -53,5 +53,11 @@ namespace Admin.Api.Controllers
         [Route("GetEmployeeSearch")]
         public Result GetEmployeeSearch(string employeeName) => _bplManager.GetEmployeeSearch(employeeName);
         #endregion
+
+        #region
+        [HttpPost]
+        [Route("GetEmailIdExist/{email}")]
+        public Result GetEmailIdExist(string email) => _bplManager.GetEmailIdExist(email);
+        #endregion
     }
 }

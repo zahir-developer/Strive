@@ -60,6 +60,10 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeById, employeeId, "Employee");
         }
+        public Result GetEmailIdExist(string email)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmailIdExist, email, "EmailIdExist");
+        }
 
         public Result GetAllEmployeeRoles()
         {
