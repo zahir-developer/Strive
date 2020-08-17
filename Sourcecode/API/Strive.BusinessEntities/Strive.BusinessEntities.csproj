@@ -65,6 +65,7 @@
     <Compile Include="DTO\GiftCard\GiftCardHistoryDto.cs" />
     <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
+    <Compile Include="DTO\Location\LocationSearchDto.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />

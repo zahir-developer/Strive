@@ -31,6 +31,7 @@ import { WashEmployeesComponent } from './components/wash-employees/wash-employe
 import { ScoreComponent } from './components/score/score.component';
 import { ForecastedCarsComponent } from './components/forecasted-cars/forecasted-cars.component';
 import { AverageWashTimeComponent } from './components/average-wash-time/average-wash-time.component';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { AverageWashTimeComponent } from './components/average-wash-time/average
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
+    PopoverModule.forRoot(),
     NgbModule,
     HttpClientModule,
     NgxUiLoaderModule,
@@ -60,7 +62,7 @@ import { AverageWashTimeComponent } from './components/average-wash-time/average
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
-    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent],
+    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, PopoverModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr],
 
