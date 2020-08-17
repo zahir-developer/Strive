@@ -7,12 +7,19 @@
                     placeholder="None/UNK”">
             </div>
             <div class="form-group col-lg-4">
+                <label for="inputVehicleNumber">VehicleNumber</label>
+                <input type="text" maxlength="25" class="form-control" formControlName="vehicleNumber"
+                    placeholder="Vehicle Number">
+            </div>
+            <div class="form-group col-lg-4">
                 <label for="inputMake">Make</label>
                 <select class="form-control" formControlName="make">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let make of make" value="{{make.CodeId}}">{{make.CodeValue}}</option>
                 </select>
-            </div>
+            </div> 
+        </div>
+        <div class="form-row"> 
             <div class="form-group col-lg-4">
                 <label for="inputModel">Model</label>
                 <select class="form-control" formControlName="model">
@@ -20,8 +27,6 @@
                     <option *ngFor="let model of model" value="{{model.CodeId}}">{{model.CodeValue}}</option>
                 </select>
             </div>  
-        </div>
-        <div class="form-row">  
             <div class="form-group col-lg-4">
                 <label for="inputColor">Color</label>
                 <select class="form-control" formControlName="color">
@@ -36,15 +41,15 @@
                     <option *ngFor="let upcharge of upcharge" value="{{upcharge.CodeId}}">{{upcharge.CodeValue}}</option>
                 </select>
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-lg-4">
                 <label for="inputUpcharge">Upcharge Type</label>
                 <select class="form-control" formControlName="upchargeType">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let upcharge of upchargeType" value="{{upcharge.CodeId}}">{{upcharge.CodeValue}}</option>
                 </select>
-            </div>
-        </div>
-        <div class="form-row">        
+            </div>        
             <div class="form-group col-lg-4">
                 <label for="inputMembership">Membership</label>
                 <select class="form-control" formControlName="membership">
