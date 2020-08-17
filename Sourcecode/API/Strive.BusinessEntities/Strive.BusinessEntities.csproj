@@ -115,6 +115,7 @@
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\ForecastedCarsViewModel.cs" />
+    <Compile Include="ViewModel\GiftCardBalanceViewModel.cs" />
     <Compile Include="ViewModel\GiftCardDetailsViewModel.cs" />
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />

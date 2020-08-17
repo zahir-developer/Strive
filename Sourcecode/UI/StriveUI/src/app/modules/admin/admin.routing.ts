@@ -15,6 +15,7 @@ import { VendorSetupComponent } from './system-setup/vendor-setup/vendor-setup.c
 import { ClientComponent } from './client/client.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { GiftCardComponent } from './gift-card/gift-card.component';
+import { MembershipComponent } from './system-setup/membership/membership.component';
 
 const adminRoutes: Routes = [
   { path: 'admin', canActivate: [AuthGuard], component: AdminComponent }, {
@@ -35,6 +36,7 @@ const adminRoutes: Routes = [
         { path: 'service', component: ServiceSetupComponent },
         { path: 'product', component: ProductSetupComponent },
         { path: 'vendor', component: VendorSetupComponent },
+        { path: 'membership', component: MembershipComponent },
       ]
     }
     ]

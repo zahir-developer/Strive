@@ -30,9 +30,9 @@ export class WashService {
   getByBarcode(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getByBarcode}` + id);
   }
-  deleteWash(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.deleteWash}` + id);
-  }
+  deleteWash(washId : number){
+    return this.http.delete(`${UrlConfig.totalUrl.deleteWash}`, { params: { id: washId } });
+  }  
 
   // Get Dashboard Count
   getDashBoard() {
