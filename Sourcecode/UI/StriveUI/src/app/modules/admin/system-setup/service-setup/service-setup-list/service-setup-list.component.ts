@@ -23,9 +23,11 @@ export class ServiceSetupListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
+  Status: any;
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];
     this.getAllserviceSetupDetails();
 
   }
