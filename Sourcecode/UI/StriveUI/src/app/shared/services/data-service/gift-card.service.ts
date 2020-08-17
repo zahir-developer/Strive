@@ -31,4 +31,7 @@ export class GiftCardService {
   updateBalance(giftCardId) {
     return this.http.post(`${UrlConfig.totalUrl.updateBalance}`, null, { params : { giftCardId }});
   }
+  getBalance(giftCardNumber) {
+    return this.http.get(`${UrlConfig.totalUrl.getBalance}` + giftCardNumber);
+  }
 }

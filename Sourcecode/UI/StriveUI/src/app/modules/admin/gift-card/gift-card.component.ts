@@ -22,12 +22,12 @@ export class GiftCardComponent implements OnInit {
   submitted: boolean;
   giftCardID: any;
   constructor(
-      private giftCardService: GiftCardService,
-      private fb: FormBuilder,
-      private modalService: NgbModal,
-      private toastr: ToastrService,
-      private messageService: MessageServiceToastr
-    ) { }
+    private giftCardService: GiftCardService,
+    private fb: FormBuilder,
+    private modalService: NgbModal,
+    private toastr: ToastrService,
+    private messageService: MessageServiceToastr
+  ) { }
 
   ngOnInit(): void {
     this.submitted = false;
@@ -124,6 +124,7 @@ export class GiftCardComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.getAllGiftCardHistory(+this.giftCardForm.value.number);
+        this.updateBalance();
       }
     });
   }
@@ -136,7 +137,17 @@ export class GiftCardComponent implements OnInit {
   }
 
   updateBalance() {
-    this.giftCardService.updateBalance(this.giftCardID).subscribe( res => {});
+    this.giftCardService.getBalance(+this.giftCardForm.value.number).subscribe(res => {
+      if (res.status === 'Success') {
+        const giftcardBalance = JSON.parse(res.resultData);
+        if (giftcardBalance.GiftCardDetail.length > 0) {
+          const balanceAmount = giftcardBalance.GiftCardDetail[0].BalaceAmount;
+          if (balanceAmount > 0.00) {
+            this.totalAmount = balanceAmount;
+          }
+        }
+      }
+    });
   }
 
 }
