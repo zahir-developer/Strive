@@ -30,6 +30,7 @@ namespace StriveCustomer.Android.Services
         private GeofencingEvent geofencingEvent;
         private Intent mapIntent;
         private PendingIntent openGoogleMapIntent;
+        PendingIntent pendingIntent;
         private int TransitionType;
         Uri googleMapUri;
         private static string CHANNEL_NAME = "geofence_Notification_Channel";
@@ -57,7 +58,9 @@ namespace StriveCustomer.Android.Services
                     Toast.MakeText(context, "Exited", ToastLength.Short).Show();
                     break;
             }
+            notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
             setUpNotification(context);
+            buildSendNotification(mapIntent, context);
         }
 
          void setUpNotification(Context context)
@@ -71,15 +74,7 @@ namespace StriveCustomer.Android.Services
                 var stackBuilder = TaskStackBuilder.Create(context);
                 stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(DashboardView)));
                 stackBuilder.AddNextIntent(mapIntent);
-                PendingIntent pendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
-                var builder = new NotificationCompat.Builder(context);
-                builder.SetSmallIcon(Resource.Drawable.world_location)
-                                              .SetPriority(NotificationCompat.PriorityHigh)
-                                              .SetContentTitle("Car wash near by")
-                                              .SetAutoCancel(true)
-                                              .SetContentIntent(pendingIntent);
-                notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
-                notificationManager.Notify(0, builder.Build());
+                pendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
             }
             else
             {
@@ -88,15 +83,12 @@ namespace StriveCustomer.Android.Services
                 notificationChannel.EnableVibration(true);
                 notificationChannel.Description = "channel to trigger geofence notification";
                 notificationChannel.LockscreenVisibility = NotificationVisibility.Public;
-                notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
                 notificationManager.CreateNotificationChannel(notificationChannel);
-                buildSendNotification(mapIntent, context);
+                pendingIntent = PendingIntent.GetActivity(context, 0, mapIntent, PendingIntentFlags.UpdateCurrent);              
             }
         }      
         void buildSendNotification(Intent mapIntent,Context context) 
         {
-            Intent intent = new Intent(context,typeof(MapsFragment));
-            PendingIntent pendingIntent = PendingIntent.GetActivity(context,267,mapIntent,PendingIntentFlags.UpdateCurrent);
             NotificationCompat.Builder builder = (NotificationCompat.Builder)new NotificationCompat.Builder(context)
                                           .SetSmallIcon(Resource.Drawable.world_location)
                                           .SetPriority(NotificationCompat.PriorityHigh)
@@ -104,7 +96,7 @@ namespace StriveCustomer.Android.Services
                                           .SetAutoCancel(true)
                                           .SetContentIntent(pendingIntent)
                                           .SetChannelId(CHANNEL_ID);
-            notificationManager.Notify(267,builder.Build());
+            notificationManager.Notify(0,builder.Build());
         }
     }
 }
