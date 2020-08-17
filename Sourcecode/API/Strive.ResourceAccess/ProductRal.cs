@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Product;
 using Strive.Common;
 using Strive.Repository;
 using System;
@@ -30,10 +31,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<Product>(SPEnum.USPGETPRODUCTS.ToString(), null);
         }
 
-        public Product GetProductById(int productId)
+        public ProductDetailViewModel GetProductById(int productId)
         {
             _prm.Add("@ProductId", productId);
-            return db.FetchSingle<Product>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            return db.FetchSingle<ProductDetailViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)

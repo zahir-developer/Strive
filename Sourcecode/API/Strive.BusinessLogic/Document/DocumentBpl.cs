@@ -11,6 +11,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Security.Cryptography;
 
 namespace Strive.BusinessLogic.Document
 {
@@ -24,6 +26,12 @@ namespace Strive.BusinessLogic.Document
         {
             try
             {
+                string error = ValidateFiles(documentModel.EmployeeDocument);
+                if (!(error == string.Empty))
+                {
+                    _result = Helper.ErrorMessageResult(error);
+                }
+
                 documentModel.EmployeeDocument = UploadFiles(documentModel.EmployeeDocument);
                 var documentSave = false;
                 if (documentModel.EmployeeDocument != null)
@@ -56,11 +64,24 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
+        public string ValidateFiles(List<EmployeeDocument> employeeDocument)
+        {
+            string error = string.Empty;
+            foreach (var doc in employeeDocument)
+            {
+                error = ValidateFileFormat(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, doc.Filename);
+                if (!string.IsNullOrEmpty(error))
+                    return error;
+            }
+            return error;
+        }
+
         public List<EmployeeDocument> UploadFiles(List<EmployeeDocument> employeeDocuments)
         {
+
             foreach (var doc in employeeDocuments)
             {
-                doc.Filename = Upload(doc.Base64, doc.Filename);
+                doc.Filename = Upload(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, doc.Base64, doc.Filename);
                 doc.FileType = Path.GetExtension(doc.Filename);
                 if (doc.Filename == string.Empty)
                 {
@@ -71,41 +92,52 @@ namespace Strive.BusinessLogic.Document
             return employeeDocuments;
         }
 
-        public string Upload(string Base64Url, string fileName)
+        public string Upload(GlobalUpload.UploadFolder uploadFolder, string Base64Url, string fileName)
         {
+            string uploadPath = GetUploadFolderPath(uploadFolder);
             fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
-            var fileFormat = Path.GetExtension(fileName);
-            if (ValidateFileFormat(fileName))
-            {
-                string UploadPath = _tenant.DocumentUploadFolder + fileName;
-                byte[] tempBytes = Convert.FromBase64String(Base64Url);
-                File.WriteAllBytes(UploadPath, tempBytes);
-                return fileName;
-            }
-            else
-            {
-                string errorMessage = "Invalid File Format. Valid file formats: " + _tenant.DocumentFormat;
-                _result = Helper.ErrorMessageResult(errorMessage);
-                return string.Empty;
-            }
+            if (!File.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            uploadPath = uploadPath + fileName;
+            byte[] tempBytes = Convert.FromBase64String(Base64Url);
+            File.WriteAllBytes(uploadPath, tempBytes);
+            return fileName;
+
         }
 
-        public bool ValidateFileFormat(string fileName)
+        public string ValidateFileFormat(GlobalUpload.UploadFolder upload, string fileName)
         {
-            return _tenant.DocumentFormat.Contains(Path.GetExtension(fileName));
+            string invalid = string.Empty;
+            if (GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT == upload)
+            {
+                if (_tenant.DocumentFormat.Contains(Path.GetExtension(fileName).ToUpper()))
+                    return string.Empty;
+                else
+                    return "Invalid file format uploaded. Valid formats: " + _tenant.DocumentFormat;
+            }
+            else if (GlobalUpload.UploadFolder.PRODUCTIMAGE == upload)
+            {
+                if (_tenant.ProductImageFormat.Contains(Path.GetExtension(fileName).ToUpper()))
+                    return string.Empty;
+                else
+                    return invalid + _tenant.ProductImageFormat;
+            }
+            else
+                return string.Empty;
         }
 
         public void DeleteFiles(List<EmployeeDocument> documents)
         {
-            string UploadPath = _tenant.DocumentUploadFolder;
+            string uploadPath = GetUploadFolderPath(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT);
 
             string filePath = string.Empty;
             foreach (var doc in documents)
             {
-                filePath = UploadPath + doc.Filename;
-                if (File.Exists(UploadPath))
+                filePath = uploadPath + doc.Filename;
+                if (File.Exists(uploadPath))
                 {
-                    File.Delete(UploadPath);
+                    File.Delete(uploadPath);
                 }
             }
         }
@@ -114,7 +146,6 @@ namespace Strive.BusinessLogic.Document
         {
             return new DocumentRal(_tenant).SaveDocument(documentModel);
         }
-
 
         public Result GetDocumentById(int documentId, string password)
         {
@@ -127,7 +158,7 @@ namespace Strive.BusinessLogic.Document
                     if (document.IsPasswordProtected)
                     {
                         if (document.Password == password)
-                            base64 = GetBase64(document.FileName);
+                            base64 = GetBase64(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, document.FileName);
                         else
                         {
                             string errorMessage = "Invalid Password !!!";
@@ -137,7 +168,7 @@ namespace Strive.BusinessLogic.Document
                     }
                     else
                     {
-                        base64 = GetBase64(document.FileName);
+                        base64 = GetBase64(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, document.FileName);
                     }
                 }
 
@@ -151,9 +182,12 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
-        public string GetBase64(string fileName)
+        public string GetBase64(GlobalUpload.UploadFolder module, string fileName)
         {
-            string path = _tenant.DocumentUploadFolder + fileName;
+            string baseFolder = GetUploadFolderPath(module);
+
+            string path = baseFolder + fileName;
+
             string base64data = string.Empty;
 
             if (!File.Exists(path))
@@ -178,7 +212,7 @@ namespace Strive.BusinessLogic.Document
                 {
                     foreach (var item in lstDocumentById)
                     {
-                        item.Base64Url = GetBase64(item.FileName);
+                        item.Base64Url = GetBase64(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, item.FileName);
                     }
                 }
 
@@ -191,6 +225,7 @@ namespace Strive.BusinessLogic.Document
             }
             return _result;
         }
+
         public Result UpdatePassword(int documentId, string password)
         {
             try
@@ -204,6 +239,7 @@ namespace Strive.BusinessLogic.Document
             return _result;
 
         }
+
         public Result DeleteDocument(int documentId)
         {
             try
@@ -217,5 +253,59 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
+        public void DeleteFile(GlobalUpload.UploadFolder uploadFolder, string fileName)
+        {
+            string filePath = GetUploadFolderPath(uploadFolder) + fileName;
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+        private string GetUploadFolderPath(GlobalUpload.UploadFolder module)
+        {
+            string path = string.Empty;
+            string subPath = string.Empty;
+            switch (module)
+            {
+                case GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT:
+                    subPath = _tenant.DocumentUploadFolder;
+                    break;
+                case GlobalUpload.UploadFolder.PRODUCTIMAGE:
+                    subPath = _tenant.ProductImageFolder;
+                    break;
+                default:
+                    subPath = "";
+                    break;
+            }
+
+            return path + subPath;
+
+        }
+
+        public void SaveThumbnail(int Width, int Height, string base64String, string saveFilePath)
+        {
+            byte[] byteBuffer = Convert.FromBase64String(base64String);
+
+            var streamImg = new MemoryStream(byteBuffer);
+            Bitmap sourceImage = new Bitmap(streamImg);
+            using (Bitmap objBitmap = new Bitmap(Width, Height))
+            {
+                objBitmap.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
+                using (Graphics objGraphics = Graphics.FromImage(objBitmap))
+                {
+                    // Set the graphic format for better result cropping   
+                    objGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    objGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    objGraphics.DrawImage(sourceImage, 0, 0, Width, Height);
+
+                    // Save the file path, note we use png format to support png file   
+                    objBitmap.Save(saveFilePath);
+                }
+            }
+        }
+
     }
+
 }
