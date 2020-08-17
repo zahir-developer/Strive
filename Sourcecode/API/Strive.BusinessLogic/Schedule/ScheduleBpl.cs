@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO.Schedule;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -27,9 +28,9 @@ namespace Strive.BusinessLogic.Schedule
         {
             return ResultWrap(new ScheduleRal(_tenant).DeleteSchedule, scheduleId, "Status");
         }
-        public Result GetSchedule()
+        public Result GetSchedule(DateTime? StartDate, DateTime? EndDate)
         {
-            return ResultWrap(new ScheduleRal(_tenant).GetSchedule, "Status");
+            return ResultWrap(new ScheduleRal(_tenant).GetSchedule, StartDate, EndDate, "Status");
         }
         public Result GetScheduleById(int scheduleId)
         {

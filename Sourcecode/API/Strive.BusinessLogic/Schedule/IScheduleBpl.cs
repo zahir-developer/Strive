@@ -13,8 +13,9 @@ namespace Strive.BusinessLogic.Schedule
         Result SaveSchedule(ScheduleDto schedule);
         //Result UpdateSchedule(Strive.BusinessEntities.Model.ScheduleModel schedule);
         Result DeleteSchedule(int scheduleId);
-        Result GetSchedule();
+        //Result GetSchedule();
         Result GetScheduleById(int scheduleId);
+        Result GetSchedule(DateTime? StartDate, DateTime? EndDate);
 
     }
 }
