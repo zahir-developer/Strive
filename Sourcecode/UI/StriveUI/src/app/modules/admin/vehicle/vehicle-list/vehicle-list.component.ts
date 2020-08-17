@@ -34,7 +34,6 @@ export class VehicleListComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
-        console.log(this.vehicleDetails);  
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {      
@@ -88,7 +87,6 @@ export class VehicleListComponent implements OnInit {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.selectedVehicle = vehicle.Status;
-        console.log(this.selectedVehicle);
         if (data === 'edit') {
           this.headerData = 'Edit vehicle';
           this.selectedData = this.selectedVehicle;

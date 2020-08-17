@@ -26,7 +26,6 @@ export class VehicleCreateEditComponent implements OnInit {
   ngOnInit() {
     this.formInitialize();
     this.upcharge = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "Upcharge1" }, { CodeId: 2, CodeValue: "Upcharge2" }];
-    //this.upchargeType = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "UpchargeType1" }, { CodeId: 2, CodeValue: "UpchargeType2" }];
     if (this.isView === true) {
       this.viewVehicle();
     }
@@ -39,6 +38,7 @@ export class VehicleCreateEditComponent implements OnInit {
   formInitialize() {
     this.vehicleForm = this.fb.group({
       barcode: ['',],
+      vehicleNumber: ['',],
       make: ['',],
       model: ['',],
       color: ['',],
@@ -54,7 +54,7 @@ export class VehicleCreateEditComponent implements OnInit {
   getVehicleById() {
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
-      //tag: this.selectedData.VehicleNumber,
+      vehicleNumber: this.selectedData.VehicleNumber,
       make: this.selectedData.VehicleMakeId,
       model: this.selectedData.VehicleModelId,
       color: this.selectedData.ColorId,
@@ -103,7 +103,7 @@ export class VehicleCreateEditComponent implements OnInit {
       vehicleId: this.selectedData.ClientVehicleId,
       clientId: this.selectedData.ClientId,
       locationId: 1,
-      vehicleNumber: this.selectedData.VehicleNumber,
+      vehicleNumber: this.vehicleForm.value.vehicleNumber,
       vehicleMfr: this.vehicleForm.value.make,
       vehicleModel: this.vehicleForm.value.model,
       vehicleModelNo:0,
@@ -123,7 +123,7 @@ export class VehicleCreateEditComponent implements OnInit {
       VehicleId: 0,
       ClientId: this.clientId,
       LocationId: 1,
-      VehicleNumber: "",
+      VehicleNumber: this.vehicleForm.value.vehicleNumber,
       VehicleMfr: Number(this.vehicleForm.value.make),
       VehicleModel: Number(this.vehicleForm.value.model),
       VehicleColor: Number(this.vehicleForm.value.color),
@@ -141,9 +141,9 @@ export class VehicleCreateEditComponent implements OnInit {
     };
     const value = { 
       ClientVehicleId: 0, 
-      VehicleNumber: "",    
+      VehicleNumber: this.vehicleForm.value.vehicleNumber,    
       VehicleMake: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
-      VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
+      ModelName: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
       Color: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
       Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
       Barcode: this.vehicleForm.value.barcode,

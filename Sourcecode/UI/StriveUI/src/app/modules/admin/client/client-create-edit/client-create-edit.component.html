@@ -113,7 +113,7 @@
                                         <label for="inputScore">Score</label>
                                         <select class="form-control" formControlName="score">
                                             <option hidden selected value="">Choose</option>
-                                            <option *ngFor="let score of Score" value="{{score.id}}">{{score.Value}}
+                                            <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
                                             </option>
                                         </select>
                                     </div>
@@ -180,7 +180,7 @@
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
                                                     <td>{{vehicle.Color}}</td>
                                                     <td>{{vehicle.VehicleMake }}</td>
-                                                    <td>{{vehicle.VehicleModel}}</td>
+                                                    <td>{{vehicle.ModelName}}</td>
                                                     <td>{{vehicle.Upcharge}}</td>
                                                     <td>{{vehicle.Barcode}}</td>
                                                     <td></td>

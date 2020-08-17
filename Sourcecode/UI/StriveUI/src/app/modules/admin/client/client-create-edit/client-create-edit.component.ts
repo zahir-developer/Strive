@@ -44,7 +44,6 @@ export class ClientCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
-    this.Score = [{ id: 0, Value: "Score1" }, { id: 1, Value: "Score2" }];
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
@@ -77,6 +76,19 @@ export class ClientCreateEditComponent implements OnInit {
     });
     this.clientForm.get('status').patchValue(0);   
     this.getClientType();
+    this.getScore();
+  }
+
+  // Get Score
+  getScore() {
+    this.client.getClientScore().subscribe(data => {
+      if (data.status === 'Success') {
+        const client = JSON.parse(data.resultData);
+        this.Score = client.ClientDetails;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
 
   // Get ClientType
@@ -110,7 +122,6 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   getClientById() {
-    console.log(this.selectedData);
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.clientForm.patchValue({
@@ -188,7 +199,6 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.client.updateClient(myObj).subscribe(data => {
         if (data.status === 'Success') { 
-          console.log(this.deleteIds);
           this.deleteIds.forEach(element => {
             this.vehicle.deleteVehicle(element.ClientVehicleId).subscribe(res => {
               if (res.status === 'Success') {
@@ -227,7 +237,6 @@ export class ClientCreateEditComponent implements OnInit {
     if (event.status === 'saved') {
       this.vehicleDetails.push(this.vehicle.vehicleValue);
       this.vehicleDet.push(this.vehicle.addVehicle);
-      console.log(this.vehicleDetails,this.vehicleDet);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     }
@@ -248,7 +257,6 @@ export class ClientCreateEditComponent implements OnInit {
   confirmDelete(data) {
     this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
-    console.log(this.vehicleDetails,this.vehicleDet);
     this.toastr.success('Record Deleted Successfully!!', 'Success!'); 
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
     if(data.ClientVehicleId !== 0){
