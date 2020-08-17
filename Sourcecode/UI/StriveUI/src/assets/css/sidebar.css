@@ -6,12 +6,12 @@
 		position: fixed;
 		z-index: 1;
 		top: 0;
-		left: 0;
+		left: 70px;
 		background-color: #1b3b84;
 		overflow-x: hidden;
 		transition: 0.5s;
 		transition: right .3s;
-		margin-left: 70px;
+		/* margin-left: 70px; */
 	}
 	
 	.nav-slider-menu-items li a {

@@ -3,6 +3,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeCollisionComponent } from '../../employees/employee-collision/employee-collision.component';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-collision-list',
@@ -22,7 +23,9 @@ export class CollisionListComponent implements OnInit {
   constructor(
     private employeeService: EmployeeService,
     private modalService: NgbModal,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService,
+    private messageService: MessageServiceToastr
+    ) { }
 
   ngOnInit(): void {
     this.isEditCollision = false;
@@ -70,7 +73,10 @@ export class CollisionListComponent implements OnInit {
     const collisionId = collision.LiabilityId;
     this.employeeService.deleteCollision(collisionId).subscribe(res => {
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfull!' });
         this.getAllCollision();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }

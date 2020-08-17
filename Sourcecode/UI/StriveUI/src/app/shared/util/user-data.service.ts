@@ -13,6 +13,7 @@ export class UserDataService {
     const token = JSON.parse(loginToken);
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
+    localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }
 }

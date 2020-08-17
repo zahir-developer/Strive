@@ -18,7 +18,6 @@
                 </h3>
             </div>
             <div class="col-12 p-l-0 p-r-0">
-                <!-- 	<div class="row"> -->
                 <div class="card  m-b-10">
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5">
@@ -57,7 +56,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputgender">Gender</label>
                                     <select id="inputgender" class="form-control" formControlName="gender">
-                                        <option selected>Choose...</option>
+                                        <option value="" hidden selected>Choose</option>
                                         <option *ngFor="let g of gender" value="{{g.CodeId}}">{{g.CodeValue}}</option>
                                     </select>
                                 </div>
@@ -73,14 +72,16 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
-                                    <input type="text" class="form-control" appPhoneMask id="inputPhone" formControlName="mobile"
-                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" >
+                                    <input type="text" class="form-control" appPhoneMask id="inputPhone"
+                                        formControlName="mobile"
+                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
                                     <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
                                         <div *ngIf="f.mobile.errors.required">Mobile Number is required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputImmigration">Immigration Status <span class="required">*</span></label>
+                                    <label for="inputImmigration">Immigration Status <span
+                                            class="required">*</span></label>
                                     <input type="number" class="form-control" id="inputImmigration"
                                         formControlName="immigrationStatus"
                                         [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }">
@@ -149,22 +150,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label class="d-block">Location </label>
-                                    <ng-multiselect-dropdown [placeholder]="'Select Location'"
-                                        [disabled]="!isEditEmployeeList" [settings]="dropdownSettings" [data]="location"
-                                        formControlName="location">
-                                    </ng-multiselect-dropdown>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label class="d-block">Roles </label>
-                                    <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
-                                        [disabled]="!isEditEmployeeList" [data]="employeeRoles" formControlName="roles">
-                                    </ng-multiselect-dropdown>
-                                </div>
-                                
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-3">
                                     <label>Date of Hire <span class="required">*</span></label>
                                     <input type="text" class="form-control" bsDatepicker formControlName="dateOfHire"
                                         [ngClass]="{ 'is-invalid': submitted && g.dateOfHire.errors }">
@@ -175,7 +160,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputhourrate"
-                                        formControlName="hourlyRateWash"
+                                        formControlName="hourlyRateWash" apptwodecimalnumber placeholder="0.00"
                                         [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
                                     <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
                                         <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
@@ -184,31 +169,41 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputhourdetail">Hourly Rate-Details</label>
                                     <input type="text" class="form-control" id="inputhourdetail"
-                                        formControlName="hourlyRateDetail"> </div>
+                                        formControlName="hourlyRateDetail" apptwodecimalnumber placeholder="0.00">
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputcommission">Commission</label>
                                     <select id="inputcommission" class="form-control" formControlName="commission">
-                                        <option selected>Choose...</option>
+                                        <option value="" hidden selected>Choose</option>
                                         <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
                                         </option>
                                     </select>
                                 </div>
-                                
-                            </div>
-                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputStatus">Status</label>
+                                    <select id="inputStatus" class="form-control" formControlName="status">
+                                        <option value="" hidden selected>Choose</option>
+                                        <option *ngFor="let status of Status">{{status}}</option>
+                                    </select>
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
                                     <input type="phone" class="form-control" id="inputexemptions"
                                         formControlName="exemptions" numbersOnly> </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="inputStatus">Status</label>
-                                            <select id="inputStatus" class="form-control" formControlName="status">
-                                                <option selected>Choose...</option>
-                                                <option *ngFor="let status of Status">{{status}}</option>
-                                            </select>
-                                        </div>
-                                        
-                               
+                                <div class="form-group col-md-3">
+                                    <label class="d-block">Roles </label>
+                                    <ng-multiselect-dropdown [placeholder]="'Select Role'"
+                                        [disabled]="!isEditEmployeeList && actionType === 'view'" [settings]="dropdownSettings" [data]="employeeRoles"
+                                         formControlName="roles">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="d-block">Location </label>
+                                    <ng-multiselect-dropdown [placeholder]="'Select Location'"
+                                        [disabled]="!isEditEmployeeList && actionType === 'view'" [settings]="dropdownSettings" [data]="location"
+                                        formControlName="location">
+                                    </ng-multiselect-dropdown>
+                                </div>
                             </div>
                         </form>
                         <div class="m-t-9 " *ngIf="isEditEmployeeList && actionType === 'view'">

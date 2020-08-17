@@ -9,7 +9,7 @@
         <div class="p-col-3 p-md-6">
             <p-autoComplete [(ngModel)]="country" [suggestions]="filteredCountriesSingle" [ngClass]="{'is-invalid': country === '' && submitted}"
                 (completeMethod)="filterCountrySingle($event)" field="name" [size]="10" appendTo="body"
-                placeholder="City"></p-autoComplete>
+                placeholder="City" [disabled]="isView"></p-autoComplete>
                 <div *ngIf="submitted && country === ''" class="invalid-feedback">
                     city is Required
                 </div>

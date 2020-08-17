@@ -6,9 +6,15 @@ import { UrlConfig } from '../url.config';
 @Injectable({
   providedIn: 'root'
 })
-export class WashService {  
+export class WashService {
+  public data: BehaviorSubject<string> = new BehaviorSubject('');
+  dashBoardData: any;  
 
-  constructor(private http: HttpUtilsService) { }
+  constructor(private http: HttpUtilsService) {
+    setTimeout(() => {
+      this.getDashBoard();
+     }, 1000);
+   }
   getAllWashes(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getAllWash}`);
   }
@@ -24,10 +30,21 @@ export class WashService {
   getByBarcode(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getByBarcode}` + id);
   }
-  deleteWash(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.deleteWash}` + id);
-  }
-  getDashboard(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj)
-  }    
+  deleteWash(washId : number){
+    return this.http.delete(`${UrlConfig.totalUrl.deleteWash}`, { params: { id: washId } });
+  }  
+
+  // Get Dashboard Count
+  getDashBoard() {
+    const obj = {
+      id: 1,
+      date: new Date()
+    };
+    this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}` ,obj).subscribe((data: any) => {
+      const wash = JSON.parse(data.resultData);
+      this.dashBoardData = wash.Dashboard;
+      this.data.next(this.dashBoardData);
+      console.log(this.data);
+    });
+  }   
 }

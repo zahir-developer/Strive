@@ -74,10 +74,20 @@ export const UrlConfig = {
     getWashById:`Admin/Washes/GetWashTimeDetail/`,
     addWash:`Admin/Washes/AddWashTime`,
     updateWash:`Admin/Washes/UpdateWashTime`,
-    deleteWash:`Admin/washes/Delete/`,
+    deleteWash:`Admin/washes/Delete`,
     searchEmployee: `Admin/Employee/GetEmployeeSearch`,
     getDashBoardCount:`Admin/Washes/DashboardCount`,
     addCardHistory: `Admin/GiftCard/AddGiftCardHistory`,
-    getByBarcode:`Admin/Washes/GetByBarCode/`
+    getByBarcode:`Admin/Washes/GetByBarCode/`,
+    getAllMembership:`Admin/MembershipSetup/GetAll`,
+    getMembershipService:`Admin/MembershipSetup/GetService`,
+    getMembershipById:`Admin/MembershipSetup/GetAllMembershipById/`,
+    addMembership:`Admin/MembershipSetup/Add`,
+    updateMembership:`Admin/MembershipSetup/Update`,
+    deleteMembership:`Admin/MembershipSetup/Delete/`,
+    getClientByName:`Admin/Client/GetClientSearch`,
+    getClientScore:`Admin/Client/GetClientCodes`,
+    updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`,
+    getBalance: `Admin/GiftCard/GetGiftCardBalance/`
   }
 };

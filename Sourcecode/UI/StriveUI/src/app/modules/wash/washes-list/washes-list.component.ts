@@ -25,25 +25,6 @@ export class WashesListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    //this.getAllWashDetails();
-    this.getDashboard();
-  }
-
-  // Get Dashboard  
-  getDashboard() {
-    const obj = {
-      id: 1,
-      date: new Date()
-    };
-    this.washes.getDashboard(obj).subscribe(data => {
-      if (data.status === 'Success') {
-        const dash = JSON.parse(data.resultData);
-        this.dashboardDetails = dash.Dashboard;
-        console.log(this.dashboardDetails);
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
     this.getAllWashDetails();
   }
   
@@ -76,7 +57,7 @@ export class WashesListComponent implements OnInit {
     information will be deleted and the Wash cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          //this.confirmDelete(data);
+          this.confirmDelete(data);
         }
       })
       .catch(() => { });
@@ -84,7 +65,7 @@ export class WashesListComponent implements OnInit {
 
   // Delete Wash
   confirmDelete(data) {
-    this.washes.deleteWash(data.ClientVehicleId).subscribe(res => {
+    this.washes.deleteWash(data.JobId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAllWashDetails();

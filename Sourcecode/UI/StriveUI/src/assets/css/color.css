@@ -24,7 +24,9 @@ Color
 {
 	color: #30343C;
 }
-
+.theme-mid-gray {
+	color:#B2B2BC;
+}
 .theme-body-color,
 .theme-wrapper-color
 {
@@ -82,10 +84,21 @@ Color
 {
 	color: #ffffff !important;
 }*/
-
+.theme-light-yellow-color {
+	color: #FFB822 !important;
+}
 .theme-optional-button-color
 {
 	background-color:#6c757d;
+}
+.theme-voilet-color {
+	color:#5968DD;
+}
+.theme-light-blue-color {
+	color:#24CAFF;
+}
+.theme-basic-button-color {
+	background-color:#CACAD2;
 }
 
 .theme-primary-color-border

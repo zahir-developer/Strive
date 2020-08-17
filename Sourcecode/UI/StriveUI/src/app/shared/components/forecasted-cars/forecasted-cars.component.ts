@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WashService } from '../../services/data-service/wash.service';
 
 @Component({
   selector: 'app-forecasted-cars',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./forecasted-cars.component.css']
 })
 export class ForecastedCarsComponent implements OnInit {
+  forecastedCars: any;
 
-  constructor() { }
+  constructor(private wash: WashService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.getDashboardDetails();
   }
 
+  // Get ForecastedCars
+  getDashboardDetails = () => {
+    this.wash.data.subscribe((data: any) => {
+      if (data.ForecastedCars !== undefined) {
+        this.forecastedCars = data.ForecastedCars.ForecastedCars;
+      }
+    });
+  }
 }
+

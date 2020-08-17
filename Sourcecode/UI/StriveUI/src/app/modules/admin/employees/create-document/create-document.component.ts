@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MustMatch } from 'src/app/shared/Validator/must-match.validator';
 import * as moment from 'moment';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-create-document',
@@ -20,7 +21,12 @@ export class CreateDocumentComponent implements OnInit {
   fileType: any;
   isLoading: boolean;
   submitted: boolean;
-  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder, private employeeService: EmployeeService) { }
+  constructor(
+    private activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr
+    ) { }
 
   ngOnInit(): void {
     this.isLoading = false;
@@ -125,8 +131,10 @@ export class CreateDocumentComponent implements OnInit {
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
       console.log(res, 'uploadDcument');
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document upload Successfull!' });
         this.activeModal.close(true);
-        // this.getAllDocument();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }

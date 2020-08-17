@@ -12,7 +12,11 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputPassword">Password</label>
-                            <input type="text" class="form-control" formControlName="password" id="inputPassword">
+                            <input type="password" class="form-control" formControlName="password" id="inputPassword"
+                                [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                <div *ngIf="f.password.errors.required">password is required</div>
+                            </div>
                         </div>
                     </div>
                 </form>

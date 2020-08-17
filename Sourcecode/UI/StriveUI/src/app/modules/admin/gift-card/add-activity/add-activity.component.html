@@ -14,7 +14,7 @@
                             <label class="float-right">Card Number:</label>
                         </div>
                         <div class="col-sm-5">
-                            <label>34567</label>
+                            <label>{{giftCardNumber}}</label>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                             <label class="float-right">value:</label>
                         </div>
                         <div class="col-sm-5">
-                            <label>$00.00</label>
+                            <label>{{totalAmount | currency}}</label>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,11 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="m-l-10">
-                                <input type="text" apptwodecimalnumber placeholder="0.00" class="form-control" formControlName="amount">
+                                <input type="text" apptwodecimalnumber placeholder="0.00" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.amount.errors }" formControlName="amount">
+                                    <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                                        <div *ngIf="f.amount.errors.required">Amount is required</div>
+                                    </div>
                             </div>
                         </div>
                     </div>

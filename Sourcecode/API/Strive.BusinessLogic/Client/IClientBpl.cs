@@ -19,5 +19,7 @@ namespace Strive.BusinessLogic.Client
         Result GetClientById(int clientId);
         //Result SaveClientVehicle(VehicleDto vehicle);
         Result UpdateClientVehicle(ClientDto vehicle);
+        Result GetClientSearch(ClientSearchDto search);
+        Result GetClientCodes();
     }
 }

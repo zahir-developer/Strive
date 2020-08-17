@@ -17,12 +17,17 @@ namespace Strive.ResourceAccess
     public class GiftCardRal : RalBase
     {
         public GiftCardRal(ITenantHelper tenant) : base(tenant) { }
-        public List<GiftCardViewModel> GetAllGiftCard(int locationId)
+        public List<GiftCardDetailsViewModel> GetAllGiftCard(int locationId)
         {
             _prm.Add("@LocationId", locationId);
-            return db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
+            return db.Fetch<GiftCardDetailsViewModel>(SPEnum.uspGetGiftCardByLocation.ToString(), _prm);
         }
-        //
+        public List<GiftCardBalanceViewModel> GetGiftCardBalance(string giftCardNumber)
+        {
+            _prm.Add("@GiftCardNumber", giftCardNumber);
+            return db.Fetch<GiftCardBalanceViewModel>(SPEnum.uspGetGiftCardBalance.ToString(), _prm);
+        }
+        
         public List<GiftCardViewModel> GetGiftCardByGiftCardId(string giftCardNumber)
         {
             _prm.Add("@GiftCardCode", giftCardNumber);
@@ -35,7 +40,7 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<GiftCardViewModel>(SPEnum.uspGetGiftCardHistoryByNumber.ToString(), _prm);
             return result;
         }
-        //
+        
         public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(string giftCardNumber)
         {
 
@@ -68,5 +73,6 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(giftCardHistoryDto, "GiftCardHistoryId");
         }
+       
     }
 }
