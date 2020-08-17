@@ -28,4 +28,7 @@ export class ClientService {
   ClientSearch(obj) {
     return this.http.post(`${UrlConfig.totalUrl.getClientByName}`, obj);
   }
+  getClientScore(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getClientScore}`);
+  }
 }
