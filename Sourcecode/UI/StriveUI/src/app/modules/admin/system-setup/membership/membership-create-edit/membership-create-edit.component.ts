@@ -48,7 +48,7 @@ export class MembershipCreateEditComponent implements OnInit {
         const membership = JSON.parse(data.resultData);
         this.service = membership.ServicesWithPrice;
       } else {
-        this.toastr.showMessage('Communication Error');
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -64,7 +64,7 @@ export class MembershipCreateEditComponent implements OnInit {
         const membership = JSON.parse(data.resultData);
         this.vehicle = membership.Vehicle;
       } else {
-        this.toastr.showMessage('Communication Error');
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -121,20 +121,20 @@ export class MembershipCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.member.updateMembership(formObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.showMessage('Record Updated Successfully!!');
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Updated Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.showMessage('Communication Error');
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           this.membershipForm.reset();
         }
       });
     } else {
       this.member.addMembership(formObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.showMessage('Record Saved Successfully!!');
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Saved Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.showMessage('Communication Error');
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           this.membershipForm.reset();
         }
       });

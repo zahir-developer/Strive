@@ -40,7 +40,7 @@ export class MembershipListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage('Communication Error');
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -60,10 +60,10 @@ export class MembershipListComponent implements OnInit {
   confirmDelete(data) {
     this.member.deleteMembership(data.MembershipId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.showMessage('Membership Deleted Successfully!!');
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Deleted Successfully!!' });
         this.getAllMembershipDetails();
       } else {
-        this.toastr.showMessage('Communication Error');
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -98,7 +98,7 @@ export class MembershipListComponent implements OnInit {
         this.isEdit = true;
         this.showDialog = true;
       } else {
-        this.toastr.showMessage('Communication Error');
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
