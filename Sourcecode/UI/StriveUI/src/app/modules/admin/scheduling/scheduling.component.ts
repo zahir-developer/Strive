@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
-// import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timelinePlugin from '@fullcalendar/timeline';
 import * as moment from 'moment';
-// import { FullCalendarComponent } from '@fullcalendar/angular';
 import { FullCalendar } from 'primeng';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { LocationService } from 'src/app/shared/services/data-service/location.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
 
 declare var $: any;
 @Component({
@@ -19,6 +20,8 @@ declare var $: any;
 export class SchedulingComponent implements OnInit, AfterViewInit {
   public theme = 'theme-light';
   calendar: any;
+  empName: any;
+  empId: any
   today = moment(new Date());
   clickCnt = 0;
   events = [];
@@ -26,15 +29,17 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   searchEmp = '';
   headerData = '';
   mytime: any;
+  location = [];
+  empLocation = '';
   selectedEvent = [];
-  startTime: Date = new Date();
-  // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
+  startTime: Date;
+  endTime: Date;
   @ViewChild('fc') fc: FullCalendar;
-  
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
   empList: any;
   showDialog: boolean;
-  constructor(private empService: EmployeeService) { }
+  constructor(private empService: EmployeeService, private locationService: LocationService,
+    private messageService: MessageServiceToastr, private scheduleService: ScheduleService) { }
   ngAfterViewInit() {
     this.calendar = this.fc.getCalendar();
     const self = this;
@@ -54,7 +59,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     this.getEmployeeList();
-    
+    this.getLocationList();
     this.options = {
       plugins: [dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin],
       defaultDate: new Date(),
@@ -65,8 +70,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       },
       editable: true,
       allDaySlot: false,
-      nextDayThreshold: '09:00:00',
-        allDayDefault: false,
       droppable: true,
       slotDuration: '00:30:00',
       minTime: '09:00:00',
@@ -86,16 +89,38 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       //   });
       // },
       eventClick(event) {
-        // if (event.jsEvent.target.tagName === 'IMG') {
-        // }
-        $('#calendarModal').modal();
+        const str = event.event.title.split('\n');
+        this.empName = str[0];
+        this.empId = str[1];
+        this.startTime = moment(new Date(event.event.start)).format('HH:mm A');
+        this.endTime = moment(event.event.start).add(30, 'minutes').format('HH:mm A');
+        const startTime = new Date(event.event.start);
+        const endTime = moment(new Date(event.event.start)).add(30, 'minutes').toDate();
+        $('#name').html(this.empName);
+        $('#empId').html(this.empId);
+        $('#calendarModal').modal('show');
+        $('.modal').find('#startTime').val(this.startTime);
+        $('.modal').find('#endTime').val(this.endTime);
+        // $('#timeStart').html(startTime);
+        $('#timeStart').timepicker('setTime', startTime);
+        // $('#timeEnd').html(this.endTime);
+
       },
       eventResize(event) {
         console.log(event, 'event resize');
       },
-      eventReceive: (eventReceiveEvent) => { 
+      eventReceive: (eventReceiveEvent) => {
         console.log(eventReceiveEvent);
-        console.log(this.events, 'events');
+        const str = eventReceiveEvent.event.title.split('\n');
+        this.empName = str[0];
+        this.empId = str[1];
+        this.startTime = eventReceiveEvent.event.start;
+        this.endTime = moment(eventReceiveEvent.event.start).add(30, 'minutes').toDate();
+        $('#name').html(this.empName);
+        $('#empId').html(this.empId);
+        $('#startTime').html(this.startTime);
+        $('#endTime').html(this.endTime);
+        $('#calendarModal').modal();
       },
 
       datesRender(event) {
@@ -110,7 +135,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     };
   }
-  
+
   DragStart(event) {
     // this.showDialog = true;
     this.selectedEvent.push({
@@ -130,7 +155,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     console.log(this.events, 'allEvents');
     console.log(this.selectedEvent, 'selectedEvents');
   }
-  
+
   // Get all the Employees details
   getEmployeeList() {
     this.empService.getEmployees().subscribe(data => {
@@ -143,5 +168,38 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         console.log(this.empList.EmployeeList, 'employeeList');
       }
     });
+  }
+  getLocationList() {
+    this.locationService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+        console.log(this.location, 'location');
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+  addSchedule() {
+    const form = {
+      scheduleId: null,
+      employeeId: +this.empId,
+      locationId: +this.empLocation,
+      roleId: localStorage.getItem('roleId'),
+      scheduledDate: moment(this.startTime).format('MM-DD-YYYY'),
+      startTime: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
+      endTime: moment(this.endTime).format('YYYY-MM-DDTHH:mm:ss'),
+      scheduleType: null,
+      comments: null,
+      isActive: true
+    };
+    this.scheduleService.saveSchedule(form).subscribe(data => {
+      console.log(data, 'saveschedule');
+    })
+    console.log(form);
+  }
+  getLocation(event) {
+    this.empLocation = event.target.value;
+    console.log(event);
   }
 }

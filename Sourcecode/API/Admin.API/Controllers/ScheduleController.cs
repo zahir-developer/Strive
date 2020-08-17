@@ -20,28 +20,35 @@ namespace Admin.API.Controllers
     {
         public ScheduleController(IScheduleBpl scheduleBpl) : base(scheduleBpl) { }
 
-       [HttpPost]
-       [Route("ScheduleSave")]
-       public Result ScheduleSave([FromBody] ScheduleDto schedule)
-       {
+        [HttpPost]
+        [Route("ScheduleSave")]
+        public Result ScheduleSave([FromBody] ScheduleDto schedule)
+        {
             return _bplManager.SaveSchedule(schedule);
-       }
-       //[HttpPost]
-       //[Route("UpdateSchedule")]
-       //public Result UpdateSchedule([FromBody]ScheduleModel schedule)
-       //{
-       //     return _bplManager.UpdateSchedule(schedule);
-       //}
+        }
+        //[HttpPost]
+        //[Route("UpdateSchedule")]
+        //public Result UpdateSchedule([FromBody]ScheduleModel schedule)
+        //{
+        //     return _bplManager.UpdateSchedule(schedule);
+        //}
         [HttpDelete]
         [Route("DeleteSchedule")]
         public Result DeleteSchedule(int id) => _bplManager.DeleteSchedule(id);
         
+        //[HttpGet]
+        //[Route("GetSchedule")]
+        //public Result GetSchedule() => _bplManager.GetSchedule();
         [HttpGet]
         [Route("GetSchedule")]
-        public Result GetSchedule() => _bplManager.GetSchedule();
-
+        public Result GetSchedule(DateTime? StartDate,DateTime? EndDate)
+        {
+            return _bplManager.GetSchedule(StartDate,EndDate);
+        }
         [HttpGet]
         [Route("GetScheduleById")]
         public Result GetScheduleById(int scheduleId) => _bplManager.GetScheduleById(scheduleId);
+
+        
     }
 }

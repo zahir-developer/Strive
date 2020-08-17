@@ -18,7 +18,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   maxDate = new Date();
-
+locationId: any;
   cashRegisterCoinForm: FormGroup;
   cashDetails: any;
   isUpdate: boolean;
@@ -48,13 +48,15 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   weatherDetails: any;
   toggleTab: number;
   targetBusiness: any;
+  drawerId: any;
   date = moment(new Date()).format('MM-DD-YYYY');
   constructor(private fb: FormBuilder, private registerService: CashRegisterService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM-DD-YYYY');
-
+    this.locationId = localStorage.getItem('empLocationId');
+    this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
     this.getTargetBusinessData();
     this.getWeatherDetails();
@@ -99,7 +101,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
   // Get targetBusinessData
   getTargetBusinessData() {
-    const locationId = 1;
+    const locationId = +this.locationId;
     const date = moment(new Date()).format('YYYY-MM-DD');
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data && data.resultData) {
@@ -112,9 +114,11 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   getCashRegister() {
     const today = moment(new Date()).format('MM-DD-YYYY');
     const cashRegisterType = 'CASHIN';
-    const locationId = +localStorage.getItem('empLocation');
+    const locationId = +localStorage.getItem('empLocationId');
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === 'Success') {
+
+
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
@@ -244,8 +248,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: 119,
-      locationId: 1,
-      drawerId: 1,
+      locationId: +this.locationId,
+      drawerId: +this.drawerId,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,      
       isDeleted: false,
@@ -272,7 +276,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     // };
     const weatherObj = {
       weatherId: 0,
-      locationId: 1,
+      locationId:  +this.locationId,
       weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
       rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
       predictedBusiness: '-',
