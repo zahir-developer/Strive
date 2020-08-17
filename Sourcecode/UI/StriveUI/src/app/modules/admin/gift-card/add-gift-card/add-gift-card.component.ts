@@ -108,4 +108,11 @@ export class AddGiftCardComponent implements OnInit {
     });
   }
 
+  generateNumber() {
+    const cardNumber = Math.floor(100000 + Math.random() * 900000);
+    this.giftCardForm.patchValue({
+      number: cardNumber
+    });
+  }
+
 }

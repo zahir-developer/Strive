@@ -85,6 +85,7 @@ export const UrlConfig = {
     addMembership:`Admin/MembershipSetup/Add`,
     updateMembership:`Admin/MembershipSetup/Update`,
     deleteMembership:`Admin/MembershipSetup/Delete/`,
-    getClientByName:`Admin/Client/GetClientSearch`
+    getClientByName:`Admin/Client/GetClientSearch`,
+    updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`
   }
 };

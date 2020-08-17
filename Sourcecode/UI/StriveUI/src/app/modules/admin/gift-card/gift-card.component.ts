@@ -75,6 +75,7 @@ export class GiftCardComponent implements OnInit {
           this.totalAmount = giftcardDetail.GiftCardDetail[0].TotalAmount;
           this.giftCardID = giftcardDetail.GiftCardDetail[0].GiftCardId;
           this.isActivity = true;
+          this.updateBalance();
           this.getAllGiftCardHistory(giftCardNumber);
         } else {
           this.messageService.showMessage({ severity: 'info', title: 'Information', body: 'Invalid Card Number' });
@@ -132,6 +133,10 @@ export class GiftCardComponent implements OnInit {
     this.totalAmount = 0;
     this.isActivity = false;
     this.giftCardForm.reset();
+  }
+
+  updateBalance() {
+    this.giftCardService.updateBalance(this.giftCardID).subscribe( res => {});
   }
 
 }
