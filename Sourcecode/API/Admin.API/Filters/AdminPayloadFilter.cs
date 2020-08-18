@@ -109,14 +109,19 @@ namespace Admin.API.Filters
             }
             _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
 
-            _tenant.SMTPClient = Pick("SMTP", "SMTPClient").ToString();
-            _tenant.SMTPPassword = Pick("SMTP", "Password").ToString();
-            _tenant.Port = Pick("SMTP", "Port").ToString();
-            _tenant.FromMailAddress = Pick("SMTP", "FromAddress").ToString();
+            _tenant.SMTPClient = Pick("SMTP", "SMTPClient");
+            _tenant.SMTPPassword = Pick("SMTP", "Password");
+            _tenant.Port = Pick("SMTP", "Port");
+            _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
             _tenant.EmployeeId = employeeId;
             _tenant.SchemaName = schemaName;
-            _tenant.DocumentUploadFolder = Pick("EmployeeDocument", "FolderPath").ToString();
-            _tenant.DocumentFormat = Pick("EmployeeDocument", "FileFormat").ToString();
+            _tenant.ProductImageFolder = Pick("FolderPath", "ProductImage");
+            _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
+            _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");
+            _tenant.ProductImageFormat = Pick("FileFormat", "ProductImage");
+            _tenant.ProductThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
+            _tenant.ProductThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
+
         }
     }
 }

@@ -25,8 +25,16 @@ namespace Strive.BusinessLogic
             int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
             employee.EmployeeDetail.AuthId = authId;
 
+            var docBpl = new DocumentBpl(_cache, _tenant);
+
+            string error = docBpl.ValidateFiles(employee.EmployeeDocument);
+            if (!(error == string.Empty))
+            {
+                _result = Helper.ErrorMessageResult(error);
+            }
+
             //Documents Upload & Get File Names
-            List<EmployeeDocument> employeeDocument = new DocumentBpl(_cache, _tenant).UploadFiles(employee.EmployeeDocument);
+            List<EmployeeDocument> employeeDocument = docBpl.UploadFiles(employee.EmployeeDocument);
 
             employee.EmployeeDocument = employeeDocument;
 
@@ -67,7 +75,7 @@ namespace Strive.BusinessLogic
 
         public Result GetAllEmployeeRoles()
         {
-            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles,"EmployeeRoles");
+            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles, "EmployeeRoles");
         }
         public Result GetEmployeeSearch(string employeeName)
         {

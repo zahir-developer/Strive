@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace Strive.BusinessEntities.DTO.Schedule
+namespace Strive.BusinessEntities.ViewModel
 {
-    public class ScheduleDto
+    public class ProductViewModel
     {
-        public List<Model.Schedule> Schedule { get; set; }
     }
 }

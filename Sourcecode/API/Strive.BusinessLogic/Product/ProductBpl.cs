@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessLogic.Document;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 
 namespace Strive.BusinessLogic
@@ -15,27 +18,94 @@ namespace Strive.BusinessLogic
 
         public Result AddProduct(Product product)
         {
-            return ResultWrap(new ProductRal(_tenant).AddProduct, product, "Status");
+            string error = string.Empty;
+            (error, product.FileName, product.ThumbFileName) = UploadImage(product.Base64, product.FileName);
+
+            if (error == string.Empty)
+            {
+                return ResultWrap(new ProductRal(_tenant).AddProduct, product, "Status");
+            }
+            else
+            {
+                return Helper.ErrorMessageResult(error);
+            }
         }
 
         public Result UpdateProduct(Product product)
         {
+            string error = string.Empty;
+            (error, product.FileName, product.ThumbFileName) = UploadImage(product.Base64, product.FileName);
+
             return ResultWrap(new ProductRal(_tenant).UpdateProduct, product, "Status");
         }
 
         public Result GetAllProduct()
         {
-            return ResultWrap(new ProductRal(_tenant).GetAllProduct, "Product");
+            var products = new ProductRal(_tenant).GetAllProduct();
+
+            foreach (var prod in products)
+            {
+                if (!string.IsNullOrEmpty(prod.FileName))
+                    prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.UploadFolder.PRODUCTIMAGE, prod.FileName);
+            }
+
+            return ResultWrap(products, "Product");
         }
 
         public Result GetProduct(int productId)
         {
-            return ResultWrap(new ProductRal(_tenant).GetProductById, productId, "Product");
+            var result = new ProductRal(_tenant).GetProductById(productId);
+
+            result.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.UploadFolder.PRODUCTIMAGE, result.FileName);
+
+            return ResultWrap(result, "Product");
         }
 
-        public Result DeleteProduct(int productId)
+        public Result DeleteProduct(int productId, string fileName = null)
         {
-            return ResultWrap(new ProductRal(_tenant).DeleteProduct, productId, "Status");
+            bool result = new ProductRal(_tenant).DeleteProduct(productId);
+
+            if (result && !string.IsNullOrEmpty(fileName))
+            {
+                new DocumentBpl(_cache, _tenant).DeleteFile(GlobalUpload.UploadFolder.PRODUCTIMAGE, fileName);
+            }
+
+            return ResultWrap(result, "Result");
         }
+
+        public (string, string, string) UploadImage(string base64, string fileName)
+        {
+            string thumbFileName = string.Empty;
+            string error = string.Empty;
+            if (!string.IsNullOrEmpty(base64) && !string.IsNullOrEmpty(fileName))
+            {
+                var documentBpl = new DocumentBpl(_cache, _tenant);
+                error = documentBpl.ValidateFileFormat(GlobalUpload.UploadFolder.PRODUCTIMAGE, fileName);
+
+                if (error != string.Empty)
+                    return (error, fileName, thumbFileName);
+                (fileName) = documentBpl.Upload(GlobalUpload.UploadFolder.PRODUCTIMAGE, base64, fileName);
+                if (fileName == string.Empty)
+                {
+                    return (error, string.Empty, string.Empty);
+                }
+                else
+                {
+                    string extension = Path.GetExtension(fileName);
+                    thumbFileName = fileName.Replace(extension, string.Empty) + "Thumb" + extension;
+                    try
+                    {
+                        documentBpl.SaveThumbnail(_tenant.ProductThumbWidth, _tenant.ProductThumbHeight, base64, thumbFileName);
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+            return (error, fileName, thumbFileName);
+        }
+
     }
 }

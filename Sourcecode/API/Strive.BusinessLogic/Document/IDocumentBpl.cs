@@ -14,10 +14,13 @@ namespace Strive.BusinessLogic.Document
         bool SaveDocument(EmployeeDocumentModel documentModel);
         List<EmployeeDocument> UploadFiles(List<EmployeeDocument> employeeDocuments);
         void DeleteFiles(List<EmployeeDocument> documents);
-        string Upload(string Base64Url, string fileName);
+        string Upload(GlobalUpload.UploadFolder uploadFolder, string Base64Url, string fileName);
         Result GetDocumentById(int documentId, string password);
         Result UpdatePassword(int documentId, string password);
         Result GetDocumentByEmployeeId(int employeeId);
         Result DeleteDocument(int documentId);
+        void DeleteFile(GlobalUpload.UploadFolder uploadFolder, string fileName);
+        void SaveThumbnail(int Width, int Height, string base64String, string saveFilePath);
+        string ValidateFiles(List<EmployeeDocument> employeeDocument);
     }
 }

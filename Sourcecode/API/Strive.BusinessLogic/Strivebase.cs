@@ -95,6 +95,19 @@ namespace Strive.BusinessLogic
         }
 
 
+        protected Result ResultWrap<T>(T result, string ResultName)
+        {
+            try
+            {
+                _resultContent.Add(result.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
 
         protected Result ResultWrap<T>(Func<string, int, DateTime, T> RALMethod, string cashRegType, int locationId, DateTime cashRegDate, string ResultName)
         {
