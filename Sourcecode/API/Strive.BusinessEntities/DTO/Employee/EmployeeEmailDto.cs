@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.DTO.Client
+namespace Strive.BusinessEntities.DTO.Employee
 {
-    public class ClientSearchDto
+    public class EmployeeEmailDto
     {
-        public string ClientName { get; set; }
+        public bool EmailExist { get; set; }
     }
 }

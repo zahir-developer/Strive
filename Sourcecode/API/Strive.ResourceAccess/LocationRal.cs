@@ -22,6 +22,15 @@ namespace Strive.ResourceAccess
             return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
         }
 
+        public List<LocationViewModel> GetLocationSearch(LocationSearchDto search)
+        {
+            _prm.Add("@LocationName", search.LocationName);
+            _prm.Add("@LocationAddress", search.LocationAddress);
+            _prm.Add("@PhoneNumber", search.PhoneNumber);
+            _prm.Add("@Email", search.Email);
+            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
+        }
+
         public LocationDto GetLocationDetailById(int id)
         {
             _prm.Add("@tblLocationId", id);

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.DTO.Client
+namespace Strive.BusinessEntities.ViewModel
 {
-    public class ClientSearchDto
+    public class ProductViewModel
     {
-        public string ClientName { get; set; }
     }
 }

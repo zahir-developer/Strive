@@ -25,4 +25,7 @@ export class LocationService {
   updateLocation(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateLocation}`, obj);
   }
+  LocationSearch(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getLocationSearch}`, obj);
+  }
 }

@@ -37,6 +37,8 @@ export class EditEmployeeComponent implements OnInit {
   isPersonalCollapsed = false;
   isDetailCollapsed = false;
   submitted: boolean;
+  selectedRole: any = [];
+  selectedLocation: any = [];
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -102,8 +104,13 @@ export class EditEmployeeComponent implements OnInit {
   setValue() {
     let employeeRole = [];
     const employee = this.employeeData;
+    this.employeRole();
+    this.locationDropDown();
+    console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
+    this.selectedLocation = employee.EmployeeLocations;
     if (employee.EmployeeRoles !== null) {
+      this.selectedRole = employee.EmployeeRoles;
       employeeRole = employee.EmployeeRoles?.map(item => {
         return {
           item_id: item.Roleid,
@@ -243,9 +250,17 @@ export class EditEmployeeComponent implements OnInit {
       zip: 'string',
       country: 38
     };
-    const employeeRoleObj = this.emplistform.value.roles.map(item => {
+    const newlyAddedRole = [];
+    this.emplistform.value.roles.forEach( role => {
+      this.selectedRole.forEach( item => {
+        if (+item.Roleid !== role.item_id) {
+          newlyAddedRole.push(role);
+        }
+      });
+    });
+    const employeeRoleObj = newlyAddedRole.map(item => {
       return {
-        employeeRoleId: 0,
+        employeeRoleId: item.item_id,
         employeeId: this.employeeId,
         roleId: item.item_id
       };
@@ -259,12 +274,12 @@ export class EditEmployeeComponent implements OnInit {
       ComRate: this.emplistform.value.hourlyRateDetail,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
       exemptions: +this.emplistform.value.exemptions,
-      isActive: true,
+      isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
     };
     const locationObj = this.emplistform.value.location.map(item => {
       return {
-        employeeLocationId: 0,
+        employeeLocationId: item.item_id,
         employeeId: this.employeeId,
         locationId: item.item_id
       };
@@ -281,7 +296,7 @@ export class EditEmployeeComponent implements OnInit {
       alienNo: 'string',
       birthDate: '',
       immigrationStatus: this.personalform.value.immigrationStatus,
-      isActive: true,
+      isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
     };
     const finalObj = {
@@ -290,7 +305,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeAddress: employeeAddressObj,
       employeeRole: employeeRoleObj,
       employeeLocation: locationObj,
-      employeeDocument: this.employeeData.EmployeeDocument
+      employeeDocument: null // this.employeeData.EmployeeDocument
     };
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {

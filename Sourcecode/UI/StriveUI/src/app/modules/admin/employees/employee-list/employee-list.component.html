@@ -93,7 +93,7 @@
                                                 </td>
                                                 <td> <a href="#" class="text-underline theme-primary-color font-size--9"
                                                         data-toggle="modal"> View </a> </td>
-                                                <td>Active</td>
+                                                <td>{{employee.Status === true ? 'Active' : 'InActive'}}</td>
                                                 <td> <em class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
                                                         (click)="addEmployee('view', employee)"></em>
                                                     <em class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"

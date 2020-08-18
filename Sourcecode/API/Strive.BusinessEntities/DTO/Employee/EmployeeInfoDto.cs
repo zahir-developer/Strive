@@ -6,6 +6,7 @@ namespace Strive.BusinessEntities.DTO.Employee
     {
         public int EmployeeId { get; set; }
         public int EmployeeDetailId { get; set; }
+        public int EmployeeAddressId { get; set; }
         public string EmployeeCode { get; set; }
         public string Firstname { get; set; }
         public string LastName { get; set; }

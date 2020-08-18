@@ -19,6 +19,10 @@ namespace Strive.Common
         string SchemaName { get; set; }
         string DocumentUploadFolder { get; set; }
         string DocumentFormat { get; set; }
+        string ProductImageFolder { get; set; }
+        string ProductImageFormat { get; set; }
+        int ProductThumbHeight { get; set; }
+        int ProductThumbWidth { get; set; }
 
         IDbConnection db();
         IDbConnection dbAuth();
@@ -50,6 +54,10 @@ namespace Strive.Common
         public string SchemaName { get; set; }
         public string DocumentUploadFolder { get; set; }
         public string DocumentFormat{ get; set; }
+        public string ProductImageFolder { get; set; }
+        public string ProductImageFormat { get; set; }
+        public int ProductThumbHeight { get; set; }
+        public int ProductThumbWidth { get; set; }
 
         public TenantHelper(IDistributedCache cache)
         {

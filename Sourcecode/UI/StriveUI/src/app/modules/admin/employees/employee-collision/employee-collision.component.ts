@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -11,7 +11,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
   styleUrls: ['./employee-collision.component.css']
 })
 export class EmployeeCollisionComponent implements OnInit {
-
+  submitted: boolean;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -24,10 +24,11 @@ export class EmployeeCollisionComponent implements OnInit {
   collisionForm: FormGroup;
   collisionDetail: any;
   ngOnInit(): void {
+    this.submitted = false;
     this.collisionForm = this.fb.group({
-      dateOfCollision: [''],
-      amount: [''],
-      reason: ['']
+      dateOfCollision: ['', Validators.required],
+      amount: ['', Validators.required],
+      reason: ['', Validators.required]
     });
     if (this.mode === 'edit') {
       this.getCollisionDetail();
@@ -60,7 +61,15 @@ export class EmployeeCollisionComponent implements OnInit {
     });
   }
 
+  get f() {
+    return this.collisionForm.controls;
+  }
+
   saveCollision() {
+    this.submitted = true;
+    if (this.collisionForm.invalid) {
+      return;
+    }
     const liabilityDetailObj = {
       liabilityDetailId: this.mode === 'edit' ? this.collisionDetail.LiabilityDetailId : 0,
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
@@ -98,7 +107,7 @@ export class EmployeeCollisionComponent implements OnInit {
     if (this.mode === 'create') {
       this.employeeService.saveCollision(finalObj).subscribe(res => {
         if (res.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Added Successfull!' });
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Added Successfully!' });
           this.activeModal.close(true);
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -107,7 +116,7 @@ export class EmployeeCollisionComponent implements OnInit {
     } else {
       this.employeeService.updateCollision(finalObj).subscribe(res => {
         if (res.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Updated Successfull!' });
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Updated Successfully!' });
           this.activeModal.close(true);
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });

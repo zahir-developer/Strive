@@ -92,6 +92,7 @@ export const UrlConfig = {
     addSchedule: `Admin/Schedule/ScheduleSave`,
     getSchedule: `Admin/Schedule/GetSchedule`,
     deleteSchedule: `Admin/Schedule/DeleteSchedule`,
-    getScheduleById: `Admin/Schedule/GetScheduleById`
+    getScheduleById: `Admin/Schedule/GetScheduleById`,
+    getLocationSearch:`Admin/Location/GetLocationSearch`
   }
 };
