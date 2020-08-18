@@ -25,7 +25,7 @@ export class CollisionListComponent implements OnInit {
     private modalService: NgbModal,
     private confirmationService: ConfirmationUXBDialogService,
     private messageService: MessageServiceToastr
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.isEditCollision = false;
@@ -60,6 +60,9 @@ export class CollisionListComponent implements OnInit {
   }
 
   deleteCollision(collision) {
+    if (!this.isEditCollision && this.actionType === 'view') {
+      return;
+    }
     this.confirmationService.confirm('Delete Employee Collision ', 'Are you sure you want to delete this collision? All related information will be deleted and the collision cannot be retrieved?', 'Delete', 'Cancel')
       .then((confirmed) => {
         if (confirmed === true) {
@@ -73,7 +76,7 @@ export class CollisionListComponent implements OnInit {
     const collisionId = collision.LiabilityId;
     this.employeeService.deleteCollision(collisionId).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfull!' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfully!' });
         this.getAllCollision();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -85,6 +88,8 @@ export class CollisionListComponent implements OnInit {
     this.employeeService.getAllCollision(this.employeeId).subscribe(res => {
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
+        this.employeeCollision = [];
+        this.collisionList = [];
         console.log(employeesCollison, 'employeDeatil');
         if (employeesCollison.Collision.length > 0) {
           this.employeeCollision = employeesCollison.Collision;
@@ -99,6 +104,9 @@ export class CollisionListComponent implements OnInit {
   }
 
   updateCollision(collision) {
+    if (!this.isEditCollision && this.actionType === 'view') {
+      return;
+    }
     const collisionId = collision.LiabilityId;
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',

@@ -9,7 +9,12 @@
                     <span class="collision-btn" *ngIf="isEditDocument">
                         <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                             (click)="openCreateDocumentModal()">Add New Document</button>
-                    </span> </h6>
+                    </span>
+                    <span class="collision-btn" *ngIf="actionType === 'edit'">
+                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                            (click)="openCreateDocumentModal()">Add New Document</button>
+                    </span>
+                </h6>
                 <div class="pull-right m-t-4 pointer">
                     <button type="button" class="btn theme-optional-button-color" id="doc-disable"
                         *ngIf="showCloseButton && !isEditDocument" (click)="closeModal()">Close</button>
@@ -39,10 +44,10 @@
                             <td>{{document.ModifiedDate | date: 'MM/dd/yyyy'}}</td>
                             <td>{{document.FileType}}</td>
                             <td> <em class="mdi mdi-file-download-outline pointer  md-doc m-r-2 font-size-1-1"
-                                    *ngIf="actionType === 'view'" 
+                                    *ngIf="actionType === 'view'" (click)="viewDocument(document)"
                                     [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-primary-icon-color': isEditDocument  }"></em>
                                 <em class="mdi mdi-close-circle pointer  md-close font-size-1-1"
-                                    *ngIf="actionType === 'view'"
+                                    *ngIf="actionType === 'view'" (click)="deleteDocument(document)"
                                     [ngClass]="{'theme-disabled-icon-color':!isEditDocument, 'theme-optional-icon-color': isEditDocument  }"
                                     ></em>
                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
