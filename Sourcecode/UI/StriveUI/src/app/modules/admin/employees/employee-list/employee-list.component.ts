@@ -130,7 +130,7 @@ export class EmployeeListComponent implements OnInit {
     const id = employeeDetail.EmployeeId;
     this.employeeService.deleteEmployee(id).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Deleted Successfull!' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Deleted Successfully!' });
         this.getAllEmployeeDetails();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });

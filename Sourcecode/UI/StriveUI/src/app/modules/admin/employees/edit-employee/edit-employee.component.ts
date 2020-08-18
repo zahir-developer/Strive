@@ -84,7 +84,7 @@ export class EditEmployeeComponent implements OnInit {
     // this.getAllDocument();
   }
 
-  employeeDetail() {
+  dropdownSetting() {
     this.dropdownSettings = {
       singleSelection: false,
       defaultOpen: false,
@@ -95,6 +95,10 @@ export class EditEmployeeComponent implements OnInit {
       itemsShowLimit: 2,
       allowSearchFilter: false
     };
+  }
+
+  employeeDetail() {
+    this.dropdownSetting();
     const id = this.employeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
       if (res.status === 'Success') {
@@ -108,11 +112,10 @@ export class EditEmployeeComponent implements OnInit {
   setValue() {
     let employeeRole = [];
     const employee = this.employeeData;
-    // this.employeRole();
-    // this.locationDropDown();
+    this.dropdownSetting();
     console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
-    this.selectedLocation = employee.EmployeeLocations;
+    this.selectedLocation = _.pluck(employee.EmployeeLocations, 'LocationId');
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     if (employee.EmployeeRoles !== null) {
       this.selectedRole = _.pluck(employee.EmployeeRoles, 'Roleid');
@@ -260,7 +263,7 @@ export class EditEmployeeComponent implements OnInit {
       country: 38
     };
     const newlyAddedRole = [];
-    this.emplistform.value.roles.forEach( item => {
+    this.emplistform.value.roles.forEach(item => {
       if (!_.contains(this.selectedRole, item.item_id)) {
         newlyAddedRole.push({
           employeeRoleId: 0,
@@ -283,6 +286,18 @@ export class EditEmployeeComponent implements OnInit {
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
     };
+    const newlyAddedLocation = [];
+    this.emplistform.value.location.forEach(item => {
+      if (!_.contains(this.selectedLocation, item.item_id)) {
+        newlyAddedLocation.push({
+          employeeLocationId: 0,
+          employeeId: this.employeeId,
+          locationId: item.item_id,
+          isActive: true,
+          isDeleted: false,
+        });
+      }
+    });
     const locationObj = this.emplistform.value.location.map(item => {
       return {
         employeeLocationId: item.item_id,
@@ -310,12 +325,12 @@ export class EditEmployeeComponent implements OnInit {
       employeeDetail: employeeDetailObj,
       employeeAddress: employeeAddressObj,
       employeeRole: newlyAddedRole,
-      employeeLocation: locationObj,
+      employeeLocation: newlyAddedLocation,
       employeeDocument: null // this.employeeData.EmployeeDocument
     };
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Updated Successfull!' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Updated Successfully!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
