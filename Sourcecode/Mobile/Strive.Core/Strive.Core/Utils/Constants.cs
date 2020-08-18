@@ -23,5 +23,6 @@ namespace Strive.Core.Utils
 
         public const string URL_SAVE_CLOCKIN_TIME = "/Admin/TimeClock/Save";
 
+        public const string URL_GET_PAST_SCHEDULE = "/Admin/Schedule/GetSchedule";
     }
 }
