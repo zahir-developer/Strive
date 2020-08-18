@@ -13,8 +13,8 @@ export class ScheduleService {
    saveSchedule(scheduleObj): Observable<any> {
     return this.http.post(`${UrlConfig.totalUrl.addSchedule}`, scheduleObj);
   }
-  getSchedule(date): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getSchedule}` + date);
+  getSchedule(fromDate, endDate): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getSchedule}`, {params: {StartDate: fromDate, EndDate: endDate}});
   }
   deleteSchedule(id) {
     return this.http.delete(`${UrlConfig.totalUrl.deleteSchedule}` + id);
