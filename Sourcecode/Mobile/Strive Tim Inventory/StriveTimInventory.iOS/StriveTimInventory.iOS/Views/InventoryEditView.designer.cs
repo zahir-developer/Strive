@@ -28,6 +28,10 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint FirstConstraint { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField ItemCode { get; set; }
 
         [Outlet]
@@ -48,7 +52,15 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint LandscapeConstraint { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LogoutButtton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint PotraitConstant { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -57,6 +69,10 @@ namespace StriveTimInventory.iOS.Views
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton SaveButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint SecondConstraint { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -80,6 +96,10 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint ThirdConstraint { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel Title { get; set; }
 
         void ReleaseDesignerOutlets ()
@@ -97,6 +117,11 @@ namespace StriveTimInventory.iOS.Views
             if (EditImageButton != null) {
                 EditImageButton.Dispose ();
                 EditImageButton = null;
+            }
+
+            if (FirstConstraint != null) {
+                FirstConstraint.Dispose ();
+                FirstConstraint = null;
             }
 
             if (ItemCode != null) {
@@ -124,9 +149,19 @@ namespace StriveTimInventory.iOS.Views
                 ItemQuantity = null;
             }
 
+            if (LandscapeConstraint != null) {
+                LandscapeConstraint.Dispose ();
+                LandscapeConstraint = null;
+            }
+
             if (LogoutButtton != null) {
                 LogoutButtton.Dispose ();
                 LogoutButtton = null;
+            }
+
+            if (PotraitConstant != null) {
+                PotraitConstant.Dispose ();
+                PotraitConstant = null;
             }
 
             if (RootView != null) {
@@ -137,6 +172,11 @@ namespace StriveTimInventory.iOS.Views
             if (SaveButton != null) {
                 SaveButton.Dispose ();
                 SaveButton = null;
+            }
+
+            if (SecondConstraint != null) {
+                SecondConstraint.Dispose ();
+                SecondConstraint = null;
             }
 
             if (SupplierAddress != null) {
@@ -162,6 +202,11 @@ namespace StriveTimInventory.iOS.Views
             if (SupplierName != null) {
                 SupplierName.Dispose ();
                 SupplierName = null;
+            }
+
+            if (ThirdConstraint != null) {
+                ThirdConstraint.Dispose ();
+                ThirdConstraint = null;
             }
 
             if (Title != null) {

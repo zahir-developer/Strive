@@ -9,6 +9,7 @@ using Strive.Core.Utils;
 using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using System.Collections;
+using CoreGraphics;
 
 namespace StriveTimInventory.iOS.Views
 {
@@ -52,7 +53,22 @@ namespace StriveTimInventory.iOS.Views
             set.Apply();
         }
 
-      
+        public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+        {
+            var height = UIScreen.MainScreen.Bounds;
+            var width = UIScreen.MainScreen.Bounds;
+            if(width.Width > height.Height)
+            {
+                FirstConstraint.Constant = SecondConstraint.Constant = ThirdConstraint.Constant = 150;
+                PotraitConstant.Priority = 999;
+                LandscapeConstraint.Priority = 1000;
+            } else
+            {
+                FirstConstraint.Constant = SecondConstraint.Constant = ThirdConstraint.Constant = 0;
+                LandscapeConstraint.Priority = 999;
+                PotraitConstant.Priority = 1000;  
+            }
+        }
 
         private async void OnReceivedMessageAsync(ValuesChangedMessage message)
         {
