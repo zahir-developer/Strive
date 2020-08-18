@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO.Washes;
+using Strive.BusinessLogic.Common;
+using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -26,6 +28,17 @@ namespace Strive.BusinessLogic.Washes
         }
         public Result AddWashTime(WashesDto washes)
         {
+            var result = new VehicleBpl(_cache, _tenant).GetVehicleId(washes.Job.VehicleId);
+            //if(result.ResultData.)
+            //result.ResultData.FirstOrDefault(g=>g.)
+            foreach (var item in result.ResultData)
+            {
+                //if (item.toFloat() = "")
+                //{
+                //    var check = new CommonBpl(_cache, _tenant).RandomNumber(10);
+                //}
+            }
+
             return ResultWrap(new WashesRal(_tenant).AddWashTime, washes, "Status");
         }
 
