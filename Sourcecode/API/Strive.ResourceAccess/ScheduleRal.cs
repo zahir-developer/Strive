@@ -17,35 +17,45 @@ namespace Strive.ResourceAccess
     public class ScheduleRal : RalBase
     {
         public ScheduleRal(ITenantHelper tenant) : base(tenant) { }
-        public EmployeeScheduleDto SaveSchedule(ScheduleDto schedule)
-        {
-            EmployeeScheduleDto esto = new EmployeeScheduleDto();
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@ScheduleId", schedule.ScheduleId);
-            dynParams.Add("@EmployeeId", schedule.EmployeeId);
-            dynParams.Add("@LocationId", schedule.LocationId);
-            dynParams.Add("@RoleId", schedule.RoleId);
-            dynParams.Add("@ScheduledDate", schedule.ScheduledDate);
-            dynParams.Add("@StartTime", schedule.StartTime);
-            dynParams.Add("@EndTime", schedule.EndTime);
-            dynParams.Add("@ScheduleType", schedule.ScheduleType);
-            dynParams.Add("@Comments", schedule.Comments);
-            dynParams.Add("@IsActive", schedule.IsActive);
-            var result = db.Fetch<EmployeeScheduleDto>(SPEnum.USPSAVESCHEDULE.ToString(), dynParams);
-            foreach (var item in result)
-            {
-                esto.Result = item.Result;
-            }
-            if (esto.Result != null)
-            {
-                CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVESCHEDULE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-                db.Save(cmd);
-            }
 
-            return esto;
-                
-                
+        public bool SaveSchedule(ScheduleDto schedule)
+        {
+            return dbRepo.InsertPc(schedule, "ScheduleId");
         }
+        //public EmployeeScheduleDto SaveSchedule(List<ScheduleDto> schedule)
+        //{
+        //    EmployeeScheduleDto esto = new EmployeeScheduleDto();
+        //    DynamicParameters dynParams = new DynamicParameters();
+        //    foreach (var item in schedule)
+        //    {
+        //        dynParams.Add("@ScheduleId", item.ScheduleId);
+        //        dynParams.Add("@EmployeeId", item.EmployeeId);
+        //        dynParams.Add("@LocationId", item.LocationId);
+        //        dynParams.Add("@RoleId", item.RoleId);
+        //        dynParams.Add("@ScheduledDate", item.ScheduledDate);
+        //        dynParams.Add("@StartTime", item.StartTime);
+        //        dynParams.Add("@EndTime", item.EndTime);
+        //        dynParams.Add("@ScheduleType", item.ScheduleType);
+        //        dynParams.Add("@Comments", item.Comments);
+        //        dynParams.Add("@IsActive", item.IsActive);
+
+        //        var result = db.Fetch<EmployeeScheduleDto>(SPEnum.USPSAVESCHEDULE.ToString(), dynParams);
+        //        foreach (var res in result)
+        //        {
+        //            esto.Result = res.Result;
+        //        }
+        //        if (esto.Result != null)
+        //        {
+        //            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVESCHEDULE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+        //            db.Save(cmd);
+        //        }
+        //    }
+
+
+        //    return esto;
+
+
+        //}
         public bool DeleteSchedule(int scheduleId)
 
         {
@@ -62,7 +72,7 @@ namespace Strive.ResourceAccess
         public List<ScheduleViewModel> GetScheduleById(int scheduleId)
         {
             _prm.Add("ScheduleId", scheduleId);
-            var result =  db.Fetch<ScheduleViewModel>(SPEnum.uspGetSchedule.ToString(), _prm);
+            var result = db.Fetch<ScheduleViewModel>(SPEnum.uspGetSchedule.ToString(), _prm);
             return result;
         }
     }
