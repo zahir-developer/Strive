@@ -118,7 +118,7 @@ export class EditEmployeeComponent implements OnInit {
     this.selectedLocation = _.pluck(employee.EmployeeLocations, 'LocationId');
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     if (employee.EmployeeRoles !== null) {
-      this.selectedRole = _.pluck(employee.EmployeeRoles, 'Roleid');
+      this.selectedRole = employee.EmployeeRoles;
       employeeRole = employee.EmployeeRoles?.map(item => {
         return {
           item_id: item.Roleid,
@@ -264,9 +264,18 @@ export class EditEmployeeComponent implements OnInit {
     };
     const newlyAddedRole = [];
     this.emplistform.value.roles.forEach(item => {
-      if (!_.contains(this.selectedRole, item.item_id)) {
+      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      if (isData.length === 0) {
         newlyAddedRole.push({
           employeeRoleId: 0,
+          employeeId: this.employeeId,
+          roleId: item.item_id,
+          isActive: true,
+          isDeleted: false
+        });
+      } else {
+        newlyAddedRole.push({
+          employeeRoleId: isData[0].RoleMasterId,
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
@@ -325,7 +334,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeDetail: employeeDetailObj,
       employeeAddress: employeeAddressObj,
       employeeRole: newlyAddedRole,
-      employeeLocation: newlyAddedLocation,
+      employeeLocation: locationObj,
       employeeDocument: null // this.employeeData.EmployeeDocument
     };
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
