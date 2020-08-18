@@ -35,6 +35,13 @@ namespace Strive.BusinessLogic.Common
             var res = new CommonRal(_tenant).DoSearch(searchTerm);
             return null;
         }
+        public string RandomNumber(int length)
+        {
+            random = new Random();
+            const string chars = "0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
 
         public Result GetAllCodes()
         {
