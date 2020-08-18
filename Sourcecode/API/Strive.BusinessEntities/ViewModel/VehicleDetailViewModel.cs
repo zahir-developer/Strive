@@ -10,14 +10,21 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public int ClientVehicleId { get; set; }
         public int ClientId { get; set; }
+        public int LocationId { get; set; }
         public string VehicleNumber { get; set; }
-        public int ColorId { get; set; }
         public int VehicleMakeId { get; set; }
-        public int VehicleModelId { get; set; }
-        public string Color { get; set; }
         public string VehicleMake { get; set; }
-        public string VehicleModel { get; set; }
-        public string Upcharge { get; set; }
+        public int VehicleModelId { get; set; }
+        public int VehicleModelNo { get; set; }
+        public string VehicleYear { get; set; }
+        public int VehicleColor { get; set; }
+        public int Upcharge { get; set; }
         public string Barcode { get; set; }
+        public string Notes { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public string ModelName { get; set; }
+        public string Color { get; set; }
+        public int ColorId { get; set; }
     }
 }
