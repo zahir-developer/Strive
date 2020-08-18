@@ -13,16 +13,16 @@ namespace Strive.ResourceAccess
     public class WashesRal : RalBase
     {
         public WashesRal(ITenantHelper tenant) : base(tenant) { }
-        public List<WashesViewModel> GetAllWashTime()
+        public List<AllWashesViewModel> GetAllWashTime()
         {
-            return db.Fetch<WashesViewModel>(SPEnum.USPGETJOB.ToString(), null);
+            return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), null);
         }
 
         public List<WashesViewModel> GetWashTimeDetail(int id)
         {
 
             _prm.Add("@JobId", id);
-            var result = db.Fetch<WashesViewModel>(SPEnum.USPGETJOB.ToString(), _prm);
+            var result = db.Fetch<WashesViewModel>(SPEnum.USPGETJOBBYID.ToString(), _prm);
             return result;
         }
         public bool AddWashTime(WashesDto washes)
@@ -37,7 +37,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@LocationId",dashboard.id);
             _prm.Add("@CurrentDate",dashboard.date);
-            var result =  db.FetchMultiResult<WashesDashboardViewModel>(SPEnum.USPGETDAILYDASHBOARD.ToString(), _prm);
+            var result =  db.FetchMultiResult<WashesDashboardViewModel>(SPEnum.USPGETWASHDASHBOARD.ToString(), _prm);
             return result;
         }
         public List<ClientVehicleViewModel> GetByBarCode(string barcode)

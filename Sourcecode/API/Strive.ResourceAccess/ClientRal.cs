@@ -46,7 +46,7 @@ namespace Strive.ResourceAccess
         }
         public List<ClientSearchViewModel> GetClientSearch(ClientSearchDto search)
         {
-            _prm.Add("@FirstName", search.FirstName);
+            _prm.Add("@ClientName", search.ClientName);
             return db.Fetch<ClientSearchViewModel>(SPEnum.uspGetClientName.ToString(), _prm);
         }
         public List<Code> GetClientCode()

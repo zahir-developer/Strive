@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace Strive.BusinessEntities.DTO.Schedule
+namespace Strive.BusinessEntities.DTO.Employee
 {
-    public class ScheduleDto
+    public class EmployeeEmailDto
     {
-        public List<Model.Schedule> Schedule { get; set; }
+        public bool EmailExist { get; set; }
     }
 }

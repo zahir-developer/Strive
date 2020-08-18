@@ -56,6 +56,7 @@ import { AddScheduleComponent } from './scheduling/add-schedule/add-schedule.com
 import { MembershipComponent } from './system-setup/membership/membership.component';
 import { MembershipListComponent } from './system-setup/membership/membership-list/membership-list.component';
 import { MembershipCreateEditComponent } from './system-setup/membership/membership-create-edit/membership-create-edit.component';
+import { TimeCostMaintenanceComponent } from './time-cost-maintenance/time-cost-maintenance.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -70,7 +71,7 @@ import { MembershipCreateEditComponent } from './system-setup/membership/members
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, 
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent, 
-    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent],
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, TimeCostMaintenanceComponent],
   imports: [
     CommonModule,
     RouterModule,

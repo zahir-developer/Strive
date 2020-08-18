@@ -63,7 +63,7 @@ export class EmployeeListComponent implements OnInit {
         if (employees.EmployeeList.length > 0) {
           const employeeDetail = employees.EmployeeList;
           this.employeeDetails = employeeDetail;
-          this.employeeDetails = this.employeeDetails.filter(item => item.Status === true);
+          // this.employeeDetails = this.employeeDetails.filter(item => item.Status === true);
           this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
         }
       } else {

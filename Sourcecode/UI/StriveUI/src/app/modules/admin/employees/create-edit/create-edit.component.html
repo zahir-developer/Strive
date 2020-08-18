@@ -61,7 +61,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputaddress">Address <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputaddress" formControlName="address"
-                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }" placeholder="Address">
                                     <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                         <div *ngIf="f.address.errors.required">Address is required</div>
                                     </div>
@@ -71,7 +71,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputPhone" formControlName="mobile"
-                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" appPhoneMask>
+                                        [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" appPhoneMask placeholder="Mobile Number">
                                     <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
                                         <div *ngIf="f.mobile.errors.required">Mobile Number is required</div>
                                     </div>
@@ -81,7 +81,7 @@
                                             class="required">*</span></label>
                                     <input type="number" class="form-control" id="inputImmigration"
                                         [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }"
-                                        formControlName="immigrationStatus">
+                                        formControlName="immigrationStatus" placeholder="Immigration status">
                                     <div *ngIf="submitted && f.immigrationStatus.errors" class="invalid-feedback">
                                         <div *ngIf="f.immigrationStatus.errors.required">Immigration Status is required
                                         </div>
@@ -90,7 +90,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputssn" formControlName="ssn"
-                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
+                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }" placeholder="SSN">
                                     <div *ngIf="submitted && f.ssn.errors" class="invalid-feedback">
                                         <div *ngIf="f.ssn.errors.required">SSN is required</div>
                                     </div>
@@ -125,7 +125,7 @@
                                     <label for="inputPassword">Password <span class="required">*</span></label>
                                     <input type="password" class="form-control" id="inputPassword"
                                         [ngClass]="{ 'is-invalid': submitted && g.password.errors }"
-                                        formControlName="password">
+                                        formControlName="password" placeholder="Password">
                                     <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
                                         <div *ngIf="g.password.errors.required">Password is required</div>
                                     </div>
@@ -141,18 +141,18 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="inputhourrate" apptwodecimalnumber
-                                        placeholder="0.00"
-                                        [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }"
-                                        formControlName="hourlyRateWash">
+                                    <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control"
+                                        formControlName="hourlyRateWash" placeholder="0.00"
+                                        [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
                                     <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
                                         <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputhourdetail">Hourly Rate-Details</label>
-                                    <input type="text" class="form-control" id="inputhourdetail" apptwodecimalnumber
-                                        placeholder="0.00" formControlName="hourlyRateDetail"> </div>
+                                    <input type="text" class="form-control" appTwoDecimalNumber placeholder="0.00"
+                                        formControlName="hourlyRateDetail">
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputcommission">Commission</label>
                                     <select id="inputcommission" class="form-control" formControlName="commission"
@@ -175,7 +175,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
                                     <input type="text" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" numbersOnly> </div>
+                                        formControlName="exemptions" numbersOnly placeholder="Exemptions"> </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles</label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"

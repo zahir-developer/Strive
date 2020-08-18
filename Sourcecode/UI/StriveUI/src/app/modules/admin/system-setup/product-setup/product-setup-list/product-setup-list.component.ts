@@ -16,6 +16,11 @@ export class ProductSetupListComponent implements OnInit {
   isEdit: boolean;
   isLoading = true;
   isTableEmpty: boolean;
+  searchName : any ='';
+  searchType : any = '';
+  searchSize : any ='';
+  searchLocation : any = '';
+  searchVendor : any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;

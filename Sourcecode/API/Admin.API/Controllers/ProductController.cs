@@ -31,7 +31,7 @@ namespace Admin.Api.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public Result DeleteProduct(int productId) => _bplManager.DeleteProduct(productId);
+        public Result DeleteProduct(int productId, string fileName = null) => _bplManager.DeleteProduct(productId, fileName);
 
         [HttpGet]
         [Route("GetAll")]

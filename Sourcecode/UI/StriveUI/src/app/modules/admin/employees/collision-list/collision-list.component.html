@@ -12,7 +12,7 @@
             </h6>
             <div class="pull-right m-t-4 pointer">
                 <button type="button" class="btn theme-optional-button-color" id="doc-disable"
-                        *ngIf="showCloseButton && !isEditCollision" (click)="closeModal()">Close</button>
+                    *ngIf="showCloseButton && !isEditCollision" (click)="closeModal()">Close</button>
                 <a *ngIf="!showCloseButton"> <em class="fa font-size-1-4"
                         [ngClass]="{'fa-angle-up':!isCollisionCollapsed, 'fa-angle-down': isCollisionCollapsed  }"
                         (click)="collisionCollapsed()"></em> </a>
@@ -40,12 +40,10 @@
                                 <td>{{collision.Amount | currency }}</td>
                                 <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil"
                                         *ngIf="actionType === 'view'"
-                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"
-                                        (click)="updateCollision(collision)"></em>
+                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"></em>
                                     <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete"
                                         *ngIf="actionType === 'view'"
-                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"
-                                        (click)="deleteCollision(collision)"></em><em
+                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"></em><em
                                         class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                         *ngIf="actionType === 'edit'" (click)="updateCollision(collision)"></em>
                                     <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"

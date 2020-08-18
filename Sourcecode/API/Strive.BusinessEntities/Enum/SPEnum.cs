@@ -4,6 +4,26 @@ using System.Text;
 
 namespace Strive.BusinessEntities
 {
+
+    public class EnumSP
+    {
+        public enum Employee
+        {
+            //Employee
+            USPGETEMPLOYEE,
+            USPSAVEEMPLOYEE,
+            USPGETSCHEMABYGUID,
+            USPGETCODES,
+            USPGETUSERBYAUTHID,
+            USPDELETEEMPLOYEE,
+            USPGETEMPLOYEEBYEMPID,
+            USPGETEMPLOYEEROLES,
+        }
+    }
+
+
+
+
     public enum SPEnum
     {
         USPLOGIN,
@@ -14,6 +34,7 @@ namespace Strive.BusinessEntities
         USPSAVEUSER,
         USPSAVELOGIN,
         USPGETALLEMAIL,
+
         //Employee
         USPGETEMPLOYEE,
         USPSAVEEMPLOYEE,
@@ -23,6 +44,7 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEE,
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
+        USPEMAILEXIST,
         //Document
         USPSAVEDOCUMENT,
         USPGETEMPLOYEEDOCUMENTBYID,
@@ -99,8 +121,9 @@ namespace Strive.BusinessEntities
         uspGetSchedule,
         USPGETVEHICLE,
         //Washes
-        USPGETJOB,
-        USPGETDAILYDASHBOARD,
+        USPGETJOBBYID,
+        USPGETALLJOB,
+        USPGETWASHDASHBOARD,
         USPGETCLIENTANDVEHICLEDETAIL,
         //Schedule
         USPSAVESCHEDULE,

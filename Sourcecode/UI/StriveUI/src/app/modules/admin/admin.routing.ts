@@ -16,6 +16,8 @@ import { ClientComponent } from './client/client.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { GiftCardComponent } from './gift-card/gift-card.component';
 import { MembershipComponent } from './system-setup/membership/membership.component';
+import { TimeCostMaintenanceComponent } from './time-cost-maintenance/time-cost-maintenance.component';
+
 
 const adminRoutes: Routes = [
   { path: 'admin', canActivate: [AuthGuard], component: AdminComponent }, {
@@ -29,6 +31,7 @@ const adminRoutes: Routes = [
     { path: 'client', component: ClientComponent },
     { path: 'vehicle', component: VehicleComponent },
     { path: 'gift-card', component: GiftCardComponent },
+    { path: 'time-cost', component: TimeCostMaintenanceComponent },
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },
