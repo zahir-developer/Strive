@@ -25,6 +25,12 @@
     .mm-b-10 {
         margin-bottom: 10px;
     }
+	.resp-title{
+		font-size: 1rem;
+	}
+	.responsive-m-l-26{
+		margin-left:0px;
+	}
 }
 
 @media (max-width: 991.98px) {
@@ -160,6 +166,12 @@
 	}
 	.nav-tab-link > .p-l-10 {
 		padding-left:0px;
+	}
+		.resp-title{
+		font-size: 1rem;
+	}
+	.responsive-m-l-26{
+		margin-left:0px;
 	}
 }
 
@@ -298,6 +310,21 @@
     .list-group-horizontal > li {
         padding: 4px 4px !important;
     }
+		.resp-title{
+		font-size: 0.9rem;
+	}
+	.responsive-m-l-26{
+		margin-left:0px;
+	}
+	.date-pick {
+    width: 191px!important;
+	}
+	.date-pick  > i {
+    margin: 6px 9px 4px 10px;
+}
+.date-pick   > .input-large {
+	    font-size: 0.8rem;
+}
 }
 
 @media (min-device-width: 768px) and (max-device-width: 1024px) {

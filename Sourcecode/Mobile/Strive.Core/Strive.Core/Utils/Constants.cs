@@ -33,5 +33,6 @@ namespace Strive.Core.Utils
 
         public const string URL_UPDATE_PRODUCT = "/Admin/Product/Update";
 
+        public const string URL_GET_PAST_SCHEDULE = "/Admin/Schedule/GetSchedule";
     }
 }
