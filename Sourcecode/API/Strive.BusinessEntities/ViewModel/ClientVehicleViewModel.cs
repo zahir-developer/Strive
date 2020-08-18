@@ -8,7 +8,6 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ClientVehicleViewModel
     {
-        public int JobId { get; set; }
         public int ClientId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

@@ -121,9 +121,9 @@ namespace Strive.BusinessEntities
         uspGetSchedule,
         USPGETVEHICLE,
         //Washes
-        USPGETJOB,
+        USPGETJOBBYID,
         USPGETALLJOB,
-        USPGETDAILYDASHBOARD,
+        USPGETWASHDASHBOARD,
         USPGETCLIENTANDVEHICLEDETAIL,
         //Schedule
         USPSAVESCHEDULE,

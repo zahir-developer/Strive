@@ -21,7 +21,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   public theme = 'theme-light';
   calendar: any;
   empName: any;
-  empId: any
+  empId: any;
+  fromDate: any;
+  endDate: any;
   today = moment(new Date());
   clickCnt = 0;
   events = [];
@@ -42,7 +44,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     private messageService: MessageServiceToastr, private scheduleService: ScheduleService) { }
   ngAfterViewInit() {
     this.calendar = this.fc.getCalendar();
-    const self = this;
+    console.log(this.fc.getCalendar(), 'current Date');
+    this.fromDate = moment(this.fc.getCalendar().view.activeStart).format('YYYY-MM-DDTHH:mm');
+    this.endDate = moment(this.fc.getCalendar().view.activeend).format('YYYY-MM-DDTHH:mm');
+    this.getSchedule();
 
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
@@ -59,7 +64,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     this.getEmployeeList();
+    
     this.getLocationList();
+    
     this.options = {
       plugins: [dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin],
       defaultDate: new Date(),
@@ -201,5 +208,32 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   getLocation(event) {
     this.empLocation = event.target.value;
     console.log(event);
+  }
+  getSchedule() {
+    this.scheduleService.getSchedule(this.fromDate, this.endDate).subscribe(data => {
+console.log(data);
+if (data.status === 'Success') {
+const empScehdule = JSON.parse(data.resultData);
+empScehdule.Status.forEach(item => {
+  const emp = {
+    id: this.guid(),
+    start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
+    end: moment(item.StartTime).add(30, 'minutes').format('YYYY-MM-DDTHH:mm:ss'),
+    title: 'new test',
+    textColor: 'white',
+      backgroundColor: '#FF7900'
+  };
+  this.events =  [... this.events, emp];
+});
+}
+    });
+  }
+  guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 }
