@@ -5,6 +5,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-edit-employee',
@@ -39,14 +40,17 @@ export class EditEmployeeComponent implements OnInit {
   submitted: boolean;
   selectedRole: any = [];
   selectedLocation: any = [];
+  employeeAddressId: any;
+  ctypeLabel: any;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
     private toastr: ToastrService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
+    this.ctypeLabel = 'none';
     this.isEditPersonalDetail = false;
     this.submitted = false;
     this.Status = ['Active', 'InActive'];
@@ -104,13 +108,14 @@ export class EditEmployeeComponent implements OnInit {
   setValue() {
     let employeeRole = [];
     const employee = this.employeeData;
-    this.employeRole();
-    this.locationDropDown();
+    // this.employeRole();
+    // this.locationDropDown();
     console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
     this.selectedLocation = employee.EmployeeLocations;
+    this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     if (employee.EmployeeRoles !== null) {
-      this.selectedRole = employee.EmployeeRoles;
+      this.selectedRole = _.pluck(employee.EmployeeRoles, 'Roleid');
       employeeRole = employee.EmployeeRoles?.map(item => {
         return {
           item_id: item.Roleid,
@@ -227,6 +232,10 @@ export class EditEmployeeComponent implements OnInit {
     return this.emplistform.controls;
   }
 
+  onItemDeSelect(event) {
+    console.log(event);
+  }
+
   updateEmployee() {
     this.submitted = true;
     if (this.personalform.invalid || this.emplistform.invalid) {
@@ -238,7 +247,7 @@ export class EditEmployeeComponent implements OnInit {
     const employeAddress = [];
     const employeeRoles = [];
     const employeeAddressObj = {
-      employeeAddressId: 0,
+      employeeAddressId: this.employeeAddressId,
       employeeId: this.employeeId,
       address1: this.personalform.value.address,
       address2: 'string',
@@ -251,19 +260,16 @@ export class EditEmployeeComponent implements OnInit {
       country: 38
     };
     const newlyAddedRole = [];
-    this.emplistform.value.roles.forEach( role => {
-      this.selectedRole.forEach( item => {
-        if (+item.Roleid !== role.item_id) {
-          newlyAddedRole.push(role);
-        }
-      });
-    });
-    const employeeRoleObj = newlyAddedRole.map(item => {
-      return {
-        employeeRoleId: item.item_id,
-        employeeId: this.employeeId,
-        roleId: item.item_id
-      };
+    this.emplistform.value.roles.forEach( item => {
+      if (!_.contains(this.selectedRole, item.item_id)) {
+        newlyAddedRole.push({
+          employeeRoleId: 0,
+          employeeId: this.employeeId,
+          roleId: item.item_id,
+          isActive: true,
+          isDeleted: false
+        });
+      }
     });
     const employeeDetailObj = {
       employeeDetailId: this.employeeDetailId,
@@ -303,7 +309,7 @@ export class EditEmployeeComponent implements OnInit {
       employee: employeeObj,
       employeeDetail: employeeDetailObj,
       employeeAddress: employeeAddressObj,
-      employeeRole: employeeRoleObj,
+      employeeRole: newlyAddedRole,
       employeeLocation: locationObj,
       employeeDocument: null // this.employeeData.EmployeeDocument
     };
@@ -325,5 +331,13 @@ export class EditEmployeeComponent implements OnInit {
     this.isDetailCollapsed = !this.isDetailCollapsed;
   }
 
+  getCtype(data) {
+    const label = this.commissionType.filter(item => item.CodeId === Number(data));
+    if (label.length !== 0) {
+      this.ctypeLabel = label[0].CodeValue;
+    } else {
+      this.ctypeLabel = 'none';
+    }
+  }
 
 }
