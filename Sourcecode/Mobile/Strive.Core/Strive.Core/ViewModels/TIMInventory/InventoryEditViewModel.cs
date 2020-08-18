@@ -5,6 +5,7 @@ using Strive.Core.Models.TimInventory;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Strive.Core.Utils;
+using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -127,6 +128,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateBackCommand()
         {
+            EmployeeData.EditableProduct = null;
             await _navigationService.Close(this);
         }
 
@@ -150,12 +152,14 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task AddProductCommand()
         {
+            _userDialog.Loading(Strings.Loading);
             var product = PrepareAddProduct();
             var result = await AdminService.AddProduct(product);
             if(result.Status == "true")
             {
                 NavigateBackCommand();
             }
+            _userDialog.HideLoading();
         }
 
         private ProductDetail PrepareAddProduct()
@@ -187,10 +191,42 @@ namespace Strive.Core.ViewModels.TIMInventory
             return AddProduct;
         }
 
+        public void AddorUpdateCommand()
+        {
+            if (EmployeeData.EditableProduct != null)
+            {
+                UpdateProductCommand();
+                return;
+            }
+            AddProductCommand();
+        }
+
+        public async void UpdateProductCommand()
+        {
+            PrepareUpdateProduct();
+            var response = await AdminService.UpdateProduct(EmployeeData.EditableProduct.Product);
+            NavigateBackCommand();
+        }
+
+        private void PrepareUpdateProduct()
+        {
+            EmployeeData.EditableProduct.Product.ProductName = _SelectedItemName;
+            EmployeeData.EditableProduct.Product.ProductCode = _SelectedItemCode;
+            EmployeeData.EditableProduct.Product.ProductDescription = _SelectedItemDescription;
+            EmployeeData.EditableProduct.Product.Quantity = int.Parse(_SelectedItemQuantity);
+            EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
+        }
+
         public async Task NavigateUploadImageCommand()
         {
             ViewAlpha = 0.5f;
             await _navigationService.Navigate<ChooseImageViewModel>();
+        }
+
+        public async Task LogoutCommand()
+        {
+            await _navigationService.Close(this);
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "boo!"));
         }
     }
 }

@@ -26,6 +26,7 @@ namespace StriveTimInventory.iOS.Views
             var set = this.CreateBindingSet<InventoryView, InventoryViewModel>();
             set.Bind(InventoryTableSource).To(vm => vm.FilteredList);
             set.Bind(AddProductButton).To(vm => vm.Commands["AddProduct"]);
+            set.Bind(LogoutButton).To(vm => vm.Commands["NavigateBack"]);
             //set.Bind(OtherInformationTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             //set.Bind(BackButton).To(vm => vm.Commands["NavigationBack"]);
             set.Apply();

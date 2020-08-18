@@ -36,7 +36,9 @@ namespace StriveTimInventory.iOS.Views
             var set = this.CreateBindingSet<InventoryEditView, InventoryEditViewModel>();
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(EditImageButton).To(vm => vm.Commands["NavigateUploadImage"]);
-            set.Bind(SaveButton).To(vm => vm.Commands["AddProduct"]);
+            set.Bind(SaveButton).To(vm => vm.Commands["AddorUpdate"]);
+            set.Bind(CancelButton).To(vm => vm.Commands["NavigateBack"]);
+            set.Bind(LogoutButtton).To(vm => vm.Commands["Logout"]);
             set.Bind(RootView).For(v=> v.Alpha).To(vm => vm.ViewAlpha);
             set.Bind(ItemCode).To(vm => vm.ItemCode);
             set.Bind(ItemName).To(vm => vm.ItemName);

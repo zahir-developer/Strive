@@ -382,6 +382,8 @@
         <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\glass.png" />
         <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\glass%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\glass%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\icons8-trash-30.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -443,6 +445,7 @@
         <Folder Include="Resources\Assets.xcassets\Can-Red.imageset\" />
         <Folder Include="Resources\Assets.xcassets\Bottle.imageset\" />
         <Folder Include="Resources\Assets.xcassets\Glass.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-trash.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

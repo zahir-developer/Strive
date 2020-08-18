@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Acr.UserDialogs;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using Strive.Core.Models.TimInventory;
@@ -20,6 +22,8 @@ namespace StriveTimInventory.iOS.Views
         private InventoryViewModel ViewModel;
 
         private ObservableCollection<InventoryDataModel> ItemList;
+
+        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public InventoryTableViewDataSource(UITableView tableView, InventoryViewModel ViewModel) : base(tableView)
         {
@@ -56,6 +60,54 @@ namespace StriveTimInventory.iOS.Views
             return ItemList[indexPath.Row].DisplayRequestView
                 ? InventoryViewCell.ExpandedHeight
                 : InventoryViewCell.NormalHeight; 
+        }
+
+        public override bool CanEditRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return true;
+        }
+
+        public override UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
+        {
+            var actions = new UIContextualAction[1];
+            actions[0] = UIContextualAction.FromContextualActionStyle
+                    (UIContextualActionStyle.Destructive,
+                        "Delete",
+                        async (FlagAction, view, success) => {
+                            if ((ItemList[indexPath.Row].Product.Quantity > 0))
+                            {
+                                success(false);
+                                return;
+                            }
+                            var affirmative = _userDialog.ConfirmAsync("Are you sure want to delete this item?", "Delete", "Yes", "No");
+                            if (await affirmative)
+                            {
+                                var response = await ViewModel.DeleteProductCommand(indexPath.Row);
+                                if (response)
+                                {
+                                    success(true);
+                                }
+                                else
+                                {
+                                    success(false);
+                                }
+                            }
+                            else
+                            {
+                                success(false);
+                            } 
+                        });
+
+            actions[0].Image = UIImage.FromBundle("icon-trash");
+            actions[0].BackgroundColor = UIColor.Red;
+
+            return UISwipeActionsConfiguration.FromActions(actions);
+        }
+
+
+        public override string TitleForDeleteConfirmation(UITableView tableView, Foundation.NSIndexPath indexPath)
+        {
+            return "Delete";
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)

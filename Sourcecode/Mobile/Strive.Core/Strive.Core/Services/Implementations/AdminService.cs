@@ -85,5 +85,20 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_ADD_PRODUCT, HttpMethod.Post,product);
         }
+
+        public async Task<DeleteResponse> DeleteProduct(int Id)
+        {
+            var uriBuilder = new UriBuilder(ApiUtils.URL_DELETE_PRODUCT);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["productId"] = Id.ToString();
+            uriBuilder.Query = query.ToString();
+            var url = uriBuilder.Uri.PathAndQuery.ToString();
+            return await _restClient.MakeApiCall<DeleteResponse>(url, HttpMethod.Delete);
+        }
+
+        public async Task<PostResponse> UpdateProduct(ProductDetail product)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_PRODUCT, HttpMethod.Post, product);
+        }
     }
 }

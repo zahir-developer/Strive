@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -71,6 +72,8 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void DecrementCommand(int index)
         {
+            if (!(FilteredList[index].Product.Quantity > 0))
+                return;
             FilteredList[index].Product.Quantity--;
             RaiseAllPropertiesChanged();
         }
@@ -90,6 +93,18 @@ namespace Strive.Core.ViewModels.TIMInventory
         public async void AddProductCommand()
         {
             await _navigationService.Navigate<InventoryEditViewModel>();
+        }
+
+        public async Task<bool> DeleteProductCommand(int index)
+        {
+            var response = await AdminService.DeleteProduct(InventoryList[index].Product.ProductId);
+            return (response.Result);
+        }
+
+        public async Task NavigateBackCommand()
+        {
+            await _navigationService.Close(this);
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "boo!"));
         }
     }
 }
