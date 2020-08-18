@@ -55,20 +55,50 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_VERIFY_OTP, otpRequest.emailId,otpRequest.otp), HttpMethod.Get, otpRequest);
         }
 
-        public async Task<TimeClockRoot> GetClockInStatus(int Id, string Datetime)
+        public async Task<TimeClockRoot> GetClockInStatus(TimeClockRequest request)
         {
-            var uriBuilder = new UriBuilder(ApiUtils.URL_GET_CLOCKIN_STATUS);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["userId"] = Id.ToString();
-            query["dateTime"] = Datetime;
-            uriBuilder.Query = query.ToString();
-            var url = uriBuilder.Uri.PathAndQuery.ToString();
-            return await _restClient.MakeApiCall<TimeClockRoot>(url, HttpMethod.Get);
+            //var uriBuilder = new UriBuilder(ApiUtils.URL_GET_CLOCKIN_STATUS);
+            //var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            //query["userId"] = Id.ToString();
+            //query["dateTime"] = Datetime;
+            //uriBuilder.Query = query.ToString();
+            //var url = uriBuilder.Uri.PathAndQuery.ToString();
+            return await _restClient.MakeApiCall<TimeClockRoot>(ApiUtils.URL_GET_CLOCKIN_STATUS, HttpMethod.Post,request);
         }
 
         public async Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest)
         {
             return await _restClient.MakeApiCall<TimeClock>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
+        }
+
+        public async Task<Products> GetAllProducts()
+        {
+            return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Get);
+        }
+
+        public async Task<Vendors> GetAllVendors()
+        {
+            return await _restClient.MakeApiCall<Vendors>(ApiUtils.URL_GET_ALL_VENDORS, HttpMethod.Get);
+        }
+
+        public async Task<PostResponse> AddProduct(ProductDetail product)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_ADD_PRODUCT, HttpMethod.Post,product);
+        }
+
+        public async Task<DeleteResponse> DeleteProduct(int Id)
+        {
+            var uriBuilder = new UriBuilder(ApiUtils.URL_DELETE_PRODUCT);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["productId"] = Id.ToString();
+            uriBuilder.Query = query.ToString();
+            var url = uriBuilder.Uri.PathAndQuery.ToString();
+            return await _restClient.MakeApiCall<DeleteResponse>(url, HttpMethod.Delete);
+        }
+
+        public async Task<PostResponse> UpdateProduct(ProductDetail product)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_PRODUCT, HttpMethod.Post, product);
         }
     }
 }

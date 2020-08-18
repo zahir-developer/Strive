@@ -90,22 +90,22 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         void PrepareClockInRequest()
         {
-            EmployeeData.ClockInStatus = new TimeClock()
-            {
-                id = 0,
-                userId = 11,
-                locationId = 1,
-                roleId = 1,
-                eventDate = DateUtils.GetTodayDateString(),
-                inTime = "",
-                outTime = DateUtils.GetTodayDateString(),
-                eventType = 0,
-                updatedBy = 0,
-                updatedFrom = "",
-                updatedDate = DateUtils.GetTodayDateString(),
-                status = true,
-                comments = ""
-            };
+            //EmployeeData.ClockInStatus = new TimeClock()
+            //{
+            //    id = 0,
+            //    userId = 11,
+            //    locationId = 1,
+            //    roleId = 1,
+            //    eventDate = DateUtils.GetTodayDateString(),
+            //    inTime = "",
+            //    outTime = DateUtils.GetTodayDateString(),
+            //    eventType = 0,
+            //    updatedBy = 0,
+            //    updatedFrom = "",
+            //    updatedDate = DateUtils.GetTodayDateString(),
+            //    status = true,
+            //    comments = ""
+            //};
         }
 
         public void RoleDecisionCommand(int index)

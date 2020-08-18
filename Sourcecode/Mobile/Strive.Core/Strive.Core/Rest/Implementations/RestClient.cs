@@ -49,10 +49,10 @@ namespace Strive.Core.Rest.Implementations
                     {
                         response = await httpClient.SendAsync(request).ConfigureAwait(true);
                         Console.WriteLine(response); 
-                        _userDialog.HideLoading();
                     }
                     catch (Exception ex)
                     {
+                        _userDialog.HideLoading();
                         _mvxLog.ErrorException("MakeApiCall failed", ex);
                         await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
                         baseResponse.resultData = "null";
@@ -66,6 +66,7 @@ namespace Strive.Core.Rest.Implementations
                     }
                     catch(Exception ex)
                     {
+                        _userDialog.HideLoading();
                         await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
@@ -73,14 +74,17 @@ namespace Strive.Core.Rest.Implementations
 
                     if (WeirdResponse(baseResponse))
                     {
+                        _userDialog.HideLoading();
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
 
                     if (!ValidateResponse(baseResponse))
                     {
+                        _userDialog.HideLoading();
                         await _userDialog.AlertAsync(baseResponse.exception, baseResponse.status);
                     }
+                    _userDialog.HideLoading();
                     return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                 }
             }

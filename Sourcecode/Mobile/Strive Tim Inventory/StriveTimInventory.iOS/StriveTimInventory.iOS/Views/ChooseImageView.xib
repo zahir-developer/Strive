@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-SemiBold.ttf">
+            <string>OpenSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseImageView">
+            <connections>
+                <outlet property="BrowseButton" destination="SyP-Zu-TYJ" id="name-outlet-SyP-Zu-TYJ"/>
+                <outlet property="BrowseView" destination="xxM-G2-JdU" id="name-outlet-xxM-G2-JdU"/>
+                <outlet property="CameraButton" destination="hnZ-gs-Ybb" id="name-outlet-hnZ-gs-Ybb"/>
+                <outlet property="CameraView" destination="mfB-23-VMB" id="name-outlet-mfB-23-VMB"/>
+                <outlet property="IconButton" destination="1si-5M-JUf" id="name-outlet-1si-5M-JUf"/>
+                <outlet property="IconView" destination="DiS-8H-nla" id="name-outlet-DiS-8H-nla"/>
+                <outlet property="NotNowButton" destination="KGw-lH-cyY" id="name-outlet-KGw-lH-cyY"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CpM-da-Umf">
+                    <rect key="frame" x="104.5" y="412" width="625" height="370"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iie-Zc-jT6">
+                            <rect key="frame" x="40" y="30" width="195" height="39"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
+                            <color key="textColor" red="0.022049086169999999" green="0.028550790619999999" blue="0.025195283820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mfB-23-VMB">
+                            <rect key="frame" x="27.5" y="100" width="170" height="170"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hnZ-gs-Ybb">
+                                    <rect key="frame" x="25.5" y="21.5" width="119" height="102"/>
+                                    <state key="normal" image="icon-camera"/>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take Picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aH4-x9-g4N">
+                                    <rect key="frame" x="31" y="123.5" width="108" height="25"/>
+                                    <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="18"/>
+                                    <color key="textColor" red="0.20067340140000001" green="0.2007081211" blue="0.20066580179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="aH4-x9-g4N" firstAttribute="centerX" secondItem="hnZ-gs-Ybb" secondAttribute="centerX" id="8ka-Wy-ofv"/>
+                                <constraint firstItem="hnZ-gs-Ybb" firstAttribute="centerX" secondItem="mfB-23-VMB" secondAttribute="centerX" id="AIM-X3-P2H"/>
+                                <constraint firstAttribute="height" constant="170" id="OFm-Lq-U0z"/>
+                                <constraint firstItem="hnZ-gs-Ybb" firstAttribute="height" secondItem="mfB-23-VMB" secondAttribute="height" multiplier="0.6" id="P7O-i1-MJj"/>
+                                <constraint firstItem="hnZ-gs-Ybb" firstAttribute="centerY" secondItem="mfB-23-VMB" secondAttribute="centerY" multiplier="0.85" id="QDQ-fI-Hxz"/>
+                                <constraint firstAttribute="width" constant="170" id="ftP-Tq-RfT"/>
+                                <constraint firstItem="aH4-x9-g4N" firstAttribute="top" secondItem="hnZ-gs-Ybb" secondAttribute="bottom" id="pSh-Oa-Kry"/>
+                                <constraint firstItem="hnZ-gs-Ybb" firstAttribute="width" secondItem="mfB-23-VMB" secondAttribute="width" multiplier="0.7" id="z13-hm-u3Z"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xxM-G2-JdU">
+                            <rect key="frame" x="227.5" y="100" width="170" height="170"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SyP-Zu-TYJ">
+                                    <rect key="frame" x="25.5" y="21.5" width="119" height="102"/>
+                                    <state key="normal" image="icon-folder"/>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Browse" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWf-TG-kXs">
+                                    <rect key="frame" x="53" y="123.5" width="64.5" height="25"/>
+                                    <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="18"/>
+                                    <color key="textColor" red="0.20067340140000001" green="0.2007081211" blue="0.20066580179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="SyP-Zu-TYJ" firstAttribute="centerY" secondItem="xxM-G2-JdU" secondAttribute="centerY" multiplier="0.85" id="EUf-on-wmi"/>
+                                <constraint firstItem="SyP-Zu-TYJ" firstAttribute="width" secondItem="xxM-G2-JdU" secondAttribute="width" multiplier="0.7" id="F6Z-7t-FCz"/>
+                                <constraint firstAttribute="width" constant="170" id="Oco-o0-aNa"/>
+                                <constraint firstItem="NWf-TG-kXs" firstAttribute="centerX" secondItem="SyP-Zu-TYJ" secondAttribute="centerX" id="fAB-w8-29h"/>
+                                <constraint firstItem="NWf-TG-kXs" firstAttribute="top" secondItem="SyP-Zu-TYJ" secondAttribute="bottom" id="fAS-Mm-4zt"/>
+                                <constraint firstItem="SyP-Zu-TYJ" firstAttribute="height" secondItem="xxM-G2-JdU" secondAttribute="height" multiplier="0.6" id="gas-05-TbC"/>
+                                <constraint firstAttribute="height" constant="170" id="wrT-uF-WTD"/>
+                                <constraint firstItem="SyP-Zu-TYJ" firstAttribute="centerX" secondItem="xxM-G2-JdU" secondAttribute="centerX" id="z43-Tz-qgE"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DiS-8H-nla">
+                            <rect key="frame" x="427.5" y="100" width="170" height="170"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1si-5M-JUf">
+                                    <rect key="frame" x="42.5" y="30" width="85" height="85"/>
+                                    <color key="backgroundColor" red="0.49908202889999997" green="0.70608091350000002" blue="0.68411183360000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="96"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="+">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Icon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4C-oo-xwg">
+                                    <rect key="frame" x="66.5" y="123.5" width="37" height="25"/>
+                                    <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="18"/>
+                                    <color key="textColor" red="0.20067340140000001" green="0.2007081211" blue="0.20066580179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="V4C-oo-xwg" firstAttribute="centerX" secondItem="1si-5M-JUf" secondAttribute="centerX" id="59q-6n-Dnh"/>
+                                <constraint firstItem="1si-5M-JUf" firstAttribute="height" secondItem="DiS-8H-nla" secondAttribute="height" multiplier="0.5" id="8Yv-D9-pUg"/>
+                                <constraint firstAttribute="height" constant="170" id="AOg-U2-tAq"/>
+                                <constraint firstItem="1si-5M-JUf" firstAttribute="centerX" secondItem="DiS-8H-nla" secondAttribute="centerX" id="OUT-ba-IzA"/>
+                                <constraint firstItem="1si-5M-JUf" firstAttribute="width" secondItem="DiS-8H-nla" secondAttribute="width" multiplier="0.5" id="Q23-KP-Q9H"/>
+                                <constraint firstAttribute="width" constant="170" id="Ytk-og-RFw"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KGw-lH-cyY">
+                            <rect key="frame" x="267.5" y="294" width="90" height="41"/>
+                            <state key="normal">
+                                <attributedString key="attributedTitle">
+                                    <fragment content="Not Now">
+                                        <attributes>
+                                            <color key="NSColor" red="0.14107435939999999" green="0.28358918430000002" blue="0.60295563939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="21" name="OpenSans-SemiBold"/>
+                                            <integer key="NSUnderline" value="1"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="625" id="43u-v5-ME1"/>
+                        <constraint firstItem="xxM-G2-JdU" firstAttribute="centerY" secondItem="CpM-da-Umf" secondAttribute="centerY" id="4yf-Wa-kBX"/>
+                        <constraint firstItem="DiS-8H-nla" firstAttribute="leading" secondItem="xxM-G2-JdU" secondAttribute="trailing" constant="30" id="57S-6u-cZR"/>
+                        <constraint firstItem="V4C-oo-xwg" firstAttribute="centerY" secondItem="NWf-TG-kXs" secondAttribute="centerY" id="6J3-qj-eGe"/>
+                        <constraint firstItem="xxM-G2-JdU" firstAttribute="centerX" secondItem="CpM-da-Umf" secondAttribute="centerX" id="6iM-pH-rDc"/>
+                        <constraint firstAttribute="bottom" secondItem="KGw-lH-cyY" secondAttribute="bottom" constant="35" id="Btq-Ap-2xs"/>
+                        <constraint firstItem="1si-5M-JUf" firstAttribute="centerY" secondItem="SyP-Zu-TYJ" secondAttribute="centerY" id="F0U-zK-Pqc"/>
+                        <constraint firstItem="DiS-8H-nla" firstAttribute="centerY" secondItem="CpM-da-Umf" secondAttribute="centerY" id="Sw4-xH-jfc"/>
+                        <constraint firstItem="iie-Zc-jT6" firstAttribute="top" secondItem="CpM-da-Umf" secondAttribute="top" constant="30" id="TPe-YQ-EyZ"/>
+                        <constraint firstItem="mfB-23-VMB" firstAttribute="centerY" secondItem="CpM-da-Umf" secondAttribute="centerY" id="W2L-eh-fEz"/>
+                        <constraint firstItem="iie-Zc-jT6" firstAttribute="leading" secondItem="CpM-da-Umf" secondAttribute="leading" constant="40" id="isx-vl-diV"/>
+                        <constraint firstAttribute="height" constant="370" id="nvW-Zt-mHB"/>
+                        <constraint firstItem="KGw-lH-cyY" firstAttribute="centerX" secondItem="CpM-da-Umf" secondAttribute="centerX" id="orl-XY-bSL"/>
+                        <constraint firstItem="xxM-G2-JdU" firstAttribute="leading" secondItem="mfB-23-VMB" secondAttribute="trailing" constant="30" id="r6e-cQ-J2A"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="CpM-da-Umf" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="EKI-Mz-iZj"/>
+                <constraint firstItem="CpM-da-Umf" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="mHD-pM-u3M"/>
+            </constraints>
+            <point key="canvasLocation" x="25" y="52"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="icon-camera" width="88.5" height="73"/>
+        <image name="icon-folder" width="92" height="75"/>
+    </resources>
+</document>
