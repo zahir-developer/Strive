@@ -69,6 +69,8 @@
     <Reference Include="Mono.Android.Export" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\DealsAdapter.cs" />
+    <Compile Include="Adapter\IItemClickListener.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\DealsFragment.cs" />
     <Compile Include="Fragments\MapsFragment.cs" />
@@ -319,6 +321,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MarkerInfoWindow.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DealsList.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
