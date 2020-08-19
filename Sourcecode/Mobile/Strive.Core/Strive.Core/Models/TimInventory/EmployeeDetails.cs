@@ -8,24 +8,39 @@ namespace Strive.Core.Models.TimInventory
         public EmployeeDetails()
         {
         }
-        public int EmployeeId { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public int Gender { get; set; }
-        public string SSNo { get; set; }
-        public int MaritalStatus { get; set; }
-        public bool IsCitizen { get; set; }
-        public string AlienNo { get; set; }
-        public DateTime BirthDate { get; set; }
-        public int ImmigrationStatus { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public bool IsActive { get; set; }
-        public List<EmployeeDetail> EmployeeDetail { get; set; }
-        public object EmployeeAddress { get; set; }
-        public List<EmployeeRoleApi> EmployeeRole { get; set; }
+        public EmployeeLogin EmployeeLogin { get; set; }
         public List<EmployeeRoleApi> EmployeeRoles { get; set; }
+        public List<EmployeeLocation> EmployeeLocations { get; set; }
+        public List<Drawer> Drawer { get; set; }
+    }
 
+    public class EmployeeLogin
+    {
+        public int EmployeeId { get; set; }
+        public string EmployeeCode { get; set; }
+        public string Firstname { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool IsActive { get; set; }
+    }
 
+    public class EmployeeLocation
+    {
+        public int EmployeeId { get; set; }
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
+    }
+
+    public class Drawer
+    {
+        public int DrawerId { get; set; }
+        public string DrawerName { get; set; }
+        public int LocationId { get; set; }
+        public object IsActive { get; set; }
+        public object IsDeleted { get; set; }
+        public object CreatedBy { get; set; }
+        public object CreatedDate { get; set; }
+        public object UpdatedBy { get; set; }
+        public object UpdatedDate { get; set; }
     }
 }

@@ -22,9 +22,18 @@ namespace Strive.Core.Services.Interfaces
 
         Task<CustomerResponse> CustomerConfirmPassword(CustomerResetPassword resetPasswordRequest);
 
-        Task<TimeClockRoot> GetClockInStatus(int Id, string Datetime);
+        Task<TimeClockRoot> GetClockInStatus(TimeClockRequest request);
 
         Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest);
 
+        Task<Products> GetAllProducts();
+
+        Task<Vendors> GetAllVendors();
+
+        Task<PostResponse> AddProduct(ProductDetail product);
+
+        Task<DeleteResponse> DeleteProduct(int Id);
+
+        Task<PostResponse> UpdateProduct(ProductDetail product);
     }
 }

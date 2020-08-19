@@ -3,7 +3,7 @@ namespace Strive.Core.Utils
 {
     public class ApiUtils
     { 
-        public const string BASE_URL = "http://14.141.185.75:5001";
+        public const string BASE_URL = "http://localhost:60001";
 
         public static string Token { get; set; }
 
@@ -19,9 +19,20 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_ALL_LOCATION_ADDRESS = "/Admin/Location/GetAllLocationAddress";
 
-        public const string URL_GET_CLOCKIN_STATUS = "/Admin/TimeClock/TimeClock/userId/datetime";
+        public const string URL_GET_CLOCKIN_STATUS = "/Admin/TimeClock/TimeClockDetails";
 
         public const string URL_SAVE_CLOCKIN_TIME = "/Admin/TimeClock/Save";
 
+        public const string URL_GET_ALL_PRODUCTS = "/Admin/Product/GetAll";
+
+        public const string URL_GET_ALL_VENDORS = "/Admin/Vendor/GetAll";
+
+        public const string URL_ADD_PRODUCT = "/Admin/Product/Add";
+
+        public const string URL_DELETE_PRODUCT = "/Admin/Product/Delete";
+
+        public const string URL_UPDATE_PRODUCT = "/Admin/Product/Update";
+
+        public const string URL_GET_PAST_SCHEDULE = "/Admin/Schedule/GetSchedule";
     }
 }
