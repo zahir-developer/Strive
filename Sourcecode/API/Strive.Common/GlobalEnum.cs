@@ -22,6 +22,8 @@ namespace Strive.Common
     public enum UserType
     {
         Employee =1,
-        Client=2
+        Client=2,
+        Admin = 3,
+        SuperAdmin = 100
     }
 }

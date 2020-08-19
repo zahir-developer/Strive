@@ -32,6 +32,9 @@ namespace Strive.BusinessEntities.Model
         public short LockoutEnabled { get; set; }
 
         [Column]
+        public string LoginId { get; set; }
+
+        [Column]
         public string PasswordHash { get; set; }
 
         [Column]
