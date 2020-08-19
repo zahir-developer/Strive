@@ -202,7 +202,9 @@
     <Compile Include="ViewModel\TimeClockViewModel.cs" />
     <Compile Include="ViewModel\VehicleColourViewModel.cs" />
     <Compile Include="ViewModel\VehicleDetailViewModel.cs" />
+    <Compile Include="ViewModel\ClientHistoryViewModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipModel.cs" />
+    <Compile Include="ViewModel\ClientStatementViewModel.cs" />
     <Compile Include="ViewModel\VehicleViewModel.cs" />
     <Compile Include="ViewModel\VendorViewModel.cs" />
     <Compile Include="ViewModel\WashesCountViewModel.cs" />

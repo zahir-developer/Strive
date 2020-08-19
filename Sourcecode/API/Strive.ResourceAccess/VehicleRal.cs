@@ -62,7 +62,6 @@ namespace Strive.ResourceAccess
             _prm.Add("VehicleId", vehicleId);
             return db.FetchSingle<VehicleDetailViewModel>(SPEnum.uspGetVehicleById.ToString(), _prm);
         }
-
         public List<VehicleColourViewModel> GetVehicleCodes()
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);

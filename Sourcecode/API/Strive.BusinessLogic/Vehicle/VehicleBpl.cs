@@ -60,5 +60,6 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleCodes, "VehicleDetails");
         }
+       
     }
 }
