@@ -200,6 +200,20 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
+        protected Result ResultWrap<T>(bool res, string ResultName, string message)
+        {
+            try
+            {
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         protected void AddAudit<T>(T tdata)
         {
             string action = "ADD";
