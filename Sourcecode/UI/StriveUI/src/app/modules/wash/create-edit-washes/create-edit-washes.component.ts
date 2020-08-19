@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -21,8 +21,10 @@ export class CreateEditWashesComponent implements OnInit {
   Score : any;
   ticketNumber : any;
   barcodeDetails: any;
+  vehicle: any;
+  color: any;
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private wash: WashService) { }
+  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -51,18 +53,38 @@ export class CreateEditWashesComponent implements OnInit {
       notes: ['',],
       pastNotes: ['',]
     });
+    this.getVehicle();
+    this.getColor();
   }
 
   getWashById() {
     console.log(this.selectedData);
     this.washForm.patchValue({
       barcode: this.selectedData.BarCode,
-      // make: this.selectedData.VehicleMake,
-      // model: this.selectedData.VehicleModel,
-      // color: this.selectedData.VehicleColor,
-      // upcharge: this.selectedData.Upcharge
     });
     this.ticketNumber = this.selectedData.TicketNumber;
+  }
+
+  getVehicle(){
+    this.wash.getVehicle().subscribe(data => {
+      if (data.status === 'Success') {
+        const wash = JSON.parse(data.resultData);
+        this.vehicle = wash.Vehicle;
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  getColor(){
+    this.wash.getVehicleColor().subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
+      }else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
   }
 
   viewWash(){
@@ -74,12 +96,18 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getByBarcode(barcode).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-        this.barcodeDetails = wash.ClientAndVehicleDetail;
+        this.barcodeDetails = wash.ClientAndVehicleDetail[0];
         console.log(this.barcodeDetails);
+        this.washForm.patchValue({
+          client: this.barcodeDetails.FirstName+this.barcodeDetails.LastName,
+          vehicle: this.barcodeDetails.VehicleId,
+          model:this.barcodeDetails.VehicleModel,
+          color: this.barcodeDetails.VehicleColor
+        });
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
-    });
+    });    
   }
   // Add/Update Wash
   submit() {  
@@ -87,9 +115,8 @@ export class CreateEditWashesComponent implements OnInit {
       jobId: this.isEdit ? this.selectedData.JobId : 0,
       ticketNumber: "",
       locationId: 1,
-      barCode: this.washForm.value.barcode,
-      clientId: 1,
-      vehicleId: 1,
+      clientId: this.barcodeDetails.ClientId,
+      vehicleId: this.barcodeDetails.VehicleId,
       jobType: 15,
       jobDate: new Date(),
       timeIn: new Date(),
@@ -126,20 +153,20 @@ export class CreateEditWashesComponent implements OnInit {
     if (this.isEdit === true) {
       this.wash.updateWashes(formObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Wash Updated Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           this.washForm.reset();
         }
       });
     } else {
       this.wash.addWashes(formObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           this.washForm.reset();
         }
       });

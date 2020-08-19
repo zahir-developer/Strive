@@ -295,7 +295,14 @@ export class CreateEditComponent implements OnInit {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfully!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
+        if(res.status == 'Fail' && res.errorMesssage !== '')
+        {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.ErrorMesssage });
+        }
+        else
+        {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        }
       }
     });
   }

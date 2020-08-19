@@ -3,7 +3,7 @@ import { NgControl } from '@angular/forms';
 import * as moment from 'moment';
 
 @Directive({
-  selector: '[appCalendarMask]'
+  selector: '[formControlName][appCalendarMask]'
 })
 export class CalendarMaskDirective {
 

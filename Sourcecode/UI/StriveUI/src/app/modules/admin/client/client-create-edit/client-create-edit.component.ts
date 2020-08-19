@@ -39,6 +39,7 @@ export class ClientCreateEditComponent implements OnInit {
   collectionSize: number = 0;
   Type: { id: number; Value: string; }[];
   deleteIds = [];
+  submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService,private getCode: GetCodeService) { }
 
@@ -64,7 +65,7 @@ export class ClientCreateEditComponent implements OnInit {
       state: ['',],
       city: ['',],
       phone1: ['',],
-      email: ['',],
+      email: ['',Validators.email],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
@@ -77,6 +78,10 @@ export class ClientCreateEditComponent implements OnInit {
     this.clientForm.get('status').patchValue(0);   
     this.getClientType();
     this.getScore();
+  }
+
+  get f() {
+    return this.clientForm.controls;
   }
 
   // Get Score
@@ -152,6 +157,10 @@ export class ClientCreateEditComponent implements OnInit {
 
   // Add/Update Client
   submit() {
+    this.submitted = true;
+    if (this.clientForm.invalid) {
+      return;
+    }
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
@@ -243,6 +252,9 @@ export class ClientCreateEditComponent implements OnInit {
     this.showVehicleDialog = event.isOpenPopup;
   }
   delete(data){
+    if(this.isView){
+      return;
+    }
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
