@@ -32,7 +32,13 @@ export class WashService {
   }
   deleteWash(washId : number){
     return this.http.delete(`${UrlConfig.totalUrl.deleteWash}`, { params: { id: washId } });
-  }  
+  } 
+  getVehicle(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getAllVehicle}`);
+  } 
+  getVehicleColor() {
+    return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
+}
 
   // Get Dashboard Count
   getDashBoard() {

@@ -50,7 +50,7 @@
                                     <label for="inputVehicle">Vehicle</label>
                                     <select class="form-control" formControlName="vehicle">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of vehicle" value="{{score.ClientVehicleId}}">{{score.VehicleMake}},{{score.ModelName}},{{score.Color}}
                                         </option>
                                     </select>
                                 </div>
@@ -83,7 +83,7 @@
                                     <label for="inputColor">Color</label>
                                     <select class="form-control" formControlName="color">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
                                         </option>
                                     </select>
                                 </div>
