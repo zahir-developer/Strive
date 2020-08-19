@@ -10,6 +10,7 @@ using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using System.Collections;
 using CoreGraphics;
+using CoreImage;
 
 namespace StriveTimInventory.iOS.Views
 {
@@ -27,6 +28,7 @@ namespace StriveTimInventory.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            SaveButton.Layer.CornerRadius = CancelButton.Layer.CornerRadius = 5;
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
             var pickerView = new UIPickerView();
             var PickerViewModel = new InventoryPicker(pickerView,ViewModel);
@@ -59,15 +61,24 @@ namespace StriveTimInventory.iOS.Views
             var width = UIScreen.MainScreen.Bounds;
             if(width.Width > height.Height)
             {
-                FirstConstraint.Constant = SecondConstraint.Constant = ThirdConstraint.Constant = 150;
-                PotraitConstant.Priority = 999;
-                LandscapeConstraint.Priority = 1000;
+                portconstone.Active = portconsttwo.Active =
+                    portconstthree.Active = portconstfour.Active =
+                    portconsfive.Active = portconstsix.Active = portconstseven.Active = false;
+                landxonstone.Active = landconsttwo.Active =
+                     landconstthree.Active = landconstfour.Active =
+                     landconstfive.Active= landconstsix.Active = landconstseven.Active = true;
+                
             } else
             {
-                FirstConstraint.Constant = SecondConstraint.Constant = ThirdConstraint.Constant = 0;
-                LandscapeConstraint.Priority = 999;
-                PotraitConstant.Priority = 1000;  
+                landxonstone.Active = landconsttwo.Active =
+                    landconstthree.Active = landconstfour.Active =
+                    landconstfive.Active = landconstsix.Active = landconstseven.Active = false;
+                portconstone.Active = portconsttwo.Active =
+                    portconstthree.Active = portconstfour.Active =
+                    portconsfive.Active = portconstsix.Active = portconstseven.Active = true;
             }
+            View.SetNeedsLayout();
+            UIView.Animate(0.5, () => { View.LayoutIfNeeded(); });    
         }
 
         private async void OnReceivedMessageAsync(ValuesChangedMessage message)
