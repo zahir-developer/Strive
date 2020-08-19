@@ -38,7 +38,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputFirstName">First Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputFirstName"
-                                        formControlName="firstName" placeholder="First Name"
+                                        formControlName="firstName" placeholder="First Name" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
                                     <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
                                         <div *ngIf="f.firstName.errors.required">First Name is required</div>
@@ -47,7 +47,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputLastName">Last Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLastName" placeholder="Last Name"
-                                        formControlName="lastName"
+                                        formControlName="lastName" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
                                     <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
                                         <div *ngIf="f.lastName.errors.required">Last Name is required</div>
@@ -63,7 +63,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputaddress">Address <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputaddress" formControlName="address"
-                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
+                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }" [appMaxLength]="50"
                                         placeholder="Address">
                                     <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                         <div *ngIf="f.address.errors.required">Address is required</div>
@@ -74,7 +74,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
                                     <input type="text" class="form-control" appPhoneMask id="inputPhone"
-                                        formControlName="mobile"
+                                        formControlName="mobile" [appMaxLength]="10"
                                         [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
                                     <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback"
                                         placeholder="Mobile Number">
@@ -85,7 +85,7 @@
                                     <label for="inputImmigration">Immigration Status <span
                                             class="required">*</span></label>
                                     <input type="number" class="form-control" id="inputImmigration"
-                                        formControlName="immigrationStatus" placeholder="Immigration Status"
+                                        formControlName="immigrationStatus" placeholder="Immigration Status" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }">
                                     <div *ngIf="submitted && f.immigrationStatus.errors" class="invalid-feedback">
                                         <div *ngIf="f.immigrationStatus.errors.required">Immigration Status is required
@@ -95,7 +95,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputssn" formControlName="ssn"
-                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }" numbersOnly placeholder="SSN">
+                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }" [appMaxLength]="9" numbersOnly placeholder="SSN">
                                     <div *ngIf="submitted && f.ssn.errors" class="invalid-feedback"
                                         [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
                                         <div *ngIf="f.ssn.errors.required">SSN is required</div>
@@ -136,7 +136,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputLoginid">Login ID <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
-                                        placeholder="Login ID"
+                                        placeholder="Login ID" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && g.emailId.errors }">
                                     <div *ngIf="submitted && g.emailId.errors" class="invalid-feedback">
                                         <div *ngIf="g.emailId.errors.required">Login Id is required</div>
@@ -145,7 +145,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputPassword">Password <span class="required">*</span></label>
                                     <input type="password" class="form-control" id="inputPassword"
-                                        formControlName="password" placeholder="Password"
+                                        formControlName="password" [appMaxLength]="10" placeholder="Password"
                                         [ngClass]="{ 'is-invalid': submitted && g.password.errors }">
                                     <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
                                         <div *ngIf="g.password.errors.required">Password is required</div>
@@ -196,7 +196,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
                                     <input type="phone" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" placeholder="Exemptions" numbersOnly> </div>
+                                        formControlName="exemptions" [appMaxLength]="9" placeholder="Exemptions" numbersOnly> </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'"

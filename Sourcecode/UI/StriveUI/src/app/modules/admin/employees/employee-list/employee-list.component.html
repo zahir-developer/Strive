@@ -67,7 +67,7 @@
                                         <tbody>
                                             <tr
                                                 *ngFor="let employee of employeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <td>{{employee.EmployeeCode}}</td>
+                                                <td>{{employee.EmployeeId}}</td>
                                                 <td>{{employee.FirstName}}</td>
                                                 <td>{{employee.LastName}}</td>
                                                 <td>{{employee.MobileNo}}</td>
