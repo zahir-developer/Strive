@@ -22,6 +22,14 @@ namespace Strive.BusinessLogic
 
         public Result AddEmployee(EmployeeModel employee)
         {
+            var isExist = new EmployeeRal(_tenant).GetEmailIdExist(employee.EmployeeAddress.Email);
+
+            if (isExist)
+            {
+                _result = Helper.BindValidationErrorResult("EmailId already exists. Try again.!!!");
+                return _result;
+            }
+
             int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
             employee.EmployeeDetail.AuthId = authId;
 

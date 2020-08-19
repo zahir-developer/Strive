@@ -11,8 +11,7 @@ using Strive.Common;
 
 namespace Admin.Api.Controllers
 {
-    [Authorize]
-    //[AutoValidateAntiforgeryToken]
+    [Authorize]    //[AutoValidateAntiforgeryToken]
     [Route("Admin/[Controller]")]
     public class EmployeeController : StriveControllerBase<IEmployeeBpl>
     {
@@ -28,9 +27,9 @@ namespace Admin.Api.Controllers
         [Route("Update")]
         public Result UpdateEmployee([FromBody] EmployeeModel employee) => _bplManager.UpdateEmployee(employee);
 
-        [HttpPost]
-        [Route("Delete")]
-        public Result DeleteEmployee(int empId) => _bplManager.DeleteEmployeeDetails(empId);
+        [HttpDelete]
+        [Route("Delete/{employeeId}")]
+        public Result DeleteEmployee(int employeeId) => _bplManager.DeleteEmployeeDetails(employeeId);
 
         #endregion
 
