@@ -16,10 +16,7 @@ export class VendorSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  searchName : any ='';
-  searchEmail : any = '';
-  searchProductName : any ='';
-  searchProductType : any = '';
+  search : any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;

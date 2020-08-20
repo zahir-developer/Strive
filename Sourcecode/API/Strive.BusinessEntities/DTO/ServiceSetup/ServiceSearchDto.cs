@@ -8,8 +8,6 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
 {
     public class ServiceSearchDto
     {
-        public string ServiceType { get; set; }
-        public string ServiceName { get; set; }
-        public int Status { get; set; }
+        public string ServiceSearch { get; set; }
     }
 }
