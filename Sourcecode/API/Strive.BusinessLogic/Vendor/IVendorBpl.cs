@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Strive.BusinessEntities.DTO.Vendor;
 using Strive.BusinessEntities.Vendor;
 using Strive.Common;
 
@@ -12,5 +13,6 @@ namespace Strive.BusinessLogic
         Result DeleteVendorById(int id);
         //Result GetAllVendor();
         Result GetVendorById(int id);
+        Result GetVendorSearch(VendorSearchDto search);
     }
 }

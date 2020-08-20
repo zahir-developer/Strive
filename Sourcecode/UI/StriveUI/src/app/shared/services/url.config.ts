@@ -95,6 +95,9 @@ export const UrlConfig = {
     getScheduleById: `Admin/Schedule/GetScheduleById`,
     getLocationSearch:`Admin/Location/GetLocationSearch`,
     getStatementByClientId: `Admin/Client/GetStatementByClientId/`,
-    getHistoryByClientId: `Admin/Client/GetHistoryByClientId/`
+    getHistoryByClientId: `Admin/Client/GetHistoryByClientId/`,
+    getServiceSearch:`Admin/ServiceSetup/GetServiceSearch`,
+    getProductSearch:`Admin/Product/GetProductSearch`,
+    getVendorSearch:`Admin/Vendor/GetVendorSearch`,
   }
 };

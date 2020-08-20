@@ -15,9 +15,10 @@
                 <form>
                   <div class="form-row">
                     <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="search"
-                        name="search" id="inputSearch" placeholder="Search"> </div>
+                        name="search" id="inputSearch" placeholder="Name,Email"> </div>
                     <div class="form-group col-sm m-l-5">
-                      <button type="button" class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
+                      <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
+                        (click)="vendorSearch()">Search</button>
                     </div>
                   </div>
                 </form>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Document;
 using Strive.Common;
@@ -29,6 +30,11 @@ namespace Strive.BusinessLogic
             {
                 return Helper.ErrorMessageResult(error);
             }
+        }
+
+        public Result GetProductSearch(ProductSearchDto search)
+        {
+            return ResultWrap(new ProductRal(_tenant).GetProductSearch, search, "ProductSearch");
         }
 
         public Result UpdateProduct(Product product)

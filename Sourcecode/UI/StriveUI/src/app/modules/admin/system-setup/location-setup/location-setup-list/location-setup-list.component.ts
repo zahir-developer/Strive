@@ -52,6 +52,7 @@ export class LocationSetupListComponent implements OnInit {
   
   // Get Location Search
   locationSearch(){
+    this.page = 1;
     const obj ={
        locationSearch: this.search
     }

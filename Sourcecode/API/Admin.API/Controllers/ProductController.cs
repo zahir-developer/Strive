@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
 using Strive.Common;
@@ -40,5 +41,9 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetProductById")]
         public Result GetProduct(int productId) => _bplManager.GetProduct(productId);
+
+        [HttpPost]
+        [Route("GetProductSearch")]
+        public Result GetProductSearch([FromBody] ProductSearchDto search) => _bplManager.GetProductSearch(search);
     }
 }

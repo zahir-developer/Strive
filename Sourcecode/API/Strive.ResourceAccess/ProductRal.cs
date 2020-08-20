@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Product;
 using Strive.Common;
@@ -42,6 +43,11 @@ namespace Strive.ResourceAccess
             _prm.Add("ProductId", productId);
             db.Save(SPEnum.USPDELETEPRODUCT.ToString(), _prm);
             return true;
+        }
+        public List<Product> GetProductSearch(ProductSearchDto search)
+        {
+            _prm.Add("@ProductSearch", search.ProductSearch);
+            return db.Fetch<Product>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
     }
 }

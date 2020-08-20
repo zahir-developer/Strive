@@ -68,11 +68,13 @@
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="DTO\Location\LocationSearchDto.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
+    <Compile Include="DTO\Product\ProductSearchDto.cs" />
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />
     <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="DTO\Vendor\VendorSearchDto.cs" />
     <Compile Include="DTO\Washes\DashboardDto.cs" />
     <Compile Include="DTO\Washes\WashesDto.cs" />
     <Compile Include="Model\EmployeeDocumentModel.cs" />
