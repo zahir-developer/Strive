@@ -293,6 +293,7 @@ export class ClientCreateEditComponent implements OnInit {
       size: 'lg'
     };
     const modalRef = this.modalService.open(ClientStatementComponent, ngbModalOptions);
+    modalRef.componentInstance.clientId = this.selectedData.ClientId;
   }
 
   openHistory() {
@@ -302,6 +303,7 @@ export class ClientCreateEditComponent implements OnInit {
       size: 'lg'
     };
     const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
+    modalRef.componentInstance.clientId = this.selectedData.ClientId;
   }
 }
 

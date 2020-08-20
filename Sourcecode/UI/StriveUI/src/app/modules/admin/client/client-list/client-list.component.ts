@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-client-list',
@@ -23,7 +24,7 @@ export class ClientListComponent implements OnInit {
   pageSize = 5;
   collectionSize: number = 0;
   constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getAllClientDetails();
@@ -108,7 +109,9 @@ export class ClientListComponent implements OnInit {
 
   // Get Client By Id
   getClientById(data, client) {
+    this.spinner.show();
     this.client.getClientById(client.ClientId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         this.selectedClient = client.Status[0];

@@ -93,6 +93,8 @@ export const UrlConfig = {
     getSchedule: `Admin/Schedule/GetSchedule`,
     deleteSchedule: `Admin/Schedule/DeleteSchedule`,
     getScheduleById: `Admin/Schedule/GetScheduleById`,
-    getLocationSearch:`Admin/Location/GetLocationSearch`
+    getLocationSearch:`Admin/Location/GetLocationSearch`,
+    getStatementByClientId: `Admin/Client/GetStatementByClientId/`,
+    getHistoryByClientId: `Admin/Client/GetHistoryByClientId/`
   }
 };
