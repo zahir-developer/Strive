@@ -20,7 +20,7 @@ export class EmployeeService {
     return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}`, { params : { id: empId }});
   }
   deleteEmployee(id) {
-    return this.http.post(`${UrlConfig.totalUrl.deleteEmployee}` ,  { params: { empId: id }});
+    return this.http.delete(`${UrlConfig.totalUrl.deleteEmployee}` + id);
   }
   getAllRoles() {
     return this.http.get(`${UrlConfig.totalUrl.getAllRoles}`);

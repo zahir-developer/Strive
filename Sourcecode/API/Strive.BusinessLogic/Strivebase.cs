@@ -167,6 +167,19 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        //protected Result ResultWrap<T>(Func<int, T> RALMethod, int id)
+        //{
+        //    try
+        //    {
+        //        var res = RALMethod.Invoke(id);
+        //        _result = Helper.BindSuccessResult(_resultContent);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+        //    }
+        //    return _result;
+        //}
 
 
         protected Result ResultWrap<T, T1>(Func<T1, T> ralmethod, T1 model, string ResultName)
@@ -190,6 +203,20 @@ namespace Strive.BusinessLogic
             try
             {
                 var res = RALMethod.Invoke(id, str);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        protected Result ResultWrap<T>(bool res, string ResultName, string message)
+        {
+            try
+            {
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }

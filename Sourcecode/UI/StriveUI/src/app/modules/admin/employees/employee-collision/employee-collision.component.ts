@@ -23,13 +23,23 @@ export class EmployeeCollisionComponent implements OnInit {
   @Input() public mode?: any;
   collisionForm: FormGroup;
   collisionDetail: any;
+  makeDropdownList: any = [];
+  modelDropdownList: any = [];
+  colorDropdownList: any = [];
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
       dateOfCollision: ['', Validators.required],
       amount: ['', Validators.required],
-      reason: ['', Validators.required]
+      reason: ['', Validators.required],
+      barcode: [''],
+      make: [''],
+      model: [''],
+      color: ['']
     });
+    this.getAllModel();
+    this.getAllMake();
+    this.getAllColor();
     if (this.mode === 'edit') {
       this.getCollisionDetail();
     }
@@ -123,6 +133,33 @@ export class EmployeeCollisionComponent implements OnInit {
         }
       });
     }
+  }
+
+  getAllMake() {
+    this.employeeService.getDropdownValue('MAKE').subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        this.makeDropdownList = make.Codes;
+      }
+    });
+  }
+
+  getAllModel() {
+    this.employeeService.getDropdownValue('VEHICLEMODEL').subscribe(res => {
+      if (res.status === 'Success') {
+        const model = JSON.parse(res.resultData);
+        this.modelDropdownList = model.Codes;
+      }
+    });
+  }
+
+  getAllColor() {
+    this.employeeService.getDropdownValue('VEHICLECOLOR').subscribe(res => {
+      if (res.status === 'Success') {
+        const color = JSON.parse(res.resultData);
+        this.colorDropdownList = color.Codes;
+      }
+    });
   }
 
 }

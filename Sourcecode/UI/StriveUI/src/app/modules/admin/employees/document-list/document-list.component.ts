@@ -73,6 +73,9 @@ export class DocumentListComponent implements OnInit {
   }
 
   deleteDocument(document) {
+    if (!this.isEditDocument && this.actionType === 'view') {
+      return;
+    }
     this.confirmationService.confirm('Delete Document', 'Are you sure you want to delete this Document? All related information will be deleted and the document cannot be retrieved?', 'Delete', 'Cancel')
       .then((confirmed) => {
         if (confirmed === true) {
@@ -86,7 +89,7 @@ export class DocumentListComponent implements OnInit {
     const docId = document.EmployeeDocumentId;
     this.employeeService.deleteDocument(docId).subscribe( res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document Deleted Successfull!' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document Deleted Successfully!' });
         this.getAllDocument();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -95,6 +98,9 @@ export class DocumentListComponent implements OnInit {
   }
 
   viewDocument(document) {
+    if (!this.isEditDocument && this.actionType === 'view') {
+      return;
+    }
     this.documentId = document.EmployeeDocumentId;
     if (document.IsPasswordProtected) {
       const ngbModalOptions: NgbModalOptions = {
@@ -115,10 +121,10 @@ export class DocumentListComponent implements OnInit {
       if (res.status === 'Success') {
         const documentDetail = JSON.parse(res.resultData);
         console.log(documentDetail);
-        const base64 = documentDetail.DocumentDetail.Base64Url;
+        const base64 = documentDetail.Document;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');
-        const fileName = documentDetail.DocumentDetail.FileName;
+        const fileName = 'name';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();

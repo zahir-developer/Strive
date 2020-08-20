@@ -131,7 +131,7 @@ export class CreateDocumentComponent implements OnInit {
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
       console.log(res, 'uploadDcument');
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document upload Successfull!' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document upload Successfully!' });
         this.activeModal.close(true);
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });

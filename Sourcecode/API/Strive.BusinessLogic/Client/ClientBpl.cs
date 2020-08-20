@@ -69,5 +69,13 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetClientCode, "ClientDetails");
         }
+        public Result GetStatementByClientId(int id)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetStatementByClientId, id, "VehicleStatement");
+        }
+        public Result GetHistoryByClientId(int id)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetHistoryByClientId, id, "VehicleHistory");
+        }
     }
 }

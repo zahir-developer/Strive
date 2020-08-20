@@ -59,6 +59,7 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetVehicleCodes")]
         public Result GetVehicleCodes() => _bplManager.GetVehicleCodes();
-        
+      
+
     }
 }

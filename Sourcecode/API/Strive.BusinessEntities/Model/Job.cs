@@ -14,16 +14,13 @@ public class Job
 	public string TicketNumber { get; set; }
 
 	[Column]
-	public string BarCode { get; set; }
-
-	[Column]
 	public int LocationId { get; set; }
 
 	[Column, PrimaryKey]
 	public int? ClientId { get; set; }
 
 	[Column]
-	public int? VehicleId { get; set; }
+	public int VehicleId { get; set; }
 
 	[Column]
 	public int? JobType { get; set; }

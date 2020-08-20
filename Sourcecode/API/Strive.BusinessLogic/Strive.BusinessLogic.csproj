@@ -116,8 +116,8 @@
     <Reference Include="cocoon-orm, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\cocoon-orm.2.9.0\lib\netstandard2.0\cocoon-orm.dll</HintPath>
     </Reference>
-    <Reference Include="MailKit, Version=2.8.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
-      <HintPath>..\packages\MailKit.2.8.0\lib\net46\MailKit.dll</HintPath>
+    <Reference Include="MailKit, Version=2.7.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.7.0\lib\net46\MailKit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>

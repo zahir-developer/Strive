@@ -4,7 +4,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <ol class="breadcrumb font-size--9">
                     <li class="breadcrumb-item">Admin</li>
-                    <li class="breadcrumb-item">Client</li>
+                    <li class="breadcrumb-item"><a (click)="cancel()">Client</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Client</li>
                     <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Client</li>
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Client</li>
@@ -31,23 +31,26 @@
                                 <div class="form-row">
                                     <div class="form-group col-lg-3">
                                         <label for="inputFirstName">First Name</label>
-                                        <input type="text" maxlength="100" class="form-control" formControlName="fName"
+                                        <input type="text" [appMaxLength] class="form-control" formControlName="fName"
                                             placeholder="First Name">
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label for="inputLastName">Last Name</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="lName"
+                                        <input type="text" [appMaxLength] class="form-control" formControlName="lName"
                                             placeholder="Last Name">
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label for="inputAddress">Address</label>
-                                        <input type="text" maxlength="50" class="form-control" formControlName="address"
+                                        <input type="text" [appMaxLength] class="form-control" formControlName="address"
                                             placeholder="Address">
                                     </div>
-                                    <div class="form-group col-lg-3">
+                                    <div class="form-group col-lg-3"> 
                                         <label for="inputEmail">Email</label>
                                         <input type="email" maxlength="50" class="form-control" formControlName="email"
-                                            placeholder="Email">
+                                            placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                                <div *ngIf="f.email.errors">Please enter valid email address</div>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -55,13 +58,13 @@
                                         <div class="row no-gutter   form-row">
                                             <div class="col-md-6  form-group">
                                                 <label for="inputPhoneNumber1">Phone 1</label>
-                                                <input numbersOnly type="text" class="form-control"
+                                                <input appPhoneMask type="text" class="form-control"
                                                     formControlName="phone1" placeholder="(XXX) XXX-XXXX"> </div>
                                             <div class="col-md-6 p-r-0  form-group">
                                                 <label></label>
                                                 <select class="form-control m-t-8" [disabled]="isView">
-                                                    <option selected="">Cell</option>
-                                                    <option>...</option>
+                                                    <option selected="">Work</option>
+                                                    <option>Home</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -70,13 +73,13 @@
                                         <div class="row  no-gutter form-row">
                                             <div class="col-md-6 col-ipad form-group">
                                                 <label for="inputPhoneNumber2">Phone 2</label>
-                                                <input numbersOnly type="text" class="form-control"
+                                                <input appPhoneMask type="text" class="form-control"
                                                     formControlName="phone2" placeholder="(XXX) XXX-XXXX"> </div>
                                             <div class="col-lg-6 p-r-0 col-ipad form-group">
                                                 <label></label>
                                                 <select class="form-control  m-t-8" [disabled]="isView">
-                                                    <option selected="">Work</option>
-                                                    <option>...</option>
+                                                    <option selected="">Home</option>
+                                                    <option>Work</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -97,7 +100,7 @@
                                         <div class="row no-gutter   form-row">
                                             <div class="col-md-6  form-group">
                                                 <label for="inputZipcode">ZipCode</label>
-                                                <input numbersOnly type="text" maxlength="5" class="form-control"
+                                                <input numbersOnly type="text" [appMaxLength]="5" class="form-control"
                                                     placeholder="Zip" formControlName="zipcode"> </div>
                                             <div class="col-md-6 p-r-0  form-group">
                                                 <label for="inputStatus">Status</label>
@@ -202,9 +205,9 @@
                             <div class="m-t-12">
                                 <span class="mw-100" *ngIf="isEdit">
                                     <button type="button"
-                                        class="btn theme-primary-button-color">Statement</button>&nbsp;
+                                        class="btn theme-primary-button-color" (click)="openStatement()">Statement</button>&nbsp;
                                     <button type="button"
-                                        class="btn theme-primary-button-color">History</button>
+                                        class="btn theme-primary-button-color" (click)="openHistory()">History</button>
                                 </span>
                                 <span class="mw-100 pull-right">
                                     <button type="button" class="btn theme-optional-button-color"

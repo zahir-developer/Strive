@@ -9,6 +9,10 @@
                     <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                         (click)="openCreateCollisionModal()">Add Collision</button>
                 </span>
+                <span class="collision-btn" *ngIf="actionType === 'edit'">
+                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                        (click)="openCreateCollisionModal()">Add Collision</button>
+                </span>
             </h6>
             <div class="pull-right m-t-4 pointer">
                 <button type="button" class="btn theme-optional-button-color" id="doc-disable"
@@ -39,10 +43,10 @@
                                 </td>
                                 <td>{{collision.Amount | currency }}</td>
                                 <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil"
-                                        *ngIf="actionType === 'view'"
+                                        *ngIf="actionType === 'view'" (click)="updateCollision(collision)"
                                         [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"></em>
                                     <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete"
-                                        *ngIf="actionType === 'view'"
+                                        *ngIf="actionType === 'view'" (click)="deleteCollision(collision)"
                                         [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"></em><em
                                         class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                         *ngIf="actionType === 'edit'" (click)="updateCollision(collision)"></em>
