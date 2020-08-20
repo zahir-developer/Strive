@@ -71,9 +71,11 @@
   <ItemGroup>
     <Compile Include="Adapter\DealsAdapter.cs" />
     <Compile Include="Adapter\IItemClickListener.cs" />
+    <Compile Include="Adapter\PastDetailsAdapter.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\DealsFragment.cs" />
     <Compile Include="Fragments\MapsFragment.cs" />
+    <Compile Include="Fragments\PastDetailsFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
@@ -328,6 +330,22 @@
     <AndroidResource Include="Resources\layout\DealsList.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PastDetailsList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PastDetailsScreenFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\rightArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\downArrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

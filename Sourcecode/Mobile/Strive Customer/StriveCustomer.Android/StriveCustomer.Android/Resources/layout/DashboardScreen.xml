@@ -28,7 +28,6 @@
             android:minWidth="25px"
             android:minHeight="25px">
         </android.support.design.widget.BottomNavigationView>
-
     </android.support.design.bottomappbar.BottomAppBar>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/dashActionButton"
@@ -37,5 +36,6 @@
         style="@style/Widget.Design.FloatingActionButton"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        app:backgroundTint="@android:color/white"/>
 </RelativeLayout>

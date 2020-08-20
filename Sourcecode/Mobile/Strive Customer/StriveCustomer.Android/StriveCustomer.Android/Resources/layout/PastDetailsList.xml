@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+     <TextView
+        android:id="@+id/pastDetailsOption"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableRight = "@drawable/abc_ic_arrow_drop_right_black_24dp"/>
+     
+</LinearLayout>
