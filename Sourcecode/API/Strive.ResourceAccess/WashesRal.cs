@@ -27,11 +27,11 @@ namespace Strive.ResourceAccess
         }
         public bool AddWashTime(WashesDto washes)
         {
-            return dbRepo.SavePc(washes, "JobId");
+            return dbRepo.InsertPc(washes, "JobId");
         }
         public bool UpdateWashTime(WashesDto washes)
         {
-            return dbRepo.SavePc(washes, "JobId");
+            return dbRepo.UpdatePc(washes);
         }
         public WashesDashboardViewModel GetDailyDashboard(DashboardDto dashboard)
         {
