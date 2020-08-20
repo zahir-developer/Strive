@@ -15,11 +15,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>12345</td>
-                        <td>08/19/2020</td>
-                        <td>Service</td>
-                        <td>$237.00</td>
+                    <tr *ngFor="let statement of statementGrid">
+                        <td>{{statement.TicketNumber}}</td>
+                        <td>{{statement.Date | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{statement.ServiceCompleted}}</td>
+                        <td>{{statement.TotalAmount}}</td>
                     </tr>
                 </tbody>
             </table>
