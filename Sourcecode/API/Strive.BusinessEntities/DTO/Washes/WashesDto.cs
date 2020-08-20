@@ -10,6 +10,6 @@ namespace Strive.BusinessEntities.DTO.Washes
     public class WashesDto
     {
         public Model.Job Job { get; set; }
-        public JobItem JobItem { get; set; }
+        public List<JobItem> JobItem { get; set; }
     }
 }
