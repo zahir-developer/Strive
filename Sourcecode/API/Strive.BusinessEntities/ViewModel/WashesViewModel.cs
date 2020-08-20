@@ -22,13 +22,13 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTimeOffset EstimatedTimeOut { get; set; }
         public DateTimeOffset ActualTimeOut { get; set; }
         public int JobStatus { get; set; }
+        public int ServiceId { get; set; }
         public string ServiceName { get; set; }
-        public int JobDetailId { get; set; }
-        public int BayId { get; set; }
-        public int SalesRep { get; set; }
-        public int QABy    { get; set; }
-        public int Labour  { get; set; }
+        public decimal Commission { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
         public string ReviewNote { get; set; }
+    
         public string PastHistoryNote { get; set; }
 
     }
