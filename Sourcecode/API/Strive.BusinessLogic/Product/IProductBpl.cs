@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace Strive.BusinessLogic
         Result GetAllProduct();
         Result GetProduct(int productId);
         Result DeleteProduct(int productId, string fileName = null);
+        Result GetProductSearch(ProductSearchDto search);
     }
 }

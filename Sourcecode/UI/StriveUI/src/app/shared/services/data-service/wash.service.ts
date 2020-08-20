@@ -36,9 +36,12 @@ export class WashService {
   getVehicle(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getAllVehicle}`);
   } 
-  getAdditionalService(): Observable<any> {
+  getServices(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
   }
+  getServiceType(obj : string){
+    return this.http.get(`${UrlConfig.totalUrl.getCode}`+ obj);
+  } 
   getVehicleColor() {
     return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
 }

@@ -17,9 +17,14 @@
                                     <div class="form-row">
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" name="search" id="inputSearch"
-                                                placeholder="Search"> </div>
+                                                placeholder="Name,Type"> </div>&nbsp;
+                                        <div class="form-group d-flex"> <select class="form-control"
+                                                [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
+                                                <option *ngFor="let status of Status" value="{{status.id}}">
+                                                    {{status.Value}}</option>
+                                            </select> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button"
+                                            <button type="button" (click)="serviceSearch()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
                                         </div>
                                     </div>

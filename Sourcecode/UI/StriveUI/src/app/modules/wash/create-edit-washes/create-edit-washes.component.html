@@ -92,7 +92,7 @@
                                     <label for="inputWashes">Washes</label>
                                     <select class="form-control" formControlName="washes">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of washes" value="{{score.ServiceId}}">{{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
@@ -102,7 +102,7 @@
                                     <label for="inputUpchargeType">Upcharge Type</label>
                                     <select class="form-control" formControlName="upchargeType">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">{{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
@@ -110,7 +110,7 @@
                                     <label for="inputUpcharges">Upcharges</label>
                                     <select class="form-control" formControlName="upcharges">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">{{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
@@ -118,7 +118,7 @@
                                     <label for="inputAirFreshners">Air Freshners</label>
                                     <select class="form-control" formControlName="airFreshners">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of airFreshner" value="{{score.ServiceId}}">{{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
@@ -144,7 +144,7 @@
                             <h5 class="d-inline-block font-weight-600">Additional Service </h5>
                         </div>
                         <div class="row">
-                            <div class="col-md-3" *ngFor="let addService of serviceSetupDetails">
+                            <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
                                     <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
                                         (change)="change(addService)" />

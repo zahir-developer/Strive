@@ -5,6 +5,7 @@ using System.Net;
 using Strive.BusinessEntities.Vendor;
 using Strive.ResourceAccess;
 using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO.Vendor;
 
 namespace Strive.BusinessLogic
 {
@@ -33,6 +34,10 @@ namespace Strive.BusinessLogic
         public Result GetVendorById(int id)
         {
             return ResultWrap(new VendorRal(_tenant).GetVendorById, id, "VendorDetail");
+        }
+        public Result GetVendorSearch(VendorSearchDto search)
+        {
+            return ResultWrap(new VendorRal(_tenant).GetVendorSearch, search, "VendorSearch");
         }
     }
 }

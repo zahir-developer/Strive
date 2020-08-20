@@ -9,6 +9,7 @@ using System.Text;
 using System.Linq;
 using Strive.BusinessEntities.Vendor;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO.Vendor;
 
 namespace Strive.ResourceAccess
 {
@@ -38,6 +39,12 @@ namespace Strive.ResourceAccess
         public List<VendorViewModel> GetVendorById(int id)
         {
             _prm.Add("@VendorId", id);
+            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
+            return result;
+        }
+        public List<VendorViewModel> GetVendorSearch(VendorSearchDto search)
+        {
+            _prm.Add("@VendorSearch", search.VendorSearch);
             var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
             return result;
         }
