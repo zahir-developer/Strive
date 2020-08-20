@@ -153,7 +153,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Date of Hire <span class="required">*</span></label>
-                                    <input type="text" class="form-control" bsDatepicker formControlName="dateOfHire"
+                                    <input type="text" class="form-control" bsDatepicker formControlName="dateOfHire" appCalendarMask
                                         [ngClass]="{ 'is-invalid': submitted && g.dateOfHire.errors }">
                                     <div *ngIf="submitted && g.dateOfHire.errors" class="invalid-feedback">
                                         <div *ngIf="g.dateOfHire.errors.required">Date of Hire is required</div>

@@ -7,6 +7,9 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ClientStatementComponent } from '../client-statement/client-statement.component';
+import { ClientHistoryComponent } from '../client-history/client-history.component';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -27,8 +30,8 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() isView?: any;
   selectedStateId: any;
   selectedCountryId: any;
-  vehicleDetails =[];
-  vehicleDet =[];
+  vehicleDetails = [];
+  vehicleDet = [];
   isTableEmpty: boolean;
   headerData: string;
   selectedVehicle: any;
@@ -41,7 +44,8 @@ export class ClientCreateEditComponent implements OnInit {
   deleteIds = [];
   submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
-    private confirmationService: ConfirmationUXBDialogService, private vehicle: VehicleService,private getCode: GetCodeService) { }
+    private confirmationService: ConfirmationUXBDialogService,
+    private modalService: NgbModal, private vehicle: VehicleService, private getCode: GetCodeService) { }
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
@@ -51,7 +55,7 @@ export class ClientCreateEditComponent implements OnInit {
     }
     if (this.isEdit === true) {
       this.clientForm.reset();
-      this.getClientById();      
+      this.getClientById();
       this.getClientVehicle(this.selectedData.ClientId);
     }
   }
@@ -65,7 +69,7 @@ export class ClientCreateEditComponent implements OnInit {
       state: ['',],
       city: ['',],
       phone1: ['',],
-      email: ['',Validators.email],
+      email: ['', Validators.email],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
@@ -75,7 +79,7 @@ export class ClientCreateEditComponent implements OnInit {
       checkOut: ['',],
       type: ['',]
     });
-    this.clientForm.get('status').patchValue(0);   
+    this.clientForm.get('status').patchValue(0);
     this.getClientType();
     this.getScore();
   }
@@ -97,7 +101,7 @@ export class ClientCreateEditComponent implements OnInit {
   }
 
   // Get ClientType
-  getClientType(){
+  getClientType() {
     this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
@@ -121,7 +125,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!'); 
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -134,7 +138,7 @@ export class ClientCreateEditComponent implements OnInit {
       lName: this.selectedData.LastName,
       noEmail: this.selectedData.NoEmail,
       status: this.selectedData.IsActive ? 0 : 1,
-      score: this.selectedData.Score,      
+      score: this.selectedData.Score,
       type: this.selectedData.ClientType,
       notes: this.selectedData.Notes,
       checkOut: this.selectedData.RecNotes,
@@ -143,7 +147,7 @@ export class ClientCreateEditComponent implements OnInit {
       zipcode: this.selectedData.Zip,
       phone2: this.selectedData.PhoneNumber2,
       email: this.selectedData.Email
-    });    
+    });
     this.clientId = this.selectedData.ClientId;
   }
 
@@ -188,7 +192,7 @@ export class ClientCreateEditComponent implements OnInit {
       gender: 1,
       maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientForm.value.status == 0 ? true : false,      
+      isActive: this.clientForm.value.status == 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
@@ -207,7 +211,7 @@ export class ClientCreateEditComponent implements OnInit {
     }
     if (this.isEdit === true) {
       this.client.updateClient(myObj).subscribe(data => {
-        if (data.status === 'Success') { 
+        if (data.status === 'Success') {
           this.deleteIds.forEach(element => {
             this.vehicle.deleteVehicle(element.ClientVehicleId).subscribe(res => {
               if (res.status === 'Success') {
@@ -217,7 +221,7 @@ export class ClientCreateEditComponent implements OnInit {
               }
             });
           })
-          this.toastr.success('Record Updated Successfully!!', 'Success!');       
+          this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
@@ -226,15 +230,15 @@ export class ClientCreateEditComponent implements OnInit {
       });
     } else {
       this.client.addClient(myObj).subscribe(data => {
-        if (data.status === 'Success') {  
-          this.toastr.success('Record Saved Successfully!!', 'Success!');      
+        if (data.status === 'Success') {
+          this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
           this.clientForm.reset();
         }
       });
-    }    
+    }
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
@@ -251,7 +255,7 @@ export class ClientCreateEditComponent implements OnInit {
     }
     this.showVehicleDialog = event.isOpenPopup;
   }
-  delete(data){
+  delete(data) {
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
@@ -266,10 +270,10 @@ export class ClientCreateEditComponent implements OnInit {
   confirmDelete(data) {
     this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
-    this.toastr.success('Record Deleted Successfully!!', 'Success!'); 
+    this.toastr.success('Record Deleted Successfully!!', 'Success!');
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
-    if(data.ClientVehicleId !== 0){
-      this.deleteIds.push(data);      
+    if (data.ClientVehicleId !== 0) {
+      this.deleteIds.push(data);
     }
   }
 
@@ -277,6 +281,24 @@ export class ClientCreateEditComponent implements OnInit {
   add() {
     this.headerData = 'Add New vehicle';
     this.showVehicleDialog = true;
+  }
+
+  openStatement() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(ClientStatementComponent, ngbModalOptions);
+  }
+
+  openHistory() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
   }
 }
 

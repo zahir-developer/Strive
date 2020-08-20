@@ -37,7 +37,7 @@ export class CalendarMaskDirective {
             var htmlInputElement = event.target as HTMLInputElement;
             if (htmlInputElement) {
               var value = htmlInputElement.value.replace(/\//g, '');
-              if (value.length >= 9) {
+              if (value.length >= 8) {
                 event.preventDefault();
                 return;
               }
