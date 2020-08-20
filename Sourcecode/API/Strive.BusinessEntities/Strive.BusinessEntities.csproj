@@ -69,6 +69,7 @@
     <Compile Include="DTO\Location\LocationSearchDto.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
+    <Compile Include="DTO\Schedule\ScheduleDetailDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />
     <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
