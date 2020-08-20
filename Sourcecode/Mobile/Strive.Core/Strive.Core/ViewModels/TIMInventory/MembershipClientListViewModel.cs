@@ -2,27 +2,52 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Strive.Core.Models.TimInventory;
+using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
     public class MembershipClientListViewModel : BaseViewModel
     {
 
-        public ObservableCollection<string> FilteredList { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<ClientDetail> FilteredList { get; set; } = new ObservableCollection<ClientDetail>();
+
+        private ObservableCollection<ClientDetail> ClientList = new ObservableCollection<ClientDetail>();
+
+
         public MembershipClientListViewModel()
         {
-            for(int i =0; i< 10; i++)
-            {
-                FilteredList.Add("Name" + i);
-            }
             RaiseAllPropertiesChanged();
         }
 
         public void ClientSearchCommand(string SearchText)
         {
-            FilteredList = new ObservableCollection<string>(FilteredList.
-                Where(s => s.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+            FilteredList = new ObservableCollection<ClientDetail>(ClientList.
+                Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
             RaiseAllPropertiesChanged();
+        }
+
+        public async Task GetAllClientsCommand()
+        {
+            //_userDialog.Loading(Strings.Loading);
+            var Clients = await AdminService.GetAllClient();
+            foreach(var client in Clients.Client)
+            {
+                ClientList.Add(client);
+            }
+            _userDialog.HideLoading();
+        }
+
+        public void ClearCommand()
+        {
+            FilteredList.Clear();
+            ClientList.Clear();
+        }
+
+        public async void NavigateToDetailCommand(ClientDetail client)
+        {
+            await _navigationService.Navigate<MembershipClientDetailViewModel>();
         }
     }
 }

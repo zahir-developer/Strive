@@ -35,5 +35,7 @@ namespace Strive.Core.Services.Interfaces
         Task<DeleteResponse> DeleteProduct(int Id);
 
         Task<PostResponse> UpdateProduct(ProductDetail product);
+
+        Task<Clients> GetAllClient();
     }
 }

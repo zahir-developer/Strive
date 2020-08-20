@@ -100,5 +100,10 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_PRODUCT, HttpMethod.Post, product);
         }
+
+        public async Task<Clients> GetAllClient()
+        {
+            return await _restClient.MakeApiCall<Clients>(ApiUtils.URL_GET_ALL_CLIENT, HttpMethod.Get);
+        }
     }
 }

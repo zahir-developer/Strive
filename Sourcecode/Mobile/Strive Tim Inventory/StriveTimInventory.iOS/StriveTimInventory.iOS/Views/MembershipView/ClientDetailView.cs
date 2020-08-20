@@ -3,11 +3,11 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.TIMInventory;
 using UIKit;
 
-namespace StriveTimInventory.iOS.Views
+namespace StriveTimInventory.iOS.Views.MembershipView
 {
-    public partial class MembershipView : MvxViewController<MembershipViewModel>
+    public partial class ClientDetailView : MvxViewController<MembershipClientDetailViewModel>
     {
-        public MembershipView() : base("MembershipView", null)
+        public ClientDetailView() : base("ClientDetailView", null)
         {
         }
 

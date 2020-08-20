@@ -5,6 +5,7 @@ using System.Linq;
 using Foundation;
 using MvvmCross.Base;
 using MvvmCross.Platforms.Ios.Binding.Views;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.TIMInventory;
 using UIKit;
 
@@ -13,15 +14,15 @@ namespace StriveTimInventory.iOS.Views.MembershipView
     public class ClientTableSource : MvxTableViewSource
     {
 
-        private static string CellId = "InventoryViewCell";
+        private static string CellId = "ClientTableViewCell";
 
         private MembershipClientListViewModel ViewModel;
 
-        private ObservableCollection<string> ItemList;
+        private ObservableCollection<ClientDetail> ItemList;
 
         public ClientTableSource(UITableView tableView, MembershipClientListViewModel ViewModel) : base(tableView)
         {
-            tableView.RegisterNibForCellReuse(InventoryViewCell.Nib, CellId);
+            tableView.RegisterNibForCellReuse(ClientTableViewCell.Nib, CellId);
             this.ViewModel = ViewModel;
         }
 
@@ -32,11 +33,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<string>)value;
+                    ItemList = (ObservableCollection<ClientDetail>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<string>();
+                    ItemList = new ObservableCollection<ClientDetail>();
                 }
 
                 base.ItemsSource = value;
@@ -75,7 +76,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
-            InventoryViewCell cell = (InventoryViewCell)tableView.DequeueReusableCell(CellId, indexPath);
+            ClientTableViewCell cell = (ClientTableViewCell)tableView.DequeueReusableCell(CellId, indexPath);
             return cell;
         }
     }

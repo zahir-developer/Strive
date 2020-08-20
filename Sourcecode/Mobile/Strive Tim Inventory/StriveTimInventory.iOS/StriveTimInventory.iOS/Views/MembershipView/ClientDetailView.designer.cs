@@ -9,10 +9,10 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace StriveTimInventory.iOS.Views
+namespace StriveTimInventory.iOS.Views.MembershipView
 {
-    [Register("MembershipView")]
-    partial class MembershipView
+    [Register("ClientDetailView")]
+    partial class ClientDetailView
     {
         void ReleaseDesignerOutlets()
         {
