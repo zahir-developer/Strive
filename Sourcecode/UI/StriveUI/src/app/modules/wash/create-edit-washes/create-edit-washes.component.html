@@ -50,7 +50,8 @@
                                     <label for="inputVehicle">Vehicle</label>
                                     <select class="form-control" formControlName="vehicle">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of vehicle" value="{{score.ClientVehicleId}}">
+                                            {{score.VehicleMake}},{{score.ModelName}},{{score.Color}}
                                         </option>
                                     </select>
                                 </div>
@@ -83,7 +84,7 @@
                                     <label for="inputColor">Color</label>
                                     <select class="form-control" formControlName="color">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
                                         </option>
                                     </select>
                                 </div>
@@ -143,12 +144,17 @@
                             <h5 class="d-inline-block font-weight-600">Additional Service </h5>
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-3" *ngFor="let addService of serviceSetupDetails">
                                 <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-1" />
-                                    <label class="custom-control-label" for="Additionalservice-1">Clean Inside
-                                        Rims</label>
+                                    <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
+                                        (change)="change(addService)" />
+                                    <label class="custom-control-label"
+                                        for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                                 </div>
+                            </div>
+                        </div>
+                        <!-- <div>
+                            <div>
                                 <div class="custom-control custom-checkbox m-t-10">
                                     <input type="checkbox" class="custom-control-input" id="Additionalservice-2" />
                                     <label class="custom-control-label" for="Additionalservice-2">Shampoo Spot</label>
@@ -315,7 +321,7 @@
                                     <label class="custom-control-label" for="Service-9">Shampoo Spot</label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="m-t-20 mw-100">
                             <span *ngIf="isEdit">
                                 <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;
@@ -324,8 +330,8 @@
                             <span class="pull-right">
                                 <button type="button" class="btn theme-optional-button-color"
                                     (click)="cancel()">Cancel</button>&nbsp;
-                                <button *ngIf="!isView" type="button"
-                                    class="btn theme-primary-button-color" (click)="submit()">Save</button>
+                                <button *ngIf="!isView" type="button" class="btn theme-primary-button-color"
+                                    (click)="submit()">Save</button>
                             </span>
                         </div>
                     </div>

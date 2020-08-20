@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/
   selector: '[appMaxLength]'
 })
 export class MaxLengthDirective {
-  @Input() appMaxLength: number;
+  @Input() appMaxLength: any = 50;
   constructor(
     private el: ElementRef,
     private renderer: Renderer2

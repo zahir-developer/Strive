@@ -255,7 +255,10 @@ export class ClientCreateEditComponent implements OnInit {
     }
     this.showVehicleDialog = event.isOpenPopup;
   }
-  delete(data) {
+  delete(data){
+    if(this.isView){
+      return;
+    }
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {

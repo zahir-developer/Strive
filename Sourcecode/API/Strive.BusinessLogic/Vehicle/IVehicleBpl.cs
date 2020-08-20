@@ -18,5 +18,6 @@ namespace Strive.BusinessLogic.Vehicle
         Result GetVehicleByClientId(int clientId);
         Result GetVehicleId(int vehicleId);
         Result GetVehicleCodes();
+      
     }
 }

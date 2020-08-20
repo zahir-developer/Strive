@@ -53,5 +53,15 @@ namespace Strive.ResourceAccess
         {
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SCORE);
         }
+        public ClientStatementViewModel GetStatementByClientId(int id)
+        {
+            _prm.Add("ClientId", id);
+            return db.FetchSingle<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
+        }
+        public ClientHistoryViewModel GetHistoryByClientId(int id)
+        {
+            _prm.Add("ClientId", id);
+            return db.FetchSingle<ClientHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
+        }
     }
 }
