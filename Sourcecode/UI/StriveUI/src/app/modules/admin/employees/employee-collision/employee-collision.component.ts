@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-employee-collision',
@@ -16,7 +17,8 @@ export class EmployeeCollisionComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private employeeService: EmployeeService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private spinner: NgxSpinnerService
     ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
@@ -50,7 +52,9 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   getCollisionDetail() {
+    this.spinner.show();
     this.employeeService.getDetailCollision(this.collisionId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
         console.log(employeesCollison.Collision);
@@ -115,7 +119,9 @@ export class EmployeeCollisionComponent implements OnInit {
       employeeLiabilityDetail: liabilityDetailObj
     };
     if (this.mode === 'create') {
+      this.spinner.show();
       this.employeeService.saveCollision(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Added Successfully!' });
           this.activeModal.close(true);
@@ -124,7 +130,9 @@ export class EmployeeCollisionComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.show();
       this.employeeService.updateCollision(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Updated Successfully!' });
           this.activeModal.close(true);

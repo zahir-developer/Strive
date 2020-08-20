@@ -46,9 +46,7 @@ namespace Strive.ResourceAccess
         }
         public List<ServiceViewModel> GetServiceSearch(ServiceSearchDto search)
         {
-            _prm.Add("@ServiceType", search.ServiceType);
-            _prm.Add("@ServiceName", search.ServiceName);
-            _prm.Add("@Status", search.Status);
+            _prm.Add("@ServiceSearch", search.ServiceSearch);
             return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
         }
 
