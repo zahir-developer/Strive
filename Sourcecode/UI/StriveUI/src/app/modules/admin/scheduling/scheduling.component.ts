@@ -5,6 +5,7 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timelinePlugin from '@fullcalendar/timeline';
 import * as moment from 'moment';
 import { FullCalendar } from 'primeng';
+// import { FullCalendarComponent } from '@fullcalendar/angular';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -32,11 +33,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   headerData = '';
   mytime: any;
   location = [];
-  empLocation = '';
+  empLocation: any;
   selectedEvent = [];
   startTime: Date;
   endTime: Date;
   @ViewChild('fc') fc: FullCalendar;
+  // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
   empList: any;
   showDialog: boolean;
@@ -86,66 +88,49 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       height: 'auto',
       contentHeight: 'auto',
       // displayEventTime: true,
-      // eventRender(element) {
-      //   const html = `<span class="float-right">`
-      //     + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
-      //   element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
-      //     element.event.title + html + `<br>` + `</div></div>`;
-      //   element.el.addEventListener('dblclick', () => {
-      //     console.log(element.event.start + ' ' + element.event.end + 'double click');
-      //   });
-      // },
-      eventClick(event) {
-        const str = event.event.title.split('\n');
-        this.empName = str[0];
-        this.empId = str[1];
-        this.startTime = moment(new Date(event.event.start)).format('HH:mm A');
-        this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').format('HH:mm A') :
-          moment(new Date(event.event.end)).format('HH:mm A');
-        const startTime = new Date(event.event.start);
-        const endTime = moment(new Date(event.event.start)).add(30, 'minutes').toDate();
-        $('#name').html(this.empName);
-        $('#empId').html(this.empId);
-        $('#calendarModal').modal('show');
-        $('.modal').find('#startTime').val(this.startTime);
-        $('.modal').find('#endTime').val(this.endTime);
-        $('.timepicker').timepicker({
-          date: event.event.start
-        });
-        $('.modal').find('#timeEnd').val(event.event.end);
-        $('.modal').find('#loation').val(2013);
-        this.empLocation = 1;
+      eventRender(element) {
+        console.log(element,   'event Render');
+        // const html = `<span class="float-right">`
+        //   + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
+        // element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
+        //   element.event.title + html + `<br>` + `</div></div>`;
+        // element.el.addEventListener('dblclick', () => {
+        //   console.log(element.event.start + ' ' + element.event.end + 'double click');
+        // });
       },
-      eventResize(event) {
-        const str = event.event.title.split('\n');
-        this.empName = str[0];
-        this.empId = str[1];
-        this.startTime = moment(new Date(event.event.start)).format('HH:mm A');
-        this.endTime = moment(event.event.end).format('HH:mm A');
-        const startTime = new Date(event.event.start);
-        const endTime = moment(new Date(event.event.start)).add(30, 'minutes').toDate();
+      eventClick: (event) => {
+        this.splitEmpName(event);
+        this.startTime = event.event.start;
+        this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').toDate() :
+          event.event.end;
+        $('#calendarModal').modal('show');
         $('#name').html(this.empName);
         $('#empId').html(this.empId);
+        // $('.modal').find('#startTime').val(this.startTime);
+        // $('.modal').find('#endTime').val(this.endTime);
+      },
+      eventResize: (event) => {
+        this.splitEmpName(event);
+        this.startTime = event.event.start;
+        this.endTime = event.event.end;
         $('#calendarModal').modal('show');
-        $('.modal').find('#startTime').val(this.startTime);
-        $('.modal').find('#endTime').val(this.endTime);
+        $('#name').html(this.empName);
+        $('#empId').html(this.empId);
+        // $('.modal').find('#startTime').val(this.startTime);
+        // $('.modal').find('#endTime').val(this.endTime);
         $('.modal').find('#loation').val(1);
-        console.log(event, 'event resize');
       },
       eventReceive: (eventReceiveEvent) => {
         const selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
-        const str = eventReceiveEvent.event.title.split('\n');
-        this.empName = str[0];
-        this.empId = str[1];
+        this.splitEmpName(eventReceiveEvent);
         this.startTime = eventReceiveEvent.event.start;
-
         this.endTime = moment(eventReceiveEvent.event.start).add(30, 'minutes').toDate();
         if (selectedList.length === 0 || selectedList.length === 1) {
+          $('#calendarModal').modal();
           $('#name').html(this.empName);
           $('#empId').html(this.empId);
-          $('#startTime').html(this.startTime);
-          $('#endTime').html(this.endTime);
-          $('#calendarModal').modal();
+          // $('#startTime').html(this.startTime);
+          // $('#endTime').html(this.endTime);
         } else {
           const dubEvent = selectedList.map(item => item.FirstName + ' ' + item.LastName).indexOf(this.empName);
           selectedList.splice(dubEvent, 1);
@@ -159,8 +144,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           });
         }
       },
-      eventDragStop(event) {
-        console.log(event, 'eventDragStop');
+      eventDragStop: (event) => {
         // alert('Coordinates: ' + event.jsEvent.pageX + ',' + event.jsEvent.pageY);
         // && (130 <= event.jsEvent.pageY) && (event.jsEvent.pageY <= 170)
         if ((200 <= event.jsEvent.pageX) && (event.jsEvent.pageX <= 500)) {
@@ -173,13 +157,20 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       },
       drop(event) {
         console.log(event, 'drop');
+        // event.revert();
       },
       datesRender(event) {
         console.log(event, 'datesRender');
         // console.log( this.fc.getCalendar().getDate(), 'days Rendar');
       },
-      eventDrop(event) {
-        console.log(event, 'eventDrop');
+      eventDrop: (event) => {
+        this.splitEmpName(event);
+        this.startTime = event.event.start;
+        this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').toDate() :
+          event.event.end;
+        $('#calendarModal').modal('show');
+        $('#name').html(this.empName);
+        $('#empId').html(this.empId);
       },
       dblclick(event) {
         console.log(event, 'double Click');
@@ -243,22 +234,41 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   // Get all schedule based on date
   getSchedule() {
+    this.events = [];
+    // this.fc.getCalendar().destroy();
     this.scheduleService.getSchedule(this.fromDate, this.endDate).subscribe(data => {
       if (data.status === 'Success') {
         const empSchehdule = JSON.parse(data.resultData);
         if (empSchehdule.Status.length !== 0) {
           empSchehdule.Status.forEach(item => {
             const emp = {
-              id: this.guid(),
+              id: item.ScheduleId,
               start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
               end: moment(item.StartTime).add(30, 'minutes').format('YYYY-MM-DDTHH:mm:ss'),
               title: 'new test',
               textColor: 'white',
-              backgroundColor: '#FF7900'
+              backgroundColor: '#FF7900',
+              extendedProps: {
+                employeeId: item.EmployeeId,
+                roleId: item.RoleId,
+                scheduleType: item.ScheduleType,
+                locationId: item.LocationId
+              }
             };
             this.events = [... this.events, emp];
           });
         }
+        
+        // const eventSources = this.fc.getCalendar().getEventSources();
+        // console.log(eventSources, 'caleder Event');
+        // const len = eventSources.length;
+        // for (let i = 0; i < len; i++) {
+        //   eventSources[i].remove();
+        // }
+        // this.fc.getCalendar().clientEvents((i, item) => {console.log(item, 'clientEvent'); });
+        // this.fc.getCalendar().addEventSource(this.events);
+        // this.fc.getCalendar().refetchEvents();
+        this.fc.getCalendar().render();
       }
     });
   }
@@ -275,12 +285,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   // Delete Event
   deleteEvent(event) {
     if (event.event.id !== '') {
-      this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
-        console.log(data);
-        if (data.Status === ' Success') {
+      // this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
+      //   console.log(data);
+      //   if (data.Status === ' Success') {
 
-        }
-      });
+      //   }
+      // });
     }
   }
   getLocationId(event) {
@@ -292,5 +302,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.scheduleService.getScheduleById(id).subscribe(data => {
 
     });
+  }
+  splitEmpName(event) {
+    const str = event.event.title.split('\n');
+    this.empName = str[0];
+    this.empId = str[1];
   }
 }
