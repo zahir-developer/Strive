@@ -18,7 +18,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   maxDate = new Date();
-locationId: any;
+  locationId: any;
   cashRegisterCoinForm: FormGroup;
   cashDetails: any;
   isUpdate: boolean;
@@ -113,12 +113,11 @@ locationId: any;
   // Get CashInRegister By Date
   getCashRegister() {
     const today = moment(new Date()).format('MM-DD-YYYY');
+    const date = this.selectDate;
     const cashRegisterType = 'CASHIN';
     const locationId = +localStorage.getItem('empLocationId');
-    this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
+    this.registerService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(data => {
       if (data.status === 'Success') {
-
-
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
@@ -168,6 +167,12 @@ locationId: any;
             });
           }, 1200);
           this.getTotalCash();
+        } else{
+          this.isUpdate = false;
+          this.cashRegisterForm.reset();
+          this.cashRegisterCoinForm.reset();
+          this.cashRegisterBillForm.reset();
+          this.cashRegisterRollForm.reset();
         }
       }
     });
@@ -192,7 +197,7 @@ locationId: any;
       dimes: this.cashRegisterCoinForm.value.coinDimes,
       quarters: this.cashRegisterCoinForm.value.coinQuaters,
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -208,7 +213,7 @@ locationId: any;
       s20: this.cashRegisterBillForm.value.billTwenties,
       s50: this.cashRegisterBillForm.value.billFifties,
       s100: this.cashRegisterBillForm.value.billHundreds,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -223,7 +228,7 @@ locationId: any;
       dimes: this.cashRegisterRollForm.value.dimeRolls,
       quarters: this.cashRegisterRollForm.value.quaterRolls,
       halfDollars: 0,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -238,7 +243,7 @@ locationId: any;
       creditCard3: 0,
       checks: 0,
       payouts: 0,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -251,7 +256,7 @@ locationId: any;
       locationId: +this.locationId,
       drawerId: +this.drawerId,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -276,7 +281,7 @@ locationId: any;
     // };
     const weatherObj = {
       weatherId: 0,
-      locationId:  +this.locationId,
+      locationId: +this.locationId,
       weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
       rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
       predictedBusiness: '-',
@@ -408,6 +413,7 @@ locationId: any;
     let today;
     if (selectedDate !== null) {
       selectedDate = moment(event.toISOString()).format('YYYY-MM-DD');
+      this.selectDate = selectedDate;
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
       if (moment(today).isSame(selectedDate)) {
         this.cashRegisterCoinForm.enable();
@@ -423,5 +429,6 @@ locationId: any;
         this.cashRegisterRollForm.enable();
       }
     }
+    this.getCashRegister();
   }
 }

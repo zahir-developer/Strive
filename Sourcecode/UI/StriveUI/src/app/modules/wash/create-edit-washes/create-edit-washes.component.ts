@@ -86,18 +86,6 @@ export class CreateEditWashesComponent implements OnInit {
     } else {
       this.additionalService = this.additionalService.filter(item => item !== data);
     }
-    const additionalServices = this.additionalService.map(item => {
-      return {
-        jobItemId: 0,
-        jobId: 0,
-        serviceId: item.ServiceId,
-        commission: 0,
-        price: item.Cost,
-        quantity: 1,
-        reviewNote: ""
-      };
-    });
-    console.log(additionalServices);
   }
 
   getVehicle() {
@@ -192,7 +180,6 @@ export class CreateEditWashesComponent implements OnInit {
         reviewNote: ""
       };
     });
-    console.log(additionalServices);
     const formObj = {
       job: job,
       jobDetail: jobDetail
