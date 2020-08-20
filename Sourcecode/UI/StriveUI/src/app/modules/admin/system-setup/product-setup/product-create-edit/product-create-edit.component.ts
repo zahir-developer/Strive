@@ -89,7 +89,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.Vendor = vendor.Vendor.filter(item => item.IsActive === true);
+        this.Vendor = vendor.Vendor.filter(item => item.IsActive === 'True');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -231,10 +231,10 @@ export class ProductCreateEditComponent implements OnInit {
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;
+      this.fileName = fileToLoad.name;      
+      this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
-      this.fileThumb = fileReader.result.toString();
       fileReader.onload = function (fileLoadedEventTigger) {
         let textAreaFileContents: any;
         textAreaFileContents = document.getElementById('customFile');

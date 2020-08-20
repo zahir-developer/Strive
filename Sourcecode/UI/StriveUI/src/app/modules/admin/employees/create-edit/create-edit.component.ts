@@ -78,8 +78,8 @@ export class CreateEditComponent implements OnInit {
       commission: [''],
       status: ['Active'],
       exemptions: [''],
-      roles: [[], Validators.required],
-      location: [[], Validators.required]
+      roles: [[]],
+      location: [[]]
     });
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
