@@ -17,9 +17,7 @@ export class ServiceSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  searchName: any = '';
-  searchType: any = '';
-  searchStatus: any = '';
+  search: any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;

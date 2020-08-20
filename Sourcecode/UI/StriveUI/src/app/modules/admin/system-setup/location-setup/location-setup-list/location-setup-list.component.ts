@@ -14,10 +14,7 @@ export class LocationSetupListComponent implements OnInit {
   showDialog = false;
   selectedData: any;
   headerData: string;
-  searchName : any ='';
-  searchAddress : any = '';
-  searchPhoneNo : any ='';
-  searchEmail : any = '';
+  search : any = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
@@ -56,10 +53,7 @@ export class LocationSetupListComponent implements OnInit {
   // Get Location Search
   locationSearch(){
     const obj ={
-       locationName: this.searchName,
-       locationAddress: this.searchAddress,
-       phoneNumber: this.searchPhoneNo,
-       email: this.searchEmail
+       locationSearch: this.search
     }
     this.locationService.LocationSearch(obj).subscribe(data => {
       if (data.status === 'Success') {

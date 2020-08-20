@@ -8,9 +8,6 @@ namespace Strive.BusinessEntities.DTO.Location
 {
     public class LocationSearchDto
     {
-        public string LocationName { get; set; }
-        public string LocationAddress { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public string LocationSearch { get; set; }
     }
 }
