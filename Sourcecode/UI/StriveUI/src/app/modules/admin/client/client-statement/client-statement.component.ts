@@ -9,6 +9,7 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 })
 export class ClientStatementComponent implements OnInit {
   @Input() clientId?: any;
+  statementGrid: any = [];
   constructor(
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
@@ -24,9 +25,10 @@ export class ClientStatementComponent implements OnInit {
   }
 
   getStatement() {
-    this.client.getStatementByClientId(this.clientId).subscribe( res => {
+    this.client.getStatementByClientId(1).subscribe( res => {
       if (res.status === 'Success') {
         const statement = JSON.parse(res.resultData);
+        this.statementGrid = statement.VehicleStatement;
         console.log(statement, 'statement');
       }
     });

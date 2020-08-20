@@ -42,6 +42,8 @@ export class EditEmployeeComponent implements OnInit {
   selectedLocation: any = [];
   employeeAddressId: any;
   ctypeLabel: any;
+  deSelectRole: any = [];
+  deSelectLocation: any = [];
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -64,7 +66,7 @@ export class EditEmployeeComponent implements OnInit {
       ssn: ['', Validators.required]
     });
     this.emplistform = this.fb.group({
-      emailId: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       password: ['', Validators.required],
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
@@ -111,11 +113,11 @@ export class EditEmployeeComponent implements OnInit {
 
   setValue() {
     let employeeRole = [];
+    let employeeLocation = [];
     const employee = this.employeeData;
     this.dropdownSetting();
     console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
-    this.selectedLocation = _.pluck(employee.EmployeeLocations, 'LocationId');
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     if (employee.EmployeeRoles !== null) {
       this.selectedRole = employee.EmployeeRoles;
@@ -126,13 +128,16 @@ export class EditEmployeeComponent implements OnInit {
         };
       });
     }
-    const locationId = employee.EmployeeLocations.map(item => {
-      return {
-        item_id: item.LocationId,
-        item_text: item.LocationName
-      };
-    });
+    if (employee.EmployeeLocations !== null) {
+      employeeLocation = employee.EmployeeLocations.map(item => {
+        return {
+          item_id: item.LocationId,
+          item_text: item.LocationName
+        };
+      });
+    }
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
+    this.selectedLocation = employee.EmployeeLocations;
     this.personalform.patchValue({
       firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
       lastName: employeeInfo.LastName ? employeeInfo.LastName : '',
@@ -153,7 +158,7 @@ export class EditEmployeeComponent implements OnInit {
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
       roles: employeeRole,
-      location: locationId
+      location: employeeLocation
     });
     if (this.actionType === 'view') {
       this.personalform.disable();
@@ -235,8 +240,13 @@ export class EditEmployeeComponent implements OnInit {
     return this.emplistform.controls;
   }
 
-  onItemDeSelect(event) {
+  onRoleDeSelect(event) {
     console.log(event);
+    this.deSelectRole.push(event);
+  }
+
+  onLocationDeSelect(event) {
+    this.deSelectLocation.push(event);
   }
 
   updateEmployee() {
@@ -283,6 +293,18 @@ export class EditEmployeeComponent implements OnInit {
         });
       }
     });
+    this.deSelectRole.forEach( item => {
+      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      if (isData.length !== 0) {
+        newlyAddedRole.push({
+          employeeRoleId: isData[0].RoleMasterId,
+          employeeId: this.employeeId,
+          roleId: item.item_id,
+          isActive: true,
+          isDeleted: true
+        });
+      }
+    });
     const employeeDetailObj = {
       employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
@@ -297,22 +319,36 @@ export class EditEmployeeComponent implements OnInit {
     };
     const newlyAddedLocation = [];
     this.emplistform.value.location.forEach(item => {
-      if (!_.contains(this.selectedLocation, item.item_id)) {
+      const isData = _.where(this.selectedLocation, { LocationId: item.item_id });
+      if (isData.length === 0) {
         newlyAddedLocation.push({
           employeeLocationId: 0,
           employeeId: this.employeeId,
-          locationId: item.item_id,
+          locationId: item.item_id,   // LocationId
+          isActive: true,
+          isDeleted: false,
+        });
+      } else {
+        newlyAddedLocation.push({
+          employeeLocationId: isData[0].EmployeeLocationId,
+          employeeId: this.employeeId,
+          locationId: item.item_id,   // LocationId
           isActive: true,
           isDeleted: false,
         });
       }
     });
-    const locationObj = this.emplistform.value.location.map(item => {
-      return {
-        employeeLocationId: item.item_id,
-        employeeId: this.employeeId,
-        locationId: item.item_id
-      };
+    this.deSelectLocation.forEach( item => {
+      const isData = _.where(this.selectedLocation, { LocationId: item.item_id });
+      if (isData.length !== 0) {
+        newlyAddedLocation.push({
+          employeeLocationId: isData[0].EmployeeLocationId,
+          employeeId: this.employeeId,
+          locationId: item.item_id,
+          isActive: true,
+          isDeleted: true
+        });
+      }
     });
     const employeeObj = {
       employeeId: this.employeeId,
@@ -334,7 +370,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeDetail: employeeDetailObj,
       employeeAddress: employeeAddressObj,
       employeeRole: newlyAddedRole,
-      employeeLocation: locationObj,
+      employeeLocation: newlyAddedLocation,
       employeeDocument: null // this.employeeData.EmployeeDocument
     };
     this.employeeService.updateEmployee(finalObj).subscribe(res => {

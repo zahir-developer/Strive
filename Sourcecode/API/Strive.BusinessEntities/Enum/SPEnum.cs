@@ -119,8 +119,6 @@ namespace Strive.BusinessEntities
         //Vendor
         USPGETALLVENDOR,
         USPDELETEVENDOR,
-        uspDeleteSchedule,
-        uspGetSchedule,
         USPGETVEHICLE,
         //Washes
         USPGETJOBBYID,
@@ -129,6 +127,9 @@ namespace Strive.BusinessEntities
         USPGETCLIENTANDVEHICLEDETAIL,
         //Schedule
         USPSAVESCHEDULE,
+        USPGETSCHEDULEBYSCHEDULEID,
+        uspDeleteSchedule,
+        USPGETSCHEDULE,
         uspGetGiftCardHistoryByNumber,
         uspGetGiftCardByLocation,
         USPDELETEWASHES,

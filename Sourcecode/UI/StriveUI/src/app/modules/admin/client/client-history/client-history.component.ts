@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
+  historyGrid: any = [];
   constructor(
     private activeModal: NgbActiveModal,
     private client: ClientService,
@@ -26,10 +27,11 @@ export class ClientHistoryComponent implements OnInit {
 
   getHistory() {
     this.spinner.show();
-    this.client.getHistoryByClientId(this.clientId).subscribe(res => {
+    this.client.getHistoryByClientId(1).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
+        this.historyGrid = history.VehicleHistory;
         console.log(history, 'history');
       }
     });

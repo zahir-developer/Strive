@@ -5,6 +5,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -51,8 +52,9 @@ export class CreateEditComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
-    private toastr: ToastrService
-    ) { }
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
     this.isLoading = false;
@@ -70,7 +72,7 @@ export class CreateEditComponent implements OnInit {
       ssn: ['', Validators.required]
     });
     this.emplistform = this.fb.group({
-      emailId: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       password: ['', Validators.required],
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
@@ -290,20 +292,22 @@ export class CreateEditComponent implements OnInit {
       employeeLocation: locationObj,
       employeeDocument: documentObj
     };
+    this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfully!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
-        if(res.status == 'Fail' && res.errorMesssage !== '')
-        {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.ErrorMesssage });
+        if (res.status === 'Fail' && res.errorMessage !== null) {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.errorMessage });
         }
-        else
-        {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
       }
+    }, (error) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
     });
   }
 

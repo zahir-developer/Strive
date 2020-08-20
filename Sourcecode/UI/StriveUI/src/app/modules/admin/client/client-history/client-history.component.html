@@ -18,14 +18,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>12345</td>
-                        <td>08/19/2020</td>
-                        <td>Service</td>
-                        <td>Loerum</td>
-                        <td>$100.00</td>
-                        <td>$234.00</td>
-                        <td>$878.00</td>
+                    <tr *ngFor="let history of historyGrid">
+                        <td>{{history.TicketNumber}}</td>
+                        <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{history.ServiceCompleted}}</td>
+                        <td></td>
+                        <td>{{history.Amount}}</td>
+                        <td>{{history.Price}}</td>
+                        <td>{{history.Comm}}</td>
                     </tr>
                 </tbody>
             </table>
