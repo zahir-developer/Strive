@@ -50,6 +50,10 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).DeleteWashes, id, "Status");
         }
-
+        public string GetTicketNumber()
+        {
+            var ticketNumberGenerator = new CommonBpl(_cache, _tenant).RandomNumber(6);
+            return ticketNumberGenerator;
+        }
     }
 }

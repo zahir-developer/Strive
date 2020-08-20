@@ -44,5 +44,10 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetServiceSearch")]
         public Result GetServiceSearch([FromBody] ServiceSearchDto search) => _bplManager.GetServiceSearch(search);
+        #region
+        [HttpGet]
+        [Route("GetServiceCategoryByLocationId/{id}")]
+        public Result GetServiceCategoryByLocationId(int id) => _bplManager.GetServiceCategoryByLocationId(id);
+        #endregion
     }
 }

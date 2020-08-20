@@ -43,9 +43,16 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetByBarCode/{barcode}")]
         public Result GetByBarCode(string barcode) => _bplManager.GetByBarCode(barcode);
+        #endregion
+        #region
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteWashes(int id) => _bplManager.DeleteWashes(id);
+        #endregion
+        #region
+        [HttpGet]
+        [Route("GetTicketNumber")]
+        public string GetTicketNumber() => _bplManager.GetTicketNumber();
         #endregion
     }
 }

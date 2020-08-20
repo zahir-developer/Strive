@@ -53,6 +53,11 @@ namespace Strive.ResourceAccess
             }
             return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
         }
+        public List<ServiceCategoryViewModel> GetServiceCategoryByLocationId(int id)
+        {
+            _prm.Add("@LocationId",id);
+            return db.Fetch<ServiceCategoryViewModel>(SPEnum.USPGETSERVICECATEGORYBYLOCATIONID.ToString(), _prm);
+        }
 
     }
 }

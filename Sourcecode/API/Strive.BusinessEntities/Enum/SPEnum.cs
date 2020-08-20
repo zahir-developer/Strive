@@ -74,6 +74,7 @@ namespace Strive.BusinessEntities
         //Service Setup
         USPDELETESERVICEBYID,
         USPGETSERVICES,
+        USPGETSERVICECATEGORYBYLOCATIONID,
         //Cash Register
         USPSAVETODAYCASHREGISTER,
         USPGETCASHREGISTERDETAILS,
