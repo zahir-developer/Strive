@@ -78,7 +78,8 @@ namespace StriveTimInventory.iOS.Views
                     portconsfive.Active = portconstsix.Active = portconstseven.Active = true;
             }
             View.SetNeedsLayout();
-            UIView.Animate(0.5, () => { View.LayoutIfNeeded(); });    
+            UIView.Animate(0.3, () => { View.LayoutIfNeeded(); });
+
         }
 
         private async void OnReceivedMessageAsync(ValuesChangedMessage message)

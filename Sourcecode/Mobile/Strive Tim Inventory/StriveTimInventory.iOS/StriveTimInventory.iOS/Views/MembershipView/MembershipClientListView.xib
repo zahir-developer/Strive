@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MembershipClientListView">
+            <connections>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+                <outlet property="ClientSearch" destination="joZ-VS-Z4R" id="name-outlet-joZ-VS-Z4R"/>
+                <outlet property="ClientTableView" destination="faR-cJ-ayC" id="name-outlet-faR-cJ-ayC"/>
+                <outlet property="AddButton" destination="yyZ-wc-VSq" id="name-outlet-yyZ-wc-VSq"/>
+                <outlet property="LogoutButton" destination="pAg-as-I76" id="name-outlet-pAg-as-I76"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car_image_bg" translatesAutoresizingMaskIntoConstraints="NO" id="eNA-Xi-m79">
+                    <rect key="frame" x="-10" y="-10" width="854" height="1214"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WZF-yt-pmk">
+                    <rect key="frame" x="0.0" y="0.0" width="834" height="75"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Membership" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gqa-Lj-XI2">
+                            <rect key="frame" x="354" y="31" width="126" height="28"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                            <color key="textColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAg-as-I76">
+                            <rect key="frame" x="25" y="27" width="56" height="36"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
+                            <state key="normal" title="Logout">
+                                <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyZ-wc-VSq">
+                            <rect key="frame" x="779" y="10" width="30" height="70"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="42"/>
+                            <state key="normal" title="+">
+                                <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.95569461580000004" green="0.98811596629999998" blue="0.9960753322" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="yyZ-wc-VSq" firstAttribute="centerY" secondItem="pAg-as-I76" secondAttribute="centerY" id="4wy-Qh-RPl"/>
+                        <constraint firstItem="pAg-as-I76" firstAttribute="centerY" secondItem="WZF-yt-pmk" secondAttribute="centerY" multiplier="1.2" id="H2M-am-Ccw"/>
+                        <constraint firstItem="Gqa-Lj-XI2" firstAttribute="centerY" secondItem="WZF-yt-pmk" secondAttribute="centerY" multiplier="1.2" id="Mww-N3-htM"/>
+                        <constraint firstAttribute="height" constant="75" id="NXX-9u-7V2"/>
+                        <constraint firstAttribute="trailing" secondItem="yyZ-wc-VSq" secondAttribute="trailing" constant="25" id="PsN-wP-y8o"/>
+                        <constraint firstItem="Gqa-Lj-XI2" firstAttribute="centerX" secondItem="WZF-yt-pmk" secondAttribute="centerX" id="UQn-72-D1o"/>
+                        <constraint firstItem="pAg-as-I76" firstAttribute="leading" secondItem="WZF-yt-pmk" secondAttribute="leading" constant="25" id="q5U-T2-Esh"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="75" id="sHx-Tq-4UB"/>
+                    </constraints>
+                </view>
+                <searchBar contentMode="redraw" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joZ-VS-Z4R">
+                    <rect key="frame" x="89.5" y="240.5" width="655" height="56"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="faR-cJ-ayC">
+                    <rect key="frame" x="89.5" y="306.5" width="655" height="700"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="655" id="56t-lX-TVb"/>
+                    </constraints>
+                    <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Membership List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccY-MD-CY0">
+                    <rect key="frame" x="316.5" y="177.5" width="201" height="33"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="24"/>
+                    <color key="textColor" red="0.60121947529999997" green="0.99664801359999999" blue="0.95195192100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="eNA-Xi-m79" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="3wW-f0-wSg"/>
+                <constraint firstItem="faR-cJ-ayC" firstAttribute="centerX" secondItem="eNA-Xi-m79" secondAttribute="centerX" id="87e-Wa-pZV"/>
+                <constraint firstItem="WZF-yt-pmk" firstAttribute="top" secondItem="2" secondAttribute="top" id="9hK-1N-EAA"/>
+                <constraint firstItem="faR-cJ-ayC" firstAttribute="height" secondItem="eNA-Xi-m79" secondAttribute="height" multiplier="0.576606" id="Hjf-Lc-E76"/>
+                <constraint firstAttribute="bottom" secondItem="eNA-Xi-m79" secondAttribute="bottom" constant="-10" id="Lku-U8-FK5"/>
+                <constraint firstItem="faR-cJ-ayC" firstAttribute="top" secondItem="joZ-VS-Z4R" secondAttribute="bottom" constant="10" id="VPW-rf-Ixz"/>
+                <constraint firstItem="joZ-VS-Z4R" firstAttribute="centerX" secondItem="faR-cJ-ayC" secondAttribute="centerX" id="WGx-ix-qCn"/>
+                <constraint firstItem="eNA-Xi-m79" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="cb3-0s-fAf"/>
+                <constraint firstAttribute="trailing" secondItem="eNA-Xi-m79" secondAttribute="trailing" constant="-10" id="gcI-Rx-JBo"/>
+                <constraint firstAttribute="trailing" secondItem="WZF-yt-pmk" secondAttribute="trailing" id="iYW-E3-bPG"/>
+                <constraint firstItem="faR-cJ-ayC" firstAttribute="width" secondItem="eNA-Xi-m79" secondAttribute="width" multiplier="0.766979" id="kWA-r3-oBo"/>
+                <constraint firstItem="joZ-VS-Z4R" firstAttribute="width" secondItem="faR-cJ-ayC" secondAttribute="width" id="mz2-KK-qEB"/>
+                <constraint firstItem="joZ-VS-Z4R" firstAttribute="top" secondItem="ccY-MD-CY0" secondAttribute="bottom" constant="30" id="vRS-Q4-Vjg"/>
+                <constraint firstItem="faR-cJ-ayC" firstAttribute="centerY" secondItem="eNA-Xi-m79" secondAttribute="centerY" multiplier="1.1" id="vXY-Am-FFo"/>
+                <constraint firstItem="WZF-yt-pmk" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="vbP-yl-Ppc"/>
+                <constraint firstItem="ccY-MD-CY0" firstAttribute="centerX" secondItem="eNA-Xi-m79" secondAttribute="centerX" id="xBd-Ts-x8F"/>
+            </constraints>
+            <point key="canvasLocation" x="25" y="52"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="car_image_bg" width="768" height="1024"/>
+    </resources>
+</document>

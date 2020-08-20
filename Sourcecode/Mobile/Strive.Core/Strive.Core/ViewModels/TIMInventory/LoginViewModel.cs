@@ -67,25 +67,25 @@ namespace Strive.Core.ViewModels.TIMInventory
             if (await ValidateCredentialsAsync())
             {
                 _userDialog.ShowLoading(Strings.LoggingIn, Acr.UserDialogs.MaskType.Gradient);
-                var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
-                if (response.Token != null)
-                {
-                    EmployeeData.EmployeeDetails = response.EmployeeDetails;
-                    ApiUtils.Token = response.Token;
-                    var request = new TimeClockRequest()
-                    {
-                        locationId = 2010,
-                        employeeId = response.EmployeeDetails.EmployeeLogin.EmployeeId,
-                        roleId = 1,
-                        date = DateUtils.GetTodayDateString()
-                    };
-                    var status = await AdminService.GetClockInStatus(request);
-                    if (status.TimeClock != null)
-                    {
-                        //EmployeeData.ClockInStatus = status.TimeClock;
-                    }
-                    await _navigationService.Navigate<RootViewModel>();
-                }
+                //var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
+                //if (response.Token != null)
+                //{
+                //    EmployeeData.EmployeeDetails = response.EmployeeDetails;
+                //    ApiUtils.Token = response.Token;
+                //    var request = new TimeClockRequest()
+                //    {
+                //        locationId = 2010,
+                //        employeeId = response.EmployeeDetails.EmployeeLogin.EmployeeId,
+                //        roleId = 1,
+                //        date = DateUtils.GetTodayDateString()
+                //    };
+                //    var status = await AdminService.GetClockInStatus(request);
+                //    if (status.TimeClock != null)
+                //    {
+                //        //EmployeeData.ClockInStatus = status.TimeClock;
+                //    }
+                await _navigationService.Navigate<RootViewModel>();
+                //}
             }
         }
 

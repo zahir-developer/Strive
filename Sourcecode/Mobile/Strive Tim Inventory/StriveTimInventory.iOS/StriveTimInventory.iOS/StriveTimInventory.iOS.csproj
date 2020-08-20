@@ -446,6 +446,7 @@
         <Folder Include="Resources\Assets.xcassets\Bottle.imageset\" />
         <Folder Include="Resources\Assets.xcassets\Glass.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-trash.imageset\" />
+        <Folder Include="Views\MembershipView\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -464,6 +465,8 @@
         <InterfaceDefinition Include="Views\ChooseImageView.xib" />
         <InterfaceDefinition Include="Views\IconsView.xib" />
         <InterfaceDefinition Include="Views\IconViewCell.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\MembershipClientListView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\ClientTableViewCell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -545,6 +548,15 @@
         </Compile>
         <Compile Include="Views\IconsViewSource.cs" />
         <Compile Include="Views\IconsViewDelegate.cs" />
+        <Compile Include="Views\MembershipView\MembershipClientListView.cs" />
+        <Compile Include="Views\MembershipView\MembershipClientListView.designer.cs">
+          <DependentUpon>MembershipClientListView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\ClientTableViewCell.cs" />
+        <Compile Include="Views\MembershipView\ClientTableViewCell.designer.cs">
+          <DependentUpon>ClientTableViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\ClientTableSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

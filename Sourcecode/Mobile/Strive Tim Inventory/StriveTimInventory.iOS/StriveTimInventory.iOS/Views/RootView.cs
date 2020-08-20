@@ -49,7 +49,7 @@ namespace StriveTimInventory.iOS.Views
             }
             
             viewControllers[1] = CreateTabFor(1, "Wash Times", "icon-wash-time", typeof(WashTimesViewModel));
-            viewControllers[2] = CreateTabFor(0, "Membership", "icon-membership", typeof(MembershipViewModel));
+            viewControllers[2] = CreateTabFor(0, "Membership", "icon-membership", typeof(MembershipClientListViewModel));
             viewControllers[3] = CreateTabFor(1, "Inventory", "icon-inventory", typeof(InventoryViewModel));
 
             ViewControllers = viewControllers;
