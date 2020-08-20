@@ -51,6 +51,12 @@
                     <li>
                         <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5">All</span> </a>
                     </li>
+                    <li *ngFor="let loc of location">
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" > <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" (click)="getLocationId($event)">{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">25 min</div></a>
+                    </li>
+                    <!-- <li>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5">All</span> </a>
+                    </li>
                     <li>
                         <a href="#main-street" data-toggle="tab" aria-expanded="false" class="nav-tab-link"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-10">Main Street </span>
                             <div class="badge Schedules-badge">25 min</div>
@@ -65,7 +71,7 @@
                         <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-tab-link"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-10">Holcomb Bridge</span>
                             <div class="badge Schedules-badge">35 min</div>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <div class="tab-content">
                     <div class="row no-gutter mob-goal">
@@ -142,7 +148,7 @@
                                             <!--  -->
                                         <div class="fc-event Search-item border-top " style=" display: flex;background-color: transparent; color:black !important;border-top: 1px solid #dddd!important;"> <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search image">
                                             <div class="Search-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                                                <input type="checkbox" >
+                                                <input type="checkbox" [(ngModel)]="emp.selected">
                                             </div></span>
                                                 <h6 class="theme-mid-gray">{{emp.FirstName + ' ' + emp.LastName }}</h6> <span class="theme-mid-gray font-size-7">{{emp.EmployeeId}}</span> </div>
                                         </div>
@@ -203,12 +209,12 @@
                             <ng-template #popTemplateEnd>
                                 <timepicker  id="timeEnd" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}" [showMeridian]="true" [showMinutes]="true" [showSeconds]="true"></timepicker>
                             </ng-template>
-                            <input id="endTime" type="text"  class="form-control" [ngModel]="endTime | date:'hh:mm aa'"  [ngModelOptions]="{standalone: true}" (ngModelChange)="endTime=$event" [popover]="popTemplateEnd" [outsideClick]="true" placement="bottom" />
+                            <input id="endTime" type="text"  class="form-control" [ngModel]="endTime | date:'hh:mm aa'"  [ngModelOptions]="{standalone: true}" (ngModelChange)="endTime=$event" [popover]="popTemplateEnd" [outsideClick]="true" placement="bottom" [appMaxLength]/>
                          </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <input type="checkbox" >&nbsp;
+                            <input type="checkbox">&nbsp;
                             <label >Leave</label>
                         </div>
                     </div>

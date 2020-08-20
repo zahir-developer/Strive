@@ -45,18 +45,18 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.calendar = this.fc.getCalendar();
     console.log(this.fc.getCalendar(), 'current Date');
-    this.fromDate = moment(this.fc.getCalendar().view.activeStart).format('YYYY-MM-DDTHH:mm');
-    this.endDate = moment(this.fc.getCalendar().view.activeend).format('YYYY-MM-DDTHH:mm');
+
+    this.fromDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.start + 1).format('YYYY-MM-DDTHH:mm');
+    this.endDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.end).format('YYYY-MM-DDTHH:mm');
     this.getSchedule();
 
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {
-        console.log('DRAG !!!');
         return {
           title: eventEl.innerText,
-          backgroundColor: '#ddddd'
+          backgroundColor: '#0000'
         };
       }
     });
@@ -64,9 +64,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     this.getEmployeeList();
-    
+
     this.getLocationList();
-    
+
     this.options = {
       plugins: [dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin],
       defaultDate: new Date(),
@@ -83,8 +83,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       maxTime: '18:00:00',
       defaultView: 'timeGridWeek',
       slotEventOverlap: false,
-      // height: 400,
-      // contentHeight: 400,
+      height: 'auto',
+      contentHeight: 'auto',
       // displayEventTime: true,
       // eventRender(element) {
       //   const html = `<span class="float-right">`
@@ -100,7 +100,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.empName = str[0];
         this.empId = str[1];
         this.startTime = moment(new Date(event.event.start)).format('HH:mm A');
-        this.endTime = moment(event.event.start).add(30, 'minutes').format('HH:mm A');
+        this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').format('HH:mm A') :
+          moment(new Date(event.event.end)).format('HH:mm A');
         const startTime = new Date(event.event.start);
         const endTime = moment(new Date(event.event.start)).add(30, 'minutes').toDate();
         $('#name').html(this.empName);
@@ -108,28 +109,71 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         $('#calendarModal').modal('show');
         $('.modal').find('#startTime').val(this.startTime);
         $('.modal').find('#endTime').val(this.endTime);
-        // $('#timeStart').html(startTime);
-        $('#timeStart').timepicker('setTime', startTime);
-        // $('#timeEnd').html(this.endTime);
-
+        $('.timepicker').timepicker({
+          date: event.event.start
+        });
+        $('.modal').find('#timeEnd').val(event.event.end);
+        $('.modal').find('#loation').val(2013);
+        this.empLocation = 1;
       },
       eventResize(event) {
+        const str = event.event.title.split('\n');
+        this.empName = str[0];
+        this.empId = str[1];
+        this.startTime = moment(new Date(event.event.start)).format('HH:mm A');
+        this.endTime = moment(event.event.end).format('HH:mm A');
+        const startTime = new Date(event.event.start);
+        const endTime = moment(new Date(event.event.start)).add(30, 'minutes').toDate();
+        $('#name').html(this.empName);
+        $('#empId').html(this.empId);
+        $('#calendarModal').modal('show');
+        $('.modal').find('#startTime').val(this.startTime);
+        $('.modal').find('#endTime').val(this.endTime);
+        $('.modal').find('#loation').val(1);
         console.log(event, 'event resize');
       },
       eventReceive: (eventReceiveEvent) => {
-        console.log(eventReceiveEvent);
+        const selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
         const str = eventReceiveEvent.event.title.split('\n');
         this.empName = str[0];
         this.empId = str[1];
         this.startTime = eventReceiveEvent.event.start;
-        this.endTime = moment(eventReceiveEvent.event.start).add(30, 'minutes').toDate();
-        $('#name').html(this.empName);
-        $('#empId').html(this.empId);
-        $('#startTime').html(this.startTime);
-        $('#endTime').html(this.endTime);
-        $('#calendarModal').modal();
-      },
 
+        this.endTime = moment(eventReceiveEvent.event.start).add(30, 'minutes').toDate();
+        if (selectedList.length === 0 || selectedList.length === 1) {
+          $('#name').html(this.empName);
+          $('#empId').html(this.empId);
+          $('#startTime').html(this.startTime);
+          $('#endTime').html(this.endTime);
+          $('#calendarModal').modal();
+        } else {
+          const dubEvent = selectedList.map(item => item.FirstName + ' ' + item.LastName).indexOf(this.empName);
+          selectedList.splice(dubEvent, 1);
+          selectedList.forEach(item => {
+            this.events = [... this.events, {
+              id: this.guid(),
+              title: item.FirstName + ' ' + item.LastName + '-' + item.EmployeeId,
+              start: this.startTime,
+              end: moment(eventReceiveEvent.event.start).add(30, 'minutes'),
+            }];
+          });
+        }
+      },
+      eventDragStop(event) {
+        console.log(event, 'eventDragStop');
+        // alert('Coordinates: ' + event.jsEvent.pageX + ',' + event.jsEvent.pageY);
+        // && (130 <= event.jsEvent.pageY) && (event.jsEvent.pageY <= 170)
+        if ((200 <= event.jsEvent.pageX) && (event.jsEvent.pageX <= 500)) {
+          alert('delete: ' + event.event.id);
+          this.deleteEvent(event);
+        }
+      },
+      eventAdd(event) {
+        console.log(event, 'eventAdded');
+      },
+      drop(event) {
+        console.log(event, 'drop');
+      },
       datesRender(event) {
         console.log(event, 'datesRender');
         // console.log( this.fc.getCalendar().getDate(), 'days Rendar');
@@ -143,21 +187,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     };
   }
 
-  DragStart(event) {
-    // this.showDialog = true;
-    this.selectedEvent.push({
-      id: 23,
-      title: 'my Event1',
-      start: '2020-06-28T16:00:00',
-      end: '2020-06-28T16:30:00',
-    });
-    this.events = [... this.events, {
-      id: 23,
-      title: 'my Event1',
-      start: '2020-06-28T09:00:00',
-      end: '2020-06-28T09:30:00',
-    }];
-  }
   submit() {
     console.log(this.events, 'allEvents');
     console.log(this.selectedEvent, 'selectedEvents');
@@ -168,66 +197,72 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.empService.getEmployees().subscribe(data => {
       if (data.status === 'Success') {
         this.empList = JSON.parse(data.resultData);
-        // this.empList = _.uniq(this.empList.EmployeeList);
-        // this.isTableEmpty = false;
-        // if (this.empList.EmployeeList.length > 0) {
-        //   const employeeDetail = employees.EmployeeList; }
-        console.log(this.empList.EmployeeList, 'employeeList');
+        this.empList.EmployeeList.forEach(item => {
+          item.selected = false;
+        });
       }
     });
   }
+
+  // Get All Location
   getLocationList() {
     this.locationService.getLocation().subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
-        console.log(this.location, 'location');
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
+  // Save Schedule
   addSchedule() {
     const form = {
       scheduleId: null,
       employeeId: +this.empId,
       locationId: +this.empLocation,
       roleId: localStorage.getItem('roleId'),
-      scheduledDate: moment(this.startTime).format('MM-DD-YYYY'),
+      scheduledDate: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
       startTime: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
       endTime: moment(this.endTime).format('YYYY-MM-DDTHH:mm:ss'),
-      scheduleType: null,
+      scheduleType: 1,
       comments: null,
       isActive: true
     };
     this.scheduleService.saveSchedule(form).subscribe(data => {
-      console.log(data, 'saveschedule');
-    })
-    console.log(form);
-  }
-  getLocation(event) {
-    this.empLocation = event.target.value;
-    console.log(event);
-  }
-  getSchedule() {
-    this.scheduleService.getSchedule(this.fromDate, this.endDate).subscribe(data => {
-console.log(data);
-if (data.status === 'Success') {
-const empScehdule = JSON.parse(data.resultData);
-empScehdule.Status.forEach(item => {
-  const emp = {
-    id: this.guid(),
-    start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
-    end: moment(item.StartTime).add(30, 'minutes').format('YYYY-MM-DDTHH:mm:ss'),
-    title: 'new test',
-    textColor: 'white',
-      backgroundColor: '#FF7900'
-  };
-  this.events =  [... this.events, emp];
-});
-}
+      if (data.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
+        $('#calendarModal').modal('hide');
+        this.getSchedule();
+      }
     });
   }
+  // Get All Location
+  getLocation(event) {
+    this.empLocation = event.target.value;
+  }
+  // Get all schedule based on date
+  getSchedule() {
+    this.scheduleService.getSchedule(this.fromDate, this.endDate).subscribe(data => {
+      if (data.status === 'Success') {
+        const empSchehdule = JSON.parse(data.resultData);
+        if (empSchehdule.Status.length !== 0) {
+          empSchehdule.Status.forEach(item => {
+            const emp = {
+              id: this.guid(),
+              start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
+              end: moment(item.StartTime).add(30, 'minutes').format('YYYY-MM-DDTHH:mm:ss'),
+              title: 'new test',
+              textColor: 'white',
+              backgroundColor: '#FF7900'
+            };
+            this.events = [... this.events, emp];
+          });
+        }
+      }
+    });
+  }
+  // For Dynamic ID Creation
   guid() {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
@@ -235,5 +270,27 @@ empScehdule.Status.forEach(item => {
         .substring(1);
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
+
+  // Delete Event
+  deleteEvent(event) {
+    if (event.event.id !== '') {
+      this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
+        console.log(data);
+        if (data.Status === ' Success') {
+
+        }
+      });
+    }
+  }
+  getLocationId(event) {
+    const loc = this.location.filter(item => item.LocationName === event.target.textContent);
+    const locationId = loc[0].LocationId;
+    this.getSchedule();
+  }
+  getScheduleById(id) {
+    this.scheduleService.getScheduleById(id).subscribe(data => {
+
+    });
   }
 }

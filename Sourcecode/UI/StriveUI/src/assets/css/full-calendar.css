@@ -582,7 +582,7 @@ vertical-align: middle;
 	}
 	
 	.fc-time-grid-container {
-		height: 300px !important;
+		/* height: 300px !important; */
 	}
 .fc-view-container {
     position: relative;
