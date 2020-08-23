@@ -7,6 +7,9 @@
         android:id="@+id/pastDetailsOption"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:drawableRight = "@drawable/abc_ic_arrow_drop_right_black_24dp"/>
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center|left"
+        android:drawableRight="@drawable/abc_ic_arrow_drop_right_black_24dp"/>
      
 </LinearLayout>
