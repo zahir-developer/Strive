@@ -7,7 +7,8 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V7.Widget;
+using Android.Support.Design.Widget;
+using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -20,10 +21,12 @@ using StriveCustomer.Android.Adapter;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class PastDetailsFragment : MvxFragment<PastDetailViewModel>
+    public class PastDetailsInfoFragment : MvxFragment<PastDetailViewModel>
     {
-        public List<string> pastDetailsData;
-        Context context;
+        TabLayout slidingTabs;
+        ViewPager viewPager;
+        ViewPagerAdapter adapter;
+        DealsFragment dealFrag = new DealsFragment();
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -34,19 +37,18 @@ namespace StriveCustomer.Android.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var rootview = this.BindingInflate(Resource.Layout.PastDetailsScreenFragment, null);
-            pastDetailsData = new List<string>();
-            for (int i = 1; i <= 10; i++)
-            {
-                pastDetailsData.Add("Clickme" + i);
-            }
-            var detailsRecyclerView = rootview.FindViewById<RecyclerView>(Resource.Id.pastDetailsList);
-            detailsRecyclerView.HasFixedSize = true;
-            var layoutManager = new LinearLayoutManager(context);
-            detailsRecyclerView.SetLayoutManager(layoutManager);
-            PastDetailsAdapter pastDetailsAdapter = new PastDetailsAdapter(pastDetailsData,context);
-            detailsRecyclerView.SetAdapter(pastDetailsAdapter);
+            var rootview = this.BindingInflate(Resource.Layout.PastDetailsInfoFragment, null);
+            slidingTabs = rootview.FindViewById<TabLayout>(Resource.Id.pastSlidingTabs);
+            viewPager = rootview.FindViewById<ViewPager>(Resource.Id.pastViewPager);
             return rootview;
+        }
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            adapter = new ViewPagerAdapter(FragmentManager);
+            adapter.AddFragment(dealFrag,"Deals");
+            viewPager.Adapter = adapter;
+            slidingTabs.SetupWithViewPager(viewPager);
         }
     }
 }

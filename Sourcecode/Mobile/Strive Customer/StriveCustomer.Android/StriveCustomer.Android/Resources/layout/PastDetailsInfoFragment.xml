@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mobile_portrait_bg">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:orientation="vertical"
+        android:layout_margin="30dp"
+        android:background="@android:color/white">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/pastSlidingTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/colorPrimary"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pastViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="450dp" />
+    </LinearLayout> 
+</LinearLayout>

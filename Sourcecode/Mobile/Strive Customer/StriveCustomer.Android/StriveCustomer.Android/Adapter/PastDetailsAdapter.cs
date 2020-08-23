@@ -7,9 +7,12 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using StriveCustomer.Android.Fragments;
+using StriveCustomer.Android.Views;
 
 namespace StriveCustomer.Android.Adapter
 {
@@ -39,6 +42,7 @@ namespace StriveCustomer.Android.Adapter
     {
         public List<string> pastDetailsData = new List<string>();
         Context context;
+        DashboardView dashboard = new DashboardView();
         public override int ItemCount
         {
             get
@@ -61,9 +65,10 @@ namespace StriveCustomer.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            throw new NotImplementedException();
+            AppCompatActivity activity = (AppCompatActivity)itemView.Context;
+            PastDetailsInfoFragment pastDetailsInfoFragment = new PastDetailsInfoFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame,pastDetailsInfoFragment).Commit();
         }
-
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
