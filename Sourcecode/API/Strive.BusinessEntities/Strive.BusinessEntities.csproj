@@ -207,6 +207,7 @@
     <Compile Include="ViewModel\VehicleColourViewModel.cs" />
     <Compile Include="ViewModel\VehicleDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientHistoryViewModel.cs" />
+    <Compile Include="ViewModel\VehicleListViewModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipModel.cs" />
     <Compile Include="ViewModel\ClientStatementViewModel.cs" />
     <Compile Include="ViewModel\VehicleViewModel.cs" />

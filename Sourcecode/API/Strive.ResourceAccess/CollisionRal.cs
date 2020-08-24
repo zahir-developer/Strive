@@ -48,5 +48,11 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(lstCollision, "LiabilityId");
         }
+        public List<VehicleListViewModel> GetVehicleListByClientId(int id)
+        {
+            _prm.Add("@ClientId", id);
+            var result = db.Fetch<VehicleListViewModel>(SPEnum.USPGETVEHICLELISTBYCUSTOMERID.ToString(), _prm);
+            return result;
+        }
     }
 }

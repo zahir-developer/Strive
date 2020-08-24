@@ -40,6 +40,9 @@ namespace Strive.BusinessLogic.Collision
         {
             return ResultWrap(new CollisionRal(_tenant).UpdateCollision, collission, "Status");
         }
-
+        public Result GetVehicleListByClientId(int id)
+        {
+            return ResultWrap(new CollisionRal(_tenant).GetVehicleListByClientId, id, "VehicleDetail");
+        }
     }
 }
