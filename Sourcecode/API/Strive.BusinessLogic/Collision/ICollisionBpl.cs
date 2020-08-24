@@ -14,5 +14,6 @@ namespace Strive.BusinessLogic.Collision
         Result DeleteCollision(int id);
         Result AddCollision(CollisionDto collission);
         Result UpdateCollision(CollisionDto collission);
+        Result GetVehicleListByClientId(int id);
     }
 }
