@@ -17,9 +17,9 @@ namespace Strive.ResourceAccess
     public class MembershipSetupRal : RalBase
     {
         public MembershipSetupRal(ITenantHelper tenant) : base(tenant) { }
-        public List<MembershipViewModel> GetAllMembership()
+        public List<AllMembershipViewModel> GetAllMembership()
         {
-            return db.Fetch<MembershipViewModel>(SPEnum.USPGETMEMBERSHIPSETUP.ToString(), null);
+            return db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), null);
         }
         public List<JobItem> GetServicesWithPrice()
         {

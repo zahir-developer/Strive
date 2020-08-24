@@ -83,6 +83,7 @@
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
+    <Compile Include="ViewModel\AllMembershipViewModel.cs" />
     <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
