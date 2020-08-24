@@ -51,7 +51,7 @@ namespace Strive.ResourceAccess
         public List<VehicleListViewModel> GetVehicleListByClientId(int id)
         {
             _prm.Add("@ClientId", id);
-            var result = db.Fetch<VehicleListViewModel>(SPEnum.USPGETVEHICLELISTBYCUSTOMERID.ToString(), _prm);
+            var result = db.Fetch<VehicleListViewModel>(SPEnum.USPGETVEHICLELISTBYCLIENTID.ToString(), _prm);
             return result;
         }
     }
