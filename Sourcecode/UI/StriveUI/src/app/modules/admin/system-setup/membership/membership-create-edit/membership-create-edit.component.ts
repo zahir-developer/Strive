@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 @Component({
   selector: 'app-membership-create-edit',
@@ -10,17 +11,17 @@ import * as moment from 'moment';
 })
 export class MembershipCreateEditComponent implements OnInit {
   membershipForm: FormGroup;
+  dropdownSettings: IDropdownSettings = {};
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
-  model:any;
+  model: any;
   status: any;
   service: any;
-  vehicle: any;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,private member: MembershipService) { }
+  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
-    this.status = [{CodeId : 0,CodeValue :"Active"}, {CodeId :1 , CodeValue:"InActive"}];
+    this.status = [{ CodeId: 0, CodeValue: "Active" }, { CodeId: 1, CodeValue: "InActive" }];
     this.formInitialize();
     if (this.isEdit === true) {
       this.membershipForm.reset();
@@ -32,92 +33,105 @@ export class MembershipCreateEditComponent implements OnInit {
     this.membershipForm = this.fb.group({
       membershipName: ['',],
       service: ['',],
-      vehicle: ['',],
       status: ['',],
       price: ['',],
       notes: ['',]
     });
     this.getMembershipService();
-    this.getMembershipVehicle();
   }
 
   // Get Membership Services
-  getMembershipService(){
+  getMembershipService() {
     this.member.getMembershipService().subscribe(data => {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.service = membership.ServicesWithPrice;
+        const newArr = [];
+        this.service.forEach((item) => {
+          if (newArr.findIndex(i => i.ServiceId == item.ServiceId) === -1) {
+            newArr.push(item);
+          }
+        });
+        this.service = newArr;
+        this.service = this.service.map(item => {
+          return {
+            item_id: item.ServiceId,
+            item_text: item.ServiceName
+          };
+        });
+        this.dropdownSettings = {
+          singleSelection: false,
+          defaultOpen: false,
+          idField: 'item_id',
+          textField: 'item_text',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
 
-  getPrice(data){
+  getPrice(data) {
     this.membershipForm.get('price').patchValue(this.service.filter(item => item.ServiceId === Number(data))[0].Price);
-  }
-
-  // Get Membership Vehicle
-  getMembershipVehicle(){
-    this.member.getMembershipVehicle().subscribe(data => {
-      if (data.status === 'Success') {
-        const membership = JSON.parse(data.resultData);
-        this.vehicle = membership.Vehicle;
-      } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-      }
-    });
   }
 
   getMembershipById() {
     this.membershipForm.patchValue({
       membershipName: this.selectedData.MembershipName,
       service: this.selectedData.ServiceId,
-      vehicle: this.selectedData.ClientVehicleId,
       notes: this.selectedData.Notes,
       status: this.selectedData.Status === true ? 0 : 1
     });
     this.getPrice(this.selectedData.ServiceId);
   }
 
-  check(data){
+  check(data) {
     console.log(data);
   }
 
   // Add/Update Membership
-  submit() {  
+  submit() {
+    const ServiceObj = this.membershipForm.value.service.map(item => {
+      return {
+        serviceId: item.item_id
+      };
+    });
     const membership = {
       membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
       membershipName: this.membershipForm.value.membershipName,
-      serviceId: this.membershipForm.value.service,
-      locationId: 1,     
-      isActive: Number(this.membershipForm.value.status )=== 0 ? true : false,
+      serviceId: ServiceObj,
+      locationId: 1,
+      isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
       updatedBy: 1,
       updatedDate: new Date()
-    }; 
-    const clientMembership = {    
+    };
+    const clientMembership = {
       clientMembershipId: this.isEdit ? this.selectedData.ClientMembershipId : 0,
-      clientVehicleId: this.membershipForm.value.vehicle,
-      locationId: 1,  
+      clientVehicleId: 1,
+      locationId: 1,
       membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
       startDate: moment(new Date()).format('MM-DD-YYYY'),
-      endDate: moment(new Date(new Date().getFullYear(), (new Date().getMonth()+1), new Date().getDate())).format('MM-DD-YYYY'),
-      status: Number(this.membershipForm.value.status )=== 0 ? true : false,
+      endDate: moment(new Date(new Date().getFullYear(), (new Date().getMonth() + 1), new Date().getDate())).format('MM-DD-YYYY'),
+      status: Number(this.membershipForm.value.status) === 0 ? true : false,
       notes: this.membershipForm.value.notes,
-      isActive: Number(this.membershipForm.value.status )=== 0 ? true : false,
+      isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
       updatedBy: 1,
       updatedDate: new Date()
-    }; 
-    const formObj = {      
+    };
+    const formObj = {
       membership: membership,
       clientMembershipDetails: clientMembership
-    };  
+    };
     if (this.isEdit === true) {
       this.member.updateMembership(formObj).subscribe(data => {
         if (data.status === 'Success') {
@@ -138,10 +152,10 @@ export class MembershipCreateEditComponent implements OnInit {
           this.membershipForm.reset();
         }
       });
-    }    
+    }
   }
   cancel() {
-    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved'});
+    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 }
 
