@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.ViewModels.TIMInventory.Membership;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -48,6 +49,11 @@ namespace Strive.Core.ViewModels.TIMInventory
         public async void NavigateToDetailCommand(ClientDetail client)
         {
             await _navigationService.Navigate<MembershipClientDetailViewModel>();
+        }
+
+        public async void AddProductCommand()
+        {
+            await _navigationService.Navigate<SelectMembershipViewModel>();
         }
     }
 }

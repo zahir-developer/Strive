@@ -467,6 +467,10 @@
         <InterfaceDefinition Include="Views\MembershipView\MembershipClientListView.xib" />
         <InterfaceDefinition Include="Views\MembershipView\ClientTableViewCell.xib" />
         <InterfaceDefinition Include="Views\MembershipView\ClientDetailView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\SelectMembershipView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\SelectUpchargeView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\ExtraServiceView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\TermsView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -556,6 +560,25 @@
         <Compile Include="Views\MembershipView\ClientDetailView.cs" />
         <Compile Include="Views\MembershipView\ClientDetailView.designer.cs">
           <DependentUpon>ClientDetailView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\SelectMembershipView.cs" />
+        <Compile Include="Views\MembershipView\SelectMembershipView.designer.cs">
+          <DependentUpon>SelectMembershipView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\SelectMembershipSource.cs" />
+        <Compile Include="Views\MembershipView\SelectUpchargeView.cs" />
+        <Compile Include="Views\MembershipView\SelectUpchargeView.designer.cs">
+          <DependentUpon>SelectUpchargeView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\SelectUpchargeSource.cs" />
+        <Compile Include="Views\MembershipView\ExtraServiceView.cs" />
+        <Compile Include="Views\MembershipView\ExtraServiceView.designer.cs">
+          <DependentUpon>ExtraServiceView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\ExtraServiceSource.cs" />
+        <Compile Include="Views\MembershipView\TermsView.cs" />
+        <Compile Include="Views\MembershipView\TermsView.designer.cs">
+          <DependentUpon>TermsView.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

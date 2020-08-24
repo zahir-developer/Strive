@@ -1,14 +1,12 @@
 ﻿using System;
 
 using Foundation;
-using MvvmCross.Binding.BindingContext;
-using MvvmCross.Platforms.Ios.Binding.Views;
 using Strive.Core.Models.TimInventory;
 using UIKit;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
 {
-    public partial class ClientTableViewCell : MvxTableViewCell
+    public partial class ClientTableViewCell : UITableViewCell
     {
         public static readonly NSString Key = new NSString("ClientTableViewCell`");
         public static readonly UINib Nib;
@@ -21,11 +19,36 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         protected ClientTableViewCell(IntPtr handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
-            this.DelayBind(() => {
-                var set = this.CreateBindingSet<ClientTableViewCell, ClientDetail>();
-                set.Bind(ClientName).To(vm => vm.FirstName);
-                set.Apply();
-            });
+        }
+
+        public void SetMembershipList(string item)
+        {
+            ClientName.Text = item;
+        }
+
+        public void SetClientDetail(ClientDetail item)
+        {
+            ClientName.Text = item.FirstName;
+        }
+
+        public void SelectMembershipcell()
+        {
+            ClientName.TextColor = UIColor.Cyan;
+        }
+
+        public void DeSelectMembershipcell()
+        {
+            ClientName.TextColor = UIColor.Black;
+        }
+
+        public void SetUpchargeList(string item)
+        {
+            ClientName.Text = item;
+        }
+
+        public void SetExtraServiceList(string item)
+        {
+            ClientName.Text = item;
         }
     }
 }

@@ -3,24 +3,25 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Foundation;
-using MvvmCross.Base;
 using MvvmCross.Platforms.Ios.Binding.Views;
-using Strive.Core.Models.TimInventory;
-using Strive.Core.ViewModels.TIMInventory;
+using Strive.Core.ViewModels.TIMInventory.Membership;
 using UIKit;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
 {
-    public class ClientTableSource : MvxTableViewSource
+    public class SelectUpchargeSource : MvxTableViewSource
     {
 
         private static string CellId = "ClientTableViewCell";
 
-        private MembershipClientListViewModel ViewModel;
+        private SelectUpchargeViewModel ViewModel;
 
-        private ObservableCollection<ClientDetail> ItemList;
+        private ObservableCollection<string> ItemList;
 
-        public ClientTableSource(UITableView tableView, MembershipClientListViewModel ViewModel) : base(tableView)
+        ClientTableViewCell firstselected = null;
+        ClientTableViewCell secondselected = null;
+
+        public SelectUpchargeSource(UITableView tableView, SelectUpchargeViewModel ViewModel) : base(tableView)
         {
             tableView.RegisterNibForCellReuse(ClientTableViewCell.Nib, CellId);
             this.ViewModel = ViewModel;
@@ -33,11 +34,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<ClientDetail>)value;
+                    ItemList = (ObservableCollection<string>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<ClientDetail>();
+                    ItemList = new ObservableCollection<string>();
                 }
 
                 base.ItemsSource = value;
@@ -65,19 +66,41 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             var item = ItemList[indexPath.Row];
             var cell = GetOrCreateCellFor(tableView, indexPath, item);
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            IMvxDataConsumer bindable = cell as IMvxDataConsumer;
-            if (bindable != null)
-            {
-                bindable.DataContext = item;
-            }
             return cell;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+
+            var cell = (ClientTableViewCell)tableView.CellAt(indexPath);
+            if (firstselected == null)
+            {
+                firstselected = cell;
+                firstselected.SelectMembershipcell();
+            }
+            else
+            {
+                secondselected = cell;
+                if (firstselected == secondselected)
+                {
+                    firstselected.DeSelectMembershipcell();
+                    firstselected = secondselected = null;
+                }
+                else
+                {
+                    firstselected.DeSelectMembershipcell();
+                    secondselected.SelectMembershipcell();
+                    firstselected = secondselected;
+                    secondselected = null;
+                }
+            }
         }
 
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             ClientTableViewCell cell = (ClientTableViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetClientDetail(ItemList[indexPath.Row]);
+            cell.SetUpchargeList(ItemList[indexPath.Row]);
             return cell;
         }
     }

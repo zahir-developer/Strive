@@ -18,6 +18,8 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            NavigationController.NavigationBarHidden = true;
+
             var ClientTableSource = new ClientTableSource(ClientTableView, ViewModel);
 
             var set = this.CreateBindingSet<MembershipClientListView, MembershipClientListViewModel>();
