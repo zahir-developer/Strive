@@ -26,7 +26,7 @@ namespace StriveCustomer.Android.Fragments
         TabLayout slidingTabs;
         ViewPager viewPager;
         ViewPagerAdapter adapter;
-        DealsFragment dealFrag = new DealsFragment();
+        PastDetailsPageFragment dealFrag1,dealFrag2,dealFrag3;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,13 +40,18 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.PastDetailsInfoFragment, null);
             slidingTabs = rootview.FindViewById<TabLayout>(Resource.Id.pastSlidingTabs);
             viewPager = rootview.FindViewById<ViewPager>(Resource.Id.pastViewPager);
+            dealFrag1 = new PastDetailsPageFragment();
+            dealFrag2 = new PastDetailsPageFragment();
+            dealFrag3 = new PastDetailsPageFragment();
             return rootview;
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-            adapter = new ViewPagerAdapter(FragmentManager);
-            adapter.AddFragment(dealFrag,"Deals");
+            adapter = new ViewPagerAdapter(ChildFragmentManager);
+            adapter.AddFragment(dealFrag1,"Deals1");
+            adapter.AddFragment(dealFrag2, "Deals2");
+            adapter.AddFragment(dealFrag3, "Deals3");
             viewPager.Adapter = adapter;
             slidingTabs.SetupWithViewPager(viewPager);
         }

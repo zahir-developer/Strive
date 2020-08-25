@@ -78,6 +78,7 @@
     <Compile Include="Fragments\MapsFragment.cs" />
     <Compile Include="Fragments\PastDetailsFragment.cs" />
     <Compile Include="Fragments\PastDetailsInfoFragment.cs" />
+    <Compile Include="Fragments\PastDetailsPageFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
@@ -351,6 +352,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\PastDetailsInfoFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PastDetailsPageFragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
