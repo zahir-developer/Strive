@@ -80,7 +80,7 @@ export const UrlConfig = {
     addCardHistory: `Admin/GiftCard/AddGiftCardHistory`,
     getByBarcode:`Admin/Washes/GetByBarCode/`,
     getAllMembership:`Admin/MembershipSetup/GetAll`,
-    getMembershipService:`Admin/MembershipSetup/GetService`,
+    getMembershipService:`Admin/ServiceSetup/GetService`,
     getMembershipById:`Admin/MembershipSetup/GetAllMembershipById/`,
     addMembership:`Admin/MembershipSetup/Add`,
     updateMembership:`Admin/MembershipSetup/Update`,
