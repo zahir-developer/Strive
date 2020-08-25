@@ -19,6 +19,11 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEBYEMPID,
             USPGETEMPLOYEEROLES,
         }
+
+        public enum Membership
+        {
+            USPGETALLMEMBERSHIP
+        }
     }
 
 
@@ -97,10 +102,11 @@ namespace Strive.BusinessEntities
         USPGETPRODUCTS,
         USPGETCASHREGISTER,
         USPGETCOLLISIONBYEMPID,
+        USPGETCOLLISIONBYID,
         USPGETVEHICLELISTBYCLIENTID,
         //MembershipSetup
         USPGETMEMBERSHIPSETUP,
-        USPGETSERVICEWITHPRICE,
+        USPGETSERVICELISTBYSERVICEID,
         USPDELETEMEMBERSHIP,
         USPGETMEMBERSHIPBYID,
         USPSAVEMEMBERSHIPSETUP,
