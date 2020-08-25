@@ -59,7 +59,7 @@ export class CreateEditComponent implements OnInit {
   ngOnInit() {
     this.isLoading = false;
     this.ctypeLabel = 'none';
-    this.Status = ['Active', 'InActive'];
+    this.Status = ['Active', 'Inactive'];
     this.documentDailog = false;
     this.submitted = false;
     this.personalform = this.fb.group({
@@ -230,7 +230,9 @@ export class CreateEditComponent implements OnInit {
       return {
         employeeRoleId: 0,
         employeeId: 0,
-        roleId: item.item_id
+        roleId: item.item_id,
+        isActive: true,
+        isDeleted: false,
       };
     });
     const employeeDetailObj = {
@@ -241,13 +243,17 @@ export class CreateEditComponent implements OnInit {
       PayRate: this.emplistform.value.hourlyRateWash,
       ComRate: null,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
-      exemptions: +this.emplistform.value.exemptions
+      exemptions: +this.emplistform.value.exemptions,
+      isActive: true,
+      isDeleted: false,
     };
     const locationObj = this.emplistform.value.location.map(item => {
       return {
         employeeLocationId: 0,
         employeeId: 0,
-        locationId: item.item_id
+        locationId: item.item_id,
+        isActive: true,
+        isDeleted: false,
       };
     });
     const employeeObj = {
@@ -260,7 +266,7 @@ export class CreateEditComponent implements OnInit {
       maritalStatus: 117,
       isCitizen: true,
       alienNo: 'string',
-      birthDate: '2020 - 08 - 06T19: 24: 48.817Z',
+      birthDate: '',
       immigrationStatus: this.personalform.value.immigrationStatus,
       isActive: true,
       isDeleted: false,
@@ -307,6 +313,7 @@ export class CreateEditComponent implements OnInit {
         }
       }
     }, (error) => {
+      this.spinner.hide();
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
     });
   }

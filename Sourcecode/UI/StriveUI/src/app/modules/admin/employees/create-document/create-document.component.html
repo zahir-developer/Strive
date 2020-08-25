@@ -11,7 +11,7 @@
                 <input type="file" class="custom-file-input" id="customFile" accept=".doc, .docx, .pdf, .xls, .csv"
                     mulitple dirname="S:\" (change)="fileNameChanged()">
                 <label id='lbl' class="custom-file-label" for="customFile">Select Document</label>
-                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv et</small>
+                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv etc</small>
                 <table aria-describedby="file" *ngIf="multipleFileUpload.length > 0 && !isLoading">
                     <tbody>
                         <tr *ngFor="let file of multipleFileUpload; let index = index">

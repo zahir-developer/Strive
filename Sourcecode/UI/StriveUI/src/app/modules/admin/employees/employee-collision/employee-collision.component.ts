@@ -5,6 +5,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-employee-collision',
@@ -31,6 +32,7 @@ export class EmployeeCollisionComponent implements OnInit {
   clientList: any = [];
   filteredClient: any = [];
   vehicleList: any = [];
+  liabilityDetail: any;
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
@@ -60,9 +62,10 @@ export class EmployeeCollisionComponent implements OnInit {
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
         console.log(employeesCollison.Collision);
-        if (employeesCollison.Collision.length > 0) {
-          const detail = employeesCollison.Collision[0];
+        if (employeesCollison.Collision) {
+          const detail = employeesCollison.Collision.Liability[0];
           this.collisionDetail = detail;
+          this.liabilityDetail = employeesCollison.Collision.LiabilityDetail[0];
           this.setValue(detail);
         }
       }
@@ -70,10 +73,18 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   setValue(detail) {
+    const clientName = _.where(this.clientList, { id: detail.ClientId });
+    if (clientName.length > 0) {
+      this.selectedClient(clientName[0]);
+      this.collisionForm.patchValue({
+        client: clientName[0]
+      });
+    }
     this.collisionForm.patchValue({
       dateOfCollision: moment(detail.CreatedDate).toDate(),
-      amount: detail.Amount.toFixed(2),
-      reason: detail.Description
+      amount: this.liabilityDetail.Amount.toFixed(2),
+      reason: this.liabilityDetail.Description,
+      vehicle: detail.VehicleId
     });
   }
 
@@ -88,7 +99,7 @@ export class EmployeeCollisionComponent implements OnInit {
       return;
     }
     const liabilityDetailObj = {
-      liabilityDetailId: this.mode === 'edit' ? this.collisionDetail.LiabilityDetailId : 0,
+      liabilityDetailId: this.mode === 'edit' ? this.liabilityDetail.LiabilityDetailId : 0,
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       liabilityDetailType: 1,
       amount: +this.collisionForm.value.amount,
@@ -97,8 +108,6 @@ export class EmployeeCollisionComponent implements OnInit {
       description: this.collisionForm.value.reason,
       isActive: true,
       isDeleted: false,
-      vehicleId: this.collisionForm.value.vehicle,
-      clientId: this.collisionForm.value.client.id,
       createdBy: 0,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: 0,
@@ -114,6 +123,8 @@ export class EmployeeCollisionComponent implements OnInit {
       status: 0,
       isActive: true,
       isDeleted: false,
+      vehicleId: this.collisionForm.value.vehicle,
+      clientId: this.collisionForm.value.client.id,
       createdBy: 0,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: 0,
@@ -180,14 +191,13 @@ export class EmployeeCollisionComponent implements OnInit {
 
   selectedClient(event) {
     const clientId = event.id;
-    this.employeeService.getVehicleByClientId(clientId).subscribe( res => {
+    this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.vehicleList = vehicle.Status;
-        this.vehicleList.forEach( item => {
+        this.vehicleList.forEach(item => {
           item.vehicleName = item.VehicleMake + '-' + item.ModelName + '-' + item.Color;
         });
-        console.log(vehicle);
       }
     });
   }
