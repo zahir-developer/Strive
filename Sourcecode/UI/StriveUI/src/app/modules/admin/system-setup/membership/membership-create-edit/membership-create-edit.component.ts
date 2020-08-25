@@ -36,7 +36,8 @@ export class MembershipCreateEditComponent implements OnInit {
       status: ['',],
       price: ['',],
       notes: ['',]
-    });
+    });    
+    this.membershipForm.patchValue({status : 0});
     this.getMembershipService();
   }
 
