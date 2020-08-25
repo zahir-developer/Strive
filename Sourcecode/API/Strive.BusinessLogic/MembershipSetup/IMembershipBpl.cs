@@ -12,7 +12,6 @@ namespace Strive.BusinessLogic.MembershipSetup
     public interface IMembershipBpl
     {
         Result GetAllMembership();
-        Result GetServicesWithPrice();
         Result GetMembershipById(int membershipId);
         Result AddMembership(MembershipDto member);
         Result UpdateMembership(MembershipDto member);

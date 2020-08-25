@@ -21,10 +21,7 @@ namespace Strive.BusinessLogic.MembershipSetup
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetAllMembership, "Membership");
         }
-        public Result GetServicesWithPrice()
-        {
-            return ResultWrap(new MembershipSetupRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
-        }
+       
         public Result GetMembershipById(int membershipid)
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipById,membershipid, "MembershipDetail");

@@ -59,6 +59,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<ServiceCategoryViewModel>(SPEnum.USPGETSERVICECATEGORYBYLOCATIONID.ToString(), _prm);
         }
 
+        public List<JobItem> GetServicesWithPrice()
+        {
+            return db.Fetch<JobItem>(SPEnum.USPGETSERVICELIST.ToString(), null);
+        }
     }
 }
 
