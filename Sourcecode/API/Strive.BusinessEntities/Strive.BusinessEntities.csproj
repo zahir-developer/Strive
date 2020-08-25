@@ -120,7 +120,10 @@
     <Compile Include="ViewModel\DetailsCountViewModel.cs" />
     <Compile Include="ViewModel\EmployeeCountViewModel.cs" />
     <Compile Include="ViewModel\EmployeeDetailViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeList.cs" />
+    <Compile Include="ViewModel\EmployeeListViewModel.cs" />
     <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeRoleListViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\ForecastedCarsViewModel.cs" />
     <Compile Include="ViewModel\GiftCardBalanceViewModel.cs" />
