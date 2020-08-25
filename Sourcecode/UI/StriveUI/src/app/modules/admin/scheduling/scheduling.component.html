@@ -49,10 +49,10 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  Schedules-tab  mb-2">
                     <li>
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5">All</span> </a>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"  (click)="getAll()"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >All</span> </a>
                     </li>
                     <li *ngFor="let loc of location">
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" > <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" (click)="getLocationId($event)">{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">25 min</div></a>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" (click)="getLocationId($event)"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">25 min</div></a>
                     </li>
                     <!-- <li>
                         <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5">All</span> </a>
@@ -140,8 +140,10 @@
                         <div class="col-xl-3">
                             <div class="card">
                                 <div class="card-body p-0">
-                                    <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon"></i>
-                                        <input type="text" class="form-control rounded-0" placeholder="Search Employee"> </div>
+                                    <!-- <div class="input-icon right p-10 d-flex"> <input type="search" class="form-control" [(ngModel)]="search" name="search" id="inputSearchbyName" (click)="search = ''; searchEmployee()"
+                                        placeholder="Search Employee" (keyup)="searchEmployee()"> </div> -->
+                                    <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon" (click)="searchEmployee()"></i>
+                                        <input type="text" class="form-control rounded-0" placeholder="Search Employee" [(ngModel)]="search" (keyup)="searchEmployee()"> </div>
                                       
                                     <div class="Search-box " #draggable_people>
                                         <div *ngFor="let emp of this.empList?.EmployeeList" >
@@ -191,7 +193,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><span id="name">{{empName}}</span>- <span id="empId">{{empId}}</span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                <button type="button" class="close" (click)="cancel()" aria-label="Close"> <span aria-hidden="true">×</span> </button>
             </div>
             <div class="modal-body" id="modalBody">
                 <!--modal body-->
@@ -221,7 +223,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="Location">Location</label>
-                            <select id ="loation" class="form-control" [(ngModel)]="empLocation" [ngModelOptions]="{standalone: true}" (change)="getLocation($event)">
+                            <select id ="location" class="form-control" [(ngModel)]="empLocation" [ngModelOptions]="{standalone: true}" (change)="getLocation($event)">
                                 <option selected hidden>Select</option>
                                 <option *ngFor="let location of location" value="{{location.LocationId}}">
                                     {{location.LocationName}}</option>
@@ -232,8 +234,8 @@
             </div>
             <!--modal body-->
             <div class="modal-footer">
-                <button type="button" class="btn theme-optional-button-color" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn theme-primary-button-color" (click)="addSchedule()">Add</button>
+                <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+                <button type="button" class="btn theme-primary-button-color" (click)="addSchedule()">{{buttonText}}</button>
             </div>
         </div>
     </div>
