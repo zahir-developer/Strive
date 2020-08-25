@@ -107,3 +107,5 @@
 /Mammotholdsourcecode/Mammoth_source/MPOS PrintTicket/PrintTicket/obj/Debug
 /Mammotholdsourcecode/Mammoth_source/MPOS PrintTicket/PrintTicket/obj/Release
 /Poc/SignalR
+!Strive-orm.dll
+/Sourcecode/API/Strive.RepositoryCqrs/bin/Release
