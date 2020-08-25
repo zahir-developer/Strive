@@ -23,7 +23,7 @@ namespace Strive.ResourceAccess
         }
         public List<JobItem> GetServicesWithPrice()
         {
-            return db.Fetch<JobItem>(SPEnum.USPGETSERVICEWITHPRICE.ToString(), null);
+            return db.Fetch<JobItem>(SPEnum.USPGETSERVICELISTBYSERVICEID.ToString(), null);
         }
         public bool AddMembership(MembershipDto member)
         {
