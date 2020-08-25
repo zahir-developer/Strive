@@ -87,6 +87,7 @@
     <Compile Include="ViewModel\AllMembershipViewModel.cs" />
     <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
+    <Compile Include="ViewModel\WashDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientSearchViewModel.cs" />
     <Compile Include="ViewModel\ClientVehicleViewModel.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="ViewModel\WashesCountViewModel.cs" />
     <Compile Include="ViewModel\WashesDashboardViewModel.cs" />
     <Compile Include="ViewModel\WashesViewModel.cs" />
+    <Compile Include="ViewModel\WashItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

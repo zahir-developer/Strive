@@ -1,50 +1,26 @@
-using Cocoon.ORM;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.Model
+namespace Strive.BusinessEntities.ViewModel
 {
-    [OverrideName("tblJobItem")]
-    public class JobItem
+    public class WashItemViewModel
     {
-
-        [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
         public int JobItemId { get; set; }
-
-        [Column, PrimaryKey]
         public int? JobId { get; set; }
-
-        [Column]
         public int? ServiceId { get; set; }
-
-        [Column]
-        public decimal? Commission { get; set; }
-
-        [Column]
-        public decimal? Price { get; set; }
-
-        [Column]
+        public int? ServiceTypeId { get; set; }
+        public Decimal? Commission { get; set; }
+        public Decimal? Price { get; set; }
         public int? Quantity { get; set; }
-
-        [Column]
         public string ReviewNote { get; set; }
-
-        [Column]
         public bool? IsActive { get; set; }
-
-        [Column]
         public bool? IsDeleted { get; set; }
-
-        [Column]
         public int? CreatedBy { get; set; }
-
-        [Column]
         public DateTimeOffset? CreatedDate { get; set; }
-
-        [Column]
         public int? UpdatedBy { get; set; }
-
-        [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
-
     }
 }

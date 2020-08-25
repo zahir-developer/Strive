@@ -16,6 +16,7 @@ namespace Strive.BusinessEntities.ViewModel
 
         public int? LocationId { get; set; }
 
+        public bool? IsEmployeeAbscent { get; set; }
 
         public int? RoleId { get; set; }
 
