@@ -55,7 +55,7 @@ export class EditEmployeeComponent implements OnInit {
     this.ctypeLabel = 'none';
     this.isEditPersonalDetail = false;
     this.submitted = false;
-    this.Status = ['Active', 'InActive'];
+    this.Status = ['Active', 'Inactive'];
     this.personalform = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -82,7 +82,7 @@ export class EditEmployeeComponent implements OnInit {
     this.employeRole();
     this.locationDropDown();
     this.employeeDetail();
-    this.getAllCollision();
+    // this.getAllCollision();
     // this.getAllDocument();
   }
 
@@ -106,9 +106,16 @@ export class EditEmployeeComponent implements OnInit {
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
         this.employeeData = employees.Employee;
+        if (employees.Employee.EmployeeCollision !== null) {
+          this.employeeCollision = employees.Employee.EmployeeCollision;
+        }
         this.setValue();
       }
     });
+  }
+
+  reloadCollisionGrid() {
+    this.employeeDetail();
   }
 
   setValue() {

@@ -1,25 +1,27 @@
 <div class="card  m-b-10">
     <div class="card-body">
-        <div class="title-border p-b-5 m-b-5 m-t-10">
-            <h6 class="d-inline-block font-weight-600">Collision <em
-                    class="mdi mdi-pencil-circle pointer m-l-5 font-size-1-3" *ngIf="actionType === 'view'"
-                    [ngClass]="{'theme-secondary-icon-color':!isEditCollision }" id="collision-edit"
-                    (click)="editCollision()" style="color: rgb(236, 233, 233);"></em>
-                <span class="collision-btn" *ngIf="isEditCollision">
-                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                        (click)="openCreateCollisionModal()">Add Collision</button>
-                </span>
-                <span class="collision-btn" *ngIf="actionType === 'edit'">
-                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                        (click)="openCreateCollisionModal()">Add Collision</button>
-                </span>
-            </h6>
-            <div class="pull-right m-t-4 pointer">
-                <button type="button" class="btn theme-optional-button-color" id="doc-disable"
-                    *ngIf="showCloseButton && !isEditCollision" (click)="closeModal()">Close</button>
-                <a *ngIf="!showCloseButton"> <em class="fa font-size-1-4"
-                        [ngClass]="{'fa-angle-up':!isCollisionCollapsed, 'fa-angle-down': isCollisionCollapsed  }"
-                        (click)="collisionCollapsed()"></em> </a>
+        <div class="row title-border p-b-10 m-b-15">
+            <div class="col-sm-12">
+                <h6 class="d-inline-block font-weight-600">Collision <em
+                        class="mdi mdi-pencil-circle pointer m-l-5 font-size-1-3" *ngIf="actionType === 'view'"
+                        [ngClass]="{'theme-secondary-icon-color':!isEditCollision }" id="collision-edit"
+                        (click)="editCollision()" style="color: rgb(236, 233, 233);"></em>
+                    <span class="collision-btn" *ngIf="isEditCollision">
+                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                            (click)="openCreateCollisionModal()">Add Collision</button>
+                    </span>
+                    <span class="collision-btn" *ngIf="actionType === 'edit'">
+                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                            (click)="openCreateCollisionModal()">Add Collision</button>
+                    </span>
+                </h6>
+                <div class="pull-right m-t-4 pointer">
+                    <button type="button" class="btn theme-optional-button-color" id="doc-disable"
+                        *ngIf="showCloseButton && !isEditCollision" (click)="closeModal()">Close</button>
+                    <a *ngIf="!showCloseButton"> <em class="fa font-size-1-4"
+                            [ngClass]="{'fa-angle-up':!isCollisionCollapsed, 'fa-angle-down': isCollisionCollapsed  }"
+                            (click)="collisionCollapsed()"></em> </a>
+                </div>
             </div>
         </div>
         <div [style.display]="isCollisionCollapsed ? 'none' : 'block'">
@@ -39,7 +41,7 @@
                             <tr *ngFor="let collision of collisionList">
                                 <td>{{collision.LiabilityId}}</td>
                                 <td>{{collision.CreatedDate | date: 'MM/dd/yyyy'}}</td>
-                                <td>{{collision.Description}}
+                                <td>{{collision.LiabilityDescription}}
                                 </td>
                                 <td>{{collision.Amount | currency }}</td>
                                 <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil"
