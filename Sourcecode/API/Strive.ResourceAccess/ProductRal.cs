@@ -2,6 +2,7 @@
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.ViewModel.Product;
 using Strive.Common;
 using Strive.Repository;
@@ -27,9 +28,9 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(product);
         }
 
-        public List<Product> GetAllProduct()
+        public List<ProductViewModel> GetAllProduct()
         {
-            return db.Fetch<Product>(SPEnum.USPGETPRODUCTS.ToString(), null);
+            return db.Fetch<ProductViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
 
         public ProductDetailViewModel GetProductById(int productId)
