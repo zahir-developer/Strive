@@ -1,26 +1,18 @@
-﻿
-CREATE proc [StriveCarSalon].[uspGetAllGiftCard]
-(@LocationId int)
+﻿CREATE proc [StriveCarSalon].[uspGetAllGiftCard]
+(@GiftCardCode varchar(10))
 as
 begin
-select tblgc.GiftCardId,
-tblgc.LocationId,
-tblgc.GiftCardCode,
-tblgc.GiftCardName,
-tblgc.ExpiryDate,
-tblgc.IsActive,
-tblgc.IsDeleted,
-tblgc.Comments,
+select GiftCardId,
+LocationId,
+GiftCardCode,
+GiftCardName,
+ExpiryDate,
+TotalAmount,
+Comments,
+IsActive,
+IsDeleted
 
-tblgch.GiftCardHistoryId AS GiftCardHistory_GiftCardHistoryId,
-tblgch.GiftCardId       AS GiftCardHistory_GiftCardId,
-tblgch.LocationId     AS GiftCardHistory_LocationId,
-tblgch.TransactionType           AS GiftCardHistory_TransactionType,
-tblgch.TransactionAmount       AS GiftCardHistory_TransactionAmount,
-tblgch.TransactionDate         AS GiftCardHistory_TransactionDate,
-tblgch.Comments        AS GiftCardHistory_Comments
-
-from [StriveCarSalon].[tblGiftCard] tblgc inner join 
-[StriveCarSalon].[tblGiftCardHistory] tblgch on(tblgc.GiftCardId = tblgch.GiftCardId) 
-where tblgc.IsDeleted =0 and tblgc.LocationId=@LocationId
+from [StriveCarSalon].[tblGiftCard] 
+where IsDeleted =0 and IsActive=1 and
+(@GiftCardCode is null or GiftCardCode = @GiftCardCode) 
 end

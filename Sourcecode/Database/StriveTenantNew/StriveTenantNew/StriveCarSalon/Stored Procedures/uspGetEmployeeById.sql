@@ -9,11 +9,13 @@ empDetail.EmployeeCode,
 emp.firstname,
 emp.LastName,
 emp.Gender,
+empAdd.EmployeeAddressId,
 empAdd.Address1,
 empAdd.PhoneNumber,
 emp.ImmigrationStatus,
 emp.SSNo,
 empAdd.Email,
+empDetail.EmployeeDetailId,
 empDetail.HiredDate,
 empDetail.PayRate,
 empDetail.ComRate,
@@ -24,6 +26,7 @@ from StriveCarSalon.tblEmployee emp
 left join strivecarsalon.tblEmployeeAddress empAdd on emp.EmployeeId= empAdd.EmployeeId
 left join StriveCarSalon.tblEmployeeDetail empDetail on emp.EmployeeId = empDetail.EmployeeId
 where isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and emp.EmployeeId = @EmployeeId
+
 
 select row_number() OVER (
 	ORDER BY  empdoc.EmployeeDocumentId
@@ -54,14 +57,14 @@ select row_number() OVER (
    [StriveCarSalon].[GetTable]('LiabilityType') lcv on empLi.LiabilityType = lcv.valueid 
    inner join
    StriveCarSalon.tblEmployeeLiabilityDetail empLid on empLi.LiabilityId = empLid.LiabilityId
-   inner join
+   LEFT join
    [StriveCarSalon].[GetTable]('LiabilityDetailType') dcv on empLid.LiabilityDetailType = dcv.valueid
    where isnull(empLi.IsActive,1)=1 and isnull(empLi.IsDeleted,0)=0  and empLi.EmployeeId = @EmployeeId  
 
-   select  empr.EmployeeId,empr.roleid,rm.RoleName as rolename from strivecarsalon.tblEmployeeRole empr inner join
+   select rm.RoleMasterId, empr.EmployeeId,empr.EmployeeRoleId, empr.roleid,rm.RoleName as rolename from strivecarsalon.tblEmployeeRole empr inner join
    StriveCarSalon.tblRoleMaster rm on empr.RoleId = rm.RoleMasterId where empr.EmployeeId=@EmployeeId
 
-   select emplo.EmployeeId,emplo.LocationId,lo.Locationname from strivecarsalon.tblEmployeeLocation emplo inner join
+   select emplo.EmployeeId,EmployeeLocationId, emplo.LocationId,lo.Locationname from strivecarsalon.tblEmployeeLocation emplo inner join
    StriveCarSalon.tblLocation lo on emplo.locationid=lo.locationid where emplo.employeeid=@EmployeeId
 
 END

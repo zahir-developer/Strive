@@ -9,7 +9,7 @@
 
 
 
-CREATE procedure [StriveCarSalon].[uspSaveDocument]
+CREATE procedure [StriveCarSalon].[uspSaveDocument_Delete]
 @tvpDocument tvpDocument READONLY
 
 AS 

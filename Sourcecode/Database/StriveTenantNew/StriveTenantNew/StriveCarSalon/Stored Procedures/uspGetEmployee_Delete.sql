@@ -3,7 +3,7 @@
 
 
 
-CREATE proc [StriveCarSalon].[uspGetEmployee]
+CREATE proc [StriveCarSalon].[uspGetEmployee_Delete]
 as
 begin
 select tblemp.EmployeeId,

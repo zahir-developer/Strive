@@ -11,6 +11,7 @@
     [Score]         INT                NULL,
     [NoEmail]       BIT                NULL,
     [ClientType]    INT                NULL,
+    [AuthId]        INT                NULL,
     [IsActive]      BIT                NULL,
     [IsDeleted]     BIT                NULL,
     [CreatedBy]     INT                NULL,
@@ -22,6 +23,8 @@
     CONSTRAINT [FK_tblClient_Gender] FOREIGN KEY ([Gender]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClient_MaritalStatus] FOREIGN KEY ([MaritalStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

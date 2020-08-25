@@ -1,5 +1,4 @@
-﻿
-CREATE PROC [StriveCarSalon].[uspGetVehicle]
+﻿CREATE PROC [StriveCarSalon].[uspGetVehicle] 
 (@ClientId int =null)
 AS
 BEGIN
@@ -24,9 +23,8 @@ INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMf
 INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
 INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 
-WHERE ISNULL(cl.IsDeleted,0)=0
-AND
+WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND ISNULL(cvl.IsActive,1)=1 AND
 ISNULL(cvl.IsDeleted,0)=0 AND
- (@ClientId is null or cl.ClientId = @ClientId)
+(@ClientId is null or cl.ClientId = @ClientId)
 
 END

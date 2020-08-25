@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblJob] (
     [JobId]            INT                IDENTITY (1, 1) NOT NULL,
     [TicketNumber]     VARCHAR (10)       NULL,
-    [BarCode]          VARCHAR (20)       NULL,
     [LocationId]       INT                NOT NULL,
     [ClientId]         INT                NULL,
     [VehicleId]        INT                NULL,
@@ -24,6 +23,8 @@
     CONSTRAINT [FK_tblJob_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblJob_VehicleId] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId])
 );
+
+
 
 
 

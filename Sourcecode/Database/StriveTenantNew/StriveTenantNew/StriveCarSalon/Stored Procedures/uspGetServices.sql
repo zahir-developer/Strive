@@ -1,5 +1,5 @@
 ﻿CREATE proc [StriveCarSalon].[uspGetServices]
-(@ServiceId int=null)
+(@ServiceId int=null,@ServiceSearch varchar(50)=null,@Status bit = null)
 as
 begin
 SELECT 
@@ -18,5 +18,8 @@ SELECT
 	ON svc.ServiceType = cv.valueid
 WHERE isnull(svc.IsDeleted,0)=0
 AND
- (@ServiceId is null or svc.ServiceId = @ServiceId)
+ (@ServiceId is null or svc.ServiceId = @ServiceId) AND
+ (@ServiceSearch is null or cv.valuedesc like '%'+@ServiceSearch+'%'
+  or svc.ServiceName  like '%'+@ServiceSearch+'%') AND
+  (@Status is null or svc.IsActive = @Status)
 end
