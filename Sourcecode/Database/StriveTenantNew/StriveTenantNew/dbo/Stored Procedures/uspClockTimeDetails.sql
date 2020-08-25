@@ -3,7 +3,7 @@
 -- Create date: 06-08-2020
 -- Description: Returns the ClockTime Details
 -- =============================================
-CREATE PROCEDURE uspClockTimeDetails 
+CREATE PROCEDURE [dbo].[uspClockTimeDetails] 
 	-- Add the parameters for the stored procedure here
 	@LocationId int,
 	@EmployeeId int, 
@@ -15,7 +15,10 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-SELECT 	TimeClockId, EmployeeId, LocationId, RoleId, EventDate, InTime, OutTime, EventType, UpdatedFrom, [Status] 
+SELECT 	TimeClockId, EmployeeId, LocationId, RoleId, EventDate, InTime, OutTime, EventType, UpdatedFrom, [Status]
 FROM StriveCarSalon.tblTimeClock
-WHERE LocationId = @LocationId and EmployeeId = @EmployeeId and RoleId = @RoleId and CONVERT(date, EventDate) = @Date AND IsDeleted = 0
+WHERE LocationId = @LocationId and EmployeeId = @EmployeeId AND 
+RoleId = @RoleId AND CONVERT(date, EventDate) = @Date AND (IsDeleted = 0 OR IsDeleted is null)
+AND IsActive = 1
+
 END

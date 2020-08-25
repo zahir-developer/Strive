@@ -3,30 +3,39 @@
 
 
 
+
+
+
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllVendor]
+(@VendorId int = null,@VendorSearch varchar(50) = null)
 AS 
 BEGIN
 SELECT 
 V.VendorId
-,VIN
-,VendorName
-,VendorAlias
-,v.IsActive
-,VendorAddressId	 AS 	VendorAddress_VendorAddressId
-,Address1	 AS 	VendorAddress_Address1
-,Address2	 AS 	VendorAddress_Address2
-,PhoneNumber	 AS 	VendorAddress_PhoneNumber
-,PhoneNumber2	 AS 	VendorAddress_PhoneNumber2
-,Email	 AS 	VendorAddress_Email
-,City	 AS 	VendorAddress_City
-,State	 AS 	VendorAddress_State
-,Country AS     VendorAddress_Country
-,Zip	 AS 	VendorAddress_Zip
-,Fax	 AS 	VendorAddress_Fax
-,VA.IsActive	 AS 	VendorAddress_IsActive
+,V.VIN
+,V.VendorName
+,V.VendorAlias
+,V.IsActive
+,VA.VendorAddressId	
+,VA.Address1	 
+,VA.Address2	
+,VA.PhoneNumber	 
+,VA.PhoneNumber2	 
+,VA.Email	 
+,VA.City	 
+,VA.State	 
+,VA.Country 
+,VA.Zip	 
+,VA.Fax	
+,VA.IsActive	 
 	
 FROM  [StriveCarSalon].[tblVendor] V
 Inner Join [StriveCarSalon].[tblVendorAddress] VA
-			 On V.VendorId=VA.VendorId
-			 WHERE V.IsDeleted = 0 AND VA.IsDeleted=0 
+ On V.VendorId=VA.VendorId
+ WHERE V.IsDeleted = 0 AND VA.IsDeleted=0 
+  and (@VendorId is null or VA.VendorId= @VendorId)AND
+ (@VendorSearch is null or V.VendorName like '%'+@VendorSearch+'%'
+ or VA.Address1 like '%'+@VendorSearch+'%' or VA.Address2 like '%'+@VendorSearch+'%')
+ --or tblla.PhoneNumber like '%'+@LocationSearch+'%'
+ --or tblla.Email like '%'+@LocationSearch+'%')
 END
