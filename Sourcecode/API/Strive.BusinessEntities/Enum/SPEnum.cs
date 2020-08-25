@@ -102,6 +102,7 @@ namespace Strive.BusinessEntities
         USPGETPRODUCTS,
         USPGETCASHREGISTER,
         USPGETCOLLISIONBYEMPID,
+        USPGETCOLLISIONBYID,
         USPGETVEHICLELISTBYCLIENTID,
         //MembershipSetup
         USPGETMEMBERSHIPSETUP,
