@@ -47,13 +47,13 @@
                                         <tr
                                             *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>
-                                            <td>{{productSetup.ProductType}}</td>
+                                            <td>{{productSetup.ProductTypeName}}</td>
                                             <td>{{productSetup.Cost | currency}}</td>
-                                            <td>{{productSetup.Size}}</td>
-                                            <td>{{productSetup.LocationId}}</td>
+                                            <td>{{productSetup.SizeName}}</td>
+                                            <td>{{productSetup.LocationName}}</td>
                                             <td>{{productSetup.ThresholdLimit}}</td>
                                             <td>{{productSetup.Quantity}}</td>
-                                            <td>{{productSetup.VendorId}}</td>
+                                            <td>{{productSetup.VendorName}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
