@@ -57,6 +57,13 @@ export class CreateEditWashesComponent implements OnInit {
       notes: ['',],
       pastNotes: ['',]
     });
+    this.getTicketNumber();
+  }
+
+  getTicketNumber(){
+    this.wash.getTicketNumber().subscribe(data => {
+      this.ticketNumber = data;
+    });
     this.getServiceType();
     this.getVehicle();
     this.getColor();
@@ -64,9 +71,9 @@ export class CreateEditWashesComponent implements OnInit {
 
   getWashById() {
     console.log(this.selectedData);
-    this.washForm.patchValue({
-      barcode: this.selectedData.BarCode,
-    });
+    // this.washForm.patchValue({
+    //   barcode: this.selectedData.BarCode,
+    // });
     this.ticketNumber = this.selectedData.TicketNumber;
     //this.additionalService = this.additional.filter(item => item.ServiceId === this.selectedData.JobItems.ServiceId);
   }
@@ -94,6 +101,9 @@ export class CreateEditWashesComponent implements OnInit {
         this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[4].CodeValue);
         this.UpchargeType = this.upcharges.filter(item => Number(item.ParentServiceId) === 0);
         this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
+        this.additional.forEach(element => {
+              element.IsChecked = false;
+        });
         if (this.isEdit === true) {
           this.washForm.reset();
           this.getWashById();
@@ -105,19 +115,9 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   change(data) {
-    const check = this.additionalService.filter(item => item === data);
-    if (check.length === 0) {
-      this.additionalService.push(data);
-    } else {
-      if(this.isEdit){
-        const temp = this.jobItems.filter(item => item.ServiceId === data.ServiceId)[0];        
-        this.jobItems = this.jobItems.filter(item => item.ServiceId !== data.ServiceId);
-        temp.isDeleted = true;
-        this.jobItems.push(temp);
-        console.log(this.jobItems);
-      }
-      this.additionalService = this.additionalService.filter(item => item !== data);
-    }
+    data.IsChecked = data.IsChecked ? false : true;
+    this.additionalService = this.additional.filter(item => item.IsChecked === true);  
+    console.log(this.additionalService);  
   }
 
   getVehicle() {
@@ -178,10 +178,9 @@ export class CreateEditWashesComponent implements OnInit {
     if (serviceAir.length !== 0) {
       this.additionalService.push(serviceAir[0]);
     }
-    console.log(this.additionalService);
     const job = {
       jobId: this.isEdit ? this.selectedData.JobId : 0,
-      ticketNumber: this.isEdit ? this.selectedData.TicketNumber : "",
+      ticketNumber: this.ticketNumber,
       locationId: 1,
       clientId: 3,// this.barcodeDetails.ClientId,
       vehicleId: 1,// this.barcodeDetails.VehicleId,

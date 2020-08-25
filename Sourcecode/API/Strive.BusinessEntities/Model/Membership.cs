@@ -14,9 +14,6 @@ public class Membership
 	public string MembershipName { get; set; }
 
 	[Column]
-	public int? ServiceId { get; set; }
-
-	[Column]
 	public int? LocationId { get; set; }
 
 	[Column]

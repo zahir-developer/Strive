@@ -28,7 +28,4 @@ export class MembershipService {
   getMembershipService(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getMembershipService}`);
   }
-  getMembershipVehicle(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getAllVehicle}`);
-  }
 }

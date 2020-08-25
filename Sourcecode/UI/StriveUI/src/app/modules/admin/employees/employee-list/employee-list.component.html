@@ -6,12 +6,12 @@
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
                     <li class="breadcrumb-item"><a>Admin</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Employee</li>
+                    <li class="breadcrumb-item active" aria-current="page">Employees</li>
                 </ol>
             </nav>
             <!--bread crumb-->
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3>Employee</h3>
+                <h3>Employees</h3>
             </div>
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
@@ -100,6 +100,11 @@
                                                         (click)="addEmployee('edit', employee)"></em>
                                                     <em class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
                                                         (click)="deleteEmployee(employee)"></em> </td>
+                                            </tr>
+                                            <tr *ngIf="employeeDetails.length === 0">
+                                                <td colspan="9" class="text-center">
+                                                    No Records Found
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

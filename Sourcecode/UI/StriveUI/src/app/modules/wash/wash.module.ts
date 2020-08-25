@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { WashesListComponent } from './washes-list/washes-list.component';
 import { CreateEditWashesComponent } from './create-edit-washes/create-edit-washes.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { CreateEditWashesComponent } from './create-edit-washes/create-edit-wash
     SharedModule,
     ReactiveFormsModule, 
     FormsModule,
-    WashRoutingModule
+    WashRoutingModule,
+    NgbPaginationModule
   ], 
   exports: [RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

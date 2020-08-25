@@ -1,10 +1,8 @@
-<div class="card  m-b-10">
-    <div class="card-body">
-        <div class="title-border p-b-5 m-b-5 m-t-10">
-            <h6 class="d-inline-block font-weight-600">Add Gift Card
-            </h6>
-        </div>
-        <br />
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Add Gift Card</h5>
+    </div>
+    <div class="modal-body">
         <form [formGroup]="giftCardForm">
             <div class="form-row">
                 <div class="col-sm-2"></div>
@@ -21,8 +19,8 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <button type="button"
-                                class="btn theme-primary-button-color button-size btn-sm m-l-10 " (click)="generateNumber()">Generate Gift
+                            <button type="button" class="btn theme-primary-button-color button-size btn-sm m-l-10 "
+                                (click)="generateNumber()">Generate Gift
                                 Card
                             </button>
                         </div>
@@ -39,7 +37,8 @@
                         </div>
                         <div class="input-group col-sm-5" id="datepicker">
                             <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
-                                formControlName="activeDate" [outsideClick]="true" [ngClass]="{ 'is-invalid': submitted && f.activeDate.errors }">
+                                formControlName="activeDate" [outsideClick]="true"
+                                [ngClass]="{ 'is-invalid': submitted && f.activeDate.errors }">
                             <div class="input-group-append">
                                 <span class="input-group-text"><em
                                         class="font-size-1-0 theme-secondary-color mdi mdi-calendar-month"
@@ -83,7 +82,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn theme-optional-button-color btn-sm" (click)="closeModal()">Cancel</button>
-        <button type="button" class="btn theme-primary-button-color btn-sm" (click)="saveGiftCard()">Process</button>
+        <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn theme-primary-button-color" (click)="saveGiftCard()">Process</button>
     </div>
 </div>

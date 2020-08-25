@@ -43,7 +43,6 @@
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
     <Compile Include="DTO\Collision\CollisionDto.cs" />
-    <Compile Include="DTO\Collision\CollisionListView.cs" />
     <Compile Include="DTO\Authentication.cs" />
     <Compile Include="DTO\Auth\ResetPassword.cs" />
     <Compile Include="DTO\Auth\User.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDetailDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />
+    <Compile Include="DTO\ServiceSetup\JobItem.cs" />
     <Compile Include="DTO\ServiceSetup\ServiceCategoryViewModel.cs" />
     <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
@@ -82,7 +82,9 @@
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
+    <Compile Include="Model\MembershipService.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
+    <Compile Include="ViewModel\AllMembershipViewModel.cs" />
     <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
@@ -126,14 +128,15 @@
     <Compile Include="ViewModel\GiftCardDetailsViewModel.cs" />
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
+    <Compile Include="ViewModel\LiabilityViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
+    <Compile Include="ViewModel\MembershipServiceViewModel.cs" />
     <Compile Include="ViewModel\MembershipViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\ScheduleViewModel.cs" />
     <Compile Include="ViewModel\ServiceViewModel.cs" />
     <Compile Include="DTO\Vendor\VendorDTO.cs" />
     <Compile Include="DTO\MembershipSetup\ClientMembershipDetails.cs" />
-    <Compile Include="DTO\MembershipSetup\JobItem.cs" />
     <Compile Include="DTO\MembershipSetup\Membership.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipView.cs" />
     <Compile Include="Model\Bay.cs" />
@@ -180,8 +183,6 @@
     <Compile Include="DTO\Client\ClientAddress.cs" />
     <Compile Include="DTO\Client\ClientList.cs" />
     <Compile Include="DTO\Code\Code.cs" />
-    <Compile Include="DTO\Collision\Collision.cs" />
-    <Compile Include="DTO\Collision\CollisionList.cs" />
     <Compile Include="DTO\Collision\LiabilityDetail.cs" />
     <Compile Include="DTO\Document\Document.cs" />
     <Compile Include="DTO\Document\DocumentView.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="ViewModel\VehicleColourViewModel.cs" />
     <Compile Include="ViewModel\VehicleDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientHistoryViewModel.cs" />
+    <Compile Include="ViewModel\VehicleListViewModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipModel.cs" />
     <Compile Include="ViewModel\ClientStatementViewModel.cs" />
     <Compile Include="ViewModel\VehicleViewModel.cs" />

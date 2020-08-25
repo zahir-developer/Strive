@@ -34,5 +34,9 @@ namespace Strive.BusinessEntities.ViewModel
  
         public string Comments { get; set; }
 
+        public string EployeeRole { get; set; }
+        public string EmployeeName { get; set; }
+        public string LocationName { get; set; }
+
     }
 }

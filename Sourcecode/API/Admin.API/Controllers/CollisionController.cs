@@ -44,5 +44,11 @@ namespace Admin.API.Controllers
         [Route("Update")]
         public Result Update([FromBody] CollisionDto collission) => _bplManager.UpdateCollision(collission);
         #endregion
+        #region
+        [HttpGet]
+        [Route("GetVehicleListByClientId/{id}")]
+        public Result GetVehicleListByClientId(int id) => _bplManager.GetVehicleListByClientId(id);
+        #endregion
+
     }
 }
