@@ -102,6 +102,10 @@ export class CreateDocumentComponent implements OnInit {
 
   uploadDocument() {
     this.submitted = true;
+    if (this.multipleFileUpload.length === 0) {
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Please Choose file to upload' });
+      return;
+    }
     if (this.passwordForm.invalid) {
       return;
     }

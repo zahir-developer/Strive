@@ -49,5 +49,10 @@ namespace Admin.API.Controllers
         [Route("GetServiceCategoryByLocationId/{id}")]
         public Result GetServiceCategoryByLocationId(int id) => _bplManager.GetServiceCategoryByLocationId(id);
         #endregion
+        #region
+        [HttpGet]
+        [Route("GetService")]
+        public Result GetServiceWithPrice() => _bplManager.GetServicesWithPrice();
+        #endregion
     }
 }

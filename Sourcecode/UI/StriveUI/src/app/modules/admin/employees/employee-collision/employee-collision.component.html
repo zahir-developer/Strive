@@ -10,36 +10,10 @@
         <form [formGroup]="collisionForm">
             <div class="form-row">
                 <div class="form-group col-lg-4">
-                    <label for="inputBarcode">Barcode#</label>
-                    <input type="text" maxlength="25" class="form-control" formControlName="barcode"
-                        placeholder="None/UNK”">
-                </div>
-                <div class="form-group col-lg-4">
-                    <label for="inputMake">Make</label>
-                    <select class="form-control" formControlName="make">
-                        <option hidden selected value="">Choose</option>
-                        <option *ngFor="let make of makeDropdownList" value="{{make.CodeId}}">{{make.CodeValue}}</option>
-                    </select>
-                </div>
-                <div class="form-group col-lg-4">
-                    <label for="inputModel">Model</label>
-                    <select class="form-control" formControlName="model">
-                        <option hidden selected value="">Choose</option>
-                        <option *ngFor="let model of modelDropdownList" value="{{model.CodeId}}">{{model.CodeValue}}</option>
-                    </select>
-                </div>
-                <div class="form-group col-lg-4">
-                    <label for="inputColor">Color</label>
-                    <select class="form-control" formControlName="color">
-                        <option hidden selected value="">Choose</option>
-                        <option *ngFor="let color of colorDropdownList" value="{{color.CodeId}}">{{color.CodeValue}}</option>
-                    </select>
-                </div> 
-                <div class="form-group col-lg-4">
-                    <label>Date of Collision</label>
+                    <label>Date of Collision<span class="required">*</span></label>
                     <div class="input-group" id="datepicker">
-                        <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
-                            formControlName="dateOfCollision" [outsideClick]="true"
+                        <input type="text" class="form-control" placeholder="Date of Collision" #dp="bsDatepicker"
+                            bsDatepicker formControlName="dateOfCollision" [outsideClick]="true"
                             [ngClass]="{ 'is-invalid': submitted && f.dateOfCollision.errors }">
                         <div class="input-group-append">
                             <span class="input-group-text"><em
@@ -52,19 +26,38 @@
                     </div>
                 </div>
                 <div class="form-group col-lg-4">
-                    <label for="inputamount">Amount</label>
+                    <label for="inputClient">Client Name</label>
+                    <div class="ui-fluid">
+                        <div class="p-grid forms-grid">
+                            <div class="p-col-3 p-md-6">
+                                <p-autoComplete field="name" [suggestions]="filteredClient"
+                                    (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
+                                    placeholder="Client Name" (onSelect)="selectedClient($event)">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-lg-4">
+                    <label for="inputVehicle">Vehicle</label>
+                    <select id="inputVehicle" class="form-control" formControlName="vehicle">
+                        <option value="" hidden selected>Choose</option>
+                        <option *ngFor="let v of vehicleList" value="{{v.ClientVehicleId}}">{{v.vehicleName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-lg-4">
+                    <label for="inputamount">Amount<span class="required">*</span></label>
                     <input type="text" class="form-control" appTwoDecimalNumber placeholder="0.00" id="inputamount"
                         formControlName="amount" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
                     <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
                         <div *ngIf="f.amount.errors.required">Amount is required</div>
                     </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label>Note</label>
-                    <textarea class="form-control" rows="3" formControlName="reason"
-                        [ngClass]="{ 'is-invalid': submitted && f.reason.errors }"></textarea>
+                <div class="form-group col-lg-8">
+                    <label>Note<span class="required">*</span></label>
+                    <input class="form-control" formControlName="reason" placeholder="Note"
+                        [ngClass]="{ 'is-invalid': submitted && f.reason.errors }">
                     <div *ngIf="submitted && f.reason.errors" class="invalid-feedback">
                         <div *ngIf="f.reason.errors.required">Note is required</div>
                     </div>

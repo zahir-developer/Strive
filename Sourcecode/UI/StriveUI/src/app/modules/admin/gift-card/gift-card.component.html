@@ -11,132 +11,130 @@
                 <h3 class="d-inline-block">Gift Cards &nbsp;&nbsp;</h3>
             </div>
             <div class="col-12 p-l-0 p-r-0">
-                <div class="card  m-b-10 h-100">
+                <div class="card  m-b-10">
                     <div class="card-body">
-                        <form [formGroup]="giftCardForm">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Gift Card Balance
+                                <span class="collision-btn">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                        (click)="addGiftCard()">Add Gift Card</button>
+                                </span>
+                            </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a>
+                                    <em class="fa font-size-1-4"
+                                        [ngClass]="{'fa-angle-up':!isGiftCardCollapsed, 'fa-angle-down': isGiftCardCollapsed  }"
+                                        (click)="giftCardCollapsed()">
+                                    </em>
+                                </a>
+                            </div>
+                        </div>
+                        <br />
+                        <div [style.display]="isGiftCardCollapsed ? 'none' : 'block'">
+                            <form [formGroup]="giftCardForm">
+                                <div class="form-row">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-row">
+                                            <div class="col-sm-4">
+                                                <label class="float-right">Number:</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" formControlName="number" />
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button" [disabled]="giftCardForm.invalid"
+                                                    class="btn theme-primary-button-color btn-md m-l-10"
+                                                    (click)="getGiftCardDetail()">Select
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <br />
                             <div class="form-row">
                                 <div class="col-sm-4">
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-row">
                                         <div class="col-sm-4">
-                                            <label class="float-right">Number:<span class="required">*</span></label>
+                                            <label class="float-right">Active Date:</label>
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" formControlName="number"
-                                                [ngClass]="{ 'is-invalid': submitted && f.number.errors }" />
-                                                <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
-                                                    <div *ngIf="f.number.errors.required">Card Number is required</div>
-                                                </div>
+                                            <span><strong>{{activeDate}}</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-row">
+                                        <div class="col-sm-4">
+                                            <label class="float-right">Value:</label>
                                         </div>
                                         <div class="col-sm-4">
-                                            <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                                                (click)="getGiftCardDetail()">Select
-                                            </button>
+                                            <span><strong>{{totalAmount | currency}}</strong></span>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <br />
-                        <div class="form-row">
-                            <div class="col-sm-4">
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-row">
-                                    <div class="col-sm-4">
-                                        <label class="float-right">Active Date:</label>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span>{{activeDate}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <br />
-                        <div class="form-row">
-                            <div class="col-sm-4">
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-row">
-                                    <div class="col-sm-4">
-                                        <label class="float-right">Value:</label>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span>{{totalAmount | currency}}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-row" *ngIf="!isActivity">
-                            <div class="col-sm-12">
-                                <button type="button" class="btn float-right theme-primary-button-color btn-md m-l-10"
-                                    (click)="addGiftCard()">Add Gift Card
-                                </button>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Gift Card Activity
+                                <span class="collision-btn" *ngIf="isActivity">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                        (click)="addActivity()">Add Activity</button>
+                                </span>
+                            </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a>
+                                    <em class="fa font-size-1-4"
+                                        [ngClass]="{'fa-angle-up':!isActivityCollapsed, 'fa-angle-down': isActivityCollapsed  }"
+                                        (click)="activityCollapsed()">
+                                    </em>
+                                </a>
                             </div>
                         </div>
-                        <br />
-                        <div class="row" *ngIf="isActivity">
-                            <div class="col-sm-2"></div>
-                            <div class="col-8 p-l-0 p-r-0">
-                                <div class="setup-wrapper">
-                                    <div class="setup-content">
-                                        <div class="float-left">
-                                            <div class="form-row">
-                                                <div class="form-group col-sm m-l-5">
-                                                    <label>
-                                                        <h3>Activity</h3>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="search-container pull-right">
-                                            <form>
-                                                <div class="form-row">
-                                                    <div class="form-group col-sm m-l-5">
-                                                        <button type="button"
-                                                            class="btn theme-primary-button-color btn-sm m-l-10"
-                                                            (click)="addActivity()">Add Activity</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table border table-hover" aria-describedby="giftCard-history">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Ticket # </th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody *ngIf="giftCardHistory.length > 0">
-                                            <tr *ngFor="let card of giftCardHistory">
-                                                <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}</td>
-                                                <td>{{card.GiftCardHistoryId}}</td>
-                                                <td>{{card.TransactionAmount | currency}}</td>
-                                                <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
-                                                <td><i class="fa fa-edit" (click)="statusUpdate(card)"></i></td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody *ngIf="giftCardHistory.length === 0">
-                                            <tr>
-                                                <td colspan="5">
-                                                    No Records Found
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div id="collision-enable-btn">
-                                        <div class="pull-right mw-100 m-t-5">
-                                            <button type="button" class="btn theme-optional-button-color"
-                                                id="collision-view" (click)="cancelActvity()">Cancel</button>
-                                        </div>
+                        <div [style.display]="isActivityCollapsed ? 'none' : 'block'">
+                            <div class="row">
+                                <div class="col-12 p-l-0 p-r-0">
+                                    <div class="table-responsive">
+                                        <table class="table border table-hover" aria-describedby="giftCard-history">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Ticket # </th>
+                                                    <th scope="col">Amount</th>
+                                                    <!-- <th scope="col">Action</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="giftCardHistory.length > 0">
+                                                <tr *ngFor="let card of giftCardHistory">
+                                                    <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
+                                                    <td>{{card.GiftCardHistoryId}}</td>
+                                                    <td>{{card.TransactionAmount | currency}}</td>
+                                                    <!-- <td><i class="fa fa-edit" (click)="statusUpdate(card)"></i></td> -->
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="giftCardHistory.length === 0">
+                                                <tr>
+                                                    <td colspan="5">
+                                                        No Records Found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -146,3 +144,4 @@
             </div>
         </div>
     </div>
+</div>

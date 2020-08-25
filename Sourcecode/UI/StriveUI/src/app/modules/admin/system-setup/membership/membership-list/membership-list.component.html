@@ -30,9 +30,9 @@
                                         <tr
                                             *ngFor="let membership of membershipDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{membership.MembershipName}}</th>
-                                            <td>{{membership.ServiceId}}</td>
-                                            <td>{{membership.StartDate | date}}</td>
-                                            <td>{{membership.Status === true ? "Active" : "InActive"}}</td>
+                                            <td>{{membership.Services}}</td>
+                                            <td>{{membership.CreatedDate | date}}</td>
+                                            <td>{{membership.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="edit" tooltipPosition="bottom"
