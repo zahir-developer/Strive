@@ -22,9 +22,6 @@ namespace Admin.Api.Controllers
         [Route("GetAll")]
         public Result GetAllMembership() => _bplManager.GetAllMembership();
         [HttpGet]
-        [Route("GetService")]
-        public Result GetServiceWithPrice() => _bplManager.GetServicesWithPrice();
-        [HttpGet]
         [Route("GetAllMembershipById/{membershipId}")]
         public Result GetMembershipById(int membershipId) => _bplManager.GetMembershipById(membershipId);
         [HttpPost]

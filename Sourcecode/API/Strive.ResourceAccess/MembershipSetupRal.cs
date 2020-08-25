@@ -21,13 +21,10 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), null);
         }
-        public List<JobItem> GetServicesWithPrice()
-        {
-            return db.Fetch<JobItem>(SPEnum.USPGETSERVICELISTBYSERVICEID.ToString(), null);
-        }
+      
         public bool AddMembership(MembershipDto member)
         {
-            return dbRepo.InsertPc(member,"MembershipServiceId");
+            return dbRepo.InsertPc(member,"MembershipId");
         }
 
         public bool UpdateMembership(MembershipDto member)

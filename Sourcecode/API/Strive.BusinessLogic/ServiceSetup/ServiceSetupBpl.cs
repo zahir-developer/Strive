@@ -48,6 +48,9 @@ namespace Strive.BusinessLogic.ServiceSetup
         {
             return ResultWrap(new ServiceSetupRal(_tenant).GetServiceCategoryByLocationId, id, "ServiceCategory");
         }
-
+        public Result GetServicesWithPrice()
+        {
+            return ResultWrap(new ServiceSetupRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
+        }
     }
 }

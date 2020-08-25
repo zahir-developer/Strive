@@ -2,6 +2,7 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -10,6 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class VehicleCreateEditComponent implements OnInit {
   vehicleForm: FormGroup;
+  dropdownSettings: IDropdownSettings = {};
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() clientId?: any;
@@ -21,6 +23,7 @@ export class VehicleCreateEditComponent implements OnInit {
   upcharge:any;
   upchargeType: any;
   membership: any;
+  additional: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -45,10 +48,12 @@ export class VehicleCreateEditComponent implements OnInit {
       upcharge: ['',],
       upchargeType: ['',],
       monthlyCharge: ['',],
-      membership: ['',]
+      membership: ['',],
+      service: ['',]
     });
     this.getVehicleCodes();
     this.getVehicleMembership();
+    this.getMembershipService();
   }
 
   getVehicleById() {
@@ -72,7 +77,36 @@ export class VehicleCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.VehicleMembership;
+        console.log(this.membership);
       }else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  getMembershipService() {
+    this.vehicle.getMembershipService().subscribe(data => {
+      if (data.status === 'Success') {
+        const membership = JSON.parse(data.resultData);
+        this.additional = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === "Additional Services");
+        console.log(membership);        
+        this.additional = this.additional.map(item => {
+          return {
+            item_id: item.ServiceId,
+            item_text: item.ServiceName
+          };
+        });
+        this.dropdownSettings = {
+          singleSelection: false,
+          defaultOpen: false,
+          idField: 'item_id',
+          textField: 'item_text',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
+      } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
