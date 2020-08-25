@@ -9,7 +9,8 @@ namespace Strive.BusinessEntities.MembershipSetup
     public class JobItem
     {
         public int ServiceId { get; set; }
-        public decimal Price { get; set; }
         public string ServiceName { get; set; }
+        public int ServiceType { get; set; }
+        public string ServiceTypeName { get; set; }
     }
 }

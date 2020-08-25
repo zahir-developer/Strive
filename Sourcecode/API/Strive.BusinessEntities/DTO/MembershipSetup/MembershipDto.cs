@@ -9,7 +9,6 @@ namespace Strive.BusinessEntities.DTO.MembershipSetup
 {
     public class MembershipDto
     {
-        public Model.Membership Membership { get; set; }
-        public ClientMembershipDetails ClientMembershipDetails { get; set; }
+        public Model.MembershipService MembershipService { get; set; }
     }
 }
