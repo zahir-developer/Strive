@@ -70,4 +70,10 @@ export class EmployeeService {
   updateEmployee(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateEmployee}`, obj);
   }
+  getAllClient() {
+    return this.http.get(`${UrlConfig.totalUrl.getClient}`);
+  }
+  getVehicleByClientId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params : { id }});
+  }
 }

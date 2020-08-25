@@ -33,4 +33,7 @@ export class VehicleService {
     getVehicleCodes() {
         return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
     }
+    getMembershipService(): Observable<any> {
+      return this.http.get(`${UrlConfig.totalUrl.getMembershipService}`);
+    }
 }

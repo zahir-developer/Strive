@@ -19,7 +19,7 @@ export class EmployeeCollisionComponent implements OnInit {
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
     private spinner: NgxSpinnerService
-    ) { }
+  ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
   @Input() public mode?: any;
@@ -28,17 +28,19 @@ export class EmployeeCollisionComponent implements OnInit {
   makeDropdownList: any = [];
   modelDropdownList: any = [];
   colorDropdownList: any = [];
+  clientList: any = [];
+  filteredClient: any = [];
+  vehicleList: any = [];
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
       dateOfCollision: ['', Validators.required],
       amount: ['', Validators.required],
       reason: ['', Validators.required],
-      barcode: [''],
-      make: [''],
-      model: [''],
-      color: ['']
+      client: [''],
+      vehicle: ['']
     });
+    this.getAllClient();
     this.getAllModel();
     this.getAllMake();
     this.getAllColor();
@@ -80,6 +82,7 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   saveCollision() {
+    console.log(this.collisionForm);
     this.submitted = true;
     if (this.collisionForm.invalid) {
       return;
@@ -94,6 +97,8 @@ export class EmployeeCollisionComponent implements OnInit {
       description: this.collisionForm.value.reason,
       isActive: true,
       isDeleted: false,
+      vehicleId: this.collisionForm.value.vehicle,
+      clientId: this.collisionForm.value.client.id,
       createdBy: 0,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: 0,
@@ -141,6 +146,50 @@ export class EmployeeCollisionComponent implements OnInit {
         }
       });
     }
+  }
+
+  getAllClient() {
+    this.employeeService.getAllClient().subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.Client.forEach(item => {
+          item.fullName = item.FirstName + '\t' + item.LastName;
+        });
+        console.log(client, 'client');
+        this.clientList = client.Client.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      }
+    });
+  }
+
+  filterClient(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.clientList) {
+      const client = i;
+      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(client);
+      }
+    }
+    this.filteredClient = filtered;
+  }
+
+  selectedClient(event) {
+    const clientId = event.id;
+    this.employeeService.getVehicleByClientId(clientId).subscribe( res => {
+      if (res.status === 'Success') {
+        const vehicle = JSON.parse(res.resultData);
+        this.vehicleList = vehicle.Status;
+        this.vehicleList.forEach( item => {
+          item.vehicleName = item.VehicleMake + '-' + item.ModelName + '-' + item.Color;
+        });
+        console.log(vehicle);
+      }
+    });
   }
 
   getAllMake() {

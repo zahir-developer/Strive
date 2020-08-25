@@ -43,7 +43,6 @@
     <Compile Include="DTO\Client\ClientVehicleView.cs" />
     <Compile Include="DTO\Client\ClientView.cs" />
     <Compile Include="DTO\Collision\CollisionDto.cs" />
-    <Compile Include="DTO\Collision\CollisionListView.cs" />
     <Compile Include="DTO\Authentication.cs" />
     <Compile Include="DTO\Auth\ResetPassword.cs" />
     <Compile Include="DTO\Auth\User.cs" />
@@ -128,6 +127,7 @@
     <Compile Include="ViewModel\GiftCardDetailsViewModel.cs" />
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
+    <Compile Include="ViewModel\LiabilityViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\MembershipServiceViewModel.cs" />
     <Compile Include="ViewModel\MembershipViewModel.cs" />
@@ -183,8 +183,6 @@
     <Compile Include="DTO\Client\ClientAddress.cs" />
     <Compile Include="DTO\Client\ClientList.cs" />
     <Compile Include="DTO\Code\Code.cs" />
-    <Compile Include="DTO\Collision\Collision.cs" />
-    <Compile Include="DTO\Collision\CollisionList.cs" />
     <Compile Include="DTO\Collision\LiabilityDetail.cs" />
     <Compile Include="DTO\Document\Document.cs" />
     <Compile Include="DTO\Document\DocumentView.cs" />

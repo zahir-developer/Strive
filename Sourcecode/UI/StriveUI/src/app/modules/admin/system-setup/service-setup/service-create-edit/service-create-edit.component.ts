@@ -25,6 +25,8 @@ export class ServiceCreateEditComponent implements OnInit {
   today: Date = new Date();
   submitted: boolean;
   ctypeLabel: any;
+  isUpcharge = false;
+  isAdditional = false;
   constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -128,6 +130,15 @@ export class ServiceCreateEditComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+
+  checkService(data){
+    if(Number(data) === 18){
+      this.isUpcharge = true;
+    }
+    if(Number(data) === 17){
+      this.isAdditional = true;
+    }
   }
 
   change(data) {

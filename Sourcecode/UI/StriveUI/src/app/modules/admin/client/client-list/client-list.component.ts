@@ -23,6 +23,7 @@ export class ClientListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
+  isLoading = true;
   constructor(private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
@@ -32,7 +33,9 @@ export class ClientListComponent implements OnInit {
 
   // Get All Client
   getAllClientDetails() {
+    this.isLoading = true;
     this.client.getClient().subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.Client;
@@ -56,6 +59,7 @@ export class ClientListComponent implements OnInit {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.ClientSearch;
+        console.log(this.clientDetails);
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

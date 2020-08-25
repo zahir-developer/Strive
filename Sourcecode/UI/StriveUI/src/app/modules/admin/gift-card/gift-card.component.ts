@@ -21,6 +21,8 @@ export class GiftCardComponent implements OnInit {
   totalAmount: any = 0;
   submitted: boolean;
   giftCardID: any;
+  isGiftCardCollapsed = false;
+  isActivityCollapsed = false;
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -82,6 +84,7 @@ export class GiftCardComponent implements OnInit {
           this.isActivity = false;
           this.activeDate = 'none';
           this.totalAmount = 0;
+          this.giftCardHistory = [];
         }
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -148,6 +151,14 @@ export class GiftCardComponent implements OnInit {
         }
       }
     });
+  }
+
+  giftCardCollapsed() {
+    this.isGiftCardCollapsed = !this.isGiftCardCollapsed;
+  }
+
+  activityCollapsed() {
+    this.isActivityCollapsed = !this.isActivityCollapsed;
   }
 
 }

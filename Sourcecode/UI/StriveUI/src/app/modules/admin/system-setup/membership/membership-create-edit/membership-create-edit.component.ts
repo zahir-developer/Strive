@@ -18,6 +18,9 @@ export class MembershipCreateEditComponent implements OnInit {
   model: any;
   status: any;
   service: any;
+  washes: any;
+  upchargeType: any;
+  additional: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
@@ -33,10 +36,13 @@ export class MembershipCreateEditComponent implements OnInit {
     this.membershipForm = this.fb.group({
       membershipName: ['',],
       service: ['',],
+      washes: ['',],
+      upcharge: ['',],
       status: ['',],
       price: ['',],
       notes: ['',]
     });
+    this.membershipForm.patchValue({ status: 0 });
     this.getMembershipService();
   }
 
@@ -46,14 +52,10 @@ export class MembershipCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.service = membership.ServicesWithPrice;
-        const newArr = [];
-        this.service.forEach((item) => {
-          if (newArr.findIndex(i => i.ServiceId == item.ServiceId) === -1) {
-            newArr.push(item);
-          }
-        });
-        this.service = newArr;
-        this.service = this.service.map(item => {
+        this.washes = this.service.filter(item => item.ServiceTypeName === "Washes");
+        this.upchargeType = this.service.filter(item => item.ServiceTypeName === "Upcharges");
+        this.additional = this.service.filter(item => item.ServiceTypeName === "Additional Services");
+        this.additional = this.additional.map(item => {
           return {
             item_id: item.ServiceId,
             item_text: item.ServiceName
