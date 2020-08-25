@@ -9,6 +9,7 @@ begin
 	sm.dbusername as Username,
 	sm.dbpassword as [Password],
 	tm.TenantGuid as TenantGuid,
+	tm.TenantId as TenantId,
 	la.ActionTypeId
 	from [tblAuthMaster] am inner join 
 	[tblSchemaAccess] sa on am.authid = sa.AuthId

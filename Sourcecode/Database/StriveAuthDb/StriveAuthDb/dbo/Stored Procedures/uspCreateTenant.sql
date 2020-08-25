@@ -1,0 +1,45 @@
+﻿create proc uspCreateTenant
+(@TenantName varchar(50), @Subscriptionid int=null, @ClientId int=null, @SchemaPasswordHash varchar(200),@ExpiryDate date)
+as
+begin
+
+declare @schemaName varchar(60);
+declare @schemaUser varchar(10);
+declare @TenantId int
+declare @SchemaId int
+
+set @schemaName ='Strive'+@TenantName
+set @schemaUser = @schemaName +'user'
+
+
+insert into tblTenantDetail(TenantName, ColorTheme, Currency,TelantLogoUrl)
+values
+(@TenantName,'Default','USD','default.png')
+
+set @TenantId = scope_identity()
+
+
+insert into tblSchemaMaster (clientid,subdomain,DBSchemaName, DBUserName, DBPassword, SubscriptionId, StatusId, IsDeleted, ExpiryDate, CreatedDate, TenantId)
+values
+(@ClientId,'strive',@schemaName,@schemaUser,@SchemaPasswordHash,@Subscriptionid,1,0,@ExpiryDate,getdate(),@TenantId)
+
+
+set @SchemaId = scope_identity()
+
+insert into tblTenantMaster(TenantGuid, SubscriptionId,clientid,IsActive, IsDeleted,EmpSize, ExpiryDate, CreatedDate, SchemaId)
+values
+(NEWID(),@Subscriptionid,@ClientId,1,0,100,@ExpiryDate,getdate(),@SchemaId)
+
+
+
+
+
+
+
+
+
+
+
+
+
+end

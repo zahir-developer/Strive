@@ -1,7 +1,14 @@
-﻿CREATE PROC uspResetPassword
+﻿
+
+
+CREATE PROC [dbo].[uspResetPassword]
 (@Email varchar(64), @OTP varchar(10), @NewPassword varchar(100))
 AS
 BEGIN
+
+
+/*Updated on 23-07-2020 by Zahir, Changed IsVerified = 1, Since this will be updated in Verify OTP SP/API Call*/
+
 DECLARE @ResetAuthId int
 DECLARE @tempTable TABLE ( AuthId INT );
 
@@ -12,7 +19,7 @@ OUTPUT INSERTED.AuthId
 INTO @tempTable
 
 from tblAuthMaster am inner join tblAuthOTP aotp on
-am.AuthId = aotp.AuthId where am.EmailId = @Email and aotp.OTP = @OTP and aotp.IsVerified=0
+am.AuthId = aotp.AuthId where am.EmailId = @Email and aotp.OTP = @OTP and aotp.IsVerified=1
 
 if Not exists(select 1 from @tempTable) 
 begin	
