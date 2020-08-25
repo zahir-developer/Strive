@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [StriveCarSalon].[uspSaveClient]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspSaveClient]
 @tvpClient tvpClient READONLY,
 @tvpClientAddress tvpClientAddress READONLY
 --@tvpClientMembershipDetails tvpClientMembershipDetails READONLY,
@@ -33,16 +32,16 @@ INSERT (FirstName, MiddleName,LastName,Gender,MaritalStatus,BirthDate,CreatedDat
 
 MERGE  [StriveCarSalon].[tblClientAddress] TRG
 USING @tvpClientAddress SRC
-ON (TRG.AddressId = SRC.AddressId)
+ON (TRG.ClientAddressId = SRC.AddressId)
 WHEN MATCHED 
 THEN
 
-UPDATE SET TRG.RelationshipId=@ClientId, TRG.Address1=SRC.Address1, TRG.Address2=SRC.Address2, TRG.PhoneNumber=SRC.PhoneNumber,
+UPDATE SET TRG.ClientId=@ClientId, TRG.Address1=SRC.Address1, TRG.Address2=SRC.Address2, TRG.PhoneNumber=SRC.PhoneNumber,
     TRG.Email=SRC.Email, TRG.City= SRC.City,TRG.State=SRC.State, TRG.Country=SRC.Country, TRG.Zip=SRC.Zip, TRG.IsActive=SRC.IsActive
 
 WHEN NOT MATCHED THEN
 
-INSERT ( RelationshipId, Address1,Address2,PhoneNumber,Email,City,State,Country,Zip,IsActive)
+INSERT ( ClientId, Address1,Address2,PhoneNumber,Email,City,State,Country,Zip,IsActive)
  VALUES ( @ClientId, SRC.Address1,SRC.Address2,SRC.PhoneNumber,SRC.Email,SRC.City,SRC.State,SRC.Country,SRC.Zip,SRC.IsActive);
  SELECT @ClientAddressId = scope_identity();
 

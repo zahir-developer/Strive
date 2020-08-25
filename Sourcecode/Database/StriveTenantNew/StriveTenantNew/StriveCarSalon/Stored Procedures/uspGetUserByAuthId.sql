@@ -2,7 +2,6 @@
 (@AuthId int)
 as
 begin
-
 SELECT
 Emp.EmployeeId,
 EmpDet.EmployeeCode,
@@ -10,6 +9,7 @@ Emp.FirstName,
 Emp.LastName,
 EmpAdd.PhoneNumber,
 EmpAdd.Email,
+EmpDet.AuthId,
 Emp.IsActive
 FROM
 StriveCarSalon.tblEmployee Emp
@@ -18,7 +18,7 @@ StriveCarSalon.tblEmployeeDetail EmpDet ON Emp.EmployeeId = EmpDet.EmployeeId
 LEFT JOIN 
 StriveCarSalon.tblEmployeeAddress EmpAdd on Emp.EmployeeId = EmpAdd.EmployeeId
 WHERE
-EmpDet.AuthId = @AuthId  AND Emp.IsDeleted=0
+EmpDet.AuthId = @AuthId AND (Emp.IsDeleted=0 OR Emp.IsDeleted IS NULL)
 
 
 SELECT EmpRo.EmployeeId,EmpRo.RoleId, Cv.valuedesc AS RoleName

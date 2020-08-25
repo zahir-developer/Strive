@@ -4,6 +4,7 @@
     [GiftCardCode] VARCHAR (10)       NULL,
     [GiftCardName] VARCHAR (20)       NULL,
     [ExpiryDate]   DATETIMEOFFSET (7) NULL,
+    [TotalAmount]  DECIMAL (19, 2)    NULL,
     [Comments]     VARCHAR (50)       NULL,
     [IsActive]     BIT                NULL,
     [IsDeleted]    BIT                NULL,
@@ -14,6 +15,8 @@
     CONSTRAINT [PK_tblGiftCard] PRIMARY KEY CLUSTERED ([GiftCardId] ASC),
     CONSTRAINT [FK_tblGiftCard_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 
 
 

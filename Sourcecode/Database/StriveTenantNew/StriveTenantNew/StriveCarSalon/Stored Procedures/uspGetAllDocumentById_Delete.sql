@@ -2,7 +2,7 @@
 
 
 
-CREATE proc [StriveCarSalon].[uspGetAllDocumentById] 
+CREATE proc [StriveCarSalon].[uspGetAllDocumentById_Delete] 
 (@EmployeeId int)
 as
 begin

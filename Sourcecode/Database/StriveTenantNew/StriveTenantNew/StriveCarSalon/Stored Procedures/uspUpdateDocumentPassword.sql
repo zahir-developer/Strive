@@ -7,6 +7,5 @@ CREATE proc [StriveCarSalon].[uspUpdateDocumentPassword]
 as
 begin
 update [StriveCarSalon].[tblDocument] set Password = @Password 
- WHERE DocumentId=@DocumentId and 
-	   EmployeeId =@EmployeeId
+ WHERE DocumentId=@DocumentId
 end

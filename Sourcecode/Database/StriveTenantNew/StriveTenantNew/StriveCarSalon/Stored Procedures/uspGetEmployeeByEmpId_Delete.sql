@@ -5,7 +5,7 @@
 
 
 
-CREATE proc [StriveCarSalon].[uspGetEmployeeByEmpId] 
+CREATE proc [StriveCarSalon].[uspGetEmployeeByEmpId_Delete] 
 (@EmployeeId int)
 as
 begin

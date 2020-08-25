@@ -1,10 +1,9 @@
-﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllProduct] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllProduct] 
 --(@LocationId int = null)
 AS
 BEGIN
 
-Select ProductId, ProductName, ProductCode, ProductDescription, ProductType,
+Select ProductId, ProductName, ProductCode, ProductDescription, ProductType,[FileName],ThumbFileName,
 LocationId, VendorId, Size, SizeDescription, Quantity, QuantityDescription,
 Cost, IsTaxable, TaxAmount, IsActive, ThresholdLimit
 
