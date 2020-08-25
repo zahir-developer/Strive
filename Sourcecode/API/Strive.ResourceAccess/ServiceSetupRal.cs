@@ -5,6 +5,7 @@ using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.RepositoryCqrs;
 using System.Collections.Generic;
+using JobItem = Strive.BusinessEntities.DTO.ServiceSetup.JobItem;
 
 namespace Strive.ResourceAccess
 {

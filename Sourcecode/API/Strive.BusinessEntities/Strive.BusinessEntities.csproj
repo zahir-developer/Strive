@@ -71,6 +71,7 @@
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDetailDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />
+    <Compile Include="DTO\ServiceSetup\JobItem.cs" />
     <Compile Include="DTO\ServiceSetup\ServiceCategoryViewModel.cs" />
     <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
@@ -136,7 +137,6 @@
     <Compile Include="ViewModel\ServiceViewModel.cs" />
     <Compile Include="DTO\Vendor\VendorDTO.cs" />
     <Compile Include="DTO\MembershipSetup\ClientMembershipDetails.cs" />
-    <Compile Include="DTO\MembershipSetup\JobItem.cs" />
     <Compile Include="DTO\MembershipSetup\Membership.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipView.cs" />
     <Compile Include="Model\Bay.cs" />
