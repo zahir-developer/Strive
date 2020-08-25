@@ -19,6 +19,11 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEBYEMPID,
             USPGETEMPLOYEEROLES,
         }
+
+        public enum Membership
+        {
+            USPGETALLMEMBERSHIP
+        }
     }
 
 
