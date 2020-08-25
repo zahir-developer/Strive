@@ -36,7 +36,7 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.PastDetailsScreenFragment, null);
             pastDetailsData = new List<string>();
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 5; i++)
             {
                 pastDetailsData.Add("Clickme" + i);
             }
