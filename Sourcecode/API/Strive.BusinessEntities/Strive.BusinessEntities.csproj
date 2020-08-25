@@ -82,6 +82,7 @@
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
+    <Compile Include="Model\MembershipService.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
     <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
     <Compile Include="ViewModel\GiftCardViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
+    <Compile Include="ViewModel\MembershipServiceViewModel.cs" />
     <Compile Include="ViewModel\MembershipViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\ScheduleViewModel.cs" />

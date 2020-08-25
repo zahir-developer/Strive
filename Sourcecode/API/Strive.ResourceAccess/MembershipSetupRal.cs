@@ -27,7 +27,7 @@ namespace Strive.ResourceAccess
         }
         public bool AddMembership(MembershipDto member)
         {
-            return dbRepo.InsertPc(member,"MembershipId");
+            return dbRepo.InsertPc(member,"MembershipServiceId");
         }
 
         public bool UpdateMembership(MembershipDto member)
@@ -41,10 +41,10 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<MembershipViewModel> GetMembershipById(int membershipid)
+        public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
-            return db.Fetch<MembershipViewModel>(SPEnum.USPGETMEMBERSHIPSETUP.ToString(), _prm);
+            return db.Fetch<MembershipServiceViewModel>(SPEnum.USPGETMEMBERSHIPSETUP.ToString(), _prm);
         }
     }
 }
