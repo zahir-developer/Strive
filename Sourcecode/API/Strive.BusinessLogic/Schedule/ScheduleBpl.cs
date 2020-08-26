@@ -20,10 +20,6 @@ namespace Strive.BusinessLogic.Schedule
         {
             return ResultWrap(new ScheduleRal(_tenant).SaveSchedule, schedule, "Result");
         }
-        //public Result UpdateSchedule(Strive.BusinessEntities.Model.ScheduleModel schedule)
-        //{
-        //    return ResultWrap(new ScheduleRal(_tenant).UpdateSchedule, schedule, "Status");
-        //}
         public Result DeleteSchedule(int scheduleId)
         {
             return ResultWrap(new ScheduleRal(_tenant).DeleteSchedule, scheduleId, "Status");

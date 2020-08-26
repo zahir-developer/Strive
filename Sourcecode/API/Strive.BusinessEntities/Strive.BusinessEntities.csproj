@@ -79,6 +79,7 @@
     <Compile Include="DTO\Vendor\VendorSearchDto.cs" />
     <Compile Include="DTO\Washes\DashboardDto.cs" />
     <Compile Include="DTO\Washes\WashesDto.cs" />
+    <Compile Include="Model\ClientVehicleMembershipService.cs" />
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
@@ -87,7 +88,10 @@
     <Compile Include="ViewModel\AllMembershipViewModel.cs" />
     <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
+    <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
+    <Compile Include="ViewModel\VehicleList.cs" />
+    <Compile Include="ViewModel\VehicleMembershipViewModel.cs" />
     <Compile Include="ViewModel\WashDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientSearchViewModel.cs" />
@@ -152,7 +156,7 @@
     <Compile Include="Model\CashRegisterRolls.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ClientAddress.cs" />
-    <Compile Include="Model\ClientMembershipDetails.cs" />
+    <Compile Include="Model\ClientVehicleMembershipDetails.cs" />
     <Compile Include="Model\ClientVehicle.cs" />
     <Compile Include="Model\CodeCategory.cs" />
     <Compile Include="Model\CodeValue.cs" />

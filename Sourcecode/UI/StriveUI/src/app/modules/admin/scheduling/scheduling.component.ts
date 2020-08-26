@@ -21,6 +21,7 @@ declare var $: any;
 export class SchedulingComponent implements OnInit, AfterViewInit {
   public theme = 'theme-light';
   calendar: any;
+  isLeave: boolean;
   selectedList = [];
   buttonText = 'Add';
   empName: any;
@@ -47,6 +48,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   showDialog: boolean;
   locationId: any;
   scheduleId: any;
+  scheduleType: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
     private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
   ngAfterViewInit() {
@@ -108,8 +110,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       },
       eventClick: (event) => {
         if (!event.event.id.startsWith('click')) {
-          this.empName = event.event.title;
-          this.empId = event.event.extendedProps.employeeId;
+          // this.empName = event.event.title;
+          // this.empId = event.event.extendedProps.employeeId;
           this.getScheduleById(+event.event.id);
         } else {
           this.splitEmpName(event);
@@ -160,7 +162,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
       },
       eventDragStop: (event) => {
-        if ((200 <= event.jsEvent.pageX) && (event.jsEvent.pageX <= 500)) {
+        if ((150 <= event.jsEvent.pageX) && (event.jsEvent.pageX <= 500)) {
           this.deleteEvent(event);
         }
       },
@@ -214,10 +216,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       employeeId: +this.empId,
       locationId: +this.empLocation,
       roleId: +localStorage.getItem('roleId'),
+      isAbscent: this.isLeave,
       scheduledDate: moment(this.startTime).format(),
       startTime: moment(this.startTime).format(),
       endTime: moment(this.endTime).format(),
-      scheduleType: 1,
+      scheduleType: this.scheduleType ? this.scheduleType : 1,
       comments: 'test',
       isActive: true,
       isDeleted: false
@@ -333,10 +336,16 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         if (selectedScheduledData.Status.length !== 0) {
           $('#name').html(this.empName);
           $('#empId').html(this.empId);
+          this.empName = selectedScheduledData.Status[0].EmployeeName;
+          this.empId = selectedScheduledData.Status[0].EmployeeId;
           this.startTime = selectedScheduledData.Status[0].StartTime;
           this.endTime = selectedScheduledData.Status[0].EndTime;
           this.scheduleId = selectedScheduledData.Status[0].ScheduleId;
+          this.scheduleType = selectedScheduledData.Status[0].ScheduleType;
+          this.isLeave = selectedScheduledData.Status[0].IsEmployeeAbscent;
+          this.empLocation = selectedScheduledData.Status[0].LocationId;
           $('.modal').find('#location').val(selectedScheduledData.Status[0].LocationId);
+          $('.modal').find('#isleave').val(selectedScheduledData.Status[0].IsEmployeeAbscent);
           this.buttonText = 'Save';
           $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
         }
@@ -354,6 +363,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.endTime = event.event.end === null ? moment(event.event.start).add(60, 'minutes').toDate() :
       event.event.end;
     this.scheduleId = event?.event?.extendedProps?.scheduleId;
+    this.scheduleType = event?.event?.extendedProps?.scheduleType;
     $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
     $('#name').html(this.empName);
     $('#empId').html(this.empId);
@@ -386,5 +396,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   getAll() {
     this.locationId = 0;
     this.getSchedule();
+  }
+  isAbsentChange(event) {
   }
 }
