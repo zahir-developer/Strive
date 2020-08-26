@@ -54,7 +54,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputgender">Gender</label>
                                     <select id="inputgender" class="form-control" formControlName="gender">
-                                        <option value="" hidden selected>Choose</option>
+                                        <option value="" hidden selected>Select Gender</option>
                                         <option *ngFor="let g of gender" value="{{g.CodeId}}">{{g.CodeValue}}</option>
                                     </select>
                                 </div>
@@ -158,7 +158,7 @@
                                     <label for="inputcommission">Commission</label>
                                     <select id="inputcommission" class="form-control" formControlName="commission"
                                         (change)="getCtype($event.target.value)">
-                                        <option value="" selected hidden>Choose</option>
+                                        <option value="" selected hidden>Select Commission</option>
                                         <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
                                         </option>
                                     </select>
@@ -213,7 +213,7 @@
                                     accept=".doc, .docx, .pdf, .xls, .csv" mulitple dirname="S:\"
                                     (change)="fileNameChanged()">
                                 <label id='lbl' class="custom-file-label" for="customFile">Select Document</label>
-                                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv et</small>
+                                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv etc</small>
                                 <table aria-describedby="file" *ngIf="multipleFileUpload.length > 0 && !isLoading">
                                     <tbody>
                                         <tr *ngFor="let file of multipleFileUpload; let index = index">

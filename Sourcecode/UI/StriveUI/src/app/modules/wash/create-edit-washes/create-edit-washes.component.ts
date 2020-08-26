@@ -57,6 +57,13 @@ export class CreateEditWashesComponent implements OnInit {
       notes: ['',],
       pastNotes: ['',]
     });
+    this.getTicketNumber();
+  }
+
+  getTicketNumber(){
+    this.wash.getTicketNumber().subscribe(data => {
+      this.ticketNumber = data;
+    });
     this.getServiceType();
     this.getVehicle();
     this.getColor();
@@ -173,7 +180,7 @@ export class CreateEditWashesComponent implements OnInit {
     }
     const job = {
       jobId: this.isEdit ? this.selectedData.JobId : 0,
-      ticketNumber: this.isEdit ? this.selectedData.TicketNumber : "",
+      ticketNumber: this.ticketNumber,
       locationId: 1,
       clientId: 3,// this.barcodeDetails.ClientId,
       vehicleId: 1,// this.barcodeDetails.VehicleId,

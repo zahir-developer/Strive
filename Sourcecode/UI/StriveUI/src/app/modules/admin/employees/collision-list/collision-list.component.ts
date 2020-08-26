@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
@@ -12,9 +12,10 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 })
 export class CollisionListComponent implements OnInit {
   @Input() employeeId?: any;
-  @Input() employeeCollision?: any = [];
+  @Input() employeeCollision?: any ;
   @Input() actionType?: any;
   @Input() isModal?: any;
+  @Output() public reloadCollisionGrid = new EventEmitter();
   isEditCollision: boolean;
   totalAmount: any = 0;
   collisionList: any = [];
@@ -35,7 +36,9 @@ export class CollisionListComponent implements OnInit {
       this.showCloseButton = false;
     }
     console.log(this.employeeCollision, 'collision');
-    this.getAllCollision();
+    // this.getAllCollision();
+    // this.collistionGrid();
+    this.employeeDetail();
   }
 
   editCollision() {
@@ -59,6 +62,19 @@ export class CollisionListComponent implements OnInit {
     }
   }
 
+  employeeDetail() {
+    const id = this.employeeId;
+    this.employeeService.getEmployeeDetail(id).subscribe(res => {
+      if (res.status === 'Success') {
+        const employees = JSON.parse(res.resultData);
+        if (employees.Employee.EmployeeCollision !== null) {
+          this.employeeCollision = employees.Employee.EmployeeCollision;
+          this.collistionGrid();
+        }
+      }
+    });
+  }
+
   deleteCollision(collision) {
     if (!this.isEditCollision && this.actionType === 'view') {
       return;
@@ -77,7 +93,7 @@ export class CollisionListComponent implements OnInit {
     this.employeeService.deleteCollision(collisionId).subscribe(res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfully!' });
-        this.getAllCollision();
+        this.employeeDetail();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -120,7 +136,7 @@ export class CollisionListComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.isEditCollision = false;
-        this.getAllCollision();
+        this.employeeDetail();
       }
     });
   }
@@ -137,13 +153,17 @@ export class CollisionListComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.isEditCollision = false;
-        this.getAllCollision();
+        this.employeeDetail();
       }
     });
   }
 
   collisionCollapsed() {
     this.isCollisionCollapsed = !this.isCollisionCollapsed;
+  }
+
+  reloadGrid() {
+    this.reloadCollisionGrid.emit();
   }
 
 

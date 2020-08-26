@@ -18,11 +18,11 @@ namespace Strive.ResourceAccess
             return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), null);
         }
 
-        public List<WashesViewModel> GetWashTimeDetail(int id)
+        public WashDetailViewModel GetWashTimeDetail(int id)
         {
 
             _prm.Add("@JobId", id);
-            var result = db.Fetch<WashesViewModel>(SPEnum.USPGETJOBBYID.ToString(), _prm);
+            var result = db.FetchMultiResult<WashDetailViewModel>(SPEnum.USPGETJOBBYID.ToString(), _prm);
             return result;
         }
         public bool AddWashTime(WashesDto washes)

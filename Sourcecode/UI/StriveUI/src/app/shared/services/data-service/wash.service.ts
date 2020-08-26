@@ -8,13 +8,13 @@ import { UrlConfig } from '../url.config';
 })
 export class WashService {
   public data: BehaviorSubject<string> = new BehaviorSubject('');
-  dashBoardData: any;  
+  dashBoardData: any;
 
   constructor(private http: HttpUtilsService) {
     setTimeout(() => {
       this.getDashBoard();
-     }, 1000);
-   }
+    }, 1000);
+  }
   getAllWashes(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getAllWash}`);
   }
@@ -30,21 +30,24 @@ export class WashService {
   getByBarcode(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getByBarcode}` + id);
   }
-  deleteWash(washId : number){
+  deleteWash(washId: number) {
     return this.http.delete(`${UrlConfig.totalUrl.deleteWash}`, { params: { id: washId } });
-  } 
+  }
   getVehicle(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getAllVehicle}`);
-  } 
+  }
   getServices(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
   }
-  getServiceType(obj : string){
-    return this.http.get(`${UrlConfig.totalUrl.getCode}`+ obj);
-  } 
+  getServiceType(obj: string) {
+    return this.http.get(`${UrlConfig.totalUrl.getCode}` + obj);
+  }
   getVehicleColor() {
     return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
-}
+  }
+  getTicketNumber(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getTicketNumber}`);
+  }
 
   // Get Dashboard Count
   getDashBoard() {
@@ -52,11 +55,11 @@ export class WashService {
       id: 1,
       date: new Date()
     };
-    this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}` ,obj).subscribe((data: any) => {
+    this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj).subscribe((data: any) => {
       const wash = JSON.parse(data.resultData);
       this.dashBoardData = wash.Dashboard;
       this.data.next(this.dashBoardData);
       console.log(this.data);
     });
-  }   
+  }
 }
