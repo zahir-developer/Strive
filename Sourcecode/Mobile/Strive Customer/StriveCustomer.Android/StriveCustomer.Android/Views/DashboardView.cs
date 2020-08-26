@@ -25,13 +25,11 @@ namespace StriveCustomer.Android.Views
     public class DashboardView : MvxAppCompatActivity<DashboardViewModel>
     {
         private BottomNavigationView bottomNav;
-        private FloatingActionButton dashActionButton;
         private NotificationSettingsView notificationSettingsView;
         MvxFragment fragment = null;
         MapsFragment mapFrag = new MapsFragment();
         DealsFragment dealFrag = new DealsFragment();
         ScheduleFragment scheduleFrag = new ScheduleFragment();
-        PastDetailsFragment pastDetailsFrag = new PastDetailsFragment();
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -40,14 +38,6 @@ namespace StriveCustomer.Android.Views
             bottomNav = FindViewById<BottomNavigationView>(Resource.Id.bottomNav);
             bottomNav.InflateMenu(Resource.Menu.bottomNavMenu);
             bottomNav.NavigationItemSelected += NavigateFrag;
-            dashActionButton = FindViewById<FloatingActionButton>(Resource.Id.dashActionButton);
-            dashActionButton.Click += DashActionButton_Click;
-        }
-
-        private void DashActionButton_Click(object sender, EventArgs e)
-        {
-            fragment = pastDetailsFrag;
-            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
         }
 
         private void NavigateFrag(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
