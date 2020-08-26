@@ -97,32 +97,47 @@ export class MembershipCreateEditComponent implements OnInit {
 
   // Add/Update Membership
   submit() {
-    const ServiceObj = this.membershipForm.value.service.map(item => {
-      return {
-        serviceId: item.item_id
-      };
-    });
-    const membership = {
+    const wash = {
+      membershipServiceId: 0,
       membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
-      membershipName: this.membershipForm.value.membershipName,
-      serviceId: ServiceObj,
-      locationId: 1,
-      isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
+      serviceId: Number(this.membershipForm.value.washes),
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
       updatedBy: 1,
       updatedDate: new Date()
     };
-    const clientMembership = {
-      clientMembershipId: this.isEdit ? this.selectedData.ClientMembershipId : 0,
-      clientVehicleId: 1,
-      locationId: 1,
+    const upcharge = {
+      membershipServiceId: 0,
       membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
-      startDate: moment(new Date()).format('MM-DD-YYYY'),
-      endDate: moment(new Date(new Date().getFullYear(), (new Date().getMonth() + 1), new Date().getDate())).format('MM-DD-YYYY'),
-      status: Number(this.membershipForm.value.status) === 0 ? true : false,
-      notes: this.membershipForm.value.notes,
+      serviceId: Number(this.membershipForm.value.upcharge),
+      isActive: true,
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date()
+    };
+    const ServiceObj = this.membershipForm.value.service.map(item => {
+      return {
+        membershipServiceId: 0,
+        membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
+        serviceId: item.item_id,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+    });
+    ServiceObj.push(wash);
+    ServiceObj.push(upcharge);
+    const membership = {
+      membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
+      membershipName: this.membershipForm.value.membershipName,
+      locationId: 1,
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
@@ -132,7 +147,7 @@ export class MembershipCreateEditComponent implements OnInit {
     };
     const formObj = {
       membership: membership,
-      clientMembershipDetails: clientMembership
+      membershipService: ServiceObj
     };
     if (this.isEdit === true) {
       this.member.updateMembership(formObj).subscribe(data => {

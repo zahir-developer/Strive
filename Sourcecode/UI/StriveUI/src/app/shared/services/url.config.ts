@@ -80,7 +80,7 @@ export const UrlConfig = {
     addCardHistory: `Admin/GiftCard/AddGiftCardHistory`,
     getByBarcode:`Admin/Washes/GetByBarCode/`,
     getAllMembership:`Admin/MembershipSetup/GetAll`,
-    getMembershipService:`Admin/MembershipSetup/GetService`,
+    getMembershipService:`Admin/ServiceSetup/GetService`,
     getMembershipById:`Admin/MembershipSetup/GetAllMembershipById/`,
     addMembership:`Admin/MembershipSetup/Add`,
     updateMembership:`Admin/MembershipSetup/Update`,
@@ -98,6 +98,7 @@ export const UrlConfig = {
     getHistoryByClientId: `Admin/Client/GetHistoryByClientId/`,
     getServiceSearch:`Admin/ServiceSetup/GetServiceSearch`,
     getProductSearch:`Admin/Product/GetProductSearch`,
-    getVendorSearch:`Admin/Vendor/GetVendorSearch`,
+    getVendorSearch:`Admin/Vendor/GetVendorSearch`,    
+    getTicketNumber:`Admin/Washes/GetTicketNumber`,
   }
 };
