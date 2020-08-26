@@ -91,10 +91,9 @@ export class MembershipListComponent implements OnInit {
     this.member.getMembershipById(det.MembershipId).subscribe(data => {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);        
-        const details = membership.MembershipDetail;
-        console.log(details);
+        const details = membership.MembershipAndServiceDetail;
         this.headerData = 'Edit Membership';
-        this.selectedData = details[0];
+        this.selectedData = details;
         this.isEdit = true;
         this.showDialog = true;
       } else {
