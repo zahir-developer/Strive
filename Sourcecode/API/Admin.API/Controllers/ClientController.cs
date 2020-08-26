@@ -52,6 +52,12 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetClientById(clientId);
         }
+        [HttpGet]
+        [Route("GetClientVehicleById/{clientId}")]
+        public Result GetClientVehicleById(int clientId)
+        {
+            return _bplManager.GetClientVehicleById(clientId);
+        }
         [HttpPost]
         [Route("GetClientSearch")]
         public Result GetServiceSearch([FromBody] ClientSearchDto search) => _bplManager.GetClientSearch(search);
