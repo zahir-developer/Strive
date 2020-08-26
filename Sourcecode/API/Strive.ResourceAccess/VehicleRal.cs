@@ -41,7 +41,7 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(ClientVehicle);
         }
 
-        public bool SaveVehicle(VehicleDto client)
+        public bool SaveClientVehicle(VehicleDto client)
         {
             return dbRepo.InsertPc(client, "ClientId");
         }
@@ -66,9 +66,14 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
         }
-        public bool SaveClientVehicleMembership(VehicleMembershipViewModel clientmembership)
+        public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
         {
-            return dbRepo.UpdatePc(clientmembership);
+            return dbRepo.SaveAll(ClientVehicleMembershipModel, "ClientMembershipId");
+        }
+
+        public bool SaveVehicle(ClientVehicleModel clientVehicle)
+        {
+            return dbRepo.UpdatePc(clientVehicle);
         }
     }
 }
