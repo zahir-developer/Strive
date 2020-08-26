@@ -55,7 +55,6 @@ export class AddActivityComponent implements OnInit {
 
   addActivity() {
     console.log(this.giftCardForm);
-    return;
     this.submitted = true;
     if (this.giftCardForm.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });

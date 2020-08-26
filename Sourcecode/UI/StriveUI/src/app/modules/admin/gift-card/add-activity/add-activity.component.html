@@ -8,8 +8,8 @@
                 <div class="col-sm-2"></div>
                 <div class="col-sm-10">
                     <div class="form-row">
-                        <div class="col-sm-5">
-                            <label class="float-right" style="font-size: 25px;">Card Number:</label>
+                        <div class="col-sm-4">
+                            <label class="float-left" style="font-size: 25px;">Card Number:</label>
                         </div>
                         <div class="col-sm-5">
                             <label style="font-size: 25px;"><strong>{{giftCardNumber}}</strong></label>
@@ -22,8 +22,8 @@
                 <div class="col-sm-2"></div>
                 <div class="col-sm-10">
                     <div class="form-row">
-                        <div class="col-sm-5">
-                            <label class="float-right" style="font-size: 25px;">Value:</label>
+                        <div class="col-sm-4">
+                            <label class="float-left" style="font-size: 25px;">Value:</label>
                         </div>
                         <div class="col-sm-5">
                             <label style="font-size: 25px;"><strong>{{totalAmount | currency}}</strong></label>
@@ -36,38 +36,34 @@
                 <div class="col-sm-2"></div>
                 <div class="col-sm-10">
                     <div class="form-row">
-                        <div class="col-sm-5">
-                            <label class="float-right" style="font-size: 25px;">Amount:</label>
+                        <div class="col-sm-4">
+                            <label class="float-left" style="font-size: 25px;">Amount:</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons"
-                                        (click)="settingType($event)">
-                                        <label class="btn btn-secondary">
-                                            <input type="radio" formControlName="type" (change)="settingType($event)"
-                                                value="plus" id="option1" autocomplete="off">
-                                            +
-                                        </label>
-                                        <label class="btn btn-secondary">
-                                            <input type="radio" formControlName="type" (change)="settingType($event)"
-                                                value="minus" id="option2" autocomplete="off"> -
-                                        </label>
-                                    </div>
-                                </div>
                                 <div class="col-sm-8">
-                                    <div class="m-l-20">
+                                    <div >
                                         <div class="row">
-                                            <div class="col-sm-1">
-                                                <span style="font-size: 25px;" *ngIf="symbol === 'plus'">+</span>
-                                                <span style="font-size: 25px;" *ngIf="symbol === 'minus'">-</span>
-                                            </div>
                                             <div class="col-sm-8">
                                                 <input type="text" placeholder="Amount" class="form-control"
                                                     [ngClass]="{ 'is-invalid': submitted && f.amount.errors }"
                                                     formControlName="amount">
                                                 <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
                                                     <div *ngIf="f.amount.errors.required">Amount is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons"
+                                                    (click)="settingType($event)">
+                                                    <label class="btn btn-secondary">
+                                                        <input type="radio" formControlName="type" (change)="settingType($event)"
+                                                            value="plus" id="option1" autocomplete="off">
+                                                        +
+                                                    </label>
+                                                    <label class="btn btn-secondary">
+                                                        <input type="radio" formControlName="type" (change)="settingType($event)"
+                                                            value="minus" id="option2" autocomplete="off"> -
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
