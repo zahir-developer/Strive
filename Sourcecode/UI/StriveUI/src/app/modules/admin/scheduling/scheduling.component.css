@@ -35,7 +35,14 @@ body .fc .fc-toolbar .fc-button:enabled:hover {
         border-color: #dddd;
     }
     .draggedEvent {
-       
-        background-color: '#696969' ;
+        background-color: lightpink;
         color: '#fffff';
+        border: none !important;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .event {
+        border: none !important;
+        font-size: 12px;
+        font-weight: 500;
     }
