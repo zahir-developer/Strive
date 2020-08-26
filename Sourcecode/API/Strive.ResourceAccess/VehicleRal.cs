@@ -66,5 +66,13 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
         }
+        public bool SaveClientMembership(ClientMembershipDetails clientmembership)
+        {
+            return dbRepo.Update(clientmembership);
+        }
+        public bool SaveVehicleMembershipService(ClientVehicleMembershipService vehiclemembership)
+        {
+            return dbRepo.Update(vehiclemembership);
+        }
     }
 }
