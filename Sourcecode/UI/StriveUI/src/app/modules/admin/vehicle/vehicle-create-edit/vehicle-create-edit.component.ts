@@ -17,13 +17,14 @@ export class VehicleCreateEditComponent implements OnInit {
   @Input() clientId?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
-  make:any;
-  model:any;
-  color:any;
-  upcharge:any;
+  make: any;
+  model: any;
+  color: any;
+  upcharge: any;
   upchargeType: any;
   membership: any;
   additional: any;
+  membershipServices: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -67,18 +68,18 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
-  viewVehicle(){
+  viewVehicle() {
     this.vehicleForm.disable();
   }
 
   // Get VehicleMembership
-  getVehicleMembership(){
+  getVehicleMembership() {
     this.vehicle.getVehicleMembership().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.VehicleMembership;
         console.log(this.membership);
-      }else {
+      } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
@@ -89,7 +90,7 @@ export class VehicleCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.additional = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === "Additional Services");
-        console.log(membership);        
+        console.log(membership);
         this.additional = this.additional.map(item => {
           return {
             item_id: item.ServiceId,
@@ -113,7 +114,7 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   // Get vehicleCodes
-  getVehicleCodes(){
+  getVehicleCodes() {
     this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
@@ -121,7 +122,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
         this.upchargeType = vehicle.VehicleDetails.filter(item => item.CategoryId === 34);
-      }else {
+      } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
@@ -132,7 +133,7 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   // Add/Update Vehicle
-  submit() {  
+  submit() {
     const formObj = {
       vehicleId: this.selectedData.ClientVehicleId,
       clientId: this.selectedData.ClientId,
@@ -140,8 +141,8 @@ export class VehicleCreateEditComponent implements OnInit {
       vehicleNumber: this.vehicleForm.value.vehicleNumber,
       vehicleMfr: this.vehicleForm.value.make,
       vehicleModel: this.vehicleForm.value.model,
-      vehicleModelNo:0,
-      vehicleYear:"",
+      vehicleModelNo: 0,
+      vehicleYear: "",
       vehicleColor: Number(this.vehicleForm.value.color),
       upcharge: Number(this.vehicleForm.value.upcharge),
       barcode: this.vehicleForm.value.barcode,
@@ -153,6 +154,42 @@ export class VehicleCreateEditComponent implements OnInit {
       updatedBy: 1,
       updatedDate: new Date()
     };
+    const membership = {
+      clientMembershipId: 0,
+      clientVehicleId: 0,
+      locationId: 0,
+      membershipId: 0,
+      startDate: "2020-08-26T14:04:54.988Z",
+      endDate: "2020-08-26T14:04:54.988Z",
+      status: true,
+      notes: "string",
+      isActive: true,
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date()
+    };
+    const membershipServices = this.membershipServices.map(item => {
+      return {
+        clientVehicleMembershipServiceId: 0,
+        clientMembershipId: 0,
+        serviceId: 0,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      }
+    });
+    const sourceObj = {
+      clientVehicle: formObj,
+      clientVehicleMembershipModel:{
+        clientVehicleMembershipDetails: membership,
+        clientVehicleMembershipServices: membershipServices
+      }
+    }
     const add = {
       VehicleId: 0,
       ClientId: this.clientId,
@@ -163,8 +200,8 @@ export class VehicleCreateEditComponent implements OnInit {
       VehicleColor: Number(this.vehicleForm.value.color),
       Upcharge: Number(this.vehicleForm.value.upcharge),
       Barcode: this.vehicleForm.value.barcode,
-      VehicleModelNo:0,
-      VehicleYear:"",
+      VehicleModelNo: 0,
+      VehicleYear: "",
       Notes: "",
       IsActive: true,
       IsDeleted: false,
@@ -173,10 +210,10 @@ export class VehicleCreateEditComponent implements OnInit {
       UpdatedBy: 1,
       UpdatedDate: new Date()
     };
-    const value = { 
-      ClientVehicleId: 0, 
-      VehicleNumber: this.vehicleForm.value.vehicleNumber,    
-      VehicleMake: this.make !== null ?  this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
+    const value = {
+      ClientVehicleId: 0,
+      VehicleNumber: this.vehicleForm.value.vehicleNumber,
+      VehicleMake: this.make !== null ? this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
       ModelName: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
       Color: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
       Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
@@ -197,10 +234,10 @@ export class VehicleCreateEditComponent implements OnInit {
       this.vehicle.vehicleValue = value;
       this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       this.toastr.success('Vehicle Saved Successfully!!', 'Success!');
-    }    
+    }
   }
   cancel() {
-    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved'});
+    this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 }
 

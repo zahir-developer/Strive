@@ -70,5 +70,11 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(clientmembership);
         }
+        public VehicleMembershipViewModel GetVehicleMembershipDetailsByVehicleId(int id)
+        {
+            _prm.Add("VehicleId", id);
+            return db.FetchMultiResult<VehicleMembershipViewModel>(SPEnum.USPGETVEHICLEMEMBERSHIPBYVEHICLEID.ToString(), _prm);
+        }
+        
     }
 }

@@ -39,7 +39,8 @@
                                 <div class="form-group col-lg-2 col-md-2 col-xl-3">
                                     <label for="inputBarcode">barcode</label>
                                     <input type="text" maxlength="100" class="form-control" formControlName="barcode"
-                                        placeholder="BarCode" (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
+                                        placeholder="BarCode"
+                                        (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputClient">Client</label>
@@ -87,21 +88,24 @@
                                         <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
                                         </option>
                                     </select>
-                                </div>      
+                                </div>
                                 <div class="form-group col-lg-3">
                                     <label for="inputMembership">Membership</label>
-                                    <select class="form-control" formControlName="membership" (change)="membershipSelect($event.target.value)">
+                                    <select class="form-control" formControlName="membership"
+                                        (change)="membershipSelect($event.target.value)">
                                         <option selected value="">None</option>
-                                        <option *ngFor="let member of membership" value="{{member.MembershipName}}">{{member.MembershipName}}</option>
+                                        <option *ngFor="let member of membership" value="{{member.MembershipId}}">
+                                            {{member.MembershipName}}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes</label>
-                                    <select class="form-control" formControlName="washes">
+                                    <select class="form-control" formControlName="washes" (change)="washService($event.target.value)">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of washes" value="{{score.ServiceId}}">{{score.ServiceName}}
+                                        <option *ngFor="let score of washes" value="{{score.ServiceId}}">
+                                            {{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
@@ -109,23 +113,26 @@
                                     <label for="inputUpchargeType">Upcharge Type</label>
                                     <select class="form-control" formControlName="upchargeType">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">{{score.ServiceName}}
+                                        <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
+                                            {{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputUpcharges">Upcharges</label>
-                                    <select class="form-control" formControlName="upcharges">
+                                    <select class="form-control" formControlName="upcharges" (change)="upchargeService($event.target.value)">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">{{score.ServiceName}}
+                                        <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
+                                            {{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputAirFreshners">Air Freshners</label>
-                                    <select class="form-control" formControlName="airFreshners">
+                                    <select class="form-control" formControlName="airFreshners" (change)="airService($event.target.value)">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of airFreshner" value="{{score.ServiceId}}">{{score.ServiceName}}
+                                        <option *ngFor="let score of airFreshner" value="{{score.ServiceId}}">
+                                            {{score.ServiceName}}
                                         </option>
                                     </select>
                                 </div>
@@ -154,7 +161,8 @@
                             <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
                                     <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                                        (change)="change(addService)" [disabled]="isMembership" />
+                                        (change)="change(addService)" [disabled]="isMembership || isView"
+                                        [checked]="addService.IsChecked" />
                                     <label class="custom-control-label"
                                         for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                                 </div>

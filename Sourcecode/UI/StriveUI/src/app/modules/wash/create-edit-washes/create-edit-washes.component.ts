@@ -34,6 +34,7 @@ export class CreateEditWashesComponent implements OnInit {
   jobItems: any;
   isMembership = false;
   membership: any;
+  washItem: any = [];
 
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
@@ -64,31 +65,44 @@ export class CreateEditWashesComponent implements OnInit {
     this.getTicketNumber();
   }
 
-  getTicketNumber(){
+  getTicketNumber() {
     this.wash.getTicketNumber().subscribe(data => {
       this.ticketNumber = data;
     });
     this.getServiceType();
     this.getVehicle();
     this.getColor();
-    this.getMembership();
   }
 
   getWashById() {
-    console.log(this.selectedData);
-    // this.washForm.patchValue({
-    //   barcode: this.selectedData.BarCode,
-    // });
-    this.ticketNumber = this.selectedData.TicketNumber;
-    //this.additionalService = this.additional.filter(item => item.ServiceId === this.selectedData.JobItems.ServiceId);
+    console.log(this.additional);
+    this.washForm.patchValue({
+      barcode: this.selectedData.BarCode,
+      client: this.selectedData.Washes[0].ClientName,
+      vehicle: this.selectedData.Washes[0].VehicleId,
+      type: this.selectedData.Washes[0].Make,
+      model: this.selectedData.Washes[0].Model,
+      color: this.selectedData.Washes[0].Color,
+      washes: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 15)[0].ServiceId,
+      upcharges: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 18)[0].ServiceId,
+    });
+    this.ticketNumber = this.selectedData.Washes.TicketNumber;
+    this.washItem = this.selectedData.WashItem;
+    console.log(this.washItem);
+    this.washItem.forEach(element => {
+      if (this.additional.filter(item => item.ServiceId === element.ServiceId)[0] !== undefined) {
+        this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
+      }
+    });
   }
 
-  getMembership(){
-    this.wash.getMembership().subscribe(data => {
+  getMembership(id) {
+    this.wash.getMembership(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.membership = vehicle.VehicleMembership;
-      }else {
+        this.membership = vehicle.Membership;
+        console.log(this.membership,id);
+      } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
@@ -100,7 +114,6 @@ export class CreateEditWashesComponent implements OnInit {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
         this.getAllServices();
-        console.log(this.serviceEnum);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -118,7 +131,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.UpchargeType = this.upcharges.filter(item => Number(item.ParentServiceId) === 0);
         this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
         this.additional.forEach(element => {
-              element.IsChecked = false;
+          element.IsChecked = false;
         });
         if (this.isEdit === true) {
           this.washForm.reset();
@@ -130,24 +143,28 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  membershipSelect(data){
-    if(data === ""){
+  membershipSelect(data) {
+    if (data === "") {
       this.isMembership = false;
-      this.washForm.get('washes').enable();      
-      this.washForm.get('upcharges').enable();      
-      this.washForm.get('upchargeType').enable();      
-    }else{
+      this.washForm.get('washes').enable();
+      this.washForm.get('upcharges').enable();
+      this.washForm.get('upchargeType').enable();
+    } else {
       this.isMembership = true;
-      this.washForm.get('washes').disable();      
-      this.washForm.get('upcharges').disable();      
+      this.washForm.get('washes').disable();
+      this.washForm.get('upcharges').disable();
       this.washForm.get('upchargeType').disable();
     }
   }
 
   change(data) {
-    data.IsChecked = data.IsChecked ? false : true;
-    this.additionalService = this.additional.filter(item => item.IsChecked === true);  
-    console.log(this.additionalService);  
+    const temp = this.washItem.filter(item => item.ServiceId === data.ServiceId);
+    if (temp.length !== 0) {
+      this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted = this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted ? false : true;
+      console.log(this.washItem);
+    } else {
+      data.IsChecked = data.IsChecked ? false : true;
+    }
   }
 
   getVehicle() {
@@ -165,7 +182,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getVehicleColor().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);        
+        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
         this.type = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -183,38 +200,105 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-        console.log(this.barcodeDetails);
         this.washForm.patchValue({
           client: this.barcodeDetails.FirstName + this.barcodeDetails.LastName,
           vehicle: this.barcodeDetails.VehicleId,
           model: this.barcodeDetails.VehicleModel,
-          color: this.barcodeDetails.VehicleColor
+          color: this.barcodeDetails.VehicleColor,
+          type: this.barcodeDetails.VehicleMfr
         });
+        this.getMembership(this.barcodeDetails.VehicleId);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
+
+  washService(data) {
+    if (this.isEdit) {      
+      this.washItem.filter(i => i.ServiceTypeId === 15)[0].IsDeleted = true;
+      if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
+        this.washItem.filter(i => i.ServiceTypeId === 15)[0].IsDeleted = false;
+      } else {
+        this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 15);
+        const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
+        if (serviceWash.length !== 0) {
+          this.additionalService.push(serviceWash[0]);
+        }
+      }
+    } else {
+      this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 15);
+      const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
+      if (serviceWash.length !== 0) {
+        this.additionalService.push(serviceWash[0]);
+      }
+    }
+    console.log(this.additionalService,this.washItem);
+  }
+
+  upchargeService(data) {
+    if (this.isEdit) {
+      this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = true;
+      if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
+        this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = false;
+      } else {
+        this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 18);
+        const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
+        if (serviceUpcharge.length !== 0) {
+          this.additionalService.push(serviceUpcharge[0]);
+        }
+      }
+    } else {
+      this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 18);
+      const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
+      if (serviceUpcharge.length !== 0) {
+        this.additionalService.push(serviceUpcharge[0]);
+      }
+    }
+    console.log(this.additionalService,this.washItem);
+  }
+
+  airService(data) {
+    if (this.isEdit) {
+      this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
+      if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
+        this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = false;
+      } else {
+        this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 19);
+        const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
+        if (serviceAir.length !== 0) {
+          this.additionalService.push(serviceAir[0]);
+        }
+      }
+    } else {
+      this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 19);
+      const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
+      if (serviceAir.length !== 0) {
+        this.additionalService.push(serviceAir[0]);
+      }
+    }
+    console.log(this.additionalService,this.washItem);
+  }
+
   // Add/Update Wash
-  submit() {
-    const serviceWash = this.washes.filter(item => item.ServiceId === Number(this.washForm.value.washes));
-    if (serviceWash.length !== 0) {
-      this.additionalService.push(serviceWash[0]);
-    }
-    const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(this.washForm.value.upcharges));
-    if (serviceUpcharge.length !== 0) {
-      this.additionalService.push(serviceUpcharge[0]);
-    }
-    const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(this.washForm.value.airFreshners));
-    if (serviceAir.length !== 0) {
-      this.additionalService.push(serviceAir[0]);
-    }
+  submit() {   
+    this.additional.forEach(element => {        
+      if(element.IsChecked){
+        this.additionalService.push(element);
+      }
+    });
     const job = {
-      jobId: this.isEdit ? this.selectedData.JobId : 0,
+      jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
       ticketNumber: this.ticketNumber,
       locationId: 1,
-      clientId: 3,// this.barcodeDetails.ClientId,
-      vehicleId: 1,// this.barcodeDetails.VehicleId,
+      clientId: this.isEdit ? this.selectedData.Washes[0].ClientId : this.barcodeDetails.ClientId,
+      vehicleId: this.isEdit ? this.selectedData.Washes[0].VehicleId : this.barcodeDetails.VehicleId,
+      make: this.washForm.value.type,
+      model: this.washForm.value.model,
+      color: this.washForm.value.color,
       jobType: 15,
       jobDate: new Date(),
       timeIn: new Date(),
@@ -228,12 +312,15 @@ export class CreateEditWashesComponent implements OnInit {
       updatedBy: 1,
       updatedDate: new Date()
     };
+    this.washItem.forEach(element => {
+      this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
+    });
     this.jobItems = this.additionalService.map(item => {
       return {
         jobItemId: 0,
-        jobId: this.isEdit ? this.selectedData.JobId : 0,
+        jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
         serviceId: item.ServiceId,
-        commission: 0,
+        commission: 0,  
         price: item.Cost,
         quantity: 1,
         reviewNote: "",
@@ -244,6 +331,9 @@ export class CreateEditWashesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date()
       };
+    });
+    this.washItem.forEach(element => {
+      this.jobItems.push(element);
     });
     const formObj = {
       job: job,
