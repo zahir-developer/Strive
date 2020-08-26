@@ -23,6 +23,7 @@ export class CreateEditWashesComponent implements OnInit {
   barcodeDetails: any;
   vehicle: any;
   color: any;
+  type: any;
   additionalService: any = [];
   serviceEnum: any;
   additional: any;
@@ -31,6 +32,8 @@ export class CreateEditWashesComponent implements OnInit {
   airFreshner: any;
   UpchargeType: any;
   jobItems: any;
+  isMembership = false;
+  membership: any;
 
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
@@ -49,6 +52,7 @@ export class CreateEditWashesComponent implements OnInit {
       type: ['',],
       barcode: ['',],
       washes: ['',],
+      membership: ['',],
       model: ['',],
       color: ['',],
       upcharges: ['',],
@@ -67,6 +71,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.getServiceType();
     this.getVehicle();
     this.getColor();
+    this.getMembership();
   }
 
   getWashById() {
@@ -76,6 +81,17 @@ export class CreateEditWashesComponent implements OnInit {
     // });
     this.ticketNumber = this.selectedData.TicketNumber;
     //this.additionalService = this.additional.filter(item => item.ServiceId === this.selectedData.JobItems.ServiceId);
+  }
+
+  getMembership(){
+    this.wash.getMembership().subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.membership = vehicle.VehicleMembership;
+      }else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
   }
 
   getServiceType() {
@@ -114,6 +130,20 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
+  membershipSelect(data){
+    if(data === ""){
+      this.isMembership = false;
+      this.washForm.get('washes').enable();      
+      this.washForm.get('upcharges').enable();      
+      this.washForm.get('upchargeType').enable();      
+    }else{
+      this.isMembership = true;
+      this.washForm.get('washes').disable();      
+      this.washForm.get('upcharges').disable();      
+      this.washForm.get('upchargeType').disable();
+    }
+  }
+
   change(data) {
     data.IsChecked = data.IsChecked ? false : true;
     this.additionalService = this.additional.filter(item => item.IsChecked === true);  
@@ -135,7 +165,8 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getVehicleColor().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
+        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);        
+        this.type = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
