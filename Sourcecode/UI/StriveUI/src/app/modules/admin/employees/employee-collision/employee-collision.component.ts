@@ -194,10 +194,10 @@ export class EmployeeCollisionComponent implements OnInit {
     this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
-        this.vehicleList = vehicle.Status;
-        this.vehicleList.forEach(item => {
-          item.vehicleName = item.VehicleMake + '-' + item.ModelName + '-' + item.Color;
-        });
+        this.vehicleList = vehicle.VehicleDetail;
+        // this.vehicleList.forEach(item => {
+        //   item.vehicleName = item.VehicleMake + '-' + item.ModelName + '-' + item.Color;
+        // });
       }
     });
   }

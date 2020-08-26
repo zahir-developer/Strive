@@ -98,7 +98,8 @@ export const UrlConfig = {
     getHistoryByClientId: `Admin/Client/GetHistoryByClientId/`,
     getServiceSearch:`Admin/ServiceSetup/GetServiceSearch`,
     getProductSearch:`Admin/Product/GetProductSearch`,
-    getVendorSearch:`Admin/Vendor/GetVendorSearch`,    
+    getVendorSearch:`Admin/Vendor/GetVendorSearch`,
     getTicketNumber:`Admin/Washes/GetTicketNumber`,
+    getVechileList: `Admin/Collision/GetVehicleListByClientId/`
   }
 };
