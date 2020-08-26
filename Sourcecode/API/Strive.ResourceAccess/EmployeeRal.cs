@@ -29,9 +29,9 @@ namespace Strive.ResourceAccess
             return lstResult;
         }
 
-        public List<EmployeeListViewModel> GetEmployeeList()
+        public EmployeeListViewModel GetEmployeeList()
         {
-            return db.FetchMultiResult<List<EmployeeListViewModel>>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+            return db.FetchMultiResult<EmployeeListViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
         }
 
         public List<EmployeeViewModel> GetAllEmployeeDetail(string employeeName)

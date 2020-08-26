@@ -55,7 +55,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
     this.fromDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.start).format('YYYY-MM-DDTHH:mm');
     this.endDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.end).format('YYYY-MM-DDTHH:mm');
-    this.getSchedule();
+    // this.getSchedule();
 
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
@@ -149,12 +149,13 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
               item.start = this.startTime,
               item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-            this.events = [... this.events, {
-              id: 'clicked' + i,
-              title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
-              start: this.startTime,
-              end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-            }];
+              item.clicked = false,
+              this.events = [... this.events, {
+                id: 'clicked' + i,
+                title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                start: this.startTime,
+                end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+              }];
           });
         }
       },
@@ -262,7 +263,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               id: +item.ScheduleId,
               start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
               end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
-              title: 'new test',
+              title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
               textColor: 'white',
               backgroundColor: '#FF7900',
               extendedProps: {
@@ -281,18 +282,18 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  retainUnclickedEvent(){
+  retainUnclickedEvent() {
     if (this.selectedList.length !== 0) {
-this.selectedList.forEach(item => {
-  if (item.clicked === false) {
-  this.events = [... this.events, {
-    id: item.id,
-start: item.start,
-end: item.end,
-title: item.title
-  }];
-}
-});
+      this.selectedList.forEach(item => {
+        if (item.clicked === false) {
+          this.events = [... this.events, {
+            id: item.id,
+            start: item.start,
+            end: item.end,
+            title: item.title
+          }];
+        }
+      });
     }
   }
   removeDraggedEvent() {
@@ -350,7 +351,7 @@ title: item.title
   }
   bindPopUp(event) {
     this.startTime = event.event.start;
-    this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').toDate() :
+    this.endTime = event.event.end === null ? moment(event.event.start).add(60, 'minutes').toDate() :
       event.event.end;
     this.scheduleId = event?.event?.extendedProps?.scheduleId;
     $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
