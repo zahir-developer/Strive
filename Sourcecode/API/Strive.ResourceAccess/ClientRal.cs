@@ -38,10 +38,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
             
         }
-        public List<ClientVehicleDetailModelView> GetClientVehicleById(int clientId)
+        public ClientVehicleDetailModelView GetClientVehicleById(int clientId)
         {
             _prm.Add("@ClientId", clientId);
-            return db.Fetch<ClientVehicleDetailModelView>(SPEnum.uspGetClientAndVehicle.ToString(), _prm);
+            return db.FetchMultiResult<ClientVehicleDetailModelView>(SPEnum.uspGetClientAndVehicle.ToString(), _prm);
 
         }
         public bool DeleteClient(int clientId)

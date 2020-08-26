@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class ClientVehicleDetailModelView
+    public class VehicleMembershipViewModel
     {
-        public List<ClientList> ClientList { get; set; }
-        public List<VehicleList> VehicleList { get; set; }
+        public int MembershipId { get; set; }
+        public string MembershipName { get; set; }
     }
 }
