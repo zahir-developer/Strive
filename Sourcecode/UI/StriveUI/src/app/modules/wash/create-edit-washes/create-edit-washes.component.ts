@@ -72,7 +72,6 @@ export class CreateEditWashesComponent implements OnInit {
     this.getServiceType();
     this.getVehicle();
     this.getColor();
-    this.getMembership();
   }
 
   getWashById() {
@@ -97,11 +96,12 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  getMembership() {
-    this.wash.getMembership().subscribe(data => {
+  getMembership(id) {
+    this.wash.getMembership(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.Membership;
+        console.log(this.membership,id);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -200,13 +200,14 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-        console.log(this.barcodeDetails);
         this.washForm.patchValue({
           client: this.barcodeDetails.FirstName + this.barcodeDetails.LastName,
           vehicle: this.barcodeDetails.VehicleId,
           model: this.barcodeDetails.VehicleModel,
-          color: this.barcodeDetails.VehicleColor
+          color: this.barcodeDetails.VehicleColor,
+          type: this.barcodeDetails.VehicleMfr
         });
+        this.getMembership(this.barcodeDetails.VehicleId);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -295,6 +296,9 @@ export class CreateEditWashesComponent implements OnInit {
       locationId: 1,
       clientId: this.isEdit ? this.selectedData.Washes[0].ClientId : this.barcodeDetails.ClientId,
       vehicleId: this.isEdit ? this.selectedData.Washes[0].VehicleId : this.barcodeDetails.VehicleId,
+      make: this.washForm.value.type,
+      model: this.washForm.value.model,
+      color: this.washForm.value.color,
       jobType: 15,
       jobDate: new Date(),
       timeIn: new Date(),

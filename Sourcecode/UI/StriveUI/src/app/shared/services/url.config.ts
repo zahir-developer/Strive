@@ -100,5 +100,6 @@ export const UrlConfig = {
     getProductSearch:`Admin/Product/GetProductSearch`,
     getVendorSearch:`Admin/Vendor/GetVendorSearch`,    
     getTicketNumber:`Admin/Washes/GetTicketNumber`,
+    getMembershipByVehicle:`Admin/Washes/GetMembershipListByVehicleId/`,
   }
 };
