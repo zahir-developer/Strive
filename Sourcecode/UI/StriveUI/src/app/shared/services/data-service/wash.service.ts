@@ -49,7 +49,7 @@ export class WashService {
     return this.http.get(`${UrlConfig.totalUrl.getTicketNumber}`);
   }
   getMembership(): Observable<any> {
-      return this.http.get(`${UrlConfig.totalUrl.getVehicleMembership}`);
+      return this.http.get(`${UrlConfig.totalUrl.getAllMembership}`);
   }
 
   // Get Dashboard Count

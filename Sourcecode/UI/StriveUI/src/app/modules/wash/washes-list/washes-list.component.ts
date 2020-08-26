@@ -100,13 +100,13 @@ export class WashesListComponent implements OnInit {
         const wash = JSON.parse(data.resultData);
         if (label === 'edit') {
           this.headerData = 'Edit Service';
-          this.selectedData = wash.WashesDetail[0];
+          this.selectedData = wash.WashesDetail;
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
         } else {
           this.headerData = 'View Service';
-          this.selectedData = wash.WashesDetail[0];
+          this.selectedData = wash.WashesDetail;
           this.isEdit = true;
           this.isView = true;
           this.showDialog = true;
