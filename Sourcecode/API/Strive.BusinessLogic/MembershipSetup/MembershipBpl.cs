@@ -39,6 +39,10 @@ namespace Strive.BusinessLogic.MembershipSetup
         {
             return ResultWrap(new MembershipSetupRal(_tenant).DeleteMembershipById, membershipid, "Status");
         }
+        public Result GetMembershipAndServiceByMembershipId(int id)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipAndServiceByMembershipId, id, "MembershipAndServiceDetail");
+        }
 
     }
 }
