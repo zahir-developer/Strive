@@ -1,41 +1,22 @@
-
-<RelativeLayout
+ <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent">       
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" 
         android:layout_above="@+id/bottom_navigation"/>
-    <android.support.design.bottomappbar.BottomAppBar
-        android:id="@+id/dashBottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/transparent"
-        android:clickable="false"
-        app:fabAlignmentMode="center">
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            app:labelVisibilityMode="labeled"
-            app:elevation="16dp"
-            android:minWidth="25px"
-            android:minHeight="25px">
-        </android.support.design.widget.BottomNavigationView>
-    </android.support.design.bottomappbar.BottomAppBar>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/dashActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Design.FloatingActionButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="30dp"
-        app:backgroundTint="@android:color/white"/>
-</RelativeLayout>
+    <android.support.design.widget.BottomNavigationView
+      android:id="@+id/bottomNav"
+      android:layout_width="match_parent"
+      android:layout_height="56dp"
+      android:layout_gravity="start"
+      android:layout_alignParentBottom="true"
+      android:background="@android:color/white"  
+      app:labelVisibilityMode="labeled"  
+      app:elevation="16dp"/>
+      <!-- Note: background color is required to get elevation -->
+  </RelativeLayout>
