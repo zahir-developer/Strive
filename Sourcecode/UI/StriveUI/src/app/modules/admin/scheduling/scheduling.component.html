@@ -216,7 +216,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <input type="checkbox">&nbsp;
+                            <input type="checkbox" id="isleave" [(ngModel)]="isLeave" [ngModelOptions]="{standalone: true}" (change)="isAbsentChange($event)">&nbsp;
                             <label >Leave</label>
                         </div>
                     </div>

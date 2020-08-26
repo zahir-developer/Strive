@@ -48,6 +48,9 @@ export class WashService {
   getTicketNumber(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getTicketNumber}`);
   }
+  getMembership(): Observable<any> {
+      return this.http.get(`${UrlConfig.totalUrl.getVehicleMembership}`);
+  }
 
   // Get Dashboard Count
   getDashBoard() {

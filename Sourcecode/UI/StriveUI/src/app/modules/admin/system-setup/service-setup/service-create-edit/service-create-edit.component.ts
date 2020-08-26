@@ -76,6 +76,7 @@ export class ServiceCreateEditComponent implements OnInit {
           status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
+        this.checkService(this.selectedService.ServiceTypeId);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -100,7 +101,9 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetup.getServiceSetup().subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.parent = serviceDetails.ServiceSetup;
+        this.parent = serviceDetails.ServiceSetup.filter(item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
+        this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
+        console.log(this.parent);
         this.getAllServiceType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -135,9 +138,13 @@ export class ServiceCreateEditComponent implements OnInit {
   checkService(data){
     if(Number(data) === 18){
       this.isUpcharge = true;
+    }else{
+      this.isUpcharge = false;
     }
     if(Number(data) === 17){
       this.isAdditional = true;
+    }else{
+       this.isAdditional = false;
     }
   }
 
@@ -164,8 +171,6 @@ export class ServiceCreateEditComponent implements OnInit {
     if (this.serviceSetupForm.invalid) {
       return;
     }
-    console.log(this.serviceSetupForm.value.status);
-    const sourceObj = [];
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,
       serviceId: this.isEdit ? this.selectedService.ServiceId : 0,

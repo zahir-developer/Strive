@@ -21,6 +21,7 @@ declare var $: any;
 export class SchedulingComponent implements OnInit, AfterViewInit {
   public theme = 'theme-light';
   calendar: any;
+  isLeave: boolean;
   selectedList = [];
   buttonText = 'Add';
   empName: any;
@@ -47,6 +48,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   showDialog: boolean;
   locationId: any;
   scheduleId: any;
+  scheduleType: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
     private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
   ngAfterViewInit() {
@@ -55,7 +57,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
     this.fromDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.start).format('YYYY-MM-DDTHH:mm');
     this.endDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.end).format('YYYY-MM-DDTHH:mm');
-    this.getSchedule();
+    // this.getSchedule();
 
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
@@ -108,8 +110,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       },
       eventClick: (event) => {
         if (!event.event.id.startsWith('click')) {
-          this.empName = event.event.title;
-          this.empId = event.event.extendedProps.employeeId;
+          // this.empName = event.event.title;
+          // this.empId = event.event.extendedProps.employeeId;
           this.getScheduleById(+event.event.id);
         } else {
           this.splitEmpName(event);
@@ -149,17 +151,18 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
               item.start = this.startTime,
               item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-            this.events = [... this.events, {
-              id: 'clicked' + i,
-              title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
-              start: this.startTime,
-              end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-            }];
+              item.clicked = false,
+              this.events = [... this.events, {
+                id: 'clicked' + i,
+                title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                start: this.startTime,
+                end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+              }];
           });
         }
       },
       eventDragStop: (event) => {
-        if ((200 <= event.jsEvent.pageX) && (event.jsEvent.pageX <= 500)) {
+        if ((150 <= event.jsEvent.pageX) && (event.jsEvent.pageX <= 500)) {
           this.deleteEvent(event);
         }
       },
@@ -213,10 +216,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       employeeId: +this.empId,
       locationId: +this.empLocation,
       roleId: +localStorage.getItem('roleId'),
+      isAbscent: this.isLeave,
       scheduledDate: moment(this.startTime).format(),
       startTime: moment(this.startTime).format(),
       endTime: moment(this.endTime).format(),
-      scheduleType: 1,
+      scheduleType: this.scheduleType ? this.scheduleType : 1,
       comments: 'test',
       isActive: true,
       isDeleted: false
@@ -262,7 +266,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               id: +item.ScheduleId,
               start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
               end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
-              title: 'new test',
+              title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
               textColor: 'white',
               backgroundColor: '#FF7900',
               extendedProps: {
@@ -281,18 +285,18 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  retainUnclickedEvent(){
+  retainUnclickedEvent() {
     if (this.selectedList.length !== 0) {
-this.selectedList.forEach(item => {
-  if (item.clicked === false) {
-  this.events = [... this.events, {
-    id: item.id,
-start: item.start,
-end: item.end,
-title: item.title
-  }];
-}
-});
+      this.selectedList.forEach(item => {
+        if (item.clicked === false) {
+          this.events = [... this.events, {
+            id: item.id,
+            start: item.start,
+            end: item.end,
+            title: item.title
+          }];
+        }
+      });
     }
   }
   removeDraggedEvent() {
@@ -332,10 +336,16 @@ title: item.title
         if (selectedScheduledData.Status.length !== 0) {
           $('#name').html(this.empName);
           $('#empId').html(this.empId);
+          this.empName = selectedScheduledData.Status[0].EmployeeName;
+          this.empId = selectedScheduledData.Status[0].EmployeeId;
           this.startTime = selectedScheduledData.Status[0].StartTime;
           this.endTime = selectedScheduledData.Status[0].EndTime;
           this.scheduleId = selectedScheduledData.Status[0].ScheduleId;
+          this.scheduleType = selectedScheduledData.Status[0].ScheduleType;
+          this.isLeave = selectedScheduledData.Status[0].IsEmployeeAbscent;
+          this.empLocation = selectedScheduledData.Status[0].LocationId;
           $('.modal').find('#location').val(selectedScheduledData.Status[0].LocationId);
+          $('.modal').find('#isleave').val(selectedScheduledData.Status[0].IsEmployeeAbscent);
           this.buttonText = 'Save';
           $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
         }
@@ -350,9 +360,10 @@ title: item.title
   }
   bindPopUp(event) {
     this.startTime = event.event.start;
-    this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').toDate() :
+    this.endTime = event.event.end === null ? moment(event.event.start).add(60, 'minutes').toDate() :
       event.event.end;
     this.scheduleId = event?.event?.extendedProps?.scheduleId;
+    this.scheduleType = event?.event?.extendedProps?.scheduleType;
     $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
     $('#name').html(this.empName);
     $('#empId').html(this.empId);
@@ -385,5 +396,7 @@ title: item.title
   getAll() {
     this.locationId = 0;
     this.getSchedule();
+  }
+  isAbsentChange(event) {
   }
 }

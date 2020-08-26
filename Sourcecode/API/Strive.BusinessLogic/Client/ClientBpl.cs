@@ -57,6 +57,10 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetClientById, clientId, "Status");
         }
+        public Result GetClientVehicleById(int clientId)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientVehicleById, clientId, "Status");
+        }
         public Result DeleteClient(int clientId)
         {
             return ResultWrap(new ClientRal(_tenant).DeleteClient, clientId, "Status");
