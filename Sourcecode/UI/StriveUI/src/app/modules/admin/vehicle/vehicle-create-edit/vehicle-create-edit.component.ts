@@ -183,12 +183,13 @@ export class VehicleCreateEditComponent implements OnInit {
         updatedDate: new Date()
       }
     });
+    const model = {
+      clientVehicleMembershipDetails: membership,
+        clientVehicleMembershipService: membershipServices
+    };
     const sourceObj = {
       clientVehicle: formObj,
-      clientVehicleMembershipModel:{
-        clientVehicleMembershipDetails: membership,
-        clientVehicleMembershipServices: membershipServices
-      }
+      clientVehicleMembershipModel:model
     }
     const add = {
       VehicleId: 0,
