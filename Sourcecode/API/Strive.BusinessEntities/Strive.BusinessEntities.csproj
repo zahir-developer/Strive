@@ -79,6 +79,7 @@
     <Compile Include="DTO\Vendor\VendorSearchDto.cs" />
     <Compile Include="DTO\Washes\DashboardDto.cs" />
     <Compile Include="DTO\Washes\WashesDto.cs" />
+    <Compile Include="Model\ClientVehicleMembershipService.cs" />
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
@@ -155,7 +156,7 @@
     <Compile Include="Model\CashRegisterRolls.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ClientAddress.cs" />
-    <Compile Include="Model\ClientMembershipDetails.cs" />
+    <Compile Include="Model\ClientVehicleMembershipDetails.cs" />
     <Compile Include="Model\ClientVehicle.cs" />
     <Compile Include="Model\CodeCategory.cs" />
     <Compile Include="Model\CodeValue.cs" />

@@ -3,8 +3,8 @@ using System;
 
 namespace Strive.BusinessEntities.Model
 {
-[OverrideName("tblClientMembershipDetails")]
-public class ClientMembershipDetails
+[OverrideName("tblClientVehicleMembershipDetails")]
+public class ClientVehicleMembershipDetails
 {
 
 	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]

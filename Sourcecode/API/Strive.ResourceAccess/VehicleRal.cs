@@ -52,10 +52,10 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-        public List<VehicleViewModel> GetVehicleByClientId(int clientId)
+        public ClientVehicleViewModel GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
-             return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+             return db.FetchMultiResult<ClientVehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
@@ -65,6 +65,10 @@ namespace Strive.ResourceAccess
         public List<VehicleColourViewModel> GetVehicleCodes()
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
+        }
+        public bool SaveClientVehicleMembership(VehicleMembershipViewModel clientmembership)
+        {
+            return dbRepo.UpdatePc(clientmembership);
         }
     }
 }
