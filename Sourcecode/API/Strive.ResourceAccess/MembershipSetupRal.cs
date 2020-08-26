@@ -41,7 +41,7 @@ namespace Strive.ResourceAccess
         public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
-            return db.Fetch<MembershipServiceViewModel>(SPEnum.USPGETMEMBERSHIPSETUP.ToString(), _prm);
+            return db.Fetch<MembershipServiceViewModel>(SPEnum.USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID.ToString(), _prm);
         }
         public MembershipAndServiceViewModel GetMembershipAndServiceByMembershipId(int id)
         {
