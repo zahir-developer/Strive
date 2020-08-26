@@ -147,7 +147,9 @@ namespace Strive.BusinessEntities
         USPDELETEWASHES,
         uspGetClientName,
         uspGetClientCodes,
-        uspGetGiftCardBalance
+        uspGetGiftCardBalance,
+        uspGetClientAndVehicle,
+        uspGetMembershipListByVehicleId
     }
 
 

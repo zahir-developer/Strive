@@ -5,7 +5,7 @@ export const UrlConfig = {
   {
     login: `Auth/Login`,
     getCode: `Admin/Common/GetCodesByCategory/`,
-    getEmployees: `Admin/Employee/GetAll`,
+    getEmployees: `Admin/Employee/GetAllEmplloyeeList`,
     saveEmployees: `Admin/Employee/Add`,
     refreshToken: `Admin/Refresh`,
     getLocation: `Admin/Location/GetAll`,

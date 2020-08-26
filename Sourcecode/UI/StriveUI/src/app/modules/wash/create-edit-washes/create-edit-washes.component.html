@@ -39,7 +39,7 @@
                                 <div class="form-group col-lg-2 col-md-2 col-xl-3">
                                     <label for="inputBarcode">barcode</label>
                                     <input type="text" maxlength="100" class="form-control" formControlName="barcode"
-                                        placeholder="BarCode" (change)="getByBarcode($event.target.value)">
+                                        placeholder="BarCode" (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputClient">Client</label>
@@ -71,7 +71,7 @@
                                     <label for="inputType">Type</label>
                                     <select class="form-control" formControlName="type">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of Score" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        <option *ngFor="let score of type" value="{{score.CodeId}}">{{score.CodeValue}}
                                         </option>
                                     </select>
                                 </div>
@@ -87,7 +87,16 @@
                                         <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
                                         </option>
                                     </select>
+                                </div>      
+                                <div class="form-group col-lg-3">
+                                    <label for="inputMembership">Membership</label>
+                                    <select class="form-control" formControlName="membership" (change)="membershipSelect($event.target.value)">
+                                        <option selected value="">None</option>
+                                        <option *ngFor="let member of membership" value="{{member.MembershipName}}">{{member.MembershipName}}</option>
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes</label>
                                     <select class="form-control" formControlName="washes">
@@ -96,8 +105,6 @@
                                         </option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputUpchargeType">Upcharge Type</label>
                                     <select class="form-control" formControlName="upchargeType">
@@ -147,181 +154,12 @@
                             <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
                                     <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                                        (change)="change(addService)" />
+                                        (change)="change(addService)" [disabled]="isMembership" />
                                     <label class="custom-control-label"
                                         for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div>
-                            <div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-2" />
-                                    <label class="custom-control-label" for="Additionalservice-2">Shampoo Spot</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-3" />
-                                    <label class="custom-control-label" for="Additionalservice-3">Cond.Leather
-                                        Seats</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-4" />
-                                    <label class="custom-control-label" for="Additionalservice-4">Silicon Ext
-                                        Rubber</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-5" />
-                                    <label class="custom-control-label" for="Additionalservice-5">No Silicone</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-6" />
-                                    <label class="custom-control-label" for="Additionalservice-6">Clean Trunk
-                                        Bed</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-7" />
-                                    <label class="custom-control-label" for="Additionalservice-7">Headliner
-                                        Cleaned</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-8" />
-                                    <label class="custom-control-label" for="Additionalservice-8">Daily Duties</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additionalservice-9" />
-                                    <label class="custom-control-label" for="Additionalservice-9">Shampoo
-                                        Floormat</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-1" />
-                                    <label class="custom-control-label" for="Additional-Service-1">Shampoo
-                                        Floormat</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-2" />
-                                    <label class="custom-control-label" for="Additional-Service-2">Clean Leather
-                                        Seats</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-3" />
-                                    <label class="custom-control-label" for="Additional-Service-3">Condition
-                                        Dash</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-4" />
-                                    <label class="custom-control-label" for="Additional-Service-4">Detail
-                                        Add-Ons</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-5" />
-                                    <label class="custom-control-label" for="Additional-Service-5">No Brush/No
-                                        Sapillo</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-6" />
-                                    <label class="custom-control-label" for="Additional-Service-6">Bid Older
-                                        Remover</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-7" />
-                                    <label class="custom-control-label" for="Additional-Service-7">Frabric
-                                        Sealer</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-8" />
-                                    <label class="custom-control-label" for="Additional-Service-8">Prepare
-                                        Vehicles</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional-Service-9" />
-                                    <label class="custom-control-label" for="Additional-Service-9">Shampoo
-                                        Carpets</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-19" />
-                                    <label class="custom-control-label" for="Additional Service-19">Shampoo
-                                        Carpets</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-20" />
-                                    <label class="custom-control-label" for="Additional Service-20">Clean Door
-                                        Panel</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-21" />
-                                    <label class="custom-control-label" for="Additional Service-21">Condition
-                                        Door(per)</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-22" />
-                                    <label class="custom-control-label" for="Additional Service-22">Clean Engine</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-23" />
-                                    <label class="custom-control-label" for="Additional Service-23">Wash Mitts</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-24" />
-                                    <label class="custom-control-label" for="Additional Service-24">Sticker
-                                        Removal(per)</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-25" />
-                                    <label class="custom-control-label" for="Additional Service-25">Vacuum Trunk</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-26" />
-                                    <label class="custom-control-label" for="Additional Service-26">Photo Of
-                                        Vehicle</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Additional Service-27" />
-                                    <label class="custom-control-label" for="Additional Service-27">Shampoo Seat</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-1" />
-                                    <label class="custom-control-label" for="Service-1">Shampoo Seat</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-2" />
-                                    <label class="custom-control-label" for="Service-2">Dog Hair</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-3" />
-                                    <label class="custom-control-label" for="Service-3">Excessive Mud</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-4" />
-                                    <label class="custom-control-label" for="Service-4">Ultra Clrcoat Prtect</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-5" />
-                                    <label class="custom-control-label" for="Service-5">Rain X Protection</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-6" />
-                                    <label class="custom-control-label" for="Service-6">Ozone Treatment</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-7" />
-                                    <label class="custom-control-label" for="Service-7">Headlamp Restoration</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-8" />
-                                    <label class="custom-control-label" for="Service-8">Clean Inside Rims</label>
-                                </div>
-                                <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="Service-9" />
-                                    <label class="custom-control-label" for="Service-9">Shampoo Spot</label>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="m-t-20 mw-100">
                             <span *ngIf="isEdit">
                                 <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;

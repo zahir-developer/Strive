@@ -46,6 +46,11 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).GetByBarCode, barcode, "ClientAndVehicleDetail");
         }
+        public Result GetMembershipListByVehicleId(int vehicleId)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetMembershipListByVehicleId, vehicleId, "VehicleMembershipDetail");
+        }
+        
         public Result DeleteWashes(int id)
         {
             return ResultWrap(new WashesRal(_tenant).DeleteWashes, id, "Status");
