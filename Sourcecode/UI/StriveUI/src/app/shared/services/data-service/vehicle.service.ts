@@ -28,7 +28,7 @@ export class VehicleService {
         return this.http.get(`${UrlConfig.totalUrl.getVehicleById}`, { params: { id: vehicleId } });
     }
     getVehicleMembership(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleMembership}`);
+        return this.http.get(`${UrlConfig.totalUrl.getAllMembership}`);
     }
     getVehicleCodes() {
         return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
