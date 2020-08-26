@@ -77,7 +77,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getVehicleMembership().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.membership = vehicle.VehicleMembership;
+        this.membership = vehicle.Membership;
         console.log(this.membership);
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -156,9 +156,9 @@ export class VehicleCreateEditComponent implements OnInit {
     };
     const membership = {
       clientMembershipId: 0,
-      clientVehicleId: 0,
-      locationId: 0,
-      membershipId: 0,
+      clientVehicleId: this.selectedData.ClientVehicleId,
+      locationId: 1,
+      membershipId: this.vehicleForm.value.membership,
       startDate: "2020-08-26T14:04:54.988Z",
       endDate: "2020-08-26T14:04:54.988Z",
       status: true,
@@ -170,11 +170,11 @@ export class VehicleCreateEditComponent implements OnInit {
       updatedBy: 1,
       updatedDate: new Date()
     };
-    const membershipServices = this.membershipServices.map(item => {
+    const membershipServices = this.vehicleForm.value.service.map(item => {
       return {
         clientVehicleMembershipServiceId: 0,
         clientMembershipId: 0,
-        serviceId: 0,
+        serviceId: item.item_id,
         isActive: true,
         isDeleted: false,
         createdBy: 1,
@@ -220,7 +220,7 @@ export class VehicleCreateEditComponent implements OnInit {
       Barcode: this.vehicleForm.value.barcode,
     };
     if (this.isEdit === true) {
-      this.vehicle.updateVehicle(formObj).subscribe(data => {
+      this.vehicle.updateVehicle(sourceObj).subscribe(data => {
         if (data.status === 'Success') {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
