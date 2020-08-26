@@ -1,14 +1,15 @@
 ﻿using System;
+
+using UIKit;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.TIMInventory.Membership;
-using UIKit;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
 {
-    public partial class TermsView : MvxViewController<TermsViewModel>
+    public partial class VehicleMembershipDetailView : MvxViewController<VehicleMembershipDetailViewModel>
     {
-        public TermsView() : base("TermsView", null)
+        public VehicleMembershipDetailView() : base("VehicleMembershipDetailView", null)
         {
         }
 
@@ -17,9 +18,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             base.ViewDidLoad();
             NavigationController.NavigationBarHidden = true;
 
-            var set = this.CreateBindingSet<TermsView, TermsViewModel>();
-            set.Bind(NextButton).To(vm => vm.Commands["Next"]);
-            set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
+            var set = this.CreateBindingSet<VehicleMembershipDetailView, VehicleMembershipDetailViewModel>();
             set.Apply();
         }
 

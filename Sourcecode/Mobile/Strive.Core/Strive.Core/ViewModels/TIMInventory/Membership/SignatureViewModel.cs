@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
-    public class TermsViewModel : BaseViewModel
+    public class SignatureViewModel : BaseViewModel
     {
-        public TermsViewModel()
+        public SignatureViewModel()
         {
         }
 
@@ -16,7 +16,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public void NextCommand()
         {
-            _navigationService.Navigate<SignatureViewModel>();
+            
         }
     }
 }

@@ -153,7 +153,12 @@ namespace StriveTimInventory.iOS.Views
                 UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
                 if (originalImage != null)
                 {
-                    ItemImage.Image = originalImage; 
+                    ItemImage.Image = originalImage;
+                    NSData imageData = originalImage.AsPNG();
+                    Byte[] myByteArray = new Byte[imageData.Length];
+                    System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
+                    string Base64String = Convert.ToBase64String(myByteArray);
+                    ViewModel.Base64String = Base64String;
                 }
 
                 UIImage editedImage = e.Info[UIImagePickerController.EditedImage] as UIImage;

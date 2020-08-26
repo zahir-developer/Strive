@@ -15,22 +15,22 @@ namespace StriveTimInventory.iOS.Views.MembershipView
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel ClientName { get; set; }
+        UIKit.UIImageView ItemIcon { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIImageView MemebrshipImage { get; set; }
+        UIKit.UILabel ItemTitle { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (ClientName != null) {
-                ClientName.Dispose ();
-                ClientName = null;
+            if (ItemIcon != null) {
+                ItemIcon.Dispose ();
+                ItemIcon = null;
             }
 
-            if (MemebrshipImage != null) {
-                MemebrshipImage.Dispose ();
-                MemebrshipImage = null;
+            if (ItemTitle != null) {
+                ItemTitle.Dispose ();
+                ItemTitle = null;
             }
         }
     }

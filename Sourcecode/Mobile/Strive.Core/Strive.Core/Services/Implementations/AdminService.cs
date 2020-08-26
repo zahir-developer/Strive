@@ -55,7 +55,7 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_VERIFY_OTP, otpRequest.emailId,otpRequest.otp), HttpMethod.Get, otpRequest);
         }
 
-        public async Task<TimeClockRoot> GetClockInStatus(TimeClockRequest request)
+        public async Task<TimeClockRootList> GetClockInStatus(TimeClockRequest request)
         {
             //var uriBuilder = new UriBuilder(ApiUtils.URL_GET_CLOCKIN_STATUS);
             //var query = HttpUtility.ParseQueryString(uriBuilder.Query);
@@ -63,12 +63,12 @@ namespace Strive.Core.Services.Implementations
             //query["dateTime"] = Datetime;
             //uriBuilder.Query = query.ToString();
             //var url = uriBuilder.Uri.PathAndQuery.ToString();
-            return await _restClient.MakeApiCall<TimeClockRoot>(ApiUtils.URL_GET_CLOCKIN_STATUS, HttpMethod.Post,request);
+            return await _restClient.MakeApiCall<TimeClockRootList>(ApiUtils.URL_GET_CLOCKIN_STATUS, HttpMethod.Post,request);
         }
 
-        public async Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest)
+        public async Task<DeleteResponse> SaveClockInTime(TimeClockRoot ClockInRequest)
         {
-            return await _restClient.MakeApiCall<TimeClock>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
+            return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
         }
 
         public async Task<Products> GetAllProducts()

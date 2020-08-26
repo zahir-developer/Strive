@@ -5,6 +5,11 @@ namespace Strive.Core.Models.TimInventory
 {
     public class TimeClockRoot
     {
+        public TimeClock TimeClock { get; set; }
+    }
+
+    public class TimeClockRootList
+    {
         public List<TimeClock> TimeClock { get; set; }
     }
 

@@ -2,6 +2,7 @@
 
 using Foundation;
 using Strive.Core.Models.TimInventory;
+using StriveTimInventory.iOS.UIUtils;
 using UIKit;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
@@ -23,32 +24,38 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public void SetMembershipList(string item)
         {
-            ClientName.Text = item;
+            ItemTitle.Text = item;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
         }
 
         public void SetClientDetail(ClientDetail item)
         {
-            ClientName.Text = item.FirstName;
+            ItemTitle.Text = item.FirstName;
+            ItemIcon.Image = UIImage.FromBundle("member-inactive");
         }
 
         public void SelectMembershipcell()
         {
-            ClientName.TextColor = UIColor.Cyan;
+            ItemTitle.TextColor = UIColor.Clear.FromHex(0x1DC9B7);
+            ItemIcon.Image = UIImage.FromBundle("icon-checked");
         }
 
         public void DeSelectMembershipcell()
         {
-            ClientName.TextColor = UIColor.Black;
+            ItemTitle.TextColor = UIColor.Black;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
         }
 
         public void SetUpchargeList(string item)
         {
-            ClientName.Text = item;
+            ItemTitle.Text = item;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
         }
 
         public void SetExtraServiceList(string item)
         {
-            ClientName.Text = item;
+            ItemTitle.Text = item;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
         }
     }
 }

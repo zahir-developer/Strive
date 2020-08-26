@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
@@ -18,20 +18,20 @@
             <rect key="frame" x="0.0" y="0.0" width="550" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxk-wN-pdQ" id="YTl-1W-gDM">
-                <rect key="frame" x="0.0" y="0.0" width="550" height="79"/>
+                <rect key="frame" x="0.0" y="0.0" width="550" height="80"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3k-Eb-s5F">
-                        <rect key="frame" x="40" y="25" width="57.5" height="30"/>
-                        <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="22"/>
+                        <rect key="frame" x="35" y="26.5" width="52.5" height="27.5"/>
+                        <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="20"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Can-Red" translatesAutoresizingMaskIntoConstraints="NO" id="CcO-ut-YeB">
-                        <rect key="frame" x="490" y="20" width="40" height="40"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CcO-ut-YeB">
+                        <rect key="frame" x="508" y="29" width="22" height="22"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="GdT-Me-4LV"/>
-                            <constraint firstAttribute="height" constant="40" id="oLT-sx-nI9"/>
+                            <constraint firstAttribute="width" constant="22" id="GdT-Me-4LV"/>
+                            <constraint firstAttribute="height" constant="22" id="oLT-sx-nI9"/>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -42,15 +42,12 @@
                     <constraint firstAttribute="trailing" secondItem="CcO-ut-YeB" secondAttribute="trailing" constant="20" id="e5b-vh-82s"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="63.309352517985616" y="60.804020100502512"/>
-            <color key="backgroundColor" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace" white="1" alpha="1"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="ClientName" destination="b3k-Eb-s5F" id="name-outlet-b3k-Eb-s5F"/>
-                <outlet property="MemebrshipImage" destination="CcO-ut-YeB" id="name-outlet-CcO-ut-YeB"/>
+                <outlet property="ItemIcon" destination="CcO-ut-YeB" id="name-outlet-CcO-ut-YeB"/>
+                <outlet property="ItemTitle" destination="b3k-Eb-s5F" id="name-outlet-b3k-Eb-s5F"/>
             </connections>
+            <point key="canvasLocation" x="63.309352517985616" y="60.804020100502512"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="Can-Red" width="45" height="73.5"/>
-    </resources>
 </document>

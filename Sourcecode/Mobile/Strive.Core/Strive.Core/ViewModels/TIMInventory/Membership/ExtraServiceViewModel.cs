@@ -23,5 +23,10 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         {
             await _navigationService.Close(this);
         }
+
+        public void NextCommand()
+        {
+            _navigationService.Navigate<TermsViewModel>();
+        }
     }
 }
