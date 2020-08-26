@@ -19,6 +19,7 @@ namespace Strive.BusinessLogic.Vehicle
         Result GetVehicleId(int vehicleId);
         Result GetVehicleCodes();
         Result SaveClientVehicleMembership(VehicleMembershipViewModel clientmembership);
+        Result GetVehicleMembershipDetailsByVehicleId(int id);
 
 
     }

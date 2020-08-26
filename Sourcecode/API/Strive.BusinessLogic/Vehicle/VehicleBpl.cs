@@ -64,6 +64,9 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).SaveClientVehicleMembership, vehicleMembership, "Status");
         }
-
+        public Result GetVehicleMembershipDetailsByVehicleId(int id)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleMembershipDetailsByVehicleId, id, "VehicleMembershipDetails");
+        }
     }
 }
