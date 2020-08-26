@@ -33,7 +33,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   events = [];
   options: any;
   searchEmp = '';
-  search = '';
+  search = ' ';
   headerData = '';
   mytime: any;
   location = [];
@@ -52,13 +52,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   constructor(private empService: EmployeeService, private locationService: LocationService,
     private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
   ngAfterViewInit() {
-    this.calendar = this.fc.getCalendar();
-    console.log(this.fc.getCalendar(), 'current Date');
-
-    this.fromDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.start).format('YYYY-MM-DDTHH:mm');
-    this.endDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.end).format('YYYY-MM-DDTHH:mm');
-    // this.getSchedule();
-
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
       itemSelector: '.fc-event',
@@ -66,8 +59,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         return {
           id: 'dragged1',
           title: eventEl.innerText,
-          backgroundColor: '#696969',
-          textColor: '#FFFFFF',
           classNames: ['draggedEvent'],
         };
       }
@@ -75,8 +66,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit(): void {
-    this.getEmployeeList();
-
+    // this.getEmployeeList();
+    this.searchEmployee();
     this.getLocationList();
 
     this.options = {
@@ -97,21 +88,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       slotEventOverlap: false,
       height: 'auto',
       contentHeight: 'auto',
-      // displayEventTime: true,
       eventRender(element) {
-
-        // const html = `<span class="float-right">`
-        //   + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
-        // element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
-        //   element.event.title + html + `<br>` + `</div></div>`;
-        // element.el.addEventListener('dblclick', () => {
-        //   console.log(element.event.start + ' ' + element.event.end + 'double click');
-        // });
       },
       eventClick: (event) => {
         if (!event.event.id.startsWith('click')) {
-          // this.empName = event.event.title;
-          // this.empId = event.event.extendedProps.employeeId;
           this.getScheduleById(+event.event.id);
         } else {
           this.splitEmpName(event);
@@ -121,7 +101,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               item.clicked = true;
             }
           });
-          console.log(this.selectedList);
         }
       },
       eventResize: (event) => {
@@ -131,6 +110,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.bindPopUp(event);
       },
       eventReceive: (eventReceiveEvent) => {
+        this.buttonText = 'Add';
         this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
         this.splitEmpName(eventReceiveEvent);
         this.startTime = eventReceiveEvent.event.start;
@@ -141,8 +121,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           $('#empId').html(this.empId);
           $('.modal').find('#location').val(0);
         } else {
-          // const dubEvent = selectedList.map(item => item.FirstName + ' ' + item.LastName).indexOf(this.empName);
-          // selectedList.splice(dubEvent, 1);
           this.removeDraggedEvent();
           let i = 0;
           this.selectedList.forEach(item => {
@@ -157,6 +135,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
                 title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
                 start: this.startTime,
                 end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                classNames: ['draggedEvent'],
               }];
           });
         }
@@ -191,6 +170,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Set Default boolean for customization
   setBoolean() {
     this.empList.EmployeeList.forEach(item => {
       item.selected = false;
@@ -245,7 +225,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       $('#calendarModal').modal('hide');
     });
   }
-  // Get All Location
+  // Get LocationById
   getLocation(event) {
     this.empLocation = event.target.value;
   }
@@ -268,7 +248,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
               title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
               textColor: 'white',
-              backgroundColor: '#FF7900',
+              backgroundColor: item.ColorCode,
+              classNames: ['event'],
               extendedProps: {
                 employeeId: +item.EmployeeId,
                 roleId: +item.RoleId,
@@ -285,6 +266,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     });
   }
+  // Retain Unclicked EmployeeList
   retainUnclickedEvent() {
     if (this.selectedList.length !== 0) {
       this.selectedList.forEach(item => {
@@ -293,12 +275,14 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
             id: item.id,
             start: item.start,
             end: item.end,
-            title: item.title
+            title: item.title,
+            classNames: ['draggedEvent'],
           }];
         }
       });
     }
   }
+  // Remove Dragged Event
   removeDraggedEvent() {
     const draggedEvent = this.fc.getCalendar().getEventById('dragged1');
     if (draggedEvent !== null) {
@@ -318,7 +302,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   // Delete Event
   deleteEvent(event) {
     this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
-      console.log(data);
       if (data.status === 'Success') {
         this.getSchedule();
       }
@@ -329,6 +312,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.locationId = loc[0].LocationId;
     this.getSchedule();
   }
+  // Get the schedule by Id
   getScheduleById(id) {
     this.scheduleService.getScheduleById(+id).subscribe(data => {
       if (data.status === 'Success') {
@@ -358,6 +342,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.empName = str[0];
     this.empId = str[1];
   }
+  // Bind the Modal with value
   bindPopUp(event) {
     this.startTime = event.event.start;
     this.endTime = event.event.end === null ? moment(event.event.start).add(60, 'minutes').toDate() :
@@ -384,6 +369,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.fc.getCalendar().render();
     $('#calendarModal').modal('hide');
   }
+  // Search Employee
   searchEmployee() {
     this.employeeService.searchEmployee(this.search).subscribe(res => {
       if (res.status === 'Success') {
@@ -398,5 +384,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.getSchedule();
   }
   isAbsentChange(event) {
+  }
+  searchFocus() {
+    this.search = this.search.trim();
   }
 }
