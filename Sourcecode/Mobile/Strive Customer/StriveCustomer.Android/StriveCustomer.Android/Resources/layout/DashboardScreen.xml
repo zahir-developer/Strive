@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
-            app:labelVisibilityMode="labeled"
+            app:labelVisibilityMode="unlabeled"
+            app:itemIconTint="@color/bottomtint"
             app:elevation="16dp"
             android:minWidth="25px"
             android:minHeight="25px">
@@ -32,6 +33,7 @@
         android:id="@+id/dashActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/clock"
         style="@style/Widget.Design.FloatingActionButton"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
