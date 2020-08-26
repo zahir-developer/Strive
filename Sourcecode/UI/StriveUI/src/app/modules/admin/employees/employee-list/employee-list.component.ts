@@ -35,7 +35,7 @@ export class EmployeeListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number;
-  search = ' ';
+  search = '';
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,

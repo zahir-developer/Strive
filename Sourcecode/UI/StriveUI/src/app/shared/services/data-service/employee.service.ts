@@ -75,6 +75,6 @@ export class EmployeeService {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
   getVehicleByClientId(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params : { id }});
+    return this.http.get(`${UrlConfig.totalUrl.getVechileList}` + id );
   }
 }
