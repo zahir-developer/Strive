@@ -16,6 +16,11 @@ namespace Strive.BusinessLogic.Location
 
         public Result AddLocation(LocationDto location)
         {
+            var random = new Random();
+            var color = String.Format("#{0:X6}", random.Next(0x1000000));
+
+            location.Location.ColorCode = color;
+
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 

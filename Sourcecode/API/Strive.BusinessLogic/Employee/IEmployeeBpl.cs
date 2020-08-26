@@ -12,7 +12,7 @@ namespace Strive.BusinessLogic
         Result DeleteEmployeeDetails(int empId);
         Result GetEmployeeById(int id);
         Result GetEmployeeList();
-        Result GetEmployeeSearch(string employeeName);
+        Result GetAllEmployeeDetail(string employeeName);
         Result GetEmailIdExist(string email);
     }
 }
