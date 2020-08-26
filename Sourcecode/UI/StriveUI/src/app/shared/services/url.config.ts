@@ -75,7 +75,7 @@ export const UrlConfig = {
     addWash:`Admin/Washes/AddWashTime`,
     updateWash:`Admin/Washes/UpdateWashTime`,
     deleteWash:`Admin/washes/Delete`,
-    searchEmployee: `Admin/Employee/GetEmployeeSearch`,
+    searchEmployee: `Admin/Employee/GetAllEmployeeDetail/`,
     getDashBoardCount:`Admin/Washes/DashboardCount`,
     addCardHistory: `Admin/GiftCard/AddGiftCardHistory`,
     getByBarcode:`Admin/Washes/GetByBarCode/`,
@@ -100,5 +100,6 @@ export const UrlConfig = {
     getProductSearch:`Admin/Product/GetProductSearch`,
     getVendorSearch:`Admin/Vendor/GetVendorSearch`,    
     getTicketNumber:`Admin/Washes/GetTicketNumber`,
+    getMembershipByVehicle:`Admin/Washes/GetMembershipListByVehicleId/`,
   }
 };
