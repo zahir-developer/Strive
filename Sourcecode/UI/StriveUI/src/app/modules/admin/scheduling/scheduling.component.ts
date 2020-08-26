@@ -21,6 +21,8 @@ declare var $: any;
 export class SchedulingComponent implements OnInit, AfterViewInit {
   public theme = 'theme-light';
   calendar: any;
+  selectedList = [];
+  buttonText = 'Add';
   empName: any;
   empId: any;
   fromDate: any;
@@ -30,6 +32,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   events = [];
   options: any;
   searchEmp = '';
+  search = '';
   headerData = '';
   mytime: any;
   location = [];
@@ -42,23 +45,28 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
   empList: any;
   showDialog: boolean;
+  locationId: any;
+  scheduleId: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
-    private messageService: MessageServiceToastr, private scheduleService: ScheduleService) { }
+    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
   ngAfterViewInit() {
     this.calendar = this.fc.getCalendar();
     console.log(this.fc.getCalendar(), 'current Date');
 
-    this.fromDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.start + 1).format('YYYY-MM-DDTHH:mm');
+    this.fromDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.start).format('YYYY-MM-DDTHH:mm');
     this.endDate = moment(this.fc.getCalendar().state.dateProfile.activeRange.end).format('YYYY-MM-DDTHH:mm');
-    this.getSchedule();
+    // this.getSchedule();
 
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {
         return {
+          id: 'dragged1',
           title: eventEl.innerText,
-          backgroundColor: '#0000'
+          backgroundColor: '#696969',
+          textColor: '#FFFFFF',
+          classNames: ['draggedEvent'],
         };
       }
     });
@@ -89,7 +97,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       contentHeight: 'auto',
       // displayEventTime: true,
       eventRender(element) {
-        console.log(element,   'event Render');
+
         // const html = `<span class="float-right">`
         //   + `<img src="` + imgUrl + `" (onClick)="test()"/></a></span>`;
         // element.el.innerHTML = `<div class="fc-content"><div class="fc-title" title="` + element.event.title + `">` +
@@ -99,102 +107,94 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         // });
       },
       eventClick: (event) => {
-        this.splitEmpName(event);
-        this.startTime = event.event.start;
-        this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').toDate() :
-          event.event.end;
-        $('#calendarModal').modal('show');
-        $('#name').html(this.empName);
-        $('#empId').html(this.empId);
-        // $('.modal').find('#startTime').val(this.startTime);
-        // $('.modal').find('#endTime').val(this.endTime);
+        if (!event.event.id.startsWith('click')) {
+          this.empName = event.event.title;
+          this.empId = event.event.extendedProps.employeeId;
+          this.getScheduleById(+event.event.id);
+        } else {
+          this.splitEmpName(event);
+          this.bindPopUp(event);
+          this.selectedList.forEach(item => {
+            if (item.EmployeeId === +this.empId) {
+              item.clicked = true;
+            }
+          });
+          console.log(this.selectedList);
+        }
       },
       eventResize: (event) => {
-        this.splitEmpName(event);
-        this.startTime = event.event.start;
-        this.endTime = event.event.end;
-        $('#calendarModal').modal('show');
-        $('#name').html(this.empName);
-        $('#empId').html(this.empId);
-        // $('.modal').find('#startTime').val(this.startTime);
-        // $('.modal').find('#endTime').val(this.endTime);
-        $('.modal').find('#loation').val(1);
+        this.empName = event.event.title;
+        this.empId = event.event.extendedProps.employeeId;
+        this.buttonText = 'Save';
+        this.bindPopUp(event);
       },
       eventReceive: (eventReceiveEvent) => {
-        const selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
+        this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
         this.splitEmpName(eventReceiveEvent);
         this.startTime = eventReceiveEvent.event.start;
-        this.endTime = moment(eventReceiveEvent.event.start).add(30, 'minutes').toDate();
-        if (selectedList.length === 0 || selectedList.length === 1) {
-          $('#calendarModal').modal();
+        this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
+        if (this.selectedList.length === 0 || this.selectedList.length === 1) {
+          $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
           $('#name').html(this.empName);
           $('#empId').html(this.empId);
-          // $('#startTime').html(this.startTime);
-          // $('#endTime').html(this.endTime);
+          $('.modal').find('#location').val(0);
         } else {
-          const dubEvent = selectedList.map(item => item.FirstName + ' ' + item.LastName).indexOf(this.empName);
-          selectedList.splice(dubEvent, 1);
-          selectedList.forEach(item => {
-            this.events = [... this.events, {
-              id: this.guid(),
-              title: item.FirstName + ' ' + item.LastName + '-' + item.EmployeeId,
-              start: this.startTime,
-              end: moment(eventReceiveEvent.event.start).add(30, 'minutes'),
-            }];
+          // const dubEvent = selectedList.map(item => item.FirstName + ' ' + item.LastName).indexOf(this.empName);
+          // selectedList.splice(dubEvent, 1);
+          this.removeDraggedEvent();
+          let i = 0;
+          this.selectedList.forEach(item => {
+            i++;
+            item.id = 'clicked' + i,
+              item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+              item.start = this.startTime,
+              item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+              item.clicked = false,
+              this.events = [... this.events, {
+                id: 'clicked' + i,
+                title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                start: this.startTime,
+                end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+              }];
           });
         }
       },
       eventDragStop: (event) => {
-        // alert('Coordinates: ' + event.jsEvent.pageX + ',' + event.jsEvent.pageY);
-        // && (130 <= event.jsEvent.pageY) && (event.jsEvent.pageY <= 170)
         if ((200 <= event.jsEvent.pageX) && (event.jsEvent.pageX <= 500)) {
-          alert('delete: ' + event.event.id);
           this.deleteEvent(event);
         }
       },
-      eventAdd(event) {
-        console.log(event, 'eventAdded');
-      },
-      drop(event) {
-        console.log(event, 'drop');
-        // event.revert();
-      },
-      datesRender(event) {
-        console.log(event, 'datesRender');
-        // console.log( this.fc.getCalendar().getDate(), 'days Rendar');
+      datesRender: (event) => {
+        this.fromDate = moment(event.view.activeStart).format('YYYY-MM-DDTHH:mm:ss');
+        this.endDate = moment(event.view.activeEnd).format('YYYY-MM-DDTHH:mm:ss');
+        this.getSchedule();
       },
       eventDrop: (event) => {
-        this.splitEmpName(event);
-        this.startTime = event.event.start;
-        this.endTime = event.event.end === null ? moment(event.event.start).add(30, 'minutes').toDate() :
-          event.event.end;
-        $('#calendarModal').modal('show');
-        $('#name').html(this.empName);
-        $('#empId').html(this.empId);
+        this.empName = event.event.title;
+        this.empId = event.event.extendedProps.employeeId;
+        this.buttonText = 'Save';
+        this.bindPopUp(event);
       },
-      dblclick(event) {
-        console.log(event, 'double Click');
-      }
     };
   }
 
-  submit() {
-    console.log(this.events, 'allEvents');
-    console.log(this.selectedEvent, 'selectedEvents');
-  }
 
   // Get all the Employees details
   getEmployeeList() {
     this.empService.getEmployees().subscribe(data => {
       if (data.status === 'Success') {
         this.empList = JSON.parse(data.resultData);
-        this.empList.EmployeeList.forEach(item => {
-          item.selected = false;
-        });
+        this.setBoolean();
       }
     });
   }
 
+  setBoolean() {
+    this.empList.EmployeeList.forEach(item => {
+      item.selected = false;
+      item.clicked = false;
+    });
+  }
   // Get All Location
   getLocationList() {
     this.locationService.getLocation().subscribe(res => {
@@ -208,24 +208,38 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   // Save Schedule
   addSchedule() {
+    const schedule = [];
     const form = {
-      scheduleId: null,
+      scheduleId: this.scheduleId ? this.scheduleId : 0,
       employeeId: +this.empId,
       locationId: +this.empLocation,
-      roleId: localStorage.getItem('roleId'),
-      scheduledDate: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
-      startTime: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
-      endTime: moment(this.endTime).format('YYYY-MM-DDTHH:mm:ss'),
+      roleId: +localStorage.getItem('roleId'),
+      scheduledDate: moment(this.startTime).format(),
+      startTime: moment(this.startTime).format(),
+      endTime: moment(this.endTime).format(),
       scheduleType: 1,
-      comments: null,
-      isActive: true
+      comments: 'test',
+      isActive: true,
+      isDeleted: false
     };
-    this.scheduleService.saveSchedule(form).subscribe(data => {
+    schedule.push(form);
+    const scheduleObj = {
+      schedule
+    };
+    this.scheduleService.saveSchedule(scheduleObj).subscribe(data => {
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
         $('#calendarModal').modal('hide');
         this.getSchedule();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.getSchedule();
+        $('#calendarModal').modal('hide');
       }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.getSchedule();
+      $('#calendarModal').modal('hide');
     });
   }
   // Get All Location
@@ -235,42 +249,58 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   // Get all schedule based on date
   getSchedule() {
     this.events = [];
-    // this.fc.getCalendar().destroy();
-    this.scheduleService.getSchedule(this.fromDate, this.endDate).subscribe(data => {
+    const getScheduleObj = {
+      startDate: this.fromDate,
+      endDate: this.endDate,
+      locationId: this.locationId ? this.locationId : 0
+    };
+    this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
         const empSchehdule = JSON.parse(data.resultData);
-        if (empSchehdule.Status.length !== 0) {
-          empSchehdule.Status.forEach(item => {
+        if (empSchehdule.ScheduleDetail.length !== 0) {
+          empSchehdule.ScheduleDetail.forEach(item => {
             const emp = {
-              id: item.ScheduleId,
+              id: +item.ScheduleId,
               start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
-              end: moment(item.StartTime).add(30, 'minutes').format('YYYY-MM-DDTHH:mm:ss'),
-              title: 'new test',
+              end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
+              title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
               textColor: 'white',
               backgroundColor: '#FF7900',
               extendedProps: {
-                employeeId: item.EmployeeId,
-                roleId: item.RoleId,
-                scheduleType: item.ScheduleType,
-                locationId: item.LocationId
+                employeeId: +item.EmployeeId,
+                roleId: +item.RoleId,
+                scheduleType: +item.ScheduleType,
+                locationId: +item.LocationId,
+                scheduleId: +item.ScheduleId
               }
             };
             this.events = [... this.events, emp];
           });
         }
-        
-        // const eventSources = this.fc.getCalendar().getEventSources();
-        // console.log(eventSources, 'caleder Event');
-        // const len = eventSources.length;
-        // for (let i = 0; i < len; i++) {
-        //   eventSources[i].remove();
-        // }
-        // this.fc.getCalendar().clientEvents((i, item) => {console.log(item, 'clientEvent'); });
-        // this.fc.getCalendar().addEventSource(this.events);
-        // this.fc.getCalendar().refetchEvents();
-        this.fc.getCalendar().render();
+        this.removeDraggedEvent();
+        this.retainUnclickedEvent();
       }
     });
+  }
+  retainUnclickedEvent() {
+    if (this.selectedList.length !== 0) {
+      this.selectedList.forEach(item => {
+        if (item.clicked === false) {
+          this.events = [... this.events, {
+            id: item.id,
+            start: item.start,
+            end: item.end,
+            title: item.title
+          }];
+        }
+      });
+    }
+  }
+  removeDraggedEvent() {
+    const draggedEvent = this.fc.getCalendar().getEventById('dragged1');
+    if (draggedEvent !== null) {
+      draggedEvent.remove();
+    }
   }
   // For Dynamic ID Creation
   guid() {
@@ -284,22 +314,33 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   // Delete Event
   deleteEvent(event) {
-    if (event.event.id !== '') {
-      // this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
-      //   console.log(data);
-      //   if (data.Status === ' Success') {
-
-      //   }
-      // });
-    }
+    this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
+      console.log(data);
+      if (data.status === 'Success') {
+        this.getSchedule();
+      }
+    });
   }
   getLocationId(event) {
     const loc = this.location.filter(item => item.LocationName === event.target.textContent);
-    const locationId = loc[0].LocationId;
+    this.locationId = loc[0].LocationId;
     this.getSchedule();
   }
   getScheduleById(id) {
-    this.scheduleService.getScheduleById(id).subscribe(data => {
+    this.scheduleService.getScheduleById(+id).subscribe(data => {
+      if (data.status === 'Success') {
+        const selectedScheduledData = JSON.parse(data.resultData);
+        if (selectedScheduledData.Status.length !== 0) {
+          $('#name').html(this.empName);
+          $('#empId').html(this.empId);
+          this.startTime = selectedScheduledData.Status[0].StartTime;
+          this.endTime = selectedScheduledData.Status[0].EndTime;
+          this.scheduleId = selectedScheduledData.Status[0].ScheduleId;
+          $('.modal').find('#location').val(selectedScheduledData.Status[0].LocationId);
+          this.buttonText = 'Save';
+          $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
+        }
+      }
 
     });
   }
@@ -307,5 +348,43 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     const str = event.event.title.split('\n');
     this.empName = str[0];
     this.empId = str[1];
+  }
+  bindPopUp(event) {
+    this.startTime = event.event.start;
+    this.endTime = event.event.end === null ? moment(event.event.start).add(60, 'minutes').toDate() :
+      event.event.end;
+    this.scheduleId = event?.event?.extendedProps?.scheduleId;
+    $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
+    $('#name').html(this.empName);
+    $('#empId').html(this.empId);
+    if (event.event.extendedProps.locationId) {
+      $('.modal').find('#location').val(event.event.extendedProps.locationId);
+      this.empLocation = event.event.extendedProps.locationId;
+    } else {
+      $('.modal').find('#location').val(0);
+    }
+  }
+  cancel() {
+    const draggedEvent = this.fc.getCalendar().getEventById('dragged1');
+    if (draggedEvent !== null) {
+      draggedEvent.remove();
+    } else {
+      this.getSchedule();
+    }
+    this.fc.getCalendar().render();
+    $('#calendarModal').modal('hide');
+  }
+  searchEmployee() {
+    this.employeeService.searchEmployee(this.search).subscribe(res => {
+      if (res.status === 'Success') {
+        this.empList = JSON.parse(res.resultData);
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+  getAll() {
+    this.locationId = 0;
+    this.getSchedule();
   }
 }

@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities
         public enum Employee
         {
             //Employee
+            USPGETALLEMPLOYEE,
             USPGETEMPLOYEE,
             USPSAVEEMPLOYEE,
             USPGETSCHEMABYGUID,
@@ -18,6 +19,7 @@ namespace Strive.BusinessEntities
             USPDELETEEMPLOYEE,
             USPGETEMPLOYEEBYEMPID,
             USPGETEMPLOYEEROLES,
+            USPGETALLEMPLOYEEDETAIL,
         }
 
         public enum Membership
@@ -41,6 +43,8 @@ namespace Strive.BusinessEntities
         USPGETALLEMAIL,
 
         //Employee
+        USPGETEMPLOYEELIST,
+        USPGETALLEMPLOYEE,
         USPGETEMPLOYEE,
         USPSAVEEMPLOYEE,
         USPGETSCHEMABYGUID,
@@ -96,7 +100,7 @@ namespace Strive.BusinessEntities
         USPSAVEOTP,
         USPRESETPASSWORD,
         USPVERIFYOTP,
-        USPGETEMPLOYEELIST,
+        
         USPGETEMPLOYEEBYID,
         USPGETALLSERVICE,
         USPGETPRODUCTS,
@@ -143,7 +147,8 @@ namespace Strive.BusinessEntities
         USPDELETEWASHES,
         uspGetClientName,
         uspGetClientCodes,
-        uspGetGiftCardBalance
+        uspGetGiftCardBalance,
+        uspGetClientAndVehicle
     }
 
 
