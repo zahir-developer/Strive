@@ -59,16 +59,10 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetVehicleCodes")]
         public Result GetVehicleCodes() => _bplManager.GetVehicleCodes();
-        #region
-        [HttpPost]
-        [Route("SaveClientMembership")]
-        public Result SaveClientMembership([FromBody] ClientMembershipDetails clientmembership) => _bplManager.SaveClientMembership(clientmembership);
-        #endregion
-        #region
-        [HttpPost]
-        [Route("SaveVehicleMembershipService")]
-        public Result SaveVehicleMembershipService([FromBody] ClientVehicleMembershipService vehiclemembership) => _bplManager.SaveVehicleMembershipService(vehiclemembership);
-        #endregion
 
+        [HttpPost]
+        [Route("SaveClientVehicleMembership")]
+        public Result SaveClientMembership([FromBody] VehicleMembershipViewModel clientmembership) => _bplManager.SaveClientVehicleMembership(clientmembership);
+        
     }
 }
