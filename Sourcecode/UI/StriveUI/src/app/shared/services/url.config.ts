@@ -81,7 +81,7 @@ export const UrlConfig = {
     getByBarcode:`Admin/Washes/GetByBarCode/`,
     getAllMembership:`Admin/MembershipSetup/GetAll`,
     getMembershipService:`Admin/ServiceSetup/GetService`,
-    getMembershipById:`Admin/MembershipSetup/GetAllMembershipById/`,
+    getMembershipById:`Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,
     addMembership:`Admin/MembershipSetup/Add`,
     updateMembership:`Admin/MembershipSetup/Update`,
     deleteMembership:`Admin/MembershipSetup/Delete/`,
@@ -100,6 +100,7 @@ export const UrlConfig = {
     getProductSearch:`Admin/Product/GetProductSearch`,
     getVendorSearch:`Admin/Vendor/GetVendorSearch`,
     getTicketNumber:`Admin/Washes/GetTicketNumber`,
+    getMembershipByVehicle:`Admin/Washes/GetMembershipListByVehicleId/`,
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`
   }
 };

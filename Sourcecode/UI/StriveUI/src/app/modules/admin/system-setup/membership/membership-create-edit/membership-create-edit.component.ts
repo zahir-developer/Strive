@@ -77,18 +77,18 @@ export class MembershipCreateEditComponent implements OnInit {
     });
   }
 
-  getPrice(data) {
-    this.membershipForm.get('price').patchValue(this.service.filter(item => item.ServiceId === Number(data))[0].Price);
-  }
+  // getPrice(data) {
+  //   this.membershipForm.get('price').patchValue(this.service.filter(item => item.ServiceId === Number(data))[0].Price);
+  // }
 
   getMembershipById() {
+    console.log(this.selectedData);
     this.membershipForm.patchValue({
-      membershipName: this.selectedData.MembershipName,
-      service: this.selectedData.ServiceId,
-      notes: this.selectedData.Notes,
-      status: this.selectedData.Status === true ? 0 : 1
+      membershipName: this.selectedData.Membership.MembershipName,
+      notes: this.selectedData.Membership.Notes,
+      status: this.selectedData.Membership.IsActive === true ? 0 : 1
     });
-    this.getPrice(this.selectedData.ServiceId);
+    
   }
 
   check(data) {

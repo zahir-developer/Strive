@@ -16,6 +16,7 @@ namespace Strive.BusinessLogic.MembershipSetup
         Result AddMembership(MembershipDto member);
         Result UpdateMembership(MembershipDto member);
         Result DeleteMembershipById(int membershipId);
+        Result GetMembershipAndServiceByMembershipId(int id);
 
     }
 }
