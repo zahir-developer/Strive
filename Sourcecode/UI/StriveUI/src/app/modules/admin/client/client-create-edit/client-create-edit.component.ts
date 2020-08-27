@@ -43,6 +43,7 @@ export class ClientCreateEditComponent implements OnInit {
   Type: { id: number; Value: string; }[];
   deleteIds = [];
   submitted: boolean;
+  additionalService: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal, private vehicle: VehicleService, private getCode: GetCodeService) { }
@@ -82,6 +83,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.clientForm.get('status').patchValue(0);
     this.getClientType();
     this.getScore();
+    this.getService();
   }
 
   get f() {
@@ -304,6 +306,15 @@ export class ClientCreateEditComponent implements OnInit {
     };
     const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
+  }
+
+  getService() {
+    this.vehicle.getMembershipService().subscribe(res => {
+      if (res.status === 'Success') {
+        const membership = JSON.parse(res.resultData);
+        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
+      }
+    });
   }
 }
 

@@ -34,11 +34,16 @@ export class CreateEditWashesComponent implements OnInit {
   jobItems: any;
   washItem: any = [];
   membership: any;
-
+  timeInDate: any;
+  timeOutDate: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
   ngOnInit() {
     this.formInitialize();
+    this.timeInDate = new Date();
+    const dt = new Date();
+    this.timeOutDate = dt.setMinutes(dt.getMinutes() + 30);
+    // this.timeOutDate = new Date() + 30;
     this.Score = [{ CodeId: 1, CodeValue: "None" }, { CodeId: 2, CodeValue: "Option1" }, { CodeId: 3, CodeValue: "Option2" }];
     if (this.isView === true) {
       this.viewWash();
@@ -102,11 +107,11 @@ export class CreateEditWashesComponent implements OnInit {
         if (this.membership !== null) {
           this.membership.forEach(element => {
             const washService = this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-            if(washService.length !== 0){
+            if (washService.length !== 0) {
               this.washService(washService[0].ServiceId);
             }
             const upchargeService = this.upcharges.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-            if(upchargeService.length !== 0){
+            if (upchargeService.length !== 0) {
               this.upchargeService(upchargeService[0].ServiceId);
             }
             const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
@@ -115,7 +120,7 @@ export class CreateEditWashesComponent implements OnInit {
             });
           });
         }
-        console.log(this.membership,id);
+        console.log(this.membership, id);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -215,7 +220,7 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   washService(data) {
-    if (this.isEdit) {      
+    if (this.isEdit) {
       this.washItem.filter(i => i.ServiceTypeId === 15)[0].IsDeleted = true;
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
@@ -234,7 +239,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceWash[0]);
       }
     }
-    console.log(this.additionalService,this.washItem);
+    console.log(this.additionalService, this.washItem);
   }
 
   upchargeService(data) {
@@ -257,7 +262,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-    console.log(this.additionalService,this.washItem);
+    console.log(this.additionalService, this.washItem);
   }
 
   airService(data) {
@@ -280,13 +285,13 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceAir[0]);
       }
     }
-    console.log(this.additionalService,this.washItem);
+    console.log(this.additionalService, this.washItem);
   }
 
   // Add/Update Wash
-  submit() { 
-    this.additional.forEach(element => {        
-      if(element.IsChecked){
+  submit() {
+    this.additional.forEach(element => {
+      if (element.IsChecked) {
         this.additionalService.push(element);
       }
     });
@@ -320,7 +325,7 @@ export class CreateEditWashesComponent implements OnInit {
         jobItemId: 0,
         jobId: this.isEdit ? +this.selectedData.Washes[0].JobId : 0,
         serviceId: item.ServiceId,
-        commission: 0,  
+        commission: 0,
         price: item.Cost,
         quantity: 1,
         reviewNote: "",
