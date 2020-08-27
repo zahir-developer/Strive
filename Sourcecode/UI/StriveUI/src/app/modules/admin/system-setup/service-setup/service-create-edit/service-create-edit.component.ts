@@ -75,7 +75,7 @@ export class ServiceCreateEditComponent implements OnInit {
           parentName: this.selectedService.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
         });
-        this.change(this.selectedService.Commision);
+        this.change(this.selectedService.Commision === 1 ? true : false);
         this.checkService(this.selectedService.ServiceTypeId);
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -140,6 +140,8 @@ export class ServiceCreateEditComponent implements OnInit {
       this.isUpcharge = true;
     }else{
       this.isUpcharge = false;
+      this.serviceSetupForm.get('upcharge').clearValidators();
+      this.serviceSetupForm.get('upcharge').updateValueAndValidity();
     }
     if(Number(data) === 17){
       this.isAdditional = true;
@@ -153,7 +155,9 @@ export class ServiceCreateEditComponent implements OnInit {
     if (data === true) {
       this.isChecked = true;
       this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
-      this.getCtype(this.selectedService.CommisionType);
+      if (this.isEdit === true) {
+      this.getCtype(this.selectedService?.CommisionType);
+      }
     } else {
       this.isChecked = false;
       this.ctypeLabel = 'none';
