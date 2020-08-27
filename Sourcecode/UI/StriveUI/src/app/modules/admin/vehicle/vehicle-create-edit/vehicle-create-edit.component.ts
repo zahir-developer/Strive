@@ -172,8 +172,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getUpchargeService().subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceTypeId === 18);
-
+        this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceTypeId === '18');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
