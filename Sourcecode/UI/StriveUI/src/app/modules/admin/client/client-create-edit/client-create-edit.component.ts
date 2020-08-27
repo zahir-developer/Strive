@@ -62,22 +62,22 @@ export class ClientCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.clientForm = this.fb.group({
-      fName: ['',],
-      lName: ['',],
-      address: ['',],
+      fName: ['', Validators.required],
+      lName: ['',  Validators.required],
+      address: ['', Validators.required],
       zipcode: ['',],
       state: ['',],
       city: ['',],
-      phone1: ['',],
+      phone1: ['', Validators.required],
       email: ['', Validators.email],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
       score: ['',],
-      status: ['',],
+      status: ['', Validators.required],
       notes: ['',],
       checkOut: ['',],
-      type: ['',]
+      type: ['', Validators.required]
     });
     this.clientForm.get('status').patchValue(0);
     this.getClientType();
