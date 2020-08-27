@@ -48,8 +48,8 @@ export class WashService {
   getTicketNumber(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getTicketNumber}`);
   }
-  getMembership(id: number) {
-      return this.http.get(`${UrlConfig.totalUrl.getMembershipByVehicle}` + id);
+  getMembership(vehicleId: number) {
+      return this.http.get(`${UrlConfig.totalUrl.getMembershipByVehicle}` , { params: { id: vehicleId } });
   }
 
   // Get Dashboard Count
