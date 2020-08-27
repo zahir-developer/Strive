@@ -4,6 +4,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-membership-create-edit',
   templateUrl: './membership-create-edit.component.html',
@@ -85,6 +86,7 @@ export class MembershipCreateEditComponent implements OnInit {
 
   getMembershipById() {
     console.log(this.selectedData);
+    let service = [];
     this.membershipForm.patchValue({
       membershipName: this.selectedData.Membership.MembershipName,
       notes: this.selectedData.Membership.Notes,
@@ -97,10 +99,29 @@ export class MembershipCreateEditComponent implements OnInit {
       this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
     }
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-      this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
-    }
-    console.log(this.memberService);
-  }
+      const memberService = this.additionalService.filter(i => Number(i.ServiceType) === 17);
+      service = memberService.map(item => {
+        return {
+          item_id: item.ServiceId,
+          item_text: item.ServiceName
+        };
+      });
+      this.additional = service;
+      this.membershipForm.patchValue({
+        service
+      });
+      this.dropdownSettings = {
+        singleSelection: false,
+        defaultOpen: false,
+        idField: 'item_id',
+        textField: 'item_text',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: false
+      };
+
+    }  }
 
   check(data) {
     console.log(data);
