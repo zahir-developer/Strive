@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class ScheduleEmployeeViewModel
+    public class ScheduleTotalWashHoursViewModel
     {
-        public int TotalEmployees { get; set; }
+        public int Totalhours { get; set; }
     }
 }
