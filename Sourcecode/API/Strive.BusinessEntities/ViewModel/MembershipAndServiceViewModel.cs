@@ -9,7 +9,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class MembershipAndServiceViewModel
     {
-        public Model.Membership Membership {get;set;}
-        public List<MembershipService> MembershipService { get; set; }
+        public MembershipViewModel Membership {get;set;}
+        public List<MembershipServiceViewModel> MembershipService { get; set; }
     }
 }

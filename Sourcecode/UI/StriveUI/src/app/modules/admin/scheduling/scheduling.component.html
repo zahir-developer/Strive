@@ -52,7 +52,7 @@
                         <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"  (click)="getAll()"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >All</span> </a>
                     </li>
                     <li *ngFor="let loc of location">
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" (click)="getLocationId($event)"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">25 min</div></a>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" (click)="getLocationId($event)"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">{{loc.WashTimeMinutes}}</div></a>
                     </li>
                     <!-- <li>
                         <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5">All</span> </a>
