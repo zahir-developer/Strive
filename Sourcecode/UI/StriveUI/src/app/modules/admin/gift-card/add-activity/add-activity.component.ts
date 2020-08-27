@@ -65,7 +65,7 @@ export class AddActivityComponent implements OnInit {
       giftCardId: this.giftCardId,
       locationId: 1,
       transactionType: 1,
-      transactionAmount: this.giftCardForm.value.amount,
+      transactionAmount: this.symbol === 'plus' ? this.giftCardForm.value.amount : '-' + this.giftCardForm.value.amount,
       transactionDate: moment(new Date()),
       comments: 'string',
       isActive: true,
@@ -75,12 +75,12 @@ export class AddActivityComponent implements OnInit {
       updatedBy: 0,
       updatedDate: moment(new Date())
     };
+    console.log(activityObj);
     const finalObj = {
       giftCardHistory: activityObj
     };
     this.giftCardService.addCardHistory(finalObj).subscribe( res => {
       if (res.status === 'Success') {
-        this.updateBalance();
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Activity Added Successfully!!' });
         this.activeModal.close(true);
       } else {

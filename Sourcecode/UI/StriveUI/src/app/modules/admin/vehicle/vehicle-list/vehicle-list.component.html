@@ -66,7 +66,7 @@
                             </div>
                             <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog"
                                 [blockScroll]="true" [modal]="true" [focusOnShow]="false" [closable]="false">
-                                <app-vehicle-create-edit *ngIf="showDialog" [selectedData]="selectedData"
+                                <app-vehicle-create-edit *ngIf="showDialog" [selectedData]="selectedData" [additionalService]="additionalService"
                                     [isEdit]="isEdit" [isView]="isView" (closeDialog)="closePopupEmit($event)">
                                 </app-vehicle-create-edit>
                             </p-dialog>
