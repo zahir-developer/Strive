@@ -48,6 +48,7 @@ export class CreateEditComponent implements OnInit {
   multipleFileUpload: any = [];
   fileType: any;
   isLoading: boolean;
+  imigirationStatus: any = [];
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -60,6 +61,16 @@ export class CreateEditComponent implements OnInit {
     this.isLoading = false;
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
+    this.imigirationStatus = [
+      {
+        value: 0,
+        label: 'False'
+      },
+      {
+        value: 1,
+        label: 'True'
+      }
+    ];
     this.documentDailog = false;
     this.submitted = false;
     this.personalform = this.fb.group({
@@ -266,7 +277,7 @@ export class CreateEditComponent implements OnInit {
       isCitizen: true,
       alienNo: 'string',
       birthDate: '',
-      immigrationStatus: this.personalform.value.immigrationStatus,
+      immigrationStatus: +this.personalform.value.immigrationStatus,
       isActive: true,
       isDeleted: false,
     };
