@@ -297,7 +297,7 @@ export class CreateEditWashesComponent implements OnInit {
       clientId: this.isEdit ? this.selectedData.Washes[0].ClientId : this.barcodeDetails.ClientId,
       vehicleId: this.isEdit ? this.selectedData.Washes[0].VehicleId : this.barcodeDetails.VehicleId,
       make: this.washForm.value.type,
-      model: this.washForm.value.model,
+      model: +this.washForm.value.model,
       color: this.washForm.value.color,
       jobType: 15,
       jobDate: new Date(),
@@ -318,7 +318,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.jobItems = this.additionalService.map(item => {
       return {
         jobItemId: 0,
-        jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
+        jobId: this.isEdit ? +this.selectedData.Washes[0].JobId : 0,
         serviceId: item.ServiceId,
         commission: 0,  
         price: item.Cost,

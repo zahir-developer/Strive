@@ -83,6 +83,7 @@ export class VehicleCreateEditComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         console.log(vehicle, 'vec');
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
+          this.membershipChange(vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId);
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
           });
@@ -141,7 +142,7 @@ export class VehicleCreateEditComponent implements OnInit {
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
-          this.vehicleForm.get('upchargeType').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+          this.vehicleForm.get('upchargeType').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
         }
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
           this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
