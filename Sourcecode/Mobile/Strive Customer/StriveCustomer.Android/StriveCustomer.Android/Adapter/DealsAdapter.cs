@@ -19,7 +19,7 @@ namespace StriveCustomer.Android.Adapter
         public IItemClickListener itemClickListener;
         public RecyclerViewHolder(View dealItem) : base(dealItem)
         {
-            dealsText = dealItem.FindViewById<TextView>(Resource.Id.dealOption);
+            dealsText = dealItem.FindViewById<TextView>(Resource.Id.dealOptionHeading);
             dealItem.SetOnClickListener(this);
         }
         public void SetItemClickListener(IItemClickListener itemClickListener)
