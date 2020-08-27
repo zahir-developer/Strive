@@ -4,6 +4,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-membership-create-edit',
   templateUrl: './membership-create-edit.component.html',
@@ -85,6 +86,7 @@ export class MembershipCreateEditComponent implements OnInit {
 
   getMembershipById() {
     console.log(this.selectedData);
+    let service = [];
     this.membershipForm.patchValue({
       membershipName: this.selectedData.Membership.MembershipName,
       notes: this.selectedData.Membership.Notes,
@@ -97,10 +99,18 @@ export class MembershipCreateEditComponent implements OnInit {
       this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
     }
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-      this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
-    }
-    console.log(this.memberService);
-  }
+      const serviceIds = this.selectedData?.MembershipService.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
+      const memberService = serviceIds.map((e) => {
+        const f = this.additionalService.find(a => a.ServiceId === e);
+        return f ? f : 0;
+      });
+      this.memberService = memberService.map(item => {
+        return {
+          item_id: item.ServiceId,
+          item_text: item.ServiceName
+        };
+      });
+    }  }
 
   check(data) {
     console.log(data);
