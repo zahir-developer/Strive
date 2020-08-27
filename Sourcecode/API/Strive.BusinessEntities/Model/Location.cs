@@ -23,6 +23,9 @@ namespace Strive.BusinessEntities.Model
         public string ColorCode { get; set; }
 
         [Column]
+        public int WashTimeMinutes { get; set; }
+
+        [Column]
         public bool? IsFranchise { get; set; }
 
         [Column]

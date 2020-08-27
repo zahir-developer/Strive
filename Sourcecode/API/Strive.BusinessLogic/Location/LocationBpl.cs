@@ -20,6 +20,7 @@ namespace Strive.BusinessLogic.Location
             var color = String.Format("#{0:X6}", random.Next(0x1000000));
 
             location.Location.ColorCode = color;
+            location.Location.WashTimeMinutes = random.Next(30, 45);
 
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
