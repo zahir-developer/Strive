@@ -168,9 +168,9 @@ export class ServiceCreateEditComponent implements OnInit {
   // Add/Update Service
   submit() {
     this.submitted = true;
-    if (this.serviceSetupForm.invalid) {
-      return;
-    }
+    // if (this.serviceSetupForm.invalid) {
+    //   return;
+    // }
     const formObj = {
       serviceType: this.serviceSetupForm.value.serviceType,
       serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
