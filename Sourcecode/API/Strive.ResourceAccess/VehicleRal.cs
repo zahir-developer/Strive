@@ -52,10 +52,10 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-        public ClientVehicleViewModel GetVehicleByClientId(int clientId)
+        public ClientVehicleListViewModel GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
-             return db.FetchMultiResult<ClientVehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+             return db.FetchMultiResult<ClientVehicleListViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
