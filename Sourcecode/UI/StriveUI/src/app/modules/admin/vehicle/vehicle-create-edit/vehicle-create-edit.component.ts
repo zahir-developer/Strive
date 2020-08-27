@@ -25,6 +25,8 @@ export class VehicleCreateEditComponent implements OnInit {
   membership: any;
   additional: any;
   membershipServices: any = [];
+  memberService: any;
+  additionalService: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -89,9 +91,9 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getMembershipService().subscribe(data => {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
-        this.additional = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === "Additional Services");
+        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === "Additional Services");
         console.log(membership);
-        this.additional = this.additional.map(item => {
+        this.additional = this.additionalService.map(item => {
           return {
             item_id: item.ServiceId,
             item_text: item.ServiceName
@@ -113,6 +115,23 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
+  membershipChange(data){
+    this.vehicle.getMembershipById(Number(data)).subscribe(data => {
+      if (data.status === 'Success') {
+        const membership = JSON.parse(data.resultData);  
+        this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
+          this.vehicleForm.get('upchargeType').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+        }
+        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+          this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
   // Get vehicleCodes
   getVehicleCodes() {
     this.vehicle.getVehicleCodes().subscribe(data => {
@@ -121,7 +140,20 @@ export class VehicleCreateEditComponent implements OnInit {
         this.make = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
-        this.upchargeType = vehicle.VehicleDetails.filter(item => item.CategoryId === 34);
+        this.upchargeService();
+        //this.upchargeType = vehicle.VehicleDetails.filter(item => item.CategoryId === 34);
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  upchargeService(){
+    this.vehicle.getUpchargeService().subscribe(data => {
+      if (data.status === 'Success') {
+        const serviceDetails = JSON.parse(data.resultData);
+        this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceTypeId === 18);
+        
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
