@@ -55,7 +55,7 @@ export class VehicleCreateEditComponent implements OnInit {
       upchargeType: ['',],
       monthlyCharge: ['',],
       membership: ['',],
-      service: ['',]
+      service: [[]]
     });
     this.getVehicleCodes();
     this.getVehicleMembership();
