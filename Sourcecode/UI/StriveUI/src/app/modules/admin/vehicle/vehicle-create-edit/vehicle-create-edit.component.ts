@@ -40,7 +40,7 @@ export class VehicleCreateEditComponent implements OnInit {
       this.vehicleForm.reset();
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
-      console.log(this.selectedData, 'data');
+      console.log(this.additionalService, 'data');
     }
   }
 

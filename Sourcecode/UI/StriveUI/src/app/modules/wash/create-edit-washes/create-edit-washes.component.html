@@ -28,16 +28,16 @@
                                 <div class="form-group col-xl-9">
                                     <div class="pull-right">
                                         <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Time in:
-                                            09-09-2020 15:36</p>
+                                            {{ timeInDate | date:'MM-dd-yyyy, HH:mm'}}</p>
                                         <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Est.Time
-                                            Out: 09-09-2020 15:36</p>
-                                        <p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min: 29min</p>
+                                            {{ timeOutDate | date:'MM-dd-yyyy, HH:mm' }}</p>
+                                        <p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min: 30min</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-lg-2 col-md-2 col-xl-3">
-                                    <label for="inputBarcode">barcode</label>
+                                    <label for="inputBarcode">Barcode</label>
                                     <input type="text" maxlength="100" class="form-control" formControlName="barcode"
                                         placeholder="BarCode"
                                         (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">

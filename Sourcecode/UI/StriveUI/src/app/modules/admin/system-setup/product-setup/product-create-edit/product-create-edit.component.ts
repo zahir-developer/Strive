@@ -57,7 +57,8 @@ export class ProductCreateEditComponent implements OnInit {
       status: ['',],
       vendor: ['',],
       thresholdAmount: ['',],
-      other: ['',]
+      other: ['',],
+      suggested: ['']
     });
     this.productSetupForm.patchValue({status : 0}); 
   }
@@ -199,7 +200,7 @@ export class ProductCreateEditComponent implements OnInit {
       createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
       updatedBy: 0,
       updatedDate: new Date(),
-      price: 0
+      price: this.productSetupForm.value.suggested
     };
     if (this.isEdit === true) {
       this.product.updateProduct(formObj).subscribe(data => {
