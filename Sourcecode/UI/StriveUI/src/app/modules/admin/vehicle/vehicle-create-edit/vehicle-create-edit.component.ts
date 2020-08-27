@@ -3,6 +3,7 @@ import { VehicleService } from 'src/app/shared/services/data-service/vehicle.ser
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -17,6 +18,7 @@ export class VehicleCreateEditComponent implements OnInit {
   @Input() clientId?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
+  @Input() additionalService?: any;
   make: any;
   model: any;
   color: any;
@@ -26,7 +28,6 @@ export class VehicleCreateEditComponent implements OnInit {
   additional: any;
   membershipServices: any = [];
   memberService: any;
-  additionalService: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -38,6 +39,8 @@ export class VehicleCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.vehicleForm.reset();
       this.getVehicleById();
+      this.getVehicleMembershipDetailsByVehicleId();
+      console.log(this.selectedData, 'data');
     }
   }
 
@@ -74,6 +77,32 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.disable();
   }
 
+  getVehicleMembershipDetailsByVehicleId() {
+    this.vehicle.getVehicleMembershipDetailsByVehicleId(this.selectedData.ClientVehicleId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vehicle = JSON.parse(res.resultData);
+        console.log(vehicle, 'vec');
+        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
+          this.vehicleForm.patchValue({
+            membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
+          });
+        }
+        if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
+          const service = [];
+          vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.forEach(item => {
+            const additionalService = _.where(this.additional, { item_id: item.ServiceId });
+            if (additionalService.length > 0) {
+              service.push(additionalService[0]);
+            }
+          });
+          this.vehicleForm.patchValue({
+            service
+          });
+        }
+      }
+    });
+  }
+
   // Get VehicleMembership
   getVehicleMembership() {
     this.vehicle.getVehicleMembership().subscribe(data => {
@@ -88,37 +117,28 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getMembershipService() {
-    this.vehicle.getMembershipService().subscribe(data => {
-      if (data.status === 'Success') {
-        const membership = JSON.parse(data.resultData);
-        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === "Additional Services");
-        console.log(membership);
-        this.additional = this.additionalService.map(item => {
-          return {
-            item_id: item.ServiceId,
-            item_text: item.ServiceName
-          };
-        });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
+    this.additional = this.additionalService.map(item => {
+      return {
+        item_id: item.ServiceId,
+        item_text: item.ServiceName
+      };
     });
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 2,
+      allowSearchFilter: false
+    };
   }
 
-  membershipChange(data){
-    this.vehicle.getMembershipById(Number(data)).subscribe(data => {
-      if (data.status === 'Success') {
-        const membership = JSON.parse(data.resultData);  
+  membershipChange(data) {
+    this.vehicle.getMembershipById(Number(data)).subscribe(res => {
+      if (res.status === 'Success') {
+        const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
           this.vehicleForm.get('upchargeType').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
@@ -148,7 +168,7 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
-  upchargeService(){
+  upchargeService() {
     this.vehicle.getUpchargeService().subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
@@ -216,12 +236,12 @@ export class VehicleCreateEditComponent implements OnInit {
     });
     const model = {
       clientVehicleMembershipDetails: membership,
-        clientVehicleMembershipService: membershipServices
+      clientVehicleMembershipService: membershipServices
     };
     const sourceObj = {
       clientVehicle: formObj,
-      clientVehicleMembershipModel:model
-    }
+      clientVehicleMembershipModel: model
+    };
     const add = {
       VehicleId: 0,
       ClientId: this.clientId,

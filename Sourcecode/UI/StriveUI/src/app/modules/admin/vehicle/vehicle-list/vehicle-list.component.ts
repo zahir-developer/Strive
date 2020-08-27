@@ -20,12 +20,13 @@ export class VehicleListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
+  additionalService: any = [];
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.getAllVehicleDetails();
-
+    this.getService();
   }
 
   // Get All Vehicles
@@ -36,8 +37,8 @@ export class VehicleListComponent implements OnInit {
         this.vehicleDetails = vehicle.Vehicle;
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
-        } else {      
-          this.collectionSize = Math.ceil(this.vehicleDetails.length/this.pageSize) * 10;
+        } else {
+          this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -78,7 +79,7 @@ export class VehicleListComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
   add(data, vehicleDet?) {
-      this.getVehicleById(data, vehicleDet);
+    this.getVehicleById(data, vehicleDet);
   }
 
   // Get Vehicle By Id
@@ -102,6 +103,15 @@ export class VehicleListComponent implements OnInit {
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  getService() {
+    this.vehicle.getMembershipService().subscribe(res => {
+      if (res.status === 'Success') {
+        const membership = JSON.parse(res.resultData);
+        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
   }

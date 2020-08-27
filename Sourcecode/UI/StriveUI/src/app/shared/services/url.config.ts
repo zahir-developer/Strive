@@ -101,6 +101,7 @@ export const UrlConfig = {
     getVendorSearch:`Admin/Vendor/GetVendorSearch`,
     getTicketNumber:`Admin/Washes/GetTicketNumber`,
     getMembershipByVehicle:`Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
-    getVechileList: `Admin/Collision/GetVehicleListByClientId/`
+    getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
+    getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`
   }
 };
