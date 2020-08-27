@@ -32,9 +32,8 @@ export class CreateEditWashesComponent implements OnInit {
   airFreshner: any;
   UpchargeType: any;
   jobItems: any;
-  isMembership = false;
-  membership: any;
   washItem: any = [];
+  membership: any;
 
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
@@ -53,7 +52,6 @@ export class CreateEditWashesComponent implements OnInit {
       type: ['',],
       barcode: ['',],
       washes: ['',],
-      membership: ['',],
       model: ['',],
       color: ['',],
       upcharges: ['',],
@@ -100,7 +98,21 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getMembership(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.membership = vehicle.Membership;
+        this.membership = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
+        this.membership.forEach(element => {
+          const washService = this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
+          if(washService.length !== 0){
+            this.washService(washService[0].ServiceId);
+          }
+          const upchargeService = this.upcharges.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
+          if(upchargeService.length !== 0){
+            this.upchargeService(upchargeService[0].ServiceId);
+          }
+          const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
+          additionalService.forEach(element => {
+            this.change(element);
+          });
+        });        
         console.log(this.membership,id);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -141,20 +153,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
-  }
-
-  membershipSelect(data) {
-    if (data === "") {
-      this.isMembership = false;
-      this.washForm.get('washes').enable();
-      this.washForm.get('upcharges').enable();
-      this.washForm.get('upchargeType').enable();
-    } else {
-      this.isMembership = true;
-      this.washForm.get('washes').disable();
-      this.washForm.get('upcharges').disable();
-      this.washForm.get('upchargeType').disable();
-    }
   }
 
   change(data) {
@@ -284,7 +282,7 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   // Add/Update Wash
-  submit() {   
+  submit() { 
     this.additional.forEach(element => {        
       if(element.IsChecked){
         this.additionalService.push(element);
