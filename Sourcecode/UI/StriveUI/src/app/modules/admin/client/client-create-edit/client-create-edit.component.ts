@@ -117,7 +117,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Status;
+        this.vehicleDetails = vehicle.Status.ClientVehicles;
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
