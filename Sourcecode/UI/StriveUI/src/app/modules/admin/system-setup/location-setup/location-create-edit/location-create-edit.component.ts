@@ -124,6 +124,7 @@ export class LocationCreateEditComponent implements OnInit {
       twitter: '',
       instagram: '',
       wifiDetail: '',
+      washTimeMinutes: this.isEdit ? this.selectedData.Location.WashTimeMinutes : 0,
       workhourThreshold: this.locationSetupForm.value.workHourThreshold,
       startTime: '',
       endTime: '',
