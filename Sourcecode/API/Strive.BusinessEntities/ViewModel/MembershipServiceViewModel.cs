@@ -13,5 +13,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int ServiceId { get; set; }
         public int ServiceTypeId { get; set; }
         public string ServiceType { get; set; }
+        public string Upcharges { get; set; }
+
     }
 }
