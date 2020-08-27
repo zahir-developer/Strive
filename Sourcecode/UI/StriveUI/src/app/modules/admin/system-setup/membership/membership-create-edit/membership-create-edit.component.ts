@@ -90,19 +90,16 @@ export class MembershipCreateEditComponent implements OnInit {
       notes: this.selectedData.Membership.Notes,
       status: this.selectedData.Membership.IsActive === true ? 0 : 1
     });
-    // this.selectedData.MembershipService.forEach(element => {
-    //   if (this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId))[0] !== undefined) {
-    //     this.membershipForm.get('washes').patchValue(this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId))[0].ServiceId);
-    //   } else if (this.upchargeType.filter(i => Number(i.ServiceId) === Number(element.ServiceId))[0] !== undefined) {
-    //     this.membershipForm.get('upcharge').patchValue(this.upchargeType.filter(i => Number(i.ServiceId) === Number(element.ServiceId))[0].ServiceId);
-    //   } else {
-    //     const temp = this.additionalService.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-    //     if(temp.length !== 0){
-    //     this.memberService.push(temp[0]);
-    //     }
-    //   }
-    // });
-    // console.log(this.memberService);
+    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0] !== undefined) {
+      this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0].ServiceId);
+    }
+    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
+      this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+    }
+    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+      this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
+    }
+    console.log(this.memberService);
   }
 
   check(data) {

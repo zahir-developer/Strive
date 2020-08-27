@@ -50,7 +50,7 @@
             </div>        
             <div class="form-group col-lg-3">
                 <label for="inputMembership">Membership</label>
-                <select class="form-control" formControlName="membership">
+                <select class="form-control" formControlName="membership" (change)="membershipChange($event.target.value)">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let member of membership" value="{{member.MembershipId}}">{{member.MembershipName}}</option>
                 </select>
@@ -60,7 +60,7 @@
             <div class="form-group col-lg-3">
                 <label for="inputService">Services</label>
                 <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings" [data]="additional"
-                    formControlName="service" [disabled]="isView">
+                    formControlName="service" [disabled]="isView"  [(ngModel)]="memberService">
                 </ng-multiselect-dropdown>
             </div>
             <div class="form-group col-lg-3">
