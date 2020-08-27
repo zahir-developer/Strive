@@ -271,20 +271,25 @@ namespace Strive.BusinessLogic.Common
 
         public int CreateLogin(string emailId, string mobileNo)
         {
+            string randomPassword = RandomString(6);
+
+            string passwordHash = Pass.Hash(randomPassword);
+
             AuthMaster authMaster = new AuthMaster
             {
                 UserGuid = Guid.NewGuid().ToString(),
                 EmailId = emailId,
                 MobileNumber = mobileNo,
-                PasswordHash = "",
+                PasswordHash = passwordHash,
                 SecurityStamp = "1",
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
             };
 
-            string randomPassword = RandomString(6);
+
+            
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
-            SendLoginCreationEmail(authMaster.EmailId, randomPassword);
+
             return authId;
         }
 

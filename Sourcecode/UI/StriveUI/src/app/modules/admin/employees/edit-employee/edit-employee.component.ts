@@ -44,6 +44,7 @@ export class EditEmployeeComponent implements OnInit {
   ctypeLabel: any;
   deSelectRole: any = [];
   deSelectLocation: any = [];
+  imigirationStatus: any = [];
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -56,6 +57,16 @@ export class EditEmployeeComponent implements OnInit {
     this.isEditPersonalDetail = false;
     this.submitted = false;
     this.Status = ['Active', 'Inactive'];
+    this.imigirationStatus = [
+      {
+        value: 0,
+        label: 'False'
+      },
+      {
+        value: 1,
+        label: 'True'
+      }
+    ];
     this.personalform = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
