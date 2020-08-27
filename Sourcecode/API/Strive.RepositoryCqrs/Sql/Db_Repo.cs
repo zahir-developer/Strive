@@ -100,6 +100,89 @@ namespace Strive.RepositoryCqrs
             return true;
         }
 
+        public bool SaveAll<T>(T tview, string PrimaryField)
+        {
+            SqlServerBootstrap.Initialize();
+            DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
+
+            using (var dbcon = new SqlConnection(cs).EnsureOpen())
+            {
+
+                Type type = typeof(T);
+                int primeId = 0;
+                bool primInsert = false;
+                int insertId = 0;
+                using (var transaction = dbcon.BeginTransaction())
+                {
+                    try
+                    {
+                        bool isGeneric = false;
+                        foreach (PropertyInfo prp in type.GetProperties())
+                        {
+                            var model = prp.GetValue(tview, null);
+
+
+                            if (primInsert)
+                            {
+                                Type subModelType = model.GetType();
+                                if (subModelType.IsGenericType)
+                                {
+                                    isGeneric = true;
+                                    var jString = JsonConvert.SerializeObject(model);
+                                    var components = (IList)JsonConvert.DeserializeObject(jString, typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
+
+                                    foreach (var m in components)
+                                    {
+                                        var smt = m.GetType();
+                                        smt.GetProperty(PrimaryField).SetValue(m, primeId);
+                                    }
+
+                                    model = components;
+                                }
+                                else
+                                {
+                                    subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
+                                }
+                            }
+
+
+                            if (isGeneric)
+                            {
+                                var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
+
+                                insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+                                isGeneric = false;
+
+                            }
+                            else
+                            {
+                                var prInfo = model.GetType().GetProperties().FirstOrDefault().GetValue(model, null) ?? 0;
+                                if (Convert.ToInt32(prInfo) > 0)
+                                {
+                                    var Updated = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                }
+                                else
+                                {
+                                    insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                    primeId = (!primInsert) ? insertId : primeId;
+                                    primInsert = true;
+                                }
+                            }
+
+                            isGeneric = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                    transaction.Commit();
+                }
+            }
+            return true;
+        }
+
         public int Save<T>(T tview, string PrimaryField)
         {
             SqlServerBootstrap.Initialize();
@@ -210,7 +293,7 @@ namespace Strive.RepositoryCqrs
                             }
                             if (primInsert)
                             {
-                                
+
                                 if (subModelType.IsGenericType)
                                 {
                                     isGeneric = true;
@@ -298,10 +381,10 @@ namespace Strive.RepositoryCqrs
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw;
+                        throw ex;
                     }
                     transaction.Commit();
                 }

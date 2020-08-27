@@ -35,7 +35,7 @@ namespace Strive.BusinessLogic.Vehicle
         {
             try
             {
-                return ResultWrap(new VehicleRal(_tenant).SaveVehicle, vehicle, "Status");
+                return ResultWrap(new VehicleRal(_tenant).SaveClientVehicle, vehicle, "Status");
             }
             catch(Exception ex)
             {
@@ -60,9 +60,13 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleCodes, "VehicleDetails");
         }
-        public Result SaveClientVehicleMembership(VehicleMembershipViewModel vehicleMembership)
+        public Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel vehicleMembership)
         {
-            return ResultWrap(new VehicleRal(_tenant).SaveClientVehicleMembership, vehicleMembership, "Status");
+            var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
+            if (!saveVehicle)
+                return ResultWrap<ClientVehicle>(false, "Result", "Failed to save vehicle details.");
+
+            return ResultWrap(new VehicleRal(_tenant).SaveClientVehicleMembership, vehicleMembership.ClientVehicleMembershipModel, "Status");
         }
         public Result GetVehicleMembershipDetailsByVehicleId(int id)
         {

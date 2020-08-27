@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.Washes;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
@@ -47,10 +48,10 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETCLIENTANDVEHICLEDETAIL.ToString(), _prm);
             return result;
         }
-        public List<VehicleMembershipViewModel> GetMembershipListByVehicleId(int vehicleId)
+        public List<ClientVehicleViewModel> GetMembershipListByVehicleId(int vehicleId)
         {
             _prm.Add("@VehicleId", vehicleId);
-            var result = db.Fetch<VehicleMembershipViewModel>(SPEnum.uspGetMembershipListByVehicleId.ToString(), _prm);
+            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.uspGetMembershipListByVehicleId.ToString(), _prm);
             return result;
         }
         public bool DeleteWashes(int id)

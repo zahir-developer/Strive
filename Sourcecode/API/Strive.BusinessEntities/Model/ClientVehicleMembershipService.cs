@@ -10,10 +10,10 @@ namespace Strive.BusinessEntities.Model
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
         public int ClientVehicleMembershipServiceId { get; set; }
 
-        [Column]
+        [Column, PrimaryKey]
         public int? ClientMembershipId { get; set; }
 
-        [Column]
+        [Column, PrimaryKey]
         public int? ServiceId { get; set; }
 
         [Column]

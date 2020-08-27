@@ -89,17 +89,6 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-lg-3">
-                                    <label for="inputMembership">Membership</label>
-                                    <select class="form-control" formControlName="membership"
-                                        (change)="membershipSelect($event.target.value)">
-                                        <option selected value="">None</option>
-                                        <option *ngFor="let member of membership" value="{{member.MembershipId}}">
-                                            {{member.MembershipName}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes</label>
                                     <select class="form-control" formControlName="washes" (change)="washService($event.target.value)">
@@ -109,6 +98,8 @@
                                         </option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputUpchargeType">Upcharge Type</label>
                                     <select class="form-control" formControlName="upchargeType">
@@ -161,7 +152,7 @@
                             <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
                                     <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                                        (change)="change(addService)" [disabled]="isMembership || isView"
+                                        (change)="change(addService)" [disabled]="isView"
                                         [checked]="addService.IsChecked" />
                                     <label class="custom-control-label"
                                         for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>

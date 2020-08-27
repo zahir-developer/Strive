@@ -11,7 +11,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int MembershipServiceId { get; set; }
         public int MembershipId { get; set; }
         public int ServiceId { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+        public int ServiceTypeId { get; set; }
+        public string ServiceType { get; set; }
     }
 }

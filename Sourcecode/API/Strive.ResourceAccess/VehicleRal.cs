@@ -41,7 +41,7 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(ClientVehicle);
         }
 
-        public bool SaveVehicle(VehicleDto client)
+        public bool SaveClientVehicle(VehicleDto client)
         {
             return dbRepo.InsertPc(client, "ClientId");
         }
@@ -52,10 +52,10 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-        public ClientVehicleViewModel GetVehicleByClientId(int clientId)
+        public ClientVehicleListViewModel GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
-             return db.FetchMultiResult<ClientVehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+             return db.FetchMultiResult<ClientVehicleListViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
@@ -66,9 +66,14 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
         }
-        public bool SaveClientVehicleMembership(VehicleMembershipViewModel clientmembership)
+        public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
         {
-            return dbRepo.UpdatePc(clientmembership);
+            return dbRepo.SaveAll(ClientVehicleMembershipModel, "ClientMembershipId");
+        }
+
+        public bool SaveVehicle(ClientVehicleModel clientVehicle)
+        {
+            return dbRepo.UpdatePc(clientVehicle);
         }
         public VehicleMembershipViewModel GetVehicleMembershipDetailsByVehicleId(int id)
         {

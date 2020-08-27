@@ -79,6 +79,8 @@
     <Compile Include="DTO\Vendor\VendorSearchDto.cs" />
     <Compile Include="DTO\Washes\DashboardDto.cs" />
     <Compile Include="DTO\Washes\WashesDto.cs" />
+    <Compile Include="Model\ClientVehicleMembershipDetailModel.cs" />
+    <Compile Include="Model\ClientVehicleMembershipModel.cs" />
     <Compile Include="Model\ClientVehicleMembershipService.cs" />
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
@@ -90,8 +92,11 @@
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
     <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
+    <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />
+    <Compile Include="ViewModel\Membership.cs" />
     <Compile Include="ViewModel\MembershipAndServiceViewModel.cs" />
     <Compile Include="ViewModel\VehicleList.cs" />
+    <Compile Include="Model\ClientVehicleModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipViewModel.cs" />
     <Compile Include="ViewModel\WashDetailViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />

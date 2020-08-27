@@ -54,7 +54,7 @@ export const UrlConfig = {
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAll`,
     deleteDocument: `Admin/Document/`,
-    updateVehicle: `Admin/Vehicle/UpdateClientVehicle`,
+    updateVehicle: `Admin/Vehicle/SaveClientVehicleMembership`,
     deleteVehicle: `Admin/Vehicle/Delete`,
     getVehicleByClientId: `Admin/Vehicle/GetVehicleByClientId`,
     deleteCollision: `Admin/Collision/Delete/`,
@@ -100,7 +100,7 @@ export const UrlConfig = {
     getProductSearch:`Admin/Product/GetProductSearch`,
     getVendorSearch:`Admin/Vendor/GetVendorSearch`,
     getTicketNumber:`Admin/Washes/GetTicketNumber`,
-    getMembershipByVehicle:`Admin/Washes/GetMembershipListByVehicleId/`,
+    getMembershipByVehicle:`Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`
   }
 };

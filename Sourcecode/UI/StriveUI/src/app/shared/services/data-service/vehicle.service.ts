@@ -28,12 +28,18 @@ export class VehicleService {
         return this.http.get(`${UrlConfig.totalUrl.getVehicleById}`, { params: { id: vehicleId } });
     }
     getVehicleMembership(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleMembership}`);
+        return this.http.get(`${UrlConfig.totalUrl.getAllMembership}`);
     }
     getVehicleCodes() {
         return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
     }
     getMembershipService(): Observable<any> {
       return this.http.get(`${UrlConfig.totalUrl.getMembershipService}`);
+    }
+    getMembershipById(id : number){
+      return this.http.get(`${UrlConfig.totalUrl.getMembershipById}` + id);
+    }    
+    getUpchargeService(): Observable<any> {
+      return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
     }
 }

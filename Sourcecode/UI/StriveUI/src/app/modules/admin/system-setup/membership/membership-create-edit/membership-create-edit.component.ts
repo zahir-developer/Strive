@@ -21,15 +21,13 @@ export class MembershipCreateEditComponent implements OnInit {
   washes: any;
   upchargeType: any;
   additional: any;
+  memberService: any = [];
+  additionalService: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
     this.status = [{ CodeId: 0, CodeValue: "Active" }, { CodeId: 1, CodeValue: "InActive" }];
     this.formInitialize();
-    if (this.isEdit === true) {
-      this.membershipForm.reset();
-      this.getMembershipById();
-    }
   }
 
   formInitialize() {
@@ -54,8 +52,8 @@ export class MembershipCreateEditComponent implements OnInit {
         this.service = membership.ServicesWithPrice;
         this.washes = this.service.filter(item => item.ServiceTypeName === "Washes");
         this.upchargeType = this.service.filter(item => item.ServiceTypeName === "Upcharges");
-        this.additional = this.service.filter(item => item.ServiceTypeName === "Additional Services");
-        this.additional = this.additional.map(item => {
+        this.additionalService = this.service.filter(item => item.ServiceTypeName === "Additional Services");
+        this.additional = this.additionalService.map(item => {
           return {
             item_id: item.ServiceId,
             item_text: item.ServiceName
@@ -71,6 +69,10 @@ export class MembershipCreateEditComponent implements OnInit {
           itemsShowLimit: 3,
           allowSearchFilter: false
         };
+        if (this.isEdit === true) {
+          this.membershipForm.reset();
+          this.getMembershipById();
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -88,7 +90,16 @@ export class MembershipCreateEditComponent implements OnInit {
       notes: this.selectedData.Membership.Notes,
       status: this.selectedData.Membership.IsActive === true ? 0 : 1
     });
-    
+    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0] !== undefined) {
+      this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0].ServiceId);
+    }
+    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
+      this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+    }
+    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+      this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
+    }
+    console.log(this.memberService);
   }
 
   check(data) {
