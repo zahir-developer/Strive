@@ -304,7 +304,7 @@ export class CreateEditWashesComponent implements OnInit {
       timeIn: new Date(),
       estimatedTimeOut: new Date(),
       actualTimeOut: new Date(),
-      jobStatus: "",
+      jobStatus: 0,
       isActive: true,
       isDeleted: false,
       createdBy: 1,
