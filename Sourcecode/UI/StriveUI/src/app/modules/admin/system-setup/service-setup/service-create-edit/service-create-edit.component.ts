@@ -45,7 +45,7 @@ export class ServiceCreateEditComponent implements OnInit {
       cost: ['', Validators.required],
       commission: ['',],
       commissionType: ['',],
-      upcharge: ['',],
+      upcharge: ['', Validators.required],
       parentName: ['',],
       status: ['',],
       fee: ['',],
