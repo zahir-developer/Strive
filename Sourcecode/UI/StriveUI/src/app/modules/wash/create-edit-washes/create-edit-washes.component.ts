@@ -99,20 +99,22 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
-        this.membership.forEach(element => {
-          const washService = this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-          if(washService.length !== 0){
-            this.washService(washService[0].ServiceId);
-          }
-          const upchargeService = this.upcharges.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-          if(upchargeService.length !== 0){
-            this.upchargeService(upchargeService[0].ServiceId);
-          }
-          const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-          additionalService.forEach(element => {
-            this.change(element);
+        if (this.membership !== null) {
+          this.membership.forEach(element => {
+            const washService = this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
+            if(washService.length !== 0){
+              this.washService(washService[0].ServiceId);
+            }
+            const upchargeService = this.upcharges.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
+            if(upchargeService.length !== 0){
+              this.upchargeService(upchargeService[0].ServiceId);
+            }
+            const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
+            additionalService.forEach(item => {
+              this.change(item);
+            });
           });
-        });        
+        }
         console.log(this.membership,id);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
