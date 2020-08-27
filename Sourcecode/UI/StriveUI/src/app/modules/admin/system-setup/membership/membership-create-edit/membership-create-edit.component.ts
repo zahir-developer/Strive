@@ -99,28 +99,17 @@ export class MembershipCreateEditComponent implements OnInit {
       this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
     }
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-      const memberService = this.additionalService.filter(i => Number(i.ServiceType) === 17);
-      service = memberService.map(item => {
+      const serviceIds = this.selectedData?.MembershipService.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
+      const memberService = serviceIds.map((e) => {
+        const f = this.additionalService.find(a => a.ServiceId === e);
+        return f ? f : 0;
+      });
+      this.memberService = memberService.map(item => {
         return {
           item_id: item.ServiceId,
           item_text: item.ServiceName
         };
       });
-      this.additional = service;
-      this.membershipForm.patchValue({
-        service
-      });
-      this.dropdownSettings = {
-        singleSelection: false,
-        defaultOpen: false,
-        idField: 'item_id',
-        textField: 'item_text',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        itemsShowLimit: 3,
-        allowSearchFilter: false
-      };
-
     }  }
 
   check(data) {
