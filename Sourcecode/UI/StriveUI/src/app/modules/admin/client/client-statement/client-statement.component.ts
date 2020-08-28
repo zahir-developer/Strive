@@ -25,7 +25,7 @@ export class ClientStatementComponent implements OnInit {
   }
 
   getStatement() {
-    this.client.getStatementByClientId(1).subscribe( res => {
+    this.client.getStatementByClientId(this.clientId).subscribe( res => {
       if (res.status === 'Success') {
         const statement = JSON.parse(res.resultData);
         this.statementGrid = statement.VehicleStatement;

@@ -27,7 +27,7 @@ export class ClientHistoryComponent implements OnInit {
 
   getHistory() {
     this.spinner.show();
-    this.client.getHistoryByClientId(1).subscribe(res => {
+    this.client.getHistoryByClientId(this.clientId).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
