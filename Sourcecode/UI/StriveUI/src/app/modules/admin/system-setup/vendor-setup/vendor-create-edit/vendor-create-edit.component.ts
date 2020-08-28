@@ -15,6 +15,7 @@ export class VendorCreateEditComponent implements OnInit {
   vendorSetupForm: FormGroup;
   State: any;
   Country: any;
+  city: any;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
@@ -97,7 +98,7 @@ export class VendorCreateEditComponent implements OnInit {
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
       phoneNumber2: 'string',
       email: this.vendorSetupForm.value.email,
-      city: 0,
+      city: this.city,
       state: this.Country,
       zip: this.vendorSetupForm.value.zipcode,
       fax: this.vendorSetupForm.value.fax,
@@ -137,5 +138,9 @@ export class VendorCreateEditComponent implements OnInit {
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
+  }
+
+  selectCity(id) {
+    this.city = id;
   }
 }

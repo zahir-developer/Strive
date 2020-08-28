@@ -44,6 +44,7 @@ export class ClientCreateEditComponent implements OnInit {
   deleteIds = [];
   submitted: boolean;
   additionalService: any = [];
+  city: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal, private vehicle: VehicleService, private getCode: GetCodeService) { }
@@ -176,7 +177,7 @@ export class ClientCreateEditComponent implements OnInit {
       isActive: true,
       zip: this.clientForm.value.zipcode,
       state: this.State,
-      city: 1,
+      city: this.city,
       country: 38,
       phoneNumber: this.clientForm.value.phone1,
       email: this.clientForm.value.email,
@@ -315,6 +316,10 @@ export class ClientCreateEditComponent implements OnInit {
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
+  }
+
+  selectCity(id) {
+    this.city = id;
   }
 }
 
