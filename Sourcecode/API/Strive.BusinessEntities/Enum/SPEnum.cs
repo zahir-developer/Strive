@@ -127,6 +127,7 @@ namespace Strive.BusinessEntities
         uspGetVihicleMembership,
         uspUpdateVechicleMembership,
         uspGetVehicleById,
+        USPGETVEHICLEDETAILBYCLIENTID,
         USPGETVEHICLESTATEMENTBYCLIENTID,
         USPGETVEHICLEHISTORYBYCLIENTID,
         uspGetVehicleCodes,

@@ -102,6 +102,7 @@ export const UrlConfig = {
     getTicketNumber:`Admin/Washes/GetTicketNumber`,
     getMembershipByVehicle:`Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
-    getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`
+    getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
+    cityList: `Admin/Common/GetCodesByCategory/`
   }
 };

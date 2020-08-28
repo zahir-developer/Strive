@@ -61,7 +61,6 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getVehicleById() {
-    console.log(this.selectedData);
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
       vehicleNumber: this.selectedData.VehicleNumber,

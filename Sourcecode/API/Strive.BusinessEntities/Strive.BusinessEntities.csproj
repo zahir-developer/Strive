@@ -76,6 +76,7 @@
     <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
     <Compile Include="DTO\TimeClock\TimeClock.cs" />
     <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="DTO\Vehicle\VehicleSearchDto.cs" />
     <Compile Include="DTO\Vendor\VendorSearchDto.cs" />
     <Compile Include="DTO\Washes\DashboardDto.cs" />
     <Compile Include="DTO\Washes\WashesDto.cs" />
@@ -96,9 +97,10 @@
     <Compile Include="ViewModel\Membership.cs" />
     <Compile Include="ViewModel\MembershipAndServiceViewModel.cs" />
     <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleListViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalEmployeeViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalWashHoursViewModel.cs" />
-    <Compile Include="ViewModel\ScheduleListViewModel.cs" />
+    <Compile Include="ViewModel\VehicleByClientViewModel.cs" />
     <Compile Include="ViewModel\VehicleList.cs" />
     <Compile Include="Model\ClientVehicleModel.cs" />
     <Compile Include="ViewModel\VehicleMembershipViewModel.cs" />
