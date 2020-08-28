@@ -29,12 +29,12 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.uspDeleteSchedule.ToString(), _prm);
             return true;
         }
-        public List<ScheduleViewModel> GetSchedule(ScheduleDetailDto scheduleDetail)
+        public ScheduleListViewModel GetSchedule(ScheduleDetailDto scheduleDetail)
         {
             _prm.Add("@ScheduledStartDate", Convert.ToDateTime(scheduleDetail.startDate));
             _prm.Add("@ScheduledEndDate", Convert.ToDateTime(scheduleDetail.endDate));
             _prm.Add("@LocationId", scheduleDetail.locationId);
-            return db.Fetch<ScheduleViewModel>(SPEnum.USPGETSCHEDULE.ToString(), _prm);
+            return db.FetchMultiResult<ScheduleListViewModel>(SPEnum.USPGETSCHEDULE.ToString(), _prm);
         }
         public List<ScheduleViewModel> GetScheduleById(int scheduleId)
         {
