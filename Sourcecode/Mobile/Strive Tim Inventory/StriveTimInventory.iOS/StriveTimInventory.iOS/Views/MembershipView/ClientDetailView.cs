@@ -2,6 +2,7 @@
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.TIMInventory;
 using UIKit;
+using MvvmCross.Binding.BindingContext;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
 {
@@ -14,7 +15,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            // Perform any additional setup after loading the view, typically from a nib.
+            NavigationController.NavigationBarHidden = true;
+
+            var set = this.CreateBindingSet<ClientDetailView, MembershipClientDetailViewModel>();
+            set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
+            set.Apply();
         }
 
         public override void DidReceiveMemoryWarning()

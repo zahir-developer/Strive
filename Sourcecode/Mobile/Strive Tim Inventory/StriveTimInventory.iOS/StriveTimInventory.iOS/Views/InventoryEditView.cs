@@ -53,6 +53,10 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(SupplierAddress).To(vm => vm.SupplierAddress);
             set.Bind(SupplierEmail).To(vm => vm.SupplierEmail);
             set.Apply();
+
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false; 
+            View.AddGestureRecognizer(Tap);
         }
 
         public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)

@@ -36,4 +36,9 @@ namespace Strive.Core.Models.TimInventory
     {
         public List<ProductDetail> Product { get; set; }
     }
+
+    public class ProductsSearch
+    {
+        public List<ProductDetail> ProductSearch { get; set; }
+    }
 }

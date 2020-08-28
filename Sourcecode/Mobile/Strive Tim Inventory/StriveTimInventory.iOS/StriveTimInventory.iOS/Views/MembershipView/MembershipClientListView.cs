@@ -27,7 +27,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             set.Bind(AddButton).To(vm => vm.Commands["AddProduct"]);
             set.Bind(LogoutButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(ClientTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
-            //set.Bind(BackButton).To(vm => vm.Commands["NavigationBack"]);
             set.Apply();
 
             ClientTableView.Source = ClientTableSource;

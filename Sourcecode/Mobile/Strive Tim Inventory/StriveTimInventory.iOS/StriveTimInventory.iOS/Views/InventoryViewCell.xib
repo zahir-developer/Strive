@@ -67,18 +67,11 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HVf-3A-QFB">
-                                <rect key="frame" x="105" y="74.5" width="74" height="32.5"/>
-                                <state key="normal">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="View More">
-                                            <attributes>
-                                                <color key="NSColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="15" name="OpenSans-Regular"/>
-                                                <integer key="NSUnderline" value="1"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HVf-3A-QFB">
+                                <rect key="frame" x="105" y="74.5" width="80" height="33"/>
+                                <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
+                                <state key="normal" title="View More">
+                                    <color key="titleColor" red="0.1764005125" green="0.28042557839999999" blue="0.58419996500000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qXA-2c-d7A">
@@ -138,11 +131,20 @@
                                     <constraint firstItem="OLl-Gm-C4g" firstAttribute="leading" secondItem="CNB-D4-y6N" secondAttribute="trailing" id="zjX-Ud-w1q"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fHl-Js-iVR">
+                                <rect key="frame" x="105" y="99.5" width="80" height="1"/>
+                                <color key="backgroundColor" red="0.14107435939999999" green="0.28358918430000002" blue="0.60295563939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="dLP-bu-brs"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="HVf-3A-QFB" firstAttribute="leading" secondItem="sr0-yY-ktq" secondAttribute="leading" id="4pP-14-vJy"/>
                             <constraint firstItem="4j3-sM-Im6" firstAttribute="top" secondItem="tMd-hV-MyX" secondAttribute="top" constant="20" id="E30-6k-KmR"/>
                             <constraint firstItem="sr0-yY-ktq" firstAttribute="leading" secondItem="4j3-sM-Im6" secondAttribute="trailing" constant="20" id="IpR-ho-fdv"/>
+                            <constraint firstItem="fHl-Js-iVR" firstAttribute="top" secondItem="HVf-3A-QFB" secondAttribute="bottom" constant="-8" id="Jjf-9q-uhg"/>
+                            <constraint firstItem="fHl-Js-iVR" firstAttribute="centerX" secondItem="HVf-3A-QFB" secondAttribute="centerX" id="N1x-Vq-NRD"/>
                             <constraint firstItem="cG4-L1-Vh9" firstAttribute="top" secondItem="sr0-yY-ktq" secondAttribute="bottom" constant="3" id="SWW-hj-Jny"/>
                             <constraint firstAttribute="trailing" secondItem="qXA-2c-d7A" secondAttribute="trailing" constant="20" id="ZXl-m0-0Gn"/>
                             <constraint firstItem="HVf-3A-QFB" firstAttribute="top" secondItem="4he-hv-hEH" secondAttribute="bottom" id="aFj-Tf-W3l"/>
@@ -154,6 +156,7 @@
                             <constraint firstAttribute="height" constant="120" id="oRd-Xa-5iy"/>
                             <constraint firstAttribute="width" constant="651" id="su3-aw-YqF"/>
                             <constraint firstItem="sr0-yY-ktq" firstAttribute="top" secondItem="tMd-hV-MyX" secondAttribute="top" constant="10" id="uzO-XL-hVS"/>
+                            <constraint firstItem="fHl-Js-iVR" firstAttribute="width" secondItem="HVf-3A-QFB" secondAttribute="width" id="yQe-C7-CLb"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Af4-Fa-WEv">
@@ -260,8 +263,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w6e-CB-2M4">
-                                <rect key="frame" x="30" y="201" width="218" height="37"/>
-                                <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="18"/>
+                                <rect key="frame" x="30" y="201" width="236" height="37"/>
+                                <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="18"/>
                                 <state key="normal" title="Click Here to edit the item">
                                     <color key="titleColor" red="0.14107435939999999" green="0.28358918430000002" blue="0.60295563939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>

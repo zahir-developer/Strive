@@ -37,5 +37,7 @@ namespace Strive.Core.Services.Interfaces
         Task<PostResponse> UpdateProduct(ProductDetail product);
 
         Task<Clients> GetAllClient();
+
+        Task<ProductsSearch> SearchProduct(string productName);
     }
 }
