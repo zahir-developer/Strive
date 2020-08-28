@@ -96,9 +96,10 @@
     <Compile Include="ViewModel\Membership.cs" />
     <Compile Include="ViewModel\MembershipAndServiceViewModel.cs" />
     <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleListViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalEmployeeViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalWashHoursViewModel.cs" />
-    <Compile Include="ViewModel\ScheduleListViewModel.cs" />
+    
     <Compile Include="ViewModel\VehicleByClientViewModel.cs" />
     <Compile Include="ViewModel\VehicleList.cs" />
     <Compile Include="Model\ClientVehicleModel.cs" />
