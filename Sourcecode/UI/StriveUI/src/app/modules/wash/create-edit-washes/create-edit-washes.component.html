@@ -78,8 +78,11 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputModel">Model</label>
-                                    <input type="text" maxlength="50" class="form-control" formControlName="model"
-                                        placeholder="Model">
+                                    <select class="form-control" formControlName="model">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of model" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputColor">Color</label>

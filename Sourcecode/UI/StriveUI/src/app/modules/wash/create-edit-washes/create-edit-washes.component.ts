@@ -36,6 +36,7 @@ export class CreateEditWashesComponent implements OnInit {
   membership: any;
   timeInDate: any;
   timeOutDate: any;
+  model: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
   ngOnInit() {
@@ -190,6 +191,7 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
         this.type = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
+        this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -209,7 +211,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.washForm.patchValue({
           client: this.barcodeDetails.FirstName + this.barcodeDetails.LastName,
           vehicle: this.barcodeDetails.VehicleId,
-          model: this.barcodeDetails.VehicleModel,
           color: this.barcodeDetails.VehicleColor,
           type: this.barcodeDetails.VehicleMfr
         });
@@ -303,7 +304,7 @@ export class CreateEditWashesComponent implements OnInit {
       clientId: this.isEdit ? this.selectedData.Washes[0].ClientId : this.barcodeDetails.ClientId,
       vehicleId: this.isEdit ? this.selectedData.Washes[0].VehicleId : this.barcodeDetails.VehicleId,
       make: this.washForm.value.type,
-      model: 0,//this.washForm.value.model,
+      model: this.washForm.value.model,//0,
       color: this.washForm.value.color,
       jobType: 15,
       jobDate: new Date(),
