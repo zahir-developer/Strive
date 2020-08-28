@@ -22,9 +22,9 @@ namespace Strive.Core.Services.Interfaces
 
         Task<CustomerResponse> CustomerConfirmPassword(CustomerResetPassword resetPasswordRequest);
 
-        Task<TimeClockRoot> GetClockInStatus(TimeClockRequest request);
+        Task<TimeClockRootList> GetClockInStatus(TimeClockRequest request);
 
-        Task<TimeClock> SaveClockInTime(TimeClock ClockInRequest);
+        Task<DeleteResponse> SaveClockInTime(TimeClockRoot ClockInRequest);
 
         Task<Products> GetAllProducts();
 
@@ -35,5 +35,9 @@ namespace Strive.Core.Services.Interfaces
         Task<DeleteResponse> DeleteProduct(int Id);
 
         Task<PostResponse> UpdateProduct(ProductDetail product);
+
+        Task<Clients> GetAllClient();
+
+        Task<ProductsSearch> SearchProduct(string productName);
     }
 }

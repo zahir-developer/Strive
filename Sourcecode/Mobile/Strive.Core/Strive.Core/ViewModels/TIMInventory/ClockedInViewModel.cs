@@ -4,6 +4,8 @@ using System.Timers;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
+using Strive.Core.Models.TimInventory;
+using System.Linq;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -14,6 +16,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             //Timer checkForTime = new Timer(15000);
             //checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             //checkForTime.Enabled = true;
+            GetClockStatus();
             Init();     
         }
 
@@ -32,21 +35,47 @@ namespace Strive.Core.ViewModels.TIMInventory
             set { }
         }
 
+        async void GetClockStatus()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var request = new TimeClockRequest()
+            {
+                locationId = 1,
+                employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
+                roleId = 5,
+                date = DateUtils.GetTodayDateString()
+            };
+            var status = await AdminService.GetClockInStatus(request);
+            if (status.TimeClock.Count > 0)
+            {
+                var SingleTimeClock = new TimeClockRoot();
+                SingleTimeClock.TimeClock = status.TimeClock[0];
+                EmployeeData.ClockInStatus = SingleTimeClock;
+            }
+            _userDialog.HideLoading();
+        }
+
         void Init()
         {
             if(EmployeeData.EmployeeDetails != null)
             {
                 var EmployeeDetail = EmployeeData.EmployeeDetails;
                 Name = EmployeeDetail.EmployeeLogin.Firstname + " " + EmployeeDetail.EmployeeLogin.LastName;
-                Role = EmployeeData.CurrentRole;
+                Role = EmployeeData.EmployeeDetails.EmployeeRoles[0].RoleName;
                 CurrentDate = DateUtils.GetTodayDateString();
-                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.inTime);
+                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.TimeClock.inTime);
             }
         }
 
         void checkForTime_Elapsed(object sender, ElapsedEventArgs e)
         {
             NavigateBackCommand();
+        }
+
+        public void PrepareClockoutModel()
+        {
+            EmployeeData.ClockInStatus.TimeClock.outTime = DateUtils.GetStringFromDate(DateTime.UtcNow);
+            EmployeeData.ClockInStatus.TimeClock.isActive = false;
         }
 
         public async Task NavigateBackCommand()
@@ -57,7 +86,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockOutCommand()
         {
-            EmployeeData.ClockInStatus.outTime = DateUtils.GetStringFromDate(DateTime.UtcNow);
+            PrepareClockoutModel();
             var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
             await _navigationService.Navigate<ClockOutViewModel>();
         }

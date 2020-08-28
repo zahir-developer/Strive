@@ -12,6 +12,9 @@ namespace Strive.Core.Models.TimInventory
         public int ProductType { get; set; }
         public int LocationId { get; set; }
         public int? VendorId { get; set; }
+        public string fileName { get; set; }
+        public string thumbFileName { get; set; }
+        public string base64 { get; set; }
         public int? Size { get; set; }
         public string SizeDescription { get; set; }
         public int Quantity { get; set; }
@@ -32,5 +35,10 @@ namespace Strive.Core.Models.TimInventory
     public class Products
     {
         public List<ProductDetail> Product { get; set; }
+    }
+
+    public class ProductsSearch
+    {
+        public List<ProductDetail> ProductSearch { get; set; }
     }
 }

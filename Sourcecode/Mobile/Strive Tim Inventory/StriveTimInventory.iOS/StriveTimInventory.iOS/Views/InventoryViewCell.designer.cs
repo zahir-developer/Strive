@@ -35,10 +35,6 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton ItemDeleteButton { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel ItemDescritption { get; set; }
 
         [Outlet]
@@ -126,11 +122,6 @@ namespace StriveTimInventory.iOS.Views
             if (ItemCountView != null) {
                 ItemCountView.Dispose ();
                 ItemCountView = null;
-            }
-
-            if (ItemDeleteButton != null) {
-                ItemDeleteButton.Dispose ();
-                ItemDeleteButton = null;
             }
 
             if (ItemDescritption != null) {

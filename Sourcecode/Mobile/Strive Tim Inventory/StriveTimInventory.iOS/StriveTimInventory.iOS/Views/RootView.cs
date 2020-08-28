@@ -35,21 +35,29 @@ namespace StriveTimInventory.iOS.Views
             var viewControllers = new UIViewController[4];
             var ClockStatus = EmployeeData.ClockInStatus;
             var difference = new TimeSpan();
-            if(ClockStatus != null)
-            {
-                difference = DateUtils.GetTimeDifferenceValue(ClockStatus.outTime, ClockStatus.inTime);
-            }
-            if (ClockStatus == null || difference.Hours > 0)
+            //if(ClockStatus != null)
+            //{
+            //    difference = DateUtils.GetTimeDifferenceValue(ClockStatus.TimeClock.outTime, ClockStatus.TimeClock.inTime);
+            //}
+            //if (ClockStatus == null || difference.Hours > 0)
+            if (ClockStatus == null)
             {
                 viewControllers[0] = CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockInViewModel));
             }
             else
             {
-                viewControllers[0] = CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockedInViewModel));
+                if(ClockStatus.TimeClock.outTime == null)
+                {
+                    viewControllers[0] = CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockedInViewModel));
+                }
+                else
+                {
+                    viewControllers[0] = CreateTabFor(0, "Time Clock", "icon-time-clock", typeof(ClockInViewModel));
+                }
             }
             
             viewControllers[1] = CreateTabFor(1, "Wash Times", "icon-wash-time", typeof(WashTimesViewModel));
-            viewControllers[2] = CreateTabFor(0, "Membership", "icon-membership", typeof(MembershipViewModel));
+            viewControllers[2] = CreateTabFor(0, "Membership", "icon-membership", typeof(MembershipClientListViewModel));
             viewControllers[3] = CreateTabFor(1, "Inventory", "icon-inventory", typeof(InventoryViewModel));
 
             ViewControllers = viewControllers;

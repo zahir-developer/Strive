@@ -9,6 +9,8 @@ using Strive.Core.Utils;
 using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using System.Collections;
+using CoreGraphics;
+using CoreImage;
 
 namespace StriveTimInventory.iOS.Views
 {
@@ -26,6 +28,7 @@ namespace StriveTimInventory.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            SaveButton.Layer.CornerRadius = CancelButton.Layer.CornerRadius = 5;
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
             var pickerView = new UIPickerView();
             var PickerViewModel = new InventoryPicker(pickerView,ViewModel);
@@ -50,9 +53,38 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(SupplierAddress).To(vm => vm.SupplierAddress);
             set.Bind(SupplierEmail).To(vm => vm.SupplierEmail);
             set.Apply();
+
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false; 
+            View.AddGestureRecognizer(Tap);
         }
 
-      
+        public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+        {
+            var height = UIScreen.MainScreen.Bounds;
+            var width = UIScreen.MainScreen.Bounds;
+            if(width.Width > height.Height)
+            {
+                portconstone.Active = portconsttwo.Active =
+                    portconstthree.Active = portconstfour.Active =
+                    portconsfive.Active = portconstsix.Active = portconstseven.Active = false;
+                landxonstone.Active = landconsttwo.Active =
+                     landconstthree.Active = landconstfour.Active =
+                     landconstfive.Active= landconstsix.Active = landconstseven.Active = true;
+                
+            } else
+            {
+                landxonstone.Active = landconsttwo.Active =
+                    landconstthree.Active = landconstfour.Active =
+                    landconstfive.Active = landconstsix.Active = landconstseven.Active = false;
+                portconstone.Active = portconsttwo.Active =
+                    portconstthree.Active = portconstfour.Active =
+                    portconsfive.Active = portconstsix.Active = portconstseven.Active = true;
+            }
+            View.SetNeedsLayout();
+            UIView.Animate(0.3, () => { View.LayoutIfNeeded(); });
+
+        }
 
         private async void OnReceivedMessageAsync(ValuesChangedMessage message)
         {
@@ -125,7 +157,12 @@ namespace StriveTimInventory.iOS.Views
                 UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
                 if (originalImage != null)
                 {
-                    ItemImage.Image = originalImage; 
+                    ItemImage.Image = originalImage;
+                    NSData imageData = originalImage.AsPNG();
+                    Byte[] myByteArray = new Byte[imageData.Length];
+                    System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
+                    string Base64String = Convert.ToBase64String(myByteArray);
+                    ViewModel.Base64String = Base64String;
                 }
 
                 UIImage editedImage = e.Info[UIImagePickerController.EditedImage] as UIImage;

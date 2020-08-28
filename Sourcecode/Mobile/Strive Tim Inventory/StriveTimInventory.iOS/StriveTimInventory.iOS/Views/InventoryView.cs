@@ -38,6 +38,10 @@ namespace StriveTimInventory.iOS.Views
 
             InventorySearch.Placeholder = "Search";
             InventorySearch.TextChanged += SearchTextChanged;
+
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false;
+            View.AddGestureRecognizer(Tap);
         }
 
         public override async void ViewDidAppear(bool animated)
@@ -52,13 +56,12 @@ namespace StriveTimInventory.iOS.Views
         private async Task GetProducts()
         {
             ViewModel.ClearCommand();
-            await ViewModel.GetProductsCommand();
-            ViewModel.InventorySearchCommand("");
+            //await ViewModel.GetProductsCommand();
+            await ViewModel.InventorySearchCommand("");
         }
 
         private async Task<bool> GetVendors()
         {
-            ViewModel.ClearCommand();
             await ViewModel.GetVendorsCommand();
             return true;
         }

@@ -119,6 +119,9 @@ namespace Strive.Core.ViewModels.TIMInventory
         private string _SelectedItemDescription;
         private string _SelectedItemQuantity;
 
+        public string Base64String { get; set; }
+        public string Filename { get; set; }
+
         private ObservableCollection<string> _VendorNames = new ObservableCollection<string>();
         public virtual ObservableCollection<string> VendorNames
         {
@@ -170,6 +173,8 @@ namespace Strive.Core.ViewModels.TIMInventory
                 ProductName = _SelectedItemName,
                 ProductDescription = _SelectedItemDescription,
                 ProductType = 1,
+                fileName = Filename,
+                base64 = Base64String,
                 LocationId = 1,
                 VendorId = CurrentVendor.VendorId,
                 Size = 1,
