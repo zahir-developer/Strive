@@ -12,7 +12,7 @@
                             <label class="float-left">Number<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" formControlName="number"
+                            <input type="text" class="form-control" formControlName="number" readonly
                                 [ngClass]="{ 'is-invalid': submitted && f.number.errors }" />
                             <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
                                 <div *ngIf="f.number.errors.required">Card Number is required</div>

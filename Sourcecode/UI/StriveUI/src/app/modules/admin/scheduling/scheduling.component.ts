@@ -49,6 +49,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   locationId: any;
   scheduleId: any;
   scheduleType: any;
+  totalHours: any;
+  EmpCount: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
     private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
   ngAfterViewInit() {
@@ -102,6 +104,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
             }
           });
         }
+      },
+      dayClick: (event) => {
+console.log(event.view.activeStart, 'dayClick');
       },
       eventResize: (event) => {
         this.empName = event.event.title;
@@ -240,8 +245,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
         const empSchehdule = JSON.parse(data.resultData);
-        if (empSchehdule.ScheduleDetail.length !== 0) {
-          empSchehdule.ScheduleDetail.forEach(item => {
+        if (empSchehdule.ScheduleDetail !== null) {
+          this.totalHours = empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours ?
+          empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours : 0;
+          this.EmpCount = empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees ?
+          empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees : 0;
+          empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel.forEach(item => {
             const emp = {
               id: +item.ScheduleId,
               start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
