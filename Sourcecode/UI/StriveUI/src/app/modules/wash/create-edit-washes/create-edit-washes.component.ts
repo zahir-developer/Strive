@@ -88,8 +88,9 @@ export class CreateEditWashesComponent implements OnInit {
       color: this.selectedData.Washes[0].Color,
       washes: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 15)[0].ServiceId,
       upcharges: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 18)[0].ServiceId,
+      airFreshners: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 19)[0].ServiceId,
     });
-    this.ticketNumber = this.selectedData.Washes.TicketNumber;
+    this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
     this.washItem = this.selectedData.WashItem;
     console.log(this.washItem);
     this.washItem.forEach(element => {
@@ -302,14 +303,14 @@ export class CreateEditWashesComponent implements OnInit {
       clientId: this.isEdit ? this.selectedData.Washes[0].ClientId : this.barcodeDetails.ClientId,
       vehicleId: this.isEdit ? this.selectedData.Washes[0].VehicleId : this.barcodeDetails.VehicleId,
       make: this.washForm.value.type,
-      model: +this.washForm.value.model,
+      model: 0,//this.washForm.value.model,
       color: this.washForm.value.color,
       jobType: 15,
       jobDate: new Date(),
       timeIn: new Date(),
       estimatedTimeOut: new Date(),
       actualTimeOut: new Date(),
-      jobStatus: 0,
+      jobStatus: 1,
       isActive: true,
       isDeleted: false,
       createdBy: 1,
