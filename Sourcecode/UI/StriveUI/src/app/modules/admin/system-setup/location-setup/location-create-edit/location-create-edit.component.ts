@@ -26,6 +26,8 @@ export class LocationCreateEditComponent implements OnInit {
   submitted: boolean;
   selectedStateId: any;
   selectedCountryId: any;
+  city: any;
+  selectedCityId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
     private uiLoaderService: NgxUiLoaderService) { }
 
@@ -97,7 +99,7 @@ export class LocationCreateEditComponent implements OnInit {
       phoneNumber: this.locationSetupForm.value.phoneNumber,
       phoneNumber2: '',
       email: this.locationSetupForm.value.email,
-      city: 1,
+      city: this.city,
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
       country: this.Country,
@@ -184,6 +186,10 @@ export class LocationCreateEditComponent implements OnInit {
   getSelectedCountryId(event) {
     this.Country = event.target.value;
 
+  }
+
+  selectCity(id) {
+    this.city = id;
   }
 }
 
