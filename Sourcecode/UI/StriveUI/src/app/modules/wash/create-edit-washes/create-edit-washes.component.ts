@@ -211,6 +211,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.washForm.patchValue({
           client: this.barcodeDetails.FirstName + this.barcodeDetails.LastName,
           vehicle: this.barcodeDetails.VehicleId,
+          model: this.barcodeDetails.VehicleModelId,
           color: this.barcodeDetails.VehicleColor,
           type: this.barcodeDetails.VehicleMfr
         });

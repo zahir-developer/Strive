@@ -22,7 +22,6 @@ export class VehicleCreateEditComponent implements OnInit {
   make: any;
   model: any;
   color: any;
-  upcharge: any;
   upchargeType: any;
   membership: any;
   additional: any;
@@ -32,7 +31,6 @@ export class VehicleCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.formInitialize();
-    this.upcharge = [{ CodeId: 0, CodeValue: "None" }, { CodeId: 1, CodeValue: "Upcharge1" }, { CodeId: 2, CodeValue: "Upcharge2" }];
     if (this.isView === true) {
       this.viewVehicle();
     }
@@ -63,6 +61,7 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getVehicleById() {
+    console.log(this.selectedData);
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
       vehicleNumber: this.selectedData.VehicleNumber,
@@ -141,11 +140,13 @@ export class VehicleCreateEditComponent implements OnInit {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
-          this.vehicleForm.get('upchargeType').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
-        }
-        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-          this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
+        if (this.membershipServices !== null) {
+          if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
+            this.vehicleForm.get('upchargeType').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+          }
+          if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+            this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
+          }
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -269,7 +270,7 @@ export class VehicleCreateEditComponent implements OnInit {
       VehicleMake: this.make !== null ? this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
       ModelName: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
       Color: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
-      Upcharge: this.upcharge !== null ? this.upcharge.filter(item => item.CodeId === Number(this.vehicleForm.value.upcharge))[0].CodeValue : 0,
+      Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item => item.ServiceId === Number(this.vehicleForm.value.upcharge))[0].Upcharges : 0,
       Barcode: this.vehicleForm.value.barcode,
     };
     if (this.isEdit === true) {

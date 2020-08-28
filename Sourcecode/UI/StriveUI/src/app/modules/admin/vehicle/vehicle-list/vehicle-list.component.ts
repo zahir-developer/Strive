@@ -17,6 +17,7 @@ export class VehicleListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedVehicle: any;
+  search:any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
