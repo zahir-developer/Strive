@@ -49,7 +49,8 @@ export class VendorCreateEditComponent implements OnInit {
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
       email: ['', Validators.email],
-      fax: ['',]
+      fax: ['',],
+      website: ['']
     });
   }
   getVendorById() {

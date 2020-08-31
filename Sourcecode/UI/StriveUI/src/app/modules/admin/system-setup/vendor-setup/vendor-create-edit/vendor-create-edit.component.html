@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="form-group col-md-3">
-                <label for="inputVendorAlias">Vendor Contact </label>
+                <label for="inputVendorAlias"> Contact </label>
                 <input type="text" maxlength="20" class="form-control" formControlName="vendorAlias" placeholder="Vendor">
             </div>
            
@@ -24,7 +24,7 @@
             </div>
            
             <div class="form-group col-md-3">
-                <label for="inputSupplierAddress">Vendor Address<span class="required">*</span> </label>
+                <label for="inputSupplierAddress"> Address<span class="required">*</span> </label>
                 <input type="text" maxlength="50" class="form-control" formControlName="supplierAddress" placeholder="Address"
                     [ngClass]="{ 'is-invalid':submitted && f.supplierAddress.errors }">
                 <div *ngIf="submitted && f.supplierAddress.errors" class="invalid-feedback">
@@ -77,12 +77,8 @@
                 </div>
             </div>
             <div class="form-group col-md-3">
-                <label for="inputFax">Fax </label>
-                <input type="text" maxlength="50" class="form-control" formControlName="fax" placeholder="Fax">
-            </div>
-            <div class="form-group col-md-3">
                 <label for="inputFax">Website </label>
-                <input type="text" maxlength="50" class="form-control" formControlName="fax" placeholder="Website">
+                <input type="text" maxlength="50" class="form-control" formControlName="website" placeholder="Website">
             </div>
         </div>
     </form>

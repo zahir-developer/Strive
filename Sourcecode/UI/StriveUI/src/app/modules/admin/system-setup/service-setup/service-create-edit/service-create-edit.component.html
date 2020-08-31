@@ -2,7 +2,7 @@
     <form [formGroup]="serviceSetupForm">
         <div class="form-row">
             <div class="form-group col-lg-3">
-                <label for="inputServiceType">Service Type<span class="required">*</span></label>
+                <label for="inputServiceType"> Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="serviceType" (change)="checkService($event.target.value)"
                     [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
                     <option value="" selected hidden>Choose </option>
