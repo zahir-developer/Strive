@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     }
     const loginObj = {
       email: this.loginForm.value.username,
-      passwordHash: this.loginForm.value.password
+      password: this.loginForm.value.password
     };
     this.isLoginLoading = true;
     this.authService.login(loginObj).subscribe(data => {
