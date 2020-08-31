@@ -67,6 +67,7 @@
     <Compile Include="DTO\GiftCard\GiftCardView.cs" />
     <Compile Include="DTO\Location\LocationSearchDto.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
+    <Compile Include="DTO\MembershipSetup\MembershipSearchDto.cs" />
     <Compile Include="DTO\Product\ProductSearchDto.cs" />
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDetailDto.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />
     <Compile Include="ViewModel\Membership.cs" />
     <Compile Include="ViewModel\MembershipAndServiceViewModel.cs" />
+    <Compile Include="ViewModel\ProductSearchViewModel.cs" />
     <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />
     <Compile Include="ViewModel\ScheduleListViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalEmployeeViewModel.cs" />
