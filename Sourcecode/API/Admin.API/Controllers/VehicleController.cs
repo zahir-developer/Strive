@@ -43,11 +43,11 @@ namespace Admin.API.Controllers
         [Route("GetVehicleId")]
         public Result GetVehicleId(int id) => _bplManager.GetVehicleId(id);
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAll")]
-        public Result GetAllVehicle()
+        public Result GetAllVehicle([FromBody]VehicleSearchDto name)
         {
-            return _bplManager.GetAllVehicle();
+            return _bplManager.GetAllVehicle(name);
         }
 
         [HttpGet]

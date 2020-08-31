@@ -12,8 +12,8 @@ export class VehicleService {
     vehicleValue: object;
 
     constructor(private http: HttpUtilsService) { }
-    getVehicle(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getAllVehicle}`);
+    getVehicle(obj){
+        return this.http.post(`${UrlConfig.totalUrl.getAllVehicle}`, obj);
     }
     updateVehicle(obj) {
         return this.http.post(`${UrlConfig.totalUrl.updateVehicle}`, obj);

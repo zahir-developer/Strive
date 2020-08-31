@@ -17,10 +17,25 @@
                             <h5 class="d-inline-block">Vehicle List</h5>&nbsp;
                         </div>
                         <div class="setup-wrapper">
-                            <div class="setup-content" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block">No Vehicles Found</span></div>
-                            <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false">
-                                <div class="table-responsive">
+                            <div class="setup-content" id="open-collapse">
+                                <div class="search-container  pull-right">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group d-flex"> <input type="search" class="form-control"
+                                                    [(ngModel)]="search" name="search" id="inputSearchbyName"
+                                                    placeholder="search"
+                                                    (keyup)="$event.keyCode == 13 ? vehicleSearch() : null"> </div>
+                                            <div class="form-group col-sm m-l-5">
+                                                <button type="button"
+                                                    class="btn theme-primary-button-color btn-sm m-l-10"
+                                                    (click)="vehicleSearch()">Search</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
+                                        class="col-12 row d-block">No Vehicles Found</span></div>
+                                <div class="table-responsive" *ngIf="isTableEmpty === false">
                                     <table class="table  table-striped m-t-10">
                                         <thead>
                                             <tr>
@@ -58,16 +73,17 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                        class="d-flex justify-content-end">
+                                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
+                                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                        [boundaryLinks]="true" class="d-flex justify-content-end">
                                     </ngb-pagination>
                                 </div>
                             </div>
                             <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog"
                                 [blockScroll]="true" [modal]="true" [focusOnShow]="false" [closable]="false">
-                                <app-vehicle-create-edit *ngIf="showDialog" [selectedData]="selectedData" [additionalService]="additionalService"
-                                    [isEdit]="isEdit" [isView]="isView" (closeDialog)="closePopupEmit($event)">
+                                <app-vehicle-create-edit *ngIf="showDialog" [selectedData]="selectedData"
+                                    [additionalService]="additionalService" [isEdit]="isEdit" [isView]="isView"
+                                    (closeDialog)="closePopupEmit($event)">
                                 </app-vehicle-create-edit>
                             </p-dialog>
                         </div>
