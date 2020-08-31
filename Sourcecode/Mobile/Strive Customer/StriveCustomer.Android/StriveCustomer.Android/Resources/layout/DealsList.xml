@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="@dimen/ten"
+        app:cardCornerRadius="@dimen/five"
         app:cardElevation="@dimen/five"
         app:cardUseCompatPadding="true">
         <LinearLayout
@@ -20,9 +20,11 @@
             android:gravity="center">
             <RadioButton
                 android:id="@+id/dealsRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-               android:layout_marginTop="7dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                style="@style/RadioButtonCustom"
                 android:layout_marginLeft="@dimen/ten"/>
             <LinearLayout
                 android:layout_width="match_parent"
