@@ -7,9 +7,11 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using StriveCustomer.Android.Fragments;
 
 namespace StriveCustomer.Android.Adapter
 {
@@ -61,7 +63,9 @@ namespace StriveCustomer.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-           //
+            AppCompatActivity activity = (AppCompatActivity)itemView.Context;
+            DealsInfoFragment dealsInfoFragment = new DealsInfoFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, dealsInfoFragment).Commit();
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
