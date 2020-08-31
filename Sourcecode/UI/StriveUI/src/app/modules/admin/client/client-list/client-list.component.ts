@@ -52,6 +52,7 @@ export class ClientListComponent implements OnInit {
   }
 
   clientSearch(){
+    this.page = 1;
     const obj = {
        clientName: this.search
     }
