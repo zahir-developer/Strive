@@ -4,24 +4,24 @@
   <item
       android:id="@+id/menu_Map"
       android:enabled="true"
-      android:title="Map"
+      android:icon="@drawable/home"
       app:showAsAction="ifRoom" />
 
   <item
       android:id="@+id/menu_Deals"
       android:enabled="true"
-      android:title="Deals"
+      android:icon="@drawable/sale"
       app:showAsAction="ifRoom" />
 
   <item
       android:id="@+id/menu_AboutUs"
       android:enabled="true"
-      android:title="About Us"
+      android:icon="@drawable/account"
       app:showAsAction="ifRoom" />
 
   <item
      android:id="@+id/menu_Schedule"
      android:enabled="true"
-     android:title="Schedule"
+     android:icon="@drawable/call"
      app:showAsAction="ifRoom" />
 </menu>

@@ -70,10 +70,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapter\DealsAdapter.cs" />
+    <Compile Include="Adapter\DealsInfoAdapter.cs" />
     <Compile Include="Adapter\IItemClickListener.cs" />
+    <Compile Include="Adapter\PastDetailsAdapter.cs" />
+    <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\DealsFragment.cs" />
+    <Compile Include="Fragments\DealsInfoFragment.cs" />
     <Compile Include="Fragments\MapsFragment.cs" />
+    <Compile Include="Fragments\PastDetailsFragment.cs" />
+    <Compile Include="Fragments\PastDetailsInfoFragment.cs" />
+    <Compile Include="Fragments\PastDetailsPageFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
@@ -326,6 +333,57 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\DealsList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PastDetailsInfoFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PastDetailsList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PastDetailsPageFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PastDetailsScreenFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\secondaryLinearLayout.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\color\bottomTint.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\sale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\account.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\call.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DealsInfoFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DealsInfoCard.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
