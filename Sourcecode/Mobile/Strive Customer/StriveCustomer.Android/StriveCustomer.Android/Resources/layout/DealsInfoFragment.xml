@@ -11,8 +11,7 @@
         android:layout_marginTop="15dp"
         android:textSize="@dimen/textTwenty"
         android:textColor="@android:color/white"
-        android:fontFamily="@font/opensans_bold"
-        android:text="AVBC"/>
+        android:fontFamily="@font/opensans_bold"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dealsInfoList"
         android:scrollbars="vertical"

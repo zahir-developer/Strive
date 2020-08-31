@@ -47,11 +47,17 @@ namespace StriveCustomer.Android.Adapter
             this.infoListData = infoListData;
         }
 
-        public override int ItemCount => throw new NotImplementedException();
-
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        public override int ItemCount 
         {
-            InfoRecyclerViewHolder infoRecyclerViewHolder = holder as InfoRecyclerViewHolder;
+            get
+            {
+                return infoListData.Count;
+            }
+        }
+
+        public override void OnBindViewHolder(RecyclerView.ViewHolder infoHolder, int position)
+        {
+            InfoRecyclerViewHolder infoRecyclerViewHolder = infoHolder as InfoRecyclerViewHolder;
             infoRecyclerViewHolder.dealsInfoHeading.Text = infoListData[position];
             infoRecyclerViewHolder.SetItemClickListener(this);
         }
@@ -65,7 +71,7 @@ namespace StriveCustomer.Android.Adapter
         {
             LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
             View itemView = layoutInflater.Inflate(Resource.Layout.DealsInfoCard, parent, false);
-            return new RecyclerViewHolder(itemView);
+            return new InfoRecyclerViewHolder(itemView);
         }
     }
 }
