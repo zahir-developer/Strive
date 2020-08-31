@@ -18,7 +18,7 @@
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="40" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Address, Phone, Email"
-                                                (keyup)="$event.keyCode == 13 ? locationSearch() : null"> </div>
+                                                (keyup)="$event.keyCode == 13 ? locationSearch() : null" (clear)="clearSearch()"> </div>
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
                                                 (click)="locationSearch()">Search</button>
@@ -44,7 +44,7 @@
                                         <tr
                                             *ngFor="let locationSetup of locationSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{locationSetup.LocationName}}</th>
-                                            <td>{{locationSetup.Address1}},{{locationSetup.Address2}}</td>
+                                            <td title="{{locationSetup.Address1}}">{{locationSetup.Address1 | slice:0:15}} {{(locationSetup.Address1!== null) ?locationSetup.Address1.length <= 15 ? '': '...':''}}</td>
                                             <td>{{locationSetup.IsFranchise}}</td>
                                             <td>{{locationSetup.PhoneNumber}}</td>
                                             <td>{{locationSetup.Email}}</td>
