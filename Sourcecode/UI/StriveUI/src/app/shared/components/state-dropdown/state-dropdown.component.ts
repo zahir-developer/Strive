@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { StateService } from '../../services/common-service/state.service';
 
 @Component({
@@ -6,18 +6,23 @@ import { StateService } from '../../services/common-service/state.service';
   templateUrl: './state-dropdown.component.html',
   styleUrls: ['./state-dropdown.component.css']
 })
-export class StateDropdownComponent implements OnInit {
+export class StateDropdownComponent implements OnInit, AfterViewChecked {
   stateList = [];
   state = '';
   submitted: boolean;
   @Output() stateId = new EventEmitter();
   @Input() selectedStateId: any;
   @Input() isView: any;
-  constructor(private stateService: StateService) { }
+  constructor(private stateService: StateService, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.submitted = false;
     this.getstatiesList();
+  }
+  ngAfterViewChecked(){
+    if (this.selectedStateId !== undefined) {
+      this.cdRef.detectChanges();
+    }
   }
   getstatiesList() {
     this.stateService.getStatesList().subscribe(data => {
