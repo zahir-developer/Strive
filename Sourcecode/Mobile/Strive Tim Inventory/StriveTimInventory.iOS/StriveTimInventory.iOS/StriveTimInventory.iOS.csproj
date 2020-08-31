@@ -78,6 +78,9 @@
       <PackageReference Include="MvvmCross.Plugin.Json">
         <Version>6.4.2</Version>
       </PackageReference>
+      <PackageReference Include="Xamarin.Controls.SignaturePad">
+        <Version>3.0.0</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -384,6 +387,22 @@
         <ImageAsset Include="Resources\Assets.xcassets\Glass.imageset\glass%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\icons8-trash-30.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-active.imageset\tag.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-active.imageset\tag%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-active.imageset\tag%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-inactive.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-inactive.imageset\tag.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-inactive.imageset\tag%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\member-inactive.imageset\tag%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Component 29 – 1 %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Component 29 – 1%402x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Component 29 – 1%403x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Component 30 – 1 %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Component 30 – 1%403x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Component 30 – 1%402x %281%29.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -446,6 +465,11 @@
         <Folder Include="Resources\Assets.xcassets\Bottle.imageset\" />
         <Folder Include="Resources\Assets.xcassets\Glass.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-trash.imageset\" />
+        <Folder Include="Views\MembershipView\" />
+        <Folder Include="Resources\Assets.xcassets\member-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\member-inactive.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -458,12 +482,20 @@
         <InterfaceDefinition Include="Views\WashTimesPage.xib" />
         <InterfaceDefinition Include="Views\ClockOutView.xib" />
         <InterfaceDefinition Include="Views\InventoryView.xib" />
-        <InterfaceDefinition Include="Views\MembershipView.xib" />
         <InterfaceDefinition Include="Views\InventoryViewCell.xib" />
         <InterfaceDefinition Include="Views\InventoryEditView.xib" />
         <InterfaceDefinition Include="Views\ChooseImageView.xib" />
         <InterfaceDefinition Include="Views\IconsView.xib" />
         <InterfaceDefinition Include="Views\IconViewCell.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\MembershipClientListView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\ClientTableViewCell.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\ClientDetailView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\SelectMembershipView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\SelectUpchargeView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\ExtraServiceView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\TermsView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\SignatureView.xib" />
+        <InterfaceDefinition Include="Views\MembershipView\VehicleMembershipDetailView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -517,10 +549,6 @@
         <Compile Include="Views\InventoryView.designer.cs">
           <DependentUpon>InventoryView.cs</DependentUpon>
         </Compile>
-        <Compile Include="Views\MembershipView.cs" />
-        <Compile Include="Views\MembershipView.designer.cs">
-          <DependentUpon>MembershipView.cs</DependentUpon>
-        </Compile>
         <Compile Include="Views\InventoryViewCell.cs" />
         <Compile Include="Views\InventoryViewCell.designer.cs">
           <DependentUpon>InventoryViewCell.cs</DependentUpon>
@@ -545,6 +573,46 @@
         </Compile>
         <Compile Include="Views\IconsViewSource.cs" />
         <Compile Include="Views\IconsViewDelegate.cs" />
+        <Compile Include="Views\MembershipView\MembershipClientListView.cs" />
+        <Compile Include="Views\MembershipView\MembershipClientListView.designer.cs">
+          <DependentUpon>MembershipClientListView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\ClientTableViewCell.cs" />
+        <Compile Include="Views\MembershipView\ClientTableViewCell.designer.cs">
+          <DependentUpon>ClientTableViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\ClientTableSource.cs" />
+        <Compile Include="Views\MembershipView\ClientDetailView.cs" />
+        <Compile Include="Views\MembershipView\ClientDetailView.designer.cs">
+          <DependentUpon>ClientDetailView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\SelectMembershipView.cs" />
+        <Compile Include="Views\MembershipView\SelectMembershipView.designer.cs">
+          <DependentUpon>SelectMembershipView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\SelectMembershipSource.cs" />
+        <Compile Include="Views\MembershipView\SelectUpchargeView.cs" />
+        <Compile Include="Views\MembershipView\SelectUpchargeView.designer.cs">
+          <DependentUpon>SelectUpchargeView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\SelectUpchargeSource.cs" />
+        <Compile Include="Views\MembershipView\ExtraServiceView.cs" />
+        <Compile Include="Views\MembershipView\ExtraServiceView.designer.cs">
+          <DependentUpon>ExtraServiceView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\ExtraServiceSource.cs" />
+        <Compile Include="Views\MembershipView\TermsView.cs" />
+        <Compile Include="Views\MembershipView\TermsView.designer.cs">
+          <DependentUpon>TermsView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\SignatureView.cs" />
+        <Compile Include="Views\MembershipView\SignatureView.designer.cs">
+          <DependentUpon>SignatureView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipView\VehicleMembershipDetailView.cs" />
+        <Compile Include="Views\MembershipView\VehicleMembershipDetailView.designer.cs">
+          <DependentUpon>VehicleMembershipDetailView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

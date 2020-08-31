@@ -81,6 +81,7 @@ namespace StriveTimInventory.iOS.Views
 
         private void ShowMoreButtonPressed(object sender, EventArgs e)
         {
+           
             if (SupplierHeightConstraint.Constant == 0)
             {
                 ShowRequestView();
@@ -112,12 +113,14 @@ namespace StriveTimInventory.iOS.Views
 
         public void HideRequestView()
         {
+            cell.ViewMoreButton.SetTitle("View More", UIControlState.Normal);
             SupplierHeightConstraint.Constant = 0;
             cell.RequestView.Hidden = true;
         }
 
         public void ShowRequestView()
         {
+            cell.ViewMoreButton.SetTitle("View less", UIControlState.Normal);
             SupplierHeightConstraint.Constant = 260;
             cell.RequestView.Hidden = false;
         }

@@ -56,10 +56,22 @@ namespace Strive.Core.ViewModels.TIMInventory
             await RaiseAllPropertiesChanged();
         }
 
-        public void InventorySearchCommand(string SearchText)
+        public async Task InventorySearchCommand(string SearchText)
         {
-            FilteredList = new ObservableCollection<InventoryDataModel>(InventoryList.
-                Where(s => s.Product.ProductName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+            var searchList = await AdminService.SearchProduct(SearchText);
+            ClearCommand();
+            foreach (var product in searchList.ProductSearch)
+            {
+                ProductList.Add(product);
+                var vendor = VendorList.Where(s => s.VendorId == product.VendorId).FirstOrDefault();
+                if (vendor != null)
+                {
+                    InventoryList.Add(new InventoryDataModel() { Product = product, Vendor = vendor });
+                }
+            }
+            //FilteredList = new ObservableCollection<InventoryDataModel>(InventoryList.
+            //    Where(s => s.Product.ProductName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+            FilteredList = InventoryList;
             EditableList = FilteredList;
             RaiseAllPropertiesChanged();
         }
@@ -82,6 +94,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             FilteredList.Clear();
             InventoryList.Clear();
+            ProductList.Clear();
         }
 
         public async void EditCommand(int index)

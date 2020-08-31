@@ -47,6 +47,7 @@ namespace Strive.Core.Rest.Implementations
                     HttpResponseMessage response = new HttpResponseMessage();
                     try
                     {
+                        Console.WriteLine(request);
                         response = await httpClient.SendAsync(request).ConfigureAwait(true);
                         Console.WriteLine(response); 
                     }

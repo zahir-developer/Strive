@@ -39,9 +39,9 @@ namespace Strive.Core.ViewModels.TIMInventory
                 Name = EmployeeDetail.EmployeeLogin.Firstname;
                 Role = EmployeeData.CurrentRole;
                 CurrentDate = DateUtils.GetTodayDateString();
-                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.inTime);
-                ClockOutTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.outTime);
-                TotalHours = DateUtils.GetTimeDifferenceString(ClockInStatus.outTime, ClockInStatus.inTime);
+                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.TimeClock.inTime);
+                ClockOutTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.TimeClock.outTime);
+                TotalHours = DateUtils.GetTimeDifferenceString(ClockInStatus.TimeClock.outTime, ClockInStatus.TimeClock.inTime);
             }
         }
 

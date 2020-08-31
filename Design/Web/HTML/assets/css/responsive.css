@@ -92,7 +92,16 @@
 	.nav-tab-link > .p-l-10 {
 		padding-left:0px;
 	}
-	
+			.date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 300px;
+}
+.w-50 {
+    width: 40%!important;
+}
 }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -173,6 +182,16 @@
 	.responsive-m-l-26{
 		margin-left:0px;
 	}
+		.date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 300px;
+}
+.w-50 {
+    width: 40%!important;
+}
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -222,7 +241,16 @@
 	.nav-tab-link > .p-l-10 {
 		padding-left:0px;
 	}
-
+		.date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 200px;
+}
+.w-50 {
+    width: 40%!important;
+}
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -259,6 +287,16 @@
 		font-size: 0.75rem !important;
 		    padding: 6px 8px !important;
 	}
+		.date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 260px;
+}
+.w-50 {
+    width: 40%!important;
+}
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
@@ -275,6 +313,7 @@
     .mob-goal {
         display: none !important;
     }
+
 }
 
 @media (min-width: 1200px) and (max-width: 1418px) {
@@ -288,6 +327,16 @@
 		font-size: 0.85rem !important;
 		   padding: .375rem .5rem !important;
 	}
+	.date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 300px;
+}
+	.w-50 {
+    width: 40%!important;
+}
 }
 
 @media (min-width: 320px) and (max-width: 568px) {
@@ -324,6 +373,9 @@
 }
 .date-pick   > .input-large {
 	    font-size: 0.8rem;
+}
+.w-50 {
+    width: 40%!important;
 }
 }
 

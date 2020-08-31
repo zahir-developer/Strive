@@ -1,0 +1,61 @@
+﻿using System;
+
+using Foundation;
+using Strive.Core.Models.TimInventory;
+using StriveTimInventory.iOS.UIUtils;
+using UIKit;
+
+namespace StriveTimInventory.iOS.Views.MembershipView
+{
+    public partial class ClientTableViewCell : UITableViewCell
+    {
+        public static readonly NSString Key = new NSString("ClientTableViewCell`");
+        public static readonly UINib Nib;
+
+        static ClientTableViewCell()
+        {
+            Nib = UINib.FromName("ClientTableViewCell", NSBundle.MainBundle);
+        }
+
+        protected ClientTableViewCell(IntPtr handle) : base(handle)
+        {
+            // Note: this .ctor should not contain any initialization logic.
+        }
+
+        public void SetMembershipList(string item)
+        {
+            ItemTitle.Text = item;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+        }
+
+        public void SetClientDetail(ClientDetail item)
+        {
+            ItemTitle.Text = item.FirstName;
+            ItemIcon.Image = UIImage.FromBundle("member-inactive");
+        }
+
+        public void SelectMembershipcell()
+        {
+            ItemTitle.TextColor = UIColor.Clear.FromHex(0x1DC9B7);
+            ItemIcon.Image = UIImage.FromBundle("icon-checked");
+        }
+
+        public void DeSelectMembershipcell()
+        {
+            ItemTitle.TextColor = UIColor.Black;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+        }
+
+        public void SetUpchargeList(string item)
+        {
+            ItemTitle.Text = item;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+        }
+
+        public void SetExtraServiceList(string item)
+        {
+            ItemTitle.Text = item;
+            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+        }
+    }
+}

@@ -48,7 +48,63 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint landconstfive { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint landconstfour { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint landconstseven { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint landconstsix { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint landconstthree { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint landconsttwo { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint landxonstone { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LogoutButtton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint portconsfive { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint portconstfour { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint portconstone { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint portconstseven { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint portconstsix { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint portconstthree { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint portconsttwo { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -124,9 +180,79 @@ namespace StriveTimInventory.iOS.Views
                 ItemQuantity = null;
             }
 
+            if (landconstfive != null) {
+                landconstfive.Dispose ();
+                landconstfive = null;
+            }
+
+            if (landconstfour != null) {
+                landconstfour.Dispose ();
+                landconstfour = null;
+            }
+
+            if (landconstseven != null) {
+                landconstseven.Dispose ();
+                landconstseven = null;
+            }
+
+            if (landconstsix != null) {
+                landconstsix.Dispose ();
+                landconstsix = null;
+            }
+
+            if (landconstthree != null) {
+                landconstthree.Dispose ();
+                landconstthree = null;
+            }
+
+            if (landconsttwo != null) {
+                landconsttwo.Dispose ();
+                landconsttwo = null;
+            }
+
+            if (landxonstone != null) {
+                landxonstone.Dispose ();
+                landxonstone = null;
+            }
+
             if (LogoutButtton != null) {
                 LogoutButtton.Dispose ();
                 LogoutButtton = null;
+            }
+
+            if (portconsfive != null) {
+                portconsfive.Dispose ();
+                portconsfive = null;
+            }
+
+            if (portconstfour != null) {
+                portconstfour.Dispose ();
+                portconstfour = null;
+            }
+
+            if (portconstone != null) {
+                portconstone.Dispose ();
+                portconstone = null;
+            }
+
+            if (portconstseven != null) {
+                portconstseven.Dispose ();
+                portconstseven = null;
+            }
+
+            if (portconstsix != null) {
+                portconstsix.Dispose ();
+                portconstsix = null;
+            }
+
+            if (portconstthree != null) {
+                portconstthree.Dispose ();
+                portconstthree = null;
+            }
+
+            if (portconsttwo != null) {
+                portconsttwo.Dispose ();
+                portconsttwo = null;
             }
 
             if (RootView != null) {
