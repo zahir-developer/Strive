@@ -63,6 +63,8 @@ export class LocationCreateEditComponent implements OnInit {
     this.State = this.selectedStateId;
     this.selectedCountryId = locationAddress.Country;
     this.Country = this.selectedCountryId;
+    this.selectedCityId = locationAddress.City;
+    this.city = this.selectedCityId;
     this.locationSetupForm.patchValue({
       locationName: this.selectedData.Location.LocationName,
       locationAddress: this.selectedData.LocationAddress.Address1,
@@ -87,6 +89,10 @@ export class LocationCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
+    this.cityComponent.submitted = true;
+    if (this.cityComponent.country === '') {
+      return;
+    }
     if (this.locationSetupForm.invalid) {
       return;
     }

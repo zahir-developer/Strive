@@ -36,6 +36,7 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetMembershipAndServiceByMembershipId/{id}")]
         public Result GetMembershipAndServiceByMembershipId(int id) => _bplManager.GetMembershipAndServiceByMembershipId(id);
+
         [HttpPost]
         [Route("GetMembershipSearch")]
         public Result GetMembershipSearch([FromBody] MembershipSearchDto search) => _bplManager.GetMembershipSearch(search);

@@ -31,8 +31,8 @@
                                 <div class="form-row">
                                     <div class="form-group col-lg-3">
                                         <label for="inputFirstName">First Name<span class="required">*</span></label>
-                                        <input type="text" [appMaxLength] class="form-control"
-                                            formControlName="fName" placeholder="First Name"
+                                        <input type="text" [appMaxLength] class="form-control" formControlName="fName"
+                                            placeholder="First Name"
                                             [ngClass]="{ 'is-invalid': submitted && f.fName.errors }">
                                         <div *ngIf="submitted && f.fName.errors" class="invalid-feedback">
                                             <div *ngIf="f.fName.errors.required">First Name is required</div>
@@ -40,8 +40,8 @@
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label for="inputLastName">Last Name<span class="required">*</span></label>
-                                        <input type="text" [appMaxLength] class="form-control"
-                                            formControlName="lName" placeholder="Last Name"
+                                        <input type="text" [appMaxLength] class="form-control" formControlName="lName"
+                                            placeholder="Last Name"
                                             [ngClass]="{ 'is-invalid': submitted && f.lName.errors }">
                                         <div *ngIf="submitted && f.lName.errors" class="invalid-feedback">
                                             <div *ngIf="f.lName.errors.required">Last Name is required</div>
@@ -49,8 +49,8 @@
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label for="inputAddress">Address<span class="required">*</span></label>
-                                        <input type="text" [appMaxLength] class="form-control"
-                                            formControlName="address" placeholder="Address"
+                                        <input type="text" [appMaxLength] class="form-control" formControlName="address"
+                                            placeholder="Address"
                                             [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
                                         <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                             <div *ngIf="f.address.errors.required">Address is required</div>
@@ -70,7 +70,8 @@
                                     <div class="col-lg-6 col-xl-3">
                                         <div class="row no-gutter   form-row">
                                             <div class="col-md-6  form-group">
-                                                <label for="inputPhoneNumber1">Phone 1<span class="required">*</span></label>
+                                                <label for="inputPhoneNumber1">Phone 1<span
+                                                        class="required">*</span></label>
                                                 <input appPhoneMask type="text" class="form-control"
                                                     formControlName="phone1" placeholder="(XXX) XXX-XXXX"
                                                     [ngClass]="{ 'is-invalid': submitted && f.phone1.errors }">
@@ -103,7 +104,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-lg-6 col-xl-3">
-                                        <label for="inputState">State</label>
+                                        <label for="inputState">State<span class="required">*</span></label>
                                         <app-state-dropdown [selectedStateId]="selectedStateId"
                                             (stateId)="getSelectedStateId($event)" [isView]="isView">
                                         </app-state-dropdown>
@@ -208,9 +209,9 @@
                                                 <tr
                                                     *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
-                                                    <td>{{vehicle.Color}}</td>
-                                                    <td>{{vehicle.VehicleMake }}</td>
-                                                    <td>{{vehicle.ModelName}}</td>
+                                                    <td>{{vehicle.VehicleColor}}</td>
+                                                    <td>{{vehicle.VehicleMfr }}</td>
+                                                    <td>{{vehicle.VehicleModel}}</td>
                                                     <!-- <td>{{vehicle.Upcharge}}</td> -->
                                                     <td>{{vehicle.Barcode}}</td>
                                                     <!-- <td></td> -->
@@ -255,7 +256,7 @@
 </div>
 <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true"
     [modal]="true" [focusOnShow]="false" [closable]="false">
-    <app-vehicle-create-edit *ngIf="showVehicleDialog" [additionalService]="additionalService" [selectedData]="[]" [clientId]="clientId"
-        (closeDialog)="closePopupEmit($event)">
+    <app-vehicle-create-edit *ngIf="showVehicleDialog" [additionalService]="additionalService" [selectedData]="[]"
+        [clientId]="clientId" (closeDialog)="closePopupEmit($event)">
     </app-vehicle-create-edit>
 </p-dialog>

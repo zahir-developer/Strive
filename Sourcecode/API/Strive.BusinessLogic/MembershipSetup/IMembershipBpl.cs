@@ -18,6 +18,5 @@ namespace Strive.BusinessLogic.MembershipSetup
         Result DeleteMembershipById(int membershipId);
         Result GetMembershipAndServiceByMembershipId(int id);
         Result GetMembershipSearch(MembershipSearchDto search);
-
     }
 }
