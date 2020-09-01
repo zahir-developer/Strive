@@ -45,10 +45,10 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETEPRODUCT.ToString(), _prm);
             return true;
         }
-        public List<ProductSearchViewModel> GetProductSearch(ProductSearchDto search)
+        public List<ProductViewModel> GetProductSearch(ProductSearchDto search)
         {
             _prm.Add("@ProductSearch", search.ProductSearch);
-            return db.Fetch<ProductSearchViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            return db.Fetch<ProductViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
     }
 }

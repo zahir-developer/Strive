@@ -10,8 +10,6 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public int MembershipId { get; set; }
         public string MembershipName { get; set; }
-        public decimal? Price { get; set; }
-        public string Notes { get; set; }
         public int ServiceId { get; set; }
         public int LocationId { get; set; }
         public int ClientMembershipId { get; set; }
@@ -19,5 +17,6 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool Status { get; set; }
+        public string Notes { get; set; }
     }
 }

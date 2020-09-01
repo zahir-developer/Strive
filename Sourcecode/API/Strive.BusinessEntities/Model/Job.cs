@@ -20,16 +20,16 @@ namespace Strive.BusinessEntities.Model
         public int? ClientId { get; set; }
 
         [Column]
-        public int? VehicleId { get; set; }
+        public int VehicleId { get; set; }
 
         [Column]
-        public int? Make { get; set; }
+        public int Make { get; set; }
 
         [Column]
-        public int? Model { get; set; }
+        public int Model { get; set; }
 
         [Column]
-        public int? Color { get; set; }
+        public int Color { get; set; }
 
         [Column]
         public int? JobType { get; set; }
@@ -66,9 +66,6 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
-
-        [Column]
-        public string Barcode { get; set; }
 
     }
 }

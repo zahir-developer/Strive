@@ -37,8 +37,6 @@ export class CreateEditWashesComponent implements OnInit {
   timeInDate: any;
   timeOutDate: any;
   model: any;
-  clientList: any;
-  filteredClient: any[];
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
   ngOnInit() {
@@ -75,7 +73,6 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getTicketNumber().subscribe(data => {
       this.ticketNumber = data;
     });
-    this.getAllClient();
     this.getServiceType();
     this.getVehicle();
     this.getColor();
@@ -167,41 +164,6 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  getAllClient() {
-    this.wash.getAllClient().subscribe(res => {
-      if (res.status === 'Success') {
-        const client = JSON.parse(res.resultData);
-        client.Client.forEach(item => {
-          item.fullName = item.FirstName + '\t' + item.LastName;
-        });
-        console.log(client, 'client');
-        this.clientList = client.Client.map(item => {
-          return {
-            id: item.ClientId,
-            name: item.fullName
-          };
-        });
-      }
-    });
-  }
-
-  filterClient(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        filtered.push(client);
-      }
-    }
-    this.filteredClient = filtered;
-  }
-
-  selectedClient(event) {
-    const clientId = event.id;    
-    console.log(clientId);
-  }
-
   change(data) {
     const temp = this.washItem.filter(item => item.ServiceId === data.ServiceId);
     if (temp.length !== 0) {
@@ -213,10 +175,7 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getVehicle() {
-    const obj = {
-      searchName: null
-    }
-    this.wash.getVehicle(obj).subscribe(data => {
+    this.wash.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.vehicle = wash.Vehicle;
@@ -252,7 +211,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.washForm.patchValue({
           client: this.barcodeDetails.FirstName + this.barcodeDetails.LastName,
           vehicle: this.barcodeDetails.VehicleId,
-          model: this.barcodeDetails.VehicleModelId,
           color: this.barcodeDetails.VehicleColor,
           type: this.barcodeDetails.VehicleMfr
         });

@@ -23,10 +23,9 @@ namespace Strive.ResourceAccess
     {
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<VehicleViewModel> GetAllVehicle(VehicleSearchDto name)
+        public List<VehicleViewModel> GetAllVehicle()
         {
-            _prm.Add("@SearchName", name.SearchName);
-            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), null);
         }
         public List<VehicleMembershipModel> GetVehicleMembership()
         {

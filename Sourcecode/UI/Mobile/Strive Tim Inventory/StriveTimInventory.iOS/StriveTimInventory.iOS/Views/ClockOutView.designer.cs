@@ -11,8 +11,8 @@ using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {
-    [Register ("ClockedInView")]
-    partial class ClockedInView
+    [Register ("ClockOutView")]
+    partial class ClockOutView
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -20,15 +20,15 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIView ClockinView { get; set; }
+        UIKit.UIView ClockInView { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton ClockOutButton { get; set; }
+        UIKit.UILabel ClockOutTimeLabel { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIView ClockoutView { get; set; }
+        UIKit.UIView ClockOutViewBox { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -48,7 +48,11 @@ namespace StriveTimInventory.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel WelcomeLabel { get; set; }
+        UIKit.UILabel TotalHoursLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel WelcomeBackLabel { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
@@ -57,19 +61,19 @@ namespace StriveTimInventory.iOS.Views
                 ClockInTimeLabel = null;
             }
 
-            if (ClockinView != null) {
-                ClockinView.Dispose ();
-                ClockinView = null;
+            if (ClockInView != null) {
+                ClockInView.Dispose ();
+                ClockInView = null;
             }
 
-            if (ClockOutButton != null) {
-                ClockOutButton.Dispose ();
-                ClockOutButton = null;
+            if (ClockOutTimeLabel != null) {
+                ClockOutTimeLabel.Dispose ();
+                ClockOutTimeLabel = null;
             }
 
-            if (ClockoutView != null) {
-                ClockoutView.Dispose ();
-                ClockoutView = null;
+            if (ClockOutViewBox != null) {
+                ClockOutViewBox.Dispose ();
+                ClockOutViewBox = null;
             }
 
             if (DateLabel != null) {
@@ -92,9 +96,14 @@ namespace StriveTimInventory.iOS.Views
                 TitleLabel = null;
             }
 
-            if (WelcomeLabel != null) {
-                WelcomeLabel.Dispose ();
-                WelcomeLabel = null;
+            if (TotalHoursLabel != null) {
+                TotalHoursLabel.Dispose ();
+                TotalHoursLabel = null;
+            }
+
+            if (WelcomeBackLabel != null) {
+                WelcomeBackLabel.Dispose ();
+                WelcomeBackLabel = null;
             }
         }
     }

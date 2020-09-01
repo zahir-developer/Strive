@@ -143,9 +143,6 @@ namespace Strive.BusinessEntities
         USPGETALLJOB,
         USPGETWASHDASHBOARD,
         USPGETCLIENTANDVEHICLEDETAIL,
-        //Details
-        USPGETALLDETAILJOB,
-        USPGETDETAILJOBBYID,
         //Schedule
         USPSAVESCHEDULE,
         USPGETSCHEDULEBYSCHEDULEID,

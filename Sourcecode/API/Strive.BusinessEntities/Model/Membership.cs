@@ -16,13 +16,7 @@ public class Membership
 	[Column]
 	public int? LocationId { get; set; }
 
-    [Column]
-    public decimal? Price { get; set; }
-
-    [Column]
-    public string Notes { get; set; }
-
-    [Column]
+	[Column]
 	public bool? IsActive { get; set; }
 
 	[Column]

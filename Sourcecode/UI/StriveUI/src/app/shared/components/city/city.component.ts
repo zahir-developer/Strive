@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StateService } from '../../services/common-service/state.service';
-import * as _ from 'underscore';
+
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',
@@ -9,7 +9,6 @@ import * as _ from 'underscore';
 })
 export class CityComponent implements OnInit {
   @Input() isView: any;
-  @Input() selectedCityId: any;
   @Output() selectCity = new EventEmitter();
   city: string;
   country: any = '';
@@ -48,7 +47,6 @@ export class CityComponent implements OnInit {
             name: item.CodeValue
           };
         });
-        this.setCity();
       }
       console.log(city);
     });
@@ -67,15 +65,27 @@ export class CityComponent implements OnInit {
   }
 
   selectedCity(event) {
-    console.log(this.country);
-
+    console.log(event);
     this.selectCity.emit(event.id);
   }
-  setCity() {
-    let patchData;
-    if (this.selectedCityId !== undefined) {
-      patchData = _.findWhere(this.cities, { id: this.selectedCityId });
-      this.country = patchData;
+
+  filterCountrySingle(event) {
+    const query = event.query;
+    this.httpClient.get('assets/json/countries.json').toPromise()
+      .then((data: any) => {
+        this.countries = data.data;
+        this.filteredCountriesSingle = this.filterCountry(query, this.countries);
+      });
+  }
+  filterCountry(query, countries) {
+    // in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+    const filtered: any[] = [];
+    for (let i = 0; i < countries.length; i++) {
+      const country = countries[i];
+      if (country.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(country);
+      }
     }
+    return filtered;
   }
 }

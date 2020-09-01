@@ -250,7 +250,6 @@ console.log(event.view.activeStart, 'dayClick');
           empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours : 0;
           this.EmpCount = empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees ?
           empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees : 0;
-          if (empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel !== null) {
           empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel.forEach(item => {
             const emp = {
               id: +item.ScheduleId,
@@ -270,7 +269,6 @@ console.log(event.view.activeStart, 'dayClick');
             };
             this.events = [... this.events, emp];
           });
-        }
         }
         this.removeDraggedEvent();
         this.retainUnclickedEvent();
@@ -320,7 +318,7 @@ console.log(event.view.activeStart, 'dayClick');
   }
   getLocationId(event) {
     const loc = this.location.filter(item => item.LocationName === event.target.textContent);
-    this.locationId = loc[0]?.LocationId;
+    this.locationId = loc[0].LocationId;
     this.getSchedule();
   }
   // Get the schedule by Id
