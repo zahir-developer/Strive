@@ -285,6 +285,8 @@ namespace Strive.BusinessLogic.Common
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
             };
+
+
             
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
@@ -305,16 +307,20 @@ namespace Strive.BusinessLogic.Common
             _result = Helper.BindSuccessResult(_resultContent);
             return _result;
         }
-        public Result GetEmailIdExist(string email)
+        public Result GetAllEmail()
         {
-            return ResultWrap(IsEmailIdExist, email, "EmailIdExist");
+            try
+            {
+                var lstEmail = new CommonRal(_tenant).GetAllEmail();
+                _resultContent.Add(lstEmail.WithName("EmailList"));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
         }
-
-        public bool IsEmailIdExist(string email)
-        {
-            return new CommonRal(_tenant, true).GetEmailIdExist(email);
-        }
-
         private void SendLoginCreationEmail(string emailId, string defaultPassword)
         {
             SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
