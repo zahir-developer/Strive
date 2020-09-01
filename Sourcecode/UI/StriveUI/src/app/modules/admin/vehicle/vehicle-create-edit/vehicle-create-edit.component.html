@@ -65,8 +65,8 @@
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputMonthlyCharge">Monthly Charge</label>
-                <input numbersOnly type="text" [appMaxLength]="9" class="form-control" formControlName="monthlyCharge" 
-                    placeholder="Monthly Charge">
+                <input  type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control" formControlName="monthlyCharge" 
+                placeholder="0.00">
             </div>
         </div>
     </form>

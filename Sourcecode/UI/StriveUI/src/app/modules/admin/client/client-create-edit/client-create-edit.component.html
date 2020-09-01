@@ -221,6 +221,9 @@
                                                             (click)="delete(vehicle)" tooltipPosition="bottom"></em>
                                                     </td>
                                                 </tr>
+                                                <tr *ngIf="vehicleDetails.length === 0">
+                                                    <td colspan="6" class="text-center">No Record Found</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
