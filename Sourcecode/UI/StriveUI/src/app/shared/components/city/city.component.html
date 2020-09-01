@@ -1,9 +1,15 @@
+<!-- <input [(ngModel)]="city"
+       [typeahead]="states"
+       placeholder="City"
+       [typeaheadScrollable]="true"
+       [typeaheadOptionsInScrollableView]="5"
+       class="form-control"> -->
 <div class="ui-fluid">
     <div class="p-grid forms-grid">
         <div class="p-col-3 p-md-6">
-            <p-autoComplete [ngModelOptions]="{standalone: true}" [(ngModel)]="country" [suggestions]="filteredCity" [ngClass]="{'is-invalid': country === '' && submitted}"
-            (completeMethod)="filterCity($event)" (onSelect)="selectedCity($event)" field="name" [size]="10" appendTo="body" 
-                placeholder="City" [disabled]="isView" inputStyleClass="{{country==='' && submitted ?'form-control is-invalid': ''}}"></p-autoComplete>
+            <p-autoComplete [(ngModel)]="country" [suggestions]="filteredCity" [ngClass]="{'is-invalid': country === '' && submitted}"
+            (completeMethod)="filterCity($event)" (onSelect)="selectedCity($event)" field="name" [size]="10" appendTo="body"
+                placeholder="City" [disabled]="isView"></p-autoComplete>
                 <div *ngIf="submitted && country === ''" class="invalid-feedback">
                     city is Required
                 </div>

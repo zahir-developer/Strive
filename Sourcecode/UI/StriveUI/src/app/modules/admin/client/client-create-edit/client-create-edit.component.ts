@@ -65,7 +65,7 @@ export class ClientCreateEditComponent implements OnInit {
   formInitialize() {
     this.clientForm = this.fb.group({
       fName: ['', Validators.required],
-      lName: ['', Validators.required],
+      lName: ['',  Validators.required],
       address: ['', Validators.required],
       zipcode: ['',],
       state: ['',],
@@ -120,7 +120,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.vehicle.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Status;
+        this.vehicleDetails = vehicle.Status.ClientVehicles;
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -165,7 +165,6 @@ export class ClientCreateEditComponent implements OnInit {
   // Add/Update Client
   submit() {
     this.submitted = true;
-    this.stateDropdownComponent.submitted = true;
     if (this.clientForm.invalid) {
       return;
     }
@@ -217,7 +216,7 @@ export class ClientCreateEditComponent implements OnInit {
       this.client.updateClient(myObj).subscribe(data => {
         if (data.status === 'Success') {
           this.deleteIds.forEach(element => {
-            this.vehicle.deleteVehicle(element.VehicleId).subscribe(res => {
+            this.vehicle.deleteVehicle(element.ClientVehicleId).subscribe(res => {
               if (res.status === 'Success') {
                 this.toastr.success('Vehicle Deleted Successfully!!', 'Success!');
               } else {
@@ -253,15 +252,14 @@ export class ClientCreateEditComponent implements OnInit {
   closePopupEmit(event) {
     if (event.status === 'saved') {
       this.vehicleDetails.push(this.vehicle.vehicleValue);
-      console.log(this.vehicleDetails,'vedel');
       this.vehicleDet.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     }
     this.showVehicleDialog = event.isOpenPopup;
   }
-  delete(data) {
-    if (this.isView) {
+  delete(data){
+    if(this.isView){
       return;
     }
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 

@@ -48,11 +48,5 @@ namespace Strive.ResourceAccess
             _prm.Add("@MembershipId", id);
             return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID.ToString(), _prm);
         }
-        public List<AllMembershipViewModel> GetMembershipSearch(MembershipSearchDto search)
-        {
-            _prm.Add("@MembershipSearch", search.MembershipSearch);
-            var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
-            return result;
-        }
     }
 }

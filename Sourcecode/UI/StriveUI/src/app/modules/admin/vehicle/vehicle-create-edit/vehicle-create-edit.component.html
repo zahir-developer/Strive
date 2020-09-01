@@ -38,7 +38,7 @@
                 <label for="inputUpcharge">Upcharge</label>
                 <select class="form-control" formControlName="upcharge">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.Upcharges}}</option>
+                    <option *ngFor="let upcharge of upcharge" value="{{upcharge.CodeId}}">{{upcharge.CodeValue}}</option>
                 </select>
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">

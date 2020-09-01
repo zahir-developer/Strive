@@ -9,7 +9,7 @@ namespace Strive.BusinessLogic.Vehicle
 {
     public interface IVehicleBpl
     {
-        Result GetAllVehicle(VehicleSearchDto name);
+        Result GetAllVehicle();
         Result GetVehicleMembership();
         Result UpdateVehicleMembership(Membership Membership);
         Result UpdateClientVehicle(ClientVehicle ClientVehicle);

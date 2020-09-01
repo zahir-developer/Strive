@@ -60,9 +60,6 @@ export class LocationSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Search;
-        this.locationSetupDetails.forEach(item => {
-          item.Address1 = item.Address1.trim();
-        });
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -130,7 +127,5 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-  clearSearch() {
-    console.log('clear');
-  }
+
 }

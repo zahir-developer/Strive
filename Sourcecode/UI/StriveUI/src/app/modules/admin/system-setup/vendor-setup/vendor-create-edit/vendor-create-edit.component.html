@@ -10,13 +10,13 @@
                 </div>
             </div>
             <div class="form-group col-md-3">
-                <label for="inputVendorAlias"> Contact </label>
-                <input type="text" maxlength="20" class="form-control" formControlName="vendorAlias" placeholder="Vendor">
+                <label for="inputVendorAlias">Vendor Contact </label>
+                <input type="text" maxlength="20" class="form-control" formControlName="vendorAlias" placeholder="Vendor Alias">
             </div>
            
             <div class="form-group col-md-3">
                 <label for="inputVin">Internal Code<span class="required">*</span> </label>
-                <input type="text" maxlength="50" class="form-control" formControlName="vin" placeholder="Account Number"
+                <input type="text" maxlength="50" class="form-control" formControlName="vin" placeholder="VIN"
                     [ngClass]="{ 'is-invalid': submitted && f.vin.errors }">
                 <div *ngIf="submitted && f.vin.errors" class="invalid-feedback">
                     <div *ngIf="f.vin.errors.required">Account # is required</div>
@@ -24,8 +24,8 @@
             </div>
            
             <div class="form-group col-md-3">
-                <label for="inputSupplierAddress"> Address<span class="required">*</span> </label>
-                <input type="text" maxlength="50" class="form-control" formControlName="supplierAddress" placeholder="Address"
+                <label for="inputSupplierAddress">Vendor Address<span class="required">*</span> </label>
+                <input type="text" maxlength="50" class="form-control" formControlName="supplierAddress" placeholder="Supplier Address"
                     [ngClass]="{ 'is-invalid':submitted && f.supplierAddress.errors }">
                 <div *ngIf="submitted && f.supplierAddress.errors" class="invalid-feedback">
                     <div *ngIf="f.supplierAddress.errors.required">Supplier Address is required</div>
@@ -34,8 +34,8 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="inputZipcode">Zip Code<span class="required">*</span></label>
-                <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip Code"
+                <label for="inputZipcode">ZipCode<span class="required">*</span></label>
+                <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip"
                     formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted && f.zipcode.errors }">
                 <div *ngIf="submitted && f.zipcode.errors" class="invalid-feedback">
                     <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
@@ -54,7 +54,7 @@
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputCountry">City</label>
-                <app-city (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId"></app-city>
+                <app-city (selectCity)="selectCity($event)"></app-city>
             </div>
            
         </div>
@@ -77,8 +77,12 @@
                 </div>
             </div>
             <div class="form-group col-md-3">
+                <label for="inputFax">Fax </label>
+                <input type="text" maxlength="50" class="form-control" formControlName="fax" placeholder="Fax">
+            </div>
+            <div class="form-group col-md-3">
                 <label for="inputFax">Website </label>
-                <input type="text" maxlength="50" class="form-control" formControlName="website" placeholder="Website">
+                <input type="text" maxlength="50" class="form-control" formControlName="fax" placeholder="Website">
             </div>
         </div>
     </form>

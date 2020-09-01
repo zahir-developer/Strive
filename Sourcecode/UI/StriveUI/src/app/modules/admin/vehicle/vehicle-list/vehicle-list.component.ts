@@ -17,7 +17,6 @@ export class VehicleListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedVehicle: any;
-  search: any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
@@ -32,31 +31,7 @@ export class VehicleListComponent implements OnInit {
 
   // Get All Vehicles
   getAllVehicleDetails() {
-    const obj = {
-      searchName: ""
-    }
-    this.vehicle.getVehicle(obj).subscribe(data => {
-      if (data.status === 'Success') {
-        const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle;
-        if (this.vehicleDetails.length === 0) {
-          this.isTableEmpty = true;
-        } else {
-          this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
-          this.isTableEmpty = false;
-        }
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
-
-  vehicleSearch() {
-    this.page = 1;
-    const obj = {
-      searchName: this.search
-    }
-    this.vehicle.getVehicle(obj).subscribe(data => {
+    this.vehicle.getVehicle().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
