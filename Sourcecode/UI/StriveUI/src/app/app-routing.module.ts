@@ -3,7 +3,7 @@ import { Routes, RouterModule, ExtraOptions, PreloadAllModules } from '@angular/
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HelpsComponent } from './helps/helps.component';
-import {  AuthGuard} from './shared/guards/auth-guard.service';
+import { AuthGuard } from './shared/guards/auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
@@ -13,8 +13,11 @@ const routes: Routes = [
   { path: 'helps', component: HelpsComponent },
   { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
   { path: 'wash', canActivate: [AuthGuard], loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
-  { path: 'dashboard', canActivate: [AuthGuard], 
-  loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule) },
+  { path: 'detail', loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule) },
+  {
+    path: 'dashboard', canActivate: [AuthGuard],
+    loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
+  },
   {
     path: '',
     redirectTo: '',
