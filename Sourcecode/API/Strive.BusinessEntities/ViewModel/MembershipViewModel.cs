@@ -19,6 +19,5 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool Status { get; set; }
-        public string Notes { get; set; }
     }
 }
