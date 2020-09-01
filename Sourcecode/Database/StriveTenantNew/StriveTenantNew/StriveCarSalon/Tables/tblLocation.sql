@@ -3,6 +3,8 @@
     [LocationType]        INT                NULL,
     [LocationName]        VARCHAR (100)      NULL,
     [LocationDescription] VARCHAR (50)       NULL,
+    [ColorCode]           NVARCHAR (10)      NULL,
+    [WashTimeMinutes]     INT                NULL,
     [IsFranchise]         BIT                NULL,
     [TaxRate]             VARCHAR (10)       NULL,
     [SiteUrl]             VARCHAR (100)      NULL,
@@ -23,6 +25,8 @@
     CONSTRAINT [PK_tblLocation] PRIMARY KEY CLUSTERED ([LocationId] ASC),
     CONSTRAINT [FK_tblLocation_LocationType] FOREIGN KEY ([LocationType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

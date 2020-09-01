@@ -1,6 +1,7 @@
 ﻿
 
-CREATE PROC [StriveCarSalon].[uspGetCashRegister] 
+
+CREATE PROC [StriveCarSalon].[uspGetCashRegister] --1,'CLOSEOUT','2020-08-26'
 (
 @LocationId int,
 @CashRegisterType varchar(10), 
@@ -16,7 +17,7 @@ JOIN StriveCarSalon.tblCodeValue CV on CV.CategoryId = CC.id
 WHERE CV.CodeValue = @CashRegisterType)
 
 DECLARE @DrawerID INT;
-SELECT @DrawerID = DrawerId FROM [StriveCarSalon].[tblDrawer] WHERE LocationId=@LocationId;
+SELECT @DrawerID = DrawerId FROM [StriveCarSalon].[tblDrawer] WHERE LocationId=@LocationId
 
 Select
 CR.CashRegisterId ,

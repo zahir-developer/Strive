@@ -1,12 +1,11 @@
-﻿
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocation]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocation]
 (@LocationSearch varchar(50)=null)
 
 AS 
 BEGIN
 SELECT tbll.LocationId,
 	   tblla.LocationAddressId,	
+	   tbll.WashTimeMinutes,
 	   tbll.LocationType as LocationTypeId,
 	   tblcv.valuedesc as LocationTypeName,	
 	   tbll.LocationName,
@@ -28,5 +27,5 @@ AND
  or tblla.Address1 like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'
  or tblla.PhoneNumber like '%'+@LocationSearch+'%'
  or tblla.Email like '%'+@LocationSearch+'%')
-
+ Order By LocationId desc
 END

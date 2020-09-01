@@ -1,5 +1,15 @@
-﻿
+﻿-- =============================================
+-- Author:		Vineeth B
+-- Create date: 01-08-2020
+-- Description:	To get wash details against id
+-- =============================================
 
+---------------------History--------------------
+-- =============================================
+-- 31-08-2020, Vineeth - Added barcode col
+
+------------------------------------------------
+-- =============================================
 
 CREATE PROC [StriveCarSalon].[uspGetJobById] 
 (@JobId int)
@@ -28,13 +38,16 @@ and (J.ClientId = @ClientId) ORDER BY J.JobDate DESC)a)
 END
 Select 
 tbj.JobId
+,tbj.Barcode
 ,tbj.TicketNumber
 ,tbj.LocationId
 ,tbj.ClientId
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
 ,tbj.VehicleId
-,CONCAT(tblclv.VehicleModel,' ',tblclv.VehicleMfr,' ',tblclv.VehicleColor) AS VehicleName
+,tbj.Make
+,tbj.Model
+,tbj.Color
 ,tbj.JobType
 ,tbj.JobDate
 ,tbj.TimeIn
@@ -42,27 +55,43 @@ tbj.JobId
 ,tbj.ActualTimeOut
 ,tbj.JobStatus
 ,tblji.ServiceId
+,tbls.ServiceType as ServiceTypeId
 ,tbls.ServiceName
 ,tblji.Commission
 ,tblji.Price
 ,tblji.Quantity
 ,tblji.ReviewNote
-,@ReviewNote AS PastHistoryNote
+--,@ReviewNote AS PastHistoryNote
 from 
 StriveCarSalon.tblJob tbj 
-inner join StriveCarSalon.GetTable('ServiceType') tblcv on tbj.JobType = tblcv.valueid
-inner join StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
-inner join StriveCarSalon.tblClientAddress tblca on tbj.ClientId = tblca.ClientId
-inner join StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
-inner join StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
-inner join StriveCarSalon.tblService tbls on tblji.ServiceId = tbls.ServiceId
-WHERE
-(tbj.JobId = @JobId)
-AND 
-tblcv.valuedesc='Washes'
+INNER JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
+LEFT JOIN StriveCarSalon.tblClientAddress tblca on tbj.ClientId = tblca.ClientId
+LEFT JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
+LEFT JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
+LEFT JOIN StriveCarSalon.tblService tbls on tblji.ServiceId = tbls.ServiceId
+LEFT JOIN StriveCarSalon.GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid
+WHERE tblcv.valuedesc='Washes'
+AND isnull(tbj.IsDeleted,0)=0
 AND isnull(tblca.IsDeleted,0)=0
 AND isnull(tblc.IsDeleted,0)=0
 AND isnull(tblji.IsDeleted,0)=0
 AND isnull(tbls.IsDeleted,0)=0
-AND tblji.IsActive=1
+AND isnull(tblji.IsActive,1)=1
+AND ((tbj.JobId = @JobId) OR @JobId IS NULL)
+
+
+Select 
+JobItemId,
+JobId,
+tblji.ServiceId,
+s.ServiceType as ServiceTypeId,
+Commission,
+Price,
+Quantity,
+ReviewNote
+from StriveCarSalon.tblJobItem tblji
+LEFT JOIN StriveCarSalon.tblService s on s.ServiceId = tblji.ServiceId
+WHERE (JobId = @JobId OR @JobId IS NULL)
+AND isnull(tblji.IsDeleted,0)=0
+
 END

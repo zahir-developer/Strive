@@ -1,8 +1,4 @@
-﻿
-
-
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetLocation]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetLocation]
 
 AS 
 BEGIN
@@ -20,7 +16,7 @@ SELECT tbll.LocationId,
 	   tbll.Instagram,
 	   tbll.WifiDetail,
 	   tbll.WorkhourThreshold,
-
+	   tbll.WashTimeMinutes,
 	   tblla.LocationAddressId			AS LocationAddress_LocationAddressId,
 	   tblla.LocationId					AS LocationAddress_LocationId,
 	   tblla.Address1					AS LocationAddress_Address1,
