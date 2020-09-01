@@ -110,3 +110,7 @@
 !Strive-orm.dll
 /Sourcecode/API/Strive.RepositoryCqrs/bin/Release
 /Sourcecode/API/Strive.RepositoryCqrs/bin/Release
+/Sourcecode/API/.sonarqube
+/Sourcecode/API/SuperAdmin.API/bin
+/Sourcecode/API/SuperAdmin.API/obj
+/Sourcecode/API/SuperAdmin.API/Properties

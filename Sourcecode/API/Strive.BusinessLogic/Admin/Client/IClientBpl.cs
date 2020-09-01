@@ -11,7 +11,7 @@ namespace Strive.BusinessLogic.Client
 {
     public interface IClientBpl
     {
-       Result SaveClientDetails(ClientView lstClient);
+        Result SaveClientDetails(ClientView lstClient);
         Result GetAllClient();
         Result DeleteClient(int clientId);
         Result GetClientById(int id);

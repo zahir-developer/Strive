@@ -372,7 +372,7 @@ namespace Strive.BusinessLogic.Common
             return _result;
         }
 
-        private void SendMail(string email, string body, string subject)
+        public void SendMail(string email, string body, string subject)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Admin", _tenant.FromMailAddress));
