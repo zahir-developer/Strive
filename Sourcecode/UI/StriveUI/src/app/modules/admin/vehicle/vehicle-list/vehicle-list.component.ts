@@ -89,13 +89,13 @@ export class VehicleListComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         this.selectedVehicle = vehicle.Status;
         if (data === 'edit') {
-          this.headerData = 'Edit vehicle';
+          this.headerData = 'Edit Vehicle';
           this.selectedData = this.selectedVehicle;
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
         } else {
-          this.headerData = 'View vehicle';
+          this.headerData = 'View Vehicle';
           this.selectedData = this.selectedVehicle;
           this.isEdit = true;
           this.isView = true;

@@ -33,26 +33,26 @@
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let color of color" value="{{color.CodeId}}">{{color.CodeValue}}</option>
                 </select>
-            </div>        
-            <div class="form-group col-lg-3" *ngIf="isEdit">
-                <label for="inputUpcharge">Upcharge</label>
-                <select class="form-control" formControlName="upcharge">
-                    <option hidden selected value="">Choose</option>
-                    <option *ngFor="let upcharge of upcharge" value="{{upcharge.CodeId}}">{{upcharge.CodeValue}}</option>
-                </select>
-            </div>
-            <div class="form-group col-lg-3" *ngIf="isEdit">
-                <label for="inputUpcharge">Upcharge Type</label>
-                <select class="form-control" formControlName="upchargeType">
-                    <option hidden selected value="">Choose</option>
-                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.ServiceName}}</option>
-                </select>
-            </div>        
+            </div>  
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputMembership">Membership</label>
                 <select class="form-control" formControlName="membership" (change)="membershipChange($event.target.value)">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let member of membership" value="{{member.MembershipId}}">{{member.MembershipName}}</option>
+                </select>
+            </div>   
+            <div class="form-group col-lg-3" *ngIf="isEdit">
+                <label for="inputUpcharge">Upcharge Type</label>
+                <select class="form-control" formControlName="upchargeType" (change)="upchargeTypeChange($event, 'type')">
+                    <option hidden selected value="">Choose</option>
+                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.ServiceName}}</option>
+                </select>
+            </div>      
+            <div class="form-group col-lg-3" *ngIf="isEdit">
+                <label for="inputUpcharge">Upcharge</label>
+                <select class="form-control" formControlName="upcharge" (change)="upchargeTypeChange($event, 'upcharge')">
+                    <option hidden selected value="">Choose</option>
+                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.Upcharges}}</option>
                 </select>
             </div>
         </div>
