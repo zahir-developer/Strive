@@ -24,6 +24,7 @@ export class MembershipCreateEditComponent implements OnInit {
   additional: any;
   memberService: any = [];
   additionalService: any;
+  patchedService: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
@@ -104,13 +105,23 @@ export class MembershipCreateEditComponent implements OnInit {
         const f = this.additionalService.find(a => a.ServiceId === e);
         return f ? f : 0;
       });
+    //   const result = memberService.reduce((unique, o) => {
+    //     if (!unique.some(obj => obj.ServiceId === o.ServiceId && obj.ServiceName === o.ServiceName)) {
+    //       unique.push(o);
+    //     }
+    //     return unique;
+    // }, []);
+      // console.log(result);
+      // this.patchedService = result;
       this.memberService = memberService.map(item => {
         return {
           item_id: item.ServiceId,
           item_text: item.ServiceName
         };
       });
-    }  }
+
+    }
+  }
 
   check(data) {
     console.log(data);
@@ -118,9 +129,12 @@ export class MembershipCreateEditComponent implements OnInit {
 
   // Add/Update Membership
   submit() {
+    console.log(this.memberService);
+    console.log(this.membershipForm.value.service, 'service');
+    console.log(this.additional, 'additional');
     const wash = {
-      membershipServiceId: 0,
-      membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
+      membershipServiceId: this.isEdit ? this.selectedData?.MembershipService[0]?.MembershipServiceId : 0,
+      membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
       serviceId: Number(this.membershipForm.value.washes),
       isActive: true,
       isDeleted: false,
@@ -130,8 +144,8 @@ export class MembershipCreateEditComponent implements OnInit {
       updatedDate: new Date()
     };
     const upcharge = {
-      membershipServiceId: 0,
-      membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
+      membershipServiceId: this.isEdit ? this.selectedData?.MembershipService[0]?.MembershipServiceId : 0,
+      membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
       serviceId: Number(this.membershipForm.value.upcharge),
       isActive: true,
       isDeleted: false,
@@ -140,10 +154,22 @@ export class MembershipCreateEditComponent implements OnInit {
       updatedBy: 1,
       updatedDate: new Date()
     };
-    const ServiceObj = this.membershipForm.value.service.map(item => {
+    // const ServiceObj = this.membershipForm.value.service.map(item => {
+    // return {
+    //   membershipServiceId: 0,
+    //   membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
+    //   serviceId: item.item_id,
+    //   isActive: true,
+    //   isDeleted: false,
+    //   createdBy: 1,
+    //   createdDate: new Date(),
+    //   updatedBy: 1,
+    //   updatedDate: new Date()
+    // };
+    const ServiceObj = this.memberService.map(item => {
       return {
         membershipServiceId: 0,
-        membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
+        membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
         serviceId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -151,12 +177,12 @@ export class MembershipCreateEditComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date()
-      };
+      }
     });
     ServiceObj.push(wash);
     ServiceObj.push(upcharge);
     const membership = {
-      membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
+      membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
       membershipName: this.membershipForm.value.membershipName,
       locationId: 1,
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
@@ -167,7 +193,7 @@ export class MembershipCreateEditComponent implements OnInit {
       updatedDate: new Date()
     };
     const formObj = {
-      membership: membership,
+      membership,
       membershipService: ServiceObj
     };
     if (this.isEdit === true) {

@@ -93,7 +93,7 @@ export class VehicleCreateEditComponent implements OnInit {
           vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.forEach(item => {
             const additionalService = _.where(this.additional, { item_id: item.ServiceId });
             if (additionalService.length > 0) {
-              service.push(additionalService[0]);
+              // service.push(additionalService[0]);
             }
           });
           this.vehicleForm.patchValue({
@@ -291,6 +291,14 @@ export class VehicleCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+  upchargeTypeChange(event, value) {
+    console.log(event.target.value, value );
+    if (value === 'type') {
+      this.vehicleForm.patchValue({upcharge: event.target.value});
+    } else {
+    this.vehicleForm.patchValue({upchargeType: event.target.value});
+  }
   }
 }
 
