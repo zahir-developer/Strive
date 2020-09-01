@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-client-list',
@@ -22,8 +23,9 @@ export class ClientListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
+  isLoading = true;
   constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getAllClientDetails();
@@ -31,7 +33,9 @@ export class ClientListComponent implements OnInit {
 
   // Get All Client
   getAllClientDetails() {
+    this.isLoading = true;
     this.client.getClient().subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.Client;
@@ -48,6 +52,7 @@ export class ClientListComponent implements OnInit {
   }
 
   clientSearch(){
+    this.page = 1;
     const obj = {
        clientName: this.search
     }
@@ -55,6 +60,7 @@ export class ClientListComponent implements OnInit {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.ClientSearch;
+        console.log(this.clientDetails);
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -108,7 +114,9 @@ export class ClientListComponent implements OnInit {
 
   // Get Client By Id
   getClientById(data, client) {
+    this.spinner.show();
     this.client.getClientById(client.ClientId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         this.selectedClient = client.Status[0];

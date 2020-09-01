@@ -6,12 +6,12 @@
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
                     <li class="breadcrumb-item"><a>Admin</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Employee</li>
+                    <li class="breadcrumb-item active" aria-current="page">Employees</li>
                 </ol>
             </nav>
             <!--bread crumb-->
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3>Employee</h3>
+                <h3>Employees</h3>
             </div>
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
@@ -38,7 +38,7 @@
                                     <form>
                                         <div class="form-row">
                                             <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="search" name="search" id="inputSearchbyName"
-                                                placeholder="By Login ID,Name" (keyup.enter)="seachEmployee()"> </div>
+                                                placeholder="Search by Name" (keyup.enter)="seachEmployee()"> </div>
                                             <div class="form-group col-sm m-l-5">
                                                 
                                                 <button type="button"
@@ -53,7 +53,6 @@
                                     <table class="table border table-hover" aria-describedby="employee-list">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Login ID</th>
                                                 <th scope="col">First Name</th>
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Mobile # </th>
@@ -67,7 +66,6 @@
                                         <tbody>
                                             <tr
                                                 *ngFor="let employee of employeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <td>{{employee.EmployeeId}}</td>
                                                 <td>{{employee.FirstName}}</td>
                                                 <td>{{employee.LastName}}</td>
                                                 <td>{{employee.MobileNo}}</td>
@@ -92,7 +90,7 @@
                                                     </span>
                                                 </td>
                                                 <td> <a href="#" class="text-underline theme-primary-color font-size--9"
-                                                        data-toggle="modal"> View </a> </td>
+                                                        data-toggle="modal"> No Schedule </a> </td>
                                                 <td>{{employee.Status === true ? 'Active' : 'InActive'}}</td>
                                                 <td> <em class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
                                                         (click)="addEmployee('view', employee)"></em>
@@ -100,6 +98,11 @@
                                                         (click)="addEmployee('edit', employee)"></em>
                                                     <em class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
                                                         (click)="deleteEmployee(employee)"></em> </td>
+                                            </tr>
+                                            <tr *ngIf="employeeDetails.length === 0">
+                                                <td colspan="9" class="text-center">
+                                                    No Records Found
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

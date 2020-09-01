@@ -35,16 +35,14 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("DeleteSchedule")]
         public Result DeleteSchedule(int id) => _bplManager.DeleteSchedule(id);
-        
-        //[HttpGet]
-        //[Route("GetSchedule")]
-        //public Result GetSchedule() => _bplManager.GetSchedule();
-        [HttpGet]
+        #region
+        [HttpPost]
         [Route("GetSchedule")]
-        public Result GetSchedule(DateTime? StartDate,DateTime? EndDate)
+        public Result GetSchedule([FromBody] ScheduleDetailDto scheduleDetail)
         {
-            return _bplManager.GetSchedule(StartDate,EndDate);
+            return _bplManager.GetSchedule(scheduleDetail);
         }
+        #endregion
         [HttpGet]
         [Route("GetScheduleById")]
         public Result GetScheduleById(int scheduleId) => _bplManager.GetScheduleById(scheduleId);

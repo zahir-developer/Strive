@@ -26,6 +26,8 @@ export class LocationCreateEditComponent implements OnInit {
   submitted: boolean;
   selectedStateId: any;
   selectedCountryId: any;
+  city: any;
+  selectedCityId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
     private uiLoaderService: NgxUiLoaderService) { }
 
@@ -33,6 +35,7 @@ export class LocationCreateEditComponent implements OnInit {
     this.formInitialize();
     this.submitted = false;
     this.Country = 38;
+    console.log(this.selectedData);
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
       this.getLocationById();
@@ -55,20 +58,22 @@ export class LocationCreateEditComponent implements OnInit {
   }
 
   getLocationById() {
-    const locationAddress = this.selectedData;
+    const locationAddress = this.selectedData.LocationAddress;
     this.selectedStateId = locationAddress.State;
     this.State = this.selectedStateId;
     this.selectedCountryId = locationAddress.Country;
     this.Country = this.selectedCountryId;
+    this.selectedCityId = locationAddress.City;
+    this.city = this.selectedCityId;
     this.locationSetupForm.patchValue({
-      locationName: this.selectedData.LocationName,
-      locationAddress: this.selectedData.Address1,
-      locationAddress2: this.selectedData.Address2,
-      workHourThreshold: this.selectedData.WorkhourThreshold,
-      zipcode: this.selectedData.Zip,
-      phoneNumber: this.selectedData.PhoneNumber,
-      email: this.selectedData.Email,
-      franchise: this.selectedData.IsFranchise
+      locationName: this.selectedData.Location.LocationName,
+      locationAddress: this.selectedData.LocationAddress.Address1,
+      locationAddress2: this.selectedData.LocationAddress.Address2,
+      workHourThreshold: this.selectedData.Location.WorkhourThreshold,
+      zipcode: this.selectedData.LocationAddress.Zip,
+      phoneNumber: this.selectedData.LocationAddress.PhoneNumber,
+      email: this.selectedData.LocationAddress.Email,
+      franchise: this.selectedData.Location.IsFranchise
     });
   }
 
@@ -84,19 +89,23 @@ export class LocationCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
+    this.cityComponent.submitted = true;
+    if (this.cityComponent.country === '') {
+      return;
+    }
     if (this.locationSetupForm.invalid) {
       return;
     }
     const sourceObj = [];
     this.address = {
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,
-      locationId: this.isEdit ? this.selectedData.LocationId : 0,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
       address1: this.locationSetupForm.value.locationAddress,
       address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber: this.locationSetupForm.value.phoneNumber,
       phoneNumber2: '',
       email: this.locationSetupForm.value.email,
-      city: 1,
+      city: this.city,
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
       country: this.Country,
@@ -111,7 +120,7 @@ export class LocationCreateEditComponent implements OnInit {
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const formObj = {
-      locationId: this.isEdit ? this.selectedData.LocationId : 0,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
       locationType: 1,
       locationName: this.locationSetupForm.value.locationName,
       locationDescription: '',
@@ -123,6 +132,7 @@ export class LocationCreateEditComponent implements OnInit {
       twitter: '',
       instagram: '',
       wifiDetail: '',
+      washTimeMinutes: this.isEdit ? this.selectedData.Location.WashTimeMinutes : 0,
       workhourThreshold: this.locationSetupForm.value.workHourThreshold,
       startTime: '',
       endTime: '',
@@ -133,9 +143,21 @@ export class LocationCreateEditComponent implements OnInit {
       updatedBy: 0,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    const drawer = {
+    drawerId: 0,
+    drawerName: "",
+    locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+    isActive: true,
+    isDeleted: false,
+    createdBy: 0,
+    createdDate: moment(new Date()).format('YYYY-MM-DD'),
+    updatedBy: 0,
+    updatedDate: moment(new Date()).format('YYYY-MM-DD')
+    };
     const finalObj = {
-      location: this.address,
-      locationAddress: formObj
+      location: formObj,
+      locationAddress: this.address,
+      drawer: drawer
     };
     if (this.isEdit === false) {
       this.locationService.saveLocation(finalObj).subscribe(data => {
@@ -170,6 +192,10 @@ export class LocationCreateEditComponent implements OnInit {
   getSelectedCountryId(event) {
     this.Country = event.target.value;
 
+  }
+
+  selectCity(id) {
+    this.city = id;
   }
 }
 

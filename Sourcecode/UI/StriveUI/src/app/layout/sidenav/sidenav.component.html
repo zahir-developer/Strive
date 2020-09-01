@@ -7,10 +7,10 @@
       <li class="p-t-10"><a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
       <li class="active"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
             class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
-      <li class=""><a href="#"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
+      <li class=""><a [routerLink]='["./detail"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
       <li class=""><a href="#"><i class="fa-2x mdi mdi-cash-usd"></i>Sales</a></li>
       <li class=""><a href="#"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
-      <li class="active"><a [routerLink]='["./admin"]' [routerLinkActive]='["link-active"]' (click)="openNav()"><i
+      <li class="active"><a style="cursor: pointer;" (click)="openNav()"><i
             class="fa fa-2x fa-user-o"></i>Admin</a></li>
       <li class=""><a href="#"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
       <li class=""><a href="#"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
@@ -18,7 +18,7 @@
   </div>
   <div id="navSliderMenu"
     class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block">
-    <a href="#" class="closebtn" (click)="closeNav()">×</a>
+    <a class="closebtn" (click)="closeNav()">×</a>
     <div class="p-l-15 p-r-15 m-b-10">
       <h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Admin</h5>
     </div>
@@ -50,11 +50,10 @@
       <li><a href="#"><em class="mdi mdi-view-dashboard"></em><span>Dashboard</span></a></li>
       <li><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em
             class="mdi mdi-car-wash"></em><span>Washes</span></a></li>
-      <li><a href="#"><em class="mdi mdi-car-back"></em><span>Details</span></a></li>
+      <li><a [routerLink]='["./detail"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-car-back"></em><span>Details</span></a></li>
       <li><a href="#"><em class="mdi mdi-cash-usd"></em><span>Sales</span></a></li>
       <li><a href="#"><em class="mdi mdi-file-document"></em><span>Reports</span></a></li>
-      <li><a [routerLink]='["./admin"]' [routerLinkActive]='["link-active"]'><em
-            class="fa fa-user-o"></em><span>Admin</span></a></li>
+      <li><a><em class="fa fa-user-o"></em><span>Admin</span></a></li>
       <li><a href="#"><em class="fa fa-flag-checkered"></em><span>Checkout</span></a></li>
       <li><a href="#"><em class="fa fa-dollar"></em><span>Payroll</span></a></li>
 

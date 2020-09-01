@@ -20,16 +20,15 @@ namespace Strive.ResourceAccess
             return db.Fetch<CollisionViewModel>(SPEnum.USPGETCOLLISIONBYEMPID.ToString(), null);
         }
 
-        public List<CollisionViewModel> GetCollisionById(int id)
+        public CollisionViewModel GetCollisionById(int id)
         {
 
             _prm.Add("@CollisionId", id);
-            var result = db.Fetch<CollisionViewModel>(SPEnum.USPGETCOLLISIONBYEMPID.ToString(), _prm);
+            var result = db.FetchMultiResult<CollisionViewModel>(SPEnum.USPGETCOLLISIONBYID.ToString(), _prm);
             return result;
         }
         public List<CollisionViewModel> GetCollisionByEmpId(int id)
         {
-
             _prm.Add("@EmployeeId", id);
             var result = db.Fetch<CollisionViewModel>(SPEnum.USPGETCOLLISIONBYEMPID.ToString(), _prm);
             return result;
@@ -47,6 +46,12 @@ namespace Strive.ResourceAccess
         public bool UpdateCollision(CollisionDto lstCollision)
         {
             return dbRepo.SavePc(lstCollision, "LiabilityId");
+        }
+        public List<VehicleListViewModel> GetVehicleListByClientId(int id)
+        {
+            _prm.Add("@ClientId", id);
+            var result = db.Fetch<VehicleListViewModel>(SPEnum.USPGETVEHICLELISTBYCLIENTID.ToString(), _prm);
+            return result;
         }
     }
 }

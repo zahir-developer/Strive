@@ -18,6 +18,7 @@ export class AddActivityComponent implements OnInit {
   @Input() totalAmount?: any;
   @Input() giftCardId?: any;
   submitted: boolean;
+  symbol: string;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -27,9 +28,11 @@ export class AddActivityComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.symbol = 'plus';
     this.submitted = false;
     this.giftCardForm = this.fb.group({
-      amount: ['', Validators.required]
+      amount: ['', Validators.required],
+      type: ['']
     });
   }
 
@@ -41,7 +44,17 @@ export class AddActivityComponent implements OnInit {
     return this.giftCardForm.controls;
   }
 
+  settingType(event) {
+    const type = event.target.value;
+    if (type === 'plus') {
+      this.symbol = 'plus';
+    } else {
+      this.symbol = 'minus';
+    }
+  }
+
   addActivity() {
+    console.log(this.giftCardForm);
     this.submitted = true;
     if (this.giftCardForm.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
@@ -52,7 +65,7 @@ export class AddActivityComponent implements OnInit {
       giftCardId: this.giftCardId,
       locationId: 1,
       transactionType: 1,
-      transactionAmount: this.giftCardForm.value.amount,
+      transactionAmount: this.symbol === 'plus' ? this.giftCardForm.value.amount : '-' + this.giftCardForm.value.amount,
       transactionDate: moment(new Date()),
       comments: 'string',
       isActive: true,
@@ -62,12 +75,12 @@ export class AddActivityComponent implements OnInit {
       updatedBy: 0,
       updatedDate: moment(new Date())
     };
+    console.log(activityObj);
     const finalObj = {
       giftCardHistory: activityObj
     };
     this.giftCardService.addCardHistory(finalObj).subscribe( res => {
       if (res.status === 'Success') {
-        this.updateBalance();
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Activity Added Successfully!!' });
         this.activeModal.close(true);
       } else {

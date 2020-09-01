@@ -37,7 +37,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\Debug\Strive.BusinessLogic.csprojAssemblyReference.cache" />
     <None Include="obj\Debug\Strive.BusinessLogicNew.csprojAssemblyReference.cache" />
@@ -50,6 +49,8 @@
     <Compile Include="CashRegister\ICashRegisterBpl.cs" />
     <Compile Include="Client\ClientBpl.cs" />
     <Compile Include="Client\IClientBpl.cs" />
+    <Compile Include="Details\DetailsBpl.cs" />
+    <Compile Include="Details\IDetailsBpl.cs" />
     <Compile Include="GiftCard\GiftCardBpl.cs" />
     <Compile Include="GiftCard\IGiftCardBpl.cs" />
     <Compile Include="Schedule\IScheduleBpl.cs" />

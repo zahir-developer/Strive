@@ -23,9 +23,10 @@ namespace Strive.ResourceAccess
     {
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<VehicleViewModel> GetAllVehicle()
+        public List<VehicleViewModel> GetAllVehicle(VehicleSearchDto name)
         {
-            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), null);
+            _prm.Add("@SearchName", name.SearchName);
+            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public List<VehicleMembershipModel> GetVehicleMembership()
         {
@@ -41,7 +42,7 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(ClientVehicle);
         }
 
-        public bool SaveVehicle(VehicleDto client)
+        public bool SaveClientVehicle(VehicleDto client)
         {
             return dbRepo.InsertPc(client, "ClientId");
         }
@@ -52,20 +53,38 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-        public List<VehicleViewModel> GetVehicleByClientId(int clientId)
+        public List<VehicleByClientViewModel> GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
-             return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+             return db.Fetch<VehicleByClientViewModel>(SPEnum.USPGETVEHICLEDETAILBYCLIENTID.ToString(), _prm);
         }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);
             return db.FetchSingle<VehicleDetailViewModel>(SPEnum.uspGetVehicleById.ToString(), _prm);
         }
-
         public List<VehicleColourViewModel> GetVehicleCodes()
         {
             return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
+        }
+        public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
+        {
+            return dbRepo.SaveAll(ClientVehicleMembershipModel, "ClientMembershipId");
+        }
+
+        public bool SaveVehicle(ClientVehicleModel clientVehicle)
+        {
+            return dbRepo.UpdatePc(clientVehicle);
+        }
+        public VehicleMembershipViewModel GetVehicleMembershipDetailsByVehicleId(int id)
+        {
+            _prm.Add("VehicleId", id);
+            return db.FetchMultiResult<VehicleMembershipViewModel>(SPEnum.USPGETVEHICLEMEMBERSHIPBYVEHICLEID.ToString(), _prm);
+        }
+        public MembershipAndServiceViewModel GetMembershipDetailsByVehicleId(int id)
+        {
+            _prm.Add("VehicleId", id);
+            return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYVEHICLEID.ToString(), _prm);
         }
     }
 }

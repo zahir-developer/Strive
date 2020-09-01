@@ -17,14 +17,11 @@ namespace Strive.ResourceAccess
     public class MembershipSetupRal : RalBase
     {
         public MembershipSetupRal(ITenantHelper tenant) : base(tenant) { }
-        public List<MembershipViewModel> GetAllMembership()
+        public List<AllMembershipViewModel> GetAllMembership()
         {
-            return db.Fetch<MembershipViewModel>(SPEnum.USPGETMEMBERSHIPSETUP.ToString(), null);
+            return db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), null);
         }
-        public List<JobItem> GetServicesWithPrice()
-        {
-            return db.Fetch<JobItem>(SPEnum.USPGETSERVICEWITHPRICE.ToString(), null);
-        }
+      
         public bool AddMembership(MembershipDto member)
         {
             return dbRepo.InsertPc(member,"MembershipId");
@@ -41,10 +38,21 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<MembershipViewModel> GetMembershipById(int membershipid)
+        public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
-            return db.Fetch<MembershipViewModel>(SPEnum.USPGETMEMBERSHIPSETUP.ToString(), _prm);
+            return db.Fetch<MembershipServiceViewModel>(SPEnum.USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID.ToString(), _prm);
+        }
+        public MembershipAndServiceViewModel GetMembershipAndServiceByMembershipId(int id)
+        {
+            _prm.Add("@MembershipId", id);
+            return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID.ToString(), _prm);
+        }
+        public List<AllMembershipViewModel> GetMembershipSearch(MembershipSearchDto search)
+        {
+            _prm.Add("@MembershipSearch", search.MembershipSearch);
+            var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
+            return result;
         }
     }
 }

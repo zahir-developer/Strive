@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-employee-collision',
@@ -16,8 +18,9 @@ export class EmployeeCollisionComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private employeeService: EmployeeService,
-    private messageService: MessageServiceToastr
-    ) { }
+    private messageService: MessageServiceToastr,
+    private spinner: NgxSpinnerService
+  ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
   @Input() public mode?: any;
@@ -26,17 +29,20 @@ export class EmployeeCollisionComponent implements OnInit {
   makeDropdownList: any = [];
   modelDropdownList: any = [];
   colorDropdownList: any = [];
+  clientList: any = [];
+  filteredClient: any = [];
+  vehicleList: any = [];
+  liabilityDetail: any;
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
       dateOfCollision: ['', Validators.required],
       amount: ['', Validators.required],
       reason: ['', Validators.required],
-      barcode: [''],
-      make: [''],
-      model: [''],
-      color: ['']
+      client: [''],
+      vehicle: ['']
     });
+    this.getAllClient();
     this.getAllModel();
     this.getAllMake();
     this.getAllColor();
@@ -50,13 +56,16 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   getCollisionDetail() {
+    this.spinner.show();
     this.employeeService.getDetailCollision(this.collisionId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
         console.log(employeesCollison.Collision);
-        if (employeesCollison.Collision.length > 0) {
-          const detail = employeesCollison.Collision[0];
+        if (employeesCollison.Collision) {
+          const detail = employeesCollison.Collision.Liability[0];
           this.collisionDetail = detail;
+          this.liabilityDetail = employeesCollison.Collision.LiabilityDetail[0];
           this.setValue(detail);
         }
       }
@@ -64,10 +73,18 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   setValue(detail) {
+    const clientName = _.where(this.clientList, { id: detail.ClientId });
+    if (clientName.length > 0) {
+      this.selectedClient(clientName[0]);
+      this.collisionForm.patchValue({
+        client: clientName[0]
+      });
+    }
     this.collisionForm.patchValue({
       dateOfCollision: moment(detail.CreatedDate).toDate(),
-      amount: detail.Amount.toFixed(2),
-      reason: detail.Description
+      amount: this.liabilityDetail.Amount.toFixed(2),
+      reason: this.liabilityDetail.Description,
+      vehicle: detail.VehicleId
     });
   }
 
@@ -76,12 +93,13 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   saveCollision() {
+    console.log(this.collisionForm);
     this.submitted = true;
     if (this.collisionForm.invalid) {
       return;
     }
     const liabilityDetailObj = {
-      liabilityDetailId: this.mode === 'edit' ? this.collisionDetail.LiabilityDetailId : 0,
+      liabilityDetailId: this.mode === 'edit' ? this.liabilityDetail.LiabilityDetailId : 0,
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       liabilityDetailType: 1,
       amount: +this.collisionForm.value.amount,
@@ -105,6 +123,8 @@ export class EmployeeCollisionComponent implements OnInit {
       status: 0,
       isActive: true,
       isDeleted: false,
+      vehicleId: this.collisionForm.value.vehicle,
+      clientId: this.collisionForm.value.client.id,
       createdBy: 0,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: 0,
@@ -115,7 +135,9 @@ export class EmployeeCollisionComponent implements OnInit {
       employeeLiabilityDetail: liabilityDetailObj
     };
     if (this.mode === 'create') {
+      this.spinner.show();
       this.employeeService.saveCollision(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Added Successfully!' });
           this.activeModal.close(true);
@@ -124,7 +146,9 @@ export class EmployeeCollisionComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.show();
       this.employeeService.updateCollision(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Updated Successfully!' });
           this.activeModal.close(true);
@@ -133,6 +157,49 @@ export class EmployeeCollisionComponent implements OnInit {
         }
       });
     }
+  }
+
+  getAllClient() {
+    this.employeeService.getAllClient().subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.Client.forEach(item => {
+          item.fullName = item.FirstName + '\t' + item.LastName;
+        });
+        console.log(client, 'client');
+        this.clientList = client.Client.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      }
+    });
+  }
+
+  filterClient(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.clientList) {
+      const client = i;
+      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(client);
+      }
+    }
+    this.filteredClient = filtered;
+  }
+
+  selectedClient(event) {
+    const clientId = event.id;
+    this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vehicle = JSON.parse(res.resultData);
+        this.vehicleList = vehicle.VehicleDetail;
+        // this.vehicleList.forEach(item => {
+        //   item.vehicleName = item.VehicleMake + '-' + item.ModelName + '-' + item.Color;
+        // });
+      }
+    });
   }
 
   getAllMake() {

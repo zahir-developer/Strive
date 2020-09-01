@@ -14,10 +14,7 @@ export class LocationSetupListComponent implements OnInit {
   showDialog = false;
   selectedData: any;
   headerData: string;
-  searchName : any ='';
-  searchAddress : any = '';
-  searchPhoneNo : any ='';
-  searchEmail : any = '';
+  search : any = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
@@ -55,16 +52,17 @@ export class LocationSetupListComponent implements OnInit {
   
   // Get Location Search
   locationSearch(){
+    this.page = 1;
     const obj ={
-       locationName: this.searchName,
-       locationAddress: this.searchAddress,
-       phoneNumber: this.searchPhoneNo,
-       email: this.searchEmail
+       locationSearch: this.search
     }
     this.locationService.LocationSearch(obj).subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Search;
+        this.locationSetupDetails.forEach(item => {
+          item.Address1 = item.Address1.trim();
+        });
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -132,5 +130,7 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-
+  clearSearch() {
+    console.log('clear');
+  }
 }

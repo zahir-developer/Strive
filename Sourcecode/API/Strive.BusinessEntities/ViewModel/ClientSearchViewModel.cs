@@ -17,6 +17,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string PhoneNumber { get; set; }
         public string PhoneNumber2 { get; set; }
         public string Type { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }

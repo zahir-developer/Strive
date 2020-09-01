@@ -14,9 +14,9 @@ namespace Strive.BusinessLogic.Vehicle
     {
         public VehicleBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper) { }
 
-        public Result GetAllVehicle()
+        public Result GetAllVehicle(VehicleSearchDto name)
         {
-            return ResultWrap(new VehicleRal(_tenant).GetAllVehicle, "Vehicle");
+            return ResultWrap(new VehicleRal(_tenant).GetAllVehicle,name, "Vehicle");
         }
         public Result GetVehicleMembership()
         {
@@ -35,7 +35,7 @@ namespace Strive.BusinessLogic.Vehicle
         {
             try
             {
-                return ResultWrap(new VehicleRal(_tenant).SaveVehicle, vehicle, "Status");
+                return ResultWrap(new VehicleRal(_tenant).SaveClientVehicle, vehicle, "Status");
             }
             catch(Exception ex)
             {
@@ -59,6 +59,22 @@ namespace Strive.BusinessLogic.Vehicle
         public Result GetVehicleCodes()
         {
             return ResultWrap(new VehicleRal(_tenant).GetVehicleCodes, "VehicleDetails");
+        }
+        public Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel vehicleMembership)
+        {
+            var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
+            if (!saveVehicle)
+                return ResultWrap<ClientVehicle>(false, "Result", "Failed to save vehicle details.");
+
+            return ResultWrap(new VehicleRal(_tenant).SaveClientVehicleMembership, vehicleMembership.ClientVehicleMembershipModel, "Status");
+        }
+        public Result GetVehicleMembershipDetailsByVehicleId(int id)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetVehicleMembershipDetailsByVehicleId, id, "VehicleMembershipDetails");
+        }
+        public Result GetMembershipDetailsByVehicleId(int id)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetMembershipDetailsByVehicleId, id, "MembershipDetailsForVehicleId");
         }
     }
 }

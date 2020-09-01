@@ -35,7 +35,7 @@ export class EmployeeListComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number;
-  search: any = '';
+  search = '';
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -46,7 +46,8 @@ export class EmployeeListComponent implements OnInit {
 
   ngOnInit() {
     this.isTableEmpty = true;
-    this.getAllEmployeeDetails();
+    // this.getAllEmployeeDetails();
+    this.seachEmployee();
     this.getAllRoles();
     this.getGenderDropdownValue();
     this.getMaritalStatusDropdownValue();
@@ -131,7 +132,7 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.deleteEmployee(id).subscribe(res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Deleted Successfully!' });
-        this.getAllEmployeeDetails();
+        this.seachEmployee();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -232,7 +233,7 @@ export class EmployeeListComponent implements OnInit {
 
   closeDialog(event) {
     this.showDialog = event.isOpenPopup;
-    this.getAllEmployeeDetails();
+    this.seachEmployee();
   }
 
   getLocation() {
@@ -256,7 +257,7 @@ export class EmployeeListComponent implements OnInit {
     modalRef.componentInstance.mode = 'create';
     modalRef.result.then((result) => {
       if (result) {
-        this.getAllEmployeeDetails();
+        this.seachEmployee();
       }
     });
   }

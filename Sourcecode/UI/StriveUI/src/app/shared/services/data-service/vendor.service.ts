@@ -25,4 +25,7 @@ export class VendorService {
   updateVendor(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateVendor}`, obj);
   }
+  VendorSearch(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getVendorSearch}`, obj);
+  }
 }

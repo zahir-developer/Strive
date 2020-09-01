@@ -5,6 +5,7 @@ using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.RepositoryCqrs;
 using System.Collections.Generic;
+using JobItem = Strive.BusinessEntities.DTO.ServiceSetup.JobItem;
 
 namespace Strive.ResourceAccess
 {
@@ -46,12 +47,23 @@ namespace Strive.ResourceAccess
         }
         public List<ServiceViewModel> GetServiceSearch(ServiceSearchDto search)
         {
-            _prm.Add("@ServiceType", search.ServiceType);
-            _prm.Add("@ServiceName", search.ServiceName);
-            _prm.Add("@Status", search.Status);
+            _prm.Add("@ServiceSearch", search.ServiceSearch);
+            if (search.Status < 2)
+            {
+                _prm.Add("@Status", search.Status);
+            }
             return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
         }
+        public List<ServiceCategoryViewModel> GetServiceCategoryByLocationId(int id)
+        {
+            _prm.Add("@LocationId",id);
+            return db.Fetch<ServiceCategoryViewModel>(SPEnum.USPGETSERVICECATEGORYBYLOCATIONID.ToString(), _prm);
+        }
 
+        public List<JobItem> GetServicesWithPrice()
+        {
+            return db.Fetch<JobItem>(SPEnum.USPGETSERVICELIST.ToString(), null);
+        }
     }
 }
 

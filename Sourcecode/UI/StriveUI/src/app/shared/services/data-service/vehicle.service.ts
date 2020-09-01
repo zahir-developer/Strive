@@ -12,8 +12,8 @@ export class VehicleService {
     vehicleValue: object;
 
     constructor(private http: HttpUtilsService) { }
-    getVehicle(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getAllVehicle}`);
+    getVehicle(obj){
+        return this.http.post(`${UrlConfig.totalUrl.getAllVehicle}`, obj);
     }
     updateVehicle(obj) {
         return this.http.post(`${UrlConfig.totalUrl.updateVehicle}`, obj);
@@ -28,9 +28,21 @@ export class VehicleService {
         return this.http.get(`${UrlConfig.totalUrl.getVehicleById}`, { params: { id: vehicleId } });
     }
     getVehicleMembership(): Observable<any> {
-        return this.http.get(`${UrlConfig.totalUrl.getVehicleMembership}`);
+        return this.http.get(`${UrlConfig.totalUrl.getAllMembership}`);
     }
     getVehicleCodes() {
         return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
+    }
+    getMembershipService(): Observable<any> {
+      return this.http.get(`${UrlConfig.totalUrl.getMembershipService}`);
+    }
+    getMembershipById(id : number){
+      return this.http.get(`${UrlConfig.totalUrl.getMembershipById}` + id);
+    }    
+    getUpchargeService(): Observable<any> {
+      return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
+    }
+    getVehicleMembershipDetailsByVehicleId(id) {
+        return this.http.get(`${UrlConfig.totalUrl.getVehicleMembershipDetailsByVehicleId}`, { params : { id }});
     }
 }

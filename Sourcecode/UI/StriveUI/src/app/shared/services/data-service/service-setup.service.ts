@@ -22,10 +22,13 @@ export class ServiceSetupService {
   updateServiceSetup(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateServiceSetup}`, obj);
   }
-  deleteServiceSetup(serviceId : number){
-      return this.http.delete(`${UrlConfig.totalUrl.deleteServiceSetup}`,  { params: { id: serviceId } });
+  deleteServiceSetup(serviceId: number) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteServiceSetup}`, { params: { id: serviceId } });
   }
-  getServiceSetupById(serviceId : number){
+  getServiceSetupById(serviceId: number) {
     return this.http.get(`${UrlConfig.totalUrl.getServiceSetupById}`, { params: { id: serviceId } });
-}
+  }
+  ServiceSearch(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getServiceSearch}`, obj);
+  }
 }

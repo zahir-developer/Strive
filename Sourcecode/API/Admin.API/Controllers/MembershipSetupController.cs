@@ -22,9 +22,6 @@ namespace Admin.Api.Controllers
         [Route("GetAll")]
         public Result GetAllMembership() => _bplManager.GetAllMembership();
         [HttpGet]
-        [Route("GetService")]
-        public Result GetServiceWithPrice() => _bplManager.GetServicesWithPrice();
-        [HttpGet]
         [Route("GetAllMembershipById/{membershipId}")]
         public Result GetMembershipById(int membershipId) => _bplManager.GetMembershipById(membershipId);
         [HttpPost]
@@ -36,6 +33,12 @@ namespace Admin.Api.Controllers
         [HttpDelete]
         [Route("Delete/{membershipId}")]
         public Result DeleteMembershipById(int membershipId) => _bplManager.DeleteMembershipById(membershipId);
+        [HttpGet]
+        [Route("GetMembershipAndServiceByMembershipId/{id}")]
+        public Result GetMembershipAndServiceByMembershipId(int id) => _bplManager.GetMembershipAndServiceByMembershipId(id);
 
+        [HttpPost]
+        [Route("GetMembershipSearch")]
+        public Result GetMembershipSearch([FromBody] MembershipSearchDto search) => _bplManager.GetMembershipSearch(search);
     }
 }

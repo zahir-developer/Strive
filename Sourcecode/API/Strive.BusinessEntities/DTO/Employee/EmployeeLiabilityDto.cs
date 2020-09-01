@@ -1,4 +1,6 @@
-﻿namespace Strive.BusinessEntities.DTO.Employee
+﻿using System;
+
+namespace Strive.BusinessEntities.DTO.Employee
 {
     public class EmployeeLiabilityDto
     {
@@ -11,5 +13,6 @@
         public string LiabilityDescription { get; set; }
         public decimal? Amount { get; set; }
         public string LiabilityDetailTypeId { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
     }
 }

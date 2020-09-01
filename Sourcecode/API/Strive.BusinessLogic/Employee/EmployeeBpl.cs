@@ -22,7 +22,7 @@ namespace Strive.BusinessLogic
 
         public Result AddEmployee(EmployeeModel employee)
         {
-            var isExist = new EmployeeRal(_tenant).GetEmailIdExist(employee.EmployeeAddress.Email);
+            bool isExist = new CommonBpl(_cache, _tenant).IsEmailIdExist(employee.EmployeeAddress.Email);
 
             if (isExist)
             {
@@ -72,23 +72,19 @@ namespace Strive.BusinessLogic
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeList, "EmployeeList");
         }
 
+        public Result GetAllEmployeeDetail(string employeeName)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeDetail, employeeName, "EmployeeList");
+        }
+
         public Result GetEmployeeById(int employeeId)
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeById, employeeId, "Employee");
         }
-        public Result GetEmailIdExist(string email)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmailIdExist, email, "EmailIdExist");
-        }
-
+        
         public Result GetAllEmployeeRoles()
         {
             return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles, "EmployeeRoles");
         }
-        public Result GetEmployeeSearch(string employeeName)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeSearch, employeeName, "EmployeeList");
-        }
-
     }
 }

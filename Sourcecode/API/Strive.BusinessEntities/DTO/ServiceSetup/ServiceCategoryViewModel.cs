@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.MembershipSetup
+namespace Strive.BusinessEntities.DTO.ServiceSetup
 {
-    public class JobItem
+    public class ServiceCategoryViewModel
     {
         public int ServiceId { get; set; }
-        public decimal Price { get; set; }
         public string ServiceName { get; set; }
+        public string CodeValue { get; set; }
     }
 }

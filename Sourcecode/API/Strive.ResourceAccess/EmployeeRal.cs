@@ -29,9 +29,15 @@ namespace Strive.ResourceAccess
             return lstResult;
         }
 
-        public List<EmployeeViewModel> GetEmployeeList()
+        public EmployeeListViewModel GetEmployeeList()
         {
-            return db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+            return db.FetchMultiResult<EmployeeListViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+        }
+
+        public List<EmployeeViewModel> GetAllEmployeeDetail(string employeeName)
+        {
+            _prm.Add("@EmployeeName", employeeName);
+            return db.Fetch<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
         }
 
         public bool AddEmployee(EmployeeModel employee)
@@ -67,23 +73,8 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public List<EmployeeViewModel> GetEmployeeSearch(string employeeName)
-        {
-            _prm.Add("@EmployeeName", employeeName);
-            var result = db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
-            return result;
-        }
 
-        public bool GetEmailIdExist(string email)
-        {
-            EmployeeEmailDto emdto = new EmployeeEmailDto();
-            _prm.Add("@Email", email);
-            var result = db.Fetch<EmployeeEmailDto>(SPEnum.USPEMAILEXIST.ToString(), _prm);
-            if (result.FirstOrDefault().EmailExist == true)
-                return true;
-            else
-                return false;
-        }
+
     }
 }
 

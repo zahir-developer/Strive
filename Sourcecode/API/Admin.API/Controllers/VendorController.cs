@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.Vendor;
 using Strive.BusinessEntities.Vendor;
 using Strive.BusinessLogic;
 using Strive.Common;
@@ -41,6 +42,10 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetVendorById/{id}")]
         public Result GetVendorById(int id) => _bplManager.GetVendorById(id);
+
+        [HttpPost]
+        [Route("GetVendorSearch")]
+        public Result GetVendorSearch([FromBody] VendorSearchDto search) => _bplManager.GetVendorSearch(search);
         #endregion
     }
 }

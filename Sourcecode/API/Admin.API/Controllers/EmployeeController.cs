@@ -35,8 +35,8 @@ namespace Admin.Api.Controllers
 
         #region GET
         [HttpGet]
-        [Route("GetAll")]
-        public Result GetAllEmployee() => _bplManager.GetEmployeeList();
+        [Route("GetAllEmployeeDetail/{employeeName}")]
+        public Result GetAllEmployee(string employeeName) => _bplManager.GetAllEmployeeDetail(employeeName);
 
         [HttpGet]
         [Route("GetAllRoles")]
@@ -45,18 +45,12 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetEmployeeById")]
         public Result GetEmployeeById(int id) => _bplManager.GetEmployeeById(id);
+
+        [HttpGet]
+        [Route("GetAllEmplloyeeList")]
+        public Result GetAllEmployeeList() => _bplManager.GetEmployeeList();
+
         #endregion
 
-        #region
-        [HttpPost]
-        [Route("GetEmployeeSearch")]
-        public Result GetEmployeeSearch(string employeeName) => _bplManager.GetEmployeeSearch(employeeName);
-        #endregion
-
-        #region
-        [HttpPost]
-        [Route("GetEmailIdExist/{email}")]
-        public Result GetEmailIdExist(string email) => _bplManager.GetEmailIdExist(email);
-        #endregion
     }
 }

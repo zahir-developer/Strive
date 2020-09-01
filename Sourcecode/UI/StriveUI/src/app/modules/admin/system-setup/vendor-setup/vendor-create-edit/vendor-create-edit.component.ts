@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { VendorService } from 'src/app/shared/services/data-service/vendor.service';
 import * as moment from 'moment';
+import { CityComponent } from 'src/app/shared/components/city/city.component';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -11,10 +12,12 @@ import * as moment from 'moment';
   styleUrls: ['./vendor-create-edit.component.css']
 })
 export class VendorCreateEditComponent implements OnInit {
+  @ViewChild(CityComponent) cityComponent: CityComponent;
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   vendorSetupForm: FormGroup;
   State: any;
   Country: any;
+  city: any;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
@@ -22,6 +25,7 @@ export class VendorCreateEditComponent implements OnInit {
   address: any;
   selectedStateId: any;
   selectedCountryId: any;
+  selectedCityId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vendorService: VendorService) { }
 
   ngOnInit() {
@@ -33,6 +37,7 @@ export class VendorCreateEditComponent implements OnInit {
       this.getVendorById();
     }
   }
+ 
   formInitialize() {
     this.vendorSetupForm = this.fb.group({
       vin: ['', Validators.required],
@@ -44,15 +49,18 @@ export class VendorCreateEditComponent implements OnInit {
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
       email: ['', Validators.email],
-      fax: ['',]
+      fax: ['',],
+      website: ['']
     });
   }
   getVendorById() {
     const vendorAddress = this.selectedData;
-    this.selectedStateId = vendorAddress.State;
+    this.selectedStateId = vendorAddress.Country;
     this.State = this.selectedStateId;
-    this.selectedCountryId = vendorAddress.Country;
+    this.selectedCountryId = vendorAddress.State;
     this.Country = this.selectedCountryId;
+    this.selectedCityId = vendorAddress.City;
+    this.city = this.selectedCityId;
     this.vendorSetupForm.patchValue({
       vin: this.selectedData.VIN,
       vendorAlias: this.selectedData.VendorAlias,
@@ -97,7 +105,7 @@ export class VendorCreateEditComponent implements OnInit {
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
       phoneNumber2: 'string',
       email: this.vendorSetupForm.value.email,
-      city: 0,
+      city: this.city,
       state: this.Country,
       zip: this.vendorSetupForm.value.zipcode,
       fax: this.vendorSetupForm.value.fax,
@@ -137,5 +145,9 @@ export class VendorCreateEditComponent implements OnInit {
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
+  }
+
+  selectCity(id) {
+    this.city = id;
   }
 }

@@ -11,11 +11,9 @@ namespace Strive.BusinessLogic.Schedule
     public interface IScheduleBpl
     {
         Result SaveSchedule(ScheduleDto schedule);
-        //Result UpdateSchedule(Strive.BusinessEntities.Model.ScheduleModel schedule);
         Result DeleteSchedule(int scheduleId);
-        //Result GetSchedule();
         Result GetScheduleById(int scheduleId);
-        Result GetSchedule(DateTime? StartDate, DateTime? EndDate);
+        Result GetSchedule(ScheduleDetailDto scheduleDetail);
 
     }
 }

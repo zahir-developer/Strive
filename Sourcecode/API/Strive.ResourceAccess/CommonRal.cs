@@ -51,25 +51,31 @@ namespace Strive.ResourceAccess
             return lstCode;
         }
 
-        //public void SaveUserLogin(UserLogin userLogin)
-        //{
-        //    DynamicParameters dynParams = new DynamicParameters();
-        //    dynParams.Add("@Logintbl", lstEmployeeLogin.ToDataTable().AsTableValuedParameter("tvpAuthMaster"));
-        //    CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVELOGIN.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-        //    db.Save(cmd);
-        //}
-
         public int CreateLogin(AuthMaster authMaster)
         {
-            return dbRepo.Add<AuthMaster>(authMaster);
+            int authId = dbRepo.Add<AuthMaster>(authMaster);
+
+            SaveTenantUserMap(authId, _tenant.TenantGuid);
+
+            return authId;
         }
-        public List<Email> GetAllEmail()
+
+        public void SaveTenantUserMap(int authId, string tenentGuid)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Email> lstEmail = new List<Email>();
-            lstEmail = db.Fetch<Email>(SPEnum.USPGETALLEMAIL.ToString(), dynParams);
-            return lstEmail;
+            dynParams.Add("@AuthId", authId);
+            dynParams.Add("@TenantGuid", tenentGuid);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVETENANTUSERMAP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
         }
+
+        public bool GetEmailIdExist(string email)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@Email", email);
+            return db.FetchSingle<bool>(SPEnum.USPEMAILEXIST.ToString(), dynParams);
+        }
+
         public void SaveOTP(string userId, string otp)
         {
             DynamicParameters dynParams = new DynamicParameters();

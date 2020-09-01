@@ -5,6 +5,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -47,17 +48,29 @@ export class CreateEditComponent implements OnInit {
   multipleFileUpload: any = [];
   fileType: any;
   isLoading: boolean;
+  imigirationStatus: any = [];
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
-    private toastr: ToastrService
-    ) { }
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
     this.isLoading = false;
     this.ctypeLabel = 'none';
-    this.Status = ['Active', 'InActive'];
+    this.Status = ['Active', 'Inactive'];
+    this.imigirationStatus = [
+      {
+        value: 0,
+        label: 'False'
+      },
+      {
+        value: 1,
+        label: 'True'
+      }
+    ];
     this.documentDailog = false;
     this.submitted = false;
     this.personalform = this.fb.group({
@@ -70,16 +83,15 @@ export class CreateEditComponent implements OnInit {
       ssn: ['', Validators.required]
     });
     this.emplistform = this.fb.group({
-      emailId: ['', Validators.required],
-      password: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       commission: [''],
       status: ['Active'],
       exemptions: [''],
-      roles: [[], Validators.required],
-      location: [[], Validators.required]
+      roles: [[]],
+      location: [[]]
     });
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
@@ -228,7 +240,9 @@ export class CreateEditComponent implements OnInit {
       return {
         employeeRoleId: 0,
         employeeId: 0,
-        roleId: item.item_id
+        roleId: item.item_id,
+        isActive: true,
+        isDeleted: false,
       };
     });
     const employeeDetailObj = {
@@ -239,13 +253,17 @@ export class CreateEditComponent implements OnInit {
       PayRate: this.emplistform.value.hourlyRateWash,
       ComRate: null,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
-      exemptions: +this.emplistform.value.exemptions
+      exemptions: +this.emplistform.value.exemptions,
+      isActive: true,
+      isDeleted: false,
     };
     const locationObj = this.emplistform.value.location.map(item => {
       return {
         employeeLocationId: 0,
         employeeId: 0,
-        locationId: item.item_id
+        locationId: item.item_id,
+        isActive: true,
+        isDeleted: false,
       };
     });
     const employeeObj = {
@@ -258,8 +276,8 @@ export class CreateEditComponent implements OnInit {
       maritalStatus: 117,
       isCitizen: true,
       alienNo: 'string',
-      birthDate: '2020 - 08 - 06T19: 24: 48.817Z',
-      immigrationStatus: this.personalform.value.immigrationStatus,
+      birthDate: '',
+      immigrationStatus: +this.personalform.value.immigrationStatus,
       isActive: true,
       isDeleted: false,
     };
@@ -290,20 +308,23 @@ export class CreateEditComponent implements OnInit {
       employeeLocation: locationObj,
       employeeDocument: documentObj
     };
+    this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfully!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
-        if(res.status == 'Fail' && res.errorMesssage !== '')
-        {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.ErrorMesssage });
+        if (res.status === 'Fail' && res.errorMessage !== null) {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.errorMessage });
         }
-        else
-        {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
       }
+    }, (error) => {
+      this.spinner.hide();
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
     });
   }
 

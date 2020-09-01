@@ -1,12 +1,15 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO.Washes;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,17 +31,6 @@ namespace Strive.BusinessLogic.Washes
         }
         public Result AddWashTime(WashesDto washes)
         {
-            var result = new VehicleBpl(_cache, _tenant).GetVehicleId(washes.Job.VehicleId);
-            //if(result.ResultData.)
-            //result.ResultData.FirstOrDefault(g=>g.)
-            foreach (var item in result.ResultData)
-            {
-                //if (item.toFloat() = "")
-                //{
-                //    var check = new CommonBpl(_cache, _tenant).RandomNumber(10);
-                //}
-            }
-
             return ResultWrap(new WashesRal(_tenant).AddWashTime, washes, "Status");
         }
 
@@ -54,10 +46,19 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).GetByBarCode, barcode, "ClientAndVehicleDetail");
         }
+        public Result GetMembershipListByVehicleId(int vehicleId)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetMembershipListByVehicleId, vehicleId, "VehicleMembershipDetail");
+        }
+        
         public Result DeleteWashes(int id)
         {
             return ResultWrap(new WashesRal(_tenant).DeleteWashes, id, "Status");
         }
-
+        public string GetTicketNumber()
+        {
+            var ticketNumberGenerator = new CommonBpl(_cache, _tenant).RandomNumber(6);
+            return ticketNumberGenerator;
+        }
     }
 }

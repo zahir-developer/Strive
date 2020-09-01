@@ -17,9 +17,8 @@ export class ServiceSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  searchName: any = '';
-  searchType: any = '';
-  searchStatus: any = '';
+  search: any = '';
+  searchStatus: any;
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
@@ -27,9 +26,9 @@ export class ServiceSetupListComponent implements OnInit {
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];
+    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
+    this.searchStatus = 2;
     this.getAllserviceSetupDetails();
-
   }
 
   // Get All Services
@@ -50,6 +49,28 @@ export class ServiceSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+
+  serviceSearch(){
+    this.page = 1;
+    const obj ={
+      serviceSearch: this.search,
+      status: Number(this.searchStatus)
+   }
+   this.serviceSetup.ServiceSearch(obj).subscribe(data => {
+     if (data.status === 'Success') {
+       const location = JSON.parse(data.resultData);
+       this.serviceSetupDetails = location.ServiceSearch;
+       if (this.serviceSetupDetails.length === 0) {
+         this.isTableEmpty = true;
+       } else {
+         this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
+         this.isTableEmpty = false;
+       }
+     } else {
+       this.toastr.error('Communication Error', 'Error!');
+     }
+   });
   }
   edit(data) {
     this.selectedData = data;

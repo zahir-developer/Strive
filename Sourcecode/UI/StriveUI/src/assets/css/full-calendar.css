@@ -578,11 +578,11 @@ vertical-align: middle;
 	.fc-time-grid .fc-event {
 		position: absolute;
 		z-index: 1;
-		background-color: #FEA2C1 !important;
+		/* background-color: #FEA2C1 !important; */
 	}
 	
 	.fc-time-grid-container {
-		height: 300px !important;
+		/* height: 300px !important; */
 	}
 .fc-view-container {
     position: relative;

@@ -109,7 +109,7 @@
                                                     <th scope="col">Ticket No</th>
                                                     <th scope="col">Client Name</th>
                                                     <th scope="col">Phone No</th>
-                                                    <th scope="col">Make/Model/Color of the Car</th>
+                                                    <th scope="col">Make/Model/Color</th>
                                                     <th scope="col">Time In</th>
                                                     <th scope="col">Estimated Time Out </th>
                                                     <th scope="col">Wash Packages/Services</th>
@@ -121,13 +121,13 @@
                                                 <tr
                                                     *ngFor="let wash of washDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{{wash.ClientName}}</td>
+                                                    <td>{{wash.PhoneNumber}}</td>
+                                                    <td>{{wash.VehicleName}}</td>
                                                     <td class="font-weight-600">{{wash.TimeIn | date:'mediumTime'}}</td>
                                                     <td class="font-weight-600">
                                                         {{wash.EstimatedTimeOut | date:'mediumTime'}}</td>
-                                                    <td>{{wash.BarCode}}</td>
+                                                    <td>{{wash.ServiceName}}</td>
                                                     <td>
                                                         <button type="button"
                                                             class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12">Pay</button>
@@ -136,8 +136,8 @@
                                                             (click)="add('view',wash)"></i>
                                                         <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
                                                             (click)="add('edit',wash)"></i>
-                                                        <i
-                                                            class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"></i>
+                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                            (click)="delete(wash)"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>

@@ -20,17 +20,13 @@ namespace Strive.BusinessLogic.Schedule
         {
             return ResultWrap(new ScheduleRal(_tenant).SaveSchedule, schedule, "Result");
         }
-        //public Result UpdateSchedule(Strive.BusinessEntities.Model.ScheduleModel schedule)
-        //{
-        //    return ResultWrap(new ScheduleRal(_tenant).UpdateSchedule, schedule, "Status");
-        //}
         public Result DeleteSchedule(int scheduleId)
         {
             return ResultWrap(new ScheduleRal(_tenant).DeleteSchedule, scheduleId, "Status");
         }
-        public Result GetSchedule(DateTime? StartDate, DateTime? EndDate)
+        public Result GetSchedule(ScheduleDetailDto scheduleDetail)
         {
-            return ResultWrap(new ScheduleRal(_tenant).GetSchedule, StartDate, EndDate, "Status");
+            return ResultWrap(new ScheduleRal(_tenant).GetSchedule,scheduleDetail, "ScheduleDetail");
         }
         public Result GetScheduleById(int scheduleId)
         {

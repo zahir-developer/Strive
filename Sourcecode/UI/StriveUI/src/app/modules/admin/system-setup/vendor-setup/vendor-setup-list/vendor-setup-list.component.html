@@ -10,28 +10,23 @@
               New Vendor</button>
           </div>
           <div class="setup-wrapper">
-            <div class="setup-content" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No records
-                Found</span></div>
-            <div class="setup-content" id="open-collapse" *ngIf="isTableEmpty === false && isLoading == false">
+            <div class="setup-content" id="open-collapse">
               <div class="search-container  pull-right">
                 <form>
                   <div class="form-row">
-                    <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="searchName"
-                        name="searchName" id="inputSearchbyName" placeholder="By Name"> </div>&nbsp;
-                        <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="searchEmail"
-                          name="searchEmail" id="inputSearchbyEmail" placeholder="By Email"> </div>&nbsp;
-                    <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="searchProductName"
-                        name="searchProductName" id="inputSearchbyProductName" placeholder="By ProductName"> </div>&nbsp;
-                    <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="searchProductType"
-                        name="searchProductType" id="inputSearchbyProductType" placeholder="By ProductType"> </div>
+                    <div class="form-group d-flex"> <input type="search" size="25" class="form-control" [(ngModel)]="search"
+                        name="search" id="inputSearch" placeholder="Search by Name, Email"
+                        (keyup)="$event.keyCode == 13 ? vendorSearch() : null"> </div>
                     <div class="form-group col-sm m-l-5">
                       <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
-                        >Search</button>
+                        (click)="vendorSearch()">Search</button>
                     </div>
                   </div>
                 </form>
               </div>
-              <div class="table-responsive">
+              <div class="table-responsive" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No Records
+                  Found</span></div>
+              <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
                 <table class="table  table-striped m-t-10">
                   <thead>
                     <tr>
@@ -72,7 +67,7 @@
     </div>
   </div>
 </div>
-<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
+<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="true"
   [responsive]="true" [focusOnShow]="false" [closable]="false">
   <app-vendor-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
     (closeDialog)="closePopupEmit($event)"></app-vendor-create-edit>

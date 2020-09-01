@@ -271,20 +271,23 @@ namespace Strive.BusinessLogic.Common
 
         public int CreateLogin(string emailId, string mobileNo)
         {
+            string randomPassword = RandomString(6);
+
+            string passwordHash = Pass.Hash(randomPassword);
+
             AuthMaster authMaster = new AuthMaster
             {
                 UserGuid = Guid.NewGuid().ToString(),
                 EmailId = emailId,
                 MobileNumber = mobileNo,
-                PasswordHash = "",
+                PasswordHash = passwordHash,
                 SecurityStamp = "1",
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
             };
-
-            string randomPassword = RandomString(6);
+            
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
-            SendLoginCreationEmail(authMaster.EmailId, randomPassword);
+
             return authId;
         }
 
@@ -302,20 +305,16 @@ namespace Strive.BusinessLogic.Common
             _result = Helper.BindSuccessResult(_resultContent);
             return _result;
         }
-        public Result GetAllEmail()
+        public Result GetEmailIdExist(string email)
         {
-            try
-            {
-                var lstEmail = new CommonRal(_tenant).GetAllEmail();
-                _resultContent.Add(lstEmail.WithName("EmailList"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(IsEmailIdExist, email, "EmailIdExist");
         }
+
+        public bool IsEmailIdExist(string email)
+        {
+            return new CommonRal(_tenant, true).GetEmailIdExist(email);
+        }
+
         private void SendLoginCreationEmail(string emailId, string defaultPassword)
         {
             SendMail(emailId, @"<p> Welcome " + emailId + @",</p>

@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.Washes;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
@@ -18,20 +19,20 @@ namespace Strive.ResourceAccess
             return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), null);
         }
 
-        public List<WashesViewModel> GetWashTimeDetail(int id)
+        public WashDetailViewModel GetWashTimeDetail(int id)
         {
 
             _prm.Add("@JobId", id);
-            var result = db.Fetch<WashesViewModel>(SPEnum.USPGETJOBBYID.ToString(), _prm);
+            var result = db.FetchMultiResult<WashDetailViewModel>(SPEnum.USPGETJOBBYID.ToString(), _prm);
             return result;
         }
         public bool AddWashTime(WashesDto washes)
         {
-            return dbRepo.SavePc(washes, "JobId");
+            return dbRepo.InsertPc(washes, "JobId");
         }
         public bool UpdateWashTime(WashesDto washes)
         {
-            return dbRepo.SavePc(washes, "JobId");
+            return dbRepo.UpdatePc(washes);
         }
         public WashesDashboardViewModel GetDailyDashboard(DashboardDto dashboard)
         {
@@ -45,6 +46,12 @@ namespace Strive.ResourceAccess
 
             _prm.Add("@BarCode", barcode);
             var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETCLIENTANDVEHICLEDETAIL.ToString(), _prm);
+            return result;
+        }
+        public List<ClientVehicleViewModel> GetMembershipListByVehicleId(int vehicleId)
+        {
+            _prm.Add("@VehicleId", vehicleId);
+            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.uspGetMembershipListByVehicleId.ToString(), _prm);
             return result;
         }
         public bool DeleteWashes(int id)

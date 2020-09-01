@@ -107,6 +107,7 @@
     <Compile Include="AuthRal.cs" />
     <Compile Include="CashRegisterRal.cs" />
     <Compile Include="ClientRal.cs" />
+    <Compile Include="DetailsRal.cs" />
     <Compile Include="GiftCardRal.cs" />
     <Compile Include="ScheduleRal.cs" />
     <Compile Include="TimeClockRal.cs" />
@@ -144,7 +145,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

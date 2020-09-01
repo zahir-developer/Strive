@@ -16,10 +16,7 @@ export class VendorSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  searchName : any ='';
-  searchEmail : any = '';
-  searchProductName : any ='';
-  searchProductType : any = '';
+  search : any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
@@ -27,6 +24,27 @@ export class VendorSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllvendorSetupDetails();
+  }
+
+  vendorSearch(){
+    this.page = 1;
+    const obj ={
+      vendorSearch: this.search
+   }
+   this.vendorService.VendorSearch(obj).subscribe(data => {
+     if (data.status === 'Success') {
+       const location = JSON.parse(data.resultData);
+       this.vendorSetupDetails = location.VendorSearch;
+       if (this.vendorSetupDetails.length === 0) {
+         this.isTableEmpty = true;
+       } else {
+         this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
+         this.isTableEmpty = false;
+       }
+     } else {
+       this.toastr.error('Communication Error', 'Error!');
+     }
+   });
   }
 
   // Get All Vendors

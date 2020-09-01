@@ -79,6 +79,21 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
+        protected Result ResultWrap<T>(Func<T> RALMethod, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke();
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         protected Result ResultWrap<T>(Func<DateTime?, DateTime?,T> RALMethod, DateTime? startDate, DateTime? endDate, string ResultName)
         {
             try
@@ -167,6 +182,19 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        //protected Result ResultWrap<T>(Func<int, T> RALMethod, int id)
+        //{
+        //    try
+        //    {
+        //        var res = RALMethod.Invoke(id);
+        //        _result = Helper.BindSuccessResult(_resultContent);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+        //    }
+        //    return _result;
+        //}
 
 
         protected Result ResultWrap<T, T1>(Func<T1, T> ralmethod, T1 model, string ResultName)
@@ -201,6 +229,19 @@ namespace Strive.BusinessLogic
         }
 
         protected Result ResultWrap<T>(bool res, string ResultName, string message)
+        {
+            try
+            {
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        protected Result ResultWrap(bool res, string ResultName, string message)
         {
             try
             {

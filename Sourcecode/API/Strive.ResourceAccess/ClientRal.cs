@@ -38,6 +38,12 @@ namespace Strive.ResourceAccess
             return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
             
         }
+        public ClientVehicleDetailModelView GetClientVehicleById(int clientId)
+        {
+            _prm.Add("@ClientId", clientId);
+            return db.FetchMultiResult<ClientVehicleDetailModelView>(SPEnum.uspGetClientAndVehicle.ToString(), _prm);
+
+        }
         public bool DeleteClient(int clientId)
         {
             _prm.Add("ClientId", clientId);
@@ -52,6 +58,16 @@ namespace Strive.ResourceAccess
         public List<Code> GetClientCode()
         {
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SCORE);
+        }
+        public List<ClientStatementViewModel> GetStatementByClientId(int id)
+        {
+            _prm.Add("ClientId", id);
+            return db.Fetch<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
+        }
+        public List<ClientHistoryViewModel> GetHistoryByClientId(int id)
+        {
+            _prm.Add("ClientId", id);
+            return db.Fetch<ClientHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
         }
     }
 }

@@ -16,11 +16,7 @@ export class ProductSetupListComponent implements OnInit {
   isEdit: boolean;
   isLoading = true;
   isTableEmpty: boolean;
-  searchName : any ='';
-  searchType : any = '';
-  searchSize : any ='';
-  searchLocation : any = '';
-  searchVendor : any = '';
+  search : any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
@@ -29,6 +25,27 @@ export class ProductSetupListComponent implements OnInit {
   ngOnInit() {
     this.getAllproductSetupDetails();
 
+  }
+
+  productSearch(){
+    this.page = 1;
+    const obj ={
+      productSearch: this.search
+   }
+   this.productService.ProductSearch(obj).subscribe(data => {
+     if (data.status === 'Success') {
+       const location = JSON.parse(data.resultData);
+       this.productSetupDetails = location.ProductSearch;
+       if (this.productSetupDetails.length === 0) {
+         this.isTableEmpty = true;
+       } else {
+         this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
+         this.isTableEmpty = false;
+       }
+     } else {
+       this.toastr.error('Communication Error', 'Error!');
+     }
+   });
   }
 
   // Get All Product
