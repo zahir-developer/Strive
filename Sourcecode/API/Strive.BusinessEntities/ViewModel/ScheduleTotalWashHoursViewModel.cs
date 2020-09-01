@@ -8,6 +8,6 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ScheduleTotalWashHoursViewModel
     {
-        public int Totalhours { get; set; }
+        public int? Totalhours { get; set; }
     }
 }
