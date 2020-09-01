@@ -49,7 +49,6 @@
     <Compile Include="DTO\CashRegister\CashRegisterConsolidate.cs" />
     <Compile Include="DTO\CashRegister\CashRegisterDto.cs" />
     <Compile Include="DTO\CashRegister\CR.cs" />
-    <Compile Include="DTO\Details\DetailsDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDetailDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDocumentDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDto.cs" />
