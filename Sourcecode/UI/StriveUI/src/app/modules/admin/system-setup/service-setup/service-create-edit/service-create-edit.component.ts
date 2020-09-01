@@ -18,6 +18,7 @@ export class ServiceCreateEditComponent implements OnInit {
   serviceType: any;
   selectedService: any;
   CommissionType: any;
+  isCommisstionShow = true;
   commissionTypeLabel: any;
   Status: any;
   parent: any;
@@ -64,13 +65,17 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const sType = JSON.parse(data.resultData);
         this.selectedService = sType.ServiceSetup;
+        if (this.selectedService.Upcharges === '') {
+          this.serviceSetupForm.get('upcharge').clearValidators();
+          this.serviceSetupForm.get('upcharge').updateValueAndValidity();
+        }
         this.serviceSetupForm.patchValue({
           serviceType: this.selectedService.ServiceTypeId,
           name: this.selectedService.ServiceName,
           cost: this.selectedService.Cost,
           commission: this.selectedService.Commision,
-          commissionType: this.selectedService.CommisionType,
-          fee: this.selectedService.CommissionCost,
+          commissionType: this.selectedService.CommissionTypeId,
+          fee: this.selectedService.Cost,
           upcharge: this.selectedService.Upcharges,
           parentName: this.selectedService.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
@@ -148,6 +153,11 @@ export class ServiceCreateEditComponent implements OnInit {
     }else{
        this.isAdditional = false;
     }
+    if (Number(data) === 15) {
+      this.isCommisstionShow = false;
+    } else {
+      this.isCommisstionShow = true;
+    }
   }
 
   change(data) {
@@ -156,7 +166,7 @@ export class ServiceCreateEditComponent implements OnInit {
       this.isChecked = true;
       this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
       if (this.isEdit === true) {
-      this.getCtype(this.selectedService?.CommisionType);
+      this.getCtype(this.selectedService?.CommissionTypeId);
       }
     } else {
       this.isChecked = false;

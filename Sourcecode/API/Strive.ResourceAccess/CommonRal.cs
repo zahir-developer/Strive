@@ -69,13 +69,13 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
         }
 
-        public List<Email> GetAllEmail()
+        public bool GetEmailIdExist(string email)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Email> lstEmail = new List<Email>();
-            lstEmail = db.Fetch<Email>(SPEnum.USPGETALLEMAIL.ToString(), dynParams);
-            return lstEmail;
+            dynParams.Add("@Email", email);
+            return db.FetchSingle<bool>(SPEnum.USPEMAILEXIST.ToString(), dynParams);
         }
+
         public void SaveOTP(string userId, string otp)
         {
             DynamicParameters dynParams = new DynamicParameters();
