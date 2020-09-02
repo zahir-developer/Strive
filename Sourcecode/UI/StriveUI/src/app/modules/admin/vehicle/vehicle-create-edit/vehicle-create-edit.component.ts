@@ -27,6 +27,8 @@ export class VehicleCreateEditComponent implements OnInit {
   additional: any;
   membershipServices: any = [];
   memberService: any;
+  vehicles: any;
+  patchedService: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -78,8 +80,9 @@ export class VehicleCreateEditComponent implements OnInit {
   getVehicleMembershipDetailsByVehicleId() {
     this.vehicle.getVehicleMembershipDetailsByVehicleId(this.selectedData.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
-        const vehicle = JSON.parse(res.resultData);
+        const  vehicle = JSON.parse(res.resultData);
         console.log(vehicle, 'vec');
+        this.vehicles = vehicle.VehicleMembershipDetails;
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
           this.membershipChange(vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId);
           this.vehicleForm.patchValue({
@@ -87,6 +90,7 @@ export class VehicleCreateEditComponent implements OnInit {
           });
         }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
+          this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
           const service = [];
           vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.forEach(item => {
             const additionalService = _.where(this.additional, { item_id: item.ServiceId });
@@ -213,11 +217,12 @@ export class VehicleCreateEditComponent implements OnInit {
       vehicleMfr: this.vehicleForm.value.make,
       vehicleModel: this.vehicleForm.value.model,
       vehicleModelNo: 0,
-      vehicleYear: "",
+      vehicleYear: '',
       vehicleColor: Number(this.vehicleForm.value.color),
       upcharge: Number(this.vehicleForm.value.upcharge),
       barcode: this.vehicleForm.value.barcode,
-      notes: "",
+      monthlyCharge: this.vehicleForm.value.monthlyCharge,
+      notes: '',
       isActive: true,
       isDeleted: false,
       createdBy: 1,
@@ -226,7 +231,7 @@ export class VehicleCreateEditComponent implements OnInit {
       updatedDate: new Date()
     };
     const membership = {
-      clientMembershipId: 0,
+      clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
       clientVehicleId: this.selectedData.ClientVehicleId,
       locationId: 1,
       membershipId: this.vehicleForm.value.membership,
@@ -240,11 +245,12 @@ export class VehicleCreateEditComponent implements OnInit {
       createdDate: new Date(),
       updatedBy: 1,
       updatedDate: new Date()
-    };
-    const membershipServices = this.vehicleForm.value.service.map(item => {
+    };    
+    let membershipServices = [];
+    membershipServices = this.vehicleForm.value.service.map(item => {
       return {
         clientVehicleMembershipServiceId: 0,
-        clientMembershipId: 0,
+        clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
         serviceId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -252,14 +258,16 @@ export class VehicleCreateEditComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date()
-      }
+      };
     });
+    
+    
     const model = {
       clientVehicleMembershipDetails: membership,
       clientVehicleMembershipService: membershipServices
     };
     const sourceObj = {
-      clientVehicle: formObj,
+      clientVehicle: {clientVehicle: formObj},
       clientVehicleMembershipModel: model
     };
     const add = {
