@@ -107,6 +107,7 @@
     <Compile Include="AuthRal.cs" />
     <Compile Include="CashRegisterRal.cs" />
     <Compile Include="ClientRal.cs" />
+    <Compile Include="DetailsRal.cs" />
     <Compile Include="GiftCardRal.cs" />
     <Compile Include="ScheduleRal.cs" />
     <Compile Include="TimeClockRal.cs" />

@@ -121,10 +121,15 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
+                            Type subModelType = model.GetType();
+                            if (subModelType.IsGenericType)
+                            {
+                                isGeneric = true;
+                            }
 
                             if (primInsert)
                             {
-                                Type subModelType = model.GetType();
+                                subModelType = model.GetType();
                                 if (subModelType.IsGenericType)
                                 {
                                     isGeneric = true;
