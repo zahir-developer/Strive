@@ -36,6 +36,7 @@ using Strive.BusinessLogic.MembershipSetup;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Schedule;
 using Strive.BusinessLogic.Washes;
+using Strive.BusinessLogic.Details;
 
 namespace Admin.API
 {
@@ -72,6 +73,7 @@ namespace Admin.API
             services.AddTransient<IVendorBpl,VendorBpl>();
             services.AddTransient<IVehicleBpl,VehicleBpl>();
             services.AddTransient<ITimeClockBpl, TimeClockBpl>();
+            services.AddTransient<IDetailsBpl, DetailsBpl>();
             services.AddTransient<IScheduleBpl, ScheduleBpl>();
 
             #region Add CORS

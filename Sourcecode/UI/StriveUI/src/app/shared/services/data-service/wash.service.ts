@@ -33,9 +33,6 @@ export class WashService {
   deleteWash(washId: number) {
     return this.http.delete(`${UrlConfig.totalUrl.deleteWash}`, { params: { id: washId } });
   }
-  getVehicle(obj){
-    return this.http.post(`${UrlConfig.totalUrl.getAllVehicle}`, obj);
-  }
   getServices(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
   }
@@ -54,6 +51,9 @@ export class WashService {
   getAllClient(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
+  getVehicleByClientId(clientId: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });
+}
 
   // Get Dashboard Count
   getDashBoard() {

@@ -59,8 +59,8 @@
                                     <label for="inputVehicle">Vehicle</label>
                                     <select class="form-control" formControlName="vehicle" (change)="vehicleChange($event.target.value)">
                                         <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of vehicle" value="{{score.ClientVehicleId}}">
-                                            {{score.VehicleMake}},{{score.ModelName}},{{score.Color}}
+                                        <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
+                                            {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
                                         </option>
                                     </select>
                                 </div>

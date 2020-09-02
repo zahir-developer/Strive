@@ -47,7 +47,7 @@ export class ViewDocumentComponent implements OnInit {
     }
     const password = this.passwordForm.value.password;
     this.employeeService.getDocumentById(this.documentId, password).subscribe( res => {
-      if (res.status === 'Success') {
+      if (res.status === 'Success' && res.resultData !== 'Invalid Password !!!') {
         const documentDetail = JSON.parse(res.resultData);
         console.log(documentDetail);
         const base64 = documentDetail.Document;
@@ -58,6 +58,8 @@ export class ViewDocumentComponent implements OnInit {
         downloadLink.download = fileName;
         downloadLink.click();
         this.activeModal.close();
+      } else if (res.status === 'Success' && res.resultData === 'Invalid Password !!!') {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.resultData });
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }

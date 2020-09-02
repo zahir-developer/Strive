@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { isEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -77,7 +78,6 @@ export class CreateEditWashesComponent implements OnInit {
     });
     this.getAllClient();
     this.getServiceType();
-    this.getVehicle();
     this.getColor();
   }
 
@@ -105,7 +105,7 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  vehicleChange(id){
+  vehicleChange(id) {
     this.additional.forEach(element => {
       element.IsChecked = false;
     });
@@ -209,7 +209,7 @@ export class CreateEditWashesComponent implements OnInit {
 
   selectedClient(event) {
     const clientId = event.id;
-    console.log(clientId);
+    this.getClientVehicle(clientId);
   }
 
   change(data) {
@@ -222,19 +222,7 @@ export class CreateEditWashesComponent implements OnInit {
     }
   }
 
-  getVehicle() {
-    const obj = {
-      searchName: null
-    }
-    this.wash.getVehicle(obj).subscribe(data => {
-      if (data.status === 'Success') {
-        const wash = JSON.parse(data.resultData);
-        this.vehicle = wash.Vehicle;
-      } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-      }
-    });
-  }
+  
 
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
@@ -266,11 +254,24 @@ export class CreateEditWashesComponent implements OnInit {
           color: this.barcodeDetails.VehicleColor,
           type: this.barcodeDetails.VehicleMfr
         });
+        this.getClientVehicle(this.barcodeDetails.ClientId); 
         this.getMembership(this.barcodeDetails.VehicleId);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }      
+    }); 
+  }
+
+  // Get Vehicle By ClientId
+  getClientVehicle(id) {
+    this.wash.getVehicleByClientId(id).subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicle = vehicle.Status;
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
-    });
+    });    
   }
 
   washService(data) {
@@ -299,7 +300,7 @@ export class CreateEditWashesComponent implements OnInit {
   upchargeService(data) {
     if (this.isEdit) {
       if (this.washItem.filter(i => i.ServiceTypeId === 18)[0] !== undefined) {
-      this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = true;
+        this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = true;
       }
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
@@ -318,8 +319,8 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-    this.washForm.patchValue({upcharges: +data});
-    this.washForm.patchValue({upchargeType: +data});
+    this.washForm.patchValue({ upcharges: +data });
+    this.washForm.patchValue({ upchargeType: +data });
     console.log(this.additionalService, this.washItem);
   }
 
@@ -357,8 +358,8 @@ export class CreateEditWashesComponent implements OnInit {
       jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
       ticketNumber: this.ticketNumber,
       locationId: 1,
-      clientId: this.isEdit ? this.selectedData.Washes[0].ClientId : this.barcodeDetails.ClientId,
-      vehicleId: this.isEdit ? this.selectedData.Washes[0].VehicleId : this.barcodeDetails.VehicleId,
+      clientId: this.washForm.value.client.id,
+      vehicleId: this.washForm.value.vehicle,
       make: this.washForm.value.type,
       model: this.washForm.value.model,//0,
       color: this.washForm.value.color,
