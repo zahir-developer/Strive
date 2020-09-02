@@ -90,6 +90,7 @@ export class MembershipCreateEditComponent implements OnInit {
     this.membershipForm.patchValue({
       membershipName: this.selectedData.Membership.MembershipName,
       notes: this.selectedData.Membership.Notes,
+      price: this.selectedData?.Membership.Price,
       status: this.selectedData.Membership.Status === true ? 0 : 1
     });
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0] !== undefined) {
@@ -195,6 +196,8 @@ export class MembershipCreateEditComponent implements OnInit {
     const membership = {
       membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
       membershipName: this.membershipForm.value.membershipName,
+      price: this.membershipForm.value.price ? this.membershipForm.value.price : 0,
+      notes: this.membershipForm.value.notes ? this.membershipForm.value.notes : 0,
       locationId: 1,
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
