@@ -96,6 +96,9 @@
     <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
     <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />
+    <Compile Include="ViewModel\DetailsJobItemViewModel.cs" />
+    <Compile Include="ViewModel\DetailsJobViewModel.cs" />
+    <Compile Include="ViewModel\DetailViewModel.cs" />
     <Compile Include="ViewModel\Membership.cs" />
     <Compile Include="ViewModel\MembershipAndServiceViewModel.cs" />
     <Compile Include="ViewModel\ProductSearchViewModel.cs" />

@@ -70,5 +70,8 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public string Barcode { get; set; }
 
+        [Column]
+        public string Notes { get; set; }
+
     }
 }

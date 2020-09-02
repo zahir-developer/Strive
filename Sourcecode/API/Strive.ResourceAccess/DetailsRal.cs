@@ -14,11 +14,11 @@ namespace Strive.ResourceAccess
     {
         public DetailsRal(ITenantHelper tenant) : base(tenant) { }
 
-        public WashDetailViewModel GetDetailsById(int id)
+        public DetailViewModel GetDetailsById(int id)
         {
 
             _prm.Add("@JobId", id);
-            var result = db.FetchMultiResult<WashDetailViewModel>(SPEnum.USPGETDETAILJOBBYID.ToString(), _prm);
+            var result = db.FetchMultiResult<DetailViewModel>(SPEnum.USPGETDETAILJOBBYID.ToString(), _prm);
             return result;
         }
         public bool AddDetails(DetailsDto details)
