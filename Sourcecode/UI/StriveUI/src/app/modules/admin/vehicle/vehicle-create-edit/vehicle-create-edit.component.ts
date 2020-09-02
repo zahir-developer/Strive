@@ -80,7 +80,7 @@ export class VehicleCreateEditComponent implements OnInit {
   getVehicleMembershipDetailsByVehicleId() {
     this.vehicle.getVehicleMembershipDetailsByVehicleId(this.selectedData.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
-        const  vehicle = JSON.parse(res.resultData);
+        const vehicle = JSON.parse(res.resultData);
         console.log(vehicle, 'vec');
         this.vehicles = vehicle.VehicleMembershipDetails;
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
@@ -208,99 +208,69 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   // Add/Update Vehicle
-  submit() {
-    const formObj = {
-      vehicleId: this.selectedData.ClientVehicleId,
-      clientId: this.selectedData.ClientId,
-      locationId: 1,
-      vehicleNumber: this.vehicleForm.value.vehicleNumber,
-      vehicleMfr: this.vehicleForm.value.make,
-      vehicleModel: this.vehicleForm.value.model,
-      vehicleModelNo: 0,
-      vehicleYear: '',
-      vehicleColor: Number(this.vehicleForm.value.color),
-      upcharge: Number(this.vehicleForm.value.upcharge),
-      barcode: this.vehicleForm.value.barcode,
-      monthlyCharge: this.vehicleForm.value.monthlyCharge,
-      notes: '',
-      isActive: true,
-      isDeleted: false,
-      createdBy: 1,
-      createdDate: new Date(),
-      updatedBy: 1,
-      updatedDate: new Date()
-    };
-    const membership = {
-      clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
-      clientVehicleId: this.selectedData.ClientVehicleId,
-      locationId: 1,
-      membershipId: this.vehicleForm.value.membership,
-      startDate: "2020-08-26T14:04:54.988Z",
-      endDate: "2020-08-26T14:04:54.988Z",
-      status: true,
-      notes: "string",
-      isActive: true,
-      isDeleted: false,
-      createdBy: 1,
-      createdDate: new Date(),
-      updatedBy: 1,
-      updatedDate: new Date()
-    };    
-    let membershipServices = [];
-    membershipServices = this.vehicleForm.value.service.map(item => {
-      return {
-        clientVehicleMembershipServiceId: 0,
-        clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
-        serviceId: item.item_id,
-        isActive: true,
-        isDeleted: false,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date()
-      };
-    });
-    
-    
-    const model = {
-      clientVehicleMembershipDetails: membership,
-      clientVehicleMembershipService: membershipServices
-    };
-    const sourceObj = {
-      clientVehicle: {clientVehicle: formObj},
-      clientVehicleMembershipModel: model
-    };
-    const add = {
-      VehicleId: 0,
-      ClientId: this.clientId,
-      LocationId: 1,
-      VehicleNumber: this.vehicleForm.value.vehicleNumber,
-      VehicleMfr: Number(this.vehicleForm.value.make),
-      VehicleModel: Number(this.vehicleForm.value.model),
-      VehicleColor: Number(this.vehicleForm.value.color),
-      Upcharge: Number(this.vehicleForm.value.upcharge),
-      Barcode: this.vehicleForm.value.barcode,
-      VehicleModelNo: 0,
-      VehicleYear: "",
-      Notes: "",
-      IsActive: true,
-      IsDeleted: false,
-      CreatedBy: 1,
-      CreatedDate: new Date(),
-      UpdatedBy: 1,
-      UpdatedDate: new Date()
-    };
-    const value = {
-      ClientVehicleId: 0,
-      VehicleNumber: this.vehicleForm.value.vehicleNumber,
-      VehicleMake: this.make !== null ? this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
-      ModelName: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
-      Color: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
-      Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item => 
-        item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
-      Barcode: this.vehicleForm.value.barcode,
-    };
+  submit() {    
     if (this.isEdit === true) {
+        const formObj = {
+          vehicleId: this.selectedData.ClientVehicleId,
+          clientId: this.selectedData.ClientId,
+          locationId: 1,
+          vehicleNumber: this.vehicleForm.value.vehicleNumber,
+          vehicleMfr: this.vehicleForm.value.make,
+          vehicleModel: this.vehicleForm.value.model,
+          vehicleModelNo: 0,
+          vehicleYear: '',
+          vehicleColor: Number(this.vehicleForm.value.color),
+          upcharge: Number(this.vehicleForm.value.upcharge),
+          barcode: this.vehicleForm.value.barcode,
+          monthlyCharge: this.vehicleForm.value.monthlyCharge,
+          notes: '',
+          isActive: true,
+          isDeleted: false,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
+        };
+        const membership = {
+          clientMembershipId: this.vehicles.ClientVehicleMembership !== undefined ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
+          clientVehicleId: this.selectedData.ClientVehicleId,
+          locationId: 1,
+          membershipId: this.vehicleForm.value.membership,
+          startDate: "2020-08-26T14:04:54.988Z",
+          endDate: "2020-08-26T14:04:54.988Z",
+          status: true,
+          notes: "string",
+          isActive: true,
+          isDeleted: false,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
+        };
+        let membershipServices = [];
+        membershipServices = this.vehicleForm.value.service.map(item => {
+          return {
+            clientVehicleMembershipServiceId: 0,
+            clientMembershipId: this.vehicles.ClientVehicleMembership !== undefined ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
+            serviceId: item.item_id,
+            isActive: true,
+            isDeleted: false,
+            createdBy: 1,
+            createdDate: new Date(),
+            updatedBy: 1,
+            updatedDate: new Date()
+          };
+        });
+  
+  
+        const model = {
+          clientVehicleMembershipDetails: membership,
+          clientVehicleMembershipService: membershipServices
+        };
+        const sourceObj = {
+          clientVehicle: { clientVehicle: formObj },
+          clientVehicleMembershipModel: model
+        };
       this.vehicle.updateVehicle(sourceObj).subscribe(data => {
         if (data.status === 'Success') {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
@@ -311,6 +281,36 @@ export class VehicleCreateEditComponent implements OnInit {
         }
       });
     } else {
+      const add = {
+        VehicleId: 0,
+        ClientId: this.clientId,
+        LocationId: 1,
+        VehicleNumber: this.vehicleForm.value.vehicleNumber,
+        VehicleMfr: Number(this.vehicleForm.value.make),
+        VehicleModel: Number(this.vehicleForm.value.model),
+        VehicleColor: Number(this.vehicleForm.value.color),
+        Upcharge: Number(this.vehicleForm.value.upcharge),
+        Barcode: this.vehicleForm.value.barcode,
+        VehicleModelNo: 0,
+        VehicleYear: "",
+        Notes: "",
+        IsActive: true,
+        IsDeleted: false,
+        CreatedBy: 1,
+        CreatedDate: new Date(),
+        UpdatedBy: 1,
+        UpdatedDate: new Date()
+      };
+      const value = {
+        ClientVehicleId: 0,
+        VehicleNumber: this.vehicleForm.value.vehicleNumber,
+        VehicleMfr: this.make !== null ? this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
+        VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
+        VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
+        Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
+          item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
+        Barcode: this.vehicleForm.value.barcode,
+      };
       this.vehicle.addVehicle = add;
       this.vehicle.vehicleValue = value;
       this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -321,12 +321,12 @@ export class VehicleCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   upchargeTypeChange(event, value) {
-    console.log(event.target.value, value );
+    console.log(event.target.value, value);
     if (value === 'type') {
-      this.vehicleForm.patchValue({upcharge: event.target.value});
+      this.vehicleForm.patchValue({ upcharge: event.target.value });
     } else {
-    this.vehicleForm.patchValue({upchargeType: event.target.value});
-  }
+      this.vehicleForm.patchValue({ upchargeType: event.target.value });
+    }
   }
 }
 
