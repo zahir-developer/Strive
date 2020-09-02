@@ -69,7 +69,8 @@ export class VehicleCreateEditComponent implements OnInit {
       make: this.selectedData.VehicleMakeId,
       model: this.selectedData.VehicleModelId,
       color: this.selectedData.ColorId,
-      upcharge: this.selectedData.Upcharge
+      upcharge: this.selectedData.Upcharge,
+      monthlyCharge: this.selectedData.MonthlyCharge
     });
   }
 

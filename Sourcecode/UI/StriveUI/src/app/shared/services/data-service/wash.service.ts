@@ -46,14 +46,17 @@ export class WashService {
     return this.http.get(`${UrlConfig.totalUrl.getTicketNumber}`);
   }
   getMembership(vehicleId: number) {
-      return this.http.get(`${UrlConfig.totalUrl.getMembershipByVehicle}` , { params: { id: vehicleId } });
+    return this.http.get(`${UrlConfig.totalUrl.getMembershipByVehicle}`, { params: { id: vehicleId } });
   }
   getAllClient(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
   getVehicleByClientId(clientId: number) {
     return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });
-}
+  }
+  getMembershipById(id: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getMembershipById}` + id);
+  }
 
   // Get Dashboard Count
   getDashBoard() {

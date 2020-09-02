@@ -4,7 +4,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <ol class="breadcrumb font-size--9">
                     <li class="breadcrumb-item">Home</li>
-                    <li class="breadcrumb-item">Wash</li>
+                    <li class="breadcrumb-item"><a (click)="cancel()">Wash</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Wash</li>
                     <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Wash</li>
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Wash</li>
@@ -48,8 +48,9 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredClient"
-                                                    (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
-                                                    placeholder="Client Name" (onSelect)="selectedClient($event)">
+                                                    (completeMethod)="filterClient($event)" [size]="10"
+                                                    formControlName="client" placeholder="Client Name"
+                                                    (onSelect)="selectedClient($event)">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
@@ -57,12 +58,17 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputVehicle">Vehicle</label>
-                                    <select class="form-control" formControlName="vehicle" (change)="vehicleChange($event.target.value)">
+                                    <select class="form-control" formControlName="vehicle"
+                                        (change)="vehicleChange($event.target.value)"
+                                        [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }">
                                         <option hidden selected value="">Choose</option>
                                         <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
                                             {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
                                         </option>
                                     </select>
+                                    <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
+                                        <div *ngIf="f.vehicle.errors.required">Vehicle is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                                     <div class="pull-right">
@@ -103,18 +109,23 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes</label>
                                     <select class="form-control" formControlName="washes"
-                                        (change)="washService($event.target.value)">
+                                        (change)="washService($event.target.value)"
+                                        [ngClass]="{ 'is-invalid': submitted && f.washes.errors }">
                                         <option hidden selected value="">Choose</option>
                                         <option *ngFor="let score of washes" value="{{score.ServiceId}}">
                                             {{score.ServiceName}}
                                         </option>
                                     </select>
+                                    <div *ngIf="submitted && f.washes.errors" class="invalid-feedback">
+                                        <div *ngIf="f.washes.errors.required">Washes is required</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputUpchargeType">Upcharge Type</label>
-                                    <select class="form-control" formControlName="upchargeType" (change)="upchargeService($event.target.value)">
+                                    <select class="form-control" formControlName="upchargeType"
+                                        (change)="upchargeService($event.target.value)">
                                         <option hidden selected value="">Choose</option>
                                         <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
                                             {{score.ServiceName}}
@@ -146,14 +157,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="inputNotes">Notes</label>
-                                        <textarea rows="1" class="form-control m-t-5 notes-textarea" placeholder="Notes"
+                                        <textarea rows="4" class="form-control m-t-5 notes-textarea" placeholder="Notes"
                                             formControlName="notes"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="inputPastNotes">View Past Client Notes</label>
-                                        <textarea rows="1" class="form-control m-t-5 notes-textarea"
+                                        <textarea rows="4" class="form-control m-t-5 notes-textarea"
                                             placeholder="Past Client Notes" formControlName="pastNotes"></textarea>
                                     </div>
                                 </div>
