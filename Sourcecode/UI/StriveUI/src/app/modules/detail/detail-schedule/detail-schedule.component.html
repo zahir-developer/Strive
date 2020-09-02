@@ -471,5 +471,5 @@
 </div>
 <p-dialog header="New Detail" [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body"
     [modal]="true" [focusOnShow]="false" [closable]="true" [style]="{width: '85vw'}" [baseZIndex]="10000">
-    <app-create-edit-detail-schedule *ngIf="showDialog" [selectedData]="selectedData" (closeDialog)="closeDialog($event)"></app-create-edit-detail-schedule>
+    <app-create-edit-detail-schedule *ngIf="showDialog" [isEdit]="isEdit" [selectedData]="selectedData" (closeDialog)="closeDialog($event)"></app-create-edit-detail-schedule>
 </p-dialog>
