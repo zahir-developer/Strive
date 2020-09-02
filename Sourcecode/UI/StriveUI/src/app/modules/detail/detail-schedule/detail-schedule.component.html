@@ -121,7 +121,8 @@
                                                                 (click)="addNewDetail()"></i>
                                                         </td>
                                                         <td><i
-                                                                class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i>
+                                                                class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"
+                                                                (click)="getDetailByID()"></i>
                                                         </td>
                                                         <td><i
                                                                 class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
@@ -470,5 +471,5 @@
 </div>
 <p-dialog header="New Detail" [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body"
     [modal]="true" [focusOnShow]="false" [closable]="true" [style]="{width: '85vw'}" [baseZIndex]="10000">
-    <app-create-edit-detail-schedule *ngIf="showDialog"></app-create-edit-detail-schedule>
+    <app-create-edit-detail-schedule *ngIf="showDialog" [selectedData]="selectedData" (closeDialog)="closeDialog($event)"></app-create-edit-detail-schedule>
 </p-dialog>
