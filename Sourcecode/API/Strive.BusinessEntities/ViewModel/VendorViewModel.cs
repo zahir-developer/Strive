@@ -13,6 +13,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string VendorName { get; set; }
         public string VendorAlias { get; set; }
         public string IsActive { get; set; }
+        public string websiteAddress { get; set; }
         public int VendorAddressId { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -24,5 +25,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string Zip { get; set; }
         public string Fax { get; set; }
         public int Country { get; set; }
+        public string CountryName { get; set; }
+        public string CityName { get; set; }
+        public string StateName { get; set; }
     }
 }
