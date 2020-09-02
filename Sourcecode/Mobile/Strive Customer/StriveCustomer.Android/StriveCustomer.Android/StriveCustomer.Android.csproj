@@ -196,6 +196,9 @@
     <PackageReference Include="Xamarin.GooglePlayServices.Tasks">
       <Version>71.1601.4</Version>
     </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>2.4.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

@@ -15,12 +15,14 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
+using ZXing.Mobile;
 
 namespace StriveCustomer.Android.Fragments
 {
     public class DealsFragment : MvxFragment<DealsViewModel>
     {
-        public List<string> listData;
+        private List<string> listData;
+        private Button qrCode;
         Context context;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,6 +37,7 @@ namespace StriveCustomer.Android.Fragments
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.DealsScreenFragment, null);
+            qrCode = rootview.FindViewById<Button>(Resource.Id.qrCodeScan);
             listData = new List<string>();
             for(int i = 1;i<=10;i++)
             {
@@ -44,9 +47,19 @@ namespace StriveCustomer.Android.Fragments
             dealsRecyclerView.HasFixedSize = true;
             var layoutManager = new LinearLayoutManager(context);
             dealsRecyclerView.SetLayoutManager(layoutManager);
+            qrCode.Click += QrCode_Click;
             DealsAdapter dealsAdapter = new DealsAdapter(listData,context);
             dealsRecyclerView.SetAdapter(dealsAdapter);
             return rootview;
+        }
+
+        private async void QrCode_Click(object sender, EventArgs e)
+        {
+            MobileBarcodeScanner.Initialize(Activity.Application);
+            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+            var result = await scanner.Scan();
+            if (result != null)
+                Console.WriteLine("Scanned Barcode: " + result.Text);
         }
     }
 }
