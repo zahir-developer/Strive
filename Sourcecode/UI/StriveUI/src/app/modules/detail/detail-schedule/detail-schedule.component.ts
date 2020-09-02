@@ -9,12 +9,14 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
 export class DetailScheduleComponent implements OnInit {
   showDialog: boolean;
   selectedData: any;
+  isEdit: boolean;
   constructor(
     private detailService: DetailService
   ) { }
 
   ngOnInit(): void {
     this.showDialog = false;
+    this.isEdit = false;
   }
 
   addNewDetail() {
@@ -31,6 +33,7 @@ export class DetailScheduleComponent implements OnInit {
         const details = JSON.parse(res.resultData);
         console.log(details, 'details');
         this.selectedData = details.DetailsForDetailId;
+        this.isEdit = true;
         this.showDialog = true;
       }
     });
