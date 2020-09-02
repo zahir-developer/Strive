@@ -11,8 +11,8 @@ namespace Strive.Core.ViewModels.Customer
 
         public ConfirmPasswordViewModel()
         {
-            this.UserId = CustomerOTPInfo.resetEmail;
-            this.SentOTP = CustomerOTPInfo.OTP;
+            this.UserId = CustomerInfo.resetEmail;
+            this.SentOTP = CustomerInfo.OTP;
         }
 
         #region Commands

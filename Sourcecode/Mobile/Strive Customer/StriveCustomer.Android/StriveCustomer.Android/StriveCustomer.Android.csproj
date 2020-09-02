@@ -196,6 +196,9 @@
     <PackageReference Include="Xamarin.GooglePlayServices.Tasks">
       <Version>71.1601.4</Version>
     </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>2.4.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
@@ -384,6 +387,20 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\DealsInfoCard.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\radioTick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\radioButton.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\radioDefault.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MapsNotification.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

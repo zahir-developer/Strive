@@ -25,7 +25,7 @@ namespace Strive.Core.ViewModels.Customer
                     return;
                 if (responseResult.Status == "true")
                 {
-                    CustomerOTPInfo.resetEmail = resetEmail;
+                    CustomerInfo.resetEmail = resetEmail;
                     await _navigationService.Close(this);
                     await _navigationService.Navigate<OTPViewModel>();
                 }

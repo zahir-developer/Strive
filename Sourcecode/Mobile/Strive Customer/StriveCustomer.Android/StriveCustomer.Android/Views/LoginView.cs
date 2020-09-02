@@ -11,6 +11,7 @@ using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Services;
 using static Android.Manifest;
@@ -66,6 +67,7 @@ namespace StriveCustomer.Android.Views
 
             rememberMeCheck.Checked = sharedPreferences.GetBoolean("rememberMe", false);
             this.isCredentialStored(rememberMeCheck.Checked);
+            CustomerInfo.selectedMilesOption = sharedPreferences.GetString("milesoption",null);
             AndroidPermissions.checkPermissions(this);
             rememberMeCheck.Click += checkStoredCredentials;
             signUp.Click += navigateToSignUp;
