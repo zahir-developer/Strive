@@ -101,6 +101,7 @@ export class CreateEditWashesComponent implements OnInit {
       upcharges: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 19)[0]?.ServiceId,
     });
+    this.getByBarcode(this.selectedData?.Washes[0]?.Barcode);
     this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
     this.washItem = this.selectedData.WashItem;
     console.log(this.washItem);
