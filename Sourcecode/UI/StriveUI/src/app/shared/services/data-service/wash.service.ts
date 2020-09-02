@@ -57,6 +57,9 @@ export class WashService {
   getMembershipById(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getMembershipById}` + id);
   }
+  getVehicleById(vehicleId: number) {
+      return this.http.get(`${UrlConfig.totalUrl.getVehicleById}`, { params: { id: vehicleId } });
+  }
 
   // Get Dashboard Count
   getDashBoard() {

@@ -59,10 +59,10 @@ export class CreateEditWashesComponent implements OnInit {
   formInitialize() {
     this.washForm = this.fb.group({
       client: ['',],
-      vehicle: ['',Validators.required],
+      vehicle: ['', Validators.required],
       type: ['',],
       barcode: ['',],
-      washes: ['',Validators.required],
+      washes: ['', Validators.required],
       model: ['',],
       color: ['',],
       upcharges: ['',],
@@ -117,6 +117,7 @@ export class CreateEditWashesComponent implements OnInit {
       element.IsChecked = false;
     });
     this.getMembership(id);
+    this.getVehicleById(id);
   }
 
   getMembership(id) {
@@ -157,15 +158,15 @@ export class CreateEditWashesComponent implements OnInit {
         const membership = JSON.parse(res.resultData);
         this.memberService = membership.MembershipAndServiceDetail.MembershipService;
         console.log(this.memberService.filter(i => Number(i.ServiceTypeId) === 15));
-          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
-          if (washService.length !== 0) {
-            console.log(washService[0]);
-            this.washService(washService[0].ServiceId);
-          }
-          const upchargeService = this.upcharges.filter(i => Number(i.ServiceTypeId) === 18);
-          if (upchargeService.length !== 0) {
-            this.upchargeService(upchargeService[0].ServiceId);
-          }
+        const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
+        if (washService.length !== 0) {
+          console.log(washService[0]);
+          this.washService(washService[0].ServiceId);
+        }
+        const upchargeService = this.upcharges.filter(i => Number(i.ServiceTypeId) === 18);
+        if (upchargeService.length !== 0) {
+          this.upchargeService(upchargeService[0].ServiceId);
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -179,6 +180,22 @@ export class CreateEditWashesComponent implements OnInit {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
         this.getAllServices();
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  getVehicleById(data) {
+    this.wash.getVehicleById(data).subscribe(res => {
+      if (res.status === 'Success') {
+        const vehicle = JSON.parse(res.resultData);
+        const vData = vehicle.Status;
+        this.washForm.patchValue({
+          type: vData.VehicleMakeId,
+          model: vData.VehicleModelId,
+          color: vData.ColorId
+        });
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -222,6 +239,8 @@ export class CreateEditWashesComponent implements OnInit {
             name: item.fullName
           };
         });
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -253,7 +272,7 @@ export class CreateEditWashesComponent implements OnInit {
     }
   }
 
-  
+
 
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
@@ -285,12 +304,12 @@ export class CreateEditWashesComponent implements OnInit {
           color: this.barcodeDetails.VehicleColor,
           type: this.barcodeDetails.VehicleMfr
         });
-        this.getClientVehicle(this.barcodeDetails.ClientId); 
+        this.getClientVehicle(this.barcodeDetails.ClientId);
         this.getMembership(this.barcodeDetails.VehicleId);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-      }      
-    }); 
+      }
+    });
   }
 
   // Get Vehicle By ClientId
@@ -302,7 +321,7 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
-    });    
+    });
   }
 
   washService(data) {
