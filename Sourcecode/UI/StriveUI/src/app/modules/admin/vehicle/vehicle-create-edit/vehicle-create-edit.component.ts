@@ -135,17 +135,36 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   membershipChange(data) {
+    this.memberService = [];
     this.vehicle.getMembershipById(Number(data)).subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-        if (this.membershipServices !== null) {
-          if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
-            this.vehicleForm.get('upchargeType').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
-          }
-          if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-            this.memberService = this.additionalService.filter(i => Number(i.ServiceTypeId) === 17);
-          }
+        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
+          this.vehicleForm.get('upchargeType').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+          this.vehicleForm.get('upcharge').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+        }
+        // if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+        //    const memberService = this.additionalService.filter(i => Number(i.ServiceType) === 17);
+        //    this.memberService = memberService.map (item => {
+        //     return {
+        //       item_id: item.ServiceId,
+        //       item_text: item.ServiceName
+        //     };
+        //    });
+        // }
+        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+          const serviceIds = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
+          const memberService = serviceIds.map((e) => {
+            const f = this.additionalService.find(a => a.ServiceId === e);
+            return f ? f : 0;
+          });
+          this.memberService = memberService.map(item => {
+            return {
+              item_id: item.ServiceId,
+              item_text: item.ServiceName
+            };
+          });
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -269,7 +288,8 @@ export class VehicleCreateEditComponent implements OnInit {
       VehicleMake: this.make !== null ? this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
       ModelName: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
       Color: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
-      Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item => item.ServiceId === Number(this.vehicleForm.value.upcharge))[0].Upcharges : 0,
+      Upcharge: this.upcharge !== null ? this.upcharge.filter(item => 
+        item.CodeId === Number(this.vehicleForm.value.upcharge))[0]?.CodeValue : 0,
       Barcode: this.vehicleForm.value.barcode,
     };
     if (this.isEdit === true) {

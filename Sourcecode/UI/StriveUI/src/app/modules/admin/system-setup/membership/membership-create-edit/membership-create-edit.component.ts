@@ -86,12 +86,11 @@ export class MembershipCreateEditComponent implements OnInit {
   // }
 
   getMembershipById() {
-    console.log(this.selectedData);
     let service = [];
     this.membershipForm.patchValue({
       membershipName: this.selectedData.Membership.MembershipName,
       notes: this.selectedData.Membership.Notes,
-      status: this.selectedData.Membership.IsActive === true ? 0 : 1
+      status: this.selectedData.Membership.Status === true ? 0 : 1
     });
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0] !== undefined) {
       this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0].ServiceId);
@@ -100,19 +99,12 @@ export class MembershipCreateEditComponent implements OnInit {
       this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
     }
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+      this.patchedService = this.selectedData?.MembershipService.filter(item => Number(item.ServiceTypeId) === 17);
       const serviceIds = this.selectedData?.MembershipService.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
       const memberService = serviceIds.map((e) => {
         const f = this.additionalService.find(a => a.ServiceId === e);
         return f ? f : 0;
       });
-    //   const result = memberService.reduce((unique, o) => {
-    //     if (!unique.some(obj => obj.ServiceId === o.ServiceId && obj.ServiceName === o.ServiceName)) {
-    //       unique.push(o);
-    //     }
-    //     return unique;
-    // }, []);
-      // console.log(result);
-      // this.patchedService = result;
       this.memberService = memberService.map(item => {
         return {
           item_id: item.ServiceId,
@@ -124,16 +116,13 @@ export class MembershipCreateEditComponent implements OnInit {
   }
 
   check(data) {
-    console.log(data);
   }
 
   // Add/Update Membership
   submit() {
-    console.log(this.memberService);
-    console.log(this.membershipForm.value.service, 'service');
-    console.log(this.additional, 'additional');
+    let memberService = [];
     const wash = {
-      membershipServiceId: this.isEdit ? this.selectedData?.MembershipService[0]?.MembershipServiceId : 0,
+      membershipServiceId: 0,
       membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
       serviceId: Number(this.membershipForm.value.washes),
       isActive: true,
@@ -144,7 +133,7 @@ export class MembershipCreateEditComponent implements OnInit {
       updatedDate: new Date()
     };
     const upcharge = {
-      membershipServiceId: this.isEdit ? this.selectedData?.MembershipService[0]?.MembershipServiceId : 0,
+      membershipServiceId: 0,
       membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
       serviceId: Number(this.membershipForm.value.upcharge),
       isActive: true,
@@ -154,31 +143,53 @@ export class MembershipCreateEditComponent implements OnInit {
       updatedBy: 1,
       updatedDate: new Date()
     };
-    // const ServiceObj = this.membershipForm.value.service.map(item => {
-    // return {
-    //   membershipServiceId: 0,
-    //   membershipId: this.isEdit ? this.selectedData.MembershipId : 0,
-    //   serviceId: item.item_id,
-    //   isActive: true,
-    //   isDeleted: false,
-    //   createdBy: 1,
-    //   createdDate: new Date(),
-    //   updatedBy: 1,
-    //   updatedDate: new Date()
-    // };
-    const ServiceObj = this.memberService.map(item => {
-      return {
-        membershipServiceId: 0,
-        membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-        serviceId: item.item_id,
-        isActive: true,
-        isDeleted: false,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date()
-      }
-    });
+    if (this.isEdit === true && this.patchedService !== undefined) {
+      const r = this.patchedService.filter((elem) => this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
+      r.forEach(item => item.isDeleted = false);
+      const r1 = this.memberService.filter((elem) => !this.patchedService.find(({ ServiceId }) => elem.item_id === ServiceId));
+      r1.forEach(item => {
+        item.MembershipServiceId = 0;
+        item.isDeleted = false,
+        item.MembershipId = this.selectedData.Membership.MembershipId,
+          item.ServiceId = item.item_id;
+      });
+      const r2 = this.patchedService.filter((elem) => !this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
+      r2.forEach(item => item.isDeleted = true);
+      memberService = r.concat(r1).concat(r2);
+    } else {
+      memberService = this.memberService;
+    }
+    let ServiceObj = [];
+    if (this.isEdit === false) {
+      ServiceObj = this.memberService.map(item => {
+        return {
+          membershipServiceId: 0,
+          membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+          serviceId: item.item_id,
+          isActive: true,
+          isDeleted: false,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
+        };
+      });
+    } else {
+      ServiceObj = memberService.map(item => {
+        return {
+          membershipServiceId: item.MembershipServiceId ? item.MembershipServiceId : 0,
+          membershipId: item.MembershipId ?  item.MembershipId : this.selectedData.Membership.MembershipId ?
+           this.selectedData.Membership.MembershipId : 0,
+          serviceId: item.ServiceId ? item.ServiceId : item.item_id ? item.item_id : 0,
+          isActive: true,
+          isDeleted: item?.isDeleted ? item?.isDeleted : false,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
+        };
+      });
+    }
     ServiceObj.push(wash);
     ServiceObj.push(upcharge);
     const membership = {
@@ -203,7 +214,7 @@ export class MembershipCreateEditComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-          this.membershipForm.reset();
+          // this.membershipForm.reset();
         }
       });
     } else {
