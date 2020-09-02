@@ -89,19 +89,31 @@ export class VehicleCreateEditComponent implements OnInit {
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
           });
-        }
+        }        
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
           this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
-          const service = [];
-          vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.forEach(item => {
-            const additionalService = _.where(this.additional, { item_id: item.ServiceId });
-            if (additionalService.length > 0) {
-              // service.push(additionalService[0]);
-            }
+          const serviceIds = this.patchedService.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
+          const memberService = serviceIds.map((e) => {
+            const f = this.additionalService.find(a => a.ServiceId === e);
+            return f ? f : 0;
           });
-          this.vehicleForm.patchValue({
-            service
+          this.memberService = memberService.map(item => {
+            return {
+              item_id: item.ServiceId,
+              item_text: item.ServiceName
+            };
           });
+          // });
+          // const service = [];
+          // vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.forEach(item => {
+          //   const additionalService = _.where(this.additional, { item_id: item.ServiceId });
+          //   if (additionalService.length > 0) {
+          //     service.push(additionalService[0]);
+          //   }
+          // });
+          // this.vehicleForm.patchValue({
+          //   service
+          // });
         }
       }
     });
@@ -233,7 +245,7 @@ export class VehicleCreateEditComponent implements OnInit {
           updatedDate: new Date()
         };
         const membership = {
-          clientMembershipId: this.vehicles.ClientVehicleMembership !== undefined ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
+          clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
           clientVehicleId: this.selectedData.ClientVehicleId,
           locationId: 1,
           membershipId: this.vehicleForm.value.membership,
@@ -252,7 +264,7 @@ export class VehicleCreateEditComponent implements OnInit {
         membershipServices = this.vehicleForm.value.service.map(item => {
           return {
             clientVehicleMembershipServiceId: 0,
-            clientMembershipId: this.vehicles.ClientVehicleMembership !== undefined ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
+            clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
             serviceId: item.item_id,
             isActive: true,
             isDeleted: false,

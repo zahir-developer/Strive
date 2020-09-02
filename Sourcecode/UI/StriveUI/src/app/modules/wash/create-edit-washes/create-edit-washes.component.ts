@@ -377,7 +377,9 @@ export class CreateEditWashesComponent implements OnInit {
 
   airService(data) {
     if (this.isEdit) {
-      this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
+      //if (this.washItem.filter(i => i.ServiceTypeId === 19)[0] !== undefined) {
+        this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
+      //}
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
         this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = false;
