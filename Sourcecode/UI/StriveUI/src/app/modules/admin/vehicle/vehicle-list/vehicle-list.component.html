@@ -23,7 +23,7 @@
                                         <div class="form-row">
                                             <div class="form-group d-flex"> <input type="search" class="form-control"
                                                     [(ngModel)]="search" name="search" id="inputSearchbyName"
-                                                    placeholder="search"
+                                                    placeholder="Search by Name"
                                                     (keyup)="$event.keyCode == 13 ? vehicleSearch() : null"> </div>
                                             <div class="form-group col-sm m-l-5">
                                                 <button type="button"
@@ -44,7 +44,7 @@
                                                 <th scope="col">Color</th>
                                                 <th scope="col">Make</th>
                                                 <th scope="col">Model</th>
-                                                <th scope="col">Upcharge</th>
+                                                <!-- <th scope="col">Upcharge</th> -->
                                                 <th scope="col">Barcode</th>
                                                 <th scope="col">Action</th>
                                             </tr>
@@ -57,7 +57,7 @@
                                                 <td>{{vehicle.Color}}</td>
                                                 <td>{{vehicle.VehicleMake}}</td>
                                                 <td>{{vehicle.ModelName}}</td>
-                                                <td>{{vehicle.Upcharge}}</td>
+                                                <!-- <td>{{vehicle.Upcharge}}</td> -->
                                                 <td>{{vehicle.Barcode}}</td>
                                                 <td>
                                                     <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"

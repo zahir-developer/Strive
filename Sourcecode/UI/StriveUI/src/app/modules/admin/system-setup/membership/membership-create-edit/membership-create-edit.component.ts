@@ -195,9 +195,9 @@ export class MembershipCreateEditComponent implements OnInit {
     ServiceObj.push(upcharge);
     const membership = {
       membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-      membershipName: this.membershipForm.value.membershipName,
+      membershipName: this.membershipForm.value.membershipName === '' ? "None/UNK" : this.membershipForm.value.membershipName,
       price: this.membershipForm.value.price ? this.membershipForm.value.price : 0,
-      notes: this.membershipForm.value.notes ? this.membershipForm.value.notes : 0,
+      notes: this.membershipForm.value.notes ? this.membershipForm.value.notes : '',
       locationId: 1,
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
