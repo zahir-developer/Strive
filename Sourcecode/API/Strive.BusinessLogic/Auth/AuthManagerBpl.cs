@@ -61,8 +61,7 @@ namespace Strive.BusinessLogic.Auth
 
         private void ValidateLogin(Authentication authentication)
         {
-            authentication.PasswordHash = new AuthRal(_tenant).GetPassword(authentication.Email);
-            if (!Pass.Validate(authentication.Password, authentication.PasswordHash))
+            if (!Pass.Validate(authentication.PasswordHash, new AuthRal(_tenant).GetPassword(authentication.Email)))
             {
                 throw new Exception("UnAuthorized");
             }

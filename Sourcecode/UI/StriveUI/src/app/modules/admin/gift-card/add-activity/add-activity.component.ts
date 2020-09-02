@@ -65,7 +65,7 @@ export class AddActivityComponent implements OnInit {
       giftCardId: this.giftCardId,
       locationId: 1,
       transactionType: 1,
-      transactionAmount: this.symbol === 'plus' ? this.giftCardForm.value.amount : '-' + this.giftCardForm.value.amount,
+      transactionAmount: this.symbol === 'minus' ? this.giftCardForm.value.amount : '-' + this.giftCardForm.value.amount,
       transactionDate: moment(new Date()),
       comments: 'string',
       isActive: true,

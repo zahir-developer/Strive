@@ -10,7 +10,7 @@ namespace Strive.BusinessLogic.Common
         Result GetCodesByCategory(int codeCategoryId);
         Task<Result> GetWeather();
         Task<Result> CreateLocationForWeatherPortal();
+        Result GetAllEmail();
         Result GetSearchResult<T>(string searchTerm);
-        Result GetEmailIdExist(string email);
     }
 }

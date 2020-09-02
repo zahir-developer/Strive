@@ -26,9 +26,9 @@ namespace Strive.ResourceAccess
         }
         public bool UpdateVendor(VendorDTO vendor)
         {
-            return dbRepo.SavePc(vendor, "VendorId");
+            return dbRepo.UpdatePc(vendor);
         }
-
+ 
         public bool DeleteVendorById(int id)
         {
             _prm.Add("@VendorId", id);

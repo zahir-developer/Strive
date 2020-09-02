@@ -72,3 +72,7 @@ ui-inputtext:focus::-webkit-input-placeholder { color:#ced4da; }
 .theme-green .bs-datepicker-body table td.week span {
   color: #1DC5B3;
 }
+.multiselect-dropdown {
+  
+  font-size: 13px !important;
+}

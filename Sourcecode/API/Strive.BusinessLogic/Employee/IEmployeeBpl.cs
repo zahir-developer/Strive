@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic
         Result GetEmployeeById(int id);
         Result GetEmployeeList();
         Result GetAllEmployeeDetail(string employeeName);
+        Result GetEmailIdExist(string email);
     }
 }

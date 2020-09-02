@@ -28,6 +28,12 @@
         </div>
         <div class="form-row">
             <div class="form-group col-lg-3">
+                <label for="inputStatus">Upcharge</label>
+                <select class="form-control" formControlName="upcharge">
+                    <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status?.Upcharges}}</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-3">
                 <label for="inputStatus">Status</label>
                 <select class="form-control" formControlName="status">
                     <option *ngFor="let status of status" value="{{status.CodeId}}">{{status.CodeValue}}</option>

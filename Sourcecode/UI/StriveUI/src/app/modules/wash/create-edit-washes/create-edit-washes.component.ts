@@ -90,9 +90,9 @@ export class CreateEditWashesComponent implements OnInit {
       type: this.selectedData.Washes[0].Make,
       model: this.selectedData.Washes[0].Model,
       color: this.selectedData.Washes[0].Color,
-      washes: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 15)[0].ServiceId,
-      upcharges: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 18)[0].ServiceId,
-      airFreshners: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 19)[0].ServiceId,
+      washes: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 15)[0]?.ServiceId,
+      upcharges: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 18)[0]?.ServiceId,
+      airFreshners: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 19)[0]?.ServiceId,
     });
     this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
     this.washItem = this.selectedData.WashItem;
