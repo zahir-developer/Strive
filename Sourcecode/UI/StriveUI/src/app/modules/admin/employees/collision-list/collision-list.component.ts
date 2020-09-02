@@ -67,6 +67,7 @@ export class CollisionListComponent implements OnInit {
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
+        this.employeeCollision = [];
         if (employees.Employee.EmployeeCollision !== null) {
           this.employeeCollision = employees.Employee.EmployeeCollision;
           this.collistionGrid();

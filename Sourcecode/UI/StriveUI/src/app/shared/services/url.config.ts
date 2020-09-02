@@ -103,6 +103,9 @@ export const UrlConfig = {
     getMembershipByVehicle:`Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
     getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
-    cityList: `Admin/Common/GetCodesByCategory/`
+    cityList: `Admin/Common/GetCodesByCategory/`,
+    addDetail: `Admin/Details/AddDetails`,
+    updateDetail: `Admin/Details/UpdateDetails`,
+    getDetailById: `Admin/Details/GetDetailsById/`
   }
 };
