@@ -42,7 +42,7 @@
                     <label for="inputVehicle">Vehicle</label>
                     <select id="inputVehicle" class="form-control" formControlName="vehicle">
                         <option value="" hidden selected>Choose</option>
-                        <option *ngFor="let v of vehicleList" value="{{v.VehicleId}}">{{v.VehicleDetails}}
+                        <option *ngFor="let v of vehicleList" value="{{v.VehicleId}}">{{v.VehicleMfr}},{{v.VehicleModel}},{{v.VehicleColor}}
                         </option>
                     </select>
                 </div>

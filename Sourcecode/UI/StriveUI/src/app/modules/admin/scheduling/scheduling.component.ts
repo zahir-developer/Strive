@@ -21,6 +21,8 @@ declare var $: any;
 export class SchedulingComponent implements OnInit, AfterViewInit {
   public theme = 'theme-light';
   calendar: any;
+  submitted = false;
+  locationFlag = false;
   isLeave: boolean;
   selectedList = [];
   buttonText = 'Add';
@@ -119,6 +121,7 @@ console.log(event.view.activeStart, 'dayClick');
         this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
         this.splitEmpName(eventReceiveEvent);
         this.startTime = eventReceiveEvent.event.start;
+        this.isLeave = false;
         this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
         if (this.selectedList.length === 0 || this.selectedList.length === 1) {
           $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
@@ -196,6 +199,11 @@ console.log(event.view.activeStart, 'dayClick');
   // Save Schedule
   addSchedule() {
     const schedule = [];
+    this.submitted = true;
+    if (this.empLocation === '' || this.empLocation === undefined) {
+      this.locationFlag = true;
+      return;
+    }
     const form = {
       scheduleId: this.scheduleId ? this.scheduleId : 0,
       employeeId: +this.empId,
@@ -258,7 +266,7 @@ console.log(event.view.activeStart, 'dayClick');
               end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
               title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
               textColor: 'white',
-              backgroundColor: item.ColorCode,
+              backgroundColor: item.IsEmployeeAbscent === true ? '#A9A9A9' : item.ColorCode,
               classNames: ['event'],
               extendedProps: {
                 employeeId: +item.EmployeeId,
@@ -363,6 +371,7 @@ console.log(event.view.activeStart, 'dayClick');
     $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
     $('#name').html(this.empName);
     $('#empId').html(this.empId);
+    $('.modal').find('#isleave').val(false);
     if (event.event.extendedProps.locationId) {
       $('.modal').find('#location').val(event.event.extendedProps.locationId);
       this.empLocation = event.event.extendedProps.locationId;
@@ -379,6 +388,10 @@ console.log(event.view.activeStart, 'dayClick');
     }
     this.fc.getCalendar().render();
     $('#calendarModal').modal('hide');
+    this.isLeave = false;
+    this.empLocation = undefined;
+    this.submitted = false;
+    this.locationFlag = false;
   }
   // Search Employee
   searchEmployee() {

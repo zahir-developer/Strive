@@ -1,10 +1,11 @@
 <div class="col-lg-12 p-l-0 p-r-0">
     <div>
         <div>
-            <form>
+            <form [formGroup]="detailForm">
                 <div class="form-row border-bottom m-b-8">
                     <div class="form-group col-xl-3">
-                        <h5 class="d-inline-block font-weight-600">Ticket No. <span style="color: #1dc5b3;">3456</span>
+                        <h5 class="d-inline-block font-weight-600">Ticket No. <span
+                                style="color: #1dc5b3;">{{ticketNumber}}</span>
                         </h5> <span class="font-size-1 font-weight-600"></span>
                     </div>
                     <div class="form-group col-xl-9">
@@ -19,16 +20,32 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-lg-2 col-md-2 col-xl-3">
-                        <label>Bar Code</label>
-                        <input type="text" class="form-control" /> </div>
+                        <label for="inputBarcode">Barcode</label>
+                        <input type="text" maxlength="100" class="form-control" formControlName="barcode"
+                            placeholder="BarCode"
+                            (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
+                    </div>
                     <div class="form-group col-md-3">
-                        <label>Client</label>
-                        <input type="text" class="form-control" placeholder="John Rambo" /> </div>
+                        <label for="inputClient">Client</label>
+                        <div class="ui-fluid">
+                            <div class="p-grid forms-grid">
+                                <div class="p-col-3 p-md-6">
+                                    <p-autoComplete field="name" [suggestions]="filteredClient"
+                                        (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
+                                        placeholder="Client Name" (onSelect)="selectedClient($event)">
+                                    </p-autoComplete>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group col-md-3">
-                        <label>Vehicle</label>
-                        <select class="form-control">
-                            <option selected="">Choose...</option>
-                            <option>...</option>
+                        <label for="inputVehicle">Vehicle</label>
+                        <select class="form-control" formControlName="vehicle"
+                            (change)="vehicleChange($event.target.value)">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
+                                {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
@@ -44,53 +61,69 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label>Type</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <label for="inputType">Type</label>
+                        <select class="form-control" formControlName="type">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of type" value="{{score.CodeId}}">{{score.CodeValue}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="inputmodel">Model</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
-                        </select> </div>
-                    <div class="form-group col-md-3">
-                        <label>Color</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <label for="inputModel">Model</label>
+                        <select class="form-control" formControlName="model">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of model" value="{{score.CodeId}}">{{score.CodeValue}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label>Details</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <label for="inputColor">Color</label>
+                        <select class="form-control" formControlName="color">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputWashes">Washes</label>
+                        <select class="form-control" formControlName="washes"
+                            (change)="washService($event.target.value)">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of washes" value="{{score.ServiceId}}">
+                                {{score.ServiceName}}
+                            </option>
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label>Upcharge Type</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <label for="inputUpchargeType">Upcharge Type</label>
+                        <select class="form-control" formControlName="upchargeType"
+                            (change)="upchargeService($event.target.value)">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
+                                {{score.ServiceName}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label>Upcharges</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <label for="inputUpcharges">Upcharges</label>
+                        <select class="form-control" formControlName="upcharges"
+                            (change)="upchargeService($event.target.value)">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
+                                {{score.Upcharges}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label>Air Fresheners</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <label for="inputAirFreshners">Air Freshners</label>
+                        <select class="form-control" formControlName="airFreshners"
+                            (change)="airService($event.target.value)">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of airFreshner" value="{{score.ServiceId}}">
+                                {{score.ServiceName}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
@@ -122,156 +155,13 @@
                         <h5 class="d-inline-block font-weight-600">Additional Service</h5>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3" *ngFor="let addService of additional">
                             <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-1" />
-                                <label class="custom-control-label" for="Additionalservice-1">Clean Inside Rims</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-2" />
-                                <label class="custom-control-label" for="Additionalservice-2">Shampoo Spot</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-3" />
-                                <label class="custom-control-label" for="Additionalservice-3">Cond.Leather Seats</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-4" />
-                                <label class="custom-control-label" for="Additionalservice-4">Silicon Ext Rubber</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-5" />
-                                <label class="custom-control-label" for="Additionalservice-5">No Silicone</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-6" />
-                                <label class="custom-control-label" for="Additionalservice-6">Clean Trunk Bed</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-7" />
-                                <label class="custom-control-label" for="Additionalservice-7">Headliner Cleaned</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-8" />
-                                <label class="custom-control-label" for="Additionalservice-8">Daily Duties</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additionalservice-9" />
-                                <label class="custom-control-label" for="Additionalservice-9">Shampoo Floormat</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-1" />
-                                <label class="custom-control-label" for="Additional-Service-1">Shampoo Floormat</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-2" />
-                                <label class="custom-control-label" for="Additional-Service-2">Clean Leather Seats</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-3" />
-                                <label class="custom-control-label" for="Additional-Service-3">Condition Dash</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-4" />
-                                <label class="custom-control-label" for="Additional-Service-4">Detail Add-Ons</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-5" />
-                                <label class="custom-control-label" for="Additional-Service-5">No Brush/No Sapillo</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-6" />
-                                <label class="custom-control-label" for="Additional-Service-6">Bid Older Remover</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-7" />
-                                <label class="custom-control-label" for="Additional-Service-7">Frabric Sealer</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-8" />
-                                <label class="custom-control-label" for="Additional-Service-8">Prepare Vehicles</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional-Service-9" />
-                                <label class="custom-control-label" for="Additional-Service-9">Shampoo Carpets</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-19" />
-                                <label class="custom-control-label" for="Additional Service-19">Shampoo Carpets</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-20" />
-                                <label class="custom-control-label" for="Additional Service-20">Clean Door Panel</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-21" />
-                                <label class="custom-control-label" for="Additional Service-21">Condition Door(per)</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-22" />
-                                <label class="custom-control-label" for="Additional Service-22">Clean Engine</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-23" />
-                                <label class="custom-control-label" for="Additional Service-23">Wash Mitts</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-24" />
-                                <label class="custom-control-label" for="Additional Service-24">Sticker Removal(per)</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-25" />
-                                <label class="custom-control-label" for="Additional Service-25">Vacuum Trunk</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-26" />
-                                <label class="custom-control-label" for="Additional Service-26">Photo Of Vehicle</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Additional Service-27" />
-                                <label class="custom-control-label" for="Additional Service-27">Shampoo Seat</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-1" />
-                                <label class="custom-control-label" for="Service-1">Shampoo Seat</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-2" />
-                                <label class="custom-control-label" for="Service-2">Dog Hair</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-3" />
-                                <label class="custom-control-label" for="Service-3">Excessive Mud</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-4" />
-                                <label class="custom-control-label" for="Service-4">Ultra Clrcoat Prtect</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-5" />
-                                <label class="custom-control-label" for="Service-5">Rain X Protection</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-6" />
-                                <label class="custom-control-label" for="Service-6">Ozone Treatment</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-7" />
-                                <label class="custom-control-label" for="Service-7">Headlamp Restoration</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-8" />
-                                <label class="custom-control-label" for="Service-8">Clean Inside Rims</label>
-                            </div>
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="Service-9" />
-                                <label class="custom-control-label" for="Service-9">Shampoo Spot</label>
+                                <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
+                                    (change)="change(addService)" 
+                                    [checked]="addService.IsChecked" />
+                                <label class="custom-control-label"
+                                    for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                             </div>
                         </div>
                     </div>
@@ -285,10 +175,12 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6" style="padding-left: 0% !important;">
-                            <button type="button"  class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Start/Assign</button>
+                            <button type="button"
+                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Start/Assign</button>
                         </div>
                         <div class="col-sm-6" style="padding: 0% !important;">
-                            <button type="button"  class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Complete/Pay</button>
+                            <button type="button"
+                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Complete/Pay</button>
                         </div>
                     </div>
                     <div class="row">
@@ -296,13 +188,15 @@
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Delete</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Save</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5" (click)="saveDetail()">Save</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Customer Copy</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Customer
+                                Copy</button>
                         </div>
                         <div class="col-sm-3" style="padding: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Vehicle Copy</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Vehicle
+                                Copy</button>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { isEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -39,6 +40,8 @@ export class CreateEditWashesComponent implements OnInit {
   model: any;
   clientList: any;
   filteredClient: any[];
+  memberService: any[];
+  submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
   ngOnInit() {
@@ -56,10 +59,10 @@ export class CreateEditWashesComponent implements OnInit {
   formInitialize() {
     this.washForm = this.fb.group({
       client: ['',],
-      vehicle: ['',],
+      vehicle: ['',Validators.required],
       type: ['',],
       barcode: ['',],
-      washes: ['',],
+      washes: ['',Validators.required],
       model: ['',],
       color: ['',],
       upcharges: ['',],
@@ -71,20 +74,23 @@ export class CreateEditWashesComponent implements OnInit {
     this.getTicketNumber();
   }
 
+  get f() {
+    return this.washForm.controls;
+  }
+
   getTicketNumber() {
     this.wash.getTicketNumber().subscribe(data => {
       this.ticketNumber = data;
     });
     this.getAllClient();
     this.getServiceType();
-    this.getVehicle();
     this.getColor();
   }
 
   getWashById() {
     console.log(this.additional);
     this.washForm.patchValue({
-      barcode: this.selectedData.BarCode,
+      barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
       vehicle: this.selectedData.Washes[0].VehicleId,
       type: this.selectedData.Washes[0].Make,
@@ -95,6 +101,7 @@ export class CreateEditWashesComponent implements OnInit {
       upcharges: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 19)[0]?.ServiceId,
     });
+    this.getByBarcode(this.selectedData?.Washes[0]?.Barcode);
     this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
     this.washItem = this.selectedData.WashItem;
     console.log(this.washItem);
@@ -105,7 +112,7 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  vehicleChange(id){
+  vehicleChange(id) {
     this.additional.forEach(element => {
       element.IsChecked = false;
     });
@@ -118,6 +125,7 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
         if (this.membership !== null) {
+          this.membershipChange(+vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId);
           this.membership.forEach(element => {
             const washService = this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
             if (washService.length !== 0) {
@@ -135,12 +143,35 @@ export class CreateEditWashesComponent implements OnInit {
             }
           });
         }
-        console.log(this.membership, id);
+        console.log(this.membership.filter(item => Number(item.ServicetypeId) === 18), id);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
+
+  membershipChange(data) {
+    this.memberService = [];
+    this.wash.getMembershipById(Number(data)).subscribe(res => {
+      if (res.status === 'Success') {
+        const membership = JSON.parse(res.resultData);
+        this.memberService = membership.MembershipAndServiceDetail.MembershipService;
+        console.log(this.memberService.filter(i => Number(i.ServiceTypeId) === 15));
+          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
+          if (washService.length !== 0) {
+            console.log(washService[0]);
+            this.washService(washService[0].ServiceId);
+          }
+          const upchargeService = this.upcharges.filter(i => Number(i.ServiceTypeId) === 18);
+          if (upchargeService.length !== 0) {
+            this.upchargeService(upchargeService[0].ServiceId);
+          }
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
 
   getServiceType() {
     this.wash.getServiceType("SERVICETYPE").subscribe(data => {
@@ -209,7 +240,7 @@ export class CreateEditWashesComponent implements OnInit {
 
   selectedClient(event) {
     const clientId = event.id;
-    console.log(clientId);
+    this.getClientVehicle(clientId);
   }
 
   change(data) {
@@ -222,19 +253,7 @@ export class CreateEditWashesComponent implements OnInit {
     }
   }
 
-  getVehicle() {
-    const obj = {
-      searchName: null
-    }
-    this.wash.getVehicle(obj).subscribe(data => {
-      if (data.status === 'Success') {
-        const wash = JSON.parse(data.resultData);
-        this.vehicle = wash.Vehicle;
-      } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-      }
-    });
-  }
+  
 
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
@@ -266,11 +285,24 @@ export class CreateEditWashesComponent implements OnInit {
           color: this.barcodeDetails.VehicleColor,
           type: this.barcodeDetails.VehicleMfr
         });
+        this.getClientVehicle(this.barcodeDetails.ClientId); 
         this.getMembership(this.barcodeDetails.VehicleId);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }      
+    }); 
+  }
+
+  // Get Vehicle By ClientId
+  getClientVehicle(id) {
+    this.wash.getVehicleByClientId(id).subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicle = vehicle.Status;
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
-    });
+    });    
   }
 
   washService(data) {
@@ -293,13 +325,14 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceWash[0]);
       }
     }
+    this.washForm.patchValue({ washes: +data });
     console.log(this.additionalService, this.washItem);
   }
 
   upchargeService(data) {
     if (this.isEdit) {
       if (this.washItem.filter(i => i.ServiceTypeId === 18)[0] !== undefined) {
-      this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = true;
+        this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = true;
       }
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
@@ -318,8 +351,8 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-    this.washForm.patchValue({upcharges: +data});
-    this.washForm.patchValue({upchargeType: +data});
+    this.washForm.patchValue({ upcharges: +data });
+    this.washForm.patchValue({ upchargeType: +data });
     console.log(this.additionalService, this.washItem);
   }
 
@@ -348,6 +381,10 @@ export class CreateEditWashesComponent implements OnInit {
 
   // Add/Update Wash
   submit() {
+    this.submitted = true;
+    if (this.washForm.invalid) {
+      return;
+    }
     this.additional.forEach(element => {
       if (element.IsChecked) {
         this.additionalService.push(element);
@@ -357,8 +394,8 @@ export class CreateEditWashesComponent implements OnInit {
       jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
       ticketNumber: this.ticketNumber,
       locationId: 1,
-      clientId: this.isEdit ? this.selectedData.Washes[0].ClientId : this.barcodeDetails.ClientId,
-      vehicleId: this.isEdit ? this.selectedData.Washes[0].VehicleId : this.barcodeDetails.VehicleId,
+      clientId: this.washForm.value.client.id,
+      vehicleId: this.washForm.value.vehicle,
       make: this.washForm.value.type,
       model: this.washForm.value.model,//0,
       color: this.washForm.value.color,

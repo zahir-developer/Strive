@@ -39,7 +39,7 @@
                     <tbody>
                         <tr *ngFor="let document of documentList">
                             <td>{{document.EmployeeDocumentId}}</td>
-                            <td>{{document.FileName}}</td>
+                            <td [ngClass]="{'table-ellipsis':showCloseButton && !isEditDocument  }" class="table-ellipsis">{{document.FileName}}</td>
                             <td>{{document.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                             <td>{{document.ModifiedDate | date: 'MM/dd/yyyy'}}</td>
                             <td>{{document.FileType}}</td>
