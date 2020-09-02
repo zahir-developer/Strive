@@ -171,11 +171,12 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="Location">Location</label>
-                            <select id ="location" class="form-control" [(ngModel)]="empLocation" [ngModelOptions]="{standalone: true}" (change)="getLocation($event)">
+                            <select id ="location" class="form-control" [(ngModel)]="empLocation" [ngModelOptions]="{standalone: true}" (change)="getLocation($event)" (focus)="locationFlag = false"  [ngClass]="{ 'is-invalid': submitted && locationFlag}">
                                 <option selected hidden>Select</option>
                                 <option *ngFor="let location of location" value="{{location.LocationId}}">
                                     {{location.LocationName}}</option>
                             </select>
+                            <div *ngIf="locationFlag && submitted" class="invalid-feedback"> Select the Location</div>
                         </div>
                     </div>
                 </form>
