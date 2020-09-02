@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detail-schedule.component.css']
 })
 export class DetailScheduleComponent implements OnInit {
-
+  showDialog: boolean;
   constructor() { }
 
   ngOnInit(): void {
+    this.showDialog = false;
+  }
+
+  addNewDetail() {
+    this.showDialog = true;
   }
 
 }
