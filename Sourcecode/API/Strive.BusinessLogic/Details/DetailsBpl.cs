@@ -37,5 +37,9 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetScheduleDetailsByDate, date, "ScheduleDetailsForDate");
         }
+        public Result GetJobType()
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetJobType, "GetJobType");
+        }
     }
 }

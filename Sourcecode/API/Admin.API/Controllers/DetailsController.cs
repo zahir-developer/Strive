@@ -32,5 +32,8 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetScheduleDetailsByDate/{date}")]
         public Result GetScheduleDetailsByDate(DateTime date) => _bplManager.GetScheduleDetailsByDate(date);
+        [HttpGet]
+        [Route("GetJobType")]
+        public Result GetJobType() => _bplManager.GetJobType();
     }
 }
