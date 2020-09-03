@@ -36,6 +36,7 @@ using ILocationListener = Android.Gms.Location.ILocationListener;
 using CarWashLocation = Strive.Core.Models.TimInventory.Location;
 using System.Timers;
 using Task = System.Threading.Tasks.Task;
+using Provider = Android.Provider;
 using static Android.Gms.Maps.GoogleMap;
 using Strive.Core.Models.Customer;
 
@@ -44,6 +45,7 @@ namespace StriveCustomer.Android.Fragments
     public class MapsFragment : MvxFragment<MapViewModel>, IOnMapReadyCallback, IOnSuccessListener, IConnectionCallbacks, IOnConnectionFailedListener, ILocationListener, IInfoWindowAdapter
     {
         string GeofenceID = "LatLng";
+        bool locationEnabled, networkEnabled;
         string[] GeofenceIDS;
         private int carWashLocationsCount , geofencesCount, geofenceCirclesCount;
         IList<IGeofence> carWashGeofences;
@@ -51,6 +53,7 @@ namespace StriveCustomer.Android.Fragments
         private GeofencingClient geofencingClient;
         private GoogleApiClient googleAPI;
         private Location lastLocation;
+        private LocationManager locationManager;
         private LatLng userLatLng;
         private LatLng[] carWashLatLng;
         private MarkerOptions userMarkerOption;
@@ -74,10 +77,28 @@ namespace StriveCustomer.Android.Fragments
                         .Build();
                         
             googleAPI.Connect();
+            locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
+            checkLocationEnabled();
+            AndroidPermissions.checkLocationPermission(this);
             CustomerInfo.setMapInfo();
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
             geofenceHelper = new GeofenceHelper(this.Context);
         }
+
+        private void checkLocationEnabled()
+        {
+            locationEnabled = locationManager.IsProviderEnabled(LocationManager.GpsProvider);
+            networkEnabled = locationManager.IsProviderEnabled(LocationManager.NetworkProvider);
+            if(!locationEnabled || !networkEnabled)
+            {
+                new AlertDialog.Builder(Context)
+                    .SetMessage("To use this functionality, enable location services from settings in your device")
+                    .SetPositiveButton("Enable", (a, ev) => { Context.StartActivity(new Intent(Provider.Settings.ActionLocationSourceSettings)); })
+                    .Show();
+            }
+                
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             this.ViewModel = new MapViewModel();

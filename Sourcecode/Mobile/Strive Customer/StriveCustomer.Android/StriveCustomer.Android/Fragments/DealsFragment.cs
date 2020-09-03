@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -15,6 +17,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
+using StriveCustomer.Android.Services;
 using ZXing.Mobile;
 
 namespace StriveCustomer.Android.Fragments
@@ -55,11 +58,18 @@ namespace StriveCustomer.Android.Fragments
 
         private async void QrCode_Click(object sender, EventArgs e)
         {
-            MobileBarcodeScanner.Initialize(Activity.Application);
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-            var result = await scanner.Scan();
-            if (result != null)
-                Console.WriteLine("Scanned Barcode: " + result.Text);
+            if (ActivityCompat.CheckSelfPermission(this.Context,Manifest.Permission.Camera) == Permission.Granted)
+            {
+                MobileBarcodeScanner.Initialize(Activity.Application);
+                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+                var result = await scanner.Scan();
+                if (result != null)
+                    Console.WriteLine("Scanned Barcode: " + result.Text);
+            }
+            else
+            {
+               await AndroidPermissions.checkCameraPermission(this);
+            }
         }
     }
 }

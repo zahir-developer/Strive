@@ -62,13 +62,8 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
             bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
             bindingset.Bind(signUp).To(lvm => lvm.SignUp);
-
             bindingset.Apply();
-
-            rememberMeCheck.Checked = sharedPreferences.GetBoolean("rememberMe", false);
-            this.isCredentialStored(rememberMeCheck.Checked);
-            CustomerInfo.selectedMilesOption = sharedPreferences.GetString("milesoption",null);
-            AndroidPermissions.checkPermissions(this);
+            basicSetup();
             rememberMeCheck.Click += checkStoredCredentials;
             signUp.Click += navigateToSignUp;
             forgotPassword.Click += navigateToForgotPassword;
@@ -108,6 +103,13 @@ namespace StriveCustomer.Android.Views
         private void navigateToForgotPassword(object o, EventArgs e)
         {
             ViewModel.ForgotPasswordCommand();
+        }
+
+        private void basicSetup()
+        {
+            rememberMeCheck.Checked = sharedPreferences.GetBoolean("rememberMe", false);
+            isCredentialStored(rememberMeCheck.Checked);
+            CustomerInfo.selectedMilesOption = sharedPreferences.GetString("milesoption", null);
         }
     }
 }
