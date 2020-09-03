@@ -16,5 +16,6 @@ namespace Strive.BusinessLogic.Details
         Result GetAllBayById(int id);
         Result GetScheduleDetailsByDate(DateTime date);
         Result GetJobType();
+        Result DeleteDetails(int id);
     }
 }
