@@ -17,4 +17,24 @@ export class DetailService {
   getDetailById(id) {
     return this.http.get(`${UrlConfig.totalUrl.getDetailById}` + id);
   }
+  
+  updateDetail(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.updateDetail}`, obj);
+  }
+
+  getAllBayById(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getAllBayById}` + id);
+  }
+
+  getScheduleDetailsByDate(date) {
+    return this.http.get(`${UrlConfig.totalUrl.getScheduleDetailsByDate}` + date);
+  }
+
+  deleteDetail(id) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteDetail}`, { params : { id } } );
+  }
+
+  getJobType() {
+    return this.http.get(`${UrlConfig.totalUrl.getJobType}`);
+  }
 }

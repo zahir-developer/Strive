@@ -35,6 +35,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
+  baylist: any = [];
+  jobTypeId: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -44,6 +46,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.formInitialize();
+    this.getAllBayById();
+    this.getJobType();
   }
 
   formInitialize() {
@@ -57,7 +61,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       color: ['',],
       upcharges: ['',],
       upchargeType: ['',],
-      airFreshners: ['',]
+      airFreshners: ['',],
+      bay: [''],
+      inTime: [''],
+      dueTime: ['']
     });
     this.getTicketNumber();
   }
@@ -244,7 +251,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       type: this.selectedData.Details.Make,
       model: this.selectedData.Details.Model,
       color: this.selectedData.Details.Color,
-      washes: this.selectedData.DetailsItem.filter(i => i.ServiceTypeId === 15)[0]?.ServiceId,
+      washes: this.selectedData.DetailsItem.filter(i => i.ServiceTypeId === 16)[0]?.ServiceId,
       upchargeType: this.selectedData.DetailsItem.filter(i => i.ServiceTypeId === 18)[0]?.ServiceId,
       upcharges: this.selectedData.DetailsItem.filter(i => i.ServiceTypeId === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.DetailsItem.filter(i => i.ServiceTypeId === 19)[0]?.ServiceId,
@@ -305,6 +312,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
         this.detailForm.patchValue({
+          barcode: vData.Barcode,
           type: vData.VehicleMakeId,
           model: vData.VehicleModelId,
           color: vData.ColorId
@@ -366,7 +374,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       make: this.detailForm.value.type,
       model: this.detailForm.value.model,
       color: this.detailForm.value.color,
-      jobType: 122,
+      jobType: this.jobTypeId,
       jobDate: new Date(),
       timeIn: new Date(),
       estimatedTimeOut: new Date(),
@@ -398,11 +406,64 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       job,
       jobItem: this.jobItems
     };
-    this.detailService.addDetail(formObj).subscribe(res => {
-      console.log(res);
+    if (this.isEdit === true) {
+      this.detailService.updateDetail(formObj).subscribe( res => {
+        if (res.status === 'Success') {
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Wash Updated Successfully!!' });
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        } else {
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        }
+      });
+    } else {
+      this.detailService.addDetail(formObj).subscribe(res => {
+        console.log(res);
+        if (res.status === 'Success') {
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        }
+      });
+    }
+  }
+
+  getAllBayById() {
+    this.detailService.getAllBayById(1).subscribe( res => {
       if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+        const bay = JSON.parse(res.resultData);
+        if (bay.BayDetailsForLocationId.length > 0) {
+          this.baylist = bay.BayDetailsForLocationId.map( item => {
+            return {
+              id : item.BayId,
+              name : 'Bay - ' + item.BayId,
+              bayName : item.BayName
+            };
+          });
+        }
+      }
+    });
+  }
+
+  deleteDetail() {
+    console.log(this.selectedData);
+    this.detailService.deleteDetail(1).subscribe( res => {  // need to change
+      if (res.status === 'Success') {
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      }
+    });
+  }
+
+  getJobType() {
+    this.detailService.getJobType().subscribe( res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach( item => {
+            if (item.valuedesc === 'Detail') {
+              this.jobTypeId = item.valueid;
+            }
+          });
+        }
       }
     });
   }
