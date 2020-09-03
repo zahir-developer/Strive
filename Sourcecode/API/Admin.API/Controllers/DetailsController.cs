@@ -29,5 +29,8 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllBayById/{id}")]
         public Result GetAllBayById(int id) => _bplManager.GetAllBayById(id);
+        [HttpGet]
+        [Route("GetScheduleDetailsByDate/{date}")]
+        public Result GetScheduleDetailsByDate(DateTime date) => _bplManager.GetScheduleDetailsByDate(date);
     }
 }

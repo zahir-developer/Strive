@@ -14,5 +14,6 @@ namespace Strive.BusinessLogic.Details
         Result AddDetails(DetailsDto details);
         Result UpdateDetails(DetailsDto details);
         Result GetAllBayById(int id);
+        Result GetScheduleDetailsByDate(DateTime date);
     }
 }
