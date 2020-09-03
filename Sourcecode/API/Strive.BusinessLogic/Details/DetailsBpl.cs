@@ -41,5 +41,9 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetJobType, "GetJobType");
         }
+        public Result DeleteDetails(int id)
+        {
+            return ResultWrap(new DetailsRal(_tenant).DeleteDetails,id, "DeleteRespectiveDetail");
+        }
     }
 }

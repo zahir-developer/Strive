@@ -35,5 +35,8 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetJobType")]
         public Result GetJobType() => _bplManager.GetJobType();
+        [HttpDelete]
+        [Route("Delete")]
+        public Result DeleteDetails(int id) => _bplManager.DeleteDetails(id);
     }
 }

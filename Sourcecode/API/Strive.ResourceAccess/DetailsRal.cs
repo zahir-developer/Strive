@@ -47,5 +47,11 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<JobTypeViewModel>(SPEnum.USPGETJOBTYPE.ToString(), null);
             return result;
         }
+        public bool DeleteDetails(int id)
+        {
+            _prm.Add("@JobId", id);
+            db.Save(SPEnum.USPDELETEDETAILSCHEDULE.ToString(), _prm);
+            return true;
+        }
     }
 }
