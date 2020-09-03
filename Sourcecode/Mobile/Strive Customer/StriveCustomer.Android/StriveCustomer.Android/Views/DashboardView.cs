@@ -66,7 +66,10 @@ namespace StriveCustomer.Android.Views
                     break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
-
+        }
+        public override void OnBackPressed()
+        {
+            ViewModel.Logout();
         }
     }
 }

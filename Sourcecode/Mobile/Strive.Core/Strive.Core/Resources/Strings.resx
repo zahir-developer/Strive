@@ -223,70 +223,70 @@
     <value>Please enter a registered email Id</value>
     <comment>ForgotPasswordScreen - not registered email</comment>
   </data>
-   <data name="Password" xml:space="preserve">
+  <data name="Password" xml:space="preserve">
     <value>Password</value>
     <comment>General</comment>
   </data>
-     <data name="UserId" xml:space="preserve">
+  <data name="UserId" xml:space="preserve">
     <value>User Id</value>
     <comment>General</comment>
   </data>
-     <data name="LoggingIn" xml:space="preserve">
+  <data name="LoggingIn" xml:space="preserve">
     <value>Logging in</value>
     <comment>Login</comment>
   </data>
-     <data name="Alert" xml:space="preserve">
+  <data name="Alert" xml:space="preserve">
     <value>Alert</value>
     <comment>General</comment>
   </data>
-     <data name="EnterPassword" xml:space="preserve">
+  <data name="EnterPassword" xml:space="preserve">
     <value>Enter Password</value>
     <comment>General</comment>
   </data>
-    <data name="SelectRoleAlert" xml:space="preserve">
+  <data name="SelectRoleAlert" xml:space="preserve">
     <value>Select a Role to Clock in</value>
     <comment>clock in tim</comment>
   </data>
-     <data name="WelcomeBack" xml:space="preserve">
+  <data name="WelcomeBack" xml:space="preserve">
     <value>Welcome back, </value>
     <comment>General</comment>
   </data>
-    <data name="Welcome" xml:space="preserve">
+  <data name="Welcome" xml:space="preserve">
     <value>Welcome </value>
     <comment>General</comment>
   </data>
-    <data name="Washer" xml:space="preserve">
+  <data name="Washer" xml:space="preserve">
     <value>Washer</value>
     <comment>General</comment>
   </data>
-    <data name="Cashier" xml:space="preserve">
+  <data name="Cashier" xml:space="preserve">
     <value>Cashier</value>
     <comment>General</comment>
   </data>
-    <data name="Detailer" xml:space="preserve">
+  <data name="Detailer" xml:space="preserve">
     <value>Detailer</value>
     <comment>General</comment>
   </data>
-    <data name="FinishBay" xml:space="preserve">
+  <data name="FinishBay" xml:space="preserve">
     <value>Finish Bay</value>
     <comment>General</comment>
   </data>
-    <data name="Manager" xml:space="preserve">
+  <data name="Manager" xml:space="preserve">
     <value>Manager</value>
     <comment>General</comment>
   </data>
-    <data name="GreetBay" xml:space="preserve">
+  <data name="GreetBay" xml:space="preserve">
     <value>Greet Bay</value>
     <comment>General</comment>
   </data>
-    <data name="Runner" xml:space="preserve">
+  <data name="Runner" xml:space="preserve">
     <value>Runner</value>
     <comment>General</comment>
   </data>
-     <data name="Unknown" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
     <comment>General</comment>
-  </data>      
+  </data>
   <data name="SignUpSuccessful" xml:space="preserve">
     <value>Sign up successful</value>
     <comment>SignUpScreen - success</comment>
@@ -294,5 +294,21 @@
   <data name="SignUpUnSuccessful" xml:space="preserve">
     <value>Sign up failed</value>
     <comment>SignUpScreen - unsuccessful</comment>
+  </data>
+  <data name="LogoutCancelButton" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Logout Cancel Button</comment>
+  </data>
+  <data name="LogoutMessage" xml:space="preserve">
+    <value>Do you want to logout ?</value>
+    <comment>Logout Message</comment>
+  </data>
+  <data name="LogoutSuccessButton" xml:space="preserve">
+    <value>Logout</value>
+    <comment>Logout Success button</comment>
+  </data>
+  <data name="LogoutTitle" xml:space="preserve">
+    <value>Logout</value>
+    <comment>Logout Title </comment>
   </data>
 </root>
