@@ -26,5 +26,8 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateDetails")]
         public Result UpdateDetails([FromBody] DetailsDto details) => _bplManager.UpdateDetails(details);
+        [HttpGet]
+        [Route("GetAllBayById/{id}")]
+        public Result GetAllBayById(int id) => _bplManager.GetAllBayById(id);
     }
 }

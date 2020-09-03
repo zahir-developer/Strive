@@ -146,6 +146,7 @@ namespace Strive.BusinessEntities
         //Details
         USPGETALLDETAILJOB,
         USPGETDETAILJOBBYID,
+        USPGETALLBAYLISTBYID,
         //Schedule
         USPSAVESCHEDULE,
         USPGETSCHEDULEBYSCHEDULEID,

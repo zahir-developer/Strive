@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic.Details
         Result GetDetailsById(int id);
         Result AddDetails(DetailsDto details);
         Result UpdateDetails(DetailsDto details);
+        Result GetAllBayById(int id);
     }
 }

@@ -29,5 +29,12 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(details);
         }
+        public List<BayViewModel> GetAllBayById(int id)
+        {
+
+            _prm.Add("@LocationId", id);
+            var result = db.Fetch<BayViewModel>(SPEnum.USPGETALLBAYLISTBYID.ToString(), _prm);
+            return result;
+        }
     }
 }

@@ -93,6 +93,7 @@
     <Compile Include="ViewModel\AllMembershipViewModel.cs" />
     <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
+    <Compile Include="ViewModel\BayViewModel.cs" />
     <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
     <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />

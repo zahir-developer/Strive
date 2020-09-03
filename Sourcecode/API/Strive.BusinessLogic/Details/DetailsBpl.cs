@@ -29,5 +29,9 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
         }
+        public Result GetAllBayById(int id)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetAllBayById, id, "BayDetailsForLocationId");
+        }
     }
 }
