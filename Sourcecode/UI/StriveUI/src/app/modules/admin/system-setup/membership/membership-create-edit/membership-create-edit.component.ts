@@ -90,7 +90,7 @@ export class MembershipCreateEditComponent implements OnInit {
     this.membershipForm.patchValue({
       membershipName: this.selectedData.Membership.MembershipName,
       notes: this.selectedData.Membership.Notes,
-      price: this.selectedData?.Membership.Price,
+      price: this.selectedData?.Membership?.Price?.toFixed(2),
       status: this.selectedData.Membership.Status === true ? 0 : 1
     });
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0] !== undefined) {

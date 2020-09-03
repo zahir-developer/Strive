@@ -81,6 +81,13 @@ export class VendorCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.vendorSetupForm.invalid) {
+      if (this.stateDropdownComponent.state === '') {
+        this.stateDropdownComponent.submitted = true;
+      }
+      return;
+    }
+    if (this.stateDropdownComponent.state === '') {
+      this.stateDropdownComponent.submitted = true;
       return;
     }
     const vendorObj = {
