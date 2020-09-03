@@ -30,7 +30,7 @@ export class VehicleCreateEditComponent implements OnInit {
   vehicles: any;
   patchedService: any;
   memberServiceId: any;
-  memberOnchangePatchedService: any;
+  memberOnchangePatchedService: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -88,6 +88,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.vehicles = vehicle.VehicleMembershipDetails;
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
           this.memberServiceId = vehicle?.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
+          this.getMemberServices(this.memberServiceId);
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
           });
@@ -143,19 +144,25 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   membershipChange(data) {
-    this.memberService = [];
-    this.patchedService = [];
+    let selectedservice = this.patchedService;
+    if(this.memberOnchangePatchedService.length !==0){
+      this.memberOnchangePatchedService.forEach(element => {
+        selectedservice =selectedservice.filter(i => i.ServiceId !== element.ServiceId);
+        this.memberService = this.memberService.filter(i => i.ServiceId !== element.ServiceId);
+      });         
+    }    
+    // this.memberService = [];
+    // this.patchedService = [];    
     this.vehicle.getMembershipById(Number(data)).subscribe(res => {
       if (res.status === 'Success') {
+        this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
-          this.vehicleForm.get('upchargeType').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
-          this.vehicleForm.get('upcharge').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
-        }
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-          this.patchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
-          const serviceIds = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
+          this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
+        }
+          selectedservice = selectedservice.concat(this.memberOnchangePatchedService);
+          const serviceIds = selectedservice.map(item => item.ServiceId);
           const memberService = serviceIds.map((e) => {
             const f = this.additionalService.find(a => a.ServiceId === e);
             return f ? f : 0;
@@ -166,6 +173,25 @@ export class VehicleCreateEditComponent implements OnInit {
               item_text: item.ServiceName
             };
           });
+          this.patchedService.forEach(element => {
+            if(selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
+              element.IsDeleted = true;
+            }
+          });
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  getMemberServices(data){
+    this.vehicle.getMembershipById(+data).subscribe(res => {
+      if (res.status === 'Success') {
+        this.memberOnchangePatchedService = [];
+        const membership = JSON.parse(res.resultData);
+        this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+          this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
