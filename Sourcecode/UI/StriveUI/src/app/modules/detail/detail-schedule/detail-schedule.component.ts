@@ -17,6 +17,7 @@ export class DetailScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.showDialog = false;
     this.isEdit = false;
+    this.getScheduleDetailsByDate();
   }
 
   addNewDetail() {
@@ -24,6 +25,7 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   closeDialog(event) {
+    this.isEdit = event.isOpenPopup;
     this.showDialog = event.isOpenPopup;
   }
 
@@ -35,6 +37,15 @@ export class DetailScheduleComponent implements OnInit {
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
         this.showDialog = true;
+      }
+    });
+  }
+
+  getScheduleDetailsByDate() {
+    this.detailService.getScheduleDetailsByDate('2020-08-20').subscribe( res => {
+      if (res.status === 'Success') {
+        const scheduleDetails = JSON.parse(res.resultData);
+        console.log(scheduleDetails, 'details');
       }
     });
   }
