@@ -31,7 +31,7 @@
                                             *ngFor="let membership of membershipDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{membership.MembershipName}}</th>
                                             <td class="table-ellipsis">{{membership.Services}}</td>
-                                            <td>{{membership.CreatedDate | date}}</td>
+                                            <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td><!--: 'dd/MM/yyyy'-->
                                             <td>{{membership.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"

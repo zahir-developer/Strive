@@ -192,6 +192,7 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
         this.washForm.patchValue({
+          barcode: vData.Barcode,
           type: vData.VehicleMakeId,
           model: vData.VehicleModelId,
           color: vData.ColorId
@@ -318,6 +319,8 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
+        this.washForm.patchValue({vehicle: this.vehicle[0].VehicleId });
+        this.getVehicleById(+this.vehicle[0].VehicleId);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }

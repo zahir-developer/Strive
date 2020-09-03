@@ -5,7 +5,7 @@
             (completeMethod)="filterCity($event)" (onSelect)="selectedCity($event)" field="name" [size]="10" appendTo="body" 
                 placeholder="City" [disabled]="isView" inputStyleClass="{{country==='' && submitted ?'form-control is-invalid': ''}}"></p-autoComplete>
                 <div *ngIf="submitted && country === ''" class="invalid-feedback">
-                    city is Required
+                    city is required
                 </div>
         </div>
     </div>

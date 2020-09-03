@@ -69,7 +69,8 @@ export class VendorCreateEditComponent implements OnInit {
       zipcode: this.selectedData.Zip,
       phoneNumber: this.selectedData.PhoneNumber,
       email: this.selectedData.Email,
-      fax: this.selectedData.Fax
+      fax: this.selectedData.Fax,
+      website: this.selectedData.websiteAddress
     });
   }
 
@@ -81,6 +82,13 @@ export class VendorCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.vendorSetupForm.invalid) {
+      if (this.stateDropdownComponent.state === '') {
+        this.stateDropdownComponent.submitted = true;
+      }
+      return;
+    }
+    if (this.stateDropdownComponent.state === '') {
+      this.stateDropdownComponent.submitted = true;
       return;
     }
     const vendorObj = {
@@ -94,11 +102,11 @@ export class VendorCreateEditComponent implements OnInit {
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: 0,
       updatedDate: moment(new Date()).format('YYYY-MM-DD'),
-      websiteAddress: 'string',
+      websiteAddress: this.vendorSetupForm.value.website,
       accountNumber: 'string'
     };
     const addressObj = {
-      vendorAddressId: 0,
+      vendorAddressId: this.isEdit ? this.selectedData.VendorAddressId : 0,
       vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       address1: this.vendorSetupForm.value.supplierAddress,
       address2: 'string',
