@@ -31,6 +31,8 @@ export class VehicleCreateEditComponent implements OnInit {
   patchedService: any;
   memberServiceId: any;
   memberOnchangePatchedService: any = [];
+  selectedservice: any = [];
+  extraService: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -94,7 +96,8 @@ export class VehicleCreateEditComponent implements OnInit {
           });
         }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
-          this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
+          this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;          
+          this.selectedservice = this.patchedService;
           const serviceIds = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.map(item => item.ServiceId);
           const memberService = serviceIds.map((e) => {
             const f = this.additional.find(a => a.item_id === e);
@@ -144,11 +147,10 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   membershipChange(data) {
-    let selectedservice = this.patchedService;
     if(this.memberOnchangePatchedService.length !==0){
       this.memberOnchangePatchedService.forEach(element => {
-        selectedservice =selectedservice.filter(i => i.ServiceId !== element.ServiceId);
-        this.memberService = this.memberService.filter(i => i.ServiceId !== element.ServiceId);
+        this.selectedservice =this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
+        this.memberService = this.memberService.filter(i => i.item_id !== element.ServiceId);
       });         
     }    
     // this.memberService = [];
@@ -161,8 +163,17 @@ export class VehicleCreateEditComponent implements OnInit {
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
           this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
         }
-          selectedservice = selectedservice.concat(this.memberOnchangePatchedService);
-          const serviceIds = selectedservice.map(item => item.ServiceId);
+          this.memberOnchangePatchedService.forEach(element => {
+            if(this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
+              this.selectedservice.push(element);
+            }
+          });
+          this.extraService.forEach(element => {
+            if(this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
+              this.selectedservice.push(element);
+            }
+          });
+          const serviceIds = this.selectedservice.map(item => item.ServiceId);
           const memberService = serviceIds.map((e) => {
             const f = this.additionalService.find(a => a.ServiceId === e);
             return f ? f : 0;
@@ -173,11 +184,13 @@ export class VehicleCreateEditComponent implements OnInit {
               item_text: item.ServiceName
             };
           });
+          if(this.patchedService !== undefined){
           this.patchedService.forEach(element => {
-            if(selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
+            if(this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
               element.IsDeleted = true;
             }
           });
+        }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -192,6 +205,13 @@ export class VehicleCreateEditComponent implements OnInit {
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
           this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
+            if(this.memberOnchangePatchedService.length !==0){
+              this.patchedService.forEach(element => {
+                if(this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
+                  this.extraService.push(element);
+                }
+              });         
+            } 
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -276,7 +296,7 @@ export class VehicleCreateEditComponent implements OnInit {
         updatedDate: new Date()
       };
       const membership = {
-        clientMembershipId: clientMembershipId ? clientMembershipId : 0,
+        clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
         // clientMembershipId: this.,
         clientVehicleId: this.selectedData.ClientVehicleId,
         locationId: 1,
@@ -296,8 +316,8 @@ export class VehicleCreateEditComponent implements OnInit {
       membershipServices = memberService.map(item => {
         return {
           clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
-          clientMembershipId: item.ClientMembershipId ? item.ClientMembershipId : 0,
-          serviceId: item.ServiceId,
+          clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+          serviceId: item.ServiceId ? item.ServiceId : item.item_id,
           isActive: true,
           isDeleted: item.IsDeleted,
           createdBy: 1,
