@@ -42,5 +42,10 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<DetailScheduleViewModel>(SPEnum.USPGETSCHEDULEDETAILSBYDATE.ToString(), _prm);
             return result;
         }
+        public List<JobTypeViewModel> GetJobType()
+        {
+            var result = db.Fetch<JobTypeViewModel>(SPEnum.USPGETJOBTYPE.ToString(), null);
+            return result;
+        }
     }
 }
