@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class BayViewModel
+    public class DetailScheduleViewModel
     {
-        public int BayId { get; set; }
-        public string BayName { get; set; }
+        public string TimeIn { get; set; }
     }
 }
