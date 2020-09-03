@@ -14,8 +14,8 @@ namespace Strive.BusinessEntities.Document
         public string FileType { get; set; }
         public string Password { get; set; }
         public bool IsPasswordProtected { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTimeOffset? UpdatedDate { get; set; }
         public bool IsActive { get; set; }
         public string Base64Url { get; set; }
     }

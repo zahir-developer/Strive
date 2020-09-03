@@ -15,6 +15,7 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string ServiceType { get; set; }
         public string CommisionType { get; set; }
         public int Commision { get; set; }
+        public decimal CommissionCost { get; set; }
         public string Upcharges { get; set; }
         public string ServiceName { get; set; }
         public decimal Cost { get; set; }

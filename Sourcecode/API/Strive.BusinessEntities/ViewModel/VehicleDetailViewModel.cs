@@ -19,6 +19,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string VehicleYear { get; set; }
         public int VehicleColor { get; set; }
         public int Upcharge { get; set; }
+        public decimal MonthlyCharge { get; set; }
         public string Barcode { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }
