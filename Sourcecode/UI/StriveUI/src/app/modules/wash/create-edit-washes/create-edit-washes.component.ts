@@ -296,16 +296,27 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getByBarcode(barcode).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-        this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-        this.washForm.patchValue({
-          client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
-          vehicle: this.barcodeDetails.VehicleId,
-          model: this.barcodeDetails.VehicleModelId,
-          color: this.barcodeDetails.VehicleColor,
-          type: this.barcodeDetails.VehicleMfr
-        });
-        this.getClientVehicle(this.barcodeDetails.ClientId);
-        this.getMembership(this.barcodeDetails.VehicleId);
+        if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
+          this.barcodeDetails = wash.ClientAndVehicleDetail[0];
+          this.getClientVehicle(this.barcodeDetails.ClientId);
+          setTimeout(() => {
+            this.washForm.patchValue({
+              client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
+              vehicle: this.barcodeDetails.VehicleId,
+              model: this.barcodeDetails.VehicleModelId,
+              color: this.barcodeDetails.VehicleColor,
+              type: this.barcodeDetails.VehicleMfr
+            });
+            this.getMembership(this.barcodeDetails.VehicleId);
+          }, 200);
+        } else {
+          const barCode = this.washForm.value.barcode;
+          this.washForm.reset();
+          this.washForm.patchValue({ barcode: barCode });
+          this.additional.forEach(element => {
+            element.IsChecked = false;
+          });
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -378,7 +389,7 @@ export class CreateEditWashesComponent implements OnInit {
   airService(data) {
     if (this.isEdit) {
       //if (this.washItem.filter(i => i.ServiceTypeId === 19)[0] !== undefined) {
-        this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
+      this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
       //}
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
@@ -467,7 +478,7 @@ export class CreateEditWashesComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-          this.washForm.reset();
+          // this.washForm.reset();
         }
       });
     } else {
