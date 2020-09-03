@@ -80,7 +80,9 @@ export class CreateEditWashesComponent implements OnInit {
 
   getTicketNumber() {
     this.wash.getTicketNumber().subscribe(data => {
-      this.ticketNumber = data;
+      if (!this.isEdit) {
+        this.ticketNumber = data;
+      }
     });
     this.getAllClient();
     this.getServiceType();
@@ -128,14 +130,6 @@ export class CreateEditWashesComponent implements OnInit {
         if (this.membership !== null) {
           this.membershipChange(+vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId);
           this.membership.forEach(element => {
-            const washService = this.washes.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-            if (washService.length !== 0) {
-              this.washService(washService[0].ServiceId);
-            }
-            const upchargeService = this.upcharges.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
-            if (upchargeService.length !== 0) {
-              this.upchargeService(upchargeService[0].ServiceId);
-            }
             const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
             if (additionalService !== undefined && additionalService.length !== 0) {
               additionalService.forEach(item => {
@@ -143,8 +137,9 @@ export class CreateEditWashesComponent implements OnInit {
               });
             }
           });
+        } else {
+          this.washForm.get('washes').reset();
         }
-        console.log(this.membership.filter(item => Number(item.ServicetypeId) === 18), id);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -160,12 +155,9 @@ export class CreateEditWashesComponent implements OnInit {
         console.log(this.memberService.filter(i => Number(i.ServiceTypeId) === 15));
         const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
         if (washService.length !== 0) {
-          console.log(washService[0]);
           this.washService(washService[0].ServiceId);
-        }
-        const upchargeService = this.upcharges.filter(i => Number(i.ServiceTypeId) === 18);
-        if (upchargeService.length !== 0) {
-          this.upchargeService(upchargeService[0].ServiceId);
+        } else {
+          this.washForm.get('washes').reset();
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -192,10 +184,12 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
         this.washForm.patchValue({
+          barcode: vData.Barcode,
           type: vData.VehicleMakeId,
           model: vData.VehicleModelId,
           color: vData.ColorId
         });
+        this.upchargeService(vData.Upcharge);
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -329,6 +323,11 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
+        if (!this.isEdit) {
+          this.washForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
+          this.getVehicleById(+this.vehicle[0].VehicleId);
+          this.getMembership(+this.vehicle[0].VehicleId);
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -388,9 +387,9 @@ export class CreateEditWashesComponent implements OnInit {
 
   airService(data) {
     if (this.isEdit) {
-      //if (this.washItem.filter(i => i.ServiceTypeId === 19)[0] !== undefined) {
-      this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
-      //}
+      if (this.washItem.filter(i => i.ServiceTypeId === 19)[0] !== undefined) {
+        this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
+      }
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
         this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = false;
@@ -408,6 +407,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceAir[0]);
       }
     }
+    this.washForm.patchValue({ airfreshners: +data });
     console.log(this.additionalService, this.washItem);
   }
 

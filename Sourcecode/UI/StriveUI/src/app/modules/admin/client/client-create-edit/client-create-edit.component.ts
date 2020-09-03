@@ -45,6 +45,7 @@ export class ClientCreateEditComponent implements OnInit {
   submitted: boolean;
   additionalService: any = [];
   city: any;
+  selectedCityId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal, private vehicle: VehicleService, private getCode: GetCodeService) { }
@@ -136,6 +137,8 @@ export class ClientCreateEditComponent implements OnInit {
   getClientById() {
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
+    this.selectedCityId = this.selectedData.City;
+    this.city = this.selectedCityId;
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
       lName: this.selectedData.LastName,

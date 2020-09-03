@@ -106,6 +106,10 @@ export const UrlConfig = {
     cityList: `Admin/Common/GetCodesByCategory/`,
     addDetail: `Admin/Details/AddDetails`,
     updateDetail: `Admin/Details/UpdateDetails`,
-    getDetailById: `Admin/Details/GetDetailsById/`
+    getDetailById: `Admin/Details/GetDetailsById/`,
+    getAllBayById: `Admin/Details/GetAllBayById/`,
+    getScheduleDetailsByDate: `Admin/Details/GetScheduleDetailsByDate/`,
+    deleteDetail: `Admin/Details/Delete`,
+    getJobType: `Admin/Details/GetJobType`
   }
 };
