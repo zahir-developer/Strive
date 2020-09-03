@@ -9,16 +9,34 @@
                         </h5> <span class="font-size-1 font-weight-600"></span>
                     </div>
                     <div class="form-group col-xl-9">
-                        <div class="pull-right">
-                            <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Time in: 09-09-2020
-                                15:36</p>
-                            <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Est.Time Out:
-                                09-09-2020 15:36</p>
-                            <p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min: 29min</p>
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <select class="form-control" formControlName="bay">
+                                        <option *ngFor="let b of baylist" value="{{b.id}}">
+                                            {{b.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-row">
+                                        <label class="col-sm-1 col-form-label" for="name">In:</label>
+                                        <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                            formControlName="inTime" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-row">
+                                        <label class="col-sm-4 col-form-label" for="name">Due Time:</label>
+                                        <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                            formControlName="dueTime" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row border-bottom m-b-8">
                     <div class="form-group col-lg-2 col-md-2 col-xl-3">
                         <label for="inputBarcode">Barcode</label>
                         <input type="text" maxlength="100" class="form-control" formControlName="barcode"
@@ -50,11 +68,11 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive"
+                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
                                 href="#searchModal" data-toggle="modal">Select</button>
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive"
+                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
                                 href="#addNewvehicleModal" data-toggle="modal">Add Vehicle</button>
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive"
+                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
                                 onclick="window.location.href='New-client.html';">Add Client</button>
                         </div>
                     </div>
@@ -150,7 +168,7 @@
                 </div> -->
             </form>
             <div class="form-row">
-                <div class="col-sm-8">
+                <div class="col-sm-7 border">
                     <div class="title-border p-b-5 m-b-5">
                         <h5 class="d-inline-block font-weight-600">Additional Service</h5>
                     </div>
@@ -158,21 +176,23 @@
                         <div class="col-md-3" *ngFor="let addService of additional">
                             <div class="custom-control custom-checkbox m-t-10">
                                 <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                                    (change)="change(addService)" 
-                                    [checked]="addService.IsChecked" />
+                                    (change)="change(addService)" [checked]="addService.IsChecked" />
                                 <label class="custom-control-label"
                                     for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="title-border p-b-5 m-b-5">
-                        <h5 class="d-inline-block font-weight-600">Notes</h5>
+                <div class="col-sm-5">
+                    <div class="border">
+                        <div class="title-border p-b-5 m-b-5">
+                            <h5 class="d-inline-block font-weight-600">Notes</h5>
+                        </div>
+                        <div>
+                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" rows="8"></textarea>
+                        </div>
                     </div>
-                    <div class="row">
-                        <textarea class="form-control m-t-5 m-b-5 notes-textarea" rows="8"></textarea>
-                    </div>
+                    
                     <div class="row">
                         <div class="col-sm-6" style="padding-left: 0% !important;">
                             <button type="button"
@@ -185,10 +205,11 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Delete</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5" [disabled]="!isEdit" (click)="deleteDetail()">Delete</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5" (click)="saveDetail()">Save</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
+                                (click)="saveDetail()">Save</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Customer
