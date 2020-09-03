@@ -29,6 +29,8 @@ export class VehicleCreateEditComponent implements OnInit {
   memberService: any;
   vehicles: any;
   patchedService: any;
+  memberServiceId: any;
+  memberOnchangePatchedService: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -69,6 +71,7 @@ export class VehicleCreateEditComponent implements OnInit {
       make: this.selectedData.VehicleMakeId,
       model: this.selectedData.VehicleModelId,
       color: this.selectedData.ColorId,
+      upchargeType: this.selectedData.Upcharge,
       upcharge: this.selectedData.Upcharge,
       monthlyCharge: this.selectedData.MonthlyCharge
     });
@@ -82,38 +85,26 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getVehicleMembershipDetailsByVehicleId(this.selectedData.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
-        console.log(vehicle, 'vec');
         this.vehicles = vehicle.VehicleMembershipDetails;
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
-          this.membershipChange(vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId);
+          this.memberServiceId = vehicle?.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
           });
-        }        
+        }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
           this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
-          const serviceIds = this.patchedService.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
+          const serviceIds = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.map(item => item.ServiceId);
           const memberService = serviceIds.map((e) => {
-            const f = this.additionalService.find(a => a.ServiceId === e);
+            const f = this.additional.find(a => a.item_id === e);
             return f ? f : 0;
           });
           this.memberService = memberService.map(item => {
             return {
-              item_id: item.ServiceId,
-              item_text: item.ServiceName
+              item_id: item.item_id,
+              item_text: item.item_text
             };
           });
-          // });
-          // const service = [];
-          // vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.forEach(item => {
-          //   const additionalService = _.where(this.additional, { item_id: item.ServiceId });
-          //   if (additionalService.length > 0) {
-          //     service.push(additionalService[0]);
-          //   }
-          // });
-          // this.vehicleForm.patchValue({
-          //   service
-          // });
         }
       }
     });
@@ -153,6 +144,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
   membershipChange(data) {
     this.memberService = [];
+    this.patchedService = [];
     this.vehicle.getMembershipById(Number(data)).subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
@@ -161,16 +153,8 @@ export class VehicleCreateEditComponent implements OnInit {
           this.vehicleForm.get('upchargeType').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
           this.vehicleForm.get('upcharge').patchValue(this.membershipServices.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
         }
-        // if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-        //    const memberService = this.additionalService.filter(i => Number(i.ServiceType) === 17);
-        //    this.memberService = memberService.map (item => {
-        //     return {
-        //       item_id: item.ServiceId,
-        //       item_text: item.ServiceName
-        //     };
-        //    });
-        // }
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+          this.patchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
           const serviceIds = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
           const memberService = serviceIds.map((e) => {
             const f = this.additionalService.find(a => a.ServiceId === e);
@@ -221,76 +205,97 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   // Add/Update Vehicle
-  submit() {    
+  submit() {
+    let memberService = [];
+    let clientMembershipId = '';
     if (this.isEdit === true) {
-        const formObj = {
-          vehicleId: this.selectedData.ClientVehicleId,
-          clientId: this.selectedData.ClientId,
-          locationId: 1,
-          vehicleNumber: this.vehicleForm.value.vehicleNumber,
-          vehicleMfr: this.vehicleForm.value.make,
-          vehicleModel: this.vehicleForm.value.model,
-          vehicleModelNo: 0,
-          vehicleYear: '',
-          vehicleColor: Number(this.vehicleForm.value.color),
-          upcharge: Number(this.vehicleForm.value.upcharge),
-          barcode: this.vehicleForm.value.barcode,
-          monthlyCharge: this.vehicleForm.value.monthlyCharge,
-          notes: '',
-          isActive: true,
-          isDeleted: false,
-          createdBy: 1,
-          createdDate: new Date(),
-          updatedBy: 1,
-          updatedDate: new Date()
-        };
-        const membership = {
-          clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
-          clientVehicleId: this.selectedData.ClientVehicleId,
-          locationId: 1,
-          membershipId: this.vehicleForm.value.membership,
-          startDate: "2020-08-26T14:04:54.988Z",
-          endDate: "2020-08-26T14:04:54.988Z",
-          status: true,
-          notes: "string",
-          isActive: true,
-          isDeleted: false,
-          createdBy: 1,
-          createdDate: new Date(),
-          updatedBy: 1,
-          updatedDate: new Date()
-        };
-        let membershipServices = [];
-        membershipServices = this.vehicleForm.value.service.map(item => {
-          return {
-            clientVehicleMembershipServiceId: 0,
-            clientMembershipId: this.vehicles.ClientVehicleMembership !== null ? this.vehicles.ClientVehicleMembership.ClientMembershipId : 0,
-            serviceId: item.item_id,
-            isActive: true,
-            isDeleted: false,
-            createdBy: 1,
-            createdDate: new Date(),
-            updatedBy: 1,
-            updatedDate: new Date()
-          };
+      if (this.patchedService !== undefined) {
+        clientMembershipId = this.patchedService[0].ClientMembershipId ? this.patchedService[0].ClientMembershipId :
+          this.patchedService[0].MembershipId ? this.patchedService[0].MembershipId : 0;
+        const r = this.patchedService.filter((elem) => this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
+        r.forEach(item => item.IsDeleted = false);
+        const r1 = this.memberService.filter((elem) => !this.patchedService.find(({ ServiceId }) => elem.item_id === ServiceId));
+        r1.forEach(item => {
+          item.ClientVehicleMembershipServiceId = 0,
+            item.IsDeleted = false,
+            item.ClientMembershipId = clientMembershipId,
+            item.ServiceId = item.item_id;
+          item.IsActive = true;
         });
-  
-  
-        const model = {
-          clientVehicleMembershipDetails: membership,
-          clientVehicleMembershipService: membershipServices
+        const r2 = this.patchedService.filter((elem) => !this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
+        r2.forEach(item => item.IsDeleted = true);
+        memberService = r.concat(r1).concat(r2);
+      } else {
+        memberService = this.memberService;
+      }
+      const formObj = {
+        vehicleId: this.selectedData.ClientVehicleId,
+        clientId: this.selectedData.ClientId,
+        locationId: 1,
+        vehicleNumber: this.vehicleForm.value.vehicleNumber,
+        vehicleMfr: this.vehicleForm.value.make,
+        vehicleModel: this.vehicleForm.value.model,
+        vehicleModelNo: 0,
+        vehicleYear: '',
+        vehicleColor: Number(this.vehicleForm.value.color),
+        upcharge: Number(this.vehicleForm.value.upcharge),
+        barcode: this.vehicleForm.value.barcode,
+        monthlyCharge: this.vehicleForm.value.monthlyCharge,
+        notes: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      const membership = {
+        clientMembershipId: clientMembershipId ? clientMembershipId : 0,
+        // clientMembershipId: this.,
+        clientVehicleId: this.selectedData.ClientVehicleId,
+        locationId: 1,
+        membershipId: this.vehicleForm.value.membership,
+        startDate: "2020-08-26T14:04:54.988Z",
+        endDate: "2020-08-26T14:04:54.988Z",
+        status: true,
+        notes: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      let membershipServices = [];
+      membershipServices = memberService.map(item => {
+        return {
+          clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
+          clientMembershipId: item.ClientMembershipId ? item.ClientMembershipId : 0,
+          serviceId: item.ServiceId,
+          isActive: true,
+          isDeleted: item.IsDeleted,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
         };
-        const sourceObj = {
-          clientVehicle: { clientVehicle: formObj },
-          clientVehicleMembershipModel: model
-        };
+      });
+
+
+      const model = {
+        clientVehicleMembershipDetails: membership,
+        clientVehicleMembershipService: membershipServices
+      };
+      const sourceObj = {
+        clientVehicle: { clientVehicle: formObj },
+        clientVehicleMembershipModel: model
+      };
       this.vehicle.updateVehicle(sourceObj).subscribe(data => {
         if (data.status === 'Success') {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
-          this.vehicleForm.reset();
         }
       });
     } else {
