@@ -20,6 +20,7 @@ export class DocumentListComponent implements OnInit {
   showCloseButton: boolean;
   documentId: any;
   isDocumentCollapsed = false;
+  employeeDocument = [];
   constructor(
     private modalService: NgbModal,
     private employeeService: EmployeeService,
@@ -30,12 +31,25 @@ export class DocumentListComponent implements OnInit {
   ngOnInit(): void {
     this.isEditDocument = false;
     this.showCloseButton = false;
-    this.getAllDocument();
+    this.employeeDetail();
     if (this.isModal !== undefined) {
       this.showCloseButton = true;
     } else {
       this.showCloseButton = false;
     }
+  }
+
+  employeeDetail() {
+    const id = this.employeeId;
+    this.employeeService.getEmployeeDetail(id).subscribe(res => {
+      if (res.status === 'Success') {
+        const employees = JSON.parse(res.resultData);
+        this.documentList = [];
+        if (employees.Employee.EmployeeDocument !== null) {
+          this.documentList = employees.Employee.EmployeeDocument;
+        }
+      }
+    });
   }
 
   editDocument() {
@@ -57,7 +71,7 @@ export class DocumentListComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.isEditDocument = false;
-        this.getAllDocument();
+        this.employeeDetail();
       }
     });
   }
@@ -86,11 +100,11 @@ export class DocumentListComponent implements OnInit {
   }
 
   confirmDelete(document) {
-    const docId = document.EmployeeDocumentId;
+    const docId = document.DocumentSequence;
     this.employeeService.deleteDocument(docId).subscribe( res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document Deleted Successfully!' });
-        this.getAllDocument();
+        this.employeeDetail();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -101,7 +115,7 @@ export class DocumentListComponent implements OnInit {
     if (!this.isEditDocument && this.actionType === 'view') {
       return;
     }
-    this.documentId = document.EmployeeDocumentId;
+    this.documentId = document.DocumentSequence;
     if (document.IsPasswordProtected) {
       const ngbModalOptions: NgbModalOptions = {
         backdrop: 'static',
@@ -112,7 +126,7 @@ export class DocumentListComponent implements OnInit {
       modalRef.componentInstance.employeeId = this.employeeId;
       modalRef.componentInstance.documentId = this.documentId;
     } else  {
-      this.downloadDocument(document.EmployeeDocumentId);
+      this.downloadDocument(document.DocumentSequence);
     }
   }
 

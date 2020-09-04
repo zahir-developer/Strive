@@ -38,10 +38,10 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let document of documentList">
-                            <td>{{document.EmployeeDocumentId}}</td>
-                            <td [ngClass]="{'table-ellipsis':showCloseButton && !isEditDocument  }" class="table-ellipsis">{{document.FileName}}</td>
+                            <td>{{document.DocumentSequence}}</td>
+                            <td [ngClass]="{'table-ellipsis':showCloseButton }">{{document.FileName}}</td>
                             <td>{{document.CreatedDate | date: 'MM/dd/yyyy'}}</td>
-                            <td>{{document.ModifiedDate | date: 'MM/dd/yyyy'}}</td>
+                            <td>{{document.UpdatedDate | date: 'MM/dd/yyyy'}}</td>
                             <td>{{document.FileType}}</td>
                             <td> <em class="mdi mdi-file-download-outline pointer  md-doc m-r-2 font-size-1-1"
                                     *ngIf="actionType === 'view'" (click)="viewDocument(document)"

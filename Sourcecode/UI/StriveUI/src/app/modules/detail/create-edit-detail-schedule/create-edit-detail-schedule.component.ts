@@ -82,16 +82,27 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.wash.getByBarcode(barcode).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-        this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-        this.detailForm.patchValue({
-          client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
-          vehicle: this.barcodeDetails.VehicleId,
-          model: this.barcodeDetails.VehicleModelId,
-          color: this.barcodeDetails.VehicleColor,
-          type: this.barcodeDetails.VehicleMfr
-        });
-        this.getClientVehicle(this.barcodeDetails.ClientId);
-        this.getMembership(this.barcodeDetails.VehicleId);
+        if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
+          this.barcodeDetails = wash.ClientAndVehicleDetail[0];
+          this.getClientVehicle(this.barcodeDetails.ClientId);
+          setTimeout(() => {
+            this.detailForm.patchValue({
+              client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
+              vehicle: this.barcodeDetails.VehicleId,
+              model: this.barcodeDetails.VehicleModelId,
+              color: this.barcodeDetails.VehicleColor,
+              type: this.barcodeDetails.VehicleMfr
+            });
+            this.getMembership(this.barcodeDetails.VehicleId);
+          }, 200);
+        } else {
+          const barCode = this.detailForm.value.barcode;
+          this.detailForm.reset();
+          this.detailForm.patchValue({ barcode: barCode });
+          this.additional.forEach(element => {
+            element.IsChecked = false;
+          });
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -353,6 +364,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
+        if (!this.isEdit) {
+          this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
+          this.getVehicleById(+this.vehicle[0].VehicleId);
+          this.getMembership(+this.vehicle[0].VehicleId);
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -407,7 +423,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobItem: this.jobItems
     };
     if (this.isEdit === true) {
-      this.detailService.updateDetail(formObj).subscribe( res => {
+      this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Wash Updated Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -427,15 +443,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getAllBayById() {
-    this.detailService.getAllBayById(1).subscribe( res => {
+    this.detailService.getAllBayById(1).subscribe(res => {
       if (res.status === 'Success') {
         const bay = JSON.parse(res.resultData);
         if (bay.BayDetailsForLocationId.length > 0) {
-          this.baylist = bay.BayDetailsForLocationId.map( item => {
+          this.baylist = bay.BayDetailsForLocationId.map(item => {
             return {
-              id : item.BayId,
-              name : 'Bay - ' + item.BayId,
-              bayName : item.BayName
+              id: item.BayId,
+              name: 'Bay - ' + item.BayId,
+              bayName: item.BayName
             };
           });
         }
@@ -445,7 +461,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   deleteDetail() {
     console.log(this.selectedData);
-    this.detailService.deleteDetail(1).subscribe( res => {  // need to change
+    this.detailService.deleteDetail(1).subscribe(res => {  // need to change
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -454,11 +470,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getJobType() {
-    this.detailService.getJobType().subscribe( res => {
+    this.detailService.getJobType().subscribe(res => {
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
         if (jobtype.GetJobType.length > 0) {
-          jobtype.GetJobType.forEach( item => {
+          jobtype.GetJobType.forEach(item => {
             if (item.valuedesc === 'Detail') {
               this.jobTypeId = item.valueid;
             }
