@@ -21,7 +21,9 @@ namespace Strive.Core.ViewModels.Customer
             {
                 CustomerOTPInfo.OTP = this.OTPValue;
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-                var otpResponse = await AdminService.CustomerVerifyOTP(new CustomerVerifyOTPRequest(resetEmail,OTPValue));
+                var otpResponse = await AdminService.CustomerVerifyOTP(new CustomerVerifyOTPRequest(resetEmail, OTPValue));
+                if (otpResponse != null)
+                { 
                 if (otpResponse.Status == "true")
                 {
                     await _navigationService.Close(this);
@@ -31,15 +33,18 @@ namespace Strive.Core.ViewModels.Customer
                 {
                     _userDialog.Alert(Strings.enterOTPError);
                 }
-                
+                }
             }
         }
         public async void resendOTPCommand()
         {
             var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
-            if (responseResult.Status == "true")
+            if(responseResult != null)
             {
-                _userDialog.Toast(Strings.OTPSentEmail);
+                if (responseResult.Status == "true")
+                {
+                    _userDialog.Toast(Strings.OTPSentEmail);
+                }
             }
         }
 
