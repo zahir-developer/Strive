@@ -28,7 +28,6 @@ namespace Strive.Core.ViewModels.Customer
                     {
                         CustomerInfo.Clear();
                         _navigationService.Close(this);
-                        _navigationService.Navigate<LoginViewModel>();
                     }
                 }
 

@@ -57,10 +57,10 @@ namespace StriveCustomer.Android.Views
                     fragment = mapFrag;
                     break;
                 case Resource.Id.menu_Deals:
-                    fragment = pastDetailsFrag;
+                    fragment = dealFrag;
                     break;
                 case Resource.Id.menu_AboutUs:
-                    fragment = dealFrag;
+                    fragment = pastDetailsFrag;
                     break;
                 case Resource.Id.menu_Schedule:
                     fragment = scheduleFrag;
