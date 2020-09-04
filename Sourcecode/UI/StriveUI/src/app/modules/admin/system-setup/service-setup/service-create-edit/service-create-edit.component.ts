@@ -196,7 +196,7 @@ export class ServiceCreateEditComponent implements OnInit {
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
       isActive: this.serviceSetupForm.value.status == 0 ? true : false,
       locationId: 1,
-      commissionCost: this.isChecked === true ? this.serviceSetupForm.value.fee : null,
+      commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
       isDeleted: false,
       createdBy: 0,
       createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
