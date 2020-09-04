@@ -42,6 +42,7 @@ export class CreateEditWashesComponent implements OnInit {
   filteredClient: any[];
   memberService: any[];
   submitted: boolean;
+  isBarcode: boolean = false;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
   ngOnInit() {
@@ -90,7 +91,8 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashById() {
-    console.log(this.additional);
+    console.log(this.selectedData);
+    this.getClientVehicle(this.selectedData?.Washes[0]?.ClientId);
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
@@ -103,10 +105,8 @@ export class CreateEditWashesComponent implements OnInit {
       upcharges: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.WashItem.filter(i => i.ServiceTypeId === 19)[0]?.ServiceId,
     });
-    this.getByBarcode(this.selectedData?.Washes[0]?.Barcode);
     this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
     this.washItem = this.selectedData.WashItem;
-    console.log(this.washItem);
     this.washItem.forEach(element => {
       if (this.additional.filter(item => item.ServiceId === element.ServiceId)[0] !== undefined) {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
@@ -152,13 +152,16 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
         this.memberService = membership.MembershipAndServiceDetail.MembershipService;
-        console.log(this.memberService.filter(i => Number(i.ServiceTypeId) === 15));
+        if(this.memberService !== null){
         const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
         if (washService.length !== 0) {
           this.washService(washService[0].ServiceId);
-        } else {
+        }else {
           this.washForm.get('washes').reset();
         }
+       }else {
+        this.washForm.get('washes').reset();
+      }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -289,6 +292,7 @@ export class CreateEditWashesComponent implements OnInit {
   getByBarcode(barcode) {
     this.wash.getByBarcode(barcode).subscribe(data => {
       if (data.status === 'Success') {
+        this.isBarcode = true;
         const wash = JSON.parse(data.resultData);
         this.barcodeDetails = wash.ClientAndVehicleDetail[0];
         this.washForm.patchValue({
@@ -312,10 +316,13 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (!this.isEdit) {
+        if (!this.isEdit && !this.isBarcode) {
           this.washForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
+        }
+        if(this.isEdit && this.selectedData.Washes[0] !== undefined){
+          this.washForm.patchValue({ vehicle: this.selectedData.Washes[0].VehicleId });
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -330,14 +337,14 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
         this.washItem.filter(i => i.ServiceTypeId === 15)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 15);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
         const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 15);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
       const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
       if (serviceWash.length !== 0) {
         this.additionalService.push(serviceWash[0]);
@@ -356,14 +363,14 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
         this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 18);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
         const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
         if (serviceUpcharge.length !== 0) {
           this.additionalService.push(serviceUpcharge[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 18);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
       const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
       if (serviceUpcharge.length !== 0) {
         this.additionalService.push(serviceUpcharge[0]);
@@ -383,14 +390,14 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
         this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 19);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
         const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
         if (serviceAir.length !== 0) {
           this.additionalService.push(serviceAir[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => i.ServiceTypeId !== 19);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
       const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
       if (serviceAir.length !== 0) {
         this.additionalService.push(serviceAir[0]);
