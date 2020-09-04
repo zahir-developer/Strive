@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputVehicle">Vehicle</label>
+                                    <label for="inputVehicle">Vehicle<span class="required">*</span></label>
                                     <select class="form-control" formControlName="vehicle"
                                         (change)="vehicleChange($event.target.value)"
                                         [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }">
@@ -107,7 +107,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputWashes">Washes</label>
+                                    <label for="inputWashes">Washes<span class="required">*</span></label>
                                     <select class="form-control" formControlName="washes"
                                         (change)="washService($event.target.value)"
                                         [ngClass]="{ 'is-invalid': submitted && f.washes.errors }">

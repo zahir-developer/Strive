@@ -25,6 +25,7 @@ export class MembershipCreateEditComponent implements OnInit {
   memberService: any = [];
   additionalService: any;
   patchedService: any;
+  submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
@@ -34,12 +35,12 @@ export class MembershipCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.membershipForm = this.fb.group({
-      membershipName: ['',],
+      membershipName: ['',Validators.required],
       service: ['',],
-      washes: ['',],
-      upcharge: ['',],
+      washes: ['',Validators.required],
+      upcharge: ['',Validators.required],
       status: ['',],
-      price: ['',],
+      price: ['',Validators.required],
       notes: ['',]
     });
     this.membershipForm.patchValue({ status: 0 });
@@ -85,6 +86,10 @@ export class MembershipCreateEditComponent implements OnInit {
   //   this.membershipForm.get('price').patchValue(this.service.filter(item => item.ServiceId === Number(data))[0].Price);
   // }
 
+  get f() {
+    return this.membershipForm.controls;
+  }
+
   getMembershipById() {
     let service = [];
     this.membershipForm.patchValue({
@@ -121,6 +126,10 @@ export class MembershipCreateEditComponent implements OnInit {
 
   // Add/Update Membership
   submit() {
+    this.submitted = true;
+    if (this.membershipForm.invalid) {
+      return;
+    }
     let memberService = [];
     const wash = {
       membershipServiceId: 0,
