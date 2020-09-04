@@ -13,4 +13,7 @@
     <ProjectReference Include="..\Strive.Crypt\Strive.Crypto.csproj" />
     <ProjectReference Include="..\Strive.ResourceAccess\Strive.ResourceAccess.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messenger\" />
+  </ItemGroup>
 </Project>

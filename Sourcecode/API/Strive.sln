@@ -20,19 +20,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StriveServices", "StriveSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.API", "Admin.API\Admin.API.csproj", "{07AD186F-778E-427F-8FFB-1E0C3ECAAA8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.BusinessEntities", "Strive.BusinessEntities\Strive.BusinessEntities.csproj", "{580B4A2B-6887-4634-AD93-4A9FC43F1A0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.BusinessEntities", "Strive.BusinessEntities\Strive.BusinessEntities.csproj", "{580B4A2B-6887-4634-AD93-4A9FC43F1A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.BusinessLogic", "Strive.BusinessLogic\Strive.BusinessLogic.csproj", "{0C96FDC7-4FE4-431A-A0CD-55F064D84BE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.BusinessLogic", "Strive.BusinessLogic\Strive.BusinessLogic.csproj", "{0C96FDC7-4FE4-431A-A0CD-55F064D84BE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.Common", "Strive.Common\Strive.Common.csproj", "{1EE081EE-29B7-49A6-92E5-E65554155A5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.Common", "Strive.Common\Strive.Common.csproj", "{1EE081EE-29B7-49A6-92E5-E65554155A5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.ResourceAccess", "Strive.ResourceAccess\Strive.ResourceAccess.csproj", "{1924CAB4-4E81-4C41-9626-0236C51C2488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.ResourceAccess", "Strive.ResourceAccess\Strive.ResourceAccess.csproj", "{1924CAB4-4E81-4C41-9626-0236C51C2488}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.Repository", "Strive.Repository\Strive.Repository.csproj", "{9ABEC4F7-4203-43A9-BD0F-D7CDA591C623}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.Repository", "Strive.Repository\Strive.Repository.csproj", "{9ABEC4F7-4203-43A9-BD0F-D7CDA591C623}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.Crypto", "Strive.Crypt\Strive.Crypto.csproj", "{98395FD8-0E0D-4B82-B92F-5F5B8A9D982F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.RepositoryCqrs", "Strive.RepositoryCqrs\Strive.RepositoryCqrs.csproj", "{CF38BBEB-D331-4566-B3C7-E041D3AB03E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strive.RepositoryCqrs", "Strive.RepositoryCqrs\Strive.RepositoryCqrs.csproj", "{CF38BBEB-D331-4566-B3C7-E041D3AB03E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperAdmin.API", "SuperAdmin.API\SuperAdmin.API.csproj", "{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +116,14 @@ Global
 		{CF38BBEB-D331-4566-B3C7-E041D3AB03E9}.net46-Release|Any CPU.Build.0 = Release|Any CPU
 		{CF38BBEB-D331-4566-B3C7-E041D3AB03E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF38BBEB-D331-4566-B3C7-E041D3AB03E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.net46-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.net46-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.net46-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.net46-Release|Any CPU.Build.0 = Release|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +138,7 @@ Global
 		{9ABEC4F7-4203-43A9-BD0F-D7CDA591C623} = {9EA6606B-4791-4215-AA13-C6B17EFBE003}
 		{98395FD8-0E0D-4B82-B92F-5F5B8A9D982F} = {E38CEE60-9683-4A00-A348-DA48AABF492C}
 		{CF38BBEB-D331-4566-B3C7-E041D3AB03E9} = {9EA6606B-4791-4215-AA13-C6B17EFBE003}
+		{2231B0EA-2A31-44C6-8B30-28DBD4BE18C5} = {F41A20C8-A367-45A8-8909-D570C76CBAC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC703EC0-43FE-46A6-84E2-D76F536FD489}

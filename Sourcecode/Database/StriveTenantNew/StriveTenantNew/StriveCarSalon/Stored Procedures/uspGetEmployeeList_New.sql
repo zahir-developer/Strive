@@ -26,6 +26,6 @@ OR
 AND (emp.IsDeleted = 0 OR emp.IsDeleted IS NULL)
 ORDER BY 1 DESC
 
-Select EmployeeRoleId, EmployeeId, RoleId from StriveCarSalon.tblEmployeeRole empr where (empr.IsDeleted = 0 OR empr.IsDeleted IS NULL) AND ISNULL(IsActive,0) = 0 AND empr.IsActive = 1
+Select EmployeeRoleId, EmployeeId, RoleId from StriveCarSalon.tblEmployeeRole empr where (empr.IsDeleted = 0 OR empr.IsDeleted IS NULL) AND ISNULL(IsActive,1) = 1  AND empr.IsActive = 1
 
 END

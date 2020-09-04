@@ -38,6 +38,8 @@ namespace Strive.ResourceAccess
         {
             string schemaName = tenant.SchemaName;
             _tenant = tenant;
+            _prm = new DynamicParameters();
+
             if (isAuth)
             {
                 _dbconnection = tenant.dbAuth();

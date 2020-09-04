@@ -17,5 +17,7 @@ FROM
 [StriveCarSalon].[tblService] tbls
 inner join [StriveCarSalon].GetTable('ServiceType') gt 
 ON(tbls.ServiceType = gt.valueid)
+where isnull(tbls.IsDeleted,0)=0
+AND isnull(tbls.IsActive,1)=1
 order by tbls.ServiceType,tbls.ServiceId
 END

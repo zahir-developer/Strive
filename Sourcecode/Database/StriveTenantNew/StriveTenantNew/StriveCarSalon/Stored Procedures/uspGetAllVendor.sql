@@ -1,12 +1,4 @@
-﻿
-
-
-
-
-
-
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllVendor]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllVendor]
 (@VendorId int = null,@VendorSearch varchar(50) = null)
 AS 
 BEGIN
@@ -35,7 +27,7 @@ Inner Join [StriveCarSalon].[tblVendorAddress] VA
  WHERE V.IsDeleted = 0 AND VA.IsDeleted=0 
   and (@VendorId is null or VA.VendorId= @VendorId)AND
  (@VendorSearch is null or V.VendorName like '%'+@VendorSearch+'%'
- or VA.Address1 like '%'+@VendorSearch+'%' or VA.Address2 like '%'+@VendorSearch+'%')
+ or VA.Address1 like '%'+@VendorSearch+'%' or VA.Address2 like '%'+@VendorSearch+'%'or VA.Email like '%'+@VendorSearch+'%')
  --or tblla.PhoneNumber like '%'+@LocationSearch+'%'
  --or tblla.Email like '%'+@LocationSearch+'%')
 END

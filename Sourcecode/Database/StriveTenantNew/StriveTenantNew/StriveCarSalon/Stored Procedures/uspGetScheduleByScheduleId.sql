@@ -17,6 +17,7 @@ SELECT
 	 ScheduleId,
 	 EmployeeId,
 	 LocationId,
+	 ISNULL(IsAbscent, 0) as IsEmployeeAbscent,
 	 RoleId,
 	 ScheduledDate,
 	 StartTime,

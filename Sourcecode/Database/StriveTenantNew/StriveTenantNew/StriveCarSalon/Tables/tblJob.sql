@@ -4,6 +4,9 @@
     [LocationId]       INT                NOT NULL,
     [ClientId]         INT                NULL,
     [VehicleId]        INT                NULL,
+    [Make]             INT                NULL,
+    [Model]            INT                NULL,
+    [Color]            INT                NULL,
     [JobType]          INT                NULL,
     [JobDate]          DATE               NOT NULL,
     [TimeIn]           DATETIMEOFFSET (7) NULL,
@@ -16,6 +19,7 @@
     [CreatedDate]      DATETIMEOFFSET (7) NULL,
     [UpdatedBy]        INT                NULL,
     [UpdatedDate]      DATETIMEOFFSET (7) NULL,
+    [Barcode]          VARCHAR (50)       NULL,
     CONSTRAINT [PK_tblJob] PRIMARY KEY CLUSTERED ([JobId] ASC),
     CONSTRAINT [FK_tblJob_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
     CONSTRAINT [FK_tblJob_JobStatus] FOREIGN KEY ([JobStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
@@ -23,6 +27,8 @@
     CONSTRAINT [FK_tblJob_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblJob_VehicleId] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId])
 );
+
+
 
 
 
