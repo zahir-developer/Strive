@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:background="@android:color/transparent">
     <android.support.v7.widget.CardView
         android:id="@+id/dealsCard"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="@dimen/five"
         app:cardElevation="@dimen/five"
@@ -20,8 +20,8 @@
             android:gravity="center">
             <RadioButton
                 android:id="@+id/dealsRadio"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:gravity="center"
                 style="@style/RadioButtonCustom"

@@ -44,6 +44,7 @@ namespace StriveCustomer.Android.Fragments
 {
     public class MapsFragment : MvxFragment<MapViewModel>, IOnMapReadyCallback, IOnSuccessListener, IConnectionCallbacks, IOnConnectionFailedListener, ILocationListener, IInfoWindowAdapter
     {
+        int markerClickCount = 0;
         string GeofenceID = "LatLng";
         bool locationEnabled, networkEnabled;
         string[] GeofenceIDS;
@@ -54,7 +55,7 @@ namespace StriveCustomer.Android.Fragments
         private GoogleApiClient googleAPI;
         private Location lastLocation;
         private LocationManager locationManager;
-        private LatLng userLatLng;
+        private LatLng userLatLng,prevSelectedMarker;
         private LatLng[] carWashLatLng;
         private MarkerOptions userMarkerOption;
         private MarkerOptions[] carWashMarkerOptions;
@@ -171,7 +172,7 @@ namespace StriveCustomer.Android.Fragments
                 Googlemap.MyLocationEnabled = true;
                 Googlemap.UiSettings.MyLocationButtonEnabled = true;
                 Googlemap.SetInfoWindowAdapter(this);
-                //Googlemap.MarkerClick += Googlemap_MarkerClick;
+                Googlemap.MarkerClick += Googlemap_MarkerClick;
             }
             else
             {
@@ -196,11 +197,26 @@ namespace StriveCustomer.Android.Fragments
                 carWashLocationsCount++;
             }
         }
-        //private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
-        //{
-        //    LatLng markerlatlng = e.Marker.Position;
-        //    await Map.OpenAsync(markerlatlng.Latitude,markerlatlng.Longitude);
-        //}
+        private async void Googlemap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+        {
+            markerClickCount++;
+            if (markerClickCount == 1)
+            {
+                prevSelectedMarker = e.Marker.Position;
+                e.Marker.ShowInfoWindow();
+            }
+            if (markerClickCount == 2 && ( prevSelectedMarker.Latitude == e.Marker.Position.Latitude && prevSelectedMarker.Longitude == e.Marker.Position.Longitude))
+            {
+                LatLng markerlatlng = e.Marker.Position;
+                markerClickCount = 0;
+                await Map.OpenAsync(markerlatlng.Latitude, markerlatlng.Longitude);
+            }
+            if(prevSelectedMarker.Latitude != e.Marker.Position.Latitude && prevSelectedMarker.Longitude != e.Marker.Position.Longitude)
+            {
+                markerClickCount = 0;
+                e.Marker.ShowInfoWindow();
+            }
+        }
         private void addCarwashGeoFence(LatLng[] latlngs, float Radius)
         {
             geofencesCount = 0;
