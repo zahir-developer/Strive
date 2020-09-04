@@ -146,11 +146,15 @@ namespace StriveCustomer.Android.Fragments
         public void OnMapReady(GoogleMap googleMap)
         {
             Googlemap = googleMap;
-            Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
-            enableUserLocation( );
-            setUpMarkers();
-            addCarwashGeoFence(carWashLatLng,CustomerInfo.notifyRadius);
-            RefreshWashTimes();
+            enableUserLocation();
+            lastUserLocation();
+            if (carWashLocations != null)
+            {
+                Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
+                setUpMarkers();
+                addCarwashGeoFence(carWashLatLng, CustomerInfo.notifyRadius);
+                RefreshWashTimes();
+            }  
         }
         private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)
         {
@@ -158,7 +162,15 @@ namespace StriveCustomer.Android.Fragments
         }
         private async void setUpMaps()
         {
-            carWashLocations = await ViewModel.GetAllLocationsCommand();
+            var locations = await ViewModel.GetAllLocationsCommand();
+            if(locations.LocationAddress.Count == 0)
+            {
+                carWashLocations = null;
+            }
+            else
+            {
+                carWashLocations = locations;
+            }
             gmaps = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.gmaps);
             if (gmaps != null)
             {

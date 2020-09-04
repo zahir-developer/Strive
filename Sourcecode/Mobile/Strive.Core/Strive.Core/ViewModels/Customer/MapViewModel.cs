@@ -14,7 +14,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public ILocationService LocationService = Mvx.IoCProvider.Resolve<ILocationService>();
         public Location Locations;
-    
+        
         public MapViewModel()
         {
 
@@ -22,18 +22,21 @@ namespace Strive.Core.ViewModels.Customer
         
         public async Task<Location> GetAllLocationsCommand()
         {
-            Locations = await LocationService.GetAllLocationAddress();
-            if (Locations.LocationAddress.Count == 0)
+            var washLocations = await LocationService.GetAllLocationAddress();
+            
+            if(washLocations == null)
             {
-                var alertConfig = new AlertConfig
+                Locations = new Location()
                 {
-                    Title = "Error",
-                    Message = " Cannot retrive locations,try a little later",
-                    OnAction = () => { return; }
+                    LocationAddress = new List<LocationAddress>()
                 };
-                _userDialog.Alert(alertConfig);
+                return Locations;
             }
-            return Locations;
+            else
+            {
+                Locations = washLocations;
+                return Locations;
+            }
         }
     }
 }
