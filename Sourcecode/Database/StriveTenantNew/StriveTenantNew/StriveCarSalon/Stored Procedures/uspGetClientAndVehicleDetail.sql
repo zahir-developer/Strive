@@ -1,5 +1,6 @@
 ﻿
 
+
 -- =================================================================
 -- Author:              Vineeth.B
 -- Created date:        2020-08-20
@@ -8,7 +9,11 @@
 -- Description:         To get Client and Vehicle details by barcode
 -- =================================================================
 
-
+---------------------History--------------------
+-- =============================================
+-- 28-08-2020, Vineeth - Add vehicle model id
+------------------------------------------------
+-- =============================================
 
 CREATE proc [StriveCarSalon].[uspGetClientAndVehicleDetail]
 (@BarCode varchar(50))
@@ -23,6 +28,7 @@ tblc.BirthDate,
 tblcv.VehicleId,
 tblcv.VehicleNumber,
 tblcv.VehicleMfr,
+tblcv.VehicleModel as VehicleModelId,
 gt.valuedesc as VehicleModel,
 tblcv.VehicleColor,
 tblcv.VehicleModelNo,

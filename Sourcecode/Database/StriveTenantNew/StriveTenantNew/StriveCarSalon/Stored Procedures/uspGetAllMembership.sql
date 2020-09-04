@@ -1,22 +1,5 @@
-﻿
--- =============================================
--- Author:		Zahir Hussain
--- Create date: 24-08-2020
--- Description:	Retreives All Membership details and services
--- =============================================
-
----------------------History--------------------
--- =============================================
--- <Modified Date>, <Author> - <Description>
--- 
--- 
-
-------------------------------------------------
--- =============================================
-
-
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllMembership]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllMembership]
+(@MembershipSearch varchar(50) = null)
 AS 
 BEGIN
 
@@ -35,10 +18,11 @@ SELECT
 	, ' ' ,''), ',', ', ') AS Services,
 	M.IsActive,
 	M.CreatedDate
-FROM StriveCarSalon.tblMembership M
+FROM StriveCarSalon.tblMembership M Where
+(@MembershipSearch is null or m.MembershipName like'%'+ @MembershipSearch+'%')
 --WHERE ISNULL(M.IsDeleted,0)=0
 GROUP BY M.MembershipName, M.MembershipId, M.IsActive, M.CreatedDate
-ORDER BY M.MembershipId
+ORDER BY M.MembershipId desc
 
 
 END

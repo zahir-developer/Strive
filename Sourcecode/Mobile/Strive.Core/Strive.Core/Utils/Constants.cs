@@ -3,7 +3,11 @@ namespace Strive.Core.Utils
 {
     public class ApiUtils
     { 
-        public const string BASE_URL = "http://14.141.185.75:5002";
+<<<<<<< HEAD
+        public const string BASE_URL = "http://14.141.185.75:5004";
+=======
+        public const string BASE_URL = "http://14.141.185.75:5001";
+>>>>>>> origin/master
 
         public static string Token { get; set; }
 

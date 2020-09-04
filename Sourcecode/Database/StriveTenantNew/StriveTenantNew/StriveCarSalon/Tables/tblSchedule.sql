@@ -3,6 +3,7 @@
     [EmployeeId]    INT                NULL,
     [LocationId]    INT                NULL,
     [RoleId]        INT                NULL,
+    [IsAbscent]     BIT                NULL,
     [ScheduledDate] DATE               NULL,
     [StartTime]     DATETIMEOFFSET (7) NULL,
     [EndTime]       DATETIMEOFFSET (7) NULL,
@@ -20,6 +21,8 @@
     CONSTRAINT [FK_tblSchedule_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [StriveCarSalon].[tblRoleMaster] ([RoleMasterId]),
     CONSTRAINT [FK_tblSchedule_ScheduleType] FOREIGN KEY ([ScheduleType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

@@ -10,6 +10,8 @@
     [UpdatedDate]                      DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblClientVehicleMembershipService] PRIMARY KEY CLUSTERED ([ClientVehicleMembershipServiceId] ASC),
     CONSTRAINT [FK_tblClientVehicleMembershipService_ServiceId] FOREIGN KEY ([ServiceId]) REFERENCES [StriveCarSalon].[tblService] ([ServiceId]),
-    CONSTRAINT [FK_tblClientVehicleMembershipService_tblClientMembershipDetails] FOREIGN KEY ([ClientMembershipId]) REFERENCES [StriveCarSalon].[tblClientMembershipDetails] ([ClientMembershipId])
+    CONSTRAINT [FK_tblClientVehicleMembershipService_tblClientMembershipDetails] FOREIGN KEY ([ClientMembershipId]) REFERENCES [StriveCarSalon].[tblClientVehicleMembershipDetails] ([ClientMembershipId])
 );
+
+
 

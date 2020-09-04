@@ -13,16 +13,16 @@ begin
 	la.ActionTypeId
 	from [tblAuthMaster] am inner join 
 	[tblSchemaAccess] sa on am.authid = sa.AuthId
-	inner join
+	LEFT join
 	[tblSchemaMaster] sm on sa.SchemaId = sm.SchemaId 
-	inner join
+	LEFT join
 	[tblSubscriptionMaster] asm on asm.SubscriptionId = sm.SubscriptionId
-	INNER JOIN
+	LEFT JOIN
 	[tblTenantMaster] tm on tm.tenantId =	sm.tenantid
-	INNER JOIN
+	LEFT JOIN
 	[tblLastAuth] la on am.authid=la.authid
 	where 
-	sa.IsDeleted=0 and sm.IsDeleted = 0 and am.LockoutEnabled=0 and asm.IsDeleted = 0 and
+	sa.IsDeleted=0 and sm.IsDeleted = 0 and am.LockoutEnabled=0 and isnull(asm.IsDeleted,0) = 0 and
 	am.EmailId =@LoginId 
 	--and am.PasswordHash = @Password
 end

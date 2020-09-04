@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspGetClientName]
+﻿CREATE proc [StriveCarSalon].[uspGetClientName] 
 (@ClientName varchar(50))
 as begin
 Select
@@ -6,6 +6,7 @@ Select
     cl.FirstName,
 	cl.LastName,
     cl.ClientType,
+	cl.IsActive,
 	ct.valuedesc AS Type,
 	ca.Address1,
 	ca.Address2,

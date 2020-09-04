@@ -87,9 +87,10 @@
     <Build Include="dbo\Tables\tblClient.sql" />
     <Build Include="dbo\Tables\tblAuthUserType.sql" />
     <Build Include="dbo\Tables\tblAuthOTP_BAK.sql" />
-    <Build Include="dbo\Tables\AuthMaster.sql" />
     <Build Include="dbo\Stored Procedures\uspVerifyOTP.sql" />
     <Build Include="dbo\Stored Procedures\uspGetWeatherSubscriptionTenant.sql" />
     <Build Include="dbo\Stored Procedures\uspCreateTenant.sql" />
+    <Build Include="dbo\Stored Procedures\uspSaveTenantUserMap.sql" />
+    <Build Include="dbo\Stored Procedures\uspEmailExist.sql" />
   </ItemGroup>
 </Project>
