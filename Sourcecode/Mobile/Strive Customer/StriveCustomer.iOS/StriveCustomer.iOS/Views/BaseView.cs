@@ -7,7 +7,7 @@ using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class BaseView : MvxViewController<LoginViewModel>
+    public partial class BaseView : MvxViewController<BaseViewModel>
     {
         public BaseView() : base("BaseView", null)
         {
@@ -16,8 +16,7 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            var set = this.CreateBindingSet<BaseView, LoginViewModel>();
-            set.Bind(lblTitle).To(vm => vm.Title);
+            var set = this.CreateBindingSet<BaseView, BaseViewModel>();
             set.Apply();
             //ViewModel.DoLogin();
         }

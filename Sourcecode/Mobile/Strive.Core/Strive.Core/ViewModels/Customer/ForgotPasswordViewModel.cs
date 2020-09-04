@@ -19,8 +19,8 @@ namespace Strive.Core.ViewModels.Customer
         {
             if (Validations.validateEmail(resetEmail))
             {
-               _userDialog.ShowLoading(Strings.Loading,MaskType.Gradient);
-               var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
+                _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+                var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
                 if (responseResult == null)
                     return;
                 if (responseResult.Status == "true")
@@ -39,6 +39,11 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.Alert(Strings.NotRegisteredEmail);
             }
+        }
+
+        public void NavigateBackCommand()
+        {
+            _navigationService.Close(this);
         }
 
         #endregion Commands

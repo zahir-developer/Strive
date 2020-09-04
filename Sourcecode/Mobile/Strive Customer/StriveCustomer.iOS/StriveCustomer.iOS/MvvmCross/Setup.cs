@@ -1,4 +1,5 @@
 ﻿using System;
+using Acr.UserDialogs;
 using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.IoC;
@@ -18,9 +19,9 @@ namespace StriveCustomer.iOS.MvvmCross
             base.InitializeFirstChance();
 
             Mvx.IoCProvider.RegisterType<IMvxJsonConverter, MvxJsonConverter>();
+            Mvx.IoCProvider.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
-            
         }
 
         protected override void InitializeLastChance()
@@ -28,6 +29,13 @@ namespace StriveCustomer.iOS.MvvmCross
             base.InitializeLastChance();
         }
 
+        protected override IMvxIocOptions CreateIocOptions()
+        {
+            return new MvxIocOptions
+            {
+                PropertyInjectorOptions = MvxPropertyInjectorOptions.MvxInject
+            };
+        }
     }
 
 }

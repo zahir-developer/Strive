@@ -119,15 +119,45 @@
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
             <Visible>false</Visible>
         </ImageAsset>
+        <ImageAsset Include="Resources\Assets.xcassets\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\mobile-portrait-bg.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\mobile-portrait-bg%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\mobile-portrait-bg%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\splash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive.imageset\Strive-Logo-Page.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive.imageset\Strive-Logo-Page%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-strive.imageset\Strive-Logo-Page%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Icon ionic-ios-checkbox %282%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
         <Folder Include="Views\" />
         <Folder Include="MvvmCross\" />
+        <Folder Include="Views\Login\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
+        <Folder Include="UIUtils\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
         <InterfaceDefinition Include="Views\BaseView.xib" />
+        <InterfaceDefinition Include="Views\Login\LoginView.xib" />
+        <InterfaceDefinition Include="Views\Login\ForgotPasswordView.xib" />
+        <InterfaceDefinition Include="Views\Login\OtpView.xib" />
+        <InterfaceDefinition Include="Views\Login\NewPasswordView.xib" />
+        <InterfaceDefinition Include="Views\RootView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -145,12 +175,45 @@
         <Compile Include="MvvmCross\AppStart.cs" />
         <Compile Include="MvvmCross\Setup.cs" />
         <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
+        <Compile Include="Views\Login\LoginView.cs" />
+        <Compile Include="Views\Login\LoginView.designer.cs">
+          <DependentUpon>LoginView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Login\ForgotPasswordView.cs" />
+        <Compile Include="Views\Login\ForgotPasswordView.designer.cs">
+          <DependentUpon>ForgotPasswordView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Login\OtpView.cs" />
+        <Compile Include="Views\Login\OtpView.designer.cs">
+          <DependentUpon>OtpView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Login\NewPasswordView.cs" />
+        <Compile Include="Views\Login\NewPasswordView.designer.cs">
+          <DependentUpon>NewPasswordView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\RootView.cs" />
+        <Compile Include="Views\RootView.designer.cs">
+          <DependentUpon>RootView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="UIUtils\DesignUtils.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
         <Project>{2423E891-6411-4AD3-B374-0E5DAFE14507}</Project>
         <Name>Strive.Core</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <BundleResource Include="Resources\OpenSans-Bold.ttf" />
+      <BundleResource Include="Resources\OpenSans-BoldItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-ExtraBold.ttf" />
+      <BundleResource Include="Resources\OpenSans-ExtraBoldItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Italic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Light.ttf" />
+      <BundleResource Include="Resources\OpenSans-LightItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Regular.ttf" />
+      <BundleResource Include="Resources\OpenSans-SemiBold.ttf" />
+      <BundleResource Include="Resources\OpenSans-SemiBoldItalic.ttf" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
