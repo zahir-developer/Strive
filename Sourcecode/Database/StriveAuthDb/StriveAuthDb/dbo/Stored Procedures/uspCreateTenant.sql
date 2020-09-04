@@ -1,45 +1,52 @@
-﻿create proc uspCreateTenant
-(@TenantName varchar(50), @Subscriptionid int=null, @ClientId int=null, @SchemaPasswordHash varchar(200),@ExpiryDate date)
-as
-begin
+﻿
+CREATE PROCEDURE [dbo].[uspCreateTenant]
+(@TenantName varchar(50), @TenantEmail varchar(100), @Subscriptionid int=null, @SchemaPasswordHash varchar(200),@ExpiryDate date)
+AS
+BEGIN
 
-declare @schemaName varchar(60);
-declare @schemaUser varchar(10);
-declare @TenantId int
-declare @SchemaId int
+SET NOCOUNT ON
 
-set @schemaName ='Strive'+@TenantName
-set @schemaUser = @schemaName +'user'
+DECLARE @schemaName VARCHAR(60);
+DECLARE @schemaUser VARCHAR(64);
+DECLARE @TenantId INT
+DECLARE @SchemaId INT
+DECLARE @ClientId INT
+DECLARE @AUTHId INT
 
+Insert Into tblclient(ClientName, ClientEmail) values (@TenantName, @TenantEmail)
+set @ClientId = SCOPE_IDENTITY()
 
-insert into tblTenantDetail(TenantName, ColorTheme, Currency,TelantLogoUrl)
+SET @schemaName ='Strive'+@TenantName
+SET @schemaUser = @schemaName +'user'
+
+INSERT INTO tblTenantMaster(TenantGuid, SubscriptionId,clientid,IsActive, IsDeleted,EmpSize, ExpiryDate, CreatedDate)
 values
-(@TenantName,'Default','USD','default.png')
+(NEWID(),@Subscriptionid,@ClientId,1,0,100,@ExpiryDate,getdate())
 
-set @TenantId = scope_identity()
+SET @TenantId = scope_identity()
 
+INSERT INTO tblTenantDetail(TenantId,TenantName, ColorTheme, Currency,TelantLogoUrl)
+VALUES
+(@TenantId,@TenantName,'Default','USD','default.png')
 
-insert into tblSchemaMaster (clientid,subdomain,DBSchemaName, DBUserName, DBPassword, SubscriptionId, StatusId, IsDeleted, ExpiryDate, CreatedDate, TenantId)
-values
-(@ClientId,'strive',@schemaName,@schemaUser,@SchemaPasswordHash,@Subscriptionid,1,0,@ExpiryDate,getdate(),@TenantId)
+INSERT INTO tblSchemaMaster (clientid,subdomain,DBSchemaName, DBUserName, DBPassword, SubscriptionId, StatusId, IsDeleted, ExpiryDate, CreatedDate, TenantId)
+VALUES
+(@ClientId,@SchemaName,@schemaName,@schemaUser,@SchemaPasswordHash,@Subscriptionid,1,0,@ExpiryDate,getdate(),@TenantId)
 
-
-set @SchemaId = scope_identity()
-
-insert into tblTenantMaster(TenantGuid, SubscriptionId,clientid,IsActive, IsDeleted,EmpSize, ExpiryDate, CreatedDate, SchemaId)
-values
-(NEWID(),@Subscriptionid,@ClientId,1,0,100,@ExpiryDate,getdate(),@SchemaId)
+SET @SchemaId = scope_identity()
 
 
+UPDATE tblTenantMaster SET SchemaId=@SchemaId Where TenantId=@TenantId
 
+INSERT INTO tblAuthMaster(UserGuid,EmailId,MobileNumber,SecurityStamp,EmailVerified,LockoutEnabled,PasswordHash,CreatedDate,UserType,TenantId)
+VALUES
+(NewID(),@TenantEmail,'000-000-0000',1,1,0,@SchemaPasswordHash,GETDATE(),3,@TenantId)
 
+SET @AUTHId = scope_identity()
 
+INSERT INTO tblSchemaAccess (AuthId,SchemaId,IsDeleted)
+VALUES (@AuthId,@SchemaId,0)
 
+EXEC [StriveSuperAdminTest].[CON].[uspUserCreation] @schemaName,@TenantName,@schemaUser,@SchemaPasswordHash,@AuthId
 
-
-
-
-
-
-
-end
+END

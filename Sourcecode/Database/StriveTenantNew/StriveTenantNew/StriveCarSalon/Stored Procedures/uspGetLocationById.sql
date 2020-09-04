@@ -1,17 +1,15 @@
-﻿
-
-
-
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] 
     (
      @tblLocationId int)
 AS 
 BEGIN
-SELECT LocationId,
+SELECT 
+       LocationId,
 	   LocationType,
 	   LocationName,
 	   LocationDescription,
+	   WashTimeMinutes,
+	   ColorCode,
 	   IsFranchise,
 	   IsActive,
 	   IsDeleted,

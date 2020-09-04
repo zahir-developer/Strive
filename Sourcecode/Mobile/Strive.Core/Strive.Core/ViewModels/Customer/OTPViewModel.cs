@@ -8,7 +8,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public OTPViewModel()
         {
-            this.resetEmail = CustomerOTPInfo.resetEmail;
+            this.resetEmail = CustomerInfo.resetEmail;
         }
         #region Commands
         public async void VerifyCommand()
@@ -19,7 +19,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-                CustomerOTPInfo.OTP = this.OTPValue;
+                CustomerInfo.OTP = this.OTPValue;
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var otpResponse = await AdminService.CustomerVerifyOTP(new CustomerVerifyOTPRequest(resetEmail, OTPValue));
                 if (otpResponse != null)

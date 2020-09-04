@@ -27,6 +27,7 @@ namespace StriveCustomer.Android.Services
         private IList<IGeofence> geofencingTriggers;
         private Location triggeringLocation;
         NotificationManager notificationManager;
+        private RemoteViews mapsNotification;
         private GeofencingEvent geofencingEvent;
         private Intent mapIntent;
         private PendingIntent openGoogleMapIntent;
@@ -69,6 +70,7 @@ namespace StriveCustomer.Android.Services
             mapIntent = new Intent(Intent.ActionView, googleMapUri);
             mapIntent.SetPackage("com.google.android.apps.maps");
             mapIntent.SetFlags(ActivityFlags.NewTask);
+           
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
                 var stackBuilder = TaskStackBuilder.Create(context);
@@ -86,6 +88,8 @@ namespace StriveCustomer.Android.Services
                 notificationManager.CreateNotificationChannel(notificationChannel);
                 pendingIntent = PendingIntent.GetActivity(context, 0, mapIntent, PendingIntentFlags.UpdateCurrent);              
             }
+            mapsNotification = new RemoteViews(context.PackageName, Resource.Layout.MapsNotification);
+            mapsNotification.SetOnClickPendingIntent(Resource.Id.navigationButton,pendingIntent);
         }      
         void buildSendNotification(Intent mapIntent,Context context) 
         {
@@ -94,6 +98,7 @@ namespace StriveCustomer.Android.Services
                                           .SetPriority(NotificationCompat.PriorityHigh)
                                           .SetContentTitle("Car wash near by")
                                           .SetAutoCancel(true)
+                                          .SetContent(mapsNotification)
                                           .SetContentIntent(pendingIntent)
                                           .SetChannelId(CHANNEL_ID);
             notificationManager.Notify(0,builder.Build());

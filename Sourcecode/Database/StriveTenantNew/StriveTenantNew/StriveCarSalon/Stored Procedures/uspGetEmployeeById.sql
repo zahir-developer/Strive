@@ -1,4 +1,5 @@
-﻿CREATE PROC  [StriveCarSalon].[uspGetEmployeeById] 
+﻿
+CREATE PROC  [StriveCarSalon].[uspGetEmployeeById] 
 (@EmployeeId int)
 AS
 BEGIN
@@ -51,7 +52,8 @@ select row_number() OVER (
    dcv.valuedesc as LiabilityDetailType,
    empLi.LiabilityDescription,
    empLiD.Amount,
-   empLiD.LiabilityDetailType as LiabilityDetailTypeId
+   empLiD.LiabilityDetailType as LiabilityDetailTypeId,
+   empLi.CreatedDate
    from 
    StriveCarSalon.tblEmployeeLiability empLi inner join 
    [StriveCarSalon].[GetTable]('LiabilityType') lcv on empLi.LiabilityType = lcv.valueid 

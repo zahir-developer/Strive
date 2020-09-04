@@ -37,12 +37,12 @@ using CarWashLocation = Strive.Core.Models.TimInventory.Location;
 using System.Timers;
 using Task = System.Threading.Tasks.Task;
 using static Android.Gms.Maps.GoogleMap;
+using Strive.Core.Models.Customer;
 
 namespace StriveCustomer.Android.Fragments
 {
     public class MapsFragment : MvxFragment<MapViewModel>, IOnMapReadyCallback, IOnSuccessListener, IConnectionCallbacks, IOnConnectionFailedListener, ILocationListener, IInfoWindowAdapter
     {
-        float Radius = 1500;
         string GeofenceID = "LatLng";
         string[] GeofenceIDS;
         private int carWashLocationsCount , geofencesCount, geofenceCirclesCount;
@@ -74,7 +74,7 @@ namespace StriveCustomer.Android.Fragments
                         .Build();
                         
             googleAPI.Connect();
-
+            CustomerInfo.setMapInfo();
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
             geofenceHelper = new GeofenceHelper(this.Context);
         }
@@ -127,7 +127,7 @@ namespace StriveCustomer.Android.Fragments
             Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
             enableUserLocation( );
             setUpMarkers();
-            addCarwashGeoFence(carWashLatLng,Radius);
+            addCarwashGeoFence(carWashLatLng,CustomerInfo.notifyRadius);
             RefreshWashTimes();
         }
         private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)

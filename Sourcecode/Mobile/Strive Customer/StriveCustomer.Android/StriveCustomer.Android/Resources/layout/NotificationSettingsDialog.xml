@@ -45,6 +45,7 @@
          android:layout_height="wrap_content"
          android:layout_marginLeft="@dimen/twenty"
          android:layout_marginRight="@dimen/twenty"
+         android:layout_marginBottom="@dimen/twenty"
          android:textColor="@color/defaultLabelColor"
          android:fontFamily="@font/opensans_bold"
          android:text="Ok"

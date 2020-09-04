@@ -1,5 +1,6 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetVehicle] 
-(@ClientId int =null)
+﻿
+CREATE PROC [StriveCarSalon].[uspGetVehicle] 
+(@SearchName varchar(50) = null)
 AS
 BEGIN
 
@@ -25,6 +26,12 @@ INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cv
 
 WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND ISNULL(cvl.IsActive,1)=1 AND
 ISNULL(cvl.IsDeleted,0)=0 AND
-(@ClientId is null or cl.ClientId = @ClientId)
+ ((@SearchName is null or cl.FirstName  like '%'+@SearchName+'%') OR
+  (@SearchName is null or cl.LastName  like '%'+@SearchName+'%') OR
+  (@SearchName is null or cvl.Barcode  like '%'+@SearchName+'%') OR
+  (@SearchName is null or cvMfr.valuedesc  like '%'+@SearchName+'%') OR
+  (@SearchName is null or cvmo.valuedesc  like '%'+@SearchName+'%') OR
+  (@SearchName is null or cvCo.valuedesc  like '%'+@SearchName+'%') OR
+  (@SearchName is null or cvl.VehicleNumber  like '%'+@SearchName+'%'))
 
 END

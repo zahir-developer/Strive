@@ -10,6 +10,17 @@ $(document).ready(function () {
         $("#show-submenu").hide();
     });
 });
+
+	
+	function openemp() {
+	 $("#show-search-emp").show();
+	  $(".internal-employee").removeClass("col-xl-9");
+	   $(".internal-employee").addClass("col-xl-6");
+	    $(".view-msg").removeClass("Message-box-slide");
+	    $(".view-msg").addClass("Message-box");
+		 $(".plus-icon").addClass("opacity-16");
+}
+
 function openNav() {
     document.getElementById("navSliderMenu").style.width = "180px";
     document.getElementById("content-wrapper").style.marginLeft = "180px";
@@ -278,3 +289,10 @@ function closecreditcard() {
 		document.getElementById("creditcardpopup").style.width = "0";
 	}
 
+
+// Timeclock
+	$('.timeclock-table-toggle').on('click', function(e) {
+	$(this).find('[class*="angle"]').toggleClass('fa-angle-down fa-angle-up');
+	 $("#collapse-timeclock-table").toggle();
+	 $(".hide-table").toggle();
+});
