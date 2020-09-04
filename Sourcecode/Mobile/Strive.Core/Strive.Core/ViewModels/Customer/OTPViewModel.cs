@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.Customer
         #region Commands
         public async void VerifyCommand()
         {
-            if (string.IsNullOrEmpty(OTPValue))
+            if (OTPValue.Length < 4)
             {
                 _userDialog.Alert(Strings.enterOTPError);
             }

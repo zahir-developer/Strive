@@ -37,7 +37,6 @@ namespace Strive.Core.ViewModels.Customer
                 ApiUtils.Token = loginResponse.Token;
                 if (!string.IsNullOrEmpty(loginResponse.Token))
                 {
-                    _userDialog.Toast("Success");
                     await _navigationService.Navigate<DashboardViewModel>();
                 }
                 else
@@ -72,6 +71,11 @@ namespace Strive.Core.ViewModels.Customer
                 isValid = false;
             }
             return isValid;
+        }
+
+        public void RememberMeButtonCommand()
+        {
+            rememberMe = !rememberMe;
         }
 
         #endregion Commands

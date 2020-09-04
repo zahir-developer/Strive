@@ -17,28 +17,33 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void GetOTPCommand()
         {
-            if (Validations.validateEmail(resetEmail))
-            {
-               _userDialog.ShowLoading(Strings.Loading,MaskType.Gradient);
-               var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
-                if (responseResult == null)
-                    return;
-                if (responseResult.Status == "true")
-                {
-                    CustomerOTPInfo.resetEmail = resetEmail;
-                    await _navigationService.Close(this);
-                    await _navigationService.Navigate<OTPViewModel>();
-                }
-                else
-                {
-                    _userDialog.Alert(Strings.NotRegisteredEmail);
-                }
+            //if (Validations.validateEmail(resetEmail))
+            //{
+            //    _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            //    var responseResult = await AdminService.CustomerForgotPassword(resetEmail);
+            //    if (responseResult == null)
+            //        return;
+            //    if (responseResult.Status == "true")
+            //    {
+            //        CustomerOTPInfo.resetEmail = resetEmail;
+            //        await _navigationService.Close(this);
+            await _navigationService.Navigate<OTPViewModel>();
+            //    }
+            //    else
+            //    {
+            //        _userDialog.Alert(Strings.NotRegisteredEmail);
+            //    }
 
-            }
-            else
-            {
-                _userDialog.Alert(Strings.NotRegisteredEmail);
-            }
+            //}
+            //else
+            //{
+            //    _userDialog.Alert(Strings.NotRegisteredEmail);
+            //}
+        }
+
+        public void NavigateBackCommand()
+        {
+            _navigationService.Close(this);
         }
 
         #endregion Commands
