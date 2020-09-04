@@ -25,6 +25,7 @@ export class WashesListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.washes.getDashBoard();
     this.getAllWashDetails();
   }
   
@@ -76,6 +77,7 @@ export class WashesListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.washes.getDashBoard();
       this.getAllWashDetails();
     }
     this.showDialog = event.isOpenPopup;

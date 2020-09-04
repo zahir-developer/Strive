@@ -76,3 +76,8 @@ ui-inputtext:focus::-webkit-input-placeholder { color:#ced4da; }
   
   font-size: 13px !important;
 }
+
+body .ui-state-disabled, body .ui-widget:disabled {
+  opacity: 1;
+  background-color: #e9ecef;
+}
