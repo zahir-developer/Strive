@@ -33,6 +33,7 @@ import { ForecastedCarsComponent } from './components/forecasted-cars/forecasted
 import { AverageWashTimeComponent } from './components/average-wash-time/average-wash-time.component';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CalendarMaskDirective } from './Directive/calendar-mask.directive';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -65,7 +66,7 @@ import { CalendarMaskDirective } from './Directive/calendar-mask.directive';
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, PopoverModule, CalendarMaskDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-  providers: [MessageServiceToastr],
+  providers: [MessageServiceToastr, DatePipe],
 
 })
 export class SharedModule { }

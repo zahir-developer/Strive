@@ -109,6 +109,7 @@
     <Compile Include="ClientRal.cs" />
     <Compile Include="DetailsRal.cs" />
     <Compile Include="GiftCardRal.cs" />
+    <Compile Include="SalesRal.cs" />
     <Compile Include="ScheduleRal.cs" />
     <Compile Include="TimeClockRal.cs" />
     <Compile Include="CollisionRal.cs" />

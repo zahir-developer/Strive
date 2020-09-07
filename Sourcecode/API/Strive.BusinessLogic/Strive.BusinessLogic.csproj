@@ -53,6 +53,8 @@
     <Compile Include="Details\IDetailsBpl.cs" />
     <Compile Include="GiftCard\GiftCardBpl.cs" />
     <Compile Include="GiftCard\IGiftCardBpl.cs" />
+    <Compile Include="Sales\ISalesBpl.cs" />
+    <Compile Include="Sales\SalesBpl.cs" />
     <Compile Include="Schedule\IScheduleBpl.cs" />
     <Compile Include="Schedule\ScheduleBpl.cs" />
     <Compile Include="TimeClock\TimeClockBpl.cs" />
