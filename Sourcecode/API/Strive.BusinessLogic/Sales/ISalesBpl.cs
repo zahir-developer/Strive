@@ -15,5 +15,6 @@ namespace Strive.BusinessLogic.Sales
         //Result UpdateItem(int jobItemId, int quantity, decimal price);
         Result UpdateItem(SalesItemUpdateDto salesItemUpdateDto);
         Result DeleteItemById(int serviceId);
+        string GetTicketNumber();
     }
 }

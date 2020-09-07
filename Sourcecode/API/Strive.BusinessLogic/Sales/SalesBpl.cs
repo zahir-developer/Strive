@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO.Sales;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -43,6 +44,11 @@ namespace Strive.BusinessLogic.Sales
                 _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
             }
             return _result;
-        }           
+        }
+        public string GetTicketNumber()
+        {
+            var ticketNumberGenerator = new CommonBpl(_cache, _tenant).RandomNumber(6);
+            return ticketNumberGenerator;
+        }
     }
 }

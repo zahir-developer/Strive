@@ -34,6 +34,8 @@ namespace Admin.API.Controllers
         {
             return _bplManager.DeleteItemById(serviceId);
         }
-        
+        [HttpGet]
+        [Route("GetTicketNumber")]
+        public string GetTicketNumber() => _bplManager.GetTicketNumber();
     }
 }
