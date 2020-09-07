@@ -14,7 +14,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string TimeIn { get; set; }
         public string ClientName { get; set; }
         public string PhoneNumber { get; set; }
-        public string EstimatedTimeOut { get; set; }
+        public string DueTime { get; set; }
         public string ServiceName { get; set; }
     }
 }
