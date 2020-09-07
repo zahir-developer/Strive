@@ -8,6 +8,6 @@ namespace Strive.BusinessEntities.DTO
 {
     public class EmployeeScheduleDetailsDto
     {
-        public List<Model.EmployeeSchedule> EmployeeSchedule { get; set; }
+        public List<Model.Employee> EmployeeSchedule { get; set; }
     }
 }
