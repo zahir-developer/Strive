@@ -41,6 +41,11 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetItemList")]
         public Result GetItemList([FromBody] SalesListItemDto salesListItemDto) => _bplManager.GetItemList(salesListItemDto);
+
+        [HttpGet]
+        [Route("GetScheduleByTicketNumber")]
+        public Result GetScheduleByTicketNumber(string ticketNumber) => _bplManager.GetScheduleByTicketNumber(ticketNumber);
         
+
     }
 }

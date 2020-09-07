@@ -17,5 +17,6 @@ namespace Strive.BusinessLogic.Sales
         Result DeleteItemById(int serviceId);
         string GetTicketNumber();
         Result GetItemList(SalesListItemDto salesListItemDto);
+        Result GetScheduleByTicketNumber(string ticketNumber);
     }
 }
