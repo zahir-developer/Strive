@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,7 @@ namespace Strive.BusinessLogic.Details
         Result GetScheduleDetailsByDate(DateTime date);
         Result GetJobType();
         Result DeleteDetails(int id);
+        Result AddEmployeeScheduleToDetails(EmployeeScheduleDetailsDto empSchedule);
+        Result GetAllDetails(DetailsGridDto detailsGrid);
     }
 }

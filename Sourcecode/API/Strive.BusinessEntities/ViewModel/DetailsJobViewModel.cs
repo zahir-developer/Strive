@@ -9,6 +9,7 @@ namespace Strive.BusinessEntities.ViewModel
     public class DetailsJobViewModel
     {
         public int JobId { get; set; }
+        public int BayId { get; set; }
         public string Barcode { get; set; }
         public string TicketNumber { get; set; }
         public int LocationId { get; set; }
