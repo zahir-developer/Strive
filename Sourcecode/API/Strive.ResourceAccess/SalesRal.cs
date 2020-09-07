@@ -38,5 +38,12 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+        public SalesViewModel GetItemList(SalesListItemDto salesListItemDto)
+        {
+            _prm.Add("@TicketNumber", salesListItemDto.TicketNumber);
+            _prm.Add("@Quantity", salesListItemDto.Quantity);
+            var result = db.FetchSingle<SalesViewModel>(SPEnum.uspGetItemList.ToString(), _prm);
+            return result;
+        }
     }
 }

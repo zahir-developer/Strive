@@ -50,5 +50,9 @@ namespace Strive.BusinessLogic.Sales
             var ticketNumberGenerator = new CommonBpl(_cache, _tenant).RandomNumber(6);
             return ticketNumberGenerator;
         }
+        public Result GetItemList(SalesListItemDto salesListItemDto)
+        {
+            return ResultWrap(new SalesRal(_tenant).GetItemList, salesListItemDto, "SalesList");
+        }
     }
 }
