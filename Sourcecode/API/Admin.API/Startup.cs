@@ -37,6 +37,7 @@ using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Schedule;
 using Strive.BusinessLogic.Washes;
 using Strive.BusinessLogic.Details;
+using Strive.BusinessLogic.Sales;
 
 namespace Admin.API
 {
@@ -75,6 +76,7 @@ namespace Admin.API
             services.AddTransient<ITimeClockBpl, TimeClockBpl>();
             services.AddTransient<IDetailsBpl, DetailsBpl>();
             services.AddTransient<IScheduleBpl, ScheduleBpl>();
+            services.AddTransient<ISalesBpl, SalesBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

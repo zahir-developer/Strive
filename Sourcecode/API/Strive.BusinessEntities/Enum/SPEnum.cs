@@ -162,7 +162,9 @@ namespace Strive.BusinessEntities
         uspGetClientCodes,
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
-        uspGetMembershipListByVehicleId
+        uspGetMembershipListByVehicleId,
+        uspUpdateSalesItem,
+        uspDeleteSalesItemById
     }
 
 
