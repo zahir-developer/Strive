@@ -92,12 +92,13 @@
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
-    <Compile Include="Model\EmployeeSchedule.cs" />
     <Compile Include="Model\MembershipService.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
     <Compile Include="ViewModel\AllMembershipViewModel.cs" />
     <Compile Include="ViewModel\AllWashesViewModel.cs" />
     <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
+    <Compile Include="ViewModel\BayDetailViewModel.cs" />
+    <Compile Include="ViewModel\BayJobDetailViewModel.cs" />
     <Compile Include="ViewModel\BayListViewModel.cs" />
     <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />

@@ -56,13 +56,13 @@ namespace Strive.ResourceAccess
         }
         public bool AddEmployeeScheduleToDetails(EmployeeScheduleDetailsDto empSchedule)
         {
-            return dbRepo.InsertPc(empSchedule, "EmployeeScheduleId");
+            return dbRepo.InsertPc(empSchedule, "EmployeeId");
         }
-        public List<DetailsGridViewModel> GetAllDetails(DetailsGridDto detailsGrid)
+        public DetailsGridViewModel GetAllDetails(DetailsGridDto detailsGrid)
         {
             _prm.Add("@JobDate", detailsGrid.JobDate);
             _prm.Add("@LocationId", detailsGrid.LocationId);
-            var result = db.Fetch<DetailsGridViewModel>(SPEnum.USPGETALLDETAILS.ToString(), _prm);
+            var result = db.FetchMultiResult<DetailsGridViewModel>(SPEnum.USPGETALLDETAILS.ToString(), _prm);
             return result;
         }
     }
