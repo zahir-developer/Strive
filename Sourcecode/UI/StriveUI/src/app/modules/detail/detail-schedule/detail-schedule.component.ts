@@ -20,7 +20,7 @@ export class DetailScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.showDialog = false;
     this.isEdit = false;
-    this.getScheduleDetailsByDate(this.selectedDate);
+    // this.getScheduleDetailsByDate(this.selectedDate);
   }
 
   addNewDetail() {
@@ -46,8 +46,36 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   getScheduleDetailsByDate(date) {
+    const data = this.sampleJson();
+    let firstRow = [];
+    let secondRow = [];
+    const thirdRow = [];
+    const fourthRow = [];
+    const fifthRow = [];
+    const sixthRow = [];
+    const seventhRow = [];
+    const eightRow = [];
+    data.forEach( item => {
+      if (item.time === '07:00' || item.time === '11:00' || item.time === '03:00') {
+        if (item.time === '07:00') {
+
+        }
+        firstRow.push(item);
+      } else if (item.time === '07:30' || item.time === '11:30' || item.time === '03:30') {
+        secondRow.push(item);
+      }
+    });
+    firstRow.forEach( item => {
+      
+    });
+    secondRow = secondRow.map( item =>  {
+      return {
+        firstColumn: item.time,
+        firstBaySchedule: item.baySchedule
+      };
+    });
+    console.log(firstRow, secondRow, 'data');
     const scheduleDate = this.datePipe.transform(date, 'yyyy-MM-dd');
-    console.log(scheduleDate, 'date');
     this.detailService.getScheduleDetailsByDate('2020-08-20').subscribe( res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
@@ -59,6 +87,90 @@ export class DetailScheduleComponent implements OnInit {
   closeModal() {
     this.showDialog = false;
     this.isEdit = false;
+  }
+
+  sampleJson() {
+    const data = [
+      {
+        time: '07:00',
+        baySchedule: [
+          {
+            bayId: 1,
+            isSchedule : false,
+          },
+          {
+            bayId: 2,
+            isSchedule: true
+          }
+        ]
+      },
+      {
+        time: '07:30',
+        baySchedule: [
+          {
+            bayId: 1,
+            isSchedule : false,
+          },
+          {
+            bayId: 2,
+            isSchedule: true
+          }
+        ]
+      },
+      {
+        time: '11:00',
+        baySchedule: [
+          {
+            bayId: 1,
+            isSchedule : false,
+          },
+          {
+            bayId: 2,
+            isSchedule: true
+          }
+        ]
+      },
+      {
+        time: '11:30',
+        baySchedule: [
+          {
+            bayId: 1,
+            isSchedule : false,
+          },
+          {
+            bayId: 2,
+            isSchedule: true
+          }
+        ]
+      },
+      {
+        time: '03:00',
+        baySchedule: [
+          {
+            bayId: 1,
+            isSchedule : false,
+          },
+          {
+            bayId: 2,
+            isSchedule: true
+          }
+        ]
+      },
+      {
+        time: '03:30',
+        baySchedule: [
+          {
+            bayId: 1,
+            isSchedule : false,
+          },
+          {
+            bayId: 2,
+            isSchedule: true
+          }
+        ]
+      }
+    ];
+    return data;
   }
 
 }
