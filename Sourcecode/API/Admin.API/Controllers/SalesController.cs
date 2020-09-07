@@ -30,9 +30,9 @@ namespace Admin.API.Controllers
         }
         [HttpPut]
         [Route("DeleteItemById")]
-        public Result DeleteItemById(int serviceId)
+        public Result DeleteItemById(int jobId)
         {
-            return _bplManager.DeleteItemById(serviceId);
+            return _bplManager.DeleteItemById(jobId);
         }
         [HttpGet]
         [Route("GetTicketNumber")]

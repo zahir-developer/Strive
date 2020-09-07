@@ -30,10 +30,10 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public bool DeleteItemById(int serviceId)
+        public bool DeleteItemById(int jobId)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@ServiceId", serviceId);
+            dynParams.Add("@JobId", jobId);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
