@@ -30,9 +30,9 @@ namespace Admin.API.Controllers
         }
         [HttpPut]
         [Route("DeleteItemById")]
-        public Result DeleteItemById(int serviceId)
+        public Result DeleteItemById(int jobId)
         {
-            return _bplManager.DeleteItemById(serviceId);
+            return _bplManager.DeleteItemById(jobId);
         }
         [HttpGet]
         [Route("GetTicketNumber")]
@@ -41,6 +41,11 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetItemList")]
         public Result GetItemList([FromBody] SalesListItemDto salesListItemDto) => _bplManager.GetItemList(salesListItemDto);
+
+        [HttpGet]
+        [Route("GetScheduleByTicketNumber")]
+        public Result GetScheduleByTicketNumber(string ticketNumber) => _bplManager.GetScheduleByTicketNumber(ticketNumber);
         
+
     }
 }
