@@ -113,6 +113,7 @@
     <Compile Include="ViewModel\ProductSearchViewModel.cs" />
     <Compile Include="ViewModel\SalesViewModel.cs" />
     <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleItemListViewModel.cs" />
     <Compile Include="ViewModel\ScheduleListViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalEmployeeViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalWashHoursViewModel.cs" />

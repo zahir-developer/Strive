@@ -30,10 +30,10 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public bool DeleteItemById(int serviceId)
+        public bool DeleteItemById(int jobId)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@ServiceId", serviceId);
+            dynParams.Add("@JobId", jobId);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
@@ -43,6 +43,12 @@ namespace Strive.ResourceAccess
             _prm.Add("@TicketNumber", salesListItemDto.TicketNumber);
             _prm.Add("@Quantity", salesListItemDto.Quantity);
             var result = db.FetchSingle<SalesViewModel>(SPEnum.uspGetItemList.ToString(), _prm);
+            return result;
+        }
+        public List<ScheduleItemListViewModel> GetScheduleByTicketNumber(string ticketNumber)
+        {
+            _prm.Add("@TicketNumber", ticketNumber);
+            var result = db.Fetch<ScheduleItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
             return result;
         }
     }
