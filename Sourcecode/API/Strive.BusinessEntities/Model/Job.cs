@@ -76,5 +76,8 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public int? BayId { get; set; }
 
+        [Column]
+        public DateTimeOffset? DueTime { get; set; }
+
     }
 }

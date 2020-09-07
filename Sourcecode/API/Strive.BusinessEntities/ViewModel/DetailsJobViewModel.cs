@@ -22,7 +22,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int? JobType { get; set; }
         public DateTime JobDate { get; set; }
         public DateTimeOffset TimeIn { get; set; }
-        public DateTimeOffset EstimatedTimeOut { get; set; }
+        public DateTimeOffset DueTime { get; set; }
         public int? ServiceId { get; set; }
         public string ServiceName { get; set; }
 

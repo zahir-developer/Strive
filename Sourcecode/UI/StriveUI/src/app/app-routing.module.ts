@@ -18,6 +18,7 @@ const routes: Routes = [
     path: 'dashboard', canActivate: [AuthGuard],
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
+  {path: 'sales', loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
   {
     path: '',
     redirectTo: '',
