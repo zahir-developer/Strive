@@ -170,7 +170,10 @@
                                         </div>
                                         <div class="form-group col-md-9">
                                             <div class=" pull-right">
-                                                <input type="text" class="form-control d-inline-block w-50 align-middle" placeholder="Item">&nbsp;
+                                                <p-autoComplete [ngModelOptions]="{standalone: true}" class="d-inline-block w-50 align-middle" [(ngModel)]="ItemName" [suggestions]="filteredItem" 
+                                                (completeMethod)="filterItem($event)" (onSelect)="selectedItem($event)" field="name" [size]="10" appendTo="body" 
+                                                    placeholder="Item"  ></p-autoComplete>
+                                                <!-- <input type="text" class="form-control d-inline-block w-50 align-middle" placeholder="Item">&nbsp; -->
                                                 <input type="text" class="form-control d-inline-block w-23 align-middle" placeholder="Qty">&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize">Add</button>&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" href="#itemsearchmodal" data-toggle="modal">Search</button>
