@@ -49,7 +49,9 @@
     <Compile Include="DTO\CashRegister\CashRegisterConsolidate.cs" />
     <Compile Include="DTO\CashRegister\CashRegisterDto.cs" />
     <Compile Include="DTO\CashRegister\CR.cs" />
+    <Compile Include="DTO\DetailsGridDto.cs" />
     <Compile Include="DTO\Details\DetailsDto.cs" />
+    <Compile Include="DTO\EmployeeScheduleDetailsDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDetailDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDocumentDto.cs" />
     <Compile Include="DTO\Employee\EmployeeDto.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="DTO\MembershipSetup\MembershipSearchDto.cs" />
     <Compile Include="DTO\Product\ProductSearchDto.cs" />
     <Compile Include="DTO\Sales\SalesItemUpdateDto.cs" />
+    <Compile Include="DTO\Sales\SalesListItemDto.cs" />
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDetailDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
+    <Compile Include="Model\EmployeeSchedule.cs" />
     <Compile Include="Model\MembershipService.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
     <Compile Include="ViewModel\AllMembershipViewModel.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
     <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />
     <Compile Include="ViewModel\DetailScheduleViewModel.cs" />
+    <Compile Include="ViewModel\DetailsGridViewModel.cs" />
     <Compile Include="ViewModel\DetailsJobItemViewModel.cs" />
     <Compile Include="ViewModel\DetailsJobViewModel.cs" />
     <Compile Include="ViewModel\DetailViewModel.cs" />
@@ -106,6 +111,7 @@
     <Compile Include="ViewModel\Membership.cs" />
     <Compile Include="ViewModel\MembershipAndServiceViewModel.cs" />
     <Compile Include="ViewModel\ProductSearchViewModel.cs" />
+    <Compile Include="ViewModel\SalesViewModel.cs" />
     <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />
     <Compile Include="ViewModel\ScheduleListViewModel.cs" />
     <Compile Include="ViewModel\ScheduleTotalEmployeeViewModel.cs" />

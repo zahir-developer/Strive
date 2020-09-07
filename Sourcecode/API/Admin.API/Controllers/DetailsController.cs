@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Details;
 using Strive.Common;
 using System;
@@ -38,5 +39,11 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteDetails(int id) => _bplManager.DeleteDetails(id);
+        [HttpPost]
+        [Route("AddEmployeeScheduleToDetails")]
+        public Result AddEmployeeScheduleToDetails([FromBody] EmployeeScheduleDetailsDto empSchedule) => _bplManager.AddEmployeeScheduleToDetails(empSchedule);
+        [HttpGet]
+        [Route("GetAllDetails")]
+        public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
     }
 }
