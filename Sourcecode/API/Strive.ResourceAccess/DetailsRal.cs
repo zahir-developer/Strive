@@ -41,7 +41,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@JobDate", detailsGrid.JobDate);
             _prm.Add("@LocationId", detailsGrid.LocationId);
-            var result = db.FetchMultiResult<DetailScheduleViewModel>(SPEnum.USPGETSCHEDULEDETAILSBYDATE.ToString(), _prm);
+            var result = db.FetchMultiResult<DetailScheduleViewModel>(SPEnum.USPGETBAYSCHEDULESDETAILS.ToString(), _prm);
             return result;
         }
         public List<JobTypeViewModel> GetJobType()
