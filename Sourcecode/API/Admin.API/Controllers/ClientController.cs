@@ -1,21 +1,10 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Strive.BusinessEntities.Client;
-using Strive.BusinessEntities.DTO.User;
+using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessLogic.Client;
 using Strive.Common;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
-using Microsoft.AspNetCore.Authorization;
-using Strive.BusinessLogic.Client;
-using Strive.BusinessEntities.Auth;
-using Admin.Api.Controllers;
-using Strive.BusinessLogic.Auth;
-using Microsoft.Extensions.Configuration;
-using Strive.BusinessEntities.Client;
-using Admin.API.Helpers;
-using Strive.BusinessEntities.DTO.Client;
-using Strive.BusinessEntities.DTO.Vehicle;
 
 namespace Admin.API.Controllers
 {
@@ -28,25 +17,13 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("InsertClientDetails")]
         public Result InsertClientDetails([FromBody] ClientDto client) => _bplManager.SaveClientDetails(client);
-        [HttpPost]
-        [Route("Save")]
-        public Result SaveClientDetails([FromBody] ClientView client) => _bplManager.SaveClientDetails(client);
 
-        [AllowAnonymous]
         [HttpPost]
-        [Route("Signup")]
-        public Result Signup([FromBody] UserSignupDto clientSignup) => _bplManager.Signup(clientSignup);
-
-        [HttpDelete]
-        [Route("Delete")]
-        public Result DeleteClient(int clientId) => _bplManager.DeleteClient(clientId);
         [Route("UpdateClientVehicle")]
         public Result ClientVehicleSave([FromBody] ClientDto client) => _bplManager.UpdateClientVehicle(client);
 
         [HttpGet]
         [Route("GetAll")]
-        public Result GetAllClient() => _bplManager.GetAllClient();
-        [Route("GetAllClient")]
         public Result GetAllClient()
         {
             return _bplManager.GetAllClient();

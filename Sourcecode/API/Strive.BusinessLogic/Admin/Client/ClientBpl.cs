@@ -16,13 +16,13 @@ using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
+using Strive.BusinessEntities.DTO.User;
 
 namespace Strive.BusinessLogic
 {
     public class ClientBpl : Strivebase, IClientBpl
     {
         public ClientBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
-
 
 
         public Result Signup(UserSignupDto clientSignup)
@@ -39,7 +39,7 @@ namespace Strive.BusinessLogic
             clientSignup.TenantId = details[0].toInt();
             clientSignup.ClientId = details[3].toInt();
 
-            var client =  new ClientRal(_tenant).GetClientByClientId(clientSignup.ClientId);
+            var client = new ClientRal(_tenant).GetClientByClientId(clientSignup.ClientId);
             var res = commonBpl.Signup(clientSignup, client);
 
             return null;
@@ -53,7 +53,7 @@ namespace Strive.BusinessLogic
 
         public BusinessEntities.Model.Client GetClientByClientId(int id)
         {
-                return new ClientRal(_tenant).GetById(id);
+            return new ClientRal(_tenant).GetById(id);
         }
 
         public Result SaveClientDetails(ClientDto client)

@@ -126,7 +126,6 @@ namespace Strive.BusinessEntities
         uspGetVehicleByClientId,
         uspGetVihicleMembership,
         uspUpdateVechicleMembership,
-        uspGetVehicleById,
         USPGETVEHICLEDETAILBYCLIENTID,
         USPGETVEHICLESTATEMENTBYCLIENTID,
         USPGETVEHICLEHISTORYBYCLIENTID,
@@ -167,8 +166,7 @@ namespace Strive.BusinessEntities
         uspUpdateSalesItem,
         uspDeleteSalesItemById,
         uspGetItemList,
-        uspGetItemListByTicketNumber
-        uspGetVehicleById,
+        uspGetItemListByTicketNumber,
         USPCREATETENANT
     }
 

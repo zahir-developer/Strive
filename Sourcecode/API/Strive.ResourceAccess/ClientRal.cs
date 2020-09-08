@@ -43,8 +43,21 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@ClientId", clientId);
             return db.FetchMultiResult<ClientVehicleDetailModelView>(SPEnum.uspGetClientAndVehicle.ToString(), _prm);
-
         }
+
+        public BusinessEntities.Model.Client GetById(int id)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@ClientId", id);
+            var lstClientInfo = db.FetchSingle<BusinessEntities.Model.Client>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
+            return lstClientInfo;
+        }
+
+        public BusinessEntities.Model.Client GetClientByClientId(int clientId)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool DeleteClient(int clientId)
         {
             _prm.Add("ClientId", clientId);

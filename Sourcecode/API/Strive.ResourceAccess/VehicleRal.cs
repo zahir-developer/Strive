@@ -34,7 +34,7 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VehicleMembershipModel>(SPEnum.uspGetVihicleMembership.ToString(), null);
         }
-        public bool UpdateVehicleMembership(Membership Membership)
+        public bool UpdateVehicleMembership(BusinessEntities.Model.Membership Membership)
         {
             return dbRepo.Update(Membership);
         }
@@ -63,7 +63,7 @@ namespace Strive.ResourceAccess
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);
-            return db.FetchSingle<VehicleDetailViewModel>(SPEnum.uspGetVehicleById.ToString(), _prm);
+            return db.FetchSingle<VehicleDetailViewModel>(SPEnum.USPGETVEHICLEBYID.ToString(), _prm);
         }
         public List<VehicleColourViewModel> GetVehicleCodes()
         {

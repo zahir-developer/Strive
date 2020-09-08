@@ -30,14 +30,6 @@ namespace Strive.Common
             PRODUCTIMAGE
         }
     }
-        public enum UserRole
-        {
-            Auditor,
-            Accountant,
-            Controller,
-            NoAccess,
-            Admin,
-        }
 
     public enum UserType
     {

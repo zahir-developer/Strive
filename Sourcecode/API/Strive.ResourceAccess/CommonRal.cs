@@ -67,7 +67,6 @@ namespace Strive.ResourceAccess
             dynParams.Add("@TenantGuid", tenentGuid);
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVETENANTUSERMAP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
-            return dbRepo.Add(authMaster);
         }
 
         public List<Email> GetAllEmail()
