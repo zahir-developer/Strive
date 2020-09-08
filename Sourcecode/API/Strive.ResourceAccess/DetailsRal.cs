@@ -37,9 +37,10 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<BayListViewModel>(SPEnum.USPGETALLBAYLISTBYID.ToString(), _prm);
             return result;
         }
-        public DetailScheduleViewModel GetScheduleDetailsByDate(DateTime date)
+        public DetailScheduleViewModel GetScheduleDetailsByDate(DetailsGridDto detailsGrid)
         {
-            _prm.Add("@JobDate", date);
+            _prm.Add("@JobDate", detailsGrid.JobDate);
+            _prm.Add("@LocationId", detailsGrid.LocationId);
             var result = db.FetchMultiResult<DetailScheduleViewModel>(SPEnum.USPGETSCHEDULEDETAILSBYDATE.ToString(), _prm);
             return result;
         }

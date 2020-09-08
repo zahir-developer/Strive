@@ -100,6 +100,8 @@
     <Compile Include="ViewModel\BayDetailViewModel.cs" />
     <Compile Include="ViewModel\BayJobDetailViewModel.cs" />
     <Compile Include="ViewModel\BayListViewModel.cs" />
+    <Compile Include="ViewModel\BayScheduleViewModel.cs" />
+    <Compile Include="ViewModel\BayViewModel.cs" />
     <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
     <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />
