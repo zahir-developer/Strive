@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { EditItemComponent } from './edit-item/edit-item.component';
 
 @Component({
   selector: 'app-sales',
@@ -13,7 +15,7 @@ export class SalesComponent implements OnInit {
   services: any;
   filteredItem = [];
   constructor(private membershipService: MembershipService, private salesService: SalesService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal) { }
   ItemName = '';
   ticketNumber = '';
   washes = [];
@@ -103,7 +105,15 @@ console.log('deleted');
   closecreditcard() {
     document.getElementById('creditcardpopup').style.width = '0';
   }
-  dblclick(event) {
-    console.log('dblclick');
+  editItem(event) {
+    const jobId = event.JobId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef =  this.modalService.open(EditItemComponent, ngbModalOptions);
+    modalRef.componentInstance.jobId = jobId;
+    modalRef.componentInstance.isModal = true;
   }
 }
