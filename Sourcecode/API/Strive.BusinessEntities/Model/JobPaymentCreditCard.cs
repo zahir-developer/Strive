@@ -1,32 +1,38 @@
-using Cocoon.ORM;
+﻿using Cocoon.ORM;
 using System;
 
 namespace Strive.BusinessEntities.Model
 {
-    [OverrideName("tblGiftCardHistory")]
-    public class GiftCardHistory
+    [OverrideName("tblJobPaymentCreditCard")]
+    public class JobPaymentCreditCard
     {
 
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-        public int GiftCardHistoryId { get; set; }
-
-        [Column, PrimaryKey]
-        public int? GiftCardId { get; set; }
+        public int JobPaymentCreditCardId { get; set; }
 
         [Column]
-        public int? LocationId { get; set; }
+        public int JobPaymentId { get; set; }
 
         [Column]
-        public int? TransactionType { get; set; }
+        public int CardTypeId { get; set; }
 
         [Column]
-        public decimal? TransactionAmount { get; set; }
+        public int CardCategoryId { get; set; }
 
         [Column]
-        public DateTime? TransactionDate { get; set; }
+        public string CardNumber { get; set; }
 
         [Column]
-        public string Comments { get; set; }
+        public int CreditCardTransactionTypeId { get; set; }
+
+        [Column]
+        public decimal? Amount { get; set; }
+
+        [Column]
+        public string TranRefNo { get; set; }
+
+        [Column]
+        public string TranRefDetails { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
@@ -45,9 +51,6 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
-
-        [Column]
-        public int? JobPaymentId { get; set; }
 
     }
 }
