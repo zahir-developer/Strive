@@ -81,7 +81,8 @@ export class EditEmployeeComponent implements OnInit {
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
-      commission: [''],
+      comType: [''],
+      comRate: [''],
       status: [''],
       tip: [''],
       exemptions: [''],
@@ -169,14 +170,16 @@ export class EditEmployeeComponent implements OnInit {
       password: [''],
       dateOfHire: employeeInfo.HiredDate ? moment(employeeInfo.HiredDate).toDate() : '',
       hourlyRateWash: employeeInfo.PayRate,
-      hourlyRateDetail: employeeInfo.ComRate,
-      commission: employeeInfo.ComRate ? employeeInfo.ComRate : '',
+      hourlyRateDetail: employeeInfo.DetailRate ? employeeInfo.DetailRate : '',
+      comType:employeeInfo.ComType ? employeeInfo.ComType : '',
+      comRate: employeeInfo.ComRate ? employeeInfo.ComRate : '',
       status: employeeInfo.Status ? 'Active' : 'InActive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
       roles: employeeRole,
       location: employeeLocation
     });
+    this.getCtype(employeeInfo.ComType);
     if (this.actionType === 'view') {
       this.personalform.disable();
       this.emplistform.disable();
@@ -302,7 +305,7 @@ export class EditEmployeeComponent implements OnInit {
         });
       } else {
         newlyAddedRole.push({
-          employeeRoleId: isData[0].RoleMasterId,
+          employeeRoleId: isData[0].EmployeeRoleId,
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
@@ -314,7 +317,7 @@ export class EditEmployeeComponent implements OnInit {
       const isData = _.where(this.selectedRole, { Roleid: item.item_id });
       if (isData.length !== 0) {
         newlyAddedRole.push({
-          employeeRoleId: isData[0].RoleMasterId,
+          employeeRoleId: isData[0].EmployeeRoleId,
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
@@ -328,7 +331,9 @@ export class EditEmployeeComponent implements OnInit {
       employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       PayRate: this.emplistform.value.hourlyRateWash,
-      ComRate: this.emplistform.value.hourlyRateDetail,
+      DetailRate: this.emplistform.value.hourlyRateDetail,
+      ComRate: this.emplistform.value.comRate,
+      ComType: this.emplistform.value.comType,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
       exemptions: +this.emplistform.value.exemptions,
       isActive: this.emplistform.value.status === 'Active' ? true : false,

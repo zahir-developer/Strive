@@ -10,6 +10,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
+import { element } from 'protractor';
 
 declare var $: any;
 @Component({
@@ -108,7 +109,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
       },
       dayClick: (event) => {
-console.log(event.view.activeStart, 'dayClick');
+        console.log(event.view.activeStart, 'dayClick');
       },
       eventResize: (event) => {
         this.empName = event.event.title;
@@ -118,12 +119,22 @@ console.log(event.view.activeStart, 'dayClick');
       },
       eventReceive: (eventReceiveEvent) => {
         this.buttonText = 'Add';
+        this.events = this.events.filter(item => item.classNames[0] !== 'draggedEvent');
+        const multiSelect = this.selectedList.filter(item => item.clicked === false);
         this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
         this.splitEmpName(eventReceiveEvent);
         this.startTime = eventReceiveEvent.event.start;
         this.isLeave = false;
         this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
-        if (this.selectedList.length === 0 || this.selectedList.length === 1) {
+        if (this.selectedList.length === 0) {
+          this.selectedList = this.empList.EmployeeList.filter(item => item.EmployeeId === +this.empId);
+        }
+        if (multiSelect.length !== 0) {
+          multiSelect.forEach(element => {
+            this.selectedList.push(element);
+          });
+        }
+        if (this.selectedList.length === 1 && multiSelect.length === 0) {
           $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
           $('#name').html(this.empName);
           $('#empId').html(this.empId);
@@ -132,6 +143,9 @@ console.log(event.view.activeStart, 'dayClick');
           this.removeDraggedEvent();
           let i = 0;
           this.selectedList.forEach(item => {
+            // if(multiSelect.length !== 0){
+            //   i = multiSelect.length;
+            // }
             i++;
             item.id = 'clicked' + i,
               item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
@@ -255,30 +269,30 @@ console.log(event.view.activeStart, 'dayClick');
         const empSchehdule = JSON.parse(data.resultData);
         if (empSchehdule.ScheduleDetail !== null) {
           this.totalHours = empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours ?
-          empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours : 0;
+            empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours : 0;
           this.EmpCount = empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees ?
-          empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees : 0;
+            empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees : 0;
           if (empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel !== null) {
-          empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel.forEach(item => {
-            const emp = {
-              id: +item.ScheduleId,
-              start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
-              end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
-              title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
-              textColor: 'white',
-              backgroundColor: item.IsEmployeeAbscent === true ? '#A9A9A9' : item.ColorCode,
-              classNames: ['event'],
-              extendedProps: {
-                employeeId: +item.EmployeeId,
-                roleId: +item.RoleId,
-                scheduleType: +item.ScheduleType,
-                locationId: +item.LocationId,
-                scheduleId: +item.ScheduleId
-              }
-            };
-            this.events = [... this.events, emp];
-          });
-        }
+            empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel.forEach(item => {
+              const emp = {
+                id: +item.ScheduleId,
+                start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
+                end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
+                title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
+                textColor: 'white',
+                backgroundColor: item.IsEmployeeAbscent === true ? '#A9A9A9' : item.ColorCode,
+                classNames: ['event'],
+                extendedProps: {
+                  employeeId: +item.EmployeeId,
+                  roleId: +item.RoleId,
+                  scheduleType: +item.ScheduleType,
+                  locationId: +item.LocationId,
+                  scheduleId: +item.ScheduleId
+                }
+              };
+              this.events = [... this.events, emp];
+            });
+          }
         }
         this.removeDraggedEvent();
         this.retainUnclickedEvent();

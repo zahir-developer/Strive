@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-sales',
@@ -11,9 +12,13 @@ import { SalesService } from 'src/app/shared/services/data-service/sales.service
 export class SalesComponent implements OnInit {
   services: any;
   filteredItem = [];
-  constructor(private membershipService: MembershipService, private salesService: SalesService) { }
+  constructor(private membershipService: MembershipService, private salesService: SalesService,
+    private confirmationService: ConfirmationUXBDialogService) { }
   ItemName = '';
   ticketNumber = '';
+  washes = [];
+  additionalService = [];
+  details = [];
   ngOnInit(): void {
     this.getAllService();
   }
@@ -33,16 +38,21 @@ export class SalesComponent implements OnInit {
       }
     });
   }
-  
   selectedItem(event) {
-console.log(event.name)
+    console.log(event.name);
   }
-  getDetailByTicket(){
-if (this.ticketNumber !== undefined || this.ticketNumber !== '') {
-this.salesService.getItemByTicketNumber(+this.ticketNumber).subscribe(data => {
-   console.log(data, 'ticket');
-});
-}
+  getDetailByTicket() {
+    if (this.ticketNumber !== undefined || this.ticketNumber !== '') {
+      this.salesService.getItemByTicketNumber(+this.ticketNumber).subscribe(data => {
+        console.log(data, 'ticket');
+        if (data.status === 'Success') {
+          const itemList = JSON.parse(data.resultData);
+          this.washes = itemList.Status.filter(item => item.ServiceType === 'Washes');
+          this.details = itemList.Status.filter(item => item.ServiceType === 'Details');
+          this.additionalService = itemList.Status.filter(item => item.ServiceType === 'Additional Services');
+        }
+      });
+    }
   }
   filterItem(event) {
     const filtered: any[] = [];
@@ -54,5 +64,46 @@ this.salesService.getItemByTicketNumber(+this.ticketNumber).subscribe(data => {
       }
     }
     this.filteredItem = filtered;
+  }
+  deleteItem(data) {
+    this.confirmationService.confirm('Delete Item', `Are you sure you want to delete the selected Item?`, 'Yes', 'No')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmDelete(data);
+        }
+      })
+      .catch(() => { });
+  }
+
+  // Delete location
+  confirmDelete(data) {
+    this.salesService.deleteItemById(+data.JobId).subscribe(res => {
+      if (res.status === 'Success') {
+        this.getDetailByTicket();
+console.log('deleted');
+      } else {
+
+      }
+    });
+  }
+  opengiftcard() {
+    document.getElementById('Giftcardpopup').style.width = '300px';
+    document.getElementById('creditcardpopup').style.width = '0';
+  }
+
+  closegiftcard() {
+    document.getElementById('Giftcardpopup').style.width = '0';
+  }
+
+  opencreditcard() {
+    document.getElementById('creditcardpopup').style.width = '300px';
+    document.getElementById('Giftcardpopup').style.width = '0';
+  }
+
+  closecreditcard() {
+    document.getElementById('creditcardpopup').style.width = '0';
+  }
+  dblclick(event) {
+    console.log('dblclick');
   }
 }

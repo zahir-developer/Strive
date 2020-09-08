@@ -72,8 +72,10 @@
     <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
     <Compile Include="DTO\MembershipSetup\MembershipSearchDto.cs" />
     <Compile Include="DTO\Product\ProductSearchDto.cs" />
+    <Compile Include="DTO\Sales\SalesAddListItemDto.cs" />
     <Compile Include="DTO\Sales\SalesItemUpdateDto.cs" />
     <Compile Include="DTO\Sales\SalesListItemDto.cs" />
+    <Compile Include="DTO\Sales\SalesPaymentDto.cs" />
     <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDetailDto.cs" />
     <Compile Include="DTO\Schedule\ScheduleDto.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Model\EmployeeDocumentModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
+    <Compile Include="Model\JobPaymentCreditCard.cs" />
     <Compile Include="Model\MembershipService.cs" />
     <Compile Include="Model\ScheduleModel.cs" />
     <Compile Include="ViewModel\AllMembershipViewModel.cs" />
@@ -100,6 +103,8 @@
     <Compile Include="ViewModel\BayDetailViewModel.cs" />
     <Compile Include="ViewModel\BayJobDetailViewModel.cs" />
     <Compile Include="ViewModel\BayListViewModel.cs" />
+    <Compile Include="ViewModel\BayScheduleViewModel.cs" />
+    <Compile Include="ViewModel\BayViewModel.cs" />
     <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
     <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />

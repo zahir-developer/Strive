@@ -64,10 +64,10 @@
                                         <div class="icon-btn col-sm"> <img src="assets/img/cash.png" alt="" />
                                             <div> Cash </div>
                                         </div>
-                                        <div class="icon-btn col-sm" onclick="opengiftcard()"> <img src="assets/img/Gift.png" alt="" />
+                                        <div class="icon-btn col-sm" (click)="opengiftcard()"> <img src="assets/img/Gift.png" alt="" />
                                             <div> Gift </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0" onclick="opencreditcard()"> <img src="assets/img/Credit.png" alt="" />
+                                        <div class="icon-btn col-sm m-r-0" (click)="opencreditcard()"> <img src="assets/img/Credit.png" alt="" />
                                             <div> Credit </div>
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@
                                         <button type="button" class="btn col-sm btn-payment">Del</button>
                                         <button type="button" class="btn col-sm btn-payment m-r-0">Print</button>
                                     </div>
-                                    <div id="Giftcardpopup" class="gift-card"> <a href="#" class="closebtn" onclick="closegiftcard()">&times;</a>
+                                    <div id="Giftcardpopup" class="gift-card"> <span class="closebtn" (click)="closegiftcard()">&times;</span>
                                         <div class="card-body">
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Giftcard</h4> </div>
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                     <!--credit card-->
-                                      <div id="creditcardpopup" class="gift-card"> <a href="#" class="closebtn" onclick="closecreditcard()">&times;</a>
+                                      <div id="creditcardpopup" class="gift-card"> <span class="closebtn" (click)="closecreditcard()">&times;</span>
                                         <div class="card-body">
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Credit Card</h4> </div>
@@ -192,27 +192,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="body-half-screen">
-                                                <tr>
+                                                <tr *ngIf="details?.length>0">
                                                     <th scope="row" colspan="5">Details</th>
                                                 </tr>
-                                                <tr>
-                                                    <td href="#edititem" data-toggle="modal" class="pointer">Synthetic Seal</td>
-                                                    <td>1</td>
-                                                    <td>1</td>
-                                                    <td>$10</td>
-                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" href="#deleteitem" data-toggle="modal"></i></td>
+                                                <tr *ngFor ="let detail of details" >
+                                                    <td class="pointer">{{detail?.ServiceName}}</td>
+                                                    <td>{{detail?.Quantity}}</td>
+                                                    <td>{{detail?.T}}</td>
+                                                    <td>{{detail.Price}}</td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"></i></td>
                                                 </tr>
-                                                <tr>
+                                                <tr *ngIf="washes.length>0">
                                                     <th scope="row" colspan="5">Wash Package </th>
                                                 </tr>
-                                                <tr>
-                                                    <td>Mammoth</td>
-                                                    <td>2</td>
-                                                    <td>1</td>
-                                                    <td>$10</td>
-                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" href="#deleteitem" data-toggle="modal"></i></td>
+                                                <tr *ngFor="let wash of washes" >
+                                                    <td class="pointer" (dblclick)="dblclick(wash)">{{wash?.ServiceName}}</td>
+                                                    <td (dblclick)="dblclick(wash)">{{wash?.Quantity}}</td>
+                                                    <td (dblclick)="dblclick(wash)">{{wash?.T}}</td>
+                                                    <td (dblclick)="dblclick(wash)">{{wash?.Price}}</td>
+                                                    <td (dblclick)="dblclick(wash)"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
                                                 </tr>
-                                                <tr>
+                                                <tr *ngIf="additionalService.length > 0">
                                                     <th scope="row" colspan="5">Additional Services </th>
                                                 </tr>
                                             </tbody>
