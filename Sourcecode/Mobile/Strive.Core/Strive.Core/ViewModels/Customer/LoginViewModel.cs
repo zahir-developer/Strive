@@ -34,15 +34,17 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var loginResponse = await AdminService.CustomerLogin(new CustomerLoginRequest(loginEmailPhone, loginPassword));
-                ApiUtils.Token = loginResponse.Token;
-                if (!string.IsNullOrEmpty(loginResponse.Token))
+                if(loginResponse != null)
                 {
-                    _userDialog.Toast("Success");
-                    await _navigationService.Navigate<DashboardViewModel>();
-                }
-                else
-                {
-                    _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                    ApiUtils.Token = loginResponse.Token;
+                    if (!string.IsNullOrEmpty(loginResponse.Token))
+                    {
+                        await _navigationService.Navigate<DashboardViewModel>();
+                    }
+                    else
+                    {
+                        _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                    }
                 }
                 _userDialog.HideLoading();
             }
@@ -72,6 +74,11 @@ namespace Strive.Core.ViewModels.Customer
                 isValid = false;
             }
             return isValid;
+        }
+
+        public void RememberMeButtonCommand()
+        {
+            rememberMe = !rememberMe;
         }
 
         #endregion Commands

@@ -1,4 +1,5 @@
-﻿using MvvmCross;
+﻿using Acr.UserDialogs;
+using MvvmCross;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
@@ -13,7 +14,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public ILocationService LocationService = Mvx.IoCProvider.Resolve<ILocationService>();
         public Location Locations;
-    
+        
         public MapViewModel()
         {
 
@@ -21,8 +22,21 @@ namespace Strive.Core.ViewModels.Customer
         
         public async Task<Location> GetAllLocationsCommand()
         {
-            Locations = await LocationService.GetAllLocationAddress();
-            return Locations;
+            var washLocations = await LocationService.GetAllLocationAddress();
+            
+            if(washLocations == null)
+            {
+                Locations = new Location()
+                {
+                    LocationAddress = new List<LocationAddress>()
+                };
+                return Locations;
+            }
+            else
+            {
+                Locations = washLocations;
+                return Locations;
+            }
         }
     }
 }

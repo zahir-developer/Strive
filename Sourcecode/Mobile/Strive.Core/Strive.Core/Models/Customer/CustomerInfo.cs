@@ -23,6 +23,8 @@ namespace Strive.Core.Models.Customer
         {
             resetEmail = "";
             OTP = "";
+            selectedMilesOption = "";
+            notifyRadius = 0;
         }
         public static void setMapInfo()
         {
@@ -38,6 +40,10 @@ namespace Strive.Core.Models.Customer
 
                 case "C":
                     notifyRadius = 804;
+                    break;
+
+                default:
+                    notifyRadius = 1609;
                     break;
             }
         }

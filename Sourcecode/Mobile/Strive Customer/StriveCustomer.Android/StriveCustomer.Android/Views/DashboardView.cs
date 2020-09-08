@@ -42,6 +42,7 @@ namespace StriveCustomer.Android.Views
             bottomNav.NavigationItemSelected += NavigateFrag;
             dashActionButton = FindViewById<FloatingActionButton>(Resource.Id.dashActionButton);
             dashActionButton.Click += DashActionButton_Click;
+            setInitialFrag();
         }
         private void DashActionButton_Click(object sender, EventArgs e)
         {
@@ -56,17 +57,25 @@ namespace StriveCustomer.Android.Views
                     fragment = mapFrag;
                     break;
                 case Resource.Id.menu_Deals:
-                    fragment = pastDetailsFrag;
+                    fragment = dealFrag;
                     break;
                 case Resource.Id.menu_AboutUs:
-                    fragment = dealFrag;
+                    fragment = pastDetailsFrag;
                     break;
                 case Resource.Id.menu_Schedule:
                     fragment = scheduleFrag;
                     break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
-
+        }
+        private void setInitialFrag()
+        {
+            fragment = mapFrag;
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
+        }
+        public override void OnBackPressed()
+        {
+            ViewModel.Logout();
         }
     }
 }
