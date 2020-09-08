@@ -37,4 +37,8 @@ export class DetailService {
   getJobType() {
     return this.http.get(`${UrlConfig.totalUrl.getJobType}`);
   }
+
+  getTodayDateScheduleList(JobDate, LocationId) {
+    return this.http.get(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, { params : { JobDate,  LocationId}  });
+  }
 }
