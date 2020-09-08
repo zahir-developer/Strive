@@ -8,10 +8,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CreateEditDetailScheduleComponent } from './create-edit-detail-schedule/create-edit-detail-schedule.component';
 import { DialogModule } from 'primeng/dialog';
+import { TodayScheduleComponent } from './today-schedule/today-schedule.component';
 
 
 @NgModule({
-  declarations: [DetailComponent, DetailScheduleComponent, CreateEditDetailScheduleComponent],
+  declarations: [DetailComponent, DetailScheduleComponent, CreateEditDetailScheduleComponent, TodayScheduleComponent],
   imports: [
     CommonModule,
     DetailRoutingModule,

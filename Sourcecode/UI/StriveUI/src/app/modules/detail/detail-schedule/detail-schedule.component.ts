@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
+import { TodayScheduleComponent } from '../today-schedule/today-schedule.component';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -12,6 +13,10 @@ export class DetailScheduleComponent implements OnInit {
   selectedData: any;
   isEdit: boolean;
   selectedDate = new Date();
+  scheduledBayGrid = [];
+  bayScheduleObj: any = {};
+  bayDetail: any = [];
+  @ViewChild(TodayScheduleComponent) todayScheduleComponent: TodayScheduleComponent;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe
@@ -21,9 +26,15 @@ export class DetailScheduleComponent implements OnInit {
     this.showDialog = false;
     this.isEdit = false;
     // this.getScheduleDetailsByDate(this.selectedDate);
+    // this.getTodayDateScheduleList();
   }
 
-  addNewDetail() {
+  addNewDetail(schedule) {
+    console.log(schedule);
+    this.bayScheduleObj = {
+      time: schedule.time,
+      date: this.selectedDate
+    };
     this.showDialog = true;
   }
 
@@ -34,7 +45,7 @@ export class DetailScheduleComponent implements OnInit {
 
   getDetailByID() {
     console.log(this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd'), 'date changing');
-    this.detailService.getDetailById(65).subscribe( res => {
+    this.detailService.getDetailById(91).subscribe( res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
         console.log(details, 'details');
@@ -46,7 +57,9 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   getScheduleDetailsByDate(date) {
+    this.selectedDate = date;
     const data = this.sampleJson();
+    this.scheduledBayGrid = data;
     let firstRow = [];
     let secondRow = [];
     const thirdRow = [];
@@ -96,11 +109,15 @@ export class DetailScheduleComponent implements OnInit {
         baySchedule: [
           {
             bayId: 1,
-            isSchedule : false,
+            isSchedule : true,
           },
           {
             bayId: 2,
-            isSchedule: true
+            isSchedule: false
+          },
+          {
+            bayId: 3,
+            isSchedule: false
           }
         ]
       },
@@ -114,6 +131,10 @@ export class DetailScheduleComponent implements OnInit {
           {
             bayId: 2,
             isSchedule: true
+          },
+          {
+            bayId: 3,
+            isSchedule: false
           }
         ]
       },
@@ -127,6 +148,10 @@ export class DetailScheduleComponent implements OnInit {
           {
             bayId: 2,
             isSchedule: true
+          },
+          {
+            bayId: 3,
+            isSchedule: false
           }
         ]
       },
@@ -140,6 +165,10 @@ export class DetailScheduleComponent implements OnInit {
           {
             bayId: 2,
             isSchedule: true
+          },
+          {
+            bayId: 3,
+            isSchedule: false
           }
         ]
       },
@@ -153,6 +182,10 @@ export class DetailScheduleComponent implements OnInit {
           {
             bayId: 2,
             isSchedule: true
+          },
+          {
+            bayId: 3,
+            isSchedule: false
           }
         ]
       },
@@ -166,11 +199,33 @@ export class DetailScheduleComponent implements OnInit {
           {
             bayId: 2,
             isSchedule: true
+          },
+          {
+            bayId: 3,
+            isSchedule: false
           }
         ]
       }
     ];
     return data;
+  }
+
+  // Admin/Details/GetAllDetails
+  getTodayDateScheduleList() {
+    const todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    const locationId = 1;
+    this.detailService.getTodayDateScheduleList(todayDate, locationId).subscribe( res => {
+      if (res.status === 'Success') {
+        const scheduleDetails = JSON.parse(res.resultData);
+        console.log(scheduleDetails, 'todayList');
+        const detailGrid = scheduleDetails.DetailsGrid;
+        this.bayDetail = detailGrid.BayDetailViewModel;
+      }
+    });
+  }
+
+  refreshDetailGrid() {
+    this.todayScheduleComponent.getTodayDateScheduleList();
   }
 
 }
