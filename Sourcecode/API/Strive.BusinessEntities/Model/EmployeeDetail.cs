@@ -20,7 +20,13 @@ namespace Strive.BusinessEntities.Model
         public int AuthId { get; set; }
 
         [Column]
+        public int ComType { get; set; }
+
+        [Column]
         public string PayRate { get; set; }
+
+        [Column]
+        public string DetailRate { get; set; }
 
         [Column]
         public string SickRate { get; set; }
