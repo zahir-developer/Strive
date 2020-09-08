@@ -103,12 +103,11 @@
     <Compile Include="ViewModel\BayDetailViewModel.cs" />
     <Compile Include="ViewModel\BayJobDetailViewModel.cs" />
     <Compile Include="ViewModel\BayListViewModel.cs" />
-    <Compile Include="ViewModel\BayScheduleViewModel.cs" />
-    <Compile Include="ViewModel\BayViewModel.cs" />
+    <Compile Include="ViewModel\BayScheduleDetailsViewModel.cs" />
     <Compile Include="ViewModel\ClientList.cs" />
     <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
     <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />
-    <Compile Include="ViewModel\DetailScheduleViewModel.cs" />
+    <Compile Include="ViewModel\BaySchedulesDetails.cs" />
     <Compile Include="ViewModel\DetailsGridViewModel.cs" />
     <Compile Include="ViewModel\DetailsJobItemViewModel.cs" />
     <Compile Include="ViewModel\DetailsJobViewModel.cs" />

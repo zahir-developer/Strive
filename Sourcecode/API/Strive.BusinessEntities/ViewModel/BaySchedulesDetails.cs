@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class DetailScheduleViewModel
+    public class BaySchedulesDetails
     {
-        public List<BayViewModel> BayDetails { get; set; }
+        public List<BayListViewModel> BayList { get; set; }
         
-        public List<BayScheduleViewModel> ScheduleDetails { get; set; }
+        public List<BayScheduleDetailsViewModel> BayScheduleDetails { get; set; }
         
     }
 }
