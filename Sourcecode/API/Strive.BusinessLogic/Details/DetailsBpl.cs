@@ -34,9 +34,9 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllBayById, id, "BayDetailsForLocationId");
         }
-        public Result GetScheduleDetailsByDate(DetailsGridDto detailsGrid)
+        public Result GetBaySchedulesDetails(DetailsGridDto detailsGrid)
         {
-            return ResultWrap(new DetailsRal(_tenant).GetScheduleDetailsByDate, detailsGrid, "ScheduleDetailsForDate");
+            return ResultWrap(new DetailsRal(_tenant).GetBaySchedulesDetails, detailsGrid, "ScheduleDetailsForDate");
         }
         public Result GetJobType()
         {
