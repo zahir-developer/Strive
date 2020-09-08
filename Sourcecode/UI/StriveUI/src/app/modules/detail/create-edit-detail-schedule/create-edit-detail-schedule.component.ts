@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -33,12 +34,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   filteredClient: any[];
   details: any;
   @Output() closeDialog = new EventEmitter();
+  @Output() refreshDetailGrid = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
+  @Input() bayScheduleObj?: any;
   baylist: any = [];
   jobTypeId: any;
   isBarcode = false;
   memberService: any[];
+  note = '';
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -75,9 +79,22 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.wash.getTicketNumber().subscribe(data => {
       this.ticketNumber = data;
     });
+    this.assignDate();
     this.getColor();
     this.getAllClient();
     this.getServiceType();
+  }
+
+  assignDate() {
+    if (!this.isEdit) {
+      const time = this.bayScheduleObj.time.split(':');
+      const hours = time[0];
+      const minutes = time[1];
+      this.bayScheduleObj.date.setHours(hours);
+      this.bayScheduleObj.date.setMinutes(minutes);
+      this.bayScheduleObj.date.setSeconds('00');
+      console.log(this.bayScheduleObj, 'bayScheduleObj');
+    }
   }
 
   getByBarcode(barcode) {
@@ -138,20 +155,20 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   washService(data) {
     if (this.isEdit) {
-      this.washItem.filter(i => i.ServiceTypeId === 15)[0].IsDeleted = true;
+      this.washItem.filter(i => i.ServiceTypeId === 16)[0].IsDeleted = true;
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 16);
         this.washItem.filter(i => i.ServiceTypeId === 15)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
-        const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 16);
+        const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
-      const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 16);
+      const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
       if (serviceWash.length !== 0) {
         this.additionalService.push(serviceWash[0]);
       }
@@ -367,7 +384,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
         }
-        if(this.isEdit && this.selectedData.Details[0] !== undefined){
+        if (this.isEdit && this.selectedData.Details[0] !== undefined) {
           this.detailForm.patchValue({ vehicle: this.selectedData.Details[0].VehicleId });
         }
       } else {
@@ -392,15 +409,24 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       model: this.detailForm.value.model,
       color: this.detailForm.value.color,
       jobType: this.jobTypeId,
-      jobDate: new Date(),
-      timeIn: new Date(),
+      jobDate: moment(this.bayScheduleObj.date).format(),
+      timeIn: moment(this.bayScheduleObj.date).format(),
       estimatedTimeOut: new Date(),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
       updatedBy: 0,
-      barcode: this.detailForm.value.barcode,
-      notes: 'check'
+      // barcode: this.detailForm.value.barcode,
+      notes: this.note
+    };
+    const jobDetail = {
+      jobDetailId: 0,
+      jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
+      bayId: this.detailForm.value.bay,
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      updatedBy: 0
     };
     this.washItem.forEach(element => {
       this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
@@ -421,13 +447,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
     const formObj = {
       job,
-      jobItem: this.jobItems
+      jobItem: this.jobItems,
+      jobDetail
     };
     if (this.isEdit === true) {
       this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Wash Updated Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+          this.refreshDetailGrid.emit();
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -476,16 +504,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
         this.memberService = membership.MembershipAndServiceDetail.MembershipService;
-        if(this.memberService !== null){
-        const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
-        if (washService.length !== 0) {
-          this.washService(washService[0].ServiceId);
-        }else {
+        if (this.memberService !== null) {
+          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
+          if (washService.length !== 0) {
+            this.washService(washService[0].ServiceId);
+          } else {
+            this.detailForm.get('washes').reset();
+          }
+        } else {
           this.detailForm.get('washes').reset();
         }
-       }else {
-        this.detailForm.get('washes').reset();
-      }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }

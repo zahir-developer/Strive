@@ -68,9 +68,6 @@ namespace Strive.BusinessEntities.Model
         public DateTimeOffset? UpdatedDate { get; set; }
 
         [Column]
-        public string Barcode { get; set; }
-
-        [Column]
         public string Notes { get; set; }
 
     }

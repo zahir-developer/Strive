@@ -33,11 +33,11 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
-        public Result DeleteItemById(int serviceId)
+        public Result DeleteItemById(int jobId)
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).DeleteItemById, serviceId, "Result");
+                return ResultWrap(new SalesRal(_tenant).DeleteItemById, jobId, "Result");
             }
             catch (Exception ex)
             {
@@ -49,6 +49,14 @@ namespace Strive.BusinessLogic.Sales
         {
             var ticketNumberGenerator = new CommonBpl(_cache, _tenant).RandomNumber(6);
             return ticketNumberGenerator;
+        }
+        public Result GetItemList(SalesListItemDto salesListItemDto)
+        {
+            return ResultWrap(new SalesRal(_tenant).GetItemList, salesListItemDto, "SalesList");
+        }
+        public Result GetScheduleByTicketNumber(string ticketNumber)
+        {
+            return ResultWrap(new SalesRal(_tenant).GetScheduleByTicketNumber, ticketNumber, "Status");
         }
     }
 }

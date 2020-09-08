@@ -110,6 +110,8 @@ export const UrlConfig = {
     getAllBayById: `Admin/Details/GetAllBayById/`,
     getScheduleDetailsByDate: `Admin/Details/GetScheduleDetailsByDate/`,
     deleteDetail: `Admin/Details/Delete`,
-    getJobType: `Admin/Details/GetJobType`
+    getJobType: `Admin/Details/GetJobType`,
+    getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
+    getTodayDateScheduleList: `Admin/Details/GetAllDetails`
   }
 };

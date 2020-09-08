@@ -644,3 +644,388 @@ border-radius: 5px;
     text-align: center;
     left: 0;
 }
+.input-table {
+    height: 32px !important;
+}
+.inpt-tbl{
+    padding: 4px;
+    font-size: 14px;
+    width: 77px;	
+}
+.select-tbl{
+	width: 90px;
+    padding: 4px;
+    font-size: 14px;
+}
+.table-sub-collapse th{
+	border-top:0px !important;
+	color:#1DC5B3;
+}
+.table-foot{
+	background-color: #dee2e6;
+}
+.p-5{
+	padding:5px !important;
+}
+	
+.applyBtn{
+    border: 1px solid #1DC5B3 !important;
+    background-color: #1DC5B3 !important;
+}
+.applyBtn:hover{
+	   border: 1px solid #1DC5B3 !important;
+    background-color: #1DC5B3 !important;
+}
+.cancelBtn {
+	background-color: #6c757d !important;
+    color: white !important;
+}
+.daterangepicker.ltr .ranges {
+    float: none !important;
+    text-align: right !important;
+}
+.input-icon-right > i {
+    color: #63799B;
+    position: absolute;
+    margin: 9px 9px 4px 10px;
+    z-index: 3;
+    width: 16px;
+    font-size: 18px;
+    text-align: center;
+    right: 0;
+}
+.date-pick{
+	    width: 232px!important;
+    margin-bottom: 0px !important;	
+}
+.input-icon-right {
+    position: relative;
+}
+/*Details Screen */
+.date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 430px;
+	    margin-top: 15px;
+    margin-bottom: 21px;
+}
+.date-inline >.datepicker > .datepicker-days > .table-condensed > thead > tr > .dow {
+    padding-top: 10px;
+}
+.date-inline >.datepicker table tr td span {
+   height: 63.5px;
+    line-height: 63.5px;
+}
+ .date-inline >.datepicker .datepicker-switch, .date-inline >.datepicker .next,.date-inline > .datepicker .prev, .date-inline > .datepicker tfoot tr th {
+    cursor: pointer;
+    padding: 10px;
+	padding-top:0px !important;
+}
+.date-inline > .datepicker-inline {
+	width:430px;
+    margin-top: 0px !important;
+}
+.datepicker table tr td span.active.active, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled.disabled, .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active.disabled:hover.active, .datepicker table tr td span.active.disabled:hover.disabled, .datepicker table tr td span.active.disabled:hover:active, .datepicker table tr td span.active.disabled:hover:hover, .datepicker table tr td span.active.disabled:hover[disabled], .datepicker table tr td span.active.disabled[disabled], .datepicker table tr td span.active:active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active:hover.active, .datepicker table tr td span.active:hover.disabled, .datepicker table tr td span.active:hover:active, .datepicker table tr td span.active:hover:hover, .datepicker table tr td span.active:hover[disabled], .datepicker table tr td span.active[disabled] {
+    background-color: #1dc9b7 !important;
+}
+.datepicker table tr td span.active, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active:hover {
+       background-color: #1dc9b7 !important;
+    background-image: none !important;
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+}
+.datepicker table tr td.today, .datepicker table tr td.today.disabled, .datepicker table tr td.today.disabled:hover, .datepicker table tr td.today:hover {
+    background-color: #6c757d !important;
+    background-image: none !important;
+    color: white !important;
+}
+.tb-table td, .tb-table  th {
+    padding: 0.2rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+	padding-left: 12px !important;
+}
+.border-top-0 > tr > th {
+	border-top: 0px solid #dee2e6;
+}
+/*sales */
+.btn-numbers {
+    color: #333333 !important;
+    background-color: #E2E9F1;
+    border-color: #E2E9F1;
+    margin-right: 5px;
+    padding: .85rem 0rem !important;
+    font-weight: 700;
+	box-shadow: 0 2px 2px 0 #E2E9F1;
+	border-radius: 3px !important;
+	width:18%;
+}
+.btn-Keypad{
+	background-color:#4D6AAD;
+	border-color: #4D6AAD;
+	    font-weight: 700;
+		   margin-right: 5px;
+	border-radius: 3px !important;
+	padding: .65rem 0rem !important;
+	width:31.5%;
+}
+.icon-btn {
+    height: 60px;
+width:31.5%;
+    margin: 1px 5px 0 0;
+    border: 1px solid #E3E9EC;
+   padding: 6px 0 0;
+    display: inline-block;
+    color: #646464;
+    text-shadow: none;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all .3s ease;
+	border-radius: 3px !important;
+}
+.icon-btn>i {
+    font-size: 18px;
+}
+.icon-btn> div {
+    color: #5F6281;
+    font-size: 13px;
+    font-weight: 500;
+}
+.btn-payment{
+	background-color:#E3E9EC;
+	border-color: #E3E9EC;
+	 margin-right: 5px;
+	border-radius: 3px !important;
+	color:#BBBCBC !important;
+	    padding: .65rem 0rem !important;
+		width:23%;
+}
+.actived, .btn-payment:hover {
+  background-color: #1DC5B3;
+  color: white !important;
+}
+.gift-card {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  transition: right .3s;
+      box-shadow: 0 4px 10px 0 #E2E9F1;
+}
+.gift-card .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    color: #E3E9EC;
+    font-weight: 600;
+}
+.giftcard-btn {
+	height: calc(3.1em + 0.75rem + 2px) !important;
+    vertical-align: middle;
+}
+.w-23{
+	width:29% !important;
+}
+.summary > .form-row > .form-group {
+    margin-bottom: 5px !important;
+}
+.table-scroll{
+  display: block;
+  empty-cells: show;
+  border-spacing: 0;
+}
+.table-scroll thead{  
+  position:relative;
+  display: block;
+  width:100%;
+  overflow-y: scroll;
+  
+}
+.table-scroll thead tr th{  
+      border-top: 0!important;
+}
+.table-scroll tbody{
+  display: block;
+  position:relative;
+  width:100%;
+  overflow-y:scroll;
+ border:1px solid #ddd;
+}
+.table-scroll tr{
+  width: 100%;
+  display:flex;
+}
+.table-scroll td, .table-scroll th {
+	  flex-grow:2;
+  display: block;
+   padding: 0.2rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+	padding-left: 12px !important;
+}
+.table-scroll.small-first-col td:first-child,
+.table-scroll.small-first-col th:first-child{
+  flex-basis:20%;
+  flex-grow:1;
+}
+.body-half-screen{
+  max-height: 20vh;
+}
+.small-col{flex-basis:10%;}
+/*Messenger Screen */
+.Message-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+.Message-item-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+.Message-box{
+	height: 60vh;
+    overflow: scroll;
+	
+}
+.Message-box-slide {
+    height: 56.2vh;
+    overflow: scroll;
+}
+.Message-box-slide .Message-item {
+    border-bottom: 1px solid #dddd;
+    padding: 7px 0px;
+}
+.Message-box-slide .Message-item:last-child {
+    border-bottom: 0px;
+}
+.Message-box .Message-item {
+    border-bottom: 1px solid #dddd;
+    padding: 7px 0px;
+}
+.Message-box .Message-item:last-child {
+    border-bottom: 0px;
+}
+.msg-title {
+    color: #11283D;
+}
+.msg-date{
+	color:#5F6281;
+}
+.theme-title{
+	color:#747475;
+}
+.group-icon-color{
+color: #5F6281;
+}
+.conversation-list .chat-avatar {
+    float: left;
+    text-align: center;
+    width: 42px;
+}
+.conversation-list{
+	padding: 0px 15px;
+	padding-top:12px !important;
+}
+.conversation-list .conversation-text {
+   float: left;
+    font-size: 10px;
+    margin-left: 71px;
+    width: 70%;
+    margin-top: 7px;
+}
+.conversation-list .ctext-wrap {
+    background: #f1f3fa;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 12px;
+    position: relative;
+	width: 54%;
+}
+.conversation-list .ctext-wrap i {
+    display: block;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    position: relative;
+}
+.conversation-list .ctext-wrap p {
+    margin: 0;
+    padding-top: 3px;
+}
+.conversation-list li .conversation-actions {
+    float: right;
+    display: none;
+}
+.conversation-list .odd .conversation-text {
+    float: right!important;
+    margin-right: 12px;
+    text-align: right;
+    width: 70%!important;
+}
+.conversation-list .odd .chat-avatar {
+    float: right!important;
+}
+.p-1{
+	padding: 1rem !important;
+}
+.Search-Emp-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+.Search-Emp-item-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+	margin-top:10px;
+}
+.Search-Emp-box .Search-Emp-item {
+    padding: 7px 10px;
+}
+.Search-Emp-box .Search-Emp-item:last-child {
+    border-bottom: 0px;
+}
+.circle-icon {
+height: 40px;
+    width: 40px;
+    background-color: #DDE7E9;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+#show-search-emp{
+	display:none;
+}
+.li-expand {
+    border-left: 0;
+    bottom: 4px;
+    position: fixed;
+	width:70px;
+}
+.li-expand-mobile {
+    border-left: 0;
+    bottom: 4px;
+    position: fixed;
+	width: 200px;
+}
+.opacity-16{
+    opacity: 16%;
+}
+

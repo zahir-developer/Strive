@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
@@ -36,10 +37,10 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<BayListViewModel>(SPEnum.USPGETALLBAYLISTBYID.ToString(), _prm);
             return result;
         }
-        public List<DetailScheduleViewModel> GetScheduleDetailsByDate(DateTime date)
+        public DetailScheduleViewModel GetScheduleDetailsByDate(DateTime date)
         {
             _prm.Add("@JobDate", date);
-            var result = db.Fetch<DetailScheduleViewModel>(SPEnum.USPGETSCHEDULEDETAILSBYDATE.ToString(), _prm);
+            var result = db.FetchMultiResult<DetailScheduleViewModel>(SPEnum.USPGETSCHEDULEDETAILSBYDATE.ToString(), _prm);
             return result;
         }
         public List<JobTypeViewModel> GetJobType()
@@ -52,6 +53,17 @@ namespace Strive.ResourceAccess
             _prm.Add("@JobId", id);
             db.Save(SPEnum.USPDELETEDETAILSCHEDULE.ToString(), _prm);
             return true;
+        }
+        public bool AddEmployeeScheduleToDetails(EmployeeScheduleDetailsDto empSchedule)
+        {
+            return dbRepo.InsertPc(empSchedule, "EmployeeId");
+        }
+        public DetailsGridViewModel GetAllDetails(DetailsGridDto detailsGrid)
+        {
+            _prm.Add("@JobDate", detailsGrid.JobDate);
+            _prm.Add("@LocationId", detailsGrid.LocationId);
+            var result = db.FetchMultiResult<DetailsGridViewModel>(SPEnum.USPGETALLDETAILS.ToString(), _prm);
+            return result;
         }
     }
 }

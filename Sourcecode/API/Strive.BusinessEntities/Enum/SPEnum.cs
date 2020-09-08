@@ -150,6 +150,7 @@ namespace Strive.BusinessEntities
         USPGETSCHEDULEDETAILSBYDATE,
         USPGETJOBTYPE,
         USPDELETEDETAILSCHEDULE,
+        USPGETALLDETAILS,
         //Schedule
         USPSAVESCHEDULE,
         USPGETSCHEDULEBYSCHEDULEID,
@@ -164,7 +165,9 @@ namespace Strive.BusinessEntities
         uspGetClientAndVehicle,
         uspGetMembershipListByVehicleId,
         uspUpdateSalesItem,
-        uspDeleteSalesItemById
+        uspDeleteSalesItemById,
+        uspGetItemList,
+        uspGetItemListByTicketNumber
     }
 
 
