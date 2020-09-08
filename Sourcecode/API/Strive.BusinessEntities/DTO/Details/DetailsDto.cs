@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities.DTO
     public class DetailsDto
     {
         public Model.Job Job { get; set; }
+        public Model.JobDetail JobDetail { get; set; }
         public List<JobItem> JobItem { get; set; }
     }
 }
