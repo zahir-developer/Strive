@@ -142,7 +142,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
       lName: this.selectedData.LastName,
-      noEmail: this.selectedData.NoEmail,
+      creditAccount: this.selectedData.NoEmail,
       status: this.selectedData.IsActive ? 0 : 1,
       score: this.selectedData.Score,
       type: this.selectedData.ClientType,
@@ -208,7 +208,7 @@ export class ClientCreateEditComponent implements OnInit {
       notes: this.clientForm.value.notes,
       recNotes: this.clientForm.value.checkOut,
       score: (this.clientForm.value.score == "" || this.clientForm.value.score == null) ? 0 : this.clientForm.value.score,
-      noEmail: false,
+      noEmail: this.clientForm.value.creditAccount,
       clientType: (this.clientForm.value.type == "" || this.clientForm.value.type == null) ? 0 : this.clientForm.value.type
     };
     const myObj = {

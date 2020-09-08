@@ -302,7 +302,7 @@ export class EditEmployeeComponent implements OnInit {
         });
       } else {
         newlyAddedRole.push({
-          employeeRoleId: isData[0].RoleMasterId,
+          employeeRoleId: isData[0].EmployeeRoleId,
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
@@ -314,7 +314,7 @@ export class EditEmployeeComponent implements OnInit {
       const isData = _.where(this.selectedRole, { Roleid: item.item_id });
       if (isData.length !== 0) {
         newlyAddedRole.push({
-          employeeRoleId: isData[0].RoleMasterId,
+          employeeRoleId: isData[0].EmployeeRoleId,
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,

@@ -69,7 +69,7 @@
                     <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                         <div class="pull-right">
                             <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
-                                href="#searchModal" data-toggle="modal">Select</button>
+                                (click)="getByBarcode(detailForm.value.barcode)">Select</button>
                             <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
                                 href="#addNewvehicleModal" data-toggle="modal">Add Vehicle</button>
                             <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
@@ -189,10 +189,10 @@
                             <h5 class="d-inline-block font-weight-600">Notes</h5>
                         </div>
                         <div>
-                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" rows="8"></textarea>
+                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" name="note" [(ngModel)]="note" rows="8"></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-sm-6" style="padding-left: 0% !important;">
                             <button type="button"
@@ -205,11 +205,12 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5" [disabled]="!isEdit" (click)="deleteDetail()">Delete</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
+                                (click)="saveDetail()">Save</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
-                                (click)="saveDetail()">Save</button>
+                                [disabled]="!isEdit" (click)="deleteDetail()">Delete</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Customer
