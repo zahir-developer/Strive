@@ -13,6 +13,9 @@ export class ClientService {
   getClient(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
+  addClient(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.addClient}`, obj);
+  }
   updateClient(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateClient}`, obj);
   }
@@ -21,5 +24,17 @@ export class ClientService {
   }
   getClientById(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getClientById}` + id);
+  }
+  ClientSearch(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getClientByName}`, obj);
+  }
+  getClientScore(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getClientScore}`);
+  }
+  getStatementByClientId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getStatementByClientId}` + id);
+  }
+  getHistoryByClientId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getHistoryByClientId}` + id);
   }
 }

@@ -31,9 +31,9 @@ body .ui-widget {
   }
 
   .MyDialog.ui-dialog {
-    width: 70%;
-    height: 100%; 
-    overflow: unset;
+    width: 60%;
+    /* height: 100%;
+    overflow: unset; */
   }
 
   .form-control.is-invalid, .was-validated .form-control:invalid {
@@ -71,4 +71,13 @@ ui-inputtext:focus::-webkit-input-placeholder { color:#ced4da; }
 }
 .theme-green .bs-datepicker-body table td.week span {
   color: #1DC5B3;
+}
+.multiselect-dropdown {
+  
+  font-size: 13px !important;
+}
+
+body .ui-state-disabled, body .ui-widget:disabled {
+  opacity: 1;
+  background-color: #e9ecef;
 }

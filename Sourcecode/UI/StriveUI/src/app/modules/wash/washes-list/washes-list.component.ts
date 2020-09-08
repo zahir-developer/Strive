@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { add } from 'ngx-bootstrap/chronos';
+import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-washes-list',
@@ -7,19 +10,75 @@ import { add } from 'ngx-bootstrap/chronos';
   styleUrls: ['./washes-list.component.css']
 })
 export class WashesListComponent implements OnInit {
-  headerData: string;
+  washDetails = [];
+  showDialog = false;
   selectedData: any;
+  headerData: string;
   isEdit: boolean;
-  showDialog: boolean;
+  isTableEmpty: boolean;
   isView: boolean;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number = 0;
+  dashboardDetails: any;
+  constructor(private washes: WashService, private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService) { }
 
-  constructor() { }
+  ngOnInit() {
+    this.washes.getDashBoard();
+    this.getAllWashDetails();
+  }
+  
 
-  ngOnInit(): void {
+  // Get All Washes
+  getAllWashDetails() {
+    this.washes.getAllWashes().subscribe(data => {
+      if (data.status === 'Success') {
+        const wash = JSON.parse(data.resultData);
+        this.washDetails = wash.Washes;
+        console.log(wash);
+        if (this.washDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.washDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+  edit(data) {
+    this.selectedData = data;
+    this.showDialog = true;
+  }
+  delete(data) {
+    console.log(data);
+    this.confirmationService.confirm('Delete Wash', `Are you sure you want to delete this Wash? All related 
+    information will be deleted and the Wash cannot be retrieved?`, 'Yes', 'No')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmDelete(data);
+        }
+      })
+      .catch(() => { });
   }
 
+  // Delete Wash
+  confirmDelete(data) {
+    this.washes.deleteWash(data.JobId).subscribe(res => {
+      if (res.status === 'Success') {
+        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.getAllWashDetails();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.washes.getDashBoard();
+      this.getAllWashDetails();
     }
     this.showDialog = event.isOpenPopup;
   }
@@ -31,19 +90,32 @@ export class WashesListComponent implements OnInit {
       this.isEdit = false;
       this.isView = false;
       this.showDialog = true;
-    } else if (data === 'edit') {
-      this.headerData = 'Edit Service';
-      this.selectedData = washDetails;
-      this.isEdit = false;
-      this.isView = false;
-      this.showDialog = true;
     } else {
-      this.headerData = 'View Service';
-      this.selectedData = washDetails;
-      this.isEdit = true;
-      this.isView = true;
-      this.showDialog = true;
+      this.getWashById(data, washDetails);
     }
   }
 
+  // Get Wash By Id
+  getWashById(label, washDet) {
+    this.washes.getWashById(washDet.JobId).subscribe(data => {
+      if (data.status === 'Success') {
+        const wash = JSON.parse(data.resultData);
+        if (label === 'edit') {
+          this.headerData = 'Edit Service';
+          this.selectedData = wash.WashesDetail;
+          this.isEdit = true;
+          this.isView = false;
+          this.showDialog = true;
+        } else {
+          this.headerData = 'View Service';
+          this.selectedData = wash.WashesDetail;
+          this.isEdit = true;
+          this.isView = true;
+          this.showDialog = true;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
 }

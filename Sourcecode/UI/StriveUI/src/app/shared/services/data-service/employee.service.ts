@@ -13,11 +13,11 @@ export class EmployeeService {
   getEmployees(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
   }
-  updateEmployee(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateEmployees}`, obj);
+  saveEmployee(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveEmployees}`, obj);
   }
-  getEmployeeDetail(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}`, { params : id  });
+  getEmployeeDetail(empId) {
+    return this.http.get(`${UrlConfig.totalUrl.getEmployeeDetail}`, { params : { id: empId }});
   }
   deleteEmployee(id) {
     return this.http.delete(`${UrlConfig.totalUrl.deleteEmployee}` + id);
@@ -40,8 +40,8 @@ export class EmployeeService {
   getAllDocument(employeeId) {
     return this.http.get(`${UrlConfig.totalUrl.getAllDocument}` + employeeId);
   }
-  getDocumentById(documentId, employeeId, password) {
-    return this.http.get(`${UrlConfig.totalUrl.getDocumentById}` + documentId + ',' + employeeId + ',' + password);
+  getDocumentById(documentId, password) {
+    return this.http.get(`${UrlConfig.totalUrl.getDocumentById}` + documentId +  ',' + password);
   }
   getLocation() {
     return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
@@ -53,12 +53,28 @@ export class EmployeeService {
     return this.http.delete(`${UrlConfig.totalUrl.deleteDocument}` + docId);
   }
   deleteCollision(collisionId) {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteCollision}` + collisionId);
+    return this.http.delete(`${UrlConfig.totalUrl.deleteCollision}` , { params : { id: collisionId }});
   }
   getDetailCollision(collisionId) {
     return this.http.get(`${UrlConfig.totalUrl.getDetailCollision}` + collisionId);
   }
   saveCollision(obj) {
     return this.http.post(`${UrlConfig.totalUrl.saveCollision}`, obj);
+  }
+  searchEmployee(obj) {
+    const search = obj.trim() === '' ? '%20' : obj;
+    return this.http.get(`${UrlConfig.totalUrl.searchEmployee}` + search);
+  }
+  updateCollision(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.updateCollision}`, obj);
+  }
+  updateEmployee(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.updateEmployee}`, obj);
+  }
+  getAllClient() {
+    return this.http.get(`${UrlConfig.totalUrl.getClient}`);
+  }
+  getVehicleByClientId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id } } );
   }
 }

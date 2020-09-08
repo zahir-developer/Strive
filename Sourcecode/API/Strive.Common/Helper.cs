@@ -22,6 +22,17 @@ namespace Strive.Common
             };
         }
 
+        public static Result BindValidationErrorResult(string errorMessage)
+        {
+
+            return new Result()
+            {
+                ErrorMessage = errorMessage,
+                Status = GlobalEnum.Fail.ToString(),
+                StatusCode = HttpStatusCode.BadRequest
+            };
+        }
+
         public static Result BindSuccessResult(JObject resultContent)
         {
             return new Result()

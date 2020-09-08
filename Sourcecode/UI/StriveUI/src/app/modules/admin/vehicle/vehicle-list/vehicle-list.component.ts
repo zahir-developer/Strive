@@ -17,26 +17,53 @@ export class VehicleListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedVehicle: any;
+  search: any = '';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
+  additionalService: any = [];
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.getAllVehicleDetails();
-
+    this.getService();
   }
+
+  // Get All Vehicles
   getAllVehicleDetails() {
-    this.vehicle.getVehicle().subscribe(data => {
+    const obj = {
+      searchName: ""
+    }
+    this.vehicle.getVehicle(obj).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
-        console.log(this.vehicleDetails);  
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
-        } else {      
-          this.collectionSize = Math.ceil(this.vehicleDetails.length/this.pageSize) * 10;
+        } else {
+          this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  vehicleSearch() {
+    this.page = 1;
+    const obj = {
+      searchName: this.search
+    }
+    this.vehicle.getVehicle(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicleDetails = vehicle.Vehicle;
+        if (this.vehicleDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -49,7 +76,6 @@ export class VehicleListComponent implements OnInit {
     this.showDialog = true;
   }
   delete(data) {
-    console.log(data);
     this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
     information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
@@ -59,6 +85,8 @@ export class VehicleListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete vehicle
   confirmDelete(data) {
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
@@ -76,23 +104,23 @@ export class VehicleListComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
   add(data, vehicleDet?) {
-      this.getVehicleById(data, vehicleDet);
+    this.getVehicleById(data, vehicleDet);
   }
 
+  // Get Vehicle By Id
   getVehicleById(data, vehicleDet) {
-    this.vehicle.getVehicleId(vehicleDet.ClientVehicleId).subscribe(res => {
+    this.vehicle.getVehicleById(vehicleDet.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.selectedVehicle = vehicle.Status;
-        console.log(this.selectedVehicle);
         if (data === 'edit') {
-          this.headerData = 'Edit vehicle';
+          this.headerData = 'Edit Vehicle';
           this.selectedData = this.selectedVehicle;
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
         } else {
-          this.headerData = 'View vehicle';
+          this.headerData = 'View Vehicle';
           this.selectedData = this.selectedVehicle;
           this.isEdit = true;
           this.isView = true;
@@ -100,6 +128,15 @@ export class VehicleListComponent implements OnInit {
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  getService() {
+    this.vehicle.getMembershipService().subscribe(res => {
+      if (res.status === 'Success') {
+        const membership = JSON.parse(res.resultData);
+        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
   }

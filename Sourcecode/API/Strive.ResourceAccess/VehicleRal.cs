@@ -6,18 +6,29 @@ using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.Repository;
 using System.Collections.Generic;
+using Strive.BusinessEntities;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Strive.BusinessEntities.Client;
+using System.Data;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.Code;
+using Strive.BusinessEntities.DTO.Vehicle;
+
 
 namespace Strive.ResourceAccess
 {
     public class VehicleRal : RalBase
     {
-        private Db _db;
-
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<VehicleViewModel> GetAllVehicle()
+        public List<VehicleViewModel> GetAllVehicle(VehicleSearchDto name)
         {
-            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), null);
+            _prm.Add("@SearchName", name.SearchName);
+            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public List<VehicleMembershipModel> GetVehicleMembership()
         {
@@ -28,7 +39,12 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(Membership);
         }
 
-        public bool SaveVehicle(VehicleDto client)
+        public bool UpdateClientVehicle(ClientVehicle ClientVehicle)
+        {
+            return dbRepo.Update(ClientVehicle);
+        }
+
+        public bool SaveClientVehicle(VehicleDto client)
         {
             return dbRepo.InsertPc(client, "ClientId");
         }
@@ -39,36 +55,38 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
-        public VehicleViewModel GetVehicleById(int clientId)
+        public List<VehicleByClientViewModel> GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
-             return db.FetchSingle<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+             return db.Fetch<VehicleByClientViewModel>(SPEnum.USPGETVEHICLEDETAILBYCLIENTID.ToString(), _prm);
         }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);
             return db.FetchSingle<VehicleDetailViewModel>(SPEnum.uspGetVehicleById.ToString(), _prm);
         }
-        public List<Code> GetVehicleColour()
+        public List<VehicleColourViewModel> GetVehicleCodes()
         {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLECOLOR);
+            return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
         }
-        public List<Code> GetCodeTypeModel()
+        public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
         {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLEMODEL);
-        }
-        public List<Code> GetCodeModel()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.VEHICLEMANUFACTURER);
-        }
-        public List<Code> GetCodeUpcharge()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.UPCHARGE);
-        }
-        public List<Code> GetCodeMake()
-        {
-            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.UPCHARGE);
+            return dbRepo.SaveAll(ClientVehicleMembershipModel, "ClientMembershipId");
         }
 
+        public bool SaveVehicle(ClientVehicleModel clientVehicle)
+        {
+            return dbRepo.UpdatePc(clientVehicle);
+        }
+        public VehicleMembershipViewModel GetVehicleMembershipDetailsByVehicleId(int id)
+        {
+            _prm.Add("VehicleId", id);
+            return db.FetchMultiResult<VehicleMembershipViewModel>(SPEnum.USPGETVEHICLEMEMBERSHIPBYVEHICLEID.ToString(), _prm);
+        }
+        public MembershipAndServiceViewModel GetMembershipDetailsByVehicleId(int id)
+        {
+            _prm.Add("VehicleId", id);
+            return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYVEHICLEID.ToString(), _prm);
+        }
     }
 }

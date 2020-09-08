@@ -31,6 +31,9 @@ import { WashEmployeesComponent } from './components/wash-employees/wash-employe
 import { ScoreComponent } from './components/score/score.component';
 import { ForecastedCarsComponent } from './components/forecasted-cars/forecasted-cars.component';
 import { AverageWashTimeComponent } from './components/average-wash-time/average-wash-time.component';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { CalendarMaskDirective } from './Directive/calendar-mask.directive';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -38,6 +41,7 @@ import { AverageWashTimeComponent } from './components/average-wash-time/average
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
+    PopoverModule.forRoot(),
     NgbModule,
     HttpClientModule,
     NgxUiLoaderModule,
@@ -54,15 +58,15 @@ import { AverageWashTimeComponent } from './components/average-wash-time/average
   declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, NoOfWashesComponent,
-    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent],
+    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, CalendarMaskDirective],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
-    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent],
+    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, PopoverModule, CalendarMaskDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-  providers: [MessageServiceToastr],
+  providers: [MessageServiceToastr, DatePipe],
 
 })
 export class SharedModule { }

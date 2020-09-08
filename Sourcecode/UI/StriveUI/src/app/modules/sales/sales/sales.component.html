@@ -1,0 +1,281 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item active" aria-current="page">Sales</li>
+                </ol>
+            </nav>
+            <!--bread crumb-->
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Sales</h3> </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-xl-4 no-space">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group row border-bottom p-b-10 no-gutters">
+                                        <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2">Ticket No</label>
+                                        <div class="col-sm-9">
+                                            <div class="pull-right">
+                                                <input type="text" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber">&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color disabled buttonSize">Done</button>&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getDetailByTicket()">Select</button>&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color buttonSize">New</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <button type="button" class="btn btn-numbers col-sm">1</button>
+                                        <button type="button" class="btn btn-numbers col-sm">2</button>
+                                        <button type="button" class="btn btn-numbers col-sm">3</button>
+                                        <button type="button" class="btn btn-numbers col-sm">.00</button>
+                                        <button type="button" class="btn btn-numbers col-sm m-r-0">BKSP</button>
+                                    </div>
+                                    <div class="row no-gutters m-t-7">
+                                        <button type="button" class="btn btn-numbers col-sm">4</button>
+                                        <button type="button" class="btn btn-numbers col-sm">5</button>
+                                        <button type="button" class="btn btn-numbers col-sm">6</button>
+                                        <button type="button" class="btn btn-numbers col-sm">.</button>
+                                        <button type="button" class="btn btn-numbers col-sm m-r-0">+/-</button>
+                                    </div>
+                                    <div class="row no-gutters m-t-7">
+                                        <button type="button" class="btn btn-numbers col-sm">7</button>
+                                        <button type="button" class="btn btn-numbers col-sm">8</button>
+                                        <button type="button" class="btn btn-numbers col-sm">9</button>
+                                        <button type="button" class="btn btn-numbers col-sm">0</button>
+                                        <button type="button" class="btn btn-numbers col-sm m-r-0">Clear</button>
+                                    </div>
+                                    <div class="row no-gutters m-t-7">
+                                        <button type="button" class="btn col-sm btn-Keypad">1$</button>
+                                        <button type="button" class="btn col-sm btn-Keypad">5$</button>
+                                        <button type="button" class="btn col-sm btn-Keypad m-r-0">10$</button>
+                                    </div>
+                                    <div class="row no-gutters m-t-7">
+                                        <button type="button" class="btn col-sm btn-Keypad">25$</button>
+                                        <button type="button" class="btn col-sm btn-Keypad">50$</button>
+                                        <button type="button" class="btn col-sm btn-Keypad m-r-0">100$</button>
+                                    </div>
+                                    <div class="row no-gutters m-t-7">
+                                        <div class="icon-btn col-sm"> <img src="assets/img/cash.png" alt="" />
+                                            <div> Cash </div>
+                                        </div>
+                                        <div class="icon-btn col-sm" onclick="opengiftcard()"> <img src="assets/img/Gift.png" alt="" />
+                                            <div> Gift </div>
+                                        </div>
+                                        <div class="icon-btn col-sm m-r-0" onclick="opencreditcard()"> <img src="assets/img/Credit.png" alt="" />
+                                            <div> Credit </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters m-t-7">
+                                        <div class="icon-btn col-sm"> <img src="assets/img/Discount.png" alt="" />
+                                            <div> Discount </div>
+                                        </div>
+                                        <div class="icon-btn col-sm"> <img src="assets/img/Account.png" alt="" />
+                                            <div> Account </div>
+                                        </div>
+                                        <div class="icon-btn col-sm m-r-0"> <img src="assets/img/Clear.png" alt="" />
+                                            <div> Clear </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters m-t-7 payment">
+                                        <button type="button" class="btn col-sm btn-payment actived">Process</button>
+                                        <button type="button" class="btn col-sm btn-payment">RollBack</button>
+                                        <button type="button" class="btn col-sm btn-payment">Del</button>
+                                        <button type="button" class="btn col-sm btn-payment m-r-0">Print</button>
+                                    </div>
+                                    <div id="Giftcardpopup" class="gift-card"> <a href="#" class="closebtn" onclick="closegiftcard()">&times;</a>
+                                        <div class="card-body">
+                                            <div class="title-border p-b-5 m-b-5">
+                                                <h4 class="d-inline-block">Giftcard</h4> </div>
+                                            <div class="form-row p-t-10 p-b-12">
+                                                <div class="form-group col-md-6"> Amount Due </div>
+                                                <div class="form-group col-md-6 text-right"> $163.95 </div>
+                                            </div>
+                                            <div class="form-row p-b-12">
+                                                <div class="form-group col-md-12">
+                                                    <input type="text" class="form-control" placeholder="Gift Card #"> </div>
+                                            </div>
+                                            <div class="form-row p-b-12">
+                                                <div class="form-group col-md-6"> Current Value </div>
+                                                <div class="form-group col-md-6 text-right"> $000.95 </div>
+                                            </div>
+                                            <div class="form-row p-b-12">
+                                                <div class="form-group col-md-12">
+                                                    <input type="text" class="form-control" placeholder="Amount"> </div>
+                                            </div>
+                                            <div class="form-row p-b-12 p-t-20 border-top">
+                                                <div class="form-group col-md-6"> Balance </div>
+                                                <div class="form-group col-md-6 text-right"> $163.95 </div>
+                                            </div>
+                                            <div class="form-row p-b-12 m-t-100 p-t-40 border-top">
+                                                <button type="button" class="btn theme-primary-button-color w-100 btn-sm giftcard-btn">Process</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--credit card-->
+                                      <div id="creditcardpopup" class="gift-card"> <a href="#" class="closebtn" onclick="closecreditcard()">&times;</a>
+                                        <div class="card-body">
+                                            <div class="title-border p-b-5 m-b-5">
+                                                <h4 class="d-inline-block">Credit Card</h4> </div>
+                                            <div class="row no-gutters m-t-20">
+                                                <div class="col-lg-12 text-center m-t-10"> <span class="cash-box"> <span class="text-cash">$164.00 </span> </span>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters m-t-15 m-b-20">
+                                                <div class="col-lg-12 text-center">
+                                                    <button type="button" class="btn theme-optional-button-color">Cancel</button>
+                                                    <button type="button" class="btn theme-primary-button-color">Process</button>
+                                                </div>
+                                            </div>
+                                            <div class="title-border p-b-5 m-b-5 m-t-40 p-t-15">
+                                                <h6 class="d-inline-block">Cash Back</h6> </div>
+                                            <div class="row no-gutters m-t-7">
+                                                <button type="button" class="btn col-sm btn-Keypad">3$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad">5$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad m-r-0">10$</button>
+                                            </div>
+                                            <div class="row no-gutters m-t-7">
+                                                <button type="button" class="btn col-sm btn-Keypad">15$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad">20$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad m-r-0">25$</button>
+                                            </div>
+                                            <div class="row no-gutters m-t-7">
+                                                <button type="button" class="btn col-sm btn-Keypad">30$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad">40$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad m-r-0">50$</button>
+                                            </div>
+                                            <div class="form-row p-b-12 m-t-100 p-t-40 border-top">
+                                                <button type="button" class="btn theme-primary-button-color w-100 btn-sm giftcard-btn">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- credit card-->
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                            <!-- end card-->
+                        </div>
+                        <!--Bills-->
+                        <div class="col-xl-8 no-space">
+                            <div class="card m-b-10">
+                                <div class="card-body">
+                                    <div class="form-row border-bottom">
+                                        <div class="form-group col-md-3">
+                                            <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item List</label>
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                            <div class=" pull-right">
+                                                <p-autoComplete [ngModelOptions]="{standalone: true}" class="d-inline-block align-middle" [(ngModel)]="ItemName" [suggestions]="filteredItem" 
+                                                (completeMethod)="filterItem($event)" (onSelect)="selectedItem($event)" field="name" [size]="10" appendTo="body" 
+                                                    placeholder="Item"  ></p-autoComplete>&nbsp;
+                                                <!-- <input type="text" class="form-control d-inline-block w-50 align-middle" placeholder="Item">&nbsp; -->
+                                                <input type="text" class="form-control d-inline-block w-23 align-middle" placeholder="Qty">&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color buttonSize">Add</button>&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color buttonSize" href="#itemsearchmodal" data-toggle="modal">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive m-t-10">
+                                        <table class="table-scroll small-first-col">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Item</th>
+                                                    <th scope="col">Qty</th>
+                                                    <th scope="col">T</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="body-half-screen">
+                                                <tr>
+                                                    <th scope="row" colspan="5">Details</th>
+                                                </tr>
+                                                <tr>
+                                                    <td href="#edititem" data-toggle="modal" class="pointer">Synthetic Seal</td>
+                                                    <td>1</td>
+                                                    <td>1</td>
+                                                    <td>$10</td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" href="#deleteitem" data-toggle="modal"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" colspan="5">Wash Package </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Mammoth</td>
+                                                    <td>2</td>
+                                                    <td>1</td>
+                                                    <td>$10</td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" href="#deleteitem" data-toggle="modal"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" colspan="5">Additional Services </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                            <!-- end card-->
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="title-border p-b-5 m-b-5">
+                                        <h4 class="d-inline-block">Summary</h4> </div>
+                                    <form class="summary">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Total </div>
+                                            <div class="form-group col-md-6 text-right"> $163.95 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Tax </div>
+                                            <div class="form-group col-md-6 text-right"> $0.20 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Grand Total </div>
+                                            <div class="form-group col-md-6 text-right theme-optional-icon-color"> $164.15 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Cash </div>
+                                            <div class="form-group col-md-6 text-right"> $0.00 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Credit </div>
+                                            <div class="form-group col-md-6 text-right"> $0.00 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Gift Card </div>
+                                            <div class="form-group col-md-6 text-right"> $200.00 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Account </div>
+                                            <div class="form-group col-md-6 text-right"> $0.00 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Total Paid </div>
+                                            <div class="form-group col-md-6 text-right"> $0.00 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Balance Due </div>
+                                            <div class="form-group col-md-6 text-right theme-optional-icon-color"> $35.85 </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Cash back </div>
+                                            <div class="form-group col-md-6 text-right"> $35 .85 </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

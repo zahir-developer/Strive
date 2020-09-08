@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.MembershipSetup;
 using Strive.BusinessEntities.MembershipSetup;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.Repository;
 using System;
@@ -12,64 +14,45 @@ using System.Threading.Tasks;
 
 namespace Strive.ResourceAccess
 {
-    public class MembershipSetupRal
+    public class MembershipSetupRal : RalBase
     {
-        private readonly Db _db;
+        public MembershipSetupRal(ITenantHelper tenant) : base(tenant) { }
+        public List<AllMembershipViewModel> GetAllMembership()
+        {
+            return db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), null);
+        }
+      
+        public bool AddMembership(MembershipDto member)
+        {
+            return dbRepo.InsertPc(member,"MembershipId");
+        }
 
-        public MembershipSetupRal(ITenantHelper tenant)
+        public bool UpdateMembership(MembershipDto member)
         {
-            var dbConnection = tenant.db();
-            _db = new Db(dbConnection);
-        }
-        public List<MembershipView> GetAllMembership()
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<MembershipView> lstResource = new List<MembershipView>();
-            var res = _db.FetchRelation1<MembershipView, ClientMembership>(SPEnum.USPGETMEMBERSHIPSETUP.ToString(), dynParams);
-            return res;
-        }
-        public List<JobItem> GetServicesWithPrice()
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<JobItem> lstResource = new List<JobItem>();
-            var res = _db.Fetch<JobItem>(SPEnum.USPGETSERVICEWITHPRICE.ToString(), dynParams);
-            return res;
-        }
-        public bool SaveMembershipSetup(List<MembershipView> member)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<Membership> lstMembership = new List<Membership>();
-            var newMember = member.FirstOrDefault();
-            lstMembership.Add(new Membership
-            {
-                MembershipId = newMember.MembershipId,
-                MembershipName = newMember.MembershipName,
-                LocationId = newMember.LocationId,
-                IsActive = newMember.IsActive,
-                DateCreated = newMember.DateCreated,
-            });
-            dynParams.Add("@tvpMembership", lstMembership.ToDataTable().AsTableValuedParameter("tvpMembership"));
-            dynParams.Add("@tvpClientMembershipDetails", member.FirstOrDefault().ClientMembership.ToDataTable().AsTableValuedParameter("tvpClientMembershipDetails"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEMEMBERSHIPSETUP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            _db.Save(cmd);
-
-            return true;
+            return dbRepo.UpdatePc(member);
         }
         public bool DeleteMembershipById(int membershipid)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@MembershipId", membershipid.toInt());
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEMEMBERSHIP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            _db.Save(cmd);
+            _prm.Add("MembershipId", membershipid);
+            db.Save(SPEnum.USPDELETEMEMBERSHIP.ToString(), _prm);
             return true;
         }
 
-        public List<MembershipView> GetMembershipById(int membershipid)
+        public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@MembershipId", membershipid.toInt());
-            var res = _db.FetchRelation1<MembershipView, ClientMembership>(SPEnum.USPGETMEMBERSHIPBYID.ToString(), dynParams);
-            return res;
+            _prm.Add("@MembershipId", membershipid);
+            return db.Fetch<MembershipServiceViewModel>(SPEnum.USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID.ToString(), _prm);
+        }
+        public MembershipAndServiceViewModel GetMembershipAndServiceByMembershipId(int id)
+        {
+            _prm.Add("@MembershipId", id);
+            return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID.ToString(), _prm);
+        }
+        public List<AllMembershipViewModel> GetMembershipSearch(MembershipSearchDto search)
+        {
+            _prm.Add("@MembershipSearch", search.MembershipSearch);
+            var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
+            return result;
         }
     }
 }

@@ -1,16 +1,17 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic;
 using Strive.Common;
 
 
 namespace Admin.Api.Controllers
 {
-    [Authorize]
-    //[AutoValidateAntiforgeryToken]
+    [Authorize]    //[AutoValidateAntiforgeryToken]
     [Route("Admin/[Controller]")]
     public class EmployeeController : StriveControllerBase<IEmployeeBpl>
     {
@@ -26,16 +27,16 @@ namespace Admin.Api.Controllers
         [Route("Update")]
         public Result UpdateEmployee([FromBody] EmployeeModel employee) => _bplManager.UpdateEmployee(employee);
 
-        [HttpPost]
-        [Route("Delete")]
-        public Result DeleteEmployee(int empId) => _bplManager.DeleteEmployeeDetails(empId);
+        [HttpDelete]
+        [Route("Delete/{employeeId}")]
+        public Result DeleteEmployee(int employeeId) => _bplManager.DeleteEmployeeDetails(employeeId);
 
         #endregion
 
         #region GET
         [HttpGet]
-        [Route("GetAll")]
-        public Result GetAllEmployee() => _bplManager.GetEmployeeList();
+        [Route("GetAllEmployeeDetail/{employeeName}")]
+        public Result GetAllEmployee(string employeeName) => _bplManager.GetAllEmployeeDetail(employeeName);
 
         [HttpGet]
         [Route("GetAllRoles")]
@@ -43,7 +44,16 @@ namespace Admin.Api.Controllers
 
         [HttpGet]
         [Route("GetEmployeeById")]
-        public Result GetEmployeeById(int id) => _bplManager.GetEmployeeById(id); 
+        public Result GetEmployeeById(int id) => _bplManager.GetEmployeeById(id);
+
+        [HttpGet]
+        [Route("GetAllEmplloyeeList")]
+        public Result GetAllEmployeeList() => _bplManager.GetEmployeeList();
+
+        [HttpGet]
+        [Route("GetEmailIdExist/{email}")]
+        public Result GetEmailIdExist(string email) => _bplManager.GetEmailIdExist(email);
         #endregion
+
     }
 }

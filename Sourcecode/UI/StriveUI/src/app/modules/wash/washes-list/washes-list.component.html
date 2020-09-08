@@ -93,16 +93,15 @@
                             <div class="card-body">
                                 <div class="p-b-20">
                                     <h4 class="d-inline-block align-middle">Washes &nbsp;<span
-                                            class="text-muted font-size-1">(29/7/20)</span></h4>
+                                            class="text-muted font-size-1"></span></h4>
                                     <div class="pull-right card-widgets"><button type="button"
                                             class="btn theme-primary-button-color  mw-100"
-                                            (click)="add('add',[])">New</button>&nbsp;&nbsp;
-                                        <a data-toggle="collapse" href="#washeslist" role="button" aria-expanded="false"
-                                            aria-controls="washeslist"><i
-                                                class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                            (click)="add('add',[])">New</button>
                                     </div>
                                 </div>
-                                <div id="washeslist" class="collapse show">
+                                <div class="setup-content" *ngIf="isTableEmpty === true"> <span
+                                        class="col-12 row d-block">No Washes Found</span></div>
+                                <div class="setup-content" *ngIf="isTableEmpty === false">
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <thead>
@@ -110,7 +109,7 @@
                                                     <th scope="col">Ticket No</th>
                                                     <th scope="col">Client Name</th>
                                                     <th scope="col">Phone No</th>
-                                                    <th scope="col">Make/Model/Color of the Car</th>
+                                                    <th scope="col">Make/Model/Color</th>
                                                     <th scope="col">Time In</th>
                                                     <th scope="col">Estimated Time Out </th>
                                                     <th scope="col">Wash Packages/Services</th>
@@ -119,90 +118,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">14785</th>
-                                                    <td>Myron Wunsch</td>
-                                                    <td>951-2304-254</td>
-                                                    <td> Chevrolet SUV White </td>
-                                                    <td class="font-weight-600">10.17</td>
-                                                    <td class="font-weight-600"> 12.10</td>
-                                                    <td> Mini Mammoth</td>
-                                                    <td>
-                                                        <button type="button"
-                                                            class="btn theme-notification-background-icon-color btn-sm pt-0 pb-0 p-l-12 p-r-12">Pay</button>
-                                                    </td>
-                                                    <td> <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('edit',[])"></i>
-                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            href="#deletewashModal" data-toggle="modal"></i> </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">14785</th>
-                                                    <td>Myron Wunsch</td>
-                                                    <td>951-2304-254</td>
-                                                    <td> Chevrolet SUV White</td>
-                                                    <td class="font-weight-600">08.17</td>
-                                                    <td class="font-weight-600"> 05.10</td>
-                                                    <td> Mini Mammoth</td>
-                                                    <td>
-                                                        <button type="button"
-                                                            class="btn theme-basic-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12">Pay</button>
-                                                    </td>
-                                                    <td> <i
-                                                            class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
-                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            href="#deletewashModal" data-toggle="modal"></i> </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">14785</th>
-                                                    <td>Myron Wunsch</td>
-                                                    <td>951-2304-254</td>
-                                                    <td> Chevrolet SUV Black</td>
-                                                    <td class="font-weight-600">10.17</td>
-                                                    <td class="font-weight-600"> 12.10</td>
-                                                    <td> Mini Mammoth</td>
+                                                <tr
+                                                    *ngFor="let wash of washDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    <th scope="row">{{wash.TicketNumber}}</th>
+                                                    <td>{{wash.ClientName}}</td>
+                                                    <td>{{wash.PhoneNumber}}</td>
+                                                    <td>{{wash.VehicleName}}</td>
+                                                    <td class="font-weight-600">{{wash.TimeIn | date:'mediumTime'}}</td>
+                                                    <td class="font-weight-600">
+                                                        {{wash.EstimatedTimeOut | date:'mediumTime'}}</td>
+                                                    <td>{{wash.ServiceName}}</td>
                                                     <td>
                                                         <button type="button"
                                                             class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12">Pay</button>
                                                     </td>
                                                     <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('edit',[])"></i>
+                                                            (click)="add('view',wash)"></i>
                                                         <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('view',[])"></i>
+                                                            (click)="add('edit',wash)"></i>
                                                         <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            href="#deletewashModal" data-toggle="modal"></i> </td>
+                                                            (click)="delete(wash)"></i>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
                                     </div>
                                 </div>
                             </div>
-                            <!-- end card-body -->
                         </div>
-                        <!-- end card-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="deletewashModal" tabindex="-1" role="dialog" aria-labelledby="deletewashModal"
-            aria-hidden="true">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Delete Washes</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
-                                aria-hidden="true">&times;</span> </button>
-                    </div>
-                    <div class="modal-body">
-                        <!--modal body-->
-                        <p>Are you sure you want to delete the ticket?. All related information will be deleted and the
-                            ticket cannot be retrieved?</p>
-                    </div>
-                    <!--modal body-->
-                    <div class="modal-footer">
-                        <button type="button" class="btn theme-optional-button-color"
-                            data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn theme-primary-button-color">Delete</button>
                     </div>
                 </div>
             </div>
@@ -210,10 +157,7 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <p-dialog header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="false"
-        [focusOnShow]="false" [closable]="false">
-        <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
-            (closeDialog)="closePopupEmit($event)">
-        </app-create-edit-washes>
-    </p-dialog>
+    <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
+        (closeDialog)="closePopupEmit($event)">
+    </app-create-edit-washes>
 </div>

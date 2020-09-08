@@ -14,6 +14,9 @@ import { ProductSetupComponent } from './system-setup/product-setup/product-setu
 import { VendorSetupComponent } from './system-setup/vendor-setup/vendor-setup.component';
 import { ClientComponent } from './client/client.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
+import { GiftCardComponent } from './gift-card/gift-card.component';
+import { MembershipComponent } from './system-setup/membership/membership.component';
+import { TimeCostMaintenanceComponent } from './time-cost-maintenance/time-cost-maintenance.component';
 
 
 const adminRoutes: Routes = [
@@ -27,6 +30,8 @@ const adminRoutes: Routes = [
     { path: 'closeoutregister', component: CloseoutRegisterComponent },
     { path: 'client', component: ClientComponent },
     { path: 'vehicle', component: VehicleComponent },
+    { path: 'gift-card', component: GiftCardComponent },
+    { path: 'time-cost', component: TimeCostMaintenanceComponent },
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },
@@ -34,6 +39,7 @@ const adminRoutes: Routes = [
         { path: 'service', component: ServiceSetupComponent },
         { path: 'product', component: ProductSetupComponent },
         { path: 'vendor', component: VendorSetupComponent },
+        { path: 'membership', component: MembershipComponent },
       ]
     }
     ]

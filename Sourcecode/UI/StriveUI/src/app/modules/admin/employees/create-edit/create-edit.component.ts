@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -42,11 +45,32 @@ export class CreateEditComponent implements OnInit {
   isDocumentCollapsed = false;
   submitted: boolean;
   ctypeLabel: any;
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
+  multipleFileUpload: any = [];
+  fileType: any;
+  isLoading: boolean;
+  imigirationStatus: any = [];
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
+    this.isLoading = false;
     this.ctypeLabel = 'none';
-    this.Status = ['Active', 'InActive'];
+    this.Status = ['Active', 'Inactive'];
+    this.imigirationStatus = [
+      {
+        value: 0,
+        label: 'False'
+      },
+      {
+        value: 1,
+        label: 'True'
+      }
+    ];
     this.documentDailog = false;
     this.submitted = false;
     this.personalform = this.fb.group({
@@ -59,17 +83,15 @@ export class CreateEditComponent implements OnInit {
       ssn: ['', Validators.required]
     });
     this.emplistform = this.fb.group({
-      emailId: ['', Validators.required],
-      password: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       commission: [''],
-      status: [''],
-      tip: [''],
+      status: ['Active'],
       exemptions: [''],
-      roles: [''],
-      location: ['']
+      roles: [[]],
+      location: [[]]
     });
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
@@ -82,7 +104,6 @@ export class CreateEditComponent implements OnInit {
   employeeDetail() {
     const id = this.employeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
-      console.log(res, 'getEmployeById');
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
         console.log(employees, 'employeDeatil');
@@ -122,17 +143,12 @@ export class CreateEditComponent implements OnInit {
     });
   }
 
-  checking() {
-    console.log(this.emplistform, 'multi');
-  }
-
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 
   getAllRoles() {
     this.employeeService.getAllRoles().subscribe(res => {
-      console.log(res, 'getAllRoles');
     });
   }
 
@@ -142,29 +158,50 @@ export class CreateEditComponent implements OnInit {
 
   fileNameChanged() {
     let filesSelected: any;
-    filesSelected = document.getElementById('filepaths');
+    filesSelected = document.getElementById('customFile');
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
       this.fileName = fileToLoad.name;
+      const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
         let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('filepaths');
+        textAreaFileContents = document.getElementById('customFile');
         textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
       };
       fileReader.readAsDataURL(fileToLoad);
+      this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
+        const fileObj = {
+          fileName: this.fileName,
+          fileUploadDate: this.fileUploadformData,
+          fileType: fileExtension
+        };
+        this.multipleFileUpload.push(fileObj);
+        this.isLoading = false;
+        console.log(this.multipleFileUpload, 'fileupload');
       }, 5000);
     }
   }
 
+  clearDocument(i) {
+    this.multipleFileUpload = this.multipleFileUpload.filter((item, index) => index !== i);
+  }
+
   closeDocumentPopup() {
     this.documentDailog = false;
+  }
+
+  onBlurMethod() {
+    $('.custom-file-input').on('change', function () {
+      const fileName = $(this).val().split('\\').pop();
+      $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+    });
   }
 
   get f() {
@@ -179,6 +216,7 @@ export class CreateEditComponent implements OnInit {
     console.log(this.emplistform, 'empdorm');
     this.submitted = true;
     if (this.personalform.invalid || this.emplistform.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
     }
     const sourceObj = [];
@@ -187,70 +225,106 @@ export class CreateEditComponent implements OnInit {
     const employeeRoles = [];
     const employeeAddressObj = {
       employeeAddressId: 0,
-      relationshipId: 0,
+      employeeId: 0,
       address1: this.personalform.value.address,
-      address2: '',
-      phoneNumber: +this.personalform.value.mobile,
+      address2: 'string',
+      phoneNumber: this.personalform.value.mobile,
       phoneNumber2: '',
       email: this.emplistform.value.emailId,
-      state: 0,
-      country: 0,
-      zip: '',
-      city: 1,
-      isActive: this.emplistform.value.status === 'Active' ? true : false
+      city: 303,
+      state: 48,
+      zip: 'string',
+      country: 38
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
         employeeRoleId: 0,
         employeeId: 0,
         roleId: item.item_id,
-        isDefault: true,
-        isActive: this.emplistform.value.status === 'Active' ? true : false
+        isActive: true,
+        isDeleted: false,
       };
     });
-    const employeeDetailObj = this.emplistform.value.location.map(item => {
+    const employeeDetailObj = {
+      employeeDetailId: 0,
+      employeeId: 0,
+      employeeCode: 'string',
+      hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
+      PayRate: this.emplistform.value.hourlyRateWash,
+      ComRate: null,
+      lrt: '2020 - 08 - 06T19: 24: 48.817Z',
+      exemptions: +this.emplistform.value.exemptions,
+      isActive: true,
+      isDeleted: false,
+    };
+    const locationObj = this.emplistform.value.location.map(item => {
       return {
-        employeeDetailId: 0,
+        employeeLocationId: 0,
         employeeId: 0,
-        employeeCode: 'string',
-        authId: 0,
         locationId: item.item_id,
-        payRate: 'string',
-        sickRate: 'string',
-        vacRate: 'string',
-        comRate: 'string',
-        hiredDate: this.emplistform.value.dateOfHire,
-        salary: 'string',
-        tip: this.emplistform.value.tip,
-        lrt: '2020 - 08 - 03T10: 00: 31.411Z',
-        exemptions: +this.emplistform.value.exemptions,
-        isActive: this.emplistform.value.status === 'Active' ? true : false
+        isActive: true,
+        isDeleted: false,
       };
     });
-    employeAddress.push(employeeAddressObj);
     const employeeObj = {
       employeeId: 0,
       firstName: this.personalform.value.firstName,
       middleName: 'string',
       lastName: this.personalform.value.lastName,
-      gender: this.personalform.value.gender,
+      gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: 0,
+      maritalStatus: 117,
       isCitizen: true,
       alienNo: 'string',
-      birthDate: '2020-08-03T10:00:31.412Z',
-      immigrationStatus: this.personalform.value.immigrationStatus,
-      createdDate: '2020-08-03T10:00:31.412Z',
-      isActive: this.emplistform.value.status === 'Active' ? true : false,
-      employeeDetail: employeeDetailObj,
-      employeeAddress: employeAddress,
-      employeeRole: employeeRoleObj
+      birthDate: '',
+      immigrationStatus: +this.personalform.value.immigrationStatus,
+      isActive: true,
+      isDeleted: false,
     };
-    console.log(employeeObj, 'finalObj');
-    this.employeeService.updateEmployee(employeeObj).subscribe( res => {
+    const documentObj = this.multipleFileUpload.map(item => {
+      return {
+        employeeDocumentId: 0,
+        employeeId: 0,
+        filename: item.fileName,
+        filepath: 'string',
+        base64: item.fileUploadDate,
+        fileType: item.fileType,
+        isPasswordProtected: false,
+        password: 'string',
+        comments: 'string',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 0,
+        createdDate: moment(new Date()).format('YYYY-MM-DD'),
+        updatedBy: 0,
+        updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      };
+    });
+    const finalObj = {
+      employee: employeeObj,
+      employeeDetail: employeeDetailObj,
+      employeeAddress: employeeAddressObj,
+      employeeRole: employeeRoleObj,
+      employeeLocation: locationObj,
+      employeeDocument: documentObj
+    };
+    this.spinner.show();
+    this.employeeService.saveEmployee(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfully!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      } else {
+        if (res.status === 'Fail' && res.errorMessage !== null) {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.errorMessage });
+        }
+        else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        }
       }
+    }, (error) => {
+      this.spinner.hide();
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
     });
   }
 

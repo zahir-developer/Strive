@@ -4,12 +4,32 @@ using System.Text;
 
 namespace Strive.Common
 {
-        public enum GlobalEnum
-        {
-            Success,
-            Fail
-        }
+    public enum GlobalEnum
+    {
+        Success,
+        Fail
+    }
 
+    public enum UserRole
+    {
+        Auditor,
+        Accountant,
+        Controller,
+        NoAccess,
+        Admin,
+    }
+
+    
+
+    public static class GlobalUpload
+    {
+        public static string InvalidMessage = "Invalid format. Valid formats: ";
+        public enum UploadFolder
+        {
+            EMPLOYEEDOCUMENT,
+            PRODUCTIMAGE
+        }
+    }
         public enum UserRole
         {
             Auditor,

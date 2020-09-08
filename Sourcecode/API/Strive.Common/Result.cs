@@ -11,6 +11,6 @@ namespace Strive.Common
         public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
         public string Exception { get; set; }
         public string ResultData { get; set; }
-
+        public string ErrorMessage { get; set; }
     }
 }

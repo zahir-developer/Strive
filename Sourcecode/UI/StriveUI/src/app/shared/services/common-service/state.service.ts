@@ -11,4 +11,8 @@ export class StateService {
   getStatesList() {
     return this.http.get(`${UrlConfig.totalUrl.stateList}`);
   }
+
+  getCityList(code) {
+    return this.http.get(`${UrlConfig.totalUrl.cityList}` + code);
+  }
 }

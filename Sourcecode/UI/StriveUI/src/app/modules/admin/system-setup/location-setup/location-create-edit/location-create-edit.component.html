@@ -1,94 +1,90 @@
 <!-- <div class="modal-body"> -->
-    <form [formGroup]="locationSetupForm">
-        <div class="form-row">
-            <div class="form-group col-lg-3">
-                <label for="inputLocationName">Name&nbsp;<span class="required">*</span></label>
-                <input type="text" maxlength="100" class="form-control" formControlName="locationName"
-                    placeholder="Location Name" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
-                <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
-                    <div *ngIf="f.locationName.errors.required">Location Name is required</div>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputLocationAddress">Address&nbsp;<span class="required">*</span></label>
-                <input type="text" maxlength="50" class="form-control" formControlName="locationAddress" placeholder="Location Address"
-                    [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
-                <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
-                    <div *ngIf="f.locationAddress.errors.required">Location Address is required</div>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputLocationAddress">Address 2</label>
-                <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2" placeholder="Address 2"
-                    [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
-                <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
-                    <div *ngIf="f.locationAddress2.errors.required">Location Address 2 is required</div>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="inputZipcode">ZipCode&nbsp;<span class="required">*</span></label>
-                <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip"
-                    formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
-                <div *ngIf="submitted  && f.zipcode.errors" class="invalid-feedback">
-                    <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
-                    <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode</div>
-                </div>
+<form [formGroup]="locationSetupForm">
+    <div class="form-row">
+        <div class="form-group col-lg-3">
+            <label for="inputLocationName">Name&nbsp;<span class="required">*</span></label>
+            <input type="text" maxlength="100" class="form-control" formControlName="locationName"
+                placeholder="Location Name" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
+            <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
+                <div *ngIf="f.locationName.errors.required">Location Name is required</div>
             </div>
         </div>
-        <div class="form-row">  
-            <div class="form-group col-lg-3">
-                <label for="inputCountry">Country</label>
-                <app-country-dropdown [selectedCountryId]="selectedCountryId"
-                    (countryId)="getSelectedCountryId($event)"></app-country-dropdown>
-            </div>          
-            <div class="form-group col-lg-3">
-                <label for="inputState">State&nbsp;<span class="required">*</span></label>
-                <app-state-dropdown [selectedStateId]="selectedStateId" [isdisable]="true" (stateId)="getSelectedStateId($event)">
-                </app-state-dropdown>
-            </div>
-            <!-- <div class="ui-fluid">
-                <div class="p-grid forms-grid"> -->
-            <div class="form-group  col-lg-3 ">
-                <label for="inputState">City</label>
-                <app-city></app-city>
-            </div>
-            <!-- </div>
-            </div> -->
-         
-            <div class="form-group col-lg-3">
-                <label for="inputPhoneNumber">Phone Number</label>
-                <input appPhoneMask type="text" class="form-control" formControlName="phoneNumber"
-                    placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid':submitted  && f.phoneNumber.errors }">
-                <div *ngIf="submitted  && f.phoneNumber.errors" class="invalid-feedback">
-                    <div *ngIf="f.phoneNumber.errors.minlength">Phone number must be 10 digits</div>
-                </div>
-            </div>
-           
-        </div>
-        <div class="form-row"> 
-            <div class="form-group col-lg-3">
-                <label for="inputEmail">Email</label>
-                <input type="email" maxlength="50" class="form-control" formControlName="email" placeholder="Email"
-                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors">Please enter valid email address</div>
-                </div>
-            </div>           
-            <div class="form-group col-lg-3">
-                <label for="inputWorkThreshold">Work Threshold</label>
-                <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
-                    placeholder="Threshold #" numbersOnly>
-            </div>            
-            <div class="form-group col-lg-3">
-                <label></label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="franchise"
-                        (change)="change($event.target.checked)">
-                    <label class="form-check-label" for="gridCheck">Franchise</label>
-                </div>
+        <div class="form-group col-lg-3">
+            <label for="inputLocationAddress">Address&nbsp;<span class="required">*</span></label>
+            <input type="text" maxlength="50" class="form-control" formControlName="locationAddress"
+                placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
+            <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
+                <div *ngIf="f.locationAddress.errors.required">Location Address is required</div>
             </div>
         </div>
-    </form>
+        <div class="form-group col-lg-3">
+            <label for="inputLocationAddress">Address 2</label>
+            <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2"
+                placeholder="Address 2" [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
+            <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
+                <div *ngIf="f.locationAddress2.errors.required">Location Address 2 is required</div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="inputZipcode">ZipCode&nbsp;<span class="required">*</span></label>
+            <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip"
+                formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
+            <div *ngIf="submitted  && f.zipcode.errors" class="invalid-feedback">
+                <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
+                <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-lg-3">
+            <label for="inputCountry">Country</label>
+            <app-country-dropdown [selectedCountryId]="selectedCountryId" (countryId)="getSelectedCountryId($event)">
+            </app-country-dropdown>
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="inputState">State&nbsp;<span class="required">*</span></label>
+            <app-state-dropdown [selectedStateId]="selectedStateId" [isdisable]="true"
+                (stateId)="getSelectedStateId($event)">
+            </app-state-dropdown>
+        </div>
+        <div class="form-group  col-lg-3 ">
+            <label for="inputState">City&nbsp;<span class="required">*</span></label>
+            <app-city (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId"></app-city>
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="inputPhoneNumber">Phone Number</label>
+            <input appPhoneMask type="text" class="form-control" formControlName="phoneNumber"
+                placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid':submitted  && f.phoneNumber.errors }">
+            <div *ngIf="submitted  && f.phoneNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.phoneNumber.errors.minlength">Phone number must be 10 digits</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="form-row">
+        <div class="form-group col-lg-3">
+            <label for="inputEmail">Email</label>
+            <input type="email" maxlength="50" class="form-control" formControlName="email" placeholder="Email"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors">Please enter valid email address</div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="inputWorkThreshold">Work Threshold</label>
+            <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
+                placeholder="Threshold #" numbersOnly>
+        </div>
+        <div class="form-group col-lg-3">
+            <label></label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="franchise"
+                    (change)="change($event.target.checked)">
+                <label class="form-check-label" for="gridCheck">Franchise</label>
+            </div>
+        </div>
+    </div>
+</form>
 <!-- </div> -->
 <br>
 <div class="modal-footer">

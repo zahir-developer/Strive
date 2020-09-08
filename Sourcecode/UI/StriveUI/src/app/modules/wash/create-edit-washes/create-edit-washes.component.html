@@ -4,7 +4,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <ol class="breadcrumb font-size--9">
                     <li class="breadcrumb-item">Home</li>
-                    <li class="breadcrumb-item">Wash</li>
+                    <li class="breadcrumb-item"><a (click)="cancel()">Wash</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Wash</li>
                     <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Wash</li>
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Wash</li>
@@ -18,105 +18,183 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="card">
                     <div class="card-body">
-                        <div class="title-border p-b-5 m-b-5 line-height">
-                            <h5 class="d-inline-block font-weight-600">Ticket No <span
-                                    class="theme-secondary-color"></span></h5>
-                            <div class="pull-right card-widgets">
-                                <span>Time In: {{timeIn}} |</span>
-                                <span>Est.Time Out: {{timeOut}} |</span>
-                                <span>Est.Min: {{minutes}} min</span>
+                        <form [formGroup]="washForm">
+                            <div class="form-row border-bottom m-b-8">
+                                <div class="form-group col-xl-3">
+                                    <h5 class="d-inline-block font-weight-600">Ticket No. <span
+                                            style="color: #1dc5b3;">{{ticketNumber}}</span></h5> <span
+                                        class="font-size-1 font-weight-600"></span>
+                                </div>
+                                <div class="form-group col-xl-9">
+                                    <div class="pull-right">
+                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Time in:
+                                            {{ timeInDate | date:'MM-dd-yyyy, HH:mm'}}</p>
+                                        <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Est.Time
+                                            {{ timeOutDate | date:'MM-dd-yyyy, HH:mm' }}</p>
+                                        <p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min: 30min</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-lg-2 col-md-2 col-xl-3">
+                                    <label for="inputBarcode">Barcode</label>
+                                    <input type="text" maxlength="100" class="form-control" formControlName="barcode"
+                                        placeholder="BarCode"
+                                        (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputClient">Client</label>
+                                    <div class="ui-fluid">
+                                        <div class="p-grid forms-grid">
+                                            <div class="p-col-3 p-md-6">
+                                                <p-autoComplete field="name" [suggestions]="filteredClient"
+                                                    (completeMethod)="filterClient($event)" [size]="10"
+                                                    formControlName="client" placeholder="Client Name"
+                                                    (onSelect)="selectedClient($event)">
+                                                </p-autoComplete>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputVehicle">Vehicle<span class="required">*</span></label>
+                                    <select class="form-control" formControlName="vehicle"
+                                        (change)="vehicleChange($event.target.value)"
+                                        [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
+                                            {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
+                                        <div *ngIf="f.vehicle.errors.required">Vehicle is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
+                                    <div class="pull-right">
+                                        <button type="button"
+                                            class="btn theme-primary-button-color btn-responsive">Select</button>&nbsp;
+                                        <!-- <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                            Vehicle</button>&nbsp;
+                                        <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                            Client</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputType">Type</label>
+                                    <select class="form-control" formControlName="type">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of type" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputModel">Model</label>
+                                    <select class="form-control" formControlName="model">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of model" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputColor">Color</label>
+                                    <select class="form-control" formControlName="color">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputWashes">Washes<span class="required">*</span></label>
+                                    <select class="form-control" formControlName="washes"
+                                        (change)="washService($event.target.value)"
+                                        [ngClass]="{ 'is-invalid': submitted && f.washes.errors }">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of washes" value="{{score.ServiceId}}">
+                                            {{score.ServiceName}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f.washes.errors" class="invalid-feedback">
+                                        <div *ngIf="f.washes.errors.required">Washes is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="inputUpchargeType">Upcharge Type</label>
+                                    <select class="form-control" formControlName="upchargeType"
+                                        (change)="upchargeService($event.target.value)">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
+                                            {{score.ServiceName}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputUpcharges">Upcharges</label>
+                                    <select class="form-control" formControlName="upcharges"
+                                        (change)="upchargeService($event.target.value)">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
+                                            {{score.Upcharges}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputAirFreshners">Air Freshners</label>
+                                    <select class="form-control" formControlName="airFreshners"
+                                        (change)="airService($event.target.value)">
+                                        <option hidden selected value="">Choose</option>
+                                        <option *ngFor="let score of airFreshner" value="{{score.ServiceId}}">
+                                            {{score.ServiceName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="inputNotes">Notes</label>
+                                        <textarea rows="4" class="form-control m-t-5 notes-textarea" placeholder="Notes"
+                                            formControlName="notes"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="inputPastNotes">View Past Client Notes</label>
+                                        <textarea rows="4" class="form-control m-t-5 notes-textarea"
+                                            placeholder="Past Client Notes" formControlName="pastNotes"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="title-border p-b-5 m-b-5">
+                            <h5 class="d-inline-block font-weight-600">Additional Service </h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3" *ngFor="let addService of additional">
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
+                                        (change)="change(addService)" [disabled]="isView"
+                                        [checked]="addService.IsChecked" />
+                                    <label class="custom-control-label"
+                                        for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+                                </div>
                             </div>
                         </div>
-                        <div id="Washviewedit" class="collapse show">
-                            <form>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">barcode</label>
-                                        <input type="text" maxlength="100" class="form-control" placeholder="BarCode">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputLastName">Client</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Client">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputAddress">Vehicle</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Vehicle">
-                                    </div>&nbsp;
-                                    <div class="form-group">
-                                        <label></label>
-                                        <div>
-                                            <button type="button"
-                                                class="btn theme-primary-button-color">Select</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color">Add
-                                                Client</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color">Add
-                                                Vehicle</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">Type</label>
-                                        <input type="text" maxlength="100" class="form-control" placeholder="Type">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputLastName">Model</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Model">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputAddress">Color</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Color">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">Washes</label>
-                                        <input type="text" maxlength="100" class="form-control" placeholder="Washes">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputFirstName">Upcharge Type</label>
-                                        <input type="text" maxlength="100" class="form-control"
-                                            placeholder="Upcharge Type">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputLastName">Upcharges</label>
-                                        <input type="text" maxlength="50" class="form-control" placeholder="Upcharges">
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <label for="inputAddress">Air Freshners</label>
-                                        <input type="text" maxlength="50" class="form-control"
-                                            placeholder="Air Freshners">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="inputNotes">Notes</label>
-                                            <textarea rows="1" class="form-control m-t-5 notes-textarea"
-                                                placeholder="Notes"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="inputRecNotes">View Past Client Notes</label>
-                                            <textarea rows="1" class="form-control m-t-5 notes-textarea"
-                                                placeholder="Past Client Notes"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div class="m-t-12">
-                                <span class="mw-100" *ngIf="isEdit">
-                                    <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;
-                                    <button type="button" class="btn theme-primary-button-color">Print</button>
-                                </span>
-                                <span class="mw-100 pull-right">
-                                    <button type="button" class="btn theme-optional-button-color">Cancel</button>&nbsp;
-                                    <button *ngIf="!isView" type="button"
-                                        class="btn theme-primary-button-color">Save</button>
-                                </span>
-                            </div>
+                        <div class="m-t-20 mw-100">
+                            <span *ngIf="isEdit">
+                                <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color">Print</button>
+                            </span>
+                            <span class="pull-right">
+                                <button type="button" class="btn theme-optional-button-color"
+                                    (click)="cancel()">Cancel</button>&nbsp;
+                                <button *ngIf="!isView" type="button" class="btn theme-primary-button-color"
+                                    (click)="submit()">Save</button>
+                            </span>
                         </div>
                     </div>
                 </div>

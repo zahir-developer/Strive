@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.DTO.MembershipSetup;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -14,80 +15,37 @@ namespace Strive.BusinessLogic.MembershipSetup
 {
     public class MembershipBpl : Strivebase, IMembershipBpl
     {
-        public MembershipBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper) { }
+        public MembershipBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
         public Result GetAllMembership()
         {
-            try
-            {
-                var lstMembership = new MembershipSetupRal(_tenant).GetAllMembership();
-                _resultContent.Add(lstMembership.WithName("MembershipSetup"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new MembershipSetupRal(_tenant).GetAllMembership, "Membership");
         }
-        public Result GetServicesWithPrice()
-        {
-            try
-            {
-                var lstServiceWithPrice = new MembershipSetupRal(_tenant).GetServicesWithPrice();
-                _resultContent.Add(lstServiceWithPrice.WithName("GetServiceWithPrice"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
+       
         public Result GetMembershipById(int membershipid)
         {
-            try
-            {
-                var lstMembershipById = new MembershipSetupRal(_tenant).GetMembershipById(membershipid);
-                _resultContent.Add(lstMembershipById.WithName("MembershipDetail"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipById,membershipid, "MembershipDetail");
         }
-        public Result SaveMembershipSetup(List<MembershipView> member)
+        public Result AddMembership(MembershipDto member)
         {
-            try
-            {
-                bool blnStatus = new MembershipSetupRal(_tenant).SaveMembershipSetup(member);
-                _resultContent.Add(blnStatus.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new MembershipSetupRal(_tenant).AddMembership, member, "Status");
+        }
 
+        public Result UpdateMembership(MembershipDto member)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).UpdateMembership, member, "Status");
         }
         public Result DeleteMembershipById(int membershipid)
         {
-            try
-            {
-                var lstMembership = new MembershipSetupRal(_tenant).DeleteMembershipById(membershipid);
-                _resultContent.Add(lstMembership.WithName("Membership"));
-                _result = Helper.BindSuccessResult(_resultContent);
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
+            return ResultWrap(new MembershipSetupRal(_tenant).DeleteMembershipById, membershipid, "Status");
         }
-
+        public Result GetMembershipAndServiceByMembershipId(int id)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipAndServiceByMembershipId, id, "MembershipAndServiceDetail");
+        }
+        public Result GetMembershipSearch(MembershipSearchDto search)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipSearch, search, "MembershipSearch");
+        }
     }
 }
-

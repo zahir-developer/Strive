@@ -37,6 +37,7 @@ namespace Strive.Common
         VEHICLEMANUFACTURER,
         VEHICLEMODEL,
         UPCHARGE,
-        MAKE
+        MAKE,
+        SCORE
     }
 }

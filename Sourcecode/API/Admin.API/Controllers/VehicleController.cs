@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Vehicle;
-using Strive.BusinessEntities.MembershipSetup;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Vehicle;
 using Strive.Common;
 using System.Collections.Generic;
@@ -25,24 +26,28 @@ namespace Admin.API.Controllers
         [Route("UpdateMembership")]
         public Result Update([FromBody] Membership Membership) => _bplManager.UpdateVehicleMembership(Membership);
 
+        [HttpPost]
+        [Route("UpdateClientVehicle")]
+        public Result UpdateClientVehicle([FromBody] ClientVehicle ClientVehicle) => _bplManager.UpdateClientVehicle(ClientVehicle);
+
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteVehicle(int id) => _bplManager.DeleteVehicle(id);
 
 
         [HttpGet]
-        [Route("GetVehicleById")]
-        public Result GetVehicleById(int id) => _bplManager.GetClientVehicleById(id);
+        [Route("GetVehicleByClientId")]
+        public Result GetVehicleByClientId(int id) => _bplManager.GetVehicleByClientId(id);
 
         [HttpGet]
         [Route("GetVehicleId")]
         public Result GetVehicleId(int id) => _bplManager.GetVehicleId(id);
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAll")]
-        public Result GetAllVehicle()
+        public Result GetAllVehicle([FromBody]VehicleSearchDto name)
         {
-            return _bplManager.GetAllVehicle();
+            return _bplManager.GetAllVehicle(name);
         }
 
         [HttpGet]
@@ -51,21 +56,22 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetVehicleMembership();
         }
+        [HttpPost]
+        [Route("GetVehicleCodes")]
+        public Result GetVehicleCodes() => _bplManager.GetVehicleCodes();
+
+        [HttpPost]
+        [Route("SaveClientVehicleMembership")]
+        public Result SaveClientMembership([FromBody] ClientVehicleMembershipDetailModel clientmembership) => _bplManager.SaveClientVehicleMembership(clientmembership);
+
+
         [HttpGet]
-        [Route("GetCodeTypeColour")]
-        public Result GetVehicleColour() => _bplManager.GetVehicleColour();
+        [Route("GetVehicleMembershipDetailsByVehicleId")]
+        public Result GetVehicleMembershipDetailsByVehicleId(int id) => _bplManager.GetVehicleMembershipDetailsByVehicleId(id);
+
         [HttpGet]
-        [Route("GetCodeTypeModel")]
-        public Result GetCodeTypeModel() => _bplManager.GetCodeTypeModel();
-        [HttpGet]
-        [Route("GetCodeModel")]
-        public Result GetCodeModel() => _bplManager.GetCodeModel();
-        [HttpGet]
-        [Route("GetCodeUpcharge")]
-        public Result GetCodeUpcharge() => _bplManager.GetCodeUpcharge();
-        [HttpGet]
-        [Route("GetCodeMake")]
-        public Result GetCodeMake() => _bplManager.GetCodeMake();
-        
+        [Route("GetMembershipDetailsByVehicleId")]
+        public Result GetMembershipDetailsByVehicleId(int id) => _bplManager.GetMembershipDetailsByVehicleId(id);
+
     }
 }

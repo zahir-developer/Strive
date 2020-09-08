@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
-using Strive.BusinessEntities.TimeClock;
+using Strive.BusinessEntities.DTO.TimeClock;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -17,22 +18,15 @@ namespace Strive.BusinessLogic.TimeClock
         {
         }
 
-        public Result GetTimeClock(int userId, DateTime date)
+        public Result GetTimeClock(TimeClockDto timeClock)
         {
-            var result = new TimeClockRal(_tenant).GetTimeClock(userId, date);
-            _resultContent.Add(result.WithName("TimeClock"));
-            _result = Helper.BindSuccessResult(_resultContent);
 
-            return _result;
+            return ResultWrap(new TimeClockRal(_tenant).GetTimeClock, timeClock, "TimeClock");
         }
 
-        public Result SaveTimeClock(Strive.BusinessEntities.TimeClock.TimeClock clockTime)
+        public Result SaveTimeClock(Strive.BusinessEntities.Model.TimeClockModel timeClock)
         {
-            var result = new TimeClockRal(_tenant).SaveTimeClock(clockTime);
-            _resultContent.Add(result.WithName("Success"));
-            _result = Helper.BindSuccessResult(_resultContent);
-
-            return new Result();
+            return ResultWrap(new TimeClockRal(_tenant).SaveTimeClock, timeClock, "Result");
         }
     }
 }

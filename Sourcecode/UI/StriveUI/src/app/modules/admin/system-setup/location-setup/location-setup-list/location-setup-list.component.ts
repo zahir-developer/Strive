@@ -14,8 +14,7 @@ export class LocationSetupListComponent implements OnInit {
   showDialog = false;
   selectedData: any;
   headerData: string;
-  searchByName = '';
-  searchById = '';
+  search : any = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
@@ -30,14 +29,14 @@ export class LocationSetupListComponent implements OnInit {
     this.getAllLocationSetupDetails();
 
   }
+
+  // get all location
   getAllLocationSetupDetails() {
     this.isLoading =  true;
     this.locationService.getLocation().subscribe(data => {
       this.isLoading =  false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        console.log(location, 'location');
-        // this.locationSetupDetails = location.Location.filter(item => item.IsActive === true);
         this.locationSetupDetails = location.Location;
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
@@ -50,10 +49,32 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-  edit(data) {
-    this.selectedData = data;
-    this.showDialog = true;
+  
+  // Get Location Search
+  locationSearch(){
+    this.page = 1;
+    const obj ={
+       locationSearch: this.search
+    }
+    this.locationService.LocationSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.locationSetupDetails = location.Search;
+        this.locationSetupDetails.forEach(item => {
+          item.Address1 = item.Address1.trim();
+        });
+        if (this.locationSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.locationSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
+
   delete(data) {
     this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
     information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
@@ -64,6 +85,8 @@ export class LocationSetupListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete location
   confirmDelete(data) {
     this.locationService.deleteLocation(data.LocationId).subscribe(res => {
       if (res.status === 'Success') {
@@ -91,11 +114,12 @@ export class LocationSetupListComponent implements OnInit {
     }
   }
 
+
+  // get location detail by locationId
   getLocationById(data) {
     this.locationService.getLocationById(data.LocationId).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
-        console.log(location, 'locationByid');
         this.selectedLocation = location.Location;
         this.headerData = 'Edit Location';
         this.selectedData = this.selectedLocation;
@@ -106,5 +130,7 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-
+  clearSearch() {
+    console.log('clear');
+  }
 }

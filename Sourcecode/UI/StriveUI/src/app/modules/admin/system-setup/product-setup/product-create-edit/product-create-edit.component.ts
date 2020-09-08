@@ -24,6 +24,10 @@ export class ProductCreateEditComponent implements OnInit {
   submitted: boolean;
   selectedProduct: any;
   textDisplay: boolean;
+  fileName: any = null;
+  isLoading: boolean;
+  fileUploadformData: any = null;
+  fileThumb: any = null;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
@@ -53,11 +57,12 @@ export class ProductCreateEditComponent implements OnInit {
       status: ['',],
       vendor: ['',],
       thresholdAmount: ['',],
-      other: ['',]
+      other: ['',],
+      suggested: ['']
     });
-    this.productSetupForm.patchValue({status : 0});
+    this.productSetupForm.patchValue({status : 0}); 
   }
-
+  // Get ProductType
   getProductType() {
     this.getCode.getCodeByCategory("PRODUCTTYPE").subscribe(data => {
       if (data.status === "Success") {
@@ -69,6 +74,7 @@ export class ProductCreateEditComponent implements OnInit {
     });
     this.getSize();
   }
+  // Get Size
   getSize() {
     this.getCode.getCodeByCategory("SIZE").subscribe(data => {
       if (data.status === "Success") {
@@ -79,18 +85,18 @@ export class ProductCreateEditComponent implements OnInit {
       }
     });
   }
-
+  // Get All Vendors
   getAllVendor() {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.Vendor = vendor.Vendor.filter(item => item.IsActive === true);
+        this.Vendor = vendor.Vendor.filter(item => item.IsActive === 'True');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     })
   }
-
+  // Get All Location
   getAllLocation() {
     this.locationService.getLocation().subscribe(data => {
       if (data.status === 'Success') {
@@ -112,7 +118,7 @@ export class ProductCreateEditComponent implements OnInit {
       this.productSetupForm.get('other').reset();
     }
   }
-
+  // Get Product By Id
   getProductById() {
     this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
       if (data.status === "Success") {
@@ -122,7 +128,8 @@ export class ProductCreateEditComponent implements OnInit {
           productType: this.selectedProduct.ProductType,
           locationName: this.selectedProduct.LocationId,
           name: this.selectedProduct.ProductName,
-          cost: this.selectedProduct.Cost,
+          cost: this.selectedProduct?.Cost?.toFixed(2),
+          suggested: this.selectedProduct?.Price?.toFixed(2),
           taxable: this.selectedProduct.IsTaxable,
           taxAmount: this.selectedProduct.TaxAmount !== 0 ? this.selectedProduct.TaxAmount : "",
           size: this.selectedProduct.Size,
@@ -131,6 +138,8 @@ export class ProductCreateEditComponent implements OnInit {
           vendor: this.selectedProduct.VendorId,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
+        this.fileName= this.selectedProduct.FileName;
+        this.fileUploadformData = this.selectedProduct.Base64;
         if (this.selectedProduct.Size === 33) {
           this.textDisplay = true;
           this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
@@ -157,18 +166,26 @@ export class ProductCreateEditComponent implements OnInit {
       this.productSetupForm.get('taxAmount').reset();
     }
   }
+
+  // Add/Update Product
   submit() {
     this.submitted = true;
     if (this.productSetupForm.invalid) {
       return;
     }
+    // if(this.fileName === null){   
+    //   return;
+    // }
     const formObj = {
       productCode: null,
       productDescription: null,
       productType: this.productSetupForm.value.productType,
       productId: this.isEdit ? this.selectedProduct.ProductId : 0,
       locationId: this.productSetupForm.value.locationName,
-      productName: this.productSetupForm.value.name,
+      productName: this.productSetupForm.value.name,      
+      fileName: this.fileName,
+      thumbFileName: this.fileThumb,
+      base64: this.fileUploadformData,
       cost: this.productSetupForm.value.cost,
       isTaxable: this.isChecked,
       taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
@@ -184,7 +201,7 @@ export class ProductCreateEditComponent implements OnInit {
       createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
       updatedBy: 0,
       updatedDate: new Date(),
-      price: 0
+      price: this.productSetupForm.value.suggested
     };
     if (this.isEdit === true) {
       this.product.updateProduct(formObj).subscribe(data => {
@@ -209,6 +226,38 @@ export class ProductCreateEditComponent implements OnInit {
         }
       });
     }    
+  }
+  fileNameChanged() {
+    let filesSelected: any;
+    filesSelected = document.getElementById('customFile');
+    filesSelected = filesSelected.files;
+    if (filesSelected.length > 0) {
+      const fileToLoad = filesSelected[0];
+      this.fileName = fileToLoad.name;      
+      this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+      let fileReader: any;
+      fileReader = new FileReader();
+      fileReader.onload = function (fileLoadedEventTigger) {
+        let textAreaFileContents: any;
+        textAreaFileContents = document.getElementById('customFile');
+        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
+      };
+      fileReader.readAsDataURL(fileToLoad);
+      this.isLoading = true;
+      setTimeout(() => {
+        let fileTosaveName: any;
+        fileTosaveName = fileReader.result.split(',')[1];
+        this.fileUploadformData = fileTosaveName;
+        this.isLoading = false;
+        console.log(this.fileName,this.fileUploadformData.length);
+      }, 5000);
+    }
+  }
+
+  clearDocument() {
+    this.fileName = null;
+    this.fileThumb= null;
+    this.fileUploadformData = null;
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });

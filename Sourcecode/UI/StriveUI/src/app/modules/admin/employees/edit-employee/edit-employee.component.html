@@ -5,7 +5,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                    <li class="breadcrumb-item"><a>Admin</a></li>
                     <li class="breadcrumb-item"><a (click)="navigatePage()">Employees</a></li>
                     <li class="breadcrumb-item active" aria-current="page">View/Edit Employee</li>
                 </ol>
@@ -18,7 +18,6 @@
                 </h3>
             </div>
             <div class="col-12 p-l-0 p-r-0">
-                <!-- 	<div class="row"> -->
                 <div class="card  m-b-10">
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5">
@@ -39,7 +38,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputFirstName">First Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputFirstName"
-                                        formControlName="firstName" placeholder="First Name"
+                                        formControlName="firstName" placeholder="First Name" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
                                     <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
                                         <div *ngIf="f.firstName.errors.required">First Name is required</div>
@@ -48,7 +47,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputLastName">Last Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLastName" placeholder="Last Name"
-                                        formControlName="lastName"
+                                        formControlName="lastName" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
                                     <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
                                         <div *ngIf="f.lastName.errors.required">Last Name is required</div>
@@ -57,14 +56,15 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputgender">Gender</label>
                                     <select id="inputgender" class="form-control" formControlName="gender">
-                                        <option selected>Choose...</option>
+                                        <option value="" hidden selected>Select Gender</option>
                                         <option *ngFor="let g of gender" value="{{g.CodeId}}">{{g.CodeValue}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputaddress">Address <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputaddress" formControlName="address"
-                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                                        [ngClass]="{ 'is-invalid': submitted && f.address.errors }" [appMaxLength]="50"
+                                        placeholder="Address">
                                     <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                         <div *ngIf="f.address.errors.required">Address is required</div>
                                     </div>
@@ -73,17 +73,23 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
-                                    <input type="number" class="form-control" id="inputPhone" formControlName="mobile"
+                                    <input type="text" class="form-control" appPhoneMask id="inputPhone"
+                                        formControlName="mobile" [appMaxLength]="10"
                                         [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
-                                    <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                                    <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback"
+                                        placeholder="Mobile Number">
                                         <div *ngIf="f.mobile.errors.required">Mobile Number is required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputImmigration">Immigration Status <span class="required">*</span></label>
-                                    <input type="number" class="form-control" id="inputImmigration"
-                                        formControlName="immigrationStatus"
+                                    <label for="inputImmigration">Immigration Status <span
+                                            class="required">*</span></label>
+                                    <select id="inputgender" class="form-control" formControlName="immigrationStatus"
                                         [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }">
+                                        <option value="" hidden selected>Select Status</option>
+                                        <option *ngFor="let s of imigirationStatus" value="{{s.value}}">{{s.label}}
+                                        </option>
+                                    </select>
                                     <div *ngIf="submitted && f.immigrationStatus.errors" class="invalid-feedback">
                                         <div *ngIf="f.immigrationStatus.errors.required">Immigration Status is required
                                         </div>
@@ -92,7 +98,8 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputssn" formControlName="ssn"
-                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
+                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }" [appMaxLength]="9"
+                                        numbersOnly placeholder="SSN">
                                     <div *ngIf="submitted && f.ssn.errors" class="invalid-feedback"
                                         [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
                                         <div *ngIf="f.ssn.errors.required">SSN is required</div>
@@ -133,24 +140,26 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputLoginid">Login ID <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputLoginid" formControlName="emailId"
-                                        placeholder="Login ID"
+                                        placeholder="Email ID" [appMaxLength]="50"
                                         [ngClass]="{ 'is-invalid': submitted && g.emailId.errors }">
                                     <div *ngIf="submitted && g.emailId.errors" class="invalid-feedback">
                                         <div *ngIf="g.emailId.errors.required">Login Id is required</div>
+                                        <div *ngIf="g.emailId.errors.email">Email must be a valid email address</div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <!-- <div class="form-group col-md-3">
                                     <label for="inputPassword">Password <span class="required">*</span></label>
                                     <input type="password" class="form-control" id="inputPassword"
-                                        formControlName="password"
+                                        formControlName="password" [appMaxLength]="10" placeholder="Password"
                                         [ngClass]="{ 'is-invalid': submitted && g.password.errors }">
                                     <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
                                         <div *ngIf="g.password.errors.required">Password is required</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group col-md-3">
                                     <label>Date of Hire <span class="required">*</span></label>
-                                    <input type="text" class="form-control" bsDatepicker formControlName="dateOfHire"
+                                    <input type="text" class="form-control" placeholder="Date of Hire" bsDatepicker
+                                        formControlName="dateOfHire" appCalendarMask
                                         [ngClass]="{ 'is-invalid': submitted && g.dateOfHire.errors }">
                                     <div *ngIf="submitted && g.dateOfHire.errors" class="invalid-feedback">
                                         <div *ngIf="g.dateOfHire.errors.required">Date of Hire is required</div>
@@ -159,54 +168,59 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputhourrate"
-                                        formControlName="hourlyRateWash"
+                                        formControlName="hourlyRateWash" appTwoDecimalNumber [appMaxLength]="9"
+                                        placeholder="0.00"
                                         [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
                                     <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
                                         <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputhourdetail">Hourly Rate-Details</label>
                                     <input type="text" class="form-control" id="inputhourdetail"
-                                        formControlName="hourlyRateDetail"> </div>
+                                        formControlName="hourlyRateDetail" [appMaxLength]="9" appTwoDecimalNumber
+                                        placeholder="0.00">
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputcommission">Commission</label>
-                                    <select id="inputcommission" class="form-control" formControlName="commission">
-                                        <option selected>Choose...</option>
+                                    <select id="inputcommission" class="form-control" formControlName="commission"
+                                        (change)="getCtype($event.target.value)">
+                                        <option value="0" selected>Select Commission</option>
                                         <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <label for="inputStatus">Status</label>
-                                    <select id="inputStatus" class="form-control" formControlName="status">
-                                        <option selected>Choose...</option>
-                                        <option *ngFor="let status of Status">{{status}}</option>
-                                    </select>
+                                <div class="form-group col-lg-3" *ngIf="ctypeLabel !== 'none'">
+                                    <label for="inputUpcharge">{{ctypeLabel}}</label>
+                                    <input type="text" class="form-control" placeholder="{{ctypeLabel}}" numbersOnly>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <label for="inputtip">Tip</label>
-                                    <input type="text" class="form-control" id="inputtip" formControlName="tip"> </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
                                     <input type="phone" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" numbersOnly> </div>
+                                        formControlName="exemptions" [appMaxLength]="9" placeholder="Exemptions"
+                                        numbersOnly> </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
-                                    <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
-                                        [disabled]="!isEditEmployeeList" [data]="employeeRoles" formControlName="roles">
+                                    <ng-multiselect-dropdown [placeholder]="'Select Role'"
+                                        [disabled]="!isEditEmployeeList && actionType === 'view'"
+                                        [settings]="dropdownSettings" [data]="employeeRoles" formControlName="roles"
+                                        (onDeSelect)="onRoleDeSelect($event)">
                                     </ng-multiselect-dropdown>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Location </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Location'"
-                                        [disabled]="!isEditEmployeeList" [settings]="dropdownSettings" [data]="location"
-                                        formControlName="location">
+                                        [disabled]="!isEditEmployeeList && actionType === 'view'"
+                                        [settings]="dropdownSettings" [data]="location" formControlName="location"
+                                        (onDeSelect)="onLocationDeSelect($event)">
                                     </ng-multiselect-dropdown>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputStatus">Status</label>
+                                    <select id="inputStatus" class="form-control" formControlName="status">
+                                        <option value="" hidden selected>Choose</option>
+                                        <option *ngFor="let status of Status">{{status}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </form>
@@ -226,9 +240,10 @@
                         [documentList]="documentList">
                     </app-document-list>
                 </div>
-                <div *ngIf="employeeCollision.length > 0">
-                    <app-collision-list [employeeId]="employeeId" [actionType]="actionType"
-                        [employeeCollision]="employeeCollision">
+                <div>
+                    <app-collision-list *ngIf="employeeCollision.length > 0"
+                        (reloadCollisionGrid)="reloadCollisionGrid()" [employeeId]="employeeId"
+                        [actionType]="actionType" [employeeCollision]="employeeCollision">
                     </app-collision-list>
                 </div>
                 <div class="m-t-12 pull-right mw-100" *ngIf="actionType === 'edit'">

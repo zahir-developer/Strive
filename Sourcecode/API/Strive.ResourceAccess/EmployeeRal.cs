@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Employee;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.ResourceAccess
 {
@@ -21,16 +22,22 @@ namespace Strive.ResourceAccess
     {
         public EmployeeRal(ITenantHelper tenant) : base(tenant) { }
 
-        public EmployeeViewModel GetEmployeeById(int employeeId)
+        public EmployeeDetailViewModel GetEmployeeById(int employeeId)
         {
             _prm.Add("EmployeeId", employeeId);
-            var lstResult = db.FetchMultiResult<EmployeeViewModel>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
+            var lstResult = db.FetchMultiResult<EmployeeDetailViewModel>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
             return lstResult;
         }
 
-        public List<EmployeeViewModel> GetEmployeeList()
+        public EmployeeListViewModel GetEmployeeList()
         {
-            return db.Fetch<EmployeeViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+            return db.FetchMultiResult<EmployeeListViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+        }
+
+        public List<EmployeeViewModel> GetAllEmployeeDetail(string employeeName)
+        {
+            _prm.Add("@EmployeeName", employeeName);
+            return db.Fetch<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
         }
 
         public bool AddEmployee(EmployeeModel employee)
@@ -51,23 +58,32 @@ namespace Strive.ResourceAccess
             return lstEmployee;
         }
 
-       
-
         public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
         {
             _prm.Add("AuthId", authId);
             var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(SPEnum.USPGETUSERBYAUTHID.ToString(), _prm);
             return lstResult;
-
         }
 
-        public bool DeleteEmployeeDetails(long empId)
+        public bool DeleteEmployeeDetails(int employeeId)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@tblEmployeeId", empId);
+            dynParams.Add("@EmployeeId", employeeId);
             CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
+
+        public bool GetEmailIdExist(string email)
+        {
+            EmployeeEmailDto emdto = new EmployeeEmailDto();
+            _prm.Add("@Email", email);
+            var result = db.Fetch<EmployeeEmailDto>(SPEnum.USPEMAILEXIST.ToString(), _prm);
+            if (result.FirstOrDefault().EmailExist == true)
+                return true;
+            else
+                return false;
+        }
     }
 }
+

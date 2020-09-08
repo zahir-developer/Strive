@@ -4,6 +4,7 @@ import { CreateDocumentComponent } from '../../employees/create-document/create-
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ViewDocumentComponent } from '../../employees/view-document/view-document.component';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-document-list',
@@ -19,21 +20,36 @@ export class DocumentListComponent implements OnInit {
   showCloseButton: boolean;
   documentId: any;
   isDocumentCollapsed = false;
+  employeeDocument = [];
   constructor(
     private modalService: NgbModal,
     private employeeService: EmployeeService,
-    private confirmationService: ConfirmationUXBDialogService
+    private confirmationService: ConfirmationUXBDialogService,
+    private messageService: MessageServiceToastr
   ) { }
 
   ngOnInit(): void {
     this.isEditDocument = false;
     this.showCloseButton = false;
-    this.getAllDocument();
+    this.employeeDetail();
     if (this.isModal !== undefined) {
       this.showCloseButton = true;
     } else {
       this.showCloseButton = false;
     }
+  }
+
+  employeeDetail() {
+    const id = this.employeeId;
+    this.employeeService.getEmployeeDetail(id).subscribe(res => {
+      if (res.status === 'Success') {
+        const employees = JSON.parse(res.resultData);
+        this.documentList = [];
+        if (employees.Employee.EmployeeDocument !== null) {
+          this.documentList = employees.Employee.EmployeeDocument;
+        }
+      }
+    });
   }
 
   editDocument() {
@@ -55,7 +71,7 @@ export class DocumentListComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.isEditDocument = false;
-        this.getAllDocument();
+        this.employeeDetail();
       }
     });
   }
@@ -71,6 +87,9 @@ export class DocumentListComponent implements OnInit {
   }
 
   deleteDocument(document) {
+    if (!this.isEditDocument && this.actionType === 'view') {
+      return;
+    }
     this.confirmationService.confirm('Delete Document', 'Are you sure you want to delete this Document? All related information will be deleted and the document cannot be retrieved?', 'Delete', 'Cancel')
       .then((confirmed) => {
         if (confirmed === true) {
@@ -81,24 +100,50 @@ export class DocumentListComponent implements OnInit {
   }
 
   confirmDelete(document) {
-    const docId = document.DocumentId;
+    const docId = document.DocumentSequence;
     this.employeeService.deleteDocument(docId).subscribe( res => {
       if (res.status === 'Success') {
-        this.getAllDocument();
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document Deleted Successfully!' });
+        this.employeeDetail();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
 
   viewDocument(document) {
-    this.documentId = document.DocumentId;
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg'
-    };
-    const modalRef = this.modalService.open(ViewDocumentComponent, ngbModalOptions);
-    modalRef.componentInstance.employeeId = this.employeeId;
-    modalRef.componentInstance.documentId = this.documentId;
+    if (!this.isEditDocument && this.actionType === 'view') {
+      return;
+    }
+    this.documentId = document.DocumentSequence;
+    if (document.IsPasswordProtected) {
+      const ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'lg'
+      };
+      const modalRef = this.modalService.open(ViewDocumentComponent, ngbModalOptions);
+      modalRef.componentInstance.employeeId = this.employeeId;
+      modalRef.componentInstance.documentId = this.documentId;
+    } else  {
+      this.downloadDocument(document.DocumentSequence);
+    }
+  }
+
+  downloadDocument(documentId) {
+    this.employeeService.getDocumentById(this.documentId, 'string').subscribe( res => {
+      if (res.status === 'Success') {
+        const documentDetail = JSON.parse(res.resultData);
+        console.log(documentDetail);
+        const base64 = documentDetail.Document;
+        const linkSource = 'data:application/pdf;base64,' + base64;
+        const downloadLink = document.createElement('a');
+        const fileName = 'name';
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+      }
+    });
   }
 
   closeModal() {

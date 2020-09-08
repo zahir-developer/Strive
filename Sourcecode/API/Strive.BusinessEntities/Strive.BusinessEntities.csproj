@@ -3,13 +3,262 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>  
   <ItemGroup>
-    <PackageReference Include="cocoon-orm" Version="2.9.0" />
-    <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="Dapper.Contrib" Version="2.0.35" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-  </ItemGroup>  
-  <ItemGroup>
-    <Folder Include="ModelBinder\" />
+    <Compile Include="DTO\Auth\Email.cs" />
+    <Compile Include="DTO\ClientSearchDto.cs" />
+    <Compile Include="DTO\Client\ClientDto.cs" />
+    <Compile Include="DTO\Client\ClientVehicleView.cs" />
+    <Compile Include="DTO\Client\ClientView.cs" />
+    <Compile Include="DTO\Collision\CollisionDto.cs" />
+    <Compile Include="DTO\Authentication.cs" />
+    <Compile Include="DTO\Auth\ResetPassword.cs" />
+    <Compile Include="DTO\Auth\User.cs" />
+    <Compile Include="DTO\CashRegister\CashRegisterConsolidate.cs" />
+    <Compile Include="DTO\CashRegister\CashRegisterDto.cs" />
+    <Compile Include="DTO\CashRegister\CR.cs" />
+    <Compile Include="DTO\DetailsGridDto.cs" />
+    <Compile Include="DTO\Details\DetailsDto.cs" />
+    <Compile Include="DTO\EmployeeScheduleDetailsDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeDetailDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeDocumentDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeEmailDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeInfoDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeLiabilityDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeLocationDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeLoginDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeRoleDto.cs" />
+    <Compile Include="DTO\Employee\EmployeeSearchDto.cs" />
+    <Compile Include="DTO\GiftCard\GiftCard.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardDto.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardHistory.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardHistoryDto.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardStatus.cs" />
+    <Compile Include="DTO\GiftCard\GiftCardView.cs" />
+    <Compile Include="DTO\Location\LocationSearchDto.cs" />
+    <Compile Include="DTO\MembershipSetup\MembershipDto.cs" />
+    <Compile Include="DTO\MembershipSetup\MembershipSearchDto.cs" />
+    <Compile Include="DTO\Product\ProductSearchDto.cs" />
+    <Compile Include="DTO\Sales\SalesItemUpdateDto.cs" />
+    <Compile Include="DTO\Sales\SalesListItemDto.cs" />
+    <Compile Include="DTO\Schedule\EmployeeScheduleDto.cs" />
+    <Compile Include="DTO\Schedule\ScheduleDetailDto.cs" />
+    <Compile Include="DTO\Schedule\ScheduleDto.cs" />
+    <Compile Include="DTO\ServiceSetup\ServiceCategoryViewModel.cs" />
+    <Compile Include="DTO\ServiceSetup\ServiceItem.cs" />
+    <Compile Include="DTO\ServiceSetup\ServiceSearchDto.cs" />
+    <Compile Include="DTO\TimeClock\TimeClock.cs" />
+    <Compile Include="DTO\Vehicle\VehicleDto.cs" />
+    <Compile Include="DTO\Vehicle\VehicleSearchDto.cs" />
+    <Compile Include="DTO\Vendor\VendorSearchDto.cs" />
+    <Compile Include="DTO\Washes\DashboardDto.cs" />
+    <Compile Include="DTO\Washes\WashesDto.cs" />
+    <Compile Include="Model\ClientVehicleMembershipDetailModel.cs" />
+    <Compile Include="Model\ClientVehicleMembershipModel.cs" />
+    <Compile Include="Model\ClientVehicleMembershipService.cs" />
+    <Compile Include="Model\EmployeeDocumentModel.cs" />
+    <Compile Include="Model\EmployeeModel.cs" />
+    <Compile Include="DTO\Weather\WeatherSchemaDto.cs" />
+    <Compile Include="Model\MembershipService.cs" />
+    <Compile Include="Model\ScheduleModel.cs" />
+    <Compile Include="ViewModel\AllMembershipViewModel.cs" />
+    <Compile Include="ViewModel\AllWashesViewModel.cs" />
+    <Compile Include="ViewModel\AverageWashTimeViewModel.cs" />
+    <Compile Include="ViewModel\BayDetailViewModel.cs" />
+    <Compile Include="ViewModel\BayJobDetailViewModel.cs" />
+    <Compile Include="ViewModel\BayListViewModel.cs" />
+    <Compile Include="ViewModel\ClientList.cs" />
+    <Compile Include="ViewModel\ClientVehicleDetailModelView.cs" />
+    <Compile Include="ViewModel\ClientVehicleListViewModel.cs" />
+    <Compile Include="ViewModel\DetailScheduleViewModel.cs" />
+    <Compile Include="ViewModel\DetailsGridViewModel.cs" />
+    <Compile Include="ViewModel\DetailsJobItemViewModel.cs" />
+    <Compile Include="ViewModel\DetailsJobViewModel.cs" />
+    <Compile Include="ViewModel\DetailViewModel.cs" />
+    <Compile Include="ViewModel\JobTypeViewModel.cs" />
+    <Compile Include="ViewModel\Membership.cs" />
+    <Compile Include="ViewModel\MembershipAndServiceViewModel.cs" />
+    <Compile Include="ViewModel\ProductSearchViewModel.cs" />
+    <Compile Include="ViewModel\SalesViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleItemListViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleListViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleTotalEmployeeViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleTotalWashHoursViewModel.cs" />
+    <Compile Include="ViewModel\VehicleByClientViewModel.cs" />
+    <Compile Include="ViewModel\VehicleList.cs" />
+    <Compile Include="Model\ClientVehicleModel.cs" />
+    <Compile Include="ViewModel\VehicleMembershipViewModel.cs" />
+    <Compile Include="ViewModel\WashDetailViewModel.cs" />
+    <Compile Include="ViewModel\ClientDetailViewModel.cs" />
+    <Compile Include="ViewModel\ClientSearchViewModel.cs" />
+    <Compile Include="ViewModel\ClientVehicleViewModel.cs" />
+    <Compile Include="ViewModel\ClientViewModel.cs" />
+    <Compile Include="ViewModel\CollisionViewModel.cs" />
+    <Compile Include="Model\AuthMaster.cs" />
+    <Compile Include="Model\AuthOTP.cs" />
+    <Compile Include="Model\BonusSetup.cs" />
+    <Compile Include="Model\ChatGroup.cs" />
+    <Compile Include="Model\ChatMessage.cs" />
+    <Compile Include="Model\ChatMessageRecipient.cs" />
+    <Compile Include="Model\ChatUserGroup.cs" />
+    <Compile Include="Model\EmployeeDocument.cs" />
+    <Compile Include="Model\EmployeeLocation.cs" />
+    <Compile Include="Model\LastAuth.cs" />
+    <Compile Include="Model\Log.cs" />
+    <Compile Include="Model\ReminderFrequency.cs" />
+    <Compile Include="Model\ResetAuth.cs" />
+    <Compile Include="Model\ResetAuthAction.cs" />
+    <Compile Include="Model\RoleMaster.cs" />
+    <Compile Include="Model\SchemaAccess.cs" />
+    <Compile Include="Model\SchemaMaster.cs" />
+    <Compile Include="Model\SubscriptionMaster.cs" />
+    <Compile Include="Model\TenantConfig.cs" />
+    <Compile Include="Model\TenantDetail.cs" />
+    <Compile Include="Model\TenantFeature.cs" />
+    <Compile Include="Model\TenantIntegration.cs" />
+    <Compile Include="Model\TenantMaster.cs" />
+    <Compile Include="Model\TenantModule.cs" />
+    <Compile Include="Model\Themes.cs" />
+    <Compile Include="ViewModel\CurrentViewModel.cs" />
+    <Compile Include="ViewModel\DetailsCountViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeCountViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeDetailViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeList.cs" />
+    <Compile Include="ViewModel\EmployeeListViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeLoginViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeRoleListViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeViewModel.cs" />
+    <Compile Include="ViewModel\ForecastedCarsViewModel.cs" />
+    <Compile Include="ViewModel\GiftCardBalanceViewModel.cs" />
+    <Compile Include="ViewModel\GiftCardDetailsViewModel.cs" />
+    <Compile Include="ViewModel\GiftCardHistoryViewModel.cs" />
+    <Compile Include="ViewModel\GiftCardViewModel.cs" />
+    <Compile Include="ViewModel\LiabilityViewModel.cs" />
+    <Compile Include="ViewModel\LocationViewModel.cs" />
+    <Compile Include="ViewModel\MembershipServiceViewModel.cs" />
+    <Compile Include="ViewModel\MembershipViewModel.cs" />
+    <Compile Include="ViewModel\ProductViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleViewModel.cs" />
+    <Compile Include="ViewModel\ServiceViewModel.cs" />
+    <Compile Include="DTO\Vendor\VendorDTO.cs" />
+    <Compile Include="DTO\MembershipSetup\ClientMembershipDetails.cs" />
+    <Compile Include="DTO\MembershipSetup\Membership.cs" />
+    <Compile Include="DTO\MembershipSetup\MembershipView.cs" />
+    <Compile Include="Model\Bay.cs" />
+    <Compile Include="Model\CashRegister.cs" />
+    <Compile Include="Model\CashRegisterBills.cs" />
+    <Compile Include="Model\CashRegisterCoins.cs" />
+    <Compile Include="Model\CashRegisterOthers.cs" />
+    <Compile Include="Model\CashRegisterRolls.cs" />
+    <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\ClientAddress.cs" />
+    <Compile Include="Model\ClientVehicleMembershipDetails.cs" />
+    <Compile Include="Model\ClientVehicle.cs" />
+    <Compile Include="Model\CodeCategory.cs" />
+    <Compile Include="Model\CodeValue.cs" />
+    <Compile Include="Model\Drawer.cs" />
+    <Compile Include="Model\Employee.cs" />
+    <Compile Include="Model\EmployeeAddress.cs" />
+    <Compile Include="Model\EmployeeDetail.cs" />
+    <Compile Include="Model\EmployeeLiability.cs" />
+    <Compile Include="Model\EmployeeLiabilityDetail.cs" />
+    <Compile Include="Model\EmployeeRole.cs" />
+    <Compile Include="Model\GiftCard.cs" />
+    <Compile Include="Model\GiftCardHistory.cs" />
+    <Compile Include="Model\Job.cs" />
+    <Compile Include="Model\JobDetail.cs" />
+    <Compile Include="Model\JobItem.cs" />
+    <Compile Include="Model\JobPayment.cs" />
+    <Compile Include="Model\Location.cs" />
+    <Compile Include="Model\LocationAddress.cs" />
+    <Compile Include="Model\Membership.cs" />
+    <Compile Include="Model\NotificationHistory.cs" />
+    <Compile Include="Model\NotificationTemplate.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\PurchaseOrder.cs" />
+    <Compile Include="Model\Schedule.cs" />
+    <Compile Include="Model\Service.cs" />
+    <Compile Include="Model\TimeClock.cs" />
+    <Compile Include="Model\Vendor.cs" />
+    <Compile Include="Model\VendorAddress.cs" />
+    <Compile Include="Model\WeatherPrediction.cs" />
+    <Compile Include="Model\WeatherReport.cs" />
+    <Compile Include="DTO\Weather\WeatherPrediction.cs" />
+    <Compile Include="DTO\Client\Client.cs" />
+    <Compile Include="DTO\Client\ClientAddress.cs" />
+    <Compile Include="DTO\Client\ClientList.cs" />
+    <Compile Include="DTO\Code\Code.cs" />
+    <Compile Include="DTO\Collision\LiabilityDetail.cs" />
+    <Compile Include="DTO\Document\Document.cs" />
+    <Compile Include="DTO\Document\DocumentView.cs" />
+    <Compile Include="DTO\Employee\Employee.cs" />
+    <Compile Include="DTO\Employee\EmployeeAddress.cs" />
+    <Compile Include="DTO\Employee\EmployeeDetail.cs" />
+    <Compile Include="DTO\Employee\EmployeeRole.cs" />
+    <Compile Include="DTO\Location\LocationDto.cs" />
+    <Compile Include="DTO\Product\ProductDto.cs" />
+    <Compile Include="DTO\RefreshToken.cs" />
+    <Compile Include="Enum\SPEnum.cs" />
+    <Compile Include="DTO\TenantSchema.cs" />
+    <Compile Include="DTO\User.cs" />
+    <Compile Include="DTO\Vendor\Vendor.cs" />
+    <Compile Include="DTO\Vendor\VendorAddress.cs" />
+    <Compile Include="DTO\Vendor\VendorList.cs" />
+    <Compile Include="DTO\Wash.cs" />
+    <Compile Include="Model\TimeClockModel.cs" />
+    <Compile Include="DTO\Vendor\VendorView.cs" />
+    <Compile Include="DTO\Weather\Weather.cs" />
+    <Compile Include="DTO\Weather\WeatherInfoView.cs" />
+    <Compile Include="ViewModel\TimeClockViewModel.cs" />
+    <Compile Include="ViewModel\VehicleColourViewModel.cs" />
+    <Compile Include="ViewModel\VehicleDetailViewModel.cs" />
+    <Compile Include="ViewModel\ClientHistoryViewModel.cs" />
+    <Compile Include="ViewModel\VehicleListViewModel.cs" />
+    <Compile Include="ViewModel\VehicleMembershipModel.cs" />
+    <Compile Include="ViewModel\ClientStatementViewModel.cs" />
+    <Compile Include="ViewModel\VehicleViewModel.cs" />
+    <Compile Include="ViewModel\VendorViewModel.cs" />
+    <Compile Include="ViewModel\WashesCountViewModel.cs" />
+    <Compile Include="ViewModel\WashesDashboardViewModel.cs" />
+    <Compile Include="ViewModel\WashesViewModel.cs" />
+    <Compile Include="ViewModel\WashItemViewModel.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="cocoon-orm, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\cocoon-orm.2.9.0\lib\netstandard2.0\cocoon-orm.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.2.0.35\lib\net461\Dapper.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlClient, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.5.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
