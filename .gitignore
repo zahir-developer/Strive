@@ -109,3 +109,8 @@
 /Poc/SignalR
 /Sourcecode/API/Strive.RepositoryCqrs/bin/Release
 /Mammotholdsourcecode/Mammoth_source
+/Sourcecode/API/SonarQube
+/Sourcecode/API/SuperAdmin.API/bin
+/Sourcecode/API/SuperAdmin.API/obj/Debug/netcoreapp2.2
+/Sourcecode/API/SuperAdmin.API/obj/Release/netcoreapp2.2
+/Sourcecode/API/SuperAdmin.API/obj

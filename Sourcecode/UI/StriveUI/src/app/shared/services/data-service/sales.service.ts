@@ -12,4 +12,7 @@ export class SalesService {
   getItemByTicketNumber(ticketNo): Observable<any> {
    return this.http.get(`${UrlConfig.totalUrl.getItemByTicketNumber}`, {params: {ticketNumber: ticketNo}});
  }
+ deleteItemById(id){
+  return this.http.put(`${UrlConfig.totalUrl.deleteItemById}`, {params: {jobId: id}});
+ }
 }

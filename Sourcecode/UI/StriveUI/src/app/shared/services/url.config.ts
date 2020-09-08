@@ -112,6 +112,7 @@ export const UrlConfig = {
     deleteDetail: `Admin/Details/Delete`,
     getJobType: `Admin/Details/GetJobType`,
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
-    getTodayDateScheduleList: `Admin/Details/GetAllDetails`
+    getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
+    deleteItemById: `Admin/Sales/DeleteItemById`
   }
 };
