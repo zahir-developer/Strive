@@ -63,7 +63,7 @@ select row_number() OVER (
    where isnull(empLi.IsActive,1)=1 and isnull(empLi.IsDeleted,0)=0  and empLi.EmployeeId = @EmployeeId  
 
    select rm.RoleMasterId, empr.EmployeeId,empr.EmployeeRoleId, empr.roleid,rm.RoleName as rolename from strivecarsalon.tblEmployeeRole empr inner join
-   StriveCarSalon.tblRoleMaster rm on empr.RoleId = rm.RoleMasterId where empr.EmployeeId=@EmployeeId
+   StriveCarSalon.tblRoleMaster rm on empr.RoleId = rm.RoleMasterId where empr.EmployeeId=@EmployeeId and isnull(empr.IsDeleted,0)=0 
 
    select emplo.EmployeeId,EmployeeLocationId, emplo.LocationId,lo.Locationname from strivecarsalon.tblEmployeeLocation emplo inner join
    StriveCarSalon.tblLocation lo on emplo.locationid=lo.locationid where emplo.employeeid=@EmployeeId

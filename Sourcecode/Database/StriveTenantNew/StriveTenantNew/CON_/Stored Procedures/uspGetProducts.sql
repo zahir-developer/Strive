@@ -37,9 +37,13 @@ LEFT JOIN [CON].[GetTable]('Size') tbsz ON (prd.Size = tbsz.valueid)
 WHERE isnull(prd.IsDeleted,0)=0
 AND
  (@ProductId is null or prd.ProductId = @ProductId)AND
- (@ProductSearch is null or prd.ProductName like '%'+@ProductSearch+'%')
- --or prd. like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'
- --or tblla.PhoneNumber like '%'+@LocationSearch+'%'
- --or tblla.Email like '%'+@LocationSearch+'%')
+ (@ProductSearch is null or prd.ProductName like '%'+@ProductSearch+'%'
+  or tbpt.valuedesc like '%'+@ProductSearch+'%'
+  or tbsz.valuedesc like '%'+@ProductSearch+'%'
+  or loc.LocationName like '%'+@ProductSearch+'%'
+  or ven.VendorName like '%'+@ProductSearch+'%')
+  
+order by ProductId Desc
+ 
 
 END

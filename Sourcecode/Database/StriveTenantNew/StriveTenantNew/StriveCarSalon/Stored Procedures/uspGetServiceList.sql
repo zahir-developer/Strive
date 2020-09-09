@@ -12,6 +12,7 @@ SELECT
 tbls.ServiceId,
 tbls.ServiceName,
 tbls.ServiceType,
+tbls.Upcharges,
 gt.valuedesc AS ServiceTypeName
 FROM 
 [StriveCarSalon].[tblService] tbls

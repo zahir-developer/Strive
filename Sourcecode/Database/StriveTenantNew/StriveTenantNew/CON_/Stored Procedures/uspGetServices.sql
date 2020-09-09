@@ -11,6 +11,7 @@ SELECT
 	cv.valuedesc as ServiceType,
 	ct.valuedesc as CommisionType,
 	svc.Commision,
+	svc.CommissionCost,
 	svc.Upcharges,
 	svc.ServiceName,
 	svc.Cost,
@@ -25,4 +26,6 @@ AND
  (@ServiceSearch is null or cv.valuedesc like '%'+@ServiceSearch+'%'
   or svc.ServiceName  like '%'+@ServiceSearch+'%') AND
   (@Status is null or svc.IsActive = @Status)
+  
+order by ServiceId Desc
 end

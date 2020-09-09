@@ -34,4 +34,6 @@ ISNULL(cvl.IsDeleted,0)=0 AND
   (@SearchName is null or cvCo.valuedesc  like '%'+@SearchName+'%') OR
   (@SearchName is null or cvl.VehicleNumber  like '%'+@SearchName+'%'))
 
+  order by VehicleId desc
+
 END

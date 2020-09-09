@@ -28,6 +28,9 @@ Inner Join [CON].[tblVendorAddress] VA
   and (@VendorId is null or VA.VendorId= @VendorId)AND
  (@VendorSearch is null or V.VendorName like '%'+@VendorSearch+'%'
  or VA.Address1 like '%'+@VendorSearch+'%' or VA.Address2 like '%'+@VendorSearch+'%' or VA.Email like '%'+@VendorSearch+'%')
+ order by VendorId desc
  --or tblla.PhoneNumber like '%'+@LocationSearch+'%'
  --or tblla.Email like '%'+@LocationSearch+'%')
+ 
+
 END
