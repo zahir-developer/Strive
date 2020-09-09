@@ -51,5 +51,13 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<ScheduleItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
             return result;
         }
+        public bool AddPayment(SalesPaymentDto salesPayment)
+        {
+            return dbRepo.SavePc(salesPayment, "JobPaymentId");
+        }
+        public bool AddListItem(SalesAddListItemDto salesAddListItem)
+        {
+            return dbRepo.InsertPc(salesAddListItem, "JobId");
+        }
     }
 }
