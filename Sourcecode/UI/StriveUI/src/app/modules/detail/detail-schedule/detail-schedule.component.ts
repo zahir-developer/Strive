@@ -25,7 +25,7 @@ export class DetailScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.showDialog = false;
     this.isEdit = false;
-    // this.getScheduleDetailsByDate(this.selectedDate);
+    this.getScheduleDetailsByDate(this.selectedDate);
     // this.getTodayDateScheduleList();
   }
 
@@ -88,8 +88,12 @@ export class DetailScheduleComponent implements OnInit {
       };
     });
     console.log(firstRow, secondRow, 'data');
+    const finalObj = {
+      jobDate: this.datePipe.transform(date, 'yyyy-MM-dd'),
+      locationId: 1
+    };
     const scheduleDate = this.datePipe.transform(date, 'yyyy-MM-dd');
-    this.detailService.getScheduleDetailsByDate('2020-08-20').subscribe( res => {
+    this.detailService.getScheduleDetailsByDate(finalObj).subscribe( res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         console.log(scheduleDetails, 'details');
@@ -211,18 +215,18 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   // Admin/Details/GetAllDetails
-  getTodayDateScheduleList() {
-    const todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    const locationId = 1;
-    this.detailService.getTodayDateScheduleList(todayDate, locationId).subscribe( res => {
-      if (res.status === 'Success') {
-        const scheduleDetails = JSON.parse(res.resultData);
-        console.log(scheduleDetails, 'todayList');
-        const detailGrid = scheduleDetails.DetailsGrid;
-        this.bayDetail = detailGrid.BayDetailViewModel;
-      }
-    });
-  }
+  // getTodayDateScheduleList() {
+  //   const todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+  //   const locationId = 1;
+  //   this.detailService.getTodayDateScheduleList(todayDate, locationId).subscribe( res => {
+  //     if (res.status === 'Success') {
+  //       const scheduleDetails = JSON.parse(res.resultData);
+  //       console.log(scheduleDetails, 'todayList');
+  //       const detailGrid = scheduleDetails.DetailsGrid;
+  //       this.bayDetail = detailGrid.BayDetailViewModel;
+  //     }
+  //   });
+  // }
 
   refreshDetailGrid() {
     this.todayScheduleComponent.getTodayDateScheduleList();
