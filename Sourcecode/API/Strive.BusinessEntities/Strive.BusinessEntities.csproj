@@ -88,6 +88,7 @@
     <Compile Include="DTO\Vendor\VendorSearchDto.cs" />
     <Compile Include="DTO\Washes\DashboardDto.cs" />
     <Compile Include="DTO\Washes\WashesDto.cs" />
+    <Compile Include="Model\BaySchedule.cs" />
     <Compile Include="Model\ClientVehicleMembershipDetailModel.cs" />
     <Compile Include="Model\ClientVehicleMembershipModel.cs" />
     <Compile Include="Model\ClientVehicleMembershipService.cs" />
