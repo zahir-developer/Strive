@@ -43,6 +43,10 @@ export class CreateEditWashesComponent implements OnInit {
   memberService: any[];
   submitted: boolean;
   isBarcode: boolean = false;
+  headerData: string;
+  showVehicleDialog: boolean;
+  showClientDialog: boolean;
+  clientId: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
 
   ngOnInit() {
@@ -257,8 +261,8 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   selectedClient(event) {
-    const clientId = event.id;
-    this.getClientVehicle(clientId);
+    this.clientId = event.id;
+    this.getClientVehicle(this.clientId);
   }
 
   change(data) {
@@ -505,6 +509,30 @@ export class CreateEditWashesComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  addVehicle(){
+    this.headerData = 'Add New Vehicle';
+    this.showVehicleDialog = true;
+  }
+
+  closePopupEmitVehicle(event) {
+    if (event.status === 'saved') {      
+      this.showVehicleDialog = false;
+    }
+    this.showVehicleDialog = event.isOpenPopup;
+  }
+
+  addClient(){
+    this.headerData = 'Add New Client';
+    this.showClientDialog = true;
+  }
+
+  closePopupEmitClient(event) {
+    if (event.status === 'saved') {      
+      this.showClientDialog = false;
+    }
+    this.showClientDialog = event.isOpenPopup;
   }
 }
 

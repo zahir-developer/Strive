@@ -74,10 +74,10 @@
                                     <div class="pull-right">
                                         <button type="button"
                                             class="btn theme-primary-button-color btn-responsive">Select</button>&nbsp;
-                                        <!-- <button type="button" class="btn theme-primary-button-color btn-responsive">Add
-                                            Vehicle</button>&nbsp;
-                                        <button type="button" class="btn theme-primary-button-color btn-responsive">Add
-                                            Client</button> -->
+                                        <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                        (click)="addClient()">Add Client</button>&nbsp;
+                                        <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                            (click)="addVehicle()" [disable]="clientId">Add Vehicle</button>
                                     </div>
                                 </div>
                             </div>
@@ -202,3 +202,20 @@
         </div>
     </div>
 </div>
+<p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
+    [focusOnShow]="false" [closable]="false">
+    <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
+    <p-footer>
+        <div class="modal-footer">
+            <button type="button" class="btn theme-optional-button-color" (click)="closePopupEmitVehicle($event)">Cancel</button>&nbsp;
+            <button type="button" class="btn theme-primary-button-color">Save</button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
+    [focusOnShow]="false" [closable]="false">
+    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
+        [clientId]="clientId" [isAdd]="true" (closeDialog)="closePopupEmitVehicle($event)">
+    </app-vehicle-create-edit>
+</p-dialog>

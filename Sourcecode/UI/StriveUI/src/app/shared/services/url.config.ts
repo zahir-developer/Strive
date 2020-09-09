@@ -113,6 +113,7 @@ export const UrlConfig = {
     getJobType: `Admin/Details/GetJobType`,
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
-    deleteItemById: `Admin/Sales/DeleteItemById`
+    deleteItemById: `Admin/Sales/DeleteItemById`,
+    addVehicle:`Admin/Vehicle/AddVehicle`,
   }
 };
