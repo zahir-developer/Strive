@@ -77,7 +77,7 @@
                                         <button type="button" class="btn theme-primary-button-color btn-responsive"
                                         (click)="addClient()">Add Client</button>&nbsp;
                                         <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                            (click)="addVehicle()" [disable]="clientId">Add Vehicle</button>
+                                            (click)="addVehicle()" [disabled]="clientId === undefined">Add Vehicle</button>
                                     </div>
                                 </div>
                             </div>
@@ -206,10 +206,8 @@
     [focusOnShow]="false" [closable]="false">
     <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
     <p-footer>
-        <div class="modal-footer">
-            <button type="button" class="btn theme-optional-button-color" (click)="closePopupEmitVehicle($event)">Cancel</button>&nbsp;
-            <button type="button" class="btn theme-primary-button-color">Save</button>
-        </div>
+            <button type="button" class="btn theme-optional-button-color" (click)="closePopupEmitClient()">Cancel</button>&nbsp;
+            <button type="button" class="btn theme-primary-button-color" (click)="saveClient()">Save</button>
     </p-footer>
 </p-dialog>
 

@@ -375,8 +375,11 @@ export class VehicleCreateEditComponent implements OnInit {
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
         Barcode: this.vehicleForm.value.barcode,
       };
+      const formObj = {
+        clientVehicle: [add]
+      };
       if (this.isAdd === true) {
-        this.vehicle.saveVehicle(add).subscribe(data => {
+        this.vehicle.saveVehicle(formObj).subscribe(data => {
           if (data.status === 'Success') {
             this.toastr.success('Vehicle Added Successfully!!', 'Success!');
             this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

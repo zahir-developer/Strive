@@ -39,14 +39,9 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(Membership);
         }
 
-        public bool UpdateClientVehicle(ClientVehicle ClientVehicle)
+        public bool AddVehicle(VehicleDto ClientVehicle)
         {
-            return dbRepo.Update(ClientVehicle);
-        }
-
-        public bool SaveClientVehicle(VehicleDto client)
-        {
-            return dbRepo.InsertPc(client, "ClientId");
+            return dbRepo.InsertPc(ClientVehicle,"VehicleId");
         }
 
         public bool DeleteVehicleById(int vehicleId)
