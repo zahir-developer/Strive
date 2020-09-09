@@ -9,7 +9,7 @@
     [IsCitizen]         BIT                                                              NULL,
     [AlienNo]           VARCHAR (50)                                                     NULL,
     [BirthDate]         DATETIME                                                         NULL,
-    [ImmigrationStatus] INT                                                              NULL,
+    [ImmigrationStatus] VARCHAR (50)                                                     NULL,
     [IsActive]          BIT                                                              NULL,
     [IsDeleted]         BIT                                                              NULL,
     [CreatedBy]         INT                                                              NULL,
@@ -18,4 +18,6 @@
     [UpdatedDate]       DATETIMEOFFSET (7)                                               NULL,
     CONSTRAINT [PK_tblEmployee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 

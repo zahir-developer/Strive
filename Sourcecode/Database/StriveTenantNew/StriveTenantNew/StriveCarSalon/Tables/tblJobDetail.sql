@@ -4,7 +4,6 @@
     [BayId]       INT                NULL,
     [SalesRep]    INT                NULL,
     [QABy]        INT                NULL,
-    [Labour]      INT                NULL,
     [Review]      INT                NULL,
     [ReviewNote]  VARCHAR (50)       NULL,
     [IsActive]    BIT                NULL,
@@ -15,8 +14,7 @@
     [UpdatedDate] DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblJobDetail] PRIMARY KEY CLUSTERED ([JobDetailId] ASC),
     CONSTRAINT [FK_tblJobDetail_BayId] FOREIGN KEY ([BayId]) REFERENCES [StriveCarSalon].[tblBay] ([BayId]),
-    CONSTRAINT [FK_tblJobDetail_JobId] FOREIGN KEY ([JobId]) REFERENCES [StriveCarSalon].[tblJob] ([JobId]),
-    CONSTRAINT [FK_tblJobDetail_Labour] FOREIGN KEY ([Labour]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
+    CONSTRAINT [FK_tblJobDetail_JobId] FOREIGN KEY ([JobId]) REFERENCES [StriveCarSalon].[tblJob] ([JobId])
 );
 
 
@@ -24,9 +22,10 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [IX_tblJobDetail_Labour]
-    ON [StriveCarSalon].[tblJobDetail]([Labour] ASC);
+
 
 
 GO
