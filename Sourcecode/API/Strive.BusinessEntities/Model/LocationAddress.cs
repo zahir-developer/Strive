@@ -11,7 +11,7 @@ public class LocationAddress
 	public int LocationAddressId { get; set; }
 
 	[Column]
-	public int LocationId { get; set; }
+	public int? LocationId { get; set; }
 
 	[Column]
 	public string Address1 { get; set; }
