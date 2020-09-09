@@ -38,5 +38,16 @@ namespace Strive.Core.Utils
         public const string URL_GET_PAST_SCHEDULE = "/Admin/Schedule/GetSchedule";
 
         public const string URL_GET_ALL_CLIENT = "/Admin/Client/GetAllClient";
+
+        public const string URL_GET_ALL_SERVICE = "/Admin/MembershipSetup/GetAll";
+
+        public const string URL_SAVE_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/SaveClientVehicleMembership";
+
+        public const string URL_GET_CLIENT_DETAIL = "/Admin/Client/GetClientById/";
+
+        public const string URL_GET_CLIENT_VEHICLE = "/Admin/Vehicle/GetVehicleByClientId";
+
+        public const string URL_GET_CLIENT_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId";
+
     }
 }

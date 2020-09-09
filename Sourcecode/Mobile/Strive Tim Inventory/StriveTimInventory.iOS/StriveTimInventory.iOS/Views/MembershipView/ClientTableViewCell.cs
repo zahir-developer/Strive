@@ -22,13 +22,17 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        public void SetMembershipList(string item)
+        public void SetMembershipList(MembershipServices item,int index,int SelectedIndex)
         {
-            ItemTitle.Text = item;
-            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+            ItemTitle.Text = item.MembershipName;
+            DeSelectMembershipcell();
+            if(SelectedIndex == index && index !=0)
+            {
+                SelectMembershipcell();
+            }
         }
 
-        public void SetClientDetail(ClientDetail item)
+        public void SetClientDetail(ClientInfo item)
         {
             ItemTitle.Text = item.FirstName;
             ItemIcon.Image = UIImage.FromBundle("member-inactive");
@@ -56,6 +60,13 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         {
             ItemTitle.Text = item;
             ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+        }
+
+        public void SetVehicleList(VehicleDetail vehicle)
+        {
+            ItemTitle.Font = DesignUtils.OpenSansSemiBoldTwenty();
+            ItemTitle.Text = vehicle.VehicleColor + " " + vehicle.VehicleMfr + " " + vehicle.VehicleModel;
+            ItemIcon.Image = UIImage.FromBundle("member-inactive");
         }
     }
 }

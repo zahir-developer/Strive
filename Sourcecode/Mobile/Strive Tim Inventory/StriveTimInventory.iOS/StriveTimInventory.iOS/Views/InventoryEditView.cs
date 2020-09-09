@@ -57,22 +57,30 @@ namespace StriveTimInventory.iOS.Views
             var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
             Tap.CancelsTouchesInView = false; 
             View.AddGestureRecognizer(Tap);
+
+            ChangeOrientation();
         }
 
         public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
         {
+            ChangeOrientation();
+        }
+
+        void ChangeOrientation()
+        {
             var height = UIScreen.MainScreen.Bounds;
             var width = UIScreen.MainScreen.Bounds;
-            if(width.Width > height.Height)
+            if (width.Width > height.Height)
             {
                 portconstone.Active = portconsttwo.Active =
                     portconstthree.Active = portconstfour.Active =
                     portconsfive.Active = portconstsix.Active = portconstseven.Active = false;
                 landxonstone.Active = landconsttwo.Active =
                      landconstthree.Active = landconstfour.Active =
-                     landconstfive.Active= landconstsix.Active = landconstseven.Active = true;
-                
-            } else
+                     landconstfive.Active = landconstsix.Active = landconstseven.Active = true;
+
+            }
+            else
             {
                 landxonstone.Active = landconsttwo.Active =
                     landconstthree.Active = landconstfour.Active =
@@ -83,7 +91,6 @@ namespace StriveTimInventory.iOS.Views
             }
             View.SetNeedsLayout();
             UIView.Animate(0.3, () => { View.LayoutIfNeeded(); });
-
         }
 
         private async void OnReceivedMessageAsync(ValuesChangedMessage message)

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Strive.Core.Utils;
+using MvvmCross.Plugin.Messenger;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
     public class SelectUpchargeViewModel : BaseViewModel
     {
+        private MvxSubscriptionToken _messageToken;
+
         public ObservableCollection<string> UpchargesList { get; set; } = new ObservableCollection<string>();
 
         public SelectUpchargeViewModel()
@@ -17,7 +21,22 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             UpchargesList.Add("D-$35/500");
             UpchargesList.Add("E-$50/600");
             RaiseAllPropertiesChanged();
+            _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
         }
+
+        private async void OnReceivedMessageAsync(ValuesChangedMessage message)
+        {
+            if (message.Valuea == 5)
+            {
+                await _navigationService.Close(this);
+                _messageToken.Dispose();
+            }
+        }
+
+        //public override void ViewDisappeared()
+        //{
+        //    _messageToken.Dispose();
+        //}
 
         public async Task NavigateBackCommand()
         {
@@ -26,7 +45,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public void NextCommand()
         {
-            _navigationService.Navigate<ExtraServiceViewModel>();
+            _navigationService.Navigate<TermsViewModel>();
         }
     }
 }

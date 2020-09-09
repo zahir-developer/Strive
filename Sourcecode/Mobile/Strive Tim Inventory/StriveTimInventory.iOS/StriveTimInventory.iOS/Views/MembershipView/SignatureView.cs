@@ -21,8 +21,9 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             base.ViewDidLoad();
 
 			var set = this.CreateBindingSet<SignatureView, SignatureViewModel>();
-			set.Bind(NextButton).To(vm => vm.Commands["Next"]);
+			set.Bind(DoneButton).To(vm => vm.Commands["Next"]);
 			set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
+			set.Bind(CancelButton).To(vm => vm.Commands["NavigateBack"]);
 			set.Apply();
 
 			SignPad.StrokeCompleted += (sender, e) => UpdateControls();

@@ -15,4 +15,16 @@ namespace Strive.Core.Utils.TimInventory
 
         public static Vendors Vendors { get; set; }
     }
+
+    public static class MembershipData
+    {
+        public static MembershipServiceList MembershipServiceList { get; set; }
+
+        public static MembershipServices SelectedMembership { get; set; }
+
+        public static ClientDetail SelectedClient { get; set; }
+
+        public static ClientVehicleMembershipView MembershipDetail { get; set; }
+        
+    }
 }

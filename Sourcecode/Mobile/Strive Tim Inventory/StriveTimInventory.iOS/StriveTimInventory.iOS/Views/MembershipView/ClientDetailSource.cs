@@ -11,16 +11,16 @@ using UIKit;
 
 namespace StriveTimInventory.iOS.Views.MembershipView
 {
-    public class ClientTableSource : MvxTableViewSource
+    public class ClientDetailSource : MvxTableViewSource
     {
 
         private static string CellId = "ClientTableViewCell";
 
-        private MembershipClientListViewModel ViewModel;
+        private MembershipClientDetailViewModel ViewModel;
 
-        private ObservableCollection<ClientInfo> ItemList;
+        private ObservableCollection<VehicleDetail> ItemList;
 
-        public ClientTableSource(UITableView tableView, MembershipClientListViewModel ViewModel) : base(tableView)
+        public ClientDetailSource(UITableView tableView, MembershipClientDetailViewModel ViewModel) : base(tableView)
         {
             tableView.RegisterNibForCellReuse(ClientTableViewCell.Nib, CellId);
             this.ViewModel = ViewModel;
@@ -33,11 +33,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<ClientInfo>)value;
+                    ItemList = (ObservableCollection<VehicleDetail>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<ClientInfo>();
+                    ItemList = new ObservableCollection<VehicleDetail>();
                 }
 
                 base.ItemsSource = value;
@@ -52,7 +52,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 80;
+            return 50;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
@@ -77,7 +77,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             ClientTableViewCell cell = (ClientTableViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetClientDetail(ItemList[indexPath.Row]);
+            cell.SetVehicleList(ItemList[indexPath.Row]);
             return cell;
         }
     }

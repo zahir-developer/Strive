@@ -53,24 +53,15 @@
                                 <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akh-z7-Hbn">
-                            <rect key="frame" x="771" y="27" width="38" height="36"/>
-                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
-                            <state key="normal" title="Next">
-                                <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </state>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.95569461580000004" green="0.98811596629999998" blue="0.9960753322" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="akh-z7-Hbn" secondAttribute="trailing" constant="25" id="45L-i6-lYZ"/>
                         <constraint firstItem="oXS-DN-ccd" firstAttribute="leading" secondItem="8yY-dR-Uaf" secondAttribute="leading" constant="25" id="5Oh-x1-TN9"/>
                         <constraint firstItem="1yd-45-pDn" firstAttribute="centerY" secondItem="8yY-dR-Uaf" secondAttribute="centerY" multiplier="1.2" id="mOd-Wy-TWR"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="75" id="rpl-oZ-OrW"/>
                         <constraint firstItem="1yd-45-pDn" firstAttribute="centerX" secondItem="8yY-dR-Uaf" secondAttribute="centerX" id="ruE-2Y-hPy"/>
                         <constraint firstItem="oXS-DN-ccd" firstAttribute="centerY" secondItem="8yY-dR-Uaf" secondAttribute="centerY" multiplier="1.2" id="rxA-6G-uEO"/>
                         <constraint firstAttribute="height" constant="75" id="vw7-68-jcs"/>
-                        <constraint firstItem="akh-z7-Hbn" firstAttribute="centerY" secondItem="oXS-DN-ccd" secondAttribute="centerY" id="x2u-kC-Sek"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LTr-0k-FFO">
