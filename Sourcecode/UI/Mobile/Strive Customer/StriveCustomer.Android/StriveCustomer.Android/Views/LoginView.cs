@@ -77,7 +77,7 @@ namespace StriveCustomer.Android.Views
             preferenceEditor.Apply();
         }
 
-        private void isCredentialStored(bool isRemember)
+        private async void isCredentialStored(bool isRemember)
         {
             if (isRemember)
             {
@@ -85,6 +85,10 @@ namespace StriveCustomer.Android.Views
                 emailPhoneInput.SetText(loginId, null);
                 var password = sharedPreferences.GetString("password", null);
                 passwordInput.SetText(password, null);
+                if(!String.IsNullOrEmpty(emailPhoneInput.Text) && !String.IsNullOrEmpty(passwordInput.Text))
+                {
+                    await ViewModel.DoLoginCommand();
+                }
             }
             else
             {
