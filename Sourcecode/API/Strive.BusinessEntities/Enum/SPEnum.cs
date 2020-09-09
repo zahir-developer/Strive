@@ -167,7 +167,8 @@ namespace Strive.BusinessEntities
         uspUpdateSalesItem,
         uspDeleteSalesItemById,
         uspGetItemList,
-        uspGetItemListByTicketNumber
+        uspGetItemListByTicketNumber,
+        uspDeleteRollBackItems
     }
 
 

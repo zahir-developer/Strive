@@ -52,6 +52,12 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("AddListItem")]
         public Result AddListItem([FromBody] SalesAddListItemDto salesAddListItem) => _bplManager.AddListItem(salesAddListItem);
+        [HttpPut]
+        [Route("DeleteTransactions")]
+        public Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            return _bplManager.DeleteTransactions(salesItemDeleteDto);
+        }
         
     }
 }
