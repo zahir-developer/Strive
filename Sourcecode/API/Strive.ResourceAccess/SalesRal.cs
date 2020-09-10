@@ -53,7 +53,7 @@ namespace Strive.ResourceAccess
         }
         public bool AddPayment(SalesPaymentDto salesPayment)
         {
-            return dbRepo.InsertPc(salesPayment, "JobPaymentId");
+            return dbRepo.SavePc(salesPayment, "JobPaymentId");
         }
         public bool AddListItem(SalesAddListItemDto salesAddListItem)
         {
