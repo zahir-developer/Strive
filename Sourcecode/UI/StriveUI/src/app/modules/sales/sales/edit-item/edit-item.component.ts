@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-item',
@@ -8,11 +7,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EditItemComponent implements OnInit {
 
-  constructor(private activeModal: NgbActiveModal) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
-  closeModal() {
-    this.activeModal.close();
-  }
+
 }
