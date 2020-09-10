@@ -59,5 +59,9 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(salesAddListItem, "JobId");
         }
+        public bool UpdateListItem(SalesAddListItemDto salesAddListItem)
+        {
+            return dbRepo.UpdatePc(salesAddListItem);
+        }
     }
 }
