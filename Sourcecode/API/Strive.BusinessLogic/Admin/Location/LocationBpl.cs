@@ -16,15 +16,12 @@ namespace Strive.BusinessLogic.Location
 
         public Result AddLocation(LocationDto location)
         {
-            
-
-            CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-            var ColorAndWashTimeMinutes = new CommonBpl(_cache, _tenant);
-            var GetRandomColorAndWashTime=  ColorAndWashTimeMinutes.RandomColorAndWashTime(); 
-
-            //location.Location.ColorCode = GetRandomColorAndWashTime.;
-            //location.Location.WashTimeMinutes = washTimeMinutes;
-
+            var GetRandomColorAndWashTime= new CommonBpl(_cache, _tenant).RandomColorAndWashTime();
+            foreach (var item in GetRandomColorAndWashTime)
+            {
+                location.Location.ColorCode = item.Color;
+                location.Location.WashTimeMinutes = item.WashTimeMinutes;
+            }
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 

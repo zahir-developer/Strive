@@ -7,6 +7,7 @@ using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Location;
 using Strive.Common;
 using Strive.Crypto;
@@ -36,15 +37,19 @@ namespace Strive.BusinessLogic.Common
             var res = new CommonRal(_tenant).DoSearch(searchTerm);
             return null;
         }
-        public string RandomColorAndWashTime()
+        public List<RandomColorAndWashTimeViewModel> RandomColorAndWashTime()
         {
             var random = new Random();
             var color = String.Format("#{0:X6}", random.Next(0x1000000));
             var washTimeMinutes = random.Next(30, 45);
-            ArrayList al = new ArrayList();
+            List<RandomColorAndWashTimeViewModel> al = new List<RandomColorAndWashTimeViewModel>();
             al.Add(color);
-            al.Add(washTimeMinutes);
-            return al.ToString();
+            foreach(var item in al)
+            {
+                item.Color = color;
+                item.WashTimeMinutes = washTimeMinutes;
+            }
+            return al;
         }
         public string RandomNumber(int length)
         {
