@@ -32,6 +32,7 @@ namespace StriveCustomer.Android.Views
         DealsFragment dealFrag = new DealsFragment();
         ScheduleFragment scheduleFrag = new ScheduleFragment();
         PastDetailsFragment pastDetailsFrag = new PastDetailsFragment();
+        MyProfileInfoFragment myProfileFrag = new MyProfileInfoFragment();
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -46,7 +47,8 @@ namespace StriveCustomer.Android.Views
         }
         private void DashActionButton_Click(object sender, EventArgs e)
         {
-            notificationSettingsView.Show();
+            fragment = pastDetailsFrag;
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
         }
         private void NavigateFrag(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
@@ -60,7 +62,7 @@ namespace StriveCustomer.Android.Views
                     fragment = dealFrag;
                     break;
                 case Resource.Id.menu_AboutUs:
-                    fragment = pastDetailsFrag;
+                    fragment = myProfileFrag;
                     break;
                 case Resource.Id.menu_Schedule:
                     fragment = scheduleFrag;
