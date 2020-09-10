@@ -206,11 +206,11 @@
                                                     <th scope="row" colspan="5">Wash Package </th>
                                                 </tr>
                                                 <tr *ngFor="let wash of washes" >
-                                                    <td class="pointer" (dblclick)="dblclick(wash)">{{wash?.ServiceName}}</td>
-                                                    <td (dblclick)="dblclick(wash)">{{wash?.Quantity}}</td>
-                                                    <td (dblclick)="dblclick(wash)">{{wash?.T}}</td>
-                                                    <td (dblclick)="dblclick(wash)">{{wash?.Price}}</td>
-                                                    <td (dblclick)="dblclick(wash)"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
+                                                    <td class="pointer" (dblclick)="editItem(wash)">{{wash?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(wash)">{{wash?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(wash)">{{wash?.T}}</td>
+                                                    <td (dblclick)="editItem(wash)">{{wash?.Price}}</td>
+                                                    <td (dblclick)="editItem(wash)"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
                                                 </tr>
                                                 <tr *ngIf="additionalService.length > 0">
                                                     <th scope="row" colspan="5">Additional Services </th>
