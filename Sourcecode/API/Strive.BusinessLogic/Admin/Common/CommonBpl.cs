@@ -12,6 +12,7 @@ using Strive.Common;
 using Strive.Crypto;
 using Strive.ResourceAccess;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,6 +35,16 @@ namespace Strive.BusinessLogic.Common
             ///...Yet to be implemented
             var res = new CommonRal(_tenant).DoSearch(searchTerm);
             return null;
+        }
+        public string RandomColorAndWashTime()
+        {
+            var random = new Random();
+            var color = String.Format("#{0:X6}", random.Next(0x1000000));
+            var washTimeMinutes = random.Next(30, 45);
+            ArrayList al = new ArrayList();
+            al.Add(color);
+            al.Add(washTimeMinutes);
+            return al.ToString();
         }
         public string RandomNumber(int length)
         {

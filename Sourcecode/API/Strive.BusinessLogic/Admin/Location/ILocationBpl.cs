@@ -12,7 +12,6 @@ namespace Strive.BusinessLogic.Location
         Result GetAllLocation();
         Result GetLocationById(int id);
         Result DeleteLocation(int id);
-        //Result SaveLocation(LocationDto lstLocation);
         Result GetLocationSearch(LocationSearchDto search);
     }
 }

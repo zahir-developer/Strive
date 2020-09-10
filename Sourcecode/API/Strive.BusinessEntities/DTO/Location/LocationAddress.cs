@@ -4,7 +4,7 @@ namespace Strive.BusinessEntities
     public class LocationAddress
     {
         public int LocationAddressId { get; set; }
-        public int? RelationshipId { get; set; }
+        public int? LocationId { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string PhoneNumber { get; set; }

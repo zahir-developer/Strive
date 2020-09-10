@@ -16,11 +16,14 @@ namespace Strive.BusinessLogic.Location
 
         public Result AddLocation(LocationDto location)
         {
-            var random = new Random();
-            var color = String.Format("#{0:X6}", random.Next(0x1000000));
+            
 
-            location.Location.ColorCode = color;
-            location.Location.WashTimeMinutes = random.Next(30, 45);
+            CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            var ColorAndWashTimeMinutes = new CommonBpl(_cache, _tenant);
+            var GetRandomColorAndWashTime=  ColorAndWashTimeMinutes.RandomColorAndWashTime(); 
+
+            //location.Location.ColorCode = GetRandomColorAndWashTime.;
+            //location.Location.WashTimeMinutes = washTimeMinutes;
 
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
@@ -83,14 +86,6 @@ namespace Strive.BusinessLogic.Location
         //    };
         //    var wlocation = JsonConvert.SerializeObject(weatherlocation);
         //    var stringContent = new StringContent(wlocation, UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
-
-
-
-
-            
-
-
-
         //    return null;
         //}
 

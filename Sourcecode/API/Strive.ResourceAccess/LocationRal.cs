@@ -48,11 +48,6 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPc(location, "LocationId");
         }
 
-        //public bool SaveLocationDetails(LocationDto location)
-        //{
-        //    return dbRepo.UpdatePc(location);
-        //}
-
         public bool UpdateLocation(LocationDto location)
         {
             return dbRepo.UpdatePc(location);
