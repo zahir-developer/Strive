@@ -45,11 +45,11 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<SalesViewModel>(SPEnum.uspGetItemList.ToString(), _prm);
             return result;
         }
-        public List<ScheduleItemListViewModel> GetScheduleByTicketNumber(string ticketNumber)
+        public ScheduleItemListViewModel GetScheduleByTicketNumber(string ticketNumber)
         {
             _prm.Add("@TicketNumber", ticketNumber);
-            var result = db.Fetch<ScheduleItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
-            return result;
+            return db.FetchMultiResult<ScheduleItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
+
         }
         public bool AddPayment(SalesPaymentDto salesPayment)
         {
