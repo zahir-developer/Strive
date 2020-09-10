@@ -59,5 +59,13 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(salesAddListItem, "JobId");
         }
+        public bool DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteRollBackItems.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
     }
 }

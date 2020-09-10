@@ -147,7 +147,7 @@ namespace Strive.BusinessEntities
         USPGETALLDETAILJOB,
         USPGETDETAILJOBBYID,
         USPGETALLBAYLISTBYID,
-        USPGETSCHEDULEDETAILSBYDATE,
+        USPGETBAYSCHEDULESDETAILS,
         USPGETJOBTYPE,
         USPDELETEDETAILSCHEDULE,
         USPGETALLDETAILS,
@@ -167,7 +167,8 @@ namespace Strive.BusinessEntities
         uspUpdateSalesItem,
         uspDeleteSalesItemById,
         uspGetItemList,
-        uspGetItemListByTicketNumber
+        uspGetItemListByTicketNumber,
+        uspDeleteRollBackItems
     }
 
 
