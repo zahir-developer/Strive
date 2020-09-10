@@ -34,6 +34,14 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllBayById, id, "BayDetailsForLocationId");
         }
+        public Result GetWashTimeById(int id)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetWashTimeById, id, "WashTimeDetailsForLocationId");
+        }
+        public Result GetPastClientNotesById(int id)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetPastClientNotesById, id, "PastClientNotesByClientId");
+        }
         public Result GetScheduleDetailsByDate(DateTime date)
         {
             return ResultWrap(new DetailsRal(_tenant).GetScheduleDetailsByDate, date, "ScheduleDetailsForDate");

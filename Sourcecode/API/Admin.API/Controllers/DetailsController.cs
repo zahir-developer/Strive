@@ -31,6 +31,13 @@ namespace Admin.API.Controllers
         [Route("GetAllBayById/{id}")]
         public Result GetAllBayById(int id) => _bplManager.GetAllBayById(id);
         [HttpGet]
+        [Route("GetWashTimeById/{id}")]
+        [HttpGet]
+        public Result GetWashTimeById(int id) => _bplManager.GetWashTimeById(id);
+        [HttpGet]
+        [Route("GetPastClientNotesById/{id}")]
+        public Result GetPastClientNotesById(int id) => _bplManager.GetPastClientNotesById(id);
+        [HttpGet]
         [Route("GetScheduleDetailsByDate/{date}")]
         public Result GetScheduleDetailsByDate(DateTime date) => _bplManager.GetScheduleDetailsByDate(date);
         [HttpGet]

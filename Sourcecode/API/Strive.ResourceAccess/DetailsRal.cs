@@ -37,6 +37,18 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<BayListViewModel>(SPEnum.USPGETALLBAYLISTBYID.ToString(), _prm);
             return result;
         }
+        public int GetWashTimeById(int id)
+        {
+            _prm.Add("@LocationId", id);
+            var result = db.FetchSingle<int>(SPEnum.USPGETWASHTIMEBYID.ToString(), _prm);
+            return result;
+        }
+        public List<VehicleByClientViewModel> GetPastClientNotesById(int id)
+        {
+            _prm.Add("@ClientId", id);
+            var result = db.Fetch<VehicleByClientViewModel>(SPEnum.USPGETPASTCLIENTNOTESBYCLIENTID.ToString(), _prm);
+            return result;
+        }
         public DetailScheduleViewModel GetScheduleDetailsByDate(DateTime date)
         {
             _prm.Add("@JobDate", date);
