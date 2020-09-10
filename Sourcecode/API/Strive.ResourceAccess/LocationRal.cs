@@ -17,17 +17,42 @@ namespace Strive.ResourceAccess
     {
         public LocationRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<LocationViewModel> GetAllLocation()
+        public bool AddLocation(LocationDto location)
         {
-            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
+            location.Drawer.DrawerName = $"Drawer-{location.Location.LocationName}-1";
+            return dbRepo.InsertPc(location, "LocationId");
         }
 
-        public List<LocationViewModel> GetLocationSearch(LocationSearchDto search)
+        public bool UpdateLocation(LocationDto location)
+        {
+            return dbRepo.UpdatePc(location);
+        }
+
+        public bool DeleteLocation(int id)
+        {
+            //DbRepo.Delete<Location>(AddAudit<Location>(id, cs, _tenant.SchemaName));
+            //DbRepo.Delete<Location>("LocationId",id, cs, _tenant.SchemaName);
+
+            //var location = AddAudit<Location>(id);
+            //location.LocationId = id;     
+            _prm.Add("LocationId", id.toInt());
+            _prm.Add("UserId", _tenant.EmployeeId);
+            _prm.Add("Date", DateTime.UtcNow);
+            db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
+            return true;
+        }
+
+        public List<LocationViewModel> GetSearchResult(LocationSearchDto search)
         {
             _prm.Add("@LocationSearch", search.LocationSearch);
             return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
         }
 
+
+        public List<LocationViewModel> GetAllLocation()
+        {
+            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
+        }
         public LocationDto GetLocationDetailById(int id)
         {
             _prm.Add("@tblLocationId", id);
@@ -42,31 +67,7 @@ namespace Strive.ResourceAccess
         //    return lam;
         //}
 
-        public bool AddLocation(LocationDto location)
-        {
-            location.Drawer.DrawerName = $"Drawer-{location.Location.LocationName}-1";
-            return dbRepo.InsertPc(location, "LocationId");
-        }
-
-        public bool UpdateLocation(LocationDto location)
-        {
-            return dbRepo.UpdatePc(location);
-        }
-
-        public bool DeleteLocation(int id)
-        {
-
-            //DbRepo.Delete<Location>(AddAudit<Location>(id, cs, _tenant.SchemaName));
-            //DbRepo.Delete<Location>("LocationId",id, cs, _tenant.SchemaName);
-
-            //var location = AddAudit<Location>(id);
-            //location.LocationId = id;     
-            _prm.Add("LocationId", id.toInt());
-            _prm.Add("UserId", _tenant.EmployeeId);
-            _prm.Add("Date", DateTime.UtcNow);
-            db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
-            return true;
-        }
+        
         //public LocationAddressModel GetLocationAddressDetails(int locationId)
         //{
 

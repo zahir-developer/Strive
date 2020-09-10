@@ -17,14 +17,14 @@ namespace Admin.API.Controllers
 
         #region POST
         /// <summary>
-        /// Add Location,LocationAddress,Drawer and Bay 
+        /// Method to Add location and address details.
         /// </summary>
         [HttpPost]
         [Route("Add")]
         public Result AddLocation([FromBody] LocationDto location) => _bplManager.AddLocation(location);
 
         /// <summary>
-        /// Update Location,LocationAddress,Drawer and Bay 
+        /// Method to Update location and address details.
         /// </summary>
         [HttpPost]
         [Route("Update")]
@@ -33,7 +33,7 @@ namespace Admin.API.Controllers
 
         #region DELETE
         /// <summary>
-        /// Delete Location Details By Given LocationId
+        /// Deletes a location based on the given locationId.
         /// </summary>
         [HttpDelete]
         [Route("Delete")]
@@ -42,21 +42,21 @@ namespace Admin.API.Controllers
 
         #region GET
         /// <summary>
-        /// Show search result in Grid by search params
+        /// Retrieves list of all locations by search params
         /// </summary>
         [HttpPost]
         [Route("GetSearchResult")]
-        public Result GetLocationSearch([FromBody] LocationSearchDto search) => _bplManager.GetLocationSearch(search);
-        
+        public Result GetSearchResult([FromBody] LocationSearchDto search) => _bplManager.GetSearchResult(search);
+
         /// <summary>
-        /// To show all Location details in Grid
+        /// Retrieves list of all locations available.
         /// </summary>
         [HttpGet]
         [Route("GetAll")]
         public Result GetAllLocation() => _bplManager.GetAllLocation();
 
         /// <summary>
-        /// To show Location Details for Given LocationId
+        /// Method to retrieve location details based on given locationId.
         /// </summary>
         [HttpGet]
         [Route("GetById")]

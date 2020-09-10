@@ -17,11 +17,8 @@ namespace Strive.BusinessLogic.Location
         public Result AddLocation(LocationDto location)
         {
             var GetRandomColorAndWashTime= new CommonBpl(_cache, _tenant).RandomColorAndWashTime();
-            foreach (var item in GetRandomColorAndWashTime)
-            {
-                location.Location.ColorCode = item.Color;
-                location.Location.WashTimeMinutes = item.WashTimeMinutes;
-            }
+            location.Location.ColorCode = GetRandomColorAndWashTime.ColorCode;
+            location.Location.WashTimeMinutes = GetRandomColorAndWashTime.WashTimeMinutes;
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 
@@ -41,9 +38,14 @@ namespace Strive.BusinessLogic.Location
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 
-        public Result GetLocationSearch(LocationSearchDto search)
+        public Result DeleteLocation(int id)
         {
-            return ResultWrap(new LocationRal(_tenant).GetLocationSearch, search,"Search");
+            return ResultWrap(new LocationRal(_tenant).DeleteLocation, id, "LocationDelete");
+        }
+
+        public Result GetSearchResult(LocationSearchDto search)
+        {
+            return ResultWrap(new LocationRal(_tenant).GetSearchResult, search,"Search");
         }
 
         public Result GetAllLocation()
@@ -55,13 +57,6 @@ namespace Strive.BusinessLogic.Location
         {
             return ResultWrap(new LocationRal(_tenant).GetLocationDetailById, id, "Location");
         }
-
-        public Result DeleteLocation(int id)
-        {
-            return ResultWrap(new LocationRal(_tenant).DeleteLocation, id, "LocationDelete");
-        }
-
-
         private string GetLocationGeo(LocationAddress locationAddress)
         {
             throw new NotImplementedException();

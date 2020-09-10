@@ -9,9 +9,9 @@ namespace Strive.BusinessLogic.Location
     {
         Result AddLocation(LocationDto location);
         Result UpdateLocation(LocationDto lstLocation);
+        Result DeleteLocation(int id);
+        Result GetSearchResult(LocationSearchDto search);
         Result GetAllLocation();
         Result GetLocationById(int id);
-        Result DeleteLocation(int id);
-        Result GetLocationSearch(LocationSearchDto search);
     }
 }

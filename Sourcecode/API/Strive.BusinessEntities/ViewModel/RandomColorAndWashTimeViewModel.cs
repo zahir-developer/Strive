@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class RandomColorAndWashTimeViewModel
     {
-        public string Color { get; set; }
+        public string ColorCode { get; set; }
         public int WashTimeMinutes { get; set; }
     }
 }
