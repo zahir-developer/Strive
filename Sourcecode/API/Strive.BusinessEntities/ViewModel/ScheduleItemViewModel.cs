@@ -12,6 +12,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string TicketNumber { get; set; }
         public string ServiceName { get; set; }
         public string ServiceType { get; set; }
+        public decimal? Price { get; set; }
+        public int? Quantity { get; set; }
 
     }
 }
