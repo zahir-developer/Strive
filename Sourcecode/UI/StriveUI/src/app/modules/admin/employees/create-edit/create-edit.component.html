@@ -82,14 +82,28 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputImmigration">Immigration Status <span
                                             class="required">*</span></label>
-                                    <input type="text" class="form-control" id="inputImigirationStatus"
-                                        formControlName="immigrationStatus"
-                                        [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }"
-                                        placeholder="Imigration Status">
+                                    <select id="inputImmigrationStatus" class="form-control"
+                                        formControlName="immigrationStatus" (change)="immigrationChange($event.target.value)"
+                                        [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }">
+                                        <option value="" hidden selected>Select Status</option>
+                                        <option *ngFor="let s of imigirationStatus" value="{{s.CodeId}}">{{s.CodeValue}}
+                                        </option>
+                                    </select>
                                     <div *ngIf="submitted && f.immigrationStatus.errors" class="invalid-feedback">
                                         <div *ngIf="f.immigrationStatus.errors.required">Immigration Status is required
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group col-md-3" *ngIf="isAlien">
+                                    <label for="inputAlienNumber">Alien Number</label>
+                                    <input type="text" class="form-control" id="inputAlienNumber"
+                                        placeholder="Alien Number" formControlName="alienNumber" [appMaxLength]="50">
+                                </div>
+                                <div class="form-group col-md-3" *ngIf="isDate">
+                                    <label for="inputPermitDate">Work Permit</label>
+                                    <input type="text" placeholder="Work Permit Date"
+                                        formControlName="permitDate" appCalendarMask
+                                        class="form-control" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN <span class="required">*</span></label>

@@ -6,6 +6,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -48,29 +49,23 @@ export class CreateEditComponent implements OnInit {
   multipleFileUpload: any = [];
   fileType: any;
   isLoading: boolean;
+  isAlien: boolean = false;
+  isDate: boolean = false;
   imigirationStatus: any = [];
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private getCode: GetCodeService
   ) { }
 
   ngOnInit() {
     this.isLoading = false;
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
-    this.imigirationStatus = [
-      {
-        value: 0,
-        label: 'False'
-      },
-      {
-        value: 1,
-        label: 'True'
-      }
-    ];
+    this.getImmigrationStatus();
     this.documentDailog = false;
     this.submitted = false;
     this.personalform = this.fb.group({
@@ -80,7 +75,9 @@ export class CreateEditComponent implements OnInit {
       address: ['', Validators.required],
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
-      ssn: ['', Validators.required]
+      ssn: ['', Validators.required],
+      alienNumber:[''],
+      permitDate:['']
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
@@ -100,6 +97,17 @@ export class CreateEditComponent implements OnInit {
     this.employeRole();
     this.locationDropDown();
     // this.employeeDetail();
+  }
+
+  getImmigrationStatus(){
+    this.getCode.getCodeByCategory("IMMIGRATIONSTATUS").subscribe(data => {
+      if (data.status === "Success") {
+        const cType = JSON.parse(data.resultData);
+        this.imigirationStatus = cType.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
 
   employeeDetail() {
@@ -142,6 +150,22 @@ export class CreateEditComponent implements OnInit {
         item_text: item.LocationName
       };
     });
+  }
+
+  immigrationChange(data){
+    const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
+    if(temp.length !== 0){
+      if(temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A'){
+        this.isAlien = true;
+      } else{
+        this.isAlien = false;
+      }
+      if(temp[0].CodeValue === 'An alien authorized to work until'){
+        this.isDate = true;
+      } else{
+        this.isDate = false;
+      }
+    }
   }
 
   cancel() {
@@ -278,8 +302,9 @@ export class CreateEditComponent implements OnInit {
       ssNo: this.personalform.value.ssn,
       maritalStatus: 117,
       isCitizen: true,
-      alienNo: 'string',
+      alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
       birthDate: '',
+      workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: this.personalform.value.immigrationStatus,
       isActive: true,
       isDeleted: false,
