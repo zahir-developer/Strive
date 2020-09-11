@@ -15,13 +15,6 @@ namespace Strive.ResourceAccess
     {
         public DetailsRal(ITenantHelper tenant) : base(tenant) { }
 
-        public DetailViewModel GetDetailsById(int id)
-        {
-
-            _prm.Add("@JobId", id);
-            var result = db.FetchMultiResult<DetailViewModel>(SPEnum.USPGETDETAILJOBBYID.ToString(), _prm);
-            return result;
-        }
         public bool AddDetails(DetailsDto details)
         {
             return dbRepo.InsertPc(details, "JobId");
@@ -29,6 +22,13 @@ namespace Strive.ResourceAccess
         public bool UpdateDetails(DetailsDto details)
         {
             return dbRepo.UpdatePc(details);
+        }
+        public DetailViewModel GetDetailsById(int id)
+        {
+
+            _prm.Add("@JobId", id);
+            var result = db.FetchMultiResult<DetailViewModel>(SPEnum.USPGETDETAILJOBBYID.ToString(), _prm);
+            return result;
         }
         public List<BayListViewModel> GetAllBayById(int id)
         {
@@ -43,10 +43,10 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<int>(SPEnum.USPGETWASHTIMEBYID.ToString(), _prm);
             return result;
         }
-        public List<VehicleByClientViewModel> GetPastClientNotesById(int id)
+        public List<VehiclePastHistoryViewModel> GetPastClientNotesById(int id)
         {
             _prm.Add("@ClientId", id);
-            var result = db.Fetch<VehicleByClientViewModel>(SPEnum.USPGETPASTCLIENTNOTESBYCLIENTID.ToString(), _prm);
+            var result = db.Fetch<VehiclePastHistoryViewModel>(SPEnum.USPGETPASTCLIENTNOTESBYCLIENTID.ToString(), _prm);
             return result;
         }
         public DetailScheduleViewModel GetScheduleDetailsByDate(DateTime date)
@@ -60,16 +60,6 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<JobTypeViewModel>(SPEnum.USPGETJOBTYPE.ToString(), null);
             return result;
         }
-        public bool DeleteDetails(int id)
-        {
-            _prm.Add("@JobId", id);
-            db.Save(SPEnum.USPDELETEDETAILSCHEDULE.ToString(), _prm);
-            return true;
-        }
-        public bool AddEmployeeScheduleToDetails(EmployeeScheduleDetailsDto empSchedule)
-        {
-            return dbRepo.InsertPc(empSchedule, "EmployeeId");
-        }
         public DetailsGridViewModel GetAllDetails(DetailsGridDto detailsGrid)
         {
             _prm.Add("@JobDate", detailsGrid.JobDate);
@@ -77,5 +67,12 @@ namespace Strive.ResourceAccess
             var result = db.FetchMultiResult<DetailsGridViewModel>(SPEnum.USPGETALLDETAILS.ToString(), _prm);
             return result;
         }
+        public bool DeleteDetails(int id)
+        {
+            _prm.Add("@JobId", id);
+            db.Save(SPEnum.USPDELETEDETAILSCHEDULE.ToString(), _prm);
+            return true;
+        }
+       
     }
 }
