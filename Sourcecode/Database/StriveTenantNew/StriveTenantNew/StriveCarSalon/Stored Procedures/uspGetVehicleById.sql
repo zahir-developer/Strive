@@ -15,7 +15,7 @@ SELECT
 	,cvl.VehicleColor AS ColorId
 	,cvl.Upcharge
 	,cvl.Barcode
-
+	,cvl.MonthlyCharge
 FROM strivecarsalon.tblClientVehicle cvl 
 INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid

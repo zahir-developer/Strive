@@ -1,9 +1,21 @@
 ﻿
-
 CREATE PROCEDURE [CON].[uspCopyDbobjects]
---DECLARE
-@DEFAULTSCHEMA NVARCHAR(64)='CON',
-@NewSchema NVARCHAR(64)='StriveSuperAdminTest'
+@DEFAULTSCHEMA NVARCHAR(64),
+@NewSchema NVARCHAR(64)
+
+/*
+--------------------------------------------------------------------------------------------
+Author              : Lenin
+Create date         : 28-08-2020
+Description         : Procedure to copy db objects to new schema
+FRS				    : SuperAdmin FRS
+--------------------------------------------------------------------------------------
+ Rev | Date Modified | Developer   | Change Summary
+--------------------------------------------------------------------------------------
+  1  |  2020-09-01   | Lenin | Added condition for drop and recreate |
+
+---------------------------------------------------------------------------------------------
+*/
 
 AS
 
