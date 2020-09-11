@@ -146,9 +146,12 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label>Outside Service</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <select class="form-control" formControlName="outsideServie"
+                            (change)="outSideService($event.target.value)">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of outsideServices" value="{{score.ServiceId}}">
+                                {{score.ServiceName}}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -189,14 +192,15 @@
                             <h5 class="d-inline-block font-weight-600">Notes</h5>
                         </div>
                         <div>
-                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" name="note" [(ngModel)]="note" rows="8"></textarea>
+                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" name="note" [(ngModel)]="note"
+                                rows="8"></textarea>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-6" style="padding-left: 0% !important;">
-                            <button type="button"
-                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Start/Assign</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
+                                (click)="assignEmployee()">Start/Assign</button>
                         </div>
                         <div class="col-sm-6" style="padding: 0% !important;">
                             <button type="button"
@@ -234,3 +238,8 @@
         </div>
     </div>
 </div>
+<p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
+    [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)" (closeAssignModel)="closeAssignModel()" [details]="details"
+        [employeeList]="employeeList" [assignedDetailService]="assignedDetailService"></app-assign-detail>
+</p-dialog>

@@ -19,16 +19,12 @@ namespace Admin.API.Controllers
         public VehicleController(IVehicleBpl vehicleBpl) : base(vehicleBpl) { }
 
         [HttpPost]
-        [Route("Update")]
-        public Result UpdateVehicle([FromBody] VehicleDto vehicle) => _bplManager.SaveClientVehicle(vehicle);
-
-        [HttpPost]
         [Route("UpdateMembership")]
         public Result Update([FromBody] Membership Membership) => _bplManager.UpdateVehicleMembership(Membership);
 
         [HttpPost]
-        [Route("UpdateClientVehicle")]
-        public Result UpdateClientVehicle([FromBody] ClientVehicle ClientVehicle) => _bplManager.UpdateClientVehicle(ClientVehicle);
+        [Route("AddVehicle")]
+        public Result AddVehicle([FromBody] VehicleDto ClientVehicle) => _bplManager.AddVehicle(ClientVehicle);
 
         [HttpDelete]
         [Route("Delete")]

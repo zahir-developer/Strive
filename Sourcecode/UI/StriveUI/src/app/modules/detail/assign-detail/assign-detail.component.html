@@ -1,0 +1,70 @@
+<form [formGroup]="assignForm">
+    <div class="form-row  m-b-8">
+        <div class="form-group col-md-3">
+            <label for="inputVehicle">Employee</label>
+            <select class="form-control" formControlName="employeeId"
+                (change)="serviceByEmployeeId($event.target.value)">
+                <option hidden selected value="">Choose</option>
+                <option *ngFor="let e of employeeList" value="{{e.EmployeeId}}">{{e.LastName}}{{e.FirstName}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputVehicle">Service</label>
+            <select class="form-control" formControlName="serviceId">
+                <option hidden selected value="">Choose</option>
+                <option *ngFor="let d of details" value={{d.ServiceId}}>{{d.ServiceName}}</option>
+            </select>
+        </div>
+        <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
+            <div class="pull-right">
+                <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
+                    (click)="assignService()" [disabled]="assignForm.value.employeeId === '' ||  assignForm.value.serviceId === ''">Assign</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Employee Name
+                            </th>
+                            <th scope="col">
+                                Servcie
+                            </th>
+                            <th scope="col">
+                                % Commission
+                            </th>
+                            <th scope="row"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let detail of detailService">
+                            <td>
+                                {{detail.LastName}}{{detail.FirstName}}
+                            </td>
+                            <td>{{detail.ServiceName}}
+                            </td>
+                            <td>{{detail.Cost}}
+                            </td>
+                            <td>
+                                <em class="fa fa-times-circle delete-list theme-optional-icon-color" style="color:red"
+                                    (click)="delete(detail)"></em>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-t-12">
+    <span class="mw-100 pull-right">
+        <button type="button" class="btn theme-primary-button-color m-r-5" (click)="saveAssignedService()" [disabled]="detailService.length === 0">Save</button>
+        <button type="button" class="btn theme-optional-button-color" (click)="closeModel()">Cancel</button>
+    </span>
+</div>

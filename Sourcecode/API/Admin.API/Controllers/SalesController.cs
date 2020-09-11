@@ -58,6 +58,12 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetServicesWithPrice")]
         public Result GetServicesWithPrice() => _bplManager.GetServicesWithPrice();
+        [HttpPut]
+        [Route("DeleteTransactions")]
+        public Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            return _bplManager.DeleteTransactions(salesItemDeleteDto);
+        }
         
     }
 }

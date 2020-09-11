@@ -82,6 +82,19 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
+        public Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            try
+            {
+                return ResultWrap(new SalesRal(_tenant).DeleteTransactions, salesItemDeleteDto, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        
         public Result UpdateListItem(SalesAddListItemDto salesAddListItem)
         {
             try
