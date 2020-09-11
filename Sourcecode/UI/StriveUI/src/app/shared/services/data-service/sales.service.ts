@@ -15,4 +15,10 @@ export class SalesService {
  deleteItemById(id){
   return this.http.delete(`${UrlConfig.totalUrl.deleteItemById}`, {params: {jobId: id}});
  }
+ addItem(addObj) {
+  return this.http.post(`${UrlConfig.totalUrl.addItem}`, addObj);
+ }
+ getService() {
+   return this.http.get(`${UrlConfig.totalUrl.getServicewithPrice}`);
+ }
 }
