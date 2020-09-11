@@ -72,11 +72,5 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteDetails(int id) => _bplManager.DeleteDetails(id);
-        [HttpPost]
-        [Route("AddEmployeeScheduleToDetails")]
-        public Result AddEmployeeScheduleToDetails([FromBody] EmployeeScheduleDetailsDto empSchedule) => _bplManager.AddEmployeeScheduleToDetails(empSchedule);
-        [HttpPost]
-        [Route("GetAllDetails")]
-        public Result GetAllDetails([FromBody] DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
     }
 }
