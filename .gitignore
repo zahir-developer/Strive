@@ -114,3 +114,5 @@
 /Sourcecode/API/SuperAdmin.API/obj/Debug/netcoreapp2.2
 /Sourcecode/API/SuperAdmin.API/obj/Release/netcoreapp2.2
 /Sourcecode/API/SuperAdmin.API/obj
+/Sourcecode/API/.sonarqube
+/Sourcecode/API/Strive.RepositoryCqrs/obj
