@@ -70,12 +70,16 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
-                                (click)="getByBarcode(detailForm.value.barcode)">Select</button>
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
-                                href="#addNewvehicleModal" data-toggle="modal">Add Vehicle</button>
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
-                                onclick="window.location.href='New-client.html';">Add Client</button>
+                            <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                (click)="getByBarcode(detailForm.value.barcode)">Select</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                Client</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                Vehicle</button>
+                            <!-- <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                (click)="addClient()">Add Client</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                (click)="addVehicle()" [disabled]="clientId === undefined">Add Vehicle</button> -->
                         </div>
                     </div>
                 </div>
@@ -198,8 +202,8 @@
                             <h5 class="d-inline-block font-weight-600">Notes</h5>
                         </div>
                         <div>
-                            <textarea class="form-control m-l-5 m-r-5 m-t-5 m-b-5 notes-textarea" name="note"
-                                [(ngModel)]="note" rows="7" cols="10" style="min-width: 100%"></textarea>
+                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" name="note" [(ngModel)]="note"
+                                rows="8"></textarea>
                         </div>
                     </div>
 
@@ -247,8 +251,10 @@
                     <button type="button" class="btn theme-primary-button-color">Vehicle Copy</button>
                 </span>
                 <span class="mw-100 pull-right">
-                    <button type="button" class="btn theme-primary-button-color" (click)="saveDetail()">Save</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit" (click)="deleteDetail()">Delete</button>
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="saveDetail()">Save</button>&nbsp;
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit"
+                        (click)="deleteDetail()">Delete</button>
                 </span>
             </div>
         </div>
@@ -260,3 +266,20 @@
         (closeAssignModel)="closeAssignModel()" [details]="details" [employeeList]="employeeList"
         [assignedDetailService]="assignedDetailService"></app-assign-detail>
 </p-dialog>
+
+<!-- <p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
+    [focusOnShow]="false" [closable]="false">
+    <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
+    <p-footer>
+        <button type="button" class="btn theme-optional-button-color"
+            (click)="closePopupEmitClient()">Cancel</button>&nbsp;
+        <button type="button" class="btn theme-primary-button-color" (click)="saveClient()">Save</button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
+    [focusOnShow]="false" [closable]="false">
+    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
+        [clientId]="clientId" [isAdd]="true" (closeDialog)="closePopupEmitVehicle($event)">
+    </app-vehicle-create-edit>
+</p-dialog> -->

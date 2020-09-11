@@ -1,9 +1,11 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import * as moment from 'moment';
+import { ClientService } from 'src/app/shared/services/data-service/client.service';
+// import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 
@@ -13,6 +15,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./create-edit-detail-schedule.component.css']
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
+  // @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   detailForm: FormGroup;
   ticketNumber: any;
   barcodeDetails: any;
@@ -46,6 +49,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   isBarcode = false;
   memberService: any[];
   note = '';
+  headerData: string;
+  showVehicleDialog: boolean;
+  showClientDialog: boolean;
+  address: any;
+  clientId: any;
   showDialog: boolean;
   employeeList: any = [];
   isAssign: boolean;
@@ -57,7 +65,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private toastr: MessageServiceToastr,
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private client: ClientService
   ) { }
 
   ngOnInit(): void {
@@ -136,7 +145,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   getWashTimeByLocationID() {
     const locationId = localStorage.getItem('empLocationId');
-    this.detailService.getWashTimeByLocationId(locationId).subscribe( res => {
+    this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
         const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
@@ -289,7 +298,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     const temp = this.washItem.filter(item => item.ServiceId === data.ServiceId);
     if (temp.length !== 0) {
       if (data.IsChecked) {
-        this.washItem.forEach( item => {
+        this.washItem.forEach(item => {
           if (item.ServiceId === data.ServiceId) {
             item.IsDeleted = true;
           } else {
@@ -380,7 +389,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 648)[0]?.ServiceId
     });
     this.getByBarcode(this.selectedData?.Details?.Barcode);
-    this.ticketNumber = this.selectedData.Details.TicketNumber;
+    this.ticketNumber = this.selectedData?.Details?.TicketNumber;
     this.washItem = this.selectedData.DetailsItem;
     console.log(this.washItem);
     this.washItem.forEach(element => {
@@ -416,9 +425,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   selectedClient(event) {
-    const clientId = event.id;
-    console.log(clientId);
-    this.getClientVehicle(clientId);
+    this.clientId = event.id;
+    this.getClientVehicle(this.clientId);
   }
 
   vehicleChange(id) {
@@ -435,6 +443,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
         this.detailForm.patchValue({
+          vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
           type: vData.VehicleMakeId,
           model: vData.VehicleModelId,
@@ -481,7 +490,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
         }
-        if (this.isEdit && this.selectedData.Details !== undefined) {
+        if (this.isEdit && this.selectedData.Details !== null) {
           this.detailForm.patchValue({ vehicle: this.selectedData.Details.VehicleId });
         }
       } else {
@@ -492,9 +501,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   saveDetail() {
     this.submitted = true;
-    // if (this.detailForm.invalid) {
-    //   return;
-    // }
+    if (this.detailForm.invalid) {
+      return;
+    }
     this.additional.forEach(element => {
       if (element.IsChecked) {
         this.additionalService.push(element);
@@ -555,7 +564,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         updatedBy: 0
       };
     });
-    this.washItem.forEach( item => {
+    this.washItem.forEach(item => {
       item.isActive = true;
     });
     this.washItem.forEach(element => {
@@ -669,6 +678,90 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
+  addVehicle() {
+    this.headerData = 'Add New Vehicle';
+    this.showVehicleDialog = true;
+  }
+
+  closePopupEmitVehicle(event) {
+    if (event.status === 'saved') {
+      this.showVehicleDialog = false;
+      this.getClientVehicle(this.clientId);
+    }
+    this.showVehicleDialog = event.isOpenPopup;
+  }
+
+  addClient() {
+    this.headerData = 'Add New Client';
+    this.showClientDialog = true;
+  }
+
+  closePopupEmitClient() {
+    this.showClientDialog = false;
+  }
+
+  // saveClient() {
+  //   this.clientFormComponent.submitted = true;
+  //   this.clientFormComponent.stateDropdownComponent.submitted = true;
+  //   if (this.clientFormComponent.clientForm.invalid) {
+  //     return;
+  //   }
+  //   this.address = [{
+  //     clientId: this.isEdit ? this.selectedData.ClientId : 0,
+  //     clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
+  //     address1: this.clientFormComponent.clientForm.value.address,
+  //     address2: "",
+  //     phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
+  //     isActive: true,
+  //     zip: this.clientFormComponent.clientForm.value.zipcode,
+  //     state: this.clientFormComponent.State,
+  //     city: this.clientFormComponent.city,
+  //     country: 38,
+  //     phoneNumber: this.clientFormComponent.clientForm.value.phone1,
+  //     email: this.clientFormComponent.clientForm.value.email,
+  //     isDeleted: false,
+  //     createdBy: 1,
+  //     createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+  //     updatedBy: 1,
+  //     updatedDate: new Date()
+  //   }];
+  //   const formObj = {
+  //     clientId: this.isEdit ? this.selectedData.ClientId : 0,
+  //     firstName: this.clientFormComponent.clientForm.value.fName,
+  //     middleName: "",
+  //     lastName: this.clientFormComponent.clientForm.value.lName,
+  //     gender: 1,
+  //     maritalStatus: 1,
+  //     birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
+  //     isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
+  //     isDeleted: false,
+  //     createdBy: 1,
+  //     createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+  //     updatedBy: 1,
+  //     updatedDate: new Date(),
+  //     notes: this.clientFormComponent.clientForm.value.notes,
+  //     recNotes: this.clientFormComponent.clientForm.value.checkOut,
+  //     score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+  //     noEmail: this.clientFormComponent.clientForm.value.creditAccount,
+  //     clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
+  //   };
+  //   const myObj = {
+  //     client: formObj,
+  //     clientVehicle: null,
+  //     clientAddress: this.address
+  //   };
+  //   this.client.addClient(myObj).subscribe(data => {
+  //     if (data.status === 'Success') {
+  //       this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+  //       this.closePopupEmitClient();
+  //       this.getAllClient();
+  //     } else {
+  //       this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+  //       this.clientFormComponent.clientForm.reset();
+  //     }
+  //   });
+  // }
+
   assignEmployee() {
     this.showDialog = true;
   }
@@ -694,7 +787,4 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       }
     });
   }
-
-
-
 }
