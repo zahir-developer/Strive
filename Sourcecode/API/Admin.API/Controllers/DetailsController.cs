@@ -31,8 +31,8 @@ namespace Admin.API.Controllers
         [Route("GetAllBayById/{id}")]
         public Result GetAllBayById(int id) => _bplManager.GetAllBayById(id);
         [HttpGet]
-        [Route("GetScheduleDetailsByDate/{date}")]
-        public Result GetScheduleDetailsByDate(DateTime date) => _bplManager.GetScheduleDetailsByDate(date);
+        [Route("GetBaySchedulesDetails")]
+        public Result GetScheduleDetailsByDate(DetailsGridDto detailsGrid) => _bplManager.GetBaySchedulesDetails(detailsGrid);
         [HttpGet]
         [Route("GetJobType")]
         public Result GetJobType() => _bplManager.GetJobType();

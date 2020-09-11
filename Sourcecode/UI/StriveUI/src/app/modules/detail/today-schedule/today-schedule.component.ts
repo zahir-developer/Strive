@@ -22,12 +22,12 @@ export class TodayScheduleComponent implements OnInit {
 
   getTodayDateScheduleList() {
     const todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    const locationId = 1;
+    const locationId = localStorage.getItem('empLocationId');
     const finalObj = {
       jobDate: todayDate,
       locationId
     };
-    this.detailService.getTodayDateScheduleList(finalObj).subscribe(res => {
+    this.detailService.getTodayDateScheduleList(todayDate, locationId).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         console.log(scheduleDetails, 'todayList');
@@ -43,18 +43,20 @@ export class TodayScheduleComponent implements OnInit {
               const outsideService = _.where(isData, { ServiceTypeName: 'Outside Services' });
               detailService.forEach( service => {
                 outsideService.forEach( outside => {
-                  services.push({
-                    BayId: service.BayId,
-                    BayName: service.BayName,
-                    ClientName: service.ClientName,
-                    EstimatedTimeOut: service.EstimatedTimeOut,
-                    JobId: service.JobId,
-                    PhoneNumber: service.PhoneNumber,
-                    ServiceName: service.ServiceName,
-                    TicketNumber: service.TicketNumber,
-                    TimeIn: service.TimeIn,
-                    OutsideService: outside.ServiceName ? outside.ServiceName : 'None'
-                  });
+                  if ( service.JobId ===  outside.JobId) {
+                    services.push({
+                      BayId: service.BayId,
+                      BayName: service.BayName,
+                      ClientName: service.ClientName,
+                      EstimatedTimeOut: service.EstimatedTimeOut,
+                      JobId: service.JobId,
+                      PhoneNumber: service.PhoneNumber,
+                      ServiceName: service.ServiceName,
+                      TicketNumber: service.TicketNumber,
+                      TimeIn: service.TimeIn,
+                      OutsideService: outside.ServiceName ? outside.ServiceName : 'None'
+                    });
+                  }
                 });
               });
               console.log(services, 'servcei');

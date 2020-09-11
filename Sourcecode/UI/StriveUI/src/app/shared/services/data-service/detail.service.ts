@@ -26,8 +26,8 @@ export class DetailService {
     return this.http.get(`${UrlConfig.totalUrl.getAllBayById}` + id);
   }
 
-  getScheduleDetailsByDate(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getScheduleDetailsByDate}`, obj);
+  getScheduleDetailsByDate(JobDate, LocationId) {
+    return this.http.get(`${UrlConfig.totalUrl.getScheduleDetailsByDate}`, { params : { JobDate, LocationId }});
   }
 
   deleteDetail(id) {
@@ -38,7 +38,15 @@ export class DetailService {
     return this.http.get(`${UrlConfig.totalUrl.getJobType}`);
   }
 
-  getTodayDateScheduleList(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, obj);
+  getTodayDateScheduleList(JobDate, LocationId) {
+    return this.http.get(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, { params : { JobDate, LocationId }});
+  }
+
+  getAllEmployeeList() {
+    return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
+  }
+
+  getWashTimeByLocationId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getLocationById}`, { params: { id }});
   }
 }
