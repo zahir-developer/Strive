@@ -126,6 +126,7 @@ namespace StriveTimInventory.iOS.Views
         private void SetImage(string url)
         {
             ItemImage.Image = UIImage.FromBundle(url);
+            ConvertToBase64(UIImage.FromBundle(url));
         }
 
         private void PickImage()
@@ -165,11 +166,7 @@ namespace StriveTimInventory.iOS.Views
                 if (originalImage != null)
                 {
                     ItemImage.Image = originalImage;
-                    NSData imageData = originalImage.AsPNG();
-                    Byte[] myByteArray = new Byte[imageData.Length];
-                    System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
-                    string Base64String = Convert.ToBase64String(myByteArray);
-                    ViewModel.Base64String = Base64String;
+                    ConvertToBase64(originalImage);
                 }
 
                 UIImage editedImage = e.Info[UIImagePickerController.EditedImage] as UIImage;
@@ -181,6 +178,15 @@ namespace StriveTimInventory.iOS.Views
             }
 
             imagePicker.DismissModalViewController(true);
+        }
+
+        void ConvertToBase64(UIImage originalImage)
+        {
+            NSData imageData = originalImage.AsPNG();
+            Byte[] myByteArray = new Byte[imageData.Length];
+            System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
+            string Base64String = Convert.ToBase64String(myByteArray);
+            ViewModel.Base64String = Base64String;
         }
 
         public override void DidReceiveMemoryWarning()

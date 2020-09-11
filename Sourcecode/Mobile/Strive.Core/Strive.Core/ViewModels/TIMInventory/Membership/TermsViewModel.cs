@@ -23,11 +23,6 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             }
         }
 
-        //public override void ViewDisappeared()
-        //{
-        //    _messageToken.Dispose();
-        //}
-
         public async Task NavigateBackCommand()
         {
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));

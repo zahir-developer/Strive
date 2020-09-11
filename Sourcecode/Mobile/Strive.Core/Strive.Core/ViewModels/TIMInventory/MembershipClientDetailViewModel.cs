@@ -51,17 +51,18 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateToDetailCommand(VehicleDetail vehicle)
         {
+            MembershipData.SelectedVehicle = vehicle;
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetVehicleMembership(vehicle.VehicleId);
             if(result != null)
             {
-                if (result.VehicleMembershipDetails.ClientVehicleMembership == null)
+                if (result.MembershipDetailsForVehicleId.Membership == null)
                 {
                     await _navigationService.Navigate<SelectMembershipViewModel>();
                 }
                 else
                 {
-                    MembershipData.MembershipDetail = result.VehicleMembershipDetails.ClientVehicleMembership;
+                    MembershipData.MembershipDetail = result.MembershipDetailsForVehicleId.Membership;
                     await _navigationService.Navigate<VehicleMembershipDetailViewModel>();
                 }
             } 

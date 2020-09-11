@@ -1,6 +1,8 @@
 ﻿using System;
+using Acr.UserDialogs;
 using CoreGraphics;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Photos;
@@ -12,6 +14,8 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 {
     public partial class SignatureView : MvxViewController<SignatureViewModel>
     {
+        public static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
+
         public SignatureView() : base("SignatureView", null)
         {
         }
@@ -21,7 +25,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             base.ViewDidLoad();
 
 			var set = this.CreateBindingSet<SignatureView, SignatureViewModel>();
-			set.Bind(DoneButton).To(vm => vm.Commands["Next"]);
 			set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
 			set.Bind(CancelButton).To(vm => vm.Commands["NavigateBack"]);
 			set.Apply();
@@ -44,30 +47,17 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         async partial void DoneButtonClicked(UIButton sender)
 		{
 			UIImage image;
-			using (var bitmap = await SignPad.GetImageStreamAsync(SignatureImageFormat.Png, UIColor.Black, UIColor.White, 1f))
+            var bitmap = await SignPad.GetImageStreamAsync(SignatureImageFormat.Png, UIColor.Black, UIColor.White, 1f);
+            if(bitmap == null)
+            {
+                await _userDialog.AlertAsync("Please sign to complete the membership.");
+                return;
+            }
 			using (var data = NSData.FromStream(bitmap))
 			{
 				image = UIImage.LoadFromData(data);
 			}
-
-			var status = await PHPhotoLibrary.RequestAuthorizationAsync();
-			if (status == PHAuthorizationStatus.Authorized)
-			{
-				image.SaveToPhotosAlbum((i, error) =>
-				{
-					image.Dispose();
-
-					if (error == null)
-					{ }
-
-					else { }
-
-				});
-			}
-			else
-			{
-
-			}
+            ViewModel.NextCommand();
 		}
 
         partial void CancelButtonClicked(UIButton sender)

@@ -42,6 +42,7 @@ namespace Strive.Core.Rest.Implementations
                     {
                         var json = _jsonConverter.SerializeObject(data);
                         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                        Console.WriteLine(json);
                     }
 
                     HttpResponseMessage response = new HttpResponseMessage();

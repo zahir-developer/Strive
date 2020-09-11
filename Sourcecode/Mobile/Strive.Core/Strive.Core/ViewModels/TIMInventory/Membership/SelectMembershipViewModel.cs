@@ -31,11 +31,6 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             }
         }
 
-        //public override void ViewDisappeared()
-        //{
-        //    _messageToken.Dispose();
-        //}
-
         public async void GetServiceList()
         {
             _userDialog.ShowLoading(Strings.Loading);

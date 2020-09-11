@@ -33,11 +33,6 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             }
         }
 
-        //public override void ViewDisappeared()
-        //{
-        //    _messageToken.Dispose();
-        //}
-
         public async Task NavigateBackCommand()
         {
             await _navigationService.Close(this);

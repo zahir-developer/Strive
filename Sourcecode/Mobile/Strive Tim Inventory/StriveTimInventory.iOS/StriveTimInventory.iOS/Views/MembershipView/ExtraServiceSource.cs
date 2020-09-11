@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.TIMInventory.Membership;
 using UIKit;
 
@@ -16,7 +17,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         private ExtraServiceViewModel ViewModel;
 
-        private ObservableCollection<string> ItemList;
+        private ObservableCollection<ServiceDetail> ItemList;
+
+        private ObservableCollection<ServiceDetail> ExtraList = new ObservableCollection<ServiceDetail>();
+
+        private ObservableCollection<ServiceDetail> MembershipServiceList = new ObservableCollection<ServiceDetail>();
 
         ClientTableViewCell firstselected = null;
         ClientTableViewCell secondselected = null;
@@ -34,11 +39,12 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<string>)value;
+                    ItemList = (ObservableCollection<ServiceDetail>)value;
+                    MembershipServiceList = ViewModel.SelectedServiceList;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<string>();
+                    ItemList = new ObservableCollection<ServiceDetail>();
                 }
 
                 base.ItemsSource = value;
@@ -73,26 +79,16 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         {
 
             var cell = (ClientTableViewCell)tableView.CellAt(indexPath);
-            if (firstselected == null)
+
+            if (ExtraList.Contains(ItemList[indexPath.Row]))
             {
-                firstselected = cell;
-                firstselected.SelectMembershipcell();
+                ExtraList.Remove(ItemList[indexPath.Row]);
+                cell.DeSelectMembershipcell();
             }
             else
             {
-                secondselected = cell;
-                if (firstselected == secondselected)
-                {
-                    firstselected.DeSelectMembershipcell();
-                    firstselected = secondselected = null;
-                }
-                else
-                {
-                    firstselected.DeSelectMembershipcell();
-                    secondselected.SelectMembershipcell();
-                    firstselected = secondselected;
-                    secondselected = null;
-                }
+                ExtraList.Add(ItemList[indexPath.Row]);
+                cell.SelectMembershipcell();
             }
         }
 
@@ -100,7 +96,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             ClientTableViewCell cell = (ClientTableViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetExtraServiceList(ItemList[indexPath.Row]);
+            cell.SetExtraServiceList(ItemList[indexPath.Row], ExtraList,MembershipServiceList,cell);
             return cell;
         }
     }

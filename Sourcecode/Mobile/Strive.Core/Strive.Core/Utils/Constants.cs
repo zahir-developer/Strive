@@ -3,7 +3,7 @@ namespace Strive.Core.Utils
 {
     public class ApiUtils
     { 
-        public const string BASE_URL = "http://14.141.185.75:5007";
+        public const string BASE_URL = "http://14.141.185.75:5004";
 
         public static string Token { get; set; }
 
@@ -47,7 +47,10 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_CLIENT_VEHICLE = "/Admin/Vehicle/GetVehicleByClientId";
 
-        public const string URL_GET_CLIENT_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId";
+        public const string URL_GET_CLIENT_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/GetMembershipDetailsByVehicleId";
 
+        public const string URL_GET_CLIENT_VEHICLE_SERVICES = "/Admin/ServiceSetup/GetService";
+
+        public const string URL_GET_SELECTED_MEMBERSHIP_SERVICES = "/Admin/MembershipSetup/GetAllMembershipById/";  
     }
 }

@@ -19,4 +19,9 @@ namespace Strive.Core.Models.TimInventory
     {
         public List<MembershipServices> Membership { get; set; }
     }
+
+    public class SelectedServiceList
+    {
+        public List<ServiceDetail> MembershipDetail { get; set; }
+    }
 }

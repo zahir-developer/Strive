@@ -139,6 +139,16 @@ namespace Strive.Core.Services.Implementations
             var url = RestUtils.BuildQuery(ApiUtils.URL_GET_CLIENT_VEHICLE_MEMBERSHIP, "id", VehicleId);
             return await _restClient.MakeApiCall<ClientVehicleRootView>(url, HttpMethod.Get);
         }
+
+        public async Task<ServiceList> GetVehicleServices()
+        {
+            return await _restClient.MakeApiCall<ServiceList>(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES, HttpMethod.Get);
+        }
+
+        public async Task<SelectedServiceList> GetSelectedMembershipServices(int MembershipId)
+        {
+            return await _restClient.MakeApiCall<SelectedServiceList>(ApiUtils.URL_GET_SELECTED_MEMBERSHIP_SERVICES+MembershipId, HttpMethod.Get);
+        }
     }
 
     public static class RestUtils

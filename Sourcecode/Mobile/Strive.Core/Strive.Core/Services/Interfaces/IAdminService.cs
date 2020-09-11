@@ -49,5 +49,9 @@ namespace Strive.Core.Services.Interfaces
         Task<VehicleList> GetClientVehicle(int ClientId);
 
         Task<ClientVehicleRootView> GetVehicleMembership(int VehicleId);
+
+        Task<ServiceList> GetVehicleServices();
+
+        Task<SelectedServiceList> GetSelectedMembershipServices(int MembershipId);
     }
 }

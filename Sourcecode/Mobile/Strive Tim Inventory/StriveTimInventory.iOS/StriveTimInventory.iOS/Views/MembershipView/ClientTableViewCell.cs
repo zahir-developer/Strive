@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.ObjectModel;
+using System.Linq;
 using Foundation;
 using Strive.Core.Models.TimInventory;
 using StriveTimInventory.iOS.UIUtils;
@@ -56,10 +57,23 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
         }
 
-        public void SetExtraServiceList(string item)
+        public void SetExtraServiceList(ServiceDetail item,ObservableCollection<ServiceDetail> list, ObservableCollection<ServiceDetail> GrayedList, ClientTableViewCell cell)
         {
-            ItemTitle.Text = item;
-            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+            ItemTitle.Text = item.ServiceName;
+            DeSelectMembershipcell();
+            cell.BackgroundColor = UIColor.White;
+            cell.UserInteractionEnabled = true;
+            if (list.Contains(item))
+            {
+                SelectMembershipcell();
+            }
+            var GrayedItem = GrayedList.Where(s => s.ServiceId == item.ServiceId).FirstOrDefault();
+            if(GrayedItem != null)
+            {
+                SelectMembershipcell();
+                cell.BackgroundColor = UIColor.Clear.FromHex(0xECECEC);
+                cell.UserInteractionEnabled = false;
+            }
         }
 
         public void SetVehicleList(VehicleDetail vehicle)

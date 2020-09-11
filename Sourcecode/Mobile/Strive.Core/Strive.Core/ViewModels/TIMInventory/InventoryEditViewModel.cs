@@ -155,14 +155,23 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task AddProductCommand()
         {
-            _userDialog.Loading(Strings.Loading);
             var product = PrepareAddProduct();
+            _userDialog.Loading(Strings.Loading);
             var result = await AdminService.AddProduct(product);
             if(result.Status == "true")
             {
                 NavigateBackCommand();
             }
             _userDialog.HideLoading();
+        }
+
+        void ValidateCommand()
+        {
+            if(string.IsNullOrEmpty(ItemCode))
+            {
+
+            }
+            //else if (string.is)
         }
 
         private ProductDetail PrepareAddProduct()
@@ -210,6 +219,11 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             PrepareUpdateProduct();
             var response = await AdminService.UpdateProduct(EmployeeData.EditableProduct.Product);
+            if(response == null)
+            {
+               await _userDialog.AlertAsync("Something unusal has happened.");
+                return;
+            }
             NavigateBackCommand();
         }
 
@@ -220,6 +234,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             EmployeeData.EditableProduct.Product.ProductDescription = _SelectedItemDescription;
             EmployeeData.EditableProduct.Product.Quantity = int.Parse(_SelectedItemQuantity);
             EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
+            EmployeeData.EditableProduct.Product.base64 = Base64String;
         }
 
         public async Task NavigateUploadImageCommand()

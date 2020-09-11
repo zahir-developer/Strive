@@ -22,6 +22,19 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         {
             var VehicleMembership = PrepareVehicleMembership();
             var result = await AdminService.SaveVehicleMembership(VehicleMembership);
+            if(result == null)
+            {
+                await _userDialog.AlertAsync("Membership not Assigned");
+                return;
+            }
+            if(result.Status)
+            {
+                await _userDialog.AlertAsync("Membership Assigned");
+            }
+            else
+            {
+                await _userDialog.AlertAsync("Membership not Assigned");
+            }
         }
 
         ClientVehicleRoot PrepareVehicleMembership()
@@ -34,7 +47,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     clientVehicleMembershipDetails = new ClientVehicleMembershipDetails()
                     {
                         clientMembershipId = 0,
-                        clientVehicleId = 1,
+                        clientVehicleId = MembershipData.SelectedVehicle.VehicleId,
                         locationId = 1,
                         membershipId = MembershipData.SelectedMembership.MembershipId,
                         startDate = DateUtils.GetTodayDateString(),
@@ -48,11 +61,12 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     {
                         new ClientVehicleMembershipService()
                         {
+                            clientVehicleMembershipServiceId = 0,
                             clientMembershipId = 0,
                             serviceId = 2135,
                             serviceTypeId = 0,
                             isActive = true,
-                            isDeleted = false,
+                            isDeleted = false
                         }
                     }
                 }
