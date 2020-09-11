@@ -52,6 +52,7 @@ export class CreateEditComponent implements OnInit {
   isAlien: boolean = false;
   isDate: boolean = false;
   imigirationStatus: any = [];
+  isCitizen: boolean = true;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -157,11 +158,13 @@ export class CreateEditComponent implements OnInit {
     if(temp.length !== 0){
       if(temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A'){
         this.isAlien = true;
+        this.isCitizen = false;
       } else{
-        this.isAlien = false;
+        this.isAlien = false;        
       }
       if(temp[0].CodeValue === 'An alien authorized to work until'){
         this.isDate = true;
+        this.isCitizen = false;        
       } else{
         this.isDate = false;
       }
@@ -301,7 +304,7 @@ export class CreateEditComponent implements OnInit {
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
       maritalStatus: 117,
-      isCitizen: true,
+      isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
       birthDate: '',
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
