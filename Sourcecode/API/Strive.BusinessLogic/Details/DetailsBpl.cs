@@ -34,6 +34,7 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllBayById, id, "BayDetailsForLocationId");
         }
+       
         public Result GetWashTimeById(int id)
         {
             return ResultWrap(new DetailsRal(_tenant).GetWashTimeById, id, "WashTimeDetailsForLocationId");
@@ -42,9 +43,9 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).GetPastClientNotesById, id, "PastClientNotesByClientId");
         }
-        public Result GetScheduleDetailsByDate(DateTime date)
+        public Result GetBaySchedulesDetails(DetailsGridDto detailsGrid)
         {
-            return ResultWrap(new DetailsRal(_tenant).GetScheduleDetailsByDate, date, "ScheduleDetailsForDate");
+            return ResultWrap(new DetailsRal(_tenant).GetBaySchedulesDetails, detailsGrid, "GetBaySchedulesDetails");
         }
         public Result GetJobType()
         {

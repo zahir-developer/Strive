@@ -49,7 +49,7 @@ export class SalesComponent implements OnInit {
           const itemList = JSON.parse(data.resultData);
           this.washes = itemList.Status.filter(item => item.ServiceType === 'Washes');
           this.details = itemList.Status.filter(item => item.ServiceType === 'Details');
-          this.additionalService = itemList.Status.filter(item => item.ServiceType === 'AdditionalService');
+          this.additionalService = itemList.Status.filter(item => item.ServiceType === 'Additional Services');
         }
       });
     }
@@ -66,8 +66,7 @@ export class SalesComponent implements OnInit {
     this.filteredItem = filtered;
   }
   deleteItem(data) {
-    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
-    information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Item', `Are you sure you want to delete the selected Item?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
@@ -78,13 +77,14 @@ export class SalesComponent implements OnInit {
 
   // Delete location
   confirmDelete(data) {
-    // this.salesService.deleteItemById(data.LocationId).subscribe(res => {
-    //   if (res.status === 'Success') {
+    this.salesService.deleteItemById(+data.JobId).subscribe(res => {
+      if (res.status === 'Success') {
+        this.getDetailByTicket();
+console.log('deleted');
+      } else {
 
-    //   } else {
-
-    //   }
-    // });
+      }
+    });
   }
   opengiftcard() {
     document.getElementById('Giftcardpopup').style.width = '300px';

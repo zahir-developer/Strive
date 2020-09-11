@@ -45,7 +45,7 @@ export class DetailScheduleComponent implements OnInit {
 
   getDetailByID() {
     console.log(this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd'), 'date changing');
-    this.detailService.getDetailById(91).subscribe( res => {
+    this.detailService.getDetailById(99).subscribe( res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
         console.log(details, 'details');

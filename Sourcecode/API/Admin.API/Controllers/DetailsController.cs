@@ -51,31 +51,9 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllBayById/{id}")]
         public Result GetAllBayById(int id) => _bplManager.GetAllBayById(id);
-
-        /// <summary>
-        /// Method to retrieve WashTime based on given LocationId.
-        /// </summary>
-        [HttpGet]
-        [Route("GetWashTimeById/{id}")]
-        public Result GetWashTimeById(int id) => _bplManager.GetWashTimeById(id);
-
-        /// <summary>
-        /// Method to retrieve Past Client Notes based on given ClientId.
-        /// </summary>
-        [HttpGet]
-        [Route("GetPastClientNotesById/{id}")]
-        public Result GetPastClientNotesById(int id) => _bplManager.GetPastClientNotesById(id);
-
-        /// <summary>
-        /// Method to retrieve Schedule Details based on given Date.
-        /// </summary>
-        [HttpGet]
-        [Route("GetScheduleDetailsByDate/{date}")]
-        public Result GetScheduleDetailsByDate(DateTime date) => _bplManager.GetScheduleDetailsByDate(date);
-
-        /// <summary>
-        /// Method to retrieve All Job Type.
-        /// </summary>
+        [HttpPost]
+        [Route("GetBaySchedulesDetails")]
+        public Result GetBaySchedulesDetails([FromBody] DetailsGridDto detailsGrid) => _bplManager.GetBaySchedulesDetails(detailsGrid);
         [HttpGet]
         [Route("GetJobType")]
         public Result GetJobType() => _bplManager.GetJobType();
@@ -88,13 +66,17 @@ namespace Admin.API.Controllers
         public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
         #endregion
 
-        #region DELETE
         /// <summary>
         /// Delete a Detail based on Date and LocationId.
         /// </summary>
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteDetails(int id) => _bplManager.DeleteDetails(id);
-        #endregion
+        [HttpPost]
+        [Route("AddEmployeeScheduleToDetails")]
+        public Result AddEmployeeScheduleToDetails([FromBody] EmployeeScheduleDetailsDto empSchedule) => _bplManager.AddEmployeeScheduleToDetails(empSchedule);
+        [HttpPost]
+        [Route("GetAllDetails")]
+        public Result GetAllDetails([FromBody] DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
     }
 }

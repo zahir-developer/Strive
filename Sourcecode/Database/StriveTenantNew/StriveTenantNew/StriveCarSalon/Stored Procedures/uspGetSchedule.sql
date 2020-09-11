@@ -29,19 +29,32 @@ INNER JOIN [StriveCarSalon].[tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.E
 INNER JOIN [StriveCarSalon].[tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
 LEFT JOIN [StriveCarSalon].[GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
 WHERE 
-(ISNULL(tblsc.IsDeleted,0)=0 AND tblsc.IsDeleted = 0) AND  tblsc.IsActive = 1
+(ISNULL(tblsc.IsDeleted,0)=0 AND tblsc.IsDeleted = 0) AND ISNULL(tblsc.IsActive,1) = 1
 AND
 ((tblsc.LocationId =@LocationId) OR (@LocationId = 0))
 AND
-(ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledendDate) OR (@ScheduledStartDate IS NULL AND @ScheduledendDate IS NULL)
+((ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledendDate) OR (@ScheduledStartDate IS NULL AND @ScheduledendDate IS NULL))
 
-select sum((DATEDIFF(hh,StartTime, EndTime))) as Totalhours 
-       from StriveCarSalon.tblSchedule as tblsch
-		 where ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledEndDate and ISNULL(IsDeleted,0)=0 AND IsDeleted = 0 AND  IsActive = 1
+select sum((DATEDIFF(hh,tblsc.StartTime, tblsc.EndTime))) as Totalhours 
+from StriveCarSalon.tblSchedule as tblsc
+INNER JOIN [StriveCarSalon].[tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
+INNER JOIN [StriveCarSalon].[tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
+WHERE 
+(ISNULL(tblsc.IsDeleted,0)=0 AND tblsc.IsDeleted = 0) AND ISNULL(tblsc.IsActive,1) = 1
+AND
+((tblsc.LocationId =@LocationId) OR (@LocationId = 0))
+AND
+((ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledendDate) OR (@ScheduledStartDate IS NULL AND @ScheduledendDate IS NULL))
 
 
-select count(distinct EmployeeId) as TotalEmployees from StriveCarSalon.tblSchedule where ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledendDate and locationId=@LocationId
-           and ISNULL(IsDeleted,0)=0 AND IsDeleted = 0 AND  IsActive = 1
-
+select count(distinct tblemp.EmployeeId) as TotalEmployees from StriveCarSalon.tblSchedule as tblsc
+INNER JOIN [StriveCarSalon].[tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
+INNER JOIN [StriveCarSalon].[tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
+WHERE 
+(ISNULL(tblsc.IsDeleted,0)=0 AND tblsc.IsDeleted = 0) AND ISNULL(tblsc.IsActive,1) = 1
+AND
+((tblsc.LocationId =@LocationId) OR (@LocationId = 0))
+AND
+((ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledendDate) OR (@ScheduledStartDate IS NULL AND @ScheduledendDate IS NULL))
 
 END

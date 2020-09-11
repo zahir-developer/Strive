@@ -26,9 +26,9 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).UpdateVehicleMembership, Membership, "Status");
         }
-        public Result UpdateClientVehicle(ClientVehicle ClientVehicle)
+        public Result AddVehicle(VehicleDto ClientVehicle)
         {
-            return ResultWrap(new VehicleRal(_tenant).UpdateClientVehicle, ClientVehicle, "Status");
+            return ResultWrap(new VehicleRal(_tenant).AddVehicle, ClientVehicle, "Status");
         }
 
         public Result SaveClientVehicle(VehicleDto vehicle)
