@@ -63,5 +63,9 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(salesAddListItem);
         }
+        public List<ServiceItemDto> GetServicesWithPrice()
+        {
+            return db.Fetch<ServiceItemDto>(SPEnum.uspGetServiceByItemList.ToString(), null);
+        }
     }
 }

@@ -94,5 +94,9 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
+        public Result GetServicesWithPrice()
+        {
+            return ResultWrap(new SalesRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
+        }
     }
 }
