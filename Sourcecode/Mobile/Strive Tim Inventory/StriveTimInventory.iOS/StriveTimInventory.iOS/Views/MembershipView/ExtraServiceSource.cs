@@ -19,8 +19,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         private ObservableCollection<ServiceDetail> ItemList;
 
-        private ObservableCollection<ServiceDetail> ExtraList = new ObservableCollection<ServiceDetail>();
-
         private ObservableCollection<ServiceDetail> MembershipServiceList = new ObservableCollection<ServiceDetail>();
 
         ClientTableViewCell firstselected = null;
@@ -40,7 +38,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 if (value != null)
                 {
                     ItemList = (ObservableCollection<ServiceDetail>)value;
-                    MembershipServiceList = ViewModel.SelectedServiceList;
+                    MembershipServiceList = ViewModel.MembershipServiceList;
                 }
                 else
                 {
@@ -80,14 +78,14 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
             var cell = (ClientTableViewCell)tableView.CellAt(indexPath);
 
-            if (ExtraList.Contains(ItemList[indexPath.Row]))
+            if (ViewModel.ExtraServiceList.Contains(ItemList[indexPath.Row]))
             {
-                ExtraList.Remove(ItemList[indexPath.Row]);
+                ViewModel.ExtraServiceList.Remove(ItemList[indexPath.Row]);
                 cell.DeSelectMembershipcell();
             }
             else
             {
-                ExtraList.Add(ItemList[indexPath.Row]);
+                ViewModel.ExtraServiceList.Add(ItemList[indexPath.Row]);
                 cell.SelectMembershipcell();
             }
         }
@@ -96,7 +94,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             ClientTableViewCell cell = (ClientTableViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetExtraServiceList(ItemList[indexPath.Row], ExtraList,MembershipServiceList,cell);
+            cell.SetExtraServiceList(ItemList[indexPath.Row], ViewModel.ExtraServiceList,MembershipServiceList,cell);
             return cell;
         }
     }

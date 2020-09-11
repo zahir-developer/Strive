@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Foundation;
 using Strive.Core.Models.TimInventory;
+using Strive.Core.Utils.TimInventory;
 using StriveTimInventory.iOS.UIUtils;
 using UIKit;
 
@@ -23,13 +24,24 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        public void SetMembershipList(MembershipServices item,int index,int SelectedIndex)
+        public void SetMembershipList(MembershipServices item,int index,int SelectedIndex, ClientTableViewCell cell)
         {
             ItemTitle.Text = item.MembershipName;
             DeSelectMembershipcell();
-            if(SelectedIndex == index && index !=0)
+            cell.BackgroundColor = UIColor.White;
+            cell.UserInteractionEnabled = true;
+            if (SelectedIndex == index && index !=0)
             {
                 SelectMembershipcell();
+            }
+            if(MembershipData.MembershipDetailView != null)
+            {
+                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.MembershipDetailView.MembershipId).FirstOrDefault();
+                if ((SelectedMembership != null) && (SelectedMembership == item))
+                {
+                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    cell.UserInteractionEnabled = false;
+                }
             }
         }
 

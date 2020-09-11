@@ -173,17 +173,17 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             if(string.IsNullOrEmpty(ItemName))
             {
-                _userDialog.AlertAsync("Please enter product name");
+                _userDialog.AlertAsync("Please enter Item name");
                 return false;
             }
             else if (string.IsNullOrEmpty(ItemQuantity))
             {
-                _userDialog.AlertAsync("Please enter product quantity");
+                _userDialog.AlertAsync("Please enter Item quantity");
                 return false;
             }
             else if (string.IsNullOrEmpty(SupplierName))
             {
-                _userDialog.AlertAsync("Please enter supplier information");
+                _userDialog.AlertAsync("Please enter Supplier information");
                 return false;
             }
             return true;

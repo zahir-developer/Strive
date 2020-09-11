@@ -49,20 +49,42 @@ namespace Strive.Core.ViewModels.TIMInventory
             await _navigationService.Close(this);
         }
 
+        public ObservableCollection<MembershipServices> MembershipServiceList { get; set; } = new ObservableCollection<MembershipServices>();
+
+        public async void GetServiceList()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var result = await AdminService.GetMembershipServiceList();
+            if (result != null)
+            {
+                MembershipData.MembershipServiceList = result;
+
+                foreach (var item in MembershipData.MembershipServiceList.Membership)
+                {
+                    MembershipServiceList.Add(item);
+                }
+            }
+            RaiseAllPropertiesChanged();
+        }
+
         public async Task NavigateToDetailCommand(VehicleDetail vehicle)
         {
             MembershipData.SelectedVehicle = vehicle;
+            if(MembershipData.MembershipServiceList == null)
+            {
+                GetServiceList();
+            }
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetVehicleMembership(vehicle.VehicleId);
             if(result != null)
             {
-                if (result.MembershipDetailsForVehicleId.Membership == null)
+                if (result.VehicleMembershipDetails.ClientVehicleMembership == null)
                 {
                     await _navigationService.Navigate<SelectMembershipViewModel>();
                 }
                 else
                 {
-                    MembershipData.MembershipDetail = result.MembershipDetailsForVehicleId.Membership;
+                    MembershipData.MembershipDetailView = result.VehicleMembershipDetails.ClientVehicleMembership;
                     await _navigationService.Navigate<VehicleMembershipDetailViewModel>();
                 }
             } 

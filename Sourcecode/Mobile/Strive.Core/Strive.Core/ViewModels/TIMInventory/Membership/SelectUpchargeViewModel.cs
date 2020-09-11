@@ -40,7 +40,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public void NextCommand()
         {
-            _navigationService.Navigate<TermsViewModel>();
+            _navigationService.Navigate<ExtraServiceViewModel>();
         }
     }
 }

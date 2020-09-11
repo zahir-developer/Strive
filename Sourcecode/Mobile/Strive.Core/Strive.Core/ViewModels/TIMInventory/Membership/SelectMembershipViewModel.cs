@@ -7,6 +7,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
 using MvvmCross.Plugin.Messenger;
+using System.Linq;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
@@ -38,12 +39,19 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             if(result != null)
             {
                 MembershipData.MembershipServiceList = result;
-            }
-            if(MembershipData.MembershipServiceList != null)
-            {
+
                 foreach (var item in MembershipData.MembershipServiceList.Membership)
                 {
                     MembershipServiceList.Add(item);
+                }
+            }
+            if(MembershipData.MembershipDetailView != null)
+            {
+                var SelectedMembership = MembershipServiceList.Where(m => m.MembershipId == MembershipData.MembershipDetailView.MembershipId).FirstOrDefault();
+                if (SelectedMembership != null)
+                {
+                    MembershipServiceList.Remove(SelectedMembership);
+                    MembershipServiceList.Insert(0, SelectedMembership);
                 }
             }
             RaiseAllPropertiesChanged();
@@ -56,7 +64,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                 _userDialog.Alert("Please select a membership to continue.");
                 return;
             }
-            _navigationService.Navigate<ExtraServiceViewModel>();
+            _navigationService.Navigate<SelectUpchargeViewModel>();
         }
 
         public async Task NavigateBackCommand()

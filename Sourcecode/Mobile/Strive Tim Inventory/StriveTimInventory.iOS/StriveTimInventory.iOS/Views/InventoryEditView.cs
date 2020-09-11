@@ -58,6 +58,8 @@ namespace StriveTimInventory.iOS.Views
             Tap.CancelsTouchesInView = false; 
             View.AddGestureRecognizer(Tap);
 
+            ItemQuantity.KeyboardType = UIKeyboardType.NumberPad;
+
             ChangeOrientation();
         }
 

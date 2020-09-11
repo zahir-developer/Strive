@@ -30,6 +30,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             if(result.Status)
             {
                 await _userDialog.AlertAsync("Membership Assigned");
+                _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
             }
             else
             {
@@ -57,18 +58,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                         isActive = true,
                         isDeleted = false
                     },
-                    clientVehicleMembershipService = new List<ClientVehicleMembershipService>()
-                    {
-                        new ClientVehicleMembershipService()
-                        {
-                            clientVehicleMembershipServiceId = 0,
-                            clientMembershipId = 0,
-                            serviceId = 2135,
-                            serviceTypeId = 0,
-                            isActive = true,
-                            isDeleted = false
-                        }
-                    }
+                    clientVehicleMembershipService = MembershipData.ExtraServices
                 }
             };
         }

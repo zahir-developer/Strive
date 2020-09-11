@@ -110,7 +110,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             ClientTableViewCell cell = (ClientTableViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetMembershipList(ItemList[indexPath.Row],indexPath.Row,Selectedindex);
+            cell.SetMembershipList(ItemList[indexPath.Row],indexPath.Row,Selectedindex,cell);
             return cell;
         }
     }

@@ -110,6 +110,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task<bool> DeleteProductCommand(int index)
         {
+            _userDialog.ShowLoading(Strings.Loading);
             var response = await AdminService.DeleteProduct(InventoryList[index].Product.ProductId);
             return (response.Result);
         }

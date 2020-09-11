@@ -47,7 +47,7 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_CLIENT_VEHICLE = "/Admin/Vehicle/GetVehicleByClientId";
 
-        public const string URL_GET_CLIENT_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/GetMembershipDetailsByVehicleId";
+        public const string URL_GET_CLIENT_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId";
 
         public const string URL_GET_CLIENT_VEHICLE_SERVICES = "/Admin/ServiceSetup/GetService";
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Strive.Core.Models.TimInventory;
+using System.Collections.Generic;
 
 namespace Strive.Core.Utils.TimInventory
 {
@@ -24,9 +25,11 @@ namespace Strive.Core.Utils.TimInventory
 
         public static ClientDetail SelectedClient { get; set; }
 
-        public static ClientVehicleMembershipView MembershipDetail { get; set; }
+        public static ClientVehicleMembershipView MembershipDetailView { get; set; }
 
         public static VehicleDetail SelectedVehicle { get; set; }
+
+        public static List<ClientVehicleMembershipService> ExtraServices { get; set; }
 
     }
 }

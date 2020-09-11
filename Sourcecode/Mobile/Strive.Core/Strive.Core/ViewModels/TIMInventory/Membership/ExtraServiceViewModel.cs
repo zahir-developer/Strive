@@ -15,9 +15,11 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
     {
         private MvxSubscriptionToken _messageToken;
 
-        public ObservableCollection<ServiceDetail> ExtraServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
+        public ObservableCollection<ServiceDetail> TotalServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
 
-        public ObservableCollection<ServiceDetail> SelectedServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
+        public ObservableCollection<ServiceDetail> MembershipServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
+
+        public ObservableCollection<ServiceDetail> ExtraServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
 
         public ExtraServiceViewModel()
         {
@@ -33,7 +35,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             {
                 foreach(var service in services.ServicesWithPrice)
                 {
-                    ExtraServiceList.Add(service);
+                    TotalServiceList.Add(service);
                 }
             }
             if (MembershipData.SelectedMembership != null)
@@ -42,13 +44,13 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                 var SelectedServices = await AdminService.GetSelectedMembershipServices(MembershipData.SelectedMembership.MembershipId);
                 foreach (var serivce in SelectedServices.MembershipDetail)
                 {
-                    var item = ExtraServiceList.Where(s => s.ServiceId == serivce.ServiceId).FirstOrDefault();
+                    var item = TotalServiceList.Where(s => s.ServiceId == serivce.ServiceId).FirstOrDefault();
                     if(item != null)
                     {
-                        ExtraServiceList.Remove(item);
-                        ExtraServiceList.Insert(0, item);
+                        TotalServiceList.Remove(item);
+                        TotalServiceList.Insert(0, item);
                     }
-                    SelectedServiceList.Add(serivce);
+                    MembershipServiceList.Add(serivce);
                 }
             }
         }
@@ -69,7 +71,20 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public void NextCommand()
         {
-            _navigationService.Navigate<SelectUpchargeViewModel>();
+            MembershipData.ExtraServices = new List<ClientVehicleMembershipService>();
+            foreach(var service in ExtraServiceList)
+            {
+                MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
+                {
+                    clientVehicleMembershipServiceId = 0,
+                    clientMembershipId = 0,
+                    serviceId = service.ServiceId,
+                    serviceTypeId = 0,
+                    isActive = true,
+                    isDeleted = false
+                });
+            }
+            _navigationService.Navigate<TermsViewModel>();
         }
     }
 }

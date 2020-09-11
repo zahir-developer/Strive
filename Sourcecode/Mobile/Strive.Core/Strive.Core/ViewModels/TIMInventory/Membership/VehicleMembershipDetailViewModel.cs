@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils.TimInventory;
@@ -9,12 +10,18 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
     {
         public VehicleMembershipDetailViewModel()
         {
-           
+            GetDetails();
         }
 
-        public ClientVehicleMembershipView MembershipDetail { get; set; } = MembershipData.MembershipDetail;
 
-        public string MembershipName { get { return MembershipDetail.MembershipName; } set { } }
+        void GetDetails()
+        {
+            MembershipName = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipDetail.MembershipId).Select(m => m.MembershipName).FirstOrDefault();
+        }
+
+        public ClientVehicleMembershipView MembershipDetail { get; set; } = MembershipData.MembershipDetailView;
+
+        public string MembershipName { get; set; }
 
         public string ActivatedDate { get { return MembershipDetail.StartDate.ToShortDateString(); } set { } }
 
@@ -24,7 +31,13 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public async Task NavigateBackCommand()
         {
+            MembershipData.MembershipDetailView = null;
             await _navigationService.Close(this);
+        }
+
+        public async Task ChangeMembershipCommand()
+        {
+            await _navigationService.Navigate<SelectMembershipViewModel>();
         }
     }
 }
