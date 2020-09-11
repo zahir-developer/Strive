@@ -71,7 +71,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             if(GrayedItem != null)
             {
                 SelectMembershipcell();
-                cell.BackgroundColor = UIColor.Clear.FromHex(0xECECEC);
+                cell.BackgroundColor = UIColor.Clear.FromHex(0xF9F9F9);
                 cell.UserInteractionEnabled = false;
             }
         }

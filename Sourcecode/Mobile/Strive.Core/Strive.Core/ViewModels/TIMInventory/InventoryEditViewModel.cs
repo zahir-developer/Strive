@@ -155,6 +155,10 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task AddProductCommand()
         {
+            if (ValidateCommand() == false)
+            {
+                return;
+            }
             var product = PrepareAddProduct();
             _userDialog.Loading(Strings.Loading);
             var result = await AdminService.AddProduct(product);
@@ -165,13 +169,24 @@ namespace Strive.Core.ViewModels.TIMInventory
             _userDialog.HideLoading();
         }
 
-        void ValidateCommand()
+        bool ValidateCommand()
         {
-            if(string.IsNullOrEmpty(ItemCode))
+            if(string.IsNullOrEmpty(ItemName))
             {
-
+                _userDialog.AlertAsync("Please enter product name");
+                return false;
             }
-            //else if (string.is)
+            else if (string.IsNullOrEmpty(ItemQuantity))
+            {
+                _userDialog.AlertAsync("Please enter product quantity");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(SupplierName))
+            {
+                _userDialog.AlertAsync("Please enter supplier information");
+                return false;
+            }
+            return true;
         }
 
         private ProductDetail PrepareAddProduct()
