@@ -38,7 +38,7 @@ public class Employee
 	public DateTime? BirthDate { get; set; }
 
 	[Column]
-	public int? ImmigrationStatus { get; set; }
+	public string ImmigrationStatus { get; set; }
 
 	[Column]
 	public bool? IsActive { get; set; }

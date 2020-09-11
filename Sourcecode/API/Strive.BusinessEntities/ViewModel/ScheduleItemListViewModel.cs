@@ -8,6 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ScheduleItemListViewModel
     {
+        public int JobId { get; set; }
         public string TicketNumber { get; set; }
         public decimal Tax { get; set; }
         public decimal Cashback { get; set; }

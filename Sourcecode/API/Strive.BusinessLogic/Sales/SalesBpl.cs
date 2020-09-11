@@ -58,5 +58,42 @@ namespace Strive.BusinessLogic.Sales
         {
             return ResultWrap(new SalesRal(_tenant).GetScheduleByTicketNumber, ticketNumber, "Status");
         }
+        public Result AddPayment(SalesPaymentDto salesPayment)
+        {
+            try
+            {
+                return ResultWrap(new SalesRal(_tenant).AddPayment, salesPayment, "Status");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result AddListItem(SalesAddListItemDto salesAddListItem)
+        {
+            try
+            {
+                return ResultWrap(new SalesRal(_tenant).AddListItem, salesAddListItem, "Status");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            try
+            {
+                return ResultWrap(new SalesRal(_tenant).DeleteTransactions, salesItemDeleteDto, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        
     }
 }

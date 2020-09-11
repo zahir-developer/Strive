@@ -51,5 +51,21 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<ScheduleItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
             return result;
         }
+        public bool AddPayment(SalesPaymentDto salesPayment)
+        {
+            return dbRepo.SavePc(salesPayment, "JobPaymentId");
+        }
+        public bool AddListItem(SalesAddListItemDto salesAddListItem)
+        {
+            return dbRepo.InsertPc(salesAddListItem, "JobId");
+        }
+        public bool DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteRollBackItems.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
     }
 }
