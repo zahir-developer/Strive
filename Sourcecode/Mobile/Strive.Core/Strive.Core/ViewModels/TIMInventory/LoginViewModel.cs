@@ -28,9 +28,9 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        public string UserId { get; set; } = "caradmin@strive.com";
+        public string UserId { get; set; }
 
-        public string Password { get; set; } = "pass@123";
+        public string Password { get; set; }
 
         public string UserIdText
         {
