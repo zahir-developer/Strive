@@ -13,7 +13,5 @@ namespace Strive.BusinessEntities.ViewModel
         public int ServiceId { get; set; }
         public int ServiceTypeId { get; set; }
         public string ServiceName { get; set; }
-        public int EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
     }
 }

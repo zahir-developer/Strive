@@ -46,8 +46,5 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
 
-        [Column]
-        public int? EmployeeId { get; set; }
-
     }
 }
