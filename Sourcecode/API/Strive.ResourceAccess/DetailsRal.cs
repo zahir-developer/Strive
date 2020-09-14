@@ -23,6 +23,13 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(details);
         }
+        public BaySchedulesDetails GetBaySchedulesDetails(DetailsGridDto detailsGrid)
+        {
+            _prm.Add("@JobDate", detailsGrid.JobDate);
+            _prm.Add("@LocationId", detailsGrid.LocationId);
+            var result = db.FetchMultiResult<BaySchedulesDetails>(SPEnum.USPGETBAYSCHEDULESDETAILS.ToString(), _prm);
+            return result;
+        }
         public DetailViewModel GetDetailsById(int id)
         {
 
@@ -37,25 +44,13 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<BayListViewModel>(SPEnum.USPGETALLBAYLISTBYID.ToString(), _prm);
             return result;
         }
-        public int GetWashTimeById(int id)
-        {
-            _prm.Add("@LocationId", id);
-            var result = db.FetchSingle<int>(SPEnum.USPGETWASHTIMEBYID.ToString(), _prm);
-            return result;
-        }
         public List<VehiclePastHistoryViewModel> GetPastClientNotesById(int id)
         {
             _prm.Add("@ClientId", id);
             var result = db.Fetch<VehiclePastHistoryViewModel>(SPEnum.USPGETPASTCLIENTNOTESBYCLIENTID.ToString(), _prm);
             return result;
         }
-        public BaySchedulesDetails GetBaySchedulesDetails(DetailsGridDto detailsGrid)
-        {
-            _prm.Add("@JobDate", detailsGrid.JobDate);
-            _prm.Add("@LocationId", detailsGrid.LocationId);
-            var result = db.FetchMultiResult<BaySchedulesDetails>(SPEnum.USPGETBAYSCHEDULESDETAILS.ToString(), _prm);
-            return result;
-        }
+        
         public List<JobTypeViewModel> GetJobType()
         {
             var result = db.Fetch<JobTypeViewModel>(SPEnum.USPGETJOBTYPE.ToString(), null);

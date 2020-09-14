@@ -26,15 +26,18 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("AddDetails")]
         public Result AddDetails([FromBody] DetailsDto details) => _bplManager.AddDetails(details);
-        #endregion
-
-        #region PUT
         /// <summary>
         /// Method to Update Details.
         /// </summary>
         [HttpPost]
         [Route("UpdateDetails")]
         public Result UpdateDetails([FromBody] DetailsDto details) => _bplManager.UpdateDetails(details);
+        /// <summary>
+        /// Method to Get Schedule Details in Grid.
+        /// </summary>
+        [HttpPost]
+        [Route("GetBaySchedulesDetails")]
+        public Result GetBaySchedulesDetails([FromBody] DetailsGridDto detailsGrid) => _bplManager.GetBaySchedulesDetails(detailsGrid);
         #endregion
 
         #region GET
@@ -51,9 +54,14 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllBayById/{id}")]
         public Result GetAllBayById(int id) => _bplManager.GetAllBayById(id);
-        [HttpPost]
-        [Route("GetBaySchedulesDetails")]
-        public Result GetBaySchedulesDetails([FromBody] DetailsGridDto detailsGrid) => _bplManager.GetBaySchedulesDetails(detailsGrid);
+        /// <summary>
+        /// Method to retrieve All Past ClientNotes based on given ClientId.
+        /// </summary>
+        [HttpGet]
+        public Result GetPastClientNotesById(int id) => _bplManager.GetPastClientNotesById(id);
+        /// <summary>
+        /// Method to retrieve All JobType.
+        /// </summary>
         [HttpGet]
         [Route("GetJobType")]
         public Result GetJobType() => _bplManager.GetJobType();
