@@ -116,5 +116,9 @@ export const UrlConfig = {
     deleteItemById: `Admin/Sales/DeleteItemById`,
     getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
     addVehicle: 'Admin/Vehicle/AddVehicle'
+  },
+  Details:
+  {
+    
   }
 };
