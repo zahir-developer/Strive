@@ -31,6 +31,19 @@ namespace Strive.BusinessLogic.Vehicle
             return ResultWrap(new VehicleRal(_tenant).AddVehicle, ClientVehicle, "Status");
         }
 
+        public Result SaveClientVehicle(VehicleDto vehicle)
+        {
+            try
+            {
+                return ResultWrap(new VehicleRal(_tenant).SaveClientVehicle, vehicle, "Status");
+            }
+            catch(Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
         public Result DeleteVehicle(int vehicleId)
         {
             return ResultWrap(new VehicleRal(_tenant).DeleteVehicleById, vehicleId, "Status");

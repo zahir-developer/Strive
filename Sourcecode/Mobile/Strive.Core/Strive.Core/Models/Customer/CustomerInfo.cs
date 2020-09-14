@@ -13,6 +13,7 @@ namespace Strive.Core.Models.Customer
         public static string selectedMilesOption { get; set; }
         public static int notifyRadius { get; set; }
         public static DateTime notifyWashTime { get; set; }
+        public static int selectedDeal { get; set; } = -1;
 
         #endregion properties
 

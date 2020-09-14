@@ -30,5 +30,7 @@ AND
  or tblla.Address1 like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'
  or tblla.PhoneNumber like '%'+@LocationSearch+'%'
  or tblla.Email like '%'+@LocationSearch+'%')
+ 
+order by LocationId Desc
 
 END

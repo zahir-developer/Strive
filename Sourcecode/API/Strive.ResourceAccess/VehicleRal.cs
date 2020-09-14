@@ -44,6 +44,11 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPc(ClientVehicle,"VehicleId");
         }
 
+        public bool SaveClientVehicle(VehicleDto client)
+        {
+            return dbRepo.InsertPc(client, "ClientId");
+        }
+
         public bool DeleteVehicleById(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);
