@@ -72,14 +72,14 @@
                         <div class="pull-right">
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="getByBarcode(detailForm.value.barcode)">Select</button>&nbsp;
-                            <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                            <!-- <button type="button" class="btn theme-primary-button-color btn-responsive">Add
                                 Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive">Add
-                                Vehicle</button>
-                            <!-- <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                Vehicle</button> -->
+                            <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="addClient()">Add Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addVehicle()" [disabled]="clientId === undefined">Add Vehicle</button> -->
+                                (click)="addVehicle()" [disabled]="clientId === undefined">Add Vehicle</button>
                         </div>
                     </div>
                 </div>
@@ -274,7 +274,7 @@
     <app-view-past-notes *ngIf="viewNotesDialog" [viewNotes]="viewNotes"></app-view-past-notes>
 </p-dialog>
 
-<!-- <p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
+<p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
     <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
     <p-footer>
@@ -289,4 +289,4 @@
     <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
         [clientId]="clientId" [isAdd]="true" (closeDialog)="closePopupEmitVehicle($event)">
     </app-vehicle-create-edit>
-</p-dialog> -->
+</p-dialog>

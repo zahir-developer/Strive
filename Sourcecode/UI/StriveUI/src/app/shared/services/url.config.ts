@@ -114,6 +114,7 @@ export const UrlConfig = {
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
-    getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`
+    getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
+    addVehicle: 'Admin/Vehicle/AddVehicle'
   }
 };

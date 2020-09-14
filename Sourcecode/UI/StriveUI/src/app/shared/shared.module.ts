@@ -35,6 +35,8 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CalendarMaskDirective } from './Directive/calendar-mask.directive';
 import { DatePipe } from '@angular/common';
 import { PrintWashComponent } from './components/print-wash/print-wash.component';
+import { ClientFormComponent } from './components/client-form/client-form.component';
+import { VehicleCreateEditComponent } from './components/vehicle-create-edit/vehicle-create-edit.component';
 
 @NgModule({
   imports: [
@@ -59,13 +61,15 @@ import { PrintWashComponent } from './components/print-wash/print-wash.component
   declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, NoOfWashesComponent,
-    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent],
+    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
+    AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
-    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent],
+    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
+     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

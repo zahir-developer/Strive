@@ -27,7 +27,7 @@ export class TodayScheduleComponent implements OnInit {
       jobDate: todayDate,
       locationId
     };
-    this.detailService.getTodayDateScheduleList(todayDate, locationId).subscribe(res => {
+    this.detailService.getTodayDateScheduleList(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         console.log(scheduleDetails, 'todayList');

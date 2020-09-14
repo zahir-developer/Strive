@@ -5,7 +5,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import * as moment from 'moment';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
-// import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
+import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-wash.component';
@@ -16,7 +16,7 @@ import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-w
   styleUrls: ['./create-edit-detail-schedule.component.css']
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
-  // @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
+  @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   @ViewChild(PrintWashComponent) printWashComponent: PrintWashComponent;
   detailForm: FormGroup;
   ticketNumber: any;
@@ -710,67 +710,67 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.showClientDialog = false;
   }
 
-  // saveClient() {
-  //   this.clientFormComponent.submitted = true;
-  //   this.clientFormComponent.stateDropdownComponent.submitted = true;
-  //   if (this.clientFormComponent.clientForm.invalid) {
-  //     return;
-  //   }
-  //   this.address = [{
-  //     clientId: this.isEdit ? this.selectedData.ClientId : 0,
-  //     clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
-  //     address1: this.clientFormComponent.clientForm.value.address,
-  //     address2: "",
-  //     phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
-  //     isActive: true,
-  //     zip: this.clientFormComponent.clientForm.value.zipcode,
-  //     state: this.clientFormComponent.State,
-  //     city: this.clientFormComponent.city,
-  //     country: 38,
-  //     phoneNumber: this.clientFormComponent.clientForm.value.phone1,
-  //     email: this.clientFormComponent.clientForm.value.email,
-  //     isDeleted: false,
-  //     createdBy: 1,
-  //     createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-  //     updatedBy: 1,
-  //     updatedDate: new Date()
-  //   }];
-  //   const formObj = {
-  //     clientId: this.isEdit ? this.selectedData.ClientId : 0,
-  //     firstName: this.clientFormComponent.clientForm.value.fName,
-  //     middleName: "",
-  //     lastName: this.clientFormComponent.clientForm.value.lName,
-  //     gender: 1,
-  //     maritalStatus: 1,
-  //     birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-  //     isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
-  //     isDeleted: false,
-  //     createdBy: 1,
-  //     createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-  //     updatedBy: 1,
-  //     updatedDate: new Date(),
-  //     notes: this.clientFormComponent.clientForm.value.notes,
-  //     recNotes: this.clientFormComponent.clientForm.value.checkOut,
-  //     score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
-  //     noEmail: this.clientFormComponent.clientForm.value.creditAccount,
-  //     clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
-  //   };
-  //   const myObj = {
-  //     client: formObj,
-  //     clientVehicle: null,
-  //     clientAddress: this.address
-  //   };
-  //   this.client.addClient(myObj).subscribe(data => {
-  //     if (data.status === 'Success') {
-  //       this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
-  //       this.closePopupEmitClient();
-  //       this.getAllClient();
-  //     } else {
-  //       this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-  //       this.clientFormComponent.clientForm.reset();
-  //     }
-  //   });
-  // }
+  saveClient() {
+    this.clientFormComponent.submitted = true;
+    this.clientFormComponent.stateDropdownComponent.submitted = true;
+    if (this.clientFormComponent.clientForm.invalid) {
+      return;
+    }
+    this.address = [{
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
+      clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
+      address1: this.clientFormComponent.clientForm.value.address,
+      address2: "",
+      phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
+      isActive: true,
+      zip: this.clientFormComponent.clientForm.value.zipcode,
+      state: this.clientFormComponent.State,
+      city: this.clientFormComponent.city,
+      country: 38,
+      phoneNumber: this.clientFormComponent.clientForm.value.phone1,
+      email: this.clientFormComponent.clientForm.value.email,
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+      updatedBy: 1,
+      updatedDate: new Date()
+    }];
+    const formObj = {
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
+      firstName: this.clientFormComponent.clientForm.value.fName,
+      middleName: "",
+      lastName: this.clientFormComponent.clientForm.value.lName,
+      gender: 1,
+      maritalStatus: 1,
+      birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
+      isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
+      notes: this.clientFormComponent.clientForm.value.notes,
+      recNotes: this.clientFormComponent.clientForm.value.checkOut,
+      score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+      noEmail: this.clientFormComponent.clientForm.value.creditAccount,
+      clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
+    };
+    const myObj = {
+      client: formObj,
+      clientVehicle: null,
+      clientAddress: this.address
+    };
+    this.client.addClient(myObj).subscribe(data => {
+      if (data.status === 'Success') {
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+        this.closePopupEmitClient();
+        this.getAllClient();
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.clientFormComponent.clientForm.reset();
+      }
+    });
+  }
 
   assignEmployee() {
     this.showDialog = true;
