@@ -39,5 +39,10 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         {
             await _navigationService.Navigate<SelectMembershipViewModel>();
         }
+
+        public async Task CancelMembershipCommand()
+        {
+            _userDialog.Alert("Not Implemented");
+        }
     }
 }

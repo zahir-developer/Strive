@@ -30,7 +30,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public async Task DisagreeCommand()
         {
-            _userDialog.AlertAsync("The unsaved membership data will be lost");
+            await _userDialog.AlertAsync("The unsaved membership data will be lost");
             _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
         }
         

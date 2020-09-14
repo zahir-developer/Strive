@@ -25,6 +25,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             set.Bind(Status).To(vm => vm.Status);
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(ChangeButton).To(vm => vm.Commands["ChangeMembership"]);
+            set.Bind(CancelButton).To(vm => vm.Commands["CancelMembership"]);
             set.Apply();
         }
 

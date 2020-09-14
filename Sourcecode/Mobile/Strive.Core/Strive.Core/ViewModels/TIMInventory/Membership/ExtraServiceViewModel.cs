@@ -72,12 +72,32 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         public void NextCommand()
         {
             MembershipData.ExtraServices = new List<ClientVehicleMembershipService>();
-            foreach(var service in ExtraServiceList)
+
+            int ClientMembership = 0;
+            if(MembershipData.MembershipDetailView != null)
+            {
+                ClientMembership = MembershipData.MembershipDetailView.ClientMembershipId;
+            }
+
+            foreach (var service in MembershipServiceList)
             {
                 MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
                 {
                     clientVehicleMembershipServiceId = 0,
-                    clientMembershipId = 0,
+                    clientMembershipId = ClientMembership,
+                    serviceId = service.ServiceId,
+                    serviceTypeId = 0,
+                    isActive = true,
+                    isDeleted = false
+                });
+            }
+
+            foreach (var service in ExtraServiceList)
+            {
+                MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
+                {
+                    clientVehicleMembershipServiceId = 0,
+                    clientMembershipId = ClientMembership,
                     serviceId = service.ServiceId,
                     serviceTypeId = 0,
                     isActive = true,

@@ -181,6 +181,11 @@ namespace Strive.Core.ViewModels.TIMInventory
                 _userDialog.AlertAsync("Please enter Item quantity");
                 return false;
             }
+            else if (int.Parse(ItemQuantity) < 0)
+            {
+                _userDialog.AlertAsync("Quantity cannot be a negative value");
+                return false;
+            }
             else if (string.IsNullOrEmpty(SupplierName))
             {
                 _userDialog.AlertAsync("Please enter Supplier information");

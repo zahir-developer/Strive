@@ -4,13 +4,26 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
 using System.Collections.Generic;
+using MvvmCross.Plugin.Messenger;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
     public class SignatureViewModel : BaseViewModel
     {
+        private MvxSubscriptionToken _messageToken;
+
         public SignatureViewModel()
         {
+            _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
+        }
+
+        private async void OnReceivedMessageAsync(ValuesChangedMessage message)
+        {
+            if (message.Valuea == 5)
+            {
+                await _navigationService.Close(this);
+                _messageToken.Dispose();
+            }
         }
 
         public async Task NavigateBackCommand()
@@ -25,29 +38,35 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             if(result == null)
             {
                 await _userDialog.AlertAsync("Membership not Assigned");
+                _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
                 return;
             }
             if(result.Status)
             {
                 await _userDialog.AlertAsync("Membership Assigned");
-                _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
             }
             else
             {
                 await _userDialog.AlertAsync("Membership not Assigned");
             }
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 5, "exit!"));
         }
 
         ClientVehicleRoot PrepareVehicleMembership()
         {
-            return new ClientVehicleRoot()
+            int ClientMembership = 0;
+            if (MembershipData.MembershipDetailView != null)
+            {
+                ClientMembership = MembershipData.MembershipDetailView.ClientMembershipId;
+            }
+            var model = new ClientVehicleRoot()
             {
                 clientVehicle = new ClientVehicle() { clientVehicle = null },
                 clientVehicleMembershipModel = new ClientVehicleMembershipModel()
                 {
                     clientVehicleMembershipDetails = new ClientVehicleMembershipDetails()
                     {
-                        clientMembershipId = 0,
+                        clientMembershipId = ClientMembership,
                         clientVehicleId = MembershipData.SelectedVehicle.VehicleId,
                         locationId = 1,
                         membershipId = MembershipData.SelectedMembership.MembershipId,
@@ -61,6 +80,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     clientVehicleMembershipService = MembershipData.ExtraServices
                 }
             };
+            return model;
         }
     }
 }

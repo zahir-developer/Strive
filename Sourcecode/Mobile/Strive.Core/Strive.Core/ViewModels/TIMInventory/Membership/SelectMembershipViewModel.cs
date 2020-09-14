@@ -54,7 +54,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     MembershipServiceList.Insert(0, SelectedMembership);
                 }
             }
-            RaiseAllPropertiesChanged();
+            await RaiseAllPropertiesChanged();
         }
 
         public void NextCommand()

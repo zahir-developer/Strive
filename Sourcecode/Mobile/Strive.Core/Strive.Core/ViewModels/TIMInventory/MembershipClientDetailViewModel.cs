@@ -64,7 +64,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                     MembershipServiceList.Add(item);
                 }
             }
-            RaiseAllPropertiesChanged();
+            await RaiseAllPropertiesChanged();
         }
 
         public async Task NavigateToDetailCommand(VehicleDetail vehicle)
