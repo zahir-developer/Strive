@@ -39,9 +39,9 @@
             android:fontFamily="@font/opensans_regular"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/fullName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Jessie"
             android:textColor="@color/profileQColor"
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_bold"
@@ -63,9 +63,9 @@
             android:fontFamily="@font/opensans_regular"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/contactNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="9923-123-123"
             android:textColor="@color/profileQColor"
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_bold"
@@ -87,9 +87,9 @@
             android:fontFamily="@font/opensans_regular"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Loreum"
             android:textColor="@color/profileQColor"
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_bold"
@@ -111,9 +111,9 @@
             android:fontFamily="@font/opensans_regular"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/zipCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Loreum"
             android:textColor="@color/profileQColor"
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_bold"
@@ -135,9 +135,9 @@
             android:fontFamily="@font/opensans_regular"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/secPhoneNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="9859856745"
             android:textColor="@color/profileQColor"
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_bold"
@@ -159,9 +159,9 @@
             android:fontFamily="@font/opensans_regular"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="9859856745"
             android:textColor="@color/profileQColor"
             android:textSize ="@dimen/textFourteen"
             android:fontFamily="@font/opensans_bold"

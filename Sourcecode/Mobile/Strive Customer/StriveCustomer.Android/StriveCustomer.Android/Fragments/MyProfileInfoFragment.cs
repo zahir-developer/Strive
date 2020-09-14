@@ -27,6 +27,7 @@ namespace StriveCustomer.Android.Fragments
         ViewPager profilePager;
         ViewPagerAdapter profileAdapter;
         PersonalInfoFragment personalInfo , personalInfo1, personalInfo2;
+        MyProfileInfoViewModel profileViewModel = new MyProfileInfoViewModel();
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,6 +39,7 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.MyProfileInfoFragment, null);
+            
             profileTabs = rootview.FindViewById<TabLayout>(Resource.Id.myProfileTab);
             profilePager = rootview.FindViewById<ViewPager>(Resource.Id.myProfilePager);
             personalInfo = new PersonalInfoFragment();

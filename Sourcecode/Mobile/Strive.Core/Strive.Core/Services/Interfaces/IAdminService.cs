@@ -38,6 +38,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<Clients> GetAllClient();
 
+        Task<CustomerPersonalInfo> GetClientById(int Id);
+
         Task<ProductsSearch> SearchProduct(string productName);
     }
 }

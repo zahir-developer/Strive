@@ -111,5 +111,10 @@ namespace Strive.Core.Services.Implementations
             var data = new { productSearch = productName};
             return await _restClient.MakeApiCall<ProductsSearch>(ApiUtils.URL_SEARCH_PRODUCT, HttpMethod.Post, data);
         }
+
+        public async Task<CustomerPersonalInfo> GetClientById(int Id)
+        {
+            return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get,Id);
+        }
     }
 }
