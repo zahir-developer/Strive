@@ -138,12 +138,12 @@ export class AssignDetailComponent implements OnInit {
 
   }
 
-  // getDetailService() {
-  //   this.detailService = this.details.map( item => {
-  //     return {
-  //       item_id: item.ServiceId,
-  //       item_text: item.ServiceName
-  //     };
-  //   });
-  // }
+  getDetailService() {
+    this.details = this.details.map( item => {
+      return {
+        item_id: item.ServiceId,
+        item_text: item.ServiceName
+      };
+    });
+  }
 }

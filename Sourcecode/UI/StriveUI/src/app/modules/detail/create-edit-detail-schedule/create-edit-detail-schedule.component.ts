@@ -8,6 +8,7 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 // import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
+import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-wash.component';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -16,6 +17,7 @@ import { DatePipe } from '@angular/common';
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
   // @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
+  @ViewChild(PrintWashComponent) printWashComponent: PrintWashComponent;
   detailForm: FormGroup;
   ticketNumber: any;
   barcodeDetails: any;
@@ -59,6 +61,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   isAssign: boolean;
   assignedDetailService = [];
   submitted: boolean;
+  isViewPastNotes: boolean;
+  viewNotes: any = [];
+  viewNotesDialog: boolean;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -74,6 +79,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.showDialog = false;
     this.submitted = false;
     this.isAssign = false;
+    this.isViewPastNotes = false;
+    this.viewNotesDialog = false;
     this.getEmployeeList();
     this.formInitialize();
     this.getAllBayById();
@@ -172,6 +179,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
           this.getClientVehicle(this.barcodeDetails.ClientId);
+          this.getPastClientNotesById(this.barcodeDetails.ClientId);
           setTimeout(() => {
             this.detailForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
@@ -427,6 +435,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   selectedClient(event) {
     this.clientId = event.id;
     this.getClientVehicle(this.clientId);
+    this.getPastClientNotesById(this.clientId);
   }
 
   vehicleChange(id) {
@@ -481,6 +490,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   // Get Vehicle By ClientId
   getClientVehicle(id) {
+    this.detailForm.patchValue({ vehicle: '' });
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
@@ -786,5 +796,28 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.employeeList = employee.EmployeeList.Employee;
       }
     });
+  }
+
+  getPastClientNotesById(clientID) {
+    this.viewNotes = [];
+    this.detailService.getPastClientNotesById(clientID).subscribe( res => {
+      if (res.status === 'Success') {
+        const viewPast = JSON.parse(res.resultData);
+        if (viewPast.PastClientNotesByClientId.length > 0) {
+          this.isViewPastNotes = true;
+          this.viewNotes = viewPast.PastClientNotesByClientId;
+        } else {
+          this.isViewPastNotes = false;
+        }
+      }
+    });
+  }
+
+  pastNotes() {
+    this.viewNotesDialog = true;
+  }
+
+  print() {
+    this.printWashComponent.print();
   }
 }

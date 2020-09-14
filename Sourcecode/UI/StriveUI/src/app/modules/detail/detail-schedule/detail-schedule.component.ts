@@ -80,14 +80,14 @@ export class DetailScheduleComponent implements OnInit {
       locationId
     };
     this.spinner.show();
-    this.detailService.getScheduleDetailsByDate(scheduleDate, locationId).subscribe(res => {
+    this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         console.log(scheduleDetails, 'details');
-        const bayList = scheduleDetails.ScheduleDetailsForDate.BayList;
-        const bayScheduleDetails = scheduleDetails.ScheduleDetailsForDate.BayScheduleDetails === null ? []
-          : scheduleDetails.ScheduleDetailsForDate.BayScheduleDetails;
+        const bayList = scheduleDetails.GetBaySchedulesDetails.BayList;
+        const bayScheduleDetails = scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails === null ? []
+          : scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails;
         let baySchedule = [];
         const baySheduled = [];
         this.time.forEach(item => {

@@ -34,6 +34,7 @@ import { AverageWashTimeComponent } from './components/average-wash-time/average
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CalendarMaskDirective } from './Directive/calendar-mask.directive';
 import { DatePipe } from '@angular/common';
+import { PrintWashComponent } from './components/print-wash/print-wash.component';
 
 @NgModule({
   imports: [
@@ -58,13 +59,13 @@ import { DatePipe } from '@angular/common';
   declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, NoOfWashesComponent,
-    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, CalendarMaskDirective],
+    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
-    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, PopoverModule, CalendarMaskDirective],
+    NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 
