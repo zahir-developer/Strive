@@ -396,7 +396,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 19)[0]?.ServiceId,
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 648)[0]?.ServiceId
     });
-    this.getByBarcode(this.selectedData?.Details?.Barcode);
+    // this.getByBarcode(this.selectedData?.Details?.Barcode);
     this.ticketNumber = this.selectedData?.Details?.TicketNumber;
     this.washItem = this.selectedData.DetailsItem;
     console.log(this.washItem);
