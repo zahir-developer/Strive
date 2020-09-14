@@ -47,7 +47,7 @@ export const UrlConfig = {
     resetPassword: `Auth/ResetPassword`,
     getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
-    getClient: `Admin/Client/GetAll`,
+    getClient: `Admin/Client/GetAllClient`,
     addClient: `Admin/Client/InsertClientDetails`,
     updateClient: `Admin/Client/UpdateClientVehicle`,
     deleteClient: `Admin/Client/`,
@@ -108,13 +108,13 @@ export const UrlConfig = {
     updateDetail: `Admin/Details/UpdateDetails`,
     getDetailById: `Admin/Details/GetDetailsById/`,
     getAllBayById: `Admin/Details/GetAllBayById/`,
-    getScheduleDetailsByDate: `Admin/Details/GetBaySchedulesDetails`,
+    getScheduleDetailsByDate: `Admin/Details/GetScheduleDetailsByDate/`,
     deleteDetail: `Admin/Details/Delete`,
     getJobType: `Admin/Details/GetJobType`,
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
-    getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
-    addVehicle: 'Admin/Vehicle/AddVehicle'
+    addItem: `Admin/Sales/AddListItem`,
+    getServicewithPrice: `Admin/Sales/GetServicesWithPrice`
   }
 };
