@@ -30,9 +30,9 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllBayById/{id}")]
         public Result GetAllBayById(int id) => _bplManager.GetAllBayById(id);
-        [HttpGet]
+        [HttpPost]
         [Route("GetBaySchedulesDetails")]
-        public Result GetScheduleDetailsByDate(DetailsGridDto detailsGrid) => _bplManager.GetBaySchedulesDetails(detailsGrid);
+        public Result GetBaySchedulesDetails([FromBody] DetailsGridDto detailsGrid) => _bplManager.GetBaySchedulesDetails(detailsGrid);
         [HttpGet]
         [Route("GetJobType")]
         public Result GetJobType() => _bplManager.GetJobType();
@@ -42,8 +42,8 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("AddEmployeeScheduleToDetails")]
         public Result AddEmployeeScheduleToDetails([FromBody] EmployeeScheduleDetailsDto empSchedule) => _bplManager.AddEmployeeScheduleToDetails(empSchedule);
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllDetails")]
-        public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
+        public Result GetAllDetails([FromBody] DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
     }
 }

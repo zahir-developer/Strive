@@ -44,9 +44,8 @@ LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.value
 WHERE
 tblcv.valuedesc='Washes'
 AND isnull(tbj.IsDeleted,0)=0
-AND isnull(tblca.IsDeleted,0)=0
-AND isnull(tblc.IsDeleted,0)=0
-AND isnull(tblji.IsDeleted,0)=0
-AND isnull(tbls.IsDeleted,0)=0
-ORDER BY JOBID
+--AND isnull(tblc.IsDeleted,0)=0
+--AND isnull(tblji.IsDeleted,0)=0
+--AND isnull(tbls.IsDeleted,0)=0
+ORDER BY JOBID DESC
 END

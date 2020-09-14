@@ -18,13 +18,11 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center">
-            <RadioButton
-                android:id="@+id/dealsRadio"
+            <CheckBox
+                android:id="@+id/dealsCheck"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="7dp"
-                android:gravity="center"
-                style="@style/RadioButtonCustom"
+                android:button="@drawable/radiobutton"
                 android:layout_marginLeft="@dimen/ten"/>
             <LinearLayout
                 android:layout_width="match_parent"

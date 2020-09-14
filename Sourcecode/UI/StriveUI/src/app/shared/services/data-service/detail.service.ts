@@ -53,4 +53,8 @@ export class DetailService {
   getPastClientNotesById(id) {
     return this.http.get(`${UrlConfig.totalUrl.getPastClientNotesById}` + id);
   }
+
+  getAllEmplloyeeList() {
+    return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
+  }
 }

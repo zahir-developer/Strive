@@ -28,7 +28,7 @@
 
             <div class="form-group col-lg-3">
                 <label for="inputStatus">Upcharge Type<span class="required">*</span></label>
-                <select class="form-control" formControlName="upcharge"
+                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)"
                     [ngClass]="{ 'is-invalid': submitted && f.upcharge.errors }">
                     <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status.ServiceName}}
                     </option>
@@ -41,7 +41,7 @@
         <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputStatus">Upcharge<span class="required">*</span></label>
-                <select class="form-control" formControlName="upcharge"
+                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)"
                     [ngClass]="{ 'is-invalid': submitted && f.upcharge.errors }">
                     <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status?.Upcharges}}
                     </option>
