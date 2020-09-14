@@ -10,5 +10,6 @@ namespace Strive.BusinessEntities.DTO.Washes
     {
         public int id { get; set; }
         public DateTime date { get; set; }
+        public int JobType { get; set; }
     }
 }
