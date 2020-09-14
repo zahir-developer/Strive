@@ -60,7 +60,7 @@
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputService">Services</label>
                 <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings" [data]="additional"
-                    formControlName="service" [disabled]="isView"  [(ngModel)]="memberService">
+                    [disabled]="isView"  [(ngModel)]="memberService" [ngModelOptions]="{standalone: true}">
                 </ng-multiselect-dropdown>
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">

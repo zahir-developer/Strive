@@ -47,7 +47,7 @@ export const UrlConfig = {
     resetPassword: `Auth/ResetPassword`,
     getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
-    getClient: `Admin/Client/GetAllClient`,
+    getClient: `Admin/Client/GetAll`,
     addClient: `Admin/Client/InsertClientDetails`,
     updateClient: `Admin/Client/UpdateClientVehicle`,
     deleteClient: `Admin/Client/`,
@@ -113,6 +113,7 @@ export const UrlConfig = {
     getJobType: `Admin/Details/GetJobType`,
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
-    deleteItemById: `Admin/Sales/DeleteItemById`
+    deleteItemById: `Admin/Sales/DeleteItemById`,
+    addVehicle:`Admin/Vehicle/AddVehicle`,
   }
 };

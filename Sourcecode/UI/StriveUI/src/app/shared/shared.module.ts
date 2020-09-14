@@ -34,6 +34,9 @@ import { AverageWashTimeComponent } from './components/average-wash-time/average
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CalendarMaskDirective } from './Directive/calendar-mask.directive';
 import { DatePipe } from '@angular/common';
+import { ClientFormComponent } from './components/client-form/client-form.component';
+import { VehicleCreateEditComponent } from './components/vehicle-create-edit/vehicle-create-edit.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -51,18 +54,19 @@ import { DatePipe } from '@angular/common';
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot()
   ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
   declarations: [CardComponent, ConfirmationDialogComponent, StateDropdownComponent, CountryDropdownComponent, PhoneMaskDirective,
-    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
+    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,VehicleCreateEditComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, NoOfWashesComponent,
-    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, CalendarMaskDirective],
+    NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, CalendarMaskDirective, ClientFormComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
-    AccordionModule, ConfirmationDialogComponent,
+    AccordionModule, ConfirmationDialogComponent,VehicleCreateEditComponent,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
-    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
+    RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,ClientFormComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent, AverageWashTimeComponent, PopoverModule, CalendarMaskDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

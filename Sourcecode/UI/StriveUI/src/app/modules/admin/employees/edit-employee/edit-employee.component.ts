@@ -6,6 +6,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'underscore';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-edit-employee',
@@ -45,11 +46,15 @@ export class EditEmployeeComponent implements OnInit {
   deSelectRole: any = [];
   deSelectLocation: any = [];
   imigirationStatus: any = [];
+  isAlien: boolean = false;
+  isDate: boolean = false;
+  isCitizen: boolean = true;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private getCode: GetCodeService
   ) { }
 
   ngOnInit(): void {
@@ -57,16 +62,7 @@ export class EditEmployeeComponent implements OnInit {
     this.isEditPersonalDetail = false;
     this.submitted = false;
     this.Status = ['Active', 'Inactive'];
-    this.imigirationStatus = [
-      {
-        value: 0,
-        label: 'False'
-      },
-      {
-        value: 1,
-        label: 'True'
-      }
-    ];
+    this.getImmigrationStatus();
     this.personalform = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -74,7 +70,9 @@ export class EditEmployeeComponent implements OnInit {
       address: ['', Validators.required],
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
-      ssn: ['', Validators.required]
+      ssn: ['', Validators.required],
+      alienNumber:[''],
+      permitDate:['']
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
@@ -92,7 +90,6 @@ export class EditEmployeeComponent implements OnInit {
     });
     this.employeRole();
     this.locationDropDown();
-    this.employeeDetail();
     // this.getAllCollision();
     // this.getAllDocument();
   }
@@ -108,6 +105,36 @@ export class EditEmployeeComponent implements OnInit {
       itemsShowLimit: 2,
       allowSearchFilter: false
     };
+  }
+
+  getImmigrationStatus(){
+    this.getCode.getCodeByCategory("IMMIGRATIONSTATUS").subscribe(data => {
+      if (data.status === "Success") {
+        const cType = JSON.parse(data.resultData);
+        this.imigirationStatus = cType.Codes;
+        this.employeeDetail();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  immigrationChange(data){
+    const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
+    if(temp.length !== 0){
+      if(temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A'){
+        this.isAlien = true;
+        this.isCitizen = false;
+      } else{
+        this.isAlien = false;        
+      }
+      if(temp[0].CodeValue === 'An alien authorized to work until'){
+        this.isDate = true;
+        this.isCitizen = false;        
+      } else{
+        this.isDate = false;
+      }
+    }
   }
 
   employeeDetail() {
@@ -156,6 +183,7 @@ export class EditEmployeeComponent implements OnInit {
     }
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
     this.selectedLocation = employee.EmployeeLocations;
+    this.immigrationChange(employeeInfo.ImmigrationStatus);
     this.personalform.patchValue({
       firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
       lastName: employeeInfo.LastName ? employeeInfo.LastName : '',
@@ -164,6 +192,8 @@ export class EditEmployeeComponent implements OnInit {
       mobile: employeeInfo.PhoneNumber ? employeeInfo.PhoneNumber : '',
       immigrationStatus: employeeInfo.ImmigrationStatus ? employeeInfo.ImmigrationStatus : '',
       ssn: employeeInfo.SSNo ? employeeInfo.SSNo : '',
+      alienNumber: employeeInfo.AlienNo ? employeeInfo.AlienNo : '',
+      permitDate: employeeInfo.WorkPermit ? moment(employeeInfo.WorkPermit).toDate() : '',
     });
     this.emplistform.patchValue({
       emailId: employeeInfo.Email ? employeeInfo.Email : '',
@@ -380,9 +410,10 @@ export class EditEmployeeComponent implements OnInit {
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
       maritalStatus: 117,
-      isCitizen: true,
-      alienNo: 'string',
+      isCitizen: this.isCitizen,
+      alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
       birthDate: '',
+      workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: this.personalform.value.immigrationStatus,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,

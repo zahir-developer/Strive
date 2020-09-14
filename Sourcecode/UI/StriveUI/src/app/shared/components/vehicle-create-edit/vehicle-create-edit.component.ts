@@ -19,6 +19,7 @@ export class VehicleCreateEditComponent implements OnInit {
   @Input() isEdit?: any;
   @Input() isView?: any;
   @Input() additionalService?: any;
+  @Input() isAdd?: any;
   make: any;
   model: any;
   color: any;
@@ -58,8 +59,7 @@ export class VehicleCreateEditComponent implements OnInit {
       upcharge: ['',],
       upchargeType: ['',],
       monthlyCharge: ['',],
-      membership: ['',],
-      service: [[]]
+      membership: ['',]
     });
     this.getVehicleCodes();
     this.getVehicleMembership();
@@ -96,7 +96,7 @@ export class VehicleCreateEditComponent implements OnInit {
           });
         }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
-          this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;          
+          this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
           this.selectedservice = this.patchedService;
           const serviceIds = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService.map(item => item.ServiceId);
           const memberService = serviceIds.map((e) => {
@@ -128,7 +128,7 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getMembershipService() {
-    this.additional = this.additionalService.map(item => {
+    this.additional = this.additionalService?.map(item => {
       return {
         item_id: item.ServiceId,
         item_text: item.ServiceName
@@ -147,12 +147,12 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   membershipChange(data) {
-    if(this.memberOnchangePatchedService.length !==0){
+    if (this.memberOnchangePatchedService.length !== 0) {
       this.memberOnchangePatchedService.forEach(element => {
-        this.selectedservice =this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
+        this.selectedservice = this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
         this.memberService = this.memberService.filter(i => i.item_id !== element.ServiceId);
-      });         
-    }    
+      });
+    }
     // this.memberService = [];
     // this.patchedService = [];    
     this.vehicle.getMembershipById(Number(data)).subscribe(res => {
@@ -163,30 +163,30 @@ export class VehicleCreateEditComponent implements OnInit {
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
           this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
         }
-          this.memberOnchangePatchedService.forEach(element => {
-            if(this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
-              this.selectedservice.push(element);
-            }
-          });
-          this.extraService.forEach(element => {
-            if(this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
-              this.selectedservice.push(element);
-            }
-          });
-          const serviceIds = this.selectedservice.map(item => item.ServiceId);
-          const memberService = serviceIds.map((e) => {
-            const f = this.additionalService.find(a => a.ServiceId === e);
-            return f ? f : 0;
-          });
-          this.memberService = memberService.map(item => {
-            return {
-              item_id: item.ServiceId,
-              item_text: item.ServiceName
-            };
-          });
-          if(this.patchedService !== undefined){
+        this.memberOnchangePatchedService.forEach(element => {
+          if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+            this.selectedservice.push(element);
+          }
+        });
+        this.extraService.forEach(element => {
+          if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+            this.selectedservice.push(element);
+          }
+        });
+        const serviceIds = this.selectedservice.map(item => item.ServiceId);
+        const memberService = serviceIds.map((e) => {
+          const f = this.additionalService.find(a => a.ServiceId === e);
+          return f ? f : 0;
+        });
+        this.memberService = memberService.map(item => {
+          return {
+            item_id: item.ServiceId,
+            item_text: item.ServiceName
+          };
+        });
+        if (this.patchedService !== undefined) {
           this.patchedService.forEach(element => {
-            if(this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
+            if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
               element.IsDeleted = true;
             }
           });
@@ -197,7 +197,7 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
-  getMemberServices(data){
+  getMemberServices(data) {
     this.vehicle.getMembershipById(+data).subscribe(res => {
       if (res.status === 'Success') {
         this.memberOnchangePatchedService = [];
@@ -205,13 +205,13 @@ export class VehicleCreateEditComponent implements OnInit {
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
           this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
-            if(this.memberOnchangePatchedService.length !==0){
-              this.patchedService.forEach(element => {
-                if(this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined){
-                  this.extraService.push(element);
-                }
-              });         
-            } 
+          if (this.memberOnchangePatchedService.length !== 0) {
+            this.patchedService.forEach(element => {
+              if (this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+                this.extraService.push(element);
+              }
+            });
+          }
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -375,10 +375,24 @@ export class VehicleCreateEditComponent implements OnInit {
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
         Barcode: this.vehicleForm.value.barcode,
       };
-      this.vehicle.addVehicle = add;
-      this.vehicle.vehicleValue = value;
-      this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-      this.toastr.success('Vehicle Saved Successfully!!', 'Success!');
+      const formObj = {
+        clientVehicle: [add]
+      };
+      if (this.isAdd === true) {
+        this.vehicle.saveVehicle(formObj).subscribe(data => {
+          if (data.status === 'Success') {
+            this.toastr.success('Vehicle Added Successfully!!', 'Success!');
+            this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+          } else {
+            this.toastr.error('Communication Error', 'Error!');
+          }
+        });
+      } else {
+        this.vehicle.addVehicle = add;
+        this.vehicle.vehicleValue = value;
+        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        this.toastr.success('Vehicle Saved Successfully!!', 'Success!');
+      }
     }
   }
   cancel() {
