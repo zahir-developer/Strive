@@ -58,6 +58,7 @@ namespace Admin.API.Controllers
         /// Method to retrieve All Past ClientNotes based on given ClientId.
         /// </summary>
         [HttpGet]
+        [Route("GetPastClientNotesById/{id}")]
         public Result GetPastClientNotesById(int id) => _bplManager.GetPastClientNotesById(id);
         /// <summary>
         /// Method to retrieve All JobType.
