@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [SCSAdmin]
+    WITH PASSWORD = N'_uxqykh,flFwPzubWq0erngYmsFT7_&#$!~<itFRlptet|{l', SID = 0x09BDA5BBE1492D4EB2E38B47CA188F58, DEFAULT_LANGUAGE = [us_english];
+
