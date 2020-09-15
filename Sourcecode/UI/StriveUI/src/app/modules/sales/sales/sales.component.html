@@ -22,10 +22,11 @@
                                         <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2">Ticket No</label>
                                         <div class="col-sm-9">
                                             <div class="pull-right">
-                                                <input type="text" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" [ngClass]="{'is-invalid': selected && (ticketNumber === undefined || ticketNumber === '')}">&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color disabled buttonSize">Done</button>&nbsp;
+                                                <input type="text" *ngIf="isSelected" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" [ngClass]="{'is-invalid': selected && (ticketNumber === undefined || ticketNumber === '')}">&nbsp;
+                                                <span class="p-r-25" *ngIf="!isSelected">{{newTicketNumber}}</span>
+                                                <!-- <button type="button" class="btn theme-primary-button-color disabled buttonSize">Done</button>&nbsp; -->
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getDetailByTicket(); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color buttonSize" (click)="enableAdd=true">New</button>
+                                                <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getTicketNumber();enableAdd=true">New</button>
                                             </div>
                                         </div>
                                     </div>
@@ -33,7 +34,7 @@
                                         <button type="button" class="btn btn-numbers col-sm" (click)="getNumAndUpdate(1)">1</button>
                                         <button type="button" class="btn btn-numbers col-sm" (click)="getNumAndUpdate(2)">2</button>
                                         <button type="button" class="btn btn-numbers col-sm" (click)="getNumAndUpdate(3)">3</button>
-                                        <button type="button" class="btn btn-numbers col-sm" (click)="getNumAndUpdate('.00')">.00</button>
+                                        <button type="button" class="btn btn-numbers col-sm" >.00</button>
                                         <button type="button" class="btn btn-numbers col-sm m-r-0" (click)="backspace()">BKSP</button>
                                     </div>
                                     <div class="row no-gutters m-t-7">
@@ -51,17 +52,7 @@
                                         <button type="button" class="btn btn-numbers col-sm m-r-0" (click)="clear()">Clear</button>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <button type="button" class="btn col-sm btn-Keypad">1$</button>
-                                        <button type="button" class="btn col-sm btn-Keypad">5$</button>
-                                        <button type="button" class="btn col-sm btn-Keypad m-r-0">10$</button>
-                                    </div>
-                                    <div class="row no-gutters m-t-7">
-                                        <button type="button" class="btn col-sm btn-Keypad">25$</button>
-                                        <button type="button" class="btn col-sm btn-Keypad">50$</button>
-                                        <button type="button" class="btn col-sm btn-Keypad m-r-0">100$</button>
-                                    </div>
-                                    <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm"> <img src="assets/img/cash.png" alt="" />
+                                        <div class="icon-btn col-sm" (click)="(ticketNumber!==''&& ticketNumber !== undefined) ? openCash(): closecash()"> <img src="assets/img/cash.png" alt="" />
                                             <div> Cash </div>
                                         </div>
                                         <div class="icon-btn col-sm" (click)="opengiftcard()"> <img src="assets/img/Gift.png" alt="" />
@@ -72,7 +63,7 @@
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm"> <img src="assets/img/Discount.png" alt="" />
+                                        <div class="icon-btn col-sm" (click)="opendiscount()"> <img src="assets/img/Discount.png" alt="" />
                                             <div> Discount </div>
                                         </div>
                                         <div class="icon-btn col-sm"> <img src="assets/img/Account.png" alt="" />
@@ -83,9 +74,9 @@
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7 payment">
-                                        <button type="button" class="btn col-sm btn-payment actived">Process</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" (click)="addPayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment">RollBack</button>
-                                        <button type="button" class="btn col-sm btn-payment">Del</button>
+                                        <button type="button" class="btn col-sm btn-payment" (click)="deleteTicket()">Del</button>
                                         <button type="button" class="btn col-sm btn-payment m-r-0">Print</button>
                                     </div>
                                     <div id="Giftcardpopup" class="gift-card"> <span class="closebtn" (click)="closegiftcard()">&times;</span>
@@ -179,13 +170,13 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Credit Card</h4> </div>
                                             <div class="row no-gutters m-t-20">
-                                                <div class="col-lg-12 text-center m-t-10"> <span class="cash-box"> <span class="text-cash">{{grandTotal ? (grandTotal | currency:'USD':true) : '$0.00'}} </span> </span>
+                                                <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><input type="text" class="cash-box" placeholder ='$0.00' [(ngModel)]="creditTotal" (blur)="creditcashback = 0"></span> </span>
                                                 </div>
                                             </div>
                                             <div class="row no-gutters m-t-15 m-b-20">
                                                 <div class="col-lg-12 text-center">
-                                                    <button type="button" class="btn theme-optional-button-color" (click)="closecreditcard()">Cancel</button>
-                                                    <button type="button" class="btn theme-primary-button-color">Process</button>
+                                                    <button type="button" class="btn theme-optional-button-color" (click)="closecreditcard()">Cancel</button>&nbsp;
+                                                    <button type="button" class="btn theme-primary-button-color" (click)= "creditProcess()">Process</button>
                                                 </div>
                                             </div>
                                             <div class="title-border p-b-5 m-b-5 m-t-40 p-t-15">
@@ -211,6 +202,86 @@
                                         </div>
                                     </div>
                                     <!-- credit card-->
+                                    <!-- cash popup -->
+                                    <div id="cashpopup" class="gift-card"> <span class="closebtn" (click)="closecash()">&times;</span>
+                                        <div class="card-body">
+                                            <div class="title-border p-b-5 m-b-5">
+                                                <h4 class="d-inline-block">Cash</h4> </div>
+                                                <div class="row no-gutters m-t-20">
+                                                    <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><input type="text" class="cash-box" placeholder ='$0.00' [(ngModel)]="cashTotal"></span> </span>
+                                                    </div>
+                                                </div>
+                                            <div class="title-border p-b-5 m-b-5 m-t-40 p-t-15">
+                                                <h6 class="d-inline-block">Cash Amount</h6> </div>
+                                            <div class="row no-gutters m-t-7">
+                                                <button type="button" class="btn col-sm btn-Keypad" (click)="addCash(1)">1$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad" (click)="addCash(5)">5$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad m-r-0" (click)="addCash(10)">10$</button>
+                                            </div>
+                                            <div class="row no-gutters m-t-7">
+                                                <button type="button" class="btn col-sm btn-Keypad" (click)="addCash(25)">25$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad" (click)="addCash(50)">50$</button>
+                                                <button type="button" class="btn col-sm btn-Keypad m-r-0" (click)="addCash(100)">100$</button>
+                                            </div>
+                                            <div class="row no-gutters m-t-50 m-b-20">
+                                                <div class="col-lg-12 text-center">
+                                                    <button type="button" class="btn theme-optional-button-color" (click)="closecash()">Cancel</button>&nbsp;
+                                                    <button type="button" class="btn theme-primary-button-color" (click)="cashProcess()">Process</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--cash popup-->
+                                    <!-- discount-->
+                                    <div id="discountpopup" class="gift-card"> <span class="closebtn" (click)="closediscount()">&times;</span>
+                                        <div class="card-body">
+                                            <div class="title-border p-b-5 m-b-5">
+                                                <h4 class="d-inline-block">Discount</h4> </div>
+                                                <!-- <div class="form-row p-t-10 p-b-12">
+                                                    <div class="form-group col-md-6"> Select a Discount</div>
+                                                </div> -->
+                                                <div class="form-row p-b-12 p-t-40">
+                                                    <div class="form-group col-md-12">
+                                                        <select class="form-control" placeholder="Select discount" [(ngModel)]="discount" (change)="discountChange($event)">
+                                                            <option value='' selected hidden>Select a discount</option>
+                                                            <option *ngFor="let discount of discounts" value="{{discount.ServiceId}}"> {{discount.ServiceName}}</option>
+                                                        </select>
+                                                        <!-- <input type="text" class="form-control" formControlName="giftCardNumber" placeholder="Gift Card #" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardNumber.errors }">  -->
+                                                        <div *ngIf="giftcardsubmitted && f.giftCardNumber.errors" class="invalid-feedback">
+                                                            <div *ngIf="f.giftCardNumber.errors.required">GiftCard number is required</div>
+                                                        </div>
+                                                    </div>
+                                                      
+                                                </div>
+                                                <div *ngIf="selectedDiscount.length>0">
+                                                    <div class="table-responsive m-t-10">
+                                                        <table class="table-scroll small-first-col">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Name</th>
+                                                                    <th scope="col">Price</th>
+                                                                    <th scope="col">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="body-half-screen">
+                                                                <tr *ngFor="let discount of selectedDiscount" >
+                                                                    <td class="pointer" >{{discount?.ServiceName}}</td>
+                                                                    <td >{{discount?.Cost | currency}}</td>
+                                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deletediscount(discount)"></i></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            <div class="row no-gutters m-t-50 m-b-20">
+                                                <div class="col-lg-12 text-center">
+                                                    <button type="button" class="btn theme-optional-button-color" (click)="closediscount()">Cancel</button>&nbsp;
+                                                    <button type="button" class="btn theme-primary-button-color" (click)="discountProcess()">Process</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- discount-->
                                 </div>
                                 <!-- end card-body -->
                             </div>
@@ -241,7 +312,7 @@
                                                 <form [formGroup]="addItemForm">
                                                 <input type="text" class="form-control d-inline-block w-23 align-middle" placeholder="Qty" formControlName="quantity">&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="addItem()">Add</button>&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color buttonSize" href="#itemsearchmodal" data-toggle="modal">Search</button>
+                                                <!-- <button type="button" class="btn theme-primary-button-color buttonSize" href="#itemsearchmodal" data-toggle="modal">Search</button> -->
                                             </form>
                                             </div>
                                         </div>
@@ -295,27 +366,27 @@
                                     <form class="summary">
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Total </div>
-                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.Total ? (itemList?.Status?.ScheduleItemSummaryViewModels?.Total | currency:'USD':true) : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.Total ? (itemList?.Status?.ScheduleItemSummaryViewModels?.Total | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Tax </div>
-                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.Tax ? (itemList?.Status?.ScheduleItemSummaryViewModels?.Tax | currency:'USD':true) : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.Tax ? (itemList?.Status?.ScheduleItemSummaryViewModels?.Tax | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Grand Total </div>
-                                            <div class="form-group col-md-6 text-right theme-optional-icon-color"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.GrandTotal ? (itemList?.Status?.ScheduleItemSummaryViewModels?.GrandTotal | currency:'USD':true) : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right theme-optional-icon-color"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.GrandTotal ? (itemList?.Status?.ScheduleItemSummaryViewModels?.GrandTotal | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Cash </div>
-                                            <div class="form-group col-md-6 text-right">  {{cash ? cash : '$0.00'}}</div>
+                                            <div class="form-group col-md-6 text-right">  {{cash ? (cash | currency ): '$0.00'}}</div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Credit </div>
-                                            <div class="form-group col-md-6 text-right"> {{credit ? credit : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right"> {{credit ? (credit | currency): '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Gift Card </div>
-                                            <div class="form-group col-md-6 text-right">{{giftCard ? giftCard : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right">{{giftCard ? (giftCard | currency): '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Account </div>
@@ -331,7 +402,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Cash back </div>
-                                            <div class="form-group col-md-6 text-right">  {{itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback ? (itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback | currency:'USD':true) : '$0.00'}}</div>
+                                            <div class="form-group col-md-6 text-right">  {{cashback ? (cashback | currency) : '$0.00'}}</div>
                                         </div>
                                     </form>
                                 </div>

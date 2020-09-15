@@ -117,10 +117,10 @@ export const UrlConfig = {
     getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
     addVehicle: 'Admin/Vehicle/AddVehicle',
     addItem: `Admin/Sales/AddListItem`,
-    getServicewithPrice: `Admin/Sales/GetServicesWithPrice`
-  },
-  Details:
-  {
-    
+    getServicewithPrice: `Admin/Sales/GetServicesWithPrice`,
+    getTicketNumberforItem: `Admin/Sales/GetTicketNumber`,
+    updateListItem: `Admin/Sales/UpdateListItem`,
+    updateItem: `Admin/Sales/UpdateItem`,
+    addPayment: `Admin/Sales/AddPayment`
   }
 };
