@@ -5,6 +5,9 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ThemeService } from 'src/app/shared/common-service/theme.service';
+import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 
 @Component({
   selector: 'app-sales',
@@ -14,18 +17,29 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class SalesComponent implements OnInit {
   services: any;
+  discount = '';
+  discounts = [];
+  selectedDiscount = [];
   filteredItem = [];
+  creditcashback = 0;
+  cashback = 0;
   selected = false;
+  isSelected = true;
+  creditTotal = 0;
+  cashTotal = 0;
   giftCardForm: FormGroup;
   addItemForm: FormGroup;
   itemList: any;
   originalGrandTotal: string;
   JobId: any;
+  newTicketNumber: any;
+  selectedService: any;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
-              private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder) { }
+    private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
+    private messageService: MessageServiceToastr, private service: ServiceSetupService) { }
   ItemName = '';
   ticketNumber = '';
-  count = 0;
+  count = 2;
   giftcards = [];
   giftCardNumber = '';
   giftCardAmount = '';
@@ -37,9 +51,9 @@ export class SalesComponent implements OnInit {
   tax = '';
   enableAdd = false;
   grandTotal = '';
-  cash = '';
-  credit = '';
-  giftCard = '';
+  cash = 0;
+  credit = 0;
+  giftCard = 0;
   account = '';
   totalPaid = '';
   balanceDue = '';
@@ -48,6 +62,7 @@ export class SalesComponent implements OnInit {
     this.giftCardFromInit();
     this.addItemFormInit();
     this.getAllService();
+    this.getServiceForDiscount();
   }
   giftCardFromInit() {
     this.giftCardForm = this.fb.group({
@@ -59,7 +74,7 @@ export class SalesComponent implements OnInit {
     this.addItemForm = this.fb.group({
       itemName: [''],
       quantity: ['', Validators.required]
-    })
+    });
   }
   get f() { return this.giftCardForm.controls; }
   getAllService() {
@@ -80,16 +95,30 @@ export class SalesComponent implements OnInit {
       }
     });
   }
+  getServiceForDiscount() {
+    this.service.getServiceSetup().subscribe(data => {
+      if (data.status === 'Success') {
+        const services = JSON.parse(data.resultData);
+        if (services.ServiceSetup !== null && services.ServiceSetup.length !== 0) {
+          this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
+        }
+      }
+    });
+  }
   selectedItem(event) {
-    this.selectedItem = event;
+    this.selectedService = event;
     console.log(event.name);
   }
   getDetailByTicket() {
-    if (this.ticketNumber !== undefined && this.ticketNumber !== '') {
-      this.salesService.getItemByTicketNumber(+this.ticketNumber).subscribe(data => {
+    if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
+      (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
+      const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
+      this.salesService.getItemByTicketNumber(+ticketNumber).subscribe(data => {
         console.log(data, 'ticket');
         if (data.status === 'Success') {
           this.enableAdd = true;
+          this.clearform();
+          this.addItemFormInit();
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
             if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
@@ -99,15 +128,22 @@ export class SalesComponent implements OnInit {
               this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'AdditionalService');
             }
           }
-          if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null ) {
-this.grandTotal = this.itemList?.Status?.ScheduleItemSummaryViewModels?.GrandTotal;
-this.originalGrandTotal = this.grandTotal;
+          if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
+            const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
+            this.cashback = this.itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback;
+            this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
+            this.cashTotal = +this.grandTotal;
+            this.creditTotal = +this.grandTotal;
+            this.originalGrandTotal = this.grandTotal;
           }
         }
       }, (err) => {
         this.enableAdd = false;
       });
     }
+  }
+  clearform(){
+    this.cash = this.giftCard = this.credit = 0;
   }
   filterItem(event) {
     const filtered: any[] = [];
@@ -133,24 +169,49 @@ this.originalGrandTotal = this.grandTotal;
 
   // Delete location
   confirmDelete(data) {
-    // this.salesService.deleteItemById(data.LocationId).subscribe(res => {
-    //   if (res.status === 'Success') {
-
-    //   } else {
-
-    //   }
-    // });
+    this.salesService.deleteItemById(data.JobId).subscribe(res => {
+      if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
+        this.getDetailByTicket();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+    });
+  }
+  openCash() {
+    this.cashTotal = this.cash !== 0 ? this.cash : this.grandTotal ? +this.grandTotal : 0;
+    document.getElementById('cashpopup').style.width = '300px';
+    document.getElementById('Giftcardpopup').style.width = '0';
+    document.getElementById('creditcardpopup').style.width = '0';
   }
   opengiftcard() {
+    this.giftcards = [];
     document.getElementById('Giftcardpopup').style.width = '450px';
     document.getElementById('creditcardpopup').style.width = '0';
+  }
+  closecash() {
+    document.getElementById('cashpopup').style.width = '0';
   }
 
   closegiftcard() {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
-
+  opendiscount() {
+    this.selectedDiscount = [];
+    this.discount = '';
+    document.getElementById('discountpopup').style.width = '450px';
+    document.getElementById('cashpopup').style.width = '0';
+    document.getElementById('Giftcardpopup').style.width = '0';
+    document.getElementById('creditcardpopup').style.width = '0';
+  }
+  closediscount() {
+    document.getElementById('discountpopup').style.width = '0';
+  }
   opencreditcard() {
+    this.creditTotal = this.grandTotal ? +this.grandTotal : 0;
+    this.creditcashback = 0;
     document.getElementById('creditcardpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
   }
@@ -167,6 +228,7 @@ this.originalGrandTotal = this.grandTotal;
     };
     const modalRef = this.modalService.open(EditItemComponent, ngbModalOptions);
     modalRef.componentInstance.JobId = itemId;
+    modalRef.componentInstance.ItemDetail = event;
     modalRef.componentInstance.isModal = true;
   }
   deletegiftcard(event) {
@@ -188,9 +250,99 @@ this.originalGrandTotal = this.grandTotal;
     }
   }
   giftCardProcess() {
-    console.log(this.giftcards);
+    this.giftcards.reduce(item => +item.amount)
+    const gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
+    this.giftCard = gc;
+    document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
+    if (this.addItemForm.invalid) {
+      return;
+    } else if (this.addItemForm.value.itemName === '') {
+      return;
+    }
+    const formObj = {
+      job: {
+        jobId: this.isSelected ? this.JobId : 0,
+        ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
+        locationId: +localStorage.getItem('empLocationId'),
+        clientId: 1,
+        vehicleId: 1,
+        make: 0,
+        model: 0,
+        color: 0,
+        jobType: 1,
+        jobDate: new Date(),
+        timeIn: new Date(),
+        estimatedTimeOut: new Date(),
+        actualTimeOut: new Date(),
+        jobStatus: 1,
+        isActive: true,
+        isDeleted: this.isSelected ? false : true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date(),
+        notes: 'checking'
+      },
+      jobItem: {
+        jobItemId: 0,
+        jobId: this.isSelected ? this.JobId : 0,
+        serviceId: this.selectedService?.id,
+        commission: 0,
+        price: this.selectedService?.price,
+        quantity: +this.addItemForm.value.quantity,
+        reviewNote: 'test',
+        isActive: true,
+        isDeleted: this.isSelected ? false : true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date(),
+        employeeId: +localStorage.getItem('empId')
+      },
+      jobPayment: {
+        jobPaymentId: 0,
+        jobId: 0,
+        drawerId: localStorage.getItem('drawerId'),
+        paymentType: 1,
+        amount: 0,
+        taxAmount: 0,
+        cashback: 0,
+        approval: true,
+        checkNumber: 'string',
+        signature: 'string',
+        paymentStatus: 1,
+        comments: 'string',
+        isActive: true,
+        isDeleted: this.isSelected ? false : true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      }
+    };
+    if (this.isSelected) {
+      this.salesService.updateListItem(formObj).subscribe(data => {
+        if (data.status === 'Success') {
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+          this.getDetailByTicket();
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        }
+      });
+    } else {
+      this.salesService.addItem(formObj).subscribe(data => {
+        if (data.status === 'Success') {
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+          this.isSelected = true;
+          this.ticketNumber = this.newTicketNumber;
+          this.getDetailByTicket();
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        }
+      });
+    }
   }
   getNumAndUpdate(num) {
     this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
@@ -203,9 +355,115 @@ this.originalGrandTotal = this.grandTotal;
     this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
   }
   addCashBack(cashback) {
-this.grandTotal = this.grandTotal + cashback;
+    // this.creditTotal
+    this.creditcashback = this.creditcashback + cashback;
+    this.creditTotal = +this.creditTotal + cashback;
   }
   reset() {
-    this.grandTotal = this.originalGrandTotal;
+    this.creditTotal = (this.creditTotal - this.creditcashback);
+    this.creditcashback = 0;
   }
+  getTicketNumber() {
+    this.isSelected = false;
+    this.salesService.getTicketNumber().subscribe(data => {
+      this.newTicketNumber = data;
+      this.washes = [];
+      this.details = [];
+      this.additionalService = [];
+      if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
+        this.itemList.Status.ScheduleItemSummaryViewModels = {};
+      }
+    });
+  }
+  creditProcess() {
+    this.credit = this.creditTotal - this.creditcashback;
+    this.cashback = this.cashback + this.creditcashback;
+    document.getElementById('creditcardpopup').style.width = '0';
+  }
+  addCash(cash) {
+    this.cashTotal = +this.cashTotal + cash;
+  }
+  cashProcess() {
+    this.cash = this.cashTotal;
+    document.getElementById('cashpopup').style.width = '0';
+  }
+  discountProcess() {
+    document.getElementById('discountpopup').style.width = '0';
+  }
+  discountChange(event) {
+    this.discounts.forEach(item => {
+      if (item.ServiceId === +event.target.value) {
+        this.selectedDiscount.push(item);
+      }
+    });
+  }
+  deletediscount(event) {
+    const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
+    this.selectedDiscount.splice(index, 1);
+  }
+  addPayment() {
+    const giftcard = this.giftcards.map(item => {
+      return {
+        giftCardHistoryId: 1,
+        giftCardId: item.id,
+        locationId: +localStorage.getItem('empLocationId'),
+        transactionType: 1,
+        transactionAmount: +item.amount,
+        transactionDate: new Date(),
+        comments: 'string',
+        isActive: true,
+        isDeleted: true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date(),
+        jobPaymentId: 174
+      };
+    });
+    console.log(giftcard);
+    const paymentObj = {
+      jobPayment: {
+        jobPaymentId: 109,
+        jobId: this.isSelected ? +this.JobId : 0,
+        drawerId: +localStorage.getItem('drawerId'),
+        paymentType: 109,
+        amount: this.cash ? +this.cash : 0,
+        taxAmount: 1,
+        cashback: this.cashback ? this.cash : 0,
+        approval: true,
+        checkNumber: '',
+        signature: '',
+        paymentStatus: 1,
+        comments: '',
+        isActive: true,
+        isDeleted: true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      },
+      giftCardHistory: giftcard,
+      joPaymentCreditCard: {
+        jobPaymentCreditCardId: 0,
+        jobPaymentId: 110,
+        cardTypeId: 0,
+        cardCategoryId: 0,
+        cardNumber: '',
+        creditCardTransactionTypeId: 0,
+        amount: this.credit ? +this.credit : 0,
+        tranRefNo: '',
+        tranRefDetails: '',
+        isActive: true,
+        isDeleted: true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      }
+    };
+    this.salesService.addPayemnt(paymentObj).subscribe(data => {
+      console.log(data);
+    });
+  }
+  deleteTicket() { }
 }

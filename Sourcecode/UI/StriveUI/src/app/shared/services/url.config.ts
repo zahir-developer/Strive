@@ -115,6 +115,10 @@ export const UrlConfig = {
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
     addItem: `Admin/Sales/AddListItem`,
-    getServicewithPrice: `Admin/Sales/GetServicesWithPrice`
+    getServicewithPrice: `Admin/Sales/GetServicesWithPrice`,
+    getTicketNumberforItem: `Admin/Sales/GetTicketNumber`,
+    updateListItem: `Admin/Sales/UpdateListItem`,
+    updateItem: `Admin/Sales/UpdateItem`,
+    addPayment: `Admin/Sales/AddPayment`
   }
 };

@@ -21,4 +21,17 @@ export class SalesService {
  getService() {
    return this.http.get(`${UrlConfig.totalUrl.getServicewithPrice}`);
  }
+ getTicketNumber() {
+  return this.http.get(`${UrlConfig.totalUrl.getTicketNumberforItem}`);
+ }
+ updateListItem(updateObj) {
+   return this.http.post(`${UrlConfig.totalUrl.updateListItem}`, updateObj);
+ }
+ updateItem(updateObj) {
+  return this.http.put(`${UrlConfig.totalUrl.updateItem}`,
+  {params: {JobItemId: updateObj.jobid, Quantity: +updateObj.quantity, Price: +updateObj.price}});
+ }
+ addPayemnt(paymentObj) {
+  return this.http.post(`${UrlConfig.totalUrl.addPayment}`, paymentObj);
+ }
 }
