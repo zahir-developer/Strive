@@ -1,15 +1,13 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
-import * as moment from 'moment';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
-import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientStatementComponent } from '../client-statement/client-statement.component';
 import { ClientHistoryComponent } from '../client-history/client-history.component';
+import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -17,19 +15,12 @@ import { ClientHistoryComponent } from '../client-history/client-history.compone
   styleUrls: ['./client-create-edit.component.css']
 })
 export class ClientCreateEditComponent implements OnInit {
-  @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
-  clientForm: FormGroup;
-  Status: any;
-  State: any;
-  Score: any;
+  @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   address: any;
-  selectedLocation: any;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
-  selectedStateId: any;
-  selectedCountryId: any;
   vehicleDetails = [];
   vehicleDet = [];
   isTableEmpty: boolean;
@@ -40,80 +31,16 @@ export class ClientCreateEditComponent implements OnInit {
   page = 1;
   pageSize = 3;
   collectionSize: number = 0;
-  Type: { id: number; Value: string; }[];
   deleteIds = [];
-  submitted: boolean;
   additionalService: any = [];
-  city: any;
-  selectedCityId: any;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private client: ClientService,
+  constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
-    private modalService: NgbModal, private vehicle: VehicleService, private getCode: GetCodeService) { }
+    private modalService: NgbModal, private vehicle: VehicleService) { }
 
-  ngOnInit() {
-    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
-    this.formInitialize();
-    if (this.isView === true) {
-      this.viewClient();
-    }
+  ngOnInit() {    
     if (this.isEdit === true) {
-      this.clientForm.reset();
-      this.getClientById();
       this.getClientVehicle(this.selectedData.ClientId);
     }
-  }
-
-  formInitialize() {
-    this.clientForm = this.fb.group({
-      fName: ['', Validators.required],
-      lName: ['', Validators.required],
-      address: ['', Validators.required],
-      zipcode: ['',],
-      state: ['',],
-      city: ['',],
-      phone1: ['', Validators.required],
-      email: ['', Validators.email],
-      phone2: ['',],
-      creditAccount: ['',],
-      noEmail: ['',],
-      score: ['',],
-      status: ['', Validators.required],
-      notes: ['',],
-      checkOut: ['',],
-      type: ['', Validators.required]
-    });
-    this.clientForm.get('status').patchValue(0);
-    this.getClientType();
-    this.getScore();
-    this.getService();
-  }
-
-  get f() {
-    return this.clientForm.controls;
-  }
-
-  // Get Score
-  getScore() {
-    this.client.getClientScore().subscribe(data => {
-      if (data.status === 'Success') {
-        const client = JSON.parse(data.resultData);
-        this.Score = client.ClientDetails;
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
-
-  // Get ClientType
-  getClientType() {
-    this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.Type = cType.Codes;
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
   }
 
   // Get Vehicle By ClientId
@@ -133,58 +60,27 @@ export class ClientCreateEditComponent implements OnInit {
       }
     });
   }
-
-  getClientById() {
-    this.selectedStateId = this.selectedData.State;
-    this.State = this.selectedStateId;
-    this.selectedCityId = this.selectedData.City;
-    this.city = this.selectedCityId;
-    this.clientForm.patchValue({
-      fName: this.selectedData.FirstName,
-      lName: this.selectedData.LastName,
-      creditAccount: this.selectedData.NoEmail,
-      status: this.selectedData.IsActive ? 0 : 1,
-      score: this.selectedData.Score,
-      type: this.selectedData.ClientType,
-      notes: this.selectedData.Notes,
-      checkOut: this.selectedData.RecNotes,
-      address: this.selectedData.Address1,
-      phone1: this.selectedData.PhoneNumber,
-      zipcode: this.selectedData.Zip,
-      phone2: this.selectedData.PhoneNumber2,
-      email: this.selectedData.Email
-    });
-    this.clientId = this.selectedData.ClientId;
-  }
-
-  viewClient() {
-    this.clientForm.disable();
-  }
-
-  change(data) {
-    this.clientForm.value.creditAccount = data;
-  }
-
+  
   // Add/Update Client
   submit() {
-    this.submitted = true;
-    this.stateDropdownComponent.submitted = true;
-    if (this.clientForm.invalid) {
+    this.clientFormComponent.submitted = true;
+    this.clientFormComponent.stateDropdownComponent.submitted = true;
+    if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
-      address1: this.clientForm.value.address,
+      address1: this.clientFormComponent.clientForm.value.address,
       address2: "",
-      phoneNumber2: this.clientForm.value.phone2,
+      phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
       isActive: true,
-      zip: this.clientForm.value.zipcode,
-      state: this.State,
-      city: this.city,
+      zip: this.clientFormComponent.clientForm.value.zipcode,
+      state: this.clientFormComponent.State,
+      city: this.clientFormComponent.city,
       country: 38,
-      phoneNumber: this.clientForm.value.phone1,
-      email: this.clientForm.value.email,
+      phoneNumber: this.clientFormComponent.clientForm.value.phone1,
+      email: this.clientFormComponent.clientForm.value.email,
       isDeleted: false,
       createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
@@ -193,23 +89,23 @@ export class ClientCreateEditComponent implements OnInit {
     }]
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
-      firstName: this.clientForm.value.fName,
+      firstName: this.clientFormComponent.clientForm.value.fName,
       middleName: "",
-      lastName: this.clientForm.value.lName,
+      lastName: this.clientFormComponent.clientForm.value.lName,
       gender: 1,
       maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientForm.value.status == 0 ? true : false,
+      isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
       updatedBy: 1,
       updatedDate: new Date(),
-      notes: this.clientForm.value.notes,
-      recNotes: this.clientForm.value.checkOut,
-      score: (this.clientForm.value.score == "" || this.clientForm.value.score == null) ? 0 : this.clientForm.value.score,
-      noEmail: this.clientForm.value.creditAccount,
-      clientType: (this.clientForm.value.type == "" || this.clientForm.value.type == null) ? 0 : this.clientForm.value.type
+      notes: this.clientFormComponent.clientForm.value.notes,
+      recNotes: this.clientFormComponent.clientForm.value.checkOut,
+      score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+      noEmail: this.clientFormComponent.clientForm.value.creditAccount,
+      clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
     };
     const myObj = {
       client: formObj,
@@ -232,7 +128,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
-          this.clientForm.reset();
+          this.clientFormComponent.clientForm.reset();
         }
       });
     } else {
@@ -242,16 +138,13 @@ export class ClientCreateEditComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
-          this.clientForm.reset();
+          this.clientFormComponent.clientForm.reset();
         }
       });
     }
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
-  }
-  getSelectedStateId(event) {
-    this.State = event.target.value;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -321,10 +214,6 @@ export class ClientCreateEditComponent implements OnInit {
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
-  }
-
-  selectCity(id) {
-    this.city = id;
   }
 }
 

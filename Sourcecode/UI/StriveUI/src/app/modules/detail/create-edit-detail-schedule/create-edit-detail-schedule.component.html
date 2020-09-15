@@ -9,28 +9,26 @@
                         </h5> <span class="font-size-1 font-weight-600"></span>
                     </div>
                     <div class="form-group col-xl-9">
-                        <div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <select class="form-control" formControlName="bay">
-                                        <option *ngFor="let b of baylist" value="{{b.id}}">
-                                            {{b.name}}
-                                        </option>
-                                    </select>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <select class="form-control" formControlName="bay">
+                                    <option *ngFor="let b of baylist" value="{{b.id}}">
+                                        {{b.bayName}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-row">
+                                    <label class="col-sm-1 col-form-label" for="name">In:</label>
+                                    <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                        formControlName="inTime" />
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="form-row">
-                                        <label class="col-sm-1 col-form-label" for="name">In:</label>
-                                        <input type="text" class="form-control col-sm-8" name="name" id="name"
-                                            formControlName="inTime" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-row">
-                                        <label class="col-sm-4 col-form-label" for="name">Due Time:</label>
-                                        <input type="text" class="form-control col-sm-8" name="name" id="name"
-                                            formControlName="dueTime" />
-                                    </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-row">
+                                    <label class="col-sm-4 col-form-label" for="name">Due Time:</label>
+                                    <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                        formControlName="dueTime" />
                                 </div>
                             </div>
                         </div>
@@ -57,23 +55,31 @@
                         </div>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="inputVehicle">Vehicle</label>
+                        <label for="inputVehicle">Vehicle<span class="required">*</span></label>
                         <select class="form-control" formControlName="vehicle"
+                            [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }"
                             (change)="vehicleChange($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
                                 {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
                             </option>
                         </select>
+                        <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
+                            <div *ngIf="f.vehicle.errors.required">Vehicle is required</div>
+                        </div>
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
-                                (click)="getByBarcode(detailForm.value.barcode)">Select</button>
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
-                                href="#addNewvehicleModal" data-toggle="modal">Add Vehicle</button>
-                            <button type="button" class="btn btn-sm theme-primary-button-color btn-responsive m-l-5"
-                                onclick="window.location.href='New-client.html';">Add Client</button>
+                            <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                (click)="getByBarcode(detailForm.value.barcode)">Select</button>&nbsp;
+                            <!-- <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                Client</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color btn-responsive">Add
+                                Vehicle</button> -->
+                            <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                (click)="addClient()">Add Client</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color btn-responsive"
+                                (click)="addVehicle()" [disabled]="clientId === undefined">Add Vehicle</button>
                         </div>
                     </div>
                 </div>
@@ -103,14 +109,18 @@
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="inputWashes">Details</label>
+                        <label for="inputWashes">Details<span class="required">*</span></label>
                         <select class="form-control" formControlName="washes"
+                            [ngClass]="{ 'is-invalid': submitted && f.washes.errors }"
                             (change)="washService($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of details" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
                             </option>
                         </select>
+                        <div *ngIf="submitted && f.washes.errors" class="invalid-feedback">
+                            <div *ngIf="f.washes.errors.required">Detail is required</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -146,9 +156,12 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label>Outside Service</label>
-                        <select class="form-control">
-                            <option selected="">Select</option>
-                            <option>...</option>
+                        <select class="form-control" formControlName="outsideServie"
+                            (change)="outSideService($event.target.value)">
+                            <option hidden selected value="">Choose</option>
+                            <option *ngFor="let score of outsideServices" value="{{score.ServiceId}}">
+                                {{score.ServiceName}}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -168,7 +181,7 @@
                 </div> -->
             </form>
             <div class="form-row">
-                <div class="col-sm-7 border">
+                <div class="col-sm-8 border">
                     <div class="title-border p-b-5 m-b-5">
                         <h5 class="d-inline-block font-weight-600">Additional Service</h5>
                     </div>
@@ -183,28 +196,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <div class="border">
                         <div class="title-border p-b-5 m-b-5">
                             <h5 class="d-inline-block font-weight-600">Notes</h5>
                         </div>
                         <div>
-                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" name="note" [(ngModel)]="note" rows="8"></textarea>
+                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" name="note" [(ngModel)]="note"
+                                rows="8"></textarea>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-6" style="padding-left: 0% !important;">
+                    <div class="row m-t-5">
+                        <div class="col-sm-3">
                             <button type="button"
-                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Start/Assign</button>
+                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Start</button>
                         </div>
-                        <div class="col-sm-6" style="padding: 0% !important;">
+                        <div class="col-sm-3" style="padding-left: 0% !important;">
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
+                                (click)="assignEmployee()">Assign</button>
+                        </div>
+                        <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button"
-                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Complete/Pay</button>
+                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Complete</button>
+                        </div>
+                        <div class="col-sm-3" style="padding-left: 0% !important;">
+                            <button type="button"
+                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Pay</button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
+                    <!-- <div class="row">
+                        <div class="col-sm-3">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
                                 (click)="saveDetail()">Save</button>
                         </div>
@@ -214,23 +236,59 @@
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Customer
-                                Copy</button>
+                            </button>
                         </div>
-                        <div class="col-sm-3" style="padding: 0% !important;">
+                        <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Vehicle
-                                Copy</button>
+                            </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-            <!-- <div class="m-t-20 mw-100">
-                <button type="button" class="btn theme-primary-button-color">Pay</button>
-                <button type="button" class="btn theme-primary-button-color">Print</button>
-                <div class="pull-right">
-                    <button type="button" class="btn theme-optional-button-color">Cancel</button>
-                    <button type="button" class="btn theme-primary-button-color">Save</button>
-                </div>
-            </div> -->
+            <div class="m-t-12">
+                <span class="mw-100">
+                    <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="true">Customer Copy</button>
+                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="print()" [disabled]="true">Vehicle Copy</button>
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes" (click)="pastNotes()">View Past Client Notes</button>
+                </span>
+                <span class="mw-100 pull-right">
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="saveDetail()">Save</button>&nbsp;
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit"
+                        (click)="deleteDetail()">Delete</button>
+                </span>
+            </div>
         </div>
     </div>
+    <div [hidden]="true">
+        <app-print-wash *ngIf="isEdit"  [selectedData]="selectedData"></app-print-wash>
+    </div>
 </div>
+<p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
+    [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
+    <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)"
+        (closeAssignModel)="closeAssignModel()" [details]="details" [employeeList]="employeeList"
+        [assignedDetailService]="assignedDetailService"></app-assign-detail>
+</p-dialog>
+
+<p-dialog [(visible)]="viewNotesDialog" header="Past Notes" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
+    [focusOnShow]="false" [closable]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
+    <app-view-past-notes *ngIf="viewNotesDialog" [viewNotes]="viewNotes"></app-view-past-notes>
+</p-dialog>
+
+<p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
+    [focusOnShow]="false" [closable]="false">
+    <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
+    <p-footer>
+        <button type="button" class="btn theme-optional-button-color"
+            (click)="closePopupEmitClient()">Cancel</button>&nbsp;
+        <button type="button" class="btn theme-primary-button-color" (click)="saveClient()">Save</button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
+    [focusOnShow]="false" [closable]="false">
+    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
+        [clientId]="clientId" [isAdd]="true" (closeDialog)="closePopupEmitVehicle($event)">
+    </app-vehicle-create-edit>
+</p-dialog>

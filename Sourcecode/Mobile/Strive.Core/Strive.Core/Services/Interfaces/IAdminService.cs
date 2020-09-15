@@ -42,6 +42,20 @@ namespace Strive.Core.Services.Interfaces
 
         Task<ProductsSearch> SearchProduct(string productName);
 
+        Task<MembershipServiceList> GetMembershipServiceList();
+
+        Task<PostResponseBool> SaveVehicleMembership(ClientVehicleRoot clientVehicle);
+
+        Task<ClientStatus> GetClientDetail(int ClientId);
+
+        Task<VehicleList> GetClientVehicle(int ClientId);
+
+        Task<ClientVehicleRootView> GetVehicleMembership(int VehicleId);
+
+        Task<ServiceList> GetVehicleServices();
+
+        Task<SelectedServiceList> GetSelectedMembershipServices(int MembershipId);
+
         Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel);
     }
 }

@@ -18,7 +18,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         private MembershipClientListViewModel ViewModel;
 
-        private ObservableCollection<ClientDetail> ItemList;
+        private ObservableCollection<ClientInfo> ItemList;
 
         public ClientTableSource(UITableView tableView, MembershipClientListViewModel ViewModel) : base(tableView)
         {
@@ -33,11 +33,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<ClientDetail>)value;
+                    ItemList = (ObservableCollection<ClientInfo>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<ClientDetail>();
+                    ItemList = new ObservableCollection<ClientInfo>();
                 }
 
                 base.ItemsSource = value;

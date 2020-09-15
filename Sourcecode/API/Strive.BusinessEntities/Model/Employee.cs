@@ -37,8 +37,11 @@ public class Employee
 	[Column]
 	public DateTime? BirthDate { get; set; }
 
-	[Column]
-	public string ImmigrationStatus { get; set; }
+    [Column]
+    public DateTime? WorkPermit { get; set; }
+
+    [Column]
+	public int ImmigrationStatus { get; set; }
 
 	[Column]
 	public bool? IsActive { get; set; }
