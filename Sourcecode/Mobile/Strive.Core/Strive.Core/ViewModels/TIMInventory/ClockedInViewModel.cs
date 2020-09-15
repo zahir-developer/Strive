@@ -74,7 +74,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void PrepareClockoutModel()
         {
-            EmployeeData.ClockInStatus.TimeClock.outTime = DateUtils.GetStringFromDate(DateTime.UtcNow);
+            EmployeeData.ClockInStatus.TimeClock.outTime = DateUtils.GetStringFromDate(DateTime.Now);
             EmployeeData.ClockInStatus.TimeClock.isActive = false;
         }
 
@@ -87,8 +87,10 @@ namespace Strive.Core.ViewModels.TIMInventory
         public async Task NavigateClockOutCommand()
         {
             PrepareClockoutModel();
+            _userDialog.ShowLoading(Strings.Loading);
             var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
             await _navigationService.Navigate<ClockOutViewModel>();
+            await _navigationService.Close(this);
         }
     }
 }

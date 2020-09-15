@@ -72,7 +72,7 @@ namespace Strive.Core.ViewModels.Customer
         public int securityStamp { get; set; } 
         public string passwordHash { get; set; }
        
-        public string createdDate = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
+        public string createdDate = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
         public string userGuid { get; set; }
         public int emailVerified { get; set; } 
         public string SignUp

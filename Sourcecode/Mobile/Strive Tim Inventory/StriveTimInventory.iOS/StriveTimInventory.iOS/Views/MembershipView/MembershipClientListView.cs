@@ -24,7 +24,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
             var set = this.CreateBindingSet<MembershipClientListView, MembershipClientListViewModel>();
             set.Bind(ClientTableSource).To(vm => vm.FilteredList);
-            set.Bind(AddButton).To(vm => vm.Commands["AddProduct"]);
             set.Bind(LogoutButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(ClientTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             set.Apply();
@@ -39,17 +38,14 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
             ClientSearch.Placeholder = "Search";
             ClientSearch.TextChanged += SearchTextChanged;
+
+            GetAllClients();
         }
 
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
-        }
-
-        public override void ViewDidAppear(bool animated)
-        {
-            GetAllClients();
         }
 
         private async Task GetAllClients()

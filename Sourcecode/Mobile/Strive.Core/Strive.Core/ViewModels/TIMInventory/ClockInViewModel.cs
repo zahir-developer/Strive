@@ -107,9 +107,11 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
             EmployeeData.CurrentRole = FirstSelectedRole.Title;
             PrepareClockInRequest();
-            EmployeeData.ClockInStatus.TimeClock.inTime = DateUtils.GetStringFromDate(DateTime.UtcNow);
+            EmployeeData.ClockInStatus.TimeClock.inTime = DateUtils.GetStringFromDate(DateTime.Now);
+            _userDialog.ShowLoading(Strings.Loading);
             var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
             await _navigationService.Navigate<ClockedInViewModel>();
+            await _navigationService.Close(this);
         }
 
         void PrepareClockInRequest()
@@ -122,8 +124,8 @@ namespace Strive.Core.ViewModels.TIMInventory
                     employeeId = 1,
                     locationId = 1,
                     roleId = FirstSelectedRole.Tag,
-                    eventDate = DateUtils.GetStringFromDate(DateTime.UtcNow),
-                    inTime = DateUtils.GetStringFromDate(DateTime.UtcNow),
+                    eventDate = DateUtils.GetStringFromDate(DateTime.Now),
+                    inTime = DateUtils.GetStringFromDate(DateTime.Now),
                     outTime = "",
                     eventType = 1,
                     updatedFrom = "",
@@ -132,9 +134,9 @@ namespace Strive.Core.ViewModels.TIMInventory
                     isActive = true,
                     isDeleted = false,
                     createdBy = 0,
-                    createdDate = DateUtils.GetStringFromDate(DateTime.UtcNow),
+                    createdDate = DateUtils.GetStringFromDate(DateTime.Now),
                     updatedBy = 0,
-                    updatedDate = DateUtils.GetStringFromDate(DateTime.UtcNow)
+                    updatedDate = DateUtils.GetStringFromDate(DateTime.Now)
                 }
             }; 
         }

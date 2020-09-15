@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
+using Strive.Core.Utils.TimInventory;
 using Strive.Core.ViewModels.TIMInventory.Membership;
 
 namespace Strive.Core.ViewModels.TIMInventory
@@ -13,9 +15,9 @@ namespace Strive.Core.ViewModels.TIMInventory
     public class MembershipClientListViewModel : BaseViewModel
     {
 
-        public ObservableCollection<ClientDetail> FilteredList { get; set; } = new ObservableCollection<ClientDetail>();
+        public ObservableCollection<ClientInfo> FilteredList { get; set; } = new ObservableCollection<ClientInfo>();
 
-        private ObservableCollection<ClientDetail> ClientList = new ObservableCollection<ClientDetail>();
+        private ObservableCollection<ClientInfo> ClientList = new ObservableCollection<ClientInfo>();
 
 
         public MembershipClientListViewModel()
@@ -25,20 +27,28 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void ClientSearchCommand(string SearchText)
         {
-            FilteredList = new ObservableCollection<ClientDetail>(ClientList.
+            FilteredList = new ObservableCollection<ClientInfo>(ClientList.
                 Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
             RaiseAllPropertiesChanged();
         }
 
         public async Task GetAllClientsCommand()
         {
-            //_userDialog.Loading(Strings.Loading);
-            var Clients = await AdminService.GetAllClient();
-            foreach(var client in Clients.Client)
+            _userDialog.ShowLoading(Strings.Loading);
+            Clients Clients = null; 
+            var result = await AdminService.GetAllClient();
+            if (result != null)
             {
-                ClientList.Add(client);
+                Clients = result;
             }
             _userDialog.HideLoading();
+            if(Clients != null)
+            {
+                foreach (var client in Clients.Client)
+                {
+                    ClientList.Add(client);
+                }
+            }  
         }
 
         public void ClearCommand()
@@ -47,8 +57,15 @@ namespace Strive.Core.ViewModels.TIMInventory
             ClientList.Clear();
         }
 
-        public async void NavigateToDetailCommand(ClientDetail client)
+        public async void NavigateToDetailCommand(ClientInfo client)
         {
+            _userDialog.ShowLoading(Strings.Loading);
+            var clientDetail = await AdminService.GetClientDetail(client.ClientId);
+            if(clientDetail == null)
+            {
+                return;
+            }
+            MembershipData.SelectedClient = clientDetail.Status[0];
             await _navigationService.Navigate<MembershipClientDetailViewModel>();
         }
 
