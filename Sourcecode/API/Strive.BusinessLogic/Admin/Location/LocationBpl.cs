@@ -31,7 +31,7 @@ namespace Strive.BusinessLogic.Location
 
         }
 
-        public Result UpdateLocation(LocationDto location)
+        public Result UpdateLocation(LocationWithoutBayDto location)
         {
            // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
            // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);

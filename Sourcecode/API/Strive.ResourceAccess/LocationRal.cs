@@ -23,7 +23,7 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPc(location, "LocationId");
         }
 
-        public bool UpdateLocation(LocationDto location)
+        public bool UpdateLocation(LocationWithoutBayDto location)
         {
             return dbRepo.UpdatePc(location);
         }

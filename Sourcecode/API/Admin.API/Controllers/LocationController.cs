@@ -28,7 +28,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("Update")]
-        public Result UpdateLocation([FromBody] LocationDto location) => _bplManager.UpdateLocation(location);
+        public Result UpdateLocation([FromBody] LocationWithoutBayDto location) => _bplManager.UpdateLocation(location);
         #endregion
 
         #region DELETE
