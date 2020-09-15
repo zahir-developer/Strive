@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Past Service Details"
+        android:text="My Profile"
         android:textSize="@dimen/textSixteen"
         android:textColor="@android:color/white"
         android:fontFamily="@font/opensans_bold"/>

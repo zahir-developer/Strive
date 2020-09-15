@@ -54,12 +54,12 @@ namespace StriveCustomer.Android.Fragments
             emailView = rootview.FindViewById<TextView>(Resource.Id.email);
 
             personalEditInfo.Click += PersonalEditInfo_Click;
-            fullNameView.Text = CustomerInfo.customerPersonalInfo.Status[0].FirstName;
-            contactNumberView.Text = CustomerInfo.customerPersonalInfo.Status[0].PhoneNumber;
-            addressView.Text = CustomerInfo.customerPersonalInfo.Status[0].Address1;
-            zipCodeView.Text = CustomerInfo.customerPersonalInfo.Status[0].Zip;
-            secPhoneView.Text = CustomerInfo.customerPersonalInfo.Status[0].PhoneNumber2;
-            emailView.Text = CustomerInfo.customerPersonalInfo.Status[0].Email;
+            fullNameView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().FirstName;
+            contactNumberView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().PhoneNumber;
+            addressView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().Address1;
+            zipCodeView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().Zip;
+            secPhoneView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().PhoneNumber2;
+            emailView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().Email;
 
             return rootview;
         }

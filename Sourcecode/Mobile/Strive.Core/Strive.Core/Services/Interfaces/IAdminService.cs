@@ -41,5 +41,7 @@ namespace Strive.Core.Services.Interfaces
         Task<CustomerPersonalInfo> GetClientById(int Id);
 
         Task<ProductsSearch> SearchProduct(string productName);
+
+        Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel);
     }
 }

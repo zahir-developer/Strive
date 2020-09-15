@@ -40,5 +40,7 @@ namespace Strive.Core.Utils
         public const string URL_GET_ALL_CLIENT = "/Admin/Client/GetAllClient";
 
         public const string URL_GET_CLIENT_BY_ID = "/Admin/Client/GetClientById/{0}";
+
+        public const string URL_SAVE_CLIENT_INFO = "/Admin/Client/UpdateClientVehicle";
     }
 }

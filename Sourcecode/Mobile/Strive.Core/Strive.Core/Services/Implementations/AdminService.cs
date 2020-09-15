@@ -116,5 +116,10 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get,Id);
         }
+
+        public async Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel)
+        {
+            return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
+        }
     }
 }
