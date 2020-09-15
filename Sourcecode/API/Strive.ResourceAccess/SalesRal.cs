@@ -24,6 +24,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@JobItemId", salesItemUpdateDto.JobItemId);
+            dynParams.Add("@ServiceId", salesItemUpdateDto.ServiceId);
             dynParams.Add("@Quantity", salesItemUpdateDto.Quantity);
             dynParams.Add("@Price", salesItemUpdateDto.Price);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspUpdateSalesItem.ToString(), dynParams, commandType: CommandType.StoredProcedure);
@@ -59,9 +60,9 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(salesAddListItem, "JobId");
         }
-        public bool UpdateListItem(SalesAddListItemDto salesAddListItem)
+        public bool UpdateListItem(SalesUpdateItemDto salesUpdateItemDto)
         {
-            return dbRepo.UpdatePc(salesAddListItem);
+            return dbRepo.InsertPc(salesUpdateItemDto, "JobId");
         }
         public List<ServiceItemDto> GetServicesWithPrice()
         {

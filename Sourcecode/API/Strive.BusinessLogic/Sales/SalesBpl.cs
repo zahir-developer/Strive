@@ -95,11 +95,11 @@ namespace Strive.BusinessLogic.Sales
             return _result;
         }
         
-        public Result UpdateListItem(SalesAddListItemDto salesAddListItem)
+        public Result UpdateListItem(SalesUpdateItemDto salesUpdateItemDto)
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).UpdateListItem, salesAddListItem, "Status");
+                return ResultWrap(new SalesRal(_tenant).UpdateListItem, salesUpdateItemDto, "Status");
             }
             catch (Exception ex)
             {

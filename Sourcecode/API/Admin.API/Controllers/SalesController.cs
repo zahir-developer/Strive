@@ -54,7 +54,7 @@ namespace Admin.API.Controllers
         public Result AddListItem([FromBody] SalesAddListItemDto salesAddListItem) => _bplManager.AddListItem(salesAddListItem);
         [HttpPost]
         [Route("UpdateListItem")]
-        public Result UpdateListItem([FromBody] SalesAddListItemDto salesAddListItem) => _bplManager.UpdateListItem(salesAddListItem);
+        public Result UpdateListItem([FromBody] SalesUpdateItemDto salesUpdateItemDto) => _bplManager.UpdateListItem(salesUpdateItemDto);
         [HttpGet]
         [Route("GetServicesWithPrice")]
         public Result GetServicesWithPrice() => _bplManager.GetServicesWithPrice();

@@ -21,7 +21,7 @@ namespace Strive.BusinessLogic.Sales
         Result AddPayment(SalesPaymentDto salesPayment);
         Result AddListItem(SalesAddListItemDto salesAddListItem);
         Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto);
-        Result UpdateListItem(SalesAddListItemDto salesAddListItem);
+        Result UpdateListItem(SalesUpdateItemDto salesUpdateItemDto);
         Result GetServicesWithPrice();
     }
 }
