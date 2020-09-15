@@ -25,7 +25,7 @@ namespace Strive.Core.Utils.TimInventory
 
         public static ClientDetail SelectedClient { get; set; }
 
-        public static ClientVehicleMembershipView MembershipDetailView { get; set; }
+        public static VehicleMembershipDetailsView MembershipDetailView { get; set; }
 
         public static VehicleDetail SelectedVehicle { get; set; }
 

@@ -28,7 +28,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             if (message.Valuea == 5)
             {
                 await _navigationService.Close(this);
-                _messageToken.Dispose();
+                //_messageToken.Dispose();
             }
         }
 
@@ -47,7 +47,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             }
             if(MembershipData.MembershipDetailView != null)
             {
-                var SelectedMembership = MembershipServiceList.Where(m => m.MembershipId == MembershipData.MembershipDetailView.MembershipId).FirstOrDefault();
+                var SelectedMembership = MembershipServiceList.Where(m => m.MembershipId == MembershipData.MembershipDetailView.ClientVehicleMembership.MembershipId).FirstOrDefault();
                 if (SelectedMembership != null)
                 {
                     MembershipServiceList.Remove(SelectedMembership);

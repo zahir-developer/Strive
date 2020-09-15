@@ -36,7 +36,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             }
             if(MembershipData.MembershipDetailView != null)
             {
-                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.MembershipDetailView.MembershipId).FirstOrDefault();
+                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.MembershipDetailView.ClientVehicleMembership.MembershipId).FirstOrDefault();
                 if ((SelectedMembership != null) && (SelectedMembership == item))
                 {
                     cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);

@@ -60,7 +60,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             if (message.Valuea == 5)
             {
                 await _navigationService.Close(this);
-                _messageToken.Dispose();
+                //_messageToken.Dispose();
             }
         }
 
@@ -76,7 +76,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
             int ClientMembership = 0;
             if(MembershipData.MembershipDetailView != null)
             {
-                ClientMembership = MembershipData.MembershipDetailView.ClientMembershipId;
+                ClientMembership = MembershipData.MembershipDetailView.ClientVehicleMembership.ClientMembershipId;
             }
 
             foreach (var service in MembershipServiceList)

@@ -84,7 +84,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 }
                 else
                 {
-                    MembershipData.MembershipDetailView = result.VehicleMembershipDetails.ClientVehicleMembership;
+                    MembershipData.MembershipDetailView = result.VehicleMembershipDetails;
                     await _navigationService.Navigate<VehicleMembershipDetailViewModel>();
                 }
             } 
