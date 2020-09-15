@@ -11,14 +11,15 @@ namespace Strive.BusinessLogic.Details
 {
     public interface IDetailsBpl
     {
-        Result GetDetailsById(int id);
         Result AddDetails(DetailsDto details);
         Result UpdateDetails(DetailsDto details);
-        Result GetAllBayById(int id);
         Result GetBaySchedulesDetails(DetailsGridDto detailsGrid);
+        Result GetDetailsById(int id);
+        Result GetAllBayById(int id);
+        Result GetPastClientNotesById(int id);
         Result GetJobType();
-        Result DeleteDetails(int id);
-        Result AddEmployeeScheduleToDetails(EmployeeScheduleDetailsDto empSchedule);
         Result GetAllDetails(DetailsGridDto detailsGrid);
+        Result DeleteDetails(int id);
+        
     }
 }

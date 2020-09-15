@@ -1,0 +1,85 @@
+11-09-2020 21:27:48	This log contains information about the import schema operation into project 'StriveTenant' on computer 'TELLLAP56' by user 'zmohamed'.
+11-09-2020 21:27:50	Import of database schema has started.
+11-09-2020 21:28:00	Gathering database credentials
+11-09-2020 21:28:00	Gathering database options
+11-09-2020 21:28:00	Gathering generic database scoped configuration option
+11-09-2020 21:28:00	Gathering users
+11-09-2020 21:28:00	Gathering roles
+11-09-2020 21:28:00	Gathering application roles
+11-09-2020 21:28:00	Gathering role memberships
+11-09-2020 21:28:00	Gathering filegroups
+11-09-2020 21:28:00	Gathering full-text catalogs
+11-09-2020 21:28:00	Gathering assemblies
+11-09-2020 21:28:00	Gathering certificates
+11-09-2020 21:28:00	Gathering asymmetric keys
+11-09-2020 21:28:00	Gathering symmetric keys
+11-09-2020 21:28:00	Gathering encrypted symmetric keys
+11-09-2020 21:28:00	Gathering schemas
+11-09-2020 21:28:00	Gathering XML schema collections
+11-09-2020 21:28:00	Gathering user-defined data types
+11-09-2020 21:28:00	Gathering user-defined types
+11-09-2020 21:28:00	Gathering table types
+11-09-2020 21:28:02	Gathering unique keys for table types
+11-09-2020 21:28:02	Gathering primary keys for table types
+11-09-2020 21:28:02	Gathering indexes for table types
+11-09-2020 21:28:02	Gathering check constraints for table types
+11-09-2020 21:28:02	Gathering default constraints for table types
+11-09-2020 21:28:02	Gathering partition functions
+11-09-2020 21:28:02	Gathering partition schemes
+11-09-2020 21:28:02	Gathering functions
+11-09-2020 21:28:03	Gathering encrypted functions
+11-09-2020 21:28:03	Gathering aggregates
+11-09-2020 21:28:03	Gathering procedures
+11-09-2020 21:28:09	Gathering encrypted procedures
+11-09-2020 21:28:09	Gathering tables
+11-09-2020 21:28:12	Gathering primary keys
+11-09-2020 21:28:13	Gathering unique constraints
+11-09-2020 21:28:13	Gathering foreign keys
+11-09-2020 21:28:14	Gathering default constraints
+11-09-2020 21:28:14	Gathering check constraints
+11-09-2020 21:28:14	Gathering views
+11-09-2020 21:28:14	Gathering encrypted views
+11-09-2020 21:28:14	Gathering indexes
+11-09-2020 21:28:14	Gathering statistics
+11-09-2020 21:28:14	Gathering full-text index stoplists
+11-09-2020 21:28:14	Gathering search property lists
+11-09-2020 21:28:14	Gathering search properties
+11-09-2020 21:28:14	Gathering full-text indexes
+11-09-2020 21:28:14	Gathering column store indexes
+11-09-2020 21:28:14	Gathering spatial indexes
+11-09-2020 21:28:14	Gathering XML indexes
+11-09-2020 21:28:14	Gathering Selective XML indexes
+11-09-2020 21:28:14	Gathering encrypted triggers
+11-09-2020 21:28:14	Gathering triggers
+11-09-2020 21:28:14	Gathering encrypted and clr ddl triggers
+11-09-2020 21:28:14	Gathering ddl triggers
+11-09-2020 21:28:14	Gathering synonyms
+11-09-2020 21:28:14	Gathering defaults
+11-09-2020 21:28:14	Gathering data constraint uddt bindings
+11-09-2020 21:28:14	Gathering rules
+11-09-2020 21:28:14	Gathering data constraint uddt bindings
+11-09-2020 21:28:14	Gathering message types
+11-09-2020 21:28:14	Gathering queues
+11-09-2020 21:28:14	Gathering contracts
+11-09-2020 21:28:14	Gathering services
+11-09-2020 21:28:14	Gathering event notifications
+11-09-2020 21:28:14	Gathering remote service bindings
+11-09-2020 21:28:14	Gathering broker priorities
+11-09-2020 21:28:14	Gathering signatures
+11-09-2020 21:28:14	Gathering data compression options
+11-09-2020 21:28:14	Gathering sequence types
+11-09-2020 21:28:14	Gathering security policies
+11-09-2020 21:28:14	Gather column encryption keys
+11-09-2020 21:28:14	Gathering column master keys
+11-09-2020 21:28:14	Gathering external data sources
+11-09-2020 21:28:14	Gathering external file formats
+11-09-2020 21:28:14	Gathering external tables
+11-09-2020 21:28:14	Gathering extended properties
+11-09-2020 21:28:17	Gathering credentials
+11-09-2020 21:28:17	Gathering logins
+11-09-2020 21:28:17	Gathering server audits
+11-09-2020 21:28:21	Scanning project for duplicate elements
+11-09-2020 21:28:21	Finished duplicate element processing
+11-09-2020 21:28:27	Finished importing database.
+11-09-2020 21:28:27	A summary of the import was saved to the following location: E:\Projects\Mammoth\Strive\Sourcecode\Database\StriveTenant\StriveTenant\Import Schema Logs\StriveTenant_20200911035748.log
+11-09-2020 21:28:27	Click Finish to continue...
