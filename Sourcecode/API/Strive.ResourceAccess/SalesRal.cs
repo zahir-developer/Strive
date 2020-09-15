@@ -67,5 +67,13 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<ServiceItemDto>(SPEnum.uspGetServiceByItemList.ToString(), null);
         }
+        public bool DeleteTransactions(string ticketNumber)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@TicketNumber", ticketNumber);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteRollBackItems.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
     }
 }

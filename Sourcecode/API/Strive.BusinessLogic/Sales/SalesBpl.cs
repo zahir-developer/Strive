@@ -25,7 +25,7 @@ namespace Strive.BusinessLogic.Sales
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).UpdateItem,salesItemUpdateDto, "Result");
+                return ResultWrap(new SalesRal(_tenant).UpdateItem, salesItemUpdateDto, "Result");
             }
             catch (Exception ex)
             {
@@ -97,6 +97,18 @@ namespace Strive.BusinessLogic.Sales
         public Result GetServicesWithPrice()
         {
             return ResultWrap(new SalesRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
+        }
+        public Result DeleteTransactions(string ticketNumber)
+        {
+            try
+            {
+                return ResultWrap(new SalesRal(_tenant).DeleteTransactions, ticketNumber, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
         }
     }
 }

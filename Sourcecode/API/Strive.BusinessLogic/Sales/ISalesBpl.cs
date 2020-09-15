@@ -22,5 +22,6 @@ namespace Strive.BusinessLogic.Sales
         Result AddListItem(SalesAddListItemDto salesAddListItem);
         Result UpdateListItem(SalesAddListItemDto salesAddListItem);
         Result GetServicesWithPrice();
+        Result DeleteTransactions(string ticketNumber);
     }
 }
