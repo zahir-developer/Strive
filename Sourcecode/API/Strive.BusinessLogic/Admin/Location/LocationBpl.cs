@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Location;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
@@ -15,6 +16,12 @@ namespace Strive.BusinessLogic.Location
 
         public Result AddLocation(LocationDto location)
         {
+            var random = new Random();
+            var color = String.Format("#{0:X6}", random.Next(0x1000000));
+
+            location.Location.ColorCode = color;
+            location.Location.WashTimeMinutes = random.Next(30, 45);
+
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 
@@ -32,6 +39,11 @@ namespace Strive.BusinessLogic.Location
            // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
            // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
+        }
+
+        public Result GetLocationSearch(LocationSearchDto search)
+        {
+            return ResultWrap(new LocationRal(_tenant).GetLocationSearch, search,"Search");
         }
 
         public Result GetAllLocation()

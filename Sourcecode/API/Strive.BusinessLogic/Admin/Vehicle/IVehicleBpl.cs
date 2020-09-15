@@ -1,6 +1,7 @@
 ﻿using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Vehicle;
-using Strive.BusinessEntities.MembershipSetup;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 
 
@@ -8,17 +9,19 @@ namespace Strive.BusinessLogic.Vehicle
 {
     public interface IVehicleBpl
     {
-        Result GetAllVehicle();
+        Result GetAllVehicle(VehicleSearchDto name);
         Result GetVehicleMembership();
         Result UpdateVehicleMembership(Membership Membership);
+        Result AddVehicle(VehicleDto ClientVehicle);
         Result SaveClientVehicle(VehicleDto vehicle);
         Result DeleteVehicle(int vehicleId);
-        Result GetClientVehicleById(int clientId);
+        Result GetVehicleByClientId(int clientId);
         Result GetVehicleId(int vehicleId);
-        Result GetVehicleColour();
-        Result GetCodeTypeModel();
-        Result GetCodeModel();
-        Result GetCodeUpcharge();
-        Result GetCodeMake();
+        Result GetVehicleCodes();
+        Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel clientmembership);
+        Result GetVehicleMembershipDetailsByVehicleId(int id);
+        Result GetMembershipDetailsByVehicleId(int id);
+
+
     }
 }

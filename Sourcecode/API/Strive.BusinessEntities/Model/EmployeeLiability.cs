@@ -46,5 +46,11 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
 
+        [Column, PrimaryKey]
+        public int? VehicleId { get; set; }
+
+        [Column, PrimaryKey]
+        public int? ClientId { get; set; }
+
     }
 }

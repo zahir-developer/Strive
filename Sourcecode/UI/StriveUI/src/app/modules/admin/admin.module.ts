@@ -44,11 +44,21 @@ import { ClientListComponent } from './client/client-list/client-list.component'
 import { ClientCreateEditComponent } from './client/client-create-edit/client-create-edit.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { VehicleListComponent } from './vehicle/vehicle-list/vehicle-list.component';
-import { VehicleCreateEditComponent } from './vehicle/vehicle-create-edit/vehicle-create-edit.component';
 import { DocumentListComponent } from './employees/document-list/document-list.component';
 import { CreateDocumentComponent } from './employees/create-document/create-document.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewDocumentComponent } from './employees/view-document/view-document.component';
+import { GiftCardComponent } from './gift-card/gift-card.component';
+import { AddGiftCardComponent } from './gift-card/add-gift-card/add-gift-card.component';
+import { AddActivityComponent } from './gift-card/add-activity/add-activity.component';
+import { AddScheduleComponent } from './scheduling/add-schedule/add-schedule.component';
+import { MembershipComponent } from './system-setup/membership/membership.component';
+import { MembershipListComponent } from './system-setup/membership/membership-list/membership-list.component';
+import { MembershipCreateEditComponent } from './system-setup/membership/membership-create-edit/membership-create-edit.component';
+import { TimeCostMaintenanceComponent } from './time-cost-maintenance/time-cost-maintenance.component';
+import { ClientStatementComponent } from './client/client-statement/client-statement.component';
+import { ClientHistoryComponent } from './client/client-history/client-history.component';
+import { TimeCostCardComponent } from './time-cost-maintenance/time-cost-card/time-cost-card.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -58,10 +68,11 @@ import { ViewDocumentComponent } from './employees/view-document/view-document.c
     ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent, EmployeeCollisionComponent,
     CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
-    VehicleComponent, VehicleListComponent, VehicleCreateEditComponent,
-    CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
+    VehicleComponent, VehicleListComponent, CollisionListComponent, ClientComponent, ClientListComponent, ClientCreateEditComponent,
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
-    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent, CreateDocumentComponent, ViewDocumentComponent],
+    EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent,
+    CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, TimeCostMaintenanceComponent, ClientStatementComponent, ClientHistoryComponent, TimeCostCardComponent],
   imports: [
     CommonModule,
     RouterModule,

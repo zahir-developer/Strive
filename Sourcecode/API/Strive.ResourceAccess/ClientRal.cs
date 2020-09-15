@@ -8,58 +8,41 @@ using System.Data;
 using System.Text;
 using System.Linq;
 using Strive.BusinessEntities.Client;
+using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO.Client;
+using Strive.BusinessEntities.DTO.Vehicle;
+using Strive.BusinessEntities.Code;
 using Strive.RepositoryCqrs;
 
 namespace Strive.ResourceAccess
 {
-    public class ClientRal
+    public class ClientRal : RalBase
     {
-        IDbConnection _dbconnection;
-        public Db db;
-        public ClientRal(IDbConnection dbconnection)
+        public ClientRal(ITenantHelper tenant) : base(tenant) { }
+
+        public bool InsertClientDetails(ClientDto client)
         {
-            _dbconnection = dbconnection;
+            return dbRepo.InsertPc(client, "ClientId");
+        }
+        public bool UpdateClientVehicle(ClientDto client)
+        {
+            return dbRepo.UpdatePc(client);
         }
 
-        public ClientRal(ITenantHelper tenant)
+        public List<ClientViewModel> GetAllClient()
         {
-            _dbconnection = tenant.db();
-             db = new Db(_dbconnection);
+            return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), null);
         }
-
-        public bool SaveClientDetails(ClientView lstClient)
+        public List<ClientDetailViewModel> GetClientById(int clientId)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<BusinessEntities.Client.Client> lstclientlst = new List<BusinessEntities.Client.Client>();
-            lstclientlst.Add(new BusinessEntities.Client.Client
-            {
-                ClientId = lstClient.ClientId,
-                FirstName = lstClient.FirstName,
-                MiddleName = lstClient.MiddleName,
-                LastName = lstClient.LastName,
-                Gender = lstClient.Gender,
-                MaritalStatus = lstClient.MaritalStatus,
-                BirthDate = lstClient.BirthDate,
-                CreatedDate = lstClient.CreatedDate,
-                IsActive = lstClient.IsActive,
-                Notes = lstClient.Notes,
-                RecNotes = lstClient.RecNotes,
-                Score = lstClient.Score,
-                NoEmail = lstClient.NoEmail,
-                ClientType = lstClient.ClientType,
-
-            });
-            dynParams.Add("@tvpClient", lstclientlst.ToDataTable().AsTableValuedParameter("tvpClient"));
-            dynParams.Add("@tvpClientAddress", lstClient.ClientAddress.ToDataTable().AsTableValuedParameter("tvpClientAddress"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVECLIENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-
-            return true;
+            _prm.Add("@ClientId", clientId);
+            return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
+            
         }
-
-        public BusinessEntities.Model.Client GetClientByClientId(int clientId)
+        public ClientVehicleDetailModelView GetClientVehicleById(int clientId)
         {
-            throw new NotImplementedException();
+            _prm.Add("@ClientId", clientId);
+            return db.FetchMultiResult<ClientVehicleDetailModelView>(SPEnum.uspGetClientAndVehicle.ToString(), _prm);
         }
 
         public BusinessEntities.Model.Client GetById(int id)
@@ -70,28 +53,35 @@ namespace Strive.ResourceAccess
             return lstClientInfo;
         }
 
-        public List<ClientView> GetAllClient()
+        public BusinessEntities.Model.Client GetClientByClientId(int clientId)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<ClientView> lstClientList = new List<ClientView>();
-            lstClientList = db.FetchRelation1<ClientView, BusinessEntities.Client.ClientAddress>(SPEnum.USPGETALLCLIENT.ToString(), dynParams);
-            return lstClientList;
-        }
-        public ClientView GetClientById(int id)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@ClientId", id);
-            var lstClientInfo = db.FetchSingle<ClientView>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
-            return lstClientInfo;
-        }
-        public bool DeleteClient(int clientId)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@ClientId", clientId);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETECLIENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-            return true;
+            throw new NotImplementedException();
         }
 
+        public bool DeleteClient(int clientId)
+        {
+            _prm.Add("ClientId", clientId);
+            db.Save(SPEnum.USPDELETECLIENT.ToString(), _prm);
+            return true;
+        }
+        public List<ClientSearchViewModel> GetClientSearch(ClientSearchDto search)
+        {
+            _prm.Add("@ClientName", search.ClientName);
+            return db.Fetch<ClientSearchViewModel>(SPEnum.uspGetClientName.ToString(), _prm);
+        }
+        public List<Code> GetClientCode()
+        {
+            return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SCORE);
+        }
+        public List<ClientStatementViewModel> GetStatementByClientId(int id)
+        {
+            _prm.Add("ClientId", id);
+            return db.Fetch<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
+        }
+        public List<ClientHistoryViewModel> GetHistoryByClientId(int id)
+        {
+            _prm.Add("ClientId", id);
+            return db.Fetch<ClientHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
+        }
     }
 }

@@ -8,60 +8,46 @@ using System.Data;
 using System.Text;
 using System.Linq;
 using Strive.BusinessEntities.Vendor;
+using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO.Vendor;
 
 namespace Strive.ResourceAccess
 {
-    public class VendorRal
+    public class VendorRal : RalBase
     {
-        IDbConnection _dbconnection;
-        public Db db;
-        public VendorRal(IDbConnection dbconnection)
+        public VendorRal(ITenantHelper tenant) : base(tenant) { }
+        public List<VendorViewModel> GetVendorDetails()
         {
-            _dbconnection = dbconnection;
+            return db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), null);
         }
-
-        public VendorRal(ITenantHelper tenant)
+        public bool AddVendor(VendorDTO vendor)
         {
-            _dbconnection = tenant.db();
-            db = new Db(_dbconnection);
+            return dbRepo.SavePc(vendor, "VendorId");
         }
-        public List<VendorView> GetVendorDetails()
+        public bool UpdateVendor(VendorDTO vendor)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<VendorView> lstVendor = new List<VendorView>();
-            lstVendor= db.FetchRelation1<VendorView, VendorAddress>(SPEnum.USPGETALLVENDOR.ToString(), dynParams);
-            return lstVendor;
+            return dbRepo.UpdatePc(vendor);
         }
-
-        public bool SaveVendorDetails(VendorView vendor)
-        {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<Vendor> lstvendorlst = new List<Vendor>();
-            dynParams.Add("@tvpVendor", vendor.TableName<Vendor>("tvpVendor"));
-            dynParams.Add("@tvpVendorAddress", vendor.VendorAddress.ToDataTable().AsTableValuedParameter("tvpVendorAddress"));
-
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEVENDOR.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-            return true;
-        }
-
+ 
         public bool DeleteVendorById(int id)
-        { 
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@VendorId", id);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEVENDOR.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-
+        {
+            _prm.Add("@VendorId", id);
+            db.Save(SPEnum.USPDELETEVENDOR.ToString(), _prm);
             return true;
         }
 
-        public List<VendorView> GetVendorById(int id)
+        public List<VendorViewModel> GetVendorById(int id)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@VendorId", id);
-            List<VendorView> lstVendorById = new List<VendorView>();
-            lstVendorById = db.FetchRelation1<VendorView, VendorAddress>(SPEnum.USPGETVENDORBYID.ToString(), dynParams);
-            return lstVendorById;
+            _prm.Add("@VendorId", id);
+            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
+            return result;
+        }
+        public List<VendorViewModel> GetVendorSearch(VendorSearchDto search)
+        {
+            _prm.Add("@VendorSearch", search.VendorSearch);
+            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
+            return result;
         }
     }
+
 }

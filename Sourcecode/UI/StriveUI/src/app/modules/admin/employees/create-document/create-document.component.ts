@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { MustMatch } from 'src/app/shared/Validator/must-match.validator';
+import * as moment from 'moment';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-create-document',
@@ -14,10 +17,21 @@ export class CreateDocumentComponent implements OnInit {
   fileUploadformData: any;
   passwordForm: FormGroup;
   @Input() employeeId?: any;
-  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder, private employeeService: EmployeeService) { }
+  multipleFileUpload: any = [];
+  fileType: any;
+  isLoading: boolean;
+  submitted: boolean;
+  constructor(
+    private activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr
+    ) { }
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.isPassword = false;
+    this.submitted = false;
     this.formInitialize();
   }
 
@@ -25,6 +39,8 @@ export class CreateDocumentComponent implements OnInit {
     this.passwordForm = this.fb.group({
       password: [''],
       confirm: ['']
+    }, {
+      validator: MustMatch('password', 'confirm')
     });
   }
 
@@ -36,54 +52,93 @@ export class CreateDocumentComponent implements OnInit {
     console.log(event, 'event');
     if (event.target.checked === true) {
       this.isPassword = true;
+      this.passwordForm.get('password').setValidators([Validators.required]);
+      this.passwordForm.get('confirm').setValidators([Validators.required]);
     } else {
       this.isPassword = false;
+      this.passwordForm.get('password').clearValidators();
+      this.passwordForm.get('password').clearValidators();
     }
   }
 
   fileNameChanged() {
     let filesSelected: any;
-    filesSelected = document.getElementById('filepaths');
+    filesSelected = document.getElementById('customFile');
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
       this.fileName = fileToLoad.name;
+      const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
         let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('filepaths');
+        textAreaFileContents = document.getElementById('customFile');
         textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
       };
       fileReader.readAsDataURL(fileToLoad);
+      this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
+        const fileObj = {
+          fileName: this.fileName,
+          fileUploadDate: this.fileUploadformData,
+          fileType: fileExtension
+        };
+        this.multipleFileUpload.push(fileObj);
+        this.isLoading = false;
+        console.log(this.multipleFileUpload, 'fileupload');
       }, 5000);
     }
   }
 
+  clearDocument(i) {
+    this.multipleFileUpload = this.multipleFileUpload.filter((item, index) => index !== i);
+  }
+
+  get f() { return this.passwordForm.controls; }
+
   uploadDocument() {
-    const finalObj = [];
-    const uploadbj = {
-      documentId: 0,
-      employeeId: this.employeeId,
-      fileName: this.fileName,
-      filePath: 'D:\\Upload\\',
-      password: this.passwordForm.value.confirm,
-      createdDate: '2020 - 07 - 21T12: 41: 47.395Z',
-      modifiedDate: '2020 - 07 - 21T12: 41: 47.395Z',
-      isActive: true,
-      base64Url: this.fileUploadformData
+    this.submitted = true;
+    if (this.multipleFileUpload.length === 0) {
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Please Choose file to upload' });
+      return;
+    }
+    if (this.passwordForm.invalid) {
+      return;
+    }
+    const documentObj = this.multipleFileUpload.map(item => {
+      return {
+        employeeDocumentId: 0,
+        employeeId: this.employeeId,
+        filename: item.fileName,
+        filepath: 'string',
+        base64: item.fileUploadDate,
+        fileType: item.fileType,
+        isPasswordProtected: this.isPassword,
+        password: this.passwordForm.value.confirm,
+        comments: 'string',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 0,
+        createdDate: moment(new Date()),
+        updatedBy: 0,
+        updatedDate: moment(new Date())
+      };
+    });
+    const finalObj = {
+      employeeDocument: documentObj
     };
-    finalObj.push(uploadbj);
     console.log(finalObj, 'obj');
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
       console.log(res, 'uploadDcument');
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document upload Successfully!' });
         this.activeModal.close(true);
-        // this.getAllDocument();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }

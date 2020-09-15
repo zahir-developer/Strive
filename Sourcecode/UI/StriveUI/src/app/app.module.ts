@@ -30,6 +30,8 @@ import { HttpUtilsService } from './shared/util/http-utils.service';
 import { RouterModule } from '@angular/router';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#FF7900',
@@ -101,7 +103,8 @@ const load = (http: HttpClient) => {
     }),
     NgxSkeletonLoaderModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    MultiSelectModule
+    MultiSelectModule,
+    NgxSpinnerModule
   ],
   exports: [
     HttpClientModule,
@@ -109,7 +112,8 @@ const load = (http: HttpClient) => {
     RouterModule,
     MultiSelectModule,
     BrowserAnimationsModule,
-    NgxUiLoaderModule
+    NgxUiLoaderModule,
+    NgxSpinnerModule
   ],
   providers: [
     EnvironmentService,

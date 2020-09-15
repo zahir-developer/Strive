@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
         }
       }
     }, (err) => {
-      // this.isLoginLoading = false;
+      this.isLoginLoading = false;
     });
   }
   loadTheLandingPage(): void {

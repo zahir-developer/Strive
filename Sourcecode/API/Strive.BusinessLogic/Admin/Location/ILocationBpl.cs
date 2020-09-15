@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Location;
 using Strive.Common;
 
 namespace Strive.BusinessLogic.Location
@@ -12,5 +13,6 @@ namespace Strive.BusinessLogic.Location
         Result GetLocationById(int id);
         Result DeleteLocation(int id);
         //Result SaveLocation(LocationDto lstLocation);
+        Result GetLocationSearch(LocationSearchDto search);
     }
 }

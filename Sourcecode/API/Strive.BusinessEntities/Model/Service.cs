@@ -29,7 +29,7 @@ public class Service
 	public int? CommisionType { get; set; }
 
 	[Column]
-	public decimal? Upcharges { get; set; }
+	public string Upcharges { get; set; }
 
 	[Column]
 	public int? ParentServiceId { get; set; }

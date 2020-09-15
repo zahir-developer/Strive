@@ -77,6 +77,7 @@ export class CloseoutRegisterComponent implements OnInit {
     this.getCloseOutRegister();
   }
 
+  // Get CloseOutRegister By Date
   getCloseOutRegister() {
     const today = moment(new Date).format('YYYY-MM-DD');
     const cashRegisterType = "CLOSEOUT";
@@ -85,110 +86,139 @@ export class CloseoutRegisterComponent implements OnInit {
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
-        if (this.closeOutDetails.length != 0) {
+        if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
           this.cashRegisterCoinForm.patchValue({
-            coinPennies: this.closeOutDetails[0].CashRegisterCoin.Pennies,
-            coinNickels: this.closeOutDetails[0].CashRegisterCoin.Nickels,
-            coinDimes: this.closeOutDetails[0].CashRegisterCoin.Dimes,
-            coinQuaters: this.closeOutDetails[0].CashRegisterCoin.Quarters,
-            coinHalfDollars: this.closeOutDetails[0].CashRegisterCoin.HalfDollars,
+            coinPennies: this.closeOutDetails.CashRegisterCoins.Pennies,
+            coinNickels: this.closeOutDetails.CashRegisterCoins.Nickels,
+            coinDimes: this.closeOutDetails.CashRegisterCoins.Dimes,
+            coinQuaters: this.closeOutDetails.CashRegisterCoins.Quarters,
+            coinHalfDollars: this.closeOutDetails.CashRegisterCoins.HalfDollars,
           });
-          this.totalPennie = this.closeOutDetails[0].CashRegisterCoin.Pennies / 100;
-          this.totalNickel = (5 * this.closeOutDetails[0].CashRegisterCoin.Nickels) / 100;
-          this.totalDime = (10 * this.closeOutDetails[0].CashRegisterCoin.Dimes) / 100;
-          this.totalQuater = (25 * this.closeOutDetails[0].CashRegisterCoin.Quarters) / 100;
-          this.totalHalf = (50 * this.closeOutDetails[0].CashRegisterCoin.HalfDollars) / 100;
+          this.totalPennie = this.closeOutDetails.CashRegisterCoins.Pennies / 100;
+          this.totalNickel = (5 * this.closeOutDetails.CashRegisterCoins.Nickels) / 100;
+          this.totalDime = (10 * this.closeOutDetails.CashRegisterCoins.Dimes) / 100;
+          this.totalQuater = (25 * this.closeOutDetails.CashRegisterCoins.Quarters) / 100;
+          this.totalHalf = (50 * this.closeOutDetails.CashRegisterCoins.HalfDollars) / 100;
           this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
           this.cashRegisterBillForm.patchValue({
-            billOnes: this.closeOutDetails[0].CashRegisterBill.Ones,
-            billFives: this.closeOutDetails[0].CashRegisterBill.Fives,
-            billTens: this.closeOutDetails[0].CashRegisterBill.Tens,
-            billTwenties: this.closeOutDetails[0].CashRegisterBill.Twenties,
-            billFifties: this.closeOutDetails[0].CashRegisterBill.Fifties,
-            billHundreds: this.closeOutDetails[0].CashRegisterBill.Hundreds,
+            billOnes: this.closeOutDetails.CashRegisterBills.s1,
+            billFives: this.closeOutDetails.CashRegisterBills.s5,
+            billTens: this.closeOutDetails.CashRegisterBills.s10,
+            billTwenties: this.closeOutDetails.CashRegisterBills.s20,
+            billFifties: this.closeOutDetails.CashRegisterBills.s50,
+            billHundreds: this.closeOutDetails.CashRegisterBills.s100,
           });
-          this.totalOnes = this.closeOutDetails[0].CashRegisterBill.Ones;
-          this.totalFives = (5 * this.closeOutDetails[0].CashRegisterBill.Fives);
-          this.totalTens = (10 * this.closeOutDetails[0].CashRegisterBill.Tens);
-          this.totalTwenties = (20 * this.closeOutDetails[0].CashRegisterBill.Twenties);
-          this.totalFifties = (50 * this.closeOutDetails[0].CashRegisterBill.Fifties);
-          this.totalHunderds = (100 * this.closeOutDetails[0].CashRegisterBill.Hundreds);
+          this.totalOnes = this.closeOutDetails.CashRegisterBills.s1;
+          this.totalFives = (5 * this.closeOutDetails.CashRegisterBills.s5);
+          this.totalTens = (10 * this.closeOutDetails.CashRegisterBills.s10);
+          this.totalTwenties = (20 * this.closeOutDetails.CashRegisterBills.s20);
+          this.totalFifties = (50 * this.closeOutDetails.CashRegisterBills.s50);
+          this.totalHunderds = (100 * this.closeOutDetails.CashRegisterBills.s100);
           this.totalBill = this.totalOnes + this.totalFives + this.totalTens + this.totalTwenties + this.totalFifties + this.totalHunderds;
           this.cashRegisterRollForm.patchValue({
-            pennieRolls: this.closeOutDetails[0].CashRegisterRoll.Pennies,
-            nickelRolls: this.closeOutDetails[0].CashRegisterRoll.Nickels,
-            dimeRolls: this.closeOutDetails[0].CashRegisterRoll.Dimes,
-            quaterRolls: this.closeOutDetails[0].CashRegisterRoll.Quarters
+            pennieRolls: this.closeOutDetails.CashRegisterRolls.Pennies,
+            nickelRolls: this.closeOutDetails.CashRegisterRolls.Nickels,
+            dimeRolls: this.closeOutDetails.CashRegisterRolls.Dimes,
+            quaterRolls: this.closeOutDetails.CashRegisterRolls.Quarters
           });
-          this.totalPennieRoll = (50 * this.closeOutDetails[0].CashRegisterRoll.Pennies) / 100;
-          this.totalNickelRoll = (40 * 5 * this.closeOutDetails[0].CashRegisterRoll.Nickels) / 100;
-          this.totalDimeRoll = (50 * 10 * this.closeOutDetails[0].CashRegisterRoll.Dimes) / 100;
-          this.totalQuaterRoll = (40 * 25 * this.closeOutDetails[0].CashRegisterRoll.Quarters) / 100;
+          this.totalPennieRoll = (50 * this.closeOutDetails.CashRegisterRolls.Pennies) / 100;
+          this.totalNickelRoll = (40 * 5 * this.closeOutDetails.CashRegisterRolls.Nickels) / 100;
+          this.totalDimeRoll = (50 * 10 * this.closeOutDetails.CashRegisterRolls.Dimes) / 100;
+          this.totalQuaterRoll = (40 * 25 * this.closeOutDetails.CashRegisterRolls.Quarters) / 100;
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
-            cardAmount: this.closeOutDetails[0].CashRegisterOther.CreditCard1
+            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1
           });
         }
       }
     });
   }
 
+  // Add/Update CloseOutRegister
   submit() {
     const coin = {
-      cashRegisterCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoin.CashRegisterCoinId : 0,
+      cashRegCoinId: this.isUpdate ? this.closeOutDetails.CashRegisterCoins.CashRegCoinId : 0,
+      cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       pennies: this.cashRegisterCoinForm.value.coinPennies,
       nickels: this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes,
       quarters: this.cashRegisterCoinForm.value.coinQuaters,
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
     const bill = {
-      cashRegisterBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBill.CashRegisterBillId : 0,
-      ones: this.cashRegisterBillForm.value.billOnes,
-      fives: this.cashRegisterBillForm.value.billFives,
-      tens: this.cashRegisterBillForm.value.billTens,
-      twenties: this.cashRegisterBillForm.value.billTwenties,
-      fifties: this.cashRegisterBillForm.value.billFifties,
-      hundreds: this.cashRegisterBillForm.value.billHundreds,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      cashRegBillId: this.isUpdate ? this.closeOutDetails.CashRegisterBills.CashRegBillId : 0,
+      cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
+      s1: this.cashRegisterBillForm.value.billOnes,
+      s5: this.cashRegisterBillForm.value.billFives,
+      s10: this.cashRegisterBillForm.value.billTens,
+      s20: this.cashRegisterBillForm.value.billTwenties,
+      s50: this.cashRegisterBillForm.value.billFifties,
+      s100: this.cashRegisterBillForm.value.billHundreds,
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
     const roll = {
-      cashRegisterRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRoll.CashRegisterRollId : 0,
+      cashRegRollId: this.isUpdate ? this.closeOutDetails.CashRegisterRolls.CashRegRollId : 0,
+      cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       pennies: this.cashRegisterRollForm.value.pennieRolls,
       nickels: this.cashRegisterRollForm.value.nickelRolls,
       dimes: this.cashRegisterRollForm.value.dimeRolls,
       quarters: this.cashRegisterRollForm.value.quaterRolls,
       halfDollars: 0,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
     const other = {
-      cashRegisterOtherId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOther.CashRegisterOtherId : 0,
-      creditCard1: this.closeoutRegisterForm.value.cardAmount,
+      cashRegOtherId: this.isUpdate ? this.closeOutDetails.CashRegisterOthers.CashRegOtherId : 0,
+      cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
+      creditCard1: 0,
       creditCard2: 0,
       creditCard3: 0,
       checks: 0,
       payouts: 0,
-      dateEntered: moment(new Date()).format('YYYY-MM-DD')
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     }
-    const formObj = {
-      cashRegisterId: this.isUpdate ? this.closeOutDetails[0].CashRegisterId : 0,
+    const cashregister = {
+      cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: 120,
       locationId: 1,
       drawerId: 1,
-      userId: 1,
-      enteredDateTime: moment(new Date()).format('YYYY-MM-DD'),
-      cashRegisterRollId: this.isUpdate ? this.closeOutDetails[0].CashRegisterRollId : 0,
-      cashRegisterCoinId: this.isUpdate ? this.closeOutDetails[0].CashRegisterCoinId : 0,
-      cashRegisterBillId: this.isUpdate ? this.closeOutDetails[0].CashRegisterBillId : 0,
-      cashRegisterOtherId: this.isUpdate ? this.closeOutDetails[0].CashRegisterOtherId : 0,
-      cashRegisterCoin: coin,
-      CashRegisterBill: bill,
-      CashRegisterRoll: roll,
-      cashRegisterOther: other
+      cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
+      isActive: true,      
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
     };
+    const formObj = {
+      cashregister: cashregister,
+      cashRegisterCoins: coin,
+      cashRegisterBills: bill,
+      cashRegisterRolls: roll,
+      cashregisterOthers: other
+    }
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       if (data.status === "Success") {
         if(this.isUpdate){
@@ -205,6 +235,8 @@ export class CloseoutRegisterComponent implements OnInit {
 
   cancel() {
   }
+
+  // Calculate TotalCoins
   getTotalCoin(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennie = 0;
@@ -230,6 +262,8 @@ export class CloseoutRegisterComponent implements OnInit {
     this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
     this.getTotalCash();
   }
+
+  // Calculate TotalBills
   getTotalBill(name: number, amt: number) {
     amt = Number(amt);
     if (name === 1) {
@@ -254,6 +288,8 @@ export class CloseoutRegisterComponent implements OnInit {
     this.totalBill = this.totalOnes + this.totalFives + this.totalTens + this.totalTwenties + this.totalFifties + this.totalHunderds;
     this.getTotalCash();
   }
+
+  // Calculate TotalRolls
   getTotalRoll(name: string, amt: number) {
     if (name === 'P') {
       this.totalPennieRoll = 0;
@@ -274,6 +310,8 @@ export class CloseoutRegisterComponent implements OnInit {
     } this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
     this.getTotalCash();
   }
+
+  // Calculate TotalCash
   getTotalCash() {
     this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
   }

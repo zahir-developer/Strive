@@ -28,4 +28,7 @@ export class ProductService {
   getVendor(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getVendor}`);
   }
+  ProductSearch(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getProductSearch}`, obj);
+  }
 }

@@ -79,13 +79,56 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
+        protected Result ResultWrap<T>(Func<T> RALMethod, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke();
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
 
+        protected Result ResultWrap<T>(Func<DateTime?, DateTime?,T> RALMethod, DateTime? startDate, DateTime? endDate, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke(startDate, endDate);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+
+        protected Result ResultWrap<T>(T result, string ResultName)
+        {
+            try
+            {
+                _resultContent.Add(result.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
 
         protected Result ResultWrap<T>(Func<string, int, DateTime, T> RALMethod, string cashRegType, int locationId, DateTime cashRegDate, string ResultName)
         {
             try
             {
-                var res = RALMethod.Invoke(cashRegType,locationId,cashRegDate);
+                var res = RALMethod.Invoke(cashRegType, locationId, cashRegDate);
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -99,7 +142,7 @@ namespace Strive.BusinessLogic
         {
             try
             {
-               // var res = RALMethod.Invoke();
+                // var res = RALMethod.Invoke();
                 _resultContent.Add(ResultName);
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -110,7 +153,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        protected Result ResultWrap<T>(Func<int, List<T>> RALMethod, int id, string ResultName)
+        protected Result ResultWrap<T>(Func<int, List<T>> RALMethod, int id, int employeeId, int roleId, DateTime date, string ResultName)
         {
             try
             {
@@ -139,6 +182,19 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        //protected Result ResultWrap<T>(Func<int, T> RALMethod, int id)
+        //{
+        //    try
+        //    {
+        //        var res = RALMethod.Invoke(id);
+        //        _result = Helper.BindSuccessResult(_resultContent);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+        //    }
+        //    return _result;
+        //}
 
 
         protected Result ResultWrap<T, T1>(Func<T1, T> ralmethod, T1 model, string ResultName)
@@ -147,6 +203,48 @@ namespace Strive.BusinessLogic
             {
                 AddAudit(model);
                 var res = ralmethod.Invoke(model);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        protected Result ResultWrap<T>(Func<int, string, T> RALMethod, int id, string str, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke(id, str);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        protected Result ResultWrap<T>(bool res, string ResultName, string message)
+        {
+            try
+            {
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        protected Result ResultWrap(bool res, string ResultName, string message)
+        {
+            try
+            {
                 _resultContent.Add(res.WithName(ResultName));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
@@ -197,10 +295,13 @@ namespace Strive.BusinessLogic
             else
             {
                 var prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
-                action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
-                var obj = (object)tdata;
+                if (prInfo != null)
+                {
+                    action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
+                    var obj = (object)tdata;
 
-                SetAuditDetails(action, ref obj, type);
+                    SetAuditDetails(action, ref obj, type);
+                }
             }
         }
 

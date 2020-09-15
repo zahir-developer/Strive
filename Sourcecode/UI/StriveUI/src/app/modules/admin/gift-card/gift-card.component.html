@@ -1,0 +1,147 @@
+<div id="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item active" aria-current="page">Gift Cards</li>
+                </ol>
+            </nav>
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Gift Cards &nbsp;&nbsp;</h3>
+            </div>
+            <div class="col-12 p-l-0 p-r-0">
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Gift Card Balance
+                                <span class="collision-btn">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                        (click)="addGiftCard()">Add Gift Card</button>
+                                </span>
+                            </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a>
+                                    <em class="fa font-size-1-4"
+                                        [ngClass]="{'fa-angle-up':!isGiftCardCollapsed, 'fa-angle-down': isGiftCardCollapsed  }"
+                                        (click)="giftCardCollapsed()">
+                                    </em>
+                                </a>
+                            </div>
+                        </div>
+                        <br />
+                        <div [style.display]="isGiftCardCollapsed ? 'none' : 'block'">
+                            <form [formGroup]="giftCardForm">
+                                <div class="form-row">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-row">
+                                            <div class="col-sm-4">
+                                                <label class="float-right">Number:</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" formControlName="number" />
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button" [disabled]="giftCardForm.invalid"
+                                                    class="btn theme-primary-button-color btn-md m-l-10"
+                                                    (click)="getGiftCardDetail()">Select
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-row">
+                                        <div class="col-sm-4">
+                                            <label class="float-right">Active Date:</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <span><strong>{{activeDate}}</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-row">
+                                        <div class="col-sm-4">
+                                            <label class="float-right">Value:</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <span><strong>{{totalAmount | currency}}</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Gift Card Activity
+                                <span class="collision-btn" *ngIf="isActivity">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                        (click)="addActivity()">Add Activity</button>
+                                </span>
+                            </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a>
+                                    <em class="fa font-size-1-4"
+                                        [ngClass]="{'fa-angle-up':!isActivityCollapsed, 'fa-angle-down': isActivityCollapsed  }"
+                                        (click)="activityCollapsed()">
+                                    </em>
+                                </a>
+                            </div>
+                        </div>
+                        <div [style.display]="isActivityCollapsed ? 'none' : 'block'">
+                            <div class="row">
+                                <div class="col-12 p-l-0 p-r-0">
+                                    <div class="table-responsive">
+                                        <table class="table border table-hover" aria-describedby="giftCard-history">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Ticket # </th>
+                                                    <th scope="col">Amount</th>
+                                                    <!-- <th scope="col">Action</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="giftCardHistory.length > 0">
+                                                <tr *ngFor="let card of giftCardHistory">
+                                                    <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
+                                                    <td>{{card.GiftCardHistoryId}}</td>
+                                                    <td>{{card.TransactionAmount | currency}}</td>
+                                                    <!-- <td><i class="fa fa-edit" (click)="statusUpdate(card)"></i></td> -->
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="giftCardHistory.length === 0">
+                                                <tr>
+                                                    <td colspan="5">
+                                                        No Records Found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

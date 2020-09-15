@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Scheduler\WeatherScheduler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0" />
@@ -30,6 +34,10 @@
     <ProjectReference Include="..\Strive.BusinessLogic\Strive.BusinessLogic.csproj" />
     <ProjectReference Include="..\Strive.Common\Strive.Common.csproj" />
     <ProjectReference Include="..\Strive.Crypt\Strive.Crypto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Scheduler\" />
   </ItemGroup>
 
 </Project>

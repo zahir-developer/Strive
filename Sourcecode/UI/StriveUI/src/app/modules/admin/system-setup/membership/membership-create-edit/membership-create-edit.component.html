@@ -1,0 +1,79 @@
+<div class="modal-body">
+    <form [formGroup]="membershipForm">
+        <div class="form-row">
+            <div class="form-group col-lg-3">
+                <label for="inputMembershipName"> Name<span class="required">*</span></label>
+                <input type="text" maxlength="25" class="form-control" formControlName="membershipName"
+                    placeholder="None/UNK" [ngClass]="{ 'is-invalid': submitted && f.membershipName.errors }">
+                <div *ngIf="submitted && f.membershipName.errors" class="invalid-feedback">
+                    <div *ngIf="f.membershipName.errors.required">Membership Name is required</div>
+                </div>
+            </div>
+            <div class="form-group col-lg-3">
+                <label for="inputStatus">Washes<span class="required">*</span></label>
+                <select class="form-control" formControlName="washes"
+                    [ngClass]="{ 'is-invalid': submitted && f.washes.errors }">
+                    <option *ngFor="let status of washes" value="{{status.ServiceId}}">{{status.ServiceName}}</option>
+                </select>
+                <div *ngIf="submitted && f.washes.errors" class="invalid-feedback">
+                    <div *ngIf="f.washes.errors.required">Washes is required</div>
+                </div>
+            </div>
+            <div class="form-group col-lg-3">
+                <label for="inputService">Services</label>
+                <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
+                    [data]="additional" formControlName="service" [(ngModel)]="memberService">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="form-group col-lg-3">
+                <label for="inputStatus">Upcharge Type<span class="required">*</span></label>
+                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)"
+                    [ngClass]="{ 'is-invalid': submitted && f.upcharge.errors }">
+                    <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status.ServiceName}}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.upcharge.errors" class="invalid-feedback">
+                    <div *ngIf="f.upcharge.errors.required">Upcharge Type is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-lg-3">
+                <label for="inputStatus">Upcharge<span class="required">*</span></label>
+                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)"
+                    [ngClass]="{ 'is-invalid': submitted && f.upcharge.errors }">
+                    <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status?.Upcharges}}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.upcharge.errors" class="invalid-feedback">
+                    <div *ngIf="f.upcharge.errors.required">Upcharge is required</div>
+                </div>
+            </div>
+            <div class="form-group col-lg-3">
+                <label for="inputStatus">Status</label>
+                <select class="form-control" formControlName="status">
+                    <option *ngFor="let status of status" value="{{status.CodeId}}">{{status.CodeValue}}</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-3">
+                <label for="inputPrice">Price<span class="required">*</span></label>
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="price" placeholder="0.00"
+                    [ngClass]="{ 'is-invalid': submitted && f.price.errors }">
+                <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                    <div *ngIf="f.price.errors.required">Price is required</div>
+                </div>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="inputNotes">Notes</label>
+                <!-- <input type="text" class="form-control" formControlName="notes" placeholder="Notes"> -->
+                <textarea rows="4" class="form-control m-t-5 notes-textarea" formControlName="notes"
+                    placeholder="Notes"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
+</div>

@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
 using Strive.Common;
@@ -39,5 +40,17 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllServiceType")]
         public Result GetAllServiceType() => _bplManager.GetAllServiceType();
+
+        [HttpPost]
+        [Route("GetServiceSearch")]
+        public Result GetServiceSearch([FromBody] ServiceSearchDto search) => _bplManager.GetServiceSearch(search);
+
+        [HttpGet]
+        [Route("GetServiceCategoryByLocationId/{id}")]
+        public Result GetServiceCategoryByLocationId(int id) => _bplManager.GetServiceCategoryByLocationId(id);
+
+        [HttpGet]
+        [Route("GetService")]
+        public Result GetServiceWithPrice() => _bplManager.GetServicesWithPrice();
     }
 }

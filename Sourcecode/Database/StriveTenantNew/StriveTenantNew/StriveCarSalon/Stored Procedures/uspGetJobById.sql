@@ -1,16 +1,4 @@
-﻿-- =============================================
--- Author:		Vineeth B
--- Create date: 01-08-2020
--- Description:	To get wash details against id
--- =============================================
-
----------------------History--------------------
--- =============================================
--- 31-08-2020, Vineeth - Added barcode col
-
-------------------------------------------------
--- =============================================
-
+﻿
 CREATE PROC [StriveCarSalon].[uspGetJobById] 
 (@JobId int)
 AS
@@ -38,7 +26,6 @@ and (J.ClientId = @ClientId) ORDER BY J.JobDate DESC)a)
 END
 Select 
 tbj.JobId
-,tbj.Barcode
 ,tbj.TicketNumber
 ,tbj.LocationId
 ,tbj.ClientId
@@ -60,7 +47,8 @@ tbj.JobId
 ,tblji.Commission
 ,tblji.Price
 ,tblji.Quantity
-,tblji.ReviewNote
+,tbj.Notes as ReviewNote
+,tblclv.Barcode
 --,@ReviewNote AS PastHistoryNote
 from 
 StriveCarSalon.tblJob tbj 

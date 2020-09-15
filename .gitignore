@@ -107,6 +107,13 @@
 /Mammotholdsourcecode/Mammoth_source/MPOS PrintTicket/PrintTicket/obj/Debug
 /Mammotholdsourcecode/Mammoth_source/MPOS PrintTicket/PrintTicket/obj/Release
 /Poc/SignalR
+/Sourcecode/API/Strive.RepositoryCqrs/bin/Release
+/Mammotholdsourcecode/Mammoth_source
+/Sourcecode/API/SonarQube
+/Sourcecode/API/SuperAdmin.API/bin
+/Sourcecode/API/SuperAdmin.API/obj/Debug/netcoreapp2.2
+/Sourcecode/API/SuperAdmin.API/obj/Release/netcoreapp2.2
+/Sourcecode/API/SuperAdmin.API/obj
 !Strive-orm.dll
 /Sourcecode/API/Strive.RepositoryCqrs/bin/Release
 /Sourcecode/API/Strive.RepositoryCqrs/bin/Release
@@ -115,3 +122,9 @@
 /Sourcecode/API/SuperAdmin.API/obj
 /Sourcecode/API/SuperAdmin.API/Properties
 /Mammotholdsourcecode/Mammoth_source
+/Sourcecode/API/SonarQube/bin
+/Sourcecode/API/SonarQube/lib
+/Sourcecode/API/SonarQube/conf
+/Sourcecode/API/SonarQube/SonarQube.Analysis.xml
+/Sourcecode/API/.sonarqube
+/Sourcecode/API/Strive.RepositoryCqrs/obj

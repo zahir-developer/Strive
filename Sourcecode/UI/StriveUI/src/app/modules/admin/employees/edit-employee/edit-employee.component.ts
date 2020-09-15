@@ -4,6 +4,9 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
+import * as _ from 'underscore';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-edit-employee',
@@ -20,6 +23,7 @@ export class EditEmployeeComponent implements OnInit {
   @Input() state?: any;
   @Input() country?: any;
   @Input() employeeId?: any;
+  @Input() employeeDetailId?: any;
   @Input() location?: any;
   Status: any;
   @Input() commissionType: any;
@@ -35,92 +39,177 @@ export class EditEmployeeComponent implements OnInit {
   isPersonalCollapsed = false;
   isDetailCollapsed = false;
   submitted: boolean;
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private messageService: MessageServiceToastr) { }
+  selectedRole: any = [];
+  selectedLocation: any = [];
+  employeeAddressId: any;
+  ctypeLabel: any;
+  deSelectRole: any = [];
+  deSelectLocation: any = [];
+  imigirationStatus: any = [];
+  isAlien: boolean = false;
+  isDate: boolean = false;
+  isCitizen: boolean = true;
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private messageService: MessageServiceToastr,
+    private toastr: ToastrService,
+    private getCode: GetCodeService
+  ) { }
 
   ngOnInit(): void {
+    this.ctypeLabel = 'none';
     this.isEditPersonalDetail = false;
     this.submitted = false;
-    this.Status = ['Active', 'InActive'];
+    this.Status = ['Active', 'Inactive'];
+    this.getImmigrationStatus();
     this.personalform = this.fb.group({
-      firstName: ['' , Validators.required],
+      firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       gender: [''],
       address: ['', Validators.required],
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
-      ssn: ['', Validators.required]
+      ssn: ['', Validators.required],
+      alienNumber:[''],
+      permitDate:['']
     });
     this.emplistform = this.fb.group({
-      emailId: ['', Validators.required],
-      password: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
-      commission: [''],
+      comType: [''],
+      comRate: [''],
       status: [''],
       tip: [''],
       exemptions: [''],
-      roles: [''],
-      location: ['']
+      roles: [[]],
+      location: [[]],
+      employeeCode: ['']
     });
     this.employeRole();
     this.locationDropDown();
-    this.employeeDetail();
-    this.getAllCollision();
-    this.getAllDocument();
+    // this.getAllCollision();
+    // this.getAllDocument();
   }
 
-  employeeDetail() {
-    const id = this.employeeId;
-    this.employeeService.getEmployeeDetail(id).subscribe(res => {
-      console.log(res, 'getEmployeById');
-      if (res.status === 'Success') {
-        const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
-        if (employees.EmployeeDetail.length > 0) {
-          this.employeeData = employees.EmployeeDetail[0];
-          this.setValue();
-        }
+  dropdownSetting() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 2,
+      allowSearchFilter: false
+    };
+  }
+
+  getImmigrationStatus(){
+    this.getCode.getCodeByCategory("IMMIGRATIONSTATUS").subscribe(data => {
+      if (data.status === "Success") {
+        const cType = JSON.parse(data.resultData);
+        this.imigirationStatus = cType.Codes;
+        this.employeeDetail();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
 
-  setValue() {
-    console.log(this.employeeData, 'data');
-    const employee = this.employeeData;
-    const employeeDetail = employee.EmployeeDetail[0];
-    const employeeAddress = employee.EmployeeAddress[0];
-    const employeeRole = employee.EmployeeRole !== null ? employee.EmployeeRole[0] : '';
-    const locationId = [];
-    employee.EmployeeDetail.forEach( detail => {
-      this.location.forEach( item => {
-        if (+item.item_id === +detail.LocationId) {
-          locationId.push(item);
+  immigrationChange(data){
+    const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
+    if(temp.length !== 0){
+      if(temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A'){
+        this.isAlien = true;
+        this.isCitizen = false;
+      } else{
+        this.isAlien = false;        
+      }
+      if(temp[0].CodeValue === 'An alien authorized to work until'){
+        this.isDate = true;
+        this.isCitizen = false;        
+      } else{
+        this.isDate = false;
+      }
+    }
+  }
+
+  employeeDetail() {
+    this.dropdownSetting();
+    const id = this.employeeId;
+    this.employeeService.getEmployeeDetail(id).subscribe(res => {
+      if (res.status === 'Success') {
+        const employees = JSON.parse(res.resultData);
+        this.employeeData = employees.Employee;
+        if (employees.Employee.EmployeeCollision !== null) {
+          this.employeeCollision = employees.Employee.EmployeeCollision;
         }
-      });
+        this.setValue();
+      }
     });
+  }
+
+  reloadCollisionGrid() {
+    this.employeeDetail();
+  }
+
+  setValue() {
+    let employeeRole = [];
+    let employeeLocation = [];
+    const employee = this.employeeData;
+    this.dropdownSetting();
+    console.log(employee, 'employe');
+    const employeeInfo = employee.EmployeeInfo;
+    this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
+    if (employee.EmployeeRoles !== null) {
+      this.selectedRole = employee.EmployeeRoles;
+      employeeRole = employee.EmployeeRoles?.map(item => {
+        return {
+          item_id: item.Roleid,
+          item_text: item.RoleName
+        };
+      });
+    }
+    if (employee.EmployeeLocations !== null) {
+      employeeLocation = employee.EmployeeLocations.map(item => {
+        return {
+          item_id: item.LocationId,
+          item_text: item.LocationName
+        };
+      });
+    }
+    this.employeeDetailId = employeeInfo.EmployeeDetailId;
+    this.selectedLocation = employee.EmployeeLocations;
+    this.immigrationChange(employeeInfo.ImmigrationStatus);
     this.personalform.patchValue({
-      firstName: employee.FirstName ? employee.FirstName : '',
-      lastName: employee.LastName ? employee.LastName : '',
-      gender: employee.Gender ? employee.Gender : '',
-      address: employeeAddress.Address1 ? employeeAddress.Address1 : '',
-      mobile: employeeAddress.PhoneNumber ? employeeAddress.PhoneNumber : '',
-      immigrationStatus: employee.ImmigrationStatus ? employee.ImmigrationStatus : '',
-      ssn: employee.SSNo ? employee.SSNo : '',
+      firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
+      lastName: employeeInfo.LastName ? employeeInfo.LastName : '',
+      gender: employeeInfo.Gender ? employeeInfo.Gender : '',
+      address: employeeInfo.Address1 ? employeeInfo.Address1 : '',
+      mobile: employeeInfo.PhoneNumber ? employeeInfo.PhoneNumber : '',
+      immigrationStatus: employeeInfo.ImmigrationStatus ? employeeInfo.ImmigrationStatus : '',
+      ssn: employeeInfo.SSNo ? employeeInfo.SSNo : '',
+      alienNumber: employeeInfo.AlienNo ? employeeInfo.AlienNo : '',
+      permitDate: employeeInfo.WorkPermit ? moment(employeeInfo.WorkPermit).toDate() : '',
     });
     this.emplistform.patchValue({
-      emailId: employeeAddress.Email ? employeeAddress.Email : '',
+      emailId: employeeInfo.Email ? employeeInfo.Email : '',
       password: [''],
-      dateOfHire: employeeDetail.HiredDate ? moment(employeeDetail.HiredDate).toDate() : '',
-      hourlyRateWash: [''],
-      hourlyRateDetail: [''],
-      commission: employeeDetail.ComRate ? employeeDetail.ComRate : '',
-      status: employee.IsActive ? 'Active' : 'InActive',
-      tip: employeeDetail.Tip ? employeeDetail.Tip : '',
-      exemptions: employeeDetail.Exemptions ? employeeDetail.Exemptions : '',
-      roles: employeeRole.RoleId ? employeeRole.RoleId : '',
-      location: locationId
+      dateOfHire: employeeInfo.HiredDate ? moment(employeeInfo.HiredDate).toDate() : '',
+      hourlyRateWash: employeeInfo.PayRate,
+      hourlyRateDetail: employeeInfo.DetailRate ? employeeInfo.DetailRate : '',
+      comType:employeeInfo.ComType ? employeeInfo.ComType : '',
+      comRate: employeeInfo.ComRate ? employeeInfo.ComRate : '',
+      status: employeeInfo.Status ? 'Active' : 'InActive',
+      tip: employeeInfo.Tip ? employeeInfo.Tip : '',
+      exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
+      roles: employeeRole,
+      location: employeeLocation
     });
+    this.getCtype(employeeInfo.ComType);
     if (this.actionType === 'view') {
       this.personalform.disable();
       this.emplistform.disable();
@@ -134,17 +223,6 @@ export class EditEmployeeComponent implements OnInit {
         item_text: item.CodeValue
       };
     });
-    console.log(this.employeeRoles, 'employeerolesmuliti');
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
   }
 
   locationDropDown() {
@@ -178,12 +256,10 @@ export class EditEmployeeComponent implements OnInit {
 
   getAllCollision() {
     this.employeeService.getAllCollision(this.employeeId).subscribe(res => {
-      console.log(res, 'allcollistion');
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
-        console.log(employeesCollison, 'employeDeatil');
-        if (employeesCollison.CollisionDetailOfEmployee.length > 0) {
-          this.employeeCollision = employeesCollison.CollisionDetailOfEmployee;
+        if (employeesCollison.Collision.length > 0) {
+          this.employeeCollision = employeesCollison.Collision;
         }
       }
     });
@@ -202,7 +278,6 @@ export class EditEmployeeComponent implements OnInit {
       if (res.status === 'Success') {
         const document = JSON.parse(res.resultData);
         this.documentList = document.GetAllDocuments;
-        console.log(this.documentList, 'documentlst');
       }
     });
   }
@@ -215,81 +290,148 @@ export class EditEmployeeComponent implements OnInit {
     return this.emplistform.controls;
   }
 
+  onRoleDeSelect(event) {
+    console.log(event);
+    this.deSelectRole.push(event);
+  }
+
+  onLocationDeSelect(event) {
+    this.deSelectLocation.push(event);
+  }
+
   updateEmployee() {
     this.submitted = true;
     if (this.personalform.invalid || this.emplistform.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
     }
-    const employee = this.employeeData;
-    const employeeDetail = employee.EmployeeDetail[0];
-    const employeeAddress = employee.EmployeeAddress[0];
-    const employeeRole = employee.EmployeeRole !== null ? employee.EmployeeRole[0] : '';
+    const sourceObj = [];
+    const employeeDetails = [];
     const employeAddress = [];
+    const employeeRoles = [];
     const employeeAddressObj = {
-      employeeAddressId: employeeAddress.EmployeeAddressId,
-      relationshipId: 0,
+      employeeAddressId: this.employeeAddressId,
+      employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: '',
-      phoneNumber: +this.personalform.value.mobile,
+      address2: 'string',
+      phoneNumber: this.personalform.value.mobile,
       phoneNumber2: '',
       email: this.emplistform.value.emailId,
-      state: 0,
-      country: 0,
-      zip: '',
-      city: 1,
-      isActive: this.emplistform.value.status === 'Active' ? true : false
+      city: 303,
+      state: 48,
+      zip: 'string',
+      country: 38
     };
-    const employeeRoleObj = this.emplistform.value.roles.map(item => {
-      return {
-        employeeRoleId: 0,
-        employeeId: employee.EmployeeId,
-        roleId: item.item_id,
-        isDefault: true,
-        isActive: this.emplistform.value.status === 'Active' ? true : false
-      };
+    const newlyAddedRole = [];
+    this.emplistform.value.roles.forEach(item => {
+      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      if (isData.length === 0) {
+        newlyAddedRole.push({
+          employeeRoleId: 0,
+          employeeId: this.employeeId,
+          roleId: item.item_id,
+          isActive: true,
+          isDeleted: false
+        });
+      } else {
+        newlyAddedRole.push({
+          employeeRoleId: isData[0].EmployeeRoleId,
+          employeeId: this.employeeId,
+          roleId: item.item_id,
+          isActive: true,
+          isDeleted: false
+        });
+      }
     });
-    const employeeDetailObj = this.emplistform.value.location.map(item => {
-      return {
-        employeeDetailId: employeeDetail.EmployeeDetailId,
-        employeeId: employee.EmployeeId,
-        employeeCode: 'string',
-        authId: 0,
-        locationId: item.item_id,
-        payRate: 'string',
-        sickRate: 'string',
-        vacRate: 'string',
-        comRate: 'string',
-        hiredDate: this.emplistform.value.dateOfHire,
-        salary: 'string',
-        tip: this.emplistform.value.tip,
-        lrt: '2020 - 08 - 03T10: 00: 31.411Z',
-        exemptions: +this.emplistform.value.exemptions,
-        isActive: this.emplistform.value.status === 'Active' ? true : false
-      };
+    this.deSelectRole.forEach( item => {
+      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      if (isData.length !== 0) {
+        newlyAddedRole.push({
+          employeeRoleId: isData[0].EmployeeRoleId,
+          employeeId: this.employeeId,
+          roleId: item.item_id,
+          isActive: true,
+          isDeleted: true
+        });
+      }
     });
-    employeAddress.push(employeeAddressObj);
+    const employeeDetailObj = {
+      employeeDetailId: this.employeeDetailId,
+      employeeId: this.employeeId,
+      employeeCode: 'string',
+      hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
+      PayRate: this.emplistform.value.hourlyRateWash,
+      DetailRate: this.emplistform.value.hourlyRateDetail,
+      ComRate: this.emplistform.value.comRate,
+      ComType: this.emplistform.value.comType,
+      lrt: '2020 - 08 - 06T19: 24: 48.817Z',
+      exemptions: +this.emplistform.value.exemptions,
+      isActive: this.emplistform.value.status === 'Active' ? true : false,
+      isDeleted: false,
+    };
+    const newlyAddedLocation = [];
+    this.emplistform.value.location.forEach(item => {
+      const isData = _.where(this.selectedLocation, { LocationId: item.item_id });
+      if (isData.length === 0) {
+        newlyAddedLocation.push({
+          employeeLocationId: 0,
+          employeeId: this.employeeId,
+          locationId: item.item_id,   // LocationId
+          isActive: true,
+          isDeleted: false,
+        });
+      } else {
+        newlyAddedLocation.push({
+          employeeLocationId: isData[0].EmployeeLocationId,
+          employeeId: this.employeeId,
+          locationId: item.item_id,   // LocationId
+          isActive: true,
+          isDeleted: false,
+        });
+      }
+    });
+    this.deSelectLocation.forEach( item => {
+      const isData = _.where(this.selectedLocation, { LocationId: item.item_id });
+      if (isData.length !== 0) {
+        newlyAddedLocation.push({
+          employeeLocationId: isData[0].EmployeeLocationId,
+          employeeId: this.employeeId,
+          locationId: item.item_id,
+          isActive: true,
+          isDeleted: true
+        });
+      }
+    });
     const employeeObj = {
-      employeeId: employee.EmployeeId,
+      employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
       middleName: 'string',
       lastName: this.personalform.value.lastName,
-      gender: this.personalform.value.gender,
+      gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: 0,
-      isCitizen: true,
-      alienNo: 'string',
-      birthDate: '2020-08-03T10:00:31.412Z',
+      maritalStatus: 117,
+      isCitizen: this.isCitizen,
+      alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
+      birthDate: '',
+      workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: this.personalform.value.immigrationStatus,
-      createdDate: '2020-08-03T10:00:31.412Z',
       isActive: this.emplistform.value.status === 'Active' ? true : false,
-      employeeDetail: employeeDetailObj,
-      employeeAddress: employeAddress,
-      employeeRole: employeeRoleObj
+      isDeleted: false,
     };
-    console.log(employeeObj, 'finalObj');
-    this.employeeService.updateEmployee(employeeObj).subscribe( res => {
+    const finalObj = {
+      employee: employeeObj,
+      employeeDetail: employeeDetailObj,
+      employeeAddress: employeeAddressObj,
+      employeeRole: newlyAddedRole,
+      employeeLocation: newlyAddedLocation,
+      employeeDocument: null // this.employeeData.EmployeeDocument
+    };
+    this.employeeService.updateEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Updated Successfully!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }
@@ -302,5 +444,13 @@ export class EditEmployeeComponent implements OnInit {
     this.isDetailCollapsed = !this.isDetailCollapsed;
   }
 
+  getCtype(data) {
+    const label = this.commissionType.filter(item => item.CodeId === Number(data));
+    if (label.length !== 0) {
+      this.ctypeLabel = label[0].CodeValue;
+    } else {
+      this.ctypeLabel = 'none';
+    }
+  }
 
 }

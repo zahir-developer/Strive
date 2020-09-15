@@ -32,6 +32,12 @@ using Strive.BusinessLogic.TimeClock;
 using Strive.BusinessLogic.GiftCard;
 using System.Reflection;
 using System.IO;
+using Strive.BusinessLogic.MembershipSetup;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessLogic.Schedule;
+using Strive.BusinessLogic.Washes;
+using Strive.BusinessLogic.Details;
+using Strive.BusinessLogic.Sales;
 
 namespace Admin.API
 {
@@ -55,8 +61,9 @@ namespace Admin.API
             services.AddTransient<ILocationBpl, LocationBpl>();
             services.AddTransient<ICommonBpl, CommonBpl>();
             services.AddTransient<IDocumentBpl, DocumentBpl>();
-            //services.AddTransient<IMembershipBpl, MembershipBpl>();
+            services.AddTransient<IMembershipBpl, MembershipBpl>();
             services.AddTransient<ICollisionBpl, CollisionBpl>();
+            services.AddTransient<IWashesBpl, WashesBpl>();
             services.AddTransient<ICashRegisterBpl, CashRegisterBpl>();
             services.AddTransient<IVendorBpl, VendorBpl>();
             services.AddTransient<IServiceSetupBpl, ServiceSetupBpl>();
@@ -67,6 +74,9 @@ namespace Admin.API
             services.AddTransient<IVendorBpl,VendorBpl>();
             services.AddTransient<IVehicleBpl,VehicleBpl>();
             services.AddTransient<ITimeClockBpl, TimeClockBpl>();
+            services.AddTransient<IDetailsBpl, DetailsBpl>();
+            services.AddTransient<IScheduleBpl, ScheduleBpl>();
+            services.AddTransient<ISalesBpl, SalesBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Location;
 using Strive.BusinessLogic.Location;
 using Strive.Common;
 
@@ -31,6 +32,10 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteLocation(int id) => _bplManager.DeleteLocation(id);
+
+        [HttpPost]
+        [Route("GetLocationSearch")]
+        public Result GetLocationSearch([FromBody] LocationSearchDto search) => _bplManager.GetLocationSearch(search);
         #endregion
 
         #region GET

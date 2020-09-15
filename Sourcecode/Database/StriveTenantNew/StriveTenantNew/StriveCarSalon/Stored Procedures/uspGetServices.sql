@@ -9,6 +9,7 @@ SELECT
 	svc.ParentServiceId,
 	cv.valuedesc as ServiceType,
 	ct.valuedesc as CommisionType,
+	svc.CommissionCost as CommissionCost,
 	svc.Commision,
 	svc.Upcharges,
 	svc.ServiceName,

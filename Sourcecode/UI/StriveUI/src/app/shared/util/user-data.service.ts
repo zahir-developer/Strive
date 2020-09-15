@@ -13,6 +13,10 @@ export class UserDataService {
     const token = JSON.parse(loginToken);
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
+    localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
+    localStorage.setItem('drawerId', token.EmployeeDetails.Drawer[0].DrawerId);
+    localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].Roleid);
+
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }
 }

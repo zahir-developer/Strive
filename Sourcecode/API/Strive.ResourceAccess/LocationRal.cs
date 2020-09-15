@@ -22,9 +22,17 @@ namespace Strive.ResourceAccess
             return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
         }
 
-        public BusinessEntities.Model.LocationAddress GetLocationDetailById(int locationId)
+        public List<LocationViewModel> GetLocationSearch(LocationSearchDto search)
         {
-            return db.GetSingleByFkId<BusinessEntities.Model.LocationAddress>(locationId, "LocationId");
+            _prm.Add("@LocationSearch", search.LocationSearch);
+            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
+        }
+
+        public LocationDto GetLocationDetailById(int id)
+        {
+            _prm.Add("@tblLocationId", id);
+            var result = db.FetchMultiResult<LocationDto>(SPEnum.USPGETLOCATIONBYID.ToString(), _prm);
+            return result;
         }
         //public List<LocationAddressModel> GetAllLocationAddress()
         //{

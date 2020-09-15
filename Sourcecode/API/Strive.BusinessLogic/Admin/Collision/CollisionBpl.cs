@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.DTO.Collision;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -11,89 +11,38 @@ namespace Strive.BusinessLogic.Collision
 {
     public class CollisionBpl : Strivebase, ICollisionBpl
     {
-        public CollisionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper,cache)
+        public CollisionBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
-        //public Result GetAllCollision()
-        //{
-        //    return ResultWrap(new CollisionRal(_tenant).GetAllCollision, "Collision");
-        //}
+        public Result GetAllCollision()
+        {
+            return ResultWrap(new CollisionRal(_tenant).GetAllCollision, "Collision");
+        }
 
         public Result GetCollisionById(int id)
         {
             return ResultWrap(new CollisionRal(_tenant).GetCollisionById, id, "Collision");
         }
-        //public Result GetAllCollison()
-        //{
-        //    try
-        //    {
-        //        var lstCollision = new CollisionRal(_tenant).GetAllCollison();
-        //        _resultContent.Add(lstCollision.WithName("Collision"));
-        //        _result = Helper.BindSuccessResult(_resultContent);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-        //    }
-        //    return _result;
-        //}
-        //public Result GetCollisionById(long id)
-        //{
-        //    try
-        //    {
-        //        var lstCollisionById = new CollisionRal(_tenant).GetCollisionById(id);
-        //        _resultContent.Add(lstCollisionById.WithName("CollisionDetail"));
-        //        _result = Helper.BindSuccessResult(_resultContent);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-        //    }
-        //    return _result;
-        //}
-        //public Result GetCollisionByEmpId(long id)
-        //{
-        //    try
-        //    {
-        //        var lstCollisionByEmpId = new CollisionRal(_tenant).GetCollisionByEmpId(id);
-        //        _resultContent.Add(lstCollisionByEmpId.WithName("CollisionDetailOfEmployee"));
-        //        _result = Helper.BindSuccessResult(_resultContent);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-        //    }
-        //    return _result;
-        //}
-        //public Result SaveCollison(List<Strive.BusinessEntities.Collision.CollisionListView> lstCollision)
-        //{
-        //    try
-        //    {
-        //        bool blnStatus = new CollisionRal(_tenant).SaveCollison(lstCollision);
-        //        _resultContent.Add(blnStatus.WithName("Status"));
-        //        _result = Helper.BindSuccessResult(_resultContent);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-        //    }
-        //    return _result;
-        //}
-        //public Result DeleteCollision(long id)
-        //{
-        //    try
-        //    {
-        //        var lstCollision = new CollisionRal(_tenant).DeleteCollisionDetails(id);
-        //        _resultContent.Add(lstCollision.WithName("Collision"));
-        //        _result = Helper.BindSuccessResult(_resultContent);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-        //    }
-        //    return _result;
-        //}
+        public Result GetCollisionByEmpId(int id)
+        {
+            return ResultWrap(new CollisionRal(_tenant).GetCollisionByEmpId, id, "Collision");
+        }
+        public Result DeleteCollision(int id)
+        {
+            return ResultWrap(new CollisionRal(_tenant).DeleteCollision, id, "Status");
+        }
+        public Result AddCollision(CollisionDto collission)
+        {
+            return ResultWrap(new CollisionRal(_tenant).AddCollision, collission, "Status");
+        }
 
+        public Result UpdateCollision(CollisionDto collission)
+        {
+            return ResultWrap(new CollisionRal(_tenant).UpdateCollision, collission, "Status");
+        }
+        public Result GetVehicleListByClientId(int id)
+        {
+            return ResultWrap(new CollisionRal(_tenant).GetVehicleListByClientId, id, "VehicleDetail");
+        }
     }
 }
-

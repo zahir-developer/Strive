@@ -25,6 +25,12 @@
     .mm-b-10 {
         margin-bottom: 10px;
     }
+    .resp-title{
+		font-size: 1rem;
+	}
+	.responsive-m-l-26{
+		margin-left:0px;
+	}
 }
 
 @media (max-width: 991.98px) {
@@ -75,7 +81,27 @@
 	}
 	.mob-washes-notification{
 		display:none;
-	}
+    }
+    .nav-tab-link {
+        padding: .3rem 0.2rem .3rem 0.2rem;
+        font-size: 14px;
+        }
+        .nav-tab-link > .p-r-15 {
+            padding-right:0px;
+        }
+        .nav-tab-link > .p-l-10 {
+            padding-left:0px;
+        }
+                .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-months > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-years > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-decades > .table-condensed,
+    .date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+         width: 300px;
+    }
+    .w-50 {
+        width: 40%!important;
+    }
 	
 }
 /* Small devices (landscape phones, 576px and up) */
@@ -139,7 +165,33 @@
 		.btn-responsive {
 		font-size: 0.75rem !important;
 		    padding: 6px 8px !important;
-	}
+    }
+    .nav-tab-link {
+        padding: .3rem 0.2rem .3rem 0.2rem;
+        font-size: 14px;
+        }
+        .nav-tab-link > .p-r-15 {
+            padding-right:0px;
+        }
+        .nav-tab-link > .p-l-10 {
+            padding-left:0px;
+        }
+        .resp-title{
+            font-size: 1rem;
+        }
+        .responsive-m-l-26{
+            margin-left:0px;
+        }
+            .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-months > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-years > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-decades > .table-condensed,
+    .date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+         width: 300px;
+    }
+    .w-50 {
+        width: 40%!important;
+    }
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -179,7 +231,26 @@
 		font-size: 0.70rem !important;
 		    padding: 6px 4px !important;
 	}
-	
+    .nav-tab-link {
+        padding: .3rem 0.2rem .3rem 0.2rem;
+        font-size: 14px;
+        }
+        .nav-tab-link > .p-r-15 {
+            padding-right:0px;
+        }
+        .nav-tab-link > .p-l-10 {
+            padding-left:0px;
+        }	
+        .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 200px;
+}
+.w-50 {
+    width: 40%!important;
+}
 
 }
 
@@ -216,7 +287,17 @@
     .btn-responsive {
 		font-size: 0.75rem !important;
 		    padding: 6px 8px !important;
-	}
+    }
+    .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 260px;
+}
+.w-50 {
+    width: 40%!important;
+}
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
@@ -244,7 +325,17 @@
 		.btn-responsive {
 		font-size: 0.85rem !important;
 		   padding: .375rem .5rem !important;
-	}
+    }
+    .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 300px;
+}
+	.w-50 {
+    width: 40%!important;
+}
 }
 
 @media (min-width: 320px) and (max-width: 568px) {
@@ -267,6 +358,24 @@
     .list-group-horizontal > li {
         padding: 4px 4px !important;
     }
+    .resp-title{
+		font-size: 0.9rem;
+	}
+	.responsive-m-l-26{
+		margin-left:0px;
+	}
+	.date-pick {
+    width: 191px!important;
+	}
+	.date-pick  > i {
+    margin: 6px 9px 4px 10px;
+}
+.date-pick   > .input-large {
+	    font-size: 0.8rem;
+}
+.w-50 {
+    width: 40%!important;
+}
 }
 
 @media (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -275,3 +384,13 @@
         max-width: 50%;
     }
 }
+.nav-tab-link {
+    padding: .3rem 0.2rem .3rem 0.2rem;
+    font-size: 14px;
+	}
+	.nav-tab-link > .p-r-15 {
+		padding-right:0px;
+	}
+	.nav-tab-link > .p-l-10 {
+		padding-left:0px;
+	}

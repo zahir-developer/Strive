@@ -14,12 +14,15 @@ public class Membership
 	public string MembershipName { get; set; }
 
 	[Column]
-	public int? ServiceId { get; set; }
-
-	[Column]
 	public int? LocationId { get; set; }
 
-	[Column]
+    [Column]
+    public decimal? Price { get; set; }
+
+    [Column]
+    public string Notes { get; set; }
+
+    [Column]
 	public bool? IsActive { get; set; }
 
 	[Column]

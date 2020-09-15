@@ -8,4 +8,8 @@
     <color name="defaultButtonColor">#1DC9B7</color>
     <color name="defaultLinkColor">#99FEF3</color>
     <color name="secondaryLabelColor">#ABD5D1</color>
+    <color name="markerInfoColor">#00584F</color>
+    <color name="infoButtonColor">#FDCC53</color>
+    <color name="infoTextColor">#2AC1B1</color>
+    <color name="infoPopUpBackground">#00584F</color>
 </resources>

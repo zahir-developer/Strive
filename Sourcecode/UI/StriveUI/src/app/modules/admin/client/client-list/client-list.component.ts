@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-client-list',
@@ -11,38 +12,33 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ClientListComponent implements OnInit {
   clientDetails = [];
-  clientSearch: FormGroup;
   showDialog = false;
   selectedData: any;
   headerData: string;
-  searchByName = '';
-  searchById = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
+  search: any='';
   page = 1;
   pageSize = 5;
   collectionSize: number = 0;
+  isLoading = true;
   constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService, private fb: FormBuilder) { }
+    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getAllClientDetails();
-    this.formInitialize();
   }
 
-  formInitialize() {
-    this.clientSearch = this.fb.group({
-      searchByName: ['',]
-    });
-  }
-
+  // Get All Client
   getAllClientDetails() {
+    this.isLoading = true;
     this.client.getClient().subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Clients;
+        this.clientDetails = client.Client;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -54,9 +50,27 @@ export class ClientListComponent implements OnInit {
       }
     });
   }
-  edit(data) {
-    this.selectedData = data;
-    this.showDialog = true;
+
+  clientSearch(){
+    this.page = 1;
+    const obj = {
+       clientName: this.search
+    }
+    this.client.ClientSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const client = JSON.parse(data.resultData);
+        this.clientDetails = client.ClientSearch;
+        console.log(this.clientDetails);
+        if (this.clientDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
   delete(data) {
     this.confirmationService.confirm('Delete Client', `Are you sure you want to delete this client? All related 
@@ -68,6 +82,8 @@ export class ClientListComponent implements OnInit {
       })
       .catch(() => { });
   }
+
+  // Delete Client
   confirmDelete(data) {
     this.client.deleteClient(data.ClientId).subscribe(res => {
       if (res.status === 'Success') {
@@ -96,11 +112,14 @@ export class ClientListComponent implements OnInit {
     }
   }
 
+  // Get Client By Id
   getClientById(data, client) {
+    this.spinner.show();
     this.client.getClientById(client.ClientId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
-        this.selectedClient = client.ClientDetail[0];
+        this.selectedClient = client.Status[0];
         if (data === 'edit') {
           this.headerData = 'Edit Client';
           this.selectedData = this.selectedClient;

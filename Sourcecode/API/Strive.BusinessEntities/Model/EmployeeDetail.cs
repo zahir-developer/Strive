@@ -20,7 +20,13 @@ namespace Strive.BusinessEntities.Model
         public int AuthId { get; set; }
 
         [Column]
+        public int ComType { get; set; }
+
+        [Column]
         public string PayRate { get; set; }
+
+        [Column]
+        public string DetailRate { get; set; }
 
         [Column]
         public string SickRate { get; set; }
@@ -32,7 +38,7 @@ namespace Strive.BusinessEntities.Model
         public string ComRate { get; set; }
 
         [Column]
-        public DateTimeOffset? HiredDate { get; set; }
+        public DateTime? HiredDate { get; set; }
 
         [Column]
         public string Salary { get; set; }

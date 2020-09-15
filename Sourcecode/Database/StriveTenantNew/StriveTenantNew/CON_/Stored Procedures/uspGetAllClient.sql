@@ -15,8 +15,8 @@ tblca.Address1,
 tblca.Address2
 
 
-FROM [CON].[tblClient] tblc 
-     inner join [CON].[tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId)
+FROM StriveCarSalon.[tblClient] tblc 
+     inner join StriveCarSalon.[tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId)
 	 inner join strivecarsalon.GetTable('ClientType') ct ON tblc.ClientType = ct.valueid
 
 	 

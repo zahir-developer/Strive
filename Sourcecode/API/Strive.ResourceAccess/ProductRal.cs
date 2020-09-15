@@ -1,6 +1,9 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.ViewModel.Product;
 using Strive.Common;
 using Strive.Repository;
 using System;
@@ -25,15 +28,15 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(product);
         }
 
-        public List<Product> GetAllProduct()
+        public List<ProductViewModel> GetAllProduct()
         {
-            return db.Fetch<Product>(SPEnum.USPGETPRODUCTS.ToString(), null);
+            return db.Fetch<ProductViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
 
-        public Product GetProductById(int productId)
+        public ProductDetailViewModel GetProductById(int productId)
         {
             _prm.Add("@ProductId", productId);
-            return db.FetchSingle<Product>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            return db.FetchSingle<ProductDetailViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)
@@ -41,6 +44,11 @@ namespace Strive.ResourceAccess
             _prm.Add("ProductId", productId);
             db.Save(SPEnum.USPDELETEPRODUCT.ToString(), _prm);
             return true;
+        }
+        public List<ProductSearchViewModel> GetProductSearch(ProductSearchDto search)
+        {
+            _prm.Add("@ProductSearch", search.ProductSearch);
+            return db.Fetch<ProductSearchViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
         }
     }
 }

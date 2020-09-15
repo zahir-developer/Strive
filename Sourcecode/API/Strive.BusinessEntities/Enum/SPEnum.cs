@@ -4,6 +4,33 @@ using System.Text;
 
 namespace Strive.BusinessEntities
 {
+
+    public class EnumSP
+    {
+        public enum Employee
+        {
+            //Employee
+            USPGETALLEMPLOYEE,
+            USPGETEMPLOYEE,
+            USPSAVEEMPLOYEE,
+            USPGETSCHEMABYGUID,
+            USPGETCODES,
+            USPGETUSERBYAUTHID,
+            USPDELETEEMPLOYEE,
+            USPGETEMPLOYEEBYEMPID,
+            USPGETEMPLOYEEROLES,
+            USPGETALLEMPLOYEEDETAIL,
+        }
+
+        public enum Membership
+        {
+            USPGETALLMEMBERSHIP
+        }
+    }
+
+
+
+
     public enum SPEnum
     {
         USPLOGIN,
@@ -13,8 +40,12 @@ namespace Strive.BusinessEntities
         USPGETUSERS,
         USPSAVEUSER,
         USPSAVELOGIN,
+        USPSAVETENANTUSERMAP,
         USPGETALLEMAIL,
+
         //Employee
+        USPGETEMPLOYEELIST,
+        USPGETALLEMPLOYEE,
         USPGETEMPLOYEE,
         USPSAVEEMPLOYEE,
         USPGETSCHEMABYGUID,
@@ -23,37 +54,37 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEE,
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
+        USPEMAILEXIST,
         //Document
         USPSAVEDOCUMENT,
-        USPGETDOCUMENTBYEMPID,
+        USPGETEMPLOYEEDOCUMENTBYID,
         USPUPDATEDOCUMENTPASSWORD,
-        USPGETALLDOCUMENTBYID,
-        USPDELETEDOCUMENT,
+        USPGETEMPLOYEEDOCUMENTBYEMPID,
+        USPDELETEEMPLOYEEDOCUMENTBYID,
         //Client
         USPGETALLCLIENT,
+        USPGETCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
         //GiftCard
         USPGETALLGIFTCARD,
+        USPGETGIFTCARDHISTORY,
         USPGETGIFTCARDBYID,
         USPGIFTCARDCHANGESTATUS,
         USPSAVEGIFTCARD,
         //Location
-        USPGETLOCATION,
         USPSAVELOCATION,
         USPDELETELOCATION,
         USPGETPRODUCT,
         USPDELETEPRODUCT,
         USPGETAllPRODUCT,
         USPGETAllPRODUCTNEW,
-        USPGETAllLOCATION,
-        USPSaveLOCATION,
+        USPGETALLLOCATION,
         USPGETLOCATIONBYID,
         //Service Setup
-        USPGETSERVICE,
-        USPSAVESERVICE,
         USPDELETESERVICEBYID,
-        USPGETSERVICEBYID,
+        USPGETSERVICES,
+        USPGETSERVICECATEGORYBYLOCATIONID,
         //Cash Register
         USPSAVETODAYCASHREGISTER,
         USPGETCASHREGISTERDETAILS,
@@ -65,43 +96,81 @@ namespace Strive.BusinessEntities
         USPSAVECASHREGISTERROLLS,
         USPSAVECASHREGISTER,
         //Collison
-        USPGETCOLLISION,
-        USPGETCOLLISIONBYID,
-        USPSAVECOLLISION,
         USPDELETECOLLISION,
-        USPGETALLVENDOR,
-        USPSAVEVENDOR,
-        USPDELETEVENDOR,
-        USPGETVENDORBYID,
         USPGETPASSWORDHASH,
         USPSAVEOTP,
         USPRESETPASSWORD,
-        USPSAVECLIENT,
         USPVERIFYOTP,
-        USPGETEMPLOYEELIST,
+        
         USPGETEMPLOYEEBYID,
-        USPGETALLLOCATION,
         USPGETALLSERVICE,
-        USPGETSERVICES,
         USPGETPRODUCTS,
         USPGETCASHREGISTER,
         USPGETCOLLISIONBYEMPID,
+        USPGETCOLLISIONBYID,
+        USPGETVEHICLELISTBYCLIENTID,
         //MembershipSetup
-        USPGETMEMBERSHIPSETUP,
-        USPGETSERVICEWITHPRICE,
+        USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID,
+        USPGETSERVICELIST,
         USPDELETEMEMBERSHIP,
         USPGETMEMBERSHIPBYID,
         USPSAVEMEMBERSHIPSETUP,
+        USPGETMEMBERSHIPSERVICEBYVEHICLEID,
+        USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
+        //Vehicle
         USPGETALLVEHICLE,
         USPUPDATEVEHICLE,
         USPDELETECLIENTVEHICLE,
         USPGETVEHICLEBYID,
         USPSAVEVEHICLE,
-        USPGETVEHICLE,
+        uspGetVehicleByClientId,
         uspGetVihicleMembership,
         uspUpdateVechicleMembership,
-        uspGetVehicleById,
-        USPCREATETENANT
+        USPGETVEHICLEDETAILBYCLIENTID,
+        USPGETVEHICLESTATEMENTBYCLIENTID,
+        USPGETVEHICLEHISTORYBYCLIENTID,
+        uspGetVehicleCodes,
+        USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
+        USPGETMEMBERSHIPBYVEHICLEID,
+        USPCLOCKTIMEDETAILS,
+        //Vendor
+        USPGETALLVENDOR,
+        USPDELETEVENDOR,
+        USPGETVEHICLE,
+        //Washes
+        USPGETJOBBYID,
+        USPGETALLJOB,
+        USPGETWASHDASHBOARD,
+        USPGETCLIENTANDVEHICLEDETAIL,
+        //Details
+        USPGETALLDETAILJOB,
+        USPGETDETAILJOBBYID,
+        USPGETALLBAYLISTBYID,
+        USPGETBAYSCHEDULESDETAILS,
+        USPGETPASTCLIENTNOTESBYCLIENTID,
+        USPGETJOBTYPE,
+        USPDELETEDETAILSCHEDULE,
+        USPGETALLDETAILS,
+        //Schedule
+        USPSAVESCHEDULE,
+        USPGETSCHEDULEBYSCHEDULEID,
+        uspDeleteSchedule,
+        USPGETSCHEDULE,
+        uspGetGiftCardHistoryByNumber,
+        uspGetGiftCardByLocation,
+        USPDELETEWASHES,
+        uspGetClientName,
+        uspGetClientCodes,
+        uspGetGiftCardBalance,
+        uspGetClientAndVehicle,
+        uspGetMembershipListByVehicleId,
+        uspUpdateSalesItem,
+        uspDeleteSalesItemById,
+        uspGetItemList,
+        uspGetItemListByTicketNumber,
+        USPCREATETENANT,
+        uspGetServiceByItemList,
+        uspDeleteRollBackItems
     }
 
 

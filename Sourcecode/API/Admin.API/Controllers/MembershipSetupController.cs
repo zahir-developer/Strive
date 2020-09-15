@@ -8,52 +8,37 @@ using Strive.BusinessEntities.Employee;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Strive.BusinessLogic.MembershipSetup;
 using Strive.BusinessEntities.MembershipSetup;
+using Admin.API.Helpers;
+using Strive.BusinessEntities.DTO.MembershipSetup;
 
 namespace Admin.Api.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class MembershipSetupController : ControllerBase
+    public class MembershipSetupController : StriveControllerBase<IMembershipBpl>
     {
-        IMembershipBpl _membershipBpl = null;
-
-        public MembershipSetupController(IMembershipBpl membershipBpl)
-        {
-            _membershipBpl = membershipBpl;
-        }
-
+        public MembershipSetupController(IMembershipBpl mrsBpl) : base(mrsBpl) { }
         [HttpGet]
         [Route("GetAll")]
-        public Result GetAllMembership()
-        {
-            return _membershipBpl.GetAllMembership();
-        }
-        [HttpGet]
-        [Route("GetService")]
-        public Result GetServiceWithPrice()
-        {
-            return _membershipBpl.GetServicesWithPrice();
-        }
+        public Result GetAllMembership() => _bplManager.GetAllMembership();
         [HttpGet]
         [Route("GetAllMembershipById/{membershipId}")]
-        public Result GetMembershipById(int membershipId)
-        {
-            return _membershipBpl.GetMembershipById(membershipId);
-        }
+        public Result GetMembershipById(int membershipId) => _bplManager.GetMembershipById(membershipId);
+        [HttpPost]
+        [Route("Add")]
+        public Result AddMembership([FromBody] MembershipDto member) => _bplManager.AddMembership(member);
+        [HttpPost]
+        [Route("Update")]
+        public Result UpdateMembership([FromBody] MembershipDto member) => _bplManager.UpdateMembership(member);
+        [HttpDelete]
+        [Route("Delete/{membershipId}")]
+        public Result DeleteMembershipById(int membershipId) => _bplManager.DeleteMembershipById(membershipId);
+        [HttpGet]
+        [Route("GetMembershipAndServiceByMembershipId/{id}")]
+        public Result GetMembershipAndServiceByMembershipId(int id) => _bplManager.GetMembershipAndServiceByMembershipId(id);
 
         [HttpPost]
-        [Route("Save")]
-        public Result SaveMembershipSetup([FromBody] List<MembershipView> member)
-        {
-            return _membershipBpl.SaveMembershipSetup(member);
-        }
-
-        [HttpDelete]
-        [Route("{membershipId}")]
-        public Result DeleteMembershipById(int membershipId)
-        {
-            return _membershipBpl.DeleteMembershipById(membershipId);
-        }
-
+        [Route("GetMembershipSearch")]
+        public Result GetMembershipSearch([FromBody] MembershipSearchDto search) => _bplManager.GetMembershipSearch(search);
     }
 }

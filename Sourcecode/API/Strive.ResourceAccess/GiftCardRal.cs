@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.GiftCard;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.Repository;
 using System;
@@ -14,26 +16,37 @@ namespace Strive.ResourceAccess
 {
     public class GiftCardRal : RalBase
     {
-        IDbConnection _dbconnection;
-        public Db db;
-        public GiftCardRal(ITenantHelper tenant) : base(tenant)
+        public GiftCardRal(ITenantHelper tenant) : base(tenant) { }
+        public List<GiftCardDetailsViewModel> GetAllGiftCard(int locationId)
         {
-            _dbconnection = tenant.db();
-            db = new Db(_dbconnection);
+            _prm.Add("@LocationId", locationId);
+            return db.Fetch<GiftCardDetailsViewModel>(SPEnum.uspGetGiftCardByLocation.ToString(), _prm);
         }
-        public List<GiftCardView> GetAllGiftCard(int locationId)
+        public List<GiftCardBalanceViewModel> GetGiftCardBalance(string giftCardNumber)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@LocationId", locationId);
-            var lstGiftCard = db.FetchRelation1<GiftCardView, GiftCardHistory>(SPEnum.USPGETALLGIFTCARD.ToString(), dynParams);
-            return lstGiftCard;
+            _prm.Add("@GiftCardNumber", giftCardNumber);
+            return db.Fetch<GiftCardBalanceViewModel>(SPEnum.uspGetGiftCardBalance.ToString(), _prm);
         }
-        public List<GiftCardView> GiftCardDetailByGiftCardId(int giftCardId)
+        
+        public List<GiftCardViewModel> GetGiftCardByGiftCardId(string giftCardNumber)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@GiftCardId", giftCardId);
-            var lstGiftCardDetail = db.FetchRelation1<GiftCardView, GiftCardHistory>(SPEnum.USPGETGIFTCARDBYID.ToString(), dynParams);
-            return lstGiftCardDetail;
+            _prm.Add("@GiftCardCode", giftCardNumber);
+            var result = db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARD.ToString(), _prm);
+            return result;
+        }
+        public List<GiftCardViewModel> GetGiftCardHistoryByNumber(string giftCardNumber)
+        {
+            _prm.Add("@GiftCardCode", giftCardNumber);
+            var result = db.Fetch<GiftCardViewModel>(SPEnum.uspGetGiftCardHistoryByNumber.ToString(), _prm);
+            return result;
+        }
+        
+        public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(string giftCardNumber)
+        {
+
+            _prm.Add("@GiftCardCode", giftCardNumber);
+            var result = db.Fetch<GiftCardHistoryViewModel>(SPEnum.USPGETGIFTCARDHISTORY.ToString(), _prm);
+            return result;
         }
         public bool ActivateorDeactivateGiftCard(GiftCardStatus giftCard)
         {
@@ -44,17 +57,22 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public bool SaveGiftCard(GiftCardView giftCard)
+        public bool AddGiftCard(GiftCardDto giftCardDto)
         {
-            DynamicParameters dynParams = new DynamicParameters();
-            List<GiftCard> lstGiftCard = new List<GiftCard>();
-            lstGiftCard.Add(giftCard);
-
-            dynParams.Add("@tvpGiftCard", lstGiftCard.ToDataTable().AsTableValuedParameter("tvpGiftCard"));
-            dynParams.Add("@tvpGiftCardHistory", giftCard.GiftCardHistory.ToDataTable().AsTableValuedParameter("tvpGiftCardHistory"));
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEGIFTCARD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
-            db.Save(cmd);
-            return true;
+            return dbRepo.SavePc(giftCardDto, "GiftCardId");
         }
+        public bool UpdateGiftCard(GiftCardDto giftCardDto)
+        {
+            return dbRepo.SavePc(giftCardDto, "GiftCardId");
+        }
+        public bool AddGiftCardHistory(GiftCardHistoryDto giftCardHistoryDto)
+        {
+            return dbRepo.SavePc(giftCardHistoryDto, "GiftCardHistoryId");
+        }
+        public bool UpdateGiftCardHistory(GiftCardHistoryDto giftCardHistoryDto)
+        {
+            return dbRepo.SavePc(giftCardHistoryDto, "GiftCardHistoryId");
+        }
+       
     }
 }
