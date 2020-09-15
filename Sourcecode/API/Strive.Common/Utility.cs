@@ -412,6 +412,11 @@ namespace Strive.Common
             return lstModel.ToDataTable().AsTableValuedParameter(tName);
         }
 
+        public static string GetRandomColor()
+        {
+            return string.Format("#{0:X6}", new Random().Next(0x1000000));
+        }
+
     }
 
 }
