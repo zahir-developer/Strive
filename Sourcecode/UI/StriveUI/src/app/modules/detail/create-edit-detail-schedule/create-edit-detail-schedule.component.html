@@ -260,7 +260,9 @@
             </div>
         </div>
     </div>
-    <!-- <app-print-wash [hidden]="true"  [selectedData]="selectedData"></app-print-wash> -->
+    <div [hidden]="false">
+        <app-print-wash *ngIf="isEdit"  [selectedData]="selectedData"></app-print-wash>
+    </div>
 </div>
 <p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
     [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
