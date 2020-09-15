@@ -47,7 +47,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public void SetClientDetail(ClientInfo item)
         {
-            ItemTitle.Text = item.FirstName;
+            ItemTitle.Text = item.FirstName + " " + item.LastName;
             ItemIcon.Image = UIImage.FromBundle("member-inactive");
         }
 

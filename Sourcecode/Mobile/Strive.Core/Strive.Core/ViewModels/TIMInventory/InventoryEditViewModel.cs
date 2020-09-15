@@ -61,7 +61,15 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 return _SelectedItemQuantity;
             }
-            set { SetProperty(ref _SelectedItemQuantity, value); }
+            set {
+                int number = 0;
+                bool isNumeric = int.TryParse(value, out number);
+                if(((isNumeric) && number > 0) || value == "")
+                {
+                    SetProperty(ref _SelectedItemQuantity, value);
+                }
+                RaiseAllPropertiesChanged();
+            }
         }
         public string SupplierName { get
             {
