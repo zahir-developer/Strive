@@ -37,15 +37,11 @@ namespace Strive.BusinessLogic.Common
             var res = new CommonRal(_tenant).DoSearch(searchTerm);
             return null;
         }
-        public RandomColorAndWashTimeViewModel RandomColorAndWashTime()
+        public string RandomColorGenerator()
         {
             var random = new Random();
             var color = String.Format("#{0:X6}", random.Next(0x1000000));
-            var washTimeMinutes = random.Next(30, 45);
-            RandomColorAndWashTimeViewModel randomColorAndWashTime = new RandomColorAndWashTimeViewModel();
-            randomColorAndWashTime.ColorCode = color;
-            randomColorAndWashTime.WashTimeMinutes = washTimeMinutes;
-            return randomColorAndWashTime;
+            return color;
         }
         public string RandomNumber(int length)
         {

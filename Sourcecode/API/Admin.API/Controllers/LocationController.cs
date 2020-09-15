@@ -28,7 +28,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("Update")]
-        public Result UpdateLocation([FromBody] LocationWithoutBayDto location) => _bplManager.UpdateLocation(location);
+        public Result UpdateLocation([FromBody] LocationDto location) => _bplManager.UpdateLocation(location);
         #endregion
 
         #region DELETE
@@ -45,7 +45,7 @@ namespace Admin.API.Controllers
         /// Retrieves list of all locations by search params
         /// </summary>
         [HttpPost]
-        [Route("GetSearchResult")]
+        [Route("Search")]
         public Result GetSearchResult([FromBody] LocationSearchDto search) => _bplManager.GetSearchResult(search);
 
         /// <summary>

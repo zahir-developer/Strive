@@ -6,6 +6,7 @@ using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Strive.BusinessLogic.Location
@@ -13,28 +14,32 @@ namespace Strive.BusinessLogic.Location
     public class LocationBpl : Strivebase, ILocationBpl
     {
         public LocationBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
-
+        
         public Result AddLocation(LocationDto location)
         {
-            var GetRandomColorAndWashTime= new CommonBpl(_cache, _tenant).RandomColorAndWashTime();
-            location.Location.ColorCode = GetRandomColorAndWashTime.ColorCode;
-            location.Location.WashTimeMinutes = GetRandomColorAndWashTime.WashTimeMinutes;
-            ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-            ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
-
-            //var LocationGeo = GetLocationGeo(location.LocationAddress);
-            //var apiLocationId = CreateLocationForWeatherPortal();
-
-            //location.Drawer = new BusinessEntities.Model.Drawer();
-            //bool status = new LocationRal(_tenant).AddLocation(location);
+            string GetRandomColor = new CommonBpl(_cache, _tenant).RandomColorGenerator();
+            location.Location.ColorCode = GetRandomColor;
+            ///to-do: WashTimeMinutes is hardcorded as of Now, Once got replied from Client it will be removed
+            location.Location.WashTimeMinutes = 30;
+            Drawer(location);
+            Bay(location);
             return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
-
         }
-
-        public Result UpdateLocation(LocationWithoutBayDto location)
+        private string Drawer(LocationDto location)
         {
-           // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-           // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            location.Drawer = new Drawer();
+            return location.Drawer.DrawerName = "Drawer 1";
+        }
+        private List<Bay> Bay(LocationDto location)
+        {
+            List<Bay> bay = new List<Bay>();
+            bay.Add(new Bay() { BayName = "Bay 1", IsActive = true, IsDeleted = false });
+            bay.Add(new Bay() { BayName = "Bay 2", IsActive = true, IsDeleted = false });
+            bay.Add(new Bay() { BayName = "Bay 3", IsActive = true, IsDeleted = false });
+            return location.Bay = bay;
+        }
+        public Result UpdateLocation(LocationDto location)
+        {
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 
@@ -57,29 +62,5 @@ namespace Strive.BusinessLogic.Location
         {
             return ResultWrap(new LocationRal(_tenant).GetLocationDetailById, id, "Location");
         }
-        private string GetLocationGeo(LocationAddress locationAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public async Task<Result> CreateLocationForWeatherPortal()
-        //{
-        //    const string baseUrl = "https://api.climacell.co/";
-        //    const string apiMethod = "v3/locations";
-        //    //const string apiKey = "sbXIC0D1snD0d4SrQEXPdG8iNiD1mOLV";
-        //    const string apiKey = "YdGO72oCIGiaTxqfGEOhD9fty8fHAVdr";
-
-
-
-        //    var weatherlocation = new WeatherLocation()
-        //    {
-        //        name = "Strive-Location1",
-        //        point = new point() { lat = 34.07, lon = -84.29 }
-        //    };
-        //    var wlocation = JsonConvert.SerializeObject(weatherlocation);
-        //    var stringContent = new StringContent(wlocation, UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
-        //    return null;
-        //}
-
     }
 }
