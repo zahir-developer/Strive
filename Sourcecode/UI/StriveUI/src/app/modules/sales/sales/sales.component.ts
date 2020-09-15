@@ -417,19 +417,19 @@ export class SalesComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
-        jobPaymentId: 174
+        jobPaymentId: 4
       };
     });
     console.log(giftcard);
     const paymentObj = {
       jobPayment: {
-        jobPaymentId: 109,
+        jobPaymentId: 0,
         jobId: this.isSelected ? +this.JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         paymentType: 109,
         amount: this.cash ? +this.cash : 0,
-        taxAmount: 1,
-        cashback: this.cashback ? this.cash : 0,
+        taxAmount: 0,
+        cashback: 0,
         approval: true,
         checkNumber: '',
         signature: '',
@@ -445,16 +445,16 @@ export class SalesComponent implements OnInit {
       giftCardHistory: giftcard,
       joPaymentCreditCard: {
         jobPaymentCreditCardId: 0,
-        jobPaymentId: 110,
-        cardTypeId: 0,
-        cardCategoryId: 0,
+        jobPaymentId: 0,
+        cardTypeId: 1,
+        cardCategoryId: 1,
         cardNumber: '',
-        creditCardTransactionTypeId: 0,
+        creditCardTransactionTypeId: 1,
         amount: this.credit ? +this.credit : 0,
         tranRefNo: '',
         tranRefDetails: '',
         isActive: true,
-        isDeleted: true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
@@ -462,8 +462,14 @@ export class SalesComponent implements OnInit {
       }
     };
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
-      console.log(data);
+      console.log(data, 'payment');
     });
   }
-  deleteTicket() { }
+  deleteTicket() {
+    if (this.ticketNumber !== '' &&  this.ticketNumber !==undefined) {
+      this.salesService.deleteTransaction(+this.ticketNumber).subscribe(data => {
+        console.log(data);
+      });
+    }
+  }
 }

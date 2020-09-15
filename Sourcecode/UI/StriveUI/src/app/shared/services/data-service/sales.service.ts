@@ -34,4 +34,7 @@ export class SalesService {
  addPayemnt(paymentObj) {
   return this.http.post(`${UrlConfig.totalUrl.addPayment}`, paymentObj);
  }
+ deleteTransaction(ticketNo) {
+  return this.http.delete(`${UrlConfig.totalUrl.deleteTransaction}`, {params: {TicketNumber: ticketNo}});
+ }
 }
