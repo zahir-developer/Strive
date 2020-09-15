@@ -40,7 +40,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   clientList: any;
   filteredClient: any[];
   details: any;
-  outsideServices: any;
+  outsideServices: any = [];
   @Output() closeDialog = new EventEmitter();
   @Output() refreshDetailGrid = new EventEmitter();
   @Input() selectedData?: any;
