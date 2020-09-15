@@ -9,3 +9,8 @@ BEGIN
 
    ROLLBACK;
  END
+GO
+DISABLE TRIGGER [DropRestriction]
+    ON DATABASE;
+
+

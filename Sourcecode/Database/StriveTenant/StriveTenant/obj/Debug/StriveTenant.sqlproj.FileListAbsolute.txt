@@ -1,0 +1,6 @@
+E:\Projects\Mammoth\Strive\Sourcecode\Database\StriveTenant\StriveTenant\bin\Debug\StriveTenant.dacpac
+E:\Projects\Mammoth\Strive\Sourcecode\Database\StriveTenant\StriveTenant\bin\Debug\StriveTenant.dll
+E:\Projects\Mammoth\Strive\Sourcecode\Database\StriveTenant\StriveTenant\bin\Debug\StriveTenant.pdb
+E:\Projects\Mammoth\Strive\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\StriveTenant.sqlprojAssemblyReference.cache
+E:\Projects\Mammoth\Strive\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\StriveTenant.dll
+E:\Projects\Mammoth\Strive\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\StriveTenant.pdb

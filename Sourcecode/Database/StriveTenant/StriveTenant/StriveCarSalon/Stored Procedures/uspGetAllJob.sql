@@ -47,5 +47,5 @@ AND isnull(tbj.IsDeleted,0)=0
 --AND isnull(tblc.IsDeleted,0)=0
 --AND isnull(tblji.IsDeleted,0)=0
 --AND isnull(tbls.IsDeleted,0)=0
-ORDER BY JOBID DESC
+ORDER BY tbj.JOBID DESC
 END

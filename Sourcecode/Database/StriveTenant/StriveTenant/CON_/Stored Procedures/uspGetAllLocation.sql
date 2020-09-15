@@ -31,7 +31,7 @@ AND
  or tblla.PhoneNumber like '%'+@LocationSearch+'%'
  or tblla.Email like '%'+@LocationSearch+'%')
  
-order by LocationId Desc
+order by tblla.LocationId Desc
 
 END
 

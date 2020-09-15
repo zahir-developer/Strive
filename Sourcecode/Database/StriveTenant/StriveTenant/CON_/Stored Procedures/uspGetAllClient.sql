@@ -24,6 +24,6 @@ WHERE ISNULL(tblc.IsDeleted,0) = 0
 AND
 isnull(tblc.IsDeleted,0)=0 and 
 isnull(tblca.IsDeleted,0)=0 
-order by ClientId Desc
+order by tblc.ClientId Desc
 
 END
