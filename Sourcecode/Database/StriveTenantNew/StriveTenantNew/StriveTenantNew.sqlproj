@@ -78,6 +78,7 @@
     <Folder Include="StriveCarSalonTest\" />
     <Folder Include="StriveCarSalonTest\User Defined Types\" />
     <Folder Include="CON_\User Defined Types\" />
+    <Folder Include="Database Triggers\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveCarSalon\Tables\tblCashRegisterOthers.sql" />
@@ -545,5 +546,24 @@
     <Build Include="Security\StriveSuperAdminTest.sql" />
     <Build Include="Security\StriveCarSalonTest.sql" />
     <Build Include="Security\CON_.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobPaymentDiscount.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobPaymentCreditCard.sql" />
+    <Build Include="StriveCarSalon\Tables\tblBaySchedule.sql" />
+    <Build Include="Security\StriveDevUser.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateSalesItem.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSoftDeleteLocation.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSampleStoreProcedure.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspSampleGetStoreProcedure.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetScheduleDetailsByDate.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetJobType.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetItemListByTicketNumber.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetItemList.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetBaySchedulesDetails.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllDetails.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllBayListById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteSalesItemById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteRollBackItems.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteDetailSchedule.sql" />
+    <Build Include="Database Triggers\DropRestriction.sql" />
   </ItemGroup>
 </Project>

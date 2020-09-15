@@ -28,4 +28,6 @@ WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND ISNULL(cvl.IsActi
 ISNULL(cvl.IsDeleted,0)=0 AND
 (@ClientId is null or cl.ClientId = @ClientId)
 
+order by VehicleId desc
+
 END
