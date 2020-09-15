@@ -1,0 +1,158 @@
+<form [formGroup]="clientForm">
+    <div class="form-row">
+        <div class="form-group col-lg-3">
+            <label for="inputFirstName">First Name<span class="required">*</span></label>
+            <input type="text" [appMaxLength] class="form-control" formControlName="fName"
+                placeholder="First Name"
+                [ngClass]="{ 'is-invalid': submitted && f.fName.errors }">
+            <div *ngIf="submitted && f.fName.errors" class="invalid-feedback">
+                <div *ngIf="f.fName.errors.required">First Name is required</div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="inputLastName">Last Name<span class="required">*</span></label>
+            <input type="text" [appMaxLength] class="form-control" formControlName="lName"
+                placeholder="Last Name"
+                [ngClass]="{ 'is-invalid': submitted && f.lName.errors }">
+            <div *ngIf="submitted && f.lName.errors" class="invalid-feedback">
+                <div *ngIf="f.lName.errors.required">Last Name is required</div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="inputAddress">Address<span class="required">*</span></label>
+            <input type="text" [appMaxLength] class="form-control" formControlName="address"
+                placeholder="Address"
+                [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                <div *ngIf="f.address.errors.required">Address is required</div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="inputEmail">Email</label>
+            <input type="email" maxlength="50" class="form-control" formControlName="email"
+                placeholder="Email"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors">Please enter valid email address</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-lg-6 col-xl-3">
+            <div class="row no-gutter   form-row">
+                <div class="col-md-6  form-group">
+                    <label for="inputPhoneNumber1">Phone 1<span
+                            class="required">*</span></label>
+                    <input appPhoneMask type="text" class="form-control"
+                        formControlName="phone1" placeholder="(XXX) XXX-XXXX"
+                        [ngClass]="{ 'is-invalid': submitted && f.phone1.errors }">
+                    <div *ngIf="submitted && f.phone1.errors" class="invalid-feedback">
+                        <div *ngIf="f.phone1.errors">Phone Number is required</div>
+                    </div>
+                </div>
+                <div class="col-md-6 p-r-0  form-group">
+                    <label></label>
+                    <select class="form-control m-t-8" [disabled]="isView">
+                        <option selected="">Work</option>
+                        <option>Home</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-3">
+            <div class="row  no-gutter form-row">
+                <div class="col-md-6 col-ipad form-group">
+                    <label for="inputPhoneNumber2">Phone 2</label>
+                    <input appPhoneMask type="text" class="form-control"
+                        formControlName="phone2" placeholder="(XXX) XXX-XXXX"> </div>
+                <div class="col-lg-6 p-r-0 col-ipad form-group">
+                    <label></label>
+                    <select class="form-control  m-t-8" [disabled]="isView">
+                        <option selected="">Home</option>
+                        <option>Work</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-lg-6 col-xl-3">
+            <label for="inputState">State<span class="required">*</span></label>
+            <app-state-dropdown [selectedStateId]="selectedStateId"
+                (stateId)="getSelectedStateId($event)" [isView]="isView">
+            </app-state-dropdown>
+        </div>
+        <div class="form-group col-lg-6 col-xl-3" [disabled]="isView">
+            <label for="inputCity">City</label>
+            <app-city (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId"
+                [isView]="isView"></app-city>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-lg-6 col-xl-3">
+            <div class="row no-gutter   form-row">
+                <div class="col-md-6  form-group">
+                    <label for="inputZipcode">ZipCode</label>
+                    <input numbersOnly type="text" [appMaxLength]="5" class="form-control"
+                        placeholder="Zip" formControlName="zipcode"> </div>
+                <div class="col-md-6 p-r-0  form-group">
+                    <label for="inputStatus">Status<span class="required">*</span></label>
+                    <select class="form-control" formControlName="status"
+                        [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                        <option *ngFor="let status of Status" value="{{status.id}}">
+                            {{status.Value}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                        <div *ngIf="f.status.errors">Status is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-lg-6 col-xl-3 ">
+            <label for="inputScore">Score</label>
+            <select class="form-control" formControlName="score">
+                <option hidden selected value="">Choose</option>
+                <option *ngFor="let score of Score" value="{{score.CodeId}}">
+                    {{score.CodeValue}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-lg-6 col-xl-3">
+            <label for="inputType">Type<span class="required">*</span></label>
+            <select class="form-control" formControlName="type"
+                [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                <option hidden selected value="">Choose</option>
+                <option *ngFor="let type of Type" value="{{type.CodeId}}">{{type.CodeValue}}
+                </option>
+            </select>
+            <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                <div *ngIf="f.type.errors">Type is required</div>
+            </div>
+        </div>
+        <div class="form-group col-lg-6 col-xl-3  m-t-40">
+            <div class="custom-control custom-checkbox custom-control-inline m-r-0">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox"
+                        formControlName="creditAccount"
+                        (change)="change($event.target.checked)">
+                    <label class="form-check-label" for="gridCheck">Credit Account</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label for="inputNotes">Notes</label>
+                <textarea rows="4" class="form-control m-t-5 notes-textarea"
+                    formControlName="notes" placeholder="Notes"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label for="inputRecNotes">Check Out Note</label>
+                <textarea rows="4" class="form-control m-t-5 notes-textarea"
+                    formControlName="checkOut" placeholder="Check Out Note"></textarea>
+            </div>
+        </div>
+    </div>
+</form>

@@ -38,6 +38,7 @@ namespace Strive.Common
         VEHICLEMODEL,
         UPCHARGE,
         MAKE,
-        SCORE
+        SCORE,
+        IMMIGRATIONSTATUS
     }
 }

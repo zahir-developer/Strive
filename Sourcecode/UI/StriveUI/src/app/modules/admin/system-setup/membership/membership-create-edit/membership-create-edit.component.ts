@@ -121,7 +121,10 @@ export class MembershipCreateEditComponent implements OnInit {
     }
   }
 
-  check(data) {
+  bindUpcharge(data) {
+    this.membershipForm.patchValue({
+      upcharge: +data
+    });
   }
 
   // Add/Update Membership
@@ -211,7 +214,7 @@ export class MembershipCreateEditComponent implements OnInit {
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
-      createdDate: new Date(),
+      createdDate: this.isEdit ? this.selectedData.Membership.StartDate : new Date(),
       updatedBy: 1,
       updatedDate: new Date()
     };

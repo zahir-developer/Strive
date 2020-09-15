@@ -126,3 +126,5 @@
 /Sourcecode/API/SonarQube/lib
 /Sourcecode/API/SonarQube/conf
 /Sourcecode/API/SonarQube/SonarQube.Analysis.xml
+/Sourcecode/API/.sonarqube
+/Sourcecode/API/Strive.RepositoryCqrs/obj

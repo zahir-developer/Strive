@@ -2,12 +2,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mobile_portrait_bg">
+    android:background="@drawable/mobile_portrait_bg"
+    android:weightSum="3">
     <TextView
         android:id="@+id/dealsHeading"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center"
+        android:layout_weight="0.3"
         android:layout_marginTop="15dp"
         android:textSize="@dimen/textTwenty"
         android:textColor="@android:color/white"
@@ -16,7 +18,8 @@
         android:id="@+id/dealsInfoList"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="0dp"
+        android:layout_weight="2.2"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"

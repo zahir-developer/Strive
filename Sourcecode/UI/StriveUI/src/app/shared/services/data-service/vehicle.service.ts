@@ -18,6 +18,9 @@ export class VehicleService {
     updateVehicle(obj) {
         return this.http.post(`${UrlConfig.totalUrl.updateVehicle}`, obj);
     }
+    saveVehicle(obj) {
+        return this.http.post(`${UrlConfig.totalUrl.addVehicle}`, obj);
+    }
     deleteVehicle(vehicleId: number) {
         return this.http.delete(`${UrlConfig.totalUrl.deleteVehicle}`, { params: { id: vehicleId } });
     }
