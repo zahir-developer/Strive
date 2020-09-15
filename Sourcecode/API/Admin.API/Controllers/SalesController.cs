@@ -45,7 +45,13 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetScheduleByTicketNumber")]
         public Result GetScheduleByTicketNumber(string ticketNumber) => _bplManager.GetScheduleByTicketNumber(ticketNumber);
-        
+        [HttpPost]
+        [Route("AddPayment")]
+        public Result AddPayment([FromBody] SalesPaymentDto salesPayment) => _bplManager.AddPayment(salesPayment);
 
+        [HttpPost]
+        [Route("AddListItem")]
+        public Result AddListItem([FromBody] SalesAddListItemDto salesAddListItem) => _bplManager.AddListItem(salesAddListItem);
+        
     }
 }
