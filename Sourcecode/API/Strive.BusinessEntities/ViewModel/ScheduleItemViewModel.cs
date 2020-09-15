@@ -15,5 +15,7 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? Price { get; set; }
         public int? Quantity { get; set; }
 
+        public int? JobItemId { get; set; }
+
     }
 }
