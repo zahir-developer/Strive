@@ -42,7 +42,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.DealsScreenFragment, null);
             qrCode = rootview.FindViewById<Button>(Resource.Id.qrCodeScan);
             listData = new List<string>();
-            for(int i = 1;i<=10;i++)
+            for(int i = 1;i<=3;i++)
             {
                 listData.Add("Clickme"+i);
             }

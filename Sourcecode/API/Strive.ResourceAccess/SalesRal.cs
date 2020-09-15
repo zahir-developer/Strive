@@ -45,19 +45,27 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<SalesViewModel>(SPEnum.uspGetItemList.ToString(), _prm);
             return result;
         }
-        public List<ScheduleItemListViewModel> GetScheduleByTicketNumber(string ticketNumber)
+        public ScheduleItemListViewModel GetScheduleByTicketNumber(string ticketNumber)
         {
             _prm.Add("@TicketNumber", ticketNumber);
-            var result = db.Fetch<ScheduleItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
-            return result;
+            return db.FetchMultiResult<ScheduleItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
+
         }
         public bool AddPayment(SalesPaymentDto salesPayment)
         {
-            return dbRepo.SavePc(salesPayment, "JobPaymentId");
+            return dbRepo.InsertPc(salesPayment, "JobPaymentId");
         }
         public bool AddListItem(SalesAddListItemDto salesAddListItem)
         {
             return dbRepo.InsertPc(salesAddListItem, "JobId");
+        }
+        public bool UpdateListItem(SalesAddListItemDto salesAddListItem)
+        {
+            return dbRepo.UpdatePc(salesAddListItem);
+        }
+        public List<ServiceItemDto> GetServicesWithPrice()
+        {
+            return db.Fetch<ServiceItemDto>(SPEnum.uspGetServiceByItemList.ToString(), null);
         }
     }
 }
