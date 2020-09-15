@@ -20,7 +20,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             var MembershipTableSource = new ExtraServiceSource(ExtraServiceTable, ViewModel);
 
             var set = this.CreateBindingSet<ExtraServiceView, ExtraServiceViewModel>();
-            set.Bind(MembershipTableSource).To(vm => vm.ExtraServiceList);
+            set.Bind(MembershipTableSource).To(vm => vm.TotalServiceList);
             set.Bind(NextButton).To(vm => vm.Commands["Next"]);
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
             set.Apply();
