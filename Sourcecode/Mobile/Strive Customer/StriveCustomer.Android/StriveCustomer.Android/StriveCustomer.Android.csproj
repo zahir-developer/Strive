@@ -82,6 +82,7 @@
     <Compile Include="Fragments\PastDetailsFragment.cs" />
     <Compile Include="Fragments\PastDetailsInfoFragment.cs" />
     <Compile Include="Fragments\PastDetailsPageFragment.cs" />
+    <Compile Include="Fragments\PersonalInfoEditFragment.cs" />
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -661,6 +662,14 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\EditButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PersonalInfoEditFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\borderedEditText.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

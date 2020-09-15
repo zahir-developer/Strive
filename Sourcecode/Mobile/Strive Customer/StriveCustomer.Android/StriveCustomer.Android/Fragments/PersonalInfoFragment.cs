@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -27,6 +28,8 @@ namespace StriveCustomer.Android.Fragments
         TextView zipCodeView;
         TextView secPhoneView;
         TextView emailView;
+        ImageView personalEditInfo;
+        PersonalInfoEditFragment personalEdit;
         MyProfileInfoViewModel myProfile = new MyProfileInfoViewModel();
         CustomerPersonalInfo customerPersonalInfo { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
@@ -41,6 +44,8 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.PersonalInfoFragment, null);
             ViewModel = new MyProfileInfoViewModel();
+            personalEdit = new PersonalInfoEditFragment();
+            personalEditInfo = rootview.FindViewById<ImageView>(Resource.Id.personalInfoEdit);
             fullNameView = rootview.FindViewById<TextView>(Resource.Id.fullName);
             contactNumberView = rootview.FindViewById<TextView>(Resource.Id.contactNumber);
             addressView = rootview.FindViewById<TextView>(Resource.Id.address);
@@ -48,14 +53,21 @@ namespace StriveCustomer.Android.Fragments
             secPhoneView = rootview.FindViewById<TextView>(Resource.Id.secPhoneNumber);
             emailView = rootview.FindViewById<TextView>(Resource.Id.email);
 
-            fullNameView.Text = customerPersonalInfo.Status[0].FirstName;
-            contactNumberView.Text = customerPersonalInfo.Status[0].PhoneNumber;
-            addressView.Text = customerPersonalInfo.Status[0].Address1;
-            zipCodeView.Text = customerPersonalInfo.Status[0].Zip;
-            secPhoneView.Text = customerPersonalInfo.Status[0].PhoneNumber2;
-            emailView.Text = customerPersonalInfo.Status[0].Email;
+            personalEditInfo.Click += PersonalEditInfo_Click;
+            fullNameView.Text = CustomerInfo.customerPersonalInfo.Status[0].FirstName;
+            contactNumberView.Text = CustomerInfo.customerPersonalInfo.Status[0].PhoneNumber;
+            addressView.Text = CustomerInfo.customerPersonalInfo.Status[0].Address1;
+            zipCodeView.Text = CustomerInfo.customerPersonalInfo.Status[0].Zip;
+            secPhoneView.Text = CustomerInfo.customerPersonalInfo.Status[0].PhoneNumber2;
+            emailView.Text = CustomerInfo.customerPersonalInfo.Status[0].Email;
 
             return rootview;
+        }
+
+        private void PersonalEditInfo_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, personalEdit).Commit();
         }
     }
 }

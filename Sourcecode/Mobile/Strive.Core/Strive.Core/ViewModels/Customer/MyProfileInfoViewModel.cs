@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -14,14 +15,14 @@ namespace Strive.Core.ViewModels.Customer
         #endregion Properties
 
         #region Commands
-        public async void getClientById()
+        public async Task<CustomerPersonalInfo> getClientById()
         {
-           
             customerInfo = await AdminService.GetClientById(ClientId);
             if (customerInfo == null)
             {
                
             }
+            return customerInfo;
         }
         #endregion Commands
     }

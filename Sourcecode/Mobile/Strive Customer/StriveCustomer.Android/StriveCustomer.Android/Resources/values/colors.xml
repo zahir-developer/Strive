@@ -13,6 +13,7 @@
     <color name="infoTextColor">#2AC1B1</color>
     <color name="infoPopUpBackground">#00584F</color>
     <color name="profileInfoColor">#24489A</color>
-    <color name="profileQColor">#02143D</color> 
+    <color name="profileQColor">#02143D</color>
+    <color name="borderColor">#B1B5B4</color>
     
 </resources>
