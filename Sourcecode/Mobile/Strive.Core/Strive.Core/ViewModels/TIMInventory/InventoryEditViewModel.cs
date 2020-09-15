@@ -61,7 +61,15 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 return _SelectedItemQuantity;
             }
-            set { SetProperty(ref _SelectedItemQuantity, value); }
+            set {
+                int number = 0;
+                bool isNumeric = int.TryParse(value, out number);
+                if(((isNumeric) && number > 0) || value == "")
+                {
+                    SetProperty(ref _SelectedItemQuantity, value);
+                }
+                RaiseAllPropertiesChanged();
+            }
         }
         public string SupplierName { get
             {
@@ -155,14 +163,43 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task AddProductCommand()
         {
-            _userDialog.Loading(Strings.Loading);
+            if (ValidateCommand() == false)
+            {
+                return;
+            }
             var product = PrepareAddProduct();
+            _userDialog.Loading(Strings.Loading);
             var result = await AdminService.AddProduct(product);
             if(result.Status == "true")
             {
                 NavigateBackCommand();
             }
             _userDialog.HideLoading();
+        }
+
+        bool ValidateCommand()
+        {
+            if(string.IsNullOrEmpty(ItemName))
+            {
+                _userDialog.AlertAsync("Please enter Item name");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(ItemQuantity))
+            {
+                _userDialog.AlertAsync("Please enter Item quantity");
+                return false;
+            }
+            else if (int.Parse(ItemQuantity) < 0)
+            {
+                _userDialog.AlertAsync("Quantity cannot be a negative value");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(SupplierName))
+            {
+                _userDialog.AlertAsync("Please enter Supplier information");
+                return false;
+            }
+            return true;
         }
 
         private ProductDetail PrepareAddProduct()
@@ -210,6 +247,11 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             PrepareUpdateProduct();
             var response = await AdminService.UpdateProduct(EmployeeData.EditableProduct.Product);
+            if(response == null)
+            {
+               await _userDialog.AlertAsync("Something unusal has happened.");
+                return;
+            }
             NavigateBackCommand();
         }
 
@@ -220,6 +262,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             EmployeeData.EditableProduct.Product.ProductDescription = _SelectedItemDescription;
             EmployeeData.EditableProduct.Product.Quantity = int.Parse(_SelectedItemQuantity);
             EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
+            EmployeeData.EditableProduct.Product.base64 = Base64String;
         }
 
         public async Task NavigateUploadImageCommand()

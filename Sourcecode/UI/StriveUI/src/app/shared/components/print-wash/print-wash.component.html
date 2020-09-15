@@ -1,0 +1,52 @@
+<div id="print-header">
+    <div class="row m-b-5">
+        <div class="col-6">
+            <div>In: &nbsp; {{selectedData.Details.TimeIn | date : 'MM/dd/yyyy, hh:mm a'}}</div>
+        </div>
+        <div class="col-6">
+            <div class="float-right">{{selectedData.Details.Barcode}}</div>
+        </div>
+    </div>
+    <div class="row m-b-5">
+        <div class="col-6">
+            <div><strong>Out: &nbsp; {{selectedData.Details.EstimatedTimeOut | date: 'hh:mm a'}}</strong></div>
+        </div>
+        <div class="col-6">
+            <!-- <div>{{selectedData.Details.TimeIn}}</div> -->
+        </div>
+    </div>
+    <div class="row m-b-5">
+        <div class="col-6">
+            <div>Client: &nbsp;{{selectedData.Details.ClientName}}</div>
+        </div>
+        <div class="col-6">
+            <div class="float-right">
+                456-464-4546
+            </div>
+        </div>
+    </div>
+    <div class="row border-bottom m-b-5">
+        <div class="col-12">
+            <span>Vehicle: {{selectedData.Details.TimeIn}}</span>
+            <span>{{selectedData.Details.TimeIn}}</span>
+            <span>{{selectedData.Details.TimeIn}}</span>
+        </div>
+    </div>
+</div>
+<div id="print-body">
+    <div class="row m-b-10">
+        <div class="col-12" *ngFor="let addService of selectedData.DetailsItem">
+            <div class="custom-control custom-checkbox m-t-10">
+                <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}" />
+                <label class="custom-control-label" for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="print-footer">
+    <div class="row">
+        <div class="col-sm-12">
+            <div>Note: {{selectedData.Details.Notes}}</div>
+        </div>
+    </div>
+</div>

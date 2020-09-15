@@ -1,0 +1,15 @@
+<div *ngFor="let vehicle of viewNotes">
+    <div class="row">
+        <div class="col-sm-12">
+            <span>Vehicle Model: {{ vehicle.VehicleModel }}</span>
+            <span>Vehicle Make: {{ vehicle.VehicleMake }}</span>
+            <span>Vehicle Color: {{ vehicle.VehicleColor }}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <textarea class="form-control m-t-5 m-b-5 notes-textarea" disabled name="note" [(ngModel)]="vehicle.Notes"
+                rows="3"></textarea>
+        </div>
+    </div>
+</div>

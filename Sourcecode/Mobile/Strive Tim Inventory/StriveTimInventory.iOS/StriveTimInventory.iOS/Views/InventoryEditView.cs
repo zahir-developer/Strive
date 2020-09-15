@@ -57,22 +57,32 @@ namespace StriveTimInventory.iOS.Views
             var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
             Tap.CancelsTouchesInView = false; 
             View.AddGestureRecognizer(Tap);
+
+            ItemQuantity.KeyboardType = UIKeyboardType.NumberPad;
+
+            ChangeOrientation();
         }
 
         public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
         {
+            ChangeOrientation();
+        }
+
+        void ChangeOrientation()
+        {
             var height = UIScreen.MainScreen.Bounds;
             var width = UIScreen.MainScreen.Bounds;
-            if(width.Width > height.Height)
+            if (width.Width > height.Height)
             {
                 portconstone.Active = portconsttwo.Active =
                     portconstthree.Active = portconstfour.Active =
                     portconsfive.Active = portconstsix.Active = portconstseven.Active = false;
                 landxonstone.Active = landconsttwo.Active =
                      landconstthree.Active = landconstfour.Active =
-                     landconstfive.Active= landconstsix.Active = landconstseven.Active = true;
-                
-            } else
+                     landconstfive.Active = landconstsix.Active = landconstseven.Active = true;
+
+            }
+            else
             {
                 landxonstone.Active = landconsttwo.Active =
                     landconstthree.Active = landconstfour.Active =
@@ -83,7 +93,6 @@ namespace StriveTimInventory.iOS.Views
             }
             View.SetNeedsLayout();
             UIView.Animate(0.3, () => { View.LayoutIfNeeded(); });
-
         }
 
         private async void OnReceivedMessageAsync(ValuesChangedMessage message)
@@ -119,6 +128,7 @@ namespace StriveTimInventory.iOS.Views
         private void SetImage(string url)
         {
             ItemImage.Image = UIImage.FromBundle(url);
+            ConvertToBase64(UIImage.FromBundle(url));
         }
 
         private void PickImage()
@@ -158,11 +168,7 @@ namespace StriveTimInventory.iOS.Views
                 if (originalImage != null)
                 {
                     ItemImage.Image = originalImage;
-                    NSData imageData = originalImage.AsPNG();
-                    Byte[] myByteArray = new Byte[imageData.Length];
-                    System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
-                    string Base64String = Convert.ToBase64String(myByteArray);
-                    ViewModel.Base64String = Base64String;
+                    ConvertToBase64(originalImage);
                 }
 
                 UIImage editedImage = e.Info[UIImagePickerController.EditedImage] as UIImage;
@@ -174,6 +180,15 @@ namespace StriveTimInventory.iOS.Views
             }
 
             imagePicker.DismissModalViewController(true);
+        }
+
+        void ConvertToBase64(UIImage originalImage)
+        {
+            NSData imageData = originalImage.AsPNG();
+            Byte[] myByteArray = new Byte[imageData.Length];
+            System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
+            string Base64String = Convert.ToBase64String(myByteArray);
+            ViewModel.Base64String = Base64String;
         }
 
         public override void DidReceiveMemoryWarning()

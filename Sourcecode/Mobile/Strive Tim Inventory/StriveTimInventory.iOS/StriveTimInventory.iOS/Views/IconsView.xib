@@ -16,7 +16,6 @@
             <connections>
                 <outlet property="CancelButton" destination="NSa-ck-3S0" id="name-outlet-NSa-ck-3S0"/>
                 <outlet property="IconCollectionView" destination="yfI-e4-gf3" id="name-outlet-yfI-e4-gf3"/>
-                <outlet property="SaveButton" destination="kcv-fM-Znw" id="name-outlet-kcv-fM-Znw"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -34,20 +33,8 @@
                             <color key="textColor" red="0.20000159740000001" green="0.19999706749999999" blue="0.20000010730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcv-fM-Znw">
-                            <rect key="frame" x="394" y="829" width="170" height="50"/>
-                            <color key="backgroundColor" red="0.11558806150000001" green="0.78201174740000001" blue="0.71190595629999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="50" id="I1a-KI-Avd"/>
-                                <constraint firstAttribute="width" constant="170" id="jrg-JI-5ni"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
-                            <state key="normal" title="SAVE">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSa-ck-3S0">
-                            <rect key="frame" x="219" y="829" width="170" height="50"/>
+                            <rect key="frame" x="394" y="824" width="170" height="50"/>
                             <color key="backgroundColor" red="0.50552135710000001" green="0.59506636859999995" blue="0.58765536549999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="0di-lD-dJI"/>
@@ -59,7 +46,7 @@
                             </state>
                         </button>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="yfI-e4-gf3">
-                            <rect key="frame" x="30" y="90" width="534" height="719"/>
+                            <rect key="frame" x="30" y="90" width="534" height="714"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="h3N-8b-dih">
                                 <size key="itemSize" width="128" height="128"/>
@@ -71,16 +58,14 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
+                        <constraint firstItem="NSa-ck-3S0" firstAttribute="top" secondItem="yfI-e4-gf3" secondAttribute="bottom" constant="20" id="25g-Vw-YpA"/>
+                        <constraint firstAttribute="bottom" secondItem="NSa-ck-3S0" secondAttribute="bottom" constant="20" id="941-F2-uJ5"/>
                         <constraint firstItem="yfI-e4-gf3" firstAttribute="top" secondItem="HyZ-In-RAC" secondAttribute="top" constant="90" id="9cJ-oQ-5jm"/>
                         <constraint firstAttribute="trailing" secondItem="yfI-e4-gf3" secondAttribute="trailing" constant="30" id="MF4-4O-5gm"/>
-                        <constraint firstAttribute="bottom" secondItem="kcv-fM-Znw" secondAttribute="bottom" constant="15" id="MqM-6v-0Jb"/>
                         <constraint firstItem="2ic-E3-5Vh" firstAttribute="top" secondItem="HyZ-In-RAC" secondAttribute="top" constant="30" id="Xki-Es-J2o"/>
-                        <constraint firstItem="NSa-ck-3S0" firstAttribute="centerY" secondItem="kcv-fM-Znw" secondAttribute="centerY" id="XvN-Lp-CLZ"/>
                         <constraint firstItem="2ic-E3-5Vh" firstAttribute="leading" secondItem="HyZ-In-RAC" secondAttribute="leading" constant="60" id="ZXu-FS-vWX"/>
-                        <constraint firstAttribute="trailing" secondItem="kcv-fM-Znw" secondAttribute="trailing" constant="30" id="ZZ8-e1-VAU"/>
-                        <constraint firstItem="kcv-fM-Znw" firstAttribute="top" secondItem="yfI-e4-gf3" secondAttribute="bottom" constant="20" id="gLT-dh-gC1"/>
+                        <constraint firstItem="NSa-ck-3S0" firstAttribute="trailing" secondItem="yfI-e4-gf3" secondAttribute="trailing" id="sZ8-sr-fJN"/>
                         <constraint firstItem="yfI-e4-gf3" firstAttribute="leading" secondItem="HyZ-In-RAC" secondAttribute="leading" constant="30" id="we0-aq-YfO"/>
-                        <constraint firstItem="kcv-fM-Znw" firstAttribute="leading" secondItem="NSa-ck-3S0" secondAttribute="trailing" constant="5" id="xpZ-XS-IpH"/>
                     </constraints>
                 </view>
             </subviews>

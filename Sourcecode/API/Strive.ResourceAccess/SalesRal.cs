@@ -53,11 +53,27 @@ namespace Strive.ResourceAccess
         }
         public bool AddPayment(SalesPaymentDto salesPayment)
         {
-            return dbRepo.SavePc(salesPayment, "JobPaymentId");
+            return dbRepo.InsertPc(salesPayment, "JobPaymentId");
         }
         public bool AddListItem(SalesAddListItemDto salesAddListItem)
         {
             return dbRepo.InsertPc(salesAddListItem, "JobId");
+        }
+        public bool UpdateListItem(SalesAddListItemDto salesAddListItem)
+        {
+            return dbRepo.UpdatePc(salesAddListItem);
+        }
+        public List<ServiceItemDto> GetServicesWithPrice()
+        {
+            return db.Fetch<ServiceItemDto>(SPEnum.uspGetServiceByItemList.ToString(), null);
+        }
+        public bool DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteRollBackItems.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
         }
     }
 }

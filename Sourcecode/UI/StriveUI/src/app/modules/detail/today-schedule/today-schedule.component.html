@@ -122,7 +122,7 @@
     <div class=" border-bottom " *ngFor="let bay of bayDetail; let index = index">
         <div class="row m-r-0 m-l-0 m-t-10">
             <div class="col-lg-2">
-                <label>Bay #{{bay.BayId}}</label>
+                <label>Bay #{{index+1}}</label>
             </div>
             <div class="col-lg-3"> <span *ngIf="bay.totalCount !== 0" class="text-muted font-size-1">Detailed
                     Scheduled: {{bay.totalCount}}</span>
@@ -187,7 +187,7 @@
                                     <td class="theme-optional-icon-color">
                                         {{detail.ServiceName}}
                                     </td>
-                                    <td>
+                                    <td>{{detail.OutsideService}}
                                     </td>
                                 </tr>
                                 <tr *ngIf="bay.BayDetail.length === 0"> 

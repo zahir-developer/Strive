@@ -1,8 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { isEmpty } from 'rxjs/operators';
+import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
+import { ClientService } from 'src/app/shared/services/data-service/client.service';
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -10,7 +12,7 @@ import { isEmpty } from 'rxjs/operators';
   styleUrls: ['./create-edit-washes.component.css']
 })
 export class CreateEditWashesComponent implements OnInit {
-
+  @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   washForm: FormGroup;
   timeIn: any;
   timeOut: any;
@@ -43,7 +45,14 @@ export class CreateEditWashesComponent implements OnInit {
   memberService: any[];
   submitted: boolean;
   isBarcode: boolean = false;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private wash: WashService) { }
+  headerData: string;
+  showVehicleDialog: boolean;
+  showClientDialog: boolean;
+  clientId: any;
+  address: any;
+  closeclientDialog: any;
+  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
+    private wash: WashService, private client: ClientService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -154,16 +163,16 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
         this.memberService = membership.MembershipAndServiceDetail.MembershipService;
-        if(this.memberService !== null){
-        const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
-        if (washService.length !== 0) {
-          this.washService(washService[0].ServiceId);
-        }else {
+        if (this.memberService !== null) {
+          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
+          if (washService.length !== 0) {
+            this.washService(washService[0].ServiceId);
+          } else {
+            this.washForm.get('washes').reset();
+          }
+        } else {
           this.washForm.get('washes').reset();
         }
-       }else {
-        this.washForm.get('washes').reset();
-      }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -189,6 +198,7 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
         this.washForm.patchValue({
+          vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
           type: vData.VehicleMakeId,
           model: vData.VehicleModelId,
@@ -257,8 +267,12 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   selectedClient(event) {
-    const clientId = event.id;
-    this.getClientVehicle(clientId);
+    this.clientId = event.id;
+    this.getClientVehicle(this.clientId);
+  }
+
+  clientChange(){
+    this.clientId = this.washForm.value.client.id;
   }
 
   change(data) {
@@ -334,7 +348,7 @@ export class CreateEditWashesComponent implements OnInit {
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
         }
-        if(this.isEdit && this.selectedData.Washes[0] !== undefined){
+        if (this.isEdit && this.selectedData.Washes[0] !== undefined) {
           this.washForm.patchValue({ vehicle: this.selectedData.Washes[0].VehicleId });
         }
       } else {
@@ -505,6 +519,90 @@ export class CreateEditWashesComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  addVehicle() {
+    this.headerData = 'Add New Vehicle';
+    this.showVehicleDialog = true;
+  }
+
+  closePopupEmitVehicle(event) {
+    if (event.status === 'saved') {
+      this.showVehicleDialog = false;
+      this.getClientVehicle(this.clientId);
+    }
+    this.showVehicleDialog = event.isOpenPopup;
+  }
+
+  addClient() {
+    this.headerData = 'Add New Client';
+    this.showClientDialog = true;
+  }
+
+  closePopupEmitClient() {    
+    this.showClientDialog = false;
+  }
+
+  saveClient() {
+    this.clientFormComponent.submitted = true;
+    this.clientFormComponent.stateDropdownComponent.submitted = true;
+    if (this.clientFormComponent.clientForm.invalid) {
+      return;
+    }
+    this.address = [{
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
+      clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
+      address1: this.clientFormComponent.clientForm.value.address,
+      address2: "",
+      phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
+      isActive: true,
+      zip: this.clientFormComponent.clientForm.value.zipcode,
+      state: this.clientFormComponent.State,
+      city: this.clientFormComponent.city,
+      country: 38,
+      phoneNumber: this.clientFormComponent.clientForm.value.phone1,
+      email: this.clientFormComponent.clientForm.value.email,
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+      updatedBy: 1,
+      updatedDate: new Date()
+    }]
+    const formObj = {
+      clientId: this.isEdit ? this.selectedData.ClientId : 0,
+      firstName: this.clientFormComponent.clientForm.value.fName,
+      middleName: "",
+      lastName: this.clientFormComponent.clientForm.value.lName,
+      gender: 1,
+      maritalStatus: 1,
+      birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
+      isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
+      notes: this.clientFormComponent.clientForm.value.notes,
+      recNotes: this.clientFormComponent.clientForm.value.checkOut,
+      score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+      noEmail: this.clientFormComponent.clientForm.value.creditAccount,
+      clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
+    };
+    const myObj = {
+      client: formObj,
+      clientVehicle: null,
+      clientAddress: this.address
+    }
+    this.client.addClient(myObj).subscribe(data => {
+      if (data.status === 'Success') {
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+        this.closePopupEmitClient();
+        this.getAllClient();
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.clientFormComponent.clientForm.reset();
+      }
+    });
   }
 }
 
