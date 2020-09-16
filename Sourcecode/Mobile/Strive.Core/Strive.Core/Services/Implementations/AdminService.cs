@@ -149,6 +149,13 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<SelectedServiceList>(ApiUtils.URL_GET_SELECTED_MEMBERSHIP_SERVICES+MembershipId, HttpMethod.Get);
         }
+
+        public async Task<ClientsSearch> SearchClient(string ClientName)
+        {
+            var data = new { clientName = ClientName};
+            return await _restClient.MakeApiCall<ClientsSearch>(ApiUtils.URL_SEARCH_CLIENT, HttpMethod.Post,data);
+        }
+
     }
 
     public static class RestUtils
