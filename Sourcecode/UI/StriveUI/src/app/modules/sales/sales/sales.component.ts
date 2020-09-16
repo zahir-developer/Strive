@@ -8,7 +8,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
-
+import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
+import * as moment from 'moment';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -17,6 +18,8 @@ import { ServiceSetupService } from 'src/app/shared/services/data-service/servic
 })
 export class SalesComponent implements OnInit {
   services: any;
+  validGiftcard: any;
+  isInvalidGiftcard = false;
   discount = '';
   discounts = [];
   selectedDiscount = [];
@@ -34,9 +37,10 @@ export class SalesComponent implements OnInit {
   JobId: any;
   newTicketNumber: any;
   selectedService: any;
+  balance: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
-    private messageService: MessageServiceToastr, private service: ServiceSetupService) { }
+    private messageService: MessageServiceToastr, private service: ServiceSetupService, private giftcardService: GiftCardService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -109,7 +113,15 @@ export class SalesComponent implements OnInit {
     this.selectedService = event;
     console.log(event.name);
   }
+  clearpaymentField() {
+    this.cash = this.credit = this.giftCard = 0;
+    this.selectedDiscount = this.giftcards = [];
+  }
   getDetailByTicket() {
+    this.washes = [];
+    this.details = [];
+    this.additionalService = [];
+    this.clearpaymentField();
     if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
       const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
@@ -142,7 +154,7 @@ export class SalesComponent implements OnInit {
       });
     }
   }
-  clearform(){
+  clearform() {
     this.cash = this.giftCard = this.credit = 0;
   }
   filterItem(event) {
@@ -169,7 +181,7 @@ export class SalesComponent implements OnInit {
 
   // Delete location
   confirmDelete(data) {
-    this.salesService.deleteItemById(data.JobId).subscribe(res => {
+    this.salesService.deleteItemById(data.JobItemId).subscribe(res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
         this.getDetailByTicket();
@@ -242,8 +254,10 @@ export class SalesComponent implements OnInit {
     const giftCardNumber = this.giftCardForm.value.giftCardNumber;
     const giftCardAmount = this.giftCardForm.value.giftCardAmount;
     if (this.giftCardForm.valid) {
-      this.giftcards.push({ id: this.count++, number: giftCardNumber, amount: giftCardAmount });
+      this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
       this.giftCardForm.reset();
+      this.balance = 0;
+      this.validGiftcard.GiftCardDetail[0].TotalAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
@@ -402,7 +416,9 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.splice(index, 1);
   }
   addPayment() {
-    const giftcard = this.giftcards.map(item => {
+    let giftcard = null;
+    let discount = null;
+    giftcard = this.giftcards.map(item => {
       return {
         giftCardHistoryId: 1,
         giftCardId: item.id,
@@ -419,6 +435,20 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date(),
         jobPaymentId: 4
       };
+    });
+    discount = this.selectedDiscount.map(item => {
+      return {
+        jobPaymentDiscountId: 0,
+        jobPaymentId: 0,
+        serviceDiscountId: +item.ServiceId,
+        amount: item.Cost,
+        isActive: true,
+        isDeleted: true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      }
     });
     console.log(giftcard);
     const paymentObj = {
@@ -442,7 +472,7 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date()
       },
-      giftCardHistory: giftcard,
+      giftCardHistory: giftcard.length === 0 ? null : giftcard,
       joPaymentCreditCard: {
         jobPaymentCreditCardId: 0,
         jobPaymentId: 0,
@@ -459,17 +489,50 @@ export class SalesComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date()
-      }
+      },
+      jobPaymentDiscount: discount.length === 0 ? null : discount
     };
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
       console.log(data, 'payment');
     });
   }
   deleteTicket() {
-    if (this.ticketNumber !== '' &&  this.ticketNumber !==undefined) {
+    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
       this.salesService.deleteTransaction(+this.ticketNumber).subscribe(data => {
         console.log(data);
       });
+    }
+  }
+  validateGiftcard() {
+    const gNo = this.giftCardForm.value.giftCardNumber;
+    this.giftcardService.getGiftCard(gNo).subscribe(data => {
+      if (data.status === 'Success') {
+        this.validGiftcard = JSON.parse(data.resultData);
+        if (this.validGiftcard.GiftCardDetail.length === 0) {
+          this.isInvalidGiftcard = true;
+        } else {
+          this.isInvalidGiftcard = false;
+        }
+      }
+      console.log(data);
+    });
+  }
+  validateAmount() {
+    this.isInvalidGiftcard = false;
+    const enteredAmount = this.giftCardForm.value.giftCardAmount;
+    const currentAmount = this.validGiftcard.GiftCardDetail[0].TotalAmount;
+    const today = new Date();
+    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ExpiryDate;
+    if (enteredAmount !== undefined && currentAmount !== undefined) {
+      if (currentAmount < enteredAmount) {
+        this.giftCardForm.patchValue({giftCardAmount: ''});
+        this.balance = 0;
+      } else {
+  this.balance = currentAmount - enteredAmount;
+      }
+    }
+    if (!moment(today).isBefore(giftcardexpiryDate)) {
+      this.isInvalidGiftcard = true;
     }
   }
 }
