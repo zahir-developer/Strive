@@ -26,26 +26,33 @@
                                     </div>
                                 </div>
                                 <div id="Timeliclocklist" class="collapse show">
-                                    <div class="table-responsive">
+                                    <div>
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" class="w-15">Day</th>
                                                     <th scope="col">Date</th>
+                                                    <th scope="col"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody *ngFor="let week of timeClockList; let index = index">
                                                 <tr>
-                                                    <th scope="row" class="timeclock-table-toggle collapsed pointer">
-                                                        <div> <i
-                                                                class="fa fa-angle-down font-size-1-3 font-weight-600 m-r-5"></i>Sunday
+                                                    <th scope="row" class="timeclock-table-toggle pointer">
+                                                        <div class="card-widgets">
+                                                            <a data-toggle="collapse" href="#CheckIn_{{index}}"
+                                                                role="button" aria-expanded="false"
+                                                                aria-controls="CheckIn_{{index}}"><i
+                                                                    class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                                            {{week.day}}
                                                         </div>
                                                     </th>
                                                     <td>8/16/2020</td>
+                                                    <td><button type="button"
+                                                            class="btn theme-primary-button-color float-right"
+                                                            (click)="addTimeList(week)">Add</button></td>
                                                 </tr>
-                                                <tr>
-                                                    <td colspan="4" id="collapse-timeclock-table"
-                                                        class="collapse show  border p-5">
+                                                <tr id="CheckIn_{{index}}" class="collapse show">
+                                                    <td colspan="4" id="collapse-timeclock-table" class="border p-5">
                                                         <table class="w-100">
                                                             <thead>
                                                                 <tr class="table-sub-collapse ">
@@ -56,99 +63,65 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
+                                                                <tr
+                                                                    *ngFor="let time of week.checkInDetail; let i = index">
                                                                     <td>
+                                                                        <ng-template #inTimePopup>
+                                                                            <timepicker
+                                                                                id="timeStart_{{week.day}}_{{i}}"
+                                                                                [(ngModel)]="time.InTime"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [showMeridian]="true"
+                                                                                [showMinutes]="true"
+                                                                                (ngModelChange)="inTime($event)">
+                                                                            </timepicker>
+                                                                        </ng-template>
                                                                         <input type="text"
-                                                                            class="form-control rounded-0 input-table"
-                                                                            placeholder="10.00 AM"> </td>
+                                                                            id="timeStart_{{week.day}}_{{i}}"
+                                                                            class="form-control"
+                                                                            [ngModel]="time.InTime | date:'hh:mm aa'"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (ngModelChange)="time.InTime=$event"
+                                                                            [popover]="inTimePopup"
+                                                                            [outsideClick]="true" placement="bottom" />
                                                                     <td>
+                                                                        <ng-template #popTemplate>
+                                                                            <timepicker id="outTime_{{week.day}}_{{i}}"
+                                                                                [(ngModel)]="time.OutTime"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [showMeridian]="true"
+                                                                                [showMinutes]="true"
+                                                                                (ngModelChange)="outTime($event, time)"></timepicker>
+                                                                        </ng-template>
                                                                         <input type="text"
-                                                                            class="form-control rounded-0 input-table"
-                                                                            placeholder="1.00 PM"> </td>
+                                                                            id="outTime_{{week.day}}_{{i}}"
+                                                                            class="form-control"
+                                                                            [ngModel]="time.OutTime | date:'hh:mm aa'"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (ngModelChange)="time.OutTime=$event"
+                                                                            [popover]="popTemplate"
+                                                                            [outsideClick]="true" placement="bottom" />
+                                                                    </td>
                                                                     <td>
                                                                         <select
-                                                                            class="form-control input-table rounded-0">
-                                                                            <option selected="">Washer</option>
-                                                                            <option>...</option>
+                                                                            class="form-control input-table rounded-0"
+                                                                            [(ngModel)]="time.RoleId">
+                                                                            <option value="" hidden selected>Select
+                                                                                Role</option>
+                                                                            <option *ngFor="let role of roleList"
+                                                                                value="{{role.CodeId}}">
+                                                                                {{role.CodeValue}}
+                                                                            </option>
                                                                         </select>
                                                                     </td>
                                                                     <td>
                                                                         <input type="text"
                                                                             class="form-control rounded-0 input-table text-right"
-                                                                            placeholder="1"> </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <input type="text"
-                                                                            class="form-control rounded-0 input-table"
-                                                                            placeholder="1.00 AM"> </td>
-                                                                    <td>
-                                                                        <input type="text"
-                                                                            class="form-control rounded-0 input-table"
-                                                                            placeholder="8.00 PM"> </td>
-                                                                    <td>
-                                                                        <select
-                                                                            class="form-control input-table rounded-0">
-                                                                            <option selected="">Greeter</option>
-                                                                            <option>...</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="text"
-                                                                            class="form-control rounded-0 input-table text-right"
-                                                                            placeholder="0">
-                                                                    </td>
-
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <input type="text"
-                                                                            class="form-control rounded-0 input-table"
-                                                                            placeholder="11.00 AM"> </td>
-                                                                    <td>
-                                                                        <input type="text"
-                                                                            class="form-control rounded-0 input-table"
-                                                                            placeholder="4.00 PM"> </td>
-                                                                    <td>
-                                                                        <select
-                                                                            class="form-control input-table rounded-0">
-                                                                            <option selected="">Detailer</option>
-                                                                            <option>...</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="text"
-                                                                            class="form-control rounded-0 input-table text-right"
-                                                                            placeholder="2">
-                                                                    </td>
+                                                                            [(ngModel)]="time.TotalHours"> </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Monday </th>
-                                                    <td>8/16/2020</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Tuesday </th>
-                                                    <td>8/25/2020</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Wednesday </th>
-                                                    <td>8/20/2020</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Thursday </th>
-                                                    <td>8/16/2020</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Friday </th>
-                                                    <td>8/16/2020</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Saturday </th>
-                                                    <td>8/16/2020</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -174,8 +147,10 @@
                                                 <tr class="text-right">
                                                     <td></td>
                                                     <td></td>
-                                                    <td><span class="font-weight-600 mr-2">Detail Rate:</span>{{ totalWeekDetail.DetailRate }}</td>
-                                                    <td><span class="font-weight-600 mr-2">Total Detail Hours:</span> {{ totalWeekDetail.TotalDetailHours }}
+                                                    <td><span class="font-weight-600 mr-2">Detail
+                                                            Rate:</span>{{ totalWeekDetail.DetailRate }}</td>
+                                                    <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
+                                                        {{ totalWeekDetail.TotalDetailHours }}
                                                     </td>
                                                     <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
                                                             Pay:</span>{{ totalWeekDetail.OverTimePay }} </td>
@@ -186,13 +161,15 @@
                                                     <td colspan="2"><span class="font-weight-600 mr-2">Overtime
                                                             Hours:</span>{{ totalWeekDetail.OverTimeHours }}</td>
                                                     <td class="p-r-20"><span
-                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount }}</td>
+                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount }}
+                                                    </td>
                                                 </tr>
                                                 <tr class="text-right">
                                                     <td></td>
                                                     <td></td>
                                                     <td colspan="3" class="p-r-20"> <span
-                                                            class="font-weight-600 mr-2">Collisions:</span>{{ totalWeekDetail.CollisionAmount }}</td>
+                                                            class="font-weight-600 mr-2">Collisions:</span>{{ totalWeekDetail.CollisionAmount }}
+                                                    </td>
                                                 </tr>
 
 
@@ -201,7 +178,9 @@
                                                 <tr class="text-right">
                                                     <td colspan="6"
                                                         class="font-weight-700 text-right p-10 font-size-1-2 p-r-20">
-                                                        Grand Total:<span class="m-l-10">{{ totalWeekDetail.GrandTotal | currency }}</span></td>
+                                                        Grand Total:<span
+                                                            class="m-l-10">{{ totalWeekDetail.GrandTotal | currency }}</span>
+                                                    </td>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -211,7 +190,8 @@
                                         <div class="pull-right">
                                             <button type="button"
                                                 class="btn theme-optional-button-color">Cancel</button>
-                                            <button type="button" class="btn theme-primary-button-color">Save</button>
+                                            <button type="button" class="btn theme-primary-button-color"
+                                                (click)="saveWeeklyhours()">Save</button>
                                         </div>
                                     </div>
 

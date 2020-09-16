@@ -23,6 +23,10 @@ export class TimeClockMaintenanceService {
     return this.http.post(`${UrlConfig.totalUrl.saveTimeClock}`, obj);
   }
 
+  getAllRoles(type) {
+    return this.http.get(`${UrlConfig.totalUrl.getDropdownValue}` + type);
+  }
+
   deleteTimeClockEmployee(obj)
   {
     return this.http.delete(`${UrlConfig.totalUrl.deleteTimeClockEmployee}`, { params: { EmployeeId : obj.employeeId , LocationId : obj.locationId }})
