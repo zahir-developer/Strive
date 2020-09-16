@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -26,6 +27,12 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
         }
+
+        public Result AddEmployeeWithService(JobServiceEmployeeDto jobServiceEmployee)
+        {
+            return ResultWrap(new DetailsRal(_tenant).AddEmployeeWithService, jobServiceEmployee, "Status");
+        }
+
         public Result GetBaySchedulesDetails(DetailsGridDto detailsGrid)
         {
             return ResultWrap(new DetailsRal(_tenant).GetBaySchedulesDetails, detailsGrid, "GetBaySchedulesDetails");
