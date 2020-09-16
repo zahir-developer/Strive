@@ -20,6 +20,11 @@ namespace Strive.Core.Models.TimInventory
         public List<ClientInfo> Client { get; set; }
     }
 
+    public class ClientsSearch
+    {
+        public List<ClientInfo> ClientSearch { get; set; }
+    }
+
     public class ClientDetail
     {
         public int ClientId { get; set; }

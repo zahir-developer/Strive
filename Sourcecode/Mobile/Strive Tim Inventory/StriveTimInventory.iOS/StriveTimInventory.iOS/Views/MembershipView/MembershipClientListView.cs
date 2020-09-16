@@ -38,8 +38,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
             ClientSearch.Placeholder = "Search";
             ClientSearch.TextChanged += SearchTextChanged;
-
-            GetAllClients();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -48,16 +46,19 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             // Release any cached data, images, etc that aren't in use.
         }
 
-        private async Task GetAllClients()
+        public override void ViewDidAppear(bool animated)
         {
-            ViewModel.ClearCommand();
-            await ViewModel.GetAllClientsCommand();
-            ViewModel.ClientSearchCommand("");
+            GetClients();
         }
 
-        private void SearchTextChanged(object sender, UISearchBarTextChangedEventArgs e)
+        async void GetClients()
         {
-            ViewModel.ClientSearchCommand(e.SearchText);
+            await ViewModel.ClientSearchCommand("");
+        }
+
+        private async void SearchTextChanged(object sender, UISearchBarTextChangedEventArgs e)
+        {
+            await ViewModel.ClientSearchCommand(e.SearchText);
             if (e.SearchText == "")
             {
                 ClientSearch.ResignFirstResponder();

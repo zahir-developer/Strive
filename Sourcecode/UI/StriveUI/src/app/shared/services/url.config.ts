@@ -122,6 +122,7 @@ export const UrlConfig = {
     updateListItem: `Admin/Sales/UpdateListItem`,
     updateItem: `Admin/Sales/UpdateItem`,
     addPayment: `Admin/Sales/AddPayment`,
+    deleteTransaction: `Admin/Sales/DeleteTransactions`,
     getTimeClockWeekDetails: `Admin/TimeClock/GetTimeClockWeekDetails`,
     saveTimeClock: `Admin/TimeClock/Save`,
     getTimeClockEmployeeDetails : `Admin/TimeClock/GetTimeClockEmployeeDetails`,

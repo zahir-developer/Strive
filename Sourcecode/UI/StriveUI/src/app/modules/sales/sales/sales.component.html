@@ -23,8 +23,7 @@
                                         <div class="col-sm-9">
                                             <div class="pull-right">
                                                 <input type="text" *ngIf="isSelected" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" [ngClass]="{'is-invalid': selected && (ticketNumber === undefined || ticketNumber === '')}">&nbsp;
-                                                <span class="p-r-25" *ngIf="!isSelected">{{newTicketNumber}}</span>
-                                                <!-- <button type="button" class="btn theme-primary-button-color disabled buttonSize">Done</button>&nbsp; -->
+                                                <span class="p-r-63" *ngIf="!isSelected">{{newTicketNumber}}</span>
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getDetailByTicket(); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getTicketNumber();enableAdd=true">New</button>
                                             </div>
@@ -69,7 +68,7 @@
                                         <div class="icon-btn col-sm"> <img src="assets/img/Account.png" alt="" />
                                             <div> Account </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0"> <img src="assets/img/Clear.png" alt="" />
+                                        <div class="icon-btn col-sm m-r-0" (click)="getDetailByTicket()"> <img src="assets/img/Clear.png" alt="" />
                                             <div> Clear </div>
                                         </div>
                                     </div>
@@ -85,32 +84,39 @@
                                                 <h4 class="d-inline-block">Giftcard</h4> </div>
                                                 <form [formGroup]="giftCardForm">
                                             <div class="form-row p-t-10 p-b-12">
-                                                <div class="form-group col-md-6"> Giftcard # </div>
+                                                <div class="form-group col-md-6"> Amount Due </div>
+                                                <div class="form-group col-md-6 text-right"> {{grandTotal ? (grandTotal | currency) : '$0.00'}} </div>
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" formControlName="giftCardNumber" placeholder="Gift Card #" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardNumber.errors }"> 
+                                                    <input type="text" class="form-control" formControlName="giftCardNumber" placeholder="Gift Card #" (blur)="validateGiftcard()" [ngClass]="{ 'is-invalid': (giftcardsubmitted && f.giftCardNumber.errors || isInvalidGiftcard) }" (clear)="validGiftcard = {}; balance = 0">  
                                                     <div *ngIf="giftcardsubmitted && f.giftCardNumber.errors" class="invalid-feedback">
                                                         <div *ngIf="f.giftCardNumber.errors.required">GiftCard number is required</div>
                                                     </div>
+                                                    <div *ngIf="isInvalidGiftcard" class="invalid-feedback"> Invalid Giftcard Number</div>
                                                 </div>
                                                   
                                             </div>
-                                            <div class="form-row p-t-10 p-b-12">
-                                                <div class="form-group col-md-6"> Amount </div>
+                                            <div class="form-row p-b-12">
+                                                <div class="form-group col-md-6"> Current Value </div>
+                                                <div class="form-group col-md-6 text-right"> {{validGiftcard?.GiftCardDetail[0]?.TotalAmount ? (validGiftcard?.GiftCardDetail[0]?.TotalAmount | currency) : '$0.00' }} </div>
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" placeholder="Amount" formControlName="giftCardAmount" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"> 
+                                                    <input type="text" class="form-control" placeholder="Amount" formControlName="giftCardAmount" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"(blur)="validateAmount()"> 
                                                     <div *ngIf="giftcardsubmitted && f.giftCardAmount.errors" class="invalid-feedback">
                                                         <div *ngIf="f.giftCardAmount.errors.required">Amount is required</div>
                                                     </div>
                                                 </div>
                                                    
                                             </div>
+                                            <div class="form-row p-b-12 p-t-20 border-top">
+                                                <div class="form-group col-md-6"> Balance </div>
+                                                <div class="form-group col-md-6 text-right"> {{balance ? (balance | currency) : '$0.00'}}</div>
+                                            </div>
                                         </form>
                                             <div class="form-row  float-right">
-                                                <button type="button" class="btn theme-primary-button-color  btn-sm " (click)="addGiftCard()">Add</button>
+                                                <button type="button" class="btn theme-primary-button-color  btn-sm " [disabled]="giftCardForm.invalid || isInvalidGiftcard"(click)="addGiftCard()">Add</button>
                                             </div>
                                             <div *ngIf="giftcards.length>0">
                                             <div class="table-responsive m-t-10">
@@ -136,33 +142,6 @@
                                             <button type="button" class="btn theme-primary-button-color btn-sm" (click)="giftCardProcess()">Process</button>
                                         </div>
                                         </div>
-                                        <!-- <div class="card-body">
-                                            <div class="title-border p-b-5 m-b-5">
-                                                <h4 class="d-inline-block">Giftcard</h4> </div>
-                                            <div class="form-row p-t-10 p-b-12">
-                                                <div class="form-group col-md-6"> Amount Due </div>
-                                                <div class="form-group col-md-6 text-right"> $163.95 </div>
-                                            </div>
-                                            <div class="form-row p-b-12">
-                                                <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" placeholder="Gift Card #"> </div>
-                                            </div>
-                                            <div class="form-row p-b-12">
-                                                <div class="form-group col-md-6"> Current Value </div>
-                                                <div class="form-group col-md-6 text-right"> $000.95 </div>
-                                            </div>
-                                            <div class="form-row p-b-12">
-                                                <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" placeholder="Amount"> </div>
-                                            </div>
-                                            <div class="form-row p-b-12 p-t-20 border-top">
-                                                <div class="form-group col-md-6"> Balance </div>
-                                                <div class="form-group col-md-6 text-right"> $163.95 </div>
-                                            </div>
-                                            <div class="form-row p-b-12 m-t-100 p-t-40 border-top">
-                                                <button type="button" class="btn theme-primary-button-color w-100 btn-sm giftcard-btn">Process</button>
-                                            </div>
-                                        </div> -->
                                     </div>
                                     <!--credit card-->
                                       <div id="creditcardpopup" class="gift-card"> <span class="closebtn" (click)="closecreditcard()">&times;</span>
@@ -312,7 +291,6 @@
                                                 <form [formGroup]="addItemForm">
                                                 <input type="text" class="form-control d-inline-block w-23 align-middle" placeholder="Qty" formControlName="quantity">&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="addItem()">Add</button>&nbsp;
-                                                <!-- <button type="button" class="btn theme-primary-button-color buttonSize" href="#itemsearchmodal" data-toggle="modal">Search</button> -->
                                             </form>
                                             </div>
                                         </div>
@@ -323,7 +301,6 @@
                                                 <tr>
                                                     <th scope="col">Item</th>
                                                     <th scope="col">Qty</th>
-                                                    <th scope="col">T</th>
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
@@ -335,7 +312,6 @@
                                                 <tr *ngFor ="let detail of details" >
                                                     <td class="pointer">{{detail?.ServiceName}}</td>
                                                     <td>{{detail?.Quantity}}</td>
-                                                    <td>{{detail?.T}}</td>
                                                     <td>{{detail.Price}}</td>
                                                     <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"></i></td>
                                                 </tr>
