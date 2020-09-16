@@ -31,7 +31,7 @@ const adminRoutes: Routes = [
     { path: 'client', component: ClientComponent },
     { path: 'vehicle', component: VehicleComponent },
     { path: 'gift-card', component: GiftCardComponent },
-    { path: 'time-clock', component: TimeClockMaintenanceComponent },
+    { path: 'time-cost', component: TimeClockMaintenanceComponent },
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },
