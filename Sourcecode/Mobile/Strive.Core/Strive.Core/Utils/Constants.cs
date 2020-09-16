@@ -54,5 +54,9 @@ namespace Strive.Core.Utils
         public const string URL_GET_CLIENT_VEHICLE_SERVICES = "/Admin/ServiceSetup/GetService";
 
         public const string URL_GET_SELECTED_MEMBERSHIP_SERVICES = "/Admin/MembershipSetup/GetAllMembershipById/";  
+
+        public const string URL_GET_CLIENT_BY_ID = "/Admin/Client/GetClientById/{0}";
+
+        public const string URL_SAVE_CLIENT_INFO = "/Admin/Client/UpdateClientVehicle";
     }
 }

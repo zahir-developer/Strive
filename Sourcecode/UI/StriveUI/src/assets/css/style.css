@@ -363,11 +363,13 @@ table th
 	
 	.cash-box {
 		display: inline-block;
-		width: auto;
+		width: 62%;
 		height: 50px;
 		margin: 6px;
 		border: 2px solid #1DC9B7;
-		border-radius: 4px;
+        border-radius: 4px;
+        text-align: center;
+        color: #1DC9B7;
 	}
 	
 	.text-cash {

@@ -38,6 +38,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<Clients> GetAllClient();
 
+        Task<CustomerPersonalInfo> GetClientById(int Id);
+
         Task<ProductsSearch> SearchProduct(string productName);
 
         Task<MembershipServiceList> GetMembershipServiceList();
@@ -55,5 +57,7 @@ namespace Strive.Core.Services.Interfaces
         Task<SelectedServiceList> GetSelectedMembershipServices(int MembershipId);
 
         Task<ClientsSearch> SearchClient(string ClientName);
+
+        Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel);
     }
 }
