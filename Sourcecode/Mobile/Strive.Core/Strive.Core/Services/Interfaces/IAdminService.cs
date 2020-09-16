@@ -57,5 +57,7 @@ namespace Strive.Core.Services.Interfaces
         Task<SelectedServiceList> GetSelectedMembershipServices(int MembershipId);
 
         Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel);
+
+        Task<VehicleCodes> GetVehicleCodes();
     }
 }

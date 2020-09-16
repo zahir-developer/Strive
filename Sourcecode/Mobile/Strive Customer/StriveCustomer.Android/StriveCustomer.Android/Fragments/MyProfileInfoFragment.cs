@@ -26,8 +26,9 @@ namespace StriveCustomer.Android.Fragments
         TabLayout profileTabs;
         ViewPager profilePager;
         ViewPagerAdapter profileAdapter;
-        PersonalInfoFragment personalInfo , personalInfo1, personalInfo2;
-        MyProfileInfoViewModel profileViewModel = new MyProfileInfoViewModel();
+        PersonalInfoFragment personalInfo , personalInfo2;
+        VehicleInfoFragment vehicleInfo;
+        MyProfileInfoViewModel profile = new MyProfileInfoViewModel();
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -39,11 +40,10 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.MyProfileInfoFragment, null);
-            
             profileTabs = rootview.FindViewById<TabLayout>(Resource.Id.myProfileTab);
             profilePager = rootview.FindViewById<ViewPager>(Resource.Id.myProfilePager);
             personalInfo = new PersonalInfoFragment();
-            personalInfo1 = new PersonalInfoFragment();
+            vehicleInfo = new VehicleInfoFragment();
             personalInfo2= new PersonalInfoFragment();
             return rootview;
         }
@@ -52,7 +52,7 @@ namespace StriveCustomer.Android.Fragments
             base.OnActivityCreated(savedInstanceState);
             profileAdapter = new ViewPagerAdapter(ChildFragmentManager);
             profileAdapter.AddFragment(personalInfo, "Personal Info");
-            profileAdapter.AddFragment(personalInfo1, "Vehicle List");
+            profileAdapter.AddFragment(vehicleInfo, "Vehicle List");
             profileAdapter.AddFragment(personalInfo2, "Payment");
             profilePager.Adapter = profileAdapter;
             profileTabs.SetupWithViewPager(profilePager);
