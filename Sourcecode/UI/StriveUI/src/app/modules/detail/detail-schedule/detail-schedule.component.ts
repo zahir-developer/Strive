@@ -3,6 +3,7 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
 import { DatePipe } from '@angular/common';
 import { TodayScheduleComponent } from '../today-schedule/today-schedule.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -27,6 +28,7 @@ export class DetailScheduleComponent implements OnInit {
     private detailService: DetailService,
     private datePipe: DatePipe,
     private spinner: NgxSpinnerService,
+    private toastr: MessageServiceToastr
   ) { }
 
   ngOnInit(): void {
@@ -139,6 +141,9 @@ export class DetailScheduleComponent implements OnInit {
           }
         });
       }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
     });
   }
 

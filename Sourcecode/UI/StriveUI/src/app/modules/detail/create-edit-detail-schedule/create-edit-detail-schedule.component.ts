@@ -414,6 +414,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
         this.type = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
+        if (this.isEdit) {
+          vehicle.VehicleDetails.forEach( item  => {
+            if (this.selectedData.Details.Make === item.CodeId ) {
+                this.selectedData.Details.vehicleMake = item.CodeValue;
+            } else if (this.selectedData.Details.Model === item.CodeId) {
+              this.selectedData.Details.vehicleModel = item.CodeValue;
+            } else if (this.selectedData.Details.Color === item.CodeId) {
+              this.selectedData.Details.vehicleColor = item.CodeValue;
+            }
+        });
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }

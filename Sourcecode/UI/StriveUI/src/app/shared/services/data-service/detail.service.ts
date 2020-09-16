@@ -38,8 +38,8 @@ export class DetailService {
     return this.http.get(`${UrlConfig.totalUrl.getJobType}`);
   }
 
-  getTodayDateScheduleList(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, obj);
+  getTodayDateScheduleList(JobDate, LocationId) {
+    return this.http.get(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, { params : { JobDate, LocationId } });
   }
 
   getAllEmployeeList() {
