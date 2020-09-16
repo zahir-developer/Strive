@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { WashesListComponent } from './washes-list/washes-list.component';
 import { CreateEditWashesComponent } from './create-edit-washes/create-edit-washes.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { DialogModule } from 'primeng';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule, 
     FormsModule,
     WashRoutingModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    DialogModule
   ], 
   exports: [RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

@@ -10,7 +10,7 @@ namespace Strive.BusinessEntities.DTO.Sales
     public class SalesPaymentDto
     {
         public JobPayment JobPayment { get; set; }
-        public GiftCardHistory GiftCardHistory { get; set; }
+        public List<GiftCardHistory> GiftCardHistory { get; set; }
         public JobPaymentCreditCard JobPaymentCreditCard { get; set; }
     }
 }

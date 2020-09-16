@@ -30,6 +30,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateBackCommand()
         {
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 0, ""));
             await _navigationService.Close(this);
         }
     }

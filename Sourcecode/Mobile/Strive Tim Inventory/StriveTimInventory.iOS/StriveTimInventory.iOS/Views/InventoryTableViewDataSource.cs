@@ -86,6 +86,7 @@ namespace StriveTimInventory.iOS.Views
                                 if (response)
                                 {
                                     success(true);
+                                    await ViewModel.InventorySearchCommand("");
                                 }
                                 else
                                 {

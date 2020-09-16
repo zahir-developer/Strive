@@ -108,7 +108,7 @@ namespace StriveTimInventory.iOS.Views
                 {
                     UserIdHintLabel.Hidden = true;
                 }
-                UserIdTxtField.Placeholder = ViewModel.UserId;
+                UserIdTxtField.Placeholder = ViewModel.UserIdText;
                 return;
             }
             if (string.IsNullOrEmpty(PasswordTxtField.Text))
@@ -117,6 +117,8 @@ namespace StriveTimInventory.iOS.Views
             }
             PasswordTxtField.Placeholder = ViewModel.PasswordText;
         }
+
+       
     }
 }
 

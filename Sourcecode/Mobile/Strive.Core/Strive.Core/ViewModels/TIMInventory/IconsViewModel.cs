@@ -26,6 +26,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void SelectedIconCommand(int index)
         {
             SelectedIcon = IconList[index];
+            SaveCommand();
         }
 
         public async Task NavigateBackCommand()

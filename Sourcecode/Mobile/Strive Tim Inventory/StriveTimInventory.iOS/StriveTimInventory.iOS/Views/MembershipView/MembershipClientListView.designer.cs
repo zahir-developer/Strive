@@ -16,10 +16,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton AddButton { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISearchBar ClientSearch { get; set; }
 
         [Outlet]
@@ -32,11 +28,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         void ReleaseDesignerOutlets ()
         {
-            if (AddButton != null) {
-                AddButton.Dispose ();
-                AddButton = null;
-            }
-
             if (ClientSearch != null) {
                 ClientSearch.Dispose ();
                 ClientSearch = null;
