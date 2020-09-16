@@ -58,6 +58,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task InventorySearchCommand(string SearchText)
         {
+            _userDialog.ShowLoading(Strings.Loading);
             var searchList = await AdminService.SearchProduct(SearchText);
             ClearCommand();
             foreach (var product in searchList.ProductSearch)

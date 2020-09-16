@@ -25,6 +25,7 @@ namespace Strive.Core.Models.TimInventory
         public string Notes { get; set; }
         public bool IsActive { get; set; }
         public object MonthlyCharge { get; set; }
+        public bool IsMembership { get; set; }
     }
 
     public class VehicleList
