@@ -1,15 +1,9 @@
-﻿using Dapper;
-using Strive.BusinessEntities;
+﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Location;
-using Strive.BusinessEntities.Model;
 using Strive.Common;
-using Strive.Repository;
-using Strive.RepositoryCqrs;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 
 namespace Strive.ResourceAccess
 {
@@ -27,19 +21,19 @@ namespace Strive.ResourceAccess
             return dbRepo.UpdatePc(location);
         }
 
+        public List<LocationViewModel> GetSearchResult(LocationSearchDto search)
+        {
+            _prm.Add("@LocationSearch", search.LocationSearch);
+            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
+        }
+
         public bool DeleteLocation(int id)
         {    
             _prm.Add("LocationId", id.toInt());
             _prm.Add("UserId", _tenant.EmployeeId);
             _prm.Add("Date", DateTime.UtcNow);
-            db.Save(SPEnum.USPDELETELOCATION_TEMP.ToString(), _prm);
+            db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
             return true;
-        }
-
-        public List<LocationViewModel> GetSearchResult(LocationSearchDto search)
-        {
-            _prm.Add("@LocationSearch", search.LocationSearch);
-            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
         }
 
         public List<LocationViewModel> GetAllLocation()

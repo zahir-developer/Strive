@@ -37,12 +37,7 @@ namespace Strive.BusinessLogic.Common
             var res = new CommonRal(_tenant).DoSearch(searchTerm);
             return null;
         }
-        public string RandomColorGenerator()
-        {
-            var random = new Random();
-            var color = String.Format("#{0:X6}", random.Next(0x1000000));
-            return color;
-        }
+
         public string RandomNumber(int length)
         {
             random = new Random();

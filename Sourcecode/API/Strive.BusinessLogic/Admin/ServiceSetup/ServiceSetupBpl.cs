@@ -21,9 +21,14 @@ namespace Strive.BusinessLogic.ServiceSetup
             return ResultWrap(new ServiceSetupRal(_tenant).UpdateService, service, "Status");
         }
 
-        public Result GetAllServiceType()
+        public Result GetSearchResult(ServiceSearchDto search)
         {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceType, "ServiceType");
+            return ResultWrap(new ServiceSetupRal(_tenant).GetSearchResult, search, "ServiceSearch");
+        }
+
+        public Result DeleteServiceById(int id)
+        {
+            return ResultWrap(new ServiceSetupRal(_tenant).DeleteServiceById, id, "ServiceDelete");
         }
 
         public Result GetAllServiceSetup()
@@ -31,26 +36,24 @@ namespace Strive.BusinessLogic.ServiceSetup
             return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceSetup, "ServiceSetup");
         }
 
+        public Result GetAllServiceType()
+        {
+            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceType, "ServiceType");
+        }
+
+        public Result GetServicesDetailsWithUpcharges()
+        {
+            return ResultWrap(new ServiceSetupRal(_tenant).GetServicesDetailsWithUpcharges, "ServicesWithPrice");
+        }
+
         public Result GetServiceSetupById(int id)
         {
             return ResultWrap(new ServiceSetupRal(_tenant).GetServiceSetupById, id, "ServiceSetup");
         }
 
-        public Result DeleteServiceById(int id)
-        {
-            return ResultWrap(new ServiceSetupRal(_tenant).DeleteServiceById, id, "ServiceDelete");
-        }
-        public Result GetServiceSearch(ServiceSearchDto search)
-        {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetServiceSearch, search, "ServiceSearch");
-        }
         public Result GetServiceCategoryByLocationId(int id)
         {
             return ResultWrap(new ServiceSetupRal(_tenant).GetServiceCategoryByLocationId, id, "ServiceCategory");
-        }
-        public Result GetServicesWithPrice()
-        {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
         }
     }
 }

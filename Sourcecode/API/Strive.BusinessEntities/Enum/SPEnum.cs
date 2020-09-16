@@ -73,10 +73,7 @@ namespace Strive.BusinessEntities
         USPGIFTCARDCHANGESTATUS,
         USPSAVEGIFTCARD,
         //Location
-
-        //to-do: USPDELETELOCATION_TEMP will be replace by USPDELETELOCATION after initiate PR
         USPDELETELOCATION,
-        USPDELETELOCATION_TEMP,
         USPGETALLLOCATION,
         USPGETLOCATIONBYID,
         //Product

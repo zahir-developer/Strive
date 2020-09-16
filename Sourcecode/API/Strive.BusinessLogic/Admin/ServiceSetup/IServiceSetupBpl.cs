@@ -9,12 +9,13 @@ namespace Strive.BusinessLogic
     {
         Result AddService(Service service);
         Result UpdateService(Service service);
-        Result GetAllServiceType();
-        Result GetAllServiceSetup();
-        Result GetServiceSetupById(int id);
+        Result GetSearchResult(ServiceSearchDto search);
         Result DeleteServiceById(int id);
-        Result GetServiceSearch(ServiceSearchDto search);
+        Result GetAllServiceSetup();
+        Result GetAllServiceType();
+        Result GetServicesDetailsWithUpcharges();
+        Result GetServiceSetupById(int id);
         Result GetServiceCategoryByLocationId(int id);
-        Result GetServicesWithPrice();
+        
     }
 }
