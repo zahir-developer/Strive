@@ -42,7 +42,8 @@ export class EditItemComponent implements OnInit {
       return;
     }
     const updateObj = {
-      jobid: this.ItemDetail?.JobId,
+      jobid: this.ItemDetail?.JobItemId,
+      serviceId: this.ItemDetail?.ServiceId,
       quantity: this.editItemForm.value.quantity,
       price: this.editItemForm.value.price
     }
