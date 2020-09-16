@@ -121,6 +121,8 @@ export const UrlConfig = {
     getTicketNumberforItem: `Admin/Sales/GetTicketNumber`,
     updateListItem: `Admin/Sales/UpdateListItem`,
     updateItem: `Admin/Sales/UpdateItem`,
-    addPayment: `Admin/Sales/AddPayment`
+    addPayment: `Admin/Sales/AddPayment`,
+    getTimeClockWeekDetails: `Admin/TimeClock/GetTimeClockWeekDetails`,
+    saveTimeClock: `Admin/TimeClock/Save`
   }
 };

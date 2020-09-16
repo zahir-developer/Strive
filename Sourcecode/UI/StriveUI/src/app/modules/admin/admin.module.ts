@@ -59,6 +59,8 @@ import { TimeCostMaintenanceComponent } from './time-cost-maintenance/time-cost-
 import { ClientStatementComponent } from './client/client-statement/client-statement.component';
 import { ClientHistoryComponent } from './client/client-history/client-history.component';
 import { TimeCostCardComponent } from './time-cost-maintenance/time-cost-card/time-cost-card.component';
+import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
+import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -72,7 +74,7 @@ import { TimeCostCardComponent } from './time-cost-maintenance/time-cost-card/ti
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent,
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
-    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, TimeCostMaintenanceComponent, ClientStatementComponent, ClientHistoryComponent, TimeCostCardComponent],
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, TimeCostMaintenanceComponent, ClientStatementComponent, ClientHistoryComponent, TimeCostCardComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent],
   imports: [
     CommonModule,
     RouterModule,

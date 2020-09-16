@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeClockMaintenanceService } from 'src/app/shared/services/data-service/time-clock-maintenance.service';
-import * as _ from 'underscore';
 
 @Component({
-  selector: 'app-time-cost-card',
-  templateUrl: './time-cost-card.component.html',
-  styleUrls: ['./time-cost-card.component.css']
+  selector: 'app-time-clock-maintenance',
+  templateUrl: './time-clock-maintenance.component.html',
+  styleUrls: ['./time-clock-maintenance.component.css']
 })
-export class TimeCostCardComponent implements OnInit {
+export class TimeClockMaintenanceComponent implements OnInit {
   totalWeekDetail: any = {
     CollisionAmount: 0,
     DetailAmount: 0,
