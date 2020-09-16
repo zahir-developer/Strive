@@ -17,4 +17,8 @@ export class TimeClockMaintenanceService {
   saveTimeClock(obj) {
     return this.http.post(`${UrlConfig.totalUrl.saveTimeClock}`, obj);
   }
+
+  getAllRoles(type) {
+    return this.http.get(`${UrlConfig.totalUrl.getDropdownValue}` + type);
+  }
 }
