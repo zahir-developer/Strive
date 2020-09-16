@@ -10,11 +10,21 @@ export class TimeClockMaintenanceService {
 
   constructor(private http: HttpUtilsService) { }
 
+  getTimeClockEmployeeDetails(obj)
+  {
+    return this.http.post(`${UrlConfig.totalUrl.getTimeClockEmployeeDetails}`, obj)
+  }
+
   getTimeClockWeekDetails(obj) {
     return this.http.post(`${UrlConfig.totalUrl.getTimeClockWeekDetails}`, obj);
   }
 
   saveTimeClock(obj) {
     return this.http.post(`${UrlConfig.totalUrl.saveTimeClock}`, obj);
+  }
+
+  deleteTimeClockEmployee(obj)
+  {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteTimeClockEmployee}`, { params: { EmployeeId : obj.employeeId , LocationId : obj.locationId }})
   }
 }
