@@ -10,6 +10,8 @@ import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import * as moment from 'moment';
+import insertTextAtCursor from 'insert-text-at-cursor';
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -19,6 +21,8 @@ import * as moment from 'moment';
 export class SalesComponent implements OnInit {
   services: any;
   validGiftcard: any;
+  targetId = '';
+  showPopup = false;
   isInvalidGiftcard = false;
   discount = '';
   discounts = [];
@@ -134,11 +138,15 @@ export class SalesComponent implements OnInit {
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
             if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
+              this.showPopup = true;
               this.JobId = this.itemList.Status.ScheduleItemViewModel[0].JobId;
               this.washes = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Washes');
               this.details = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Details');
-              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'AdditionalService');
+              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => 
+                item.ServiceType === 'Additional Services');
             }
+          } else {
+            this.showPopup = false;
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
@@ -199,7 +207,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('creditcardpopup').style.width = '0';
   }
   opengiftcard() {
-    this.giftcards = [];
+    // this.giftcards = [];
     document.getElementById('Giftcardpopup').style.width = '450px';
     document.getElementById('creditcardpopup').style.width = '0';
   }
@@ -211,7 +219,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   opendiscount() {
-    this.selectedDiscount = [];
+    // this.selectedDiscount = [];
     this.discount = '';
     document.getElementById('discountpopup').style.width = '450px';
     document.getElementById('cashpopup').style.width = '0';
@@ -242,9 +250,14 @@ export class SalesComponent implements OnInit {
     modalRef.componentInstance.JobId = itemId;
     modalRef.componentInstance.ItemDetail = event;
     modalRef.componentInstance.isModal = true;
+    modalRef.result.then(
+      (data: any) => {
+        this.getDetailByTicket();
+      },
+      (reason: any) => { }
+    );
   }
   deletegiftcard(event) {
-    console.log(event.id);
     const index = this.giftcards.findIndex(item => item.id === +event.id);
     this.giftcards.splice(index, 1);
 
@@ -257,22 +270,23 @@ export class SalesComponent implements OnInit {
       this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
       this.giftCardForm.reset();
       this.balance = 0;
-      this.validGiftcard.GiftCardDetail[0].TotalAmount = 0;
+      this.validGiftcard.BalanceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
     }
   }
   giftCardProcess() {
-    this.giftcards.reduce(item => +item.amount)
-    const gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
+    let gc = 0;
+    this.giftcards.reduce(item => +item.amount);
+    gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
     if (this.addItemForm.invalid) {
       return;
-    } else if (this.addItemForm.value.itemName === '') {
+    } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
       return;
     }
     const formObj = {
@@ -314,26 +328,6 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
-      },
-      jobPayment: {
-        jobPaymentId: 0,
-        jobId: 0,
-        drawerId: localStorage.getItem('drawerId'),
-        paymentType: 1,
-        amount: 0,
-        taxAmount: 0,
-        cashback: 0,
-        approval: true,
-        checkNumber: 'string',
-        signature: 'string',
-        paymentStatus: 1,
-        comments: 'string',
-        isActive: true,
-        isDeleted: this.isSelected ? false : true,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date()
       }
     };
     if (this.isSelected) {
@@ -359,14 +353,25 @@ export class SalesComponent implements OnInit {
     }
   }
   getNumAndUpdate(num) {
-    this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
+    if (this.targetId !== '') {
+      const el = document.getElementById(this.targetId);
+      insertTextAtCursor(el, num.toString());
+    }
+    // this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
   }
   clear() {
     this.addItemForm.patchValue({ itemName: '', quantity: '' });
+    this.ticketNumber = '';
   }
   backspace() {
-    const quantity = this.addItemForm.value.quantity;
-    this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
+    if (this.targetId === 'quantity') {
+      const quantity = this.addItemForm.value.quantity;
+      this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
+    } else if (this.targetId === 'ticketNumber') {
+this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1);
+    } else {
+      return;
+    }
   }
   addCashBack(cashback) {
     // this.creditTotal
@@ -381,6 +386,7 @@ export class SalesComponent implements OnInit {
     this.isSelected = false;
     this.salesService.getTicketNumber().subscribe(data => {
       this.newTicketNumber = data;
+      this.enableAdd = true;
       this.washes = [];
       this.details = [];
       this.additionalService = [];
@@ -450,7 +456,6 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       }
     });
-    console.log(giftcard);
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -493,19 +498,28 @@ export class SalesComponent implements OnInit {
       jobPaymentDiscount: discount.length === 0 ? null : discount
     };
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
-      console.log(data, 'payment');
+      if (data.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
+        this.getDetailByTicket();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
     });
   }
   deleteTicket() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-      this.salesService.deleteTransaction(+this.ticketNumber).subscribe(data => {
-        console.log(data);
+      this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
+        if (data.status === 'Success') {
+          console.log(data);
+        }
       });
     }
   }
   validateGiftcard() {
     const gNo = this.giftCardForm.value.giftCardNumber;
-    this.giftcardService.getGiftCard(gNo).subscribe(data => {
+    this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
         this.validGiftcard = JSON.parse(data.resultData);
         if (this.validGiftcard.GiftCardDetail.length === 0) {
@@ -514,25 +528,37 @@ export class SalesComponent implements OnInit {
           this.isInvalidGiftcard = false;
         }
       }
-      console.log(data);
+      //console.log(data);
     });
   }
   validateAmount() {
     this.isInvalidGiftcard = false;
     const enteredAmount = this.giftCardForm.value.giftCardAmount;
-    const currentAmount = this.validGiftcard.GiftCardDetail[0].TotalAmount;
+    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalanceAmount;
     const today = new Date();
-    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ExpiryDate;
+    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ActiveDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {
       if (currentAmount < enteredAmount) {
-        this.giftCardForm.patchValue({giftCardAmount: ''});
+        this.giftCardForm.patchValue({ giftCardAmount: '' });
         this.balance = 0;
       } else {
-  this.balance = currentAmount - enteredAmount;
+        this.balance = currentAmount - enteredAmount;
       }
     }
     if (!moment(today).isBefore(giftcardexpiryDate)) {
       this.isInvalidGiftcard = true;
     }
+  }
+  rollBack() {
+    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
+    this.salesService.rollback(+this.ticketNumber).subscribe(data => {
+      if (data.status === 'Success') {
+        this.getDetailByTicket();
+      }
+    });
+    }
+  }
+  quantityFocus(event) {
+    this.targetId = event.target.id;
   }
 }
