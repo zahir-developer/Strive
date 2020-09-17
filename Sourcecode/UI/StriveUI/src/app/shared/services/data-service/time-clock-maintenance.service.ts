@@ -31,4 +31,8 @@ export class TimeClockMaintenanceService {
   {
     return this.http.delete(`${UrlConfig.totalUrl.deleteTimeClockEmployee}`, { params: { EmployeeId : obj.employeeId , LocationId : obj.locationId }})
   }
+
+  getEmployeeList() {
+    return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
+  }
 }
