@@ -20,7 +20,7 @@ export class SalesService {
   return this.http.post(`${UrlConfig.totalUrl.addItem}`, addObj);
  }
  getService() {
-   return this.http.get(`${UrlConfig.totalUrl.getServicewithPrice}`);
+   return this.http.get(`${UrlConfig.totalUrl.getService}`);
  }
  getTicketNumber() {
   return this.http.get(`${UrlConfig.totalUrl.getTicketNumberforItem}`);

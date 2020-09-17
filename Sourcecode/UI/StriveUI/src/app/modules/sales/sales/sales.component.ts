@@ -273,7 +273,7 @@ export class SalesComponent implements OnInit {
       this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
       this.giftCardForm.reset();
       this.balance = 0;
-      this.validGiftcard.GiftCardDetail.BalanceAmount = 0;
+      this.validGiftcard.GiftCardDetail[0].BalanceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
@@ -331,26 +331,6 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
-      },
-      jobPayment: {
-        jobPaymentId: 0,
-        jobId: 0,
-        drawerId: localStorage.getItem('drawerId'),
-        paymentType: 1,
-        amount: 0,
-        taxAmount: 0,
-        cashback: 0,
-        approval: true,
-        checkNumber: 'string',
-        signature: 'string',
-        paymentStatus: 1,
-        comments: 'string',
-        isActive: true,
-        isDeleted: this.isSelected ? false : true,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date()
       }
     };
     if (this.isSelected) {
@@ -388,10 +368,11 @@ export class SalesComponent implements OnInit {
   }
   backspace() {
     if (this.targetId === 'quantity') {
-      const quantity = this.addItemForm.value.quantity;
+      const quantity = this.addItemForm.value.quantity.toString();
       this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
     } else if (this.targetId === 'ticketNumber') {
-this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1);
+      const ticketNumber = this.ticketNumber? this.ticketNumber.toString() : '';
+      this.ticketNumber = ticketNumber.substring(0, ticketNumber.length - 1);
     } else {
       return;
     }
@@ -554,15 +535,15 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
           this.isInvalidGiftcard = false;
         }
       }
-      console.log(data);
+      //console.log(data);
     });
   }
   validateAmount() {
     this.isInvalidGiftcard = false;
     const enteredAmount = this.giftCardForm.value.giftCardAmount;
-    const currentAmount = this.validGiftcard.GiftCardDetail?.BalanceAmount;
+    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalanceAmount;
     const today = new Date();
-    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail?.ActiveDate;
+    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ActiveDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {
       if (currentAmount < enteredAmount) {
         this.giftCardForm.patchValue({ giftCardAmount: '' });
