@@ -473,7 +473,7 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       },
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
-      joPaymentCreditCard: {
+      jobPaymentCreditCard: {
         jobPaymentCreditCardId: 0,
         jobPaymentId: 0,
         cardTypeId: 1,
