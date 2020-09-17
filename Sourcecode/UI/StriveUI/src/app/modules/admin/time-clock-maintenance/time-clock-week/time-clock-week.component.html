@@ -18,7 +18,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="p-b-10 m-b-15">
-                                    <h4 class="d-inline-block align-middle">Time clock - Samuel Sauer </h4>
+                                    <h4 class="d-inline-block align-middle">Time clock - {{empClockInObj.lastName}}
+                                        {{empClockInObj.firstName}}</h4>
                                     <div class="pull-right card-widgets"> <a data-toggle="collapse"
                                             href="#Timeliclocklist" role="button" aria-expanded="false"
                                             aria-controls="Timeliclocklist"><i
@@ -46,7 +47,7 @@
                                                             {{week.day}}
                                                         </div>
                                                     </th>
-                                                    <td>8/16/2020</td>
+                                                    <td style="padding-top: 19px;">{{week.date}}</td>
                                                     <td><button type="button"
                                                             class="btn theme-primary-button-color float-right"
                                                             (click)="addTimeList(week)">Add</button></td>
@@ -73,6 +74,9 @@
                                                                                 [ngModelOptions]="{standalone: true}"
                                                                                 [showMeridian]="true"
                                                                                 [showMinutes]="true"
+                                                                                [arrowkeys]="false"
+                                                                                [showSpinners]="false"
+                                                                                [showMeridian]="false"
                                                                                 (ngModelChange)="inTime($event)">
                                                                             </timepicker>
                                                                         </ng-template>
@@ -91,7 +95,11 @@
                                                                                 [ngModelOptions]="{standalone: true}"
                                                                                 [showMeridian]="true"
                                                                                 [showMinutes]="true"
-                                                                                (ngModelChange)="outTime($event, time)"></timepicker>
+                                                                                [arrowkeys]="false"
+                                                                                [showSpinners]="false"
+                                                                                [showMeridian]="false"
+                                                                                (ngModelChange)="outTime($event, time)">
+                                                                            </timepicker>
                                                                         </ng-template>
                                                                         <input type="text"
                                                                             id="outTime_{{week.day}}_{{i}}"
@@ -188,10 +196,10 @@
 
                                     <div class="mw-100">
                                         <div class="pull-right">
-                                            <button type="button"
-                                                class="btn theme-optional-button-color">Cancel</button>
-                                            <button type="button" class="btn theme-primary-button-color"
+                                            <button type="button" class="btn theme-primary-button-color m-r-5"
                                                 (click)="saveWeeklyhours()">Save</button>
+                                            <button type="button" class="btn theme-optional-button-color"
+                                                (click)="backToTimeClockPage()">Cancel</button>
                                         </div>
                                     </div>
 

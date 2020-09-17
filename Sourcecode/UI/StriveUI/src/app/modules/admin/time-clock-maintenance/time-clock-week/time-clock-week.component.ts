@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TimeClockMaintenanceService } from 'src/app/shared/services/data-service/time-clock-maintenance.service';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-time-clock-week',
@@ -25,20 +26,28 @@ export class TimeClockWeekComponent implements OnInit {
   timeClockList: any = [];
   weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   roleList = [];
+  @Input() empClockInObj?: any;
+  @Output() cancelCheckInPage = new EventEmitter();
+  weekStartDate: any;
+  weekLastDate: any;
   constructor(
     public timeClockMaintenanceService: TimeClockMaintenanceService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
+    console.log(this.empClockInObj, 'empObj');
+    this.weekStartDate = new Date (this.empClockInObj.startDate);
+    this.weekLastDate = this.empClockInObj.endDate;
     this.getAllRoles();
   }
 
   getTimeClockWeekDetails() {
-    const employeeId = 1;
-    const locationId = 1;
-    const startDate = '2020-08-09';
-    const endDate = '2020-08-15';
+    const employeeId = this.empClockInObj.employeeID;
+    const locationId = this.empClockInObj.locationId;
+    const startDate = this.datePipe.transform(this.empClockInObj.startDate, 'yyyy-MM-dd');
+    const endDate = this.datePipe.transform(this.empClockInObj.endDate, 'yyyy-MM-dd');
     const inputParams = {
       employeeId,
       locationId,
@@ -64,7 +73,9 @@ export class TimeClockWeekComponent implements OnInit {
                   OutTime: item.OutTime,
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
-                  TotalHours: this.datePipe.transform(item.TotalHours, 'HH:mm')
+                  TotalHours: this.datePipe.transform(item.TotalHours, 'H'),
+                  employeeId: this.empClockInObj.employeeID,
+                  locationId: this.empClockInObj.locationId
                 });
               });
             }
@@ -74,6 +85,27 @@ export class TimeClockWeekComponent implements OnInit {
             });
           });
           console.log(this.timeClockList, 'timeclocklist');
+        } else {
+          // const daysCount = this.empClockInObj.endDate.getDate() - this.empClockInObj.startDate.getDate();
+          console.log("daysCount", 'day');
+          const weekDetails = [];
+          weekDetails.push({
+            day: this.datePipe.transform(this.weekStartDate, 'EEEE'),
+            date: this.datePipe.transform(this.weekStartDate, 'yyyy-MM-dd')
+          });
+          for (let i = 0; i < 6; i++) {
+            const weeklyDays = new Date(this.weekStartDate.setDate(this.weekStartDate.getDate() + 1));
+            weekDetails.push({
+              day: this.datePipe.transform(weeklyDays, 'EEEE'),
+              date: this.datePipe.transform(weeklyDays, 'yyyy-MM-dd')
+            });
+          }
+          weekDetails.forEach(item => {
+            const checkIn = [];
+            item.checkInDetail = checkIn;
+          });
+          console.log(weekDetails, 'weekDetails');
+          this.timeClockList = weekDetails;
         }
       }
     });
@@ -93,12 +125,14 @@ export class TimeClockWeekComponent implements OnInit {
   addTimeList(week) {
     console.log(week);
     week.checkInDetail.push({
-      EventDate: '',
+      EventDate: week.date,
       InTime: '',
       OutTime: '',
       RoleId: '',
       TimeClockId: 0,
-      TotalHours: ''
+      TotalHours: '',
+      employeeId: this.empClockInObj.employeeID,
+      locationId: this.empClockInObj.locationId
     });
   }
 
@@ -109,9 +143,9 @@ export class TimeClockWeekComponent implements OnInit {
       item.checkInDetail.forEach(time => {
         weekDetailObj.push({
           timeClockId: time.TimeClockId,
-          employeeId: 1,
-          locationId: 1,
-          roleId: +time.RoleId,
+          employeeId: time.employeeId,
+          locationId: time.locationId,
+          roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
           eventDate: time.EventDate,
           inTime: this.datePipe.transform(time.InTime, 'HH:mm'),
           outTime: this.datePipe.transform(time.OutTime, 'HH:mm'),
@@ -128,11 +162,12 @@ export class TimeClockWeekComponent implements OnInit {
       timeClock: weekDetailObj
     };
     console.log(finalObj, 'finalObj');
-    // this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
-    //   if (res.status === 'Success') {
-
-    //   }
-    // });
+    this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
+      if (res.status === 'Success') {
+        this.toastr.success('Time Clock record added successfully!!', 'Success!');
+        this.backToTimeClockPage();
+      }
+    });
   }
 
   inTime(event) {
@@ -143,8 +178,14 @@ export class TimeClockWeekComponent implements OnInit {
     console.log(event, currentTime);
     const inTime = currentTime.InTime;
     const outTime = currentTime.OutTime;
-    const totalHours = this.datePipe.transform((outTime - inTime), 'HH:mm');
+    const hours = new Date();
+    const hourDifference = hours.setHours(outTime.getHours() - inTime.getHours());
+    const totalHours = this.datePipe.transform(hourDifference, 'H');
     currentTime.TotalHours = totalHours;
+  }
+
+  backToTimeClockPage() {
+    this.cancelCheckInPage.emit();
   }
 
 }
