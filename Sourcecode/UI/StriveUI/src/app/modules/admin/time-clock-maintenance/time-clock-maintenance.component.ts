@@ -20,8 +20,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
   collectionSize: number = 0;
   isTimeClockEmpty = false;
   timeClockEmployeeDetailDto =
-    {
-      locationId: 0,
+  {
+      locationId: 1,
       startDate: '2020-08-15',
       endDate: '2020-09-09'
     }
