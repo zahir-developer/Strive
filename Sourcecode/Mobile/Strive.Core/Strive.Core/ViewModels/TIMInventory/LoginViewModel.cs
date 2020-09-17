@@ -28,9 +28,33 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        public string UserId { get; set; } = "caradmin@strive.com";
+        private string _UserId = "";
 
-        public string Password { get; set; } = "pass@123";
+        public string UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                SetProperty(ref _UserId, value);
+            }
+        }
+
+        private string _Password = "";
+
+        public string Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                SetProperty(ref _Password, value);
+            }
+        }
 
         public string UserIdText
         {
@@ -86,7 +110,11 @@ namespace Strive.Core.ViewModels.TIMInventory
                         SingleTimeClock.TimeClock = status.TimeClock[0];
                         EmployeeData.ClockInStatus = SingleTimeClock;
                     }
+                   
                     await _navigationService.Navigate<RootViewModel>();
+                    _UserId = "";
+                    _Password = "";
+                    await RaiseAllPropertiesChanged();
                 }
             }
         }

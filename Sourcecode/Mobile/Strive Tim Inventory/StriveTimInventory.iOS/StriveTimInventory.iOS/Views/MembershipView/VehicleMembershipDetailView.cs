@@ -19,6 +19,13 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             NavigationController.NavigationBarHidden = true;
 
             var set = this.CreateBindingSet<VehicleMembershipDetailView, VehicleMembershipDetailViewModel>();
+            set.Bind(MembershipName).To(vm => vm.MembershipName);
+            set.Bind(ActivatedDate).To(vm => vm.ActivatedDate);
+            set.Bind(CancelledDate).To(vm => vm.CancelledDate);
+            set.Bind(Status).To(vm => vm.Status);
+            set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
+            set.Bind(ChangeButton).To(vm => vm.Commands["ChangeMembership"]);
+            set.Bind(CancelButton).To(vm => vm.Commands["CancelMembership"]);
             set.Apply();
         }
 

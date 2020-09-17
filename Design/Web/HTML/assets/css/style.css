@@ -1,3 +1,4 @@
+
 section#login {
     background: url(../img/login-bg@2x.jpg);
     background-size: cover;
@@ -117,6 +118,8 @@ section#login button[type="submit"] {
 .menu ul li a {
     font-size: 0.7rem;
     color: #dedede;
+	line-height: 1;
+
 }
 
 .menu ul li a i {
@@ -139,9 +142,9 @@ section#login button[type="submit"] {
     padding: 15px 10px;
 }
 
-.admin-menu i {
+ .admin-menu i {
     color: #9fa8bf;
-}
+} 
 
 .admin-menu ul li.admin .dropdown-menu {
     right: 30px;
@@ -313,7 +316,7 @@ table th {
 }
 
 .form-row > .form-group {
-    margin-bottom: 12px !important;
+    margin-bottom: 5px !important;
 }
 
 .default-name {
@@ -660,6 +663,14 @@ table th {
 .table-foot{
 	background-color: #dee2e6;
 }
+.timeclcok-tb td, .timeclcok-tb th {
+		border-top: 0px solid #dee2e6;
+		padding: .15rem;
+		font-weight:600;
+}
+.timeclcok-tb{
+		background-color: #F5F5F5;
+ }
 .p-5{
 	padding:5px !important;
 }
@@ -1049,6 +1060,211 @@ height: 40px;
     position: fixed;
 	width: 200px;
 }
+.li-settings{
+position: absolute;
+left: 0;
+bottom: 72px;
+z-index: 1000;
+ width:70px;
+  text-align: center;
+    height: 60px;
+}
 .opacity-16{
     opacity: 16%;
 }
+
+/*White labelling */
+	.dropzone {
+		background: white;
+		border-radius: 5px;
+		border: 2px dashed #ced4da !important;
+		border-image: none;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.dropzone .dz-message {
+		text-align: center;
+		margin: 2em 0;
+		color: #333333;
+		opacity: 39%;
+		font-size: 20px;
+		font-weight: 600;
+	}
+	
+	.font-xolor {
+		color: #11283D;
+	}
+	
+	.branding-form {
+		height: calc(2.5em + .75rem + 2px);
+	}
+	
+	.font-card {
+		border-radius: 3px !important;
+	}
+	
+	.flex-container {
+		display: flex;
+	}
+	
+	.card-width {
+		padding: 15.7px !important;
+		padding-bottom: 30px !important;
+	}
+	
+	.p-60 {
+		padding: 60px !important;
+	}
+	.theme-pink-color{
+	background-color:#FD3B7B;
+	}
+	.theme-cyan{
+	background-color:#1DC9B7;
+	}
+	.theme-light-blue{
+	background-color:#C4D6FF;
+	}
+	.theme-shaded-green{
+	background-color:#F2FCFE;
+	}
+	.theme-light-ello{
+	background-color:#FFF997;
+	}
+	.theme-ello{
+	background-color:#FCDD6B;
+	}
+	.theme-dark-ello{
+	background-color:#FEB83F;
+	}
+	.theme-orange {
+	background-color:#FD8B20;
+	}
+	.theme-dark-orange{
+	background-color:#FC6A0C;
+	}
+	.theme-solid{
+	background-color:#280F36;
+	}
+	.theme-dark-purple{
+	background-color:#632B6C;
+	}
+	.theme-purple{
+	background-color:#C86B98;
+	}
+	.theme-light-purple{
+	background-color:#F09F9C;
+	}
+.theme-solid-pink{
+background-color:#FFC1A0;
+}
+.poppins-font{
+    font-family: 'Poppins' !important;
+}
+.Roboto-font{
+    font-family: 'Roboto' !important;
+}
+.FiraSans-font{
+    font-family: 'Fira Sans' !important;
+}
+.Raleway-font{
+    font-family: 'Raleway' !important;
+}
+.Ubuntu-font{
+    font-family: 'Ubuntu' !important;
+}
+
+/*Checkout screen */
+
+.theme-optional-bg-color {
+	background-color:#FD397A;
+}
+.notstarted{
+	color: #F3C200;
+}
+.theme-ello-color {
+	background-color: #F3C200;
+}
+.theme-inprogress{
+	border-left:5px solid #FD397A;
+}
+.theme-notstarted{
+	border-left:5px solid #F3C200;
+}
+.theme-hold{
+	border-left:5px solid #24489A;
+}
+.theme-completed{
+	border-left:5px solid #1DC5B3;
+}
+/*dashboard */
+.click-down-icon{
+	
+	margin-top:-29px;
+	    transition: right .3s;
+}
+.click-up-icon{
+	margin-top:-60px;
+	    transition: right .3s;
+}
+.m-r--13{
+	margin-right:-13px;
+}
+.dashbd-margin{
+	margin-bottom:7px;
+}
+#weekform{
+	    height: calc(1.8em + .75rem + 2px) !important;
+}
+.graph-icon{
+	color: #B2B2BC;
+}
+.graph-border{
+	border:1px solid #1DC5B3;
+}
+.btn-rounded {
+    border-radius: 2em;
+}
+.btn-unactive{
+	border:1px solid #dee2e6!important;
+	color:black !important;
+}
+.dashboard-badge {
+    border-radius: 3px;
+    color: white;
+    background-color: #00BBE1;
+    padding: 5px 5px;
+}
+
+.theme-font-color:hover{
+	color:#30343C !important;
+}
+
+.card-width-color {
+    padding: 24px !important;
+    padding-bottom: 30px !important;
+}
+.Schedules-tab div a.active, .Schedules-tab.show > .nav-tab-link-dash, .Schedules-tab .nav-tab-link-dash.active, .Schedules-tab .show > .nav-tab-link-dash {
+    background-color: #00BBE1;
+    color: white;
+    border-radius: 3px;
+    padding: 0.3rem 1rem;
+    font-size: 16px;
+    border: 1px solid #00BBE1;
+}
+.nav-tab-link-dash {
+    padding: 0.3rem 0.6rem 0.3rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: black;
+    font-size: 16px;
+    background-color: #fafafa;
+}
+.Schedules-tab div a.active >.dashboard-badge, .Schedules-tab.show > .nav-tab-link-dash, .Schedules-tab .nav-tab-link-dash.active >.dashboard-badge, .Schedules-tab .show > .nav-tab-link-dash > .dashboard-badge {
+    color: #30343C;
+    background-color: white;
+}
+.Schedules-tab div a.active > i, .Schedules-tab.show > .nav-tab-link-dash, .Schedules-tab .nav-tab-link-dash.active > i, .Schedules-tab .show > .nav-tab-link-dash > i {
+    color: white;
+}
+

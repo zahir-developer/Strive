@@ -57,10 +57,10 @@ namespace StriveTimInventory.iOS.Views
                     LatCenter += locationAddress[i].Latitude;
                     LongCenter += locationAddress[i].Longitude;
                     ++AddressCount;
-                    var WashTime = DateUtils.GetDateFromString(locationAddress[i].WashTiming);
-                    var OpenTime = DateUtils.GetDateFromString(locationAddress[i].OpenTime);
-                    var CloseTime = DateUtils.GetDateFromString(locationAddress[i].CloseTime);
-                    subtitle = WashTime.Minute.ToString();
+                    var WashTime = locationAddress[i].WashTiming;
+                    var OpenTime = locationAddress[i].OpenTime;
+                    var CloseTime = locationAddress[i].CloseTime;
+                    subtitle = WashTime.ToString();
                 }
                 annotations[i] = new MKPointAnnotation()
                 {
@@ -153,20 +153,20 @@ namespace StriveTimInventory.iOS.Views
 
                 if (isOpen)
                 {
-                    TimeLabel.Frame = new CGRect(x: 30, y: -3, width: 100, height: 50);
+                    TimeLabel.Font = DesignUtils.OpenSansBoldEighteen();
+                    TimeLabel.Frame = new CGRect(x: 28, y: -3, width: 100, height: 50);
                     TimeLabel.Text = time + " mins";
                     SubLabel.Hidden = true;
                 } else
                 {
-                    TimeLabel.Frame = new CGRect(x: 30, y: 3, width: 100, height: 50);
+                    TimeLabel.Font = DesignUtils.OpenSansBoldSixteen();
+                    TimeLabel.Frame = new CGRect(x: 28, y: 3, width: 100, height: 50);
                     TimeLabel.Text = time;
                     SubLabel.Hidden = false;
                 }
 
-                TimeLabel.Font = DesignUtils.OpenSansBoldEighteen();
-                TimeLabel.TextColor = UIColor.Clear.FromHex(0x002E29);
-
-               
+                
+                TimeLabel.TextColor = UIColor.Clear.FromHex(0x002E29);     
 
                 ButtonBackgroundView.AddSubview(SubLabel);
                 ButtonBackgroundView.AddSubview(IconImage);

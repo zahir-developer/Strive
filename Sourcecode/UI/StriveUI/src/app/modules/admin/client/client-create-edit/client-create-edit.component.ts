@@ -77,7 +77,7 @@ export class ClientCreateEditComponent implements OnInit {
       isActive: true,
       zip: this.clientFormComponent.clientForm.value.zipcode,
       state: this.clientFormComponent.State,
-      city: this.clientFormComponent.city,
+      city: this.clientFormComponent.city == 0 ? null : this.clientFormComponent.city,
       country: 38,
       phoneNumber: this.clientFormComponent.clientForm.value.phone1,
       email: this.clientFormComponent.clientForm.value.email,
@@ -185,6 +185,7 @@ export class ClientCreateEditComponent implements OnInit {
   add() {
     this.headerData = 'Add New vehicle';
     this.showVehicleDialog = true;
+    this.clientId = this.selectedData.ClientId;
   }
 
   openStatement() {

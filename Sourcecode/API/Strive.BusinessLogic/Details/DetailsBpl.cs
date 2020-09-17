@@ -17,10 +17,6 @@ namespace Strive.BusinessLogic.Details
         {
         }
 
-        public Result GetDetailsById(int id)
-        {
-            return ResultWrap(new DetailsRal(_tenant).GetDetailsById, id, "DetailsForDetailId");
-        }
         public Result AddDetails(DetailsDto details)
         {
             return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "Status");
@@ -30,29 +26,33 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
         }
+        public Result GetBaySchedulesDetails(DetailsGridDto detailsGrid)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetBaySchedulesDetails, detailsGrid, "GetBaySchedulesDetails");
+        }
+        public Result GetDetailsById(int id)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetDetailsById, id, "DetailsForDetailId");
+        }
         public Result GetAllBayById(int id)
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllBayById, id, "BayDetailsForLocationId");
         }
-        public Result GetBaySchedulesDetails(DetailsGridDto detailsGrid)
+        public Result GetPastClientNotesById(int id)
         {
-            return ResultWrap(new DetailsRal(_tenant).GetBaySchedulesDetails, detailsGrid, "GetBaySchedulesDetails");
+            return ResultWrap(new DetailsRal(_tenant).GetPastClientNotesById, id, "PastClientNotesByClientId");
         }
         public Result GetJobType()
         {
             return ResultWrap(new DetailsRal(_tenant).GetJobType, "GetJobType");
         }
-        public Result DeleteDetails(int id)
-        {
-            return ResultWrap(new DetailsRal(_tenant).DeleteDetails,id, "DeleteRespectiveDetail");
-        }
-        public Result AddEmployeeScheduleToDetails(EmployeeScheduleDetailsDto empSchedule)
-        {
-            return ResultWrap(new DetailsRal(_tenant).AddEmployeeScheduleToDetails, empSchedule, "Status");
-        }
         public Result GetAllDetails(DetailsGridDto detailsGrid)
         {
             return ResultWrap(new DetailsRal(_tenant).GetAllDetails, detailsGrid, "DetailsGrid");
+        }
+        public Result DeleteDetails(int id)
+        {
+            return ResultWrap(new DetailsRal(_tenant).DeleteDetails,id, "DeleteRespectiveDetail");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             var MembershipTableSource = new SelectMembershipSource(MembershipTableView, ViewModel);
 
             var set = this.CreateBindingSet<SelectMembershipView, SelectMembershipViewModel>();
-            set.Bind(MembershipTableSource).To(vm => vm.MembershipList);
+            set.Bind(MembershipTableSource).To(vm => vm.MembershipServiceList);
             set.Bind(NextButton).To(vm => vm.Commands["Next"]);
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
             set.Apply();
