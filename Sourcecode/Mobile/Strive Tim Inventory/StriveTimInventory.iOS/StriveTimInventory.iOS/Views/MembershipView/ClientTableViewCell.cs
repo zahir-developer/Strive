@@ -1,7 +1,9 @@
 ﻿using System;
-
+using System.Collections.ObjectModel;
+using System.Linq;
 using Foundation;
 using Strive.Core.Models.TimInventory;
+using Strive.Core.Utils.TimInventory;
 using StriveTimInventory.iOS.UIUtils;
 using UIKit;
 
@@ -22,15 +24,30 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        public void SetMembershipList(string item)
+        public void SetMembershipList(MembershipServices item,int index,int SelectedIndex, ClientTableViewCell cell)
         {
-            ItemTitle.Text = item;
-            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+            ItemTitle.Text = item.MembershipName;
+            DeSelectMembershipcell();
+            cell.BackgroundColor = UIColor.White;
+            cell.UserInteractionEnabled = true;
+            if (SelectedIndex == index && index !=0)
+            {
+                SelectMembershipcell();
+            }
+            if(MembershipData.MembershipDetailView != null)
+            {
+                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.MembershipDetailView.ClientVehicleMembership.MembershipId).FirstOrDefault();
+                if ((SelectedMembership != null) && (SelectedMembership == item))
+                {
+                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    cell.UserInteractionEnabled = false;
+                }
+            }
         }
 
-        public void SetClientDetail(ClientDetail item)
+        public void SetClientDetail(ClientInfo item)
         {
-            ItemTitle.Text = item.FirstName;
+            ItemTitle.Text = item.FirstName + " " + item.LastName;
             ItemIcon.Image = UIImage.FromBundle("member-inactive");
         }
 
@@ -52,10 +69,34 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
         }
 
-        public void SetExtraServiceList(string item)
+        public void SetExtraServiceList(ServiceDetail item,ObservableCollection<ServiceDetail> list, ObservableCollection<ServiceDetail> GrayedList, ClientTableViewCell cell)
         {
-            ItemTitle.Text = item;
-            ItemIcon.Image = UIImage.FromBundle("icon-unchecked");
+            ItemTitle.Text = item.ServiceName;
+            DeSelectMembershipcell();
+            cell.BackgroundColor = UIColor.White;
+            cell.UserInteractionEnabled = true;
+            if (list.Contains(item))
+            {
+                SelectMembershipcell();
+            }
+            var GrayedItem = GrayedList.Where(s => s.ServiceId == item.ServiceId).FirstOrDefault();
+            if(GrayedItem != null)
+            {
+                SelectMembershipcell();
+                cell.BackgroundColor = UIColor.Clear.FromHex(0xF9F9F9);
+                cell.UserInteractionEnabled = false;
+            }
+        }
+
+        public void SetVehicleList(VehicleDetail vehicle)
+        {
+            ItemTitle.Font = DesignUtils.OpenSansSemiBoldTwenty();
+            ItemTitle.Text = vehicle.VehicleColor + " " + vehicle.VehicleMfr + " " + vehicle.VehicleModel;
+            ItemIcon.Image = UIImage.FromBundle("member-inactive");
+            if(vehicle.IsMembership)
+            {
+                ItemIcon.Image = UIImage.FromBundle("member-active");
+            }
         }
     }
 }

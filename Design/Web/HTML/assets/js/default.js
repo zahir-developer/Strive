@@ -1,3 +1,4 @@
+
 //sidebar js //
 
 $(document).ready(function () {
@@ -11,26 +12,55 @@ $(document).ready(function () {
     });
 });
 
-	
-	function openemp() {
-	 $("#show-search-emp").show();
-	  $(".internal-employee").removeClass("col-xl-9");
-	   $(".internal-employee").addClass("col-xl-6");
-	    $(".view-msg").removeClass("Message-box-slide");
-	    $(".view-msg").addClass("Message-box");
-		 $(".plus-icon").addClass("opacity-16");
+//dashboard screen
+var toggleState = false;
+$("#mainstreet").click(function () {
+    $(".dashboard-card").toggle();
+    $(this).toggleClass("click-up-icon");
+    $(this).toggleClass("click-down-icon");
+	$(".dashbd-title").toggleClass("dashbd-margin");
+    $("i", this).toggleClass("mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle");
+    toggleState = !toggleState;
+});
+
+var toggleState = false;
+$("#mainstreets").click(function () {
+    $(".dashboard-cards").toggle();
+    $(this).toggleClass("click-up-icon");
+    $(this).toggleClass("click-down-icon");
+	$(".dashbd-titles").toggleClass("dashbd-margin");
+    $("i", this).toggleClass("mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle");
+    toggleState = !toggleState;
+});
+var toggleState = false;
+$("#mainstreet-avg").click(function () {
+    $(".dashboard-cards-avg").toggle();
+    $(this).toggleClass("click-up-icon");
+    $(this).toggleClass("click-down-icon");
+	$(".dashbd-titles-avg").toggleClass("dashbd-margin");
+    $("i", this).toggleClass("mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle");
+    toggleState = !toggleState;
+});
+
+function openemp() {
+    $("#show-search-emp").show();
+    $(".internal-employee").removeClass("col-xl-9");
+    $(".internal-employee").addClass("col-xl-6");
+    $(".view-msg").removeClass("Message-box-slide");
+    $(".view-msg").addClass("Message-box");
+    $(".plus-icon").addClass("opacity-16");
 }
 
 function openNav() {
     document.getElementById("navSliderMenu").style.width = "180px";
     document.getElementById("content-wrapper").style.marginLeft = "180px";
-	 $(".table-condensed").css("width", "360px");
+    $(".table-condensed").css("width", "360px");
 }
 
 function closeNav() {
     document.getElementById("navSliderMenu").style.width = "0";
     document.getElementById("content-wrapper").style.marginLeft = "0";
-	 $(".table-condensed").css("width", "430px");
+    $(".table-condensed").css("width", "430px");
 }
 
 function openmbsidebar() {
@@ -49,6 +79,9 @@ $(".nav-slider-menu-items li a").on("click", function () {
     $(this).addClass("theme-secondary-color text-underline");
 });
 //sidebar js //
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
 //datepicker//
 $(document).ready(function () {
@@ -64,18 +97,18 @@ $(document).ready(function () {
     $(".datepicker-view").datepicker("setDate", today);
 });
 //date-inline
-	$(document).ready(function() {
-		var date = new Date();
-		var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		$(".date-inline").datepicker({
-			inline: true,
-		});
-		$(".date-inline").datepicker("setDate", today);
-	});
+$(document).ready(function () {
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $(".date-inline").datepicker({
+        inline: true,
+    });
+    $(".date-inline").datepicker("setDate", today);
+});
 
 $(document).ready(function () {
-$('.daterange').daterangepicker();
+    $(".daterange").daterangepicker();
 });
 // multiselect dropdown
 $(document).ready(function () {
@@ -272,27 +305,151 @@ $(function () {
 // sales screen
 
 function opengiftcard() {
-  document.getElementById("Giftcardpopup").style.width = "300px";
-  document.getElementById("creditcardpopup").style.width = "0";
+    document.getElementById("Giftcardpopup").style.width = "300px";
+    document.getElementById("creditcardpopup").style.width = "0";
 }
 
 function closegiftcard() {
-  document.getElementById("Giftcardpopup").style.width = "0";
+    document.getElementById("Giftcardpopup").style.width = "0";
 }
 
 function opencreditcard() {
-		document.getElementById("creditcardpopup").style.width = "300px";
-		  document.getElementById("Giftcardpopup").style.width = "0";
-	}
+    document.getElementById("creditcardpopup").style.width = "300px";
+    document.getElementById("Giftcardpopup").style.width = "0";
+}
 
 function closecreditcard() {
-		document.getElementById("creditcardpopup").style.width = "0";
-	}
-
+    document.getElementById("creditcardpopup").style.width = "0";
+}
 
 // Timeclock
-	$('.timeclock-table-toggle').on('click', function(e) {
-	$(this).find('[class*="angle"]').toggleClass('fa-angle-down fa-angle-up');
-	 $("#collapse-timeclock-table").toggle();
-	 $(".hide-table").toggle();
+$(".timeclock-table-toggle").on("click", function (e) {
+    $(this).find('[class*="angle"]').toggleClass("fa-angle-down fa-angle-up");
+    $("#collapse-timeclock-table").toggle();
+    $(".hide-table").toggle();
 });
+//chart
+		window.onload = function() {
+			var chart = new CanvasJS.Chart("chartContainer", {
+				title: {},
+				legend: {
+					verticalAlign: "bottom",
+					horizontalAlign: "center"
+				},
+				axisX: {
+					interval: 1
+				},
+				data: [{
+					color: "#FD397A",
+					type: "column",
+					dataPoints: [{
+						x: 1,
+						y: 99,
+						label: "Mainstreet"
+					}, {
+						x: 2,
+						y: 99,
+						label: "Old milton"
+					}, {
+						x: 3,
+						y: 17,
+						label: "Holcomb Bridge"
+					}]
+				}, {
+					color: "#FFB822",
+					type: "column",
+					dataPoints: [{
+						x: 1,
+						y: 120,
+						label: "Mainstreet"
+					}, {
+						x: 2,
+						y: 10,
+						label: "Old milton"
+					}, {
+						x: 3,
+						y: 99,
+						label: "Holcomb Bridge"
+					}]
+				}, {
+					color: "#24489A",
+					type: "column",
+					dataPoints: [{
+						x: 1,
+						y: 99,
+						label: "Mainstreet"
+					}, {
+						x: 2,
+						y: 20,
+						label: "Old milton"
+					}, {
+						x: 11,
+						y: 10,
+						label: "Holcomb Bridge"
+					}]
+				}]
+			});
+			chart.render();
+		}
+//dropzone
+
+var dropzone = new Dropzone("#demo-upload", {
+    previewTemplate: document.querySelector("#preview-template").innerHTML,
+    parallelUploads: 2,
+    thumbnailHeight: 120,
+    thumbnailWidth: 120,
+    maxFilesize: 3,
+    filesizeBase: 1000,
+    thumbnail: function (file, dataUrl) {
+        if (file.previewElement) {
+            file.previewElement.classList.remove("dz-file-preview");
+            var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+            for (var i = 0; i < images.length; i++) {
+                var thumbnailElement = images[i];
+                thumbnailElement.alt = file.name;
+                thumbnailElement.src = dataUrl;
+            }
+            setTimeout(function () {
+                file.previewElement.classList.add("dz-image-preview");
+            }, 1);
+        }
+    },
+});
+// Now fake the file upload, since GitHub does not handle file uploads
+// and returns a 404
+var minSteps = 6,
+    maxSteps = 60,
+    timeBetweenSteps = 100,
+    bytesPerStep = 100000;
+dropzone.uploadFiles = function (files) {
+    var self = this;
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
+        for (var step = 0; step < totalSteps; step++) {
+            var duration = timeBetweenSteps * (step + 1);
+            setTimeout(
+                (function (file, totalSteps, step) {
+                    return function () {
+                        file.upload = {
+                            progress: (100 * (step + 1)) / totalSteps,
+                            total: file.size,
+                            bytesSent: ((step + 1) * file.size) / totalSteps,
+                        };
+                        self.emit("uploadprogress", file, file.upload.progress, file.upload.bytesSent);
+                        if (file.upload.progress == 100) {
+                            file.status = Dropzone.SUCCESS;
+                            self.emit("success", file, "success", null);
+                            self.emit("complete", file);
+                            self.processQueue();
+                            //document.getElementsByClassName("dz-success-mark").style.opacity = "1";
+                        }
+                    };
+                })(file, totalSteps, step),
+                duration
+            );
+        }
+    }
+};
+
+

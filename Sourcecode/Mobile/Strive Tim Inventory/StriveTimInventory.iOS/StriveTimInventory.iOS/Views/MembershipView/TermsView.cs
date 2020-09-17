@@ -18,8 +18,9 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             NavigationController.NavigationBarHidden = true;
 
             var set = this.CreateBindingSet<TermsView, TermsViewModel>();
-            set.Bind(NextButton).To(vm => vm.Commands["Next"]);
+            set.Bind(AgreeButton).To(vm => vm.Commands["Next"]);
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
+            set.Bind(DisagreeButton).To(vm => vm.Commands["Disagree"]);
             set.Apply();
         }
 

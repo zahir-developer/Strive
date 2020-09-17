@@ -17,7 +17,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MembershipClientListView">
             <connections>
-                <outlet property="AddButton" destination="yyZ-wc-VSq" id="name-outlet-yyZ-wc-VSq"/>
                 <outlet property="ClientSearch" destination="joZ-VS-Z4R" id="name-outlet-joZ-VS-Z4R"/>
                 <outlet property="ClientTableView" destination="faR-cJ-ayC" id="name-outlet-faR-cJ-ayC"/>
                 <outlet property="LogoutButton" destination="pAg-as-I76" id="name-outlet-pAg-as-I76"/>
@@ -48,21 +47,12 @@
                                 <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyZ-wc-VSq">
-                            <rect key="frame" x="779" y="12" width="30" height="66"/>
-                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="39"/>
-                            <state key="normal" title="+">
-                                <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </state>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.95569461580000004" green="0.98811596629999998" blue="0.9960753322" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstItem="yyZ-wc-VSq" firstAttribute="centerY" secondItem="pAg-as-I76" secondAttribute="centerY" id="4wy-Qh-RPl"/>
                         <constraint firstItem="pAg-as-I76" firstAttribute="centerY" secondItem="WZF-yt-pmk" secondAttribute="centerY" multiplier="1.2" id="H2M-am-Ccw"/>
                         <constraint firstItem="Gqa-Lj-XI2" firstAttribute="centerY" secondItem="WZF-yt-pmk" secondAttribute="centerY" multiplier="1.2" id="Mww-N3-htM"/>
                         <constraint firstAttribute="height" constant="75" id="NXX-9u-7V2"/>
-                        <constraint firstAttribute="trailing" secondItem="yyZ-wc-VSq" secondAttribute="trailing" constant="25" id="PsN-wP-y8o"/>
                         <constraint firstItem="Gqa-Lj-XI2" firstAttribute="centerX" secondItem="WZF-yt-pmk" secondAttribute="centerX" id="UQn-72-D1o"/>
                         <constraint firstItem="pAg-as-I76" firstAttribute="leading" secondItem="WZF-yt-pmk" secondAttribute="leading" constant="25" id="q5U-T2-Esh"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="75" id="sHx-Tq-4UB"/>
@@ -81,8 +71,8 @@
                     </constraints>
                     <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Membership List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccY-MD-CY0">
-                    <rect key="frame" x="316.5" y="177.5" width="201" height="33"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccY-MD-CY0">
+                    <rect key="frame" x="357" y="177.5" width="120" height="33"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="24"/>
                     <color key="textColor" red="0.60121947529999997" green="0.99664801359999999" blue="0.95195192100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
