@@ -150,11 +150,15 @@ export class SalesComponent implements OnInit {
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = this.itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback;
+            this.cashback = summary?.CashBack;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
-            this.cashTotal = +this.grandTotal;
-            this.creditTotal = +this.grandTotal;
+            this.cash =  summary?.Cash;
+            this.creditTotal = summary?.Credit;
+            this.discount = summary.Discount;
             this.originalGrandTotal = this.grandTotal;
+            this.giftCard = summary.GiftCard;
+            this.balance = summary.Balance;
+            this.totalPaid = summary.TotalPaid;
           }
         }
       }, (err) => {
@@ -305,13 +309,13 @@ export class SalesComponent implements OnInit {
         estimatedTimeOut: new Date(),
         actualTimeOut: new Date(),
         jobStatus: 1,
+        notes: '',
         isActive: true,
-        isDeleted: this.isSelected ? false : true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
-        updatedDate: new Date(),
-        notes: 'checking'
+        updatedDate: new Date()
       },
       jobItem: {
         jobItemId: 0,
@@ -322,7 +326,7 @@ export class SalesComponent implements OnInit {
         quantity: +this.addItemForm.value.quantity,
         reviewNote: 'test',
         isActive: true,
-        isDeleted: this.isSelected ? false : true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
