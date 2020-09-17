@@ -23,6 +23,11 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
+        public override void ViewDisappeared()
+        {
+            _messageToken.Dispose();
+        }
+
         public async Task ShowClockInCommand()
         {
             await _navigationService.Navigate<ClockInViewModel>();

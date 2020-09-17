@@ -26,8 +26,8 @@ export class DetailService {
     return this.http.get(`${UrlConfig.totalUrl.getAllBayById}` + id);
   }
 
-  getScheduleDetailsByDate(date) {
-    return this.http.get(`${UrlConfig.totalUrl.getScheduleDetailsByDate}` + date);
+  getScheduleDetailsByDate(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getScheduleDetailsByDate}`, obj);
   }
 
   deleteDetail(id) {
@@ -39,7 +39,19 @@ export class DetailService {
   }
 
   getTodayDateScheduleList(JobDate, LocationId) {
-    return this.http.get(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, { params : { JobDate,  LocationId}  });
+    return this.http.get(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, { params: { JobDate, LocationId}});
+  }
+
+  getAllEmployeeList() {
+    return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
+  }
+
+  getWashTimeByLocationId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getLocationById}`, { params: { id }});
+  }
+
+  getPastClientNotesById(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getPastClientNotesById}` + id);
   }
 
   getAllEmplloyeeList() {

@@ -64,14 +64,13 @@ export class WashService {
   // Get Dashboard Count
   getDashBoard() {
     const obj = {
-      id: 1,
+      id: localStorage.getItem('empLocationId'),
       date: new Date()
     };
     this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj).subscribe((data: any) => {
       const wash = JSON.parse(data.resultData);
       this.dashBoardData = wash.Dashboard;
       this.data.next(this.dashBoardData);
-      console.log(this.data);
     });
   }
 }

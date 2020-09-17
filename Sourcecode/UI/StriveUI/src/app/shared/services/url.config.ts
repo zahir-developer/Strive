@@ -108,12 +108,20 @@ export const UrlConfig = {
     updateDetail: `Admin/Details/UpdateDetails`,
     getDetailById: `Admin/Details/GetDetailsById/`,
     getAllBayById: `Admin/Details/GetAllBayById/`,
-    getScheduleDetailsByDate: `Admin/Details/GetScheduleDetailsByDate/`,
+    getScheduleDetailsByDate: `Admin/Details/GetBaySchedulesDetails`,
     deleteDetail: `Admin/Details/Delete`,
     getJobType: `Admin/Details/GetJobType`,
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
-    addVehicle:`Admin/Vehicle/AddVehicle`,
+    getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
+    addVehicle: 'Admin/Vehicle/AddVehicle',
+    addItem: `Admin/Sales/AddListItem`,
+    getServicewithPrice: `Admin/Sales/GetServicesWithPrice`,
+    getTicketNumberforItem: `Admin/Sales/GetTicketNumber`,
+    updateListItem: `Admin/Sales/UpdateListItem`,
+    updateItem: `Admin/Sales/UpdateItem`,
+    addPayment: `Admin/Sales/AddPayment`,
+    deleteTransaction: `Admin/Sales/DeleteTransactions`
   }
 };

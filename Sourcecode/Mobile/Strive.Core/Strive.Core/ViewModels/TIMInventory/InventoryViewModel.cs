@@ -58,6 +58,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task InventorySearchCommand(string SearchText)
         {
+            _userDialog.ShowLoading(Strings.Loading);
             var searchList = await AdminService.SearchProduct(SearchText);
             ClearCommand();
             foreach (var product in searchList.ProductSearch)
@@ -73,7 +74,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             //    Where(s => s.Product.ProductName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
             FilteredList = InventoryList;
             EditableList = FilteredList;
-            RaiseAllPropertiesChanged();
+            await RaiseAllPropertiesChanged();
         }
 
         public void IncrementCommand(int index)
@@ -110,6 +111,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task<bool> DeleteProductCommand(int index)
         {
+            _userDialog.ShowLoading(Strings.Loading);
             var response = await AdminService.DeleteProduct(InventoryList[index].Product.ProductId);
             return (response.Result);
         }

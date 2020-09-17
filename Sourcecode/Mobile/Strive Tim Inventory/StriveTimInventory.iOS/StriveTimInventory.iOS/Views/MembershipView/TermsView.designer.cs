@@ -16,22 +16,31 @@ namespace StriveTimInventory.iOS.Views.MembershipView
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton AgreeButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton BackButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton NextButton { get; set; }
+        UIKit.UIButton DisagreeButton { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (AgreeButton != null) {
+                AgreeButton.Dispose ();
+                AgreeButton = null;
+            }
+
             if (BackButton != null) {
                 BackButton.Dispose ();
                 BackButton = null;
             }
 
-            if (NextButton != null) {
-                NextButton.Dispose ();
-                NextButton = null;
+            if (DisagreeButton != null) {
+                DisagreeButton.Dispose ();
+                DisagreeButton = null;
             }
         }
     }

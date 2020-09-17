@@ -12,9 +12,12 @@ namespace Strive.BusinessEntities.ViewModel
         public int EmployeeId { get; set; }
         public int LocationId { get; set; }
         public int? RoleId { get; set; }
+        public string RoleName { get; set; }
+        public string Day { get; set; }
         public DateTime? EventDate { get; set; }
         public DateTimeOffset? InTime { get; set; }
         public DateTimeOffset? OutTime { get; set; }
+        public DateTimeOffset? TotalHours { get; set; }
         public int? EventType { get; set; }
         public bool Status { get; set; }
     }

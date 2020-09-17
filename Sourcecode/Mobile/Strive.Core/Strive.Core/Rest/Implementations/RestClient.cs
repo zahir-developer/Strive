@@ -42,6 +42,7 @@ namespace Strive.Core.Rest.Implementations
                     {
                         var json = _jsonConverter.SerializeObject(data);
                         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                        Console.WriteLine(json);
                     }
 
                     HttpResponseMessage response = new HttpResponseMessage();
@@ -55,7 +56,7 @@ namespace Strive.Core.Rest.Implementations
                     {
                         _userDialog.HideLoading();
                         _mvxLog.ErrorException("MakeApiCall failed", ex);
-                        await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
+                        await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
@@ -68,7 +69,7 @@ namespace Strive.Core.Rest.Implementations
                     catch(Exception ex)
                     {
                         _userDialog.HideLoading();
-                        await _userDialog.AlertAsync(ex.Message, "Unexpected Error");
+                        await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
@@ -83,7 +84,9 @@ namespace Strive.Core.Rest.Implementations
                     if (!ValidateResponse(baseResponse))
                     {
                         _userDialog.HideLoading();
-                        await _userDialog.AlertAsync(baseResponse.exception, baseResponse.status);
+                        await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
+                        baseResponse.resultData = "null";
+                        return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
                     _userDialog.HideLoading();
                     return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
