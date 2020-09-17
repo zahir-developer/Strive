@@ -19,6 +19,7 @@ import * as moment from 'moment';
 export class SalesComponent implements OnInit {
   services: any;
   validGiftcard: any;
+  showPopup = false;
   isInvalidGiftcard = false;
   discount = '';
   discounts = [];
@@ -134,11 +135,15 @@ export class SalesComponent implements OnInit {
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
             if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
+              this.showPopup = true;
               this.JobId = this.itemList.Status.ScheduleItemViewModel[0].JobId;
               this.washes = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Washes');
               this.details = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Details');
-              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'AdditionalService');
+              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => 
+                item.ServiceType === 'Additional Services');
             }
+          } else {
+            this.showPopup = false;
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
@@ -199,7 +204,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('creditcardpopup').style.width = '0';
   }
   opengiftcard() {
-    this.giftcards = [];
+    // this.giftcards = [];
     document.getElementById('Giftcardpopup').style.width = '450px';
     document.getElementById('creditcardpopup').style.width = '0';
   }
@@ -242,9 +247,14 @@ export class SalesComponent implements OnInit {
     modalRef.componentInstance.JobId = itemId;
     modalRef.componentInstance.ItemDetail = event;
     modalRef.componentInstance.isModal = true;
+    modalRef.result.then(
+      (data: any) => {
+        this.getDetailByTicket();
+      },
+      (reason: any) => { }
+    );
   }
   deletegiftcard(event) {
-    console.log(event.id);
     const index = this.giftcards.findIndex(item => item.id === +event.id);
     this.giftcards.splice(index, 1);
 
@@ -264,15 +274,16 @@ export class SalesComponent implements OnInit {
     }
   }
   giftCardProcess() {
-    this.giftcards.reduce(item => +item.amount)
-    const gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
+    let gc = 0;
+    this.giftcards.reduce(item => +item.amount);
+    gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
     if (this.addItemForm.invalid) {
       return;
-    } else if (this.addItemForm.value.itemName === '') {
+    } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
       return;
     }
     const formObj = {
@@ -450,7 +461,6 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       }
     });
-    console.log(giftcard);
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -473,7 +483,7 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       },
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
-      joPaymentCreditCard: {
+      jobPaymentCreditCard: {
         jobPaymentCreditCardId: 0,
         jobPaymentId: 0,
         cardTypeId: 1,
@@ -493,13 +503,22 @@ export class SalesComponent implements OnInit {
       jobPaymentDiscount: discount.length === 0 ? null : discount
     };
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
-      console.log(data, 'payment');
+      if (data.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
+        this.getDetailByTicket();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
     });
   }
   deleteTicket() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-      this.salesService.deleteTransaction(+this.ticketNumber).subscribe(data => {
-        console.log(data);
+      this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
+        if (data.status === 'Success') {
+          console.log(data);
+        }
       });
     }
   }
@@ -525,14 +544,23 @@ export class SalesComponent implements OnInit {
     const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ExpiryDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {
       if (currentAmount < enteredAmount) {
-        this.giftCardForm.patchValue({giftCardAmount: ''});
+        this.giftCardForm.patchValue({ giftCardAmount: '' });
         this.balance = 0;
       } else {
-  this.balance = currentAmount - enteredAmount;
+        this.balance = currentAmount - enteredAmount;
       }
     }
     if (!moment(today).isBefore(giftcardexpiryDate)) {
       this.isInvalidGiftcard = true;
+    }
+  }
+  rollBack() {
+    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
+    this.salesService.rollback(+this.ticketNumber).subscribe(data => {
+      if (data.status === 'Success') {
+        this.getDetailByTicket();
+      }
+    });
     }
   }
 }
