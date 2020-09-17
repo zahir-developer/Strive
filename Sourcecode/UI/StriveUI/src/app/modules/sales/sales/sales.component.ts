@@ -10,6 +10,8 @@ import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import * as moment from 'moment';
+import insertTextAtCursor from 'insert-text-at-cursor';
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -19,6 +21,7 @@ import * as moment from 'moment';
 export class SalesComponent implements OnInit {
   services: any;
   validGiftcard: any;
+  targetId = '';
   showPopup = false;
   isInvalidGiftcard = false;
   discount = '';
@@ -216,7 +219,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   opendiscount() {
-    this.selectedDiscount = [];
+    // this.selectedDiscount = [];
     this.discount = '';
     document.getElementById('discountpopup').style.width = '450px';
     document.getElementById('cashpopup').style.width = '0';
@@ -350,14 +353,25 @@ export class SalesComponent implements OnInit {
     }
   }
   getNumAndUpdate(num) {
-    this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
+    if (this.targetId !== '') {
+      const el = document.getElementById(this.targetId);
+      insertTextAtCursor(el, num.toString());
+    }
+    // this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
   }
   clear() {
     this.addItemForm.patchValue({ itemName: '', quantity: '' });
+    this.ticketNumber = '';
   }
   backspace() {
-    const quantity = this.addItemForm.value.quantity;
-    this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
+    if (this.targetId === 'quantity') {
+      const quantity = this.addItemForm.value.quantity;
+      this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
+    } else if (this.targetId === 'ticketNumber') {
+this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1);
+    } else {
+      return;
+    }
   }
   addCashBack(cashback) {
     // this.creditTotal
@@ -372,6 +386,7 @@ export class SalesComponent implements OnInit {
     this.isSelected = false;
     this.salesService.getTicketNumber().subscribe(data => {
       this.newTicketNumber = data;
+      this.enableAdd = true;
       this.washes = [];
       this.details = [];
       this.additionalService = [];
@@ -542,5 +557,8 @@ export class SalesComponent implements OnInit {
       }
     });
     }
+  }
+  quantityFocus(event) {
+    this.targetId = event.target.id;
   }
 }
