@@ -11,7 +11,7 @@ import { ServiceSetupService } from 'src/app/shared/services/data-service/servic
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import * as moment from 'moment';
 import insertTextAtCursor from 'insert-text-at-cursor';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -44,7 +44,8 @@ export class SalesComponent implements OnInit {
   balance: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
-    private messageService: MessageServiceToastr, private service: ServiceSetupService, private giftcardService: GiftCardService) { }
+    private messageService: MessageServiceToastr, private service: ServiceSetupService, 
+    private giftcardService: GiftCardService, private spinner: NgxSpinnerService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -129,8 +130,9 @@ export class SalesComponent implements OnInit {
     if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
       const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
+      this.spinner.show();
       this.salesService.getItemByTicketNumber(+ticketNumber).subscribe(data => {
-        console.log(data, 'ticket');
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.clearform();
@@ -159,6 +161,7 @@ export class SalesComponent implements OnInit {
         }
       }, (err) => {
         this.enableAdd = false;
+        this.spinner.hide();
       });
     }
   }
@@ -267,10 +270,10 @@ export class SalesComponent implements OnInit {
     const giftCardNumber = this.giftCardForm.value.giftCardNumber;
     const giftCardAmount = this.giftCardForm.value.giftCardAmount;
     if (this.giftCardForm.valid) {
-      this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
+      this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
       this.giftCardForm.reset();
       this.balance = 0;
-      this.validGiftcard.GiftCardDetail[0].TotalAmount = 0;
+      this.validGiftcard.GiftCardDetail.BalanceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
@@ -517,7 +520,9 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
       },
       jobPaymentDiscount: discount.length === 0 ? null : discount
     };
+    this.spinner.show();
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
         this.getDetailByTicket();
@@ -526,6 +531,7 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
       }
     }, (err) => {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+      this.spinner.hide();
     });
   }
   deleteTicket() {
@@ -539,7 +545,7 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
   }
   validateGiftcard() {
     const gNo = this.giftCardForm.value.giftCardNumber;
-    this.giftcardService.getGiftCard(gNo).subscribe(data => {
+    this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
         this.validGiftcard = JSON.parse(data.resultData);
         if (this.validGiftcard.GiftCardDetail.length === 0) {
@@ -554,9 +560,9 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
   validateAmount() {
     this.isInvalidGiftcard = false;
     const enteredAmount = this.giftCardForm.value.giftCardAmount;
-    const currentAmount = this.validGiftcard.GiftCardDetail[0].TotalAmount;
+    const currentAmount = this.validGiftcard.GiftCardDetail?.BalanceAmount;
     const today = new Date();
-    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ExpiryDate;
+    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail?.ActiveDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {
       if (currentAmount < enteredAmount) {
         this.giftCardForm.patchValue({ giftCardAmount: '' });
