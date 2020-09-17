@@ -22,9 +22,9 @@ namespace Admin.API.Controllers
         //[Route("UpdateSalesItem")]
         //public Result UpdateSalesItem([FromBody] SalesDto sales) => _bplManager.UpdateSalesItem(sales);
 
-        [HttpPut]
+        [HttpPost]
         [Route("UpdateItem")]
-        public Result UpdateItem(SalesItemUpdateDto salesItemUpdateDto)
+        public Result UpdateItem([FromBody] SalesItemUpdateDto salesItemUpdateDto)
         {
             return _bplManager.UpdateItem(salesItemUpdateDto);
         }
