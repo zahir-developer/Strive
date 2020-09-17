@@ -26,7 +26,7 @@ namespace Strive.ResourceAccess
         }
         public bool UpdateClientVehicle(ClientDto client)
         {
-            return dbRepo.UpdatePc(client);
+            return dbRepo.SaveAll(client, "ClientId");
         }
 
         public List<ClientViewModel> GetAllClient()

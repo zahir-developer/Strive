@@ -13,5 +13,12 @@ namespace Strive.BusinessLogic.TimeClock
         Result GetTimeClock(TimeClockDto timeClock);
 
         Result SaveTimeClock(Strive.BusinessEntities.Model.TimeClockModel timeClock);
+
+        Result TimeClockEmployeeDetails(TimeClockEmployeeDetailDto timeClockEmployeeDetailDto);
+
+        Result TimeClockWeekDetails(TimeClockWeekDetailDto timeClockWeekDetailDto);
+
+        Result DeleteTimeClockEmployee(TimeClockDeleteDto timeClockDeleteDto);
+
     }
 }

@@ -40,24 +40,39 @@ export class TodayScheduleComponent implements OnInit {
             if (isData.length > 0) {
               const services = [];
               const detailService = _.where(isData, { ServiceTypeName: 'Details' });
-              const outsideService = _.where(isData, { ServiceTypeName: 'Outside Services' });
-              detailService.forEach( service => {
-                outsideService.forEach( outside => {
-                  if ( service.JobId ===  outside.JobId) {
-                    services.push({
-                      BayId: service.BayId,
-                      BayName: service.BayName,
-                      ClientName: service.ClientName,
-                      EstimatedTimeOut: service.EstimatedTimeOut,
-                      JobId: service.JobId,
-                      PhoneNumber: service.PhoneNumber,
-                      ServiceName: service.ServiceName,
-                      TicketNumber: service.TicketNumber,
-                      TimeIn: service.TimeIn,
-                      OutsideService: outside.ServiceName ? outside.ServiceName : 'None'
-                    });
-                  }
-                });
+              const outsideService = _.where(isData, { ServiceTypeName: 'OutSide Service' });
+              detailService.forEach(service => {
+                if (outsideService.length > 0) {
+                  outsideService.forEach(outside => {
+                    if (service.JobId === outside.JobId) {
+                      services.push({
+                        BayId: service.BayId,
+                        BayName: service.BayName,
+                        ClientName: service.ClientName,
+                        EstimatedTimeOut: service.EstimatedTimeOut,
+                        JobId: service.JobId,
+                        PhoneNumber: service.PhoneNumber,
+                        ServiceName: service.ServiceName,
+                        TicketNumber: service.TicketNumber,
+                        TimeIn: service.TimeIn,
+                        OutsideService: outside.ServiceName ? outside.ServiceName : 'None'
+                      });
+                    }
+                  });
+                } else {
+                  services.push({
+                    BayId: service.BayId,
+                    BayName: service.BayName,
+                    ClientName: service.ClientName,
+                    EstimatedTimeOut: service.EstimatedTimeOut,
+                    JobId: service.JobId,
+                    PhoneNumber: service.PhoneNumber,
+                    ServiceName: service.ServiceName,
+                    TicketNumber: service.TicketNumber,
+                    TimeIn: service.TimeIn,
+                    OutsideService: 'None'
+                  });
+                } 
               });
               console.log(services, 'servcei');
               bayJobDetail.push({

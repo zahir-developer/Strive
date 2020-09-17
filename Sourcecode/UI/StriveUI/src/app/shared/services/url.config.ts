@@ -123,6 +123,11 @@ export const UrlConfig = {
     updateItem: `Admin/Sales/UpdateItem`,
     addPayment: `Admin/Sales/AddPayment`,
     deleteJob: `Admin/Sales/DeleteJob`,
-    rollbackTransaction: `Admin/Sales/RollBackPayment`
+    rollbackTransaction: `Admin/Sales/RollBackPayment`,
+    deleteTransaction: `Admin/Sales/DeleteTransactions`,
+    getTimeClockWeekDetails: `Admin/TimeClock/GetTimeClockWeekDetails`,
+    saveTimeClock: `Admin/TimeClock/Save`,
+    getTimeClockEmployeeDetails : `Admin/TimeClock/GetTimeClockEmployeeDetails`,
+    deleteTimeClockEmployee : `Admin/TimeClock/DeleteTimeClockEmployee`
   }
 };

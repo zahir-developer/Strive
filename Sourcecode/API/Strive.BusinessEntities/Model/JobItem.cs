@@ -17,6 +17,12 @@ namespace Strive.BusinessEntities.Model
         public int? ServiceId { get; set; }
 
         [Column]
+        public int? ItemTypeId { get; set; }
+
+        [Column]
+        public int? EmployeeId { get; set; }
+
+        [Column]
         public decimal? Commission { get; set; }
 
         [Column]
@@ -46,8 +52,6 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
 
-        [Column]
-        public int? EmployeeId { get; set; }
 
     }
 }

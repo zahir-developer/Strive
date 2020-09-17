@@ -7,6 +7,14 @@ namespace Strive.BusinessEntities
 
     public class EnumSP
     {
+        public enum ClockTime
+        {
+            USPGETTIMECLOCK,
+            USPGETTIMECLOCKEMPLOYEEDETAILS,
+            USPGETTIMECLOCKWEEKDETAILS,
+            USPDELETETIMECLOCKEMPLOYEE
+        }
+
         public enum Employee
         {
             //Employee
@@ -101,7 +109,7 @@ namespace Strive.BusinessEntities
         USPSAVEOTP,
         USPRESETPASSWORD,
         USPVERIFYOTP,
-        
+
         USPGETEMPLOYEEBYID,
         USPGETALLSERVICE,
         USPGETPRODUCTS,
@@ -132,7 +140,6 @@ namespace Strive.BusinessEntities
         uspGetVehicleCodes,
         USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
         USPGETMEMBERSHIPBYVEHICLEID,
-        USPCLOCKTIMEDETAILS,
         //Vendor
         USPGETALLVENDOR,
         USPDELETEVENDOR,
@@ -170,7 +177,9 @@ namespace Strive.BusinessEntities
         uspGetItemListByTicketNumber,
         USPCREATETENANT,
         uspGetServiceByItemList,
-        uspDeleteRollBackItems
+        USPDELETEJOBITEMS,
+        USPROLLBACKPAYMENT,
+        USPGETALLSERVICEANDPRODUCTLIST
     }
 
 
