@@ -84,5 +84,9 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+        public ServiceAndProductViewModel GetServicesAndProduct()
+        {
+            return db.FetchMultiResult<ServiceAndProductViewModel>(SPEnum.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
+        }
     }
 }

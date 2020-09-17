@@ -122,5 +122,10 @@ namespace Strive.BusinessLogic.Sales
         {
             return ResultWrap(new SalesRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
         }
+
+        public Result  GetServicesAndProduct()
+        {
+            return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct, "ServiceAndProductList");
+        }
     }
 }

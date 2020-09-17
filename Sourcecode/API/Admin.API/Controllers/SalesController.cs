@@ -70,5 +70,11 @@ namespace Admin.API.Controllers
         {
             return _bplManager.RollBackPayment(salesItemDeleteDto);
         }
+        [HttpGet]
+        [Route("GetAllServiceAndProductList")]
+        public Result GetServicesAndProduct()
+        {
+            return _bplManager.GetServicesAndProduct();
+        }
     }
 }

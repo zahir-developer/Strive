@@ -177,7 +177,8 @@ namespace Strive.BusinessEntities
         USPCREATETENANT,
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
-        USPROLLBACKPAYMENT
+        USPROLLBACKPAYMENT,
+        USPGETALLSERVICEANDPRODUCTLIST
     }
 
 
