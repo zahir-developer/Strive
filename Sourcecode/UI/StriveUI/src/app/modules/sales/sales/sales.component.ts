@@ -270,7 +270,7 @@ export class SalesComponent implements OnInit {
     const giftCardNumber = this.giftCardForm.value.giftCardNumber;
     const giftCardAmount = this.giftCardForm.value.giftCardAmount;
     if (this.giftCardForm.valid) {
-      this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
+      this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
       this.giftCardForm.reset();
       this.balance = 0;
       this.validGiftcard.GiftCardDetail[0].BalanceAmount = 0;
