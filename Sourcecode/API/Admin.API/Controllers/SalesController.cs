@@ -17,11 +17,7 @@ namespace Admin.API.Controllers
     public class SalesController : StriveControllerBase<ISalesBpl>
     {
         public SalesController(ISalesBpl colBpl) : base(colBpl) { }
-
-        //[HttpPost]
-        //[Route("UpdateSalesItem")]
-        //public Result UpdateSalesItem([FromBody] SalesDto sales) => _bplManager.UpdateSalesItem(sales);
-
+        
         [HttpPost]
         [Route("UpdateItem")]
         public Result UpdateItem([FromBody] SalesItemUpdateDto salesItemUpdateDto)
@@ -29,11 +25,13 @@ namespace Admin.API.Controllers
             return _bplManager.UpdateItem(salesItemUpdateDto);
         }
         [HttpDelete]
+
         [Route("DeleteItemById")]
         public Result DeleteItemById(int jobItemId)
         {
             return _bplManager.DeleteItemById(jobItemId);
         }
+
         [HttpGet]
         [Route("GetTicketNumber")]
         public string GetTicketNumber() => _bplManager.GetTicketNumber();
@@ -45,6 +43,7 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetScheduleByTicketNumber")]
         public Result GetScheduleByTicketNumber(string ticketNumber) => _bplManager.GetScheduleByTicketNumber(ticketNumber);
+
         [HttpPost]
         [Route("AddPayment")]
         public Result AddPayment([FromBody] SalesPaymentDto salesPayment) => _bplManager.AddPayment(salesPayment);
@@ -52,18 +51,22 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("AddListItem")]
         public Result AddListItem([FromBody] SalesAddListItemDto salesAddListItem) => _bplManager.AddListItem(salesAddListItem);
+
         [HttpPost]
         [Route("UpdateListItem")]
         public Result UpdateListItem([FromBody] SalesUpdateItemDto salesUpdateItemDto) => _bplManager.UpdateListItem(salesUpdateItemDto);
+
         [HttpGet]
         [Route("GetServicesWithPrice")]
         public Result GetServicesWithPrice() => _bplManager.GetServicesWithPrice();
+
         [HttpDelete]
         [Route("DeleteJob")]
         public Result DeleteJob(SalesItemDeleteDto salesItemDeleteDto)
         {
             return _bplManager.DeleteJob(salesItemDeleteDto);
         }
+
         [HttpDelete]
         [Route("RollBackPayment")]
         public Result RollBackPayment(SalesItemDeleteDto salesItemDeleteDto)
