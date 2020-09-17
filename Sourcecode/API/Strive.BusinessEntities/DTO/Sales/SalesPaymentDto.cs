@@ -12,5 +12,6 @@ namespace Strive.BusinessEntities.DTO.Sales
         public JobPayment JobPayment { get; set; }
         public List<GiftCardHistory> GiftCardHistory { get; set; }
         public JobPaymentCreditCard JobPaymentCreditCard { get; set; }
+        public List<JobPaymentDiscount> JobPaymentDiscount { get; set; }
     }
 }

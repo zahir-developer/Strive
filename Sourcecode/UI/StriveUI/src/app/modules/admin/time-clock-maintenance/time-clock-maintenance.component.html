@@ -67,7 +67,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let timeClock of timeClockEmployeeDetails">
+                        <tr *ngFor="let timeClock of timeClockEmployeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                           <th scope="row">{{ timeClock.EmployeeId }}</th>
                           <td>{{ timeClock.FirstName }}</td>
                           <td>{{ timeClock.LastName }}</td>
@@ -77,20 +77,10 @@
                         </tr>
                       </tbody>
                     </table>
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item">
-                        <a class="page-link" href="#">
-                          <i class="fa fa-angle-left"></i>
-                        </a>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </li>
-                    </ul>
+                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
+                      [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                      [boundaryLinks]="true" class="d-flex justify-content-end">
+                  </ngb-pagination>
                   </div>
 
                 </div>
