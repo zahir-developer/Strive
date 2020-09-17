@@ -99,7 +99,7 @@
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-6"> Current Value </div>
-                                                <div class="form-group col-md-6 text-right"> {{validGiftcard?.GiftCardDetail[0]?.TotalAmount ? (validGiftcard?.GiftCardDetail[0]?.TotalAmount | currency) : '$0.00' }} </div>
+                                                <div class="form-group col-md-6 text-right"> {{validGiftcard?.GiftCardDetail[0]?.BalaceAmount ? (validGiftcard?.GiftCardDetail[0]?.BalaceAmount | currency) : '$0.00' }} </div>
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
@@ -289,7 +289,7 @@
                                         <div class="form-group col-md-5" *ngIf="enableAdd === true">
                                             <div class=" ">
                                                 <form [formGroup]="addItemForm">
-                                                <input type="text" id="quantity" class="form-control d-inline-block w-23 align-middle" placeholder="Qty" formControlName="quantity">&nbsp;
+                                                <input type="number" id="quantity" [appMaxLength]="10" class="form-control d-inline-block w-23 align-middle" placeholder="Qty" formControlName="quantity">&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="addItem()">Add</button>&nbsp;
                                             </form>
                                             </div>

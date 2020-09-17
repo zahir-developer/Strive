@@ -267,7 +267,7 @@ export class SalesComponent implements OnInit {
       this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
       this.giftCardForm.reset();
       this.balance = 0;
-      this.validGiftcard.GiftCardDetail[0].TotalAmount = 0;
+      this.validGiftcard.BalanceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
@@ -325,26 +325,6 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
-      },
-      jobPayment: {
-        jobPaymentId: 0,
-        jobId: 0,
-        drawerId: localStorage.getItem('drawerId'),
-        paymentType: 1,
-        amount: 0,
-        taxAmount: 0,
-        cashback: 0,
-        approval: true,
-        checkNumber: 'string',
-        signature: 'string',
-        paymentStatus: 1,
-        comments: 'string',
-        isActive: true,
-        isDeleted: this.isSelected ? false : true,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date()
       }
     };
     if (this.isSelected) {
@@ -524,7 +504,7 @@ export class SalesComponent implements OnInit {
   }
   validateGiftcard() {
     const gNo = this.giftCardForm.value.giftCardNumber;
-    this.giftcardService.getGiftCard(gNo).subscribe(data => {
+    this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
         this.validGiftcard = JSON.parse(data.resultData);
         if (this.validGiftcard.GiftCardDetail.length === 0) {
@@ -533,15 +513,15 @@ export class SalesComponent implements OnInit {
           this.isInvalidGiftcard = false;
         }
       }
-      console.log(data);
+      //console.log(data);
     });
   }
   validateAmount() {
     this.isInvalidGiftcard = false;
     const enteredAmount = this.giftCardForm.value.giftCardAmount;
-    const currentAmount = this.validGiftcard.GiftCardDetail[0].TotalAmount;
+    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalanceAmount;
     const today = new Date();
-    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ExpiryDate;
+    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ActiveDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {
       if (currentAmount < enteredAmount) {
         this.giftCardForm.patchValue({ giftCardAmount: '' });
