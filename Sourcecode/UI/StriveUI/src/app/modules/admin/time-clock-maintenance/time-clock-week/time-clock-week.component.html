@@ -47,7 +47,7 @@
                                                             {{week.day}}
                                                         </div>
                                                     </th>
-                                                    <td>{{week.date}}</td>
+                                                    <td style="padding-top: 19px;">{{week.date}}</td>
                                                     <td><button type="button"
                                                             class="btn theme-primary-button-color float-right"
                                                             (click)="addTimeList(week)">Add</button></td>
@@ -74,6 +74,9 @@
                                                                                 [ngModelOptions]="{standalone: true}"
                                                                                 [showMeridian]="true"
                                                                                 [showMinutes]="true"
+                                                                                [arrowkeys]="false"
+                                                                                [showSpinners]="false"
+                                                                                [showMeridian]="false"
                                                                                 (ngModelChange)="inTime($event)">
                                                                             </timepicker>
                                                                         </ng-template>
@@ -92,6 +95,9 @@
                                                                                 [ngModelOptions]="{standalone: true}"
                                                                                 [showMeridian]="true"
                                                                                 [showMinutes]="true"
+                                                                                [arrowkeys]="false"
+                                                                                [showSpinners]="false"
+                                                                                [showMeridian]="false"
                                                                                 (ngModelChange)="outTime($event, time)">
                                                                             </timepicker>
                                                                         </ng-template>

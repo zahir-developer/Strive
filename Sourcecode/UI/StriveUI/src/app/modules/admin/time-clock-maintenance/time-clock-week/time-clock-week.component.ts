@@ -102,16 +102,6 @@ export class TimeClockWeekComponent implements OnInit {
           }
           weekDetails.forEach(item => {
             const checkIn = [];
-            checkIn.push({
-              EventDate: item.date,
-              InTime: '',
-              OutTime: '',
-              RoleId: '',
-              TimeClockId: 0,
-              TotalHours: '',
-              employeeId: this.empClockInObj.employeeID,
-              locationId: this.empClockInObj.locationId
-            });
             item.checkInDetail = checkIn;
           });
           console.log(weekDetails, 'weekDetails');
