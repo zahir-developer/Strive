@@ -75,8 +75,8 @@
                                                                                 [showMeridian]="true"
                                                                                 [showMinutes]="true"
                                                                                 [arrowkeys]="false"
-                                                                                [showSpinners]="false"
-                                                                                [showMeridian]="false"
+                                                                                [showSpinners]="true"
+                                                                                [showMeridian]="true"
                                                                                 (ngModelChange)="inTime($event)">
                                                                             </timepicker>
                                                                         </ng-template>
@@ -96,8 +96,8 @@
                                                                                 [showMeridian]="true"
                                                                                 [showMinutes]="true"
                                                                                 [arrowkeys]="false"
-                                                                                [showSpinners]="false"
-                                                                                [showMeridian]="false"
+                                                                                [showSpinners]="true"
+                                                                                [showMeridian]="true"
                                                                                 (ngModelChange)="outTime($event, time)">
                                                                             </timepicker>
                                                                         </ng-template>
@@ -126,6 +126,11 @@
                                                                         <input type="text"
                                                                             class="form-control rounded-0 input-table text-right"
                                                                             [(ngModel)]="time.TotalHours"> </td>
+                                                                </tr>
+                                                                <tr *ngIf="week.checkInDetail.length === 0">
+                                                                    <td colspan="4" class="text-center">
+                                                                        No Record Found
+                                                                    </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
