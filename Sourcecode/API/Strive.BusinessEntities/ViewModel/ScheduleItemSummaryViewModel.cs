@@ -8,12 +8,16 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ScheduleItemSummaryViewModel
     {
-        public decimal? Tax { get; set; }
-        public decimal? Cashback { get; set; }
-        public decimal? Price { get; set; }
-        public int? Quantity { get; set; }
+        public decimal? Cash { get; set; }
+        public decimal? Credit { get; set; }
+        public decimal? CashBack { get; set; }
+        public decimal? GiftCard { get; set; }
+        public decimal? Balance { get; set; }
+        public decimal? Discount { get; set; }
         public decimal? Total { get; set; }
+        public decimal? TaxAmount { get; set; }
         public decimal? GrandTotal { get; set; }
-        public int? JobItemId { get; set; }
+        public decimal? TotalPaid { get; set; }
+        public bool? IsProcessed { get; set; }
     }
 }
