@@ -37,7 +37,7 @@ export class SalesComponent implements OnInit {
   giftCardForm: FormGroup;
   addItemForm: FormGroup;
   itemList: any;
-  originalGrandTotal: string;
+  originalGrandTotal = 0;
   JobId: any;
   newTicketNumber: any;
   selectedService: any;
@@ -63,9 +63,9 @@ export class SalesComponent implements OnInit {
   cash = 0;
   credit = 0;
   giftCard = 0;
-  account = '';
-  totalPaid = '';
-  balanceDue = '';
+  account = 0;
+  totalPaid = 0;
+  balanceDue = 0;
   Cashback = '';
   ngOnInit(): void {
     this.giftCardFromInit();
@@ -116,11 +116,13 @@ export class SalesComponent implements OnInit {
   }
   selectedItem(event) {
     this.selectedService = event;
-    console.log(event.name);
   }
   clearpaymentField() {
-    this.cash = this.credit = this.giftCard = 0;
-    this.selectedDiscount = this.giftcards = [];
+    this.cash = 0;
+    this.credit = 0;
+    this.giftCard = 0;
+    this.selectedDiscount = [];
+    this.giftcards = [];
   }
   getDetailByTicket() {
     this.washes = [];
@@ -152,15 +154,11 @@ export class SalesComponent implements OnInit {
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = summary?.CashBack;
+            this.cashback = this.itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
-            this.cash =  summary?.Cash;
-            this.creditTotal = summary?.Credit;
-            this.discount = summary.Discount;
-            this.originalGrandTotal = this.grandTotal;
-            this.giftCard = summary.GiftCard;
-            this.balance = summary.Balance;
-            this.totalPaid = summary.TotalPaid;
+            this.cashTotal = +this.grandTotal;
+            this.creditTotal = +this.grandTotal;
+            this.originalGrandTotal = +this.grandTotal;
           }
         }
       }, (err) => {
@@ -278,7 +276,7 @@ export class SalesComponent implements OnInit {
       console.log(this.selectedDiscount);
       this.giftCardForm.reset();
       this.balance = 0;
-      this.validGiftcard.GiftCardDetail[0].BalanceAmount = 0;
+      this.validGiftcard.GiftCardDetail[0].BalaceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
@@ -289,6 +287,7 @@ export class SalesComponent implements OnInit {
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
+    this.totalPaid = this.totalPaid + this.giftCard;
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
@@ -313,13 +312,13 @@ export class SalesComponent implements OnInit {
         estimatedTimeOut: new Date(),
         actualTimeOut: new Date(),
         jobStatus: 1,
-        notes: '',
         isActive: true,
-        isDeleted: false,
+        isDeleted: this.isSelected ? false : true,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
-        updatedDate: new Date()
+        updatedDate: new Date(),
+        notes: 'checking'
       },
       jobItem: {
         jobItemId: 0,
@@ -330,7 +329,7 @@ export class SalesComponent implements OnInit {
         quantity: +this.addItemForm.value.quantity,
         reviewNote: 'test',
         isActive: true,
-        isDeleted: false,
+        isDeleted: this.isSelected ? false : true,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
@@ -406,6 +405,7 @@ export class SalesComponent implements OnInit {
   }
   creditProcess() {
     this.credit = this.creditTotal - this.creditcashback;
+    this.totalPaid = this.totalPaid + this.credit;
     this.cashback = this.cashback + this.creditcashback;
     document.getElementById('creditcardpopup').style.width = '0';
   }
@@ -414,6 +414,7 @@ export class SalesComponent implements OnInit {
   }
   cashProcess() {
     this.cash = this.cashTotal;
+    this.totalPaid = this.totalPaid + this.cash;
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -439,7 +440,7 @@ export class SalesComponent implements OnInit {
         giftCardId: item.id,
         locationId: +localStorage.getItem('empLocationId'),
         transactionType: 1,
-        transactionAmount: +item.amount,
+        transactionAmount: -(+item.amount),
         transactionDate: new Date(),
         comments: 'string',
         isActive: true,
@@ -524,8 +525,13 @@ export class SalesComponent implements OnInit {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
       this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
         if (data.status === 'Success') {
-          console.log(data);
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Deleted job successfully' });
+          this.getDetailByTicket();
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }
+      }, (err) => {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
       });
     }
   }
@@ -546,7 +552,7 @@ export class SalesComponent implements OnInit {
   validateAmount() {
     this.isInvalidGiftcard = false;
     const enteredAmount = this.giftCardForm.value.giftCardAmount;
-    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalanceAmount;
+    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalaceAmount;
     const today = new Date();
     const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ActiveDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {
@@ -557,16 +563,21 @@ export class SalesComponent implements OnInit {
         this.balance = currentAmount - enteredAmount;
       }
     }
-    if (!moment(today).isBefore(giftcardexpiryDate)) {
-      this.isInvalidGiftcard = true;
-    }
+    // if (!moment(today).isBefore(giftcardexpiryDate)) {
+    //   this.isInvalidGiftcard = true;
+    // }
   }
   rollBack() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
     this.salesService.rollback(+this.ticketNumber).subscribe(data => {
       if (data.status === 'Success') {
         this.getDetailByTicket();
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
       }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
     });
     }
   }
