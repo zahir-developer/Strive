@@ -22,6 +22,7 @@ export class SalesComponent implements OnInit {
   services: any;
   validGiftcard: any;
   targetId = '';
+  enableButton = false;
   showPopup = false;
   isInvalidGiftcard = false;
   discount = '';
@@ -123,6 +124,10 @@ export class SalesComponent implements OnInit {
     this.giftCard = 0;
     this.selectedDiscount = [];
     this.giftcards = [];
+    this.totalPaid = 0;
+    this.balanceDue = 0;
+    this.originalGrandTotal = 0;
+    this.creditcashback = 0;
   }
   getDetailByTicket() {
     this.washes = [];
@@ -154,11 +159,21 @@ export class SalesComponent implements OnInit {
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = this.itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback;
+            this.cashback = summary?.Cashback;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
             this.creditTotal = +this.grandTotal;
+            this.cash = +summary?.Cash;
+            this.credit = +summary?.Credit;
+            this.discount = summary?.Discount;
             this.originalGrandTotal = +this.grandTotal;
+            this.giftCard = +summary?.GiftCard;
+            this.balance = +summary?.Balance;
+            this.totalPaid = +summary?.TotalPaid;
+
+          }
+          if (this.cash !== 0 || this.credit !== 0 || this.giftCard !== 0) {
+            this.enableButton = true;
           }
         }
       }, (err) => {
@@ -182,8 +197,7 @@ export class SalesComponent implements OnInit {
     this.filteredItem = filtered;
   }
   deleteItem(data) {
-    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
-    information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Item', `Are you sure you want to delete the selected Item?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
@@ -283,6 +297,7 @@ export class SalesComponent implements OnInit {
     }
   }
   giftCardProcess() {
+    this.totalPaid = this.totalPaid - this.giftCard;
     let gc = 0;
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
@@ -292,8 +307,10 @@ export class SalesComponent implements OnInit {
   }
   addItem() {
     if (this.addItemForm.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
       return;
     } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter valid ItemName' });
       return;
     }
     const formObj = {
@@ -392,6 +409,7 @@ export class SalesComponent implements OnInit {
   }
   getTicketNumber() {
     this.isSelected = false;
+    this.ticketNumber = '';
     this.salesService.getTicketNumber().subscribe(data => {
       this.newTicketNumber = data;
       this.enableAdd = true;
@@ -404,6 +422,7 @@ export class SalesComponent implements OnInit {
     });
   }
   creditProcess() {
+    this.totalPaid = this.totalPaid - this.credit;
     this.credit = this.creditTotal - this.creditcashback;
     this.totalPaid = this.totalPaid + this.credit;
     this.cashback = this.cashback + this.creditcashback;
@@ -413,6 +432,7 @@ export class SalesComponent implements OnInit {
     this.cashTotal = +this.cashTotal + cash;
   }
   cashProcess() {
+    this.totalPaid = this.totalPaid - this.cash;
     this.cash = this.cashTotal;
     this.totalPaid = this.totalPaid + this.cash;
     document.getElementById('cashpopup').style.width = '0';
@@ -527,6 +547,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Deleted job successfully' });
           this.getDetailByTicket();
+          this.ticketNumber = '';
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }
