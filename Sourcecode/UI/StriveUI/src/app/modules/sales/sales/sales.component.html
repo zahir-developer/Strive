@@ -114,10 +114,10 @@
                                                 <div class="form-group col-md-6"> Balance </div>
                                                 <div class="form-group col-md-6 text-right"> {{balance ? (balance | currency) : '$0.00'}}</div>
                                             </div>
-                                        </form>
                                             <div class="form-row  float-right">
                                                 <button type="button" class="btn theme-primary-button-color  btn-sm " [disabled]="giftCardForm.invalid || isInvalidGiftcard"(click)="addGiftCard()">Add</button>
                                             </div>
+                                        </form>
                                             <div *ngIf="giftcards.length>0">
                                             <div class="table-responsive m-t-10">
                                                 <table class="table  table-striped">
