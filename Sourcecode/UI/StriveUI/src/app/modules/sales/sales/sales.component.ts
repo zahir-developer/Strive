@@ -11,7 +11,7 @@ import { ServiceSetupService } from 'src/app/shared/services/data-service/servic
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import * as moment from 'moment';
 import insertTextAtCursor from 'insert-text-at-cursor';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -22,6 +22,7 @@ export class SalesComponent implements OnInit {
   services: any;
   validGiftcard: any;
   targetId = '';
+  enableButton = false;
   showPopup = false;
   isInvalidGiftcard = false;
   discount = '';
@@ -37,14 +38,15 @@ export class SalesComponent implements OnInit {
   giftCardForm: FormGroup;
   addItemForm: FormGroup;
   itemList: any;
-  originalGrandTotal: string;
+  originalGrandTotal = 0;
   JobId: any;
   newTicketNumber: any;
   selectedService: any;
   balance: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
-    private messageService: MessageServiceToastr, private service: ServiceSetupService, private giftcardService: GiftCardService) { }
+    private messageService: MessageServiceToastr, private service: ServiceSetupService, 
+    private giftcardService: GiftCardService, private spinner: NgxSpinnerService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -62,9 +64,9 @@ export class SalesComponent implements OnInit {
   cash = 0;
   credit = 0;
   giftCard = 0;
-  account = '';
-  totalPaid = '';
-  balanceDue = '';
+  account = 0;
+  totalPaid = 0;
+  balanceDue = 0;
   Cashback = '';
   ngOnInit(): void {
     this.giftCardFromInit();
@@ -115,11 +117,17 @@ export class SalesComponent implements OnInit {
   }
   selectedItem(event) {
     this.selectedService = event;
-    console.log(event.name);
   }
   clearpaymentField() {
-    this.cash = this.credit = this.giftCard = 0;
-    this.selectedDiscount = this.giftcards = [];
+    this.cash = 0;
+    this.credit = 0;
+    this.giftCard = 0;
+    this.selectedDiscount = [];
+    this.giftcards = [];
+    this.totalPaid = 0;
+    this.balanceDue = 0;
+    this.originalGrandTotal = 0;
+    this.creditcashback = 0;
   }
   getDetailByTicket() {
     this.washes = [];
@@ -129,8 +137,9 @@ export class SalesComponent implements OnInit {
     if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
       const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
+      this.spinner.show();
       this.salesService.getItemByTicketNumber(+ticketNumber).subscribe(data => {
-        console.log(data, 'ticket');
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.clearform();
@@ -150,15 +159,26 @@ export class SalesComponent implements OnInit {
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = this.itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback;
+            this.cashback = summary?.Cashback;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
             this.creditTotal = +this.grandTotal;
-            this.originalGrandTotal = this.grandTotal;
+            this.cash = +summary?.Cash;
+            this.credit = +summary?.Credit;
+            this.discount = summary?.Discount;
+            this.originalGrandTotal = +this.grandTotal;
+            this.giftCard = +summary?.GiftCard;
+            this.balance = +summary?.Balance;
+            this.totalPaid = +summary?.TotalPaid;
+
+          }
+          if (this.cash !== 0 || this.credit !== 0 || this.giftCard !== 0) {
+            this.enableButton = true;
           }
         }
       }, (err) => {
         this.enableAdd = false;
+        this.spinner.hide();
       });
     }
   }
@@ -177,8 +197,7 @@ export class SalesComponent implements OnInit {
     this.filteredItem = filtered;
   }
   deleteItem(data) {
-    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
-    information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Item', `Are you sure you want to delete the selected Item?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
@@ -268,25 +287,30 @@ export class SalesComponent implements OnInit {
     const giftCardAmount = this.giftCardForm.value.giftCardAmount;
     if (this.giftCardForm.valid) {
       this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
+      console.log(this.selectedDiscount);
       this.giftCardForm.reset();
       this.balance = 0;
-      this.validGiftcard.BalanceAmount = 0;
+      this.validGiftcard.GiftCardDetail[0].BalaceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
     }
   }
   giftCardProcess() {
+    this.totalPaid = this.totalPaid - this.giftCard;
     let gc = 0;
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
+    this.totalPaid = this.totalPaid + this.giftCard;
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
     if (this.addItemForm.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
       return;
     } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter valid ItemName' });
       return;
     }
     const formObj = {
@@ -365,10 +389,11 @@ export class SalesComponent implements OnInit {
   }
   backspace() {
     if (this.targetId === 'quantity') {
-      const quantity = this.addItemForm.value.quantity;
+      const quantity = this.addItemForm.value.quantity.toString();
       this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
     } else if (this.targetId === 'ticketNumber') {
-this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1);
+      const ticketNumber = this.ticketNumber? this.ticketNumber.toString() : '';
+      this.ticketNumber = ticketNumber.substring(0, ticketNumber.length - 1);
     } else {
       return;
     }
@@ -384,6 +409,7 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
   }
   getTicketNumber() {
     this.isSelected = false;
+    this.ticketNumber = '';
     this.salesService.getTicketNumber().subscribe(data => {
       this.newTicketNumber = data;
       this.enableAdd = true;
@@ -396,7 +422,9 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
     });
   }
   creditProcess() {
+    this.totalPaid = this.totalPaid - this.credit;
     this.credit = this.creditTotal - this.creditcashback;
+    this.totalPaid = this.totalPaid + this.credit;
     this.cashback = this.cashback + this.creditcashback;
     document.getElementById('creditcardpopup').style.width = '0';
   }
@@ -404,7 +432,9 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
     this.cashTotal = +this.cashTotal + cash;
   }
   cashProcess() {
+    this.totalPaid = this.totalPaid - this.cash;
     this.cash = this.cashTotal;
+    this.totalPaid = this.totalPaid + this.cash;
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -430,7 +460,7 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
         giftCardId: item.id,
         locationId: +localStorage.getItem('empLocationId'),
         transactionType: 1,
-        transactionAmount: +item.amount,
+        transactionAmount: -(+item.amount),
         transactionDate: new Date(),
         comments: 'string',
         isActive: true,
@@ -497,7 +527,9 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
       },
       jobPaymentDiscount: discount.length === 0 ? null : discount
     };
+    this.spinner.show();
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
         this.getDetailByTicket();
@@ -506,14 +538,21 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
       }
     }, (err) => {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+      this.spinner.hide();
     });
   }
   deleteTicket() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
       this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
         if (data.status === 'Success') {
-          console.log(data);
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Deleted job successfully' });
+          this.getDetailByTicket();
+          this.ticketNumber = '';
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }
+      }, (err) => {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
       });
     }
   }
@@ -534,7 +573,7 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
   validateAmount() {
     this.isInvalidGiftcard = false;
     const enteredAmount = this.giftCardForm.value.giftCardAmount;
-    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalanceAmount;
+    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalaceAmount;
     const today = new Date();
     const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ActiveDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {
@@ -545,16 +584,21 @@ this.ticketNumber = this.ticketNumber.substring(0, this.ticketNumber.length - 1)
         this.balance = currentAmount - enteredAmount;
       }
     }
-    if (!moment(today).isBefore(giftcardexpiryDate)) {
-      this.isInvalidGiftcard = true;
-    }
+    // if (!moment(today).isBefore(giftcardexpiryDate)) {
+    //   this.isInvalidGiftcard = true;
+    // }
   }
   rollBack() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
     this.salesService.rollback(+this.ticketNumber).subscribe(data => {
       if (data.status === 'Success') {
         this.getDetailByTicket();
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
       }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
     });
     }
   }

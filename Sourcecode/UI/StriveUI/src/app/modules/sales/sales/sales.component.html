@@ -21,8 +21,8 @@
                                     <div class="form-group row border-bottom p-b-10 no-gutters">
                                         <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2">Ticket #</label>
                                         <div class="col-sm-9">
-                                            <div class="">
-                                                <input type="text" id="ticketNumber" size="20" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber"  [ngClass]="{'is-invalid': selected && (ticketNumber === undefined || ticketNumber === '')}">&nbsp;
+                                            <div>
+                                                <input type="number" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber"  [ngClass]="{'is-invalid': selected && (ticketNumber === undefined || ticketNumber === '')}">&nbsp;
                                                 <span class="p-r-63" *ngIf="!isSelected">{{newTicketNumber}}</span>
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getDetailByTicket(); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getTicketNumber();">New</button>
@@ -114,10 +114,10 @@
                                                 <div class="form-group col-md-6"> Balance </div>
                                                 <div class="form-group col-md-6 text-right"> {{balance ? (balance | currency) : '$0.00'}}</div>
                                             </div>
-                                        </form>
                                             <div class="form-row  float-right">
                                                 <button type="button" class="btn theme-primary-button-color  btn-sm " [disabled]="giftCardForm.invalid || isInvalidGiftcard"(click)="addGiftCard()">Add</button>
                                             </div>
+                                        </form>
                                             <div *ngIf="giftcards.length>0">
                                             <div class="table-responsive m-t-10">
                                                 <table class="table  table-striped">
@@ -216,21 +216,13 @@
                                         <div class="card-body">
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Discount</h4> </div>
-                                                <!-- <div class="form-row p-t-10 p-b-12">
-                                                    <div class="form-group col-md-6"> Select a Discount</div>
-                                                </div> -->
                                                 <div class="form-row p-b-12 p-t-40">
                                                     <div class="form-group col-md-12">
-                                                        <select class="form-control" placeholder="Select discount" [(ngModel)]="discount" (change)="discountChange($event)">
+                                                        <select class="form-control" placeholder="Select discount" (change)="discountChange($event)">
                                                             <option value='' selected hidden>Select a discount</option>
                                                             <option *ngFor="let discount of discounts" value="{{discount.ServiceId}}"> {{discount.ServiceName}}</option>
                                                         </select>
-                                                        <!-- <input type="text" class="form-control" formControlName="giftCardNumber" placeholder="Gift Card #" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardNumber.errors }">  -->
-                                                        <div *ngIf="giftcardsubmitted && f.giftCardNumber.errors" class="invalid-feedback">
-                                                            <div *ngIf="f.giftCardNumber.errors.required">GiftCard number is required</div>
-                                                        </div>
                                                     </div>
-                                                      
                                                 </div>
                                                 <div *ngIf="selectedDiscount.length>0">
                                                     <div class="table-responsive m-t-10">
@@ -312,7 +304,7 @@
                                                     <td class="pointer" (dblclick)="editItem(detail)">{{detail?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(detail)">{{detail?.Quantity}}</td>
                                                     <td (dblclick)="editItem(detail)" style="text-align: center;">{{detail.Price | currency}}</td>
-                                                    <td style="text-align: center;"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"></i></td>
+                                                    <td style="text-align: center;"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(detail)"></i></td>
                                                 </tr>
                                                 <tr *ngIf="washes.length>0">
                                                     <th scope="row" colspan="5">Wash Package </th>
@@ -374,11 +366,11 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Total Paid </div>
-                                            <div class="form-group col-md-6 text-right"> {{totalPaid ? totalPaid : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right"> {{totalPaid ? (totalPaid | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Balance Due </div>
-                                            <div class="form-group col-md-6 text-right theme-optional-icon-color">{{balanceDue ? balanceDue : '$0.00'}}</div>
+                                            <div class="form-group col-md-6 text-right theme-optional-icon-color">{{(totalPaid - originalGrandTotal) | currency}}</div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Cash back </div>
