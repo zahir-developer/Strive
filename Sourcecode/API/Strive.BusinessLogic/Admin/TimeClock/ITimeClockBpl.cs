@@ -17,6 +17,8 @@ namespace Strive.BusinessLogic.TimeClock
         Result TimeClockEmployeeDetails(TimeClockEmployeeDetailDto timeClockEmployeeDetailDto);
 
         Result TimeClockWeekDetails(TimeClockWeekDetailDto timeClockWeekDetailDto);
-        
+
+        Result DeleteTimeClockEmployee(TimeClockDeleteDto timeClockDeleteDto);
+
     }
 }

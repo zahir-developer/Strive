@@ -11,7 +11,8 @@ namespace Strive.BusinessEntities
         {
             USPGETTIMECLOCK,
             USPGETTIMECLOCKEMPLOYEEDETAILS,
-            USPGETTIMECLOCKWEEKDETAILS
+            USPGETTIMECLOCKWEEKDETAILS,
+            USPDELETETIMECLOCKEMPLOYEE
         }
 
         public enum Employee
