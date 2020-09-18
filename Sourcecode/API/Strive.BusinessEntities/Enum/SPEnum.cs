@@ -177,7 +177,9 @@ namespace Strive.BusinessEntities
         uspGetItemListByTicketNumber,
         USPCREATETENANT,
         uspGetServiceByItemList,
-        uspDeleteRollBackItems
+        USPDELETEJOBITEMS,
+        USPROLLBACKPAYMENT,
+        USPGETALLSERVICEANDPRODUCTLIST
     }
 
 
