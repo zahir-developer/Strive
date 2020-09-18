@@ -24,16 +24,17 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@JobItemId", salesItemUpdateDto.JobItemId);
+            dynParams.Add("@ServiceId", salesItemUpdateDto.ServiceId);
             dynParams.Add("@Quantity", salesItemUpdateDto.Quantity);
             dynParams.Add("@Price", salesItemUpdateDto.Price);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspUpdateSalesItem.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
-        public bool DeleteItemById(int jobId)
+        public bool DeleteItemById(int jobItemId)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@JobId", jobId);
+            dynParams.Add("@JobItemId", jobItemId);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
@@ -59,21 +60,33 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(salesAddListItem, "JobId");
         }
-        public bool UpdateListItem(SalesAddListItemDto salesAddListItem)
+        public bool UpdateListItem(SalesUpdateItemDto salesUpdateItemDto)
         {
-            return dbRepo.UpdatePc(salesAddListItem);
+            return dbRepo.InsertPc(salesUpdateItemDto, "JobId");
         }
         public List<ServiceItemDto> GetServicesWithPrice()
         {
             return db.Fetch<ServiceItemDto>(SPEnum.uspGetServiceByItemList.ToString(), null);
         }
-        public bool DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        public bool DeleteJob(SalesItemDeleteDto salesItemDeleteDto)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteRollBackItems.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEJOBITEMS.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
+        }
+        public bool RollBackPayment(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPROLLBACKPAYMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
+        public ServiceAndProductViewModel GetServicesAndProduct()
+        {
+            return db.FetchMultiResult<ServiceAndProductViewModel>(SPEnum.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
         }
     }
 }

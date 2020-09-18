@@ -15,7 +15,7 @@ namespace Strive.Core.ViewModels.TIMInventory
     public class MembershipClientListViewModel : BaseViewModel
     {
 
-        public ObservableCollection<ClientInfo> FilteredList { get; set; } = new ObservableCollection<ClientInfo>();
+        public List<ClientInfo> FilteredList { get; set; } = new List<ClientInfo>();
 
         private ObservableCollection<ClientInfo> ClientList = new ObservableCollection<ClientInfo>();
 
@@ -25,11 +25,17 @@ namespace Strive.Core.ViewModels.TIMInventory
             RaiseAllPropertiesChanged();
         }
 
-        public void ClientSearchCommand(string SearchText)
+        public async Task ClientSearchCommand(string SearchText)
         {
-            FilteredList = new ObservableCollection<ClientInfo>(ClientList.
-                Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
-            RaiseAllPropertiesChanged();
+            _userDialog.ShowLoading("Fetching Clients");
+            var result = await AdminService.SearchClient(SearchText);
+            if(result != null)
+            {
+                FilteredList = result.ClientSearch;
+            }
+            //FilteredList = new ObservableCollection<ClientInfo>(ClientList.
+            //    Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+            await RaiseAllPropertiesChanged();
         }
 
         public async Task GetAllClientsCommand()

@@ -20,7 +20,7 @@ namespace Strive.Core.ViewModels.Customer
         
         public async void SignUpCommand()
         {
-            await _navigationService.Navigate<SignUpViewModel>();
+            //await _navigationService.Navigate<SignUpViewModel>();
         }
 
         public async void ForgotPasswordCommand()

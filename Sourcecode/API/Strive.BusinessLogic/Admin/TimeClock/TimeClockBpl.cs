@@ -28,5 +28,20 @@ namespace Strive.BusinessLogic.TimeClock
         {
             return ResultWrap(new TimeClockRal(_tenant).SaveTimeClock, timeClock, "Result");
         }
+
+        public Result TimeClockEmployeeDetails(TimeClockEmployeeDetailDto timeClockEmployeeDetailDto)
+        {
+            return ResultWrap(new TimeClockRal(_tenant).TimeClockEmployeeDetails, timeClockEmployeeDetailDto, "Result");
+        }
+
+        public Result TimeClockWeekDetails(TimeClockWeekDetailDto timeClockWeekDetailDto)
+        {
+            return ResultWrap(new TimeClockRal(_tenant).TimeClockWeekDetails, timeClockWeekDetailDto, "Result");
+        }
+
+        public Result DeleteTimeClockEmployee(TimeClockDeleteDto timeClockDeleteDto)
+        {
+            return ResultWrap(new TimeClockRal(_tenant).DeleteTimeClockEmployee, timeClockDeleteDto, "Result");
+        }
     }
 }

@@ -19,6 +19,11 @@ namespace Strive.Core.Utils
             return date.ToString("yyyy-MM-dd'T'HH:mm:ss");
         }
 
+        public static string ConvertDateTimeWithZ()
+        {
+            return DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
+        }
+
         public static string GetClockInTypeString(string DateString)
         {
             var Date = GetDateFromString(DateString);
