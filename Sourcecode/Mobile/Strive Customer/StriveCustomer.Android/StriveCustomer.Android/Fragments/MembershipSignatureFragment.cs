@@ -13,11 +13,15 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
+using Xamarin.Controls;
 
 namespace StriveCustomer.Android.Fragments
 {
     public class MembershipSignatureFragment : MvxFragment<MembershipSignatureViewModel>
     {
+        private SignaturePadView signatuerPad;
+        private Button nextButton;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,8 +34,18 @@ namespace StriveCustomer.Android.Fragments
 
             var ignore = base.OnCreateView(inflater,container,savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.MembershipSignatureFragment,null);
+            this.ViewModel = new MembershipSignatureViewModel();
+            nextButton = rootview.FindViewById<Button>(Resource.Id.signatureNext);
+            signatuerPad = rootview.FindViewById<SignaturePadView>(Resource.Id.signatureView);
+            signatuerPad.CaptionText = "";
+            signatuerPad.SignaturePromptText = "";
+            nextButton.Click += NextButton_Click;
+            return rootview;
+        }
 
-            return base.OnCreateView(inflater, container, savedInstanceState);
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            ViewModel.NextCommand();
         }
     }
 }

@@ -1,7 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="@drawable/mobile_portrait_bg">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2FCFE">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Vehicle"
+            android:textSize="18sp"
+            android:textColor="@color/profileInfoColor"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/signatureBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Back" />
+        <Button
+            android:id="@+id/signatureNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Next" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five"
+        android:text="Signature"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/ten"
+        android:textSize="@dimen/sixteen"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/opensans_bold"    />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/thirty"
+        android:layout_marginRight="@dimen/thirty"
+        android:layout_marginBottom="75dp"
+        android:weightSum="5"
+        android:background="@drawable/secondarylinearlayout">
+        <xamarin.controls.SignaturePadView
+            android:id="@+id/signatureView"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="12dp"
+            android:layout_above="@+id/btnSave"
+            android:background="@android:color/white"
+            android:layout_weight="4.5"
+            app:signatureLineColor="@color/secondaryTextColor"
+            app:captionTextColor="@color/secondaryTextColor"
+            app:signaturePromptTextColor="@color/secondaryTextColor"
+            app:clearLabelTextColor="@color/secondaryTextColor" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:fontFamily="@font/opensans_bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/secondarybutton   "/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_weight="1"
+                android:text="DONE"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/opensans_bold"
+                android:background="@drawable/primarybutton"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondaryTextColor" 
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Sign above the line"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -21,15 +21,13 @@ namespace StriveCustomer.Android.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = this.OnCreateView(inflater,container,savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.TermsAndConditionsFragment,null);
-
+            this.ViewModel = new TermsAndConditionsViewModel();
             return base.OnCreateView(inflater, container, savedInstanceState);
         }
     }

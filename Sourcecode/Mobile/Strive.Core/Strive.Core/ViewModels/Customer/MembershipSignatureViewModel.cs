@@ -9,9 +9,9 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Commands
 
-        public void NextCommand()
+        public async void NextCommand()
         {
-          
+           await _navigationService.Navigate<TermsAndConditionsViewModel>();
         }
 
         public void BackCommand()
