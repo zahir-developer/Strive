@@ -79,6 +79,7 @@
     <Compile Include="Fragments\DealsFragment.cs" />
     <Compile Include="Fragments\DealsInfoFragment.cs" />
     <Compile Include="Fragments\MapsFragment.cs" />
+    <Compile Include="Fragments\MembershipSignatureFragment.cs" />
     <Compile Include="Fragments\MyProfileInfoFragment.cs" />
     <Compile Include="Fragments\PastDetailsFragment.cs" />
     <Compile Include="Fragments\PastDetailsInfoFragment.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Fragments\PersonalInfoEditFragment.cs" />
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
+    <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
     <Compile Include="Fragments\VehicleAdditionalServicesFragment.cs" />
     <Compile Include="Fragments\VehicleInfoEditFragment.cs" />
     <Compile Include="Fragments\VehicleInfoFragment.cs" />
@@ -704,6 +706,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AdditionalServiceList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MembershipSignatureFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TermsAndConditionsFragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
