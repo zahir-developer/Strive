@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -24,10 +25,12 @@ namespace StriveCustomer.Android.Fragments
         private Spinner makeSpinner;
         private Spinner modelSpinner;
         private Spinner colorSpinner;
+        private TextView membershipInfo;
         private MyProfileInfoViewModel mpvm;
         private Dictionary<int, string> makeOptions,colorOptions,modelOptions;
         private ArrayAdapter<string> makeAdapter,colorAdapter,modelAdapter;
         private List<string> makeList, colorList, modelList;
+        VehicleMembershipFragment membershipFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,17 +43,26 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleInfoEditFragment, null);
             mpvm = new MyProfileInfoViewModel();
+            membershipFragment = new VehicleMembershipFragment();
             makeList = new List<string>();
             colorList = new List<string>();
             modelList = new List<string>();
             makeSpinner = rootview.FindViewById<Spinner>(Resource.Id.makeOptions);
             modelSpinner = rootview.FindViewById<Spinner>(Resource.Id.modelOptions);
             colorSpinner = rootview.FindViewById<Spinner>(Resource.Id.colorOptions);
+            membershipInfo = rootview.FindViewById<TextView>(Resource.Id.membershipId);
             makeSpinner.ItemSelected += MakeSpinner_ItemSelected;
             modelSpinner.ItemSelected += ModelSpinner_ItemSelected;
             colorSpinner.ItemSelected += ColorSpinner_ItemSelected;
+            membershipInfo.Click += MembershipInfo_Click;
             LoadSpinner();
             return rootview;
+        }
+
+        private void MembershipInfo_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
         }
 
         private void ColorSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -77,30 +89,35 @@ namespace StriveCustomer.Android.Fragments
         private async void LoadSpinner()
         {
             var data = await mpvm.getVehicleDetails();
-            makeOptions = mpvm.manufacturerName;
-            colorOptions = mpvm.colorName;
-            modelOptions = mpvm.modelName;
-            foreach (var makeName in mpvm.manufacturerName.Values)
+            if(data != null)
             {
-                makeList.Add(makeName);
+                makeOptions = mpvm.manufacturerName;
+                colorOptions = mpvm.colorName;
+                modelOptions = mpvm.modelName;
+                foreach (var makeName in mpvm.manufacturerName.Values)
+                {
+                    makeList.Add(makeName);
+                }
+                foreach (var colorName in mpvm.colorName.Values)
+                {
+                    colorList.Add(colorName);
+                }
+                foreach (var modelName in mpvm.modelName.Values)
+                {
+                    modelList.Add(modelName);
+                }
+                makeAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, makeList);
+                makeAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
+                colorAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, colorList);
+                colorAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
+                modelAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
+                modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
+                
+                makeSpinner.Adapter = makeAdapter;
+                colorSpinner.Adapter = colorAdapter;
+                modelSpinner.Adapter = modelAdapter;
             }
-            foreach (var colorName in mpvm.colorName.Values)
-            {
-                colorList.Add(colorName);
-            }
-            foreach (var modelName in mpvm.modelName.Values)
-            {
-                modelList.Add(modelName);
-            }
-            makeAdapter = new ArrayAdapter<string>(Context,Resource.Layout.support_simple_spinner_dropdown_item,makeList);
-            makeAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
-            colorAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, colorList);
-            colorAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
-            modelAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item,modelList);
-            modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
-            makeSpinner.Adapter = makeAdapter;
-            colorSpinner.Adapter = colorAdapter;
-            modelSpinner.Adapter = modelAdapter;
-        }
+           
+        } 
     }
 }

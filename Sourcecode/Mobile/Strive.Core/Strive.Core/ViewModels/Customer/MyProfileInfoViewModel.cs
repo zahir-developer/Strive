@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Customer;
+using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Properties
        
-        public int ClientId { get; set; } = 95;
+        public int ClientId { get; set; } = 122;
         public string FullName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -23,11 +24,13 @@ namespace Strive.Core.ViewModels.Customer
         public string SecondaryContactNumber { get; set; }
         public string Email { get; set; }
         public VehicleCodes vehicleCodes { get; set; }
+        public Dictionary<int, string> UpCharges = new Dictionary<int, string>();
         public Dictionary<int, string> manufacturerName = new Dictionary<int, string>();
         public Dictionary<int, string> modelName = new Dictionary<int, string>();
         public Dictionary<int, string> colorName = new Dictionary<int, string>();
         public CustomerPersonalInfo customerInfo { get; set; }
-        public CustomerInfoModel InfoModel = new CustomerInfoModel();
+        public CustomerUpdateInfo InfoModel = new CustomerUpdateInfo();
+        public SelectedServiceList selectedMembership = new SelectedServiceList();
 
         #endregion Properties
 
@@ -49,7 +52,6 @@ namespace Strive.Core.ViewModels.Customer
         {
             _userDialog.ShowLoading(Strings.Loading, Acr.UserDialogs.MaskType.Gradient);
             InfoModel.client = new client();
-            InfoModel.clientVehicle = new List<clientVehicle>();
             InfoModel.clientAddress = new List<clientAddress>();
             var clientVehicle = new clientVehicle();
             var clientAddress = new clientAddress();
@@ -95,7 +97,6 @@ namespace Strive.Core.ViewModels.Customer
             clientAddress.phoneNumber = ContactNumber;
             clientAddress.phoneNumber2 = SecondaryContactNumber;
             clientAddress.zip = ZipCode;
-            InfoModel.clientVehicle.Add(clientVehicle);
             InfoModel.clientAddress.Add(clientAddress);
             var infoUploadSuccess = await AdminService.SaveClientInfo(InfoModel);
             if (infoUploadSuccess == null)
@@ -144,6 +145,67 @@ namespace Strive.Core.ViewModels.Customer
             }
             _userDialog.HideLoading();
             return vehicleCodes;
+        }
+
+        public async Task<MembershipServiceList> getMembershipDetails()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var memberShipDetails = await AdminService.GetMembershipServiceList();
+            if(memberShipDetails == null)
+            {
+
+            }
+            _userDialog.HideLoading();
+            //foreach(var membershipData in memberShipDetails.Membership)
+            //{
+           
+            //}
+            return memberShipDetails;
+        }
+        public async Task getAllServiceList()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var completeList = await AdminService.GetVehicleServices();
+            if (completeList == null)
+            {
+                _userDialog.HideLoading();
+                
+            }
+            CustomerInfo.filteredList = new ServiceList();
+            CustomerInfo.filteredList.ServicesWithPrice = new List<ServiceDetail>();
+            foreach (var upcharges in selectedMembership.MembershipDetail)
+            {
+                CustomerInfo.filteredList.
+                    ServicesWithPrice.
+                    Add(
+                     completeList.
+                     ServicesWithPrice.
+                     Find(c => c.ServiceId == upcharges.ServiceId)
+                    );
+                 
+            }
+            _userDialog.HideLoading();
+           
+        }
+        public async Task getServiceList(int membershipId)
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var data = await AdminService.GetSelectedMembershipServices(membershipId);
+            if(data == null)
+            {
+                _userDialog.HideLoading();
+                _userDialog.Alert("Error !");
+                return;
+            }
+            selectedMembership.MembershipDetail = new List<ServiceDetail>();
+            foreach (var result in data.MembershipDetail)
+            {
+                if(!String.Equals(result.ServiceType.ToString(), "Washes"))
+                {
+                    selectedMembership.MembershipDetail.Add(result);
+                }
+            }
+            _userDialog.HideLoading();           
         }
 
         #endregion Commands

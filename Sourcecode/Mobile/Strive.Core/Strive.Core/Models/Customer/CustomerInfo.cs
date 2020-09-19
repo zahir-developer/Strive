@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Strive.Core.Models.TimInventory;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +15,8 @@ namespace Strive.Core.Models.Customer
         public static int notifyRadius { get; set; }
         public static DateTime notifyWashTime { get; set; }
         public static int selectedDeal { get; set; } = -1;
+        public static int selectedMemberShip { get; set; }
+        public static int selectedUpCharge { get; set; }
         public static CustomerPersonalInfo customerPersonalInfo {get; set;}
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
@@ -21,6 +24,8 @@ namespace Strive.Core.Models.Customer
         public static string colorName { get; set; }
         public static int modelNumber { get; set; }
         public static string modelName { get; set; }
+        public static SelectedServiceList membershipType ; 
+        public static ServiceList filteredList { get; set; }
         #endregion properties
 
 
