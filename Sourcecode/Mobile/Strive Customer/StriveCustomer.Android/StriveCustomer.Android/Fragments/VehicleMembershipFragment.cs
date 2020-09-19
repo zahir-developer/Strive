@@ -28,8 +28,12 @@ namespace StriveCustomer.Android.Fragments
         private RadioGroup membershipGroup;
         private Dictionary<int, string> serviceList;
         private Dictionary<int,int> checkedId;
+        private Button backButton;
+        private Button nextButton;
         int someId = 12347770;
         VehicleUpChargesFragment upchargeFragment;
+        VehicleInfoEditFragment infoEditFragment;
+        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,21 +46,35 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleMembershipInfoFragment, null);
             upchargeFragment = new VehicleUpChargesFragment();
+            infoEditFragment = new VehicleInfoEditFragment();
             mpvm = new MyProfileInfoViewModel();
             serviceList = new Dictionary<int, string>();
             checkedId = new Dictionary<int, int>();
             getMembershipData();
             membershipGroup = rootview.FindViewById<RadioGroup>(Resource.Id.membershipOptions);
+            backButton = rootview.FindViewById<Button>(Resource.Id.membershipBack);
+            nextButton = rootview.FindViewById<Button>(Resource.Id.membershipNext);
             membershipGroup.CheckedChange += MembershipGroup_CheckedChange;
+            backButton.Click += BackButton_Click;
+            nextButton.Click += NextButton_Click;
             return rootview;
+        }
+
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upchargeFragment).Commit();
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoEditFragment).Commit();
         }
 
         private async void MembershipGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
             CustomerInfo.selectedMemberShip = checkedId.FirstOrDefault(x => x.Value == e.CheckedId).Key;
-            
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upchargeFragment).Commit();
         }
 
         public async void getMembershipData()

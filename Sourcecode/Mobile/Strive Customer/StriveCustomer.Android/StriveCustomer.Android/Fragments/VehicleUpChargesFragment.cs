@@ -23,8 +23,11 @@ namespace StriveCustomer.Android.Fragments
     public class VehicleUpChargesFragment : MvxFragment<MyProfileInfoViewModel>
     {
         VehicleAdditionalServicesFragment additionalServicesFragment;
+        VehicleMembershipFragment membershipFragment;
         MyProfileInfoViewModel mpvm = new MyProfileInfoViewModel();
         private RadioGroup upchargeOptions;
+        private Button backButton;
+        private Button nextButton;
         private Dictionary<int, int> upchargeRadio;
         int someId = 12348880;
         public override void OnCreate(Bundle savedInstanceState)
@@ -39,11 +42,28 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = inflater.Inflate(Resource.Layout.VehicleUpChargesFragment,null);
             additionalServicesFragment = new VehicleAdditionalServicesFragment();
+            membershipFragment = new VehicleMembershipFragment();
             upchargeRadio = new Dictionary<int, int>();
             upchargeOptions = rootview.FindViewById<RadioGroup>(Resource.Id.upchargesOptions);
+            nextButton = rootview.FindViewById<Button>(Resource.Id.upchargeNext);
+            backButton = rootview.FindViewById<Button>(Resource.Id.upchargeBack);
+            nextButton.Click += NextButton_Click;
+            backButton.Click += BackButton_Click;
             upchargeOptions.CheckedChange += UpchargeOptions_CheckedChange;
             ServiceDetails();
             return rootview;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
+        }
+
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
         }
 
         private void UpchargeOptions_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)

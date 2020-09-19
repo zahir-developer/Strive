@@ -26,11 +26,13 @@ namespace StriveCustomer.Android.Fragments
         private Spinner modelSpinner;
         private Spinner colorSpinner;
         private TextView membershipInfo;
+        private Button backButton;
         private MyProfileInfoViewModel mpvm;
         private Dictionary<int, string> makeOptions,colorOptions,modelOptions;
         private ArrayAdapter<string> makeAdapter,colorAdapter,modelAdapter;
         private List<string> makeList, colorList, modelList;
-        VehicleMembershipFragment membershipFragment;
+        private VehicleMembershipFragment membershipFragment;
+        private MyProfileInfoFragment myProfile;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -47,6 +49,8 @@ namespace StriveCustomer.Android.Fragments
             makeList = new List<string>();
             colorList = new List<string>();
             modelList = new List<string>();
+            myProfile = new MyProfileInfoFragment();
+            backButton = rootview.FindViewById<Button>(Resource.Id.vehicleBack);
             makeSpinner = rootview.FindViewById<Spinner>(Resource.Id.makeOptions);
             modelSpinner = rootview.FindViewById<Spinner>(Resource.Id.modelOptions);
             colorSpinner = rootview.FindViewById<Spinner>(Resource.Id.colorOptions);
@@ -55,8 +59,15 @@ namespace StriveCustomer.Android.Fragments
             modelSpinner.ItemSelected += ModelSpinner_ItemSelected;
             colorSpinner.ItemSelected += ColorSpinner_ItemSelected;
             membershipInfo.Click += MembershipInfo_Click;
+            backButton.Click += BackButton_Click;
             LoadSpinner();
             return rootview;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfile).Commit();
         }
 
         private void MembershipInfo_Click(object sender, EventArgs e)

@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -23,6 +24,9 @@ namespace StriveCustomer.Android.Fragments
     {
         private ListView additionalService;
         private AdditionalServicesAdapter additionalServicesAdapter;
+        private VehicleUpChargesFragment upChargesFragment;
+        private Button backButton;
+        private Button nextButton;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -32,10 +36,26 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleAdditionalServicesFragment, null);
+            upChargesFragment = new VehicleUpChargesFragment();
             additionalService = rootview.FindViewById<ListView>(Resource.Id.additionalOptions);
+            backButton = rootview.FindViewById<Button>(Resource.Id.serviceBack);
+            nextButton = rootview.FindViewById<Button>(Resource.Id.serviceNext);
+            backButton.Click += BackButton_Click;
+            nextButton.Click += NextButton_Click;
             additionalServicesAdapter = new AdditionalServicesAdapter(Context,CustomerInfo.filteredList.ServicesWithPrice);
             additionalService.SetAdapter(additionalServicesAdapter);
             return rootview;
+        }
+
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upChargesFragment).Commit();
         }
     }
 }
