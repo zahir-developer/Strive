@@ -113,55 +113,7 @@ namespace Strive.Core.ViewModels.Customer
 
         }
 
-        public async Task<VehicleCodes> getVehicleDetails()
-        {
-            _userDialog.ShowLoading(Strings.Loading);
-            int differentId = 0;
-            vehicleCodes = await AdminService.GetVehicleCodes();
-            for (var data = 0; data < vehicleCodes.VehicleDetails.Count; data++)
-            {
-                if (vehicleCodes.VehicleDetails[data].Category == "VehicleManufacturer")
-                {
-                    manufacturerName.Add(vehicleCodes.VehicleDetails[data].CodeId, vehicleCodes.VehicleDetails[data].CodeValue);
-                }
-                else if(vehicleCodes.VehicleDetails[data].Category == "VehicleModel")
-                {
-                    modelName.Add(vehicleCodes.VehicleDetails[data].CodeId, vehicleCodes.VehicleDetails[data].CodeValue);
-                }
-                else if (vehicleCodes.VehicleDetails[data].Category == "VehicleColor")
-                {
-                    colorName.Add(vehicleCodes.VehicleDetails[data].CodeId, vehicleCodes.VehicleDetails[data].CodeValue);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            if (vehicleCodes == null)
-            {
-                _userDialog.ShowLoading(Strings.Loading);
-                return null;
-            }
-            _userDialog.HideLoading();
-            return vehicleCodes;
-        }
-
-        public async Task<MembershipServiceList> getMembershipDetails()
-        {
-            _userDialog.ShowLoading(Strings.Loading);
-            var memberShipDetails = await AdminService.GetMembershipServiceList();
-            if(memberShipDetails == null)
-            {
-
-            }
-            _userDialog.HideLoading();
-            //foreach(var membershipData in memberShipDetails.Membership)
-            //{
-           
-            //}
-            return memberShipDetails;
-        }
+       
         public async Task getAllServiceList()
         {
             _userDialog.ShowLoading(Strings.Loading);

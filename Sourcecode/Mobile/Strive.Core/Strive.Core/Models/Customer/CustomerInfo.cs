@@ -18,6 +18,7 @@ namespace Strive.Core.Models.Customer
         public static int selectedMemberShip { get; set; }
         public static int selectedUpCharge { get; set; }
         public static CustomerPersonalInfo customerPersonalInfo {get; set;}
+        public static int ClientID { get; set; } = 118;
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
         public static int colorNumber { get; set; }
@@ -62,4 +63,27 @@ namespace Strive.Core.Models.Customer
 
         #endregion commands
     }
+    public static class MembershipDetails
+    {
+        #region MembershipProperties
+
+        public static int selectedColor { get; set; }
+        public static int selectedModel { get; set; }
+        public static int selectedMake { get; set; }
+
+        #endregion MembershipProperties
+
+        #region MembershipCommands
+
+        public static void clearMembershipData()
+        {
+            selectedColor = 0;
+            selectedModel = 0;
+            selectedMake = 0;
+        }
+
+        #endregion MembershipCommands
+
+    }
+
 }

@@ -17,14 +17,12 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
-using Strive.Core.ViewModels.TIMInventory.Membership;
 using static Android.Views.View;
 
 namespace StriveCustomer.Android.Fragments
 {
-    public class VehicleMembershipFragment : MvxFragment<MyProfileInfoViewModel>
+    public class VehicleMembershipFragment : MvxFragment<VehicleMembershipViewModel>
     {
-        MyProfileInfoViewModel mpvm;
         private RadioGroup membershipGroup;
         private Dictionary<int, string> serviceList;
         private Dictionary<int,int> checkedId;
@@ -33,7 +31,7 @@ namespace StriveCustomer.Android.Fragments
         int someId = 12347770;
         VehicleUpChargesFragment upchargeFragment;
         VehicleInfoEditFragment infoEditFragment;
-        
+        LinearLayout.LayoutParams layoutParams;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -47,7 +45,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.VehicleMembershipInfoFragment, null);
             upchargeFragment = new VehicleUpChargesFragment();
             infoEditFragment = new VehicleInfoEditFragment();
-            mpvm = new MyProfileInfoViewModel();
+            this.ViewModel = new VehicleMembershipViewModel();
             serviceList = new Dictionary<int, string>();
             checkedId = new Dictionary<int, int>();
             getMembershipData();
@@ -79,23 +77,24 @@ namespace StriveCustomer.Android.Fragments
 
         public async void getMembershipData()
         {
-            var membershipData = await mpvm.getMembershipDetails();
-            if(membershipData != null)
+            await this.ViewModel.getMembershipDetails();
+            foreach (var data in this.ViewModel.membershipList.Membership)
             {
-                foreach(var data in membershipData.Membership)
-                {
-                    RadioButton radioButton = new RadioButton(Context);
-                    radioButton.Text = data.MembershipName;
-                    radioButton.SetPadding(5,20,200,20);
-                    radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
-                    radioButton.Id = someId;
-                    checkedId.Add(data.MembershipId,someId);
-                    radioButton.SetTextSize(ComplexUnitType.Sp,14);
-                    radioButton.SetTypeface(null,TypefaceStyle.Bold);
-                    radioButton.TextAlignment = TextAlignment.ViewEnd;
-                    someId++;
-                    membershipGroup.AddView(radioButton);
-                }
+                RadioButton radioButton = new RadioButton(Context);
+                layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+                layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
+                layoutParams.SetMargins(0, 20, 0, 20);
+                radioButton.LayoutParameters = layoutParams;
+                radioButton.Text = data.MembershipName; 
+                //radioButton.SetPadding(0,20,0,20);
+                radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
+                radioButton.Id = someId;
+                checkedId.Add(data.MembershipId,someId);
+                radioButton.SetTextSize(ComplexUnitType.Sp,14);
+                radioButton.SetTypeface(null,TypefaceStyle.Bold);
+                radioButton.TextAlignment = TextAlignment.ViewEnd;
+                someId++;
+                membershipGroup.AddView(radioButton);
             }
         }
     }
