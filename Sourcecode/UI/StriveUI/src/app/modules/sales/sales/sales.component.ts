@@ -12,6 +12,7 @@ import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.
 import * as moment from 'moment';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -46,7 +47,8 @@ export class SalesComponent implements OnInit {
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService, 
-    private giftcardService: GiftCardService, private spinner: NgxSpinnerService) { }
+    private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
+    private route: ActivatedRoute) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -69,6 +71,11 @@ export class SalesComponent implements OnInit {
   balanceDue = 0;
   Cashback = '';
   ngOnInit(): void {
+    const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
+    if (paramsData !== null) {
+      this.ticketNumber = paramsData;
+      this.getDetailByTicket();
+    }
     this.giftCardFromInit();
     this.addItemFormInit();
     this.getAllService();

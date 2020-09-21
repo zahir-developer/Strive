@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { TodayScheduleComponent } from '../today-schedule/today-schedule.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -22,8 +23,10 @@ export class DetailScheduleComponent implements OnInit {
   afternoonBaySchedue: any = [];
   eveningBaySchedule: any = [];
   actionType: string;
+  isView: boolean;
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30'];
   @ViewChild(TodayScheduleComponent) todayScheduleComponent: TodayScheduleComponent;
+  @ViewChild(NoOfDetailsComponent) noOfDetailsComponent: NoOfDetailsComponent;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe,
@@ -35,12 +38,24 @@ export class DetailScheduleComponent implements OnInit {
     this.actionType = '';
     this.showDialog = false;
     this.isEdit = false;
+    this.isView = false;
     // this.getScheduleDetailsByDate(this.selectedDate);
     // this.getTodayDateScheduleList();
   }
 
   addNewDetail(schedule) {
-    console.log(schedule);
+    const currentDate = new Date();
+    if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {
+      this.bayAddDetail(schedule);
+    } else if (currentDate < this.selectedDate) {
+      this.bayAddDetail(schedule);
+    } else {
+      this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'No detail is Scheduled' });
+      return;
+    }
+  }
+
+  bayAddDetail(schedule) {
     this.bayScheduleObj = {
       time: schedule.time,
       date: this.selectedDate,
@@ -57,6 +72,14 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   getDetailByID(bay) {
+    const currentDate = new Date();
+    if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {
+      this.isView = false;
+    } else if (currentDate < this.selectedDate) {
+      this.isView = false;
+    } else {
+      this.isView = true;
+    }
     this.actionType = 'Edit Detail';
     console.log(this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd'), 'date changing');
     this.detailService.getDetailById(bay.jobId).subscribe(res => {
@@ -155,6 +178,7 @@ export class DetailScheduleComponent implements OnInit {
   refreshDetailGrid() {
     this.getScheduleDetailsByDate(this.selectedDate);
     this.todayScheduleComponent.getTodayDateScheduleList();
+    this.noOfDetailsComponent.getDashboardDetails();
   }
 
 }

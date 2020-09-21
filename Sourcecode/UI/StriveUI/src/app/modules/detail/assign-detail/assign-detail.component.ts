@@ -20,6 +20,7 @@ export class AssignDetailComponent implements OnInit {
   @Input() assignedDetailService?: any;
   @Output() public closeAssignModel = new EventEmitter();
   clonedEmployee: any = [];
+  dropdownSettings: IDropdownSettings = {};
   constructor(
     private fb: FormBuilder,
     private confirmationService: ConfirmationUXBDialogService
@@ -27,9 +28,9 @@ export class AssignDetailComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.assignedDetailService, 'assignedDetailService');
+    this.getDetailService();
     this.employeeDetail();
     this.detailService = this.assignedDetailService;
-    this.clonedServices = this.details.map(x => Object.assign({}, x));
     this.assignForm = this.fb.group({
       employeeId: [''],
       serviceId: ['']
@@ -39,25 +40,30 @@ export class AssignDetailComponent implements OnInit {
   employeeDetail() {
     this.employeeList = this.employeeList.map(item => {
       return {
-        id: item.EmployeeId,
-        name: item.LastName + '\t' + item.FirstName
+        item_id: item.EmployeeId,
+        item_text: item.LastName + '\t' + item.FirstName
       };
     });
     this.clonedEmployee = this.employeeList.map(x => Object.assign({}, x));
   }
 
   assignService() {
-    const selectedService = _.where(this.details, { ServiceId: +this.assignForm.value.serviceId });
-    const selectedEmployee = _.where(this.employeeList, { id: +this.assignForm.value.employeeId.id });
-    const assignedService = [];
-    selectedEmployee.forEach(employee => {
-      selectedService.forEach(service => {
+    // const selectedService = []; // _.where(this.details, { item_id: +this.assignForm.value.serviceId.item_id });
+    // const selectedEmployee = _.where(this.employeeList, { item_id: +this.assignForm.value.employeeId.item_id });
+    // const assignedService = [];
+    // this.assignForm.value.serviceId.forEach( item => {
+    //   const service = _.where(this.details, { item_id: +item.item_id });
+    //   if (service.length > 0) {
+    //     selectedService.push(service);
+    //   }
+    // });
+    this.assignForm.value.employeeId.forEach(employee => {
+      this.assignForm.value.serviceId.forEach(service => {
         this.detailService.push({
-          ServiceId: service.ServiceId,
-          ServiceName: service.ServiceName,
-          Cost: service.Cost,
-          EmployeeId: employee.id,
-          EmployeeName: employee.name
+          ServiceId: service.item_id,
+          ServiceName: service.item_text,
+          EmployeeId: employee.item_id,
+          EmployeeName: employee.item_text
         });
       });
     });
@@ -145,5 +151,16 @@ export class AssignDetailComponent implements OnInit {
         item_text: item.ServiceName
       };
     });
+    this.clonedServices = this.details.map(x => Object.assign({}, x));
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: false
+    };
   }
 }
