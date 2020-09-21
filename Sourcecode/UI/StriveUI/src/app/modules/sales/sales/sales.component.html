@@ -352,6 +352,15 @@
                                                     <td (dblclick)="editItem(airService)" style="text-align: center;">{{airService?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(airService)"></i></td>
                                                 </tr>
+                                                <tr *ngIf="Products.length > 0">
+                                                    <th scope="row" colspan="5">Air Freshners </th>
+                                                </tr>
+                                                <tr *ngFor="let product of Products" >
+                                                    <td class="pointer" (dblclick)="editItem(product)">{{product?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(product)">{{product?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(product)" style="text-align: center;">{{product?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(product)"></i></td>
+                                                </tr>
                                                 
                                             </tbody>
                                         </table>

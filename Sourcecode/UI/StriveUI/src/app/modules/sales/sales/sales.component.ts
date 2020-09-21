@@ -26,6 +26,7 @@ export class SalesComponent implements OnInit {
   showPopup = false;
   products = [];
   serviceAndProduct = [];
+  Products = [];
   isInvalidGiftcard = false;
   discount = '';
   isDisableService = false;
