@@ -59,7 +59,10 @@ namespace Strive.BusinessEntities.Model
         public int? UpdatedBy { get; set; }
 
         [Column]
-        public DateTimeOffset? UpdatedDate { get; set; }
+        public  DateTimeOffset? UpdatedDate { get; set; }
+
+        [Column]
+        public bool? IsProcessed { get; set; }
 
     }
 }

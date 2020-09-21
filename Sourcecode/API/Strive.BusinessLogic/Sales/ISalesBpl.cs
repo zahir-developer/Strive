@@ -14,14 +14,16 @@ namespace Strive.BusinessLogic.Sales
         //Result UpdateItem(int jobItemId);
         //Result UpdateItem(int jobItemId, int quantity, decimal price);
         Result UpdateItem(SalesItemUpdateDto salesItemUpdateDto);
-        Result DeleteItemById(int jobId);
+        Result DeleteItemById(int jobItemId);
         string GetTicketNumber();
         Result GetItemList(SalesListItemDto salesListItemDto);
         Result GetScheduleByTicketNumber(string ticketNumber);
         Result AddPayment(SalesPaymentDto salesPayment);
         Result AddListItem(SalesAddListItemDto salesAddListItem);
-        Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto);
-        Result UpdateListItem(SalesAddListItemDto salesAddListItem);
+        Result RollBackPayment(SalesItemDeleteDto salesItemDeleteDto);
+        Result DeleteJob(SalesItemDeleteDto salesItemDeleteDto);
+        Result UpdateListItem(SalesUpdateItemDto salesUpdateItemDto);
         Result GetServicesWithPrice();
+        Result GetServicesAndProduct();
     }
 }

@@ -48,9 +48,9 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>Apple Development: Mohamed Siad (ZS6XP788AZ)</CodesignKey>
+        <CodesignKey>iPhone Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>VS: WildCard Development</CodesignProvision>
+        <CodesignProvision>Strive Tim AdHoc</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -613,6 +613,7 @@
         <Compile Include="Views\MembershipView\VehicleMembershipDetailView.designer.cs">
           <DependentUpon>VehicleMembershipDetailView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\MembershipView\ClientDetailSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

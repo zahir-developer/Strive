@@ -111,5 +111,72 @@ namespace Strive.Core.Services.Implementations
             var data = new { productSearch = productName};
             return await _restClient.MakeApiCall<ProductsSearch>(ApiUtils.URL_SEARCH_PRODUCT, HttpMethod.Post, data);
         }
+
+        public async Task<MembershipServiceList> GetMembershipServiceList()
+        {
+            return await _restClient.MakeApiCall<MembershipServiceList>(ApiUtils.URL_GET_ALL_SERVICE, HttpMethod.Get);
+        }
+
+        public async Task<PostResponseBool> SaveVehicleMembership(ClientVehicleRoot clientVehicle)
+        {
+            return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_SAVE_VEHICLE_MEMBERSHIP, HttpMethod.Post, clientVehicle);
+        }
+
+        public async Task<ClientStatus> GetClientDetail(int ClientId)
+        {
+            var url = ApiUtils.URL_GET_CLIENT_DETAIL + ClientId;
+            return await _restClient.MakeApiCall<ClientStatus>(url, HttpMethod.Get);
+        }
+
+        public async Task<VehicleList> GetClientVehicle(int ClientId)
+        {
+            var url = RestUtils.BuildQuery(ApiUtils.URL_GET_CLIENT_VEHICLE, "id", ClientId);
+            return await _restClient.MakeApiCall<VehicleList>(url, HttpMethod.Get);
+        }
+
+        public async Task<ClientVehicleRootView> GetVehicleMembership(int VehicleId)
+        {
+            var url = RestUtils.BuildQuery(ApiUtils.URL_GET_CLIENT_VEHICLE_MEMBERSHIP, "id", VehicleId);
+            return await _restClient.MakeApiCall<ClientVehicleRootView>(url, HttpMethod.Get);
+        }
+
+        public async Task<ServiceList> GetVehicleServices()
+        {
+            return await _restClient.MakeApiCall<ServiceList>(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES, HttpMethod.Get);
+        }
+
+        public async Task<SelectedServiceList> GetSelectedMembershipServices(int MembershipId)
+        {
+            return await _restClient.MakeApiCall<SelectedServiceList>(ApiUtils.URL_GET_SELECTED_MEMBERSHIP_SERVICES+MembershipId, HttpMethod.Get);
+        }
+
+        public async Task<ClientsSearch> SearchClient(string ClientName)
+        {
+            var data = new { clientName = ClientName};
+            return await _restClient.MakeApiCall<ClientsSearch>(ApiUtils.URL_SEARCH_CLIENT, HttpMethod.Post,data);
+        }
+
+        public async Task<CustomerPersonalInfo> GetClientById(int Id)
+        {
+            return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get, Id);
+        }
+
+        public async Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel)
+        {
+            return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
+        }
+
+    }
+
+    public static class RestUtils
+    {
+        public static string BuildQuery (string uri,string parameter, int value)
+        {
+            var uriBuilder = new UriBuilder(uri);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query[parameter] = value.ToString();
+            uriBuilder.Query = query.ToString();
+            return uriBuilder.Uri.PathAndQuery.ToString();
+        }     
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using Foundation;
 using MvvmCross.Base;
@@ -18,7 +19,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         private MembershipClientListViewModel ViewModel;
 
-        private ObservableCollection<ClientDetail> ItemList;
+        private List<ClientInfo> ItemList;
 
         public ClientTableSource(UITableView tableView, MembershipClientListViewModel ViewModel) : base(tableView)
         {
@@ -33,11 +34,11 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<ClientDetail>)value;
+                    ItemList = (List<ClientInfo>)value;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<ClientDetail>();
+                    ItemList = new List<ClientInfo>();
                 }
 
                 base.ItemsSource = value;

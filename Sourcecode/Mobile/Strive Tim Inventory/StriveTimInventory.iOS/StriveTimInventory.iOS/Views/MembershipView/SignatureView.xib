@@ -21,7 +21,6 @@
                 <outlet property="BackButton" destination="Q6Z-9c-Rbq" id="name-outlet-Q6Z-9c-Rbq"/>
                 <outlet property="CancelButton" destination="FFR-Ck-bRQ" id="name-outlet-FFR-Ck-bRQ"/>
                 <outlet property="DoneButton" destination="Ah5-hQ-Pzu" id="name-outlet-Ah5-hQ-Pzu"/>
-                <outlet property="NextButton" destination="gTX-0W-41o" id="name-outlet-gTX-0W-41o"/>
                 <outlet property="SignPad" destination="895" id="name-outlet-895"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
@@ -50,21 +49,12 @@
                                 <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gTX-0W-41o">
-                            <rect key="frame" x="771" y="27" width="38" height="36"/>
-                            <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="17"/>
-                            <state key="normal" title="Next">
-                                <color key="titleColor" red="0.021776970480000001" green="0.074994854629999996" blue="0.23131743069999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </state>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.95569461580000004" green="0.98811596629999998" blue="0.9960753322" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="75" id="G3B-ua-gR6"/>
-                        <constraint firstItem="gTX-0W-41o" firstAttribute="centerY" secondItem="Q6Z-9c-Rbq" secondAttribute="centerY" id="Qk2-m2-Kuj"/>
                         <constraint firstItem="Q6Z-9c-Rbq" firstAttribute="centerY" secondItem="PwB-Ww-dWi" secondAttribute="centerY" multiplier="1.2" id="SOF-cG-DEc"/>
                         <constraint firstItem="Q6Z-9c-Rbq" firstAttribute="leading" secondItem="PwB-Ww-dWi" secondAttribute="leading" constant="25" id="Sly-E7-vTb"/>
-                        <constraint firstAttribute="trailing" secondItem="gTX-0W-41o" secondAttribute="trailing" constant="25" id="UKK-Be-CNp"/>
                         <constraint firstItem="a66-cV-ejM" firstAttribute="centerY" secondItem="PwB-Ww-dWi" secondAttribute="centerY" multiplier="1.2" id="Uki-V6-xKv"/>
                         <constraint firstItem="a66-cV-ejM" firstAttribute="centerX" secondItem="PwB-Ww-dWi" secondAttribute="centerX" id="h6M-Sp-AJF"/>
                         <constraint firstAttribute="height" constant="75" id="i5I-bZ-CeO"/>
