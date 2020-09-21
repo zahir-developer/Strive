@@ -11,7 +11,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ServiceAndProductViewModel
     {
-        public  List<ServiceViewModel> Service {get;set;}
+        public  List<ServiceDescriptionViewModel> Service {get;set;}
         public  List<ProductDescriptionViewModel> Product {get;set;}
     }
 }

@@ -29,9 +29,9 @@ namespace Strive.ResourceAccess
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SERVICETYPE);
         }
 
-        public ServiceAndProductViewModel GetAllServiceSetup()
+        public List<ServiceViewModel> GetAllServiceSetup()
         {
-            return db.FetchMultiResult<ServiceAndProductViewModel>(SPEnum.USPGETSERVICES.ToString(), null);
+            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
         }
 
         public ServiceViewModel GetServiceSetupById(int id)
