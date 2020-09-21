@@ -15,9 +15,9 @@
     [UpdatedBy]                   INT                NULL,
     [UpdatedDate]                 DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblJobPaymentCreditCard_JobPaymentCreditCardId] PRIMARY KEY CLUSTERED ([JobPaymentCreditCardId] ASC),
-    CONSTRAINT [FK_tblJobPaymentCreditCard_CardCategoryId] FOREIGN KEY ([CardCategoryId]) REFERENCES [CON].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblJobPaymentCreditCard_CardTypeId] FOREIGN KEY ([CardTypeId]) REFERENCES [CON].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblJobPaymentCreditCard_CreditCardTransactionTypeId] FOREIGN KEY ([CreditCardTransactionTypeId]) REFERENCES [CON].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblJobPaymentCreditCard_CardCategoryId] FOREIGN KEY ([CardCategoryId]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblJobPaymentCreditCard_CardTypeId] FOREIGN KEY ([CardTypeId]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
+    CONSTRAINT [FK_tblJobPaymentCreditCard_CreditCardTransactionTypeId] FOREIGN KEY ([CreditCardTransactionTypeId]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblJobPaymentCreditCard_JobPaymentId] FOREIGN KEY ([JobPaymentId]) REFERENCES [StriveCarSalon].[tblJobPayment] ([JobPaymentId])
 );
 

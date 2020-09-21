@@ -4,6 +4,7 @@
 
 
 
+
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 05-09-2020
@@ -16,7 +17,7 @@
 -- 08-09-2020, Vineeth - Add service type name col
 -- 09-09-2020, Vineeth - Add isactive condition
 -- 09-10-2020, Vineeth - Add LocationId condition
-
+-- 17-09-2020, Vineeth - Add valuedesc-Details
 ------------------------------------------------
 -- =============================================
 CREATE proc [StriveCarSalon].[uspGetAllDetails] 
@@ -64,6 +65,8 @@ WHERE
 (tblj.JobDate is null OR tblj.JobDate=@JobDate)
 and 
 (tblj.LocationId is null OR tblj.LocationId=@LocationId)
+and
+st.valuedesc='Details' 
 and
 tblj.IsActive=1
 and

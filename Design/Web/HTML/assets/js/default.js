@@ -1,4 +1,3 @@
-
 //sidebar js //
 
 $(document).ready(function () {

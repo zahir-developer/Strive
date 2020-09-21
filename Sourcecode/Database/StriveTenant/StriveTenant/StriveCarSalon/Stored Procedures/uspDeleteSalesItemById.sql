@@ -1,8 +1,8 @@
 ﻿CREATE PROC [StriveCarSalon].[uspDeleteSalesItemById]
-(@JobId int)
+(@JobItemId int)
 AS
 BEGIN
  
-       Update StriveCarSalon.tblJob set  IsDeleted =1 where JobId=@JobId
+       Update StriveCarSalon.tblJobItem set  IsDeleted =1 where JobItemId=@JobItemId
 
 End
