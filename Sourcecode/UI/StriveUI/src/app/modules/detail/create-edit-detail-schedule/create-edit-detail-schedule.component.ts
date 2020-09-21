@@ -592,6 +592,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         serviceId: item.ServiceId,
         isActive: true,
         isDeleted: false,
+        commission: 0,
+        price: item.Cost,
+        quantity: 1,
         createdBy: 0,
         updatedBy: 0
       };
@@ -611,6 +614,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         isDeleted: false,
         createdBy: 0,
         updatedBy: 0,
+        commission: 0,
+        price: item.Cost,
+        quantity: 1,
         employeeId: item.EmployeeId
       });
     });
