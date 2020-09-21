@@ -11,6 +11,8 @@
     [Signature]     VARCHAR (10)       NULL,
     [PaymentStatus] INT                NULL,
     [Comments]      VARCHAR (50)       NULL,
+	[IsProcessed]   BIT                NULL,
+	[IsRollBack]    BIT                NULL,
     [IsActive]      BIT                NULL,
     [IsDeleted]     BIT                NULL,
     [CreatedBy]     INT                NULL,

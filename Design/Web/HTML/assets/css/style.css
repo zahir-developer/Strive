@@ -1267,4 +1267,16 @@ background-color:#FFC1A0;
 .Schedules-tab div a.active > i, .Schedules-tab.show > .nav-tab-link-dash, .Schedules-tab .nav-tab-link-dash.active > i, .Schedules-tab .show > .nav-tab-link-dash > i {
     color: white;
 }
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #10B7A5 !important;
+    border-color: #1DC5B3 !important;
+    color: white !important;
+}
+
+.dropdown-item i:focus, .dropdown-item i:hover{
+	color:white !important;
+}
+color-icon:hover{
+	color:white !important;
+}
 

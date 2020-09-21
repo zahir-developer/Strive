@@ -8,7 +8,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
-
+import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
+import * as moment from 'moment';
+import insertTextAtCursor from 'insert-text-at-cursor';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -17,6 +20,11 @@ import { ServiceSetupService } from 'src/app/shared/services/data-service/servic
 })
 export class SalesComponent implements OnInit {
   services: any;
+  validGiftcard: any;
+  targetId = '';
+  enableButton = false;
+  showPopup = false;
+  isInvalidGiftcard = false;
   discount = '';
   discounts = [];
   selectedDiscount = [];
@@ -30,13 +38,15 @@ export class SalesComponent implements OnInit {
   giftCardForm: FormGroup;
   addItemForm: FormGroup;
   itemList: any;
-  originalGrandTotal: string;
+  originalGrandTotal = 0;
   JobId: any;
   newTicketNumber: any;
   selectedService: any;
+  balance: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
-    private messageService: MessageServiceToastr, private service: ServiceSetupService) { }
+    private messageService: MessageServiceToastr, private service: ServiceSetupService, 
+    private giftcardService: GiftCardService, private spinner: NgxSpinnerService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -54,9 +64,9 @@ export class SalesComponent implements OnInit {
   cash = 0;
   credit = 0;
   giftCard = 0;
-  account = '';
-  totalPaid = '';
-  balanceDue = '';
+  account = 0;
+  totalPaid = 0;
+  balanceDue = 0;
   Cashback = '';
   ngOnInit(): void {
     this.giftCardFromInit();
@@ -107,14 +117,29 @@ export class SalesComponent implements OnInit {
   }
   selectedItem(event) {
     this.selectedService = event;
-    console.log(event.name);
+  }
+  clearpaymentField() {
+    this.cash = 0;
+    this.credit = 0;
+    this.giftCard = 0;
+    this.selectedDiscount = [];
+    this.giftcards = [];
+    this.totalPaid = 0;
+    this.balanceDue = 0;
+    this.originalGrandTotal = 0;
+    this.creditcashback = 0;
   }
   getDetailByTicket() {
+    this.washes = [];
+    this.details = [];
+    this.additionalService = [];
+    this.clearpaymentField();
     if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
       const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
+      this.spinner.show();
       this.salesService.getItemByTicketNumber(+ticketNumber).subscribe(data => {
-        console.log(data, 'ticket');
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.clearform();
@@ -122,27 +147,42 @@ export class SalesComponent implements OnInit {
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
             if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
+              this.showPopup = true;
               this.JobId = this.itemList.Status.ScheduleItemViewModel[0].JobId;
               this.washes = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Washes');
               this.details = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Details');
-              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'AdditionalService');
+              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => 
+                item.ServiceType === 'Additional Services');
             }
+          } else {
+            this.showPopup = false;
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = this.itemList?.Status?.ScheduleItemSummaryViewModels?.Cashback;
+            this.cashback = summary?.Cashback;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
             this.creditTotal = +this.grandTotal;
-            this.originalGrandTotal = this.grandTotal;
+            this.cash = +summary?.Cash;
+            this.credit = +summary?.Credit;
+            this.discount = summary?.Discount;
+            this.originalGrandTotal = +this.grandTotal;
+            this.giftCard = +summary?.GiftCard;
+            this.balance = +summary?.Balance;
+            this.totalPaid = +summary?.TotalPaid;
+
+          }
+          if (this.cash !== 0 || this.credit !== 0 || this.giftCard !== 0) {
+            this.enableButton = true;
           }
         }
       }, (err) => {
         this.enableAdd = false;
+        this.spinner.hide();
       });
     }
   }
-  clearform(){
+  clearform() {
     this.cash = this.giftCard = this.credit = 0;
   }
   filterItem(event) {
@@ -157,8 +197,7 @@ export class SalesComponent implements OnInit {
     this.filteredItem = filtered;
   }
   deleteItem(data) {
-    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
-    information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Item', `Are you sure you want to delete the selected Item?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
@@ -169,7 +208,7 @@ export class SalesComponent implements OnInit {
 
   // Delete location
   confirmDelete(data) {
-    this.salesService.deleteItemById(data.JobId).subscribe(res => {
+    this.salesService.deleteItemById(data.JobItemId).subscribe(res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
         this.getDetailByTicket();
@@ -187,7 +226,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('creditcardpopup').style.width = '0';
   }
   opengiftcard() {
-    this.giftcards = [];
+    // this.giftcards = [];
     document.getElementById('Giftcardpopup').style.width = '450px';
     document.getElementById('creditcardpopup').style.width = '0';
   }
@@ -199,7 +238,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   opendiscount() {
-    this.selectedDiscount = [];
+    // this.selectedDiscount = [];
     this.discount = '';
     document.getElementById('discountpopup').style.width = '450px';
     document.getElementById('cashpopup').style.width = '0';
@@ -230,9 +269,14 @@ export class SalesComponent implements OnInit {
     modalRef.componentInstance.JobId = itemId;
     modalRef.componentInstance.ItemDetail = event;
     modalRef.componentInstance.isModal = true;
+    modalRef.result.then(
+      (data: any) => {
+        this.getDetailByTicket();
+      },
+      (reason: any) => { }
+    );
   }
   deletegiftcard(event) {
-    console.log(event.id);
     const index = this.giftcards.findIndex(item => item.id === +event.id);
     this.giftcards.splice(index, 1);
 
@@ -242,23 +286,31 @@ export class SalesComponent implements OnInit {
     const giftCardNumber = this.giftCardForm.value.giftCardNumber;
     const giftCardAmount = this.giftCardForm.value.giftCardAmount;
     if (this.giftCardForm.valid) {
-      this.giftcards.push({ id: this.count++, number: giftCardNumber, amount: giftCardAmount });
+      this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
+      console.log(this.selectedDiscount);
       this.giftCardForm.reset();
+      this.balance = 0;
+      this.validGiftcard.GiftCardDetail[0].BalaceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
     }
   }
   giftCardProcess() {
-    this.giftcards.reduce(item => +item.amount)
-    const gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
+    this.totalPaid = this.totalPaid - this.giftCard;
+    let gc = 0;
+    this.giftcards.reduce(item => +item.amount);
+    gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
+    this.totalPaid = this.totalPaid + this.giftCard;
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
     if (this.addItemForm.invalid) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
       return;
-    } else if (this.addItemForm.value.itemName === '') {
+    } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter valid ItemName' });
       return;
     }
     const formObj = {
@@ -300,26 +352,6 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
-      },
-      jobPayment: {
-        jobPaymentId: 0,
-        jobId: 0,
-        drawerId: localStorage.getItem('drawerId'),
-        paymentType: 1,
-        amount: 0,
-        taxAmount: 0,
-        cashback: 0,
-        approval: true,
-        checkNumber: 'string',
-        signature: 'string',
-        paymentStatus: 1,
-        comments: 'string',
-        isActive: true,
-        isDeleted: this.isSelected ? false : true,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date()
       }
     };
     if (this.isSelected) {
@@ -345,14 +377,26 @@ export class SalesComponent implements OnInit {
     }
   }
   getNumAndUpdate(num) {
-    this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
+    if (this.targetId !== '') {
+      const el = document.getElementById(this.targetId);
+      insertTextAtCursor(el, num.toString());
+    }
+    // this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
   }
   clear() {
     this.addItemForm.patchValue({ itemName: '', quantity: '' });
+    this.ticketNumber = '';
   }
   backspace() {
-    const quantity = this.addItemForm.value.quantity;
-    this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
+    if (this.targetId === 'quantity') {
+      const quantity = this.addItemForm.value.quantity.toString();
+      this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
+    } else if (this.targetId === 'ticketNumber') {
+      const ticketNumber = this.ticketNumber? this.ticketNumber.toString() : '';
+      this.ticketNumber = ticketNumber.substring(0, ticketNumber.length - 1);
+    } else {
+      return;
+    }
   }
   addCashBack(cashback) {
     // this.creditTotal
@@ -365,8 +409,10 @@ export class SalesComponent implements OnInit {
   }
   getTicketNumber() {
     this.isSelected = false;
+    this.ticketNumber = '';
     this.salesService.getTicketNumber().subscribe(data => {
       this.newTicketNumber = data;
+      this.enableAdd = true;
       this.washes = [];
       this.details = [];
       this.additionalService = [];
@@ -376,7 +422,9 @@ export class SalesComponent implements OnInit {
     });
   }
   creditProcess() {
+    this.totalPaid = this.totalPaid - this.credit;
     this.credit = this.creditTotal - this.creditcashback;
+    this.totalPaid = this.totalPaid + this.credit;
     this.cashback = this.cashback + this.creditcashback;
     document.getElementById('creditcardpopup').style.width = '0';
   }
@@ -384,7 +432,9 @@ export class SalesComponent implements OnInit {
     this.cashTotal = +this.cashTotal + cash;
   }
   cashProcess() {
+    this.totalPaid = this.totalPaid - this.cash;
     this.cash = this.cashTotal;
+    this.totalPaid = this.totalPaid + this.cash;
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -402,13 +452,15 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.splice(index, 1);
   }
   addPayment() {
-    const giftcard = this.giftcards.map(item => {
+    let giftcard = null;
+    let discount = null;
+    giftcard = this.giftcards.map(item => {
       return {
         giftCardHistoryId: 1,
         giftCardId: item.id,
         locationId: +localStorage.getItem('empLocationId'),
         transactionType: 1,
-        transactionAmount: +item.amount,
+        transactionAmount: -(+item.amount),
         transactionDate: new Date(),
         comments: 'string',
         isActive: true,
@@ -417,19 +469,32 @@ export class SalesComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
-        jobPaymentId: 174
+        jobPaymentId: 4
       };
     });
-    console.log(giftcard);
+    discount = this.selectedDiscount.map(item => {
+      return {
+        jobPaymentDiscountId: 0,
+        jobPaymentId: 0,
+        serviceDiscountId: +item.ServiceId,
+        amount: item.Cost,
+        isActive: true,
+        isDeleted: true,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      }
+    });
     const paymentObj = {
       jobPayment: {
-        jobPaymentId: 109,
+        jobPaymentId: 0,
         jobId: this.isSelected ? +this.JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         paymentType: 109,
         amount: this.cash ? +this.cash : 0,
-        taxAmount: 1,
-        cashback: this.cashback ? this.cash : 0,
+        taxAmount: 0,
+        cashback: 0,
         approval: true,
         checkNumber: '',
         signature: '',
@@ -442,28 +507,102 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date()
       },
-      giftCardHistory: giftcard,
-      joPaymentCreditCard: {
+      giftCardHistory: giftcard.length === 0 ? null : giftcard,
+      jobPaymentCreditCard: {
         jobPaymentCreditCardId: 0,
-        jobPaymentId: 110,
-        cardTypeId: 0,
-        cardCategoryId: 0,
+        jobPaymentId: 0,
+        cardTypeId: 1,
+        cardCategoryId: 1,
         cardNumber: '',
-        creditCardTransactionTypeId: 0,
+        creditCardTransactionTypeId: 1,
         amount: this.credit ? +this.credit : 0,
         tranRefNo: '',
         tranRefDetails: '',
         isActive: true,
-        isDeleted: true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date()
-      }
+      },
+      jobPaymentDiscount: discount.length === 0 ? null : discount
     };
+    this.spinner.show();
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
-      console.log(data);
+      this.spinner.hide();
+      if (data.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
+        this.getDetailByTicket();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+      this.spinner.hide();
     });
   }
-  deleteTicket() { }
+  deleteTicket() {
+    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
+      this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
+        if (data.status === 'Success') {
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Deleted job successfully' });
+          this.getDetailByTicket();
+          this.ticketNumber = '';
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+        }
+      }, (err) => {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+      });
+    }
+  }
+  validateGiftcard() {
+    const gNo = this.giftCardForm.value.giftCardNumber;
+    this.giftcardService.getBalance(gNo).subscribe(data => {
+      if (data.status === 'Success') {
+        this.validGiftcard = JSON.parse(data.resultData);
+        if (this.validGiftcard.GiftCardDetail.length === 0) {
+          this.isInvalidGiftcard = true;
+        } else {
+          this.isInvalidGiftcard = false;
+        }
+      }
+      //console.log(data);
+    });
+  }
+  validateAmount() {
+    this.isInvalidGiftcard = false;
+    const enteredAmount = this.giftCardForm.value.giftCardAmount;
+    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalaceAmount;
+    const today = new Date();
+    const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ActiveDate;
+    if (enteredAmount !== undefined && currentAmount !== undefined) {
+      if (currentAmount < enteredAmount) {
+        this.giftCardForm.patchValue({ giftCardAmount: '' });
+        this.balance = 0;
+      } else {
+        this.balance = currentAmount - enteredAmount;
+      }
+    }
+    // if (!moment(today).isBefore(giftcardexpiryDate)) {
+    //   this.isInvalidGiftcard = true;
+    // }
+  }
+  rollBack() {
+    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
+    this.salesService.rollback(+this.ticketNumber).subscribe(data => {
+      if (data.status === 'Success') {
+        this.getDetailByTicket();
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+    });
+    }
+  }
+  quantityFocus(event) {
+    this.targetId = event.target.id;
+  }
 }
