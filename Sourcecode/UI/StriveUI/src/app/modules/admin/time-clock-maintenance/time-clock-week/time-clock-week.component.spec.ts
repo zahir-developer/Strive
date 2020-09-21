@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimeCostCardComponent } from './time-cost-card.component';
+import { TimeClockWeekComponent } from './time-clock-week.component';
 
-describe('TimeCostCardComponent', () => {
-  let component: TimeCostCardComponent;
-  let fixture: ComponentFixture<TimeCostCardComponent>;
+describe('TimeClockWeekComponent', () => {
+  let component: TimeClockWeekComponent;
+  let fixture: ComponentFixture<TimeClockWeekComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeCostCardComponent ]
+      declarations: [ TimeClockWeekComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimeCostCardComponent);
+    fixture = TestBed.createComponent(TimeClockWeekComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

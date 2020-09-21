@@ -40,7 +40,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   clientList: any;
   filteredClient: any[];
   details: any;
-  outsideServices: any;
+  outsideServices: any = [];
   @Output() closeDialog = new EventEmitter();
   @Output() refreshDetailGrid = new EventEmitter();
   @Input() selectedData?: any;
@@ -64,6 +64,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   isViewPastNotes: boolean;
   viewNotes: any = [];
   viewNotesDialog: boolean;
+  outsideServiceId: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -254,19 +255,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   outSideService(data) {
     if (this.isEdit) {
-      this.washItem.filter(i => i.ServiceTypeId === 648)[0].IsDeleted = true;
+      this.washItem.filter(i => i.ServiceTypeId === this.outsideServiceId)[0].IsDeleted = true;
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 648);
-        this.washItem.filter(i => i.ServiceTypeId === 648)[0].IsDeleted = false;
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
+        this.washItem.filter(i => i.ServiceTypeId === this.outsideServiceId)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 648);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
         const serviceWash = this.outsideServices.filter(item => item.ServiceId === Number(data));
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 648);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
       const serviceWash = this.outsideServices.filter(item => item.ServiceId === Number(data));
       if (serviceWash.length !== 0) {
         this.additionalService.push(serviceWash[0]);
@@ -344,6 +345,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
+        this.outsideServiceId = this.serviceEnum[6].CodeId;
         this.getAllServices();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -394,7 +396,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 18)[0]?.ServiceId,
       upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 19)[0]?.ServiceId,
-      outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 648)[0]?.ServiceId
+      outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
     // this.getByBarcode(this.selectedData?.Details?.Barcode);
     this.ticketNumber = this.selectedData?.Details?.TicketNumber;

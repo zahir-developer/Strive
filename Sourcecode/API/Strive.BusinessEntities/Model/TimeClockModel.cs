@@ -10,6 +10,6 @@ namespace Strive.BusinessEntities.Model
 {
     public class TimeClockModel
     {
-        public TimeClock TimeClock { get; set; }
+        public List<TimeClock> TimeClock { get; set; }
     }
 }

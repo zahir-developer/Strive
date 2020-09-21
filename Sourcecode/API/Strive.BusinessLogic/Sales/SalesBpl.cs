@@ -25,7 +25,7 @@ namespace Strive.BusinessLogic.Sales
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).UpdateItem,salesItemUpdateDto, "Result");
+                return ResultWrap(new SalesRal(_tenant).UpdateItem, salesItemUpdateDto, "Result");
             }
             catch (Exception ex)
             {
@@ -33,11 +33,11 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
-        public Result DeleteItemById(int jobId)
+        public Result DeleteItemById(int jobItemId)
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).DeleteItemById, jobId, "Result");
+                return ResultWrap(new SalesRal(_tenant).DeleteItemById, jobItemId, "Result");
             }
             catch (Exception ex)
             {
@@ -82,11 +82,11 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
-        public Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        public Result DeleteJob(SalesItemDeleteDto salesItemDeleteDto)
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).DeleteTransactions, salesItemDeleteDto, "Result");
+                return ResultWrap(new SalesRal(_tenant).DeleteJob, salesItemDeleteDto, "Result");
             }
             catch (Exception ex)
             {
@@ -94,12 +94,23 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
-        
-        public Result UpdateListItem(SalesAddListItemDto salesAddListItem)
+        public Result RollBackPayment(SalesItemDeleteDto salesItemDeleteDto)
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).UpdateListItem, salesAddListItem, "Status");
+                return ResultWrap(new SalesRal(_tenant).RollBackPayment, salesItemDeleteDto, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result UpdateListItem(SalesUpdateItemDto salesUpdateItemDto)
+        {
+            try
+            {
+                return ResultWrap(new SalesRal(_tenant).UpdateListItem, salesUpdateItemDto, "Status");
             }
             catch (Exception ex)
             {
@@ -110,6 +121,11 @@ namespace Strive.BusinessLogic.Sales
         public Result GetServicesWithPrice()
         {
             return ResultWrap(new SalesRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
+        }
+
+        public Result  GetServicesAndProduct()
+        {
+            return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct, "ServiceAndProductList");
         }
     }
 }

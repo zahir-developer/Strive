@@ -28,10 +28,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton NextButton { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         Xamarin.Controls.SignaturePadView SignPad { get; set; }
 
         [Action ("CancelButtonClicked:")]
@@ -57,11 +53,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             if (DoneButton != null) {
                 DoneButton.Dispose ();
                 DoneButton = null;
-            }
-
-            if (NextButton != null) {
-                NextButton.Dispose ();
-                NextButton = null;
             }
 
             if (SignPad != null) {

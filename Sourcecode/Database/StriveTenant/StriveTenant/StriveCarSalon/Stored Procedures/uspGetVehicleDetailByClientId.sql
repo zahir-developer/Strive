@@ -1,4 +1,4 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetVehicleDetailByClientId]  -- 57,'2020-09-10'
+﻿CREATE PROC [StriveCarSalon].[uspGetVehicleDetailByClientId] --67,'2020-09-10'
 (@ClientId int,@CurrentDate date = null)
 
 AS
@@ -46,10 +46,10 @@ SELECT
 FROM 
 strivecarsalon.tblclient cl
 INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId
-INNER JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
-INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
+LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
+LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
+LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND ISNULL(cvl.IsActive,1)=1 AND
 ISNULL(cvl.IsDeleted,0)=0 AND
 cl.ClientId = @ClientId

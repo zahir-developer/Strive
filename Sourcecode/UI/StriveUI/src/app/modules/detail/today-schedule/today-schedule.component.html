@@ -126,8 +126,7 @@
             </div>
             <div class="col-lg-3"> <span *ngIf="bay.totalCount !== 0" class="text-muted font-size-1">Detailed
                     Scheduled: {{bay.totalCount}}</span>
-                <span *ngIf="bay.totalCount === 0" class="text-muted font-size-1"> No Detailed
-                    Scheduled</span>
+                <span *ngIf="bay.totalCount === 0" class="text-muted font-size-1"> No Details Scheduled</span>
             </div>
             <div class="col-lg-7">
                 <div class="pull-right card-widgets-view">
@@ -170,7 +169,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody >
+                            <tbody>
                                 <tr *ngFor="let detail of bay.BayDetail">
                                     <th scope="row">
                                         {{detail.TicketNumber}}
@@ -181,16 +180,16 @@
                                     </td>
                                     <td>{{detail.PhoneNumber}}
                                     </td>
-                                    <td class="theme-optional-icon-color">
+                                    <td>
                                         {{detail.EstimatedTimeOut}}
                                     </td>
-                                    <td class="theme-optional-icon-color">
+                                    <td>
                                         {{detail.ServiceName}}
                                     </td>
                                     <td>{{detail.OutsideService}}
                                     </td>
                                 </tr>
-                                <tr *ngIf="bay.BayDetail.length === 0"> 
+                                <tr *ngIf="bay.BayDetail.length === 0">
                                     <td colspan="7" class="text-center">
                                         No Records Found
                                     </td>

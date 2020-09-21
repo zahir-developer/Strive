@@ -24,7 +24,6 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
             var set = this.CreateBindingSet<MembershipClientListView, MembershipClientListViewModel>();
             set.Bind(ClientTableSource).To(vm => vm.FilteredList);
-            set.Bind(AddButton).To(vm => vm.Commands["AddProduct"]);
             set.Bind(LogoutButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(ClientTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             set.Apply();
@@ -49,19 +48,17 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public override void ViewDidAppear(bool animated)
         {
-            GetAllClients();
+            GetClients();
         }
 
-        private async Task GetAllClients()
+        async void GetClients()
         {
-            ViewModel.ClearCommand();
-            await ViewModel.GetAllClientsCommand();
-            ViewModel.ClientSearchCommand("");
+            await ViewModel.ClientSearchCommand("");
         }
 
-        private void SearchTextChanged(object sender, UISearchBarTextChangedEventArgs e)
+        private async void SearchTextChanged(object sender, UISearchBarTextChangedEventArgs e)
         {
-            ViewModel.ClientSearchCommand(e.SearchText);
+            await ViewModel.ClientSearchCommand(e.SearchText);
             if (e.SearchText == "")
             {
                 ClientSearch.ResignFirstResponder();

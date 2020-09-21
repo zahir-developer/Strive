@@ -15,6 +15,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Fragments;
 
@@ -32,6 +33,8 @@ namespace StriveCustomer.Android.Views
         DealsFragment dealFrag = new DealsFragment();
         ScheduleFragment scheduleFrag = new ScheduleFragment();
         PastDetailsFragment pastDetailsFrag = new PastDetailsFragment();
+        MyProfileInfoFragment myProfileFrag = new MyProfileInfoFragment();
+        MyProfileInfoViewModel MyProfileInfoViewModel = new MyProfileInfoViewModel();
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -43,10 +46,18 @@ namespace StriveCustomer.Android.Views
             dashActionButton = FindViewById<FloatingActionButton>(Resource.Id.dashActionButton);
             dashActionButton.Click += DashActionButton_Click;
             setInitialFrag();
+            checkClientInfo();
         }
+
+        private async void checkClientInfo()
+        {
+           CustomerInfo.customerPersonalInfo = await MyProfileInfoViewModel.getClientById();
+        }
+
         private void DashActionButton_Click(object sender, EventArgs e)
         {
-            notificationSettingsView.Show();
+            fragment = pastDetailsFrag;
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
         }
         private void NavigateFrag(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
@@ -60,7 +71,7 @@ namespace StriveCustomer.Android.Views
                     fragment = dealFrag;
                     break;
                 case Resource.Id.menu_AboutUs:
-                    fragment = pastDetailsFrag;
+                    fragment = myProfileFrag;
                     break;
                 case Resource.Id.menu_Schedule:
                     fragment = scheduleFrag;
