@@ -10,18 +10,23 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
+using static Android.Widget.CompoundButton;
 
 namespace StriveCustomer.Android.Adapter
 {
-    class AdditionalServicesAdapter : BaseAdapter
+    class AdditionalServicesAdapter : BaseAdapter, IOnCheckedChangeListener 
     {
 
         Context context;
-        List<ServiceDetail> services = new List<ServiceDetail>();
+        private List<ServiceDetail> services = new List<ServiceDetail>();
+        private IItemClickListener itemClickListener;
+        private Dictionary<int,string> checkedCheck = new Dictionary<int,string>();
         public AdditionalServicesAdapter(Context context, List<ServiceDetail> services)
         {
             this.context = context;
+            MembershipDetails.selectedAdditionalServices = new List<int>();
             foreach (var data in services)
             {
                 if (string.Equals(data.ServiceTypeName, "Additional Services"))
@@ -47,16 +52,6 @@ namespace StriveCustomer.Android.Adapter
             var view = convertView;
             AdditionalServicesAdapterViewHolder holder = null;
 
-            //if (view != null)
-            //    holder = view.Tag as AdditionalServicesAdapterViewHolder;
-
-            //if (holder == null)
-            //{
-            //    holder = new AdditionalServicesAdapterViewHolder();
-            //    var inflater = context.GetSystemService(Context.LayoutInflaterService).JavaCast<LayoutInflater>();
-                
-            //    view.Tag = holder;
-            //}
             if(view == null)
             {
                 holder = new AdditionalServicesAdapterViewHolder();
@@ -72,14 +67,29 @@ namespace StriveCustomer.Android.Adapter
             view.FindViewById<TextView>(Resource.Id.additionalServiceName).Text = services[position].ServiceName;
             CheckBox additionalService = view.FindViewById<CheckBox>(Resource.Id.additionalServiceCheck);
             additionalService.SetTypeface(null,TypefaceStyle.Bold);
-            additionalService.CheckedChange += AdditionalService_CheckedChange;
-
+            additionalService.Tag = "Check" + position;
+            if(!checkedCheck.ContainsKey(services[position].ServiceId))
+            {
+                checkedCheck.Add(services[position].ServiceId, additionalService.Tag.ToString());
+            }
+            additionalService.SetOnCheckedChangeListener(this);
             return view;
         }
 
-        private void AdditionalService_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
         {
-           
+            foreach(var data in checkedCheck)
+            {
+                if(isChecked && string.Equals(data.Value.ToString(),buttonView.Tag.ToString()))
+                {
+                    MembershipDetails.selectedAdditionalServices.Add(data.Key);
+                }
+ 
+                if(!isChecked && string.Equals(data.Value.ToString(), buttonView.Tag.ToString()))
+                {
+                    MembershipDetails.selectedAdditionalServices.Remove(data.Key);
+                }
+            }
         }
 
         //Fill in cound here, currently 0

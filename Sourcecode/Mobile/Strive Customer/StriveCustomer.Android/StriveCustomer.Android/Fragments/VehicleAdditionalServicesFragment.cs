@@ -44,10 +44,11 @@ namespace StriveCustomer.Android.Fragments
             nextButton = rootview.FindViewById<Button>(Resource.Id.serviceNext);
             backButton.Click += BackButton_Click;
             nextButton.Click += NextButton_Click;
-            additionalServicesAdapter = new AdditionalServicesAdapter(Context,CustomerInfo.filteredList.ServicesWithPrice);
+            additionalServicesAdapter = new AdditionalServicesAdapter(Context,MembershipDetails.filteredList.ServicesWithPrice);
             additionalService.SetAdapter(additionalServicesAdapter);
             return rootview;
         }
+
 
         private void NextButton_Click(object sender, EventArgs e)
         {

@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -21,12 +22,11 @@ namespace StriveCustomer.Android.Fragments
     {
         private SignaturePadView signatuerPad;
         private Button nextButton;
+        private TermsAndConditionsFragment termsFragment;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -34,6 +34,7 @@ namespace StriveCustomer.Android.Fragments
 
             var ignore = base.OnCreateView(inflater,container,savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.MembershipSignatureFragment,null);
+            termsFragment = new TermsAndConditionsFragment();
             this.ViewModel = new MembershipSignatureViewModel();
             nextButton = rootview.FindViewById<Button>(Resource.Id.signatureNext);
             signatuerPad = rootview.FindViewById<SignaturePadView>(Resource.Id.signatureView);
@@ -45,7 +46,8 @@ namespace StriveCustomer.Android.Fragments
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            ViewModel.NextCommand();
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
         }
     }
 }

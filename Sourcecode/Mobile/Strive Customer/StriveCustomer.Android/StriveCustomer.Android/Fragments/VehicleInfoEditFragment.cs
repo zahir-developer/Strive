@@ -71,32 +71,35 @@ namespace StriveCustomer.Android.Fragments
 
         private void MembershipInfo_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
+            if(ViewModel.VehicleDetailsCheck())
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
+            }      
         }
 
         private void ColorSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             MembershipDetails.selectedColor = e.Position;
             var selected = this.ViewModel.colorName.ElementAt(e.Position);
-            CustomerInfo.colorNumber = selected.Key;
-            CustomerInfo.colorName = selected.Value;
+            MembershipDetails.colorNumber = selected.Key;
+            MembershipDetails.colorName = selected.Value;
         }
 
         private void ModelSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             MembershipDetails.selectedModel = e.Position;
             var selected = this.ViewModel.modelName.ElementAt(e.Position);
-            CustomerInfo.modelNumber = selected.Key;
-            CustomerInfo.modelName = selected.Value;
+            MembershipDetails.modelNumber = selected.Key;
+            MembershipDetails.modelName = selected.Value;
         }
 
         private void MakeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             MembershipDetails.selectedMake = e.Position;
             var selected = this.ViewModel.manufacturerName.ElementAt(e.Position);
-            CustomerInfo.vehicleMakeNumber = selected.Key;
-            CustomerInfo.vehicleMakeName = selected.Value;
+            MembershipDetails.vehicleMakeNumber = selected.Key;
+            MembershipDetails.vehicleMakeName = selected.Value;
         }
 
         private async void LoadSpinner()

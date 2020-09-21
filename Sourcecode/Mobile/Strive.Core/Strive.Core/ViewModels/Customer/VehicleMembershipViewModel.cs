@@ -15,8 +15,6 @@ namespace Strive.Core.ViewModels.Customer
             SetVehicleInformation();
         }
         #region Properties
-
-         public ClientVehicleRoot customerVehicleDetails { get; set; }
          public MembershipServiceList membershipList { get; set; }
         #endregion Properties
 
@@ -24,15 +22,19 @@ namespace Strive.Core.ViewModels.Customer
 
         private void SetVehicleInformation()
         {
-            customerVehicleDetails = new ClientVehicleRoot();
-            customerVehicleDetails.clientVehicle = new ClientVehicle();
-            customerVehicleDetails.clientVehicle.clientVehicle = new ClientVehicleDetail();
-            customerVehicleDetails.clientVehicle.clientVehicle.clientId = CustomerInfo.ClientID;
-            customerVehicleDetails.clientVehicle.clientVehicle.isDeleted = false;
-            customerVehicleDetails.clientVehicle.clientVehicle.vehicleMfr = MembershipDetails.selectedMake;
-            customerVehicleDetails.clientVehicle.clientVehicle.vehicleModel = MembershipDetails.selectedModel;
-            customerVehicleDetails.clientVehicle.clientVehicle.vehicleColor = MembershipDetails.selectedColor;
-
+            MembershipDetails.customerVehicleDetails = new ClientVehicleRoot();
+            MembershipDetails.customerVehicleDetails.clientVehicle = new ClientVehicle();
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle = new ClientVehicleDetail();
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.clientId = CustomerInfo.ClientID;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.isDeleted = false;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.isDeleted = false;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.isActive = true;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.locationId = 1;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.createdDate = DateTime.Now;
+            MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.updatedDate = DateTime.Now;
         }
         public async Task getMembershipDetails()
         {
@@ -48,7 +50,10 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void NextCommand()
         {
-            await _navigationService.Navigate<VehicleUpchargeViewModel>();
+           if(VehicleMembershipCheck())
+            {
+                await _navigationService.Navigate<VehicleUpchargeViewModel>();
+            }
         }
 
         public async void BackCommand()
@@ -56,6 +61,15 @@ namespace Strive.Core.ViewModels.Customer
             await _navigationService.Navigate<VehicleInfoEditViewModel>();
         }
 
+        public bool VehicleMembershipCheck()
+        {
+            if(MembershipDetails.selectedMembership == 0)
+            {
+                _userDialog.Alert("Please choose a membership");
+                return false;
+            }
+            return true;
+        }
 
         #endregion Commands
     }

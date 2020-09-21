@@ -60,8 +60,11 @@ namespace StriveCustomer.Android.Fragments
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upchargeFragment).Commit();
+            if (ViewModel.VehicleMembershipCheck())
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, upchargeFragment).Commit();
+            }
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -72,7 +75,7 @@ namespace StriveCustomer.Android.Fragments
 
         private async void MembershipGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-            CustomerInfo.selectedMemberShip = checkedId.FirstOrDefault(x => x.Value == e.CheckedId).Key;
+            MembershipDetails.selectedMembership = checkedId.FirstOrDefault(x => x.Value == e.CheckedId).Key;
         }
 
         public async void getMembershipData()
@@ -86,13 +89,16 @@ namespace StriveCustomer.Android.Fragments
                 layoutParams.SetMargins(0, 20, 0, 20);
                 radioButton.LayoutParameters = layoutParams;
                 radioButton.Text = data.MembershipName; 
-                //radioButton.SetPadding(0,20,0,20);
                 radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
                 radioButton.Id = someId;
                 checkedId.Add(data.MembershipId,someId);
                 radioButton.SetTextSize(ComplexUnitType.Sp,14);
                 radioButton.SetTypeface(null,TypefaceStyle.Bold);
                 radioButton.TextAlignment = TextAlignment.ViewEnd;
+                if(data.MembershipId == MembershipDetails.selectedMembership)
+                {
+                    radioButton.Checked = true;
+                }
                 someId++;
                 membershipGroup.AddView(radioButton);
             }

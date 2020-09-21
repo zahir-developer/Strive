@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
@@ -18,6 +19,8 @@ namespace StriveCustomer.Android.Fragments
 {
     public class TermsAndConditionsFragment : MvxFragment<TermsAndConditionsViewModel>
     {
+        private TextView AgreeTextView;
+        private TextView DisagreeTextView;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -25,10 +28,20 @@ namespace StriveCustomer.Android.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var ignore = this.OnCreateView(inflater,container,savedInstanceState);
+            var ignore = base.OnCreateView(inflater,container,savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.TermsAndConditionsFragment,null);
+            AgreeTextView = rootview.FindViewById<TextView>(Resource.Id.textAgree);
+            DisagreeTextView = rootview.FindViewById<TextView>(Resource.Id.textDisagree);
+            AgreeTextView.PaintFlags = PaintFlags.UnderlineText;
+            DisagreeTextView.PaintFlags = PaintFlags.UnderlineText;
             this.ViewModel = new TermsAndConditionsViewModel();
-            return base.OnCreateView(inflater, container, savedInstanceState);
+            AgreeTextView.Click += AgreeTextView_Click;
+            return rootview;
+        }
+
+        private async void AgreeTextView_Click(object sender, EventArgs e)
+        {
+            await ViewModel.AgreeMembership();
         }
     }
 }

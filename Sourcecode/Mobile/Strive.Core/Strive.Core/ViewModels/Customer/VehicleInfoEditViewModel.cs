@@ -56,7 +56,10 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void SelectMembership()
         {
-            await _navigationService.Navigate<VehicleMembershipViewModel>();
+            if(VehicleDetailsCheck())
+            {
+                await _navigationService.Navigate<VehicleMembershipViewModel>();
+            }            
         }
 
         public async void NavigateBack()
@@ -64,6 +67,31 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.clearMembershipData();
             await _navigationService.Close(this);
         }
+
+        public bool VehicleDetailsCheck()
+        {
+           
+            if (MembershipDetails.selectedMake == 0)
+            {
+                _userDialog.Alert("Select the vehicle manufacturer");
+                return false;
+            }
+            else if (MembershipDetails.selectedColor == 0)
+            {
+                _userDialog.Alert("Select the vehicle color");
+                return false;
+            }
+            else if(MembershipDetails.selectedModel == 0)
+            {
+                _userDialog.Alert("Select the vehicle model");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
 
         #endregion Commands
 

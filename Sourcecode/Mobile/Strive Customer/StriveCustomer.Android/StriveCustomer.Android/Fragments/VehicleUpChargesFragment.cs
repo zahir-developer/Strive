@@ -20,15 +20,15 @@ using Strive.Core.ViewModels.Customer;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class VehicleUpChargesFragment : MvxFragment<MyProfileInfoViewModel>
+    public class VehicleUpChargesFragment : MvxFragment<VehicleUpchargeViewModel>
     {
         VehicleAdditionalServicesFragment additionalServicesFragment;
         VehicleMembershipFragment membershipFragment;
-        MyProfileInfoViewModel mpvm = new MyProfileInfoViewModel();
         private RadioGroup upchargeOptions;
         private Button backButton;
         private Button nextButton;
         private Dictionary<int, int> upchargeRadio;
+        LinearLayout.LayoutParams layoutParams;
         int someId = 12348880;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -41,6 +41,7 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = inflater.Inflate(Resource.Layout.VehicleUpChargesFragment,null);
+            this.ViewModel = new VehicleUpchargeViewModel();
             additionalServicesFragment = new VehicleAdditionalServicesFragment();
             membershipFragment = new VehicleMembershipFragment();
             upchargeRadio = new Dictionary<int, int>();
@@ -62,37 +63,47 @@ namespace StriveCustomer.Android.Fragments
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
+            if(ViewModel.VehicleUpchargeCheck())
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
+            }
         }
 
         private void UpchargeOptions_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-            CustomerInfo.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId ).Key;
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
+            MembershipDetails.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId ).Key;
         }
 
         private async void ServiceDetails()
         {
-            await mpvm.getServiceList(CustomerInfo.selectedMemberShip);
-            await mpvm.getAllServiceList();
-            if(CustomerInfo.filteredList != null)
+            await this.ViewModel.getServiceList(MembershipDetails.selectedMembership);
+            await this.ViewModel.getAllServiceList();
+            if(MembershipDetails.filteredList != null)
             {
-                foreach(var result in CustomerInfo.filteredList.ServicesWithPrice)
+                foreach(var result in MembershipDetails.filteredList.ServicesWithPrice)
                 {
                     if(string.Equals(result.ServiceTypeName, "Upcharges"))
                     {
                         RadioButton upChargeRadio = new RadioButton(Context);
+                        layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+                        layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
+                        layoutParams.SetMargins(0, 20, 0, 20);
+                        upChargeRadio.LayoutParameters = layoutParams;
                         upChargeRadio.Text = result.Upcharges;
-                        upChargeRadio.SetPadding(5, 20, 400, 20);
                         upChargeRadio.SetButtonDrawable(Resource.Drawable.radioButton);
                         upChargeRadio.Id = someId;
                         if(!upchargeRadio.ContainsKey(result.ServiceId))
-                        upchargeRadio.Add(result.ServiceId, someId);
+                        {
+                            upchargeRadio.Add(result.ServiceId, someId);
+                        }
                         upChargeRadio.SetTypeface(null, TypefaceStyle.Bold);
                         upChargeRadio.SetTextSize(ComplexUnitType.Sp, 15);
                         upChargeRadio.TextAlignment = TextAlignment.ViewEnd;
+                        if(result.ServiceId == MembershipDetails.selectedUpCharge)
+                        {
+                            upChargeRadio.Checked = true;
+                        }
                         someId++;
                         upchargeOptions.AddView(upChargeRadio);
                     }
