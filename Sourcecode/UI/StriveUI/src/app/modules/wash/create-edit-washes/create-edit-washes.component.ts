@@ -27,6 +27,7 @@ export class CreateEditWashesComponent implements OnInit {
   vehicle: any;
   color: any;
   type: any;
+  jobTypeId: any;
   additionalService: any = [];
   serviceEnum: any;
   additional: any;
@@ -64,6 +65,7 @@ export class CreateEditWashesComponent implements OnInit {
     if (this.isView === true) {
       this.viewWash();
     }
+    this.getJobType();
   }
 
   formInitialize() {
@@ -191,7 +193,21 @@ export class CreateEditWashesComponent implements OnInit {
       }
     });
   }
-
+//To get JobType
+getJobType() {
+  this.wash.getJobType().subscribe(res => {
+    if (res.status === 'Success') {
+      const jobtype = JSON.parse(res.resultData);
+      if (jobtype.GetJobType.length > 0) {
+        jobtype.GetJobType.forEach(item => {
+          if (item.valuedesc === 'Wash') {
+            this.jobTypeId = item.valueid;
+          }
+        });
+      }
+    }
+  });
+}
   getVehicleById(data) {
     this.wash.getVehicleById(data).subscribe(res => {
       if (res.status === 'Success') {
@@ -454,7 +470,7 @@ export class CreateEditWashesComponent implements OnInit {
       make: this.washForm.value.type,
       model: this.washForm.value.model,//0,
       color: this.washForm.value.color,
-      jobType: 15,
+      jobType: this.jobTypeId,
       jobDate: new Date(),
       timeIn: new Date(),
       estimatedTimeOut: new Date(),
