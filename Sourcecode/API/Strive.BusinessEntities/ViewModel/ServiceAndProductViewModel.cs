@@ -1,4 +1,6 @@
-﻿using Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities.DTO.Product;
+using Strive.BusinessEntities.DTO.ServiceSetup;
+using Strive.BusinessEntities.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ServiceAndProductViewModel
     {
-        public  List<Service> Service {get;set;}
-        public  List<Model.Product> Product {get;set;}
+        public  List<ServiceViewModel> Service {get;set;}
+        public  List<ProductDescriptionViewModel> Product {get;set;}
     }
 }

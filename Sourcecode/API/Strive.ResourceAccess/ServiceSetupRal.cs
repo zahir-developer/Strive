@@ -2,6 +2,7 @@
 using Strive.BusinessEntities.Code;
 using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.RepositoryCqrs;
 using System.Collections.Generic;
@@ -28,9 +29,9 @@ namespace Strive.ResourceAccess
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SERVICETYPE);
         }
 
-        public List<ServiceViewModel> GetAllServiceSetup()
+        public ServiceAndProductViewModel GetAllServiceSetup()
         {
-            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            return db.FetchMultiResult<ServiceAndProductViewModel>(SPEnum.USPGETSERVICES.ToString(), null);
         }
 
         public ServiceViewModel GetServiceSetupById(int id)
