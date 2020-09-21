@@ -22,7 +22,7 @@
                                         <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2">Ticket #</label>
                                         <div class="col-sm-9">
                                             <div>
-                                                <input type="number" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber"  [ngClass]="{'is-invalid': selected && (ticketNumber === undefined || ticketNumber === '')}">&nbsp;
+                                                <input type="text" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" (keypress)="allowNumbersOnly($event)">&nbsp;
                                                 <span class="p-r-63" *ngIf="!isSelected">{{newTicketNumber}}</span>
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getDetailByTicket(); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getTicketNumber();">New</button>
@@ -89,7 +89,7 @@
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" formControlName="giftCardNumber" placeholder="Gift Card #" (blur)="validateGiftcard()" [ngClass]="{ 'is-invalid': (giftcardsubmitted && f.giftCardNumber.errors || isInvalidGiftcard) }" (clear)="validGiftcard = {}; balance = 0">  
+                                                    <input type="text" class="form-control" maxLength="9" formControlName="giftCardNumber" placeholder="Gift Card #" (blur)="validateGiftcard()" [ngClass]="{ 'is-invalid': (giftcardsubmitted && f.giftCardNumber.errors || isInvalidGiftcard) }" (clear)="validGiftcard = {}; balance = 0" (keypress)="allowNumbersOnly($event)">  
                                                     <div *ngIf="giftcardsubmitted && f.giftCardNumber.errors" class="invalid-feedback">
                                                         <div *ngIf="f.giftCardNumber.errors.required">GiftCard number is required</div>
                                                     </div>
@@ -103,7 +103,7 @@
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" placeholder="Amount" formControlName="giftCardAmount" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"(blur)="validateAmount()"> 
+                                                    <input type="text" class="form-control" maxLength="9" placeholder="Amount" formControlName="giftCardAmount" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"(blur)="validateAmount()" (keypress)="allowNumbersOnly($event)"> 
                                                     <div *ngIf="giftcardsubmitted && f.giftCardAmount.errors" class="invalid-feedback">
                                                         <div *ngIf="f.giftCardAmount.errors.required">Amount is required</div>
                                                     </div>
@@ -149,7 +149,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Credit Card</h4> </div>
                                             <div class="row no-gutters m-t-20">
-                                                <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><input type="text" class="cash-box" placeholder ='$0.00' [(ngModel)]="creditTotal" (blur)="creditcashback = 0"></span> </span>
+                                                <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><label style=" font-size: 34px;color: #1DC9B7; font-weight: 500;">$</label><input type="text" class="cash-box"  maxLength="9" placeholder ='$0.00' [(ngModel)]="creditTotal" (blur)="creditcashback = 0" (keypress)="allowNumbersOnly($event)"></span> </span>
                                                 </div>
                                             </div>
                                             <div class="row no-gutters m-t-15 m-b-20">
@@ -187,7 +187,8 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Cash</h4> </div>
                                                 <div class="row no-gutters m-t-20">
-                                                    <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><input type="text" class="cash-box" placeholder ='$0.00' [(ngModel)]="cashTotal"></span> </span>
+                                                    <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><label style=" font-size: 34px;color: #1DC9B7; font-weight: 500;">$</label>
+                                                        <input type="text" maxLength="9" class="cash-box" placeholder ='$0.00' [(ngModel)]="cashTotal" (keypress)="allowNumbersOnly($event)"></span> </span>
                                                     </div>
                                                 </div>
                                             <div class="title-border p-b-5 m-b-5 m-t-40 p-t-15">
@@ -280,7 +281,7 @@
                                         <div class="form-group col-md-5" *ngIf="enableAdd === true">
                                             <div class=" ">
                                                 <form [formGroup]="addItemForm">
-                                                <input type="text" id="quantity" (focus)="quantityFocus($event)" class="form-control d-inline-block w-23 align-middle" placeholder="Qty" formControlName="quantity">&nbsp;
+                                                <input type="text" id="quantity" pattern="\d*" maxlength="9"  (focus)="quantityFocus($event)" class="form-control d-inline-block w-23 align-middle" [disabled]='isDisableService' placeholder="Qty" formControlName="quantity" (keypress)="allowNumbersOnly($event)">&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color buttonSize" (click)="addItem()">Add</button>&nbsp;
                                             </form>
                                             </div>
@@ -304,7 +305,7 @@
                                                     <td class="pointer" (dblclick)="editItem(detail)">{{detail?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(detail)">{{detail?.Quantity}}</td>
                                                     <td (dblclick)="editItem(detail)" style="text-align: center;">{{detail.Price | currency}}</td>
-                                                    <td style="text-align: center;"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(detail)"></i></td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(detail)"></i></td>
                                                 </tr>
                                                 <tr *ngIf="washes.length>0">
                                                     <th scope="row" colspan="5">Wash Package </th>
@@ -313,7 +314,7 @@
                                                     <td class="pointer" (dblclick)="editItem(wash)">{{wash?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(wash)">{{wash?.Quantity}}</td>
                                                     <td (dblclick)="editItem(wash)" style="text-align: center;">{{wash?.Price | currency}}</td>
-                                                    <td (dblclick)="editItem(wash)" style="text-align: center;"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
+                                                    <td (dblclick)="editItem(wash)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
                                                 </tr>
                                                 <tr *ngIf="additionalService.length > 0">
                                                     <th scope="row" colspan="5">Additional Services </th>
@@ -322,8 +323,36 @@
                                                     <td class="pointer" (dblclick)="editItem(additional)">{{additional?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(additional)">{{additional?.Quantity}}</td>
                                                     <td (dblclick)="editItem(additional)" style="text-align: center;">{{additional?.Price | currency}}</td>
-                                                    <td (dblclick)="editItem(additional)" style="text-align: center;"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(additional)"></i></td>
+                                                    <td (dblclick)="editItem(additional)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(additional)"></i></td>
                                                 </tr>
+                                                <tr *ngIf="upCharges.length > 0">
+                                                    <th scope="row" colspan="5">UpCharges </th>
+                                                </tr>
+                                                <tr *ngFor="let upcharge of upCharges" >
+                                                    <td class="pointer" (dblclick)="editItem(upcharge)">{{upcharge?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(upcharge)">{{upcharge?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(upcharge)" style="text-align: center;">{{upcharge?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(upcharge)"></i></td>
+                                                </tr>
+                                                <tr *ngIf="outsideServices.length > 0">
+                                                    <th scope="row" colspan="5">Outside Services </th>
+                                                </tr>
+                                                <tr *ngFor="let outService of outsideServices" >
+                                                    <td class="pointer" (dblclick)="editItem(outService)">{{outService?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(outService)">{{outService?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(outService)" style="text-align: center;">{{outService?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(outService)"></i></td>
+                                                </tr>
+                                                <tr *ngIf="airfreshnerService.length > 0">
+                                                    <th scope="row" colspan="5">Air Freshners </th>
+                                                </tr>
+                                                <tr *ngFor="let airService of airfreshnerService" >
+                                                    <td class="pointer" (dblclick)="editItem(airService)">{{airService?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(airService)">{{airService?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(airService)" style="text-align: center;">{{airService?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(airService)"></i></td>
+                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
