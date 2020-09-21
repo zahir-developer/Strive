@@ -73,6 +73,12 @@ export class SalesComponent implements OnInit {
     this.addItemFormInit();
     this.getAllService();
     this.getServiceForDiscount();
+    // this.getAllServiceandProduct();
+  }
+  getAllServiceandProduct() {
+    this.salesService.getServiceAndProduct().subscribe(data => {
+      console.log(data, 'Service And Product');
+    });
   }
   giftCardFromInit() {
     this.giftCardForm = this.fb.group({
@@ -159,7 +165,7 @@ export class SalesComponent implements OnInit {
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = summary?.Cashback;
+            this.cashback = summary?.Cashback ? summary?.Cashback : 0;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
             this.creditTotal = +this.grandTotal;
@@ -220,7 +226,7 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    this.cashTotal = this.cash !== 0 ? this.cash : this.grandTotal ? +this.grandTotal : 0;
+    this.cashTotal = this.grandTotal ? +this.grandTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('creditcardpopup').style.width = '0';
@@ -384,15 +390,18 @@ export class SalesComponent implements OnInit {
     // this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
   }
   clear() {
-    this.addItemForm.patchValue({ itemName: '', quantity: '' });
-    this.ticketNumber = '';
+    if (this.targetId === 'quantity') {
+    this.addItemForm.patchValue({ quantity: '' });
+    } else if (this.targetId === 'ticketNumber') {
+     this.ticketNumber = '';
+    }
   }
   backspace() {
     if (this.targetId === 'quantity') {
       const quantity = this.addItemForm.value.quantity.toString();
       this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
     } else if (this.targetId === 'ticketNumber') {
-      const ticketNumber = this.ticketNumber? this.ticketNumber.toString() : '';
+      const ticketNumber = this.ticketNumber ? this.ticketNumber.toString() : '';
       this.ticketNumber = ticketNumber.substring(0, ticketNumber.length - 1);
     } else {
       return;
@@ -432,9 +441,9 @@ export class SalesComponent implements OnInit {
     this.cashTotal = +this.cashTotal + cash;
   }
   cashProcess() {
-    this.totalPaid = this.totalPaid - this.cash;
+    this.totalPaid = (+this.totalPaid) - (+this.cash);
     this.cash = this.cashTotal;
-    this.totalPaid = this.totalPaid + this.cash;
+    this.totalPaid = (+this.totalPaid) + (+this.cash);
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -452,6 +461,10 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.splice(index, 1);
   }
   addPayment() {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please do atlease one Payemnt' });
+      return;
+    }
     let giftcard = null;
     let discount = null;
     giftcard = this.giftcards.map(item => {
@@ -604,5 +617,11 @@ export class SalesComponent implements OnInit {
   }
   quantityFocus(event) {
     this.targetId = event.target.id;
+  }
+  allowNumbersOnly(e) {
+    const code = (e.which) ? e.which : e.keyCode;
+    if (code > 31 && (code < 48 || code > 57)) {
+        e.preventDefault();
+    }
   }
 }
