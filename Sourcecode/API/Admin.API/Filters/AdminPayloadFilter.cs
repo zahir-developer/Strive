@@ -63,7 +63,7 @@ namespace Admin.API.Filters
             var tid = string.Empty;
             var requestPath = context.HttpContext.Request.Path.Value;
 
-            if (!requestPath.Contains("/Auth/") && !requestPath.Contains("/Signup/"))
+            if (!requestPath.Contains("/Auth/") && !requestPath.Contains("/Signup/") && !requestPath.Contains("/External/"))
             {
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
