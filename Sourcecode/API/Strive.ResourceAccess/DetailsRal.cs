@@ -25,7 +25,7 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(details);
         }
-        public bool AddEmployeeWithService(JobServiceEmployeeDto jobServiceEmployee)
+        public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
             return dbRepo.InsertPc(jobServiceEmployee,"JobServiceEmployeeId");
         }

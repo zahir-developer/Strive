@@ -20,7 +20,7 @@ namespace Strive.BusinessLogic.Details
 
         public Result AddDetails(DetailsDto details)
         {
-            return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "Status");
+           return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "Status");
         }
 
         public Result UpdateDetails(DetailsDto details)
@@ -28,9 +28,9 @@ namespace Strive.BusinessLogic.Details
             return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
         }
 
-        public Result AddEmployeeWithService(JobServiceEmployeeDto jobServiceEmployee)
+        public Result AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
-            return ResultWrap(new DetailsRal(_tenant).AddEmployeeWithService, jobServiceEmployee, "Status");
+            return ResultWrap(new DetailsRal(_tenant).AddServiceEmployee, jobServiceEmployee, "Status");
         }
 
         public Result GetBaySchedulesDetails(DetailsGridDto detailsGrid)
