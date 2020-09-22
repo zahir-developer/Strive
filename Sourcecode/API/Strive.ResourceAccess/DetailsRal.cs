@@ -19,7 +19,27 @@ namespace Strive.ResourceAccess
         public bool AddDetails(DetailsDto details)
         {
             return dbRepo.InsertPc(details, "JobId");
+            //Job a = details.Job;
+            ////return dbRepo.Insert(a);
+            //int id = dbRepo.Add(a);
+            //TestDto detail = new TestDto();
+            //detail.JobDetail = details.JobDetail;
+            //detail.JobItem = details.JobItem;
+            //detail.BaySchedule = details.BaySchedule;
+
+            //detail.JobDetail.JobId = id;
+            //detail.BaySchedule.JobId = id;
+            //foreach (var item in detail.JobItem)
+            //{
+            //    item.JobId = id;
+            //}
+            //Insert(detail);
+            //return id;
         }
+        //public bool Insert(TestDto details)
+        //{
+        //    return dbRepo.InsertPc(details,"JobId");
+        //}
         public bool UpdateDetails(DetailsDto details)
         {
             return dbRepo.UpdatePc(details);
