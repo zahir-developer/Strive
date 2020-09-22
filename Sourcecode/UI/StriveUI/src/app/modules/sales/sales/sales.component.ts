@@ -66,6 +66,7 @@ export class SalesComponent implements OnInit {
   giftcardsubmitted = false;
   total = '';
   tax = '';
+  submitted = false;
   enableAdd = false;
   grandTotal = '';
   cash = 0;
@@ -124,6 +125,7 @@ export class SalesComponent implements OnInit {
     });
   }
   get f() { return this.giftCardForm.controls; }
+  get a() { return this.addItemForm.controls; }
   getAllService() {
     this.salesService.getService().subscribe(data => {
       if (data.status === 'Success') {
@@ -166,6 +168,12 @@ export class SalesComponent implements OnInit {
     }
   }
   clearpaymentField() {
+    this.washes = [];
+    this.details = [];
+    this.additionalService = [];
+    this.upCharges = [];
+    this.airfreshnerService = [];
+    this.outsideServices = [];
     this.cash = 0;
     this.credit = 0;
     this.giftCard = 0;
@@ -175,11 +183,12 @@ export class SalesComponent implements OnInit {
     this.balanceDue = 0;
     this.originalGrandTotal = 0;
     this.creditcashback = 0;
+    this.cashback = 0;
+    if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
+      this.itemList.Status.ScheduleItemSummaryViewModels = {};
+    }
   }
   getDetailByTicket() {
-    this.washes = [];
-    this.details = [];
-    this.additionalService = [];
     this.clearpaymentField();
     if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
@@ -364,6 +373,11 @@ export class SalesComponent implements OnInit {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
+    this.submitted = true;
+    if (+this.addItemForm.controls.quantity.value === 0) {
+      this.addItemForm.patchValue({quantity: ''});
+      return;
+    }
     if (this.addItemForm.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
       return;
@@ -419,6 +433,7 @@ export class SalesComponent implements OnInit {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
           this.getDetailByTicket();
           this.addItemForm.controls.quantity.enable();
+          this.submitted = false;
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -431,6 +446,7 @@ export class SalesComponent implements OnInit {
           this.ticketNumber = this.newTicketNumber;
           this.getDetailByTicket();
           this.addItemForm.controls.quantity.enable();
+          this.submitted = false;
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -449,6 +465,7 @@ export class SalesComponent implements OnInit {
       this.addItemForm.patchValue({ quantity: '' });
     } else if (this.targetId === 'ticketNumber') {
       this.ticketNumber = '';
+      this.clearpaymentField();
     }
   }
   backspace() {
@@ -477,12 +494,7 @@ export class SalesComponent implements OnInit {
     this.salesService.getTicketNumber().subscribe(data => {
       this.newTicketNumber = data;
       this.enableAdd = true;
-      this.washes = [];
-      this.details = [];
-      this.additionalService = [];
-      if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
-        this.itemList.Status.ScheduleItemSummaryViewModels = {};
-      }
+      this.clearpaymentField();
     });
   }
   creditProcess() {
@@ -613,7 +625,7 @@ export class SalesComponent implements OnInit {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
       this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
         if (data.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Deleted job successfully' });
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });
           this.getDetailByTicket();
           this.ticketNumber = '';
         } else {
