@@ -31,6 +31,7 @@ import { RouterModule } from '@angular/router';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -104,7 +105,8 @@ const load = (http: HttpClient) => {
     NgxSkeletonLoaderModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     MultiSelectModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgbModule
   ],
   exports: [
     HttpClientModule,

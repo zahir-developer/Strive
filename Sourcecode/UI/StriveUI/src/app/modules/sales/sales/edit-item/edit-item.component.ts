@@ -42,10 +42,11 @@ export class EditItemComponent implements OnInit {
       return;
     }
     const updateObj = {
-      jobid: this.ItemDetail?.JobId,
+      jobItemId: this.ItemDetail?.JobItemId,
+      serviceId: this.ItemDetail?.ServiceId,
       quantity: this.editItemForm.value.quantity,
       price: this.editItemForm.value.price
-    }
+    };
     this.salesService.updateItem(updateObj).subscribe(data => {
       console.log(data);
       if (data.status === 'Success') {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Details;
 using Strive.Common;
@@ -32,6 +33,14 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateDetails")]
         public Result UpdateDetails([FromBody] DetailsDto details) => _bplManager.UpdateDetails(details);
+
+        /// <summary>
+        /// Method to Assign Employee With Service.
+        /// </summary>
+        [HttpPost]
+        [Route("AddServiceEmployee")]
+        public Result AddServiceEmployee([FromBody] JobServiceEmployeeDto jobServiceEmployee) => _bplManager.AddServiceEmployee(jobServiceEmployee);
+
         /// <summary>
         /// Method to Get Schedule Details in Grid.
         /// </summary>

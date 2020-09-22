@@ -45,6 +45,9 @@ export class WashService {
   getTicketNumber(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getTicketNumber}`);
   }
+  getJobType() {
+    return this.http.get(`${UrlConfig.totalUrl.getJobType}`);
+  }
   getMembership(vehicleId: number) {
     return this.http.get(`${UrlConfig.totalUrl.getMembershipByVehicle}`, { params: { id: vehicleId } });
   }

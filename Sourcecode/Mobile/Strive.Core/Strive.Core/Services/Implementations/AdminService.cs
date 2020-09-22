@@ -150,6 +150,17 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<SelectedServiceList>(ApiUtils.URL_GET_SELECTED_MEMBERSHIP_SERVICES+MembershipId, HttpMethod.Get);
         }
 
+        public async Task<ClientsSearch> SearchClient(string ClientName)
+        {
+            var data = new { clientName = ClientName};
+            return await _restClient.MakeApiCall<ClientsSearch>(ApiUtils.URL_SEARCH_CLIENT, HttpMethod.Post,data);
+        }
+
+        public async Task<CustomerPersonalInfo> GetClientById(int Id)
+        {
+            return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get, Id);
+        }
+
         public async Task<CustomerPersonalInfo> GetClientById(int Id)
         {
             return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get, Id);
@@ -164,6 +175,13 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<VehicleCodes>(ApiUtils.URL_GET_VEHICLE_CODES, HttpMethod.Post);
         }
+
+        public async Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel)
+        {
+            return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
+        }
+
+    }
 
         public async Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle)
         {

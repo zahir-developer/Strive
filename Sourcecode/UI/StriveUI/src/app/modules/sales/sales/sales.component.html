@@ -19,14 +19,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group row border-bottom p-b-10 no-gutters">
-                                        <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2">Ticket No</label>
+                                        <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2">Ticket #</label>
                                         <div class="col-sm-9">
-                                            <div class="pull-right">
-                                                <input type="text" *ngIf="isSelected" class="form-control  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" [ngClass]="{'is-invalid': selected && (ticketNumber === undefined || ticketNumber === '')}">&nbsp;
-                                                <span class="p-r-25" *ngIf="!isSelected">{{newTicketNumber}}</span>
-                                                <!-- <button type="button" class="btn theme-primary-button-color disabled buttonSize">Done</button>&nbsp; -->
-                                                <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getDetailByTicket(); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color buttonSize" (click)="getTicketNumber();enableAdd=true">New</button>
+                                            <div>
+                                                <input type="text" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control inputSize  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" (keypress)="allowNumbersOnly($event)" (clear)="clearpaymentField()">&nbsp;
+                                                <span class="p-r-98" *ngIf="!isSelected">{{newTicketNumber}}</span>
+                                                <button type="button" class="btn theme-primary-button-color" (click)="getDetailByTicket(); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color " (click)="getTicketNumber();">New</button>
                                             </div>
                                         </div>
                                     </div>
@@ -52,32 +51,32 @@
                                         <button type="button" class="btn btn-numbers col-sm m-r-0" (click)="clear()">Clear</button>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm" (click)="(ticketNumber!==''&& ticketNumber !== undefined) ? openCash(): closecash()"> <img src="assets/img/cash.png" alt="" />
+                                        <div class="icon-btn col-sm" (click)="showPopup ? openCash(): closecash()"> <img src="assets/img/cash.png" alt="" />
                                             <div> Cash </div>
                                         </div>
-                                        <div class="icon-btn col-sm" (click)="opengiftcard()"> <img src="assets/img/Gift.png" alt="" />
+                                        <div class="icon-btn col-sm" (click)="showPopup ? opengiftcard(): closegiftcard()"> <img src="assets/img/Gift.png" alt="" />
                                             <div> Gift </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0" (click)="opencreditcard()"> <img src="assets/img/Credit.png" alt="" />
+                                        <div class="icon-btn col-sm m-r-0" (click)="showPopup ? opencreditcard(): closecreditcard()"> <img src="assets/img/Credit.png" alt="" />
                                             <div> Credit </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm" (click)="opendiscount()"> <img src="assets/img/Discount.png" alt="" />
+                                        <div class="icon-btn col-sm" (click)="showPopup? opendiscount(): closediscount()"> <img src="assets/img/Discount.png" alt="" />
                                             <div> Discount </div>
                                         </div>
                                         <div class="icon-btn col-sm"> <img src="assets/img/Account.png" alt="" />
                                             <div> Account </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0"> <img src="assets/img/Clear.png" alt="" />
+                                        <div class="icon-btn col-sm m-r-0" (click)="showPopup ? getDetailByTicket(): ''"> <img src="assets/img/Clear.png" alt="" />
                                             <div> Clear </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7 payment">
                                         <button type="button" class="btn col-sm btn-payment actived" (click)="addPayment()">Process</button>
-                                        <button type="button" class="btn col-sm btn-payment">RollBack</button>
-                                        <button type="button" class="btn col-sm btn-payment" (click)="deleteTicket()">Del</button>
-                                        <button type="button" class="btn col-sm btn-payment m-r-0">Print</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" (click)="rollBack()">RollBack</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" (click)="deleteTicket()">Del</button>
+                                        <button type="button" class="btn col-sm btn-payment actived m-r-0">Print</button>
                                     </div>
                                     <div id="Giftcardpopup" class="gift-card"> <span class="closebtn" (click)="closegiftcard()">&times;</span>
                                         <div class="card-body">
@@ -85,36 +84,43 @@
                                                 <h4 class="d-inline-block">Giftcard</h4> </div>
                                                 <form [formGroup]="giftCardForm">
                                             <div class="form-row p-t-10 p-b-12">
-                                                <div class="form-group col-md-6"> Giftcard # </div>
+                                                <div class="form-group col-md-6"> Amount Due </div>
+                                                <div class="form-group col-md-6 text-right"> {{grandTotal ? (grandTotal | currency) : '$0.00'}} </div>
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" formControlName="giftCardNumber" placeholder="Gift Card #" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardNumber.errors }"> 
+                                                    <input type="text" class="form-control" maxLength="9" formControlName="giftCardNumber" placeholder="Gift Card #" (blur)="validateGiftcard()" [ngClass]="{ 'is-invalid': (giftcardsubmitted && f.giftCardNumber.errors || isInvalidGiftcard) }" (clear)="validGiftcard = {}; balance = 0" (keypress)="allowNumbersOnly($event)">  
                                                     <div *ngIf="giftcardsubmitted && f.giftCardNumber.errors" class="invalid-feedback">
                                                         <div *ngIf="f.giftCardNumber.errors.required">GiftCard number is required</div>
                                                     </div>
+                                                    <div *ngIf="isInvalidGiftcard" class="invalid-feedback"> Invalid Giftcard Number</div>
                                                 </div>
                                                   
                                             </div>
-                                            <div class="form-row p-t-10 p-b-12">
-                                                <div class="form-group col-md-6"> Amount </div>
+                                            <div class="form-row p-b-12">
+                                                <div class="form-group col-md-6"> Current Value </div>
+                                                <div class="form-group col-md-6 text-right"> {{validGiftcard?.GiftCardDetail[0]?.BalaceAmount ? (validGiftcard?.GiftCardDetail[0]?.BalaceAmount | currency) : '$0.00' }} </div>
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" placeholder="Amount" formControlName="giftCardAmount" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"> 
+                                                    <input type="text" class="form-control" maxLength="9" placeholder="Amount" formControlName="giftCardAmount" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"(blur)="validateAmount()" (keypress)="allowNumbersOnly($event)"> 
                                                     <div *ngIf="giftcardsubmitted && f.giftCardAmount.errors" class="invalid-feedback">
                                                         <div *ngIf="f.giftCardAmount.errors.required">Amount is required</div>
                                                     </div>
                                                 </div>
                                                    
                                             </div>
-                                        </form>
-                                            <div class="form-row  float-right">
-                                                <button type="button" class="btn theme-primary-button-color  btn-sm " (click)="addGiftCard()">Add</button>
+                                            <div class="form-row p-b-12 p-t-20 border-top">
+                                                <div class="form-group col-md-6"> Balance </div>
+                                                <div class="form-group col-md-6 text-right"> {{balance ? (balance | currency) : '$0.00'}}</div>
                                             </div>
+                                            <div class="form-row  float-right">
+                                                <button type="button" class="btn theme-primary-button-color  btn-sm " [disabled]="giftCardForm.invalid || isInvalidGiftcard"(click)="addGiftCard()">Add</button>
+                                            </div>
+                                        </form>
                                             <div *ngIf="giftcards.length>0">
                                             <div class="table-responsive m-t-10">
-                                                <table class="table-scroll small-first-col">
+                                                <table class="table  table-striped">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Giftcard #</th>
@@ -125,8 +131,8 @@
                                                     <tbody class="body-half-screen">
                                                         <tr *ngFor="let giftcard of giftcards" >
                                                             <td class="pointer" >{{giftcard?.number}}</td>
-                                                            <td>{{giftcard?.amount}}</td>
-                                                            <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deletegiftcard(giftcard)"></i></td>
+                                                            <td style="text-align: center;">{{giftcard?.amount | currency}}</td>
+                                                            <td style="text-align: center;"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deletegiftcard(giftcard)"></i></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -136,33 +142,6 @@
                                             <button type="button" class="btn theme-primary-button-color btn-sm" (click)="giftCardProcess()">Process</button>
                                         </div>
                                         </div>
-                                        <!-- <div class="card-body">
-                                            <div class="title-border p-b-5 m-b-5">
-                                                <h4 class="d-inline-block">Giftcard</h4> </div>
-                                            <div class="form-row p-t-10 p-b-12">
-                                                <div class="form-group col-md-6"> Amount Due </div>
-                                                <div class="form-group col-md-6 text-right"> $163.95 </div>
-                                            </div>
-                                            <div class="form-row p-b-12">
-                                                <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" placeholder="Gift Card #"> </div>
-                                            </div>
-                                            <div class="form-row p-b-12">
-                                                <div class="form-group col-md-6"> Current Value </div>
-                                                <div class="form-group col-md-6 text-right"> $000.95 </div>
-                                            </div>
-                                            <div class="form-row p-b-12">
-                                                <div class="form-group col-md-12">
-                                                    <input type="text" class="form-control" placeholder="Amount"> </div>
-                                            </div>
-                                            <div class="form-row p-b-12 p-t-20 border-top">
-                                                <div class="form-group col-md-6"> Balance </div>
-                                                <div class="form-group col-md-6 text-right"> $163.95 </div>
-                                            </div>
-                                            <div class="form-row p-b-12 m-t-100 p-t-40 border-top">
-                                                <button type="button" class="btn theme-primary-button-color w-100 btn-sm giftcard-btn">Process</button>
-                                            </div>
-                                        </div> -->
                                     </div>
                                     <!--credit card-->
                                       <div id="creditcardpopup" class="gift-card"> <span class="closebtn" (click)="closecreditcard()">&times;</span>
@@ -170,7 +149,7 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Credit Card</h4> </div>
                                             <div class="row no-gutters m-t-20">
-                                                <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><input type="text" class="cash-box" placeholder ='$0.00' [(ngModel)]="creditTotal" (blur)="creditcashback = 0"></span> </span>
+                                                <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><label style=" font-size: 34px;color: #1DC9B7; font-weight: 500;">$</label><input type="text" class="cash-box"  maxLength="9" placeholder ='$0.00' [(ngModel)]="creditTotal" (blur)="creditcashback = 0" (keypress)="allowNumbersOnly($event)"></span> </span>
                                                 </div>
                                             </div>
                                             <div class="row no-gutters m-t-15 m-b-20">
@@ -208,7 +187,8 @@
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Cash</h4> </div>
                                                 <div class="row no-gutters m-t-20">
-                                                    <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><input type="text" class="cash-box" placeholder ='$0.00' [(ngModel)]="cashTotal"></span> </span>
+                                                    <div class="col-lg-12 text-center m-t-10"> <span class=""> <span class="text-cash"><label style=" font-size: 34px;color: #1DC9B7; font-weight: 500;">$</label>
+                                                        <input type="text" maxLength="9" class="cash-box" placeholder ='$0.00' [(ngModel)]="cashTotal" (keypress)="allowNumbersOnly($event)"></span> </span>
                                                     </div>
                                                 </div>
                                             <div class="title-border p-b-5 m-b-5 m-t-40 p-t-15">
@@ -237,25 +217,17 @@
                                         <div class="card-body">
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Discount</h4> </div>
-                                                <!-- <div class="form-row p-t-10 p-b-12">
-                                                    <div class="form-group col-md-6"> Select a Discount</div>
-                                                </div> -->
                                                 <div class="form-row p-b-12 p-t-40">
                                                     <div class="form-group col-md-12">
-                                                        <select class="form-control" placeholder="Select discount" [(ngModel)]="discount" (change)="discountChange($event)">
+                                                        <select class="form-control" placeholder="Select discount" (change)="discountChange($event)">
                                                             <option value='' selected hidden>Select a discount</option>
                                                             <option *ngFor="let discount of discounts" value="{{discount.ServiceId}}"> {{discount.ServiceName}}</option>
                                                         </select>
-                                                        <!-- <input type="text" class="form-control" formControlName="giftCardNumber" placeholder="Gift Card #" [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardNumber.errors }">  -->
-                                                        <div *ngIf="giftcardsubmitted && f.giftCardNumber.errors" class="invalid-feedback">
-                                                            <div *ngIf="f.giftCardNumber.errors.required">GiftCard number is required</div>
-                                                        </div>
                                                     </div>
-                                                      
                                                 </div>
                                                 <div *ngIf="selectedDiscount.length>0">
                                                     <div class="table-responsive m-t-10">
-                                                        <table class="table-scroll small-first-col">
+                                                        <table class="table  table-striped">
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Name</th>
@@ -266,8 +238,8 @@
                                                             <tbody class="body-half-screen">
                                                                 <tr *ngFor="let discount of selectedDiscount" >
                                                                     <td class="pointer" >{{discount?.ServiceName}}</td>
-                                                                    <td >{{discount?.Cost | currency}}</td>
-                                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deletediscount(discount)"></i></td>
+                                                                    <td style="text-align: center;">{{discount?.Cost | currency}}</td>
+                                                                    <td style="text-align: center;"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deletediscount(discount)"></i></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -291,11 +263,10 @@
                         <div class="col-xl-8 no-space">
                             <div class="card m-b-10">
                                 <div class="card-body">
-                                    <div class="form-row border-bottom">
+                                    <div class="form-row">
                                         <div class="form-group col-md-3">
                                             <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item List</label>
                                         </div>
-                                       
                                         <div class="form-group col-md-4" *ngIf="enableAdd === true">
                                             <form [formGroup]="addItemForm">
                                             <div class="ui-fluid">
@@ -308,23 +279,22 @@
                                                 </div></div> </form>
                                         </div>
                                         <div class="form-group col-md-5" *ngIf="enableAdd === true">
-                                            <div class=" pull-right">
+                                            <div class=" ">
                                                 <form [formGroup]="addItemForm">
-                                                <input type="text" class="form-control d-inline-block w-23 align-middle" placeholder="Qty" formControlName="quantity">&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color buttonSize" (click)="addItem()">Add</button>&nbsp;
-                                                <!-- <button type="button" class="btn theme-primary-button-color buttonSize" href="#itemsearchmodal" data-toggle="modal">Search</button> -->
+                                                <input type="text" id="quantity" pattern="\d*" maxlength="9"  (focus)="quantityFocus($event)" class="form-control d-inline-block w-23 align-middle" [disabled]='isDisableService' placeholder="Qty" formControlName="quantity" (keypress)="allowNumbersOnly($event)"
+                                                [ngClass]="{ 'is-invalid': (submitted && a.quantity.errors) }">&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color" (click)="addItem()">Add</button>&nbsp;
                                             </form>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="table-responsive m-t-10">
-                                        <table class="table-scroll small-first-col">
+                                        <table class="table  table-striped">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Item</th>
                                                     <th scope="col">Qty</th>
-                                                    <th scope="col">T</th>
-                                                    <th scope="col">Price</th>
+                                                    <th scope="col" >Price</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
@@ -333,11 +303,10 @@
                                                     <th scope="row" colspan="5">Details</th>
                                                 </tr>
                                                 <tr *ngFor ="let detail of details" >
-                                                    <td class="pointer">{{detail?.ServiceName}}</td>
-                                                    <td>{{detail?.Quantity}}</td>
-                                                    <td>{{detail?.T}}</td>
-                                                    <td>{{detail.Price}}</td>
-                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"></i></td>
+                                                    <td class="pointer" (dblclick)="editItem(detail)">{{detail?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(detail)">{{detail?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(detail)" >{{detail.Price | currency}}</td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(detail)"></i></td>
                                                 </tr>
                                                 <tr *ngIf="washes.length>0">
                                                     <th scope="row" colspan="5">Wash Package </th>
@@ -345,13 +314,55 @@
                                                 <tr *ngFor="let wash of washes" >
                                                     <td class="pointer" (dblclick)="editItem(wash)">{{wash?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(wash)">{{wash?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(wash)">{{wash?.T}}</td>
-                                                    <td (dblclick)="editItem(wash)">{{wash?.Price}}</td>
-                                                    <td (dblclick)="editItem(wash)"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
+                                                    <td (dblclick)="editItem(wash)" >{{wash?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(wash)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
                                                 </tr>
                                                 <tr *ngIf="additionalService.length > 0">
                                                     <th scope="row" colspan="5">Additional Services </th>
                                                 </tr>
+                                                <tr *ngFor="let additional of additionalService" >
+                                                    <td class="pointer" (dblclick)="editItem(additional)">{{additional?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(additional)">{{additional?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(additional)" >{{additional?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(additional)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(additional)"></i></td>
+                                                </tr>
+                                                <tr *ngIf="upCharges.length > 0">
+                                                    <th scope="row" colspan="5">UpCharges </th>
+                                                </tr>
+                                                <tr *ngFor="let upcharge of upCharges" >
+                                                    <td class="pointer" (dblclick)="editItem(upcharge)">{{upcharge?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(upcharge)">{{upcharge?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(upcharge)">{{upcharge?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(upcharge)"></i></td>
+                                                </tr>
+                                                <tr *ngIf="outsideServices.length > 0">
+                                                    <th scope="row" colspan="5">Outside Services </th>
+                                                </tr>
+                                                <tr *ngFor="let outService of outsideServices" >
+                                                    <td class="pointer" (dblclick)="editItem(outService)">{{outService?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(outService)">{{outService?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(outService)">{{outService?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(outService)"></i></td>
+                                                </tr>
+                                                <tr *ngIf="airfreshnerService.length > 0">
+                                                    <th scope="row" colspan="5">Air Freshners </th>
+                                                </tr>
+                                                <tr *ngFor="let airService of airfreshnerService" >
+                                                    <td class="pointer" (dblclick)="editItem(airService)">{{airService?.ServiceName}}</td>
+                                                    <td (dblclick)="editItem(airService)">{{airService?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(airService)">{{airService?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(airService)"></i></td>
+                                                </tr>
+                                                <tr *ngIf="Products.length > 0">
+                                                    <th scope="row" colspan="5">Products </th>
+                                                </tr>
+                                                <tr *ngFor="let product of Products" >
+                                                    <td class="pointer" (dblclick)="editItem(product)">{{product?.ProductName}}</td>
+                                                    <td (dblclick)="editItem(product)">{{product?.Quantity}}</td>
+                                                    <td (dblclick)="editItem(product)">{{product?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(product)"></i></td>
+                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -394,11 +405,11 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Total Paid </div>
-                                            <div class="form-group col-md-6 text-right"> {{totalPaid ? totalPaid : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right"> {{totalPaid ? (totalPaid | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Balance Due </div>
-                                            <div class="form-group col-md-6 text-right theme-optional-icon-color">{{balanceDue ? balanceDue : '$0.00'}}</div>
+                                            <div class="form-group col-md-6 text-right theme-optional-icon-color">{{(totalPaid - originalGrandTotal) | currency}}</div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Cash back </div>
