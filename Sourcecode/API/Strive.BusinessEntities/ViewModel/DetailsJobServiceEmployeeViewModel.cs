@@ -12,6 +12,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int? JobItemId { get; set; }
         public int? ServiceId { get; set; }
         public string ServiceName { get; set; }
+        public decimal? Cost { get; set; }
         public int? EmployeeId { get; set; }
         public string EmployeeName { get; set; }
 
