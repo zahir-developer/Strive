@@ -59,5 +59,7 @@ namespace Strive.Core.Services.Interfaces
         Task<CustomerResponse> SaveClientInfo(CustomerUpdateInfo infoModel);
 
         Task<VehicleCodes> GetVehicleCodes();
+
+        Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle);
     }
 }

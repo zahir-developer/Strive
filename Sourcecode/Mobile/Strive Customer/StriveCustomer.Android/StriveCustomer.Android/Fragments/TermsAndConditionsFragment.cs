@@ -8,6 +8,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -21,6 +22,7 @@ namespace StriveCustomer.Android.Fragments
     {
         private TextView AgreeTextView;
         private TextView DisagreeTextView;
+        MyProfileInfoFragment infoFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,6 +32,7 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater,container,savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.TermsAndConditionsFragment,null);
+            infoFragment = new MyProfileInfoFragment();
             AgreeTextView = rootview.FindViewById<TextView>(Resource.Id.textAgree);
             DisagreeTextView = rootview.FindViewById<TextView>(Resource.Id.textDisagree);
             AgreeTextView.PaintFlags = PaintFlags.UnderlineText;
@@ -42,6 +45,8 @@ namespace StriveCustomer.Android.Fragments
         private async void AgreeTextView_Click(object sender, EventArgs e)
         {
             await ViewModel.AgreeMembership();
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
         }
     }
 }

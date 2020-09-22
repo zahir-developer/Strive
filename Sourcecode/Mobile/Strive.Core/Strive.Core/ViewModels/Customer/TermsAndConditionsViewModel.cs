@@ -61,7 +61,7 @@ namespace Strive.Core.ViewModels.Customer
 
             MembershipDetails.customerVehicleDetails
                .clientVehicleMembershipModel
-               .clientVehicleMembershipDetails.clientVehicleId = 144;
+               .clientVehicleMembershipDetails.clientVehicleId = MembershipDetails.clientVehicleID;
 
             MembershipDetails.customerVehicleDetails
                 .clientVehicleMembershipModel
@@ -102,42 +102,26 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task AgreeMembership()
         {
-            var confirmconfig = new ConfirmConfig
-            {
-                Title = "Create Membership",
-                Message = "Create a Membership ?",
-                CancelText = "Cancel",
-                OkText = "Yes",
-                OnAction = success =>
-                {
-                    if (success)
-                    {
-                        CreateMembership();
-                    }
-                }
-
-            };
-            _userDialog.Confirm(confirmconfig);
-            
-        }
-        public void DisagreeMembership()
-        {
-
-        }
-
-        public async Task CreateMembership()
-        {
             var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
             if (data.Status == true)
             {
                 _userDialog.Toast("Membership has been created successfully");
+                return;
             }
             else
             {
                 _userDialog.Alert("Error membership not created");
             }
         }
+        public void DisagreeMembership()
+        {
 
+        }
+        public async void NavigateToLanding()
+        {
+            await _navigationService.Navigate<MyProfileInfoViewModel>();
+        }
+       
         #endregion Commands
 
     }

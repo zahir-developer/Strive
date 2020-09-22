@@ -91,7 +91,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/twenty">
         <View
             android:layout_width="match_parent"
@@ -116,6 +116,18 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@android:color/darker_gray"/>
+        <Button
+            android:id="@+id/saveVehicle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/primarybutton"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginRight="@dimen/twenty"
+            android:text="SAVE"
+            android:gravity="center"
+            android:fontFamily="@font/opensans_bold"
+            android:textColor="@android:color/white"/>
         </LinearLayout>
     </LinearLayout>    
 </LinearLayout>

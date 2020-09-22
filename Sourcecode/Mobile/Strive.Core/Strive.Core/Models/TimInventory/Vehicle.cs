@@ -6,7 +6,7 @@ namespace Strive.Core.Models.TimInventory
     public class VehicleDetail
     {
         public int ClientId { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

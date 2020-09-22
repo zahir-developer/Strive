@@ -58,5 +58,7 @@ namespace Strive.Core.Utils
         public const string URL_SAVE_CLIENT_INFO = "/Admin/Client/UpdateClientVehicle";
 
         public const string URL_GET_VEHICLE_CODES = "/Admin/Vehicle/GetVehicleCodes";
+
+         public const string URL_UPDATE_VEHICLE_INFO = "/Admin/Vehicle/Update";
     }
 }

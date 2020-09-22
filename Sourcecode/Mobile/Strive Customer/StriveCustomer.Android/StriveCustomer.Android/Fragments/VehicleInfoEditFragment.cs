@@ -16,6 +16,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
+using AlertDialog = Android.App.AlertDialog;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -27,6 +28,7 @@ namespace StriveCustomer.Android.Fragments
         private Spinner colorSpinner;
         private TextView membershipInfo;
         private Button backButton;
+        private Button saveButton;
         private Dictionary<int, string> makeOptions,colorOptions,modelOptions;
         private ArrayAdapter<string> makeAdapter,colorAdapter,modelAdapter;
         private List<string> makeList, colorList, modelList;
@@ -50,6 +52,7 @@ namespace StriveCustomer.Android.Fragments
             modelList = new List<string>();
             myProfile = new MyProfileInfoFragment();
             backButton = rootview.FindViewById<Button>(Resource.Id.vehicleBack);
+            saveButton = rootview.FindViewById<Button>(Resource.Id.saveVehicle);
             makeSpinner = rootview.FindViewById<Spinner>(Resource.Id.makeOptions);
             modelSpinner = rootview.FindViewById<Spinner>(Resource.Id.modelOptions);
             colorSpinner = rootview.FindViewById<Spinner>(Resource.Id.colorOptions);
@@ -59,8 +62,14 @@ namespace StriveCustomer.Android.Fragments
             colorSpinner.ItemSelected += ColorSpinner_ItemSelected;
             membershipInfo.Click += MembershipInfo_Click;
             backButton.Click += BackButton_Click;
+            saveButton.Click += SaveButton_Click;
             LoadSpinner();
             return rootview;
+        }
+
+        private async void SaveButton_Click(object sender, EventArgs e)
+        {
+            await ViewModel.SaveVehicle();
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -71,11 +80,15 @@ namespace StriveCustomer.Android.Fragments
 
         private void MembershipInfo_Click(object sender, EventArgs e)
         {
-            if(ViewModel.VehicleDetailsCheck())
+            if(MembershipDetails.clientVehicleID != 0)
             {
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
-            }      
+            }
+            else
+            {
+                ViewModel.ShowAlert();
+            }
         }
 
         private void ColorSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)

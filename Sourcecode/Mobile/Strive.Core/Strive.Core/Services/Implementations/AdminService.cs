@@ -164,6 +164,11 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<VehicleCodes>(ApiUtils.URL_GET_VEHICLE_CODES, HttpMethod.Post);
         }
+
+        public async Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle)
+        {
+            return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_UPDATE_VEHICLE_INFO, HttpMethod.Post, updateVehicle);
+        }
     }
 
     public static class RestUtils
