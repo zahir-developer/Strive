@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO.Sales
 {
-    public class SalesAddListItemDto
+    public class SalesProductItemDto
     {
-        public Job Job { get; set; }
-        public JobItem JobItem { get; set; }
-        public JobProductItem JobProductItem { get; set; }
+        public List<JobProductItem> JobProductItem { get; set; }
     }
 }
