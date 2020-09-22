@@ -30,6 +30,7 @@ namespace StriveCustomer.Android.Fragments
         private EditText secondaryContactEditText;
         private EditText emailEditText;
         private Button saveButton;
+        private Button backButton;
         private MyProfileInfoFragment myProfileInfoFragment;
         MyProfileInfoViewModel mpvm;
         public override void OnCreate(Bundle savedInstanceState)
@@ -45,6 +46,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.PersonalInfoEditFragment, null);
             mpvm = new MyProfileInfoViewModel();
             myProfileInfoFragment = new MyProfileInfoFragment();
+            backButton = rootview.FindViewById<Button>(Resource.Id.backPersonal);
             fullNameEditText = rootview.FindViewById<EditText>(Resource.Id.fullName);
             contactEditText = rootview.FindViewById<EditText>(Resource.Id.contactNumber);
             addressEditText = rootview.FindViewById<EditText>(Resource.Id.Address);
@@ -54,8 +56,15 @@ namespace StriveCustomer.Android.Fragments
             saveButton = rootview.FindViewById<Button>(Resource.Id.personalInfoSave);
 
             saveButton.Click += SaveButton_Click;
+            backButton.Click += BackButton_Click;
 
             return rootview;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
         }
 
         private async void SaveButton_Click(object sender, EventArgs e)
