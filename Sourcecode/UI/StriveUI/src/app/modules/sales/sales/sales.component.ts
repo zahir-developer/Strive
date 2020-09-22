@@ -25,11 +25,17 @@ export class SalesComponent implements OnInit {
   targetId = '';
   enableButton = false;
   showPopup = false;
+  products = [];
+  serviceAndProduct = [];
   isInvalidGiftcard = false;
   discount = '';
+  isDisableService = false;
   discounts = [];
+  outsideServices = [];
+  upCharges = [];
   selectedDiscount = [];
   filteredItem = [];
+  airfreshnerService = [];
   creditcashback = 0;
   cashback = 0;
   selected = false;
@@ -78,8 +84,38 @@ export class SalesComponent implements OnInit {
     }
     this.giftCardFromInit();
     this.addItemFormInit();
-    this.getAllService();
+    // this.getAllService();
     this.getServiceForDiscount();
+    this.getAllServiceandProduct();
+  }
+  getAllServiceandProduct() {
+    this.salesService.getServiceAndProduct().subscribe(data => {
+      if (data.status === 'Success') {
+        console.log(data.status, 'getService');
+        const services = JSON.parse(data.resultData);
+        if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
+          this.services = services.ServiceAndProductList.Service.map(item => {
+            return {
+              id: item.ServiceId,
+              name: item.ServiceName.trim(),
+              price: item.Cost,
+              type: 'service'
+            };
+          });
+        }
+        if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Product.length > 0) {
+          this.products = services.ServiceAndProductList.Product.map(item => {
+            return {
+              id: item.ProductId,
+              name: item.ProductName.trim(),
+              price: item.Price,
+              type: 'product'
+            };
+          });
+        }
+        this.serviceAndProduct = this.services.concat(this.products);
+      }
+    });
   }
   giftCardFromInit() {
     this.giftCardForm = this.fb.group({
@@ -104,7 +140,8 @@ export class SalesComponent implements OnInit {
             return {
               id: item.ServiceId,
               name: item.ServiceName.trim(),
-              price: item.Price
+              price: item.Price,
+              type: 'service'
             };
           });
           console.log(this.services);
@@ -124,6 +161,15 @@ export class SalesComponent implements OnInit {
   }
   selectedItem(event) {
     this.selectedService = event;
+    if (this.selectedService.type === 'service') {
+      this.addItemForm.patchValue({ quantity: 1 });
+      this.addItemForm.controls.quantity.disable();
+      this.isDisableService = true;
+    } else {
+      this.addItemForm.controls.quantity.enable();
+      this.addItemForm.patchValue({ quantity: 1 });
+      this.isDisableService = false;
+    }
   }
   clearpaymentField() {
     this.cash = 0;
@@ -158,15 +204,21 @@ export class SalesComponent implements OnInit {
               this.JobId = this.itemList.Status.ScheduleItemViewModel[0].JobId;
               this.washes = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Washes');
               this.details = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Details');
-              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => 
+              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
                 item.ServiceType === 'Additional Services');
+              this.upCharges = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Upcharges');
+              this.outsideServices = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Outside Services');
+              this.airfreshnerService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Air Fresheners');
             }
           } else {
             this.showPopup = false;
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = summary?.Cashback;
+            this.cashback = summary?.Cashback ? summary?.Cashback : 0;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
             this.creditTotal = +this.grandTotal;
@@ -195,7 +247,7 @@ export class SalesComponent implements OnInit {
   filterItem(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.services) {
+    for (const i of this.serviceAndProduct) {
       const client = i;
       if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
         filtered.push(client);
@@ -227,15 +279,18 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    this.cashTotal = this.cash !== 0 ? this.cash : this.grandTotal ? +this.grandTotal : 0;
+    this.cashTotal = this.grandTotal ? +this.grandTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('creditcardpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
   }
   opengiftcard() {
     // this.giftcards = [];
     document.getElementById('Giftcardpopup').style.width = '450px';
     document.getElementById('creditcardpopup').style.width = '0';
+    document.getElementById('cashpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
   }
   closecash() {
     document.getElementById('cashpopup').style.width = '0';
@@ -260,6 +315,8 @@ export class SalesComponent implements OnInit {
     this.creditcashback = 0;
     document.getElementById('creditcardpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
+    document.getElementById('cashpopup').style.width = '0';
   }
 
   closecreditcard() {
@@ -348,9 +405,10 @@ export class SalesComponent implements OnInit {
         jobItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         serviceId: this.selectedService?.id,
+        itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
         commission: 0,
         price: this.selectedService?.price,
-        quantity: +this.addItemForm.value.quantity,
+        quantity: +this.addItemForm.controls.quantity.value,
         reviewNote: 'test',
         isActive: true,
         isDeleted: this.isSelected ? false : true,
@@ -366,6 +424,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
           this.getDetailByTicket();
+          this.addItemForm.controls.quantity.enable();
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -377,6 +436,7 @@ export class SalesComponent implements OnInit {
           this.isSelected = true;
           this.ticketNumber = this.newTicketNumber;
           this.getDetailByTicket();
+          this.addItemForm.controls.quantity.enable();
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -391,15 +451,18 @@ export class SalesComponent implements OnInit {
     // this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
   }
   clear() {
-    this.addItemForm.patchValue({ itemName: '', quantity: '' });
-    this.ticketNumber = '';
+    if (this.targetId === 'quantity') {
+      this.addItemForm.patchValue({ quantity: '' });
+    } else if (this.targetId === 'ticketNumber') {
+      this.ticketNumber = '';
+    }
   }
   backspace() {
     if (this.targetId === 'quantity') {
       const quantity = this.addItemForm.value.quantity.toString();
       this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
     } else if (this.targetId === 'ticketNumber') {
-      const ticketNumber = this.ticketNumber? this.ticketNumber.toString() : '';
+      const ticketNumber = this.ticketNumber ? this.ticketNumber.toString() : '';
       this.ticketNumber = ticketNumber.substring(0, ticketNumber.length - 1);
     } else {
       return;
@@ -439,9 +502,9 @@ export class SalesComponent implements OnInit {
     this.cashTotal = +this.cashTotal + cash;
   }
   cashProcess() {
-    this.totalPaid = this.totalPaid - this.cash;
+    this.totalPaid = (+this.totalPaid) - (+this.cash);
     this.cash = this.cashTotal;
-    this.totalPaid = this.totalPaid + this.cash;
+    this.totalPaid = (+this.totalPaid) + (+this.cash);
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -459,6 +522,10 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.splice(index, 1);
   }
   addPayment() {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please do payment' });
+      return;
+    }
     let giftcard = null;
     let discount = null;
     giftcard = this.giftcards.map(item => {
@@ -597,19 +664,25 @@ export class SalesComponent implements OnInit {
   }
   rollBack() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-    this.salesService.rollback(+this.ticketNumber).subscribe(data => {
-      if (data.status === 'Success') {
-        this.getDetailByTicket();
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
-      } else {
+      this.salesService.rollback(+this.ticketNumber).subscribe(data => {
+        if (data.status === 'Success') {
+          this.getDetailByTicket();
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+        }
+      }, (err) => {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
-      }
-    }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
-    });
+      });
     }
   }
   quantityFocus(event) {
     this.targetId = event.target.id;
+  }
+  allowNumbersOnly(e) {
+    const code = (e.which) ? e.which : e.keyCode;
+    if (code > 31 && (code < 48 || code > 57)) {
+      e.preventDefault();
+    }
   }
 }
