@@ -1025,23 +1025,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\asubburaj\\.nuget\\packages\\": {},
+    "C:\\Users\\zmohamed\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj",
+      "projectUniqueName": "E:\\Projects\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj",
       "projectName": "Strive.RepositoryCqrs",
-      "projectPath": "D:\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj",
-      "packagesPath": "C:\\Users\\asubburaj\\.nuget\\packages\\",
-      "outputPath": "D:\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\obj\\",
+      "projectPath": "E:\\Projects\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\Strive.RepositoryCqrs.csproj",
+      "packagesPath": "C:\\Users\\zmohamed\\.nuget\\packages\\",
+      "outputPath": "E:\\Projects\\Mammoth\\Strive\\Sourcecode\\API\\Strive.RepositoryCqrs\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\asubburaj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\zmohamed\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

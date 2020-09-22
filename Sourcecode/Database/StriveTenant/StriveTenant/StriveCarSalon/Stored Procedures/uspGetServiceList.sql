@@ -3,8 +3,13 @@
 -- =============================================
 -- Author:		Vineeth.B
 -- Create date: 25-08-2020
--- Description:	To get service list by serviceid
+-- Description:	To get service list
 -- =============================================
+
+-- =============================================
+-- 17-09-2020 - Zahir - Added Cost column.
+-- =============================================
+
 CREATE PROCEDURE [StriveCarSalon].[uspGetServiceList]
 AS 
 BEGIN
@@ -13,6 +18,7 @@ tbls.ServiceId,
 tbls.ServiceName,
 tbls.ServiceType,
 tbls.Upcharges,
+tbls.Cost as Price,
 gt.valuedesc AS ServiceTypeName
 FROM 
 [StriveCarSalon].[tblService] tbls

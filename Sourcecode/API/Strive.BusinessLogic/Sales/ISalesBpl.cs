@@ -20,8 +20,10 @@ namespace Strive.BusinessLogic.Sales
         Result GetScheduleByTicketNumber(string ticketNumber);
         Result AddPayment(SalesPaymentDto salesPayment);
         Result AddListItem(SalesAddListItemDto salesAddListItem);
-        Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto);
+        Result RollBackPayment(SalesItemDeleteDto salesItemDeleteDto);
+        Result DeleteJob(SalesItemDeleteDto salesItemDeleteDto);
         Result UpdateListItem(SalesUpdateItemDto salesUpdateItemDto);
         Result GetServicesWithPrice();
+        Result GetServicesAndProduct();
     }
 }

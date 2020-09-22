@@ -1,4 +1,4 @@
-﻿CREATE Procedure [StriveCarSalon].[uspGetGiftCardBalance]
+﻿CREATE Procedure [StriveCarSalon].[uspGetGiftCardBalance] 
 @GiftCardNumber VARCHAR(20)
 as begin
 
@@ -10,7 +10,7 @@ DECLARE @ExpireDate date;
 
 Select top 1 @GiftCardId = GiftCardId, @TotalAmount = TotalAmount, @ExpireDate = ExpiryDate from StriveCarSalon.tblGiftCard where GiftCardCode = @GiftCardNumber
 
-Select @TotalAmount - SUM(TransactionAmount) AS BalaceAmount, @ExpireDate AS ActiveDate from StriveCarSalon.tblGiftCardHistory
+Select @GiftCardId as GiftCardId, @TotalAmount - SUM(TransactionAmount) AS BalaceAmount, @ExpireDate AS ActiveDate from StriveCarSalon.tblGiftCardHistory
 where GiftCardId=@GiftCardId
 
 end

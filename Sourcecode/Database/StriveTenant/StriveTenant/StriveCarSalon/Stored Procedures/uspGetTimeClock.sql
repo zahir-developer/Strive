@@ -1,9 +1,10 @@
-﻿-- =============================================
+﻿
+-- =============================================
 -- Author:		Zahir Hussain
 -- Create date: 06-08-2020
--- Description: Returns the ClockTime Details
+-- Description: Returns the TimeClock based on given input Details
 -- =============================================
-CREATE PROCEDURE [dbo].[uspClockTimeDetails] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClock] 
 	-- Add the parameters for the stored procedure here
 	@LocationId int,
 	@EmployeeId int, 
@@ -22,4 +23,3 @@ RoleId = @RoleId AND CONVERT(date, EventDate) = @Date AND (IsDeleted = 0 OR IsDe
 AND IsActive = 1
 
 END
-
