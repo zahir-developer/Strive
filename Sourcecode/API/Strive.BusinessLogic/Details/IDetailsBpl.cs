@@ -14,7 +14,7 @@ namespace Strive.BusinessLogic.Details
     {
         Result AddDetails(DetailsDto details);
         Result UpdateDetails(DetailsDto details);
-        Result AddEmployeeWithService(JobServiceEmployeeDto jobServiceEmployee);
+        Result AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee);
         Result GetBaySchedulesDetails(DetailsGridDto detailsGrid);
         Result GetDetailsById(int id);
         Result GetAllBayById(int id);

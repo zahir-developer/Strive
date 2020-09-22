@@ -38,8 +38,8 @@ namespace Admin.API.Controllers
         /// Method to Assign Employee With Service.
         /// </summary>
         [HttpPost]
-        [Route("AddEmployeeWithService")]
-        public Result AddEmployeeWithService([FromBody] JobServiceEmployeeDto jobServiceEmployee) => _bplManager.AddEmployeeWithService(jobServiceEmployee);
+        [Route("AddServiceEmployee")]
+        public Result AddServiceEmployee([FromBody] JobServiceEmployeeDto jobServiceEmployee) => _bplManager.AddServiceEmployee(jobServiceEmployee);
 
         /// <summary>
         /// Method to Get Schedule Details in Grid.
