@@ -17,15 +17,23 @@ namespace Admin.API.Controllers
     public class SalesController : StriveControllerBase<ISalesBpl>
     {
         public SalesController(ISalesBpl colBpl) : base(colBpl) { }
-        
+
+
+        [HttpPost]
+        [Route("SaveProductItem")]
+        public Result SaveProductItem([FromBody] SalesProductItemDto salesProductItemDto)
+        {
+            return _bplManager.SaveProductItem(salesProductItemDto);
+        }
+
         [HttpPost]
         [Route("UpdateItem")]
         public Result UpdateItem([FromBody] SalesItemUpdateDto salesItemUpdateDto)
         {
             return _bplManager.UpdateItem(salesItemUpdateDto);
         }
-        [HttpDelete]
 
+        [HttpDelete]
         [Route("DeleteItemById")]
         public Result DeleteItemById(int jobItemId)
         {

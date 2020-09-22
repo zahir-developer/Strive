@@ -10,7 +10,6 @@ namespace Strive.BusinessEntities.Model
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
         public int JobProductItemId { get; set; }
 
-        [Column, PrimaryKey]
         public int? JobId { get; set; }
 
         [Column]
