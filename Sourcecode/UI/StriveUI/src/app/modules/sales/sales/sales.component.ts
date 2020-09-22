@@ -187,6 +187,7 @@ export class SalesComponent implements OnInit {
     if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
       this.itemList.Status.ScheduleItemSummaryViewModels = {};
     }
+    this.showPopup = false;
   }
   getDetailByTicket() {
     this.clearpaymentField();
@@ -198,8 +199,6 @@ export class SalesComponent implements OnInit {
         this.spinner.hide();
         if (data.status === 'Success') {
           this.enableAdd = true;
-          this.clearform();
-          this.addItemFormInit();
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
             if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
@@ -233,6 +232,9 @@ export class SalesComponent implements OnInit {
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
 
+          }
+          if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
+            this.Products = this.itemList?.Status?.ProductItemViewModel;
           }
           if (this.cash !== 0 || this.credit !== 0 || this.giftCard !== 0) {
             this.enableButton = true;
@@ -413,7 +415,7 @@ export class SalesComponent implements OnInit {
         jobItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         serviceId: this.selectedService?.id,
-        itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
+        // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
         commission: 0,
         price: this.selectedService?.price,
         quantity: +this.addItemForm.controls.quantity.value,
@@ -425,14 +427,35 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
+      },
+      productItem: {
+          jobProductItemId: 0,
+          jobId: this.isSelected ? this.JobId : 0,
+          productId: this.selectedService?.id,
+          commission: 0,
+          price: this.selectedService?.price,
+          quantity: +this.addItemForm.controls.quantity.value,
+          reviewNote: 'test',
+          isActive: true,
+          isDeleted: true,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
       }
     };
+    if (this.selectedService.type === 'service') {
+        formObj.productItem = null;
+    } else {
+      formObj.jobItem = null;
+    }
     if (this.isSelected) {
       this.salesService.updateListItem(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
           this.getDetailByTicket();
           this.addItemForm.controls.quantity.enable();
+          this.addItemFormInit();
           this.submitted = false;
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -446,6 +469,7 @@ export class SalesComponent implements OnInit {
           this.ticketNumber = this.newTicketNumber;
           this.getDetailByTicket();
           this.addItemForm.controls.quantity.enable();
+          this.addItemFormInit();
           this.submitted = false;
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -605,7 +629,8 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date()
       },
-      jobPaymentDiscount: discount.length === 0 ? null : discount
+      jobPaymentDiscount: discount.length === 0 ? null : discount,
+    
     };
     this.spinner.show();
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
