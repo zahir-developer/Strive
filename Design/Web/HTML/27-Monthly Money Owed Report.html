@@ -18,7 +18,7 @@
 	<link href="assets/css/color.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
-	</head>
+ </head>
 
 <body>
 	<div id="wrapper">
@@ -34,25 +34,25 @@
 					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x fa fa-drivers-license-o"></i>Details</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-cash-usd-outline"></i>Sales</a></li>
-					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
-					<li class="active"><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-account-circle"></i>Admin</a></li>
+					<li class="active"><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-account-circle"></i>Admin</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
 					<li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
 				</ul>
 			</div>
 			<div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block"> <a href="#" class="closebtn" onclick="closeNav()">×</a>
 				<div class="p-l-15 p-r-15 m-b-10">
-					<h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Admin</h5> </div>
+					<h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Reports</h5> </div>
 				<ul class="nav-slider-menu-items">
-					<li><a href="#">Cash Register Setup</a> </li>
-					<li><a href="#">Close Out Register</a> </li>
-					<li><a href="#">Time Clock Maintenance</a></li>
-					<li><a href="#">Employees</a></li>
-					<li><a href="#">Clients</a></li>
-					<li> <a href="#">Vehicles</a></li>
-					<li><a href="#">Schedules</a></li>
-					<li><a href="#">Gift Cards</a></li>
-					<li><a href="#">System Setup</a></li>
+					<li><a href="#">Daily Status Screen</a> </li>
+					<li><a href="#">EOD Report</a> </li>
+					<li><a href="#">Daily Tip Report</a></li>
+					<li><a href="#">Monthly Tip</a></li>
+					<li><a href="#">Monthly Sales</a></li>
+					<li> <a href="#">Monthly Customer Summary</a></li>
+					<li><a href="#">Monthly Customer Detail</a></li>
+					<li><a href="#">Hourly Wash Report</a></li>
+					<li><a href="#">Daily Sales Report</a></li>
 				</ul>
 			</div>
 			<div id="mySidenav" class="mobile-view-nav"> <a href="#" class="closebtn" onclick="closembsidebar()"><i class="fa fa-close"></i></a>
@@ -133,173 +133,162 @@
 								<!--bread crumb-->
 								<ol class="breadcrumb font-size--9">
 									<li class="breadcrumb-item"><a href="#">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Time Clock Maintenance</li>
+									<li class="breadcrumb-item active" aria-current="page">Reports</li>
 								</ol>
 							</nav>
 							<div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-								<h3 class="d-inline-block">Time Clock Maintenance</h3> </div>
+								<h3 class="d-inline-block">Reports - </h3>
+								<div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
+									<input type="text" class="datepick" /> <span class="input-group-addon"><i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div>
+							</div>
 							<div class="col-lg-12 p-l-0 p-r-0">
 								<div class="row no-gutter">
 									<div class="col-12">
-										<div class="card">
-											<div class="card-body">
-												<div class="p-b-10 m-b-15">
-													<h4 class="d-inline-block align-middle">Time clock - Samuel Sauer </h4>
-													<div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Timeliclocklist" role="button" aria-expanded="false" aria-controls="Timeliclocklist"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
-												</div>
-												<div id="Timeliclocklist" class="collapse show">
-													<div class="table-responsive">
-														<table class="table">
-															<thead>
-																<tr>
-																	<th scope="col" class="w-15">Day</th>
-																	<th scope="col">Date</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<th scope="row" class="timeclock-table-toggle collapsed pointer">
-																		<div> <i class="fa fa-angle-down font-size-1-3 font-weight-600 m-r-5"></i>Sunday</div>
-																	</th>
-																	<td>8/16/2020</td>
-																</tr>
-																<tr>
-																	<td colspan="4" id="collapse-timeclock-table" class="collapse in border p-5">
-																		<table class="w-100">
-																			<thead>
-																				<tr class="table-sub-collapse ">
-																					<th scope="col">In</th>
-																					<th scope="col">Out</th>
-																					<th scope="col">Role</th>
-																					<th scope="col">Tot. Hrs</th>
-																				</tr>
-																			</thead>
-																			<tbody>
-																				<tr>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table" placeholder="10.00 AM"> </td>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table" placeholder="1.00 PM"> </td>
-																					<td>
-																						<select class="form-control input-table rounded-0">
-																							<option selected="">Washer</option>
-																							<option>...</option>
-																						</select>
-																					</td>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table text-right" placeholder="1"> </td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table" placeholder="1.00 AM"> </td>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table" placeholder="8.00 PM"> </td>
-																					<td>
-																						<select class="form-control input-table rounded-0">
-																							<option selected="">Greeter</option>
-																							<option>...</option>
-																						</select>
-																					</td>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table text-right" placeholder="0">
-																					</td>
-
-																				</tr>
-																				<tr>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table" placeholder="11.00 AM"> </td>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table" placeholder="4.00 PM"> </td>
-																					<td>
-																						<select class="form-control input-table rounded-0">
-																							<option selected="">Detailer</option>
-																							<option>...</option>
-																						</select>
-																					</td>
-																					<td>
-																						<input type="text" class="form-control rounded-0 input-table text-right" placeholder="2">
-																					</td>
-																				</tr>
-																			</tbody>
-																		</table>
-																	</td>
-																</tr>
-																<tr>
-																	<th scope="row">Monday </th>
-																	<td>8/16/2020</td>
-																</tr>
-																<tr>
-																	<th scope="row">Tuesday </th>
-																	<td>8/25/2020</td>
-																</tr>
-																<tr>
-																	<th scope="row">Wednesday </th>
-																	<td>8/20/2020</td>
-																</tr>
-																<tr>
-																	<th scope="row">Thursday </th>
-																	<td>8/16/2020</td>
-																</tr>
-																<tr>
-																	<th scope="row">Friday </th>
-																	<td>8/16/2020</td>
-																</tr>
-																<tr>
-																	<th scope="row">Saturday </th>
-																	<td>8/16/2020</td>
-																</tr>
-															</tbody>
-														</table>
-															<table class="table timeclcok-tb">
-															<thead>
-														
-															</thead>
-															<tbody>
-																<tr class="text-right">
-																<td class="w-45"></td>
-																<td></td>
-																<td class="p-t-10"><span class="font-weight-600 mr-2">Wash Rate:</span>12 </td>
-															<td class="p-t-10"> <span class="font-weight-600 mr-2">Total Wash Hours:</span> 02 </td>
-																<td class="p-t-10 p-r-20"><p class="mb-0"><span class="font-weight-600 mr-2">Total:</span>96 </td>
-																
-
-																</tr>
-																<tr class="text-right">
-																<td></td>
-																<td></td>
-																<td><span class="font-weight-600 mr-2">Detail Rate:</span>20 </td>
-																<td><span class="font-weight-600 mr-2">Total Detail Hours:</span> 3 </td>
-																<td class="p-r-20"><span class="font-weight-600 mr-2">Overtime Pay:</span>72 </td>
-																</tr>
-																<tr class="text-right">
-																<td></td>
-																<td></td>
-																<td colspan="2"><span class="font-weight-600 mr-2">Overtime Hours:</span>4 </td>
-																<td class="p-r-20"><span class="font-weight-600 mr-2">Details:</span>920</td>
-																</tr>
-																<tr class="text-right">
-																<td></td>
-																<td></td>
-																<td  colspan="3" class="p-r-20"> <span class="font-weight-600 mr-2">Collisions:</span>-20</td>
-																</tr>
-															
-																
-															</tbody>
-															<tfoot class="table-foot">
-																				<tr class="text-right">
-																					<td colspan="6" class="font-weight-700 text-right p-10 font-size-1-2 p-r-20">Grand Total:<span class="m-l-10">$300.00</span></td>
-																				</tr>
-																			</tfoot>
-														</table>
-													</div>
+										<div class="row no-gutter">
+											<div class="col-lg-2">
+												<input type="text" class="form-control date datepicker-month" data-toggle="date-picker" data-single-date-picker="true"  placeholder="Month"> </div>
+											<div class="col-lg-2">
+												<input type="text" class="form-control date datepicker-year" data-toggle="date-picker" data-single-date-picker="true" placeholder="Year"> </div>
+											<div class="col-lg-2">
+												<select class="form-control">
+													<option selected="">Main Street</option>
+													<option> </option>
+												</select>
+											</div>
+											<div class="col-lg-2">
+												<button type="button" class="btn theme-primary-button-color">Preview</button>
+											</div>
+										</div>
+										<div class="card m-t-10">
+											<div class="card-body p-10">
+												<div class="row">
+													<div class="col-lg-6">
 													
-													<div class="mw-100">
+													</div>
+													<div class="col-md-6">
 														<div class="pull-right">
-															<button type="button" class="btn theme-optional-button-color">Cancel</button>
-															<button type="button" class="btn theme-primary-button-color">Save</button>
+															<div class="d-inline-block align-middle">
+																<select class="form-control">
+																	<option selected="">Select</option>
+																	<option>Acrobat (PDF) File </option>
+																	<option>CSV (comma delimited) </option>
+																	<option>Excel 97 - 2003 </option>
+																	<option>Rich Text Format </option>
+																	<option>TIFF File </option>
+																	<option>Web Archive </option>
+																	<option>XPS Document </option>
+																</select>
+															</div>
+															<button type="button" class="btn theme-primary-button-color">Export</button>
+															<button type="button" class="btn theme-primary-button-color">Print</button>
+															<button type="button" class="btn theme-primary-button-color">Refresh</button>
 														</div>
 													</div>
-													
+												</div>
+											</div>
+										</div>
+										<!-- end card-->
+										<div class="card m-t-10">
+											<div class="card-body">
+												<div class="p-b-5 m-b-8">
+													<h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Money Owed Report </span>
+							</h4>
+													<div class="pull-right card-widgets"> <a data-toggle="collapse" href="#MonthlyMoneyreport" role="button" aria-expanded="false" aria-controls="MonthlyCustomerreport"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
+												</div>
+												<div id="MonthlyMoneyreport" class="collapse show">
+													<div class="table-responsive">
+														<table class="table table-striped">
+															<thead>
+																<tr>
+																	<th scope="col">Date of service </th>
+																	<th scope="col">Account <br>amount</th>
+																	<th scope="col">Drive Up Rate</th>
+																	<th scope="col">No of<br> Customers</th>
+																	<th scope="col">First Name</th>
+																	<th scope="col">Last Name</th>
+																	<th scope="col">HB</th>
+																	<th scope="col">MS</th>
+																	<th scope="col">OM</th>
+																	<th scope="col">Total</th>
+																	<th scope="col">Average<br> Wash Rate</th>
+																	<th scope="col">Total Owed <br>for HB</th>
+																	<th scope="col">Total Owed <br>for OM</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<th scope="row">10-10-2020</th>
+																	<td>700</td>
+																	<td>160</td>
+																	<td>10</td>
+																	<td>Peter </td>
+																	<td> Crusier</td>
+																	<td>3</td>
+																	<td>1</td>
+																	<td>2</td>
+																	<td>1</td>
+																	<td> 0.3589622</td>
+																	<td>42.5</td>
+																	<td>28.333</td>
+																</tr>
+																<tr>
+																	<th scope="row">11-10-2020</th>
+																	<td>100</td>
+																	<td>120</td>
+																	<td>10</td>
+																	<td>Peter </td>
+																	<td> Crusier</td>
+																	<td>2</td>
+																	<td>2</td>
+																	<td>4</td>
+																	<td>5</td>
+																	<td> 0.256</td>
+																	<td>20</td>
+																	<td>0</td>
+																</tr>
+																<tr>
+																	<th scope="row">12-10-2020</th>
+																	<td>100</td>
+																	<td>130</td>
+																	<td>0</td>
+																	<td>Paul </td>
+																	<td> Molive</td>
+																	<td>3</td>
+																	<td>5</td>
+																	<td>4</td>
+																	<td>1</td>
+																	<td> 0.1258</td>
+																	<td>0</td>
+																	<td>10.00</td>
+																</tr>
+															</tbody>
+															<tfoot class="table-foot font-weight-700">
+																<tr>
+																	<td>Total </td>
+																	<td> 900</td>
+																	<td> 410</td>
+																	<td colspan="3"> </td>
+																	<td>8 </td>
+																	<td> 8</td>
+																	<td>10 </td>
+																	<td>7 </td>
+																	<td>0.7407622 </td>
+																	<td>62.5 </td>
+																	<td>38.33 </td>
+																</tr>
+															</tfoot>
+														</table>
+														<ul class="pagination justify-content-end">
+															<input type="text" class="form-control m-r-8 paginationinput" placeholder="1">
+															<label class="d-inline-block  m-t-7 m-r-10">of 3</label> <i class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"></i> <i class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"></i>
+															<li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-previous  theme-secondary-color"></i></a></li>
+															<li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-skip-backward theme-secondary-color"></i></a></li>
+															<li class="page-item"><a class="page-link" href="#">1</a></li>
+															<li class="page-item"><a class="page-link" href="#">2</a></li>
+															<li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-forward theme-secondary-color"></i></a></li>
+															<li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-next theme-secondary-color"></i></a></li>
+														</ul>
+													</div>
 												</div>
 											</div>
 											<!-- end card-body -->
