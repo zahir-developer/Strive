@@ -3,6 +3,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as _ from 'underscore';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 
 @Component({
   selector: 'app-assign-detail',
@@ -12,6 +13,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 export class AssignDetailComponent implements OnInit {
   @Input() details?: any;
   @Input() employeeList?: any;
+  @Input() detailsJobServiceEmployee?: any;
   detailService: any = [];
   assignForm: FormGroup;
   clonedServices: any = [];
@@ -21,16 +23,18 @@ export class AssignDetailComponent implements OnInit {
   @Output() public closeAssignModel = new EventEmitter();
   clonedEmployee: any = [];
   dropdownSettings: IDropdownSettings = {};
+  deleteIds: any = [];
   constructor(
     private fb: FormBuilder,
-    private confirmationService: ConfirmationUXBDialogService
+    private confirmationService: ConfirmationUXBDialogService,
+    private detailServices: DetailService
   ) { }
 
   ngOnInit(): void {
     console.log(this.assignedDetailService, 'assignedDetailService');
     this.getDetailService();
     this.employeeDetail();
-    this.detailService = this.assignedDetailService;
+    this.detailService = this.detailsJobServiceEmployee;
     this.assignForm = this.fb.group({
       employeeId: [''],
       serviceId: ['']
@@ -57,13 +61,23 @@ export class AssignDetailComponent implements OnInit {
     //     selectedService.push(service);
     //   }
     // });
-    this.assignForm.value.employeeId.forEach(employee => {
+    const selectedService = [];
+    this.details.forEach(item => {
       this.assignForm.value.serviceId.forEach(service => {
+        if (item.ServiceId === service.item_id) {
+          selectedService.push(item);
+        }
+      });
+    });
+    this.assignForm.value.employeeId.forEach(employee => {
+      selectedService.forEach(service => {
         this.detailService.push({
-          ServiceId: service.item_id,
-          ServiceName: service.item_text,
+          ServiceId: service.ServiceId,
+          ServiceName: service.ServiceName,
           EmployeeId: employee.item_id,
-          EmployeeName: employee.item_text
+          EmployeeName: employee.item_text,
+          Cost: 67,
+          JobItemId: service.JobItemId
         });
       });
     });
@@ -78,9 +92,28 @@ export class AssignDetailComponent implements OnInit {
     console.log(this.detailService, 'assignedservice');
   }
 
+  onItemSelect(item: any) {
+    console.log(item);
+    this.employeeList = this.clonedEmployee;
+    if (this.detailService.length > 0) {
+      const assignedEmployee = _.where(this.detailService, { ServiceId: +item.item_id });
+      if (assignedEmployee.length > 0) {
+        assignedEmployee.forEach(emp => {
+          this.employeeList = this.employeeList.filter(elem => elem.item_id !== emp.EmployeeId);
+        });
+      } else {
+        this.employeeList = this.clonedEmployee;
+      }
+    }
+  }
+
   delete(service) {
-    this.detailService = this.detailService.filter(item => item.detailServiceId !== service.detailServiceId);
+    this.detailService = this.detailService.filter(item => item.JobItemId !== service.JobItemId);
     this.serviceByEmployeeId(service.ServiceId);
+    const deleteService = _.where(this.detailService, { JobItemId: +service.JobItemId });
+    if (deleteService.length > 0) {
+      this.deleteIds.push(deleteService[0]);
+    }
   }
 
   confirmDelete(service) {
@@ -129,11 +162,43 @@ export class AssignDetailComponent implements OnInit {
   }
 
   saveAssignedService() {
-    const assignServiceObj = {
-      isSave: true,
-      service: this.detailService
+    const assignServiceObj = [];
+    this.detailService.forEach(item => {
+      assignServiceObj.push({
+        jobServiceEmployeeId: 0,
+        jobItemId: item.JobItemId,
+        serviceId: item.ServiceId,
+        employeeId: item.EmployeeId,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 0,
+        createdDate: new Date(),
+        updatedBy: 0,
+        updatedDate: new Date()
+      });
+    });
+    this.deleteIds.forEach(item => {
+      assignServiceObj.push({
+        jobServiceEmployeeId: 0,
+        jobItemId: item.JobItemId,
+        serviceId: item.ServiceId,
+        employeeId: item.EmployeeId,
+        isActive: true,
+        isDeleted: true,
+        createdBy: 0,
+        createdDate: new Date(),
+        updatedBy: 0,
+        updatedDate: new Date()
+      });
+    });
+    const finalObj = {
+      jobServiceEmployee: assignServiceObj
     };
-    this.storedService.emit(assignServiceObj);
+    this.detailServices.saveEmployeeWithService(finalObj).subscribe(res => {
+      if (res.status === 'Success') {
+        this.closeAssignModel.emit();
+      }
+    });
   }
 
   closeModel() {
@@ -145,13 +210,13 @@ export class AssignDetailComponent implements OnInit {
   }
 
   getDetailService() {
-    this.details = this.details.map( item => {
+    this.clonedServices = this.details.map(x => Object.assign({}, x));
+    this.clonedServices = this.clonedServices.map(item => {
       return {
         item_id: item.ServiceId,
         item_text: item.ServiceName
       };
     });
-    this.clonedServices = this.details.map(x => Object.assign({}, x));
     this.dropdownSettings = {
       singleSelection: false,
       defaultOpen: false,

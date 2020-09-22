@@ -218,7 +218,7 @@
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                (click)="assignEmployee()" [disabled]="isView">Assign</button>
+                                (click)="assignEmployee()" >Assign</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
@@ -229,7 +229,7 @@
                                 [disabled]="isView" (click)="pay()">Pay</button>
                         </div>
                     </div>
-                    <!-- <div class="row">
+                    <!-- <div class="row"> [disabled]="!isAssign && !isView"
                         <div class="col-sm-3">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
                                 (click)="saveDetail()">Save</button>
@@ -255,14 +255,14 @@
                         Copy</button>
                     <button type="button" class="btn theme-primary-button-color m-r-5" (click)="print()"
                         [disabled]="true">Vehicle Copy</button>
-                    <button type="button" *ngIf="false" class="btn theme-primary-button-color" [disabled]="true"
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes"
                         (click)="pastNotes()">View Past Client Notes</button>
                 </span>
                 <span class="mw-100 pull-right">
                     <button type="button" class="btn theme-primary-button-color" (click)="saveDetail()"
                         [disabled]="isView">Save</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit"
-                        (click)="deleteDetail()" [disabled]="isView">Delete</button>
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit && !isView"
+                        (click)="deleteDetail()">Delete</button>
                 </span>
             </div>
         </div>
@@ -274,7 +274,7 @@
 <p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
     [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
     <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)"
-        (closeAssignModel)="closeAssignModel()" [details]="details" [employeeList]="employeeList"
+        (closeAssignModel)="closeAssignModel()" [details]="detailItems" [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList"
         [assignedDetailService]="assignedDetailService"></app-assign-detail>
 </p-dialog>
 

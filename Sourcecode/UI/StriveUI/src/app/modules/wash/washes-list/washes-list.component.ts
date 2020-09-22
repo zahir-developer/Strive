@@ -3,6 +3,7 @@ import { VehicleService } from 'src/app/shared/services/data-service/vehicle.ser
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-washes-list',
@@ -22,7 +23,7 @@ export class WashesListComponent implements OnInit {
   collectionSize: number = 0;
   dashboardDetails: any;
   constructor(private washes: WashService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
 
   ngOnInit() {
     this.washes.getDashBoard();
@@ -117,5 +118,9 @@ export class WashesListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+
+  pay(wash) {
+    this.router.navigate(['/sales'], { queryParams: { ticketNumber: wash.TicketNumber } });
   }
 }

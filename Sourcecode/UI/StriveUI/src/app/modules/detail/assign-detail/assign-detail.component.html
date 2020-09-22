@@ -6,8 +6,8 @@
                 <option hidden selected value="">Choose</option>
                 <option *ngFor="let d of details" value={{d.ServiceId}}>{{d.ServiceName}}</option>
             </select> -->
-            <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings" [data]="details"
-                formControlName="serviceId">
+            <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings" [data]="clonedServices"
+                formControlName="serviceId" (onSelect)="onItemSelect($event)">
             </ng-multiselect-dropdown>
         </div>
         <div class="form-group col-md-3">
@@ -50,9 +50,9 @@
                             <th scope="col">
                                 Servcie
                             </th>
-                            <!-- <th scope="col">
+                            <th scope="col">
                                 Cost
-                            </th> -->
+                            </th>
                             <th scope="col">
                                 Employee Name
                             </th>
@@ -64,8 +64,8 @@
                             <td>
                                 {{detail.ServiceName}}
                             </td>
-                            <!-- <td>{{detail.Cost}}
-                            </td> -->
+                            <td>{{detail.Cost}}
+                            </td>
                             <td>{{detail.EmployeeName}}
                             </td>
                             <td>
