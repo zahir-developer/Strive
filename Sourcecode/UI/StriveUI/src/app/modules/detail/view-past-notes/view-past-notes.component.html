@@ -1,15 +1,30 @@
-<div *ngFor="let vehicle of viewNotes">
-    <div class="row">
-        <div class="col-sm-12">
-            <span>Vehicle Model: {{ vehicle.VehicleModel }}</span>
-            <span>Vehicle Make: {{ vehicle.VehicleMake }}</span>
-            <span>Vehicle Color: {{ vehicle.VehicleColor }}</span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <textarea class="form-control m-t-5 m-b-5 notes-textarea" disabled name="note" [(ngModel)]="vehicle.Notes"
-                rows="3"></textarea>
-        </div>
-    </div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Vehicle Number
+                </th>
+                <th scope="col">
+                    Make/Model/Color
+                </th>
+                <th scope="col">
+                    Notes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let notes of viewNotes | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                <td>{{notes.VehicleNumber}}
+                </td>
+                <td>{{notes.VehicleMake}} - {{notes.VehicleModel}} - {{notes.VehicleColor}}
+                </td>
+                <td>{{notes.Notes}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+        [boundaryLinks]="true" class="d-flex justify-content-end">
+    </ngb-pagination>
 </div>

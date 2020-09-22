@@ -69,6 +69,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   viewNotesDialog: boolean;
   outsideServiceId: any;
   @Input() isView?: any;
+  detailItems: any = [];
+  detailsJobServiceEmployee: any = [];
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -156,6 +158,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         bay: this.bayScheduleObj.bayId,
         inTime
       });
+      this.detailForm.controls.inTime.disable();
       console.log(this.bayScheduleObj, 'bayScheduleObj');
     }
   }
@@ -172,6 +175,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailForm.patchValue({
           dueTime: outTime
         });
+        this.detailForm.controls.dueTime.disable();
         console.log(washTime, 'washTime');
       }
     });
@@ -390,7 +394,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getWashById() {
     console.log(this.additional);
     this.getClientVehicle(this.selectedData?.Details?.ClientId);
+    this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
     this.note = this.selectedData.Details.Notes;
+    this.detailItems = this.selectedData.DetailsItem;
+    this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
+      this.selectedData.DetailsJobServiceEmployee : [];
     this.detailForm.patchValue({
       barcode: this.selectedData.Details.Barcode,
       bay: this.selectedData.Details.BayId,
@@ -407,6 +415,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 19)[0]?.ServiceId,
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
+    this.detailForm.controls.bay.disable();
+    this.detailForm.controls.inTime.disable();
+    this.detailForm.controls.dueTime.disable();
     // this.getByBarcode(this.selectedData?.Details?.Barcode);
     this.ticketNumber = this.selectedData?.Details?.TicketNumber;
     this.washItem = this.selectedData.DetailsItem;
@@ -536,6 +547,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.detailForm.invalid) {
       return;
     }
+    this.detailForm.controls.inTime.enable();
+    this.detailForm.controls.dueTime.enable();
+    if (this.isEdit) {
+      this.detailForm.controls.bay.enable();
+    }
     this.additional.forEach(element => {
       if (element.IsChecked) {
         this.additionalService.push(element);
@@ -642,12 +658,26 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.spinner.hide();
         console.log(res);
         if (res.status === 'Success') {
+          this.isAssign = true;
+          this.getDetailByID(99);
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           this.refreshDetailGrid.emit();
         }
       });
     }
+  }
+
+  getDetailByID(jobID) {
+    this.detailService.getDetailById(jobID).subscribe(res => {
+      if (res.status === 'Success') {
+        const details = JSON.parse(res.resultData);
+        this.selectedData = details.DetailsForDetailId;
+        this.detailItems = this.selectedData.DetailsItem;
+        this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
+          this.selectedData.DetailsJobServiceEmployee : [];
+      }
+    });
   }
 
   getAllBayById() {
@@ -824,7 +854,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   storedService(event) {
     this.assignedDetailService = event.service;
-    this.isAssign = true;
     this.showDialog = false;
   }
 

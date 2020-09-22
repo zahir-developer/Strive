@@ -173,6 +173,7 @@ export class DetailScheduleComponent implements OnInit {
   closeModal() {
     this.showDialog = false;
     this.isEdit = false;
+    this.isView = false;
   }
 
   refreshDetailGrid() {

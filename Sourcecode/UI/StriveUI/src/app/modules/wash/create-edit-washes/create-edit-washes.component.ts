@@ -5,6 +5,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { isEmpty } from 'rxjs/operators';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { Router } from '@angular/router';
+import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-wash.component';
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -13,6 +15,7 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 })
 export class CreateEditWashesComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
+  @ViewChild(PrintWashComponent) printWashComponent: PrintWashComponent;
   washForm: FormGroup;
   timeIn: any;
   timeOut: any;
@@ -52,10 +55,13 @@ export class CreateEditWashesComponent implements OnInit {
   clientId: any;
   address: any;
   closeclientDialog: any;
+  printData: any;
+  isPrint: boolean;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
-    private wash: WashService, private client: ClientService) { }
+    private wash: WashService, private client: ClientService, private router: Router) { }
 
   ngOnInit() {
+    this.isPrint = false;
     this.formInitialize();
     this.timeInDate = new Date();
     const dt = new Date();
@@ -310,6 +316,23 @@ getJobType() {
         this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
         this.type = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
+        if (this.isEdit) {
+          vehicle.VehicleDetails.forEach(item => {
+            if (this.selectedData.Washes[0].Make === item.CodeId) {
+              this.selectedData.Washes[0].vehicleMake = item.CodeValue;
+            } else if (this.selectedData.Washes[0].Model === item.CodeId) {
+              this.selectedData.Washes[0].vehicleModel = item.CodeValue;
+            } else if (this.selectedData.Washes[0].Color === item.CodeId) {
+              this.selectedData.Washes[0].vehicleColor = item.CodeValue;
+            }
+          });
+          if (this.selectedData.Washes !== null && this.selectedData.WashItem !== null) {
+            this.printData = {
+              Details: this.selectedData.Washes[0],
+              DetailsItem: this.selectedData.WashItem
+            };
+          }
+        }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -619,6 +642,15 @@ getJobType() {
         this.clientFormComponent.clientForm.reset();
       }
     });
+  }
+
+  pay() {
+    this.router.navigate(['/sales'], { queryParams: { ticketNumber: this.ticketNumber } });
+  }
+
+  print() {
+    this.isPrint = true;
+    this.printWashComponent.print();
   }
 }
 
