@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessLogic.Admin.ExternalApi;
+using System;
 
 namespace Admin.Api.Controllers
 {
@@ -58,7 +59,7 @@ namespace Admin.Api.Controllers
         [HttpPost, Route("Jenkins")]
         public void Jenkins()
         {
-           
+            throw NotImplementedException();
         }
 
         #endregion
