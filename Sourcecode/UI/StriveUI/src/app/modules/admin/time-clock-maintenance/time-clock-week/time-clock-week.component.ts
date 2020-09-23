@@ -188,4 +188,13 @@ export class TimeClockWeekComponent implements OnInit {
     this.cancelCheckInPage.emit();
   }
 
+  totalHoursCalculation() {
+    console.log(this.timeClockList, 'calculation');
+    this.timeClockList.forEach( item => {
+      item.checkInDetail.forEach( checkIn => {
+        
+      });
+    });
+  }
+
 }

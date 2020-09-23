@@ -7,10 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ViewPastNotesComponent implements OnInit {
   @Input() viewNotes?: any;
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor() { }
 
   ngOnInit(): void {
     console.log(this.viewNotes, 'viewNotes');
+    this.collectionSize = Math.ceil(this.viewNotes.length / this.pageSize) * 10;
   }
 
 }

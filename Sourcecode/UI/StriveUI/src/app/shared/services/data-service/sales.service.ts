@@ -40,4 +40,7 @@ export class SalesService {
  rollback(ticketNo) {
   return this.http.delete(`${UrlConfig.totalUrl.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
  }
+ getServiceAndProduct() {
+  return this.http.get(`${UrlConfig.totalUrl.getServiceAndProduct}`);
+ }
 }

@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
@@ -15,13 +16,18 @@ namespace Strive.ResourceAccess
     {
         public DetailsRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddDetails(DetailsDto details)
+        public int AddDetails(DetailsDto details)
         {
-            return dbRepo.InsertPc(details, "JobId");
+            return dbRepo.InsertPK<DetailsDto>(details, "JobId");    
         }
+        
         public bool UpdateDetails(DetailsDto details)
         {
             return dbRepo.UpdatePc(details);
+        }
+        public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
+        {
+            return dbRepo.InsertPc(jobServiceEmployee,"JobServiceEmployeeId");
         }
         public BaySchedulesDetails GetBaySchedulesDetails(DetailsGridDto detailsGrid)
         {

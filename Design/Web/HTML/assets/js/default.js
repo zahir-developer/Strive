@@ -1,4 +1,3 @@
-
 //sidebar js //
 
 $(document).ready(function () {
@@ -118,6 +117,37 @@ $(document).ready(function () {
         nonSelectedText: "Select an Option",
     });
 });
+
+//report screen 
+	$(document).ready(function () {
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $(".datepicker-month").datepicker({
+        format: "mm-yyyy",
+        todayHighlight: true,
+        startDate: today,
+        autoclose: true,
+    });
+  
+});
+
+	$(document).ready(function () {
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $(".datepicker-year").datepicker({
+       format: "yyyy",
+ startView: 'decade',
+    minView: 'decade',
+    viewSelect: 'decade',
+	minViewMode:2,
+        autoclose: true,
+    });
+
+});
+
+
 
 // file upload
 $(".custom-file-input").on("change", function () {

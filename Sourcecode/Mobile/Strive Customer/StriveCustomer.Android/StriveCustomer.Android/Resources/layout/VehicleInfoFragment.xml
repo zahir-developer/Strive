@@ -1,0 +1,40 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center | left">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty"
+            android:textColor="@color/profileInfoColor"
+            android:text="Vehicle List"
+            android:textSize="@dimen/textSixteen"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/vehicleInfoAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_marginBottom="@dimen/fifteen"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Add"
+            android:textColor="@android:color/white"
+            android:background ="@drawable/primarybutton"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/availableVehicles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</LinearLayout>

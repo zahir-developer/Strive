@@ -12,10 +12,17 @@ import { TodayScheduleComponent } from './today-schedule/today-schedule.componen
 import { AssignDetailComponent } from './assign-detail/assign-detail.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ViewPastNotesComponent } from './view-past-notes/view-past-notes.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [DetailComponent, DetailScheduleComponent, CreateEditDetailScheduleComponent, TodayScheduleComponent, AssignDetailComponent, ViewPastNotesComponent],
+  declarations: [
+    DetailComponent,
+    DetailScheduleComponent,
+    CreateEditDetailScheduleComponent,
+    TodayScheduleComponent,
+    AssignDetailComponent,
+    ViewPastNotesComponent],
   imports: [
     CommonModule,
     DetailRoutingModule,
@@ -23,7 +30,8 @@ import { ViewPastNotesComponent } from './view-past-notes/view-past-notes.compon
     ReactiveFormsModule,
     FormsModule,
     DialogModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    NgbPaginationModule
   ]
 })
 export class DetailModule { }

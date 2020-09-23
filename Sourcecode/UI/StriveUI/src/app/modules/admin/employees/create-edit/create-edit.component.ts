@@ -308,7 +308,7 @@ export class CreateEditComponent implements OnInit {
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
       birthDate: '',
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
-      immigrationStatus: this.personalform.value.immigrationStatus,
+      immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
       isDeleted: false,
     };

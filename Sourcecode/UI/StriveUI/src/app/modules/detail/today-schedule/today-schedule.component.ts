@@ -40,7 +40,7 @@ export class TodayScheduleComponent implements OnInit {
             if (isData.length > 0) {
               const services = [];
               const detailService = _.where(isData, { ServiceTypeName: 'Details' });
-              const outsideService = _.where(isData, { ServiceTypeName: 'OutSide Service' });
+              const outsideService = _.where(isData, { ServiceTypeName: 'Outside Services' });
               detailService.forEach(service => {
                 if (outsideService.length > 0) {
                   outsideService.forEach(outside => {

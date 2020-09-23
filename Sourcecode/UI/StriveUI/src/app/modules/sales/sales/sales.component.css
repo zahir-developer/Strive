@@ -1,3 +1,7 @@
-.buttonSize {
-    font-size: 12px !important;
+.inputSize {
+    width: 50% !important;
+}
+.scrollbar {
+    overflow-y: auto;
+    max-height: 300px;
 }

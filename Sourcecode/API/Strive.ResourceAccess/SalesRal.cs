@@ -31,6 +31,12 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+
+        public bool SaveProductItem(SalesProductItemDto salesProductItemDto)
+        {
+            return dbRepo.InsertPc(salesProductItemDto, "JobProductItemId");
+        }
+
         public bool DeleteItemById(int jobItemId)
         {
             DynamicParameters dynParams = new DynamicParameters();

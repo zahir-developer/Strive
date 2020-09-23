@@ -38,6 +38,7 @@ using Strive.BusinessLogic.Schedule;
 using Strive.BusinessLogic.Washes;
 using Strive.BusinessLogic.Details;
 using Strive.BusinessLogic.Sales;
+using Strive.BusinessLogic.Admin.ExternalApi;
 
 namespace Admin.API
 {
@@ -77,6 +78,7 @@ namespace Admin.API
             services.AddTransient<IDetailsBpl, DetailsBpl>();
             services.AddTransient<IScheduleBpl, ScheduleBpl>();
             services.AddTransient<ISalesBpl, SalesBpl>();
+            services.AddTransient<IExternalApiBpl, ExternalApiBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
