@@ -55,6 +55,12 @@ namespace Admin.Api.Controllers
             _bplManager.GetGoogleCalendarEvents();
         }
 
+        [HttpPost, Route("Jenkins")]
+        public void Jenkins()
+        {
+           
+        }
+
         #endregion
 
 
