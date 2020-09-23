@@ -46,15 +46,8 @@ namespace StriveCustomer.Android.Fragments
             nextButton.Click += NextButton_Click;
             additionalServicesAdapter = new AdditionalServicesAdapter(Context,MembershipDetails.filteredList.ServicesWithPrice);
             additionalService.SetAdapter(additionalServicesAdapter);
-            additionalService.ItemClick += AdditionalService_ItemClick;
             return rootview;
         }
-
-        private void AdditionalService_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            
-        }
-
         private void NextButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;

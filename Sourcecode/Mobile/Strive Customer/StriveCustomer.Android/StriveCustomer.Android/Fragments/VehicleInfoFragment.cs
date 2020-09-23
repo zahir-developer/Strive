@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
+using StriveCustomer.Android.Adapter;
 
 namespace StriveCustomer.Android.Fragments
 {
@@ -25,6 +26,8 @@ namespace StriveCustomer.Android.Fragments
         private Button addButton;
         private VehicleInfoEditFragment infoEditFragment;
         private RecyclerView vehicleview;
+        VehicleDetailsAdapter vehicleDetailsAdapter;
+        List<string> setdataStrings;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -37,9 +40,18 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.VehicleInfoFragment, null);
             infoEditFragment = new VehicleInfoEditFragment();
+            setdataStrings = new List<string>();
+            for(var i = 0; i<3;i++)
+            {
+                setdataStrings.Add("Position"+i);
+            }
+            vehicleDetailsAdapter = new VehicleDetailsAdapter(Context,setdataStrings);
             addButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoAdd);
+            
             vehicleview = rootview.FindViewById<RecyclerView>(Resource.Id.availableVehicles);
-
+            var layoutManager = new LinearLayoutManager(Context);
+            vehicleview.SetLayoutManager(layoutManager);
+            vehicleview.SetAdapter(vehicleDetailsAdapter);
             addButton.Click += AddButton_Click;
             return rootview;
         }
