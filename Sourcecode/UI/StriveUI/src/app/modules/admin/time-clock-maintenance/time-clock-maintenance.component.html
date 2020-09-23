@@ -5,7 +5,7 @@
       <nav class="col-12 p-0" aria-label="breadcrumb">
         <!--bread crumb-->
         <ol class="breadcrumb font-size--9">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a>Admin</a></li>
           <li class="breadcrumb-item active" aria-current="page">Time Clock Maintenance</li>
         </ol>
       </nav>
@@ -78,7 +78,7 @@
                       <tbody>
                         <tr
                           *ngFor="let timeClock of timeClockEmployeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                          <th scope="row"><span class="text-underline theme-primary-color font-size--9"
+                          <th scope="row" (click)="employeeCheckInDetail(timeClock)"><span class="text-underline theme-primary-color font-size--9"
                               style="cursor: pointer;">{{ timeClock.EmployeeId }}</span></th>
                           <td (click)="employeeCheckInDetail(timeClock)"><span
                               class="text-underline theme-primary-color font-size--9"
