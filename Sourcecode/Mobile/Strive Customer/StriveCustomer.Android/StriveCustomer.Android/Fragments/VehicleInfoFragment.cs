@@ -8,6 +8,7 @@ using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -19,11 +20,11 @@ using Strive.Core.ViewModels.Customer;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class VehicleInfoFragment : MvxFragment<MyProfileInfoViewModel>
+    public class VehicleInfoFragment : MvxFragment<VehicleInfoViewModel>
     {
-        private ListView vehicleMake;
         private Button addButton;
         private VehicleInfoEditFragment infoEditFragment;
+        private RecyclerView vehicleview;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -37,7 +38,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.VehicleInfoFragment, null);
             infoEditFragment = new VehicleInfoEditFragment();
             addButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoAdd);
-            vehicleMake = rootview.FindViewById<ListView>(Resource.Id.availableVehicles);
+            vehicleview = rootview.FindViewById<RecyclerView>(Resource.Id.availableVehicles);
 
             addButton.Click += AddButton_Click;
             return rootview;

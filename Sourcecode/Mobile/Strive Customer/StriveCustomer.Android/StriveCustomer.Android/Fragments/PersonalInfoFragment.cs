@@ -66,12 +66,17 @@ namespace StriveCustomer.Android.Fragments
         public async void GetClientInfo()
         {
             await this.ViewModel.GetClientById();
-            fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName ?? "";
-            contactNumberView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber ?? "";
-            addressView.Text = ViewModel.customerInfo.Status.LastOrDefault().Address1 ?? "";
-            zipCodeView.Text = ViewModel.customerInfo.Status.LastOrDefault().Zip ?? "";
-            secPhoneView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2 ?? "";
-            emailView.Text = ViewModel.customerInfo.Status.LastOrDefault().Email ?? "";
+
+            if(ViewModel.customerInfo.Status.Count > 0)
+            {
+                fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName ;
+                contactNumberView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
+                addressView.Text = ViewModel.customerInfo.Status.LastOrDefault().Address1;
+                zipCodeView.Text = ViewModel.customerInfo.Status.LastOrDefault().Zip;
+                secPhoneView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
+                emailView.Text = ViewModel.customerInfo.Status.LastOrDefault().Email;
+            }
+            
         }
     }
 }

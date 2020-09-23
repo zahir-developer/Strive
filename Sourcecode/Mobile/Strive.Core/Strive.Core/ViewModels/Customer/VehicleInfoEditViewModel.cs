@@ -67,7 +67,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-                _userDialog.Alert("Please select the vehicle specifications");
+                _userDialog.Alert("Please save the vehicle specifications");
             }
         }
 
@@ -150,7 +150,7 @@ namespace Strive.Core.ViewModels.Customer
 
         public void ShowAlert()
         {
-            _userDialog.Alert("Please select the vehicle specifications");
+            _userDialog.Alert("Please save the vehicle specifications");
         }
 
 
