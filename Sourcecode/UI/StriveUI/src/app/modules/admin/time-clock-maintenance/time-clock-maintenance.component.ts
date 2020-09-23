@@ -46,7 +46,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.selectedEmployee = '';
     this.isTimeClockWeekPage = false;
     this.weeklyDateAssign();
-    this.getEmployeeList();
+    // this.getEmployeeList();
     // this.getTimeClockEmployeeDetails();
   }
 
@@ -74,8 +74,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.timeClockMaintenanceService.getTimeClockEmployeeDetails(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         const timeClock = JSON.parse(data.resultData);
-        this.timeClockEmployeeDetails = timeClock.Result;
-
+        this.timeClockEmployeeDetails = timeClock.Result.TimeClockEmployeeDetailViewModel;
+        this.employeeList = timeClock.Result.EmployeeViewModel;
         if (this.timeClockEmployeeDetails.length === 0) {
           this.isTimeClockEmpty = true;
           console.log(this.timeClockEmployeeDetails);
