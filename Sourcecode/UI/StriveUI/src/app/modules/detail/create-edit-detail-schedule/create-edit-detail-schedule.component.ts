@@ -659,10 +659,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         console.log(res);
         if (res.status === 'Success') {
           this.isAssign = true;
-          this.getDetailByID(99);
+          const jobID = JSON.parse(res.resultData);
+          this.getDetailByID(jobID.Status);
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
-          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-          this.refreshDetailGrid.emit();
+          // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+          // this.refreshDetailGrid.emit();
         }
       });
     }

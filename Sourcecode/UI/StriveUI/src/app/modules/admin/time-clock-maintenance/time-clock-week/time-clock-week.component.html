@@ -5,8 +5,9 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Time Clock Maintenance</li>
+                    <li class="breadcrumb-item"><a (click)="backToTimeClockPage()">Admin</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" (click)="backToTimeClockPage()">Time Clock
+                        Maintenance</li>
                 </ol>
             </nav>
             <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
@@ -73,8 +74,7 @@
                                                                                 [(ngModel)]="time.InTime"
                                                                                 [ngModelOptions]="{standalone: true}"
                                                                                 [showMeridian]="true"
-                                                                                [showMinutes]="true"
-                                                                                [arrowkeys]="false"
+                                                                                [showMinutes]="true" [arrowkeys]="false"
                                                                                 [showSpinners]="true"
                                                                                 [showMeridian]="true"
                                                                                 (ngModelChange)="inTime($event)">
@@ -94,8 +94,7 @@
                                                                                 [(ngModel)]="time.OutTime"
                                                                                 [ngModelOptions]="{standalone: true}"
                                                                                 [showMeridian]="true"
-                                                                                [showMinutes]="true"
-                                                                                [arrowkeys]="false"
+                                                                                [showMinutes]="true" [arrowkeys]="false"
                                                                                 [showSpinners]="true"
                                                                                 [showMeridian]="true"
                                                                                 (ngModelChange)="outTime($event, time)">
@@ -113,7 +112,7 @@
                                                                     <td>
                                                                         <select
                                                                             class="form-control input-table rounded-0"
-                                                                            [(ngModel)]="time.RoleId">
+                                                                            [(ngModel)]="time.RoleId" (change)="totalHoursCalculation()">
                                                                             <option value="" hidden selected>Select
                                                                                 Role</option>
                                                                             <option *ngFor="let role of roleList"
@@ -125,7 +124,7 @@
                                                                     <td>
                                                                         <input type="text"
                                                                             class="form-control rounded-0 input-table text-right"
-                                                                            [(ngModel)]="time.TotalHours"> </td>
+                                                                            [(ngModel)]="time.TotalHours"  [disabled]="true"> </td>
                                                                 </tr>
                                                                 <tr *ngIf="week.checkInDetail.length === 0">
                                                                     <td colspan="4" class="text-center">
@@ -147,9 +146,12 @@
                                                     <td class="w-45"></td>
                                                     <td></td>
                                                     <td class="p-t-10"><span class="font-weight-600 mr-2">Wash
-                                                            Rate:</span>{{ totalWeekDetail.WashRate ? totalWeekDetail.WashRate : 0 }} </td>
+                                                            Rate:</span>{{ totalWeekDetail.WashRate ? totalWeekDetail.WashRate : 0 }}
+                                                    </td>
                                                     <td class="p-t-10"> <span class="font-weight-600 mr-2">Total Wash
-                                                            Hours:</span> {{ totalWeekDetail.TotalWashHours ? totalWeekDetail.TotalWashHours : 0 }} </td>
+                                                            Hours:</span>
+                                                        {{ totalWeekDetail.TotalWashHours ? totalWeekDetail.TotalWashHours : 0 }}
+                                                    </td>
                                                     <td class="p-t-10 p-r-20">
                                                         <p class="mb-0"><span
                                                                 class="font-weight-600 mr-2">Total:</span>{{ totalWeekDetail.WashAmount ? ( totalWeekDetail.WashAmount | currency) : ( 0 | currency ) }}
@@ -161,12 +163,14 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td><span class="font-weight-600 mr-2">Detail
-                                                            Rate:</span>{{ totalWeekDetail.DetailRate ? totalWeekDetail.DetailRate : 0 }}</td>
+                                                            Rate:</span>{{ totalWeekDetail.DetailRate ? totalWeekDetail.DetailRate : 0 }}
+                                                    </td>
                                                     <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
                                                         {{ totalWeekDetail.TotalDetailHours ? totalWeekDetail.TotalDetailHours : 0 }}
                                                     </td>
                                                     <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
-                                                            Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }} </td>
+                                                            Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }}
+                                                    </td>
                                                 </tr>
                                                 <tr class="text-right">
                                                     <td></td>
@@ -201,10 +205,10 @@
 
                                     <div class="mw-100">
                                         <div class="pull-right">
+                                            <button type="button" class="btn theme-optional-button-color m-r-5"
+                                                (click)="backToTimeClockPage()">Cancel</button>
                                             <button type="button" class="btn theme-primary-button-color m-r-5"
                                                 (click)="saveWeeklyhours()">Save</button>
-                                            <button type="button" class="btn theme-optional-button-color"
-                                                (click)="backToTimeClockPage()">Cancel</button>
                                         </div>
                                     </div>
 

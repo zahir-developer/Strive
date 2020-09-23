@@ -1,2 +1,8 @@
+popover-container.test {
+    display: inline-table !important;
+}
 
+body .popover-content.popover-body {
+    padding: 0rem !important;
+}
  
