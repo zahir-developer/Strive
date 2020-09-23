@@ -541,5 +541,8 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllServiceAndProductList.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspDeleteTimeClockEmployee.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspDeleteJobItems.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobPaymentDetail.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobProductItem.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspRollBackPayment.sql" />
   </ItemGroup>
 </Project>

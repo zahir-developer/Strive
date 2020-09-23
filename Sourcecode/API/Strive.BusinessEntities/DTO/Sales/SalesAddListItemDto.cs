@@ -11,5 +11,6 @@ namespace Strive.BusinessEntities.DTO.Sales
     {
         public Job Job { get; set; }
         public JobItem JobItem { get; set; }
+        public JobProductItem JobProductItem { get; set; }
     }
 }

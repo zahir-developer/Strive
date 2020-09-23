@@ -503,7 +503,7 @@ a.fc-more:hover {
     color: #fff !important;
     background-color: #A7A7A7 !important;
     border-color: #DDE7E9 !important;
-	opacity: 65%;
+	/* opacity: 65%; */
 	font-weight:600;
 
 }

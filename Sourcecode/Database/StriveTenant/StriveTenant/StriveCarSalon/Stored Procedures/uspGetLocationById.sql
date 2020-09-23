@@ -75,7 +75,7 @@ LocationId,
 IsActive,
 IsDeleted
 
-FROM [CON].[tblDrawer]
+FROM [StriveCarSalon].[tblDrawer]
 WHERE LocationId =@tblLocationId AND
 isnull(IsActive,1) = 1 AND
 isnull(isDeleted,0) = 0
