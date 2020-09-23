@@ -46,12 +46,7 @@ namespace StriveCustomer.Android.Views
             dashActionButton = FindViewById<FloatingActionButton>(Resource.Id.dashActionButton);
             dashActionButton.Click += DashActionButton_Click;
             setInitialFrag();
-            checkClientInfo();
-        }
-
-        private async void checkClientInfo()
-        {
-           CustomerInfo.customerPersonalInfo = await MyProfileInfoViewModel.getClientById();
+            
         }
 
         private void DashActionButton_Click(object sender, EventArgs e)

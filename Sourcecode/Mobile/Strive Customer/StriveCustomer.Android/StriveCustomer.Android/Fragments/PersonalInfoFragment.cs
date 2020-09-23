@@ -20,7 +20,7 @@ using Strive.Core.ViewModels.Customer;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class PersonalInfoFragment : MvxFragment<MyProfileInfoViewModel>
+    public class PersonalInfoFragment : MvxFragment<PersonalInfoViewModel>
     {
         TextView fullNameView;
         TextView contactNumberView;
@@ -30,7 +30,6 @@ namespace StriveCustomer.Android.Fragments
         TextView emailView;
         ImageView personalEditInfo;
         PersonalInfoEditFragment personalEdit;
-        MyProfileInfoViewModel myProfile = new MyProfileInfoViewModel();
         CustomerPersonalInfo customerPersonalInfo { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,7 +42,7 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.PersonalInfoFragment, null);
-            ViewModel = new MyProfileInfoViewModel();
+            this.ViewModel = new PersonalInfoViewModel();
             personalEdit = new PersonalInfoEditFragment();
             personalEditInfo = rootview.FindViewById<ImageView>(Resource.Id.personalInfoEdit);
             fullNameView = rootview.FindViewById<TextView>(Resource.Id.fullName);
@@ -54,13 +53,7 @@ namespace StriveCustomer.Android.Fragments
             emailView = rootview.FindViewById<TextView>(Resource.Id.email);
 
             personalEditInfo.Click += PersonalEditInfo_Click;
-            fullNameView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().FirstName;
-            contactNumberView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().PhoneNumber;
-            addressView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().Address1;
-            zipCodeView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().Zip;
-            secPhoneView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().PhoneNumber2;
-            emailView.Text = CustomerInfo.customerPersonalInfo.Status.LastOrDefault().Email;
-
+            GetClientInfo();
             return rootview;
         }
 
@@ -68,6 +61,17 @@ namespace StriveCustomer.Android.Fragments
         {
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, personalEdit).Commit();
+        }
+
+        public async void GetClientInfo()
+        {
+            await this.ViewModel.GetClientById();
+            fullNameView.Text = ViewModel.customerInfo.Status.LastOrDefault().FirstName ?? "";
+            contactNumberView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber ?? "";
+            addressView.Text = ViewModel.customerInfo.Status.LastOrDefault().Address1 ?? "";
+            zipCodeView.Text = ViewModel.customerInfo.Status.LastOrDefault().Zip ?? "";
+            secPhoneView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2 ?? "";
+            emailView.Text = ViewModel.customerInfo.Status.LastOrDefault().Email ?? "";
         }
     }
 }

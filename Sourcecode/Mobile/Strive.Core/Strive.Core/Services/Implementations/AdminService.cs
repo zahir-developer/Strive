@@ -161,11 +161,6 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get, Id);
         }
 
-        public async Task<CustomerPersonalInfo> GetClientById(int Id)
-        {
-            return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get, Id);
-        }
-
         public async Task<CustomerResponse> SaveClientInfo(CustomerUpdateInfo infoModel)
         {
             return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
@@ -180,15 +175,12 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
         }
-
-    }
-
         public async Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle)
         {
             return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_UPDATE_VEHICLE_INFO, HttpMethod.Post, updateVehicle);
         }
-    }
 
+    }
     public static class RestUtils
     {
         public static string BuildQuery (string uri,string parameter, int value)
@@ -203,3 +195,4 @@ namespace Strive.Core.Services.Implementations
        
     }
 }
+
