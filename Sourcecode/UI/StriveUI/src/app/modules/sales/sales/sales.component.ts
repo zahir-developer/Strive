@@ -12,6 +12,7 @@ import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.
 import * as moment from 'moment';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -24,11 +25,18 @@ export class SalesComponent implements OnInit {
   targetId = '';
   enableButton = false;
   showPopup = false;
+  products = [];
+  serviceAndProduct = [];
+  Products = [];
   isInvalidGiftcard = false;
   discount = '';
+  isDisableService = false;
   discounts = [];
+  outsideServices = [];
+  upCharges = [];
   selectedDiscount = [];
   filteredItem = [];
+  airfreshnerService = [];
   creditcashback = 0;
   cashback = 0;
   selected = false;
@@ -46,7 +54,8 @@ export class SalesComponent implements OnInit {
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService, 
-    private giftcardService: GiftCardService, private spinner: NgxSpinnerService) { }
+    private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
+    private route: ActivatedRoute) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -59,6 +68,7 @@ export class SalesComponent implements OnInit {
   giftcardsubmitted = false;
   total = '';
   tax = '';
+  submitted = false;
   enableAdd = false;
   grandTotal = '';
   cash = 0;
@@ -69,10 +79,45 @@ export class SalesComponent implements OnInit {
   balanceDue = 0;
   Cashback = '';
   ngOnInit(): void {
+    const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
+    if (paramsData !== null) {
+      this.ticketNumber = paramsData;
+      this.getDetailByTicket();
+    }
     this.giftCardFromInit();
     this.addItemFormInit();
-    this.getAllService();
+    // this.getAllService();
     this.getServiceForDiscount();
+    this.getAllServiceandProduct();
+  }
+  getAllServiceandProduct() {
+    this.salesService.getServiceAndProduct().subscribe(data => {
+      if (data.status === 'Success') {
+        console.log(data.status, 'getService');
+        const services = JSON.parse(data.resultData);
+        if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
+          this.services = services.ServiceAndProductList.Service.map(item => {
+            return {
+              id: item.ServiceId,
+              name: item.ServiceName.trim(),
+              price: item.Cost,
+              type: 'service'
+            };
+          });
+        }
+        if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Product.length > 0) {
+          this.products = services.ServiceAndProductList.Product.map(item => {
+            return {
+              id: item.ProductId,
+              name: item.ProductName.trim(),
+              price: item.Price,
+              type: 'product'
+            };
+          });
+        }
+        this.serviceAndProduct = this.services.concat(this.products);
+      }
+    });
   }
   giftCardFromInit() {
     this.giftCardForm = this.fb.group({
@@ -87,6 +132,7 @@ export class SalesComponent implements OnInit {
     });
   }
   get f() { return this.giftCardForm.controls; }
+  get a() { return this.addItemForm.controls; }
   getAllService() {
     this.salesService.getService().subscribe(data => {
       if (data.status === 'Success') {
@@ -97,7 +143,8 @@ export class SalesComponent implements OnInit {
             return {
               id: item.ServiceId,
               name: item.ServiceName.trim(),
-              price: item.Price
+              price: item.Price,
+              type: 'service'
             };
           });
           console.log(this.services);
@@ -117,8 +164,23 @@ export class SalesComponent implements OnInit {
   }
   selectedItem(event) {
     this.selectedService = event;
+    if (this.selectedService.type === 'service') {
+      this.addItemForm.patchValue({ quantity: 1 });
+      this.addItemForm.controls.quantity.disable();
+      this.isDisableService = true;
+    } else {
+      this.addItemForm.controls.quantity.enable();
+      this.addItemForm.patchValue({ quantity: 1 });
+      this.isDisableService = false;
+    }
   }
   clearpaymentField() {
+    this.washes = [];
+    this.details = [];
+    this.additionalService = [];
+    this.upCharges = [];
+    this.airfreshnerService = [];
+    this.outsideServices = [];
     this.cash = 0;
     this.credit = 0;
     this.giftCard = 0;
@@ -128,11 +190,13 @@ export class SalesComponent implements OnInit {
     this.balanceDue = 0;
     this.originalGrandTotal = 0;
     this.creditcashback = 0;
+    this.cashback = 0;
+    if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
+      this.itemList.Status.ScheduleItemSummaryViewModels = {};
+    }
+    this.showPopup = false;
   }
   getDetailByTicket() {
-    this.washes = [];
-    this.details = [];
-    this.additionalService = [];
     this.clearpaymentField();
     if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
@@ -142,8 +206,6 @@ export class SalesComponent implements OnInit {
         this.spinner.hide();
         if (data.status === 'Success') {
           this.enableAdd = true;
-          this.clearform();
-          this.addItemFormInit();
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
             if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
@@ -151,15 +213,21 @@ export class SalesComponent implements OnInit {
               this.JobId = this.itemList.Status.ScheduleItemViewModel[0].JobId;
               this.washes = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Washes');
               this.details = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Details');
-              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item => 
+              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
                 item.ServiceType === 'Additional Services');
+              this.upCharges = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Upcharges');
+              this.outsideServices = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Outside Services');
+              this.airfreshnerService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Air Fresheners');
             }
           } else {
             this.showPopup = false;
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = summary?.Cashback;
+            this.cashback = summary?.Cashback ? summary?.Cashback : 0;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
             this.creditTotal = +this.grandTotal;
@@ -171,6 +239,9 @@ export class SalesComponent implements OnInit {
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
 
+          }
+          if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
+            this.Products = this.itemList?.Status?.ProductItemViewModel;
           }
           if (this.cash !== 0 || this.credit !== 0 || this.giftCard !== 0) {
             this.enableButton = true;
@@ -188,7 +259,7 @@ export class SalesComponent implements OnInit {
   filterItem(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.services) {
+    for (const i of this.serviceAndProduct) {
       const client = i;
       if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
         filtered.push(client);
@@ -220,15 +291,18 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    this.cashTotal = this.cash !== 0 ? this.cash : this.grandTotal ? +this.grandTotal : 0;
+    this.cashTotal = this.grandTotal ? +this.grandTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('creditcardpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
   }
   opengiftcard() {
     // this.giftcards = [];
     document.getElementById('Giftcardpopup').style.width = '450px';
     document.getElementById('creditcardpopup').style.width = '0';
+    document.getElementById('cashpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
   }
   closecash() {
     document.getElementById('cashpopup').style.width = '0';
@@ -253,6 +327,8 @@ export class SalesComponent implements OnInit {
     this.creditcashback = 0;
     document.getElementById('creditcardpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
+    document.getElementById('cashpopup').style.width = '0';
   }
 
   closecreditcard() {
@@ -306,6 +382,11 @@ export class SalesComponent implements OnInit {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
+    this.submitted = true;
+    if (+this.addItemForm.controls.quantity.value === 0) {
+      this.addItemForm.patchValue({quantity: ''});
+      return;
+    }
     if (this.addItemForm.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
       return;
@@ -341,9 +422,10 @@ export class SalesComponent implements OnInit {
         jobItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         serviceId: this.selectedService?.id,
+        // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
         commission: 0,
         price: this.selectedService?.price,
-        quantity: +this.addItemForm.value.quantity,
+        quantity: +this.addItemForm.controls.quantity.value,
         reviewNote: 'test',
         isActive: true,
         isDeleted: this.isSelected ? false : true,
@@ -352,13 +434,36 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
+      },
+      productItem: {
+          jobProductItemId: 0,
+          jobId: this.isSelected ? this.JobId : 0,
+          productId: this.selectedService?.id,
+          commission: 0,
+          price: this.selectedService?.price,
+          quantity: +this.addItemForm.controls.quantity.value,
+          reviewNote: 'test',
+          isActive: true,
+          isDeleted: true,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
       }
     };
+    if (this.selectedService.type === 'service') {
+        formObj.productItem = null;
+    } else {
+      formObj.jobItem = null;
+    }
     if (this.isSelected) {
       this.salesService.updateListItem(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
           this.getDetailByTicket();
+          this.addItemForm.controls.quantity.enable();
+          this.addItemFormInit();
+          this.submitted = false;
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -370,6 +475,9 @@ export class SalesComponent implements OnInit {
           this.isSelected = true;
           this.ticketNumber = this.newTicketNumber;
           this.getDetailByTicket();
+          this.addItemForm.controls.quantity.enable();
+          this.addItemFormInit();
+          this.submitted = false;
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -384,15 +492,19 @@ export class SalesComponent implements OnInit {
     // this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
   }
   clear() {
-    this.addItemForm.patchValue({ itemName: '', quantity: '' });
-    this.ticketNumber = '';
+    if (this.targetId === 'quantity') {
+      this.addItemForm.patchValue({ quantity: '' });
+    } else if (this.targetId === 'ticketNumber') {
+      this.ticketNumber = '';
+      this.clearpaymentField();
+    }
   }
   backspace() {
     if (this.targetId === 'quantity') {
       const quantity = this.addItemForm.value.quantity.toString();
       this.addItemForm.patchValue({ quantity: quantity.substring(0, quantity.length - 1) });
     } else if (this.targetId === 'ticketNumber') {
-      const ticketNumber = this.ticketNumber? this.ticketNumber.toString() : '';
+      const ticketNumber = this.ticketNumber ? this.ticketNumber.toString() : '';
       this.ticketNumber = ticketNumber.substring(0, ticketNumber.length - 1);
     } else {
       return;
@@ -413,12 +525,7 @@ export class SalesComponent implements OnInit {
     this.salesService.getTicketNumber().subscribe(data => {
       this.newTicketNumber = data;
       this.enableAdd = true;
-      this.washes = [];
-      this.details = [];
-      this.additionalService = [];
-      if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
-        this.itemList.Status.ScheduleItemSummaryViewModels = {};
-      }
+      this.clearpaymentField();
     });
   }
   creditProcess() {
@@ -432,9 +539,9 @@ export class SalesComponent implements OnInit {
     this.cashTotal = +this.cashTotal + cash;
   }
   cashProcess() {
-    this.totalPaid = this.totalPaid - this.cash;
+    this.totalPaid = (+this.totalPaid) - (+this.cash);
     this.cash = this.cashTotal;
-    this.totalPaid = this.totalPaid + this.cash;
+    this.totalPaid = (+this.totalPaid) + (+this.cash);
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -452,6 +559,10 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.splice(index, 1);
   }
   addPayment() {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please do payment' });
+      return;
+    }
     let giftcard = null;
     let discount = null;
     giftcard = this.giftcards.map(item => {
@@ -525,7 +636,8 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date()
       },
-      jobPaymentDiscount: discount.length === 0 ? null : discount
+      jobPaymentDiscount: discount.length === 0 ? null : discount,
+    
     };
     this.spinner.show();
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
@@ -545,7 +657,7 @@ export class SalesComponent implements OnInit {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
       this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
         if (data.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Deleted job successfully' });
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });
           this.getDetailByTicket();
           this.ticketNumber = '';
         } else {
@@ -590,19 +702,25 @@ export class SalesComponent implements OnInit {
   }
   rollBack() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-    this.salesService.rollback(+this.ticketNumber).subscribe(data => {
-      if (data.status === 'Success') {
-        this.getDetailByTicket();
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
-      } else {
+      this.salesService.rollback(+this.ticketNumber).subscribe(data => {
+        if (data.status === 'Success') {
+          this.getDetailByTicket();
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+        }
+      }, (err) => {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
-      }
-    }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
-    });
+      });
     }
   }
   quantityFocus(event) {
     this.targetId = event.target.id;
+  }
+  allowNumbersOnly(e) {
+    const code = (e.which) ? e.which : e.keyCode;
+    if (code > 31 && (code < 48 || code > 57)) {
+      e.preventDefault();
+    }
   }
 }

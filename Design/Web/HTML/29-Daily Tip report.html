@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Strive - Professional Car Cleaning Service</title>
+	<!-- Bootstrap -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="assets/css/sidebar.css" rel="stylesheet">
+	<link href="assets/css/layout.css" rel="stylesheet">
+	<link href="assets/css/responsive.css" rel="stylesheet">
+	<link href="assets/css/color.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+ </head>
+
+<body>
+	<div id="wrapper">
+		<!--Wrapper-->
+		<section class="navbar-nav web-nav theme-primary-background-color">
+			<!--Sidebar-->
+			<div class="menu  d-none d-sm-none d-md-block d-lg-block d-xl-block">
+				<ul>
+					<li class="logo-container">
+						<a href="#" class="navbar-brand p-10"><img src="assets/img/w-strive-logo@2x.png" alt="" width="50" /></a>
+					</li>
+					<li class="p-t-10" onclick="openNav()"><a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x fa fa-drivers-license-o"></i>Details</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-cash-usd-outline"></i>Sales</a></li>
+					<li class="active"><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-account-circle"></i>Admin</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
+					<li class=""><a href="#" onclick="openNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
+				</ul>
+			</div>
+			<div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block"> <a href="#" class="closebtn" onclick="closeNav()">×</a>
+				<div class="p-l-15 p-r-15 m-b-10">
+					<h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Reports</h5> </div>
+				<ul class="nav-slider-menu-items">
+					<li><a href="#">Daily Status Screen</a> </li>
+					<li><a href="#">EOD Report</a> </li>
+					<li><a href="#">Daily Tip Report</a></li>
+					<li><a href="#">Monthly Tip</a></li>
+					<li><a href="#">Monthly Sales</a></li>
+					<li> <a href="#">Monthly Customer Summary</a></li>
+					<li><a href="#">Monthly Customer Detail</a></li>
+					<li><a href="#">Hourly Wash Report</a></li>
+					<li><a href="#">Daily Sales Report</a></li>
+				</ul>
+			</div>
+			<div id="mySidenav" class="mobile-view-nav"> <a href="#" class="closebtn" onclick="closembsidebar()"><i class="fa fa-close"></i></a>
+				<ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
+					<li><a href="#"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a></li>
+					<li><a href="#"><i class="mdi mdi-car-wash"></i><span>Washes</span></a></li>
+					<li><a href="#"><i class="fa fa-drivers-license-o"></i><span>Details</span></a></li>
+					<li><a href="#"><i class="mdi mdi-cash-usd-outline"></i><span>Sales</span></a></li>
+					<li><a href="#"><i class="mdi mdi-file-document"></i><span>Reports</span></a></li>
+					<li><a href="#"><i class="mdi mdi-account-circle"></i><span>Admin</span></a></li>
+					<li><a href="#"><i class="fa fa-flag-checkered"></i><span>Checkout</span></a></li>
+					<li><a href="#"><i class="fa fa-dollar"></i><span>Payroll</span></a></li>
+				</ul>
+				<div id="show-submenu" class="hide">
+					<a href="#" class="back-to-list"> <i class="fa fa-arrow-left"></i> Back</a>
+					<h5 class="m-r-14 m-l-20 m-t-12 text-white">Admin</h5>
+					<ul class="mobile-view-title mb-view" id="hide-mainmenu">
+						<li><a href="#">Cash Register Setup</a> </li>
+						<li><a href="#">Close Out Register</a> </li>
+						<li><a href="#">Time Clock Maintenance</a></li>
+						<li><a href="#">Employees</a></li>
+						<li><a href="#">Clients</a></li>
+						<li> <a href="#">Vehicles</a></li>
+						<li><a href="#">Schedules</a></li>
+						<li><a href="#">Gift Cards</a></li>
+						<li><a href="#">System Setup</a></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<section id="content-wrapper" class="d-flex flex-column">
+			<!--Content Wrapper-->
+			<div id="content">
+				<!--Content-->
+				<nav class="nav navbar p-0">
+					<!--header-->
+					<ul class="w-100 bg-light">
+						<!--mobile-nav-trigger-->
+						<li class="mobile-nav-trigger d-none d-block d-md-none d-lg-none d-xl-none">
+							<ul>
+								<li>
+									<button class="d-flex d-block float-left button-menu-mobile nav-link p-t-18" onclick="openmbsidebar()"> <i class="fa fa-bars font-size-1-1 theme-primary-color"></i> </button>
+								</li>
+								<li class="mobile-logo-wrapper">
+									<ul>
+										<li class="mobile-logo"> <span> <img src="assets/img/strive-mobile-logo-blue.png"  alt=""> </span> </li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<!--mobile-nav-trigger-->
+						<li class="admin-menu">
+							<ul class="d-flex float-right align-self-center m-r-20">
+								<li class="p-2 mob-washes-notification">
+									<p class="mb-0 text-muted bg-white weather-notification"> <span class="mr-2"><i class="mdi mdi-weather-partly-cloudy theme-light-yellow-color"></i> 25°/60%</span> <span class="text-nowrap">Mainstreet,GA</span> </p>
+								</li>
+								<li> <a href="#"><i class="fa fa-gear"></i></a> </li>
+								<li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span class="badge position-absolute theme-notification-background-icon-color">1</span> <span class="sr-only ">unread messages</span></a>
+									<div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
+										<h6 class="font-weight-bold font-size--8"> Message Notification</h6>
+										<div class="dropdown-divider"></div> <a class="dropdown-item p-0 m-t-5 font-size--8" href="#"><i class="fa fa-user-md"></i>unread messgage john doe</a> </div>
+								</li>
+								<li class="admin">
+									<a href="#" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle" data-toggle="dropdown"> <i class="fa fa-user-circle"><span class="i-text web-display">Admin</span></i></a>
+									<div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle"> <a class="dropdown-item" href="#"><i class="fa fa-user-md"></i> Edit Profile</a>
+										<div class="dropdown-divider"></div> <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a> </div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+				<!--header-->
+				<div id="page-content">
+					<!--page Content-->
+					<div class="container-fluid">
+						<div class="row">
+							<nav class="col-12 p-0" aria-label="breadcrumb">
+								<!--bread crumb-->
+								<ol class="breadcrumb font-size--9">
+									<li class="breadcrumb-item"><a href="#">Home</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Reports</li>
+								</ol>
+							</nav>
+							<div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+								<h3 class="d-inline-block">Reports - </h3>
+								<div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
+									<input type="text" class="datepick" /> <span class="input-group-addon"><i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div>
+							</div>
+							<div class="col-lg-12 p-l-0 p-r-0">
+								<div class="row no-gutter">
+									<div class="col-12">
+										<div class="row no-gutter">
+											<div class="col-lg-2">
+												<input type="text" class="form-control date datepicker-month" data-toggle="date-picker" data-single-date-picker="true"  placeholder="Month"> </div>
+											<div class="col-lg-2">
+												<input type="text" class="form-control date datepicker-year" data-toggle="date-picker" data-single-date-picker="true" placeholder="Year"> </div>
+											<div class="col-lg-2">
+												<select class="form-control">
+													<option selected="">Main Street</option>
+													<option> </option>
+												</select>
+											</div>
+											<div class="col-lg-2">
+												<button type="button" class="btn theme-primary-button-color">Preview</button>
+											</div>
+										</div>
+										<div class="card m-t-10">
+											<div class="card-body p-10">
+												<div class="row">
+													<div class="col-lg-6">
+													
+													</div>
+													<div class="col-md-6">
+														<div class="pull-right">
+															<div class="d-inline-block align-middle">
+																<select class="form-control">
+																	<option selected="">Select</option>
+																	<option>Acrobat (PDF) File </option>
+																	<option>CSV (comma delimited) </option>
+																	<option>Excel 97 - 2003 </option>
+																	<option>Rich Text Format </option>
+																	<option>TIFF File </option>
+																	<option>Web Archive </option>
+																	<option>XPS Document </option>
+																</select>
+															</div>
+															<button type="button" class="btn theme-primary-button-color">Export</button>
+															<button type="button" class="btn theme-primary-button-color">Print</button>
+															<button type="button" class="btn theme-primary-button-color">Refresh</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- end card-->
+											<!-- end card-->
+										<div class="card m-t-10">
+											<div class="card-body">
+												<div class="p-b-5 m-b-8">
+													<h4 class="d-inline-block align-middle"><span class="resp-title">Daily Tip Report </span>
+													<div class="d-inline-block"><input type="text" class="form-control"  placeholder="Tip Total"></div>
+							</h4>
+													<div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Dailyreport" role="button" aria-expanded="false" aria-controls="Monthlyreport"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
+												</div>
+												<div id="Dailyreport" class="collapse show">
+													<div class="table-responsive">
+														<table class="table table-striped">
+															<thead>
+																<tr>
+																	<th scope="col">Payee</th>
+																	<th scope="col">Hours</th>
+																	<th scope="col" class="w-10">Tip</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td>12</td>
+																	<td>10</td>
+																	<td>20 </td>
+																</tr>
+																<tr>
+																	<td>12</td>
+																	<td>10</td>
+																	<td>20 </td>
+																</tr>
+															</tbody>
+															<tfoot class="table-foot font-weight-700">
+																<tr>
+																	<td colspan="2" class="font-weight-700 text-right">Tip Total </td>
+																	<td>$40.00 </td>
+																</tr>
+															</tfoot>
+														</table>
+														<ul class="pagination justify-content-end">
+															<input type="text" class="form-control m-r-8 paginationinput" placeholder="1">
+															<label class="d-inline-block  m-t-7 m-r-10">of 3</label> <i class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"></i> <i class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"></i>
+															<li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-previous  theme-secondary-color"></i></a></li>
+															<li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-skip-backward theme-secondary-color"></i></a></li>
+															<li class="page-item"><a class="page-link" href="#">1</a></li>
+															<li class="page-item"><a class="page-link" href="#">2</a></li>
+															<li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-forward theme-secondary-color"></i></a></li>
+															<li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-next theme-secondary-color"></i></a></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<!-- end card-body -->
+										</div>
+										<!-- end card-->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--page Content-->
+			</div>
+			<!--Content-->
+		</section>
+		<!--Content Wrapper-->
+	</div>
+	<!--Wrapper-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/default.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+</body>
+
+</html>

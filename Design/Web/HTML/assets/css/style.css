@@ -1,4 +1,3 @@
-
 section#login {
     background: url(../img/login-bg@2x.jpg);
     background-size: cover;
@@ -1268,3 +1267,45 @@ background-color:#FFC1A0;
     color: white;
 }
 
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #10B7A5 !important;
+    border-color: #1DC5B3 !important;
+    color: white !important;
+}
+
+.dropdown-item i:focus, .dropdown-item i:hover{
+	color:white !important;
+}
+color-icon:hover{
+	color:white !important;
+}
+
+/*Reports */
+.paginationinput{
+    width: 50px !important;
+    padding: 5px;
+}
+.montthcustreport td, .montthcustreport th {
+    border-top: 0px solid #dee2e6 !important;
+}
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    border-color: #1DC5B3 !important;
+    background-color: #1DC5B3  !important;
+}
+.modal-title-bg {
+    background-color: #f5f5f5;
+}
+.w-10{
+	width:10%;
+}
+.w-15{
+	 width:15%;
+	 }
+.w-45{
+	  width:45%;
+	 }
+.page-link {
+    color: #000000 !important;
+}
