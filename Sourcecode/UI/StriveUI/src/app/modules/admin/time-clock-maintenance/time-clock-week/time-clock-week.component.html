@@ -147,12 +147,12 @@
                                                     <td class="w-45"></td>
                                                     <td></td>
                                                     <td class="p-t-10"><span class="font-weight-600 mr-2">Wash
-                                                            Rate:</span>{{ totalWeekDetail.WashRate }} </td>
+                                                            Rate:</span>{{ totalWeekDetail.WashRate ? totalWeekDetail.WashRate : 0 }} </td>
                                                     <td class="p-t-10"> <span class="font-weight-600 mr-2">Total Wash
-                                                            Hours:</span> {{ totalWeekDetail.TotalWashHours }} </td>
+                                                            Hours:</span> {{ totalWeekDetail.TotalWashHours ? totalWeekDetail.TotalWashHours : 0 }} </td>
                                                     <td class="p-t-10 p-r-20">
                                                         <p class="mb-0"><span
-                                                                class="font-weight-600 mr-2">Total:</span>{{ totalWeekDetail.WashAmount }}
+                                                                class="font-weight-600 mr-2">Total:</span>{{ totalWeekDetail.WashAmount ? ( totalWeekDetail.WashAmount | currency) : ( 0 | currency ) }}
                                                     </td>
 
 
@@ -161,12 +161,12 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td><span class="font-weight-600 mr-2">Detail
-                                                            Rate:</span>{{ totalWeekDetail.DetailRate }}</td>
+                                                            Rate:</span>{{ totalWeekDetail.DetailRate ? totalWeekDetail.DetailRate : 0 }}</td>
                                                     <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
-                                                        {{ totalWeekDetail.TotalDetailHours }}
+                                                        {{ totalWeekDetail.TotalDetailHours ? totalWeekDetail.TotalDetailHours : 0 }}
                                                     </td>
                                                     <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
-                                                            Pay:</span>{{ totalWeekDetail.OverTimePay }} </td>
+                                                            Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }} </td>
                                                 </tr>
                                                 <tr class="text-right">
                                                     <td></td>
@@ -174,14 +174,14 @@
                                                     <td colspan="2"><span class="font-weight-600 mr-2">Overtime
                                                             Hours:</span>{{ totalWeekDetail.OverTimeHours }}</td>
                                                     <td class="p-r-20"><span
-                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount }}
+                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}
                                                     </td>
                                                 </tr>
                                                 <tr class="text-right">
                                                     <td></td>
                                                     <td></td>
                                                     <td colspan="3" class="p-r-20"> <span
-                                                            class="font-weight-600 mr-2">Collisions:</span>{{ totalWeekDetail.CollisionAmount }}
+                                                            class="font-weight-600 mr-2">Collisions:</span>{{ totalWeekDetail.CollisionAmount ? ( totalWeekDetail.CollisionAmount | currency ) : ( 0 | currency ) }}
                                                     </td>
                                                 </tr>
 
@@ -192,7 +192,7 @@
                                                     <td colspan="6"
                                                         class="font-weight-700 text-right p-10 font-size-1-2 p-r-20">
                                                         Grand Total:<span
-                                                            class="m-l-10">{{ totalWeekDetail.GrandTotal | currency }}</span>
+                                                            class="m-l-10">{{ totalWeekDetail.GrandTotal ? (totalWeekDetail.GrandTotal | currency) : ( 0 | currency ) }}</span>
                                                     </td>
                                                 </tr>
                                             </tfoot>

@@ -1,4 +1,17 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocation]
+﻿
+-- =============================================================
+-- Author:         Vineeth.B
+-- Created date:   2020-07-01
+-- Description:    Get All Location with search param or without 
+-- =============================================================
+
+----------------------------History-----------------------------
+-- =============================================================
+-- 16-09-2020, Vineeth - Added IsActive condition in tblLocation
+--                       and tblLocationAddress
+----------------------------------------------------------------
+-- =============================================================
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocation]
 (@LocationSearch varchar(50)=null)
 
 AS 
@@ -21,7 +34,7 @@ LEFT JOIN [StriveCarSalon].[tblLocationAddress] tblla ON(tbll.LocationId = tblla
 LEFT JOIN [StriveCarSalon].GetTable('LocationType') tblcv ON(tbll.LocationType = tblcv.valueid)
 
 WHERE
-isnull(tbll.IsDeleted,0)=0 and isnull(tblla.IsDeleted,0)=0 
+isnull(tbll.IsDeleted,0)=0 and isnull(tblla.IsDeleted,0)=0 and tbll.IsActive = 1 and tblla.IsActive = 1
 AND
  (@LocationSearch is null or tbll.LocationName like '%'+@LocationSearch+'%'
  or tblla.Address1 like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'
