@@ -24,6 +24,9 @@ export class AssignDetailComponent implements OnInit {
   clonedEmployee: any = [];
   dropdownSettings: IDropdownSettings = {};
   deleteIds: any = [];
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(
     private fb: FormBuilder,
     private confirmationService: ConfirmationUXBDialogService,
@@ -35,6 +38,7 @@ export class AssignDetailComponent implements OnInit {
     this.getDetailService();
     this.employeeDetail();
     this.detailService = this.detailsJobServiceEmployee;
+    this.collectionSize = Math.ceil(this.detailService.length / this.pageSize) * 10;
     this.assignForm = this.fb.group({
       employeeId: [''],
       serviceId: ['']
@@ -76,8 +80,8 @@ export class AssignDetailComponent implements OnInit {
           ServiceName: service.ServiceName,
           EmployeeId: employee.item_id,
           EmployeeName: employee.item_text,
-          Cost: 67,
-          JobItemId: service.JobItemId
+          Cost: service.Cost,
+          JobItemId: service.JobItemId,
         });
       });
     });
@@ -90,6 +94,7 @@ export class AssignDetailComponent implements OnInit {
       item.detailServiceId = index + 1;
     });
     console.log(this.detailService, 'assignedservice');
+    this.collectionSize = Math.ceil(this.detailService.length / this.pageSize) * 10;
   }
 
   onItemSelect(item: any) {
@@ -108,9 +113,9 @@ export class AssignDetailComponent implements OnInit {
   }
 
   delete(service) {
-    this.detailService = this.detailService.filter(item => item.JobItemId !== service.JobItemId);
+    this.detailService = this.detailService.filter(item => item.JobServiceEmployeeId !== service.JobServiceEmployeeId);
     this.serviceByEmployeeId(service.ServiceId);
-    const deleteService = _.where(this.detailService, { JobItemId: +service.JobItemId });
+    const deleteService = _.where(this.detailService, { JobServiceEmployeeId: +service.JobServiceEmployeeId });
     if (deleteService.length > 0) {
       this.deleteIds.push(deleteService[0]);
     }
@@ -179,7 +184,7 @@ export class AssignDetailComponent implements OnInit {
     });
     this.deleteIds.forEach(item => {
       assignServiceObj.push({
-        jobServiceEmployeeId: 0,
+        jobServiceEmployeeId: item.JobServiceEmployeeId,
         jobItemId: item.JobItemId,
         serviceId: item.ServiceId,
         employeeId: item.EmployeeId,

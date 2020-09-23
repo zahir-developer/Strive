@@ -218,7 +218,7 @@
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                (click)="assignEmployee()" >Assign</button>
+                                (click)="assignEmployee()" [disabled]="!isAssign || isView">Assign</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
@@ -226,7 +226,7 @@
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                [disabled]="isView" (click)="pay()">Pay</button>
+                            [disabled]="!isEdit || isView" (click)="pay()">Pay</button>
                         </div>
                     </div>
                     <!-- <div class="row"> [disabled]="!isAssign && !isView"
@@ -271,7 +271,7 @@
         <app-print-wash *ngIf="isEdit" [selectedData]="selectedData"></app-print-wash>
     </div>
 </div>
-<p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
+<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
     [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
     <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)"
         (closeAssignModel)="closeAssignModel()" [details]="detailItems" [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList"

@@ -19,7 +19,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group row border-bottom p-b-10 no-gutters">
-                                        <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2">Ticket #</label>
+                                        <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2" style="padding-top: 1.5%;">Ticket #</label>
                                         <div class="col-sm-9">
                                             <div>
                                                 <input type="text" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control inputSize  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" (keypress)="allowNumbersOnly($event)" (clear)="clearpaymentField()">&nbsp;
@@ -73,10 +73,10 @@
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7 payment">
-                                        <button type="button" class="btn col-sm btn-payment actived" (click)="addPayment()">Process</button>
-                                        <button type="button" class="btn col-sm btn-payment actived" (click)="rollBack()">RollBack</button>
-                                        <button type="button" class="btn col-sm btn-payment actived" (click)="deleteTicket()">Del</button>
-                                        <button type="button" class="btn col-sm btn-payment actived m-r-0">Print</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" [disabled]='enableButton' (click)="addPayment()">Process</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" [disabled]='!enableButton'(click)="deleteItem('', 'rollback')">RollBack</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" [disabled]='!enableButton' (click)="deleteItem('', 'deleteJob')">Del</button>
+                                        <button type="button" class="btn col-sm btn-payment actived m-r-0"[disabled]='!enableButton'>Print</button>
                                     </div>
                                     <div id="Giftcardpopup" class="gift-card"> <span class="closebtn" (click)="closegiftcard()">&times;</span>
                                         <div class="card-body">
@@ -85,7 +85,7 @@
                                                 <form [formGroup]="giftCardForm">
                                             <div class="form-row p-t-10 p-b-12">
                                                 <div class="form-group col-md-6"> Amount Due </div>
-                                                <div class="form-group col-md-6 text-right"> {{grandTotal ? (grandTotal | currency) : '$0.00'}} </div>
+                                                <div class="form-group col-md-6 text-right"> {{(originalGrandTotal - totalPaid) | currency}} </div>
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
@@ -219,7 +219,7 @@
                                                 <h4 class="d-inline-block">Discount</h4> </div>
                                                 <div class="form-row p-b-12 p-t-40">
                                                     <div class="form-group col-md-12">
-                                                        <select class="form-control" placeholder="Select discount" (change)="discountChange($event)">
+                                                        <select class="form-control" placeholder="Select discount" [(ngModel)]="discount" (change)="discountChange($event)">
                                                             <option value='' selected hidden>Select a discount</option>
                                                             <option *ngFor="let discount of discounts" value="{{discount.ServiceId}}"> {{discount.ServiceName}}</option>
                                                         </select>
@@ -288,7 +288,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="table-responsive m-t-10">
+                                    <div class="table-responsive m-t-10 scrollbar">
                                         <table class="table  table-striped">
                                             <thead>
                                                 <tr>
@@ -306,7 +306,7 @@
                                                     <td class="pointer" (dblclick)="editItem(detail)">{{detail?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(detail)">{{detail?.Quantity}}</td>
                                                     <td (dblclick)="editItem(detail)" >{{detail.Price | currency}}</td>
-                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(detail)"></i></td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(detail, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="washes.length>0">
                                                     <th scope="row" colspan="5">Wash Package </th>
@@ -315,7 +315,7 @@
                                                     <td class="pointer" (dblclick)="editItem(wash)">{{wash?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(wash)">{{wash?.Quantity}}</td>
                                                     <td (dblclick)="editItem(wash)" >{{wash?.Price | currency}}</td>
-                                                    <td (dblclick)="editItem(wash)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash)"></i></td>
+                                                    <td (dblclick)="editItem(wash)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="additionalService.length > 0">
                                                     <th scope="row" colspan="5">Additional Services </th>
@@ -324,7 +324,7 @@
                                                     <td class="pointer" (dblclick)="editItem(additional)">{{additional?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(additional)">{{additional?.Quantity}}</td>
                                                     <td (dblclick)="editItem(additional)" >{{additional?.Price | currency}}</td>
-                                                    <td (dblclick)="editItem(additional)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(additional)"></i></td>
+                                                    <td (dblclick)="editItem(additional)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(additional, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="upCharges.length > 0">
                                                     <th scope="row" colspan="5">UpCharges </th>
@@ -333,7 +333,7 @@
                                                     <td class="pointer" (dblclick)="editItem(upcharge)">{{upcharge?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(upcharge)">{{upcharge?.Quantity}}</td>
                                                     <td (dblclick)="editItem(upcharge)">{{upcharge?.Price | currency}}</td>
-                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(upcharge)"></i></td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(upcharge, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="outsideServices.length > 0">
                                                     <th scope="row" colspan="5">Outside Services </th>
@@ -342,7 +342,7 @@
                                                     <td class="pointer" (dblclick)="editItem(outService)">{{outService?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(outService)">{{outService?.Quantity}}</td>
                                                     <td (dblclick)="editItem(outService)">{{outService?.Price | currency}}</td>
-                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(outService)"></i></td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(outService, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="airfreshnerService.length > 0">
                                                     <th scope="row" colspan="5">Air Freshners </th>
@@ -351,7 +351,7 @@
                                                     <td class="pointer" (dblclick)="editItem(airService)">{{airService?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(airService)">{{airService?.Quantity}}</td>
                                                     <td (dblclick)="editItem(airService)">{{airService?.Price | currency}}</td>
-                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(airService)"></i></td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(airService, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="Products.length > 0">
                                                     <th scope="row" colspan="5">Products </th>
@@ -360,7 +360,7 @@
                                                     <td class="pointer" (dblclick)="editItem(product)">{{product?.ProductName}}</td>
                                                     <td (dblclick)="editItem(product)">{{product?.Quantity}}</td>
                                                     <td (dblclick)="editItem(product)">{{product?.Price | currency}}</td>
-                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(product)"></i></td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(product, 'deleteItem')"></i></td>
                                                 </tr>
                                                 
                                             </tbody>
@@ -409,7 +409,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Balance Due </div>
-                                            <div class="form-group col-md-6 text-right theme-optional-icon-color">{{(totalPaid - originalGrandTotal) | currency}}</div>
+                                            <div class="form-group col-md-6 text-right theme-optional-icon-color">{{(originalGrandTotal - totalPaid) | currency}}</div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Cash back </div>

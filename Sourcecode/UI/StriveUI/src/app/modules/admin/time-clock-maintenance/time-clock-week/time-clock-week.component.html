@@ -73,6 +73,7 @@
                                                                                 id="timeStart_{{week.day}}_{{i}}"
                                                                                 [(ngModel)]="time.InTime"
                                                                                 [ngModelOptions]="{standalone: true}"
+                                                                                [showMeridian]="true"
                                                                                 [showMinutes]="true" [arrowkeys]="false"
                                                                                 [showSpinners]="true"
                                                                                 [showMeridian]="true"
@@ -92,6 +93,7 @@
                                                                             <timepicker id="outTime_{{week.day}}_{{i}}"
                                                                                 [(ngModel)]="time.OutTime"
                                                                                 [ngModelOptions]="{standalone: true}"
+                                                                                [showMeridian]="true"
                                                                                 [showMinutes]="true" [arrowkeys]="false"
                                                                                 [showSpinners]="true"
                                                                                 [showMeridian]="true"
@@ -110,7 +112,7 @@
                                                                     <td>
                                                                         <select
                                                                             class="form-control input-table rounded-0"
-                                                                            [(ngModel)]="time.RoleId">
+                                                                            [(ngModel)]="time.RoleId" (change)="totalHoursCalculation()">
                                                                             <option value="" hidden selected>Select
                                                                                 Role</option>
                                                                             <option *ngFor="let role of roleList"
