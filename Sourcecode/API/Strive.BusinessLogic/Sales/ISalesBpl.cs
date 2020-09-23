@@ -10,9 +10,7 @@ namespace Strive.BusinessLogic.Sales
 {
     public interface ISalesBpl
     {
-        //Result UpdateSalesItem(SalesDto sales);
-        //Result UpdateItem(int jobItemId);
-        //Result UpdateItem(int jobItemId, int quantity, decimal price);
+        Result SaveProductItem(SalesProductItemDto salesProductItemDto);
         Result UpdateItem(SalesItemUpdateDto salesItemUpdateDto);
         Result DeleteItemById(int jobItemId);
         string GetTicketNumber();

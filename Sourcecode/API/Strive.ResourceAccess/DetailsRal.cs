@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
@@ -22,6 +23,10 @@ namespace Strive.ResourceAccess
         public bool UpdateDetails(DetailsDto details)
         {
             return dbRepo.UpdatePc(details);
+        }
+        public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
+        {
+            return dbRepo.InsertPc(jobServiceEmployee,"JobServiceEmployeeId");
         }
         public BaySchedulesDetails GetBaySchedulesDetails(DetailsGridDto detailsGrid)
         {

@@ -1,4 +1,4 @@
-﻿CREATE    PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber]
 @TicketNumber varchar(10)
 AS 
 --DECLARE @TicketNumber varchar(10)='658'--'782436'
@@ -6,6 +6,7 @@ AS
 BEGIN
     
 DROP TABLE IF EXISTS #JobItemList
+
 
 SELECT 
 	tbljb.JobId,
@@ -35,6 +36,8 @@ WHERE
 	tbljb.TicketNumber =  @TicketNumber  
 AND ISNULL(tbljbI.IsDeleted,0)=0 
 AND ISNULL(tbljbI.IsActive,1)=1 
+AND ISNULL(tbljb.IsDeleted,0)=0 
+AND ISNULL(tbljb.IsActive,1)=1
 
 --Item Total
 DROP TABLE IF EXISTS #JobTotal
@@ -58,7 +61,7 @@ SELECT
 	SUM(ISNULL(tblJPCC.Amount,0)) AS Credit,
 	SUM(ISNULL(tblGCH.TransactionAmount,0)) AS GiftCard,
 	SUM(ISNULL(tbljp.Cashback,0)) AS CashBack,
-	SUM(ISNULL(tbljpd.Amount,0)) AS Discount 
+	SUM(ISNULL(tbljpd.Amount,0)) AS Discount
 INTO
 	#Payment_Summary
 FROM
@@ -79,6 +82,14 @@ WHERE
 	tbljob.TicketNumber = @TicketNumber
 AND	ISNULL(tbljob.IsDeleted,0)=0 
 AND ISNULL(tbljob.IsActive,1)=1 
+AND	ISNULL(tbljp.IsDeleted,0)=0 
+AND ISNULL(tbljp.IsActive,1)=1 
+AND	ISNULL(tblJPCC.IsDeleted,0)=0 
+AND ISNULL(tblJPCC.IsActive,1)=1 
+AND	ISNULL(tblGCH.IsDeleted,0)=0 
+AND ISNULL(tblGCH.IsActive,1)=1 
+AND	ISNULL(tbljpd.IsDeleted,0)=0 
+AND ISNULL(tbljpd.IsActive,1)=1 
 GROUP BY tbljob.TicketNumber
 
 --SUM(JIL.Total) AS Total,
@@ -103,4 +114,21 @@ LEFT JOIN
 	#JobTotal JT 
 ON JT.TicketNumber=PS.TicketNumber
 
+--Product List
+Select prod.ProductId, prod.ProductName, ProductCode, prod.Cost, prod.Price, prod.ProductType, jobProd.Quantity
+from tblJob job 
+JOIN tblJobProductItem jobProd on job.JobId = jobprod.JobId
+JOIN tblProduct prod on prod.ProductId = jobProd.ProductId
+WHERE job.TicketNumber = @TicketNumber 
+
+--Payment, IsProcessed, IsRollBack
+Select tbljp.JobId, tbljp.JobPaymentId, ISNULL(tbljp.IsProcessed, 0), ISNULL(tbljp.IsRollBack, 0)
+from tblJob job 
+JOIN tblJobPayment tbljp on job.JobId = tbljp.JobId
+WHERE job.TicketNumber = @TicketNumber 
+
+	
+
 END
+GO
+

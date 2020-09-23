@@ -13,4 +13,8 @@ namespace Strive.Core.Models.Customer
         
         public string Status { get; set; }
     }
+    public class GeneralResponse
+    {
+        public bool Status { get; set; }
+    }
 }

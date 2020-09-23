@@ -50,7 +50,7 @@ export class DetailScheduleComponent implements OnInit {
     } else if (currentDate < this.selectedDate) {
       this.bayAddDetail(schedule);
     } else {
-      this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'No detail is Scheduled' });
+      this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'New schedule is not allowed for passed dates.' });
       return;
     }
   }

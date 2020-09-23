@@ -33,6 +33,21 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
+
+        public Result SaveProductItem(SalesProductItemDto salesProductItemDto)
+        {
+            try
+            {
+                return ResultWrap(new SalesRal(_tenant).SaveProductItem, salesProductItemDto, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        
         public Result DeleteItemById(int jobItemId)
         {
             try
