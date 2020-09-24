@@ -38,7 +38,7 @@ export class TimeClockWeekComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.empClockInObj, 'empObj');
-    this.weekStartDate = new Date (this.empClockInObj.startDate);
+    this.weekStartDate = new Date(this.empClockInObj.startDate);
     this.weekLastDate = this.empClockInObj.endDate;
     this.getAllRoles();
   }
@@ -79,8 +79,11 @@ export class TimeClockWeekComponent implements OnInit {
                 });
               });
             }
+            const weeklyDays = new Date(this.weekStartDate.setDate(this.weekStartDate.getDate() + 1));
+            const tempDate = new Date(weeklyDays.setDate(weeklyDays.getDate() - 1));
             this.timeClockList.push({
               day,
+              date: this.datePipe.transform(tempDate, 'yyyy-MM-dd'),
               checkInDetail: dayDetails
             });
           });
@@ -125,7 +128,7 @@ export class TimeClockWeekComponent implements OnInit {
   addTimeList(week) {
     console.log(week);
     week.checkInDetail.push({
-      EventDate: week.date,
+      EventDate: week.date ? week.date : week.checkInDetail[0].EventDate,
       InTime: '',
       OutTime: '',
       RoleId: '',
@@ -188,13 +191,22 @@ export class TimeClockWeekComponent implements OnInit {
     this.cancelCheckInPage.emit();
   }
 
-  totalHoursCalculation() {
-    console.log(this.timeClockList, 'calculation');
-    this.timeClockList.forEach( item => {
-      item.checkInDetail.forEach( checkIn => {
-        
-      });
-    });
+  totalHoursCalculation(data) {
+    // console.log(data, 'calculation');
+    // if (this.roleList.filter(item => +item.CodeId === +data.RoleId)[0].CodeValue === 'Wash') {
+    //   this.totalWeekDetail.TotalWashHours += +data.TotalHours;
+    //   this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
+    //   this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount + this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
+    // } else if (this.roleList.filter(item => +item.CodeId === +data.RoleId)[0].CodeValue === 'Detailer') {
+    //   this.totalWeekDetail.TotalDetailHours += +data.TotalHours;
+    //   this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
+    //   this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount + this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
+    // }
+    // this.timeClockList.forEach( item => {
+    //   item.checkInDetail.forEach( checkIn => {
+
+    //   });
+    // });
   }
 
 }
