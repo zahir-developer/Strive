@@ -301,6 +301,7 @@ export class EditEmployeeComponent implements OnInit {
     if(event.item_text === "Detailer"){
       this.isRequired = false;
       this.emplistform.get('comType').clearValidators();
+      this.emplistform.get('comType').updateValueAndValidity();
     }
   }
 
@@ -471,9 +472,11 @@ export class EditEmployeeComponent implements OnInit {
     if(data.item_text === "Detailer"){
       this.isRequired = true;
       this.emplistform.get('comType').setValidators(Validators.required);
+      this.emplistform.get('comType').updateValueAndValidity();
     }else{
       this.isRequired = false;
       this.emplistform.get('comType').clearValidators();
+      this.emplistform.get('comType').updateValueAndValidity();
     }
   }
 
