@@ -10,6 +10,10 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Strive.Core.Models.Customer;
+using Strive.Core.Models.TimInventory;
+using Strive.Core.ViewModels.Customer;
+using StriveCustomer.Android.Fragments;
 
 namespace StriveCustomer.Android.Adapter
 {
@@ -17,11 +21,38 @@ namespace StriveCustomer.Android.Adapter
     {
         public IItemClickListener vehicleItemClickListener;
         public TextView vehicleReg;
+        public TextView vehicleName;
+        public TextView vehicleMembership;
+        public ImageButton deleteButton;
+        public ImageButton editButton;       
         public VehicleRecyclerHolder(View itemVehicle) : base(itemVehicle)
         {
+            deleteButton = itemVehicle.FindViewById<ImageButton>(Resource.Id.deleteButton);
+            editButton = itemVehicle.FindViewById<ImageButton>(Resource.Id.editButton);
             vehicleReg = itemVehicle.FindViewById<TextView>(Resource.Id.regNumber);
+            vehicleName = itemVehicle.FindViewById<TextView>(Resource.Id.carNames);
+            vehicleMembership = itemVehicle.FindViewById<TextView>(Resource.Id.vehicleMembership);
+            deleteButton.Click += DeleteButton_Click;
+            editButton.Click += EditButton_Click;
             itemVehicle.SetOnClickListener(this);
         }
+
+        private async void EditButton_Click(object sender, EventArgs e)
+        {
+           
+            var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
+            
+        }
+
+        private async void DeleteButton_Click(object sender, EventArgs e)
+        {
+            var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
+            VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
+            VehicleInfoFragment vehicleFragment = new VehicleInfoFragment();
+            await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
+            vehicleItemClickListener.OnClick(null, AdapterPosition, false);
+        }
+
         public void SetItemClickListener(IItemClickListener itemClickListener)
         {
             this.vehicleItemClickListener = itemClickListener;
@@ -37,28 +68,30 @@ namespace StriveCustomer.Android.Adapter
         }
     }
 
-    class VehicleDetailsAdapter : RecyclerView.Adapter, IItemClickListener
+    public class VehicleDetailsAdapter : RecyclerView.Adapter, IItemClickListener
     {
 
         Context context;
-        public List<string> listData = new List<string>();
+        public VehicleList vehicleLists = new VehicleList();
         private VehicleRecyclerHolder vehicleRecyclerHolder;
         public override int ItemCount
         {
             get
             {
-                return listData.Count;
+                return vehicleLists.Status.Count;
             }
         }
-        public VehicleDetailsAdapter(Context context, List<string> data)
+        public VehicleDetailsAdapter(Context context, VehicleList data)
         {
             this.context = context;
-            this.listData = data;
+            this.vehicleLists = data;
         }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             vehicleRecyclerHolder = holder as VehicleRecyclerHolder;
-            vehicleRecyclerHolder.vehicleReg.Text = "Reg"+position;
+            vehicleRecyclerHolder.vehicleReg.Text = vehicleLists.Status[position].VehicleNumber ?? "";
+            vehicleRecyclerHolder.vehicleName.Text = vehicleLists.Status[position].VehicleColor +" "+vehicleLists.Status[position].VehicleMfr + " " + vehicleLists.Status[position].VehicleModel ?? "";
+            vehicleRecyclerHolder.vehicleMembership.Text = vehicleLists.Status[position].VehicleColor ?? "";
             vehicleRecyclerHolder.SetItemClickListener(this);
         }
         public override long GetItemId(int position)
@@ -68,7 +101,9 @@ namespace StriveCustomer.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            
+            vehicleLists.Status.RemoveAt(position); 
+            NotifyItemRemoved(position);
+            NotifyItemRangeChanged(position,vehicleLists.Status.Count);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

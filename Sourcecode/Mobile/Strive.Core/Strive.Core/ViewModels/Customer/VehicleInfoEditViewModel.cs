@@ -20,7 +20,7 @@ namespace Strive.Core.ViewModels.Customer
         public Dictionary<int, string> modelName = new Dictionary<int, string>();
         public Dictionary<int, string> colorName = new Dictionary<int, string>();
         public CustomerUpdateVehicle updateVehicle { get; set; }
-        public VehicleList vehicleDetails { get; set; }
+        public VehicleList vehicleDetails { get; set; }        
         public clientVehicle clientVehicle { get; set; }
         #endregion Properties
 
@@ -112,6 +112,7 @@ namespace Strive.Core.ViewModels.Customer
                 updateVehicle.clientVehicle = new List<clientVehicle>();
                 clientVehicle.clientId = CustomerInfo.ClientID;
                 clientVehicle.locationId = 1;
+                clientVehicle.vehicleModelNo = 0;
                 clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
                 clientVehicle.vehicleModel = MembershipDetails.modelNumber;
                 clientVehicle.vehicleColor = MembershipDetails.colorNumber;
@@ -124,7 +125,6 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.Alert("Information not added,try again");
                     return;
                 }
-                await GetRegisteredVehicleID();
                 _userDialog.HideLoading();
                 _userDialog.Toast("Information has been entered successfully");
             }
@@ -133,19 +133,6 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.HideLoading();
                 _userDialog.Toast("Information save unsuccessful");
             }
-        }
-
-        public async Task GetRegisteredVehicleID()
-        {
-            vehicleDetails = new VehicleList();
-            vehicleDetails.Status = new List<VehicleDetail>();
-            vehicleDetails = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
-            if(vehicleDetails == null || vehicleDetails.Status.Count == 0 )
-            {
-                _userDialog.Alert("No available vehicles were found");
-                return;
-            }
-            MembershipDetails.clientVehicleID = vehicleDetails.Status.LastOrDefault().VehicleId;
         }
 
         public void ShowAlert()

@@ -180,6 +180,11 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_UPDATE_VEHICLE_INFO, HttpMethod.Post, updateVehicle);
         }
 
+        public async Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID)
+        {
+            var url = RestUtils.BuildQuery(ApiUtils.URL_DELETE_VEHICLE_INFO, "id", VehicleID);
+            return await _restClient.MakeApiCall<GeneralResponse>(url, HttpMethod.Delete);
+        }
     }
     public static class RestUtils
     {
