@@ -184,7 +184,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   getCommisionDropdownValue() {
-    this.employeeService.getDropdownValue('COMMISIONTYPE').subscribe(res => {
+    this.employeeService.getDropdownValue('DETAILCOMMISSION').subscribe(res => {
       if (res.status === 'Success') {
         const type = JSON.parse(res.resultData);
         this.commissionType = type.Codes;
