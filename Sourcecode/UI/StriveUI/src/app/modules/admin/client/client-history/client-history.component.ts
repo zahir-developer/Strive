@@ -11,6 +11,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
   historyGrid: any = [];
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(
     private activeModal: NgbActiveModal,
     private client: ClientService,
@@ -32,6 +35,7 @@ export class ClientHistoryComponent implements OnInit {
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
         this.historyGrid = history.VehicleHistory;
+        this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
         console.log(history, 'history');
       }
     });
