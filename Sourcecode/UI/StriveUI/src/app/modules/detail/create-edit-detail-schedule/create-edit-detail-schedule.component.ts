@@ -71,6 +71,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   @Input() isView?: any;
   detailItems: any = [];
   detailsJobServiceEmployee: any = [];
+  isSaveClick: boolean;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -90,6 +91,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isAssign = false;
     this.isViewPastNotes = false;
     this.viewNotesDialog = false;
+    this.isSaveClick = false;
     this.getEmployeeList();
     this.formInitialize();
     this.getAllBayById();
@@ -659,6 +661,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         console.log(res);
         if (res.status === 'Success') {
           this.isAssign = true;
+          this.isSaveClick = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });

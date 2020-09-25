@@ -15,10 +15,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let statement of statementGrid">
+                    <tr *ngFor="let statement of statementGrid | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                         <td>{{statement.TicketNumber}}</td>
                         <td>{{statement.Date | date: 'MM/dd/yyyy'}}</td>
-                        <td>{{statement.ServiceCompleted}}</td>
+                        <td class="table-ellipsis">{{statement.ServiceCompleted}}</td>
                         <td>{{statement.TotalAmount}}</td>
                     </tr>
                     <tr *ngIf="statementGrid.length === 0">
