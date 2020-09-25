@@ -49,6 +49,8 @@ export class EditEmployeeComponent implements OnInit {
   isAlien: boolean = false;
   isDate: boolean = false;
   isCitizen: boolean = true;
+  isHourlyRate: boolean = false;
+  isRequired: boolean = false;
   employeeRole: any = [];
   employeeLocation: any = [];
   roleId: any;
@@ -96,6 +98,7 @@ export class EditEmployeeComponent implements OnInit {
     this.locationId = localStorage.getItem('empLocationId');
     this.employeRole();
     this.locationDropDown();
+    this.dropdownSetting();
     // this.getAllCollision();
     // this.getAllDocument();
   }
@@ -118,6 +121,7 @@ export class EditEmployeeComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.imigirationStatus = cType.Codes;
+        this.dropdownSetting();
         this.employeeDetail();
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -169,6 +173,7 @@ export class EditEmployeeComponent implements OnInit {
     const employeeInfo = employee.EmployeeInfo;
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     if (employee.EmployeeRoles !== null) {
+      this.dropdownSetting();
       this.selectedRole = employee.EmployeeRoles;
       this.employeeRole = employee.EmployeeRoles?.map(item => {
         return {
@@ -203,7 +208,7 @@ export class EditEmployeeComponent implements OnInit {
       emailId: employeeInfo.Email ? employeeInfo.Email : '',
       password: [''],
       dateOfHire: employeeInfo.HiredDate ? moment(employeeInfo.HiredDate).toDate() : '',
-      hourlyRateWash: employeeInfo.PayRate,
+      hourlyRateWash: employeeInfo.WashRate,
       hourlyRateDetail: employeeInfo.DetailRate ? employeeInfo.DetailRate : '',
       comType: employeeInfo.ComType ? employeeInfo.ComType : '',
       comRate: employeeInfo.ComRate ? employeeInfo.ComRate : '',
@@ -297,7 +302,7 @@ export class EditEmployeeComponent implements OnInit {
 
   onRoleDeSelect(event) {
     if (event.item_id === +this.roleId) {
-      this.employeeRole = this.employeeRole.filter( item => item.item_id !== event.item_id);
+      this.employeeRole = this.employeeRole.filter(item => item.item_id !== event.item_id);
       this.employeeRole.push(event);
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Cuurent logged in role cannot be removed' });
       this.emplistform.patchValue({
@@ -305,12 +310,17 @@ export class EditEmployeeComponent implements OnInit {
       });
     } else {
       this.deSelectRole.push(event);
+      if (event.item_text === 'Detailer') {
+        this.isRequired = false;
+        this.emplistform.get('comType').clearValidators();
+        this.emplistform.get('comType').updateValueAndValidity();
+      }
     }
   }
 
   onLocationDeSelect(event) {
     if (event.item_id === +this.locationId) {
-      this.employeeLocation = this.employeeLocation.filter( item => item.item_id !== event.item_id);
+      this.employeeLocation = this.employeeLocation.filter(item => item.item_id !== event.item_id);
       this.employeeLocation.push(event);
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Cuurent logged in location cannot be removed' });
       this.emplistform.patchValue({
@@ -382,10 +392,10 @@ export class EditEmployeeComponent implements OnInit {
       employeeId: this.employeeId,
       employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
-      PayRate: this.emplistform.value.hourlyRateWash,
-      DetailRate: this.emplistform.value.hourlyRateDetail,
-      ComRate: this.emplistform.value.comRate,
-      ComType: this.emplistform.value.comType,
+      WashRate: +this.emplistform.value.hourlyRateWash,
+      DetailRate: +this.emplistform.value.hourlyRateDetail,
+      ComRate: +this.emplistform.value.comRate,
+      ComType: +this.emplistform.value.comType,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
       exemptions: +this.emplistform.value.exemptions,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
@@ -436,7 +446,7 @@ export class EditEmployeeComponent implements OnInit {
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
       birthDate: '',
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
-      immigrationStatus: this.personalform.value.immigrationStatus,
+      immigrationStatus: +this.personalform.value.immigrationStatus,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
     };
@@ -468,10 +478,27 @@ export class EditEmployeeComponent implements OnInit {
 
   getCtype(data) {
     const label = this.commissionType.filter(item => item.CodeId === Number(data));
-    if (label.length !== 0) {
+    if (label.length !== 0 && label[0].CodeValue !== 'Hourly Rate') {
       this.ctypeLabel = label[0].CodeValue;
+      this.isHourlyRate = false;
+    } else if (label.length !== 0 && label[0].CodeValue === 'Hourly Rate') {
+      this.ctypeLabel = 'none';
+      this.isHourlyRate = true;
     } else {
       this.ctypeLabel = 'none';
+      this.isHourlyRate = false;
+    }
+  }
+
+  onItemSelect(data) {
+    if (data.item_text === "Detailer") {
+      this.isRequired = true;
+      this.emplistform.get('comType').setValidators(Validators.required);
+      this.emplistform.get('comType').updateValueAndValidity();
+    } else {
+      this.isRequired = false;
+      this.emplistform.get('comType').clearValidators();
+      this.emplistform.get('comType').updateValueAndValidity();
     }
   }
 
