@@ -1,6 +1,4 @@
-﻿
-
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth B
 -- Create date: 31-08-2020
 -- Description:	To get Detail against id
@@ -17,6 +15,7 @@
 --						 ServiceName
 -- 10-09-2020, Vineeth - Added with(nolock) and used LJ
 --					     Added IsActive and IsDetete 
+-- 22-09-2020, Vineeth - Added tblJobServiceEmployee
 --------------------------------------------------------
 -- =====================================================
 CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] 
@@ -72,5 +71,22 @@ WHERE tblji.JobId = @JobId
 AND isnull(tblji.IsDeleted,0)=0
 AND tblji.IsActive=1
 
+Select
+tbljse.JobItemId,
+tbljse.ServiceId,
+tbls.ServiceName,
+tbls.Cost,
+tbljse.EmployeeId,
+CONCAT(tble.FirstName,' ',tble.MiddleName) AS EmployeeName
+from StriveCarSalon.tblJobServiceEmployee tbljse with(nolock) 
+INNER JOIN StriveCarSalon.tblJobItem tblji ON tbljse.JobItemId = tblji.JobItemId
+INNER JOIN StriveCarSalon.tblService tbls ON(tbljse.ServiceId = tbls.ServiceId)
+INNER JOIN StriveCarSalon.tblEmployee tble ON(tbljse.EmployeeId = tble.EmployeeId)
+WHERE tblji.JobId =@JobId
+AND isnull(tblji.IsDeleted,0)=0
+AND tblji.IsActive=1
+AND isnull(tbljse.IsDeleted,0)=0
+AND tbljse.IsActive=1
 END
+GO
 

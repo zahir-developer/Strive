@@ -57,4 +57,8 @@ export class DetailService {
   getAllEmplloyeeList() {
     return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
   }
+
+  saveEmployeeWithService(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveEmployeeWithService}`, obj);
+  }
 }

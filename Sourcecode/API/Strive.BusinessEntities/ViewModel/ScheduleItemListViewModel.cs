@@ -10,6 +10,8 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public List<ScheduleItemViewModel> ScheduleItemViewModel { get; set; }
         public ScheduleItemSummaryViewModel ScheduleItemSummaryViewModels { get; set; }
+        public List<ProductViewModel> ProductItemViewModel { get; set; }
+        public JobPaymentViewModel JobPaymentViewModel { get; set; }
 
     }
 }

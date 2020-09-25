@@ -95,19 +95,13 @@
 *.dll
 *.pdb
 /Sourcecode/Database/StriveTenantNew/StriveTenantNew/obj/Debug/StriveTenantNew.sqlproj.FileListAbsolute.txt
-/Sourcecode/API/Strive.RepositoryCqrs/bin/Debug
-/Sourcecode/API/Strive.RepositoryCqrs/obj/Debug
 /Sourcecode/Database/StriveTenantNew/StriveTenantNew/obj/Debug
-/Sourcecode/API/Strive.RepositoryCqrs/obj/Debug
-/Sourcecode/API/Strive.RepositoryCqrs/bin/Debug
 /Sourcecode/Database/StriveTenantNew/StriveTenantNew/StriveTenantNew.dbmdl
 /Sourcecode/API/.vs/Strive/DesignTimeBuild
-/Sourcecode/API/Strive.RepositoryCqrs/obj/Release
 /Mammotholdsourcecode/Mammoth_source/MPOS PrintTicket/MPOSReportLibrary/obj/Debug
 /Mammotholdsourcecode/Mammoth_source/MPOS PrintTicket/PrintTicket/obj/Debug
 /Mammotholdsourcecode/Mammoth_source/MPOS PrintTicket/PrintTicket/obj/Release
 /Poc/SignalR
-/Sourcecode/API/Strive.RepositoryCqrs/bin/Release
 /Mammotholdsourcecode/Mammoth_source
 /Sourcecode/API/SonarQube
 /Sourcecode/API/SuperAdmin.API/bin
@@ -115,8 +109,6 @@
 /Sourcecode/API/SuperAdmin.API/obj/Release/netcoreapp2.2
 /Sourcecode/API/SuperAdmin.API/obj
 !Strive-orm.dll
-/Sourcecode/API/Strive.RepositoryCqrs/bin/Release
-/Sourcecode/API/Strive.RepositoryCqrs/bin/Release
 /Sourcecode/API/.sonarqube
 /Sourcecode/API/SuperAdmin.API/bin
 /Sourcecode/API/SuperAdmin.API/obj
@@ -127,4 +119,7 @@
 /Sourcecode/API/SonarQube/conf
 /Sourcecode/API/SonarQube/SonarQube.Analysis.xml
 /Sourcecode/API/.sonarqube
+
+/Sourcecode/API/Strive.RepositoryCqrs/obj/Debug/net461
 /Sourcecode/API/Strive.RepositoryCqrs/obj
+/Sourcecode/API/Strive.RepositoryCqrs/bin/Debug/net461

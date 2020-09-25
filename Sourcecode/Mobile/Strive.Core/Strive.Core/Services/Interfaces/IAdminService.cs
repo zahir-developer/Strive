@@ -59,5 +59,10 @@ namespace Strive.Core.Services.Interfaces
         Task<ClientsSearch> SearchClient(string ClientName);
 
         Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel);
+        Task<CustomerResponse> SaveClientInfo(CustomerUpdateInfo infoModel);
+
+        Task<VehicleCodes> GetVehicleCodes();
+
+        Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle);
     }
 }

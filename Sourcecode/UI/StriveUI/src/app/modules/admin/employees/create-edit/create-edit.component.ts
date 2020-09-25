@@ -53,6 +53,8 @@ export class CreateEditComponent implements OnInit {
   isDate: boolean = false;
   imigirationStatus: any = [];
   isCitizen: boolean = true;
+  isHourlyRate: boolean = false;
+  isRequired: boolean = false;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -278,7 +280,7 @@ export class CreateEditComponent implements OnInit {
       employeeId: 0,
       employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
-      PayRate: this.emplistform.value.hourlyRateWash,
+      WashRate: this.emplistform.value.hourlyRateWash,
       DetailRate: this.emplistform.value.hourlyRateDetail,
       ComRate: this.emplistform.value.comRate,
       ComType: this.emplistform.value.comType,
@@ -308,7 +310,7 @@ export class CreateEditComponent implements OnInit {
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
       birthDate: '',
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
-      immigrationStatus: this.personalform.value.immigrationStatus,
+      immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
       isDeleted: false,
     };
@@ -377,10 +379,35 @@ export class CreateEditComponent implements OnInit {
 
   getCtype(data) {
     const label = this.commissionType.filter(item => item.CodeId === Number(data));
-    if (label.length !== 0) {
+    if (label.length !== 0 && label[0].CodeValue !== 'Hourly Rate') {
       this.ctypeLabel = label[0].CodeValue;
-    } else {
+      this.isHourlyRate = false;
+    } else if(label.length !== 0 && label[0].CodeValue === 'Hourly Rate'){
       this.ctypeLabel = 'none';
+      this.isHourlyRate = true;
+    }else {
+      this.ctypeLabel = 'none';
+      this.isHourlyRate = false;
+    }
+  }
+
+  onItemSelect(data){
+    if(data.item_text === "Detailer"){
+      this.isRequired = true;
+      this.emplistform.get('comType').setValidators(Validators.required);
+      this.emplistform.get('comType').updateValueAndValidity();
+    }else{
+      this.isRequired = false;
+      this.emplistform.get('comType').clearValidators();
+      this.emplistform.get('comType').updateValueAndValidity();
+    }
+  }
+
+  onItemDeSelect(data){
+    if(data.item_text === "Detailer"){
+      this.isRequired = false;
+      this.emplistform.get('comType').clearValidators();
+      this.emplistform.get('comType').updateValueAndValidity();
     }
   }
 }
