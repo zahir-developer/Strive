@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[formControlName][appTwoDecimalNumber]'
+  selector: '[appTwoDecimalNumber]'
 })
 export class TwoDecimalNumberDirective {
 

@@ -240,7 +240,7 @@ export class SalesComponent implements OnInit {
             this.credit = +summary?.Credit;
             this.discount = summary?.Discount;
             this.originalGrandTotal = +this.grandTotal;
-            this.giftCard = +summary?.GiftCard;
+            this.giftCard = Math.abs(+summary?.GiftCard);
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
 
