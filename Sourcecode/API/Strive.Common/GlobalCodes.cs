@@ -39,6 +39,7 @@ namespace Strive.Common
         UPCHARGE,
         MAKE,
         SCORE,
-        IMMIGRATIONSTATUS
+        IMMIGRATIONSTATUS,
+        DETAILCOMMISSION
     }
 }
