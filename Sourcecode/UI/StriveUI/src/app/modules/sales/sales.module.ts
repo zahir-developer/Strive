@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SalesRoutingModule} from './sales.routing';
 import {SalesComponent} from './sales/sales.component';
@@ -14,9 +14,11 @@ import { EditItemComponent } from './sales/edit-item/edit-item.component';
   declarations: [SalesComponent, SearchItemComponent, EditItemComponent],
   imports: [
     CommonModule,
+    RouterModule,
     SalesRoutingModule,
     SharedModule
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class SalesModule { }
