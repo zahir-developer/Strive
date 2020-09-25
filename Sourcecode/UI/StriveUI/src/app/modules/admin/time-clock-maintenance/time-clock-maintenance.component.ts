@@ -20,7 +20,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
   collectionSize: number = 0;
   isTimeClockEmpty = false;
   timeClockEmployeeDetailDto =
-  {
+    {
       locationId: 1,
       startDate: '2020-08-15',
       endDate: '2020-09-09'
@@ -40,25 +40,25 @@ export class TimeClockMaintenanceComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private uiLoaderService: NgxUiLoaderService,
     private datePipe: DatePipe,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.selectedEmployee = '';
     this.isTimeClockWeekPage = false;
     this.weeklyDateAssign();
-    this.getEmployeeList();
+    // this.getEmployeeList();
     // this.getTimeClockEmployeeDetails();
   }
 
   weeklyDateAssign() {
     const currentDate = new Date();
     const first = currentDate.getDate() - currentDate.getDay();
-    const last =  first + 6;
+    const last = first + 6;
     this.startDate = new Date(currentDate.setDate(first));
     this.endDate = new Date(currentDate.setDate(last));
     // this.endDate = this.endDate.setDate( this.startDate.getDate() + 7);
     // this.endDate = new Date(moment(this.endDate).format());
-    this.daterangepickerModel = [this.startDate , this.endDate];
+    this.daterangepickerModel = [this.startDate, this.endDate];
     this.getTimeClockEmployeeDetails();
   }
 
@@ -75,7 +75,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
       if (data.status === 'Success') {
         const timeClock = JSON.parse(data.resultData);
         this.timeClockEmployeeDetails = timeClock.Result;
-
+        this.employeeList = timeClock.Result.EmployeeViewModel;
         if (this.timeClockEmployeeDetails.length === 0) {
           this.isTimeClockEmpty = true;
           console.log(this.timeClockEmployeeDetails);
@@ -85,6 +85,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
           this.isTimeClockEmpty = false;
           console.log(this.timeClockEmployeeDetails);
         }
+        //this.onValueChange
       }
       else {
         this.toastr.error('Communication Error', 'Error !!!');
@@ -169,7 +170,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     const finalObj = {
       timeClock: employeeListObj
     };
-    this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe( res => {
+    this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Employee added successfully!!', 'Success!');
         this.selectedEmployee = '';
@@ -184,10 +185,12 @@ export class TimeClockMaintenanceComponent implements OnInit {
 
   onValueChange(event) {
     console.log(this.startDate, 'start');
-    if (event.length !== 0 && event.length !== null) {
-      this.startDate = event[0];
-      this.endDate = event[1];
-      this.getTimeClockEmployeeDetails();
+    if (event !== null) {
+      if (event.length !== 0 && event.length !== null) {
+        this.startDate = event[0];
+        this.endDate = event[1];
+        this.getTimeClockEmployeeDetails();
+      }
     }
   }
 

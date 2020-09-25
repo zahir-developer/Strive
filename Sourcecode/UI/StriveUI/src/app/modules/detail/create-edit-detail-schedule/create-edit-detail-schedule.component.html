@@ -218,7 +218,7 @@
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                (click)="assignEmployee()" [disabled]="!isAssign || isView">Assign</button>
+                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
