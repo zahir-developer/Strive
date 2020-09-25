@@ -4,6 +4,7 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-time-clock-week',
@@ -33,7 +34,8 @@ export class TimeClockWeekComponent implements OnInit {
   constructor(
     public timeClockMaintenanceService: TimeClockMaintenanceService,
     private datePipe: DatePipe,
-    private toastr: ToastrService
+    private toastr: ToastrService,    
+    private messageService: MessageServiceToastr,
   ) { }
 
   ngOnInit(): void {
@@ -139,7 +141,21 @@ export class TimeClockWeekComponent implements OnInit {
     });
   }
 
-  saveWeeklyhours() {
+  saveWeeklyhours() {    
+      let checkIn = [];
+      this.timeClockList.forEach(element => {
+        if(element.checkInDetail !== 0){
+          element.checkInDetail.forEach(ele => {
+            if(ele.TimeClockId === 0 && +ele.TotalHours === 0){
+              checkIn.push(ele);
+            }
+          });
+        }
+      });
+      if(checkIn.length !== 0){
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
+        return;
+      }
     console.log(this.timeClockList, 'finalobj');
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {

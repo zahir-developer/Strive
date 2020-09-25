@@ -59,7 +59,7 @@ namespace Admin.Api.Controllers
         [HttpPost, Route("Jenkins")]
         public void Jenkins()
         {
-            //throw NotImplementedException();
+            throw NotImplementedException();
         }
 
         #endregion
