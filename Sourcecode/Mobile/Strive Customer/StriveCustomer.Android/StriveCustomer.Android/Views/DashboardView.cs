@@ -34,6 +34,7 @@ namespace StriveCustomer.Android.Views
         ScheduleFragment scheduleFrag = new ScheduleFragment();
         PastDetailsFragment pastDetailsFrag = new PastDetailsFragment();
         MyProfileInfoFragment myProfileFrag = new MyProfileInfoFragment();
+        ContactUsFragment contactFrag = new ContactUsFragment();
         MyProfileInfoViewModel MyProfileInfoViewModel = new MyProfileInfoViewModel();
         protected override void OnCreate(Bundle bundle)
         {
@@ -69,7 +70,7 @@ namespace StriveCustomer.Android.Views
                     fragment = myProfileFrag;
                     break;
                 case Resource.Id.menu_Schedule:
-                    fragment = scheduleFrag;
+                    fragment = contactFrag;
                     break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();

@@ -13,7 +13,6 @@ namespace Strive.Core.ViewModels.Customer
         #region Properties
 
         public CustomerPersonalInfo customerInfo { get; set; }
-        public int ClientId { get; set; } = 122;
 
         #endregion Properties
 
@@ -24,7 +23,7 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.ShowLoading(Strings.Loading, Acr.UserDialogs.MaskType.Gradient);
             customerInfo = new CustomerPersonalInfo();
             customerInfo.Status = new List<Status>();
-            customerInfo = await AdminService.GetClientById(ClientId);
+            customerInfo = await AdminService.GetClientById(CustomerInfo.ClientID);
             if (customerInfo == null || customerInfo.Status.Count == 0)
             {
                 _userDialog.Toast("No user information available");
