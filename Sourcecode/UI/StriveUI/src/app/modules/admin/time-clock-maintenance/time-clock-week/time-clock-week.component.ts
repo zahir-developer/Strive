@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { TimeClockMaintenanceService } from 'src/app/shared/services/data-service/time-clock-maintenance.service';
 import * as _ from 'underscore';
 import * as moment from 'moment';
@@ -9,7 +9,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 @Component({
   selector: 'app-time-clock-week',
   templateUrl: './time-clock-week.component.html',
-  styleUrls: ['./time-clock-week.component.css']
+  styleUrls: ['./time-clock-week.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TimeClockWeekComponent implements OnInit {
   totalWeekDetail: any = {
@@ -146,7 +147,7 @@ export class TimeClockWeekComponent implements OnInit {
       this.timeClockList.forEach(element => {
         if(element.checkInDetail !== 0){
           element.checkInDetail.forEach(ele => {
-            if(ele.TimeClockId === 0 && +ele.TotalHours === 0){
+            if(ele.TimeClockId === 0 && ele.TotalHours === "0"){
               checkIn.push(ele);
             }
           });
@@ -226,6 +227,10 @@ export class TimeClockWeekComponent implements OnInit {
     this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
     this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
 
+  }
+
+  timeCheck(data){
+    console.log(data);
   }
 
 }

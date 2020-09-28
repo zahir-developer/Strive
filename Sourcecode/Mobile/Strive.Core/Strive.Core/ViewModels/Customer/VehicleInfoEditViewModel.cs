@@ -20,14 +20,17 @@ namespace Strive.Core.ViewModels.Customer
         public Dictionary<int, string> modelName = new Dictionary<int, string>();
         public Dictionary<int, string> colorName = new Dictionary<int, string>();
         public CustomerUpdateVehicle updateVehicle { get; set; }
-        public VehicleList vehicleDetails { get; set; }
+        public VehicleList vehicleDetails { get; set; }        
         public clientVehicle clientVehicle { get; set; }
-        #endregion Properties
+        public VehicleList vehicleLists { get; set; }
 
 
-        #region Commands
+    #endregion Properties
 
-        public async Task getVehicleDetails()
+
+    #region Commands
+
+    public async Task getVehicleDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
 
@@ -67,10 +70,26 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-                _userDialog.Alert("Please select the vehicle specifications");
+                _userDialog.Alert("Please save the vehicle specifications");
             }
         }
+        public async Task GetCustomerVehicleList()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            vehicleLists = new VehicleList();
+            vehicleLists.Status = new List<VehicleDetail>();
+            CustomerVehiclesInformation.vehiclesList = new VehicleList();
+            CustomerVehiclesInformation.vehiclesList.Status = new List<VehicleDetail>();
+            vehicleLists = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
+            MembershipDetails.clientVehicleID = vehicleLists.Status.LastOrDefault().VehicleId;
+            CustomerVehiclesInformation.vehiclesList = vehicleLists;
+            if (vehicleLists == null || vehicleLists.Status.Count == 0)
+            {
+                _userDialog.Alert("No associated vehicles were found.");
+            }
 
+            _userDialog.HideLoading();
+        }
         public async void NavigateBack()
         {
             MembershipDetails.clearMembershipData();
@@ -112,6 +131,7 @@ namespace Strive.Core.ViewModels.Customer
                 updateVehicle.clientVehicle = new List<clientVehicle>();
                 clientVehicle.clientId = CustomerInfo.ClientID;
                 clientVehicle.locationId = 1;
+                clientVehicle.vehicleModelNo = 0;
                 clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
                 clientVehicle.vehicleModel = MembershipDetails.modelNumber;
                 clientVehicle.vehicleColor = MembershipDetails.colorNumber;
@@ -124,9 +144,10 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.Alert("Information not added,try again");
                     return;
                 }
-                await GetRegisteredVehicleID();
+                await GetCustomerVehicleList();
                 _userDialog.HideLoading();
                 _userDialog.Toast("Information has been entered successfully");
+                
             }
             else
             {
@@ -135,22 +156,9 @@ namespace Strive.Core.ViewModels.Customer
             }
         }
 
-        public async Task GetRegisteredVehicleID()
-        {
-            vehicleDetails = new VehicleList();
-            vehicleDetails.Status = new List<VehicleDetail>();
-            vehicleDetails = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
-            if(vehicleDetails == null || vehicleDetails.Status.Count == 0 )
-            {
-                _userDialog.Alert("No available vehicles were found");
-                return;
-            }
-            MembershipDetails.clientVehicleID = vehicleDetails.Status.LastOrDefault().VehicleId;
-        }
-
         public void ShowAlert()
         {
-            _userDialog.Alert("Please select the vehicle specifications");
+            _userDialog.Alert("Please save the vehicle specifications");
         }
 
 

@@ -731,7 +731,7 @@ export class SalesComponent implements OnInit {
       this.salesService.rollback(+this.ticketNumber).subscribe(data => {
         if (data.status === 'Success') {
           this.getDetailByTicket();
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }

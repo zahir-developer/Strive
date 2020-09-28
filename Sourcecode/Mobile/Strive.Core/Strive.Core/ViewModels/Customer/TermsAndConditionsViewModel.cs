@@ -106,6 +106,7 @@ namespace Strive.Core.ViewModels.Customer
             if (data.Status == true)
             {
                 _userDialog.Toast("Membership has been created successfully");
+                MembershipDetails.clearMembershipData();
                 return;
             }
             else

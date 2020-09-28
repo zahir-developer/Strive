@@ -89,7 +89,7 @@
                                                                             (ngModelChange)="time.InTime=$event"
                                                                             [popover]="inTimePopup"
                                                                             [outsideClick]="true" placement="bottom"
-                                                                            numbersOnly />
+                                                                            numbersOnly/>
                                                                     <td>
                                                                         <ng-template #popTemplate>
                                                                             <timepicker id="outTime_{{week.day}}_{{i}}"
@@ -109,7 +109,7 @@
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             (ngModelChange)="time.OutTime=$event"
                                                                             [popover]="popTemplate"
-                                                                            [outsideClick]="true" placement="bottom" />
+                                                                            [outsideClick]="true" placement="bottom" numbersOnly />
                                                                     </td>
                                                                     <td>
                                                                         <select
