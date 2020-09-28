@@ -102,17 +102,26 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task AgreeMembership()
         {
-            var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
-            if (data.Status == true)
+            var confirm = await _userDialog.ConfirmAsync("Create Membership ? You can cancel it later if you change your mind !");
+            if(confirm)
             {
-                _userDialog.Toast("Membership has been created successfully");
-                MembershipDetails.clearMembershipData();
-                return;
+                var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
+                if (data.Status == true)
+                {
+                    _userDialog.Toast("Membership has been created successfully");
+                    MembershipDetails.clearMembershipData();
+                    return;
+                }
+                else
+                {
+                    _userDialog.Alert("Error membership not created");
+                }
             }
             else
             {
-                _userDialog.Alert("Error membership not created");
+
             }
+            
         }
         public void DisagreeMembership()
         {

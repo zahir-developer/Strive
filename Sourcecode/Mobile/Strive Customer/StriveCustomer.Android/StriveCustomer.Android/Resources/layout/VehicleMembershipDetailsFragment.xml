@@ -58,7 +58,7 @@
                     android:id="@+id/membershipNames"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Vehicle Bar Code"
+                    android:text="Vehicle Membership"
                     android:paddingLeft="@dimen/twelve"
                     android:textColor="@color/colorAccent"
                     android:textSize ="@dimen/textTwenty"
@@ -137,6 +137,17 @@
                     android:fontFamily="@font/opensans_bold"
                     android:layout_weight="1"/>
             </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/primarybutton"
+                android:textColor="@android:color/white"
+                android:layout_gravity=""
+                android:text="CANCEL"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="@dimen/forty"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -54,7 +54,7 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="@dimen/ten"
                 android:layout_marginLeft="@dimen/ten">
                 <ImageView
@@ -75,7 +75,7 @@
              <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="@dimen/fifteen"
                 android:layout_marginLeft="@dimen/ten">
                 <ImageView
@@ -96,7 +96,7 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="@dimen/fifteen"
                 android:layout_marginLeft="@dimen/ten">
                 <ImageView
@@ -117,7 +117,7 @@
              <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="@dimen/fifteen"
                 android:layout_marginLeft="@dimen/ten">
                 <ImageView
