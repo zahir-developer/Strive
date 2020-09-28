@@ -80,13 +80,13 @@ export class SalesComponent implements OnInit {
   balanceDue = 0;
   Cashback = '';
   ngOnInit(): void {
+    this.giftCardFromInit();
+    this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
     if (paramsData !== null) {
       this.ticketNumber = paramsData;
       this.getDetailByTicket();
     }
-    this.giftCardFromInit();
-    this.addItemFormInit();
     // this.getAllService();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
@@ -240,7 +240,7 @@ export class SalesComponent implements OnInit {
             this.credit = +summary?.Credit;
             this.discount = summary?.Discount;
             this.originalGrandTotal = +this.grandTotal;
-            this.giftCard = +summary?.GiftCard;
+            this.giftCard = Math.abs(+summary?.GiftCard);
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
 
