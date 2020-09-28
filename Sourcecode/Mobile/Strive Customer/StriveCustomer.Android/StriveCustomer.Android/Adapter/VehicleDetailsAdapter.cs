@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -24,7 +25,9 @@ namespace StriveCustomer.Android.Adapter
         public TextView vehicleName;
         public TextView vehicleMembership;
         public ImageButton deleteButton;
-        public ImageButton editButton;       
+        public ImageButton editButton;
+        VehicleInfoDisplayFragment InfoFragment = new VehicleInfoDisplayFragment();
+        VehicleInfoDisplayViewModel displayViewModel = new VehicleInfoDisplayViewModel();
         public VehicleRecyclerHolder(View itemVehicle) : base(itemVehicle)
         {
             deleteButton = itemVehicle.FindViewById<ImageButton>(Resource.Id.deleteButton);
@@ -37,11 +40,12 @@ namespace StriveCustomer.Android.Adapter
             itemVehicle.SetOnClickListener(this);
         }
 
-        private async void EditButton_Click(object sender, EventArgs e)
+        private void EditButton_Click(object sender, EventArgs e)
         {
-           
             var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
-            
+            AppCompatActivity activity = (AppCompatActivity)this.ItemView.Context;
+            CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
         }
 
         private async void DeleteButton_Click(object sender, EventArgs e)

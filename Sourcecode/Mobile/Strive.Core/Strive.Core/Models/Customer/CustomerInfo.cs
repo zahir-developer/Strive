@@ -93,8 +93,17 @@ namespace Strive.Core.Models.Customer
             selectedMake = 0;
             selectedUpCharge = 0;
             selectedMembership = 0;
+            vehicleMakeNumber = 0;
+            modelNumber = 0;
+            vehicleMakeName = null;
+            colorNumber = 0;
+            modelName = null;
+            colorName = null;
             filteredList = null;
             customerVehicleDetails = null;
+            selectedAdditionalServices = null;
+            customerVehicleDetails = null;
+            selectedMembershipServices = null;
             clientVehicleID = 0;
         }
 
@@ -105,7 +114,9 @@ namespace Strive.Core.Models.Customer
     public static class CustomerVehiclesInformation
     {
         public static VehicleList vehiclesList { get; set; }
- 
+        public static int selectedVehicleInfo { get; set; }
+
+        public static ClientVehicleRootView completeVehicleDetails { get; set; }
 
     }
 }

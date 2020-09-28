@@ -46,8 +46,6 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.Toast("Vehicle details deleted successfully");
             }
-            await GetCustomerVehicleList();
-
             _userDialog.HideLoading();
         }
 

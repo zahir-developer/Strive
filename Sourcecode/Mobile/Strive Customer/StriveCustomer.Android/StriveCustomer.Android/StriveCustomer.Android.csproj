@@ -90,8 +90,10 @@
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
     <Compile Include="Fragments\VehicleAdditionalServicesFragment.cs" />
+    <Compile Include="Fragments\VehicleInfoDisplayFragment.cs" />
     <Compile Include="Fragments\VehicleInfoEditFragment.cs" />
     <Compile Include="Fragments\VehicleInfoFragment.cs" />
+    <Compile Include="Fragments\VehicleMembershipDetailsFragment.cs" />
     <Compile Include="Fragments\VehicleMembershipFragment.cs" />
     <Compile Include="Fragments\VehicleUpChargesFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -731,6 +733,14 @@
     <AndroidResource Include="Resources\layout\VehicleInfoList.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\VehicleInfoDisplay.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\VehicleMembershipDetailsFragment.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
