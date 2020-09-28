@@ -146,7 +146,7 @@ export class TimeClockWeekComponent implements OnInit {
       this.timeClockList.forEach(element => {
         if(element.checkInDetail !== 0){
           element.checkInDetail.forEach(ele => {
-            if(ele.TimeClockId === 0 && +ele.TotalHours === 0){
+            if(ele.TimeClockId === 0 && ele.TotalHours === "0"){
               checkIn.push(ele);
             }
           });
@@ -223,6 +223,10 @@ export class TimeClockWeekComponent implements OnInit {
 
     //   });
     // });
+  }
+
+  timeCheck(data){
+    console.log(data);
   }
 
 }
