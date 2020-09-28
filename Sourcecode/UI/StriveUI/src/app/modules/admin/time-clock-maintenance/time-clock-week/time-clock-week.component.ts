@@ -208,21 +208,24 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   totalHoursCalculation(data) {
-    // console.log(data, 'calculation');
-    // if (this.roleList.filter(item => +item.CodeId === +data.RoleId)[0].CodeValue === 'Wash') {
-    //   this.totalWeekDetail.TotalWashHours += +data.TotalHours;
-    //   this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
-    //   this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount + this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
-    // } else if (this.roleList.filter(item => +item.CodeId === +data.RoleId)[0].CodeValue === 'Detailer') {
-    //   this.totalWeekDetail.TotalDetailHours += +data.TotalHours;
-    //   this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
-    //   this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount + this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
-    // }
-    // this.timeClockList.forEach( item => {
-    //   item.checkInDetail.forEach( checkIn => {
+    let washHour = 0;
+    let detailHour = 0;
+    this.timeClockList.forEach( item => {
+      item.checkInDetail.forEach( checkIn => {
+        if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Wash') {
+          washHour +=  +checkIn.TotalHours;
+        } else if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Detailer') {
+          detailHour +=  +checkIn.TotalHours;
+        }
+      });
+    });
+    this.totalWeekDetail.TotalDetailHours = detailHour;
+    this.totalWeekDetail.TotalWashHours = washHour;
+    this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
+    this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
+    this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
+    this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
 
-    //   });
-    // });
   }
 
 }
