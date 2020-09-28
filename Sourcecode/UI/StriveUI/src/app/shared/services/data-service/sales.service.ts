@@ -43,4 +43,7 @@ export class SalesService {
  getServiceAndProduct() {
   return this.http.get(`${UrlConfig.totalUrl.getServiceAndProduct}`);
  }
+ updateProductItem(updateObj) {
+  return this.http.post(`${UrlConfig.totalUrl.updateProductObj}`, updateObj);
+ }
 }

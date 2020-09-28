@@ -15,7 +15,7 @@ export class EditItemComponent implements OnInit {
   @Input() ItemDetail: any;
   @Input() JobId: any;
   constructor(private fb: FormBuilder, private activeModal: NgbActiveModal, private salesService: SalesService,
-              private messageService: MessageServiceToastr) { }
+    private messageService: MessageServiceToastr) { }
 
   ngOnInit(): void {
     console.log(this.ItemDetail);
@@ -42,13 +42,50 @@ export class EditItemComponent implements OnInit {
       return;
     }
     const updateObj = {
-      jobItemId: this.ItemDetail?.JobItemId,
-      serviceId: this.ItemDetail?.ServiceId,
+      jobItemId: this.ItemDetail?.JobItemId ? this.ItemDetail?.JobItemId : 0,
+      serviceId: this.ItemDetail?.ServiceId ? this.ItemDetail?.ServiceId : 0,
       quantity: this.editItemForm.value.quantity,
-      price: this.editItemForm.value.price
+      price: +this.editItemForm.value.price
     };
+    const updateProductObj = [{
+      jobProductItemId: this.ItemDetail?.JobProductItemId ? this.ItemDetail?.JobProductItemId : 0,
+      jobId: this.ItemDetail?.JobId ? this.ItemDetail?.JobId : 0,
+      productId: this.ItemDetail?.ProductId ? this.ItemDetail?.ProductId : 0,
+      commission: 0,
+      price: +this.editItemForm.value.price,
+      quantity: this.editItemForm.value.quantity,
+      reviewNote: null,
+      isActive: true,
+      isDeleted: true,
+      createdBy: 0,
+      createdDate: new Date(),
+      updatedBy: 0,
+      updatedDate: new Date()
+    }];
+    if (this.ItemDetail?.ProductId) {
+      const productObj = {
+        jobProductItem: updateProductObj
+      };
+      this.updateProductItem(productObj);
+    } else {
+      this.updateServiceItem(updateObj);
+    }
+  }
+  updateServiceItem(updateObj) {
     this.salesService.updateItem(updateObj).subscribe(data => {
       console.log(data);
+      if (data.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item upated successfully' });
+        this.activeModal.close();
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+    });
+  }
+  updateProductItem(updateObj) {
+    this.salesService.updateProductItem(updateObj).subscribe(data => {
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item upated successfully' });
         this.activeModal.close();
