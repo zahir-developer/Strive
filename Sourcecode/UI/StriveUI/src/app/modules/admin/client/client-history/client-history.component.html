@@ -18,10 +18,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let history of historyGrid">
+                    <tr *ngFor="let history of historyGrid | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                         <td>{{history.TicketNumber}}</td>
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
-                        <td>{{history.ServiceCompleted}}</td>
+                        <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
                         <td></td>
                         <td>{{history.Amount}}</td>
                         <td>{{history.Price}}</td>
@@ -34,6 +34,9 @@
                     </tr>
                 </tbody>
             </table>
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+            </ngb-pagination>
             <div class="pull-right mw-100 m-t-5">
                 <button type="button" class="btn theme-optional-button-color"
                     (click)="closeHistoryModel()">Done</button>
