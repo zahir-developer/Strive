@@ -74,8 +74,10 @@
     <Compile Include="Adapter\DealsInfoAdapter.cs" />
     <Compile Include="Adapter\IItemClickListener.cs" />
     <Compile Include="Adapter\PastDetailsAdapter.cs" />
+    <Compile Include="Adapter\VehicleDetailsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
+    <Compile Include="Fragments\ContactUsFragment.cs" />
     <Compile Include="Fragments\DealsFragment.cs" />
     <Compile Include="Fragments\DealsInfoFragment.cs" />
     <Compile Include="Fragments\MapsFragment.cs" />
@@ -89,8 +91,10 @@
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
     <Compile Include="Fragments\VehicleAdditionalServicesFragment.cs" />
+    <Compile Include="Fragments\VehicleInfoDisplayFragment.cs" />
     <Compile Include="Fragments\VehicleInfoEditFragment.cs" />
     <Compile Include="Fragments\VehicleInfoFragment.cs" />
+    <Compile Include="Fragments\VehicleMembershipDetailsFragment.cs" />
     <Compile Include="Fragments\VehicleMembershipFragment.cs" />
     <Compile Include="Fragments\VehicleUpChargesFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +123,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\font\OpenSans_Bold.ttf" />
     <AndroidResource Include="Resources\font\OpenSans_Regular.ttf" />
+    <AndroidResource Include="Resources\font\OpenSans_Semibold.ttf" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
@@ -724,6 +729,24 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\secondaryButton.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\VehicleInfoList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\VehicleInfoDisplay.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\VehicleMembershipDetailsFragment.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ContactUsFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -1,0 +1,142 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mobile_portrait_bg">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2FCFE">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Vehicle"
+            android:textSize="18sp"
+            android:textColor="@color/profileInfoColor"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/vehicleMemberDetailsBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Back" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/ten"
+        android:textSize="@dimen/sixteen"
+        android:textColor="@android:color/white"
+        android:text="Membership Details"
+        android:fontFamily="@font/opensans_bold" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/fifteen"
+        android:layout_marginLeft="@dimen/twentyFive"
+        android:layout_marginRight="@dimen/twentyFive"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/secondarylinearlayout">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/membershipNames"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle Bar Code"
+                    android:paddingLeft="@dimen/twelve"
+                    android:textColor="@color/colorAccent"
+                    android:textSize ="@dimen/textTwenty"
+                    android:fontFamily="@font/opensans_bold"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Activated Date :"
+                    android:paddingLeft="@dimen/twelve"
+                    android:textColor="@color/profileQColor"
+                    android:textSize ="@dimen/textFourteen"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/vehicleMake"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/profileQColor"
+                    android:textSize ="@dimen/textFourteen"
+                    android:fontFamily="@font/opensans_bold"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cancelled Date :"
+                    android:paddingLeft="@dimen/twelve"
+                    android:textColor="@color/profileQColor"
+                    android:textSize ="@dimen/textFourteen"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/vehicleModel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/profileQColor"
+                    android:textSize ="@dimen/textFourteen"
+                    android:fontFamily="@font/opensans_bold"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Status :"
+                    android:paddingLeft="@dimen/twelve"
+                    android:textColor="@color/profileQColor"
+                    android:textSize ="@dimen/textFourteen"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/vehicleMembershipName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/profileQColor"
+                    android:textSize ="@dimen/textFourteen"
+                    android:fontFamily="@font/opensans_bold"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

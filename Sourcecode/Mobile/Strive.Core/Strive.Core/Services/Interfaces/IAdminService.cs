@@ -64,5 +64,7 @@ namespace Strive.Core.Services.Interfaces
         Task<VehicleCodes> GetVehicleCodes();
 
         Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle);
+
+        Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID);
     }
 }
