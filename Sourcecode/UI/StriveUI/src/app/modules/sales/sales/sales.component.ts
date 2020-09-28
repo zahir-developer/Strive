@@ -41,6 +41,7 @@ export class SalesComponent implements OnInit {
   airfreshnerService = [];
   creditcashback = 0;
   cashback = 0;
+  initialcashback = 0;
   selected = false;
   isSelected = true;
   creditTotal = 0;
@@ -238,6 +239,7 @@ export class SalesComponent implements OnInit {
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
+            this.initialcashback = summary?.Cashback ? summary?.Cashback : 0;
             this.cashback = summary?.Cashback ? summary?.Cashback : 0;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
@@ -310,8 +312,9 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    this.cashTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
+    const cashTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
       Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
+    this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('creditcardpopup').style.width = '0';
@@ -348,9 +351,11 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '0';
   }
   opencreditcard() {
-    this.creditTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
+    const creditTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
       Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
+    this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
+    this.cashback = this.initialcashback;
     document.getElementById('creditcardpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
@@ -576,22 +581,22 @@ export class SalesComponent implements OnInit {
   discountProcess() {
     let selectedDiscount = [];
     selectedDiscount = this.selectedDiscount.map(item => {
-    return {
-      jobItemId: 0,
-      jobId: this.isSelected ? this.JobId : 0,
-      serviceId: item?.ServiceId,
-      commission: 0,
-      price: -(item?.Cost),
-      quantity: 1,
-      reviewNote: null,
-      isActive: true,
-      isDeleted: false,
-      createdBy: 1,
-      createdDate: new Date(),
-      updatedBy: 1,
-      updatedDate: new Date(),
-      employeeId: +localStorage.getItem('empId')
-     };
+      return {
+        jobItemId: 0,
+        jobId: this.isSelected ? this.JobId : 0,
+        serviceId: item?.ServiceId,
+        commission: 0,
+        price: -(item?.Cost),
+        quantity: 1,
+        reviewNote: null,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date(),
+        employeeId: +localStorage.getItem('empId')
+      };
     });
     const formObj = {
       jobItem: selectedDiscount,
@@ -663,7 +668,7 @@ export class SalesComponent implements OnInit {
         paymentType: 109,
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
-        cashback: 0,
+        cashback: this.cashback ? this.cashback : 0,
         approval: true,
         checkNumber: '',
         signature: '',
