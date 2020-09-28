@@ -15,6 +15,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Fragments;
+using StriveCustomer.Android.Resources.Enums;
 
 namespace StriveCustomer.Android.Adapter
 {
@@ -50,6 +51,7 @@ namespace StriveCustomer.Android.Adapter
 
         private async void DeleteButton_Click(object sender, EventArgs e)
         {
+            CustomerInfo.actionType = 1;
             var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
             VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
             VehicleInfoFragment vehicleFragment = new VehicleInfoFragment();
@@ -63,6 +65,7 @@ namespace StriveCustomer.Android.Adapter
         }
         public void OnClick(View view)
         {
+            CustomerInfo.actionType = 2;
             vehicleItemClickListener.OnClick(view, AdapterPosition, false);
         }
 
@@ -105,9 +108,12 @@ namespace StriveCustomer.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            vehicleLists.Status.RemoveAt(position); 
-            NotifyItemRemoved(position);
-            NotifyItemRangeChanged(position,vehicleLists.Status.Count);
+            if(CustomerInfo.actionType == (int)VehicleClickEnums.Delete)
+            {
+                vehicleLists.Status.RemoveAt(position);
+                NotifyItemRemoved(position);
+                NotifyItemRangeChanged(position, vehicleLists.Status.Count);
+            }
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

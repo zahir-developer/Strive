@@ -24,6 +24,7 @@ namespace Strive.Core.Models.Customer
         public static int modelNumber { get; set; }
         public static string modelName { get; set; }
         public static SelectedServiceList membershipType;
+        public static int actionType { get; set; } = 0; 
 
         #endregion properties
 
