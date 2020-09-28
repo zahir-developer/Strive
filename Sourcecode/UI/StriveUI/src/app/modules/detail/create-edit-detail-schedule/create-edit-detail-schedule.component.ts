@@ -76,6 +76,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   isStart: boolean;
   jobStatus: any = [];
   isCompleted: boolean;
+  jobStatusID: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -402,6 +403,21 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   getWashById() {
     console.log(this.additional);
+    const isJobStatus = _.where(this.jobStatus, { CodeId: this.selectedData?.Details?.JobStatus });
+    if (isJobStatus.length > 0) {
+      if (isJobStatus[0].CodeValue === 'In Progress') {
+        this.isCompleted = true;
+        this.jobStatusID = isJobStatus[0].CodeId;
+      } else if (isJobStatus[0].CodeValue === 'Completed') {
+        this.isCompleted = true;
+        this.isStart = true;
+        this.jobStatusID = isJobStatus[0].CodeId;
+      } else if (isJobStatus[0].CodeValue === 'Waiting') {
+        this.isStart = true;
+        this.isCompleted = false;
+        this.jobStatusID = isJobStatus[0].CodeId;
+      }
+    }
     this.getClientVehicle(this.selectedData?.Details?.ClientId);
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
     this.note = this.selectedData.Details.Notes;
@@ -590,7 +606,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobDetail: null,
       baySchedule: null
     };
+    this.spinner.show();
     this.detailService.updateDetail(formObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.isStart = false;
         this.isCompleted = true;
@@ -642,7 +660,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobDetail: null,
       baySchedule: null
     };
+    this.spinner.show();
     this.detailService.updateDetail(formObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         // this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -668,6 +688,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(element);
       }
     });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Waiting' });
+    let jobStatusId;
+    if (jobstatus.length > 0) {
+      jobStatusId = jobstatus[0].CodeId;
+    }
     const job = {
       jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
       ticketNumber: this.ticketNumber,
@@ -679,7 +704,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       color: this.detailForm.value.color,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-      jobStatus: 179,
+      jobStatus: this.isEdit ? this.jobStatusID : jobStatusId,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
       isActive: true,
@@ -755,7 +780,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       baySchedule
     };
     if (this.isEdit === true) {
+      this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
