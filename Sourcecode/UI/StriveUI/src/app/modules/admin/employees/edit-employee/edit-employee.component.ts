@@ -209,7 +209,6 @@ export class EditEmployeeComponent implements OnInit {
       password: [''],
       dateOfHire: employeeInfo.HiredDate ? moment(employeeInfo.HiredDate).toDate() : '',
       hourlyRateWash: employeeInfo.WashRate,
-      hourlyRateDetail: employeeInfo.DetailRate ? employeeInfo.DetailRate : '',
       comType: employeeInfo.ComType ? employeeInfo.ComType : '',
       comRate: employeeInfo.ComRate ? employeeInfo.ComRate : '',
       status: employeeInfo.Status ? 'Active' : 'InActive',
@@ -394,7 +393,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
-      DetailRate: +this.emplistform.value.hourlyRateDetail,
+      DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
@@ -481,13 +480,10 @@ export class EditEmployeeComponent implements OnInit {
     const label = this.commissionType.filter(item => item.CodeId === Number(data));
     if (label.length !== 0 && label[0].CodeValue !== 'Hourly Rate') {
       this.ctypeLabel = label[0].CodeValue;
-      this.isHourlyRate = false;
     } else if (label.length !== 0 && label[0].CodeValue === 'Hourly Rate') {
-      this.ctypeLabel = 'none';
-      this.isHourlyRate = true;
+      this.ctypeLabel = 'Hourly Rate-Details';
     } else {
       this.ctypeLabel = 'none';
-      this.isHourlyRate = false;
     }
   }
 

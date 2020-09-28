@@ -22,15 +22,15 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-row">
-                                    <label class="col-sm-1 col-form-label" for="name">In:</label>
-                                    <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                    <label class="col-sm-1 col-form-label" for="inTime">In:</label>
+                                    <input type="text" class="form-control col-sm-8" name="inTime" id="inTime"
                                         formControlName="inTime" />
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-row">
-                                    <label class="col-sm-4 col-form-label" for="name">Due Time:</label>
-                                    <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                    <label class="col-sm-4 col-form-label" for="dueTime">Due Time:</label>
+                                    <input type="text" class="form-control col-sm-8" name="dueTime" id="dueTime"
                                         formControlName="dueTime" />
                                 </div>
                             </div>
@@ -214,7 +214,7 @@
                     <div class="row m-t-5">
                         <div class="col-sm-3">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                [disabled]="isView">Start</button>
+                                [disabled]="!isStart || isView" (click)="start()">Start</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
@@ -222,7 +222,7 @@
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                [disabled]="isView">Complete</button>
+                                [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
