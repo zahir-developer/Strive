@@ -48,8 +48,6 @@ namespace StriveCustomer.Android.Fragments
             additionalService.SetAdapter(additionalServicesAdapter);
             return rootview;
         }
-
-
         private void NextButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;

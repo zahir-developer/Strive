@@ -15,7 +15,7 @@ namespace Strive.Core.Models.Customer
         public static int notifyRadius { get; set; }
         public static DateTime notifyWashTime { get; set; }
         public static int selectedDeal { get; set; } = -1;
-        public static CustomerPersonalInfo customerPersonalInfo {get; set;}
+        public static CustomerPersonalInfo customerPersonalInfo { get; set; }
         public static int ClientID { get; set; } = 118;
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
@@ -23,8 +23,8 @@ namespace Strive.Core.Models.Customer
         public static string colorName { get; set; }
         public static int modelNumber { get; set; }
         public static string modelName { get; set; }
-        public static SelectedServiceList membershipType ; 
-        
+        public static SelectedServiceList membershipType;
+
         #endregion properties
 
 
@@ -39,7 +39,7 @@ namespace Strive.Core.Models.Customer
         }
         public static void setMapInfo()
         {
-            switch(selectedMilesOption)
+            switch (selectedMilesOption)
             {
                 case "A":
                     notifyRadius = 1609;
@@ -93,8 +93,17 @@ namespace Strive.Core.Models.Customer
             selectedMake = 0;
             selectedUpCharge = 0;
             selectedMembership = 0;
+            vehicleMakeNumber = 0;
+            modelNumber = 0;
+            vehicleMakeName = null;
+            colorNumber = 0;
+            modelName = null;
+            colorName = null;
             filteredList = null;
             customerVehicleDetails = null;
+            selectedAdditionalServices = null;
+            customerVehicleDetails = null;
+            selectedMembershipServices = null;
             clientVehicleID = 0;
         }
 
@@ -102,4 +111,12 @@ namespace Strive.Core.Models.Customer
 
     }
 
+    public static class CustomerVehiclesInformation
+    {
+        public static VehicleList vehiclesList { get; set; }
+        public static int selectedVehicleInfo { get; set; }
+
+        public static ClientVehicleRootView completeVehicleDetails { get; set; }
+
+    }
 }
