@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-wash.component';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -71,6 +72,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   @Input() isView?: any;
   detailItems: any = [];
   detailsJobServiceEmployee: any = [];
+  isStart: boolean;
+  jobStatus: any = [];
+  isCompleted: boolean;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -90,6 +94,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isAssign = false;
     this.isViewPastNotes = false;
     this.viewNotesDialog = false;
+    this.isStart = false;
+    this.isCompleted = false;
+    this.getJobStatus();
     this.getEmployeeList();
     this.formInitialize();
     this.getAllBayById();
@@ -542,6 +549,108 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
+  start() {
+    const jobstatus = _.where(this.jobStatus, { CodeValue: 'In Progress' });
+    let jobStatusId;
+    if (jobstatus.length > 0) {
+      jobStatusId = jobstatus[0].CodeId;
+    }
+    this.detailForm.controls.inTime.enable();
+    this.detailForm.controls.dueTime.enable();
+    if (this.isEdit) {
+      this.detailForm.controls.bay.enable();
+    }
+
+    const job = {
+      jobId: this.selectedData.Details.JobId,
+      ticketNumber: this.ticketNumber,
+      locationId: localStorage.getItem('empLocationId'),
+      clientId: this.detailForm.value.client.id,
+      vehicleId: this.detailForm.value.vehicle,
+      make: this.detailForm.value.type,
+      model: this.detailForm.value.model,
+      color: this.detailForm.value.color,
+      jobType: this.jobTypeId,
+      jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
+      jobStatus: jobStatusId,
+      timeIn: moment(this.detailForm.value.inTime).format(),
+      estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      updatedBy: 0,
+      // barcode: this.detailForm.value.barcode,
+      notes: this.note
+    };
+    const formObj = {
+      job,
+      jobItem: null,
+      jobDetail: null,
+      baySchedule: null
+    };
+    this.detailService.updateDetail(formObj).subscribe(res => {
+      if (res.status === 'Success') {
+        this.isStart = false;
+        this.isCompleted = true;
+        // this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
+        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        this.refreshDetailGrid.emit();
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  completed() {
+    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Completed' });
+    let jobStatusId;
+    if (jobstatus.length > 0) {
+      jobStatusId = jobstatus[0].CodeId;
+    }
+    this.detailForm.controls.inTime.enable();
+    this.detailForm.controls.dueTime.enable();
+    if (this.isEdit) {
+      this.detailForm.controls.bay.enable();
+    }
+
+    const job = {
+      jobId: this.selectedData.Details.JobId,
+      ticketNumber: this.ticketNumber,
+      locationId: localStorage.getItem('empLocationId'),
+      clientId: this.detailForm.value.client.id,
+      vehicleId: this.detailForm.value.vehicle,
+      make: this.detailForm.value.type,
+      model: this.detailForm.value.model,
+      color: this.detailForm.value.color,
+      jobType: this.jobTypeId,
+      jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
+      jobStatus: jobStatusId,
+      timeIn: moment(this.detailForm.value.inTime).format(),
+      estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      updatedBy: 0,
+      // barcode: this.detailForm.value.barcode,
+      notes: this.note
+    };
+    const formObj = {
+      job,
+      jobItem: null,
+      jobDetail: null,
+      baySchedule: null
+    };
+    this.detailService.updateDetail(formObj).subscribe(res => {
+      if (res.status === 'Success') {
+        // this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
+        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        this.refreshDetailGrid.emit();
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
   saveDetail() {
     this.submitted = true;
     if (this.detailForm.invalid) {
@@ -568,6 +677,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       color: this.detailForm.value.color,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
+      jobStatus: 179,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
       isActive: true,
@@ -659,6 +769,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         console.log(res);
         if (res.status === 'Success') {
           this.isAssign = true;
+          this.isStart = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
@@ -870,6 +981,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.EmployeeList.Employee;
+      }
+    });
+  }
+
+  getJobStatus() {
+    this.detailService.getJobStatus('JOBSTATUS').subscribe( res => {
+      if (res.status === 'Success') {
+        const status = JSON.parse(res.resultData);
+        this.jobStatus = status.Codes;
+        console.log(status, 'status');
       }
     });
   }
