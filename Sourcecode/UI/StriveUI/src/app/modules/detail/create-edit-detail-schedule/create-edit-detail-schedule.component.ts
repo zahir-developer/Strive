@@ -72,6 +72,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   @Input() isView?: any;
   detailItems: any = [];
   detailsJobServiceEmployee: any = [];
+  isSaveClick: boolean;
   isStart: boolean;
   jobStatus: any = [];
   isCompleted: boolean;
@@ -89,6 +90,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(localStorage.getItem('empLocationId'), 'locationId');
+    this.isSaveClick = false;
     this.showDialog = false;
     this.submitted = false;
     this.isAssign = false;
@@ -770,6 +772,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (res.status === 'Success') {
           this.isAssign = true;
           this.isStart = true;
+          this.isSaveClick = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });

@@ -19,7 +19,7 @@ namespace Strive.BusinessEntities.DTO.Employee
         public string SSNo { get; set; }
         public string Email { get; set; }
         public DateTime? HiredDate { get; set; }
-        public string PayRate { get; set; }
+        public string WashRate { get; set; }
         public string DetailRate { get; set; }
         public string ComRate { get; set; }
         public int? ComType { get; set; }

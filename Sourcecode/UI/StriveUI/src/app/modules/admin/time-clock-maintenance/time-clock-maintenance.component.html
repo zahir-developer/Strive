@@ -50,7 +50,7 @@
                             <option value="" selected>Select
                             </option>
                             <option *ngFor="let employee of employeeList" value="{{employee.EmployeeId}}">
-                              {{employee.FirstName}}&nbsp;{{employee.LastName}}
+                              {{employee.EmployeeName}}
                             </option>
                           </select>
                         </div>
@@ -61,9 +61,6 @@
                         </div>
                       </div>
                     </form>
-                  </div>
-                  <div class="table-responsive" *ngIf="isTimeClockEmpty === true">
-                    <span class="col-12 row d-block">No Records Found...</span>
                   </div>
                   <div class="table-responsive">
                     <table class="table table-striped">
@@ -78,8 +75,7 @@
                       <tbody>
                         <tr
                           *ngFor="let timeClock of timeClockEmployeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                          <th scope="row" (click)="employeeCheckInDetail(timeClock)"><span class="text-underline theme-primary-color font-size--9"
-                              style="cursor: pointer;">{{ timeClock.EmployeeId }}</span></th>
+                          <th scope="row">{{ timeClock.EmployeeId }}</th>
                           <td (click)="employeeCheckInDetail(timeClock)"><span
                               class="text-underline theme-primary-color font-size--9"
                               style="cursor: pointer;">{{ timeClock.FirstName }}</span>

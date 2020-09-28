@@ -5,9 +5,9 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a (click)="backToTimeClockPage()">Admin</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" (click)="backToTimeClockPage()">Time Clock
-                        Maintenance</li>
+                    <li class="breadcrumb-item"><a>Admin</a></li>
+                    <li class="breadcrumb-item"><a (click)="backToTimeClockPage()">Time Clock - Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Time Clock Maintenance</li>
                 </ol>
             </nav>
             <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
@@ -48,7 +48,8 @@
                                                             {{week.day}}
                                                         </div>
                                                     </th>
-                                                    <td style="padding-top: 19px;">{{week.date}}</td>
+                                                    <td style="padding-top: 19px;">{{week.date | date: 'MM/dd/yyyy'}}
+                                                    </td>
                                                     <td><button type="button"
                                                             class="btn theme-primary-button-color float-right"
                                                             (click)="addTimeList(week)">Add</button></td>
@@ -87,7 +88,8 @@
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             (ngModelChange)="time.InTime=$event"
                                                                             [popover]="inTimePopup"
-                                                                            [outsideClick]="true" placement="bottom" />
+                                                                            [outsideClick]="true" placement="bottom"
+                                                                            numbersOnly />
                                                                     <td>
                                                                         <ng-template #popTemplate>
                                                                             <timepicker id="outTime_{{week.day}}_{{i}}"
@@ -112,7 +114,8 @@
                                                                     <td>
                                                                         <select
                                                                             class="form-control input-table rounded-0"
-                                                                            [(ngModel)]="time.RoleId" (change)="totalHoursCalculation()">
+                                                                            [(ngModel)]="time.RoleId"
+                                                                            (change)="totalHoursCalculation(time)">
                                                                             <option value="" hidden selected>Select
                                                                                 Role</option>
                                                                             <option *ngFor="let role of roleList"
@@ -124,7 +127,8 @@
                                                                     <td>
                                                                         <input type="text"
                                                                             class="form-control rounded-0 input-table text-right"
-                                                                            [(ngModel)]="time.TotalHours"  [disabled]="true"> </td>
+                                                                            [(ngModel)]="time.TotalHours"
+                                                                            [disabled]="true"> </td>
                                                                 </tr>
                                                                 <tr *ngIf="week.checkInDetail.length === 0">
                                                                     <td colspan="4" class="text-center">
@@ -168,8 +172,8 @@
                                                     <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
                                                         {{ totalWeekDetail.TotalDetailHours ? totalWeekDetail.TotalDetailHours : 0 }}
                                                     </td>
-                                                    <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
-                                                            Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }}
+                                                    <td class="p-r-20"><span
+                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}
                                                     </td>
                                                 </tr>
                                                 <tr class="text-right">
@@ -177,8 +181,8 @@
                                                     <td></td>
                                                     <td colspan="2"><span class="font-weight-600 mr-2">Overtime
                                                             Hours:</span>{{ totalWeekDetail.OverTimeHours }}</td>
-                                                    <td class="p-r-20"><span
-                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}
+                                                    <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
+                                                            Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }}
                                                     </td>
                                                 </tr>
                                                 <tr class="text-right">
@@ -205,8 +209,8 @@
 
                                     <div class="mw-100">
                                         <div class="pull-right">
-                                            <button type="button" class="btn theme-optional-button-color m-r-5"
-                                                (click)="backToTimeClockPage()">Cancel</button>
+                                            <button type="button" class="btn theme-optional-button-color"
+                                                (click)="backToTimeClockPage()">Cancel</button>&nbsp;
                                             <button type="button" class="btn theme-primary-button-color m-r-5"
                                                 (click)="saveWeeklyhours()">Save</button>
                                         </div>
