@@ -131,6 +131,7 @@ export const UrlConfig = {
     deleteTimeClockEmployee : `Admin/TimeClock/DeleteTimeClockEmployee`,
     getServiceAndProduct: `Admin/Sales/GetAllServiceAndProductList`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
+    updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`
   }
 };

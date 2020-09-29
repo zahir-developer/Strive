@@ -362,7 +362,15 @@
                                                     <td (dblclick)="editItem(product)">{{product?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(product, 'deleteItem')"></i></td>
                                                 </tr>
-                                                
+                                                <tr *ngIf="discountService.length > 0">
+                                                    <th scope="row" colspan="5">Discounts </th>
+                                                </tr>
+                                                <tr *ngFor="let discount of discountService" >
+                                                    <td class="pointer">{{discount?.ServiceName}}</td>
+                                                    <td>{{discount?.Quantity}}</td>
+                                                    <td >{{discount?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(discount, 'deleteItem')"></i></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -381,7 +389,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Tax </div>
-                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.Tax ? (itemList?.Status?.ScheduleItemSummaryViewModels?.Tax | currency) : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.TaxAmount ? (itemList?.Status?.ScheduleItemSummaryViewModels?.TaxAmount | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Grand Total </div>
