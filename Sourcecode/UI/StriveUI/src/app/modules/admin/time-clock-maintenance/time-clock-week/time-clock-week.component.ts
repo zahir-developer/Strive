@@ -76,7 +76,7 @@ export class TimeClockWeekComponent implements OnInit {
                   OutTime: item.OutTime,
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
-                  TotalHours: this.datePipe.transform(item.TotalHours, 'H.m'),
+                  TotalHours: this.datePipe.transform(item.TotalHours, 'H'),
                   employeeId: this.empClockInObj.employeeID,
                   locationId: this.empClockInObj.locationId
                 });

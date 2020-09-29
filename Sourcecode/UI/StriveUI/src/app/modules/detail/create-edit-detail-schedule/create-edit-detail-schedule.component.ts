@@ -278,24 +278,27 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   outSideService(data) {
     if (this.isEdit) {
-      this.washItem.filter(i => i.ServiceTypeId === this.outsideServiceId)[0].IsDeleted = true;
-      if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
+      if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0] !== undefined) {
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0].IsDeleted = true;
+      }
+      if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
-        this.washItem.filter(i => i.ServiceTypeId === this.outsideServiceId)[0].IsDeleted = false;
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0].IsDeleted = false;
       } else {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
-        const serviceWash = this.outsideServices.filter(item => item.ServiceId === Number(data));
-        if (serviceWash.length !== 0) {
-          this.additionalService.push(serviceWash[0]);
+        const serviceAir = this.outsideServices.filter(item => item.ServiceId === Number(data));
+        if (serviceAir.length !== 0) {
+          this.additionalService.push(serviceAir[0]);
         }
       }
     } else {
       this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
-      const serviceWash = this.outsideServices.filter(item => item.ServiceId === Number(data));
-      if (serviceWash.length !== 0) {
-        this.additionalService.push(serviceWash[0]);
+      const serviceAir = this.outsideServices.filter(item => item.ServiceId === Number(data));
+      if (serviceAir.length !== 0) {
+        this.additionalService.push(serviceAir[0]);
       }
     }
+    this.detailForm.patchValue({ outsideServie: +data });
     console.log(this.additionalService, this.washItem);
   }
 
@@ -525,10 +528,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   airService(data) {
     if (this.isEdit) {
-      this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = true;
-      if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
+      if (this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0] !== undefined) {
+        this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0].IsDeleted = true;
+      }
+      if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
-        this.washItem.filter(i => i.ServiceTypeId === 19)[0].IsDeleted = false;
+        this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0].IsDeleted = false;
       } else {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
         const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
@@ -543,6 +548,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceAir[0]);
       }
     }
+    this.detailForm.patchValue({ airfreshners: +data });
     console.log(this.additionalService, this.washItem);
   }
 
