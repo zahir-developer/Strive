@@ -148,7 +148,7 @@ export class TimeClockWeekComponent implements OnInit {
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
-          if (ele.TotalHours === "0:00") {
+          if (ele.TotalHours === "0:00" || ele.TotalHours === "0:0") {
             checkIn.push(ele);
           }
           if (ele.InTime > ele.OutTime) {
