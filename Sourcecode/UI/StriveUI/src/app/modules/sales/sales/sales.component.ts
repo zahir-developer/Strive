@@ -26,6 +26,7 @@ export class SalesComponent implements OnInit {
   enableButton = false;
   showPopup = false;
   products = [];
+  discountService = [];
   serviceAndProduct = [];
   Products = [];
   isInvalidGiftcard = false;
@@ -54,7 +55,7 @@ export class SalesComponent implements OnInit {
   balance: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
-    private messageService: MessageServiceToastr, private service: ServiceSetupService, 
+    private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
     private route: ActivatedRoute) { }
   ItemName = '';
@@ -182,6 +183,7 @@ export class SalesComponent implements OnInit {
     this.upCharges = [];
     this.airfreshnerService = [];
     this.outsideServices = [];
+    this.discountService = [];
     this.Products = [];
     this.cash = 0;
     this.credit = 0;
@@ -193,6 +195,8 @@ export class SalesComponent implements OnInit {
     this.originalGrandTotal = 0;
     this.creditcashback = 0;
     this.cashback = 0;
+    this.selectedDiscount = [];
+    this.selectedService = [];
     if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
       this.itemList.Status.ScheduleItemSummaryViewModels = {};
     }
@@ -226,6 +230,8 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === 'Outside Services');
               this.airfreshnerService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
                 item.ServiceType === 'Air Fresheners');
+              this.discountService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Discounts');
             }
           } else {
             this.showPopup = false;
@@ -305,7 +311,7 @@ export class SalesComponent implements OnInit {
   }
   openCash() {
     this.cashTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
-    Number((this.originalGrandTotal - this.totalPaid).toFixed(2))  : 0;
+      Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('creditcardpopup').style.width = '0';
@@ -342,8 +348,8 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '0';
   }
   opencreditcard() {
-    this.creditTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ? 
-    Number((this.originalGrandTotal - this.totalPaid).toFixed(2))  : 0;
+    this.creditTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
+      Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
     this.creditcashback = 0;
     document.getElementById('creditcardpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
@@ -438,7 +444,7 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date(),
         notes: 'checking'
       },
-      jobItem: {
+      jobItem: [{
         jobItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         serviceId: this.selectedService?.id,
@@ -454,7 +460,7 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
-      },
+      }],
       JobProductItem: {
         jobProductItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
@@ -477,17 +483,7 @@ export class SalesComponent implements OnInit {
       formObj.jobItem = null;
     }
     if (this.isSelected) {
-      this.salesService.updateListItem(formObj).subscribe(data => {
-        if (data.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
-          this.getDetailByTicket();
-          this.addItemForm.controls.quantity.enable();
-          this.addItemFormInit();
-          this.submitted = false;
-        } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-        }
-      });
+      this.updateListItem(formObj);
     } else {
       this.salesService.addItem(formObj).subscribe(data => {
         if (data.status === 'Success') {
@@ -503,6 +499,19 @@ export class SalesComponent implements OnInit {
         }
       });
     }
+  }
+  updateListItem(formObj) {
+    this.salesService.updateListItem(formObj).subscribe(data => {
+      if (data.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+        this.getDetailByTicket();
+        this.addItemForm.controls.quantity.enable();
+        this.addItemFormInit();
+        this.submitted = false;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
   }
   getNumAndUpdate(num) {
     if (this.targetId !== '') {
@@ -565,7 +574,30 @@ export class SalesComponent implements OnInit {
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
-
+    let selectedDiscount = [];
+    selectedDiscount = this.selectedDiscount.map(item => {
+    return {
+      jobItemId: 0,
+      jobId: this.isSelected ? this.JobId : 0,
+      serviceId: item?.ServiceId,
+      commission: 0,
+      price: -(item?.Cost),
+      quantity: 1,
+      reviewNote: null,
+      isActive: true,
+      isDeleted: false,
+      createdBy: 1,
+      createdDate: new Date(),
+      updatedBy: 1,
+      updatedDate: new Date(),
+      employeeId: +localStorage.getItem('empId')
+     };
+    });
+    const formObj = {
+      jobItem: selectedDiscount,
+      jobProductItem: null
+    };
+    this.updateListItem(formObj);
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
