@@ -24,7 +24,7 @@
                                             <div>
                                                 <input type="text" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control inputSize  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" (keypress)="allowNumbersOnly($event)" (clear)="clearpaymentField()">&nbsp;
                                                 <span class="p-r-98" *ngIf="!isSelected">{{newTicketNumber}}</span>
-                                                <button type="button" class="btn theme-primary-button-color" (click)="getDetailByTicket(); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
+                                                <button type="button" class="btn theme-primary-button-color" (click)="getDetailByTicket(false); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color " (click)="getTicketNumber();">New</button>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@
                                         <div class="icon-btn col-sm"> <img src="assets/img/Account.png" alt="" />
                                             <div> Account </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0" (click)="showPopup ? getDetailByTicket(): ''"> <img src="assets/img/Clear.png" alt="" />
+                                        <div class="icon-btn col-sm m-r-0" (click)="showPopup ? getDetailByTicket(false): ''"> <img src="assets/img/Clear.png" alt="" />
                                             <div> Clear </div>
                                         </div>
                                     </div>
@@ -362,7 +362,15 @@
                                                     <td (dblclick)="editItem(product)">{{product?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(product, 'deleteItem')"></i></td>
                                                 </tr>
-                                                
+                                                <tr *ngIf="discountService.length > 0">
+                                                    <th scope="row" colspan="5">Discounts </th>
+                                                </tr>
+                                                <tr *ngFor="let discount of discountService" >
+                                                    <td class="pointer">{{discount?.ServiceName}}</td>
+                                                    <td>{{discount?.Quantity}}</td>
+                                                    <td >{{discount?.Price | currency}}</td>
+                                                    <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(discount, 'deleteItem')"></i></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -381,7 +389,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Tax </div>
-                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.Tax ? (itemList?.Status?.ScheduleItemSummaryViewModels?.Tax | currency) : '$0.00'}} </div>
+                                            <div class="form-group col-md-6 text-right"> {{itemList?.Status?.ScheduleItemSummaryViewModels?.TaxAmount ? (itemList?.Status?.ScheduleItemSummaryViewModels?.TaxAmount | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Grand Total </div>
