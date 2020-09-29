@@ -60,6 +60,7 @@ namespace Admin.Api.Controllers
         public void Jenkins()
         {
             bool jenkinFlag = true;
+            string tmp = "Jenkins";
         }
 
         #endregion

@@ -163,6 +163,7 @@ export class DetailScheduleComponent implements OnInit {
             this.eveningBaySchedule.push(item);
           }
         });
+        this.todayScheduleComponent.getTodayDateScheduleList();
       }
     }, (error) => {
       this.spinner.hide();

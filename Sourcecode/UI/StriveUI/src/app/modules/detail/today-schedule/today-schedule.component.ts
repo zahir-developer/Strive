@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
@@ -11,6 +11,7 @@ import * as _ from 'underscore';
 export class TodayScheduleComponent implements OnInit {
   bayDetail: any = [];
   currentDate = new Date();
+  @Input() selectedDate?: any;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe
@@ -21,7 +22,7 @@ export class TodayScheduleComponent implements OnInit {
   }
 
   getTodayDateScheduleList() {
-    const todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    const todayDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
     const locationId = localStorage.getItem('empLocationId');
     const finalObj = {
       jobDate: todayDate,
@@ -32,7 +33,7 @@ export class TodayScheduleComponent implements OnInit {
         const scheduleDetails = JSON.parse(res.resultData);
         console.log(scheduleDetails, 'todayList');
         const detailGrid = scheduleDetails.DetailsGrid;
-        this.bayDetail = detailGrid.BayDetailViewModel;
+        // this.bayDetail = detailGrid.BayDetailViewModel;
         const bayJobDetail = [];
         if (detailGrid.BayJobDetailViewModel !== null) {
           detailGrid.BayDetailViewModel.forEach(item => {
@@ -42,37 +43,38 @@ export class TodayScheduleComponent implements OnInit {
               const detailService = _.where(isData, { ServiceTypeName: 'Details' });
               const outsideService = _.where(isData, { ServiceTypeName: 'Outside Services' });
               detailService.forEach(service => {
-                if (outsideService.length > 0) {
-                  outsideService.forEach(outside => {
-                    if (service.JobId === outside.JobId) {
-                      services.push({
-                        BayId: service.BayId,
-                        BayName: service.BayName,
-                        ClientName: service.ClientName,
-                        EstimatedTimeOut: service.EstimatedTimeOut,
-                        JobId: service.JobId,
-                        PhoneNumber: service.PhoneNumber,
-                        ServiceName: service.ServiceName,
-                        TicketNumber: service.TicketNumber,
-                        TimeIn: service.TimeIn,
-                        OutsideService: outside.ServiceName ? outside.ServiceName : 'None'
-                      });
-                    }
-                  });
-                } else {
-                  services.push({
-                    BayId: service.BayId,
-                    BayName: service.BayName,
-                    ClientName: service.ClientName,
-                    EstimatedTimeOut: service.EstimatedTimeOut,
-                    JobId: service.JobId,
-                    PhoneNumber: service.PhoneNumber,
-                    ServiceName: service.ServiceName,
-                    TicketNumber: service.TicketNumber,
-                    TimeIn: service.TimeIn,
-                    OutsideService: 'None'
-                  });
-                } 
+                // if (outsideService.length > 0) {
+                const sameJobId = _.where(outsideService, { JobId: service.JobId });
+                // outsideService.forEach(outside => {
+                // if (service.JobId === outside.JobId) {
+                services.push({
+                  BayId: service.BayId,
+                  BayName: service.BayName,
+                  ClientName: service.ClientName,
+                  EstimatedTimeOut: service.EstimatedTimeOut,
+                  JobId: service.JobId,
+                  PhoneNumber: service.PhoneNumber,
+                  ServiceName: service.ServiceName,
+                  TicketNumber: service.TicketNumber,
+                  TimeIn: service.TimeIn,
+                  OutsideService: sameJobId.length > 0 ? sameJobId[0].ServiceName : 'None'
+                });
+                // }
+                // });
+                // } else {
+                //   services.push({
+                //     BayId: service.BayId,
+                //     BayName: service.BayName,
+                //     ClientName: service.ClientName,
+                //     EstimatedTimeOut: service.EstimatedTimeOut,
+                //     JobId: service.JobId,
+                //     PhoneNumber: service.PhoneNumber,
+                //     ServiceName: service.ServiceName,
+                //     TicketNumber: service.TicketNumber,
+                //     TimeIn: service.TimeIn,
+                //     OutsideService: 'None'
+                //   });
+                // }
               });
               console.log(services, 'servcei');
               bayJobDetail.push({
