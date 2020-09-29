@@ -11,6 +11,8 @@ export class PrintWashComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.selectedData, 'print');
+    this.selectedData.Details = this.selectedData.Washes[0];
+    this.selectedData.DetailsItem = this.selectedData.WashItem;
   }
 
   print(): void {
