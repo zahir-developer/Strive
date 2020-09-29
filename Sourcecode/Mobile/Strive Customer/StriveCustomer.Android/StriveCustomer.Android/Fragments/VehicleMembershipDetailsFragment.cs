@@ -22,6 +22,7 @@ namespace StriveCustomer.Android.Fragments
     public class VehicleMembershipDetailsFragment : MvxFragment<VehicleMembershipDetailsViewModel>
     {
         private Button backButton;
+        private Button cancelButton;
         private TextView membershipName;
         private TextView createdDate;
         private TextView cancelledDate;
@@ -41,13 +42,20 @@ namespace StriveCustomer.Android.Fragments
             this.ViewModel = new VehicleMembershipDetailsViewModel();
             infoDisplay = new VehicleInfoDisplayFragment();
             backButton = rootview.FindViewById<Button>(Resource.Id.vehicleMemberDetailsBack);
+            cancelButton = rootview.FindViewById<Button>(Resource.Id.cancelMembership);
             membershipName = rootview.FindViewById<TextView>(Resource.Id.membershipNames);
             createdDate = rootview.FindViewById<TextView>(Resource.Id.membershipCreatedDate);
             cancelledDate = rootview.FindViewById<TextView>(Resource.Id.membershipDeletedDate);
             status = rootview.FindViewById<TextView>(Resource.Id.membershipActiveStatus);
             backButton.Click += BackButton_Click;
+            cancelButton.Click += CancelButton_Click; 
             GetMembershipInfo();
             return rootview;
+        }
+
+        private async void CancelButton_Click(object sender, EventArgs e)
+        {
+           await this.ViewModel.CancelMembership();
         }
 
         private async void GetMembershipInfo()
