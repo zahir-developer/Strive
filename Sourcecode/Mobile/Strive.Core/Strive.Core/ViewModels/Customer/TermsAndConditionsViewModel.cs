@@ -119,19 +119,31 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-
+                // user dialog closes
             }
             
         }
-        public void DisagreeMembership()
+        public async Task DisagreeMembership()
         {
-
+            var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel ? Membership won't be created !");
+            if (confirm)
+            {
+                MembershipDetails.clearMembershipData();
+            }
+            else
+            {
+                // user dialog closes
+            }
         }
         public async void NavigateToLanding()
         {
             await _navigationService.Navigate<MyProfileInfoViewModel>();
         }
        
+        public async void BackCommand()
+        {
+            await _navigationService.Navigate<MembershipSignatureViewModel>();
+        }
         #endregion Commands
 
     }

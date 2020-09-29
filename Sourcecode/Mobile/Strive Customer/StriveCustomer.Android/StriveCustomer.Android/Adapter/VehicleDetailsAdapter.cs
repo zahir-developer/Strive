@@ -49,13 +49,10 @@ namespace StriveCustomer.Android.Adapter
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
         }
 
-        private async void DeleteButton_Click(object sender, EventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
             CustomerInfo.actionType = 1;
-            var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
-            VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
-            VehicleInfoFragment vehicleFragment = new VehicleInfoFragment();
-            await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
+            
             vehicleItemClickListener.OnClick(null, AdapterPosition, false);
         }
 
@@ -106,13 +103,20 @@ namespace StriveCustomer.Android.Adapter
             return position;
         }
 
-        public void OnClick(View itemView, int position, bool isLongClick)
+        public async void OnClick(View itemView, int position, bool isLongClick)
         {
             if(CustomerInfo.actionType == (int)VehicleClickEnums.Delete)
             {
-                vehicleLists.Status.RemoveAt(position);
-                NotifyItemRemoved(position);
-                NotifyItemRangeChanged(position, vehicleLists.Status.Count);
+                VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
+                VehicleInfoFragment vehicleFragment = new VehicleInfoFragment();
+                var data = CustomerVehiclesInformation.vehiclesList.Status[position];
+                var deleted = await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
+                if(deleted)
+                {
+                    vehicleLists.Status.RemoveAt(position);
+                    NotifyItemRemoved(position);
+                    NotifyItemRangeChanged(position, vehicleLists.Status.Count);
+                }
             }
         }
 
