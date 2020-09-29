@@ -77,6 +77,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   jobStatus: any = [];
   isCompleted: boolean;
   jobStatusID: any;
+  jobID: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -168,6 +169,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         bay: this.bayScheduleObj.bayId,
         inTime
       });
+      this.detailForm.controls.bay.disable();
       this.detailForm.controls.inTime.disable();
       console.log(this.bayScheduleObj, 'bayScheduleObj');
     }
@@ -618,9 +620,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         this.isStart = false;
         this.isCompleted = true;
-        // this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.refreshDetailGrid.emit();
+        this.detailForm.controls.inTime.disable();
+        this.detailForm.controls.dueTime.disable();
+        this.detailForm.controls.bay.disable();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -670,9 +672,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailService.updateDetail(formObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
-        // this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.refreshDetailGrid.emit();
+        this.isCompleted = false;
+        this.isStart = false;
+        this.detailForm.controls.inTime.disable();
+        this.detailForm.controls.dueTime.disable();
+        this.detailForm.controls.bay.disable();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -686,9 +690,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     this.detailForm.controls.inTime.enable();
     this.detailForm.controls.dueTime.enable();
-    if (this.isEdit) {
-      this.detailForm.controls.bay.enable();
-    }
+    this.detailForm.controls.bay.enable();
     this.additional.forEach(element => {
       if (element.IsChecked) {
         this.additionalService.push(element);
@@ -791,8 +793,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
-          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-          this.refreshDetailGrid.emit();
+          this.detailForm.controls.inTime.disable();
+          this.detailForm.controls.dueTime.disable();
+          this.detailForm.controls.bay.disable();
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -808,6 +811,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.isSaveClick = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
+          this.jobID = jobID.Status;
+          this.isEdit = true;
+          this.detailForm.controls.inTime.disable();
+          this.detailForm.controls.dueTime.disable();
+          this.detailForm.controls.bay.disable();
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
           // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           // this.refreshDetailGrid.emit();
@@ -1012,6 +1020,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.showDialog = false;
   }
 
+  cancelAssignModel() {
+    this.showDialog = false;
+    this.getDetailByID(this.jobID);
+  }
+
   getEmployeeList() {
     this.detailService.getAllEmployeeList().subscribe(res => {
       if (res.status === 'Success') {
@@ -1022,7 +1035,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getJobStatus() {
-    this.detailService.getJobStatus('JOBSTATUS').subscribe( res => {
+    this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
         this.jobStatus = status.Codes;

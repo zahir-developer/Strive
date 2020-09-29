@@ -260,7 +260,7 @@
                 </span>
                 <span class="mw-100 pull-right">
                     <button type="button" class="btn theme-primary-button-color" (click)="saveDetail()"
-                        [disabled]="isView || isSaveClick">Save</button>&nbsp;
+                        [disabled]="isView">Save</button>&nbsp;
                     <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit && !isView"
                         (click)="deleteDetail()">Delete</button>
                 </span>
@@ -275,7 +275,7 @@
     [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
     <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)"
         (closeAssignModel)="closeAssignModel()" [details]="detailItems" [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList"
-        [assignedDetailService]="assignedDetailService"></app-assign-detail>
+        [assignedDetailService]="assignedDetailService" (cancelAssignModel)="cancelAssignModel()"></app-assign-detail>
 </p-dialog>
 
 <p-dialog [(visible)]="viewNotesDialog" header="Past Notes" [blockScroll]="true" [resizable]="true" appendTo="body"
