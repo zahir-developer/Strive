@@ -203,8 +203,8 @@ export class TimeClockWeekComponent implements OnInit {
 
   outTime(event, currentTime) {
     console.log(event, currentTime);
-    const inTime = currentTime.InTime;
-    const outTime = currentTime.OutTime;
+    const inTime =new Date(currentTime.InTime);
+    const outTime = new Date(currentTime.OutTime);
     const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
     const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
     const MINUTES = (outTimeMins - inTimeMins);
