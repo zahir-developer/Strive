@@ -28,7 +28,6 @@ namespace StriveCustomer.Android.Adapter
         public ImageButton deleteButton;
         public ImageButton editButton;
         VehicleInfoDisplayFragment InfoFragment = new VehicleInfoDisplayFragment();
-        VehicleInfoDisplayViewModel displayViewModel = new VehicleInfoDisplayViewModel();
         public VehicleRecyclerHolder(View itemVehicle) : base(itemVehicle)
         {
             deleteButton = itemVehicle.FindViewById<ImageButton>(Resource.Id.deleteButton);
@@ -108,7 +107,6 @@ namespace StriveCustomer.Android.Adapter
             if(CustomerInfo.actionType == (int)VehicleClickEnums.Delete)
             {
                 VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
-                VehicleInfoFragment vehicleFragment = new VehicleInfoFragment();
                 var data = CustomerVehiclesInformation.vehiclesList.Status[position];
                 var deleted = await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
                 if(deleted)

@@ -114,10 +114,20 @@ namespace Strive.Core.Models.Customer
 
     public static class CustomerVehiclesInformation
     {
+        #region Properties
+
         public static VehicleList vehiclesList { get; set; }
         public static int selectedVehicleInfo { get; set; }
-
         public static ClientVehicleRootView completeVehicleDetails { get; set; }
+        public static ClientVehicleRootView membershipDetails { get; set; }
+
+        #endregion Properties
+
+        #region Commands
+
+        #endregion Commands
+
+
 
     }
 }

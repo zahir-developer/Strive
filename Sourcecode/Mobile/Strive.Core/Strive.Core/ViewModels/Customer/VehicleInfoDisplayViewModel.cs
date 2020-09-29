@@ -21,6 +21,8 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task GetSelectedVehicleInfo()
         {
+            _userDialog.ShowLoading();
+
             selectedVehicleInfo = new VehicleList();
             selectedVehicleInfo.Status = new List<VehicleDetail>();
             foreach (var data in CustomerVehiclesInformation.vehiclesList.Status)
@@ -43,6 +45,9 @@ namespace Strive.Core.ViewModels.Customer
                 VehicleMembershipDetails.ClientVehicleMembershipService = new List<ClientVehicleMembershipServiceView>();
 
             CustomerVehiclesInformation.completeVehicleDetails = await AdminService.GetVehicleMembership(CustomerVehiclesInformation.selectedVehicleInfo);
+
+
+            _userDialog.HideLoading();
         }
 
 

@@ -68,6 +68,7 @@ namespace StriveCustomer.Android.Fragments
         private void CancelButton_Click(object sender, EventArgs e)
         {
             signatuerPad.Clear();
+            SignatureClass.signaturePoints = null;
         }
 
         private void DoneButton_Click(object sender, EventArgs e)
