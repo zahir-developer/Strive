@@ -144,17 +144,24 @@ export class TimeClockWeekComponent implements OnInit {
 
   saveWeeklyhours() {
     let checkIn = [];
+    let negativeHrs = [];
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
-          if (ele.TimeClockId === 0 && ele.TotalHours === "0") {
+          if (ele.TotalHours === "0:00") {
             checkIn.push(ele);
+          }
+          if (ele.InTime > ele.OutTime) {
+            negativeHrs.push(ele);
           }
         });
       }
     });
     if (checkIn.length !== 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
+      return;
+    } else if (negativeHrs.length !== 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
       return;
     }
     console.log(this.timeClockList, 'finalobj');
@@ -196,12 +203,22 @@ export class TimeClockWeekComponent implements OnInit {
 
   outTime(event, currentTime) {
     console.log(event, currentTime);
-    const inTime = currentTime.InTime;
-    const outTime = currentTime.OutTime;
-    const hours = new Date();
-    const hourDifference = hours.setHours(outTime.getHours() - inTime.getHours());
-    const totalHours = this.datePipe.transform(hourDifference, 'H');
-    currentTime.TotalHours = totalHours;
+    const inTime =new Date(currentTime.InTime);
+    const outTime = new Date(currentTime.OutTime);
+    const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+    const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+    const MINUTES = (outTimeMins - inTimeMins);
+    var m = (MINUTES % 60);
+    if (m < 0) {
+      m = 60 - (-m);
+    }
+    const h = (MINUTES - m) / 60;
+    const HHMM = h.toString() + ":" + m.toString();
+    currentTime.TotalHours = HHMM;
+  }
+
+  outTimeChange(data) {
+    console.log(data.InTime, data.OutTime);
   }
 
   backToTimeClockPage() {
