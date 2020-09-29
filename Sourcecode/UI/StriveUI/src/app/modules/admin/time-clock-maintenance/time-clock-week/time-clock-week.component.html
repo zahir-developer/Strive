@@ -74,17 +74,16 @@
                                                                                 id="timeStart_{{week.day}}_{{i}}"
                                                                                 [(ngModel)]="time.InTime"
                                                                                 [ngModelOptions]="{standalone: true}"
-                                                                                [showMeridian]="true"
+                                                                                [showMeridian]="false"
                                                                                 [showMinutes]="true" [arrowkeys]="false"
                                                                                 [showSpinners]="true"
-                                                                                [showMeridian]="true"
                                                                                 (ngModelChange)="inTime($event)">
                                                                             </timepicker>
                                                                         </ng-template>
                                                                         <input type="text"
                                                                             id="timeStart_{{week.day}}_{{i}}"
                                                                             class="form-control"
-                                                                            [ngModel]="time.InTime | date:'hh:mm aa'"
+                                                                            [ngModel]="time.InTime | date:'HH:mm'"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             (ngModelChange)="time.InTime=$event"
                                                                             [popover]="inTimePopup"
@@ -95,17 +94,16 @@
                                                                             <timepicker id="outTime_{{week.day}}_{{i}}"
                                                                                 [(ngModel)]="time.OutTime"
                                                                                 [ngModelOptions]="{standalone: true}"
-                                                                                [showMeridian]="true"
+                                                                                [showMeridian]="false"
                                                                                 [showMinutes]="true" [arrowkeys]="false"
                                                                                 [showSpinners]="true"
-                                                                                [showMeridian]="true"
                                                                                 (ngModelChange)="outTime($event, time)">
                                                                             </timepicker>
                                                                         </ng-template>
                                                                         <input type="text"
                                                                             id="outTime_{{week.day}}_{{i}}"
                                                                             class="form-control"
-                                                                            [ngModel]="time.OutTime | date:'hh:mm aa'"
+                                                                            [ngModel]="time.OutTime | date:'HH:mm'"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             (ngModelChange)="time.OutTime=$event"
                                                                             [popover]="popTemplate"
