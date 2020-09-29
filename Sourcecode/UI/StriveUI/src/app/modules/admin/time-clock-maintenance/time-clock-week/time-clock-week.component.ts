@@ -35,7 +35,7 @@ export class TimeClockWeekComponent implements OnInit {
   constructor(
     public timeClockMaintenanceService: TimeClockMaintenanceService,
     private datePipe: DatePipe,
-    private toastr: ToastrService,    
+    private toastr: ToastrService,
     private messageService: MessageServiceToastr,
   ) { }
 
@@ -142,21 +142,28 @@ export class TimeClockWeekComponent implements OnInit {
     });
   }
 
-  saveWeeklyhours() {    
-      let checkIn = [];
-      this.timeClockList.forEach(element => {
-        if(element.checkInDetail !== 0){
-          element.checkInDetail.forEach(ele => {
-            if(ele.TimeClockId === 0 && ele.TotalHours === "0"){
-              checkIn.push(ele);
-            }
-          });
-        }
-      });
-      if(checkIn.length !== 0){
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
-        return;
+  saveWeeklyhours() {
+    let checkIn = [];
+    let negativeHrs = [];
+    this.timeClockList.forEach(element => {
+      if (element.checkInDetail !== 0) {
+        element.checkInDetail.forEach(ele => {
+          if (ele.TotalHours === "0:00") {
+            checkIn.push(ele);
+          }
+          if (ele.InTime > ele.OutTime) {
+            negativeHrs.push(ele);
+          }
+        });
       }
+    });
+    if (checkIn.length !== 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
+      return;
+    } else if (negativeHrs.length !== 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
+      return;
+    }
     console.log(this.timeClockList, 'finalobj');
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
@@ -198,10 +205,20 @@ export class TimeClockWeekComponent implements OnInit {
     console.log(event, currentTime);
     const inTime = currentTime.InTime;
     const outTime = currentTime.OutTime;
-    const hours = new Date();
-    const hourDifference = hours.setHours(outTime.getHours() - inTime.getHours());
-    const totalHours = this.datePipe.transform(hourDifference, 'H');
-    currentTime.TotalHours = totalHours;
+    const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+    const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+    const MINUTES = (outTimeMins - inTimeMins);
+    var m = (MINUTES % 60);
+    if (m < 0) {
+      m = 60 - (-m);
+    }
+    const h = (MINUTES - m) / 60;
+    const HHMM = h.toString() + ":" + m.toString();
+    currentTime.TotalHours = HHMM;
+  }
+
+  outTimeChange(data) {
+    console.log(data.InTime, data.OutTime);
   }
 
   backToTimeClockPage() {
@@ -211,12 +228,12 @@ export class TimeClockWeekComponent implements OnInit {
   totalHoursCalculation(data) {
     let washHour = 0;
     let detailHour = 0;
-    this.timeClockList.forEach( item => {
-      item.checkInDetail.forEach( checkIn => {
+    this.timeClockList.forEach(item => {
+      item.checkInDetail.forEach(checkIn => {
         if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Wash') {
-          washHour +=  +checkIn.TotalHours;
+          washHour += +checkIn.TotalHours;
         } else if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Detailer') {
-          detailHour +=  +checkIn.TotalHours;
+          detailHour += +checkIn.TotalHours;
         }
       });
     });
@@ -225,11 +242,11 @@ export class TimeClockWeekComponent implements OnInit {
     this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
     this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
     this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
-    this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
+      this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
 
   }
 
-  timeCheck(data){
+  timeCheck(data) {
     console.log(data);
   }
 
