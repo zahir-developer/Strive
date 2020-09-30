@@ -337,8 +337,8 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    const cashTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
-      Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
+    const cashTotal = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
+      Number((this.originalGrandTotal - this.totalPaid - this.discountAmount).toFixed(2)) : 0;
     this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
@@ -380,8 +380,8 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '0';
   }
   opencreditcard() {
-    const creditTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
-      Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
+    const creditTotal = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
+      Number((this.originalGrandTotal - this.totalPaid - this.discountAmount).toFixed(2)) : 0;
     this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
     this.cashback = this.initialcashback;
@@ -596,7 +596,7 @@ export class SalesComponent implements OnInit {
   creditProcess() {
     this.totalPaid = this.totalPaid - this.credit;
     this.credit = this.creditTotal - this.creditcashback;
-    if (this.credit > (this.originalGrandTotal - this.totalPaid)) {
+    if (this.credit > (this.originalGrandTotal - this.totalPaid - this.discountAmount + this.credit)) {
       this.credit = 0;
       this.creditcashback = 0;
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Credit amount exceeds the balance amount!' });
@@ -621,7 +621,6 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.reduce(item => +item.amount);
     discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
     this.discountAmount = discountValue;
-    this.totalPaid = this.totalPaid + discountValue;
     //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
@@ -652,7 +651,7 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.splice(index, 1);
   }
   addPayment() {
-    const balancedue = this.originalGrandTotal - this.totalPaid;
+    const balancedue = this.originalGrandTotal - this.totalPaid - this.discountAmount;
     if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Add any cash/credit payment and proceed' });
       return;
