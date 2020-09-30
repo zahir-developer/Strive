@@ -76,7 +76,7 @@ export class TimeClockWeekComponent implements OnInit {
                   OutTime: item.OutTime,
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
-                  TotalHours: this.datePipe.transform(item.TotalHours, 'H'),
+                  TotalHours: moment(item.TotalHours).format('HH:mm'),
                   employeeId: this.empClockInObj.employeeID,
                   locationId: this.empClockInObj.locationId
                 });
@@ -145,6 +145,8 @@ export class TimeClockWeekComponent implements OnInit {
   saveWeeklyhours() {
     let checkIn = [];
     let negativeHrs = [];
+    var count = 0;
+    let replication = false;
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
@@ -154,9 +156,25 @@ export class TimeClockWeekComponent implements OnInit {
           if (ele.InTime > ele.OutTime) {
             negativeHrs.push(ele);
           }
+          element.checkInDetail.forEach(i => {
+            if((new Date(ele.InTime) > new Date(i.InTime) 
+              && new Date(ele.InTime) < new Date(i.OutTime)) 
+              || (new Date(ele.OutTime) > new Date(i.InTime) 
+              && new Date(ele.OutTime) < new Date(i.OutTime))){
+              count += 1;
+            }
+          });
+          if(count > 1){
+            count = 0;
+            replication = true;
+          }
         });
       }
     });
+    if(replication){
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Similar Timing in same Day' });
+      return;
+    }
     if (checkIn.length !== 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
       return;
