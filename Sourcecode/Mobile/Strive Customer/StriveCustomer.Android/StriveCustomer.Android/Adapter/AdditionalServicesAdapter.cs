@@ -26,7 +26,11 @@ namespace StriveCustomer.Android.Adapter
         public AdditionalServicesAdapter(Context context, List<ServiceDetail> services)
         {
             this.context = context;
-            MembershipDetails.selectedAdditionalServices = new List<int>();
+            if(MembershipDetails.selectedAdditionalServices == null || MembershipDetails.selectedAdditionalServices.Count == 0)
+            {
+                MembershipDetails.selectedAdditionalServices = new List<int>();
+            }
+            
             foreach (var data in services)
             {
                 if (string.Equals(data.ServiceTypeName, "Additional Services"))
@@ -71,6 +75,10 @@ namespace StriveCustomer.Android.Adapter
             if(!checkedCheck.ContainsKey(services[position].ServiceId))
             {
                 checkedCheck.Add(services[position].ServiceId, additionalService.Tag.ToString());
+            }
+            if(MembershipDetails.selectedAdditionalServices.Contains(services[position].ServiceId))
+            {
+                additionalService.Checked = true;
             }
             additionalService.SetOnCheckedChangeListener(this);
             return view;
