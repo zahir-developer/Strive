@@ -88,5 +88,10 @@ namespace Strive.ResourceAccess
             _prm.Add("VehicleId", id);
             return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYVEHICLEID.ToString(), _prm);
         }
+        public List<PastJobsOfClientViewModel> GetPastJobsVisitsByClientId(int clientId)
+        {
+            _prm.Add("ClientId", clientId);
+            return db.Fetch<PastJobsOfClientViewModel>(SPEnum.USPGETPASTJOBSVISITSBYCLIENTID.ToString(), _prm);
+        }
     }
 }

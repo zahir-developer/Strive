@@ -130,6 +130,7 @@ namespace Strive.BusinessEntities
         USPUPDATEVEHICLE,
         USPDELETECLIENTVEHICLE,
         USPGETVEHICLEBYID,
+        USPGETPASTJOBSVISITSBYCLIENTID,
         USPSAVEVEHICLE,
         uspGetVehicleByClientId,
         uspGetVihicleMembership,

@@ -76,5 +76,9 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).GetMembershipDetailsByVehicleId, id, "MembershipDetailsForVehicleId");
         }
+        public Result GetPastJobsVisitsByClientId(int clientId)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetPastJobsVisitsByClientId, clientId, "PastJobsVisitsByClient");
+        }
     }
 }
