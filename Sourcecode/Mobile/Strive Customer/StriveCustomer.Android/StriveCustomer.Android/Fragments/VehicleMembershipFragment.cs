@@ -73,7 +73,7 @@ namespace StriveCustomer.Android.Fragments
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoEditFragment).Commit();
         }
 
-        private async void MembershipGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
+        private void MembershipGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
             MembershipDetails.selectedMembership = checkedId.FirstOrDefault(x => x.Value == e.CheckedId).Key;
         }
