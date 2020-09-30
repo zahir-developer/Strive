@@ -28,6 +28,7 @@ namespace StriveCustomer.Android.Fragments
         private Button cancelButton;
         private TermsAndConditionsFragment termsFragment;
         private VehicleAdditionalServicesFragment additionalServicesFragment;
+        private MyProfileInfoFragment myProfileInfoFragment;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -40,6 +41,7 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater,container,savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.MembershipSignatureFragment,null);
             termsFragment = new TermsAndConditionsFragment();
+            myProfileInfoFragment = new MyProfileInfoFragment();
             additionalServicesFragment = new VehicleAdditionalServicesFragment();
             this.ViewModel = new MembershipSignatureViewModel();
             nextButton = rootview.FindViewById<Button>(Resource.Id.signatureNext);
@@ -49,7 +51,7 @@ namespace StriveCustomer.Android.Fragments
             signatuerPad = rootview.FindViewById<SignaturePadView>(Resource.Id.signatureView);
             signatuerPad.CaptionText = "";
             signatuerPad.SignaturePromptText = "";
-            nextButton.Click += NextButton_Click;
+            nextButton.Click += DoneButton_Click;
             backButton.Click += BackButton_Click;
             doneButton.Click += DoneButton_Click;
             cancelButton.Click += CancelButton_Click;
@@ -65,15 +67,30 @@ namespace StriveCustomer.Android.Fragments
             }
         }
 
-        private void CancelButton_Click(object sender, EventArgs e)
+        private async void CancelButton_Click(object sender, EventArgs e)
         {
-            signatuerPad.Clear();
-            SignatureClass.signaturePoints = null;
+            var result =  await ViewModel.CancelMembership();
+            if (result)
+            {
+                signatuerPad.Clear();
+                SignatureClass.signaturePoints = null;
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
+            }
         }
 
         private void DoneButton_Click(object sender, EventArgs e)
         {
             SignatureClass.signaturePoints = signatuerPad.Points;
+            if (SignatureClass.signaturePoints == null || !(SignatureClass.signaturePoints.Length > 100))
+            {
+                this.ViewModel.NoSignatureError();
+            }
+            else
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
+            }
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -82,11 +99,11 @@ namespace StriveCustomer.Android.Fragments
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
         }
 
-        private void NextButton_Click(object sender, EventArgs e)
-        {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
-        }
+        //private void NextButton_Click(object sender, EventArgs e)
+        //{
+        //    AppCompatActivity activity = (AppCompatActivity)Context;
+        //    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
+        //}
     }
 
     public static class SignatureClass

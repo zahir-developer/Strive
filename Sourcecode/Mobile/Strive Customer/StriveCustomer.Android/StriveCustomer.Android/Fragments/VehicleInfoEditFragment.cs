@@ -74,6 +74,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            MembershipDetails.clearMembershipData();
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfile).Commit();
         }

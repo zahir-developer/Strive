@@ -56,16 +56,23 @@ namespace StriveCustomer.Android.Fragments
 
         private async void DisagreeTextView_Click(object sender, EventArgs e)
         {
-            await ViewModel.DisagreeMembership();
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
+            var result =  await ViewModel.DisagreeMembership();
+            if(result)
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
+            }
         }
 
         private async void AgreeTextView_Click(object sender, EventArgs e)
         {
-            await ViewModel.AgreeMembership();
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
+            var result = await ViewModel.AgreeMembership();
+            if(result)
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
+            }
+           
         }
     }
 }

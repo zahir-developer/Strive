@@ -26,8 +26,8 @@ namespace Strive.Core.ViewModels.Customer
             var data = await AdminService.GetMembershipServiceList();
 
             MembershipName = data.Membership.
-                            Find(x=> x.MembershipId == CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.MembershipId).   
-                            MembershipName;
+                            Find(x=> x.MembershipId == CustomerVehiclesInformation.completeVehicleDetails.
+                                                        VehicleMembershipDetails.ClientVehicleMembership.MembershipId).MembershipName;
 
             _userDialog.HideLoading();
         }
@@ -35,29 +35,32 @@ namespace Strive.Core.ViewModels.Customer
         public async Task CancelMembership()
         {
             _userDialog.ShowLoading();
-            CustomerVehiclesInformation.membershipDetails = new ClientVehicleRoot();
-            CustomerVehiclesInformation.membershipDetails.clientVehicle = new ClientVehicle();
-            CustomerVehiclesInformation.membershipDetails.clientVehicle.clientVehicle = null;
-            CustomerVehiclesInformation.membershipDetails.clientVehicleMembershipModel = new ClientVehicleMembershipModel();
-            CustomerVehiclesInformation.membershipDetails.
-                clientVehicleMembershipModel.clientVehicleMembershipDetails = new ClientVehicleMembershipDetails();
-            CustomerVehiclesInformation.membershipDetails.
-                clientVehicleMembershipModel.clientVehicleMembershipService = new List<ClientVehicleMembershipService>();
-           
-            GetClientMembershipData();
-
-            GetMembershipServicesData();
-
-            var data = await AdminService.SaveVehicleMembership(CustomerVehiclesInformation.membershipDetails);
-            if(data.Status)
+            var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel the membership?");
+            if(confirm)
             {
-                _userDialog.Toast("Membership has been cancelled");
-            }
-            else
-            {
-                _userDialog.Toast("Membership cancel unsuccessful");
-            }
+                CustomerVehiclesInformation.membershipDetails = new ClientVehicleRoot();
+                CustomerVehiclesInformation.membershipDetails.clientVehicle = new ClientVehicle();
+                CustomerVehiclesInformation.membershipDetails.clientVehicle.clientVehicle = null;
+                CustomerVehiclesInformation.membershipDetails.clientVehicleMembershipModel = new ClientVehicleMembershipModel();
+                CustomerVehiclesInformation.membershipDetails.
+                    clientVehicleMembershipModel.clientVehicleMembershipDetails = new ClientVehicleMembershipDetails();
+                CustomerVehiclesInformation.membershipDetails.
+                    clientVehicleMembershipModel.clientVehicleMembershipService = new List<ClientVehicleMembershipService>();
 
+                GetClientMembershipData();
+
+                GetMembershipServicesData();
+
+                var data = await AdminService.SaveVehicleMembership(CustomerVehiclesInformation.membershipDetails);
+                if (data.Status)
+                {
+                    _userDialog.Toast("Membership has been cancelled");
+                }
+                else
+                {
+                    _userDialog.Toast("Membership cancel unsuccessful");
+                }
+            }
             _userDialog.HideLoading();
         }
 
@@ -112,10 +115,11 @@ namespace Strive.Core.ViewModels.Customer
                 CustomerVehiclesInformation.membershipDetails.
                  clientVehicleMembershipModel.clientVehicleMembershipService.Add(serviceView);
             }
-
-
         }
-
+        public async void NavigateToDashBoard()
+        {
+           await _navigationService.Navigate<DashboardViewModel>();
+        }
 
         #endregion Commands
 
