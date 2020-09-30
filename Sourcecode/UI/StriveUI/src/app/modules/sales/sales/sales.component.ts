@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
+import { PrintComponent } from './print/print.component';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -822,6 +823,14 @@ export class SalesComponent implements OnInit {
     }
   }
   print(){
-    
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(PrintComponent, ngbModalOptions);
+    modalRef.componentInstance.isModal = true;
+    modalRef.componentInstance.ticketNumber = this.ticketNumber;
+    modalRef.componentInstance.itemList = this.itemList.Status;
   }
 }

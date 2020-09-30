@@ -7,7 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { EditItemComponent } from './sales/edit-item/edit-item.component';
 import { PrintComponent } from './sales/print/print.component';
-
+import {NgxPrintModule} from 'ngx-print';
 
 
 
@@ -17,7 +17,8 @@ import { PrintComponent } from './sales/print/print.component';
     CommonModule,
     RouterModule,
     SalesRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxPrintModule
   ],
   exports: [RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

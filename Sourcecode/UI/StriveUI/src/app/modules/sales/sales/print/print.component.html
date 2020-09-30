@@ -1,1 +1,71 @@
-<p>print works!</p>
+
+    <div class="container-fluid containerWidth">
+        <div id="print-section">
+            <div class="row">
+                <div class="col-12 address">
+                    {{addressLine1}}<br>
+                    {{addressLine2}}<br>
+                    {{city}}<br>
+                    {{phone}}<br>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-12" style="text-align: center;">
+                    <label>Ticket #</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{ticketNumber}}</span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    {{today | date: 'MM/dd/yyyy'}}<br>
+                    {{today | date: 'hh:mm aa'}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive m-t-10">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col" style="width: 30%;">Qty</th>
+                            <th scope="col" style="width: 20%;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of itemList.ScheduleItemViewModel">
+                            <td>{{item?.ServiceName}}</td>
+                            <td>{{item?.Quantity}}</td>
+                            <td style="text-align: right;">{{item?.Price | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="pointer" style="text-align: right;">Sub Total <br> Tax <br> Total</td>
+                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right;">{{itemList.ScheduleItemSummaryViewModels.Total | currency}} <br> {{itemList.ScheduleItemSummaryViewModels.Tax ? (itemList.ScheduleItemSummaryViewModels.Tax  | currency) : '$0.00'}}<br>
+                                {{itemList.ScheduleItemSummaryViewModels.GrandTotal | currency}} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: right;">Charge</td>
+                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right">{{itemList.ScheduleItemSummaryViewModels.GrandTotal | currency}}</td>
+                        </tr>
+                        <tr></tr>
+                        <tr></tr>
+                        <tr>
+                            <td colspan="2" style="text-align: right;">Change Due</td>
+                            <td style="border: 1px solid #dee2e6 !important; text-align: right"> $0.00</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+            <br><br>
+            <div style="text-align: center;">Thank you</div>
+        </div>
+        <button  value="Print" class="btn theme-primary-button-color btn-sm float-right" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;&nbsp;
+        <button  value="Cancel" class="btn theme-optional-button-color btn-sm float-right" (click)="cancel()">Cancel</button>
+        <br>
+        <br>
+      
+    </div>
+    
