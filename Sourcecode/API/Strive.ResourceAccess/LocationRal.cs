@@ -3,6 +3,7 @@ using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Location;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.Repository;
 using Strive.RepositoryCqrs;
@@ -28,10 +29,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
         }
 
-        public LocationDto GetLocationDetailById(int id)
+        public LocationDescriptionViewModel GetLocationDetailById(int id)
         {
             _prm.Add("@tblLocationId", id);
-            var result = db.FetchMultiResult<LocationDto>(SPEnum.USPGETLOCATIONBYID.ToString(), _prm);
+            var result = db.FetchMultiResult<LocationDescriptionViewModel>(SPEnum.USPGETLOCATIONBYID.ToString(), _prm);
             return result;
         }
         //public List<LocationAddressModel> GetAllLocationAddress()
