@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -24,21 +25,42 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void NextCommand()
         {
-           await _navigationService.Navigate<TermsAndConditionsViewModel>();
+            await _navigationService.Navigate<TermsAndConditionsViewModel>();
         }
 
-        public void BackCommand()
+        public async void BackCommand()
         {
-
+           await _navigationService.Navigate<VehicleAdditionalServiceViewModel>();
         }
 
-        private void AddServiceDetails()
+        public async Task<bool> CancelMembership()
+        {
+            var cancelMembership = false;
+            var cancel = await _userDialog.ConfirmAsync("Do you want to cancel membership creation?");
+            if(cancel)
+            {
+                cancelMembership = true;
+                _userDialog.Toast("Membership creation cancelled");
+            }
+            else
+            {
+                cancelMembership = false;
+            }
+            return cancelMembership;
+        }
+        public void AddServiceDetails()
         {
             MembershipDetails.
                 customerVehicleDetails.
                 clientVehicleMembershipModel.
                 clientVehicleMembershipService = new List<Models.TimInventory.ClientVehicleMembershipService>();
         }
+
+        public void NoSignatureError()
+        {
+            _userDialog.Alert("Please sign in the blank space");
+        }
+
 
         #endregion Commands
     }

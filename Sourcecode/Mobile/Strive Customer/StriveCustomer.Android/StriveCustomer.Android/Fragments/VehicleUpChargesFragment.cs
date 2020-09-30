@@ -72,7 +72,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void UpchargeOptions_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-            MembershipDetails.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId ).Key;
+            MembershipDetails.selectedUpCharge = upchargeRadio.FirstOrDefault(x => x.Value == e.CheckedId).Key;
         }
 
         private async void ServiceDetails()
@@ -89,23 +89,25 @@ namespace StriveCustomer.Android.Fragments
                         layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
                         layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
                         layoutParams.SetMargins(0, 20, 0, 20);
-                        upChargeRadio.LayoutParameters = layoutParams;
-                        upChargeRadio.Text = result.Upcharges;
-                        upChargeRadio.SetButtonDrawable(Resource.Drawable.radioButton);
-                        upChargeRadio.Id = someId;
+                        
                         if(!upchargeRadio.ContainsKey(result.ServiceId))
                         {
+                            upChargeRadio.LayoutParameters = layoutParams;
+                            upChargeRadio.Text = result.Upcharges;
+                            upChargeRadio.SetButtonDrawable(Resource.Drawable.radioButton);
+                            upChargeRadio.Id = someId;
                             upchargeRadio.Add(result.ServiceId, someId);
+                            upChargeRadio.SetTypeface(null, TypefaceStyle.Bold);
+                            upChargeRadio.SetTextSize(ComplexUnitType.Sp, 15);
+                            upChargeRadio.TextAlignment = TextAlignment.ViewEnd;
+                            if (result.ServiceId == MembershipDetails.selectedUpCharge)
+                            {
+                                upChargeRadio.Checked = true;
+                            }
+                            someId++;
+                            upchargeOptions.AddView(upChargeRadio);
                         }
-                        upChargeRadio.SetTypeface(null, TypefaceStyle.Bold);
-                        upChargeRadio.SetTextSize(ComplexUnitType.Sp, 15);
-                        upChargeRadio.TextAlignment = TextAlignment.ViewEnd;
-                        if(result.ServiceId == MembershipDetails.selectedUpCharge)
-                        {
-                            upChargeRadio.Checked = true;
-                        }
-                        someId++;
-                        upchargeOptions.AddView(upChargeRadio);
+                       
                     }
                    
                 }

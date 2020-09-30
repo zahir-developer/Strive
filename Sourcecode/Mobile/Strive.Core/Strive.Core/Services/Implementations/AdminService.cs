@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -175,9 +176,9 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
         }
-        public async Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle)
+        public async Task<GeneralResponse> AddCustomerVehicle(AddCustomerVehicle addVehicle)
         {
-            return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_UPDATE_VEHICLE_INFO, HttpMethod.Post, updateVehicle);
+            return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_ADD_VEHICLE_INFO, HttpMethod.Post, addVehicle);
         }
 
         public async Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID)

@@ -74,21 +74,22 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            MembershipDetails.clearMembershipData();
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfile).Commit();
         }
 
         private void MembershipInfo_Click(object sender, EventArgs e)
         {
-            //if(MembershipDetails.clientVehicleID != 0)
-            //{
+            if (MembershipDetails.clientVehicleID != 0)
+            {
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
-           // }
-            //else
-            //{
-            //    ViewModel.ShowAlert();
-            //}
+            }
+            else
+            {
+                ViewModel.ShowAlert();
+            }
         }
 
         private void ColorSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
