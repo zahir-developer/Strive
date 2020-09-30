@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 
 namespace StriveCustomer.Android.Fragments
@@ -77,7 +78,17 @@ namespace StriveCustomer.Android.Fragments
                 vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
                 vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
-                vehicleMembership.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor;
+                if(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                {
+                    vehicleMembership.Text = "Yes";
+                    nextButton.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    vehicleMembership.Text = "No";
+                    nextButton.Visibility = ViewStates.Gone;
+                }
+               
             }
         }
     }

@@ -280,7 +280,7 @@ namespace StriveCustomer.Android.Fragments
         }
         public void OnLocationChanged(Location location)
         {
-            if(lastLocation.Latitude != null || lastLocation.Longitude != null)
+            if(lastLocation != null)
             {
                 userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
                 userMarkerOption = new MarkerOptions();
