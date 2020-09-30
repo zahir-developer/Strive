@@ -151,27 +151,28 @@ export class TimeClockWeekComponent implements OnInit {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
           if (ele.TotalHours === "0:00" || ele.TotalHours === "0:0") {
+            console.log(new Date(ele.InTime).toUTCString());
             checkIn.push(ele);
           }
           if (ele.InTime > ele.OutTime) {
             negativeHrs.push(ele);
           }
           element.checkInDetail.forEach(i => {
-            if((new Date(ele.InTime) > new Date(i.InTime) 
-              && new Date(ele.InTime) < new Date(i.OutTime)) 
-              || (new Date(ele.OutTime) > new Date(i.InTime) 
-              && new Date(ele.OutTime) < new Date(i.OutTime))){
+            if ((new Date(ele.InTime).toUTCString() > new Date(i.InTime).toUTCString()
+              && new Date(ele.InTime).toUTCString() < new Date(i.OutTime).toUTCString())
+              || (new Date(ele.OutTime).toUTCString() > new Date(i.InTime).toUTCString()
+                && new Date(ele.OutTime).toUTCString() < new Date(i.OutTime).toUTCString())) {
               count += 1;
             }
           });
-          if(count > 1){
+          if (count > 0) {
             count = 0;
             replication = true;
           }
         });
       }
     });
-    if(replication){
+    if (replication) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Similar Timing in same Day' });
       return;
     }
@@ -215,13 +216,27 @@ export class TimeClockWeekComponent implements OnInit {
     });
   }
 
-  inTime(event) {
+  inTime(event, currentTime) {
     console.log(event, 'intime');
+    if (currentTime.OutTime !== "") {
+      const inTime = new Date(currentTime.InTime);
+      const outTime = new Date(currentTime.OutTime);
+      const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      const MINUTES = (outTimeMins - inTimeMins);
+      var m = (MINUTES % 60);
+      if (m < 0) {
+        m = 60 - (-m);
+      }
+      const h = (MINUTES - m) / 60;
+      const HHMM = h.toString() + ":" + m.toString();
+      currentTime.TotalHours = HHMM;
+    }
   }
 
   outTime(event, currentTime) {
     console.log(event, currentTime);
-    const inTime =new Date(currentTime.InTime);
+    const inTime = new Date(currentTime.InTime);
     const outTime = new Date(currentTime.OutTime);
     const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
     const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
@@ -233,10 +248,6 @@ export class TimeClockWeekComponent implements OnInit {
     const h = (MINUTES - m) / 60;
     const HHMM = h.toString() + ":" + m.toString();
     currentTime.TotalHours = HHMM;
-  }
-
-  outTimeChange(data) {
-    console.log(data.InTime, data.OutTime);
   }
 
   backToTimeClockPage() {
