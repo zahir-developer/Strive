@@ -37,10 +37,11 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPc(salesProductItemDto, "JobProductItemId");
         }
 
-        public bool DeleteItemById(int jobItemId)
+        public bool DeleteItemById(DeleteItemDto itemDto)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@JobItemId", jobItemId);
+            dynParams.Add("@JobItemId", itemDto.ItemId);
+            dynParams.Add("@IsJobItem", itemDto.IsJobItem);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;

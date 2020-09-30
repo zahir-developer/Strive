@@ -65,4 +65,8 @@ export class DetailService {
   getJobStatus(code) {
     return this.http.get(`${UrlConfig.totalUrl.getJobStatus}` + code);
   }
+
+  getDetailCount(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj);
+  }
 }

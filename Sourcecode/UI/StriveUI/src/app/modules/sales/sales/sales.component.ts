@@ -81,6 +81,7 @@ export class SalesComponent implements OnInit {
   totalPaid = 0;
   balanceDue = 0;
   Cashback = '';
+  discountAmount = 0;
   ngOnInit(): void {
     this.giftCardFromInit();
     this.addItemFormInit();
@@ -258,7 +259,7 @@ export class SalesComponent implements OnInit {
             this.creditTotal = +this.grandTotal;
             this.cash = +summary?.Cash;
             this.credit = +summary?.Credit;
-            this.discount = summary?.Discount;
+            this.discountAmount = summary?.Discount;
             this.originalGrandTotal = +this.grandTotal;
             this.giftCard = Math.abs(+summary?.GiftCard);
             this.balance = +summary?.Balance;
@@ -314,7 +315,17 @@ export class SalesComponent implements OnInit {
 
   // Delete location
   confirmDelete(data) {
-    this.salesService.deleteItemById(data.JobItemId).subscribe(res => {
+    const itemId = data?.JobItemId ? data?.JobItemId : data?.JobProductItemId;
+
+    const deleteItem = 
+    {
+      ItemId : itemId,
+      IsJobItem : data?.JobItemId ? true : false
+    }
+
+
+    this.salesService.deleteItemById(deleteItem).subscribe(res => {
+      
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
         this.getDetailByTicket(false);
@@ -588,6 +599,7 @@ export class SalesComponent implements OnInit {
     if (this.credit > (this.originalGrandTotal - this.totalPaid)) {
       this.credit = 0;
       this.creditcashback = 0;
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Credit amount exceeds the balance amount!' });
       return;
     }
     this.totalPaid = this.totalPaid + this.credit;
@@ -604,31 +616,13 @@ export class SalesComponent implements OnInit {
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
-    let selectedDiscount = [];
 
-    selectedDiscount = this.selectedDiscount.map(item => {
-      return {
-        jobItemId: 0,
-        jobId: this.isSelected ? this.JobId : 0,
-        serviceId: item?.ServiceId,
-        commission: 0,
-        price: -(item?.Cost),
-        quantity: 1,
-        reviewNote: null,
-        isActive: true,
-        isDeleted: false,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date(),
-        employeeId: +localStorage.getItem('empId')
-      };
-    });
-    const formObj = {
-      jobItem: selectedDiscount,
-      jobProductItem: null
-    };
-    this.updateListItem(formObj, false);
+    let discountValue = 0;
+    this.selectedDiscount.reduce(item => +item.amount);
+    discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
+    this.discountAmount = discountValue;
+    this.totalPaid = this.totalPaid + discountValue;
+    //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
