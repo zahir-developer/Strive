@@ -6,12 +6,13 @@ import { SearchItemComponent } from './sales/search-item/search-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { EditItemComponent } from './sales/edit-item/edit-item.component';
+import { PrintComponent } from './sales/print/print.component';
 
 
 
 
 @NgModule({
-  declarations: [SalesComponent, SearchItemComponent, EditItemComponent],
+  declarations: [SalesComponent, SearchItemComponent, EditItemComponent, PrintComponent],
   imports: [
     CommonModule,
     RouterModule,

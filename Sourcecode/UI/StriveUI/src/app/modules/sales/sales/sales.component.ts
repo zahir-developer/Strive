@@ -827,4 +827,7 @@ export class SalesComponent implements OnInit {
       e.preventDefault();
     }
   }
+  print(){
+    
+  }
 }
