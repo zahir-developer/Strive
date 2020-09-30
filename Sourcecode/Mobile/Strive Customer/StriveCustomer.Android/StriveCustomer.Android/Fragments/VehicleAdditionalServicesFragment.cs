@@ -15,12 +15,13 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
+using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class VehicleAdditionalServicesFragment : MvxFragment
+    public class VehicleAdditionalServicesFragment : MvxFragment<VehicleAdditionalServiceViewModel>
     {
         private ListView additionalService;
         private AdditionalServicesAdapter additionalServicesAdapter;

@@ -90,6 +90,14 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.customerVehicleDetails
                .clientVehicleMembershipModel
                .clientVehicleMembershipDetails.endDate = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
+
+            MembershipDetails.customerVehicleDetails
+              .clientVehicleMembershipModel
+              .clientVehicleMembershipDetails.createdDate = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
+
+            MembershipDetails.customerVehicleDetails
+              .clientVehicleMembershipModel
+              .clientVehicleMembershipDetails.updatedDate = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'");
         }
 
         #region Properties
@@ -100,29 +108,56 @@ namespace Strive.Core.ViewModels.Customer
 
         #region Commands
 
-        public async Task AgreeMembership()
+        public async Task<bool> AgreeMembership()
         {
-            var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
-            if (data.Status == true)
+            bool agree = true;
+            var confirm = await _userDialog.ConfirmAsync("Create Membership ? You can cancel it later if you change your mind !");
+            if(confirm)
             {
-                _userDialog.Toast("Membership has been created successfully");
-                MembershipDetails.clearMembershipData();
-                return;
+                var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
+                if (data.Status == true)
+                {
+                    _userDialog.Toast("Membership has been created successfully");
+                    MembershipDetails.clearMembershipData();
+                    return agree;
+                }
+                else
+                {
+                    _userDialog.Alert("Error membership not created");
+                    agree = false;
+                }
             }
             else
             {
-                _userDialog.Alert("Error membership not created");
+                agree = false;
             }
+            return agree;
         }
-        public void DisagreeMembership()
+        public async Task<bool> DisagreeMembership()
         {
-
+            bool disagree = true;
+            var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel ? Membership won't be created !");
+            if (confirm)
+            {
+                MembershipDetails.clearMembershipData();
+                _userDialog.Toast("Membership not created");
+                return disagree;
+            }
+            else
+            {
+                disagree = false;
+            }
+            return disagree;
         }
         public async void NavigateToLanding()
         {
             await _navigationService.Navigate<MyProfileInfoViewModel>();
         }
        
+        public async void BackCommand()
+        {
+            await _navigationService.Navigate<MembershipSignatureViewModel>();
+        }
         #endregion Commands
 
     }

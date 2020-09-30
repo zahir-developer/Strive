@@ -76,7 +76,7 @@ export class TimeClockWeekComponent implements OnInit {
                   OutTime: item.OutTime,
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
-                  TotalHours: this.datePipe.transform(item.TotalHours, 'H'),
+                  TotalHours: moment(item.TotalHours).format('HH:mm'),
                   employeeId: this.empClockInObj.employeeID,
                   locationId: this.empClockInObj.locationId
                 });
@@ -144,17 +144,43 @@ export class TimeClockWeekComponent implements OnInit {
 
   saveWeeklyhours() {
     let checkIn = [];
+    let negativeHrs = [];
+    var count = 0;
+    let replication = false;
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
-          if (ele.TimeClockId === 0 && ele.TotalHours === "0") {
+          if (ele.TotalHours === "0:00" || ele.TotalHours === "0:0") {
+            console.log(new Date(ele.InTime).toUTCString());
             checkIn.push(ele);
+          }
+          if (ele.InTime > ele.OutTime) {
+            negativeHrs.push(ele);
+          }
+          element.checkInDetail.forEach(i => {
+            if ((new Date(ele.InTime).toUTCString() > new Date(i.InTime).toUTCString()
+              && new Date(ele.InTime).toUTCString() < new Date(i.OutTime).toUTCString())
+              || (new Date(ele.OutTime).toUTCString() > new Date(i.InTime).toUTCString()
+                && new Date(ele.OutTime).toUTCString() < new Date(i.OutTime).toUTCString())) {
+              count += 1;
+            }
+          });
+          if (count > 0) {
+            count = 0;
+            replication = true;
           }
         });
       }
     });
+    if (replication) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Similar Timing in same Day' });
+      return;
+    }
     if (checkIn.length !== 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
+      return;
+    } else if (negativeHrs.length !== 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
       return;
     }
     console.log(this.timeClockList, 'finalobj');
@@ -190,18 +216,38 @@ export class TimeClockWeekComponent implements OnInit {
     });
   }
 
-  inTime(event) {
+  inTime(event, currentTime) {
     console.log(event, 'intime');
+    if (currentTime.OutTime !== "") {
+      const inTime = new Date(currentTime.InTime);
+      const outTime = new Date(currentTime.OutTime);
+      const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      const MINUTES = (outTimeMins - inTimeMins);
+      var m = (MINUTES % 60);
+      if (m < 0) {
+        m = 60 - (-m);
+      }
+      const h = (MINUTES - m) / 60;
+      const HHMM = h.toString() + ":" + m.toString();
+      currentTime.TotalHours = HHMM;
+    }
   }
 
   outTime(event, currentTime) {
     console.log(event, currentTime);
-    const inTime = currentTime.InTime;
-    const outTime = currentTime.OutTime;
-    const hours = new Date();
-    const hourDifference = hours.setHours(outTime.getHours() - inTime.getHours());
-    const totalHours = this.datePipe.transform(hourDifference, 'H');
-    currentTime.TotalHours = totalHours;
+    const inTime = new Date(currentTime.InTime);
+    const outTime = new Date(currentTime.OutTime);
+    const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+    const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+    const MINUTES = (outTimeMins - inTimeMins);
+    var m = (MINUTES % 60);
+    if (m < 0) {
+      m = 60 - (-m);
+    }
+    const h = (MINUTES - m) / 60;
+    const HHMM = h.toString() + ":" + m.toString();
+    currentTime.TotalHours = HHMM;
   }
 
   backToTimeClockPage() {

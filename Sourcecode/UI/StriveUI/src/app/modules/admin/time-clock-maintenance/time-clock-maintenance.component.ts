@@ -185,12 +185,22 @@ export class TimeClockMaintenanceComponent implements OnInit {
   }
 
   onValueChange(event) {
-    console.log(this.startDate, 'start');
+    console.log(event, 'start');
     if (event !== null) {
       if (event.length !== 0 && event.length !== null) {
-        this.startDate = event[0];
-        this.endDate = event[1];
-        this.getTimeClockEmployeeDetails();
+        const dates = Math.floor((Date.UTC(event[1].getFullYear(), event[1].getMonth(), event[1].getDate()) - Date.UTC(event[0].getFullYear(), event[0].getMonth(), event[0].getDate())) / (1000 * 60 * 60 * 24));
+        if (event[0].getDay() !== 0) {
+          //console.log(event[0].getDay());          
+          this.toastr.warning('Sunday should be the start of the week!!', 'Warning!');
+          this.timeClockEmployeeDetails = [];
+        } else if (dates !== 6) {
+          this.toastr.warning('Whole week should be selected!!', 'Warning!');
+          this.timeClockEmployeeDetails = [];
+        } else {
+          this.startDate = event[0];
+          this.endDate = event[1];
+          this.getTimeClockEmployeeDetails();
+        }
       }
     }
   }

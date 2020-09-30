@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
@@ -63,7 +64,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<VehicleCodes> GetVehicleCodes();
 
-        Task<GeneralResponse> UpdateCustomerVehicle(CustomerUpdateVehicle updateVehicle);
+        Task<GeneralResponse> AddCustomerVehicle(AddCustomerVehicle addVehicle);
 
         Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID);
     }

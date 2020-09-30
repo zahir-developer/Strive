@@ -15,6 +15,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Fragments;
+using StriveCustomer.Android.Resources.Enums;
 
 namespace StriveCustomer.Android.Adapter
 {
@@ -27,7 +28,6 @@ namespace StriveCustomer.Android.Adapter
         public ImageButton deleteButton;
         public ImageButton editButton;
         VehicleInfoDisplayFragment InfoFragment = new VehicleInfoDisplayFragment();
-        VehicleInfoDisplayViewModel displayViewModel = new VehicleInfoDisplayViewModel();
         public VehicleRecyclerHolder(View itemVehicle) : base(itemVehicle)
         {
             deleteButton = itemVehicle.FindViewById<ImageButton>(Resource.Id.deleteButton);
@@ -48,12 +48,10 @@ namespace StriveCustomer.Android.Adapter
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
         }
 
-        private async void DeleteButton_Click(object sender, EventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
-            var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
-            VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
-            VehicleInfoFragment vehicleFragment = new VehicleInfoFragment();
-            await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
+            CustomerInfo.actionType = 1;
+            
             vehicleItemClickListener.OnClick(null, AdapterPosition, false);
         }
 
@@ -63,6 +61,7 @@ namespace StriveCustomer.Android.Adapter
         }
         public void OnClick(View view)
         {
+            CustomerInfo.actionType = 2;
             vehicleItemClickListener.OnClick(view, AdapterPosition, false);
         }
 
@@ -103,11 +102,20 @@ namespace StriveCustomer.Android.Adapter
             return position;
         }
 
-        public void OnClick(View itemView, int position, bool isLongClick)
+        public async void OnClick(View itemView, int position, bool isLongClick)
         {
-            vehicleLists.Status.RemoveAt(position); 
-            NotifyItemRemoved(position);
-            NotifyItemRangeChanged(position,vehicleLists.Status.Count);
+            if(CustomerInfo.actionType == (int)VehicleClickEnums.Delete)
+            {
+                VehicleInfoViewModel vehicleInfo = new VehicleInfoViewModel();
+                var data = CustomerVehiclesInformation.vehiclesList.Status[position];
+                var deleted = await vehicleInfo.DeleteCustomerVehicle(data.VehicleId);
+                if(deleted)
+                {
+                    vehicleLists.Status.RemoveAt(position);
+                    NotifyItemRemoved(position);
+                    NotifyItemRangeChanged(position, vehicleLists.Status.Count);
+                }
+            }
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
