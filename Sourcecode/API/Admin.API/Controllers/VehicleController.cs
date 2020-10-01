@@ -69,8 +69,8 @@ namespace Admin.API.Controllers
         [Route("GetMembershipDetailsByVehicleId")]
         public Result GetMembershipDetailsByVehicleId(int id) => _bplManager.GetMembershipDetailsByVehicleId(id);
         [HttpGet]
-        [Route("GetPastJobsVisitsByClientId/{clientId}")]
-        public Result GetPastJobsVisitsByClientId(int clientId) => _bplManager.GetPastJobsVisitsByClientId(clientId);
+        [Route("GetPastDetails/{clientId}")]
+        public Result GetPastDetails(int clientId) => _bplManager.GetPastDetails(clientId);
 
     }
 }

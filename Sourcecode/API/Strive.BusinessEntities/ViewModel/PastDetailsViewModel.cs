@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class PastJobsOfClientViewModel
+    public class PastDetailsViewModel
     {
         public int VehicleId { get; set; }
         public string Barcode { get; set; }
