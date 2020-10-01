@@ -62,8 +62,8 @@
             <br><br>
             <div style="text-align: center;">Thank you</div>
         </div>
-        <button  value="Print" class="btn theme-primary-button-color btn-sm float-right" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;&nbsp;
-        <button  value="Cancel" class="btn theme-optional-button-color btn-sm float-right" (click)="cancel()">Cancel</button>
+        <button  value="Print" class="btn theme-primary-button-color btn-sm float-right" [useExistingCss]="true" printSectionId="print-section" ngxPrint (click)="cancel()">Print</button>
+        <button  value="Cancel" class="btn theme-optional-button-color btn-sm float-right" (click)="cancel()">Cancel</button>&nbsp;&nbsp;
         <br>
         <br>
       

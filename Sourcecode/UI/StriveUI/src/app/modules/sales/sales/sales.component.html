@@ -23,7 +23,7 @@
                                         <div class="col-sm-9">
                                             <div>
                                                 <input type="text" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)"*ngIf="isSelected" class="form-control inputSize  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" (keypress)="allowNumbersOnly($event)" (clear)="clearpaymentField()">&nbsp;
-                                                <span class="p-r-98" *ngIf="!isSelected">{{newTicketNumber}}</span>
+                                                <span class="p-r-71" *ngIf="!isSelected">{{newTicketNumber}}</span>
                                                 <button type="button" class="btn theme-primary-button-color" (click)="getDetailByTicket(false); selected= true" [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
                                                 <button type="button" class="btn theme-primary-button-color " (click)="getTicketNumber();">New</button>
                                             </div>
