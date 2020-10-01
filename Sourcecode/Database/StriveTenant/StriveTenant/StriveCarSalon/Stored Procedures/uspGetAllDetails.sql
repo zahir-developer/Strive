@@ -1,10 +1,4 @@
-﻿
-
-
-
-
-
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth B
 -- Create date: 05-09-2020
 -- Description:	To show data in DetailsGrid
@@ -16,7 +10,9 @@
 -- 08-09-2020, Vineeth - Add service type name col
 -- 09-09-2020, Vineeth - Add isactive condition
 -- 09-10-2020, Vineeth - Add LocationId condition
-
+-- 17-09-2020, Vineeth - Add valuedesc-Details
+-- 21-09-2020, Vineeth - Add Outside service cond
+--						 and order by condition
 ------------------------------------------------
 -- =============================================
 CREATE proc [StriveCarSalon].[uspGetAllDetails] 
@@ -37,6 +33,7 @@ and tbljd.IsActive=1
 and ISNULL(tblb.IsDeleted,0)=0
 and ISNULL(tbljd.IsDeleted,0)=0
 and tblb.LocationId=@LocationId
+order by tblb.BayId
 
 
 
@@ -65,15 +62,26 @@ WHERE
 and 
 (tblj.LocationId is null OR tblj.LocationId=@LocationId)
 and
+st.valuedesc='Details' 
+or
+st.valuedesc='Outside Services'
+and
 tblj.IsActive=1
 and
 tbljd.IsActive=1
 and
 tblji.IsActive=1
 and
+tblb.IsActive=1
+and
+ISNULL(tblb.IsDeleted,0)=0
+and
 ISNULL(tblj.IsDeleted,0)=0
 and
 ISNULL(tbljd.IsDeleted,0)=0
 and
 ISNULL(tblji.IsDeleted,0)=0
+order by tblj.JobId
 END
+GO
+

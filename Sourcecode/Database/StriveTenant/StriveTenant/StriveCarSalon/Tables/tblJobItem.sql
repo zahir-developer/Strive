@@ -2,6 +2,7 @@
     [JobItemId]   INT                IDENTITY (1, 1) NOT NULL,
     [JobId]       INT                NULL,
     [ServiceId]   INT                NULL,
+	[ItemTypeId]  INT                NULL,
     [EmployeeId]  INT                NULL,
     [Commission]  DECIMAL (16, 2)    NULL,
     [Price]       DECIMAL (16, 2)    NULL,

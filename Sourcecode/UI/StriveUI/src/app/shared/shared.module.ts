@@ -37,6 +37,8 @@ import { DatePipe } from '@angular/common';
 import { PrintWashComponent } from './components/print-wash/print-wash.component';
 import { ClientFormComponent } from './components/client-form/client-form.component';
 import { VehicleCreateEditComponent } from './components/vehicle-create-edit/vehicle-create-edit.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -54,6 +56,8 @@ import { VehicleCreateEditComponent } from './components/vehicle-create-edit/veh
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
+    ConfirmDialogModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   entryComponents: [
     ConfirmationDialogComponent
@@ -64,7 +68,7 @@ import { VehicleCreateEditComponent } from './components/vehicle-create-edit/veh
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
-    AccordionModule, ConfirmationDialogComponent,
+    AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,

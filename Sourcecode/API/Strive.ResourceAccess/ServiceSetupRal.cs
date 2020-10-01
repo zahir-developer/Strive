@@ -2,6 +2,7 @@
 using Strive.BusinessEntities.Code;
 using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.RepositoryCqrs;
 using System.Collections.Generic;

@@ -15,6 +15,7 @@ export const UrlConfig = {
     getLocationById: `Admin/Location/GetById`,
     getServiceSetup: `Admin/ServiceSetup/GetAll`,
     getServiceType: `Admin/ServiceSetup/GetAllServiceType`,
+    getService: `Admin/ServiceSetup/GetService`,
     addServiceSetup: `Admin/ServiceSetup/Add`,
     updateServiceSetup: `Admin/ServiceSetup/Update`,
     deleteServiceSetup: `Admin/ServiceSetup/Delete`,
@@ -117,10 +118,20 @@ export const UrlConfig = {
     getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
     addVehicle: 'Admin/Vehicle/AddVehicle',
     addItem: `Admin/Sales/AddListItem`,
-    getServicewithPrice: `Admin/Sales/GetServicesWithPrice`,
     getTicketNumberforItem: `Admin/Sales/GetTicketNumber`,
     updateListItem: `Admin/Sales/UpdateListItem`,
     updateItem: `Admin/Sales/UpdateItem`,
-    addPayment: `Admin/Sales/AddPayment`
+    addPayment: `Admin/Sales/AddPayment`,
+    deleteJob: `Admin/Sales/DeleteJob`,
+    rollbackTransaction: `Admin/Sales/RollBackPayment`,
+    deleteTransaction: `Admin/Sales/DeleteTransactions`,
+    getTimeClockWeekDetails: `Admin/TimeClock/GetTimeClockWeekDetails`,
+    saveTimeClock: `Admin/TimeClock/Save`,
+    getTimeClockEmployeeDetails : `Admin/TimeClock/GetTimeClockEmployeeDetails`,
+    deleteTimeClockEmployee : `Admin/TimeClock/DeleteTimeClockEmployee`,
+    getServiceAndProduct: `Admin/Sales/GetAllServiceAndProductList`,
+    saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
+    updateProductObj: `Admin/Sales/SaveProductItem`,
+    getJobStatus: `Admin/Common/GetCodesByCategory/`
   }
 };

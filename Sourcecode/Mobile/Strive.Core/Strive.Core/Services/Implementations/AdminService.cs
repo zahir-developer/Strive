@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -161,13 +162,31 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CustomerPersonalInfo>(string.Format(ApiUtils.URL_GET_CLIENT_BY_ID, Id), HttpMethod.Get, Id);
         }
 
-        public async Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel)
+        public async Task<CustomerResponse> SaveClientInfo(CustomerUpdateInfo infoModel)
         {
             return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
         }
 
-    }
+        public async Task<VehicleCodes> GetVehicleCodes()
+        {
+            return await _restClient.MakeApiCall<VehicleCodes>(ApiUtils.URL_GET_VEHICLE_CODES, HttpMethod.Post);
+        }
 
+        public async Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel)
+        {
+            return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
+        }
+        public async Task<GeneralResponse> AddCustomerVehicle(AddCustomerVehicle addVehicle)
+        {
+            return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_ADD_VEHICLE_INFO, HttpMethod.Post, addVehicle);
+        }
+
+        public async Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID)
+        {
+            var url = RestUtils.BuildQuery(ApiUtils.URL_DELETE_VEHICLE_INFO, "id", VehicleID);
+            return await _restClient.MakeApiCall<GeneralResponse>(url, HttpMethod.Delete);
+        }
+    }
     public static class RestUtils
     {
         public static string BuildQuery (string uri,string parameter, int value)
@@ -177,6 +196,9 @@ namespace Strive.Core.Services.Implementations
             query[parameter] = value.ToString();
             uriBuilder.Query = query.ToString();
             return uriBuilder.Uri.PathAndQuery.ToString();
-        }     
+        }
+
+       
     }
 }
+

@@ -187,8 +187,8 @@
                         </div>
                         <div class="m-t-20 mw-100">
                             <span *ngIf="isEdit">
-                                <button type="button" class="btn theme-primary-button-color">Pay</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Print</button>
+                                <button type="button" class="btn theme-primary-button-color" (click)="pay()">Pay</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="print()">Print</button>
                             </span>
                             <span class="pull-right">
                                 <button type="button" class="btn theme-optional-button-color"
@@ -219,3 +219,7 @@
         [clientId]="clientId" [isAdd]="true" (closeDialog)="closePopupEmitVehicle($event)">
     </app-vehicle-create-edit>
 </p-dialog>
+
+<div [hidden]="true">
+    <app-print-wash *ngIf="isEdit" [selectedData]="selectedData"></app-print-wash>
+</div>

@@ -1,4 +1,19 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] 
+﻿
+
+-- =============================================================
+-- Author:         Vineeth.B
+-- Created date:   2020-07-01
+-- Description:    Get Location Details By LocationId
+-- =============================================================
+
+----------------------------History-----------------------------
+-- =============================================================
+-- 16-09-2020, Vineeth - Removed tblDrawer table
+-- 17-09-2020, Zahir - Added back tblDrawer table
+----------------------------------------------------------------
+-- =============================================================
+
+CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById]
     (
      @tblLocationId int)
 AS 
@@ -51,8 +66,8 @@ tblla.LocationAddressId	,
 		   ON(tbll.LocationId = tblla.LocationId)
            WHERE tbll.LocationId = @tblLocationId AND
 		   isnull(tblla.IsActive,1) = 1 AND
-		isnull(tblla.isDeleted,0) = 0  
-
+		isnull(tblla.isDeleted,0) = 0 
+		
 SELECT 
 DrawerId,
 DrawerName,
@@ -64,4 +79,5 @@ FROM [StriveCarSalon].[tblDrawer]
 WHERE LocationId =@tblLocationId AND
 isnull(IsActive,1) = 1 AND
 isnull(isDeleted,0) = 0
+
 END

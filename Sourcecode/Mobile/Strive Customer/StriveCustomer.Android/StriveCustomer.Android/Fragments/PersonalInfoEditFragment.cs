@@ -21,7 +21,7 @@ using Strive.Core.ViewModels.Customer;
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
-    public class PersonalInfoEditFragment : MvxFragment<MyProfileInfoViewModel>
+    public class PersonalInfoEditFragment : MvxFragment<PersonalInfoEditViewModel>
     {
         private EditText fullNameEditText;
         private EditText contactEditText;
@@ -30,8 +30,8 @@ namespace StriveCustomer.Android.Fragments
         private EditText secondaryContactEditText;
         private EditText emailEditText;
         private Button saveButton;
+        private Button backButton;
         private MyProfileInfoFragment myProfileInfoFragment;
-        MyProfileInfoViewModel mpvm;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -43,8 +43,9 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.PersonalInfoEditFragment, null);
-            mpvm = new MyProfileInfoViewModel();
+            this.ViewModel = new PersonalInfoEditViewModel();
             myProfileInfoFragment = new MyProfileInfoFragment();
+            backButton = rootview.FindViewById<Button>(Resource.Id.backPersonal);
             fullNameEditText = rootview.FindViewById<EditText>(Resource.Id.fullName);
             contactEditText = rootview.FindViewById<EditText>(Resource.Id.contactNumber);
             addressEditText = rootview.FindViewById<EditText>(Resource.Id.Address);
@@ -54,25 +55,28 @@ namespace StriveCustomer.Android.Fragments
             saveButton = rootview.FindViewById<Button>(Resource.Id.personalInfoSave);
 
             saveButton.Click += SaveButton_Click;
+            backButton.Click += BackButton_Click;
 
             return rootview;
         }
 
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
+        }
+
         private async void SaveButton_Click(object sender, EventArgs e)
         {
-            mpvm.FullName = fullNameEditText.Text;
-            mpvm.ContactNumber = contactEditText.Text;
-            mpvm.Address = addressEditText.Text;
-            mpvm.ZipCode = zipCodeEditText.Text;
-            mpvm.SecondaryContactNumber = secondaryContactEditText.Text;
-            mpvm.Email = emailEditText.Text;
-            var status = await mpvm.saveClientInfoCommand();
-            if(status.Status == "true")
-            {
-                CustomerInfo.customerPersonalInfo = await mpvm.getClientById();
-                AppCompatActivity activity = (AppCompatActivity)Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
-            }
+            ViewModel.FullName = fullNameEditText.Text;
+            ViewModel.ContactNumber = contactEditText.Text;
+            ViewModel.Address = addressEditText.Text;
+            ViewModel.ZipCode = zipCodeEditText.Text;
+            ViewModel.SecondaryContactNumber = secondaryContactEditText.Text;
+            ViewModel.Email = emailEditText.Text;
+            await ViewModel.saveClientInfoCommand();
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
         }
     }
 }

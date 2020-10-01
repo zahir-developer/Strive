@@ -18,7 +18,7 @@ namespace Strive.Core.Models.Customer
         public string recNotes { get; set; } = "";
         public  int score { get; set; }
         public  bool noEmail { get; set; }
-        public  int? clientType { get; set; } = null;
+        public  int? clientType { get; set; } = 199;
         public bool isActive { get; set; } = true;
         public  bool isDeleted { get; set; }
         public  int createdBy { get; set; }

@@ -31,10 +31,17 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public bool DeleteItemById(int jobItemId)
+
+        public bool SaveProductItem(SalesProductItemDto salesProductItemDto)
+        {
+            return dbRepo.InsertPc(salesProductItemDto, "JobProductItemId");
+        }
+
+        public bool DeleteItemById(DeleteItemDto itemDto)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@JobItemId", jobItemId);
+            dynParams.Add("@JobItemId", itemDto.ItemId);
+            dynParams.Add("@IsJobItem", itemDto.IsJobItem);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
@@ -68,13 +75,25 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<ServiceItemDto>(SPEnum.uspGetServiceByItemList.ToString(), null);
         }
-        public bool DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto)
+        public bool DeleteJob(SalesItemDeleteDto salesItemDeleteDto)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteRollBackItems.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEJOBITEMS.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
+        }
+        public bool RollBackPayment(SalesItemDeleteDto salesItemDeleteDto)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPROLLBACKPAYMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
+        public ServiceAndProductViewModel GetServicesAndProduct()
+        {
+            return db.FetchMultiResult<ServiceAndProductViewModel>(SPEnum.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
         }
     }
 }

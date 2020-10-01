@@ -10,18 +10,18 @@ namespace Strive.BusinessLogic.Sales
 {
     public interface ISalesBpl
     {
-        //Result UpdateSalesItem(SalesDto sales);
-        //Result UpdateItem(int jobItemId);
-        //Result UpdateItem(int jobItemId, int quantity, decimal price);
+        Result SaveProductItem(SalesProductItemDto salesProductItemDto);
         Result UpdateItem(SalesItemUpdateDto salesItemUpdateDto);
-        Result DeleteItemById(int jobItemId);
+        Result DeleteItemById(DeleteItemDto itemDto);
         string GetTicketNumber();
         Result GetItemList(SalesListItemDto salesListItemDto);
         Result GetScheduleByTicketNumber(string ticketNumber);
         Result AddPayment(SalesPaymentDto salesPayment);
         Result AddListItem(SalesAddListItemDto salesAddListItem);
-        Result DeleteTransactions(SalesItemDeleteDto salesItemDeleteDto);
+        Result RollBackPayment(SalesItemDeleteDto salesItemDeleteDto);
+        Result DeleteJob(SalesItemDeleteDto salesItemDeleteDto);
         Result UpdateListItem(SalesUpdateItemDto salesUpdateItemDto);
         Result GetServicesWithPrice();
+        Result GetServicesAndProduct();
     }
 }

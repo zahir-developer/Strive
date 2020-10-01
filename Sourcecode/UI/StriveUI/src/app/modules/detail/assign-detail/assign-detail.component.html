@@ -2,14 +2,17 @@
     <div class="form-row  m-b-8">
         <div class="form-group col-md-3">
             <label for="inputVehicle">Service</label>
-            <select class="form-control" formControlName="serviceId" (change)="employeeByServiceId($event.target.value)">
+            <!-- <select class="form-control" formControlName="serviceId" (change)="employeeByServiceId($event.target.value)">
                 <option hidden selected value="">Choose</option>
                 <option *ngFor="let d of details" value={{d.ServiceId}}>{{d.ServiceName}}</option>
-            </select>
+            </select> -->
+            <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
+                [data]="clonedServices" formControlName="serviceId" (onSelect)="onItemSelect($event)">
+            </ng-multiselect-dropdown>
         </div>
         <div class="form-group col-md-3">
             <label for="inputVehicle">Employee</label>
-            <div class="ui-fluid">
+            <!-- <div class="ui-fluid">
                 <div class="p-grid forms-grid">
                     <div class="p-col-3 p-md-6">
                         <p-autoComplete field="name" [suggestions]="filteredEmployee"
@@ -18,7 +21,10 @@
                         </p-autoComplete>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <ng-multiselect-dropdown [placeholder]="'Select Employee'" [settings]="dropdownSettings"
+                [data]="employeeList" formControlName="employeeId">
+            </ng-multiselect-dropdown>
             <!-- <select class="form-control" formControlName="employeeId"
                 (change)="serviceByEmployeeId($event.target.value)">
                 <option hidden selected value="">Choose</option>
@@ -42,10 +48,10 @@
                     <thead>
                         <tr>
                             <th scope="col">
-                                Servcie
+                                Service
                             </th>
                             <th scope="col">
-                                Cost
+                                Price
                             </th>
                             <th scope="col">
                                 Employee Name
@@ -54,11 +60,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let detail of detailService">
+                        <tr *ngFor="let detail of detailService | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                             <td>
                                 {{detail.ServiceName}}
                             </td>
-                            <td>{{detail.Cost}}
+                            <td>{{detail.Cost | currency }}
                             </td>
                             <td>{{detail.EmployeeName}}
                             </td>
@@ -74,6 +80,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                    [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                </ngb-pagination>
             </div>
         </div>
     </div>

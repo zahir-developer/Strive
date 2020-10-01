@@ -87,7 +87,7 @@ Color
 .theme-light-yellow-color {
 	color: #FFB822 !important;
 }
-.theme-optional-button-color
+body .theme-optional-button-color
 {
 	background-color:#6c757d;
 }
@@ -106,7 +106,7 @@ Color
 	border-color: #24489A;
 }
 
-.theme-secondary-color-border
+body .theme-secondary-color-border
 {
 	border-color: #1DC9B7;
 	

@@ -1,0 +1,227 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a>Admin</a></li>
+                    <li class="breadcrumb-item"><a (click)="backToTimeClockPage()">Time Clock - Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Time Clock Maintenance</li>
+                </ol>
+            </nav>
+            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Time Clock Maintenance</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="row no-gutter">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="p-b-10 m-b-15">
+                                    <h4 class="d-inline-block align-middle">Time clock - {{empClockInObj.lastName}}
+                                        {{empClockInObj.firstName}}</h4>
+                                    <div class="pull-right card-widgets"> <a data-toggle="collapse"
+                                            href="#Timeliclocklist" role="button" aria-expanded="false"
+                                            aria-controls="Timeliclocklist"><i
+                                                class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div id="Timeliclocklist" class="collapse show">
+                                    <div>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="w-15">Day</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngFor="let week of timeClockList; let index = index">
+                                                <tr>
+                                                    <th scope="row" class="timeclock-table-toggle pointer">
+                                                        <div class="card-widgets">
+                                                            <a data-toggle="collapse" href="#CheckIn_{{index}}"
+                                                                role="button" aria-expanded="false"
+                                                                aria-controls="CheckIn_{{index}}"><i
+                                                                    class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                                            {{week.day}}
+                                                        </div>
+                                                    </th>
+                                                    <td style="padding-top: 19px;">{{week.date | date: 'MM/dd/yyyy'}}
+                                                    </td>
+                                                    <td><button type="button"
+                                                            class="btn theme-primary-button-color float-right"
+                                                            (click)="addTimeList(week)">Add</button></td>
+                                                </tr>
+                                                <tr id="CheckIn_{{index}}" class="collapse show">
+                                                    <td colspan="4" id="collapse-timeclock-table" class="border p-5">
+                                                        <table class="w-100">
+                                                            <thead>
+                                                                <tr class="table-sub-collapse ">
+                                                                    <th scope="col">In</th>
+                                                                    <th scope="col">Out</th>
+                                                                    <th scope="col">Role</th>
+                                                                    <th scope="col">Tot. Hrs</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr
+                                                                    *ngFor="let time of week.checkInDetail; let i = index">
+                                                                    <td>
+                                                                        <ng-template #inTimePopup>
+                                                                            <timepicker
+                                                                                id="timeStart_{{week.day}}_{{i}}"
+                                                                                [(ngModel)]="time.InTime"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [showMeridian]="false"
+                                                                                [showMinutes]="true" [arrowkeys]="false"
+                                                                                [showSpinners]="true"
+                                                                                (ngModelChange)="inTime($event,time)">
+                                                                            </timepicker>
+                                                                        </ng-template>
+                                                                        <input type="text"
+                                                                            id="timeStart_{{week.day}}_{{i}}"
+                                                                            class="form-control"
+                                                                            [ngModel]="time.InTime | date:'HH:mm'"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (ngModelChange)="time.InTime=$event"
+                                                                            [popover]="inTimePopup"
+                                                                            [outsideClick]="true" placement="bottom"
+                                                                            numbersOnly/>
+                                                                    <td>
+                                                                        <ng-template #popTemplate>
+                                                                            <timepicker id="outTime_{{week.day}}_{{i}}"
+                                                                                [(ngModel)]="time.OutTime"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [showMeridian]="false"
+                                                                                [showMinutes]="true" [arrowkeys]="false"
+                                                                                [showSpinners]="true"
+                                                                                (ngModelChange)="outTime($event, time)">
+                                                                            </timepicker>
+                                                                        </ng-template>
+                                                                        <input type="text"
+                                                                            id="outTime_{{week.day}}_{{i}}"
+                                                                            class="form-control"
+                                                                            [ngModel]="time.OutTime | date:'HH:mm'"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (ngModelChange)="time.OutTime=$event"
+                                                                            [popover]="popTemplate"
+                                                                            [outsideClick]="true" placement="bottom" numbersOnly />
+                                                                    </td>
+                                                                    <td>
+                                                                        <select
+                                                                            class="form-control input-table rounded-0"
+                                                                            [(ngModel)]="time.RoleId"
+                                                                            (change)="totalHoursCalculation(time)">
+                                                                            <option value="" hidden selected>Select
+                                                                                Role</option>
+                                                                            <option *ngFor="let role of roleList"
+                                                                                value="{{role.CodeId}}">
+                                                                                {{role.CodeValue}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text"
+                                                                            class="form-control rounded-0 input-table text-right"
+                                                                            [(ngModel)]="time.TotalHours"
+                                                                            [disabled]="true"> </td>
+                                                                </tr>
+                                                                <tr *ngIf="week.checkInDetail.length === 0">
+                                                                    <td colspan="4" class="text-center">
+                                                                        No Record Found
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table timeclcok-tb">
+                                            <thead>
+
+                                            </thead>
+                                            <tbody>
+                                                <tr class="text-right">
+                                                    <td class="w-45"></td>
+                                                    <td></td>
+                                                    <td class="p-t-10"><span class="font-weight-600 mr-2">Wash
+                                                            Rate:</span>{{ totalWeekDetail.WashRate ? totalWeekDetail.WashRate : 0 }}
+                                                    </td>
+                                                    <td class="p-t-10"> <span class="font-weight-600 mr-2">Total Wash
+                                                            Hours:</span>
+                                                        {{ totalWeekDetail.TotalWashHours ? totalWeekDetail.TotalWashHours : 0 }}
+                                                    </td>
+                                                    <td class="p-t-10 p-r-20">
+                                                        <p class="mb-0"><span
+                                                                class="font-weight-600 mr-2">Total:</span>{{ totalWeekDetail.WashAmount ? ( totalWeekDetail.WashAmount | currency) : ( 0 | currency ) }}
+                                                    </td>
+
+
+                                                </tr>
+                                                <tr class="text-right">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><span class="font-weight-600 mr-2">Detail
+                                                            Rate:</span>{{ totalWeekDetail.DetailRate ? totalWeekDetail.DetailRate : 0 }}
+                                                    </td>
+                                                    <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
+                                                        {{ totalWeekDetail.TotalDetailHours ? totalWeekDetail.TotalDetailHours : 0 }}
+                                                    </td>
+                                                    <td class="p-r-20"><span
+                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="text-right">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td colspan="2"><span class="font-weight-600 mr-2">Overtime
+                                                            Hours:</span>{{ totalWeekDetail.OverTimeHours }}</td>
+                                                    <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
+                                                            Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="text-right">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td colspan="3" class="p-r-20"> <span
+                                                            class="font-weight-600 mr-2">Collisions:</span>{{ totalWeekDetail.CollisionAmount ? ( totalWeekDetail.CollisionAmount | currency ) : ( 0 | currency ) }}
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                            <tfoot class="table-foot">
+                                                <tr class="text-right">
+                                                    <td colspan="6"
+                                                        class="font-weight-700 text-right p-10 font-size-1-2 p-r-20">
+                                                        Grand Total:<span
+                                                            class="m-l-10">{{ totalWeekDetail.GrandTotal ? (totalWeekDetail.GrandTotal | currency) : ( 0 | currency ) }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+
+                                    <div class="mw-100">
+                                        <div class="pull-right">
+                                            <button type="button" class="btn theme-optional-button-color"
+                                                (click)="backToTimeClockPage()">Cancel</button>&nbsp;
+                                            <button type="button" class="btn theme-primary-button-color m-r-5"
+                                                (click)="saveWeeklyhours()">Save</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- end card-body -->
+                        </div>
+                        <!-- end card-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

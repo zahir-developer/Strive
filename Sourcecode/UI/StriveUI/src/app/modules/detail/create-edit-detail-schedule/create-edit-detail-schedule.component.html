@@ -1,3 +1,6 @@
+<p-confirmDialog [style]="{width: '20vw'}" [acceptIcon]="null" [rejectIcon]="null"
+    [acceptButtonStyleClass]="'theme-secondary-button-color'" [rejectButtonStyleClass]="'theme-optional-button-color'" [closable]="false"
+    [baseZIndex]="10000"></p-confirmDialog>
 <div class="col-lg-12 p-l-0 p-r-0">
     <div>
         <div>
@@ -19,15 +22,15 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-row">
-                                    <label class="col-sm-1 col-form-label" for="name">In:</label>
-                                    <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                    <label class="col-sm-1 col-form-label" for="inTime">In:</label>
+                                    <input type="text" class="form-control col-sm-8" name="inTime" id="inTime"
                                         formControlName="inTime" />
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-row">
-                                    <label class="col-sm-4 col-form-label" for="name">Due Time:</label>
-                                    <input type="text" class="form-control col-sm-8" name="name" id="name"
+                                    <label class="col-sm-4 col-form-label" for="dueTime">Due Time:</label>
+                                    <input type="text" class="form-control col-sm-8" name="dueTime" id="dueTime"
                                         formControlName="dueTime" />
                                 </div>
                             </div>
@@ -71,13 +74,13 @@
                     <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                         <div class="pull-right">
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="getByBarcode(detailForm.value.barcode)">Select</button>&nbsp;
+                                (click)="getByBarcode(detailForm.value.barcode)" [disabled]="isView">Select</button>&nbsp;
                             <!-- <button type="button" class="btn theme-primary-button-color btn-responsive">Add
                                 Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive">Add
                                 Vehicle</button> -->
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addClient()">Add Client</button>&nbsp;
+                                (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="addVehicle()" [disabled]="clientId === undefined">Add Vehicle</button>
                         </div>
@@ -189,7 +192,8 @@
                         <div class="col-md-3" *ngFor="let addService of additional">
                             <div class="custom-control custom-checkbox m-t-10">
                                 <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                                    (change)="change(addService)" [checked]="addService.IsChecked" />
+                                    (change)="change(addService)" [checked]="addService.IsChecked"
+                                    [disabled]="isView" />
                                 <label class="custom-control-label"
                                     for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                             </div>
@@ -202,30 +206,30 @@
                             <h5 class="d-inline-block font-weight-600">Notes</h5>
                         </div>
                         <div>
-                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" name="note" [(ngModel)]="note"
-                                rows="8"></textarea>
+                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" [disabled]="isView" name="note"
+                                [(ngModel)]="note" rows="8"></textarea>
                         </div>
                     </div>
 
                     <div class="row m-t-5">
                         <div class="col-sm-3">
-                            <button type="button"
-                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Start</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
+                                [disabled]="!isStart || isView" (click)="start()">Start</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                (click)="assignEmployee()">Assign</button>
+                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button"
-                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Complete</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
+                                [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
                         </div>
                         <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button"
-                                class="btn theme-primary-button-color btn-block m-b-5 btn-sm">Pay</button>
+                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
+                            [disabled]="!isEdit || isView" (click)="pay()">Pay</button>
                         </div>
                     </div>
-                    <!-- <div class="row">
+                    <!-- <div class="row"> [disabled]="!isAssign && !isView"
                         <div class="col-sm-3">
                             <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
                                 (click)="saveDetail()">Save</button>
@@ -247,32 +251,36 @@
             </div>
             <div class="m-t-12">
                 <span class="mw-100">
-                    <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="true">Customer Copy</button>
-                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="print()" [disabled]="true">Vehicle Copy</button>
-                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes" (click)="pastNotes()">View Past Client Notes</button>
+                    <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="true">Customer
+                        Copy</button>
+                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="print()"
+                        [disabled]="true">Vehicle Copy</button>
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes"
+                        (click)="pastNotes()">View Past Client Notes</button>
                 </span>
                 <span class="mw-100 pull-right">
-                    <button type="button" class="btn theme-primary-button-color"
-                        (click)="saveDetail()">Save</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit"
+                    <button type="button" class="btn theme-primary-button-color" (click)="saveDetail()"
+                        [disabled]="isView">Save</button>&nbsp;
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit && !isView"
                         (click)="deleteDetail()">Delete</button>
                 </span>
             </div>
         </div>
     </div>
     <div [hidden]="true">
-        <app-print-wash *ngIf="isEdit"  [selectedData]="selectedData"></app-print-wash>
+        <app-print-wash *ngIf="isEdit" [selectedData]="selectedData"></app-print-wash>
     </div>
 </div>
-<p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
+<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
     [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
     <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)"
-        (closeAssignModel)="closeAssignModel()" [details]="details" [employeeList]="employeeList"
-        [assignedDetailService]="assignedDetailService"></app-assign-detail>
+        (closeAssignModel)="closeAssignModel()" [details]="detailItems" [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList"
+        [assignedDetailService]="assignedDetailService" (cancelAssignModel)="cancelAssignModel()"></app-assign-detail>
 </p-dialog>
 
-<p-dialog [(visible)]="viewNotesDialog" header="Past Notes" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
-    [focusOnShow]="false" [closable]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
+<p-dialog [(visible)]="viewNotesDialog" header="Past Notes" [blockScroll]="true" [resizable]="true" appendTo="body"
+    [modal]="true" [focusOnShow]="false" [closable]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    appendTo="body">
     <app-view-past-notes *ngIf="viewNotesDialog" [viewNotes]="viewNotes"></app-view-past-notes>
 </p-dialog>
 

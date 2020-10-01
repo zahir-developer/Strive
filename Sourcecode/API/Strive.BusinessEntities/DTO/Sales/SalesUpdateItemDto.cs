@@ -9,6 +9,7 @@ namespace Strive.BusinessEntities.DTO.Sales
 {
     public class SalesUpdateItemDto
     {
-        public JobItem JobItem { get; set; }
+        public List<JobItem> JobItem { get; set; }
+        public JobProductItem JobProductItem { get; set; }
     }
 }

@@ -241,7 +241,7 @@
                                                                                 </div>
                                                                         </div>
                                                                 </div>
-                                                                <app-today-schedule></app-today-schedule>
+                                                                <app-today-schedule [selectedDate]="selectedDate"></app-today-schedule>
                                                         </div>
                                                         <!-- end card-body -->
                                                 </div>
@@ -259,7 +259,7 @@
                 <button type="button" class="btn theme-primary-button-color float-right"
                         (click)="closeModal()">Close</button>
         </p-header>
-        <app-create-edit-detail-schedule *ngIf="showDialog" [isEdit]="isEdit" [bayScheduleObj]="bayScheduleObj"
+        <app-create-edit-detail-schedule *ngIf="showDialog" [isView]="isView" [isEdit]="isEdit" [bayScheduleObj]="bayScheduleObj"
                 [selectedData]="selectedData" (closeDialog)="closeDialog($event)"
                 (refreshDetailGrid)="refreshDetailGrid()"></app-create-edit-detail-schedule>
 </p-dialog>

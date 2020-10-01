@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
@@ -59,5 +60,12 @@ namespace Strive.Core.Services.Interfaces
         Task<ClientsSearch> SearchClient(string ClientName);
 
         Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel);
+        Task<CustomerResponse> SaveClientInfo(CustomerUpdateInfo infoModel);
+
+        Task<VehicleCodes> GetVehicleCodes();
+
+        Task<GeneralResponse> AddCustomerVehicle(AddCustomerVehicle addVehicle);
+
+        Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID);
     }
 }

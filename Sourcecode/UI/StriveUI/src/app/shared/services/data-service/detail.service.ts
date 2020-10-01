@@ -57,4 +57,16 @@ export class DetailService {
   getAllEmplloyeeList() {
     return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
   }
+
+  saveEmployeeWithService(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveEmployeeWithService}`, obj);
+  }
+
+  getJobStatus(code) {
+    return this.http.get(`${UrlConfig.totalUrl.getJobStatus}` + code);
+  }
+
+  getDetailCount(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj);
+  }
 }

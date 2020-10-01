@@ -251,7 +251,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetEmployeeById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetMembershipListByVehicleId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateDocumentPassword.sql" />
-    <Build Include="dbo\Stored Procedures\uspClockTimeDetails.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetScheduleById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllDocumentById_Delete.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetCollisionByEmpId.sql" />
@@ -533,5 +532,17 @@
     <Build Include="Security\StriveLimoSalon.sql" />
     <Build Include="Security\StriveSuperAdminTest.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockDetails.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobServiceEmployee.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockWeekDetails_New.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockWeekDetails.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockEmployeeDetails.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClock.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetItemProductListByTicketNumber.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllServiceAndProductList.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteTimeClockEmployee.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteJobItems.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobPaymentDetail.sql" />
+    <Build Include="StriveCarSalon\Tables\tblJobProductItem.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspRollBackPayment.sql" />
   </ItemGroup>
 </Project>
