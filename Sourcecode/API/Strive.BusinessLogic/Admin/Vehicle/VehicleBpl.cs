@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.Model;
@@ -78,7 +78,7 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result GetPastDetails(int clientId)
         {
-            return ResultWrap(new VehicleRal(_tenant).GetPastDetails, clientId, "PastJobsVisitsByClient");
+            return ResultWrap(new VehicleRal(_tenant).GetPastDetails, clientId, "PastClientDetails");
         }
     }
 }
