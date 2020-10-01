@@ -62,8 +62,7 @@ namespace StriveCustomer.Android.Fragments
                 vehicleDetailsAdapter = new VehicleDetailsAdapter(Context, this.ViewModel.vehicleLists);
                 var layoutManager = new LinearLayoutManager(Context);
                 vehicleview.SetLayoutManager(layoutManager);
-                vehicleview.SetAdapter(vehicleDetailsAdapter);
-    
+                vehicleview.SetAdapter(vehicleDetailsAdapter);    
             }
             
         }
