@@ -85,7 +85,7 @@
                                                 <form [formGroup]="giftCardForm">
                                             <div class="form-row p-t-10 p-b-12">
                                                 <div class="form-group col-md-6"> Amount Due </div>
-                                                <div class="form-group col-md-6 text-right"> {{(originalGrandTotal - totalPaid) | currency}} </div>
+                                                <div class="form-group col-md-6 text-right"> {{(originalGrandTotal - totalPaid - discountAmount) | currency}} </div>
                                             </div>
                                             <div class="form-row p-b-12">
                                                 <div class="form-group col-md-12">
