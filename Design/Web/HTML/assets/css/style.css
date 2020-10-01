@@ -230,6 +230,12 @@ li.message-notification .dropdown-menu {
 .pointer {
     cursor: pointer;
 }
+.tb-text-wrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 0;
+}
 
 /***** SETUP LINK **/
 

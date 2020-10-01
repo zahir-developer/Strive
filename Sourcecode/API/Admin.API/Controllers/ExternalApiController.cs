@@ -59,7 +59,8 @@ namespace Admin.Api.Controllers
         [HttpPost, Route("Jenkins")]
         public void Jenkins()
         {
-            //throw NotImplementedException();
+            bool jenkinFlag = true;
+            string tmp = "Jenkins";
         }
 
         #endregion

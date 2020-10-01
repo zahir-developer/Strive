@@ -52,7 +52,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/thirty"
         android:layout_marginRight="@dimen/thirty"
-        android:layout_marginBottom="75dp"
+        android:layout_marginBottom="95dp"
         android:weightSum="5"
         android:background="@drawable/secondarylinearlayout">
         <xamarin.controls.SignaturePadView
@@ -73,15 +73,16 @@
             android:layout_height="wrap_content"
             android:weightSum="2">
             <Button
+                android:id="@+id/cancelSignature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                
                 android:layout_weight="1"
                 android:text="Cancel"
                 android:fontFamily="@font/opensans_bold"
                 android:textColor="@android:color/white"
                 android:background="@drawable/secondarybutton   "/>
             <Button
+                android:id="@+id/doneSignature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/ten"

@@ -208,10 +208,9 @@ export class EditEmployeeComponent implements OnInit {
       emailId: employeeInfo.Email ? employeeInfo.Email : '',
       password: [''],
       dateOfHire: employeeInfo.HiredDate ? moment(employeeInfo.HiredDate).toDate() : '',
-      hourlyRateWash: employeeInfo.WashRate,
-      hourlyRateDetail: employeeInfo.DetailRate ? employeeInfo.DetailRate : '',
+      hourlyRateWash: employeeInfo.WashRate ? Number(employeeInfo.WashRate).toFixed(2) : '',
       comType: employeeInfo.ComType ? employeeInfo.ComType : '',
-      comRate: employeeInfo.ComRate ? employeeInfo.ComRate : '',
+      comRate: employeeInfo.ComRate ? Number(employeeInfo.ComRate).toFixed(2) : '',
       status: employeeInfo.Status ? 'Active' : 'InActive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
@@ -316,6 +315,7 @@ export class EditEmployeeComponent implements OnInit {
         this.emplistform.get('comType').updateValueAndValidity();
       }
     }
+
   }
 
   onLocationDeSelect(event) {
@@ -329,6 +329,7 @@ export class EditEmployeeComponent implements OnInit {
     } else {
       this.deSelectLocation.push(event);
     }
+
   }
 
   updateEmployee() {
@@ -393,7 +394,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
-      DetailRate: +this.emplistform.value.hourlyRateDetail,
+      DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',
@@ -480,13 +481,10 @@ export class EditEmployeeComponent implements OnInit {
     const label = this.commissionType.filter(item => item.CodeId === Number(data));
     if (label.length !== 0 && label[0].CodeValue !== 'Hourly Rate') {
       this.ctypeLabel = label[0].CodeValue;
-      this.isHourlyRate = false;
     } else if (label.length !== 0 && label[0].CodeValue === 'Hourly Rate') {
-      this.ctypeLabel = 'none';
-      this.isHourlyRate = true;
+      this.ctypeLabel = 'Hourly Rate-Details';
     } else {
       this.ctypeLabel = 'none';
-      this.isHourlyRate = false;
     }
   }
 
