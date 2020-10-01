@@ -80,7 +80,7 @@ export class ServiceCreateEditComponent implements OnInit {
           parentName: this.selectedService.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
         });
-        this.change(this.selectedService.Commision === 1 ? true : false);
+        this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceTypeId);
       } else {
         this.toastr.error('Communication Error', 'Error!');

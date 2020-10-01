@@ -280,9 +280,12 @@ namespace StriveCustomer.Android.Fragments
         }
         public void OnLocationChanged(Location location)
         {
-            userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
-            userMarkerOption = new MarkerOptions();
-            userMarkerOption.SetPosition(userLatLng);
+            if(lastLocation.Latitude != null || lastLocation.Longitude != null)
+            {
+                userLatLng = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
+                userMarkerOption = new MarkerOptions();
+                userMarkerOption.SetPosition(userLatLng);
+            }
         }
         private void RefreshWashTimes()
         {

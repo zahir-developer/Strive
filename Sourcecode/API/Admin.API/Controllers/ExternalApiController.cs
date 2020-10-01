@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessLogic.Admin.ExternalApi;
+using System;
 
 namespace Admin.Api.Controllers
 {
@@ -53,6 +54,13 @@ namespace Admin.Api.Controllers
         public void GetGoogleCalendarEvents()
         {
             _bplManager.GetGoogleCalendarEvents();
+        }
+
+        [HttpPost, Route("Jenkins")]
+        public void Jenkins()
+        {
+            bool jenkinFlag = true;
+            string tmp = "Jenkins";
         }
 
         #endregion

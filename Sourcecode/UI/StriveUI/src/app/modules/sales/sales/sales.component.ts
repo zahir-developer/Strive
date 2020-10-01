@@ -26,10 +26,12 @@ export class SalesComponent implements OnInit {
   enableButton = false;
   showPopup = false;
   products = [];
+  discountService = [];
   serviceAndProduct = [];
   Products = [];
   isInvalidGiftcard = false;
   discount = '';
+  discountCash = 0;
   isDisableService = false;
   discounts = [];
   outsideServices = [];
@@ -39,6 +41,7 @@ export class SalesComponent implements OnInit {
   airfreshnerService = [];
   creditcashback = 0;
   cashback = 0;
+  initialcashback = 0;
   selected = false;
   isSelected = true;
   creditTotal = 0;
@@ -53,7 +56,7 @@ export class SalesComponent implements OnInit {
   balance: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
-    private messageService: MessageServiceToastr, private service: ServiceSetupService, 
+    private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
     private route: ActivatedRoute) { }
   ItemName = '';
@@ -78,14 +81,15 @@ export class SalesComponent implements OnInit {
   totalPaid = 0;
   balanceDue = 0;
   Cashback = '';
+  discountAmount = 0;
   ngOnInit(): void {
+    this.giftCardFromInit();
+    this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
     if (paramsData !== null) {
       this.ticketNumber = paramsData;
-      this.getDetailByTicket();
+      this.getDetailByTicket(false);
     }
-    this.giftCardFromInit();
-    this.addItemFormInit();
     // this.getAllService();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
@@ -174,13 +178,23 @@ export class SalesComponent implements OnInit {
       this.isDisableService = false;
     }
   }
-  clearpaymentField() {
+  clearGridItems() {
     this.washes = [];
     this.details = [];
     this.additionalService = [];
     this.upCharges = [];
     this.airfreshnerService = [];
     this.outsideServices = [];
+    this.discountService = [];
+    this.Products = [];
+    if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
+      this.itemList.Status.ScheduleItemSummaryViewModels = {};
+    }
+    this.showPopup = false;
+    this.giftCardForm.reset();
+    this.isInvalidGiftcard = false;
+  }
+  clearpaymentField() {
     this.cash = 0;
     this.credit = 0;
     this.giftCard = 0;
@@ -191,13 +205,17 @@ export class SalesComponent implements OnInit {
     this.originalGrandTotal = 0;
     this.creditcashback = 0;
     this.cashback = 0;
-    if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
-      this.itemList.Status.ScheduleItemSummaryViewModels = {};
-    }
-    this.showPopup = false;
+    this.selectedDiscount = [];
+    this.selectedService = [];
   }
-  getDetailByTicket() {
-    this.clearpaymentField();
+  getDetailByTicket(flag) {
+    this.enableButton = false;
+    if (flag !== true) {
+      this.clearGridItems();
+      this.clearpaymentField();
+    } else {
+      this.clearGridItems();
+    }
     if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
       const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
@@ -207,10 +225,15 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
+          if (this.itemList.Status.JobPaymentViewModel === null) {
+            this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
+            return;
+          } else {
+            this.JobId = this.itemList?.Status?.JobPaymentViewModel?.JobId;
+          }
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
             if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
               this.showPopup = true;
-              this.JobId = this.itemList.Status.ScheduleItemViewModel[0].JobId;
               this.washes = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Washes');
               this.details = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Details');
               this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
@@ -221,21 +244,24 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === 'Outside Services');
               this.airfreshnerService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
                 item.ServiceType === 'Air Fresheners');
+              this.discountService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+                item.ServiceType === 'Discounts');
             }
           } else {
             this.showPopup = false;
           }
           if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
             const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
-            this.cashback = summary?.Cashback ? summary?.Cashback : 0;
+            this.initialcashback = summary?.Cashback ? summary?.Cashback : 0;
+            this.cashback = summary?.CashBack ? summary?.CashBack : 0;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
             this.cashTotal = +this.grandTotal;
             this.creditTotal = +this.grandTotal;
             this.cash = +summary?.Cash;
             this.credit = +summary?.Credit;
-            this.discount = summary?.Discount;
+            this.discountAmount = summary?.Discount;
             this.originalGrandTotal = +this.grandTotal;
-            this.giftCard = +summary?.GiftCard;
+            this.giftCard = Math.abs(+summary?.GiftCard);
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
 
@@ -243,8 +269,10 @@ export class SalesComponent implements OnInit {
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
           }
-          if (this.cash !== 0 || this.credit !== 0 || this.giftCard !== 0) {
+          if (this.itemList?.Status?.JobPaymentViewModel?.IsProcessed === true) {
             this.enableButton = true;
+          } else {
+            this.enableButton = false;
           }
         }
       }, (err) => {
@@ -267,11 +295,19 @@ export class SalesComponent implements OnInit {
     }
     this.filteredItem = filtered;
   }
-  deleteItem(data) {
-    this.confirmationService.confirm('Delete Item', `Are you sure you want to delete the selected Item?`, 'Yes', 'No')
+  deleteItem(data, type) {
+    const title = type === 'deleteItem' ? 'Delete Item' : type === 'rollback' ? 'RollBacK' : 'Delete Ticket';
+    const message = type === 'deleteItem' ? 'Are you sure you want to delete the selected Item?' : type === 'rollback' ? 'Are you sure you want to Rollback the transaction?' : 'Are you sure you want to delete the Ticket?';
+    this.confirmationService.confirm(title, message, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete(data);
+          if (type === 'deleteItem') {
+            this.confirmDelete(data);
+          } else if (type === 'rollback') {
+            this.rollBack();
+          } else {
+            this.deleteTicket();
+          }
         }
       })
       .catch(() => { });
@@ -279,10 +315,20 @@ export class SalesComponent implements OnInit {
 
   // Delete location
   confirmDelete(data) {
-    this.salesService.deleteItemById(data.JobItemId).subscribe(res => {
+    const itemId = data?.JobItemId ? data?.JobItemId : data?.JobProductItemId;
+
+    const deleteItem = 
+    {
+      ItemId : itemId,
+      IsJobItem : data?.JobItemId ? true : false
+    }
+
+
+    this.salesService.deleteItemById(deleteItem).subscribe(res => {
+      
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
-        this.getDetailByTicket();
+        this.getDetailByTicket(false);
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -291,14 +337,21 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    this.cashTotal = this.grandTotal ? +this.grandTotal : 0;
+    const cashTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
+      Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
+    this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('creditcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
   }
   opengiftcard() {
-    // this.giftcards = [];
+    this.giftCardForm.reset();
+    this.isInvalidGiftcard = false;
+    if (this.validGiftcard !== undefined) {
+      this.validGiftcard.GiftCardDetail[0].BalaceAmount = 0;
+    }
+    this.balance = 0;
     document.getElementById('Giftcardpopup').style.width = '450px';
     document.getElementById('creditcardpopup').style.width = '0';
     document.getElementById('cashpopup').style.width = '0';
@@ -314,6 +367,10 @@ export class SalesComponent implements OnInit {
   opendiscount() {
     // this.selectedDiscount = [];
     this.discount = '';
+    // if (this.discountService.length > 0) {
+    //   this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Discount already applied' });
+    //   return;
+    // }
     document.getElementById('discountpopup').style.width = '450px';
     document.getElementById('cashpopup').style.width = '0';
     document.getElementById('Giftcardpopup').style.width = '0';
@@ -323,8 +380,11 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '0';
   }
   opencreditcard() {
-    this.creditTotal = this.grandTotal ? +this.grandTotal : 0;
+    const creditTotal = (this.originalGrandTotal - this.totalPaid) !== 0 ?
+      Number((this.originalGrandTotal - this.totalPaid).toFixed(2)) : 0;
+    this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
+    this.cashback = this.initialcashback;
     document.getElementById('creditcardpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
@@ -347,7 +407,7 @@ export class SalesComponent implements OnInit {
     modalRef.componentInstance.isModal = true;
     modalRef.result.then(
       (data: any) => {
-        this.getDetailByTicket();
+        this.getDetailByTicket(false);
       },
       (reason: any) => { }
     );
@@ -384,7 +444,7 @@ export class SalesComponent implements OnInit {
   addItem() {
     this.submitted = true;
     if (+this.addItemForm.controls.quantity.value === 0) {
-      this.addItemForm.patchValue({quantity: ''});
+      this.addItemForm.patchValue({ quantity: '' });
       return;
     }
     if (this.addItemForm.invalid) {
@@ -411,14 +471,14 @@ export class SalesComponent implements OnInit {
         actualTimeOut: new Date(),
         jobStatus: 1,
         isActive: true,
-        isDeleted: this.isSelected ? false : true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
         notes: 'checking'
       },
-      jobItem: {
+      jobItem: [{
         jobItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         serviceId: this.selectedService?.id,
@@ -426,55 +486,45 @@ export class SalesComponent implements OnInit {
         commission: 0,
         price: this.selectedService?.price,
         quantity: +this.addItemForm.controls.quantity.value,
-        reviewNote: 'test',
+        reviewNote: null,
         isActive: true,
-        isDeleted: this.isSelected ? false : true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
-      },
-      productItem: {
-          jobProductItemId: 0,
-          jobId: this.isSelected ? this.JobId : 0,
-          productId: this.selectedService?.id,
-          commission: 0,
-          price: this.selectedService?.price,
-          quantity: +this.addItemForm.controls.quantity.value,
-          reviewNote: 'test',
-          isActive: true,
-          isDeleted: true,
-          createdBy: 1,
-          createdDate: new Date(),
-          updatedBy: 1,
-          updatedDate: new Date()
+      }],
+      JobProductItem: {
+        jobProductItemId: 0,
+        jobId: this.isSelected ? this.JobId : 0,
+        productId: this.selectedService?.id,
+        commission: 0,
+        price: this.selectedService?.price,
+        quantity: +this.addItemForm.controls.quantity.value,
+        reviewNote: null,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
       }
     };
     if (this.selectedService.type === 'service') {
-        formObj.productItem = null;
+      formObj.JobProductItem = null;
     } else {
       formObj.jobItem = null;
     }
     if (this.isSelected) {
-      this.salesService.updateListItem(formObj).subscribe(data => {
-        if (data.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
-          this.getDetailByTicket();
-          this.addItemForm.controls.quantity.enable();
-          this.addItemFormInit();
-          this.submitted = false;
-        } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-        }
-      });
+      this.updateListItem(formObj, false);
     } else {
       this.salesService.addItem(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
           this.isSelected = true;
           this.ticketNumber = this.newTicketNumber;
-          this.getDetailByTicket();
+          this.getDetailByTicket(false);
           this.addItemForm.controls.quantity.enable();
           this.addItemFormInit();
           this.submitted = false;
@@ -483,6 +533,19 @@ export class SalesComponent implements OnInit {
         }
       });
     }
+  }
+  updateListItem(formObj, flag) {
+    this.salesService.updateListItem(formObj).subscribe(data => {
+      if (data.status === 'Success') {
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+        this.getDetailByTicket(flag);
+        this.addItemForm.controls.quantity.enable();
+        this.addItemFormInit();
+        this.submitted = false;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
   }
   getNumAndUpdate(num) {
     if (this.targetId !== '') {
@@ -497,6 +560,7 @@ export class SalesComponent implements OnInit {
     } else if (this.targetId === 'ticketNumber') {
       this.ticketNumber = '';
       this.clearpaymentField();
+      this.clearGridItems();
     }
   }
   backspace() {
@@ -526,11 +590,18 @@ export class SalesComponent implements OnInit {
       this.newTicketNumber = data;
       this.enableAdd = true;
       this.clearpaymentField();
+      this.clearGridItems();
     });
   }
   creditProcess() {
     this.totalPaid = this.totalPaid - this.credit;
     this.credit = this.creditTotal - this.creditcashback;
+    if (this.credit > (this.originalGrandTotal - this.totalPaid)) {
+      this.credit = 0;
+      this.creditcashback = 0;
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Credit amount exceeds the balance amount!' });
+      return;
+    }
     this.totalPaid = this.totalPaid + this.credit;
     this.cashback = this.cashback + this.creditcashback;
     document.getElementById('creditcardpopup').style.width = '0';
@@ -545,9 +616,31 @@ export class SalesComponent implements OnInit {
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
+
+    let discountValue = 0;
+    this.selectedDiscount.reduce(item => +item.amount);
+    discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
+    this.discountAmount = discountValue;
+    this.totalPaid = this.totalPaid + discountValue;
+    //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
+    console.log(this.discount);
+    if (this.selectedDiscount.length > 0) {
+    const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
+    if (dup.length > 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Duplicate discount' });
+      return;
+    }
+  }
+    if (this.discountService.length > 0) {
+      const duplicatecheck = this.discountService.filter(selectedDis => +selectedDis.ServiceId === +this.discount);
+      if (duplicatecheck.length > 0) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'selected discount already applied!' });
+        return;
+      }
+    }
     this.discounts.forEach(item => {
       if (item.ServiceId === +event.target.value) {
         this.selectedDiscount.push(item);
@@ -559,8 +652,13 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.splice(index, 1);
   }
   addPayment() {
+    const balancedue = this.originalGrandTotal - this.totalPaid;
     if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please do payment' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Add any cash/credit payment and proceed' });
+      return;
+    }
+    if (balancedue !== 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total paid amount not matching with Total amount.' });
       return;
     }
     let giftcard = null;
@@ -575,7 +673,7 @@ export class SalesComponent implements OnInit {
         transactionDate: new Date(),
         comments: 'string',
         isActive: true,
-        isDeleted: true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
@@ -590,7 +688,7 @@ export class SalesComponent implements OnInit {
         serviceDiscountId: +item.ServiceId,
         amount: item.Cost,
         isActive: true,
-        isDeleted: true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
@@ -605,18 +703,19 @@ export class SalesComponent implements OnInit {
         paymentType: 109,
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
-        cashback: 0,
+        cashback: this.cashback ? this.cashback : 0,
         approval: true,
         checkNumber: '',
         signature: '',
         paymentStatus: 1,
         comments: '',
         isActive: true,
-        isDeleted: true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
-        updatedDate: new Date()
+        updatedDate: new Date(),
+        isProcessed: true
       },
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: {
@@ -637,14 +736,14 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       },
       jobPaymentDiscount: discount.length === 0 ? null : discount,
-    
+
     };
     this.spinner.show();
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
-        this.getDetailByTicket();
+        this.getDetailByTicket(false);
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
       }
@@ -658,7 +757,7 @@ export class SalesComponent implements OnInit {
       this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });
-          this.getDetailByTicket();
+          this.getDetailByTicket(false);
           this.ticketNumber = '';
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
@@ -673,13 +772,12 @@ export class SalesComponent implements OnInit {
     this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
         this.validGiftcard = JSON.parse(data.resultData);
-        if (this.validGiftcard.GiftCardDetail.length === 0) {
+        if (this.validGiftcard?.GiftCardDetail[0]?.GiftCardId === 0) {
           this.isInvalidGiftcard = true;
         } else {
           this.isInvalidGiftcard = false;
         }
       }
-      //console.log(data);
     });
   }
   validateAmount() {
@@ -704,8 +802,8 @@ export class SalesComponent implements OnInit {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
       this.salesService.rollback(+this.ticketNumber).subscribe(data => {
         if (data.status === 'Success') {
-          this.getDetailByTicket();
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbaced Successfully' });
+          this.getDetailByTicket(false);
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }

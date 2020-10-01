@@ -12,7 +12,7 @@ namespace Strive.BusinessLogic.Sales
     {
         Result SaveProductItem(SalesProductItemDto salesProductItemDto);
         Result UpdateItem(SalesItemUpdateDto salesItemUpdateDto);
-        Result DeleteItemById(int jobItemId);
+        Result DeleteItemById(DeleteItemDto itemDto);
         string GetTicketNumber();
         Result GetItemList(SalesListItemDto salesListItemDto);
         Result GetScheduleByTicketNumber(string ticketNumber);

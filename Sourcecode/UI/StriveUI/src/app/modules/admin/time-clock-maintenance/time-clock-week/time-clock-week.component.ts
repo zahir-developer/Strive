@@ -1,14 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { TimeClockMaintenanceService } from 'src/app/shared/services/data-service/time-clock-maintenance.service';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-time-clock-week',
   templateUrl: './time-clock-week.component.html',
-  styleUrls: ['./time-clock-week.component.css']
+  styleUrls: ['./time-clock-week.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TimeClockWeekComponent implements OnInit {
   totalWeekDetail: any = {
@@ -33,12 +35,13 @@ export class TimeClockWeekComponent implements OnInit {
   constructor(
     public timeClockMaintenanceService: TimeClockMaintenanceService,
     private datePipe: DatePipe,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private messageService: MessageServiceToastr,
   ) { }
 
   ngOnInit(): void {
     console.log(this.empClockInObj, 'empObj');
-    this.weekStartDate = new Date (this.empClockInObj.startDate);
+    this.weekStartDate = new Date(this.empClockInObj.startDate);
     this.weekLastDate = this.empClockInObj.endDate;
     this.getAllRoles();
   }
@@ -79,8 +82,11 @@ export class TimeClockWeekComponent implements OnInit {
                 });
               });
             }
+            const weeklyDays = new Date(this.weekStartDate.setDate(this.weekStartDate.getDate() + 1));
+            const tempDate = new Date(weeklyDays.setDate(weeklyDays.getDate() - 1));
             this.timeClockList.push({
               day,
+              date: this.datePipe.transform(tempDate, 'yyyy-MM-dd'),
               checkInDetail: dayDetails
             });
           });
@@ -125,7 +131,7 @@ export class TimeClockWeekComponent implements OnInit {
   addTimeList(week) {
     console.log(week);
     week.checkInDetail.push({
-      EventDate: week.date,
+      EventDate: week.date ? week.date : week.checkInDetail[0].EventDate,
       InTime: '',
       OutTime: '',
       RoleId: '',
@@ -137,6 +143,27 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   saveWeeklyhours() {
+    let checkIn = [];
+    let negativeHrs = [];
+    this.timeClockList.forEach(element => {
+      if (element.checkInDetail !== 0) {
+        element.checkInDetail.forEach(ele => {
+          if (ele.TotalHours === "0:00" || ele.TotalHours === "0:0") {
+            checkIn.push(ele);
+          }
+          if (ele.InTime > ele.OutTime) {
+            negativeHrs.push(ele);
+          }
+        });
+      }
+    });
+    if (checkIn.length !== 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
+      return;
+    } else if (negativeHrs.length !== 0) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
+      return;
+    }
     console.log(this.timeClockList, 'finalobj');
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
@@ -176,16 +203,51 @@ export class TimeClockWeekComponent implements OnInit {
 
   outTime(event, currentTime) {
     console.log(event, currentTime);
-    const inTime = currentTime.InTime;
-    const outTime = currentTime.OutTime;
-    const hours = new Date();
-    const hourDifference = hours.setHours(outTime.getHours() - inTime.getHours());
-    const totalHours = this.datePipe.transform(hourDifference, 'H');
-    currentTime.TotalHours = totalHours;
+    const inTime =new Date(currentTime.InTime);
+    const outTime = new Date(currentTime.OutTime);
+    const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+    const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+    const MINUTES = (outTimeMins - inTimeMins);
+    var m = (MINUTES % 60);
+    if (m < 0) {
+      m = 60 - (-m);
+    }
+    const h = (MINUTES - m) / 60;
+    const HHMM = h.toString() + ":" + m.toString();
+    currentTime.TotalHours = HHMM;
+  }
+
+  outTimeChange(data) {
+    console.log(data.InTime, data.OutTime);
   }
 
   backToTimeClockPage() {
     this.cancelCheckInPage.emit();
+  }
+
+  totalHoursCalculation(data) {
+    let washHour = 0;
+    let detailHour = 0;
+    this.timeClockList.forEach(item => {
+      item.checkInDetail.forEach(checkIn => {
+        if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Wash') {
+          washHour += +checkIn.TotalHours;
+        } else if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Detailer') {
+          detailHour += +checkIn.TotalHours;
+        }
+      });
+    });
+    this.totalWeekDetail.TotalDetailHours = detailHour;
+    this.totalWeekDetail.TotalWashHours = washHour;
+    this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
+    this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
+    this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
+      this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
+
+  }
+
+  timeCheck(data) {
+    console.log(data);
   }
 
 }

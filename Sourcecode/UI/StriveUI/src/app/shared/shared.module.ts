@@ -38,6 +38,7 @@ import { PrintWashComponent } from './components/print-wash/print-wash.component
 import { ClientFormComponent } from './components/client-form/client-form.component';
 import { VehicleCreateEditComponent } from './components/vehicle-create-edit/vehicle-create-edit.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   entryComponents: [
     ConfirmationDialogComponent
