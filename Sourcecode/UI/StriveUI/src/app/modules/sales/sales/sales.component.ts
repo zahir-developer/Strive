@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
+import { PrintComponent } from './print/print.component';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -97,7 +98,6 @@ export class SalesComponent implements OnInit {
   getAllServiceandProduct() {
     this.salesService.getServiceAndProduct().subscribe(data => {
       if (data.status === 'Success') {
-        console.log(data.status, 'getService');
         const services = JSON.parse(data.resultData);
         if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
           this.services = services.ServiceAndProductList.Service.map(item => {
@@ -140,7 +140,6 @@ export class SalesComponent implements OnInit {
   getAllService() {
     this.salesService.getService().subscribe(data => {
       if (data.status === 'Success') {
-        console.log(data.status, 'getService');
         const services = JSON.parse(data.resultData);
         if (services.ServicesWithPrice !== null && services.ServicesWithPrice.length > 0) {
           this.services = services.ServicesWithPrice.map(item => {
@@ -151,7 +150,6 @@ export class SalesComponent implements OnInit {
               type: 'service'
             };
           });
-          console.log(this.services);
         }
       }
     });
@@ -205,6 +203,7 @@ export class SalesComponent implements OnInit {
     this.originalGrandTotal = 0;
     this.creditcashback = 0;
     this.cashback = 0;
+    this.discountAmount = 0;
     this.selectedDiscount = [];
     this.selectedService = [];
   }
@@ -316,16 +315,11 @@ export class SalesComponent implements OnInit {
   // Delete location
   confirmDelete(data) {
     const itemId = data?.JobItemId ? data?.JobItemId : data?.JobProductItemId;
-
-    const deleteItem = 
-    {
+    const deleteItem = {
       ItemId : itemId,
       IsJobItem : data?.JobItemId ? true : false
-    }
-
-
+    };
     this.salesService.deleteItemById(deleteItem).subscribe(res => {
-      
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
         this.getDetailByTicket(false);
@@ -337,8 +331,7 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    const cashTotal = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
-      Number((this.originalGrandTotal - this.totalPaid - this.discountAmount).toFixed(2)) : 0;
+    const cashTotal = this.getBalanceDue();
     this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
@@ -365,12 +358,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   opendiscount() {
-    // this.selectedDiscount = [];
     this.discount = '';
-    // if (this.discountService.length > 0) {
-    //   this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Discount already applied' });
-    //   return;
-    // }
     document.getElementById('discountpopup').style.width = '450px';
     document.getElementById('cashpopup').style.width = '0';
     document.getElementById('Giftcardpopup').style.width = '0';
@@ -380,8 +368,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '0';
   }
   opencreditcard() {
-    const creditTotal = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
-      Number((this.originalGrandTotal - this.totalPaid - this.discountAmount).toFixed(2)) : 0;
+    const creditTotal = this.getBalanceDue();
     this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
     this.cashback = this.initialcashback;
@@ -423,7 +410,6 @@ export class SalesComponent implements OnInit {
     const giftCardAmount = this.giftCardForm.value.giftCardAmount;
     if (this.giftCardForm.valid) {
       this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
-      console.log(this.selectedDiscount);
       this.giftCardForm.reset();
       this.balance = 0;
       this.validGiftcard.GiftCardDetail[0].BalaceAmount = 0;
@@ -433,12 +419,12 @@ export class SalesComponent implements OnInit {
     }
   }
   giftCardProcess() {
-    this.totalPaid = this.totalPaid - this.giftCard;
+    this.removAddedAmount(this.giftCard);
     let gc = 0;
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
-    this.totalPaid = this.totalPaid + this.giftCard;
+    this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
@@ -552,7 +538,6 @@ export class SalesComponent implements OnInit {
       const el = document.getElementById(this.targetId);
       insertTextAtCursor(el, num.toString());
     }
-    // this.addItemForm.patchValue({ quantity: this.addItemForm.value.quantity.toString() + num.toString() });
   }
   clear() {
     if (this.targetId === 'quantity') {
@@ -575,7 +560,6 @@ export class SalesComponent implements OnInit {
     }
   }
   addCashBack(cashback) {
-    // this.creditTotal
     this.creditcashback = this.creditcashback + cashback;
     this.creditTotal = +this.creditTotal + cashback;
   }
@@ -594,7 +578,7 @@ export class SalesComponent implements OnInit {
     });
   }
   creditProcess() {
-    this.totalPaid = this.totalPaid - this.credit;
+    this.removAddedAmount(this.credit);
     this.credit = this.creditTotal - this.creditcashback;
     if (this.credit > (this.originalGrandTotal - this.totalPaid - this.discountAmount + this.credit)) {
       this.credit = 0;
@@ -602,30 +586,38 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Credit amount exceeds the balance amount!' });
       return;
     }
-    this.totalPaid = this.totalPaid + this.credit;
+    this.calculateTotalpaid(this.credit);
     this.cashback = this.cashback + this.creditcashback;
     document.getElementById('creditcardpopup').style.width = '0';
+  }
+  removAddedAmount(amount){
+    this.totalPaid = this.totalPaid - amount;
+  }
+  calculateTotalpaid(amount) {
+    this.totalPaid = this.totalPaid + amount;
   }
   addCash(cash) {
     this.cashTotal = +this.cashTotal + cash;
   }
   cashProcess() {
-    this.totalPaid = (+this.totalPaid) - (+this.cash);
+    this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
-    this.totalPaid = (+this.totalPaid) + (+this.cash);
+    this.calculateTotalpaid(+this.cash);
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
 
     let discountValue = 0;
-    this.selectedDiscount.reduce(item => +item.amount);
-    discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
-    this.discountAmount = discountValue;
+    if (this.selectedDiscount.length > 0) {
+      discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
+      this.discountAmount = discountValue;
+    } else {
+      this.discountAmount = 0;
+    }
     //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
-    console.log(this.discount);
     if (this.selectedDiscount.length > 0) {
     const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
     if (dup.length > 0) {
@@ -650,8 +642,13 @@ export class SalesComponent implements OnInit {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
   }
+  getBalanceDue() {
+    const balancedue = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
+    Number((this.originalGrandTotal - this.totalPaid - this.discountAmount).toFixed(2)) : 0;
+    return balancedue;
+  }
   addPayment() {
-    const balancedue = this.originalGrandTotal - this.totalPaid - this.discountAmount;
+    const balancedue = this.getBalanceDue();
     if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Add any cash/credit payment and proceed' });
       return;
@@ -819,5 +816,16 @@ export class SalesComponent implements OnInit {
     if (code > 31 && (code < 48 || code > 57)) {
       e.preventDefault();
     }
+  }
+  print(){
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(PrintComponent, ngbModalOptions);
+    modalRef.componentInstance.isModal = true;
+    modalRef.componentInstance.ticketNumber = this.ticketNumber;
+    modalRef.componentInstance.itemList = this.itemList.Status;
   }
 }
