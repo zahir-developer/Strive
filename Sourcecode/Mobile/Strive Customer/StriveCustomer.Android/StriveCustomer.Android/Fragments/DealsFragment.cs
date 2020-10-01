@@ -9,6 +9,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -55,7 +56,6 @@ namespace StriveCustomer.Android.Fragments
             dealsRecyclerView.SetAdapter(dealsAdapter);
             return rootview;
         }
-
         private async void QrCode_Click(object sender, EventArgs e)
         {
             if (ActivityCompat.CheckSelfPermission(this.Context,Manifest.Permission.Camera) == Permission.Granted)
