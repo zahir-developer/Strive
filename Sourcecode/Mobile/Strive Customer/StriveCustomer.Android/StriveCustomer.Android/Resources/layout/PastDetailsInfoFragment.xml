@@ -5,13 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mobile_portrait_bg">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2FCFE">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Account"
+            android:textSize="16sp"
+            android:textColor="@color/profileInfoColor"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/pastServiceBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Back" />
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:text="Past Service Details"
-        android:textSize="@dimen/textSixteen"
+        android:textSize="18sp"
         android:textColor="@android:color/white"
         android:fontFamily="@font/opensans_bold"/>
     <LinearLayout

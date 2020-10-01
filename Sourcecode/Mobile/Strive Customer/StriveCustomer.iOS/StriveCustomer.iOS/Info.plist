@@ -66,5 +66,9 @@
 		<string>OpenSans-Bold.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>&quot;App wants to use the location service&quot;</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>&quot;App wants to use the location service&quot;</string>
 </dict>
 </plist>

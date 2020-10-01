@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Vehicle"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
         <Button
@@ -42,7 +42,7 @@
         android:layout_marginTop="@dimen/five"
         android:text="Select Upcharges"
         android:gravity="center"
-        android:textSize="@dimen/textSixteen"
+        android:textSize="18sp"
         android:textColor="@android:color/white"
         android:fontFamily="@font/opensans_bold" />
     <LinearLayout

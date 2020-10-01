@@ -98,7 +98,7 @@ namespace StriveCustomer.Android.Fragments
                             upChargeRadio.Id = someId;
                             upchargeRadio.Add(result.ServiceId, someId);
                             upChargeRadio.SetTypeface(null, TypefaceStyle.Bold);
-                            upChargeRadio.SetTextSize(ComplexUnitType.Sp, 15);
+                            upChargeRadio.SetTextSize(ComplexUnitType.Sp, (float)16.5);
                             upChargeRadio.TextAlignment = TextAlignment.ViewEnd;
                             if (result.ServiceId == MembershipDetails.selectedUpCharge)
                             {
