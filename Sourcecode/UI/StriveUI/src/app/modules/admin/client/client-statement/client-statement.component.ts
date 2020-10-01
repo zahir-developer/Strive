@@ -10,6 +10,9 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 export class ClientStatementComponent implements OnInit {
   @Input() clientId?: any;
   statementGrid: any = [];
+  page = 1;
+  pageSize = 5;
+  collectionSize: number;
   constructor(
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
@@ -29,6 +32,7 @@ export class ClientStatementComponent implements OnInit {
       if (res.status === 'Success') {
         const statement = JSON.parse(res.resultData);
         this.statementGrid = statement.VehicleStatement;
+        this.collectionSize = Math.ceil(this.statementGrid.length / this.pageSize) * 10;
         console.log(statement, 'statement');
       }
     });
