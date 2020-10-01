@@ -231,24 +231,28 @@ export class TimeClockWeekComponent implements OnInit {
       }
       const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
       currentTime.TotalHours = HHMM;
+      this.totalHoursCalculation(currentTime);
     }
   }
 
   outTime(event, currentTime) {
     console.log(event, currentTime);
-    const inTime = new Date(currentTime.InTime);
-    const outTime = new Date(currentTime.OutTime);
-    const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
-    const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
-    const MINUTES = (outTimeMins - inTimeMins);
-    var m = (MINUTES % 60);
-    const h = (MINUTES - m) / 60;
-    const hrs = h<0 ? -h : h;
-    if (m < 0) {
-      m = 60 - (-m);
+    if (currentTime.InTime !== "") {
+      const inTime = new Date(currentTime.InTime);
+      const outTime = new Date(currentTime.OutTime);
+      const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      const MINUTES = (outTimeMins - inTimeMins);
+      var m = (MINUTES % 60);
+      const h = (MINUTES - m) / 60;
+      const hrs = h < 0 ? -h : h;
+      if (m < 0) {
+        m = 60 - (-m);
+      }
+      const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
+      currentTime.TotalHours = HHMM;
+      this.totalHoursCalculation(currentTime);
     }
-    const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
-    currentTime.TotalHours = HHMM;
   }
 
   backToTimeClockPage() {
