@@ -28,15 +28,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 			set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
 			set.Bind(CancelButton).To(vm => vm.Commands["NavigateBack"]);
 			set.Apply();
-
-			SignPad.StrokeCompleted += (sender, e) => UpdateControls();
-			SignPad.Cleared += (sender, e) => UpdateControls();
-		}
-
-        private void UpdateControls()
-        {
-            DoneButton.Enabled = !SignPad.IsBlank;
-        }		
+		}	
 
 		public override void DidReceiveMemoryWarning()
         {

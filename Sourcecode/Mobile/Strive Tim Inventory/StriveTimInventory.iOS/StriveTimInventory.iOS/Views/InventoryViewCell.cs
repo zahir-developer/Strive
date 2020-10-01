@@ -58,9 +58,9 @@ namespace StriveTimInventory.iOS.Views
             cell.RequestView.Hidden = false;
             cell.IncrementButton.Tag = cell.DecrementButton.Tag = cell.ItemEditButton.Tag = index;
 
-            if(ViewModel.FilteredList[index].Product.base64 != null)
+            if(ViewModel.FilteredList[index].Product.Base64 != null)
             {
-                var imageBytes = Convert.FromBase64String(ViewModel.FilteredList[index].Product.base64);
+                var imageBytes = Convert.FromBase64String(ViewModel.FilteredList[index].Product.Base64);
                 var imageData = NSData.FromArray(imageBytes);
                 var uiImage = UIImage.LoadFromData(imageData);
                 cell.ItemImage.Image = uiImage;

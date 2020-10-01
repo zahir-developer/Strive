@@ -10,26 +10,24 @@ namespace Strive.Core.Models.TimInventory
         public string ProductCode { get; set; }
         public string ProductDescription { get; set; }
         public int ProductType { get; set; }
+        public string FileName { get; set; }
+        public string ThumbFileName { get; set; }
         public int LocationId { get; set; }
-        public int? VendorId { get; set; }
-        public string fileName { get; set; }
-        public string thumbFileName { get; set; }
-        public string base64 { get; set; }
-        public int? Size { get; set; }
-        public string SizeDescription { get; set; }
+        public int VendorId { get; set; }
+        public int Size { get; set; }
         public int Quantity { get; set; }
         public string QuantityDescription { get; set; }
         public double Cost { get; set; }
+        public double Price { get; set; }
         public bool IsTaxable { get; set; }
         public double TaxAmount { get; set; }
-        public int? ThresholdLimit { get; set; }
         public bool IsActive { get; set; }
-        public object IsDeleted { get; set; }
-        public object CreatedBy { get; set; }
-        public object CreatedDate { get; set; }
-        public object UpdatedBy { get; set; }
-        public object UpdatedDate { get; set; }
-        public double? Price { get; set; }
+        public int ThresholdLimit { get; set; }
+        public string LocationName { get; set; }
+        public string VendorName { get; set; }
+        public string ProductTypeName { get; set; }
+        public string SizeName { get; set; }
+        public string Base64 { get; set; }
     }
 
     public class Products

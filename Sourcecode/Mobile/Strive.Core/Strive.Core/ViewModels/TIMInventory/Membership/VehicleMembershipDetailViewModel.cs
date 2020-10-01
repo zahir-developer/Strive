@@ -30,9 +30,17 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
 
         public string MembershipName { get; set; }
 
-        public string ActivatedDate { get { return MembershipDetail.StartDate.ToShortDateString(); } set { } }
+        public string ActivatedDate { get {
+                var activatedDate = MembershipDetail.StartDate;
+                var activatedDateFormatted = activatedDate.Month.ToString("D2") + "/" + activatedDate.Day.ToString("D2") + "/" + activatedDate.Year;
+                return activatedDateFormatted;
+            } set { } }
 
-        public string CancelledDate { get { return MembershipDetail.EndDate.ToShortDateString(); } set { } }
+        public string CancelledDate { get {
+                var cancelledDate = MembershipDetail.EndDate;
+                var cancelledDateFormatted = cancelledDate.Month.ToString("D2") + "/" + cancelledDate.Day.ToString("D2") + "/" + cancelledDate.Year;
+                return cancelledDateFormatted;
+            } set { } }
 
         public string Status { get { return MembershipDetail.Status ? "Active" : "Inactive"; } set { } }
 

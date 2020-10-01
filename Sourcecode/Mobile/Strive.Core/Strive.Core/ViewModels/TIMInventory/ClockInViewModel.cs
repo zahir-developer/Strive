@@ -79,7 +79,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                     _RolesList.Add(new EmployeeRole() { Title = Strings.Manager, ImageUri = ImageUtils.ICON_MANAGER, Tag = 5, ImageUriHover = ImageUtils.ICON_MANAGER });
                     break;
                 case "ADMIN":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Manager, ImageUri = ImageUtils.ICON_MANAGER, Tag = 5, ImageUriHover = ImageUtils.ICON_MANAGER });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.Manager, ImageUri = ImageUtils.ICON_UNKNOWN, Tag = 5, ImageUriHover = ImageUtils.ICON_UNKNOWN });
                     break;
                 case "RUNNER":
                     _RolesList.Add(new EmployeeRole() { Title = Strings.Runner, ImageUri = ImageUtils.ICON_RUNNER, Tag = 6, ImageUriHover = ImageUtils.ICON_RUNNER });
@@ -108,8 +108,14 @@ namespace Strive.Core.ViewModels.TIMInventory
             EmployeeData.CurrentRole = FirstSelectedRole.Title;
             PrepareClockInRequest();
             EmployeeData.ClockInStatus.TimeClock.inTime = DateUtils.GetStringFromDate(DateTime.Now);
+            var clockinRequestModel = new TimeClockRootList() { TimeClock = new List<TimeClock>()};
+            clockinRequestModel.TimeClock.Add(EmployeeData.ClockInStatus.TimeClock);
             _userDialog.ShowLoading(Strings.Loading);
-            var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
+            var clockin = await AdminService.SaveClockInTime(clockinRequestModel);
+            if(clockin == null)
+            {
+                return;
+            }
             await _navigationService.Navigate<ClockedInViewModel>();
             await _navigationService.Close(this);
         }

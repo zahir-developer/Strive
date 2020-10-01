@@ -7,6 +7,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Utils.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
+using Strive.Core.Services.Implementations;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -77,18 +78,28 @@ namespace Strive.Core.ViewModels.TIMInventory
             await RaiseAllPropertiesChanged();
         }
 
-        public void IncrementCommand(int index)
+        public async void IncrementCommand(int index)
         {
             FilteredList[index].Product.Quantity++;
             RaiseAllPropertiesChanged();
+            var response = await AdminService.UpdateProduct(FilteredList[index].Product);
+            if (response == null)
+            {
+                await _userDialog.AlertAsync("Something unusal has happened. The product may not be updated");
+            }
         }
 
-        public void DecrementCommand(int index)
+        public async void DecrementCommand(int index)
         {
             if (!(FilteredList[index].Product.Quantity > 0))
                 return;
             FilteredList[index].Product.Quantity--;
             RaiseAllPropertiesChanged();
+            var response = await AdminService.UpdateProduct(FilteredList[index].Product);
+            if (response == null)
+            {
+                await _userDialog.AlertAsync("Something unusal has happened. The product may not be updated");
+            }
         }
 
         public void ClearCommand()

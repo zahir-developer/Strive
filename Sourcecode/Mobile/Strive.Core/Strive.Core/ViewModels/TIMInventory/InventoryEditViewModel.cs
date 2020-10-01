@@ -210,12 +210,11 @@ namespace Strive.Core.ViewModels.TIMInventory
                 ProductName = _SelectedItemName,
                 ProductDescription = _SelectedItemDescription,
                 ProductType = 1,
-                fileName = Filename,
-                base64 = Base64String,
+                FileName = "testImage.png",
+                Base64 = Base64String,
                 LocationId = 1,
                 VendorId = CurrentVendor.VendorId,
                 Size = 1,
-                SizeDescription = "",
                 Quantity = int.Parse(_SelectedItemQuantity),
                 QuantityDescription = "",
                 Cost = 10,
@@ -223,11 +222,6 @@ namespace Strive.Core.ViewModels.TIMInventory
                 TaxAmount = 10,
                 ThresholdLimit = 5,
                 IsActive = true,
-                IsDeleted = false,
-                CreatedBy = 0,
-                CreatedDate = DateUtils.GetTodayDateString(),
-                UpdatedBy = 0,
-                UpdatedDate = DateUtils.GetTodayDateString(),
                 Price = 20
             };
             return AddProduct;
@@ -262,7 +256,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             EmployeeData.EditableProduct.Product.ProductDescription = _SelectedItemDescription;
             EmployeeData.EditableProduct.Product.Quantity = int.Parse(_SelectedItemQuantity);
             EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
-            EmployeeData.EditableProduct.Product.base64 = Base64String;
+            EmployeeData.EditableProduct.Product.Base64 = Base64String;
         }
 
         public async Task NavigateUploadImageCommand()

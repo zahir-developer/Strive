@@ -56,7 +56,7 @@ namespace Strive.Core.Rest.Implementations
                     {
                         _userDialog.HideLoading();
                         _mvxLog.ErrorException("MakeApiCall failed", ex);
-                        await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
+                        await _userDialog.AlertAsync(ex.Message,"Error");
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
@@ -80,11 +80,9 @@ namespace Strive.Core.Rest.Implementations
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
-
-                    if (!ValidateResponse(baseResponse))
+                    var validResponse = await ValidateResponse(baseResponse);
+                    if (!validResponse)
                     {
-                        _userDialog.HideLoading();
-                        await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
@@ -94,14 +92,18 @@ namespace Strive.Core.Rest.Implementations
             }
         }
 
-        bool ValidateResponse (BaseResponse response)
+        async Task<bool> ValidateResponse (BaseResponse response)
         {
-            bool isValid = true;
-            if(response.statusCode == 200)
+            _userDialog.HideLoading();
+            if (response.statusCode == 200)
             {
-                return isValid;
+                return true;
             }
-            return !isValid;
+            else if (response.statusCode == 403)
+            {
+                await _userDialog.AlertAsync("The username and password does not match.", "Invalid Credentials");
+            }
+            return false;
         }
 
         bool WeirdResponse(BaseResponse response)

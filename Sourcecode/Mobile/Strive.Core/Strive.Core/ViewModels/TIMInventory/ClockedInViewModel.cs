@@ -6,6 +6,7 @@ using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
 using Strive.Core.Models.TimInventory;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -88,7 +89,13 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             PrepareClockoutModel();
             _userDialog.ShowLoading(Strings.Loading);
-            var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
+            var clockoutRequestModel = new TimeClockRootList() { TimeClock = new List<TimeClock>() };
+            clockoutRequestModel.TimeClock.Add(EmployeeData.ClockInStatus.TimeClock);
+            var clockout = await AdminService.SaveClockInTime(clockoutRequestModel);
+            if(clockout == null)
+            {
+                return;
+            }
             await _navigationService.Navigate<ClockOutViewModel>();
             await _navigationService.Close(this);
         }
