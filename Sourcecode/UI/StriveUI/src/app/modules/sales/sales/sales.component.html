@@ -305,7 +305,7 @@
                                                 <tr *ngFor ="let detail of details" >
                                                     <td class="pointer" (dblclick)="editItem(detail)">{{detail?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(detail)">{{detail?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(detail)" >{{detail.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(detail)" >{{detail?.Quantity * detail?.Price | currency}}</td>
                                                     <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(detail, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="washes.length>0">
@@ -314,7 +314,7 @@
                                                 <tr *ngFor="let wash of washes" >
                                                     <td class="pointer" (dblclick)="editItem(wash)">{{wash?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(wash)">{{wash?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(wash)" >{{wash?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(wash)" >{{wash?.Quantity * wash?.Price | currency}}</td>
                                                     <td (dblclick)="editItem(wash)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="additionalService.length > 0">
@@ -323,7 +323,7 @@
                                                 <tr *ngFor="let additional of additionalService" >
                                                     <td class="pointer" (dblclick)="editItem(additional)">{{additional?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(additional)">{{additional?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(additional)" >{{additional?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(additional)" >{{additional?.Quantity * additional?.Price | currency}}</td>
                                                     <td (dblclick)="editItem(additional)" > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(additional, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="upCharges.length > 0">
@@ -332,7 +332,7 @@
                                                 <tr *ngFor="let upcharge of upCharges" >
                                                     <td class="pointer" (dblclick)="editItem(upcharge)">{{upcharge?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(upcharge)">{{upcharge?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(upcharge)">{{upcharge?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(upcharge)">{{upcharge?.Quantity * upcharge?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(upcharge, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="outsideServices.length > 0">
@@ -341,7 +341,7 @@
                                                 <tr *ngFor="let outService of outsideServices" >
                                                     <td class="pointer" (dblclick)="editItem(outService)">{{outService?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(outService)">{{outService?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(outService)">{{outService?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(outService)">{{outService?.Quantity * outService?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(outService, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="airfreshnerService.length > 0">
@@ -350,7 +350,7 @@
                                                 <tr *ngFor="let airService of airfreshnerService" >
                                                     <td class="pointer" (dblclick)="editItem(airService)">{{airService?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(airService)">{{airService?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(airService)">{{airService?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(airService)">{{airService?.Quantity * airService?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(airService, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="Products.length > 0">
@@ -359,7 +359,7 @@
                                                 <tr *ngFor="let product of Products" >
                                                     <td class="pointer" (dblclick)="editItem(product)">{{product?.ProductName}}</td>
                                                     <td (dblclick)="editItem(product)">{{product?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(product)">{{product?.Price | currency}}</td>
+                                                    <td (dblclick)="editItem(product)">{{product?.Quantity * product?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(product, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="discountService.length > 0">
@@ -368,7 +368,7 @@
                                                 <tr *ngFor="let discount of discountService" >
                                                     <td class="pointer">{{discount?.ServiceName}}</td>
                                                     <td>{{discount?.Quantity}}</td>
-                                                    <td >{{discount?.Price | currency}}</td>
+                                                    <td >{{discount?.Quantity * discount?.Price | currency}}</td>
                                                     <td > <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(discount, 'deleteItem')"></i></td>
                                                 </tr>
                                             </tbody>
