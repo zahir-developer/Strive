@@ -48,11 +48,11 @@ namespace Strive.BusinessLogic.Sales
         }
 
         
-        public Result DeleteItemById(int jobItemId)
+        public Result DeleteItemById(DeleteItemDto itemDto)
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).DeleteItemById, jobItemId, "Result");
+                return ResultWrap(new SalesRal(_tenant).DeleteItemById, itemDto, "Result");
             }
             catch (Exception ex)
             {

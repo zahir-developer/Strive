@@ -15,7 +15,7 @@
             <!-- <div>{{selectedData.Details.TimeIn}}</div> -->
         </div>
     </div>
-    <div class="row m-b-5">
+    <div class="row m-b-5 ">
         <div class="col-6">
             <div>Client: &nbsp;{{selectedData.Details.ClientName}}</div>
         </div>
@@ -26,19 +26,21 @@
         </div>
     </div>
     <div class="row border-bottom m-b-5">
-        <div class="col-12">
-            <span>Vehicle: {{selectedData.Details.vehicleModel}}</span>
-            <span>{{selectedData.Details.vehicleMake}}</span>
-            <span>{{selectedData.Details.vehicleColor}}</span>
-        </div>
+        <!-- <div class="col-12"> -->
+        <div class="col-4">Vehicle: &nbsp;{{selectedData.Details.vehicleModel}}</div>
+        <div class="col-4 text-center">{{selectedData.Details.vehicleMake}}</div>
+        <div class="col-4 text-right">{{selectedData.Details.vehicleColor}}</div>
+        <!-- </div> -->
     </div>
 </div>
 <div id="print-body">
-    <div class="row m-b-10">
-        <div class="col-12" *ngFor="let addService of selectedData.DetailsItem">
-            <div class="custom-control custom-checkbox m-t-10">
-                <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}" />
-                <label class="custom-control-label" for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+    <div class="row m-b-10" *ngFor="let addService of selectedData.DetailsItem; let index = index">
+        <div class="col-12" >
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="defaultCheck_{{index}}">
+                <label class="form-check-label" for="defaultCheck_{{index}}">
+                    {{addService.ServiceName}}
+                </label>
             </div>
         </div>
     </div>

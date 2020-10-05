@@ -61,6 +61,10 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_VEHICLE_CODES = "/Admin/Vehicle/GetVehicleCodes";
 
-         public const string URL_UPDATE_VEHICLE_INFO = "/Admin/Vehicle/Update";
+        public const string URL_UPDATE_VEHICLE_INFO = "/Admin/Vehicle/Update";
+
+        public const string URL_ADD_VEHICLE_INFO = "/Admin/Vehicle/AddVehicle";
+
+        public const string URL_DELETE_VEHICLE_INFO = "/Admin/Vehicle/Delete";
     }
 }

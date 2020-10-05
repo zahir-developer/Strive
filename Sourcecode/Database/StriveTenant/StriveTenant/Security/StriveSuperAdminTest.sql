@@ -4,6 +4,8 @@
 
 
 
+
+
 GO
 GRANT UPDATE
     ON SCHEMA::[StriveSuperAdminTest] TO [StriveSuperAdminTestuser];

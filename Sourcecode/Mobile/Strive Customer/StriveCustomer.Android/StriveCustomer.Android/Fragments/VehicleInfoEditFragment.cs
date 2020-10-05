@@ -74,13 +74,14 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            MembershipDetails.clearMembershipData();
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfile).Commit();
         }
 
         private void MembershipInfo_Click(object sender, EventArgs e)
         {
-            if(MembershipDetails.clientVehicleID != 0)
+            if (MembershipDetails.clientVehicleID != 0)
             {
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
@@ -133,13 +134,20 @@ namespace StriveCustomer.Android.Fragments
             {
                 modelList.Add(modelName);
             }
+
+            makeList.Insert(0, "Select Manufacturer");
+            makeList.RemoveAt(1);
+            colorList.Insert(0, "Select Color");
+            colorList.RemoveAt(1);
+            modelList.Insert(0, "Select Model");
+            modelList.RemoveAt(1);
+
             makeAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, makeList);
             makeAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
             colorAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, colorList);
             colorAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
             modelAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, modelList);
             modelAdapter.SetDropDownViewResource(Android.Resource.Layout.support_simple_spinner_dropdown_item);
-                
             makeSpinner.Adapter = makeAdapter;
             colorSpinner.Adapter = colorAdapter;
             modelSpinner.Adapter = modelAdapter;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WashService } from '../../services/data-service/wash.service';
+import { DetailService } from '../../services/data-service/detail.service';
 
 @Component({
   selector: 'app-no-of-details',
@@ -9,17 +9,22 @@ import { WashService } from '../../services/data-service/wash.service';
 export class NoOfDetailsComponent implements OnInit {
   detailCount: any;
 
-  constructor( private wash: WashService) { }
+  constructor( private detail: DetailService) { }
 
   ngOnInit() {
     this.getDashboardDetails();
   }
 
   // Get Details Count
-  getDashboardDetails = () => {
-    this.wash.data.subscribe((data: any) => {
-      if (data.DetailsCount !== undefined) {
-        this.detailCount = data.DetailsCount.DetailsCount;
+  getDashboardDetails() {
+    const obj = {
+      id: localStorage.getItem('empLocationId'),
+      date: new Date()
+    };
+    this.detail.getDetailCount(obj).subscribe( res => {
+      const wash = JSON.parse(res.resultData);
+      if (wash.Dashboard !== null) {
+        this.detailCount = wash.Dashboard.DetailsCount.DetailsCount;
       }
     });
   }

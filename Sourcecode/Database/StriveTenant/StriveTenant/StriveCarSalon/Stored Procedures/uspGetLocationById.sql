@@ -1,5 +1,4 @@
 ﻿
-
 -- =============================================================
 -- Author:         Vineeth.B
 -- Created date:   2020-07-01
@@ -10,6 +9,9 @@
 -- =============================================================
 -- 16-09-2020, Vineeth - Removed tblDrawer table
 -- 17-09-2020, Zahir - Added back tblDrawer table
+-- 30-09-2020, Vineeth - Modified StartTime and EndTime format
+--					     Removed IsActive and IsDelete from 
+--						 tbllocation,tbllocationdrawer,drawer table
 ----------------------------------------------------------------
 -- =============================================================
 
@@ -26,8 +28,6 @@ SELECT
 	   WashTimeMinutes,
 	   ColorCode,
 	   IsFranchise,
-	   IsActive,
-	   IsDeleted,
 	   TaxRate,
 	   SiteUrl,
 	   Currency,
@@ -36,8 +36,8 @@ SELECT
 	   Instagram,
 	   WifiDetail,
 	   WorkhourThreshold,
-	   StartTime,
-	   EndTime
+	   CONVERT(VARCHAR(5),StartTime,108) AS StartTime,
+	   CONVERT(VARCHAR(5),EndTime,108) AS EndTime
 	   
 
 FROM [StriveCarSalon].[tblLocation]  
@@ -55,13 +55,11 @@ tblla.LocationAddressId	,
 	   tblla.Email,				
 	   tblla.City,					
 	   tblla.State,				
-	   tblla.Zip,					
-	   tblla.IsActive,			
+	   tblla.Zip,				
 	   tblla.Country,				
 	   tblla.Longitude,
 	   tblla.Latitude,
-	   tblla.WeatherLocationId,
-	   tblla.IsDeleted
+	   tblla.WeatherLocationId
 	   from [StriveCarSalon].[tblLocation] tbll inner join [StriveCarSalon].[tblLocationAddress] tblla
 		   ON(tbll.LocationId = tblla.LocationId)
            WHERE tbll.LocationId = @tblLocationId AND
@@ -71,9 +69,7 @@ tblla.LocationAddressId	,
 SELECT 
 DrawerId,
 DrawerName,
-LocationId,
-IsActive,
-IsDeleted
+LocationId
 
 FROM [StriveCarSalon].[tblDrawer]
 WHERE LocationId =@tblLocationId AND

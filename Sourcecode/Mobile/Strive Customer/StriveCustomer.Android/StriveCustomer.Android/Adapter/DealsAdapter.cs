@@ -39,7 +39,7 @@ namespace StriveCustomer.Android.Adapter
 
         public bool OnLongClick(View v)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
     public class DealsAdapter : RecyclerView.Adapter, IItemClickListener
