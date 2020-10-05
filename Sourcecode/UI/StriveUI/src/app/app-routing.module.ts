@@ -19,6 +19,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
   {path: 'sales', loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
+  {path: 'white-labelling', loadChildren: () =>
+  import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)},
   {
     path: '',
     redirectTo: '',
