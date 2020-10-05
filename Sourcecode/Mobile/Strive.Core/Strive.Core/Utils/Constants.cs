@@ -65,6 +65,8 @@ namespace Strive.Core.Utils
 
         public const string URL_ADD_VEHICLE_INFO = "/Admin/Vehicle/AddVehicle";
 
+        public const string URL_GET_VEHICLE_COMPLETE_DETAILS = "/Admin/Vehicle/GetVehicleId";
+
         public const string URL_DELETE_VEHICLE_INFO = "/Admin/Vehicle/Delete";
     }
 }

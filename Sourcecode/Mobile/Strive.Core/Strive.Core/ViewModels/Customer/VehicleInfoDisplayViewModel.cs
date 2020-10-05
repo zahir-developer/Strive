@@ -14,6 +14,7 @@ namespace Strive.Core.ViewModels.Customer
         public VehicleList selectedVehicleInfo { get; set; }
         public ClientVehicleRootView clientVehicleRoot { get; set; }
 
+        public CustomerCompleteDetails clientVehicleDetail { get; set; }
         #endregion Properties
 
 
@@ -46,6 +47,17 @@ namespace Strive.Core.ViewModels.Customer
 
             CustomerVehiclesInformation.completeVehicleDetails = await AdminService.GetVehicleMembership(CustomerVehiclesInformation.selectedVehicleInfo);
 
+
+            _userDialog.HideLoading();
+        }
+
+        public async Task GetCompleteVehicleDetails()
+        {
+            _userDialog.ShowLoading();
+
+            clientVehicleDetail = new CustomerCompleteDetails();
+
+            clientVehicleDetail = await AdminService.GetVehicleCompleteDetails(CustomerVehiclesInformation.selectedVehicleInfo);
 
             _userDialog.HideLoading();
         }
