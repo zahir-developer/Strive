@@ -20,7 +20,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
   collectionSize: number = 0;
   isTimeClockEmpty = false;
   timeClockEmployeeDetailDto =
-  {
+    {
       locationId: 1,
       startDate: '2020-08-15',
       endDate: '2020-09-09'
@@ -40,25 +40,25 @@ export class TimeClockMaintenanceComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private uiLoaderService: NgxUiLoaderService,
     private datePipe: DatePipe,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.selectedEmployee = '';
     this.isTimeClockWeekPage = false;
     this.weeklyDateAssign();
-    this.getEmployeeList();
+    // this.getEmployeeList();
     // this.getTimeClockEmployeeDetails();
   }
 
   weeklyDateAssign() {
     const currentDate = new Date();
     const first = currentDate.getDate() - currentDate.getDay();
-    const last =  first + 6;
+    const last = first + 6;
     this.startDate = new Date(currentDate.setDate(first));
     this.endDate = new Date(currentDate.setDate(last));
-    // this.endDate = this.endDate.setDate( this.startDate.getDate() + 7);
-    // this.endDate = new Date(moment(this.endDate).format());
-    this.daterangepickerModel = [this.startDate , this.endDate];
+    this.endDate = this.endDate.setDate( this.startDate.getDate() + 6);
+    this.endDate = new Date(moment(this.endDate).format());
+    this.daterangepickerModel = [this.startDate, this.endDate];
     this.getTimeClockEmployeeDetails();
   }
 
@@ -74,17 +74,19 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.timeClockMaintenanceService.getTimeClockEmployeeDetails(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         const timeClock = JSON.parse(data.resultData);
-        this.timeClockEmployeeDetails = timeClock.Result;
-
+        this.timeClockEmployeeDetails = timeClock.Result.TimeClockEmployeeDetailViewModel !== null ? 
+        timeClock.Result.TimeClockEmployeeDetailViewModel : [];
+        this.employeeList = timeClock.Result.EmployeeViewModel;
         if (this.timeClockEmployeeDetails.length === 0) {
           this.isTimeClockEmpty = true;
           console.log(this.timeClockEmployeeDetails);
         }
         else {
-          this.collectionSize = Math.ceil(this.timeClockEmployeeDetails.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.employeeList.length / this.pageSize) * 10;
           this.isTimeClockEmpty = false;
           console.log(this.timeClockEmployeeDetails);
         }
+        //this.onValueChange
       }
       else {
         this.toastr.error('Communication Error', 'Error !!!');
@@ -169,7 +171,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     const finalObj = {
       timeClock: employeeListObj
     };
-    this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe( res => {
+    this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Employee added successfully!!', 'Success!');
         this.selectedEmployee = '';
@@ -183,11 +185,23 @@ export class TimeClockMaintenanceComponent implements OnInit {
   }
 
   onValueChange(event) {
-    console.log(this.startDate, 'start');
-    if (event.length !== 0 && event.length !== null) {
-      this.startDate = event[0];
-      this.endDate = event[1];
-      this.getTimeClockEmployeeDetails();
+    console.log(event, 'start');
+    if (event !== null) {
+      if (event.length !== 0 && event.length !== null) {
+        const dates = Math.floor((Date.UTC(event[1].getFullYear(), event[1].getMonth(), event[1].getDate()) - Date.UTC(event[0].getFullYear(), event[0].getMonth(), event[0].getDate())) / (1000 * 60 * 60 * 24));
+        if (event[0].getDay() !== 0) {
+          //console.log(event[0].getDay());          
+          this.toastr.warning('Sunday should be the start of the week!!', 'Warning!');
+          this.timeClockEmployeeDetails = [];
+        } else if (dates !== 6) {
+          this.toastr.warning('Whole week should be selected!!', 'Warning!');
+          this.timeClockEmployeeDetails = [];
+        } else {
+          this.startDate = event[0];
+          this.endDate = event[1];
+          this.getTimeClockEmployeeDetails();
+        }
+      }
     }
   }
 

@@ -7,10 +7,15 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PrintWashComponent implements OnInit {
   @Input() selectedData?: any;
+  @Input() module?: any;
   constructor() { }
 
   ngOnInit(): void {
     console.log(this.selectedData, 'print');
+    if (this.module !== 'detail') {
+      this.selectedData.Details = this.selectedData.Washes[0];
+      this.selectedData.DetailsItem = this.selectedData.WashItem;
+    }
   }
 
   print(): void {

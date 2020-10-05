@@ -95,6 +95,7 @@ export class CollisionListComponent implements OnInit {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfully!' });
         this.employeeDetail();
+        this.collistionGrid();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }

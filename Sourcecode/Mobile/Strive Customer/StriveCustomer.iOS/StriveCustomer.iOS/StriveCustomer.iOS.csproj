@@ -75,6 +75,9 @@
       <PackageReference Include="MvvmCross.Plugin.Json">
         <Version>6.4.2</Version>
       </PackageReference>
+      <PackageReference Include="System.Net.Http">
+        <Version>4.3.4</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -140,6 +143,42 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account-active.imageset\Account-active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account-active.imageset\Account-active%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account-active.imageset\Account-active%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account.imageset\Account.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account.imageset\Account%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-account.imageset\Account%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact.imageset\Contact.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact.imageset\Contact%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact.imageset\Contact%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact-active.imageset\Contact-active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact-active.imageset\Contact-active%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-contact-active.imageset\Contact-active%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals.imageset\Deals.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals.imageset\Deals%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals.imageset\Deals%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals-active.imageset\Deals-active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals-active.imageset\Deals-active%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-deals-active.imageset\Deals-active%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Home.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Home%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Home%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Home-active.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Home-active%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Home-active%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\Group 558.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\Group 558%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\Group 558%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -149,6 +188,15 @@
         <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
         <Folder Include="UIUtils\" />
+        <Folder Include="Resources\Assets.xcassets\icon-account-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-account.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-contact.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-contact-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-deals.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-deals-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-home.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-home-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -158,6 +206,9 @@
         <InterfaceDefinition Include="Views\Login\OtpView.xib" />
         <InterfaceDefinition Include="Views\Login\NewPasswordView.xib" />
         <InterfaceDefinition Include="Views\RootView.xib" />
+        <InterfaceDefinition Include="Views\VehicleListView.xib" />
+        <InterfaceDefinition Include="Views\GenbookView.xib" />
+        <InterfaceDefinition Include="Views\HomeView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -196,6 +247,18 @@
           <DependentUpon>RootView.cs</DependentUpon>
         </Compile>
         <Compile Include="UIUtils\DesignUtils.cs" />
+        <Compile Include="Views\VehicleListView.cs" />
+        <Compile Include="Views\VehicleListView.designer.cs">
+          <DependentUpon>VehicleListView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\GenbookView.cs" />
+        <Compile Include="Views\GenbookView.designer.cs">
+          <DependentUpon>GenbookView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\HomeView.cs" />
+        <Compile Include="Views\HomeView.designer.cs">
+          <DependentUpon>HomeView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

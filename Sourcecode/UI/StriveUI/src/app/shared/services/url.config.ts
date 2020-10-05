@@ -130,6 +130,9 @@ export const UrlConfig = {
     getTimeClockEmployeeDetails : `Admin/TimeClock/GetTimeClockEmployeeDetails`,
     deleteTimeClockEmployee : `Admin/TimeClock/DeleteTimeClockEmployee`,
     getServiceAndProduct: `Admin/Sales/GetAllServiceAndProductList`,
-    saveEmployeeWithService: `Admin/Details/AddServiceEmployee`
+    saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
+    updateProductObj: `Admin/Sales/SaveProductItem`,
+    getJobStatus: `Admin/Common/GetCodesByCategory/`,
+    getUncheckedVehicleDetails:`Admin/Checkout/GetUncheckedVehicleDetails`
   }
 };

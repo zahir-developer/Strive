@@ -32,6 +32,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgxPrintModule} from 'ngx-print';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -106,7 +107,8 @@ const load = (http: HttpClient) => {
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     MultiSelectModule,
     NgxSpinnerModule,
-    NgbModule
+    NgbModule,
+    NgxPrintModule
   ],
   exports: [
     HttpClientModule,
@@ -115,7 +117,8 @@ const load = (http: HttpClient) => {
     MultiSelectModule,
     BrowserAnimationsModule,
     NgxUiLoaderModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxPrintModule
   ],
   providers: [
     EnvironmentService,

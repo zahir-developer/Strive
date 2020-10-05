@@ -20,6 +20,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int Model { get; set; }
         public int Color { get; set; }
         public int? JobType { get; set; }
+        public int? JobStatus { get; set; }
         public DateTime JobDate { get; set; }
         public DateTimeOffset TimeIn { get; set; }
         public DateTimeOffset EstimatedTimeOut { get; set; }
