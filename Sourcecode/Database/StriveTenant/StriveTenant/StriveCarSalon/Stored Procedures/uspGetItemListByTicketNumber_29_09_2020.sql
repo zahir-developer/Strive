@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] --'442491'
+CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber_29_09_2020]
 @TicketNumber varchar(10)
 AS 
 --DECLARE @TicketNumber varchar(10)='274997'--'782436'
@@ -117,26 +117,26 @@ FROM
 	tblJob tbljob 
 LEFT JOIN 
 	tblJobPayment tbljp 
-ON		tbljob.JobId = tbljp.JobId AND ISNULL(tbljp.IsRollBack,0)=0 
+ON		tbljob.JobId = tbljp.JobId
 LEFT JOIN 
 	tblJobPaymentDiscount tbljpd 
-ON		tbljp.JobPaymentId = tbljpd.JobPaymentId AND ISNULL(tbljpd.IsDeleted,0)=0 
+ON		tbljp.JobPaymentId = tbljpd.JobPaymentId
 LEFT JOIN 
 	tblJobPaymentCreditCard tblJPCC 
-ON		tbljp.JobPaymentId = tblJPCC.JobPaymentId AND ISNULL(tblJPCC.IsDeleted,0)=0 
+ON		tbljp.JobPaymentId = tblJPCC.JobPaymentId
 LEFT JOIN
 	tblGiftCardHistory tblGCH
-ON		tblGCH.JobPaymentId=tbljp.JobPaymentId AND ISNULL(tblGCH.IsDeleted,0)=0 
+ON		tblGCH.JobPaymentId=tbljp.JobPaymentId
 WHERE 
 	tbljob.TicketNumber = @TicketNumber
 AND	ISNULL(tbljob.IsDeleted,0)=0 
 AND ISNULL(tbljob.IsActive,1)=1 
 AND	ISNULL(tbljp.IsDeleted,0)=0 
 AND ISNULL(tbljp.IsActive,1)=1 
---AND	ISNULL(tblJPCC.IsDeleted,0)=0 
---AND ISNULL(tblJPCC.IsActive,1)=1 
---AND	ISNULL(tblGCH.IsDeleted,0)=0 
---AND ISNULL(tblGCH.IsActive,1)=1 
+AND	ISNULL(tblJPCC.IsDeleted,0)=0 
+AND ISNULL(tblJPCC.IsActive,1)=1 
+AND	ISNULL(tblGCH.IsDeleted,0)=0 
+AND ISNULL(tblGCH.IsActive,1)=1 
 AND	ISNULL(tbljpd.IsDeleted,0)=0 
 AND ISNULL(tbljpd.IsActive,1)=1 
 GROUP BY tbljob.TicketNumber
@@ -155,7 +155,7 @@ SELECT
 	GiftCard,
 	Discount,
 	(Cash+Credit-GiftCard) AS TotalPaid,
-	((JT.Total+JT.TaxAmount) - (Cash+Credit+Discount-GiftCard)) AS BalanceDue,
+	((JT.Total+JT.TaxAmount) - (Cash+Credit-GiftCard-Discount+CashBack)) AS BalanceDue,
 	CashBack
 FROM 
 	#Payment_Summary PS 
@@ -170,5 +170,3 @@ LEFT JOIN tblJobPayment tbljp on job.JobId = tbljp.JobId
 WHERE job.TicketNumber = @TicketNumber 
 
 END
-GO
-

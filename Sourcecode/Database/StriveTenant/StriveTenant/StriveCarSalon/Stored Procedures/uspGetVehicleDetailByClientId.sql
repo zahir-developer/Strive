@@ -1,4 +1,25 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetVehicleDetailByClientId] --67,'2020-09-10'
+﻿
+
+
+
+
+-- ================================================
+-- Author:		Benny Johnson
+-- Create date: 01-08-2020
+-- Description:	Retrieve Vehicle Detail by ClientId
+-- ================================================
+
+---------------------History--------------------
+-- =============================================
+-- 2020-09-30, Vineeth - Added condition where 
+--                      Membership exist or not 
+--                      for any vehicle of 
+--                      respective client,
+--						Added distinct conditon
+
+------------------------------------------------
+-- =============================================
+CREATE PROC [StriveCarSalon].[uspGetVehicleDetailByClientId] 
 (@ClientId int,@CurrentDate date = null)
 
 AS
@@ -9,19 +30,18 @@ DECLARE @Count int
 DECLARE @IsMembership bit
 
 set @TodayDate =(SELECT CAST( GETDATE() AS Date ) as CurrentDate)
-
 set @Count =(select Count(1) from strivecarsalon.tblClientVehicleMembershipDetails 
-                where @TodayDate between StartDate and EndDate ) --OR (@StartDate IS NULL AND @EndDate IS NULL))
-IF(@Count = 0)
-Begin
- SET @IsMembership = 'false';
-End
+                where @TodayDate between StartDate and EndDate and ClientVehicleId 
+				in(select VehicleId from tblClientVehicle where ClientId=@ClientId and IsActive=1 and ISNULL(IsDeleted,0)=0)
+				and IsActive=1 and ISNULL(IsDeleted,0)=0) 
+				
+IF(@Count > 0)
+ SET @IsMembership = 1;
 ELSE
-Begin
- SET @IsMembership = 'true';
-End
+ SET @IsMembership = 0;
 
 SELECT
+    DISTINCT
     cl.ClientId,
 	cvl.LocationId,
 	cl.FirstName,
