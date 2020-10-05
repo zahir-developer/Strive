@@ -1,0 +1,12 @@
+.address {
+    text-align: center;
+    font-size: 1rem;
+    line-height: 2rem;
+}
+.table td, .table th {
+    border-top: transparent !important;
+}
+.containerWidth {
+    width: 87%;
+    margin-top: 10%;
+}

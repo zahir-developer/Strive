@@ -1,4 +1,9 @@
-﻿-- =============================================
+﻿
+
+
+
+
+-- =============================================
 -- Author:		Vineeth B
 -- Create date: 31-08-2020
 -- Description:	To get Detail against id
@@ -16,6 +21,8 @@
 -- 10-09-2020, Vineeth - Added with(nolock) and used LJ
 --					     Added IsActive and IsDetete 
 -- 22-09-2020, Vineeth - Added tblJobServiceEmployee
+-- 23-09-2020, Vineeth - Added cost property in JobItem
+-- 28-09-2020, Zahir - Added JobStatus property
 --------------------------------------------------------
 -- =====================================================
 CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] 
@@ -36,6 +43,7 @@ tbj.JobId
 ,tbj.Color
 ,tbj.JobType
 ,tbj.JobDate
+,tbj.JobStatus
 ,tbj.TimeIn
 ,tbj.EstimatedTimeOut
 ,tblji.ServiceId
@@ -64,7 +72,8 @@ tblji.JobItemId,
 tblji.JobId,
 tblji.ServiceId,
 s.ServiceType as ServiceTypeId,
-s.ServiceName
+s.ServiceName,
+s.Cost
 from StriveCarSalon.tblJobItem tblji with(nolock)
 INNER JOIN StriveCarSalon.tblService s ON s.ServiceId = tblji.ServiceId
 WHERE tblji.JobId = @JobId
@@ -72,12 +81,13 @@ AND isnull(tblji.IsDeleted,0)=0
 AND tblji.IsActive=1
 
 Select
+tbljse.JobServiceEmployeeId,
 tbljse.JobItemId,
 tbljse.ServiceId,
 tbls.ServiceName,
 tbls.Cost,
 tbljse.EmployeeId,
-CONCAT(tble.FirstName,' ',tble.MiddleName) AS EmployeeName
+CONCAT(tble.FirstName,' ',tble.LastName) AS EmployeeName
 from StriveCarSalon.tblJobServiceEmployee tbljse with(nolock) 
 INNER JOIN StriveCarSalon.tblJobItem tblji ON tbljse.JobItemId = tblji.JobItemId
 INNER JOIN StriveCarSalon.tblService tbls ON(tbljse.ServiceId = tbls.ServiceId)

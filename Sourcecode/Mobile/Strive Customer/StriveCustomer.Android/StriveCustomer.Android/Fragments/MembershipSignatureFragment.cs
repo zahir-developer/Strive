@@ -72,6 +72,7 @@ namespace StriveCustomer.Android.Fragments
             var result =  await ViewModel.CancelMembership();
             if (result)
             {
+                MembershipDetails.clearMembershipData();
                 signatuerPad.Clear();
                 SignatureClass.signaturePoints = null;
                 AppCompatActivity activity = (AppCompatActivity)Context;

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {SalesComponent} from './sales/sales.component';
+import { PrintComponent } from './sales/print/print.component';
+import { SalesComponent } from './sales/sales.component';
 
 const salesRoutes: Routes = [
  {path: 'sales', component: SalesComponent},
  {path: '', component: SalesComponent, children: [{
-        path: 'sales', component: SalesComponent }]
+        path: 'print', component: PrintComponent }]
 }
 ];
 
