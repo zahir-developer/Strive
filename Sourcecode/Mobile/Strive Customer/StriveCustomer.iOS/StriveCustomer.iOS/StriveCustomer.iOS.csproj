@@ -78,6 +78,9 @@
       <PackageReference Include="System.Net.Http">
         <Version>4.3.4</Version>
       </PackageReference>
+      <PackageReference Include="ZXing.Net.Mobile">
+        <Version>2.4.1</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -274,6 +277,7 @@
         <Compile Include="Views\DealsViewCell.designer.cs">
           <DependentUpon>DealsViewCell.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\DealsTableSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

@@ -33,55 +33,55 @@
                     <rect key="frame" x="-10" y="-10" width="434" height="916"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ET-na-2ec">
-                    <rect key="frame" x="33.5" y="222" width="347" height="183"/>
+                    <rect key="frame" x="33.5" y="176" width="347" height="275"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Sv-p4-KMu">
-                            <rect key="frame" x="145" y="20.5" width="57.5" height="68.5"/>
+                            <rect key="frame" x="145" y="48.5" width="57.5" height="68.5"/>
                             <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="50"/>
                             <color key="textColor" red="0.1145514473" green="0.78911465410000003" blue="0.71918755769999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uNT-D4-tfS">
-                            <rect key="frame" x="116" y="20.5" width="29" height="69"/>
+                            <rect key="frame" x="116" y="48" width="29" height="69"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="50"/>
                             <color key="textColor" red="0.1145514473" green="0.78911465410000003" blue="0.71918755769999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="off" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ilv-3G-ddq">
-                            <rect key="frame" x="202.5" y="55" width="25" height="25"/>
+                            <rect key="frame" x="202.5" y="83" width="25" height="25"/>
                             <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discount Offer on your 1st wash" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kO-qv-hXo">
-                            <rect key="frame" x="76" y="89" width="195.5" height="18"/>
+                            <rect key="frame" x="76" y="117" width="195.5" height="18"/>
                             <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="13"/>
                             <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5t-25-bnk">
-                            <rect key="frame" x="0.0" y="128" width="347" height="55"/>
+                            <rect key="frame" x="0.0" y="192.5" width="347" height="82.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Washes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xll-0L-qoP">
-                                    <rect key="frame" x="20" y="12" width="40" height="15"/>
+                                    <rect key="frame" x="20" y="21.5" width="40" height="15"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expired Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="de2-1F-UAI">
-                                    <rect key="frame" x="261" y="12" width="66" height="15"/>
+                                    <rect key="frame" x="261" y="21.5" width="66" height="15"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2/10+1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58T-Dk-gRh">
-                                    <rect key="frame" x="18.5" y="27" width="43" height="18"/>
+                                    <rect key="frame" x="18.5" y="36.5" width="43" height="18"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="13"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20/.8/2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YAd-hf-Xz5">
-                                    <rect key="frame" x="261" y="27" width="66" height="18"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20/8/2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YAd-hf-Xz5">
+                                    <rect key="frame" x="263" y="36.5" width="62.5" height="18"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="13"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -117,7 +117,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy 10 get 1 Free Wash" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPE-pV-tZH">
-                    <rect key="frame" x="92.5" y="174" width="229" height="28"/>
+                    <rect key="frame" x="92.5" y="128" width="229" height="28"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -131,7 +131,7 @@
                 <constraint firstAttribute="bottom" secondItem="x1S-yU-9CE" secondAttribute="bottom" constant="-10" id="OTs-rB-Hla"/>
                 <constraint firstItem="2ET-na-2ec" firstAttribute="centerX" secondItem="x1S-yU-9CE" secondAttribute="centerX" id="OwW-yl-Qk6"/>
                 <constraint firstAttribute="trailing" secondItem="x1S-yU-9CE" secondAttribute="trailing" constant="-10" id="h6A-OW-AQr"/>
-                <constraint firstItem="2ET-na-2ec" firstAttribute="height" secondItem="x1S-yU-9CE" secondAttribute="height" multiplier="0.2" id="l17-AR-PjI"/>
+                <constraint firstItem="2ET-na-2ec" firstAttribute="height" secondItem="x1S-yU-9CE" secondAttribute="height" multiplier="0.3" id="l17-AR-PjI"/>
                 <constraint firstItem="x1S-yU-9CE" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="otv-8h-VBO"/>
                 <constraint firstItem="2ET-na-2ec" firstAttribute="top" secondItem="KPE-pV-tZH" secondAttribute="bottom" constant="20" id="rGv-4s-KB6"/>
                 <constraint firstItem="x1S-yU-9CE" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="s6A-Sn-NJQ"/>
