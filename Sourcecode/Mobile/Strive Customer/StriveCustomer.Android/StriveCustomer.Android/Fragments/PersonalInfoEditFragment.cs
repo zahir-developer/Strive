@@ -63,6 +63,7 @@ namespace StriveCustomer.Android.Fragments
         private void BackButton_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)Context;
+            MyProfileInfoNeeds.selectedTab = 0;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
         }
 
@@ -76,6 +77,7 @@ namespace StriveCustomer.Android.Fragments
             ViewModel.Email = emailEditText.Text;
             await ViewModel.saveClientInfoCommand();
             AppCompatActivity activity = (AppCompatActivity)Context;
+            MyProfileInfoNeeds.selectedTab = 0;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
         }
     }

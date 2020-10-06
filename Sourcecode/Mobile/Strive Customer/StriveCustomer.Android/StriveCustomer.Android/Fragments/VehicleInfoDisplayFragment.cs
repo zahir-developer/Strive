@@ -63,8 +63,16 @@ namespace StriveCustomer.Android.Fragments
 
         private void EditMembershipButton_Click(object sender, EventArgs e)
         {
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, vehicleMembershipFrag).Commit();
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership == null)
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, vehicleMembershipFrag).Commit();
+            }
+            else
+            {
+                this.ViewModel.MembershipExists();
+            }
+            
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -76,13 +84,18 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            MyProfileInfoNeeds.selectedTab = 1;
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, profileFragment).Commit();
         }
 
         public async void getSelectVehicleInfo()
         {
+            await this.ViewModel.GetSelectedVehicleInfo();
             await this.ViewModel.GetCompleteVehicleDetails();
+            //MembershipDetails.selectedColor = this.ViewModel.clientVehicleDetail.Status.ColorId;
+            //MembershipDetails.selectedModel = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
+            //MembershipDetails.selectedMake = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
             {
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";

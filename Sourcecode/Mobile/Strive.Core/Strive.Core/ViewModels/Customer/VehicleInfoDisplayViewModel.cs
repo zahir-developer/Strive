@@ -15,6 +15,7 @@ namespace Strive.Core.ViewModels.Customer
         public ClientVehicleRootView clientVehicleRoot { get; set; }
 
         public CustomerCompleteDetails clientVehicleDetail { get; set; }
+
         #endregion Properties
 
 
@@ -62,6 +63,10 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.HideLoading();
         }
 
+        public void MembershipExists()
+        {
+            _userDialog.Alert("A Membership already exists !");
+        }
 
 
         #endregion Commands
