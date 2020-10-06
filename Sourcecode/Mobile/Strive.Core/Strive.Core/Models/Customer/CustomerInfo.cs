@@ -105,7 +105,6 @@ namespace Strive.Core.Models.Customer
             selectedAdditionalServices = null;
             customerVehicleDetails = null;
             selectedMembershipServices = null;
-            clientVehicleID = 0;
         }
 
         #endregion MembershipCommands

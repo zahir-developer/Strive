@@ -45,13 +45,13 @@ namespace StriveCustomer.Android.Adapter
             var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
             AppCompatActivity activity = (AppCompatActivity)this.ItemView.Context;
             CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
+            MembershipDetails.clientVehicleID = data.VehicleId;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             CustomerInfo.actionType = 1;
-            
             vehicleItemClickListener.OnClick(null, AdapterPosition, false);
         }
 
