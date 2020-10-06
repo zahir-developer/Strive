@@ -17,7 +17,7 @@ namespace Strive.Core.Utils
 
         public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP/{0}/{1}";
 
-        public const string URL_GET_ALL_LOCATION_ADDRESS = "/Admin/Location/GetAllLocationAddress";
+        public const string URL_GET_ALL_LOCATION_ADDRESS = "/Admin/Location/GetAll";
 
         public const string URL_GET_CLOCKIN_STATUS = "/Admin/TimeClock/TimeClockDetails";
 
