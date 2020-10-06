@@ -9,6 +9,8 @@ using MapKit;
 using System.Text.RegularExpressions;
 using StriveCustomer.iOS.UIUtils;
 using WebKit;
+using System.Collections.Generic;
+using Strive.Core.Models.TimInventory;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -40,7 +42,7 @@ namespace StriveCustomer.iOS.Views
             double LatCenter = 0.0;
             double LongCenter = 0.0;
             int AddressCount = 0;
-            var locationAddress = ViewModel.Locations.LocationAddress;
+            var locationAddress = new List<LocationAddress>();
             MKPointAnnotation[] annotations = new MKPointAnnotation[locationAddress.Count];
             for (int i = 0; i < locationAddress.Count; i++)
             {
