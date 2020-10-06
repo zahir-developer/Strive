@@ -93,9 +93,9 @@ namespace StriveCustomer.Android.Fragments
         {
             await this.ViewModel.GetSelectedVehicleInfo();
             await this.ViewModel.GetCompleteVehicleDetails();
-            //MembershipDetails.selectedColor = this.ViewModel.clientVehicleDetail.Status.ColorId;
-            //MembershipDetails.selectedModel = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
-            //MembershipDetails.selectedMake = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
+            MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
+            MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
+            MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
             {
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
