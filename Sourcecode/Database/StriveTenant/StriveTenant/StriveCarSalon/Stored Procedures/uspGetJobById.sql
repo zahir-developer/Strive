@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROC [StriveCarSalon].[uspGetJobById] 
 (@JobId int)
 AS
@@ -72,6 +73,7 @@ Select
 JobItemId,
 JobId,
 tblji.ServiceId,
+s.ServiceName,
 s.ServiceType as ServiceTypeId,
 Commission,
 Price,

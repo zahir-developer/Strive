@@ -28,6 +28,7 @@ namespace StriveCustomer.Android.Fragments
         private Button cancelButton;
         private TermsAndConditionsFragment termsFragment;
         private VehicleAdditionalServicesFragment additionalServicesFragment;
+        private VehicleMembershipFragment membershipFragment;
         private MyProfileInfoFragment myProfileInfoFragment;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -43,6 +44,7 @@ namespace StriveCustomer.Android.Fragments
             termsFragment = new TermsAndConditionsFragment();
             myProfileInfoFragment = new MyProfileInfoFragment();
             additionalServicesFragment = new VehicleAdditionalServicesFragment();
+            membershipFragment = new VehicleMembershipFragment();
             this.ViewModel = new MembershipSignatureViewModel();
             nextButton = rootview.FindViewById<Button>(Resource.Id.signatureNext);
             backButton = rootview.FindViewById<Button>(Resource.Id.signatureBack);
@@ -65,6 +67,10 @@ namespace StriveCustomer.Android.Fragments
             {
                 signatuerPad.LoadPoints(SignatureClass.signaturePoints);
             }
+            else
+            {
+                signatuerPad.Clear();
+            }
         }
 
         private async void CancelButton_Click(object sender, EventArgs e)
@@ -72,10 +78,12 @@ namespace StriveCustomer.Android.Fragments
             var result =  await ViewModel.CancelMembership();
             if (result)
             {
+                MembershipDetails.clearMembershipData();
+                MyProfileInfoNeeds.selectedTab = 1;
                 signatuerPad.Clear();
                 SignatureClass.signaturePoints = null;
                 AppCompatActivity activity = (AppCompatActivity)Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, membershipFragment).Commit();
             }
         }
 

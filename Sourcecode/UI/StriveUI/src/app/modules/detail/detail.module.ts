@@ -13,6 +13,7 @@ import { AssignDetailComponent } from './assign-detail/assign-detail.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ViewPastNotesComponent } from './view-past-notes/view-past-notes.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { PrintCustomerCopyComponent } from './print-customer-copy/print-customer-copy.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     CreateEditDetailScheduleComponent,
     TodayScheduleComponent,
     AssignDetailComponent,
-    ViewPastNotesComponent],
+    ViewPastNotesComponent,
+    PrintCustomerCopyComponent],
   imports: [
     CommonModule,
     DetailRoutingModule,

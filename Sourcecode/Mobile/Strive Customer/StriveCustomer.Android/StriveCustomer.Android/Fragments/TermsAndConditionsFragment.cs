@@ -59,6 +59,8 @@ namespace StriveCustomer.Android.Fragments
             var result =  await ViewModel.DisagreeMembership();
             if(result)
             {
+                SignatureClass.signaturePoints = null;
+                MyProfileInfoNeeds.selectedTab = 1;
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
             }
@@ -69,6 +71,8 @@ namespace StriveCustomer.Android.Fragments
             var result = await ViewModel.AgreeMembership();
             if(result)
             {
+                SignatureClass.signaturePoints = null;
+                MyProfileInfoNeeds.selectedTab = 1;
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoFragment).Commit();
             }
