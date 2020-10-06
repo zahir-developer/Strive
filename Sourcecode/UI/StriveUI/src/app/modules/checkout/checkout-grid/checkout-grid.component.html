@@ -55,14 +55,14 @@
                                             <tbody>
                                                 <tr
                                                     *ngFor="let checkout of uncheckedVehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <th scope="row">{{checkout.TicketNumber}}</th>
+                                                <th scope="row" [ngStyle]="{'color': checkout.ColorCode}">{{checkout.TicketNumber}}</th>
                                                 <td>{{checkout.CustomerName}}</td>
                                                 <td>{{checkout.VehicleDescription}}</td>
                                                 <td>{{checkout.Checkin}}</td>
                                                 <td>{{checkout.Checkout}}</td>
                                                 <td>{{checkout.ServiceName}}</td>
                                                 <td>{{checkout.Cost}}</td>
-                                                <td>{{checkout.Status}} </td>
+                                                <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.Status}} </td>
                                                 <td>
                                                     <button type="button"
                                                         class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9">Checkout</button>
