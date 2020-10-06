@@ -123,17 +123,36 @@ namespace StriveCustomer.Android.Fragments
             makeOptions = ViewModel.manufacturerName;
             colorOptions = ViewModel.colorName;
             modelOptions = ViewModel.modelName;
-            foreach (var makeName in ViewModel.manufacturerName.Values)
+            var preselectedManufacturer = 0;
+            foreach (var makeName in ViewModel.manufacturerName)
             {
-                makeList.Add(makeName);
+                makeList.Add(makeName.Value);
+                if(MembershipDetails.vehicleMakeNumber == makeName.Key)
+                {
+                    MembershipDetails.selectedMake = preselectedManufacturer;
+                }
+                preselectedManufacturer++;
             }
-            foreach (var colorName in ViewModel.colorName.Values)
+             var preselectedColor = 0;
+            foreach (var colorName in ViewModel.colorName)
             {
-                colorList.Add(colorName);
+                colorList.Add(colorName.Value);
+                if (MembershipDetails.colorNumber == colorName.Key)
+                {
+                    MembershipDetails.selectedColor = preselectedColor;
+                }
+                preselectedColor++; 
             }
-            foreach (var modelName in ViewModel.modelName.Values)
+            var preselectedModel = 0;
+            foreach (var modelName in ViewModel.modelName)
             {
-                modelList.Add(modelName);
+                modelList.Add(modelName.Value);
+                if (MembershipDetails.modelNumber == modelName.Key)
+                {
+                    MembershipDetails.selectedModel = preselectedModel;
+                }
+                preselectedModel++;
+                
             }
 
             makeList.Insert(0, "Select Manufacturer");
