@@ -71,13 +71,16 @@ namespace StriveCustomer.Android.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            googleAPI = new GoogleApiClient.Builder(this.Context)
+            if(googleAPI == null)
+            {
+                googleAPI = new GoogleApiClient.Builder(this.Context)
                         .AddApi(LocationServices.API)
                         .AddConnectionCallbacks(this)
                         .AddOnConnectionFailedListener(this)
                         .Build();
-                        
-            googleAPI.Connect();
+                googleAPI.Connect();
+            }
+
             locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
             checkLocationEnabled();
             
@@ -147,7 +150,7 @@ namespace StriveCustomer.Android.Fragments
         {
             Googlemap = googleMap;
             await AndroidPermissions.checkLocationPermission(this);
-            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted  && googleAPI.IsConnected)
             {
                 enableUserLocation();
                 lastUserLocation();

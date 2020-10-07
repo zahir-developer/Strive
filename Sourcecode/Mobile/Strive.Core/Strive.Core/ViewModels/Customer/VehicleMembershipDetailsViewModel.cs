@@ -64,7 +64,6 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.HideLoading();
         }
 
-
         public void GetClientMembershipData()
         {
             // info related to the membership
