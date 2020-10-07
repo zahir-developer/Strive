@@ -12,25 +12,6 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<true/>
-		<key>UISceneConfigurations</key>
-		<dict>
-			<key>UIWindowSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneConfigurationName</key>
-					<string>Default Configuration</string>
-					<key>UISceneDelegateClassName</key>
-					<string>SceneDelegate</string>
-					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
-				</dict>
-			</array>
-		</dict>
-	</dict>
 	<key>MinimumOSVersion</key>
 	<string>12.0</string>
 	<key>UIDeviceFamily</key>
@@ -65,10 +46,13 @@
 	<array>
 		<string>OpenSans-Bold.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-SemiBold.ttf</string>
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>&quot;App wants to use the location service&quot;</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>&quot;App wants to use the location service&quot;</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App wants to access the camera</string>
 </dict>
 </plist>
