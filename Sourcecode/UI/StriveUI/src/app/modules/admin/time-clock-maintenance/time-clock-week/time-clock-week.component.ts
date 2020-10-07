@@ -308,7 +308,7 @@ export class TimeClockWeekComponent implements OnInit {
     let detailHour = 0;
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(checkIn => {
-        if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Wash') {
+        if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0]?.CodeValue === 'Wash') {
           let n = checkIn.TotalHours.search(":");
           let h = checkIn.TotalHours.substring(0, n);
           let m = checkIn.TotalHours.substring(n + 1, n + 3);
@@ -316,7 +316,7 @@ export class TimeClockWeekComponent implements OnInit {
           let min = (+m / 60).toFixed(2);
           let totalHrs = hrs + (+min);
           washHour += totalHrs;
-        } else if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Detailer') {
+        } else if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0]?.CodeValue === 'Detailer') {
           let n = checkIn.TotalHours.search(":");
           let h = checkIn.TotalHours.substring(0, n);
           let m = checkIn.TotalHours.substring(n + 1, n + 3);
