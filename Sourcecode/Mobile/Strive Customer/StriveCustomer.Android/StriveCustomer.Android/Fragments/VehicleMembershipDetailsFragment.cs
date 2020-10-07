@@ -28,6 +28,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView cancelledDate;
         private TextView status;
         private VehicleInfoDisplayFragment infoDisplay;
+        private MyProfileInfoFragment myProfileInfo;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -41,6 +42,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.VehicleMembershipDetailsFragment,null);
             this.ViewModel = new VehicleMembershipDetailsViewModel();
             infoDisplay = new VehicleInfoDisplayFragment();
+            myProfileInfo = new MyProfileInfoFragment();
             backButton = rootview.FindViewById<Button>(Resource.Id.vehicleMemberDetailsBack);
             cancelButton = rootview.FindViewById<Button>(Resource.Id.cancelMembership);
             membershipName = rootview.FindViewById<TextView>(Resource.Id.membershipNames);
@@ -56,6 +58,9 @@ namespace StriveCustomer.Android.Fragments
         private async void CancelButton_Click(object sender, EventArgs e)
         {
            await this.ViewModel.CancelMembership();
+            MyProfileInfoNeeds.selectedTab = 1;
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfo).Commit();
         }
 
         private async void GetMembershipInfo()
