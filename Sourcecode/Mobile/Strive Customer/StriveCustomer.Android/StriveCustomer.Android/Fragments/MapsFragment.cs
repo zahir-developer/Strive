@@ -80,7 +80,7 @@ namespace StriveCustomer.Android.Fragments
             googleAPI.Connect();
             locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
             checkLocationEnabled();
-            AndroidPermissions.checkLocationPermission(this);
+            
             CustomerInfo.setMapInfo();
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
             geofenceHelper = new GeofenceHelper(this.Context);
@@ -143,11 +143,20 @@ namespace StriveCustomer.Android.Fragments
             else
                 return;
         }
-        public void OnMapReady(GoogleMap googleMap)
+        public async void OnMapReady(GoogleMap googleMap)
         {
             Googlemap = googleMap;
-            enableUserLocation();
-            lastUserLocation();
+            await AndroidPermissions.checkLocationPermission(this);
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted)
+            {
+                enableUserLocation();
+                lastUserLocation();
+            }
+            else
+            {
+                RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
+            }
+
             if (carWashLocations != null)
             {
                 Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
@@ -158,7 +167,14 @@ namespace StriveCustomer.Android.Fragments
         }
         private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)
         {
-            lastUserLocation();
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted)
+            {
+                lastUserLocation();
+            }
+            else
+            {
+                RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
+            }
         }
         private async void setUpMaps()
         {
@@ -328,7 +344,7 @@ namespace StriveCustomer.Android.Fragments
         }
         public void OnConnectionFailed(ConnectionResult result)
         {
-            //
+            googleAPI.Reconnect();
         }
         public void OnSuccess(Java.Lang.Object result)
         {
