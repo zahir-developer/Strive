@@ -37,7 +37,6 @@ FROM
 StriveCarSalon.tblEmployee emp 
 LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId WHERE empdet.EmployeeDetailId is NOT NULL 
 AND (emp.IsDeleted=0 OR emp.IsDeleted IS NULL) 
-AND (empdet.IsDeleted=0 OR empdet.IsDeleted IS NULL) 
 AND ((emp.FirstName like '%'+@EmployeeName+'%')
 OR (emp.LastName like '%'+@EmployeeName+'%')
 OR @EmployeeName is null OR @EmployeeName = ' ')

@@ -86,13 +86,13 @@ namespace StriveCustomer.Android.Fragments
                 RadioButton radioButton = new RadioButton(Context);
                 layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
                 layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
-                layoutParams.SetMargins(0, 20, 0, 20);
+                layoutParams.SetMargins(0, 25, 0, 25);
                 radioButton.LayoutParameters = layoutParams;
                 radioButton.Text = data.MembershipName; 
                 radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
                 radioButton.Id = someId;
                 checkedId.Add(data.MembershipId,someId);
-                radioButton.SetTextSize(ComplexUnitType.Sp,14);
+                radioButton.SetTextSize(ComplexUnitType.Sp,(float)16.5);
                 radioButton.SetTypeface(null,TypefaceStyle.Bold);
                 radioButton.TextAlignment = TextAlignment.ViewEnd;
                 if(data.MembershipId == MembershipDetails.selectedMembership)

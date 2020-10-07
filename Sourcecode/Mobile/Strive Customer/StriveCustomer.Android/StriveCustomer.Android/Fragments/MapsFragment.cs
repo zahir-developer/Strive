@@ -33,7 +33,7 @@ using Xamarin.Essentials;
 using static Android.Gms.Common.Apis.GoogleApiClient;
 using Location = Android.Locations.Location;
 using ILocationListener = Android.Gms.Location.ILocationListener;
-using CarWashLocation = Strive.Core.Models.TimInventory.Location;
+using CarWashLocation = Strive.Core.Models.Customer.Locations;
 using System.Timers;
 using Task = System.Threading.Tasks.Task;
 using Provider = Android.Provider;
@@ -163,7 +163,7 @@ namespace StriveCustomer.Android.Fragments
         private async void setUpMaps()
         {
             var locations = await ViewModel.GetAllLocationsCommand();
-            if(locations.LocationAddress.Count == 0)
+            if (locations.Location.Count == 0)
             {
                 carWashLocations = null;
             }
@@ -194,16 +194,16 @@ namespace StriveCustomer.Android.Fragments
         private void setUpMarkers()
         {
             carWashLocationsCount = 0;
-            carWashLatLng = new LatLng[carWashLocations.LocationAddress.Count];
-            carWashMarkerOptions = new MarkerOptions[carWashLocations.LocationAddress.Count];
-            foreach (var carWashLocation in carWashLocations.LocationAddress)
+            carWashLatLng = new LatLng[carWashLocations.Location.Count];
+            carWashMarkerOptions = new MarkerOptions[carWashLocations.Location.Count];
+            foreach (var carWashLocation in carWashLocations.Location)
             {
-                carWashLatLng[carWashLocationsCount] = new LatLng(carWashLocation.Latitude, carWashLocation.Longitude);
-                carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTiming);
-                if (carWashLocationsCount == 3)
+                carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
+                carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
+                if (carWashLocationsCount == 1)
                 {
-                    carWashLatLng[3] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
-                    carWashMarkerOptions[3] = new MarkerOptions().SetPosition(carWashLatLng[3]).SetTitle(carWashLocation.WashTiming);
+                    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
                 }
                 Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
                 carWashLocationsCount++;
@@ -297,7 +297,7 @@ namespace StriveCustomer.Android.Fragments
         private async void RefreshWashTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             carWashLocationsCount = 0;
-            carWashLocations = await ViewModel.GetAllLocationsCommand();
+            //carWashLocations = await ViewModel.GetAllLocationsCommand();
         }
         public View GetInfoContents(Marker marker)
         {
@@ -306,11 +306,14 @@ namespace StriveCustomer.Android.Fragments
         public View GetInfoWindow(Marker marker)
         {
             markerInfoWindow = LayoutInflater.Inflate(Resource.Layout.MarkerInfoWindow, null, false);
-            foreach(var locationAddress in carWashLocations.LocationAddress)
+            foreach(var locationAddress in carWashLocations.Location)
             {
-                if(locationAddress.Latitude == marker.Position.Latitude && locationAddress.Longitude == marker.Position.Longitude)
+                if((double)locationAddress.Latitude == marker.Position.Latitude && (double)locationAddress.Longitude == marker.Position.Longitude)
                 {
-                    markerInfoWindow.FindViewById<TextView>(Resource.Id.markerWashTimes).Text = locationAddress.WashTiming;
+                    markerInfoWindow.FindViewById<TextView>(Resource.Id.markerWashTimes).Text = locationAddress.LocationName;
+                    markerInfoWindow.FindViewById<TextView>(Resource.Id.openTitle).Text = "";
+                    markerInfoWindow.FindViewById<ImageView>(Resource.Id.markerWindowIcon).SetBackgroundResource(Resource.Drawable.Icon_car_wash);
+                    markerInfoWindow.FindViewById<TextView>(Resource.Id.washTiming).Text = locationAddress.WashTimeMinutes.ToString()+"Mins";
                 }
             }
             return markerInfoWindow;

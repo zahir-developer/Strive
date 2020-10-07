@@ -27,8 +27,10 @@ namespace StriveCustomer.Android.Fragments
         private TextView vehicleMembership;
         private Button backButton;
         private Button nextButton;
+        private ImageButton editMembershipButton;
         private MyProfileInfoFragment profileFragment;
         private VehicleMembershipDetailsFragment membershipDetailFrag;
+        private VehicleMembershipFragment vehicleMembershipFrag;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,6 +44,8 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.VehicleInfoDisplay, null);
             profileFragment = new MyProfileInfoFragment();
             membershipDetailFrag = new VehicleMembershipDetailsFragment();
+            vehicleMembershipFrag = new VehicleMembershipFragment();
+            editMembershipButton = rootview.FindViewById<ImageButton>(Resource.Id.vehicleEdits);
             vehicleBarCode = rootview.FindViewById<TextView>(Resource.Id.vehicleBarcode);
             vehicleMake = rootview.FindViewById<TextView>(Resource.Id.vehicleMake);
             vehicleModel = rootview.FindViewById<TextView>(Resource.Id.vehicleModel);
@@ -51,9 +55,24 @@ namespace StriveCustomer.Android.Fragments
             nextButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoNext);
             this.ViewModel = new VehicleInfoDisplayViewModel();
             backButton.Click += BackButton_Click;
-            nextButton.Click += NextButton_Click; 
+            nextButton.Click += NextButton_Click;
+            editMembershipButton.Click += EditMembershipButton_Click; 
             getSelectVehicleInfo();
             return rootview;
+        }
+
+        private void EditMembershipButton_Click(object sender, EventArgs e)
+        {
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership == null)
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, vehicleMembershipFrag).Commit();
+            }
+            else
+            {
+                this.ViewModel.MembershipExists();
+            }
+            
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -65,6 +84,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            MyProfileInfoNeeds.selectedTab = 1;
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, profileFragment).Commit();
         }
@@ -72,6 +92,10 @@ namespace StriveCustomer.Android.Fragments
         public async void getSelectVehicleInfo()
         {
             await this.ViewModel.GetSelectedVehicleInfo();
+            await this.ViewModel.GetCompleteVehicleDetails();
+            //MembershipDetails.selectedColor = this.ViewModel.clientVehicleDetail.Status.ColorId;
+            //MembershipDetails.selectedModel = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
+            //MembershipDetails.selectedMake = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
             {
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
