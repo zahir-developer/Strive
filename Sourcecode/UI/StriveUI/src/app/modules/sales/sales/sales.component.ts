@@ -14,6 +14,7 @@ import insertTextAtCursor from 'insert-text-at-cursor';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { PrintComponent } from './print/print.component';
+import { element } from 'protractor';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -648,6 +649,7 @@ export class SalesComponent implements OnInit {
     return balancedue;
   }
   addPayment() {
+    let paymentDetailObj =[];
     const balancedue = this.getBalanceDue();
     if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Add any cash/credit payment and proceed' });
@@ -691,6 +693,76 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       }
     });
+    const discountDet = this.selectedDiscount.map(item => {
+      return {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: 173,
+        amount: item.Cost,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      }
+    });
+    discountDet.forEach(element => {
+      paymentDetailObj.push(element);
+    })
+    if(this.cash !== 0){
+      const det = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: 109,
+        amount: this.cash ? +this.cash : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(det);
+    }
+    if(this.credit !== 0){
+      const credit = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: 110,
+        amount: this.credit ? +this.credit : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(credit);
+    }
+    if(this.giftCard !== 0){
+      const gift = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: 174,
+        amount: this.giftCard ? +this.giftCard : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(gift);
+    }
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -713,6 +785,7 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date(),
         isProcessed: true
       },
+      jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: {
         jobPaymentCreditCardId: 0,
