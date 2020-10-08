@@ -38,42 +38,30 @@
                                         <h4 class="d-inline-block align-middle  font-size-1-7"><span class="circle-icon m-r-10"><i class="group-icon-color font-size-1-7  mdi mdi-account-supervisor align-middle"></i></span>Jeanne Weimann Burley Wintheiser </h4>
                                         <div class="pull-right card-widgets"> <a (click)="openemp();"><i class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer"></i></a> </div>
                                     </div>
-                                    <ul class="conversation-list">
-                                        <li class="clearfix">
-                                            <div class="chat-avatar"> <img src="assets/img/avatar-2.jpg" class="mr-3 rounded-circle" alt="Jeanne Weimann" width="70"> </div>
+                                    <ul class="conversation-list" *ngFor ="let sample of sampleJson">
+                                        <li class="clearfix" *ngIf ="sample.userId === 'me'">
+                                            <div class="chat-avatar"> <div id="profileImage">{{sample.Initial}}</div></div>
                                             <div class="conversation-text">
                                                 <div class="ctext-wrap">
-                                                    <p> Yes </p>
-                                                </div> <span class="font-13 d-block m-t-10">11.01 AM | June 9</span> </div>
+                                                    <p> {{sample.body}} </p>
+                                                </div> <span class="font-13 d-block m-t-10">{{sample.date | date: 'shortTime'}} | {{sample.date | date: 'MMMM d'}}</span> </div>
                                         </li>
-                                        <li class="clearfix odd">
+                                        <li class="clearfix odd" *ngIf ="sample.userId !== 'me'">
                                             <div class="conversation-text">
                                                 <div class="ctext-wrap">
-                                                    <p> Please attend the customer in cashier sectoin </p>
-                                                </div> <span class="font-13 d-block m-t-10">11.01 AM | June 9</span> </div>
+                                                    <p> {{sample.body}} </p>
+                                                </div> <span class="font-13 d-block m-t-10">{{sample.date | date: 'shortTime'}} | {{sample.date | date: 'MMMM d'}}</span> </div>
                                         </li>
-                                        <li class="clearfix">
-                                            <div class="chat-avatar"> <img src="assets/img/avatar-2.jpg" class="mr-3 rounded-circle" alt="Jeanne Weimann" width="70"> </div>
-                                            <div class="conversation-text">
-                                                <div class="ctext-wrap">
-                                                    <p> Sure </p>
-                                                </div> <span class="font-13 d-block m-t-10">11.03 AM | June 9</span> </div>
-                                        </li>
-                                        <li class="clearfix odd">
-                                            <div class="conversation-text">
-                                                <div class="ctext-wrap">
-                                                    <p> Is the Customer is billed </p>
-                                                </div> <span class="font-13 d-block m-t-10">11.05 AM | June 9</span> </div>
-                                        </li>
+                                    </ul>
                                         <div class="border-top m-t-16">
                                             <div class="row m-t-10">
                                                 <div class="col mb-2 mb-sm-0">
-                                                    <input type="text" class="form-control border-0" placeholder="Type the message here" required=""> </div>
-                                                <div class="col-sm-auto"> <i class="mdi mdi-send  theme-primary-color font-size-1-4"></i> </div>
+                                                    <input type="text" class="form-control border-0" placeholder="Type the message here" [(ngModel)]="message" required="" (keydown.enter)="sendMessage()"> </div>
+                                                <div class="col-sm-auto"> <i class="mdi mdi-send  theme-primary-color font-size-1-4" (click)="sendMessage()" ></i> </div>
                                                 <!-- end col -->
                                             </div>
                                         </div>
-                                    </ul>
+                                   
                                 </div>
                             </div>
                         </div>

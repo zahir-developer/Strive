@@ -937,6 +937,7 @@ color: #5F6281;
     float: left;
     text-align: center;
     width: 42px;
+    margin-top: 1rem;
 }
 .conversation-list{
 	padding: 0px 15px;
