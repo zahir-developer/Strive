@@ -12,7 +12,7 @@
                             <label class="float-left">Number<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" formControlName="number" readonly
+                            <input type="text" class="form-control" formControlName="number" numbersOnly
                                 [ngClass]="{ 'is-invalid': submitted && f.number.errors }" />
                             <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
                                 <div *ngIf="f.number.errors.required">Card Number is required</div>
@@ -28,6 +28,20 @@
                 </div>
             </div>
             <br />
+            <!-- <div class="form-row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="form-row">
+                        <div class="col-sm-3">
+                            <label class="float-left">Barcode</label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" formControlName="barcode">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br /> -->
             <div class="form-row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
