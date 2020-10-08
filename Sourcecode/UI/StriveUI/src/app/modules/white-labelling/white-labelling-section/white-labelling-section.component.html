@@ -50,7 +50,7 @@
                                                         <div class="col-lg-4">
                                                             <form>
                                                                 <div class="form-group mb-3">
-                                                                    <input type="text"
+                                                                    <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}"
                                                                         class="form-control branding-form"
                                                                         placeholder="Company Name"> </div>
                                                             </form>
@@ -62,13 +62,31 @@
                                                         <div class="col-lg-4">
                                                             <section>
                                                                 <div id="dropzone">
-                                                                    <form class="dropzone needsclick" id="demo-upload"
+                                                                    <form class="needsclick" id="demo-upload"
                                                                         action="/upload">
-                                                                        <div class="dz-message needsclick"> Drag Your
-                                                                            Files here
-                                                                            <br> or
-                                                                            <br> <span class="note needsclick">Click to
-                                                                                upload.</span> </div>
+                                                                        <div class="dz-message needsclick">
+                                                                            <label class="uploader"
+                                                                                ondragover="return false;"
+                                                                                [class.loaded]="loaded"
+                                                                                [style.outlineColor]="dragging ? activeColor : baseColor"
+                                                                                (dragenter)="handleDragEnter()"
+                                                                                (dragleave)="handleDragLeave()"
+                                                                                (drop)="handleDrop($event)">
+
+                                                                                <em class="icon icon-upload fa fa-upload uploadIcon"
+                                                                                    [style.color]="dragging 
+                                                                                    ? ((imageSrc.length > 0) ? overlayColor : activeColor)
+                                                                                    : ((imageSrc.length > 0) ? overlayColor : baseColor)"></em>
+
+                                                                                <img [src]="imageSrc"
+                                                                                    (load)="handleImageLoad()"
+                                                                                    [class.loaded]="imageLoaded" alt=''/>
+
+                                                                                <input type="file" name="file"
+                                                                                    accept="image/*"
+                                                                                    (change)="handleInputChange($event)">
+                                                                            </label>
+                                                                        </div>
                                                                     </form>
                                                                 </div>
                                                                 <div class="text-center m-t-10"> <span
@@ -216,7 +234,7 @@
                                         <div id="Coloritem" class="collapse show">
                                             <div class="row  mt-3 mb-3 no-gutter">
                                                 <div class="col-md-2" (click)="defaultTheme()">
-                                                    <div >
+                                                    <div>
                                                         <div class="text-center p-60 font-size-1 font-weight-600">
                                                             Default</div>
                                                         <div class="flex-container pointer">
@@ -234,7 +252,7 @@
                                                                 Default</div>
                                                         </div> -->
                                                     </div>
-                                                    <!-- end card --> 
+                                                    <!-- end card -->
                                                     <!-- class="card font-card p-t-10" -->
                                                 </div>
                                                 <!--sunshine-->
@@ -285,7 +303,7 @@
                 </div>
                 <div class="m-t-12 pull-right mw-100">
                     <button type="button" class="btn theme-optional-button-color">Cancel</button>
-                    <button type="button" class="btn theme-primary-button-color">Save</button>
+                    <button type="button" class="btn theme-primary-button-color" (click)="save()">Save</button>
                 </div>
             </div>
         </div>

@@ -7,6 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WhiteLabellingSectionComponent implements OnInit {
   sunshineTheme: any;
+  title = '';
+  activeColor = 'green';
+  baseColor = '#ccc';
+  overlayColor = 'rgba(255,255,255,0.5)';
+  dragging = false;
+  loaded = false;
+  imageLoaded = false;
+  imageSrc = '';
   constructor() { }
 
   ngOnInit(): void {
@@ -35,5 +43,41 @@ export class WhiteLabellingSectionComponent implements OnInit {
   fontChange(style) {
     document.documentElement.style.setProperty(`--text-font`, style);
   }
+  handleInputChange(e) {
+    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    const pattern = /image-*/;
+    const reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
 
+    this.loaded = false;
+
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+  }
+  _handleReaderLoaded(e) {
+    const reader = e.target;
+    this.imageSrc = reader.result;
+    this.loaded = true;
+  }
+  handleImageLoad() {
+    this.imageLoaded = true;
+  }
+  handleDrop(e) {
+    e.preventDefault();
+    this.dragging = false;
+    this.handleInputChange(e);
+  }
+  handleDragLeave() {
+    this.dragging = false;
+  }
+  handleDragEnter() {
+    this.dragging = true;
+  }
+  save() {
+    console.log(this.title, 'title');
+    console.log(this.imageSrc, 'base64');
+  }
 }
