@@ -14,6 +14,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 
@@ -22,8 +23,14 @@ namespace StriveCustomer.Android.Fragments
     [MvxUnconventionalAttribute]
     public class PastDetailsFragment : MvxFragment<PastDetailViewModel>
     {
-        public List<string> pastDetailsData;
         Context context;
+        int previousID = 0;
+        float totalCost;
+        string previousDates;
+        List<float> TotalCost;
+        private Dictionary<float, int> TotalServiceCosts;
+        private PastClientServices pastClientServices;
+        private RecyclerView detailsRecyclerView;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -35,18 +42,71 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.PastDetailsScreenFragment, null);
-            pastDetailsData = new List<string>();
-            for (int i = 1; i <= 5; i++)
-            {
-                pastDetailsData.Add("Clickme" + i);
-            }
-            var detailsRecyclerView = rootview.FindViewById<RecyclerView>(Resource.Id.pastDetailsList);
+            this.ViewModel = new PastDetailViewModel();
+            CustomerInfo.TotalCost = new List<float>();
+            pastClientServices = new PastClientServices();
+            pastClientServices.PastClientDetails = new List<PastClientDetails>();
+            CustomerInfo.pastClientServices = new PastClientServices();
+            CustomerInfo.pastClientServices.PastClientDetails = new List<PastClientDetails>();
+            TotalServiceCosts = new Dictionary<float, int>();
+            GetPastDetails();
+            detailsRecyclerView = rootview.FindViewById<RecyclerView>(Resource.Id.pastDetailsList);
             detailsRecyclerView.HasFixedSize = true;
             var layoutManager = new LinearLayoutManager(context);
             detailsRecyclerView.SetLayoutManager(layoutManager);
-            PastDetailsAdapter pastDetailsAdapter = new PastDetailsAdapter(pastDetailsData, context);
-            detailsRecyclerView.SetAdapter(pastDetailsAdapter);
+            
+            
             return rootview;
+        }
+        public async void GetPastDetails()
+        {
+            totalCost = 0;
+            int previousID = 0;
+            var result = await this.ViewModel.GetPastDetailsServices();
+            if(result != null)
+            {
+                var count = 0;
+                previousID = result.PastClientDetails[0].VehicleId;
+                previousDates = result.PastClientDetails[0].DetailVisitDate;
+                foreach (var data in result.PastClientDetails)
+                {
+                    if (String.Equals(data.DetailOrAdditionalService, "Details") && string.Equals(data.DetailVisitDate,previousDates))
+                    {
+                        CustomerInfo.pastClientServices.PastClientDetails.Add(data);
+                        totalCost = totalCost + float.Parse(data.Cost);
+                    }
+                    else if(String.Equals(data.DetailOrAdditionalService, "Additional Services") && string.Equals(data.DetailVisitDate, previousDates))
+                    {
+                        totalCost = totalCost + float.Parse(data.Cost);
+
+                    }
+                    else if(String.Equals(data.DetailOrAdditionalService, "Details") && !string.Equals(data.DetailVisitDate, previousDates))
+                    {
+                        CustomerInfo.TotalCost.Add(totalCost);
+                        totalCost = 0;
+                        CustomerInfo.pastClientServices.PastClientDetails.Add(data);
+                        totalCost = totalCost + float.Parse(data.Cost);
+                    }
+                    count++;
+                    if(count == result.PastClientDetails.Count)
+                    {
+                        CustomerInfo.TotalCost.Add(totalCost);
+                        totalCost = 0;
+                    }
+                    previousID = data.VehicleId;
+                    previousDates = data.DetailVisitDate;
+                }
+                foreach (var data in CustomerInfo.pastClientServices.PastClientDetails)
+                {
+                    if(data.VehicleId != previousID)
+                    {
+                        pastClientServices.PastClientDetails.Add(data);
+                        previousID = data.VehicleId;
+                    }
+                }
+                PastDetailsAdapter pastDetailsAdapter = new PastDetailsAdapter(pastClientServices, context);
+                detailsRecyclerView.SetAdapter(pastDetailsAdapter);
+            }
         }
     }
 }
