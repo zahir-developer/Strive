@@ -29,6 +29,7 @@ namespace StriveCustomer.Android.Fragments
         ViewPagerAdapter adapter;
         PastDetailsPageFragment dealFrag1, dealFrag2, dealFrag3;
         private PastDetailsFragment pastDetails;
+        private MyProfileInfoFragment myProfile;
         private Button backButton;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -44,6 +45,7 @@ namespace StriveCustomer.Android.Fragments
             viewPager = rootview.FindViewById<ViewPager>(Resource.Id.pastViewPager);
             backButton = rootview.FindViewById<Button>(Resource.Id.pastServiceBack);
             pastDetails = new PastDetailsFragment();
+            myProfile = new MyProfileInfoFragment();
             dealFrag1 = new PastDetailsPageFragment();
             dealFrag2 = new PastDetailsPageFragment();
             dealFrag3 = new PastDetailsPageFragment();
@@ -53,8 +55,9 @@ namespace StriveCustomer.Android.Fragments
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            MyProfileInfoNeeds.selectedTab = 2;
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, pastDetails).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfile).Commit();
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)

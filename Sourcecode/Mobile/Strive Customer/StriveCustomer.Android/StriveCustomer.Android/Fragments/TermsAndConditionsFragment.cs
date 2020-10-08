@@ -14,6 +14,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 
 namespace StriveCustomer.Android.Fragments
@@ -23,6 +24,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView AgreeTextView;
         private TextView DisagreeTextView;
         private Button backButton;
+        private VehicleMembershipDetailsViewModel vehicleMembershipVM;
         MyProfileInfoFragment infoFragment;
         MembershipSignatureFragment signatureFragment;
         public override void OnCreate(Bundle savedInstanceState)
@@ -36,6 +38,7 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.TermsAndConditionsFragment,null);
             infoFragment = new MyProfileInfoFragment();
             signatureFragment = new MembershipSignatureFragment();
+            vehicleMembershipVM = new VehicleMembershipDetailsViewModel();
             AgreeTextView = rootview.FindViewById<TextView>(Resource.Id.textAgree);
             DisagreeTextView = rootview.FindViewById<TextView>(Resource.Id.textDisagree);
             backButton = rootview.FindViewById<Button>(Resource.Id.signatureBack);
@@ -68,6 +71,11 @@ namespace StriveCustomer.Android.Fragments
 
         private async void AgreeTextView_Click(object sender, EventArgs e)
         {
+            if(CheckMembership.hasExistingMembership && CustomerVehiclesInformation.membershipDetails == null)
+            {
+                await vehicleMembershipVM.CancelMembership();
+                CheckMembership.hasExistingMembership = false;
+            }
             var result = await ViewModel.AgreeMembership();
             if(result)
             {

@@ -35,6 +35,7 @@
         android:layout_marginBottom="95dp"
         android:background="@drawable/secondarylinearlayout">
         <TextView
+            android:id="@+id/locationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans_semibold" 
@@ -42,8 +43,7 @@
             android:textSize="@dimen/textSixteen"
             android:layout_marginLeft="@dimen/ten"
             android:layout_marginTop="@dimen/ten"
-            android:layout_marginBottom="@dimen/ten"
-            android:text="Alpharetta#2"/>
+            android:layout_marginBottom="@dimen/ten"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -66,9 +66,9 @@
                     android:id="@+id/locationDetails"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Address"
                     android:gravity="center|left"
                     android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="@color/profileQColor"/>
             </LinearLayout>
@@ -87,9 +87,9 @@
                     android:id="@+id/phoneDetails"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Phone"
                     android:gravity="center|left"
                     android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="@color/profileQColor"/>
             </LinearLayout>
@@ -108,9 +108,9 @@
                     android:id="@+id/mailDetails"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Phone"
                     android:gravity="center|left"
                     android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="@color/profileQColor"/>
             </LinearLayout>
@@ -129,9 +129,9 @@
                     android:id="@+id/storeClockDetails"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Phone"
                     android:gravity="center|left"
                     android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="@color/profileQColor"/>
             </LinearLayout>
