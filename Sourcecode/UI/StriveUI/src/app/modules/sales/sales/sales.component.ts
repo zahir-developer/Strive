@@ -785,13 +785,13 @@ export class SalesComponent implements OnInit {
         jobPaymentId: 0,
         jobId: this.isSelected ? +this.JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
-        paymentType: 109,
+        //paymentType: 109,
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
-        cashback: this.cashback ? this.cashback : 0,
+        //cashback: this.cashback ? this.cashback : 0,
         approval: true,
-        checkNumber: '',
-        signature: '',
+        //checkNumber: '',
+        //signature: '',
         paymentStatus: 1,
         comments: '',
         isActive: true,
@@ -821,7 +821,7 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date()
       },
-      jobPaymentDiscount: discount.length === 0 ? null : discount,
+      //jobPaymentDiscount: discount.length === 0 ? null : discount,
 
     };
     this.spinner.show();
