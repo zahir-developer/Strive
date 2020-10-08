@@ -14,6 +14,11 @@ namespace StriveCustomer.iOS.UIUtils
             return UIFont.FromName("OpenSans-Bold", 18f);
         }
 
+        public static UIFont OpenSansBoldFifteen()
+        {
+            return UIFont.FromName("OpenSans-Bold", 15f);
+        }
+
         public static UIFont OpenSansRegularTwelve()
         {
             return UIFont.FromName("OpenSans-Regular", 12f);

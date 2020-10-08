@@ -6,5 +6,6 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class PastDetailViewModel : BaseViewModel
     {
+
     }
 }

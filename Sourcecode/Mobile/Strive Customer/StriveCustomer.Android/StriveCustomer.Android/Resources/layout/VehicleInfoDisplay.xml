@@ -73,7 +73,7 @@
                 android:id="@+id/vehicleEdits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten"
+                android:layout_marginTop="@dimen/fifteen"
                 android:layout_marginLeft="@dimen/ten"
                 android:src="@drawable/editbutton"
                 android:background="@android:color/transparent"/>
