@@ -15,6 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { PrintComponent } from './print/print.component';
 import { element } from 'protractor';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -56,11 +57,12 @@ export class SalesComponent implements OnInit {
   newTicketNumber: any;
   selectedService: any;
   balance: number;
+  PaymentType: any;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute, private codes: GetCodeService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -92,9 +94,20 @@ export class SalesComponent implements OnInit {
       this.ticketNumber = paramsData;
       this.getDetailByTicket(false);
     }
-    // this.getAllService();
+    this.getPaymentType();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
+  }
+
+  getPaymentType(){
+    this.codes.getCodeByCategory("PAYMENTTYPE").subscribe(data => {
+      if (data.status === 'Success') {
+        const sType = JSON.parse(data.resultData);
+        this.PaymentType = sType.Codes;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
   }
   getAllServiceandProduct() {
     this.salesService.getServiceAndProduct().subscribe(data => {
@@ -693,11 +706,12 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       }
     });
+    let discountPayType = this.PaymentType.filter(i => i.CodeValue === "Discount")[0].CodeId;
     const discountDet = this.selectedDiscount.map(item => {
       return {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
-        paymentType: 173,
+        paymentType: discountPayType,
         amount: item.Cost,
         taxAmount: 0,
         signature: '',
@@ -713,10 +727,11 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(element);
     })
     if(this.cash !== 0){
+      let cashPayType = this.PaymentType.filter(i => i.CodeValue === "Cash")[0].CodeId;
       const det = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
-        paymentType: 109,
+        paymentType: cashPayType,
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
         signature: '',
@@ -729,11 +744,12 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(det);
     }
-    if(this.credit !== 0){
+    if(this.credit !== 0){      
+      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Credit")[0].CodeId;
       const credit = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
-        paymentType: 110,
+        paymentType: creditPayType,
         amount: this.credit ? +this.credit : 0,
         taxAmount: 0,
         signature: '',
@@ -747,10 +763,11 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(credit);
     }
     if(this.giftCard !== 0){
+      let giftPayType = this.PaymentType.filter(i => i.CodeValue === "GiftCard")[0].CodeId;
       const gift = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
-        paymentType: 174,
+        paymentType: giftPayType,
         amount: this.giftCard ? +this.giftCard : 0,
         taxAmount: 0,
         signature: '',
