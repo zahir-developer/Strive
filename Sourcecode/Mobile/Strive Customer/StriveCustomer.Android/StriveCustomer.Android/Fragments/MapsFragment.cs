@@ -150,7 +150,7 @@ namespace StriveCustomer.Android.Fragments
         {
             Googlemap = googleMap;
             await AndroidPermissions.checkLocationPermission(this);
-            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted  && googleAPI.IsConnected)
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted )// && googleAPI.IsConnected)
             {
                 enableUserLocation();
                 lastUserLocation();
