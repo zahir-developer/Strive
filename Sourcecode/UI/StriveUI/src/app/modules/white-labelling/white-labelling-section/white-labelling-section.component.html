@@ -106,7 +106,7 @@
                                         <div id="fontitem" class="collapse show">
                                             <!--font--->
                                             <div class="row  mt-3 mb-3 no-gutter">
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-2 mb-3" (click)="fontChange('roboto')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 Roboto-font">Roboto
@@ -120,7 +120,7 @@
                                                     <!-- end card -->
                                                 </div>
                                                 <!-- end col -->
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Poppins')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 poppins-font">
@@ -134,7 +134,7 @@
                                                     <!-- end card -->
                                                 </div>
                                                 <!-- end col -->
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Open Sans')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7">Open Sans</p>
@@ -147,7 +147,7 @@
                                                     <!-- end card -->
                                                 </div>
                                                 <!-- end col -->
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Fira Sans')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 FiraSans-font">Fira
@@ -161,7 +161,7 @@
                                                     <!-- end card -->
                                                 </div>
                                                 <!-- end col -->
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Raleway')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 Raleway-font">
@@ -175,7 +175,7 @@
                                                     <!-- end card -->
                                                 </div>
                                                 <!-- end col -->
-                                                <div class="col-md-2 mb-3">
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Ubuntu')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 Ubuntu-font">Ubuntu
@@ -215,8 +215,10 @@
                                         </div>
                                         <div id="Coloritem" class="collapse show">
                                             <div class="row  mt-3 mb-3 no-gutter">
-                                                <div class="col-md-2">
-                                                    <div class="card font-card p-t-10">
+                                                <div class="col-md-2" (click)="defaultTheme()">
+                                                    <div >
+                                                        <div class="text-center p-60 font-size-1 font-weight-600">
+                                                            Default</div>
                                                         <div class="flex-container pointer">
                                                             <div class="card-width theme-primary-background-color">
                                                             </div>
@@ -227,15 +229,16 @@
                                                             <div class="card-width theme-shaded-green"> </div>
                                                             <div class="card-width theme-shaded-green"> </div>
                                                         </div>
-                                                        <div class="card-body p-0 p-b-70">
+                                                        <!-- <div class="card-body p-0 p-b-70">
                                                             <div class="text-center p-60 font-size-1 font-weight-600">
                                                                 Default</div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
-                                                    <!-- end card -->
+                                                    <!-- end card --> 
+                                                    <!-- class="card font-card p-t-10" -->
                                                 </div>
                                                 <!--sunshine-->
-                                                <div class="col-md-2">
+                                                <div class="col-md-2" (click)="themeChange()">
                                                     <div class="card font-card p-t-10">
                                                         <div class="flex-container pointer">
                                                             <div class="card-width theme-light-ello"> </div>
