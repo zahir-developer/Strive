@@ -20,6 +20,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
   {path: 'sales', loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
+  { path: 'payrolls', loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
   {path: 'messenger', loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
   {
     path: '',
