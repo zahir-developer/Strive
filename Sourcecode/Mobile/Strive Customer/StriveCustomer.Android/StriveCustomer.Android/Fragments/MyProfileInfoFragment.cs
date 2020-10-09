@@ -56,6 +56,11 @@ namespace StriveCustomer.Android.Fragments
             profileAdapter.AddFragment(personalInfo2, "Payment");
             profilePager.Adapter = profileAdapter;
             profileTabs.SetupWithViewPager(profilePager);
+            profilePager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
         }
+    }
+    public static class MyProfileInfoNeeds
+    {
+        public static int selectedTab { get; set; } = 0;
     }
 }
