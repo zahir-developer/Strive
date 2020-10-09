@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
 using Strive.Common;
@@ -23,5 +22,9 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("Add")]
         public Result AddWhiteLabelling([FromBody] WhiteLabel whiteLabel) => _bplManager.AddWhiteLabelling(whiteLabel);
+
+        [HttpGet]
+        [Route("GetAll")]
+        public Result GetAll() => _bplManager.GetAll();
     }
 }

@@ -11,5 +11,6 @@ namespace Strive.BusinessLogic
     public interface IWhiteLabelBpl
     {
         Result AddWhiteLabelling(WhiteLabel whiteLabel);
+        Result GetAll();
     }
 }

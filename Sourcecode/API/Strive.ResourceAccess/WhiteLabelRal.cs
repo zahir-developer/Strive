@@ -1,4 +1,6 @@
-﻿using Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,10 @@ namespace Strive.ResourceAccess
         public bool AddWhiteLabelling(WhiteLabel whiteLabel)
         {
             return dbRepo.Insert(whiteLabel);
+        }
+        public WhiteLabelDetailViewModel GetAll()
+        {
+            return db.FetchMultiResult<WhiteLabelDetailViewModel>(EnumSP.WhiteLabelling.USPGETWHITELABEL.ToString(), _prm);
         }
     }
 }
