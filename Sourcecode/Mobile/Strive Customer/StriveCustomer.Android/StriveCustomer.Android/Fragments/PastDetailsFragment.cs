@@ -62,6 +62,7 @@ namespace StriveCustomer.Android.Fragments
         {
             totalCost = 0;
             int previousID = 0;
+            string previousVehicle;
             var result = await this.ViewModel.GetPastDetailsServices();
             PastDetailsCompleteDetails.pastClientServices = result;
             if (result != null)
@@ -69,6 +70,7 @@ namespace StriveCustomer.Android.Fragments
                 var count = 0;
                 previousID = result.PastClientDetails[0].VehicleId;
                 previousDates = result.PastClientDetails[0].DetailVisitDate;
+                previousVehicle = result.PastClientDetails[0].Color +" "+ result.PastClientDetails[0].Make + " " + result.PastClientDetails[0].Model;
                 foreach (var data in result.PastClientDetails)
                 {
                     if (String.Equals(data.DetailOrAdditionalService, "Details") && string.Equals(data.DetailVisitDate,previousDates))
@@ -97,13 +99,15 @@ namespace StriveCustomer.Android.Fragments
                     previousID = data.VehicleId;
                     previousDates = data.DetailVisitDate;
                 }
+                var counts = 0;
                 foreach (var data in CustomerInfo.pastClientServices.PastClientDetails)
                 {
-                    if(data.VehicleId != previousID)
+                    if(data.VehicleId != previousID || counts == 0)
                     {
                         pastClientServices.PastClientDetails.Add(data);
                         previousID = data.VehicleId;
                     }
+                    counts++;
                 }
                 PastDetailsAdapter pastDetailsAdapter = new PastDetailsAdapter(pastClientServices, context);
                 detailsRecyclerView.SetAdapter(pastDetailsAdapter);
