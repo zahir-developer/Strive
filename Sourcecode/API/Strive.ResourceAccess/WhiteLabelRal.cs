@@ -13,7 +13,7 @@ namespace Strive.ResourceAccess
         public WhiteLabelRal(ITenantHelper tenant) : base(tenant) { }
         public bool AddWhiteLabelling(WhiteLabel whiteLabel)
         {
-            return dbRepo.SavePc(whiteLabel, "WhiteLabelId");
+            return dbRepo.Insert(whiteLabel);
         }
     }
 }
