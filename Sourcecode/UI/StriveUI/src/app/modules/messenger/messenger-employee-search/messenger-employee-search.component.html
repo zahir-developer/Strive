@@ -1,66 +1,25 @@
 <div class="card">
     <div class="card-body p-1">
         <br><br><span class="closebtn" (click)="closeemp()">&times;</span>
-        <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon"></i>
-            <input type="text" class="form-control" placeholder="Search Employee"> </div>
+        <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon" (click)="getAllEmployees()"></i>
+            <input type="text" [(ngModel)]="search" class="form-control" placeholder="Search Employee" (focus)="searchFocus()" (keyup)="getAllEmployees()"> </div>
         <div class="Search-Emp-box">
             <div class="mt-3">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label pointer" for="customCheck1">Select All</label>
+                <div >
+                    <input type="checkbox" id="selectAll" (click)="selectAllEmployees($event)" >&nbsp;&nbsp;
+                    <label >Select All</label>
                 </div>
             </div>
-            <div class="Search-Emp-item mt-3"> <img class="mr-3 rounded-circle" src="assets/img/avatar-2.jpg" width="40" alt="Search-Emp image">
-                <div class="Search-Emp-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label pointer" for="customCheck1"></label>
+            <div class="Search-Emp-item mt-3" *ngFor="let emp of empList"> 
+                <div id="profileImage">{{emp.Initial}}</div>&nbsp;&nbsp;&nbsp;
+                <!-- <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search-Emp image"> -->
+                <div class="Search-Emp-item-body"> <span class="float-right"><div >
+                    <input type="checkbox" [(ngModel)]="emp.isSelected" (click)="changeState()">
                 </div></span>
-                    <h6 class="msg-date">Wilford Franecki</h6> </div>
-            </div>
-            <div class="Search-Emp-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-3.jpg" width="40" alt="Search-Emp image">
-                <div class="Search-Emp-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                    <label class="custom-control-label pointer" for="customCheck2"></label>
-                </div></span>
-                    <h6 class="msg-date">Claudie O'Hara</h6> </div>
-            </div>
-            <div class="Search-Emp-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-4.jpg" width="40" alt="Search-Emp image">
-                <div class="Search-Emp-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck3">
-                    <label class="custom-control-label pointer" for="customCheck3"></label>
-                </div></span>
-                    <h6 class="msg-date">Hazel Swift</h6> </div>
-            </div>
-            <div class="Search-Emp-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-5.jpg" width="40" alt="Search-Emp image">
-                <div class="Search-Emp-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck4">
-                    <label class="custom-control-label pointer" for="customCheck4"></label>
-                </div></span>
-                    <h6 class="msg-date">Johanna Volkman</h6> </div>
-            </div>
-            <div class="Search-Emp-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-1.jpg" width="40" alt="Search-Emp image">
-                <div class="Search-Emp-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck5">
-                    <label class="custom-control-label pointer" for="customCheck5"></label>
-                </div></span>
-                    <h6 class="msg-date">Elinor Considine</h6> </div>
-            </div>
-            <div class="Search-Emp-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-6.jpg" width="40" alt="Search-Emp image">
-                <div class="Search-Emp-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck6">
-                    <label class="custom-control-label pointer" for="customCheck6"></label>
-                </div></span>
-                    <h6 class="msg-date">Jake Zieme</h6> </div>
-            </div>
-            <div class="Search-Emp-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-6.jpg" width="40" alt="Search-Emp image">
-                <div class="Search-Emp-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck7">
-                    <label class="custom-control-label pointer" for="customCheck7"></label>
-                </div></span>
-                    <h6 class="msg-date">Kayla Beier</h6> </div>
+                    <h6 class="msg-date">{{emp.FirstName+  ' ' + emp.LastName}}</h6> </div>
             </div>
         </div>
-        <button type="button" class="btn theme-primary-button-color w-100 btn-lg rounded-0 m-t-3">Add</button>
+        <button type="button" class="btn theme-primary-button-color w-100 btn-lg rounded-0 m-t-3" (click)="addEmployees()">Add</button>
     </div>
     <!-- end card-body -->
 </div>
