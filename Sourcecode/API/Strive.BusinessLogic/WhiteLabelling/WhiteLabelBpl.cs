@@ -29,6 +29,20 @@ namespace Strive.BusinessLogic.WhiteLabelling
                 return Helper.ErrorMessageResult(error);
             }
         }
+        public Result UpdateWhiteLabelling(WhiteLabel whiteLabel)
+        {
+            string error = string.Empty;
+            (error, whiteLabel.LogoPath, whiteLabel.ThumbFileName) = UploadImage(whiteLabel.Base64, whiteLabel.FileName);
+
+            if (error == string.Empty)
+            {
+                return ResultWrap(new WhiteLabelRal(_tenant).UpdateWhiteLabelling, whiteLabel, "Status");
+            }
+            else
+            {
+                return Helper.ErrorMessageResult(error);
+            }
+        }
         public Result GetAll()
         {
             var whiteLabel = new WhiteLabelRal(_tenant).GetAll();

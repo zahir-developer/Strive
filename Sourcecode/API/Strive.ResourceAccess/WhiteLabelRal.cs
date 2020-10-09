@@ -17,6 +17,10 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.Insert(whiteLabel);
         }
+        public bool UpdateWhiteLabelling(WhiteLabel whiteLabel)
+        {
+            return dbRepo.Update(whiteLabel);
+        }
         public WhiteLabelDetailViewModel GetAll()
         {
             return db.FetchMultiResult<WhiteLabelDetailViewModel>(EnumSP.WhiteLabelling.USPGETWHITELABEL.ToString(), _prm);

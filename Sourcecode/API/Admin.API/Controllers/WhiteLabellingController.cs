@@ -23,6 +23,10 @@ namespace Admin.API.Controllers
         [Route("Add")]
         public Result AddWhiteLabelling([FromBody] WhiteLabel whiteLabel) => _bplManager.AddWhiteLabelling(whiteLabel);
 
+        [HttpPost]
+        [Route("Update")]
+        public Result UpdateWhiteLabelling([FromBody] WhiteLabel whiteLabel) => _bplManager.UpdateWhiteLabelling(whiteLabel);
+
         [HttpGet]
         [Route("GetAll")]
         public Result GetAll() => _bplManager.GetAll();
