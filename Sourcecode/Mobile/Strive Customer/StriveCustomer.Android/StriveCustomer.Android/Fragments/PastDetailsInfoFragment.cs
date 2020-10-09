@@ -74,19 +74,19 @@ namespace StriveCustomer.Android.Fragments
                 {
                     if(pastDetailDates == 1)
                     {
-                        dealFrag1 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[0]);
+                        dealFrag1 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[CustomerInfo.SelectedVehiclePastDetails]);
                         var splits = result.DetailVisitDate.Split('T');
                         adapter.AddFragment(dealFrag1, splits[0]);
                     }
                     if (pastDetailDates == 2)
                     {
-                        dealFrag2 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[1]);
+                        dealFrag2 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[CustomerInfo.SelectedVehiclePastDetails+1]);
                         var splits = result.DetailVisitDate.Split('T');
                         adapter.AddFragment(dealFrag2, splits[0]);
                     }
                     if (pastDetailDates == 3)
                     {
-                        dealFrag3 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[2]);
+                        dealFrag3 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[CustomerInfo.SelectedVehiclePastDetails+2]);
                         var splits = result.DetailVisitDate.Split('T');
                         adapter.AddFragment(dealFrag3, splits[0]);
                     }
