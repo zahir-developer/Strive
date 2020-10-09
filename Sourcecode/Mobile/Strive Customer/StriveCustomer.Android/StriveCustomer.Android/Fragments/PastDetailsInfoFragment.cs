@@ -67,32 +67,34 @@ namespace StriveCustomer.Android.Fragments
         {
             base.OnActivityCreated(savedInstanceState);
             adapter = new ViewPagerAdapter(ChildFragmentManager);
-            var data = CustomerInfo.pastClientServices.PastClientDetails.ElementAt(CustomerInfo.SelectedVehiclePastDetails).VehicleId;
+            var data = CustomerInfo.SelectedVehiclePastDetails;
+            var count = 0;
             foreach (var result in CustomerInfo.pastClientServices.PastClientDetails)
             {
                 if (data == result.VehicleId)
                 {
                     if(pastDetailDates == 1)
                     {
-                        dealFrag1 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[CustomerInfo.SelectedVehiclePastDetails]);
+                        dealFrag1 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
                         var splits = result.DetailVisitDate.Split('T');
                         adapter.AddFragment(dealFrag1, splits[0]);
                     }
                     if (pastDetailDates == 2)
                     {
-                        dealFrag2 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[CustomerInfo.SelectedVehiclePastDetails+1]);
+                        dealFrag2 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
                         var splits = result.DetailVisitDate.Split('T');
                         adapter.AddFragment(dealFrag2, splits[0]);
                     }
                     if (pastDetailDates == 3)
                     {
-                        dealFrag3 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[CustomerInfo.SelectedVehiclePastDetails+2]);
+                        dealFrag3 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
                         var splits = result.DetailVisitDate.Split('T');
                         adapter.AddFragment(dealFrag3, splits[0]);
                     }
+                    
                     pastDetailDates++;
                 }
-
+                count++;
             }
             viewPager.Adapter = adapter;
             slidingTabs.SetupWithViewPager(viewPager);
