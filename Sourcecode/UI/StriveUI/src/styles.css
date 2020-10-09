@@ -81,3 +81,14 @@ body .ui-state-disabled, body .ui-widget:disabled {
   opacity: 1;
   background-color: #e9ecef;
 }
+#profileImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #f1f3fa;
+  font-size: 16px;
+  color: #11283D;
+  text-align: center;
+  line-height: 46px;
+  font-weight: 600;
+}

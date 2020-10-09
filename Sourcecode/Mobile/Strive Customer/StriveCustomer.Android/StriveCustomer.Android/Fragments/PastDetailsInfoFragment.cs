@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -27,6 +28,8 @@ namespace StriveCustomer.Android.Fragments
         ViewPager viewPager;
         ViewPagerAdapter adapter;
         PastDetailsPageFragment dealFrag1, dealFrag2, dealFrag3;
+        private PastDetailsFragment pastDetails;
+        private Button backButton;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -39,11 +42,21 @@ namespace StriveCustomer.Android.Fragments
             var rootview = this.BindingInflate(Resource.Layout.PastDetailsInfoFragment, null);
             slidingTabs = rootview.FindViewById<TabLayout>(Resource.Id.pastSlidingTabs);
             viewPager = rootview.FindViewById<ViewPager>(Resource.Id.pastViewPager);
+            backButton = rootview.FindViewById<Button>(Resource.Id.pastServiceBack);
+            pastDetails = new PastDetailsFragment();
             dealFrag1 = new PastDetailsPageFragment();
             dealFrag2 = new PastDetailsPageFragment();
             dealFrag3 = new PastDetailsPageFragment();
+            backButton.Click += BackButton_Click;
             return rootview;
         }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, pastDetails).Commit();
+        }
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);

@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-body p-1">
+        <br><br><span class="closebtn" (click)="closeemp()">&times;</span>
+        <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon" (click)="getAllEmployees()"></i>
+            <input type="text" [(ngModel)]="search" class="form-control" placeholder="Search Employee" (focus)="searchFocus()" (keyup)="getAllEmployees()"> </div>
+        <div class="Search-Emp-box">
+            <div class="mt-3">
+                <div >
+                    <input type="checkbox" id="selectAll" (click)="selectAllEmployees($event)" >&nbsp;&nbsp;
+                    <label >Select All</label>
+                </div>
+            </div>
+            <div class="Search-Emp-item mt-3" *ngFor="let emp of empList"> 
+                <div id="profileImage">{{emp.Initial}}</div>&nbsp;&nbsp;&nbsp;
+                <!-- <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search-Emp image"> -->
+                <div class="Search-Emp-item-body"> <span class="float-right"><div >
+                    <input type="checkbox" [(ngModel)]="emp.isSelected" (click)="changeState()">
+                </div></span>
+                    <h6 class="msg-date">{{emp.FirstName+  ' ' + emp.LastName}}</h6> </div>
+            </div>
+        </div>
+        <button type="button" class="btn theme-primary-button-color w-100 btn-lg rounded-0 m-t-3" (click)="addEmployees()">Add</button>
+    </div>
+    <!-- end card-body -->
+</div>
