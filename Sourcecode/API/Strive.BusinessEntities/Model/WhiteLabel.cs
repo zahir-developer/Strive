@@ -31,15 +31,6 @@ public class WhiteLabel
 	public string FontFace { get; set; }
 
 	[Column]
-	public string PrimaryColor { get; set; }
-
-	[Column]
-	public string SecondaryColor { get; set; }
-
-	[Column]
-	public string TertiaryColor { get; set; }
-
-	[Column]
 	public bool? IsActive { get; set; }
 
 	[Column]

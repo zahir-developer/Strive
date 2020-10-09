@@ -14,9 +14,5 @@ namespace Strive.BusinessEntities.ViewModel
         public string Title { get; set; }
         public int ThemeId { get; set; }
         public string FontFace { get; set; }
-        public string PrimaryColor { get; set; }
-        public string SecondaryColor { get; set; }
-        public string TertiaryColor { get; set; }
-
     }
 }
