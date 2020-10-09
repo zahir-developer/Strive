@@ -23,6 +23,10 @@ namespace Strive.Common
         string ProductImageFormat { get; set; }
         int ProductThumbHeight { get; set; }
         int ProductThumbWidth { get; set; }
+        string LogoImageFolder { get; set; }
+        string LogoImageFormat { get; set; }
+        int LogoThumbHeight { get; set; }
+        int LogoThumbWidth { get; set; }
         string TenatId { get; set; }
 
         IDbConnection db();
@@ -59,6 +63,10 @@ namespace Strive.Common
         public string ProductImageFormat { get; set; }
         public int ProductThumbHeight { get; set; }
         public int ProductThumbWidth { get; set; }
+        public string LogoImageFolder { get; set; }
+        public string LogoImageFormat { get; set; }
+        public int LogoThumbHeight { get; set; }
+        public int LogoThumbWidth { get; set; }
         public string TenatId { get; set; }
 
         public TenantHelper(IDistributedCache cache)

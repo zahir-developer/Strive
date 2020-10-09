@@ -12,8 +12,16 @@ public class WhiteLabel
 
 	[Column]
 	public string LogoPath { get; set; }
+    [Ignore]
+    public string FileName { get; set; }
 
-	[Column]
+    [Ignore]
+    public string ThumbFileName { get; set; }
+
+    [Ignore]
+    public string Base64 { get; set; }
+
+        [Column]
 	public string Title { get; set; }
 
 	[Column]
