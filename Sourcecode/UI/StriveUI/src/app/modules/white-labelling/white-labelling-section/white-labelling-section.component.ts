@@ -43,7 +43,12 @@ export class WhiteLabellingSectionComponent implements OnInit {
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
     document.documentElement.style.setProperty(`--tertiary-color`, '#10B7A5');
   }
-
+  nightThemeChange( ) {
+    document.documentElement.style.setProperty(`--primary-color`, '#632b6c');
+    document.documentElement.style.setProperty(`--navigation-color`, '#280f36');
+    document.documentElement.style.setProperty(`--secondary-color`, '#c86b98');
+    document.documentElement.style.setProperty(`--tertiary-color`, '#f09f9c');
+  }
   customTheme() {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
