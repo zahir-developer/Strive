@@ -45,6 +45,7 @@
             android:layout_weight="1"
             android:textColor="@color/profileQColor"
             android:textSize="@dimen/textFourteen"
+            android:fontFamily="@font/opensans_bold"
             android:gravity="center"/>
     </LinearLayout>
     <View
