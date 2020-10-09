@@ -14,6 +14,10 @@
 --vivid-cyan: #00BBE1;
 --light-yellow: #FFB822;	
 --laux-neon-pink: #FD397A;
+--primary-color: #1DC5B3;
+--navigation-color: #24489A;
+--secondary-color: #F2FCFE;
+--tertiary-color: #10B7A5;
 }
 
 /*==================
@@ -30,7 +34,7 @@ Color
 .theme-body-color,
 .theme-wrapper-color
 {
-	background-color: #F2FCFE;
+	background-color: var(--secondary-color);
 }
 
 
@@ -46,7 +50,8 @@ Color
 .theme-secondary-icon-color,
 .setup-list ul li a.active::before
 {
-	color: #1DC9B7 !important;
+	/* color: #1DC9B7 !important; */
+	color: var(--primary-color) !important;
 }
 
 
@@ -63,18 +68,18 @@ Color
 
 .theme-primary-background-color
 {
-	background-color: #24489A;
+	background-color: var(--navigation-color) !important;
 }
 
 .theme-primary-dark-background-color
 {
-	background-color: #1b3b84;
+	background-color: var(--navigation-color);
 }
 
 .theme-primary-button-color,
 .theme-secondary-background-color
 {
-	background-color: #1DC5B3;
+	background-color: var(--primary-color);
 }
 
 /*.theme-secondary-background.active a
@@ -126,8 +131,8 @@ Color
 .menu ul li:hover,
 .menu ul li:focus
 {
-	background-color: #10B7A5 !important;
-	border-color: #1DC5B3 !important;
+	background-color: var(--tertiary-color) !important;
+	border-color: var(--primary-color) !important;
 }
 .theme-notification-background-icon-color
 {
