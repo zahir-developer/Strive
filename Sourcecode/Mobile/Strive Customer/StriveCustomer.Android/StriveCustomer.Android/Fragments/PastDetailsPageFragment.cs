@@ -50,7 +50,21 @@ namespace StriveCustomer.Android.Fragments
             var splits = pastClient.DetailVisitDate.Split('T');
             rootview.FindViewById<TextView>(Resource.Id.carVisitDate).Text = splits[0];
             rootview.FindViewById<TextView>(Resource.Id.packageName).Text = pastClient.ServiceName;
-            rootview.FindViewById<TextView>(Resource.Id.additionalService).Text = "Yes";
+            foreach (var data in PastDetailsCompleteDetails.pastClientServices.PastClientDetails)
+            {
+               if(pastClient.DetailVisitDate == data.DetailVisitDate && pastClient.VehicleId == data.VehicleId)
+                {
+                    if(string.Equals(data.DetailOrAdditionalService, "Additional Services"))
+                    {
+                        rootview.FindViewById<TextView>(Resource.Id.additionalService).Text = "Yes";
+                    }
+                    else
+                    {
+                        rootview.FindViewById<TextView>(Resource.Id.additionalService).Text = "No";
+                    }
+                }
+            }
+                
             rootview.FindViewById<TextView>(Resource.Id.washPrice).Text = TotalCost.ToString();
 
             return rootview;

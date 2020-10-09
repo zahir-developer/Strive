@@ -63,7 +63,8 @@ namespace StriveCustomer.Android.Fragments
             totalCost = 0;
             int previousID = 0;
             var result = await this.ViewModel.GetPastDetailsServices();
-            if(result != null)
+            PastDetailsCompleteDetails.pastClientServices = result;
+            if (result != null)
             {
                 var count = 0;
                 previousID = result.PastClientDetails[0].VehicleId;
@@ -108,5 +109,9 @@ namespace StriveCustomer.Android.Fragments
                 detailsRecyclerView.SetAdapter(pastDetailsAdapter);
             }
         }
+    }
+    public class PastDetailsCompleteDetails
+    {
+        public static PastClientServices pastClientServices { get; set; }
     }
 }
