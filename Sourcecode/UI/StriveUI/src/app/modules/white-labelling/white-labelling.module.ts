@@ -6,6 +6,7 @@ import { WhiteLabellingComponent } from './white-labelling.component';
 import { WhiteLabellingSectionComponent } from './white-labelling-section/white-labelling-section.component';
 import { CustomThemeComponent } from './custom-theme/custom-theme.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { DialogModule } from 'primeng';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
     CommonModule,
     WhiteLabellingRoutingModule,
     SharedModule,
-    ColorPickerModule
+    ColorPickerModule,
+    DialogModule
   ]
 })
 export class WhiteLabellingModule { }

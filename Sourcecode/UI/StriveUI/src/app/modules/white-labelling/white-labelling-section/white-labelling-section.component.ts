@@ -17,11 +17,13 @@ export class WhiteLabellingSectionComponent implements OnInit {
   loaded = false;
   imageLoaded = false;
   imageSrc = '';
+  showDialog: boolean;
   constructor(
     private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
+    this.showDialog = false;
     this.sunshineTheme = {
       primarycolor: '#FEB83F',
       navigationcolor: '#FC6A0C',
@@ -45,12 +47,11 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   customTheme() {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg'
-    };
-    const modalRef = this.modalService.open(CustomThemeComponent, ngbModalOptions);
+    this.showDialog = true;
+  }
+
+  closeColorPopup() {
+    this.showDialog = false;
   }
 
   fontChange(style) {
