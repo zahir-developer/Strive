@@ -1,0 +1,28 @@
+﻿using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
+
+namespace Admin.API
+{
+    public class ChatMessageHub : Hub
+    {
+        public override Task OnConnectedAsync()
+        {
+            Clients.Client(Context.ConnectionId).SendAsync("ReceiveCommunicationID", Context.ConnectionId);
+
+            return base.OnConnectedAsync();
+        }
+
+        public async Task SendPrivateMessage(string connectionId, string employeeId, string userName, string message)
+        {
+            string[] obj = new string[] { connectionId, employeeId, userName, message };
+            await Clients.Client(connectionId).SendAsync("ReceivePrivateMessage", obj);
+        }
+        public async Task SendMessageToGroup(string groupName, string employeeId, string userName, string message)
+        {
+            string[] obj = new string[] { groupName, employeeId, userName, message };
+            await Clients.Group(groupName).SendAsync("GroupMessageReceive", obj);
+        }
+
+
+    }
+}

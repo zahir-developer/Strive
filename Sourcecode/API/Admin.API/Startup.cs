@@ -39,6 +39,7 @@ using Strive.BusinessLogic.Washes;
 using Strive.BusinessLogic.Details;
 using Strive.BusinessLogic.Sales;
 using Strive.BusinessLogic.Admin.ExternalApi;
+using Strive.BusinessLogic.Messenger;
 
 namespace Admin.API
 {
@@ -79,6 +80,7 @@ namespace Admin.API
             services.AddTransient<IScheduleBpl, ScheduleBpl>();
             services.AddTransient<ISalesBpl, SalesBpl>();
             services.AddTransient<IExternalApiBpl, ExternalApiBpl>();
+            services.AddTransient<IMessengerBpl, MessengerBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -162,7 +164,7 @@ namespace Admin.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwagger();
 
-
+            services.AddSignalR();
         }
 
         public static SecureHeadersMiddlewareConfiguration CustomConfiguration()
@@ -204,6 +206,11 @@ namespace Admin.API
                     context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Secure = false });
                 }
                 return next(context);
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatMessageHub>("/chatMessageHub");
             });
         }
     }

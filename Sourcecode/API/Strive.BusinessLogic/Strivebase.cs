@@ -94,7 +94,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-        protected Result ResultWrap<T>(Func<DateTime?, DateTime?,T> RALMethod, DateTime? startDate, DateTime? endDate, string ResultName)
+        protected Result ResultWrap<T>(Func<DateTime?, DateTime?, T> RALMethod, DateTime? startDate, DateTime? endDate, string ResultName)
         {
             try
             {
@@ -281,8 +281,11 @@ namespace Strive.BusinessLogic
                     else if (subModelType.IsClass)
                     {
                         prInfo = subModelType.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
-                        action = (prInfo.GetValue(model, null).toInt() > 0) ? "UPD" : action;
-                        SetAuditDetails(action, ref model, subModelType);
+                        if (prInfo != null)
+                        {
+                            action = (prInfo.GetValue(model, null).toInt() > 0) ? "UPD" : action;
+                            SetAuditDetails(action, ref model, subModelType);
+                        }
                     }
                     else
                     {
@@ -311,17 +314,17 @@ namespace Strive.BusinessLogic
             {
                 if (action == "ADD")
                 {
-                    subModelType.GetProperty("CreatedBy").SetValue(model, _tenant.EmployeeId.toInt());
-                    subModelType.GetProperty("CreatedDate").SetValue(model, DateTimeOffset.UtcNow);
-                    subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
-                    subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
-                    subModelType.GetProperty("IsActive").SetValue(model, true);
-                    subModelType.GetProperty("IsDeleted").SetValue(model, false);
+                    subModelType.GetProperty("CreatedBy")?.SetValue(model, _tenant.EmployeeId.toInt());
+                    subModelType.GetProperty("CreatedDate")?.SetValue(model, DateTimeOffset.UtcNow);
+                    subModelType.GetProperty("UpdatedBy")?.SetValue(model, _tenant.EmployeeId.toInt());
+                    subModelType.GetProperty("UpdatedDate")?.SetValue(model, DateTimeOffset.UtcNow);
+                    subModelType.GetProperty("IsActive")?.SetValue(model, true);
+                    subModelType.GetProperty("IsDeleted")?.SetValue(model, false);
                 }
                 if (action == "UPD")
                 {
-                    subModelType.GetProperty("UpdatedBy").SetValue(model, _tenant.EmployeeId.toInt());
-                    subModelType.GetProperty("UpdatedDate").SetValue(model, DateTimeOffset.UtcNow);
+                    subModelType.GetProperty("UpdatedBy")?.SetValue(model, _tenant.EmployeeId.toInt());
+                    subModelType.GetProperty("UpdatedDate")?.SetValue(model, DateTimeOffset.UtcNow);
                 }
             }
         }
@@ -339,17 +342,17 @@ namespace Strive.BusinessLogic
                 {
                     if (action == "ADD")
                     {
-                        smt.GetProperty("CreatedBy").SetValue(m, _tenant.EmployeeId.toInt());
-                        smt.GetProperty("CreatedDate").SetValue(m, DateTimeOffset.UtcNow);
-                        smt.GetProperty("UpdatedBy").SetValue(m, _tenant.EmployeeId.toInt());
-                        smt.GetProperty("UpdatedDate").SetValue(m, DateTimeOffset.UtcNow);
-                        smt.GetProperty("IsActive").SetValue(m, true);
-                        smt.GetProperty("IsDeleted").SetValue(m, false);
+                        smt.GetProperty("CreatedBy")?.SetValue(m, _tenant.EmployeeId.toInt());
+                        smt.GetProperty("CreatedDate")?.SetValue(m, DateTimeOffset.UtcNow);
+                        smt.GetProperty("UpdatedBy")?.SetValue(m, _tenant.EmployeeId.toInt());
+                        smt.GetProperty("UpdatedDate")?.SetValue(m, DateTimeOffset.UtcNow);
+                        smt.GetProperty("IsActive")?.SetValue(m, true);
+                        smt.GetProperty("IsDeleted")?.SetValue(m, false);
                     }
                     if (action == "UPD")
                     {
-                        smt.GetProperty("UpdatedBy").SetValue(m, _tenant.EmployeeId.toInt());
-                        smt.GetProperty("UpdatedDate").SetValue(m, DateTimeOffset.UtcNow);
+                        smt.GetProperty("UpdatedBy")?.SetValue(m, _tenant.EmployeeId.toInt());
+                        smt.GetProperty("UpdatedDate")?.SetValue(m, DateTimeOffset.UtcNow);
                     }
                 }
             }

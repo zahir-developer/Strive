@@ -355,10 +355,10 @@ namespace Strive.RepositoryCqrs
             {
 
                 Type type = typeof(T);
-                int primeId = 0;
+                long primeId = 0;
                 bool primInsert = false;
                 bool isGeneric = false;
-                int insertId = 0;
+                long insertId = 0;
                 using (var transaction = dbcon.BeginTransaction())
                 {
                     try
@@ -367,7 +367,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null) continue;
+                            if (model is null || model.ToString() == "string" ) continue;
 
                             Type subModelType = model.GetType();
 
@@ -402,12 +402,12 @@ namespace Strive.RepositoryCqrs
                             {
                                 var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
                                 if (dynamicListObject.Count > 0)
-                                    insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+                                    insertId = (long)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
                                 isGeneric = false;
                             }
                             else
                             {
-                                insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                insertId = Convert.ToInt64(dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction));
                             }
 
                             primeId = (!primInsert) ? insertId : primeId;
