@@ -30,15 +30,16 @@
             android:layout_marginBottom="@dimen/fifteen"
             android:background="@drawable/mapwashinfo">
             <ImageView
+                android:id="@+id/markerWindowIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Icon_time"
                 android:layout_gravity="left|center_vertical"/>
              <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/openTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Opens at"
@@ -46,6 +47,7 @@
                     android:gravity="center"
                     android:fontFamily="@font/opensans_regular"/>
                 <TextView
+                    android:id="@+id/washTiming"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="10 AM"

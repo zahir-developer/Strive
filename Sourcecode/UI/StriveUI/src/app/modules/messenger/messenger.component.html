@@ -1,0 +1,89 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item">admin</li>
+                    <li class="breadcrumb-item active" aria-current="page">Messenger</li>
+                </ol>
+            </nav>
+            <!--bread crumb-->
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Messenger</h3> </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="tab-content">
+                    <div class="row no-gutter">
+                        <div class="col-xl-3 m-b-6">
+                            <div class="card">
+                                <div class="card-body p-b-0">
+                                    <div class="p-b-5 m-b-5">
+                                        <h4 class="d-inline-block">Recent</h4> </div>
+                                    <div class="m-b-10 row no-gutters">
+                                        <div class="col-lg-12 border-bottom">
+                                            <div class="pull-right"> <i class="mdi mdi-account-plus  theme-secondary-icon-color font-size-2 pointer"></i></div>
+                                        </div>
+                                    </div>
+                                   <app-messenger-employee-list></app-messenger-employee-list>
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                            <!-- end card-->
+                        </div>
+                        <div class="col-xl-9 m-b-6 internal-employee">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="title-border p-b-8 m-b-12">
+                                        <h4 class="d-inline-block align-middle  font-size-1-7"><span class="circle-icon m-r-10"><i class="group-icon-color font-size-1-7  mdi mdi-account-supervisor align-middle"></i></span>Jeanne Weimann Burley Wintheiser </h4>
+                                        <div class="pull-right card-widgets"> <a (click)="openemp();"><i class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer"></i></a> </div>
+                                    </div>
+                                    <ul class="conversation-list">
+                                        <li class="clearfix">
+                                            <div class="chat-avatar"> <img src="assets/img/avatar-2.jpg" class="mr-3 rounded-circle" alt="Jeanne Weimann" width="70"> </div>
+                                            <div class="conversation-text">
+                                                <div class="ctext-wrap">
+                                                    <p> Yes </p>
+                                                </div> <span class="font-13 d-block m-t-10">11.01 AM | June 9</span> </div>
+                                        </li>
+                                        <li class="clearfix odd">
+                                            <div class="conversation-text">
+                                                <div class="ctext-wrap">
+                                                    <p> Please attend the customer in cashier sectoin </p>
+                                                </div> <span class="font-13 d-block m-t-10">11.01 AM | June 9</span> </div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="chat-avatar"> <img src="assets/img/avatar-2.jpg" class="mr-3 rounded-circle" alt="Jeanne Weimann" width="70"> </div>
+                                            <div class="conversation-text">
+                                                <div class="ctext-wrap">
+                                                    <p> Sure </p>
+                                                </div> <span class="font-13 d-block m-t-10">11.03 AM | June 9</span> </div>
+                                        </li>
+                                        <li class="clearfix odd">
+                                            <div class="conversation-text">
+                                                <div class="ctext-wrap">
+                                                    <p> Is the Customer is billed </p>
+                                                </div> <span class="font-13 d-block m-t-10">11.05 AM | June 9</span> </div>
+                                        </li>
+                                        <div class="border-top m-t-16">
+                                            <div class="row m-t-10">
+                                                <div class="col mb-2 mb-sm-0">
+                                                    <input type="text" class="form-control border-0" placeholder="Type the message here" required=""> </div>
+                                                <div class="col-sm-auto"> <i class="mdi mdi-send  theme-primary-color font-size-1-4"></i> </div>
+                                                <!-- end col -->
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3" id="show-search-emp">
+                            <app-messenger-employee-search> </app-messenger-employee-search>
+                            <!-- end card-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -24,6 +25,8 @@ namespace StriveCustomer.Android.Fragments
     {
         List<string> infoListData;
         Context context;
+        private Button backButton;
+        private DealsFragment dealsFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -37,6 +40,7 @@ namespace StriveCustomer.Android.Fragments
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.DealsInfoFragment, null);
+            backButton = rootview.FindViewById<Button>(Resource.Id.dealsBack);
             infoListData = new List<string>();
             for (int i = 1; i <= 3; i++)
             {
@@ -47,8 +51,16 @@ namespace StriveCustomer.Android.Fragments
             var layoutManager = new LinearLayoutManager(context);
             dealsInfoRecyclerView.SetLayoutManager(layoutManager);
             DealsInfoAdapter dealsInfoAdapter = new DealsInfoAdapter(infoListData,context);
+            dealsFragment = new DealsFragment();
             dealsInfoRecyclerView.SetAdapter(dealsInfoAdapter);
+            backButton.Click += BackButton_Click;
             return rootview;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, dealsFragment).Commit();
         }
     }
 }
