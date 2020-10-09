@@ -244,51 +244,23 @@
                                                             <div class="card-width theme-cyan"> </div>
                                                             <div class="card-width theme-light-blue"> </div>
                                                             <div class="card-width theme-shaded-green"> </div>
-                                                            <div class="card-width theme-shaded-green"> </div>
-                                                            <div class="card-width theme-shaded-green"> </div>
                                                         </div>
-                                                        <!-- <div class="card-body p-0 p-b-70">
-                                                            <div class="text-center p-60 font-size-1 font-weight-600">
-                                                                Default</div>
-                                                        </div> -->
                                                     </div>
                                                     <!-- end card -->
-                                                    <!-- class="card font-card p-t-10" -->
                                                 </div>
                                                 <!--sunshine-->
-                                                <div class="col-md-2" (click)="themeChange()">
-                                                    <div>
+                                                <div class="col-md-2" *ngFor="let theme of colorTheme" >
+                                                    <div style="cursor: pointer;" (click)="themeChange(theme)">
                                                         <div>
                                                             <div class="text-center font-size-1 font-weight-600">
-                                                                SunShine</div>
+                                                                {{theme.ThemeName}}</div>
                                                         </div>
                                                         <div class="flex-container pointer">
-                                                            <div class="card-width theme-light-ello"> </div>
-                                                            <div class="card-width theme-ello"> </div>
-                                                            <div class="card-width theme-dark-ello"> </div>
-                                                            <div class="card-width theme-orange"> </div>
-                                                            <div class="card-width theme-dark-orange"> </div>
-                                                            <div class="card-width theme-dark-orange"> </div>
-                                                            <div class="card-width theme-dark-orange"> </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- end card -->
-                                                </div>
-                                                <!--nightsky-->
-                                                <div class="col-md-2">
-                                                    <div>
-                                                        <div>
-                                                            <div class="text-center font-size-1 font-weight-600">
-                                                                NightSky</div>
-                                                        </div>
-                                                        <div class="flex-container pointer">
-                                                            <div class="card-width theme-solid"> </div>
-                                                            <div class="card-width theme-dark-purple"> </div>
-                                                            <div class="card-width theme-purple"> </div>
-                                                            <div class="card-width theme-light-purple"> </div>
-                                                            <div class="card-width theme-solid-pink"> </div>
-                                                            <div class="card-width theme-solid-pink"> </div>
-                                                            <div class="card-width theme-solid-pink"> </div>
+                                                            <div class="card-width" [style.background-color]="theme.BodyColor"> </div>
+                                                            <div class="card-width" [style.background-color]="theme.TertiaryColor"> </div>
+                                                            <div class="card-width" [style.background-color]="theme.SecondaryColor"> </div>
+                                                            <div class="card-width" [style.background-color]="theme.PrimaryColor"> </div>
+                                                            <div class="card-width" [style.background-color]="theme.NavigationColor"> </div>
                                                         </div>
                                                     </div>
                                                     <!-- end card -->

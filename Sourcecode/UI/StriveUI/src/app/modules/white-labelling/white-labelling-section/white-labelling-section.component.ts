@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CustomThemeComponent } from '../custom-theme/custom-theme.component';
+import { WhiteLabelService } from 'src/app/shared/services/data-service/white-label.service';
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -18,8 +19,10 @@ export class WhiteLabellingSectionComponent implements OnInit {
   imageLoaded = false;
   imageSrc = '';
   showDialog: boolean;
+  colorTheme: any = [];
   constructor(
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private whiteLabelService: WhiteLabelService
   ) { }
 
   ngOnInit(): void {
@@ -30,13 +33,15 @@ export class WhiteLabellingSectionComponent implements OnInit {
       secondarycolor: '#FFF997',
       tertiarycolor: '#FD8B20'
     };
+    this.getAllWhiteLabelDetail();
   }
 
-  themeChange() {
-    document.documentElement.style.setProperty(`--primary-color`, '#FEB83F');
-    document.documentElement.style.setProperty(`--navigation-color`, '#FC6A0C');
-    document.documentElement.style.setProperty(`--secondary-color`, '#FFF997');
-    document.documentElement.style.setProperty(`--tertiary-color`, '#FD8B20');
+  themeChange(theme) {
+    document.documentElement.style.setProperty(`--primary-color`, theme.PrimaryColor);
+    document.documentElement.style.setProperty(`--navigation-color`, theme.NavigationColor);
+    document.documentElement.style.setProperty(`--secondary-color`, theme.SecondaryColor);
+    document.documentElement.style.setProperty(`--tertiary-color`, theme.TertiaryColor);
+    document.documentElement.style.setProperty(`--body-color`, theme.BodyColor);
   }
 
   defaultTheme() {
@@ -44,6 +49,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
     document.documentElement.style.setProperty(`--tertiary-color`, '#10B7A5');
+    document.documentElement.style.setProperty(`--body-color`, '#F2FCFE');
   }
 
   customTheme() {
@@ -57,6 +63,17 @@ export class WhiteLabellingSectionComponent implements OnInit {
   fontChange(style) {
     document.documentElement.style.setProperty(`--text-font`, style);
   }
+
+  getAllWhiteLabelDetail() {
+    this.whiteLabelService.getAllWhiteLabelDetail().subscribe( res => {
+      if (res.status === 'Success') {
+        const label = JSON.parse(res.resultData);
+        console.log(label, 'white');
+        this.colorTheme = label.WhiteLabelling.Theme;
+      }
+    });
+  }
+
   handleInputChange(e) {
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     const pattern = /image-*/;

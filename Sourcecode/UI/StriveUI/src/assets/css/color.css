@@ -18,6 +18,7 @@
 --navigation-color: #24489A;
 --secondary-color: #F2FCFE;
 --tertiary-color: #10B7A5;
+--body-color: #F2FCFE;
 }
 
 /*==================
@@ -147,7 +148,7 @@ Color
 
 body
 {
-	background-color: #F2FCFE;
+	background-color: var(--body-color);
 }
 
 label
