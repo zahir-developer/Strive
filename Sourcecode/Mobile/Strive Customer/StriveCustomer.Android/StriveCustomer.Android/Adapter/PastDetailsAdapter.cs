@@ -67,7 +67,7 @@ namespace StriveCustomer.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            CustomerInfo.SelectedVehiclePastDetails = position;
+            CustomerInfo.SelectedVehiclePastDetails = pastDetailsData.PastClientDetails[position].VehicleId;
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             PastDetailsInfoFragment pastDetailsInfoFragment = new PastDetailsInfoFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, pastDetailsInfoFragment).Commit();
