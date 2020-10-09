@@ -1,0 +1,16 @@
+<p>custom-theme works!</p>
+<div>Custom Theme</div>
+<div>
+    <div>
+        Color
+    </div>
+    <div>
+        <span>BodyBackground</span>
+        <input #ignoredInput
+       [style.background]="color"
+       [cpIgnoredElements]="[ignoredButton, ignoredInput]"
+       [(cpToggle)]="toggle"
+       [(colorPicker)]="color"/>
+       <button #ignoredButton (click)="toggle=!toggle"></button>
+    </div>
+</div>

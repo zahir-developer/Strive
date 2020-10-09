@@ -235,7 +235,7 @@
                                             <div class="row  mt-3 mb-3 no-gutter">
                                                 <div class="col-md-2" (click)="defaultTheme()">
                                                     <div>
-                                                        <div class="text-center p-60 font-size-1 font-weight-600">
+                                                        <div class="text-center font-size-1 font-weight-600">
                                                             Default</div>
                                                         <div class="flex-container pointer">
                                                             <div class="card-width theme-primary-background-color">
@@ -257,7 +257,11 @@
                                                 </div>
                                                 <!--sunshine-->
                                                 <div class="col-md-2" (click)="themeChange()">
-                                                    <div class="card font-card p-t-10">
+                                                    <div>
+                                                        <div>
+                                                            <div class="text-center font-size-1 font-weight-600">
+                                                                SunShine</div>
+                                                        </div>
                                                         <div class="flex-container pointer">
                                                             <div class="card-width theme-light-ello"> </div>
                                                             <div class="card-width theme-ello"> </div>
@@ -267,16 +271,16 @@
                                                             <div class="card-width theme-dark-orange"> </div>
                                                             <div class="card-width theme-dark-orange"> </div>
                                                         </div>
-                                                        <div class="card-body p-0 p-b-70">
-                                                            <div class="text-center p-60 font-size-1 font-weight-600">
-                                                                SunShine</div>
-                                                        </div>
                                                     </div>
                                                     <!-- end card -->
                                                 </div>
                                                 <!--nightsky-->
                                                 <div class="col-md-2">
-                                                    <div class="card font-card p-t-10">
+                                                    <div>
+                                                        <div>
+                                                            <div class="text-center font-size-1 font-weight-600">
+                                                                NightSky</div>
+                                                        </div>
                                                         <div class="flex-container pointer">
                                                             <div class="card-width theme-solid"> </div>
                                                             <div class="card-width theme-dark-purple"> </div>
@@ -286,12 +290,16 @@
                                                             <div class="card-width theme-solid-pink"> </div>
                                                             <div class="card-width theme-solid-pink"> </div>
                                                         </div>
-                                                        <div class="card-body p-0 p-b-70">
-                                                            <div class="text-center p-60 font-size-1 font-weight-600">
-                                                                NightSky</div>
-                                                        </div>
                                                     </div>
                                                     <!-- end card -->
+                                                </div>
+                                                <!--custom-->
+                                                <div class="col-md-2">
+                                                    <div>
+                                                        <div class="text-center font-size-1 font-weight-600">
+                                                            Custom</div>
+                                                            <button type="button" class="btn theme-primary-button-color" (click)="customTheme()">+</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { CustomThemeComponent } from '../custom-theme/custom-theme.component';
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -15,7 +17,9 @@ export class WhiteLabellingSectionComponent implements OnInit {
   loaded = false;
   imageLoaded = false;
   imageSrc = '';
-  constructor() { }
+  constructor(
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit(): void {
     this.sunshineTheme = {
@@ -38,6 +42,15 @@ export class WhiteLabellingSectionComponent implements OnInit {
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
     document.documentElement.style.setProperty(`--tertiary-color`, '#10B7A5');
+  }
+
+  customTheme() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(CustomThemeComponent, ngbModalOptions);
   }
 
   fontChange(style) {
