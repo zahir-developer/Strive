@@ -297,7 +297,7 @@ namespace StriveCustomer.Android.Fragments
         private async void RefreshWashTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             carWashLocationsCount = 0;
-            //carWashLocations = await ViewModel.GetAllLocationsCommand();
+            carWashLocations = await ViewModel.GetAllLocationsCommand();
         }
         public View GetInfoContents(Marker marker)
         {
