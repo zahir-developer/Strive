@@ -192,6 +192,11 @@ namespace Strive.Core.Services.Implementations
             var url = RestUtils.BuildQuery(ApiUtils.URL_GET_VEHICLE_COMPLETE_DETAILS, "id", VehicleID);
             return await _restClient.MakeApiCall<CustomerCompleteDetails>(url, HttpMethod.Get);
         }
+
+        public async Task<PastClientServices> GetPastClientServices(int ClientID)
+        {
+            return await _restClient.MakeApiCall<PastClientServices>(string.Format(ApiUtils.URL_PAST_SERVICES_INFO, ClientID), HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

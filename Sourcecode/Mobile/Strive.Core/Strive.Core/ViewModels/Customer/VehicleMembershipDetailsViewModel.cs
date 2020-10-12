@@ -35,7 +35,7 @@ namespace Strive.Core.ViewModels.Customer
         public async Task CancelMembership()
         {
             _userDialog.ShowLoading();
-            var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel the membership?");
+            var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel the existing membership?");
             if(confirm)
             {
                 CustomerVehiclesInformation.membershipDetails = new ClientVehicleRoot();
@@ -63,7 +63,6 @@ namespace Strive.Core.ViewModels.Customer
             }
             _userDialog.HideLoading();
         }
-
 
         public void GetClientMembershipData()
         {

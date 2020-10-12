@@ -63,9 +63,18 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.HideLoading();
         }
 
-        public void MembershipExists()
+        public async Task<bool> MembershipExists()
         {
-            _userDialog.Alert("A Membership already exists !");
+            var confirm = await _userDialog.ConfirmAsync("Do you want to edit your membership ?");
+            var confirmed = false;
+            if(confirm)
+            {
+                return confirmed = true;
+            }
+            else
+            {
+                return confirmed = false;
+            }
         }
 
 
