@@ -24,7 +24,7 @@ namespace Admin.API.Controllers
         public Result AddWhiteLabelling([FromBody] WhiteLabelModel whiteLabel) => _bplManager.AddWhiteLabelling(whiteLabel);
 
         [HttpPost]
-        [Route("Save")]
+        [Route("Update")]
         public Result UpdateWhiteLabelling([FromBody] WhiteLabelModel whiteLabel) => _bplManager.UpdateWhiteLabelling(whiteLabel);
 
         [HttpGet]
