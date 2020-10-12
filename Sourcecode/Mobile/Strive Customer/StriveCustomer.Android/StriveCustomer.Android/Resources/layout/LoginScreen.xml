@@ -114,7 +114,7 @@
             android:layout_marginTop="@dimen/twenty"
             android:layout_marginLeft="@dimen/twenty"/>
     </LinearLayout>
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -136,5 +136,5 @@
             android:fontFamily="@font/opensans_bold"
             android:textColor="@color/defaultLinkColor"
             android:gravity="right"/>
-    </LinearLayout>
+    </LinearLayout>-->
 </LinearLayout>

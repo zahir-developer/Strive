@@ -13,6 +13,17 @@ export class WhiteLabelService {
   getAllWhiteLabelDetail() {
     return this.http.get(`${UrlConfig.totalUrl.getAllWhiteLabelDetail}`);
   }
+
+  addWhiteLabelDetail(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.addWhiteLabelDetail}`, obj);
+  }
+
+  updateWhiteLabelDetail(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.updateWhiteLabelDetail}`, obj);
+  }
+  saveCustomColor(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveCustomColor}`, obj);
+  }
   uploadWhiteLabel(uploadObj) {
     return this.http.post(`${UrlConfig.totalUrl.uploadWhiteLabel}`, uploadObj);
   }

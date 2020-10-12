@@ -1,37 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/mobile_portrait_bg">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F2FCFE">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="Account"
-            android:textSize="16sp"
-            android:textColor="@color/profileInfoColor"
-            android:fontFamily="@font/opensans_bold"/>
-    </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="15dp"
-        android:text="Past Service Details"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
-        android:fontFamily="@font/opensans_bold"/>
+    android:layout_height="match_parent">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pastDetailsList"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/secondarylinearlayout"/>

@@ -135,6 +135,9 @@ export const UrlConfig = {
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
     getUncheckedVehicleDetails:`Admin/Checkout/GetUncheckedVehicleDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
+    addWhiteLabelDetail: `Admin/WhiteLabelling/Add`,
+    updateWhiteLabelDetail: `Admin/WhiteLabelling/Update`,
+    saveCustomColor: `Admin/WhiteLabelling/Save`,
     uploadWhiteLabel: `Admin/WhiteLabelling/Update`
   }
 };

@@ -76,6 +76,7 @@
     <Compile Include="Adapter\PastDetailsAdapter.cs" />
     <Compile Include="Adapter\VehicleDetailsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
+    <Compile Include="DemoData\DealsDemoData.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\ContactUsFragment.cs" />
     <Compile Include="Fragments\DealsFragment.cs" />

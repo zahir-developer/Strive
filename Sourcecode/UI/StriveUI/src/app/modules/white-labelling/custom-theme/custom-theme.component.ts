@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { WhiteLabelService } from 'src/app/shared/services/data-service/white-label.service';
 
 @Component({
   selector: 'app-custom-theme',
@@ -19,7 +20,10 @@ export class CustomThemeComponent implements OnInit {
   bodyColor = '#ffffff';
   themeName: any;
   @Output() closeColorPopup = new EventEmitter();
-  constructor() { }
+  @Input() customColor?: any;
+  constructor(
+    private whiteLabelService: WhiteLabelService
+  ) { }
 
   ngOnInit(): void {
     this.bodyToggle = false;
@@ -27,6 +31,11 @@ export class CustomThemeComponent implements OnInit {
     this.primaryToggle = false;
     this.secondaryToggle = false;
     this.tertiaryToggle = false;
+    this.bodyColor = this.customColor.BodyColor;
+    this.navigationColor = this.customColor.NavigationColor;
+    this.primaryColor = this.customColor.PrimaryColor;
+    this.secondaryColor = this.customColor.SecondaryColor;
+    this.tertiaryColor = this.customColor.TertiaryColor;
   }
 
   closePopup() {
@@ -35,6 +44,35 @@ export class CustomThemeComponent implements OnInit {
 
   saveColor() {
     console.log(this.secondaryColor, 'secndaryClor');
+    document.documentElement.style.setProperty(`--primary-color`, this.primaryColor);
+    document.documentElement.style.setProperty(`--navigation-color`, this.navigationColor);
+    document.documentElement.style.setProperty(`--secondary-color`, this.secondaryColor);
+    document.documentElement.style.setProperty(`--tertiary-color`, this.tertiaryColor);
+    document.documentElement.style.setProperty(`--body-color`, this.tertiaryColor);
+    const customColorObj = {
+      themeId: this.customColor.ThemeId,
+      themeName: this.customColor.ThemeName,
+      fontFace: '',
+      primaryColor: this.primaryColor,
+      secondaryColor: this.secondaryColor,
+      tertiaryColor: this.tertiaryColor,
+      navigationColor: this.navigationColor,
+      bodyColor: this.bodyColor,
+      defaultLogoPath: '',
+      defaultTitle: '',
+      comments: '',
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: new Date(),
+      updatedBy: 0,
+      updatedDate: new Date()
+    };
+    this.whiteLabelService.saveCustomColor(customColorObj).subscribe(res => {
+      if (res.status === 'Success') {
+        this.closePopup();
+      }
+    });
   }
 
 }
