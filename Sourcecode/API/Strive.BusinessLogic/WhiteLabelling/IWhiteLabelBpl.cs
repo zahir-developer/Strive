@@ -10,9 +10,9 @@ namespace Strive.BusinessLogic
 {
     public interface IWhiteLabelBpl
     {
-        Result AddWhiteLabelling(WhiteLabel whiteLabel);
-        Result UpdateWhiteLabelling(WhiteLabel whiteLabel);
+        Result AddWhiteLabelling(WhiteLabelModel whiteLabel);
+        Result UpdateWhiteLabelling(WhiteLabelModel whiteLabel);
         Result GetAll();
-        Result SaveTheme(Themes themes);
+        Result SaveTheme(ThemeModel themes);
     }
 }

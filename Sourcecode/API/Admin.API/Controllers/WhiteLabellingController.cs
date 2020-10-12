@@ -21,11 +21,11 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public Result AddWhiteLabelling([FromBody] WhiteLabel whiteLabel) => _bplManager.AddWhiteLabelling(whiteLabel);
+        public Result AddWhiteLabelling([FromBody] WhiteLabelModel whiteLabel) => _bplManager.AddWhiteLabelling(whiteLabel);
 
         [HttpPost]
         [Route("Update")]
-        public Result UpdateWhiteLabelling([FromBody] WhiteLabel whiteLabel) => _bplManager.UpdateWhiteLabelling(whiteLabel);
+        public Result UpdateWhiteLabelling([FromBody] WhiteLabelModel whiteLabel) => _bplManager.UpdateWhiteLabelling(whiteLabel);
 
         [HttpGet]
         [Route("GetAll")]
@@ -33,6 +33,6 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public Result SaveTheme([FromBody] Themes themes) => _bplManager.SaveTheme(themes);
+        public Result SaveTheme([FromBody] ThemeModel themes) => _bplManager.SaveTheme(themes);
     }
 }

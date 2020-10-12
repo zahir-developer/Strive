@@ -13,11 +13,11 @@ namespace Strive.ResourceAccess
     public class WhiteLabelRal : RalBase
     {
         public WhiteLabelRal(ITenantHelper tenant) : base(tenant) { }
-        public bool AddWhiteLabelling(WhiteLabel whiteLabel)
+        public bool AddWhiteLabelling(WhiteLabelModel whiteLabel)
         {
             return dbRepo.Insert(whiteLabel);
         }
-        public bool UpdateWhiteLabelling(WhiteLabel whiteLabel)
+        public bool UpdateWhiteLabelling(WhiteLabelModel whiteLabel)
         {
             return dbRepo.Update(whiteLabel);
         }
@@ -25,9 +25,9 @@ namespace Strive.ResourceAccess
         {
             return db.FetchMultiResult<WhiteLabelDetailViewModel>(EnumSP.WhiteLabelling.USPGETWHITELABEL.ToString(), _prm);
         }
-        public bool SaveTheme(Themes themes)
+        public bool SaveTheme(ThemeModel themes)
         {
-            return dbRepo.Update(themes);
+            return dbRepo.SavePc(themes, "ThemeId");
         }
     }
 }

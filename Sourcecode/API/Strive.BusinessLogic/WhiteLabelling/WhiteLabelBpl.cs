@@ -15,10 +15,10 @@ namespace Strive.BusinessLogic.WhiteLabelling
     public class WhiteLabelBpl : Strivebase, IWhiteLabelBpl
     {
         public WhiteLabelBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
-        public Result AddWhiteLabelling(WhiteLabel whiteLabel)
+        public Result AddWhiteLabelling(WhiteLabelModel whiteLabel)
         {
             string error = string.Empty;
-            (error, whiteLabel.LogoPath, whiteLabel.ThumbFileName) = UploadImage(whiteLabel.Base64, whiteLabel.FileName);
+            (error, whiteLabel.WhiteLabel.LogoPath, whiteLabel.WhiteLabel.ThumbFileName) = UploadImage(whiteLabel.WhiteLabel.Base64, whiteLabel.WhiteLabel.FileName);
 
             if (error == string.Empty)
             {
@@ -29,10 +29,10 @@ namespace Strive.BusinessLogic.WhiteLabelling
                 return Helper.ErrorMessageResult(error);
             }
         }
-        public Result UpdateWhiteLabelling(WhiteLabel whiteLabel)
+        public Result UpdateWhiteLabelling(WhiteLabelModel whiteLabel)
         {
             string error = string.Empty;
-            (error, whiteLabel.LogoPath, whiteLabel.ThumbFileName) = UploadImage(whiteLabel.Base64, whiteLabel.FileName);
+            (error, whiteLabel.WhiteLabel.LogoPath, whiteLabel.WhiteLabel.ThumbFileName) = UploadImage(whiteLabel.WhiteLabel.Base64, whiteLabel.WhiteLabel.FileName);
 
             if (error == string.Empty)
             {
@@ -51,7 +51,7 @@ namespace Strive.BusinessLogic.WhiteLabelling
             return ResultWrap(whiteLabel, "WhiteLabelling");
         }
 
-        public Result SaveTheme(Themes themes)
+        public Result SaveTheme(ThemeModel themes)
         {
             return ResultWrap(new WhiteLabelRal(_tenant).SaveTheme, themes, "Status");
         }
