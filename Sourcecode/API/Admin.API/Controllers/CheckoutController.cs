@@ -17,10 +17,10 @@ namespace Admin.API.Controllers
         public CheckoutController(ICheckoutBpl prdBpl) : base(prdBpl) { }
 
         /// <summary>
-        /// Method to Get Unchecked Vehicle Details.
+        /// Method to Get CheckedIn Vehicle Details.
         /// </summary>
         [HttpGet]
-        [Route("GetUncheckedVehicleDetails")]
-        public Result GetUncheckedVehicleDetails() => _bplManager.GetUncheckedVehicleDetails();
+        [Route("GetCheckedInVehicleDetails")]
+        public Result GetCheckedInVehicleDetails() => _bplManager.GetCheckedInVehicleDetails();
     }
 }

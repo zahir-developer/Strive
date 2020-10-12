@@ -9,6 +9,6 @@ namespace Strive.BusinessLogic.Checkout
 {
     public interface ICheckoutBpl
     {
-        Result GetUncheckedVehicleDetails();
+        Result GetCheckedInVehicleDetails();
     }
 }
