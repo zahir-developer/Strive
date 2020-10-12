@@ -16,7 +16,6 @@ export class WhiteLabellingSectionComponent implements OnInit {
   title = '';
   fileName = '';
   logoPath = '';
-  fontFace = '';
   activeColor = 'green';
   baseColor = '#ccc';
   overlayColor = 'rgba(255,255,255,0.5)';
@@ -31,7 +30,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
   themeId: any;
   customColor: any;
   whiteLabelDetail: any;
-  fontName: string;
+  fontName = '';
   constructor(
     private modalService: NgbModal,
     private whiteLabelService: WhiteLabelService,
@@ -101,7 +100,6 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   fontChange(style) {
-    this.fontFace = style;
     this.fontName = style;
     document.documentElement.style.setProperty(`--text-font`, style);
   }
@@ -109,6 +107,8 @@ export class WhiteLabellingSectionComponent implements OnInit {
   getAllWhiteLabelDetail() {
     this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
       if (res.status === 'Success') {
+        this.title = '';
+        this.imageSrc = '';
         const label = JSON.parse(res.resultData);
         this.colorTheme = label.WhiteLabelling.Theme;
         this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
@@ -124,91 +124,88 @@ export class WhiteLabellingSectionComponent implements OnInit {
           }
         });
         document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
-      }
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.whiteLabelId = label.WhiteLabelling.WhiteLabel?.WhiteLabelId;
-          this.fontFace = label.WhiteLabelling.WhiteLabel?.FontFace;
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
           this.logoPath = label.WhiteLabelling.WhiteLabel?.LogoPath;
-          this.fontChange(label.WhiteLabelling.WhiteLabel?.FontFace);
         }
       }
     });
+}
+
+CancelChanges() {
+  this.toastr.success('Theme Reset Successfully!!', 'Success!');
+  this.getAllWhiteLabelDetail();
+}
+
+handleInputChange(e) {
+  this.fileName = '';
+  const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+  this.fileName = file ? file.name : '';
+  const pattern = /image-*/;
+  const reader = new FileReader();
+  if (!file.type.match(pattern)) {
+    alert('invalid format');
+    return;
   }
 
-  CancelChanges() {
-    this.toastr.success('Theme Reset Successfully!!', 'Success!');
-    this.getAllWhiteLabelDetail();
-  }
+  this.loaded = false;
 
-  handleInputChange(e) {
-    this.fileName = '';
-    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-    this.fileName = file ? file.name : '';
-    const pattern = /image-*/;
-    const reader = new FileReader();
-    if (!file.type.match(pattern)) {
-      alert('invalid format');
-      return;
+  reader.onload = this._handleReaderLoaded.bind(this);
+  reader.readAsDataURL(file);
+}
+_handleReaderLoaded(e) {
+  const reader = e.target;
+  this.imageSrc = reader.result;
+  this.loaded = true;
+}
+handleImageLoad() {
+  this.imageLoaded = true;
+}
+handleDrop(e) {
+  e.preventDefault();
+  this.dragging = false;
+  this.handleInputChange(e);
+}
+handleDragLeave() {
+  this.dragging = false;
+}
+handleDragEnter() {
+  this.dragging = true;
+}
+save() {
+  const base64 = this.imageSrc.indexOf(',');
+  const selectedLogo = this.imageSrc.toString().substring(base64 + 1, this.imageSrc.length);
+
+  const uploadObj = {
+    whiteLabel: {
+      whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
+      logoPath: this.logoPath !== '' ? this.logoPath : null,
+      fileName: this.fileName ? this.fileName : null, // LogoPath if image already uploaded
+      thumbFileName: null,
+      base64: selectedLogo ? selectedLogo : '', // empty string if update
+      title: this.title ? this.title : '',
+      themeId: 1,
+      fontFace: this.fontName !== '' ? this.fontName : null,
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: new Date(),
+      updatedBy: 0,
+      updatedDate: new Date()
     }
-
-    this.loaded = false;
-
-    reader.onload = this._handleReaderLoaded.bind(this);
-    reader.readAsDataURL(file);
-  }
-  _handleReaderLoaded(e) {
-    const reader = e.target;
-    this.imageSrc = reader.result;
-    this.loaded = true;
-  }
-  handleImageLoad() {
-    this.imageLoaded = true;
-  }
-  handleDrop(e) {
-    e.preventDefault();
-    this.dragging = false;
-    this.handleInputChange(e);
-  }
-  handleDragLeave() {
-    this.dragging = false;
-  }
-  handleDragEnter() {
-    this.dragging = true;
-  }
-  save() {
-    const base64 = this.imageSrc.indexOf(',');
-    const selectedLogo = this.imageSrc.toString().substring(base64 + 1, this.imageSrc.length);
-
-    const uploadObj = {
-      whiteLabel: {
-        whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
-        logoPath: this.logoPath !== '' ? this.logoPath : null,
-        fileName: this.fileName ? this.fileName : null, // LogoPath if image already uploaded
-        thumbFileName: null,
-        base64: selectedLogo ? selectedLogo : '', // empty string if update
-        title: this.title ? this.title : '',
-        themeId: 1,
-        fontFace: this.fontFace !== '' ? this.fontFace : null,
-        isActive: true,
-        isDeleted: false,
-        createdBy: 0,
-        createdDate: new Date(),
-        updatedBy: 0,
-        updatedDate: new Date()
-      }
-    };
-    this.ngxService.show();
-    this.whiteLabelService.uploadWhiteLabel(uploadObj).subscribe(data => {
+  };
+  this.ngxService.show();
+  this.whiteLabelService.uploadWhiteLabel(uploadObj).subscribe(data => {
+    this.ngxService.hide();
+    if (data.status === 'Success') {
+      this.toastr.success('Theme Changed Successfully!!', 'Success!');
+      this.getAllWhiteLabelDetail();
+    } else {
       this.ngxService.hide();
-        if (data.status === 'Success') {
-            this.toastr.success('Theme Changed Successfully!!', 'Success!');
-        this.getAllWhiteLabelDetail();
-      } else {
-        this.ngxService.hide();
-      }
-    }, (err) => {
-      this.ngxService.show();
-    });
-  }
+    }
+  }, (err) => {
+    this.ngxService.show();
+  });
+}
 }
