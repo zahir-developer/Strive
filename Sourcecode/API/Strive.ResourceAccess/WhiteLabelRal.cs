@@ -19,7 +19,7 @@ namespace Strive.ResourceAccess
         }
         public bool UpdateWhiteLabelling(WhiteLabelModel whiteLabel)
         {
-            return dbRepo.Update(whiteLabel);
+            return dbRepo.SavePc(whiteLabel, "WhiteLabelId");
         }
         public WhiteLabelDetailViewModel GetAll()
         {
