@@ -1,4 +1,5 @@
-﻿using Strive.Common;
+﻿using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace Strive.BusinessLogic.Checkout
     public interface ICheckoutBpl
     {
         Result GetCheckedInVehicleDetails();
+        Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry);
     }
 }

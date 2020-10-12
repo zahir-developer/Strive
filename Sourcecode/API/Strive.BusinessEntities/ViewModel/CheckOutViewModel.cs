@@ -8,6 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class CheckOutViewModel
     {
+        public int JobId { get; set; }
         public string TicketNumber { get; set; }
         public string CustomerName { get; set; }
         public string VehicleDescription { get; set; }

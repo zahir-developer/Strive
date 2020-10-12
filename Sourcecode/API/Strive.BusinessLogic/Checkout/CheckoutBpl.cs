@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO.CheckoutEntry;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -14,7 +15,11 @@ namespace Strive.BusinessLogic.Checkout
         public CheckoutBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
         public Result GetCheckedInVehicleDetails()
         {
-            return ResultWrap(new CheckoutRal(_tenant).GetCheckedInVehicleDetails, "UncheckedVehicleDetails");
+            return ResultWrap(new CheckoutRal(_tenant).GetCheckedInVehicleDetails, "GetCheckedInVehicleDetails");
+        }
+        public Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry)
+        {
+            return ResultWrap(new CheckoutRal(_tenant).UpdateCheckoutDetails,checkoutEntry, "SaveCheckoutTime");
         }
     }
 }
