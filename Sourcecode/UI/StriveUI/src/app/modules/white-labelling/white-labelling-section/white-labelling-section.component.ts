@@ -20,6 +20,8 @@ export class WhiteLabellingSectionComponent implements OnInit {
   imageSrc = '';
   showDialog: boolean;
   colorTheme: any = [];
+  colorSelection: any;
+  themeId: any;
   constructor(
     private modalService: NgbModal,
     private whiteLabelService: WhiteLabelService
@@ -27,11 +29,12 @@ export class WhiteLabellingSectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.showDialog = false;
-    this.sunshineTheme = {
-      primarycolor: '#FEB83F',
-      navigationcolor: '#FC6A0C',
-      secondarycolor: '#FFF997',
-      tertiarycolor: '#FD8B20'
+    this.colorSelection = {
+      bodyColor: '#F2FCFE',
+      primaryColor: '#1DC5B3',
+      secondaryColor: '#F2FCFE',
+      tertiaryColor: '#10B7A5',
+      navigationColor: '#24489A'
     };
     this.getAllWhiteLabelDetail();
   }
@@ -42,6 +45,14 @@ export class WhiteLabellingSectionComponent implements OnInit {
     document.documentElement.style.setProperty(`--secondary-color`, theme.SecondaryColor);
     document.documentElement.style.setProperty(`--tertiary-color`, theme.TertiaryColor);
     document.documentElement.style.setProperty(`--body-color`, theme.BodyColor);
+    this.themeId = theme.ThemeId;
+    this.colorSelection = {
+      bodyColor: theme.BodyColor,
+      primaryColor: theme.PrimaryColor,
+      secondaryColor: theme.SecondaryColor,
+      tertiaryColor: theme.TertiaryColor,
+      navigationColor: theme.NavigationColor
+    };
   }
 
   defaultTheme() {
@@ -50,6 +61,13 @@ export class WhiteLabellingSectionComponent implements OnInit {
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
     document.documentElement.style.setProperty(`--tertiary-color`, '#10B7A5');
     document.documentElement.style.setProperty(`--body-color`, '#F2FCFE');
+    this.colorSelection = {
+      bodyColor: '#F2FCFE',
+      primaryColor: '#1DC5B3',
+      secondaryColor: '#F2FCFE',
+      tertiaryColor: '#10B7A5',
+      navigationColor: '#24489A'
+    };
   }
 
   customTheme() {
@@ -110,5 +128,26 @@ export class WhiteLabellingSectionComponent implements OnInit {
   save() {
     console.log(this.title, 'title');
     console.log(this.imageSrc, 'base64');
+    const themeObj = {
+      whiteLabelId: 0,
+      logoPath: '',
+      fileName: '',
+      thumbFileName: '',
+      base64: '',
+      title: '',
+      themeId: this.themeId,
+      fontFace: '',
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: new Date(),
+      updatedBy: 0,
+      updatedDate: new Date()
+    };
+    this.whiteLabelService.addWhiteLabelDetail(themeObj).subscribe( res => {
+      if (res.status === 'Success') {
+        
+      }
+    });
   }
 }
