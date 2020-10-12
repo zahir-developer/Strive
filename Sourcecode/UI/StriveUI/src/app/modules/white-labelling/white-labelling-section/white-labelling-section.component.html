@@ -50,7 +50,8 @@
                                                         <div class="col-lg-4">
                                                             <form>
                                                                 <div class="form-group mb-3">
-                                                                    <input type="text" [(ngModel)]="title" [ngModelOptions]="{standalone: true}"
+                                                                    <input type="text" [(ngModel)]="title"
+                                                                        [ngModelOptions]="{standalone: true}"
                                                                         class="form-control branding-form"
                                                                         placeholder="Company Name"> </div>
                                                             </form>
@@ -80,7 +81,8 @@
 
                                                                                 <img [src]="imageSrc"
                                                                                     (load)="handleImageLoad()"
-                                                                                    [class.loaded]="imageLoaded" alt=''/>
+                                                                                    [class.loaded]="imageLoaded"
+                                                                                    alt='' />
 
                                                                                 <input type="file" name="file"
                                                                                     accept="image/*"
@@ -127,7 +129,9 @@
                                                 <div class="col-md-2 mb-3" (click)="fontChange('roboto')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
-                                                            <p class="font-weight-bold font-size-1-7 Roboto-font">Roboto
+                                                            <p class="font-weight-bold font-size-1-7 Roboto-font">
+                                                                Roboto<span *ngIf="fontName === 'roboto'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
                                                             </p>
                                                             <p class="Roboto-font">Lorem ipsum dolor sit amet,
                                                                 consectetur adipiscing elit, sed do eiusmod tempor
@@ -142,7 +146,9 @@
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 poppins-font">
-                                                                Poppins</p>
+                                                                Poppins<span *ngIf="fontName === 'Poppins'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
                                                             <p class="poppins-font">Lorem ipsum dolor sit amet,
                                                                 consectetur adipiscing elit, sed do eiusmod tempor
                                                                 incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -155,7 +161,9 @@
                                                 <div class="col-md-2 mb-3" (click)="fontChange('Open Sans')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
-                                                            <p class="font-weight-bold font-size-1-7">Open Sans</p>
+                                                            <p class="font-weight-bold font-size-1-7">Open Sans<span *ngIf="fontName === 'Open Sans'"><i
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i></span>
+                                                            </p>
                                                             <p class="Roboto-font">Lorem ipsum dolor sit amet,
                                                                 consectetur adipiscing elit, sed do eiusmod tempor
                                                                 incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -169,7 +177,9 @@
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 FiraSans-font">Fira
-                                                                Sans</p>
+                                                                Sans<span *ngIf="fontName === 'Fira Sans'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
                                                             <p class="FiraSans-font">Lorem ipsum dolor sit amet,
                                                                 consectetur adipiscing elit, sed do eiusmod tempor
                                                                 incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -183,7 +193,9 @@
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
                                                             <p class="font-weight-bold font-size-1-7 Raleway-font">
-                                                                Raleway</p>
+                                                                Raleway<span *ngIf="fontName === 'Raleway'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
                                                             <p class="Raleway-font">Lorem ipsum dolor sit amet,
                                                                 consectetur adipiscing elit, sed do eiusmod tempor
                                                                 incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -196,7 +208,9 @@
                                                 <div class="col-md-2 mb-3" (click)="fontChange('Ubuntu')">
                                                     <div class="card font-card">
                                                         <div class="card-body p-t-8">
-                                                            <p class="font-weight-bold font-size-1-7 Ubuntu-font">Ubuntu
+                                                            <p class="font-weight-bold font-size-1-7 Ubuntu-font">
+                                                                Ubuntu<span *ngIf="fontName === 'Ubuntu'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
                                                             </p>
                                                             <p class="Ubuntu-font">Lorem ipsum dolor sit amet,
                                                                 consectetur adipiscing elit, sed do eiusmod tempor
@@ -248,30 +262,38 @@
                                                     </div>
                                                 </div> -->
                                                 <!--sunshine-->
-                                                <div class="col-md-2" *ngFor="let theme of colorTheme" >
+                                                <div class="col-md-2" *ngFor="let theme of colorTheme">
                                                     <div style="cursor: pointer;" (click)="themeChange(theme)">
                                                         <div>
-                                                            <div class="text-center font-size-1 font-weight-600">
-                                                                {{theme.ThemeName}}</div>
+                                                            <div class="text-left font-size-1 font-weight-600">
+                                                                {{theme.ThemeName}}<span *ngIf="theme.ThemeId === themeId"><i
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </div>
                                                         </div>
                                                         <div class="flex-container pointer">
-                                                            <div class="card-width" [style.background-color]="theme.BodyColor"> </div>
-                                                            <div class="card-width" [style.background-color]="theme.TertiaryColor"> </div>
-                                                            <div class="card-width" [style.background-color]="theme.SecondaryColor"> </div>
-                                                            <div class="card-width" [style.background-color]="theme.PrimaryColor"> </div>
-                                                            <div class="card-width" [style.background-color]="theme.NavigationColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.BodyColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.TertiaryColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.SecondaryColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.PrimaryColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.NavigationColor"> </div>
                                                         </div>
                                                     </div>
                                                     <!-- end card -->
                                                 </div>
                                                 <!--custom-->
-                                                <div class="col-md-2">
+                                                <!-- <div class="col-md-2">
                                                     <div>
                                                         <div class="text-center font-size-1 font-weight-600">
                                                             Custom</div>
-                                                            <button type="button" class="btn theme-primary-button-color" (click)="customTheme()">+</button>
+                                                        <button type="button" class="btn theme-primary-button-color"
+                                                            (click)="customTheme()">+</button>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -281,14 +303,15 @@
                     </div>
                 </div>
                 <div class="m-t-12 pull-right mw-100">
-                    <button type="button" class="btn theme-optional-button-color">Cancel</button>
+                    <button type="button" class="btn theme-optional-button-color m-r-5" (click)="CancelChanges()">Cancel</button>
                     <button type="button" class="btn theme-primary-button-color" (click)="save()">Save</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<p-dialog [(visible)]="showDialog" [blockScroll]="true" [showHeader]="false" [resizable]="true" appendTo="body" [modal]="true"
-        [focusOnShow]="false" [closable]="false" [style]="{width: '35vw'}" [baseZIndex]="10000">
-        <app-custom-theme *ngIf="showDialog" (closeColorPopup)="closeColorPopup()"></app-custom-theme>
+<p-dialog [(visible)]="showDialog" [blockScroll]="true" [showHeader]="false" [resizable]="true" appendTo="body"
+    [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '35vw'}" [baseZIndex]="10000">
+    <app-custom-theme *ngIf="showDialog" [customColor]="customColor" (closeColorPopup)="closeColorPopup()">
+    </app-custom-theme>
 </p-dialog>

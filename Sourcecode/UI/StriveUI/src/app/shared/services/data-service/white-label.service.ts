@@ -21,4 +21,7 @@ export class WhiteLabelService {
   updateWhiteLabelDetail(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateWhiteLabelDetail}`, obj);
   }
+  saveCustomColor(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.saveCustomColor}`, obj);
+  }
 }

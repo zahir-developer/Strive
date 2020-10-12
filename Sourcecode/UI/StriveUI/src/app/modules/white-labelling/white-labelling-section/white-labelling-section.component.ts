@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CustomThemeComponent } from '../custom-theme/custom-theme.component';
 import { WhiteLabelService } from 'src/app/shared/services/data-service/white-label.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -22,9 +23,13 @@ export class WhiteLabellingSectionComponent implements OnInit {
   colorTheme: any = [];
   colorSelection: any;
   themeId: any;
+  customColor: any;
+  whiteLabelDetail: any;
+  fontName: string;
   constructor(
     private modalService: NgbModal,
-    private whiteLabelService: WhiteLabelService
+    private whiteLabelService: WhiteLabelService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -36,23 +41,31 @@ export class WhiteLabellingSectionComponent implements OnInit {
       tertiaryColor: '#10B7A5',
       navigationColor: '#24489A'
     };
+    this.fontName = 'Open Sans';
     this.getAllWhiteLabelDetail();
   }
 
   themeChange(theme) {
-    document.documentElement.style.setProperty(`--primary-color`, theme.PrimaryColor);
-    document.documentElement.style.setProperty(`--navigation-color`, theme.NavigationColor);
-    document.documentElement.style.setProperty(`--secondary-color`, theme.SecondaryColor);
-    document.documentElement.style.setProperty(`--tertiary-color`, theme.TertiaryColor);
-    document.documentElement.style.setProperty(`--body-color`, theme.BodyColor);
-    this.themeId = theme.ThemeId;
-    this.colorSelection = {
-      bodyColor: theme.BodyColor,
-      primaryColor: theme.PrimaryColor,
-      secondaryColor: theme.SecondaryColor,
-      tertiaryColor: theme.TertiaryColor,
-      navigationColor: theme.NavigationColor
-    };
+    if (theme.ThemeName === 'Custom') {
+      this.showDialog = true;
+      this.themeId = theme.ThemeId;
+      this.customColor = theme;
+    } else {
+      document.documentElement.style.setProperty(`--primary-color`, theme.PrimaryColor);
+      document.documentElement.style.setProperty(`--navigation-color`, theme.NavigationColor);
+      document.documentElement.style.setProperty(`--secondary-color`, theme.SecondaryColor);
+      document.documentElement.style.setProperty(`--tertiary-color`, theme.TertiaryColor);
+      document.documentElement.style.setProperty(`--body-color`, theme.BodyColor);
+      this.themeId = theme.ThemeId;
+      this.colorSelection = {
+        bodyColor: theme.BodyColor,
+        primaryColor: theme.PrimaryColor,
+        secondaryColor: theme.SecondaryColor,
+        tertiaryColor: theme.TertiaryColor,
+        navigationColor: theme.NavigationColor
+      };
+    }
+
   }
 
   defaultTheme() {
@@ -76,20 +89,40 @@ export class WhiteLabellingSectionComponent implements OnInit {
 
   closeColorPopup() {
     this.showDialog = false;
+    // this.getAllWhiteLabelDetail();
   }
 
   fontChange(style) {
+    this.fontName = style;
     document.documentElement.style.setProperty(`--text-font`, style);
   }
 
   getAllWhiteLabelDetail() {
-    this.whiteLabelService.getAllWhiteLabelDetail().subscribe( res => {
+    this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
       if (res.status === 'Success') {
         const label = JSON.parse(res.resultData);
         console.log(label, 'white');
         this.colorTheme = label.WhiteLabelling.Theme;
+        this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
+        this.fontName = this.whiteLabelDetail.FontFace;
+        this.themeId = this.whiteLabelDetail.ThemeId;
+        this.colorTheme.forEach(item => {
+          if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
+            document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
+            document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
+            document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
+            document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
+            document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
+          }
+        });
+        document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
       }
     });
+  }
+
+  CancelChanges() {
+    this.toastr.success('Theme Reset Successfully!!', 'Success!');
+    this.getAllWhiteLabelDetail();
   }
 
   handleInputChange(e) {
@@ -129,14 +162,14 @@ export class WhiteLabellingSectionComponent implements OnInit {
     console.log(this.title, 'title');
     console.log(this.imageSrc, 'base64');
     const themeObj = {
-      whiteLabelId: 0,
+      whiteLabelId: this.whiteLabelDetail.WhiteLabelId ? this.whiteLabelDetail.WhiteLabelId : 0,
       logoPath: '',
       fileName: '',
       thumbFileName: '',
       base64: '',
       title: '',
       themeId: this.themeId,
-      fontFace: '',
+      fontFace: this.fontName,
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -144,10 +177,20 @@ export class WhiteLabellingSectionComponent implements OnInit {
       updatedBy: 0,
       updatedDate: new Date()
     };
-    this.whiteLabelService.addWhiteLabelDetail(themeObj).subscribe( res => {
-      if (res.status === 'Success') {
-        
-      }
-    });
+    if (this.whiteLabelDetail !== null || this.whiteLabelDetail.WhiteLabelId !== 0) {
+      this.whiteLabelService.updateWhiteLabelDetail(themeObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.toastr.success('Theme Changed Successfully!!', 'Success!');
+          this.getAllWhiteLabelDetail();
+        }
+      });
+    } else {
+      this.whiteLabelService.addWhiteLabelDetail(themeObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.toastr.success('Theme Changed Successfully!!', 'Success!');
+          this.getAllWhiteLabelDetail();
+        }
+      });
+    }
   }
 }

@@ -136,6 +136,7 @@ export const UrlConfig = {
     getUncheckedVehicleDetails:`Admin/Checkout/GetUncheckedVehicleDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
     addWhiteLabelDetail: `Admin/WhiteLabelling/Add`,
-    updateWhiteLabelDetail: `Admin/WhiteLabelling/Update`
+    updateWhiteLabelDetail: `Admin/WhiteLabelling/Update`,
+    saveCustomColor: `Admin/WhiteLabelling/Save`
   }
 };
