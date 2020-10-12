@@ -55,6 +55,11 @@ namespace Strive.BusinessLogic.WhiteLabelling
 
             return ResultWrap(whiteLabel, "WhiteLabelling");
         }
+
+        public Result SaveTheme(Themes themes)
+        {
+            return ResultWrap(new WhiteLabelRal(_tenant).SaveTheme, themes, "Status");
+        }
         public (string, string, string) UploadImage(string base64, string fileName)
         {
             string thumbFileName = string.Empty;

@@ -25,5 +25,9 @@ namespace Strive.ResourceAccess
         {
             return db.FetchMultiResult<WhiteLabelDetailViewModel>(EnumSP.WhiteLabelling.USPGETWHITELABEL.ToString(), _prm);
         }
+        public bool SaveTheme(Themes themes)
+        {
+            return dbRepo.Update(themes);
+        }
     }
 }

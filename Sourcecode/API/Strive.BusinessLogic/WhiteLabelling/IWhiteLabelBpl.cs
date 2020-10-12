@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic
         Result AddWhiteLabelling(WhiteLabel whiteLabel);
         Result UpdateWhiteLabelling(WhiteLabel whiteLabel);
         Result GetAll();
+        Result SaveTheme(Themes themes);
     }
 }

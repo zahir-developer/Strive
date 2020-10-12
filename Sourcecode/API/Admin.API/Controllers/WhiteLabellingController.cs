@@ -30,5 +30,9 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAll")]
         public Result GetAll() => _bplManager.GetAll();
+
+        [HttpPost]
+        [Route("Save")]
+        public Result SaveTheme([FromBody] Themes themes) => _bplManager.SaveTheme(themes);
     }
 }
