@@ -19,7 +19,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string MembershipName { get; set; }
         public string PaymentStatus { get; set; }
         public string ColorCode { get; set; }
-        public string Status { get; set; }
+        public string MembershipNameOrPaymentStatus { get; set; }
 
     }
 }
