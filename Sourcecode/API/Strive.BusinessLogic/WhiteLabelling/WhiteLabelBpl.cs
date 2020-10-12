@@ -46,13 +46,8 @@ namespace Strive.BusinessLogic.WhiteLabelling
         public Result GetAll()
         {
             var whiteLabel = new WhiteLabelRal(_tenant).GetAll();
-
-            foreach (var i in whiteLabel.WhiteLabel)
-            {
-                if (!string.IsNullOrEmpty(i.LogoPath))
-                    i.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.UploadFolder.LOGO, i.LogoPath);
-            }
-
+            if (!string.IsNullOrEmpty(whiteLabel.WhiteLabel.LogoPath))
+                whiteLabel.WhiteLabel.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.UploadFolder.LOGO, whiteLabel.WhiteLabel.LogoPath);
             return ResultWrap(whiteLabel, "WhiteLabelling");
         }
 

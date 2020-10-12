@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class WhiteLabelDetailViewModel
     {
-        public List<WhiteLabelViewModel> WhiteLabel { get; set; }
+        public WhiteLabelViewModel WhiteLabel { get; set; }
         public List<ThemeViewModel> Theme { get; set; }
     }
 }
