@@ -13,4 +13,7 @@ export class WhiteLabelService {
   getAllWhiteLabelDetail() {
     return this.http.get(`${UrlConfig.totalUrl.getAllWhiteLabelDetail}`);
   }
+  uploadWhiteLabel(uploadObj) {
+    return this.http.post(`${UrlConfig.totalUrl.uploadWhiteLabel}`, uploadObj);
+  }
 }

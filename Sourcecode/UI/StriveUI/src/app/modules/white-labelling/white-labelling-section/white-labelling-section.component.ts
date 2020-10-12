@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CustomThemeComponent } from '../custom-theme/custom-theme.component';
 import { WhiteLabelService } from 'src/app/shared/services/data-service/white-label.service';
+import { LogoService } from 'src/app/shared/services/common-service/logo.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -11,6 +13,9 @@ import { WhiteLabelService } from 'src/app/shared/services/data-service/white-la
 export class WhiteLabellingSectionComponent implements OnInit {
   sunshineTheme: any;
   title = '';
+  fileName = '';
+  logoPath = '';
+  fontFace = '';
   activeColor = 'green';
   baseColor = '#ccc';
   overlayColor = 'rgba(255,255,255,0.5)';
@@ -18,11 +23,14 @@ export class WhiteLabellingSectionComponent implements OnInit {
   loaded = false;
   imageLoaded = false;
   imageSrc = '';
+  whiteLabelId: any;
   showDialog: boolean;
   colorTheme: any = [];
   constructor(
     private modalService: NgbModal,
-    private whiteLabelService: WhiteLabelService
+    private whiteLabelService: WhiteLabelService,
+    private logoService: LogoService,
+    private ngxService: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -61,21 +69,30 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   fontChange(style) {
+    this.fontFace = style;
     document.documentElement.style.setProperty(`--text-font`, style);
   }
 
   getAllWhiteLabelDetail() {
-    this.whiteLabelService.getAllWhiteLabelDetail().subscribe( res => {
+    this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
       if (res.status === 'Success') {
         const label = JSON.parse(res.resultData);
-        console.log(label, 'white');
         this.colorTheme = label.WhiteLabelling.Theme;
+        if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
+          this.whiteLabelId = label.WhiteLabelling.WhiteLabel?.WhiteLabelId;
+          this.fontFace = label.WhiteLabelling.WhiteLabel?.FontFace;
+          this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+          this.logoPath = label.WhiteLabelling.WhiteLabel?.LogoPath;
+          this.fontChange(label.WhiteLabelling.WhiteLabel?.FontFace);
+        }
       }
     });
   }
 
   handleInputChange(e) {
+    this.fileName = '';
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    this.fileName = file ? file.name : '';
     const pattern = /image-*/;
     const reader = new FileReader();
     if (!file.type.match(pattern)) {
@@ -108,7 +125,37 @@ export class WhiteLabellingSectionComponent implements OnInit {
     this.dragging = true;
   }
   save() {
-    console.log(this.title, 'title');
-    console.log(this.imageSrc, 'base64');
+    const base64 = this.imageSrc.indexOf(',');
+    const selectedLogo = this.imageSrc.toString().substring(base64 + 1, this.imageSrc.length);
+
+    const uploadObj = {
+      whiteLabel: {
+        whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
+        logoPath: this.logoPath !== '' ? this.logoPath : null,
+        fileName: this.fileName ? this.fileName : null, // LogoPath if image already uploaded
+        thumbFileName: null,
+        base64: selectedLogo ? selectedLogo : '', // empty string if update
+        title: this.title ? this.title : '',
+        themeId: 1,
+        fontFace: this.fontFace !== '' ? this.fontFace : null,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 0,
+        createdDate: new Date(),
+        updatedBy: 0,
+        updatedDate: new Date()
+      }
+    };
+    this.ngxService.show();
+    this.whiteLabelService.uploadWhiteLabel(uploadObj).subscribe(data => {
+      this.ngxService.hide();
+      if (data.status === 'Success') {
+        this.getAllWhiteLabelDetail();
+      } else {
+        this.ngxService.hide();
+      }
+    }, (err) => {
+      this.ngxService.show();
+    });
   }
 }
