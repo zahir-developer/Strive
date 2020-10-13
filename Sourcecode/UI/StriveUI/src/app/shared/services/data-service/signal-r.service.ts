@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class SignalRService {
 
   connId: string;
   empId = localStorage.getItem('empId');
-
+private commId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+public communicationId: Observable<any> = this.commId.asObservable();
   constructor(public messengerService: MessengerService) { }
 
   public data: any;
@@ -31,8 +33,7 @@ export class SignalRService {
   }
   public SubscribeChatEvents = () => {
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
-      console.log(id);
-      this.connId = id
+      this.connId = id;
       this.messengerService.UpdateChatCommunication(id);
 
       this.hubConnection.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
@@ -42,8 +43,6 @@ export class SignalRService {
     });
 
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
-      console.log(data);
-      console.log("ReceivePrivateMessage")
       this.messengerService.ReceivePrivateMessage(data);
     });
 
@@ -59,13 +58,13 @@ export class SignalRService {
     });
 
     this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
-      console.log(data[0]);
-      console.log(data[1]);
-      console.log("ReceiveEmployeeCommunicationId");
-      //Assign communicationId to employee in recent chat. 
+      if (data !== null) {
+        this.setname(data);
+      }
     });
-
-
+  }
+  setname(data) {
+this.commId.next(data);
   }
 
   public SendPrivateMessage = (msg) => {
