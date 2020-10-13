@@ -179,7 +179,8 @@ namespace Strive.BusinessEntities
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
         USPROLLBACKPAYMENT,
-        USPGETALLSERVICEANDPRODUCTLIST
+        USPGETALLSERVICEANDPRODUCTLIST,
+        uspGetPayrollList
     }
 
 
