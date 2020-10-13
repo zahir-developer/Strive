@@ -59,16 +59,16 @@ export class SignalRService {
     });
 
     this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
-      console.log(data);
+      console.log(data[0]);
+      console.log(data[1]);
       console.log("ReceiveEmployeeCommunicationId");
       //Assign communicationId to employee in recent chat. 
-
     });
 
 
   }
 
-  public SendMessageNotification = (msg) => {
+  public SendPrivateMessage = (msg) => {
     this.hubConnection.invoke("SendPrivateMessage", msg.connId, msg.senderId, msg.user, msg.message).catch(function (err) {
       return console.error(err.toString());
     });

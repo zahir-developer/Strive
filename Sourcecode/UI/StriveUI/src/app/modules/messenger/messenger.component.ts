@@ -102,12 +102,15 @@ export class MessengerComponent implements OnInit {
 
     const objmsg = 
     {
-      
+      connectionId: '',
+      employeeId: 1,
+      userName: 'test User',
+      message: this.messageBody.trim()
     }
 
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
-        this.signalRService.SendMessageNotification(msg);
+        this.signalRService.SendPrivateMessage(objmsg);
       }
     });
   }
