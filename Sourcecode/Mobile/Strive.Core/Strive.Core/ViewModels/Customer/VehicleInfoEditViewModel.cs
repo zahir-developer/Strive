@@ -20,14 +20,18 @@ namespace Strive.Core.ViewModels.Customer
         public Dictionary<int, string> modelName = new Dictionary<int, string>();
         public Dictionary<int, string> colorName = new Dictionary<int, string>();
         public CustomerUpdateVehicle updateVehicle { get; set; }
-        public VehicleList vehicleDetails { get; set; }
+        public VehicleList vehicleDetails { get; set; }        
         public clientVehicle clientVehicle { get; set; }
-        #endregion Properties
+        public AddCustomerVehicle clientVehicles { get; set; }
+        public VehicleList vehicleLists { get; set; }
 
 
-        #region Commands
+    #endregion Properties
 
-        public async Task getVehicleDetails()
+
+    #region Commands
+
+    public async Task getVehicleDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
 
@@ -67,10 +71,26 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-                _userDialog.Alert("Please select the vehicle specifications");
+                _userDialog.Alert("Please save the vehicle specifications");
             }
         }
+        public async Task GetCustomerVehicleList()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            vehicleLists = new VehicleList();
+            vehicleLists.Status = new List<VehicleDetail>();
+            CustomerVehiclesInformation.vehiclesList = new VehicleList();
+            CustomerVehiclesInformation.vehiclesList.Status = new List<VehicleDetail>();
+            vehicleLists = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
+            MembershipDetails.clientVehicleID = vehicleLists.Status.LastOrDefault().VehicleId;
+            CustomerVehiclesInformation.vehiclesList = vehicleLists;
+            if (vehicleLists == null || vehicleLists.Status.Count == 0)
+            {
+                _userDialog.Alert("No associated vehicles were found.");
+            }
 
+            _userDialog.HideLoading();
+        }
         public async void NavigateBack()
         {
             MembershipDetails.clearMembershipData();
@@ -104,27 +124,30 @@ namespace Strive.Core.ViewModels.Customer
         public async Task SaveVehicle()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            clientVehicle = new clientVehicle();
-            updateVehicle = new CustomerUpdateVehicle();
-            updateVehicle.client = null;
-            if(VehicleDetailsCheck())
+            if (VehicleDetailsCheck())
             {
-                updateVehicle.clientVehicle = new List<clientVehicle>();
-                clientVehicle.clientId = CustomerInfo.ClientID;
-                clientVehicle.locationId = 1;
-                clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
-                clientVehicle.vehicleModel = MembershipDetails.modelNumber;
-                clientVehicle.vehicleColor = MembershipDetails.colorNumber;
-                clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
-                clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
-                updateVehicle.clientVehicle.Add(clientVehicle);
-                var data = await AdminService.UpdateCustomerVehicle(updateVehicle);
+                clientVehicles = new AddCustomerVehicle();
+                clientVehicles.clientVehicle = new List<clientVehicle>();
+                var selectedvehicle = new clientVehicle();
+                selectedvehicle.clientId = CustomerInfo.ClientID;
+                selectedvehicle.locationId = 1;
+                selectedvehicle.vehicleModelNo = 0;
+                selectedvehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+                selectedvehicle.vehicleModel = MembershipDetails.modelNumber;
+                selectedvehicle.vehicleColor = MembershipDetails.colorNumber;
+                selectedvehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
+                selectedvehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
+                selectedvehicle.isActive = true;
+                selectedvehicle.isDeleted = false;
+                clientVehicles.clientVehicle.Add(selectedvehicle);
+
+                var data = await AdminService.AddCustomerVehicle(clientVehicles);
                 if (data == null)
                 {
                     _userDialog.Alert("Information not added,try again");
                     return;
                 }
-                await GetRegisteredVehicleID();
+                await GetCustomerVehicleList();
                 _userDialog.HideLoading();
                 _userDialog.Toast("Information has been entered successfully");
             }
@@ -135,24 +158,46 @@ namespace Strive.Core.ViewModels.Customer
             }
         }
 
-        public async Task GetRegisteredVehicleID()
-        {
-            vehicleDetails = new VehicleList();
-            vehicleDetails.Status = new List<VehicleDetail>();
-            vehicleDetails = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
-            if(vehicleDetails == null || vehicleDetails.Status.Count == 0 )
-            {
-                _userDialog.Alert("No available vehicles were found");
-                return;
-            }
-            MembershipDetails.clientVehicleID = vehicleDetails.Status.LastOrDefault().VehicleId;
-        }
-
         public void ShowAlert()
         {
-            _userDialog.Alert("Please select the vehicle specifications");
+            _userDialog.Alert("Please save the vehicle specifications");
         }
 
+        public async void sample()
+        {
+            //_userDialog.ShowLoading(Strings.Loading);
+            //clientVehicle = new clientVehicle();
+            //updateVehicle = new CustomerUpdateVehicle();
+            //updateVehicle.client = null;
+            //if (VehicleDetailsCheck())
+            //{
+            //    updateVehicle.clientVehicle = new List<clientVehicle>();
+            //    clientVehicle.clientId = CustomerInfo.ClientID;
+            //    clientVehicle.locationId = 1;
+            //    clientVehicle.vehicleModelNo = 0;
+            //    clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+            //    clientVehicle.vehicleModel = MembershipDetails.modelNumber;
+            //    clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+            //    clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
+            //    clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
+            //    updateVehicle.clientVehicle.Add(clientVehicle);
+            //    var data = await AdminService.AddCustomerVehicle(updateVehicle);
+            //    if (data == null)
+            //    {
+            //        _userDialog.Alert("Information not added,try again");
+            //        return;
+            //    }
+            //    await GetCustomerVehicleList();
+            //    _userDialog.HideLoading();
+            //    _userDialog.Toast("Information has been entered successfully");
+
+            //}
+            //else
+            //{
+            //    _userDialog.HideLoading();
+            //    _userDialog.Toast("Information save unsuccessful");
+            //}
+        }
 
         #endregion Commands
 

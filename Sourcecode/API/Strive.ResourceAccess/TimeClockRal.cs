@@ -42,13 +42,13 @@ namespace Strive.ResourceAccess
             return db.Fetch<TimeClockViewModel>(EnumSP.ClockTime.USPGETTIMECLOCK.ToString(), _prm);
         }
 
-        public List<TimeClockEmployeeDetailViewModel> TimeClockEmployeeDetails(TimeClockEmployeeDetailDto timeClockEmployeeDetailDto)
+        public TimeClockDetailViewModel TimeClockEmployeeDetails(TimeClockEmployeeDetailDto timeClockEmployeeDetailDto)
         {
             _prm.Add("LocationId", timeClockEmployeeDetailDto.LocationId);
             _prm.Add("StartDate", timeClockEmployeeDetailDto.StartDate);
             _prm.Add("EndDate", timeClockEmployeeDetailDto.EndDate);
 
-            return db.Fetch<TimeClockEmployeeDetailViewModel>(EnumSP.ClockTime.USPGETTIMECLOCKEMPLOYEEDETAILS.ToString(), _prm);
+            return db.FetchMultiResult<TimeClockDetailViewModel>(EnumSP.ClockTime.USPGETTIMECLOCKEMPLOYEEDETAILS.ToString(), _prm);
         }
 
         public TimeClockWeekDetailViewModel TimeClockWeekDetails(TimeClockWeekDetailDto timeClockWeekDetailDto)

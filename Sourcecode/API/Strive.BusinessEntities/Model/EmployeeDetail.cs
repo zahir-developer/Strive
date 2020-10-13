@@ -23,7 +23,7 @@ namespace Strive.BusinessEntities.Model
         public int ComType { get; set; }
 
         [Column]
-        public string PayRate { get; set; }
+        public string WashRate { get; set; }
 
         [Column]
         public string DetailRate { get; set; }

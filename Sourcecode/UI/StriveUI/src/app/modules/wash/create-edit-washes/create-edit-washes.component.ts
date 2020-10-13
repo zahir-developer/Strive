@@ -318,11 +318,11 @@ getJobType() {
         this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
-            if (this.selectedData.Washes[0].Make === item.CodeId) {
+            if (+this.selectedData.Washes[0].Make === item.CodeId) {
               this.selectedData.Washes[0].vehicleMake = item.CodeValue;
-            } else if (this.selectedData.Washes[0].Model === item.CodeId) {
+            } else if (+this.selectedData.Washes[0].Model === item.CodeId) {
               this.selectedData.Washes[0].vehicleModel = item.CodeValue;
-            } else if (this.selectedData.Washes[0].Color === item.CodeId) {
+            } else if (+this.selectedData.Washes[0].Color === item.CodeId) {
               this.selectedData.Washes[0].vehicleColor = item.CodeValue;
             }
           });
