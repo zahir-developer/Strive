@@ -11,6 +11,7 @@ using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Strive.Core.Models.Customer;
 using StriveCustomer.Android.Fragments;
 using StriveCustomer.Android.Views;
 
@@ -40,17 +41,18 @@ namespace StriveCustomer.Android.Adapter
     }
     public class PastDetailsAdapter : RecyclerView.Adapter, IItemClickListener
     {
-        public List<string> pastDetailsData = new List<string>();
+        public PastClientServices pastDetailsData = new PastClientServices();
         Context context;
         DashboardView dashboard = new DashboardView();
+        int existingID = 0;
         public override int ItemCount
         {
             get
             {
-                return pastDetailsData.Count;
+                return pastDetailsData.PastClientDetails.Count;
             }
         }
-        public PastDetailsAdapter(List<string> pastDetailsData, Context context)
+        public PastDetailsAdapter(PastClientServices pastDetailsData, Context context)
         {
             this.pastDetailsData = pastDetailsData;
             this.context = context;
@@ -58,22 +60,23 @@ namespace StriveCustomer.Android.Adapter
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder pastDetailholder, int position)
         {
-            DetailsRecyclerViewHolder detailsViewHolder = pastDetailholder as DetailsRecyclerViewHolder;
-            detailsViewHolder.pastDetailsText.Text = pastDetailsData[position];
+            DetailsRecyclerViewHolder detailsViewHolder = pastDetailholder as DetailsRecyclerViewHolder;    
+            detailsViewHolder.pastDetailsText.Text = pastDetailsData.PastClientDetails[position].Color + " " + pastDetailsData.PastClientDetails[position].Make + " " + pastDetailsData.PastClientDetails[position].Model;
             detailsViewHolder.SetItemClickListener(this);
         }
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
+            CustomerInfo.SelectedVehiclePastDetails = pastDetailsData.PastClientDetails[position].VehicleId;
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             PastDetailsInfoFragment pastDetailsInfoFragment = new PastDetailsInfoFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, pastDetailsInfoFragment).Commit();
         }
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
-            View itemView = layoutInflater.Inflate(Resource.Layout.PastDetailsList, parent, false);
-            return new DetailsRecyclerViewHolder(itemView);
+                LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
+                View itemView = layoutInflater.Inflate(Resource.Layout.PastDetailsList, parent, false);
+                return new DetailsRecyclerViewHolder(itemView);
         }
     }
 
