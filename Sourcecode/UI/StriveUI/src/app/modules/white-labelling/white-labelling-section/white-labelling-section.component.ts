@@ -131,81 +131,81 @@ export class WhiteLabellingSectionComponent implements OnInit {
         }
       }
     });
-}
-
-CancelChanges() {
-  this.toastr.success('Theme Reset Successfully!!', 'Success!');
-  this.getAllWhiteLabelDetail();
-}
-
-handleInputChange(e) {
-  this.fileName = '';
-  const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-  this.fileName = file ? file.name : '';
-  const pattern = /image-*/;
-  const reader = new FileReader();
-  if (!file.type.match(pattern)) {
-    alert('invalid format');
-    return;
   }
 
-  this.loaded = false;
+  CancelChanges() {
+    this.toastr.success('Theme Reset Successfully!!', 'Success!');
+    this.getAllWhiteLabelDetail();
+  }
 
-  reader.onload = this._handleReaderLoaded.bind(this);
-  reader.readAsDataURL(file);
-}
-_handleReaderLoaded(e) {
-  const reader = e.target;
-  this.imageSrc = reader.result;
-  this.loaded = true;
-}
-handleImageLoad() {
-  this.imageLoaded = true;
-}
-handleDrop(e) {
-  e.preventDefault();
-  this.dragging = false;
-  this.handleInputChange(e);
-}
-handleDragLeave() {
-  this.dragging = false;
-}
-handleDragEnter() {
-  this.dragging = true;
-}
-save() {
-  const base64 = this.imageSrc.indexOf(',');
-  const selectedLogo = this.imageSrc.toString().substring(base64 + 1, this.imageSrc.length);
-
-  const uploadObj = {
-    whiteLabel: {
-      whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
-      logoPath: this.logoPath !== '' ? this.logoPath : null,
-      fileName: this.fileName ? this.fileName : null, // LogoPath if image already uploaded
-      thumbFileName: null,
-      base64: selectedLogo ? selectedLogo : '', // empty string if update
-      title: this.title ? this.title : '',
-      themeId: this.themeId,
-      fontFace: this.fontName !== '' ? this.fontName : null,
-      isActive: true,
-      isDeleted: false,
-      createdBy: 0,
-      createdDate: new Date(),
-      updatedBy: 0,
-      updatedDate: new Date()
+  handleInputChange(e) {
+    this.fileName = '';
+    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    this.fileName = file ? file.name : '';
+    const pattern = /image-*/;
+    const reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
     }
-  };
-  this.ngxService.show();
-  this.whiteLabelService.uploadWhiteLabel(uploadObj).subscribe(data => {
-    this.ngxService.hide();
-    if (data.status === 'Success') {
-      this.toastr.success('Theme Changed Successfully!!', 'Success!');
-      this.getAllWhiteLabelDetail();
-    } else {
+
+    this.loaded = false;
+
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+  }
+  _handleReaderLoaded(e) {
+    const reader = e.target;
+    this.imageSrc = reader.result;
+    this.loaded = true;
+  }
+  handleImageLoad() {
+    this.imageLoaded = true;
+  }
+  handleDrop(e) {
+    e.preventDefault();
+    this.dragging = false;
+    this.handleInputChange(e);
+  }
+  handleDragLeave() {
+    this.dragging = false;
+  }
+  handleDragEnter() {
+    this.dragging = true;
+  }
+  save() {
+    const base64 = this.imageSrc.indexOf(',');
+    const selectedLogo = this.imageSrc.toString().substring(base64 + 1, this.imageSrc.length);
+
+    const uploadObj = {
+      whiteLabel: {
+        whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
+        logoPath: this.logoPath !== '' ? this.logoPath : null,
+        fileName: this.fileName ? this.fileName : null, // LogoPath if image already uploaded
+        thumbFileName: null,
+        base64: selectedLogo ? selectedLogo : '', // empty string if update
+        title: this.title ? this.title : '',
+        themeId: this.themeId,
+        fontFace: this.fontName !== '' ? this.fontName : null,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 0,
+        createdDate: new Date(),
+        updatedBy: 0,
+        updatedDate: new Date()
+      }
+    };
+    this.ngxService.show();
+    this.whiteLabelService.uploadWhiteLabel(uploadObj).subscribe(data => {
       this.ngxService.hide();
-    }
-  }, (err) => {
-    this.ngxService.hide();
-  });
-}
+      if (data.status === 'Success') {
+        this.toastr.success('Theme Changed Successfully!!', 'Success!');
+        this.getAllWhiteLabelDetail();
+      } else {
+        this.ngxService.hide();
+      }
+    }, (err) => {
+      this.ngxService.hide();
+    });
+  }
 }

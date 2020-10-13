@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   title = 'StriveUI';
   isUserAuthenticated = false;
   constructor(private user: UserDataService, private authService: AuthenticateObservableService,
-              private whiteLabelService: WhiteLabelService, private logoService: LogoService) {
+    private whiteLabelService: WhiteLabelService, private logoService: LogoService) {
     this.isUserAuthenticated = this.user.isAuthenticated;
     // console.log(this.isUserAuthenticated);
     // console.log(this.authService.getIsAuthenticate);
@@ -30,6 +30,11 @@ export class AppComponent implements OnInit {
         const label = JSON.parse(res.resultData);
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+          document.documentElement.style.setProperty(`--primary-color`, label.WhiteLabelling.WhiteLabel?.PrimaryColor);
+          document.documentElement.style.setProperty(`--navigation-color`, label.WhiteLabelling.WhiteLabel?.NavigationColor);
+          document.documentElement.style.setProperty(`--secondary-color`, label.WhiteLabelling.WhiteLabel?.SecondaryColor);
+          document.documentElement.style.setProperty(`--tertiary-color`, label.WhiteLabelling.WhiteLabel?.TertiaryColor);
+          document.documentElement.style.setProperty(`--body-color`, label.WhiteLabelling.WhiteLabel?.BodyColor);
           document.documentElement.style.setProperty(`--text-font`, label.WhiteLabelling.WhiteLabel?.FontFace);
         }
       }
