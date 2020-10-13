@@ -68,5 +68,7 @@ namespace Strive.Core.Utils
         public const string URL_GET_VEHICLE_COMPLETE_DETAILS = "/Admin/Vehicle/GetVehicleId";
 
         public const string URL_DELETE_VEHICLE_INFO = "/Admin/Vehicle/Delete";
+
+        public const string URL_PAST_SERVICES_INFO = "/Admin/Vehicle/GetPastDetails/{0}";
     }
 }
