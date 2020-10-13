@@ -10,7 +10,8 @@ import { MessengerService } from 'src/app/shared/services/data-service/messenger
 
 export class SignalRService {
 
-  connId : string;
+  connId: string;
+  empId = localStorage.getItem('empId');
 
   constructor(public messengerService: MessengerService) { }
 
@@ -33,6 +34,11 @@ export class SignalRService {
       console.log(id);
       this.connId = id
       this.messengerService.UpdateChatCommunication(id);
+
+      this.hubConnection.invoke('SendCommunicationId', this.empId, id).catch(function (err) {
+        return console.error(err.toString());
+      });
+
     });
 
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
@@ -41,19 +47,29 @@ export class SignalRService {
       this.messengerService.ReceivePrivateMessage(data);
     });
 
-    this.hubConnection.on("SendPrivateMessage", function (connId, senderId, user, message) {
-      var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    this.hubConnection.on("SendPrivateMessage", function (obj) {
+      console.log(obj);
+      /*var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
       var encodedMsg = user + " says " + msg;
       var li = document.createElement("li");
       li.textContent = encodedMsg;
-      console.log(connId + senderId + user + message);
+      console.log(connId + senderId + user + message);*/
       //document.getElementById("messagesList").appendChild(li);
-  });
+    });
+
+    this.hubConnection.on('SendCommunicationId', (data) => {
+      console.log(data);
+      console.log("SendCommunicationId");
+      //Assign communicationId to employee in recent chat. 
+
+    });
+
 
   }
 
   public SendMessageNotification = (msg) => {
-    this.hubConnection.invoke("SendPrivateMessage", this.connId, "1", msg.user, msg.message).catch(function (err) {
+    this.hubConnection.invoke("SendPrivateMessage", msg.connId, msg.senderId, msg.user, msg.message).catch(function (err) {
       return console.error(err.toString());
     });
   }

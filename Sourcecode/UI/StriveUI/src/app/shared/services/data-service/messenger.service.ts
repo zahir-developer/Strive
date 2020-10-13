@@ -26,7 +26,7 @@ export class MessengerService {
     UpdateChatCommunication(commId) {
         const commObj =
         {
-            EmployeeId: 1,
+            EmployeeId: localStorage.getItem('empId'),
             CommunicationId: commId
         }
         console.log(commObj);

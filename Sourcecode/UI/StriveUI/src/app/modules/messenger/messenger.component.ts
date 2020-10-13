@@ -104,6 +104,12 @@ export class MessengerComponent implements OnInit {
     }
 
     console.log(msg);
+
+    const objmsg = 
+    {
+      connId: this.c
+    }
+
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
         this.signalRService.SendMessageNotification(msg);
