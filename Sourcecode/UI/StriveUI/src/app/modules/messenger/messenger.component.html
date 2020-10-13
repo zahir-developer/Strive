@@ -48,8 +48,8 @@
                                             <i class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer"></i></a> </div>
                                     </div>
                             <ul class="conversation-list">
-                                <li *ngFor="let msg of msgList odd" [ngClass] = "{'odd': employeeId !== msg.SenderId}" class="clearfix">
-                                    <div class="chat-avatar"> <div id="profileImage">{{chatInitial}}</div> </div>
+                                <li *ngFor="let msg of msgList" [ngClass] = "{'odd': employeeId === msg.SenderId}" class="clearfix">
+                                    <div class="chat-avatar"> <div id="profileImage">{{ msg.SenderFirstName.charAt(0).toUpperCase() + msg.SenderLastName.charAt(0).toUpperCase()}}</div> </div>
                                     <div class="conversation-text">
                                         <div class="ctext-wrap">
                                             <p> {{msg.MessageBody}} </p>
@@ -59,7 +59,7 @@
                                 <div class="border-top m-t-16">
                                     <div class="row m-t-10">
                                         <div class="col mb-2 mb-sm-0">
-                                            <input type="text" [(ngModel)]="messageBody" class="form-control border-0"
+                                            <input type="text" [(ngModel)]="messageBody" (keydown.enter) = 'sendMessage()' class="form-control border-0"
                                                 placeholder="Type the message here..." required=""> </div>
                                         <div class="col-sm-auto"> <i
                                                 class="mdi mdi-send  theme-primary-color font-size-1-4"

@@ -19,9 +19,11 @@ export class MessengerComponent implements OnInit {
 
   msgList = [];
 
-  employeeId = + localStorage.getItem('empId');
+  employeeId : number = +localStorage.getItem('empId');
 
   recipientId: number = 0;
+
+  recipientCommunicationId: string;
 
   messageBody: string;
 
@@ -57,6 +59,11 @@ export class MessengerComponent implements OnInit {
     this.recipientId = employeeObj.EmployeeId;
     this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
     this.chatInitial = employeeObj.FirstName.charAt(0).toUpperCase() + employeeObj.LastName.charAt(0).toUpperCase();
+    this.recipientCommunicationId = employeeObj.communicationId;
+
+    console.log(employeeObj);
+
+
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
@@ -88,12 +95,12 @@ export class MessengerComponent implements OnInit {
       chatMessageRecipient: {
         chatRecipientId: 0,
         chatMessageId: 0,
-        senderId: localStorage.getItem('empId'),
+        senderId: this.employeeId,
         recipientId: this.recipientId,
         recipientGroupId: null,
         isRead: true
       },
-      connectionId: null,
+      connectionId: this.recipientCommunicationId,
       fullName: null,
       groupName: null
     }
@@ -102,9 +109,9 @@ export class MessengerComponent implements OnInit {
 
     const objmsg = 
     {
-      connectionId: '',
-      employeeId: 1,
-      userName: 'test User',
+      connectionId: this.recipientCommunicationId,
+      employeeId: this.employeeId,
+      userName: this.chatFullName,
       message: this.messageBody.trim()
     }
 

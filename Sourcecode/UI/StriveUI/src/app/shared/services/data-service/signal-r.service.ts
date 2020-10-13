@@ -59,6 +59,11 @@ public communicationId: Observable<any> = this.commId.asObservable();
 
     this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
       if (data !== null) {
+        
+        console.log('ReceiveEmployeeCommunicationId');
+
+        console.log(data[0]);
+        console.log(data[1])
         this.setname(data);
       }
     });
