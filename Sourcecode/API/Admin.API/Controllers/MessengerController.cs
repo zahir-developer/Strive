@@ -11,7 +11,7 @@ using Strive.Common;
 
 namespace Admin.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Admin/[controller]")]
     [ApiController]
     public class MessengerController : StriveControllerBase<IMessengerBpl>
     {
@@ -36,10 +36,19 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("SendChatMessage")]
-        public async Task<Result> SendChatMessage(ChatMessageDto chatMessageDto)
+        public async Task<Result> SendChatMessage([FromBody] ChatMessageDto chatMessageDto)
         {
-            Result result = _bplManager.SendMessenge(chatMessageDto);
             ChatMessageHub chatHub = new ChatMessageHub();
+
+            Result result = _bplManager.SendMessenge(chatMessageDto);
+
+            /*await chatHub.SendPrivateMessage(
+                       chatMessageDto.ConnectionId,
+                       chatMessageDto.ChatMessageRecipient?.SenderId.GetValueOrDefault().ToString(),
+                       chatMessageDto.FullName,
+                       chatMessageDto.ChatMessage?.Messagebody);*/
+
+            
             if(result.Status.ToLower().Equals("true"))
             {
                 if (chatMessageDto.ChatMessageRecipient.RecipientGroupId == null && chatMessageDto.ChatMessageRecipient.RecipientId > 0)
@@ -65,10 +74,18 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("CreateChatGroup")]
-        public Result CreateGroup(ChatGroupDto chatGroupDto)
+        public Result CreateGroup([FromBody] ChatGroupDto chatGroupDto)
         {
             return _bplManager.CreateGroup(chatGroupDto);
         }
+
+        [HttpGet]
+        [Route("GetChatEmployeeList")]
+        public Result GetAllEmployeeList() => _bplManager.GetChatEmployeeList();
+
+        [HttpPost]
+        [Route("GetChatMessage")]
+        public Result GetChatMessage([FromBody] ChatDto chatDto) => _bplManager.GetChatMessage(chatDto);
 
     }
 }

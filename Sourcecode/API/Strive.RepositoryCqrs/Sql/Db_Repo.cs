@@ -407,7 +407,8 @@ namespace Strive.RepositoryCqrs
                             }
                             else
                             {
-                                insertId = Convert.ToInt64(dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction));
+                                var Id = dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                insertId = Convert.ToInt64(Id);
                             }
 
                             primeId = (!primInsert) ? insertId : primeId;

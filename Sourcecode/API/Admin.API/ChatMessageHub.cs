@@ -14,13 +14,19 @@ namespace Admin.API
 
         public async Task SendPrivateMessage(string connectionId, string employeeId, string userName, string message)
         {
-            string[] obj = new string[] { connectionId, employeeId, userName, message };
-            await Clients.Client(connectionId).SendAsync("ReceivePrivateMessage", obj);
+            if (Clients != null)
+            {
+                string[] obj = new string[] { connectionId, employeeId, userName, message };
+                await Clients.Client(connectionId).SendAsync("ReceivePrivateMessage", obj);
+            }
         }
         public async Task SendMessageToGroup(string groupName, string employeeId, string userName, string message)
         {
-            string[] obj = new string[] { groupName, employeeId, userName, message };
-            await Clients.Group(groupName).SendAsync("GroupMessageReceive", obj);
+            if (Clients != null)
+            {
+                string[] obj = new string[] { groupName, employeeId, userName, message };
+                await Clients.Group(groupName).SendAsync("ReceiveGroupMessage", obj);
+            }
         }
 
 

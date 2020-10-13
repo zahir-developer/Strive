@@ -33,5 +33,14 @@ namespace Strive.BusinessLogic.Messenger
             return ResultWrap(new MessengerRal(_tenant).CreateChatGroup, chatGroupDto, "Status");
         }
 
+        public Result GetChatEmployeeList()
+        {
+            return ResultWrap(new MessengerRal(_tenant).GetChatEmployeeList, "EmployeeList");
+        }
+
+        public Result GetChatMessage(ChatDto chatDto)
+        {
+            return ResultWrap(new MessengerRal(_tenant).GetChatMessage, chatDto, "ChatMessage");
+        }
     }
 }
