@@ -19,7 +19,7 @@ export class MessengerComponent implements OnInit {
 
   msgList = [];
 
-  employeeId =+ localStorage.getItem('empId');
+  employeeId = + localStorage.getItem('empId');
 
   recipientId: number = 0;
 
@@ -49,18 +49,14 @@ export class MessengerComponent implements OnInit {
 
 
   LoadMessageChat(employeeObj) {
-
-   const chatObj =
-    {
+    const chatObj = {
       senderId: this.employeeId,
       recipientId: employeeObj.EmployeeId,
       groupId: 0
-    }
-
+    };
     this.recipientId = employeeObj.EmployeeId;
     this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
     this.chatInitial = employeeObj.FirstName.charAt(0).toUpperCase() + employeeObj.LastName.charAt(0).toUpperCase();
-
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
@@ -71,17 +67,16 @@ export class MessengerComponent implements OnInit {
 
   sendMessage() {
 
-    if(this.messageBody.trim() === '')
-    {
+    if (this.messageBody.trim() === '') {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
       return;
     }
-    
+
     const msg = {
       chatMessage: {
         chatMessageId: 0,
         subject: null,
-        messagebody: this.messageBody.trim() ,
+        messagebody: this.messageBody.trim(),
         parentChatMessageId: null,
         expiryDate: null,
         isReminder: true,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as signalR from "@aspnet/signalr";
+import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 
@@ -16,7 +16,7 @@ export class SignalRService {
   constructor(public messengerService: MessengerService) { }
 
   public data: any;
-  private hubConnection: signalR.HubConnection
+  private hubConnection: signalR.HubConnection;
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(environment.api.striveUrl + 'ChatMessageHub',

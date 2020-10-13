@@ -49,12 +49,11 @@
                                     </div>
                             <ul class="conversation-list">
                                 <li *ngFor="let msg of msgList odd" [ngClass] = "{'odd': employeeId !== msg.SenderId}" class="clearfix">
-                                    <div class="chat-avatar"> <img src="assets/img/avatar-2.jpg"
-                                            class="mr-3 rounded-circle" alt="Jeanne Weimann" width="70"> </div>
+                                    <div class="chat-avatar"> <div id="profileImage">{{chatInitial}}</div> </div>
                                     <div class="conversation-text">
                                         <div class="ctext-wrap">
                                             <p> {{msg.MessageBody}} </p>
-                                        </div> <span class="font-13 d-block m-t-10"></span>
+                                        </div> <span class="font-13 d-block m-t-10">{{msg.CreatedDate | date: 'hh:mm aa'}} | {{msg.CreatedDate | date: 'MMM d'}}</span>
                                     </div>
                                 </li>
                                 <div class="border-top m-t-16">
