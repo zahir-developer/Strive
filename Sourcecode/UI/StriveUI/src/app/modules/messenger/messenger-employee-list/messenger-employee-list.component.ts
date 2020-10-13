@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { LocalStorage } from '@ng-idle/core';
+import { Subscription } from 'rxjs';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
-import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 
 @Component({
   selector: 'app-messenger-employee-list',
@@ -8,18 +10,22 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
   styleUrls: ['./messenger-employee-list.component.css']
 })
 export class MessengerEmployeeListComponent implements OnInit {
-search = '';
-empList = [];
-  constructor(private empService: EmployeeService) { }
+  search = '';
+  empList = [];
+  @Output() emitLoadMessageChat = new EventEmitter();
+
+
+
+  constructor(private msgService: MessengerService) { }
 
   ngOnInit(): void {
     this.getRecentChatHistory();
   }
   getRecentChatHistory() {
-    this.empService.searchEmployee(this.search).subscribe(data => {
+    this.msgService.GetEmployeeList().subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
-        this.empList = empList.EmployeeList;
+        this.empList = empList.EmployeeList.ChatEmployeeList;
         this.setName();
       }
     });
@@ -30,4 +36,10 @@ empList = [];
       item.Initial = intial;
     });
   }
+  
+
+  loadChat(employeeObj) {
+    this.emitLoadMessageChat.emit(employeeObj);
+  }
+
 }

@@ -133,5 +133,15 @@ export const UrlConfig = {
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`
+  },
+  Messenger:
+  {
+    GetEmployeeList : `Admin/Messenger/GetChatEmployeeList`,
+    SendMessage: `Admin/Messenger/SendChatMessage`,
+    CreateGroup: `Admin/Messenger/CreateGroup`,
+    UpdateChatCommunicationDetail : `Admin/Messenger/ChatCommunication`,
+    GetChatMessage :  `Admin/Messenger/GetChatMessage`
   }
+
+
 };
