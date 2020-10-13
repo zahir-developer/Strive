@@ -35,7 +35,7 @@ export class SignalRService {
       this.connId = id
       this.messengerService.UpdateChatCommunication(id);
 
-      this.hubConnection.invoke('SendCommunicationId', this.empId, id).catch(function (err) {
+      this.hubConnection.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
         return console.error(err.toString());
       });
 
@@ -58,9 +58,9 @@ export class SignalRService {
       //document.getElementById("messagesList").appendChild(li);
     });
 
-    this.hubConnection.on('SendCommunicationId', (data) => {
+    this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
       console.log(data);
-      console.log("SendCommunicationId");
+      console.log("ReceiveEmployeeCommunicationId");
       //Assign communicationId to employee in recent chat. 
 
     });

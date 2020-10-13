@@ -102,7 +102,7 @@ export class MessengerComponent implements OnInit {
 
     const objmsg = 
     {
-      connId: this.c
+      
     }
 
     this.msgService.SendMessage(msg).subscribe(data => {
