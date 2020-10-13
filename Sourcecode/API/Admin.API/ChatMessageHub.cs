@@ -29,6 +29,16 @@ namespace Admin.API
             }
         }
 
+        public async Task SendEmployeeCommunicationId(string employeeId, string commId)
+        {
+            if (Clients != null)
+            {
+                await Clients.All.SendAsync("ReceiveEmployeeCommunicationId", employeeId, commId);
+            }
+        }
+
+        
+
 
     }
 }
