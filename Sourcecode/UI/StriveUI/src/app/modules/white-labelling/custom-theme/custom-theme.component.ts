@@ -43,12 +43,11 @@ export class CustomThemeComponent implements OnInit {
   }
 
   saveColor() {
-    console.log(this.secondaryColor, 'secndaryClor');
     document.documentElement.style.setProperty(`--primary-color`, this.primaryColor);
     document.documentElement.style.setProperty(`--navigation-color`, this.navigationColor);
     document.documentElement.style.setProperty(`--secondary-color`, this.secondaryColor);
     document.documentElement.style.setProperty(`--tertiary-color`, this.tertiaryColor);
-    document.documentElement.style.setProperty(`--body-color`, this.tertiaryColor);
+    document.documentElement.style.setProperty(`--body-color`, this.bodyColor);
     const customColorObj = {
       themeId: this.customColor.ThemeId,
       themeName: this.customColor.ThemeName,
@@ -68,7 +67,10 @@ export class CustomThemeComponent implements OnInit {
       updatedBy: 0,
       updatedDate: new Date()
     };
-    this.whiteLabelService.saveCustomColor(customColorObj).subscribe(res => {
+    const finalObj = {
+      themes: customColorObj
+    };
+    this.whiteLabelService.saveCustomColor(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.closePopup();
       }
