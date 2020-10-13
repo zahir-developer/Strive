@@ -15,9 +15,9 @@ namespace Strive.BusinessEntities.ViewModel
         public int OverTimeHours { get; set; }
         public decimal WashRate { get; set; }
         public string DetailRate { get; set; }
-        public decimal WashAmount { get; set; }
-        public decimal DetailAmount { get; set; }
-        public decimal OverTimePay { get; set; }
+        public decimal? WashAmount { get; set; }
+        public decimal? DetailAmount { get; set; }
+        public decimal? OverTimePay { get; set; }
         public decimal CollisionAmount { get; set; }
         public decimal DetailCommission { get; set; }
         public decimal PayeeTotal { get; set; }

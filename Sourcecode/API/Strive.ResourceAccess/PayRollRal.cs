@@ -16,7 +16,6 @@ namespace Strive.ResourceAccess
 
         public PayRollViewModel GetPayRoll(PayRollDto payRoll)
         {
-            _prm.Add("@EmployeeId", payRoll.EmployeeId);
             _prm.Add("@LocationId", payRoll.LocationId);
             _prm.Add("@StartDate", payRoll.StartDate);
             _prm.Add("@EndDate", payRoll.EndDate);

@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class PayRollViewModel
     {
-        public PayRollRateViewModel PayRollRateViewModel { get; set; }
+        public List<PayRollRateViewModel> PayRollRateViewModel { get; set; }
         public List<PayRollCategoryViewModel> PayRollCategoryViewModel { get; set; }
     }
 }
