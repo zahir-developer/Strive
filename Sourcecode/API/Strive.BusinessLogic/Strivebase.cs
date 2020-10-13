@@ -182,6 +182,21 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+
+        protected Result ResultWrap<T>(Func<string, T> RALMethod, string emailId, string ResultName)
+        {
+            try
+            {
+                var res = RALMethod.Invoke(emailId);
+                _resultContent.Add(res.WithName(ResultName));
+                _result = Helper.BindSuccessResult(_resultContent);
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
         //protected Result ResultWrap<T>(Func<int, T> RALMethod, int id)
         //{
         //    try

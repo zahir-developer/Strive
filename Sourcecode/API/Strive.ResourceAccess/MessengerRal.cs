@@ -18,7 +18,7 @@ namespace Strive.ResourceAccess
 
         public bool SendMessege(ChatMessageDto chatMessegeDto)
         {
-            return dbRepo.InsertPc(chatMessegeDto, "ChatMessageId");
+            return dbRepo.InsertInt64(chatMessegeDto, "ChatMessageId");
         }
 
         public int CreateChatGroup(ChatGroupDto chatGroupDto)

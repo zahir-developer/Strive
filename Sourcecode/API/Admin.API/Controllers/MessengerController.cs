@@ -26,7 +26,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("ChatCommunication")]
-        public Result ChatCommunication(ChatCommunicationDto chatCommunicationDto)
+        public Result ChatCommunication([FromBody] ChatCommunicationDto chatCommunicationDto)
         {
             return _bplManager.ChatCommunication(chatCommunicationDto);
         }
@@ -85,7 +85,9 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("GetChatMessage")]
-        public Result GetChatMessage([FromBody] ChatDto chatDto) => _bplManager.GetChatMessage(chatDto);
-
+        public Result GetChatMessage([FromBody] ChatDto chatDto)
+        {
+            return _bplManager.GetChatMessage(chatDto);
+        }
     }
 }

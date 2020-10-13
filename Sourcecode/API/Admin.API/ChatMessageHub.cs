@@ -33,12 +33,10 @@ namespace Admin.API
         {
             if (Clients != null)
             {
-                await Clients.All.SendAsync("ReceiveEmployeeCommunicationId", employeeId, commId);
+                string[] obj = new string[] { employeeId, commId };
+                await Clients.All.SendAsync("ReceiveEmployeeCommunicationId", obj);
             }
         }
-
-        
-
 
     }
 }
