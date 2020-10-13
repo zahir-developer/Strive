@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public int EmployeeId { get; set; }
         public string PayeeName { get; set; }
+        public int LocationId { get; set; }
         public int TotalWashHours { get; set; }
         public int TotalDetailHours { get; set; }
         public int OverTimeHours { get; set; }
@@ -20,7 +21,14 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? OverTimePay { get; set; }
         public decimal CollisionAmount { get; set; }
         public decimal DetailCommission { get; set; }
+        public int? CategoryId { get; set; }
+        public string CodeValue { get; set; }
+        public int? LiabilityType { get; set; }
+        public int? LiabilityDetailType { get; set; }
+        public decimal? Amount { get; set; }
+        public decimal? Collision { get; set; }
+        public decimal? Uniform { get; set; }
+        public decimal? Adjustment { get; set; }
         public decimal PayeeTotal { get; set; }
-
     }
 }
