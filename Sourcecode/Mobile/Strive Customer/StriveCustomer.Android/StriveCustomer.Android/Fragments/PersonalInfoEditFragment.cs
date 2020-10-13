@@ -75,10 +75,14 @@ namespace StriveCustomer.Android.Fragments
             ViewModel.ZipCode = zipCodeEditText.Text;
             ViewModel.SecondaryContactNumber = secondaryContactEditText.Text;
             ViewModel.Email = emailEditText.Text;
-            await ViewModel.saveClientInfoCommand();
-            AppCompatActivity activity = (AppCompatActivity)Context;
-            MyProfileInfoNeeds.selectedTab = 0;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
+            var result = await ViewModel.saveClientInfoCommand();
+            if(result)
+            {
+                AppCompatActivity activity = (AppCompatActivity)Context;
+                MyProfileInfoNeeds.selectedTab = 0;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfileInfoFragment).Commit();
+            }
+           
         }
     }
 }

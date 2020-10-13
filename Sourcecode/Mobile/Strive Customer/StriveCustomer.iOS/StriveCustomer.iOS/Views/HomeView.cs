@@ -9,6 +9,8 @@ using MapKit;
 using System.Text.RegularExpressions;
 using StriveCustomer.iOS.UIUtils;
 using WebKit;
+using System.Collections.Generic;
+using Strive.Core.Models.TimInventory;
 
 namespace StriveCustomer.iOS.Views
 {
