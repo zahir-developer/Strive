@@ -13,11 +13,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   search = '';
   empList = [];
   @Output() emitLoadMessageChat = new EventEmitter();
-
-
-
   constructor(private msgService: MessengerService) { }
-
   ngOnInit(): void {
     this.getRecentChatHistory();
   }
@@ -25,21 +21,21 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.msgService.GetEmployeeList().subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
-        this.empList = empList.EmployeeList.ChatEmployeeList;
+        this.empList = empList?.EmployeeList?.ChatEmployeeList;
         this.setName();
       }
     });
   }
   setName() {
+    if (this.empList.length > 0) {
     this.empList.map(item => {
       const intial = item.FirstName.charAt(0).toUpperCase() + item.LastName.charAt(0).toUpperCase();
       item.Initial = intial;
     });
+    this.emitLoadMessageChat.emit(this.empList[0]);
   }
-  
-
+}
   loadChat(employeeObj) {
     this.emitLoadMessageChat.emit(employeeObj);
   }
-
 }
