@@ -185,7 +185,7 @@ save() {
       thumbFileName: null,
       base64: selectedLogo ? selectedLogo : '', // empty string if update
       title: this.title ? this.title : '',
-      themeId: 1,
+      themeId: this.themeId,
       fontFace: this.fontName !== '' ? this.fontName : null,
       isActive: true,
       isDeleted: false,
@@ -205,7 +205,7 @@ save() {
       this.ngxService.hide();
     }
   }, (err) => {
-    this.ngxService.show();
+    this.ngxService.hide();
   });
 }
 }

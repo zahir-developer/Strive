@@ -247,21 +247,6 @@
                                         </div>
                                         <div id="Coloritem" class="collapse show">
                                             <div class="row  mt-3 mb-3 no-gutter">
-                                                <!-- <div class="col-md-2" (click)="defaultTheme()">
-                                                    <div>
-                                                        <div class="text-center font-size-1 font-weight-600">
-                                                            Default</div>
-                                                        <div class="flex-container pointer">
-                                                            <div class="card-width theme-primary-background-color">
-                                                            </div>
-                                                            <div class="card-width theme-pink-color"> </div>
-                                                            <div class="card-width theme-cyan"> </div>
-                                                            <div class="card-width theme-light-blue"> </div>
-                                                            <div class="card-width theme-shaded-green"> </div>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                                <!--sunshine-->
                                                 <div class="col-md-2" *ngFor="let theme of colorTheme">
                                                     <div style="cursor: pointer;" (click)="themeChange(theme)">
                                                         <div>
@@ -285,15 +270,6 @@
                                                     </div>
                                                     <!-- end card -->
                                                 </div>
-                                                <!--custom-->
-                                                <!-- <div class="col-md-2">
-                                                    <div>
-                                                        <div class="text-center font-size-1 font-weight-600">
-                                                            Custom</div>
-                                                        <button type="button" class="btn theme-primary-button-color"
-                                                            (click)="customTheme()">+</button>
-                                                    </div>
-                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -303,7 +279,7 @@
                     </div>
                 </div>
                 <div class="m-t-12 pull-right mw-100">
-                    <button type="button" class="btn theme-optional-button-color">Cancel</button>&nbsp;
+                    <button type="button" class="btn theme-optional-button-color" (click)="CancelChanges()">Cancel</button>&nbsp;
                     <button type="button" class="btn theme-primary-button-color" (click)="save()">Save</button>
                 </div>
             </div>
