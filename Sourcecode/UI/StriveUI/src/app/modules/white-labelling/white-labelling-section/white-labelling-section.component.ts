@@ -89,7 +89,12 @@ export class WhiteLabellingSectionComponent implements OnInit {
       navigationColor: '#24489A'
     };
   }
-
+  nightThemeChange( ) {
+    document.documentElement.style.setProperty(`--primary-color`, '#632b6c');
+    document.documentElement.style.setProperty(`--navigation-color`, '#280f36');
+    document.documentElement.style.setProperty(`--secondary-color`, '#c86b98');
+    document.documentElement.style.setProperty(`--tertiary-color`, '#f09f9c');
+  }
   customTheme() {
     this.showDialog = true;
   }
