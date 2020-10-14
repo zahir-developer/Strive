@@ -140,7 +140,7 @@ export const UrlConfig = {
     updateWhiteLabelDetail: `Admin/WhiteLabelling/Update`,
     saveCustomColor: `Admin/WhiteLabelling/Save`,
     uploadWhiteLabel: `Admin/WhiteLabelling/Update`,
-    getPayroll: ``,
+    getPayroll: `Admin/PayRoll/GetPayroll`,
   },
   Messenger:
   {
