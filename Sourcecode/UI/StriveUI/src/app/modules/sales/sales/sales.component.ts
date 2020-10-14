@@ -58,6 +58,7 @@ export class SalesComponent implements OnInit {
   selectedService: any;
   balance: number;
   PaymentType: any;
+  PaymentStatus: any;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -95,6 +96,7 @@ export class SalesComponent implements OnInit {
       this.getDetailByTicket(false);
     }
     this.getPaymentType();
+    this.getPaymentStatus();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
   }
@@ -109,6 +111,18 @@ export class SalesComponent implements OnInit {
       }
     });
   }
+
+  getPaymentStatus(){
+    this.codes.getCodeByCategory("PAYMENTSTATUS").subscribe(data => {
+      if (data.status === 'Success') {
+        const sType = JSON.parse(data.resultData);
+        this.PaymentStatus = sType.Codes;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
   getAllServiceandProduct() {
     this.salesService.getServiceAndProduct().subscribe(data => {
       if (data.status === 'Success') {
@@ -792,7 +806,7 @@ export class SalesComponent implements OnInit {
         approval: true,
         //checkNumber: '',
         //signature: '',
-        paymentStatus: 1,
+        paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
         comments: '',
         isActive: true,
         isDeleted: false,
