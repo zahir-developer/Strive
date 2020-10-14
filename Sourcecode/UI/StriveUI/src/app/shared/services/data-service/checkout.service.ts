@@ -13,4 +13,8 @@ export class CheckoutService {
   getUncheckedVehicleDetails(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getUncheckedVehicleDetails}`);
   }
+
+  checkoutVehicle(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.checkoutVehicle}`, obj);
+  }
 }
