@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserDataService } from 'src/app/shared/util/user-data.service';
 import { AuthService } from 'src/app/shared/services/common-service/auth.service';
 import { Observable } from 'rxjs';
+import { LogoService } from 'src/app/shared/services/common-service/logo.service';
 declare var $: any;
 @Component({
   selector: 'app-sidenav',
@@ -11,12 +12,20 @@ declare var $: any;
 })
 export class SidenavComponent implements OnInit {
   isAuthenticated: boolean;
+  logoBase64: any;
   isLoggedIn$: Observable<boolean>;
-  constructor(private user: UserDataService, private authService: AuthService) { }
+  constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-
+    this.getLogo();
+  }
+  getLogo() {
+    this.logoService.name.subscribe(data => {
+      console.log(data);
+      const base64 = 'data:image/png;base64,';
+      this.logoBase64 = base64 + data;
+    });
   }
   openNav() {
     document.getElementById('navSliderMenu').style.width = '180px';

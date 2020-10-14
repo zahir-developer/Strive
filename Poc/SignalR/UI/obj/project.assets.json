@@ -12099,11 +12099,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zmohamed\\source\\Projects\\SignalR\\UI\\UI.csproj",
+      "projectUniqueName": "E:\\Projects\\Mammoth\\Strive\\Poc\\SignalR\\UI\\UI.csproj",
       "projectName": "UI",
-      "projectPath": "C:\\Users\\zmohamed\\source\\Projects\\SignalR\\UI\\UI.csproj",
+      "projectPath": "E:\\Projects\\Mammoth\\Strive\\Poc\\SignalR\\UI\\UI.csproj",
       "packagesPath": "C:\\Users\\zmohamed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zmohamed\\source\\Projects\\SignalR\\UI\\obj\\",
+      "outputPath": "E:\\Projects\\Mammoth\\Strive\\Poc\\SignalR\\UI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

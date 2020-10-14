@@ -11,6 +11,7 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
   styleUrls: ['./assign-detail.component.css']
 })
 export class AssignDetailComponent implements OnInit {
+  @Input() isView?: any;
   @Input() details?: any;
   @Input() employeeList?: any;
   @Input() detailsJobServiceEmployee?: any;

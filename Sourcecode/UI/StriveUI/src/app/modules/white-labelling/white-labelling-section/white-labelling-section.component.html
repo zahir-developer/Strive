@@ -1,0 +1,293 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">White Labelling</li>
+                </ol>
+            </nav>
+            <!--bread crumb-->
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">White Labelling</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <ul class="nav  cashreg-tab  mb-2">
+                    <li>
+                        <a href="#branding" data-toggle="tab" aria-expanded="false" class="nav-links active"> <i
+                                class="mdi mdi-pencil-box-multiple"></i> <span>Branding</span> </a>
+                    </li>
+                    <li>
+                        <a href="#font-theme" data-toggle="tab" aria-expanded="false" class="nav-links"> <i
+                                class="mdi mdi-format-font"></i> <span>Font</span> </a>
+                    </li>
+                    <li>
+                        <a href="#color-theme" data-toggle="tab" aria-expanded="false" class="nav-links"> <i
+                                class="mdi mdi-palette"></i> <span>Color Theme</span> </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="branding">
+                        <div class="row no-gutter">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="p-b-10 m-b-15 title-border">
+                                            <h4 class="d-inline-block align-middle">Branding</h4>
+                                            <div class="pull-right card-widgets"> <a data-toggle="collapse"
+                                                    href="#brandingitem" role="button" aria-expanded="false"
+                                                    aria-controls="brandingitem"><i
+                                                        class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                            </div>
+                                        </div>
+                                        <div id="brandingitem" class="collapse show">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-4"></div>
+                                                        <div class="col-lg-4">
+                                                            <form>
+                                                                <div class="form-group mb-3">
+                                                                    <input type="text" [(ngModel)]="title"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        class="form-control branding-form"
+                                                                        placeholder="Company Name"> </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-lg-4"></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-4"></div>
+                                                        <div class="col-lg-4">
+                                                            <section>
+                                                                <div id="dropzone">
+                                                                    <form class="needsclick" id="demo-upload"
+                                                                        action="/upload">
+                                                                        <div class="dz-message needsclick">
+                                                                            <label class="uploader"
+                                                                                ondragover="return false;"
+                                                                                [class.loaded]="loaded"
+                                                                                [style.outlineColor]="dragging ? activeColor : baseColor"
+                                                                                (dragenter)="handleDragEnter()"
+                                                                                (dragleave)="handleDragLeave()"
+                                                                                (drop)="handleDrop($event)">
+
+                                                                                <em class="icon icon-upload fa fa-upload uploadIcon"
+                                                                                    [style.color]="dragging 
+                                                                                    ? ((imageSrc.length > 0) ? overlayColor : activeColor)
+                                                                                    : ((imageSrc.length > 0) ? overlayColor : baseColor)"></em>
+
+                                                                                <img [src]="imageSrc"
+                                                                                    (load)="handleImageLoad()"
+                                                                                    [class.loaded]="imageLoaded"
+                                                                                    alt='' />
+
+                                                                                <input type="file" name="file"
+                                                                                    accept="image/*"
+                                                                                    (change)="handleInputChange($event)">
+                                                                            </label>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="text-center m-t-10"> <span
+                                                                        class="font-weight-600 font-size-1-2 text-center p-b-10 d-block">Please
+                                                                        Select the image to upload </span> <span
+                                                                        class="font-size-1 font-xolor p-t-15">We
+                                                                        recommend an 40X40 png file </span> </div>
+                                                            </section>
+                                                        </div>
+                                                        <div class="col-lg-4"></div>
+                                                        <!-- end card-body -->
+                                                    </div>
+                                                    <!-- end card-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane show" id="font-theme">
+                        <div class="row no-gutter">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="title-border p-b-5 m-b-5">
+                                            <h4 class="d-inline-block">Font</h4>
+                                            <div class="pull-right card-widgets"> <a data-toggle="collapse"
+                                                    href="#fontitem" role="button" aria-expanded="false"
+                                                    aria-controls="fontitem"><i
+                                                        class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                            </div>
+                                        </div>
+                                        <div id="fontitem" class="collapse show">
+                                            <!--font--->
+                                            <div class="row  mt-3 mb-3 no-gutter">
+                                                <div class="col-md-2 mb-3" (click)="fontChange('roboto')">
+                                                    <div class="card font-card">
+                                                        <div class="card-body p-t-8">
+                                                            <p class="font-weight-bold font-size-1-7 Roboto-font">
+                                                                Roboto<span *ngIf="fontName === 'roboto'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
+                                                            <p class="Roboto-font">Lorem ipsum dolor sit amet,
+                                                                consectetur adipiscing elit, sed do eiusmod tempor
+                                                                incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                                                minim </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end card -->
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Poppins')">
+                                                    <div class="card font-card">
+                                                        <div class="card-body p-t-8">
+                                                            <p class="font-weight-bold font-size-1-7 poppins-font">
+                                                                Poppins<span *ngIf="fontName === 'Poppins'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
+                                                            <p class="poppins-font">Lorem ipsum dolor sit amet,
+                                                                consectetur adipiscing elit, sed do eiusmod tempor
+                                                                incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                                                minim </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end card -->
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Open Sans')">
+                                                    <div class="card font-card">
+                                                        <div class="card-body p-t-8">
+                                                            <p class="font-weight-bold font-size-1-7">Open Sans<span *ngIf="fontName === 'Open Sans'"><i
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i></span>
+                                                            </p>
+                                                            <p class="Roboto-font">Lorem ipsum dolor sit amet,
+                                                                consectetur adipiscing elit, sed do eiusmod tempor
+                                                                incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                                                minim </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end card -->
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Fira Sans')">
+                                                    <div class="card font-card">
+                                                        <div class="card-body p-t-8">
+                                                            <p class="font-weight-bold font-size-1-7 FiraSans-font">Fira
+                                                                Sans<span *ngIf="fontName === 'Fira Sans'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
+                                                            <p class="FiraSans-font">Lorem ipsum dolor sit amet,
+                                                                consectetur adipiscing elit, sed do eiusmod tempor
+                                                                incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                                                minim </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end card -->
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Raleway')">
+                                                    <div class="card font-card">
+                                                        <div class="card-body p-t-8">
+                                                            <p class="font-weight-bold font-size-1-7 Raleway-font">
+                                                                Raleway<span *ngIf="fontName === 'Raleway'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
+                                                            <p class="Raleway-font">Lorem ipsum dolor sit amet,
+                                                                consectetur adipiscing elit, sed do eiusmod tempor
+                                                                incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                                                minim </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end card -->
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-2 mb-3" (click)="fontChange('Ubuntu')">
+                                                    <div class="card font-card">
+                                                        <div class="card-body p-t-8">
+                                                            <p class="font-weight-bold font-size-1-7 Ubuntu-font">
+                                                                Ubuntu<span *ngIf="fontName === 'Ubuntu'"><i 
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </p>
+                                                            <p class="Ubuntu-font">Lorem ipsum dolor sit amet,
+                                                                consectetur adipiscing elit, sed do eiusmod tempor
+                                                                incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                                                minim </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end card -->
+                                                </div>
+                                                <!-- end col -->
+                                            </div>
+                                        </div>
+                                        <!--color scheme--->
+                                    </div>
+                                    <!-- end card-body -->
+                                </div>
+                                <!-- end card-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--color-->
+                    <div class="tab-pane show" id="color-theme">
+                        <div class="row no-gutter">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="title-border p-b-5 m-b-5">
+                                            <h4 class="d-inline-block">Color Theme</h4>
+                                            <div class="pull-right card-widgets"> <a data-toggle="collapse"
+                                                    href="#Coloritem" role="button" aria-expanded="false"
+                                                    aria-controls="Coloritem"><i
+                                                        class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                            </div>
+                                        </div>
+                                        <div id="Coloritem" class="collapse show">
+                                            <div class="row  mt-3 mb-3 no-gutter">
+                                                <div class="col-md-2" *ngFor="let theme of colorTheme">
+                                                    <div style="cursor: pointer;" (click)="themeChange(theme)">
+                                                        <div>
+                                                            <div class="text-left font-size-1 font-weight-600">
+                                                                {{theme.ThemeName}}<span *ngIf="theme.ThemeId === themeId"><i
+                                                                        class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i><span style="font-size: 12px;">Selected</span></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-container pointer">
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.BodyColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.TertiaryColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.SecondaryColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.PrimaryColor"> </div>
+                                                            <div class="card-width"
+                                                                [style.background-color]="theme.NavigationColor"> </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end card -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-t-12 pull-right mw-100">
+                    <button type="button" class="btn theme-optional-button-color" (click)="CancelChanges()">Cancel</button>&nbsp;
+                    <button type="button" class="btn theme-primary-button-color" (click)="save()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-dialog [(visible)]="showDialog" [blockScroll]="true" [showHeader]="false" [resizable]="true" appendTo="body"
+    [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '35vw'}" [baseZIndex]="10000">
+    <app-custom-theme *ngIf="showDialog" [customColor]="customColor" (closeColorPopup)="closeColorPopup()">
+    </app-custom-theme>
+</p-dialog>

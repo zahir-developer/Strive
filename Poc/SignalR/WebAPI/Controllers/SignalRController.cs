@@ -12,7 +12,6 @@ namespace WebAPI.Controllers
     [ApiController]
     public class SignalRController : ControllerBase
     {
-
         private readonly IHubContext<ChatHub> hubContext;
 
         public SignalRController(IHubContext<ChatHub> _hubContext)
@@ -22,11 +21,16 @@ namespace WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<string> CheckIn(string count)
+        public async Task<string> CheckIn(string count, string connectionId)
         {
-            await hubContext.Clients.All.SendAsync("UpdateCarCheckIn", count);
-            //await hubContext.Clients.All.SendAsync("Notify", $"Home page loaded at: {DateTime.Now}");
+            if (string.IsNullOrEmpty(connectionId))
+                await hubContext.Clients.All.SendAsync("UpdateCarCheckIn", count);
+            else
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdateCarCheckIn", count);
+
             return "Check In count updated: " + count;
         }
+
+
     }
 }

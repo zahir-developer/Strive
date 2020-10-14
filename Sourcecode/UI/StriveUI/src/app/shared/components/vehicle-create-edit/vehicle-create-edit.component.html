@@ -3,8 +3,7 @@
         <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputBarcode">Barcode</label>
-                <input type="text" maxlength="25" class="form-control" formControlName="barcode"
-                    placeholder="None/UNK">
+                <input type="text" maxlength="25" class="form-control" formControlName="barcode" placeholder="None/UNK">
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputVehicleNumber">Vehicle No.</label>
@@ -17,56 +16,63 @@
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let make of make" value="{{make.CodeId}}">{{make.CodeValue}}</option>
                 </select>
-            </div> 
+            </div>
             <div class="form-group col-lg-3">
                 <label for="inputModel">Model</label>
                 <select class="form-control" formControlName="model">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let model of model" value="{{model.CodeId}}">{{model.CodeValue}}</option>
                 </select>
-            </div>  
+            </div>
         </div>
-        <div class="form-row"> 
+        <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputColor">Color</label>
                 <select class="form-control" formControlName="color">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let color of color" value="{{color.CodeId}}">{{color.CodeValue}}</option>
                 </select>
-            </div>  
+            </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputMembership">Membership</label>
-                <select class="form-control" formControlName="membership" (change)="membershipChange($event.target.value)">
+                <select class="form-control" formControlName="membership"
+                    (change)="membershipChange($event.target.value)">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let member of membership" value="{{member.MembershipId}}">{{member.MembershipName}}</option>
+                    <option *ngFor="let member of membership" value="{{member.MembershipId}}">{{member.MembershipName}}
+                    </option>
                 </select>
-            </div>   
+            </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Upcharge Type</label>
-                <select class="form-control" formControlName="upchargeType" (change)="upchargeTypeChange($event, 'type')">
+                <select class="form-control" formControlName="upchargeType"
+                    (change)="upchargeTypeChange($event, 'type')">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.ServiceName}}</option>
+                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">
+                        {{upcharge.ServiceName}}</option>
                 </select>
-            </div>      
+            </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Upcharge</label>
-                <select class="form-control" formControlName="upcharge" (change)="upchargeTypeChange($event, 'upcharge')">
+                <select class="form-control" formControlName="upcharge"
+                    (change)="upchargeTypeChange($event, 'upcharge')">
                     <option hidden selected value="">Choose</option>
-                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.Upcharges}}</option>
+                    <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.Upcharges}}
+                    </option>
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputService">Services</label>
-                <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings" [data]="additional"
-                    [disabled]="isView"  [(ngModel)]="memberService" [ngModelOptions]="{standalone: true}">
+                <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
+                    [data]="additional" [disabled]="isView" formControlName="services" (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="onItemDeselect($event)">
                 </ng-multiselect-dropdown>
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputMonthlyCharge">Monthly Charge</label>
-                <input  type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control" formControlName="monthlyCharge" 
-                placeholder="0.00">
+                <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control"
+                    formControlName="monthlyCharge" placeholder="0.00">
             </div>
         </div>
     </form>
