@@ -29,6 +29,10 @@ export class MessengerComponent implements OnInit {
 
   chatInitial: string;
 
+  FirstName: string;
+
+  LastName: string;
+
   chatFullName: string;
 
   IsGroupChat: boolean;
@@ -57,9 +61,11 @@ export class MessengerComponent implements OnInit {
       groupId: 0
     };
     this.recipientId = employeeObj.EmployeeId;
+    this.FirstName = employeeObj.FirstName;
+    this.LastName = employeeObj.LastName;
     this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
     this.chatInitial = employeeObj.FirstName.charAt(0).toUpperCase() + employeeObj.LastName.charAt(0).toUpperCase();
-    this.recipientCommunicationId = employeeObj.communicationId;
+    this.recipientCommunicationId = employeeObj.CommunicationId;
 
     console.log(employeeObj);
 
@@ -107,16 +113,17 @@ export class MessengerComponent implements OnInit {
 
     console.log(msg);
 
-    const objmsg = 
-    {
-      connectionId: this.recipientCommunicationId,
-      employeeId: this.employeeId,
-      userName: this.chatFullName,
-      message: this.messageBody.trim()
-    }
+    const objmsg : string[] = [ this.recipientCommunicationId,
+      this.employeeId.toString(),
+      this.FirstName,
+      this.LastName,
+      this.chatInitial,
+      this.messageBody.trim()
+    ]
 
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
+        console.log(objmsg);
         this.signalRService.SendPrivateMessage(objmsg);
       }
     });
