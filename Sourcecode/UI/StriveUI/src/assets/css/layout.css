@@ -280,7 +280,7 @@ iframe {
 .p-t-7 {padding-top: 7px;}
 .p-t-8 {padding-top: 8px;}
 .p-t-9 {padding-top: 9px;}
-.p-t-10 {padding-top: 10px;}
+.p-t-10 {padding-top: 10px !important;}
 .p-t-11 {padding-top: 11px;}
 .p-t-12 {padding-top: 12px;}
 .p-t-13 {padding-top: 13px;}
@@ -591,7 +591,7 @@ iframe {
 .p-b-67 {padding-bottom: 67px;}
 .p-b-68 {padding-bottom: 68px;}
 .p-b-69 {padding-bottom: 69px;}
-.p-b-70 {padding-bottom: 70px;}
+.p-b-70 {padding-bottom: 70px !important;}
 .p-b-71 {padding-bottom: 71px;}
 .p-b-72 {padding-bottom: 72px;}
 .p-b-73 {padding-bottom: 73px;}
@@ -1043,7 +1043,7 @@ iframe {
 .p-r-17 {padding-right: 17px;}
 .p-r-18 {padding-right: 18px;}
 .p-r-19 {padding-right: 19px;}
-.p-r-20 {padding-right: 20px;}
+.p-r-20 {padding-right: 20px !important;}
 .p-r-21 {padding-right: 21px;}
 .p-r-22 {padding-right: 22px;}
 .p-r-23 {padding-right: 23px;}
