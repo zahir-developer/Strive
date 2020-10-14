@@ -39,7 +39,11 @@ using Strive.BusinessLogic.Washes;
 using Strive.BusinessLogic.Details;
 using Strive.BusinessLogic.Sales;
 using Strive.BusinessLogic.Admin.ExternalApi;
+<<<<<<< Sourcecode/API/Admin.API/Startup.cs
+using Strive.BusinessLogic.WhiteLabelling;
+=======
 using Strive.BusinessLogic.Checkout;
+>>>>>>> Sourcecode/API/Admin.API/Startup.cs
 
 namespace Admin.API
 {
@@ -80,6 +84,7 @@ namespace Admin.API
             services.AddTransient<IScheduleBpl, ScheduleBpl>();
             services.AddTransient<ISalesBpl, SalesBpl>();
             services.AddTransient<IExternalApiBpl, ExternalApiBpl>();
+            services.AddTransient<IWhiteLabelBpl, WhiteLabelBpl>();
             services.AddTransient<ICheckoutBpl, CheckoutBpl>();
 
             #region Add CORS
