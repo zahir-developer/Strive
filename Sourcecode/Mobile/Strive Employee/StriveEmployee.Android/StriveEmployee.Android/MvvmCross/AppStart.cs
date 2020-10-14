@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using Strive.Core.ViewModels.Customer;
+using Strive.Core.ViewModels.Employee;
 
 namespace StriveEmployee.Android.MvvmCross
 {

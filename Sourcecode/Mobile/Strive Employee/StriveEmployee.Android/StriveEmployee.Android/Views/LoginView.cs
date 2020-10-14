@@ -12,7 +12,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
-using Strive.Core.ViewModels.Customer;
+using Strive.Core.ViewModels.Employee;
 
 namespace StriveEmployee.Android.Views
 {
@@ -20,9 +20,15 @@ namespace StriveEmployee.Android.Views
     [Activity(Label = "Login View")]
     public class LoginView : MvxAppCompatActivity<LoginViewModel>
     {
-        public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
+        //public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
+        //{
+        //    base.OnCreate(savedInstanceState, persistentState);
+        //    SetContentView(Resource.Layout.activity_main);
+        //}
+
+        protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(savedInstanceState, persistentState);
+            base.OnCreate(bundle);
             SetContentView(Resource.Layout.activity_main);
         }
     }

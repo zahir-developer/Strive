@@ -64,6 +64,7 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="MvvmCross\App.cs" />
     <Compile Include="MvvmCross\AppStart.cs" />
+    <Compile Include="MvvmCross\LinkerPleaseInclude.cs" />
     <Compile Include="MvvmCross\Setup.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
