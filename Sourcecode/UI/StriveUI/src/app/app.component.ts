@@ -30,11 +30,17 @@ export class AppComponent implements OnInit {
         const label = JSON.parse(res.resultData);
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
-          document.documentElement.style.setProperty(`--primary-color`, label.WhiteLabelling.WhiteLabel?.PrimaryColor);
-          document.documentElement.style.setProperty(`--navigation-color`, label.WhiteLabelling.WhiteLabel?.NavigationColor);
-          document.documentElement.style.setProperty(`--secondary-color`, label.WhiteLabelling.WhiteLabel?.SecondaryColor);
-          document.documentElement.style.setProperty(`--tertiary-color`, label.WhiteLabelling.WhiteLabel?.TertiaryColor);
-          document.documentElement.style.setProperty(`--body-color`, label.WhiteLabelling.WhiteLabel?.BodyColor);
+          if (label.WhiteLabelling.Theme !== null) {
+            label.WhiteLabelling.Theme.forEach(item => {
+              if (label.WhiteLabelling.WhiteLabel?.ThemeId === item.ThemeId) {
+                document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
+                document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
+                document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
+                document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
+                document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
+              }
+            });
+          }
           document.documentElement.style.setProperty(`--text-font`, label.WhiteLabelling.WhiteLabel?.FontFace);
         }
       }
