@@ -76,7 +76,7 @@ export class TimeClockWeekComponent implements OnInit {
                   OutTime: item.OutTime,
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
-                  TotalHours: this.datePipe.transform(item.TotalHours, 'H'),
+                  TotalHours: moment(item.TotalHours).format('HH:mm'),
                   employeeId: this.empClockInObj.employeeID,
                   locationId: this.empClockInObj.locationId
                 });
@@ -145,18 +145,36 @@ export class TimeClockWeekComponent implements OnInit {
   saveWeeklyhours() {
     let checkIn = [];
     let negativeHrs = [];
+    var count = 0;
+    let replication = false;
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
-          if (ele.TotalHours === "0:00" || ele.TotalHours === "0:0") {
+          if (ele.TotalHours === "00:00") {
             checkIn.push(ele);
           }
-          if (ele.InTime > ele.OutTime) {
+          if (new Date(ele.InTime).toUTCString() > new Date(ele.OutTime).toUTCString()) {
             negativeHrs.push(ele);
+          }
+          element.checkInDetail.forEach(i => {
+            if ((new Date(ele.InTime).toUTCString() > new Date(i.InTime).toUTCString()
+              && new Date(ele.InTime).toUTCString() < new Date(i.OutTime).toUTCString())
+              || (new Date(ele.OutTime).toUTCString() > new Date(i.InTime).toUTCString()
+                && new Date(ele.OutTime).toUTCString() < new Date(i.OutTime).toUTCString())) {
+              count += 1;
+            }
+          });
+          if (count > 0) {
+            count = 0;
+            replication = true;
           }
         });
       }
     });
+    if (replication) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Similar Timing in same Day' });
+      return;
+    }
     if (checkIn.length !== 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
       return;
@@ -197,28 +215,44 @@ export class TimeClockWeekComponent implements OnInit {
     });
   }
 
-  inTime(event) {
+  inTime(event, currentTime) {
     console.log(event, 'intime');
+    if (currentTime.OutTime !== "") {
+      const inTime = new Date(currentTime.InTime);
+      const outTime = new Date(currentTime.OutTime);
+      const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      const MINUTES = (outTimeMins - inTimeMins);
+      var m = (MINUTES % 60);      
+      const h = (MINUTES - m) / 60;
+      const hrs = h<0 ? -h : h;
+      if (m < 0) {
+        m = 60 - (-m);
+      }
+      const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
+      currentTime.TotalHours = HHMM;
+      this.totalHoursCalculation(currentTime);
+    }
   }
 
   outTime(event, currentTime) {
     console.log(event, currentTime);
-    const inTime =new Date(currentTime.InTime);
-    const outTime = new Date(currentTime.OutTime);
-    const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
-    const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
-    const MINUTES = (outTimeMins - inTimeMins);
-    var m = (MINUTES % 60);
-    if (m < 0) {
-      m = 60 - (-m);
+    if (currentTime.InTime !== "") {
+      const inTime = new Date(currentTime.InTime);
+      const outTime = new Date(currentTime.OutTime);
+      const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      const MINUTES = (outTimeMins - inTimeMins);
+      var m = (MINUTES % 60);
+      const h = (MINUTES - m) / 60;
+      const hrs = h < 0 ? -h : h;
+      if (m < 0) {
+        m = 60 - (-m);
+      }
+      const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
+      currentTime.TotalHours = HHMM;
+      this.totalHoursCalculation(currentTime);
     }
-    const h = (MINUTES - m) / 60;
-    const HHMM = h.toString() + ":" + m.toString();
-    currentTime.TotalHours = HHMM;
-  }
-
-  outTimeChange(data) {
-    console.log(data.InTime, data.OutTime);
   }
 
   backToTimeClockPage() {
@@ -231,9 +265,21 @@ export class TimeClockWeekComponent implements OnInit {
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(checkIn => {
         if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Wash') {
-          washHour += +checkIn.TotalHours;
+          let n = checkIn.TotalHours.search(":");
+          let h = checkIn.TotalHours.substring(0, n);
+          let m = checkIn.TotalHours.substring(n + 1, n + 3);
+          let hrs = +h;
+          let min = (+m / 60).toFixed(2);
+          let totalHrs = hrs + (+min);
+          washHour += totalHrs;
         } else if (this.roleList.filter(role => +role.CodeId === +checkIn.RoleId)[0].CodeValue === 'Detailer') {
-          detailHour += +checkIn.TotalHours;
+          let n = checkIn.TotalHours.search(":");
+          let h = checkIn.TotalHours.substring(0, n);
+          let m = checkIn.TotalHours.substring(n + 1, n + 3);
+          let hrs = +h;
+          let min = (+m / 60).toFixed(2);
+          let totalHrs = hrs + (+min);
+          detailHour += totalHrs;
         }
       });
     });
@@ -241,8 +287,8 @@ export class TimeClockWeekComponent implements OnInit {
     this.totalWeekDetail.TotalWashHours = washHour;
     this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
     this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
-    this.totalWeekDetail.GrandTotal = this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
-      this.totalWeekDetail.OverTimePay + this.totalWeekDetail.CollisionAmount;
+    this.totalWeekDetail.GrandTotal = (this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
+      this.totalWeekDetail.OverTimePay) - this.totalWeekDetail.CollisionAmount;
 
   }
 

@@ -29,6 +29,8 @@ namespace StriveCustomer.Android.Fragments
         PersonalInfoFragment personalInfo , personalInfo2;
         VehicleInfoFragment vehicleInfo;
         MyProfileInfoViewModel profile = new MyProfileInfoViewModel();
+        PastDetailsFragment pastInfo;
+        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,7 +46,7 @@ namespace StriveCustomer.Android.Fragments
             profilePager = rootview.FindViewById<ViewPager>(Resource.Id.myProfilePager);
             personalInfo = new PersonalInfoFragment();
             vehicleInfo = new VehicleInfoFragment();
-            personalInfo2= new PersonalInfoFragment();
+            pastInfo= new PastDetailsFragment();
             return rootview;
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
@@ -53,9 +55,14 @@ namespace StriveCustomer.Android.Fragments
             profileAdapter = new ViewPagerAdapter(ChildFragmentManager);
             profileAdapter.AddFragment(personalInfo, "Personal Info");
             profileAdapter.AddFragment(vehicleInfo, "Vehicle List");
-            profileAdapter.AddFragment(personalInfo2, "Payment");
+            profileAdapter.AddFragment(pastInfo, "Past Details");
             profilePager.Adapter = profileAdapter;
             profileTabs.SetupWithViewPager(profilePager);
+            profilePager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
         }
+    }
+    public static class MyProfileInfoNeeds
+    {
+        public static int selectedTab { get; set; } = 0;
     }
 }

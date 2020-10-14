@@ -41,10 +41,10 @@ namespace Strive.Core.ViewModels.Customer
                     {
                         await _navigationService.Navigate<DashboardViewModel>();
                     }
-                    else
-                    {
-                        _userDialog.Alert(Strings.UsernamePasswordIncorrect);
-                    }
+                }
+                else
+                {
+                    _userDialog.Alert(Strings.UsernamePasswordIncorrect);
                 }
                 _userDialog.HideLoading();
             }

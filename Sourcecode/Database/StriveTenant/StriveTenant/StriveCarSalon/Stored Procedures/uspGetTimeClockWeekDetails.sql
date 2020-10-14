@@ -1,5 +1,5 @@
 ﻿
-CREATE   PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails]
+CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails]
 @EmployeeId INT,
 @LocationId INT,
 @StartDate DATETIME,
@@ -49,23 +49,27 @@ SELECT
 	  EmployeeId
 	, LocationId
 	, TimeClockId
-	, TblRM.RoleMasterId AS RoleId
+	, tblCV.id AS RoleId
 	, DATENAME(DW,EventDate) AS [Day]
 	, EventDate
 	, CONVERT(VARCHAR(8),InTime,108) AS InTime
 	, CONVERT(VARCHAR(8),ISNULL(OutTime,INTIME),108) AS OutTime
-	, tblRM.RoleName
+	, tblCV.CodeValue as RoleName
 	, DATEDIFF(HOUR,ISNULL(InTime,OutTime),ISNULL(OutTime,Intime)) AS TotalHours
 	,CONVERT(VARCHAR(8),DATEADD(minute, DATEDIFF(MI, ISNULL(InTime,OutTime), ISNULL(OutTime,Intime)), 0), 114) AS TotH
 INTO
 	#TimeClock
 FROM 
 	tblTimeClock tblTC
-JOIN
-	tblRoleMaster tblRM
-ON		tblRM.RoleMasterId=tblTC.RoleId
+	LEFT JOIN
+	tblCodeValue tblCV
+ON		tblCV.id=tblTC.RoleId
+LEFT JOIN
+	tblCodeCategory tblCC
+ON		tblCC.id=tblCV.CategoryId
 WHERE 
-	EmployeeId=@EmployeeId 
+	EmployeeId=@EmployeeId
+AND tblCC.Category='EmployeeRole' 
 AND LocationId=@LocationId 
 AND EventDate BETWEEN @StartDate AND @EndDate 
 
@@ -96,19 +100,19 @@ SELECT
 	  tblED.EmployeeId
 	, tblED.WashRate
 	, tblCV.CodeValue AS [Detail Desc] 
-	, tblED.PayRate AS [DetailRate]
+	, tblED.ComRate as DetailRate
 INTO
 	#Rate
 FROM 
 	tblEmployeeDetail tblED
-JOIN
+LEFT JOIN
 	tblCodeValue tblCV
 ON		tblCV.id=tblED.ComType
-JOIN
+LEFT JOIN
 	tblCodeCategory tblCC
 ON		tblCC.id=tblCV.CategoryId
 WHERE 
-	tblED.EmployeeId=@EmployeeId AND tblCC.Category='CommisionType' 
+	tblED.EmployeeId=@EmployeeId AND tblCC.Category='DetailCommission' 
 
 -- Rate Summary
 DROP TABLE IF EXISTS #EmployeeRate
@@ -148,7 +152,7 @@ WHERE
 	tblEL.EmployeeId=@EmployeeId 
 AND tblEL.CreatedDate BETWEEN @StartDate AND @EndDate
 AND TblEL.LiabilityType=@CollisionCategoryId
-AND tblELD.LiabilityDetailType=@CollisionPaymentId
+--AND tblELD.LiabilityDetailType=@CollisionPaymentId
 
 -- SummaryCalculation
 DROP TABLE IF EXISTS #FinResult
@@ -159,7 +163,7 @@ SELECT
 	R.DetailRate AS DetailRate,
 	(ER.TotalWashHours* r.WashRate)  AS [WashAmount],
 	--(ER.TotalDetaileHours* r.DetailRate) AS [Detail Total],
-	CASE	WHEN R.[Detail Desc]='Hourly' THEN (ER.TotalDetailHours* r.DetailRate) 
+	CASE	WHEN R.[Detail Desc]='Hourly Rate' THEN (ER.TotalDetailHours* r.DetailRate) 
 			WHEN R.[Detail Desc]='Flat Fee' THEN r.DetailRate
 			WHEN R.[Detail Desc]='Percentage' THEN ((DA.DetailAmount* r.DetailRate)/100)
 			END AS [DetailAmount],

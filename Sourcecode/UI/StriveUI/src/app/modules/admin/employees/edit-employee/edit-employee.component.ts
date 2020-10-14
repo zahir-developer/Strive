@@ -231,6 +231,7 @@ export class EditEmployeeComponent implements OnInit {
         item_text: item.CodeValue
       };
     });
+    this.dropdownSetting();
   }
 
   locationDropDown() {

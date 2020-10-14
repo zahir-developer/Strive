@@ -22,6 +22,7 @@ namespace Strive.Core.ViewModels.Customer
         public CustomerUpdateVehicle updateVehicle { get; set; }
         public VehicleList vehicleDetails { get; set; }        
         public clientVehicle clientVehicle { get; set; }
+        public AddCustomerVehicle clientVehicles { get; set; }
         public VehicleList vehicleLists { get; set; }
 
 
@@ -123,22 +124,24 @@ namespace Strive.Core.ViewModels.Customer
         public async Task SaveVehicle()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            clientVehicle = new clientVehicle();
-            updateVehicle = new CustomerUpdateVehicle();
-            updateVehicle.client = null;
-            if(VehicleDetailsCheck())
+            if (VehicleDetailsCheck())
             {
-                updateVehicle.clientVehicle = new List<clientVehicle>();
-                clientVehicle.clientId = CustomerInfo.ClientID;
-                clientVehicle.locationId = 1;
-                clientVehicle.vehicleModelNo = 0;
-                clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
-                clientVehicle.vehicleModel = MembershipDetails.modelNumber;
-                clientVehicle.vehicleColor = MembershipDetails.colorNumber;
-                clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
-                clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
-                updateVehicle.clientVehicle.Add(clientVehicle);
-                var data = await AdminService.UpdateCustomerVehicle(updateVehicle);
+                clientVehicles = new AddCustomerVehicle();
+                clientVehicles.clientVehicle = new List<clientVehicle>();
+                var selectedvehicle = new clientVehicle();
+                selectedvehicle.clientId = CustomerInfo.ClientID;
+                selectedvehicle.locationId = 1;
+                selectedvehicle.vehicleModelNo = 0;
+                selectedvehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+                selectedvehicle.vehicleModel = MembershipDetails.modelNumber;
+                selectedvehicle.vehicleColor = MembershipDetails.colorNumber;
+                selectedvehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
+                selectedvehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
+                selectedvehicle.isActive = true;
+                selectedvehicle.isDeleted = false;
+                clientVehicles.clientVehicle.Add(selectedvehicle);
+
+                var data = await AdminService.AddCustomerVehicle(clientVehicles);
                 if (data == null)
                 {
                     _userDialog.Alert("Information not added,try again");
@@ -147,7 +150,6 @@ namespace Strive.Core.ViewModels.Customer
                 await GetCustomerVehicleList();
                 _userDialog.HideLoading();
                 _userDialog.Toast("Information has been entered successfully");
-                
             }
             else
             {
@@ -161,6 +163,41 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.Alert("Please save the vehicle specifications");
         }
 
+        public async void sample()
+        {
+            //_userDialog.ShowLoading(Strings.Loading);
+            //clientVehicle = new clientVehicle();
+            //updateVehicle = new CustomerUpdateVehicle();
+            //updateVehicle.client = null;
+            //if (VehicleDetailsCheck())
+            //{
+            //    updateVehicle.clientVehicle = new List<clientVehicle>();
+            //    clientVehicle.clientId = CustomerInfo.ClientID;
+            //    clientVehicle.locationId = 1;
+            //    clientVehicle.vehicleModelNo = 0;
+            //    clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+            //    clientVehicle.vehicleModel = MembershipDetails.modelNumber;
+            //    clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+            //    clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
+            //    clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
+            //    updateVehicle.clientVehicle.Add(clientVehicle);
+            //    var data = await AdminService.AddCustomerVehicle(updateVehicle);
+            //    if (data == null)
+            //    {
+            //        _userDialog.Alert("Information not added,try again");
+            //        return;
+            //    }
+            //    await GetCustomerVehicleList();
+            //    _userDialog.HideLoading();
+            //    _userDialog.Toast("Information has been entered successfully");
+
+            //}
+            //else
+            //{
+            //    _userDialog.HideLoading();
+            //    _userDialog.Toast("Information save unsuccessful");
+            //}
+        }
 
         #endregion Commands
 

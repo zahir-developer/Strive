@@ -132,6 +132,8 @@ export const UrlConfig = {
     getServiceAndProduct: `Admin/Sales/GetAllServiceAndProductList`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
-    getJobStatus: `Admin/Common/GetCodesByCategory/`
+    getJobStatus: `Admin/Common/GetCodesByCategory/`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
+    checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`
   }
 };

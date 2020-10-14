@@ -4,6 +4,29 @@
     android:layout_height="match_parent"
     android:background="@drawable/mobile_portrait_bg"
     android:weightSum="3">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2FCFE">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Deals"
+            android:textSize="16sp"
+            android:textColor="@color/profileInfoColor"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/dealsBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Back" />
+    </RelativeLayout>
     <TextView
         android:id="@+id/dealsHeading"
         android:layout_width="match_parent"
@@ -11,7 +34,7 @@
         android:gravity="center"
         android:layout_weight="0.3"
         android:layout_marginTop="15dp"
-        android:textSize="@dimen/textTwenty"
+        android:textSize="16sp"
         android:textColor="@android:color/white"
         android:fontFamily="@font/opensans_bold"/>
     <android.support.v7.widget.RecyclerView

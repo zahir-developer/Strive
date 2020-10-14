@@ -16,7 +16,7 @@ namespace Strive.Core.Models.Customer
         public static DateTime notifyWashTime { get; set; }
         public static int selectedDeal { get; set; } = -1;
         public static CustomerPersonalInfo customerPersonalInfo { get; set; }
-        public static int ClientID { get; set; } = 118;
+        public static int ClientID { get; set; } = 83;
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
         public static int colorNumber { get; set; }
@@ -24,6 +24,10 @@ namespace Strive.Core.Models.Customer
         public static int modelNumber { get; set; }
         public static string modelName { get; set; }
         public static SelectedServiceList membershipType;
+        public static int actionType { get; set; } = 0;
+        public static PastClientServices pastClientServices { get; set; }
+        public static int SelectedVehiclePastDetails {get; set;}
+        public static List<float> TotalCost { get; set; }
 
         #endregion properties
 
@@ -104,7 +108,6 @@ namespace Strive.Core.Models.Customer
             selectedAdditionalServices = null;
             customerVehicleDetails = null;
             selectedMembershipServices = null;
-            clientVehicleID = 0;
         }
 
         #endregion MembershipCommands
@@ -113,10 +116,17 @@ namespace Strive.Core.Models.Customer
 
     public static class CustomerVehiclesInformation
     {
+        #region Properties
+
         public static VehicleList vehiclesList { get; set; }
         public static int selectedVehicleInfo { get; set; }
-
         public static ClientVehicleRootView completeVehicleDetails { get; set; }
+        public static ClientVehicleRoot membershipDetails { get; set; }
 
+        #endregion Properties
+
+        #region Commands
+
+        #endregion Commands
     }
 }

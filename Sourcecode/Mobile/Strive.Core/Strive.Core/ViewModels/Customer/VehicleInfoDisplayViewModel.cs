@@ -14,6 +14,8 @@ namespace Strive.Core.ViewModels.Customer
         public VehicleList selectedVehicleInfo { get; set; }
         public ClientVehicleRootView clientVehicleRoot { get; set; }
 
+        public CustomerCompleteDetails clientVehicleDetail { get; set; }
+
         #endregion Properties
 
 
@@ -21,6 +23,8 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task GetSelectedVehicleInfo()
         {
+            _userDialog.ShowLoading();
+
             selectedVehicleInfo = new VehicleList();
             selectedVehicleInfo.Status = new List<VehicleDetail>();
             foreach (var data in CustomerVehiclesInformation.vehiclesList.Status)
@@ -43,8 +47,35 @@ namespace Strive.Core.ViewModels.Customer
                 VehicleMembershipDetails.ClientVehicleMembershipService = new List<ClientVehicleMembershipServiceView>();
 
             CustomerVehiclesInformation.completeVehicleDetails = await AdminService.GetVehicleMembership(CustomerVehiclesInformation.selectedVehicleInfo);
+
+
+            _userDialog.HideLoading();
         }
 
+        public async Task GetCompleteVehicleDetails()
+        {
+            _userDialog.ShowLoading();
+
+            clientVehicleDetail = new CustomerCompleteDetails();
+
+            clientVehicleDetail = await AdminService.GetVehicleCompleteDetails(CustomerVehiclesInformation.selectedVehicleInfo);
+
+            _userDialog.HideLoading();
+        }
+
+        public async Task<bool> MembershipExists()
+        {
+            var confirm = await _userDialog.ConfirmAsync("Do you want to edit your membership ?");
+            var confirmed = false;
+            if(confirm)
+            {
+                return confirmed = true;
+            }
+            else
+            {
+                return confirmed = false;
+            }
+        }
 
 
         #endregion Commands

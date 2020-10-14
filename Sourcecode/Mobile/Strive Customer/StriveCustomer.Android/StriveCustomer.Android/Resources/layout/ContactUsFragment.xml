@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="2"
     android:background="@drawable/mobile_portrait_bg">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,15 +18,160 @@
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
     </RelativeLayout>
-    <LinearLayout
+    <fragment
+        android:id="@+id/contactUsMaps"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="2" >
-        <fragment
-            android:id="@+id/contactUsMaps"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2" 
+        android:layout_marginTop="@dimen/twenty"
+        android:layout_marginRight="@dimen/twenty"
+        android:layout_marginLeft="@dimen/twenty"
+        android:layout_marginBottom="95dp"
+        android:background="@drawable/secondarylinearlayout">
+        <TextView
+            android:id="@+id/locationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_semibold" 
+            android:textColor="@color/profileInfoColor"
+            android:textSize="@dimen/textSixteen"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginBottom="@dimen/ten"/>
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:name="com.google.android.gms.maps.SupportMapFragment"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginRight="@dimen/ten"
+            android:background="@color/vehicleInfoCardColor" >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_marginLeft="@dimen/ten">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_location"/>
+                <TextView
+                    android:id="@+id/locationDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:textSize="@dimen/textFifteen"
+                    android:textColor="@color/profileQColor"/>
+            </LinearLayout>
+             <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="@dimen/fifteen"
+                android:layout_marginLeft="@dimen/ten">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_phone"/>
+                <TextView
+                    android:id="@+id/phoneDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:textSize="@dimen/textFifteen"
+                    android:textColor="@color/profileQColor"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="@dimen/fifteen"
+                android:layout_marginLeft="@dimen/ten">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_mail"/>
+                <TextView
+                    android:id="@+id/mailDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:textSize="@dimen/textFifteen"
+                    android:textColor="@color/profileQColor"/>
+            </LinearLayout>
+             <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="@dimen/fifteen"
+                android:layout_marginLeft="@dimen/ten">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_storeclock"/>
+                <TextView
+                    android:id="@+id/storeClockDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:layout_marginLeft="@dimen/twentyFive"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:textSize="@dimen/textFifteen"
+                    android:textColor="@color/profileQColor"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/facebookIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_facebook"
+                android:background="@android:color/transparent"
+                />
+            <ImageButton
+                android:id="@+id/instagramIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_instagram"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="@dimen/thirty"/>
+            <ImageButton
+                android:id="@+id/twitterIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_twitter"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="@dimen/thirty"/>
+            <ImageButton
+                android:id="@+id/mailIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_email"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="@dimen/thirty"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+ </LinearLayout>
+

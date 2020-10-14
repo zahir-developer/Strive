@@ -130,6 +130,7 @@ namespace Strive.BusinessEntities
         USPUPDATEVEHICLE,
         USPDELETECLIENTVEHICLE,
         USPGETVEHICLEBYID,
+        USPGETPASTDETAILSBYCLIENTID,
         USPSAVEVEHICLE,
         uspGetVehicleByClientId,
         uspGetVihicleMembership,
@@ -179,7 +180,10 @@ namespace Strive.BusinessEntities
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
         USPROLLBACKPAYMENT,
-        USPGETALLSERVICEANDPRODUCTLIST
+        USPGETALLSERVICEANDPRODUCTLIST,
+        //Checkout
+        USPGETCHECKEDINVEHICLEDETAILS,
+        USPUPDATECHECKOUTDETAILFORJOBID
     }
 
 
