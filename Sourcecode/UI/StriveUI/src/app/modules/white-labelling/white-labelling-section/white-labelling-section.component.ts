@@ -133,6 +133,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
           this.whiteLabelId = label.WhiteLabelling.WhiteLabel?.WhiteLabelId;
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
           this.logoPath = label.WhiteLabelling.WhiteLabel?.LogoPath;
+          this.fileName = label.WhiteLabelling.WhiteLabel?.LogoPath;
         }
       }
     });
@@ -185,8 +186,8 @@ export class WhiteLabellingSectionComponent implements OnInit {
     const uploadObj = {
       whiteLabel: {
         whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
-        logoPath: this.logoPath !== '' ? this.logoPath : null,
-        fileName: this.fileName ? this.fileName : null, // LogoPath if image already uploaded
+        // logoPath: this.logoPath !== '' ? this.logoPath : null,
+        fileName: this.fileName ? this.fileName : this.logoPath, // LogoPath if image already uploaded
         thumbFileName: null,
         base64: selectedLogo ? selectedLogo : '', // empty string if update
         title: this.title ? this.title : '',
