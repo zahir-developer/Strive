@@ -138,9 +138,9 @@ export const UrlConfig = {
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
     addWhiteLabelDetail: `Admin/WhiteLabelling/Add`,
     updateWhiteLabelDetail: `Admin/WhiteLabelling/Update`,
-    saveCustomColor: ``,
-    uploadWhiteLabel: ``,
-    getPayroll: `Admin/Payroll/GetPayroll`,
+    saveCustomColor: `Admin/WhiteLabelling/Save`,
+    uploadWhiteLabel: `Admin/WhiteLabelling/Update`,
+    getPayroll: `Admin/PayRoll/GetPayroll`,
   },
   Messenger:
   {
