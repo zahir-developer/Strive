@@ -15,38 +15,39 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
-                        <div class="row p-b-10 m-b-15">
-                            <div class="col-2">
-                                <h5 class="d-inline-block">Payroll List
-                                </h5>
-                                <!-- <div class="pull-right m-t-4 ">
-
-                                    
-                                </div> -->
-                            </div>
-                            <div class="col-3">
-                                <div class="form-row">
-                                    <label class="col-sm-2 col-form-label" for="inTime">From:</label>
-                                    <input type="text" class="form-control col-sm-10" bsDatepicker name="inTime" id="inTime" />
+                        <form [formGroup]="payrollDateForm">
+                            <div class="row p-b-10 m-b-15">
+                                <div class="col-2">
+                                    <h5 class="d-inline-block">Payroll List
+                                    </h5>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-row">
+                                        <label class="col-sm-2 col-form-label" for="inTime">From:</label>
+                                        <input type="text" class="form-control col-sm-10" formControlName="fromDate"
+                                            bsDatepicker name="inTime" id="inTime" />
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-row">
+                                        <label class="col-sm-2 col-form-label" for="inTime">To:</label>
+                                        <input type="text" class="form-control col-sm-10" formControlName="toDate"
+                                            bsDatepicker name="inTime" id="inTime" />
+                                    </div>
+                                </div>
+                                <div class="col-4 pull-right ">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                        [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
+                                        Report</button>
+                                    <button type="button"
+                                        class="btn theme-primary-button-color btn-md m-l-10">Edit</button>
+                                    <button type="button"
+                                        class="btn theme-primary-button-color btn-md m-l-10">Update</button>
+                                    <button type="button"
+                                        class="btn theme-primary-button-color btn-md m-l-10">Process</button>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="form-row">
-                                    <label class="col-sm-2 col-form-label" for="inTime">To:</label>
-                                    <input type="text" class="form-control col-sm-10" bsDatepicker name="inTime" id="inTime" />
-                                </div>
-                            </div>
-                            <div class="col-4 pull-right ">
-                                <button type="button" class="btn theme-primary-button-color btn-md m-l-10">Run
-                                    Report</button>
-                                <button type="button"
-                                    class="btn theme-primary-button-color btn-md m-l-10">Edit</button>
-                                <button type="button"
-                                    class="btn theme-primary-button-color btn-md m-l-10">Update</button>
-                                <button type="button"
-                                    class="btn theme-primary-button-color btn-md m-l-10">Process</button>
-                            </div>
-                        </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table border table-hover" aria-describedby="payroll-list">
                                 <thead>
@@ -70,26 +71,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>9567464</td>
-                                        <td>Myron wunsch</td>
-                                        <td>10</td>
-                                        <td>20</td>
-                                        <td>10</td>
+                                    <tr
+                                        *ngFor="let payroll of payRollList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                        <td>{{payroll.EmployeeId}}</td>
+                                        <td>{{payroll.PayeeName}}</td>
+                                        <td>{{payroll.TotalWashHours}}</td>
+                                        <td>{{payroll.TotalDetailHours}}</td>
+                                        <td>{{payroll.WashAmount | currency}}</td>
                                         <!-- <td>0</td> -->
-                                        <td>$100</td>
-                                        <td>0</td>
-                                        <td>$0.00</td>
-                                        <td>$0.00</td>
-                                        <td>$0.00</td>
-                                        <td>$50.00</td>
-                                        <td>$200.00</td>
+                                        <td>{{payroll.WashRate}}</td>
+                                        <td>{{payroll.OverTimeHours}}</td>
+                                        <td>{{payroll.OverTimePay | currency}}</td>
+                                        <td>{{payroll.Uniform | currency}}</td>
+                                        <td>{{payroll.Collision | currency}}</td>
+                                        <td>{{payroll.Adjustment | currency}}</td>
+                                        <td>{{payroll.DetailCommission | currency}}</td>
                                         <td>$10.00</td>
                                         <!-- <td>$50</td> -->
-                                        <td>$410</td>
+                                        <td>{{payroll.PayeeTotal  | currency}}</td>
+                                    </tr>
+                                    <tr *ngIf="payRollList.length === 0">
+                                        <td colspan="14" class="text-center">
+                                            No Records Found
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                class="d-flex justify-content-end">
+                            </ngb-pagination>
                         </div>
                     </div>
                 </div>

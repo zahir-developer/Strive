@@ -5,6 +5,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { PayrollsRoutingModule } from './payrolls-routing.module';
 import { PayrollsComponent } from './payrolls/payrolls.component';
 import { PayrollsGridComponent } from './payrolls-grid/payrolls-grid.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { PayrollsGridComponent } from './payrolls-grid/payrolls-grid.component';
   imports: [
     CommonModule,
     PayrollsRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbPaginationModule
   ]
 })
 export class PayrollsModule { }

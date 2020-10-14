@@ -9,7 +9,7 @@ import { CheckoutService } from 'src/app/shared/services/data-service/checkout.s
   styleUrls: ['./checkout-grid.component.css']
 })
 export class CheckoutGridComponent implements OnInit {
-  uncheckedVehicleDetails: any;
+  uncheckedVehicleDetails: any = [];
   isTableEmpty: boolean;
   page = 1;
   pageSize = 5;
@@ -26,7 +26,7 @@ export class CheckoutGridComponent implements OnInit {
     this.checkout.getUncheckedVehicleDetails().subscribe(data => {
       if (data.status === 'Success') {
         const uncheck = JSON.parse(data.resultData);
-        this.uncheckedVehicleDetails = uncheck.UncheckedVehicleDetails;
+        this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails;
         console.log(this.uncheckedVehicleDetails);
         if (this.uncheckedVehicleDetails.length === 0) {
           this.isTableEmpty = true;
@@ -36,6 +36,20 @@ export class CheckoutGridComponent implements OnInit {
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+      }
+    });
+  }
+
+  checkoutVehicle(checkout) {
+    const finalObj = {
+      id: checkout.JobId,
+      checkOut: true,
+      actualTimeOut: new Date()
+    };
+    this.checkout.checkoutVehicle(finalObj).subscribe( res => {
+      if (res.status === 'Success') {
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Checkout successfully' });
+        this.getAllUncheckedVehicleDetails();
       }
     });
   }

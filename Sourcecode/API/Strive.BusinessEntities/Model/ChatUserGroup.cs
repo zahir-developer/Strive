@@ -14,7 +14,7 @@ public class ChatUserGroup
 	public int? UserId { get; set; }
 
 	[Column, PrimaryKey]
-	public int? GroupId { get; set; }
+	public int? ChatGroupId { get; set; }
 
 	[Column]
 	public bool? IsActive { get; set; }
@@ -26,7 +26,7 @@ public class ChatUserGroup
 	public int? CreatedBy { get; set; }
 
 	[Column]
-	public int? CreatedDate { get; set; }
+	public DateTimeOffset? CreatedDate { get; set; }
 
 }
 }

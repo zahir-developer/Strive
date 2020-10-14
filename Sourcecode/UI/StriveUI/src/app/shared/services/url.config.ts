@@ -133,11 +133,22 @@ export const UrlConfig = {
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
-    getUncheckedVehicleDetails:`Admin/Checkout/GetUncheckedVehicleDetails`,
+    getJobStatus: `Admin/Common/GetCodesByCategory/`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
+    checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetUncheckedVehicleDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
     addWhiteLabelDetail: `Admin/WhiteLabelling/Add`,
-    updateWhiteLabelDetail: `Admin/WhiteLabelling/Update`,
-    saveCustomColor: `Admin/WhiteLabelling/Save`,
-    uploadWhiteLabel: `Admin/WhiteLabelling/Update`
+    updateWhiteLabelDetail: `Admin/WhiteLabelling/Update`
+  },
+  Messenger:
+  {
+    GetEmployeeList : `Admin/Messenger/GetChatEmployeeList`,
+    SendMessage: `Admin/Messenger/SendChatMessage`,
+    CreateGroup: `Admin/Messenger/CreateGroup`,
+    UpdateChatCommunicationDetail : `Admin/Messenger/ChatCommunication`,
+    GetChatMessage :  `Admin/Messenger/GetChatMessage`
   }
+
+
 };
