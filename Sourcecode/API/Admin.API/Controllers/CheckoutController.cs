@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.CheckoutEntry;
 using Strive.BusinessLogic.Checkout;
 using Strive.Common;
 using System;
@@ -16,11 +17,22 @@ namespace Admin.API.Controllers
     {
         public CheckoutController(ICheckoutBpl prdBpl) : base(prdBpl) { }
 
+        #region GET
         /// <summary>
-        /// Method to Get Unchecked Vehicle Details.
+        /// Method to Get CheckedIn Vehicle Details.
         /// </summary>
         [HttpGet]
-        [Route("GetUncheckedVehicleDetails")]
-        public Result GetUncheckedVehicleDetails() => _bplManager.GetUncheckedVehicleDetails();
+        [Route("GetCheckedInVehicleDetails")]
+        public Result GetCheckedInVehicleDetails() => _bplManager.GetCheckedInVehicleDetails();
+        #endregion
+
+        #region POST
+        /// <summary>
+        /// Method to Update Checkout Flag and Checkout Time
+        /// </summary>
+        [HttpPost]
+        [Route("UpdateCheckoutDetails")]
+        public Result UpdateCheckoutDetails([FromBody]CheckoutEntryDto checkoutEntry) => _bplManager.UpdateCheckoutDetails(checkoutEntry);
+        #endregion
     }
 }
