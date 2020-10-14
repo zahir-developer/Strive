@@ -111,7 +111,7 @@ namespace Strive.Core.ViewModels.Customer
         public async Task<bool> AgreeMembership()
         {
             bool agree = true;
-            var confirm = await _userDialog.ConfirmAsync("Create Membership ? You can cancel it later if you change your mind !");
+            var confirm = await _userDialog.ConfirmAsync("Would you like to create the membership ?");
             if(confirm)
             {
                 var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
@@ -136,7 +136,7 @@ namespace Strive.Core.ViewModels.Customer
         public async Task<bool> DisagreeMembership()
         {
             bool disagree = true;
-            var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel ? Membership won't be created !");
+            var confirm = await _userDialog.ConfirmAsync("Do you wish to cancel ?");
             if (confirm)
             {
                 MembershipDetails.clearMembershipData();

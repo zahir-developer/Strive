@@ -61,18 +61,14 @@ namespace StriveCustomer.Android.Fragments
             return rootview;
         }
 
-        private void EditMembershipButton_Click(object sender, EventArgs e)
+        private async void EditMembershipButton_Click(object sender, EventArgs e)
         {
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership == null)
+            var result = await this.ViewModel.MembershipExists();
+            if (result)
             {
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, vehicleMembershipFrag).Commit();
-            }
-            else
-            {
-                this.ViewModel.MembershipExists();
-            }
-            
+            } 
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -91,29 +87,37 @@ namespace StriveCustomer.Android.Fragments
 
         public async void getSelectVehicleInfo()
         {
+            CheckMembership.hasExistingMembership = false;
+            CustomerVehiclesInformation.membershipDetails = null;
             await this.ViewModel.GetSelectedVehicleInfo();
             await this.ViewModel.GetCompleteVehicleDetails();
-            //MembershipDetails.selectedColor = this.ViewModel.clientVehicleDetail.Status.ColorId;
-            //MembershipDetails.selectedModel = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
-            //MembershipDetails.selectedMake = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
+            MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
+            MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
+            MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
-            {
+            {               
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
                 vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
                 if(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
                 {
+                    CheckMembership.hasExistingMembership = true;
                     vehicleMembership.Text = "Yes";
                     nextButton.Visibility = ViewStates.Visible;
                 }
                 else
                 {
+                    CheckMembership.hasExistingMembership = false;
                     vehicleMembership.Text = "No";
                     nextButton.Visibility = ViewStates.Gone;
                 }
                
             }
         }
+    }
+    public class CheckMembership
+    {
+        public static bool hasExistingMembership { get; set; }
     }
 }
