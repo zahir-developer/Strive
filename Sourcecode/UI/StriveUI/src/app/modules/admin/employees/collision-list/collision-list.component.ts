@@ -51,8 +51,8 @@ export class CollisionListComponent implements OnInit {
 
   collistionGrid() {
     this.totalAmount = 0;
+    this.collisionList = [];
     if (this.employeeCollision.length > 0) {
-      this.collisionList = [];
       this.collisionList = this.employeeCollision;
       if (this.collisionList.length > 0) {
         this.collisionList.forEach(item => {
@@ -69,9 +69,9 @@ export class CollisionListComponent implements OnInit {
         const employees = JSON.parse(res.resultData);
         this.employeeCollision = [];
         if (employees.Employee.EmployeeCollision !== null) {
-          this.employeeCollision = employees.Employee.EmployeeCollision;
-          this.collistionGrid();
+          this.employeeCollision = employees.Employee.EmployeeCollision;          
         }
+        this.collistionGrid();
       }
     });
   }
@@ -95,7 +95,7 @@ export class CollisionListComponent implements OnInit {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfully!' });
         this.employeeDetail();
-        this.collistionGrid();
+        //this.collistionGrid();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
