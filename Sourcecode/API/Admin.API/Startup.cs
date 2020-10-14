@@ -39,9 +39,7 @@ using Strive.BusinessLogic.Washes;
 using Strive.BusinessLogic.Details;
 using Strive.BusinessLogic.Sales;
 using Strive.BusinessLogic.Admin.ExternalApi;
-<<<<<<< Sourcecode/API/Admin.API/Startup.cs
 using Strive.BusinessLogic.Messenger;
-<<<<<<< Sourcecode/API/Admin.API/Startup.cs
 using Strive.BusinessLogic.WhiteLabelling;
 using Strive.BusinessLogic.Checkout;
 
