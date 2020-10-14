@@ -53,11 +53,11 @@ namespace Admin.API.Controllers
             {
                 if (chatMessageDto.ChatMessageRecipient.RecipientGroupId == null && chatMessageDto.ChatMessageRecipient.RecipientId > 0)
                 {
-                    await chatHub.SendPrivateMessage(
+                    /*await chatHub.SendPrivateMessage(
                         chatMessageDto.ConnectionId,
                         chatMessageDto.ChatMessageRecipient.SenderId.GetValueOrDefault().ToString(),
                         chatMessageDto.FullName,
-                        chatMessageDto.ChatMessage.Messagebody);
+                        chatMessageDto.ChatMessage.Messagebody);*/
                 }
                 else if (chatMessageDto.ChatMessageRecipient.RecipientGroupId > 0 && chatMessageDto.ChatMessageRecipient.RecipientId == null)
                     await chatHub.SendMessageToGroup(
