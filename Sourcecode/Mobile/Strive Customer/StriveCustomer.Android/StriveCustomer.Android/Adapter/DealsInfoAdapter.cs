@@ -10,16 +10,23 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using StriveCustomer.Android.DemoData;
 
 namespace StriveCustomer.Android.Adapter
 {
     public class InfoRecyclerViewHolder : RecyclerView.ViewHolder, View.IOnClickListener, View.IOnLongClickListener
     {
         public TextView dealsInfoHeading;
+        public TextView dealWashes;
+        public TextView dealExpiryDate;
+        public TextView dealDescription;
         public IItemClickListener itemClickListener;
         public InfoRecyclerViewHolder(View dealInfoItem) : base(dealInfoItem)
         {
             dealsInfoHeading = dealInfoItem.FindViewById<TextView>(Resource.Id.dealsCardHeading);
+            dealWashes = dealInfoItem.FindViewById<TextView>(Resource.Id.leftBottomValue);
+            dealExpiryDate = dealInfoItem.FindViewById<TextView>(Resource.Id.rightBottomValue);
+            dealDescription = dealInfoItem.FindViewById<TextView>(Resource.Id.dealsCardDescription);
             dealInfoItem.SetOnClickListener(this);
         }
         public void SetItemClickListener(IItemClickListener itemClickListener)
@@ -40,25 +47,28 @@ namespace StriveCustomer.Android.Adapter
     {
 
         Context context;
-        public List<string> infoListData = new List<string>();
-        public DealsInfoAdapter(List<string> infoListData,Context context)
+        DealsDemoData infoData = new DealsDemoData();
+        public DealsInfoAdapter(DealsDemoData infoData,Context context)
         {
             this.context = context;
-            this.infoListData = infoListData;
+            this.infoData = infoData;
         }
 
         public override int ItemCount 
         {
             get
             {
-                return infoListData.Count;
+                return 1;
             }
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder infoHolder, int position)
         {
             InfoRecyclerViewHolder infoRecyclerViewHolder = infoHolder as InfoRecyclerViewHolder;
-            infoRecyclerViewHolder.dealsInfoHeading.Text = infoListData[position];
+            infoRecyclerViewHolder.dealsInfoHeading.Text = infoData.DealCost;
+            infoRecyclerViewHolder.dealDescription.Text = infoData.Description;
+            infoRecyclerViewHolder.dealWashes.Text = infoData.DealWashes;
+            infoRecyclerViewHolder.dealExpiryDate.Text = infoData.ExpiryDate;
             infoRecyclerViewHolder.SetItemClickListener(this);
         }
 
