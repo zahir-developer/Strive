@@ -13,6 +13,8 @@
       <li class="active"><a style="cursor: pointer;" (click)="openNav()"><i
             class="fa fa-2x fa-user-o"></i>Admin</a></li>
       <li class=""><a href="#"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
+      <li class=""><a [routerLink]='["./payrolls"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
+      <li class=""><a [routerLink]='["./checkout"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
       <li class=""><a href="#"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
       <li class=""><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message"></i>Messenger</a></li>
     </ul>
@@ -56,8 +58,9 @@
       <li><a href="#"><em class="mdi mdi-file-document"></em><span>Reports</span></a></li>
       <li><a><em class="fa fa-user-o"></em><span>Admin</span></a></li>
       <li><a href="#"><em class="fa fa-flag-checkered"></em><span>Checkout</span></a></li>
+      <li><a [routerLink]='["./payrolls"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="fa fa-dollar"></em><span>Payroll</span></a></li>
+      <li><a [routerLink]='["./checkout"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="fa fa-flag-checkered"></em><span>Checkout</span></a></li>
       <li><a href="#"><em class="fa fa-dollar"></em><span>Payroll</span></a></li>
-
     </ul>
     <div id="show-submenu" class="hide">
       <a href="#" class="back-to-list"> <em class="fa fa-arrow-left"></em> Back</a>
@@ -78,9 +81,7 @@
             Cards</a></li>
         <li><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]'
             (click)="closembsidebar()">System Setup</a></li>
-
       </ul>
-
     </div>
   </div>
 </section>

@@ -1,0 +1,110 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a>Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Payroll</li>
+                </ol>
+            </nav>
+            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Payroll</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <form [formGroup]="payrollDateForm">
+                            <div class="row p-b-10 m-b-15">
+                                <div class="col-2">
+                                    <h5 class="d-inline-block">Payroll List
+                                    </h5>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-row">
+                                        <label class="col-sm-2 col-form-label" for="inTime">From:</label>
+                                        <input type="text" class="form-control col-sm-10" formControlName="fromDate"
+                                            bsDatepicker name="inTime" id="inTime" />
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-row">
+                                        <label class="col-sm-2 col-form-label" for="inTime">To:</label>
+                                        <input type="text" class="form-control col-sm-10" formControlName="toDate"
+                                            bsDatepicker name="inTime" id="inTime" />
+                                    </div>
+                                </div>
+                                <div class="col-4 pull-right ">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                        [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
+                                        Report</button>
+                                    <button type="button"
+                                        class="btn theme-primary-button-color btn-md m-l-10">Edit</button>
+                                    <button type="button"
+                                        class="btn theme-primary-button-color btn-md m-l-10">Update</button>
+                                    <button type="button"
+                                        class="btn theme-primary-button-color btn-md m-l-10">Process</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="table-responsive">
+                            <table class="table border table-hover" aria-describedby="payroll-list">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Emp. ID</th>
+                                        <th scope="col">Payee</th>
+                                        <th scope="col">Wash Hrs.</th>
+                                        <th scope="col">Detail Hrs.</th>
+                                        <th scope="col">Rate</th>
+                                        <!-- <th scope="col">Detail rate</th> -->
+                                        <th scope="col">Reg pay</th>
+                                        <th scope="col">OT Hrs.</th>
+                                        <th scope="col">OT Pay</th>
+                                        <th scope="col">Uniform</th>
+                                        <th scope="col">Collision</th>
+                                        <th scope="col">Adj.</th>
+                                        <th scope="col">Details com.</th>
+                                        <th scope="col">Tips</th>
+                                        <!-- <th scope="col">Detail Tips</th> -->
+                                        <th scope="col">Payee Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let payroll of payRollList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                        <td>{{payroll.EmployeeId}}</td>
+                                        <td>{{payroll.PayeeName}}</td>
+                                        <td>{{payroll.TotalWashHours}}</td>
+                                        <td>{{payroll.TotalDetailHours}}</td>
+                                        <td>{{payroll.WashAmount | currency}}</td>
+                                        <!-- <td>0</td> -->
+                                        <td>{{payroll.WashRate}}</td>
+                                        <td>{{payroll.OverTimeHours}}</td>
+                                        <td>{{payroll.OverTimePay | currency}}</td>
+                                        <td>{{payroll.Uniform | currency}}</td>
+                                        <td>{{payroll.Collision | currency}}</td>
+                                        <td>{{payroll.Adjustment | currency}}</td>
+                                        <td>{{payroll.DetailCommission | currency}}</td>
+                                        <td>$10.00</td>
+                                        <!-- <td>$50</td> -->
+                                        <td>{{payroll.PayeeTotal  | currency}}</td>
+                                    </tr>
+                                    <tr *ngIf="payRollList.length === 0">
+                                        <td colspan="14" class="text-center">
+                                            No Records Found
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                class="d-flex justify-content-end">
+                            </ngb-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

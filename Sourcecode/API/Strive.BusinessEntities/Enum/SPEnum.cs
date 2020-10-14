@@ -15,6 +15,11 @@ namespace Strive.BusinessEntities
             USPDELETETIMECLOCKEMPLOYEE
         }
 
+        public enum WhiteLabelling
+        {
+            USPGETWHITELABEL
+        }
+
         public enum Employee
         {
             //Employee
@@ -180,7 +185,10 @@ namespace Strive.BusinessEntities
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
         USPROLLBACKPAYMENT,
-        USPGETALLSERVICEANDPRODUCTLIST
+        USPGETALLSERVICEANDPRODUCTLIST,
+        //Checkout
+        USPGETCHECKEDINVEHICLEDETAILS,
+        USPUPDATECHECKOUTDETAILFORJOBID
     }
 
 

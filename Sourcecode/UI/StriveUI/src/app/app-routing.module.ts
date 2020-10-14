@@ -14,11 +14,13 @@ const routes: Routes = [
   { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
   { path: 'wash', canActivate: [AuthGuard], loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
   { path: 'detail', loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule) },
+  { path: 'checkout', loadChildren: () => import('./modules/checkout/checkout.module').then(m => m.CheckoutModule) },
   {
     path: 'dashboard', canActivate: [AuthGuard],
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
   {path: 'sales', loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
+  { path: 'payrolls', loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
   {path: 'messenger', loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
   {
     path: '',

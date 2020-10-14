@@ -21,8 +21,16 @@ public class Themes
 
 	[Column]
 	public string SecondaryColor { get; set; }
+    [Column]
+    public string TertiaryColor { get; set; }
 
-	[Column]
+    [Column]
+    public string NavigationColor { get; set; }
+
+    [Column]
+    public string BodyColor { get; set; }
+
+        [Column]
 	public string DefaultLogoPath { get; set; }
 
 	[Column]

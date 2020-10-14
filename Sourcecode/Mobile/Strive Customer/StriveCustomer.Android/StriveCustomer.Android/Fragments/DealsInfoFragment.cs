@@ -17,16 +17,17 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
+using StriveCustomer.Android.DemoData;
 
 namespace StriveCustomer.Android.Fragments
 {
     [MvxUnconventionalAttribute]
     public class DealsInfoFragment : MvxFragment<DealsViewModel>
     {
-        List<string> infoListData;
         Context context;
         private Button backButton;
         private DealsFragment dealsFragment;
+        private TextView dealHeading;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -41,19 +42,16 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.DealsInfoFragment, null);
             backButton = rootview.FindViewById<Button>(Resource.Id.dealsBack);
-            infoListData = new List<string>();
-            for (int i = 1; i <= 3; i++)
-            {
-                infoListData.Add("Deal1" + i);
-            }
+            dealHeading = rootview.FindViewById<TextView>(Resource.Id.dealsHeading);
             var dealsInfoRecyclerView = rootview.FindViewById<RecyclerView>(Resource.Id.dealsInfoList);
             dealsInfoRecyclerView.HasFixedSize = true;
             var layoutManager = new LinearLayoutManager(context);
             dealsInfoRecyclerView.SetLayoutManager(layoutManager);
-            DealsInfoAdapter dealsInfoAdapter = new DealsInfoAdapter(infoListData,context);
+            DealsInfoAdapter dealsInfoAdapter = new DealsInfoAdapter(DealsInformation.selectedDeal, context);
             dealsFragment = new DealsFragment();
             dealsInfoRecyclerView.SetAdapter(dealsInfoAdapter);
             backButton.Click += BackButton_Click;
+            dealHeading.Text = DealsInformation.selectedDeal.DealName;
             return rootview;
         }
 
