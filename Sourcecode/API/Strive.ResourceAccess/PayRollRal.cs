@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.PayRoll;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
@@ -21,6 +22,10 @@ namespace Strive.ResourceAccess
             _prm.Add("@EndDate", payRoll.EndDate);
             var res = db.FetchMultiResult<PayRollViewModel>(SPEnum.uspGetPayrollList.ToString(), _prm);
             return res;
+        }
+        public bool AddPayRoll(PayRollAddDto payRollAdd)
+        {
+            return dbRepo.InsertPc(payRollAdd, "PayrollId");
         }
     }
 }
