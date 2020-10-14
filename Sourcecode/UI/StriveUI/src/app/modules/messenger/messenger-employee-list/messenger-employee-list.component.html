@@ -1,0 +1,9 @@
+<div class="Message-box-slide view-msg">
+    <div class="Message-item" *ngFor="let emp of empList" (click) = 'loadChat(emp)'> 
+        <div id="profileImage">{{emp.Initial}}</div>&nbsp;&nbsp;&nbsp;
+        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
+            <div class="m-t-10">
+                <h6 class="msg-title" [ngClass]="{'bold-text': emp.communicationId !== '0'}">{{emp.FirstName + ' ' + emp.LastName}}</h6> <span class="theme-title font-size-7">''recent message...''</span></div>
+        </div>
+    </div>
+</div>

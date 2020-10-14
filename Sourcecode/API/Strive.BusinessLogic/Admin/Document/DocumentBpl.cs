@@ -123,6 +123,13 @@ namespace Strive.BusinessLogic.Document
                 else
                     return invalid + _tenant.ProductImageFormat;
             }
+            else if (GlobalUpload.UploadFolder.LOGO == upload)
+            {
+                if (_tenant.LogoImageFormat.Contains(Path.GetExtension(fileName).ToUpper()))
+                    return string.Empty;
+                else
+                    return invalid + _tenant.LogoImageFormat;
+            }
             else
                 return string.Empty;
         }
@@ -273,6 +280,9 @@ namespace Strive.BusinessLogic.Document
                     break;
                 case GlobalUpload.UploadFolder.PRODUCTIMAGE:
                     subPath = _tenant.ProductImageFolder;
+                    break;
+                case GlobalUpload.UploadFolder.LOGO:
+                    subPath = _tenant.LogoImageFolder;
                     break;
                 default:
                     subPath = "";

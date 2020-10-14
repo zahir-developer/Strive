@@ -78,6 +78,9 @@
       <PackageReference Include="System.Net.Http">
         <Version>4.3.4</Version>
       </PackageReference>
+      <PackageReference Include="ZXing.Net.Mobile">
+        <Version>2.4.1</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -209,6 +212,9 @@
         <InterfaceDefinition Include="Views\VehicleListView.xib" />
         <InterfaceDefinition Include="Views\GenbookView.xib" />
         <InterfaceDefinition Include="Views\HomeView.xib" />
+        <InterfaceDefinition Include="Views\DealsView.xib" />
+        <InterfaceDefinition Include="Views\DealsDetailView.xib" />
+        <InterfaceDefinition Include="Views\DealsViewCell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -259,6 +265,19 @@
         <Compile Include="Views\HomeView.designer.cs">
           <DependentUpon>HomeView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\DealsView.cs" />
+        <Compile Include="Views\DealsView.designer.cs">
+          <DependentUpon>DealsView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\DealsDetailView.cs" />
+        <Compile Include="Views\DealsDetailView.designer.cs">
+          <DependentUpon>DealsDetailView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\DealsViewCell.cs" />
+        <Compile Include="Views\DealsViewCell.designer.cs">
+          <DependentUpon>DealsViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\DealsTableSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

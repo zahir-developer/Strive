@@ -120,11 +120,15 @@ namespace Admin.API.Filters
             _tenant.EmployeeId = employeeId;
             _tenant.SchemaName = schemaName;
             _tenant.ProductImageFolder = Pick("FolderPath", "ProductImage");
+            _tenant.LogoImageFolder = Pick("FolderPath", "LogoImage");
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");
             _tenant.ProductImageFormat = Pick("FileFormat", "ProductImage");
+            _tenant.LogoImageFormat = Pick("FileFormat", "LogoImage");
             _tenant.ProductThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
             _tenant.ProductThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
+            _tenant.LogoThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
+            _tenant.LogoThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
 
         }
     }

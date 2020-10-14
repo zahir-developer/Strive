@@ -186,6 +186,17 @@ namespace Strive.Core.Services.Implementations
             var url = RestUtils.BuildQuery(ApiUtils.URL_DELETE_VEHICLE_INFO, "id", VehicleID);
             return await _restClient.MakeApiCall<GeneralResponse>(url, HttpMethod.Delete);
         }
+
+        public async Task<CustomerCompleteDetails> GetVehicleCompleteDetails(int VehicleID)
+        {
+            var url = RestUtils.BuildQuery(ApiUtils.URL_GET_VEHICLE_COMPLETE_DETAILS, "id", VehicleID);
+            return await _restClient.MakeApiCall<CustomerCompleteDetails>(url, HttpMethod.Get);
+        }
+
+        public async Task<PastClientServices> GetPastClientServices(int ClientID)
+        {
+            return await _restClient.MakeApiCall<PastClientServices>(string.Format(ApiUtils.URL_PAST_SERVICES_INFO, ClientID), HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

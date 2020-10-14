@@ -45,13 +45,13 @@ namespace StriveCustomer.Android.Adapter
             var data = CustomerVehiclesInformation.vehiclesList.Status[Position];
             AppCompatActivity activity = (AppCompatActivity)this.ItemView.Context;
             CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
+            MembershipDetails.clientVehicleID = data.VehicleId;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, InfoFragment).Commit();
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             CustomerInfo.actionType = 1;
-            
             vehicleItemClickListener.OnClick(null, AdapterPosition, false);
         }
 
@@ -94,7 +94,14 @@ namespace StriveCustomer.Android.Adapter
             vehicleRecyclerHolder = holder as VehicleRecyclerHolder;
             vehicleRecyclerHolder.vehicleReg.Text = vehicleLists.Status[position].VehicleNumber ?? "";
             vehicleRecyclerHolder.vehicleName.Text = vehicleLists.Status[position].VehicleColor +" "+vehicleLists.Status[position].VehicleMfr + " " + vehicleLists.Status[position].VehicleModel ?? "";
-            vehicleRecyclerHolder.vehicleMembership.Text = vehicleLists.Status[position].VehicleColor ?? "";
+            if(vehicleLists.Status[position].IsMembership)
+            {
+                vehicleRecyclerHolder.vehicleMembership.Text = "Yes";
+            }
+            else
+            {
+                vehicleRecyclerHolder.vehicleMembership.Text = "No";
+            }
             vehicleRecyclerHolder.SetItemClickListener(this);
         }
         public override long GetItemId(int position)

@@ -37,7 +37,7 @@
                                                     <th scope="col"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody *ngFor="let week of timeClockList; let index = index">
+                                            <tbody *ngFor="let week of replicateClockList; let index = index">
                                                 <tr>
                                                     <th scope="row" class="timeclock-table-toggle pointer">
                                                         <div class="card-widgets">
@@ -52,7 +52,8 @@
                                                     </td>
                                                     <td><button type="button"
                                                             class="btn theme-primary-button-color float-right"
-                                                            (click)="addTimeList(week)">Add</button></td>
+                                                            (click)="addTimeList(week)" [disabled]="isView">Add</button>
+                                                    </td>
                                                 </tr>
                                                 <tr id="CheckIn_{{index}}" class="collapse show">
                                                     <td colspan="4" id="collapse-timeclock-table" class="border p-5">
@@ -63,6 +64,7 @@
                                                                     <th scope="col">Out</th>
                                                                     <th scope="col">Role</th>
                                                                     <th scope="col">Tot. Hrs</th>
+                                                                    <th scope="col">Action</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -88,7 +90,7 @@
                                                                             (ngModelChange)="time.InTime=$event"
                                                                             [popover]="inTimePopup"
                                                                             [outsideClick]="true" placement="bottom"
-                                                                            numbersOnly/>
+                                                                            numbersOnly [disabled]="isView" />
                                                                     <td>
                                                                         <ng-template #popTemplate>
                                                                             <timepicker id="outTime_{{week.day}}_{{i}}"
@@ -106,14 +108,16 @@
                                                                             [ngModel]="time.OutTime | date:'HH:mm'"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             (ngModelChange)="time.OutTime=$event"
-                                                                            [popover]="popTemplate"
-                                                                            [outsideClick]="true" placement="bottom" numbersOnly />
+                                                                            [popover]="popTemplate" [disabled]="isView"
+                                                                            [outsideClick]="true" placement="bottom"
+                                                                            numbersOnly />
                                                                     </td>
                                                                     <td>
                                                                         <select
                                                                             class="form-control input-table rounded-0"
                                                                             [(ngModel)]="time.RoleId"
-                                                                            (change)="totalHoursCalculation(time)">
+                                                                            [disabled]="isView"
+                                                                            (change)="totalHoursCalculation()">
                                                                             <option value="" hidden selected>Select
                                                                                 Role</option>
                                                                             <option *ngFor="let role of roleList"
@@ -127,6 +131,10 @@
                                                                             class="form-control rounded-0 input-table text-right"
                                                                             [(ngModel)]="time.TotalHours"
                                                                             [disabled]="true"> </td>
+                                                                    <td>
+                                                                        <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                                            (click)="deleteConfirm(time)"></em>
+                                                                    </td>
                                                                 </tr>
                                                                 <tr *ngIf="week.checkInDetail.length === 0">
                                                                     <td colspan="4" class="text-center">

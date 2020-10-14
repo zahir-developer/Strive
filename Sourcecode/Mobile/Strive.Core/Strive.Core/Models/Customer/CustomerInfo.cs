@@ -24,7 +24,10 @@ namespace Strive.Core.Models.Customer
         public static int modelNumber { get; set; }
         public static string modelName { get; set; }
         public static SelectedServiceList membershipType;
-        public static int actionType { get; set; } = 0; 
+        public static int actionType { get; set; } = 0;
+        public static PastClientServices pastClientServices { get; set; }
+        public static int SelectedVehiclePastDetails {get; set;}
+        public static List<float> TotalCost { get; set; }
 
         #endregion properties
 
@@ -105,7 +108,6 @@ namespace Strive.Core.Models.Customer
             selectedAdditionalServices = null;
             customerVehicleDetails = null;
             selectedMembershipServices = null;
-            clientVehicleID = 0;
         }
 
         #endregion MembershipCommands
@@ -126,8 +128,5 @@ namespace Strive.Core.Models.Customer
         #region Commands
 
         #endregion Commands
-
-
-
     }
 }

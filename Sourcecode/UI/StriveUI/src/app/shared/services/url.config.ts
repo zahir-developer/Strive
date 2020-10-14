@@ -132,6 +132,19 @@ export const UrlConfig = {
     getServiceAndProduct: `Admin/Sales/GetAllServiceAndProductList`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
-    getJobStatus: `Admin/Common/GetCodesByCategory/`
+    getJobStatus: `Admin/Common/GetCodesByCategory/`,
+    getJobStatus: `Admin/Common/GetCodesByCategory/`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
+    checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`
+  },
+  Messenger:
+  {
+    GetEmployeeList : `Admin/Messenger/GetChatEmployeeList`,
+    SendMessage: `Admin/Messenger/SendChatMessage`,
+    CreateGroup: `Admin/Messenger/CreateGroup`,
+    UpdateChatCommunicationDetail : `Admin/Messenger/ChatCommunication`,
+    GetChatMessage :  `Admin/Messenger/GetChatMessage`
   }
+
+
 };

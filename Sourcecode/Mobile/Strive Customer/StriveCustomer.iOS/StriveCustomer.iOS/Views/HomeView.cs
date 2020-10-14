@@ -9,6 +9,8 @@ using MapKit;
 using System.Text.RegularExpressions;
 using StriveCustomer.iOS.UIUtils;
 using WebKit;
+using System.Collections.Generic;
+using Strive.Core.Models.TimInventory;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -25,7 +27,7 @@ namespace StriveCustomer.iOS.Views
             base.ViewDidLoad();
             WashTimeWebView.MapType = MKMapType.MutedStandard;
             WashTimeWebView.Delegate = new MapViewDelegate();
-            SetMapAnnotations();
+            //SetMapAnnotations();
             locationManager.RequestAlwaysAuthorization();
             var geofenceRegioncenter = new CLLocationCoordinate2D(8.185458,77.401112);
             var geofenceRegion = new CLCircularRegion(geofenceRegioncenter, 100, "notifymeonExit");
@@ -35,41 +37,41 @@ namespace StriveCustomer.iOS.Views
             locationManager.Delegate = new MyLocationDelegate(WashTimeWebView);
         }
 
-        void SetMapAnnotations()
-        {
-            double LatCenter = 0.0;
-            double LongCenter = 0.0;
-            int AddressCount = 0;
-            var locationAddress = ViewModel.Locations.LocationAddress;
-            MKPointAnnotation[] annotations = new MKPointAnnotation[locationAddress.Count];
-            for (int i = 0; i < locationAddress.Count; i++)
-            {
-                var subtitle = "";
-                if (locationAddress[i].Latitude > 0 || locationAddress[i].Longitude > 0)
-                {
-                    LatCenter += locationAddress[i].Latitude;
-                    LongCenter += locationAddress[i].Longitude;
-                    ++AddressCount;
-                    var WashTime = locationAddress[i].WashTiming;
-                    var OpenTime = locationAddress[i].OpenTime;
-                    var CloseTime = locationAddress[i].CloseTime;
-                    subtitle = WashTime.ToString();
-                }
-                annotations[i] = new MKPointAnnotation()
-                {
-                    Title = locationAddress[i].Address1,
-                    Subtitle = subtitle,
-                    Coordinate = new CLLocationCoordinate2D(locationAddress[i].Latitude, locationAddress[i].Longitude)
-                };
-            }
-            LatCenter = LatCenter / AddressCount;
-            LongCenter = LongCenter / AddressCount;
-            CLLocationCoordinate2D mapCenter = new CLLocationCoordinate2D(LatCenter, LongCenter);
-            MKCoordinateRegion mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 10000, 10000);
-            WashTimeWebView.CenterCoordinate = mapCenter;
-            WashTimeWebView.Region = mapRegion;
-            WashTimeWebView.AddAnnotations(annotations);
-        }
+        //void SetMapAnnotations()
+        //{
+        //    double LatCenter = 0.0;
+        //    double LongCenter = 0.0;
+        //    int AddressCount = 0;
+        //    var locationAddress = ViewModel.Locations.LocationAddress;
+        //    MKPointAnnotation[] annotations = new MKPointAnnotation[locationAddress.Count];
+        //    for (int i = 0; i < locationAddress.Count; i++)
+        //    {
+        //        var subtitle = "";
+        //        if (locationAddress[i].Latitude > 0 || locationAddress[i].Longitude > 0)
+        //        {
+        //            LatCenter += locationAddress[i].Latitude;
+        //            LongCenter += locationAddress[i].Longitude;
+        //            ++AddressCount;
+        //            var WashTime = locationAddress[i].WashTiming;
+        //            var OpenTime = locationAddress[i].OpenTime;
+        //            var CloseTime = locationAddress[i].CloseTime;
+        //            subtitle = WashTime.ToString();
+        //        }
+        //        annotations[i] = new MKPointAnnotation()
+        //        {
+        //            Title = locationAddress[i].Address1,
+        //            Subtitle = subtitle,
+        //            Coordinate = new CLLocationCoordinate2D(locationAddress[i].Latitude, locationAddress[i].Longitude)
+        //        };
+        //    }
+        //    LatCenter = LatCenter / AddressCount;
+        //    LongCenter = LongCenter / AddressCount;
+        //    CLLocationCoordinate2D mapCenter = new CLLocationCoordinate2D(LatCenter, LongCenter);
+        //    MKCoordinateRegion mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 10000, 10000);
+        //    WashTimeWebView.CenterCoordinate = mapCenter;
+        //    WashTimeWebView.Region = mapRegion;
+        //    WashTimeWebView.AddAnnotations(annotations);
+        //}
 
         public class MapViewDelegate : MKMapViewDelegate
         {
