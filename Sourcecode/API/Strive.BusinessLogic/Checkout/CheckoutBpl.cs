@@ -21,5 +21,9 @@ namespace Strive.BusinessLogic.Checkout
         {
             return ResultWrap(new CheckoutRal(_tenant).UpdateCheckoutDetails,checkoutEntry, "SaveCheckoutTime");
         }
+        public Result UpdateJobStatus(int id)
+        {
+            return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatus, id, "UpdateJobStatus");
+        }
     }
 }

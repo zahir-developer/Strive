@@ -33,6 +33,13 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateCheckoutDetails")]
         public Result UpdateCheckoutDetails([FromBody]CheckoutEntryDto checkoutEntry) => _bplManager.UpdateCheckoutDetails(checkoutEntry);
+
+        /// <summary>
+        /// Method to Update Job Status AS HOLD
+        /// </summary>
+        [HttpPost]
+        [Route("UpdateJobStatus/{id}")]
+        public Result UpdateJobStatus(int id) => _bplManager.UpdateJobStatus(id);
         #endregion
     }
 }
