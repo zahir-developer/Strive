@@ -1,56 +1,9 @@
 <div class="Message-box-slide view-msg">
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-2.jpg" width="60" alt="Message image">
+    <div class="Message-item" *ngFor="let emp of empList" (click) = 'loadChat(emp)'> 
+        <div id="profileImage">{{emp.Initial}}</div>&nbsp;&nbsp;&nbsp;
         <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
             <div class="m-t-10">
-                <h6 class="msg-title">Jeanne Weimann</h6> <span class="theme-title font-size-7">Check out cashier section</span></div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-3.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title">Dr. William Hoeger</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-4.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title ">Mr. Raymond Cassin</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-5.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title ">Raven Barrows</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-1.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title ">Elinor Considine</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-1.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title ">Blaze Friesen</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-5.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title ">Beatrice McKenzie</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-1.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title ">Derick Kessler</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
-        </div>
-    </div>
-    <div class="Message-item"> <img class="mr-3 rounded-circle" src="assets/img/avatar-1.jpg" width="60" alt="Message image">
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
-            <div class="m-t-10">
-                <h6 class="msg-title ">Erin Stokes</h6> <span class="theme-title font-size-7">Check out cashier section</span> </div>
+                <h6 class="msg-title" [ngClass]="{'bold-text': emp.communicationId !== '0'}">{{emp.FirstName + ' ' + emp.LastName}}</h6> <span class="theme-title font-size-7">''recent message...''</span></div>
         </div>
     </div>
 </div>

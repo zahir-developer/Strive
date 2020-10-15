@@ -71,7 +71,7 @@ namespace Strive.BusinessEntities.Model
         public string Notes { get; set; }
 
         [Column]
-        public bool CheckOut { get; set; }
+        public DateTime? CheckOutTime { get; set; }
 
     }
 }

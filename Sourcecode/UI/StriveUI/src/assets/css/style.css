@@ -1,3 +1,9 @@
+:root{ 
+    --primary-color: #1DC5B3;
+    --tertiary-color: #10B7A5;
+    --navigation-color: #24489A;
+    --secondary-color: #F2FCFE;
+}
 section#login
 {
 	background: url(../img/login-bg@2x.jpg);
@@ -67,7 +73,7 @@ content: "\F0143";
     position: fixed;
     z-index: 1;
     overflow-x: hidden;
-    background-color: #24489A;
+    background-color: var(--navigation-color);
 }
 
 .mobile-logo{
@@ -317,12 +323,12 @@ table th
 	.cashreg-tab.show>.nav-links,
 	.cashreg-tab .nav-links.active,
 	.cashreg-tab .show>.nav-links {
-		background-color: #1DC9B7;
+		background-color: var(--primary-color);
 		color: white;
 		border-radius: 3px;
 		padding: .3rem 1rem;
 		font-size: 16px;
-		border: 1px solid #21f6e0;
+		border: 1px solid var(--tertiary-color);
 	}
 	
 	.cashreg-tab > li {
@@ -366,14 +372,14 @@ table th
 		width: 62%;
 		height: 50px;
 		margin: 6px;
-		border: 2px solid #1DC9B7;
+		border: 2px solid var(--primary-color);
         border-radius: 4px;
         text-align: center;
-        color: #1DC9B7;
+        color: var(--primary-color);
 	}
 	
 	.text-cash {
-		color: #1DC9B7;
+		color: var(--primary-color);
 		font-weight: bold;
 		text-align: center;
 		font-size: 29px;
@@ -579,12 +585,12 @@ border-radius: 5px;
 .Schedules-tab.show > .nav-tab-link,
 .Schedules-tab .nav-tab-link.active,
 .Schedules-tab .show > .nav-tab-link {
-    background-color: #1dc9b7;
+    background-color: var(--primary-color);
     color: white;
     border-radius: 3px;
     padding: 0.3rem 1rem;
     font-size: 16px;
-    border: 1px solid #21f6e0;
+    border: 1px solid var(--tertiary-color);
 }
 .nav-tab-link {
     padding: 0.3rem 0.6rem 0.3rem 1rem;
@@ -597,7 +603,7 @@ border-radius: 5px;
 .Schedules-badge {
     border-radius: 3px;
     color: white;
-    background-color: #1dc9b7;
+    background-color: var(--primary-color);
     padding: 5px 5px;
 }
 
@@ -806,7 +812,7 @@ width:31.5%;
 		width:23%;
 }
 .actived, .btn-payment:hover {
-  background-color: #1DC5B3;
+  background-color: var(--primary-color);
   color: white !important;
 }
 .gift-card {
@@ -1129,143 +1135,6 @@ font-family: 'Raleway' !important;
 }
 .Ubuntu-font{
 font-family: 'Ubuntu' !important;
-}
-
-/*Checkout screen */
-
-.theme-optional-bg-color {
-background-color:#FD397A;
-}
-.notstarted{
-color: #F3C200;
-}
-.theme-ello-color {
-background-color: #F3C200;
-}
-.theme-inprogress{
-border-left:5px solid #FD397A;
-}
-.theme-notstarted{
-border-left:5px solid #F3C200;
-}
-.theme-hold{
-border-left:5px solid #24489A;
-}
-.theme-completed{
-border-left:5px solid #1DC5B3;
-}
-/*dashboard */
-.click-down-icon{
-
-margin-top:-29px;
-    transition: right .3s;
-}
-.click-up-icon{
-margin-top:-60px;
-    transition: right .3s;
-}
-.m-r--13{
-margin-right:-13px;
-}
-.dashbd-margin{
-margin-bottom:7px;
-}
-#weekform{
-    height: calc(1.8em + .75rem + 2px) !important;
-}
-.graph-icon{
-color: #B2B2BC;
-}
-.graph-border{
-border:1px solid #1DC5B3;
-}
-.btn-rounded {
-border-radius: 2em;
-}
-.btn-unactive{
-border:1px solid #dee2e6!important;
-color:black !important;
-}
-.dashboard-badge {
-border-radius: 3px;
-color: white;
-background-color: #00BBE1;
-padding: 5px 5px;
-}
-
-.theme-font-color:hover{
-color:#30343C !important;
-}
-
-.card-width-color {
-padding: 24px !important;
-padding-bottom: 30px !important;
-}
-.Schedules-tab div a.active, .Schedules-tab.show > .nav-tab-link-dash, .Schedules-tab .nav-tab-link-dash.active, .Schedules-tab .show > .nav-tab-link-dash {
-background-color: #00BBE1;
-color: white;
-border-radius: 3px;
-padding: 0.3rem 1rem;
-font-size: 16px;
-border: 1px solid #00BBE1;
-}
-.nav-tab-link-dash {
-padding: 0.3rem 0.6rem 0.3rem 1rem;
-border: 1px solid #ddd;
-border-radius: 3px;
-color: black;
-font-size: 16px;
-background-color: #fafafa;
-}
-.Schedules-tab div a.active >.dashboard-badge, .Schedules-tab.show > .nav-tab-link-dash, .Schedules-tab .nav-tab-link-dash.active >.dashboard-badge, .Schedules-tab .show > .nav-tab-link-dash > .dashboard-badge {
-color: #30343C;
-background-color: white;
-}
-.Schedules-tab div a.active > i, .Schedules-tab.show > .nav-tab-link-dash, .Schedules-tab .nav-tab-link-dash.active > i, .Schedules-tab .show > .nav-tab-link-dash > i {
-color: white;
-}
-
-
-.dropdown-item:focus, .dropdown-item:hover {
-background-color: #10B7A5 !important;
-border-color: #1DC5B3 !important;
-color: white !important;
-}
-
-.dropdown-item i:focus, .dropdown-item i:hover{
-color:white !important;
-}
-color-icon:hover{
-color:white !important;
-}
-
-/*Reports */
-.paginationinput{
-width: 50px !important;
-padding: 5px;
-}
-.montthcustreport td, .montthcustreport th {
-border-top: 0px solid #dee2e6 !important;
-}
-.custom-control-input:checked~.custom-control-label::before {
-color: #fff;
-border-color: #1DC5B3 !important;
-background-color: #1DC5B3  !important;
-}
-.modal-title-bg {
-background-color: #f5f5f5;
-}
-.w-10{
-width:10%;
-}
-.w-15{
- width:15%;
- }
-.w-45{
-  width:45%;
- }
-.page-link {
-color: #000000 !important;
 }
 
 

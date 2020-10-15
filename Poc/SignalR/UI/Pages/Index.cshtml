@@ -5,15 +5,18 @@
         <div class="col-6">
             <b>Use below link to call the API and pass the count as you want to update.</b>
             <br />
-             <a href="https://localhost:44319/api/signalr?count=1">API URL</a>
+            <a href="https://localhost:44319/api/signalr?count=1">API URL</a>
         </div>
     </div>
     <div class="row">
-        <div class="col-6" style="display:none;">
+        <div class="col-6" style="display:block;">
             User..........<input type="text" id="userInput" />
             <br />
             Message...<input type="text" id="messageInput" />
             <input type="button" id="sendButton" value="Send Message" />
+        </div>
+        <div>
+            <label id="connectionId">ConnectionID: N/A</label>
         </div>
         <div class="col-6" display="block">
             <label class="col-form-label-lg">No. of CheckIn:  </label>
@@ -22,13 +25,41 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <hr />
+            <label>UserName:</label>
+            <input type="text" id="userName" />
         </div>
     </div>
+    <div class="row" id="privateChat">
+        <div class="col-12">
+            <label>ConnectionId:</label>
+            <input type="text" />
+            <label>Message:</label>
+            <input type="text" id="privateMessage" />
+            <input type="button" id="sendPrivateMessage" value="Send Private Message" />
+        </div>
+    </div>
+    <div id="divGroupChat">
+        <label>Group Chat Name</label>
+        <input type="text" id="createGroupChatName" value="" />
+        <input type="button" id="createGroupChat" value="Create Group Chat" />
+    </div>
+    <div>
+        <label>Join Group Chat</label>
+        <input type="text" id="groupChatName" value="" />
+        <input type="button" id="joinGroup" value="Join Group Chat" />
+    </div>
+    <div>
+        <label>Send to Group</label>
+        <input type="text" id="groupName" />
+        <label>Message:</label><input type="text" id="groupMessage" value="" />
+        <input type="button" id="groupSend" value="Send to Group" />
+
+    </div>
     <div class="row">
-        <div class="col-6">&nbsp;</div>
-        <div class="col-6">
-            <ul id="messagesList"></ul>
+        <div class="col-12">
+            <ul id="messagesList">
+
+            </ul>
         </div>
     </div>
 </div>
