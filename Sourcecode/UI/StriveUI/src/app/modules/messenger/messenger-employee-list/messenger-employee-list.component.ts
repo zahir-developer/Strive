@@ -37,7 +37,7 @@ export class MessengerEmployeeListComponent implements OnInit {
     if (this.empOnlineStatus !== undefined && this.empOnlineStatus !== null) {
       this.empList.forEach(item => {
         if (+item.EmployeeId === +this.empOnlineStatus[0]) {
-          item.communicationId = this.empOnlineStatus[1];
+          item.CommunicationId = this.empOnlineStatus[1];
         }
       });
     }

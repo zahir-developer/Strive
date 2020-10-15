@@ -43,6 +43,8 @@ public communicationId: Observable<any> = this.commId.asObservable();
     });
 
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
+      console.log('Messager Received');
+      console.log(data);
       this.messengerService.ReceivePrivateMessage(data);
     });
 
@@ -73,7 +75,7 @@ this.commId.next(data);
   }
 
   public SendPrivateMessage = (msg) => {
-    this.hubConnection.invoke("SendPrivateMessage", msg.connectionId, msg.senderId, msg.userName, msg.message).catch(function (err) {
+    this.hubConnection.invoke("SendPrivateMessage", msg).catch(function (err) {
       return console.error(err.toString());
     });
   }
