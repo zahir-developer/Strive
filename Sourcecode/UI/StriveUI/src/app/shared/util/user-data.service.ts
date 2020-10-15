@@ -17,7 +17,8 @@ export class UserDataService {
     localStorage.setItem('drawerId', token.EmployeeDetails.Drawer[0].DrawerId);
     localStorage.setItem('empId', token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
     localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].Roleid);
-
+    localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.Firstname);
+    localStorage.setItem('employeeLastName', token.EmployeeDetails.EmployeeLogin.LastName);
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }
 }
