@@ -10,5 +10,10 @@ namespace Strive.Core.ViewModels.Employee
         {
 
         }
+
+        public void NavigateTO()
+        {
+            _navigationService.Navigate<BaseViewExampleViewModel>();
+        }
     }
 }

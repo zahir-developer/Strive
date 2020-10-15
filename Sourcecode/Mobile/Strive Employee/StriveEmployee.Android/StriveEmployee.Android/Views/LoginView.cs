@@ -30,6 +30,13 @@ namespace StriveEmployee.Android.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.activity_main);
+            var buttons = this.FindViewById<Button>(Resource.Id.sample);
+            buttons.Click += Buttons_Click;
+        }
+
+        private void Buttons_Click(object sender, EventArgs e)
+        {
+            this.ViewModel.NavigateTO();
         }
     }
 }

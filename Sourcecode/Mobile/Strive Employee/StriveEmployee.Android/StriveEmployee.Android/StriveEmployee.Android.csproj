@@ -69,6 +69,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreen.cs" />
+    <Compile Include="Views\BaseExampleView.cs" />
     <Compile Include="Views\LoginView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +132,11 @@
       <Project>{1c755594-73be-46fa-bca5-d08ec2c4ba9d}</Project>
       <Name>Strive.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\BaseViewScreen.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
