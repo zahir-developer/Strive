@@ -73,7 +73,7 @@ this.commId.next(data);
   }
 
   public SendPrivateMessage = (msg) => {
-    this.hubConnection.invoke("SendPrivateMessage", msg.connId, msg.senderId, msg.user, msg.message).catch(function (err) {
+    this.hubConnection.invoke("SendPrivateMessage", msg.connectionId, msg.senderId, msg.userName, msg.message).catch(function (err) {
       return console.error(err.toString());
     });
   }

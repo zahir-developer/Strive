@@ -59,7 +59,7 @@ export class MessengerComponent implements OnInit {
     this.recipientId = employeeObj.EmployeeId;
     this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
     this.chatInitial = employeeObj.FirstName.charAt(0).toUpperCase() + employeeObj.LastName.charAt(0).toUpperCase();
-    this.recipientCommunicationId = employeeObj.communicationId;
+    this.recipientCommunicationId = employeeObj.CommunicationId;
 
     console.log(employeeObj);
 
@@ -103,23 +103,18 @@ export class MessengerComponent implements OnInit {
       connectionId: this.recipientCommunicationId,
       fullName: null,
       groupName: null
-    }
-
+    };
     console.log(msg);
-
-    const objmsg = 
-    {
+    const objmsg = {
       connectionId: this.recipientCommunicationId,
       employeeId: this.employeeId,
       userName: this.chatFullName,
       message: this.messageBody.trim()
-    }
-
+    };
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
         this.signalRService.SendPrivateMessage(objmsg);
       }
     });
   }
-
 }
