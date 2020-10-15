@@ -89,5 +89,11 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetChatMessage(chatDto);
         }
+        [HttpGet]
+        [Route("GetUnReadMessageCount/{employeeId}")]
+        public Result GetUnReadMessageCount(int employeeId)
+        {
+            return _bplManager.GetUnReadMessageCount(employeeId);
+        }
     }
 }
