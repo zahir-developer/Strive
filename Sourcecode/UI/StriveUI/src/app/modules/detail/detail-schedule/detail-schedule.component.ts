@@ -104,6 +104,7 @@ export class DetailScheduleComponent implements OnInit {
       jobDate: scheduleDate,
       locationId
     };
+    // document.documentElement.style.setProperty(`--primary-color`, '#FFFFFF');
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       this.spinner.hide();

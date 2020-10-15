@@ -74,16 +74,7 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public bool GetEmailIdExist(string email)
-        {
-            EmployeeEmailDto emdto = new EmployeeEmailDto();
-            _prm.Add("@Email", email);
-            var result = db.Fetch<EmployeeEmailDto>(SPEnum.USPEMAILEXIST.ToString(), _prm);
-            if (result.FirstOrDefault().EmailExist == true)
-                return true;
-            else
-                return false;
-        }
+    
     }
 }
 

@@ -37,7 +37,7 @@ export class MessengerEmployeeListComponent implements OnInit {
     if (this.empOnlineStatus !== undefined && this.empOnlineStatus !== null) {
       this.empList.forEach(item => {
         if (+item.EmployeeId === +this.empOnlineStatus[0]) {
-          item.communicationId = this.empOnlineStatus[1];
+          item.CommunicationId = this.empOnlineStatus[1];
         }
       });
     }
@@ -53,5 +53,23 @@ export class MessengerEmployeeListComponent implements OnInit {
   }
   loadChat(employeeObj) {
     this.emitLoadMessageChat.emit(employeeObj);
+  }
+  getEmpForNewChat(event) {
+    if (event !== undefined) {
+      const empObj = {
+        EmployeeId: event[0].EmployeeId,
+        FirstName: event[0].FirstName,
+        LastName: event[0].LastName,
+        CommunicationId: '0',
+        ChatCommunicationId: '0'
+      }
+      event.CommunicationId = '0';
+      event.ChatCommunicationId = '0';
+      this.empList.push({
+        EmployeeId: event[0].EmployeeId, FirstName: event[0].FirstName,
+        LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
+      });
+      this.emitLoadMessageChat.emit(empObj);
+    }
   }
 }

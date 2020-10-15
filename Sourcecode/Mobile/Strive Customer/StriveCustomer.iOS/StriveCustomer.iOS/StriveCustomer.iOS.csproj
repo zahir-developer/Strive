@@ -215,6 +215,7 @@
         <InterfaceDefinition Include="Views\DealsView.xib" />
         <InterfaceDefinition Include="Views\DealsDetailView.xib" />
         <InterfaceDefinition Include="Views\DealsViewCell.xib" />
+        <InterfaceDefinition Include="Views\ProfileView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -278,6 +279,10 @@
           <DependentUpon>DealsViewCell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\DealsTableSource.cs" />
+        <Compile Include="Views\ProfileView.cs" />
+        <Compile Include="Views\ProfileView.designer.cs">
+          <DependentUpon>ProfileView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

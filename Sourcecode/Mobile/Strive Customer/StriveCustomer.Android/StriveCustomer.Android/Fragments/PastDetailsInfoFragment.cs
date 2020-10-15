@@ -17,6 +17,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 
@@ -77,19 +78,25 @@ namespace StriveCustomer.Android.Fragments
                     {
                         dealFrag1 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
                         var splits = result.DetailVisitDate.Split('T');
-                        adapter.AddFragment(dealFrag1, splits[0]);
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag1, finalDate);
                     }
                     if (pastDetailDates == 2)
                     {
                         dealFrag2 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
                         var splits = result.DetailVisitDate.Split('T');
-                        adapter.AddFragment(dealFrag2, splits[0]);
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag2, finalDate);
                     }
                     if (pastDetailDates == 3)
                     {
                         dealFrag3 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
                         var splits = result.DetailVisitDate.Split('T');
-                        adapter.AddFragment(dealFrag3, splits[0]);
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag3, finalDate);
                     }
                     
                     pastDetailDates++;
