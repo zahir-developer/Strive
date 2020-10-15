@@ -148,6 +148,7 @@ export const UrlConfig = {
     SendMessage: `Admin/Messenger/SendChatMessage`,
     CreateGroup: `Admin/Messenger/CreateGroup`,
     UpdateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
-    GetChatMessage: `Admin/Messenger/GetChatMessage`
+    GetChatMessage: `Admin/Messenger/GetChatMessage`,
+    sendGroupMessage:  `Admin/Messenger/CreateChatGroup`
   },
 };

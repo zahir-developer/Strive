@@ -43,4 +43,7 @@ export class MessengerService {
         
         console.log(msg);
     }
+    sendGroupMessage(groupMsgObj) {
+        return this.http.post(`${UrlConfig.Messenger.sendGroupMessage}`, groupMsgObj);   
+    }
 }

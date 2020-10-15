@@ -109,8 +109,7 @@ export class MessengerComponent implements OnInit {
       connectionId: this.recipientCommunicationId,
       fullName: null,
       groupName: null
-    }
-
+    };
     console.log(msg);
 
     const objmsg : string[] = [ this.recipientCommunicationId,
@@ -128,5 +127,4 @@ export class MessengerComponent implements OnInit {
       }
     });
   }
-
 }
