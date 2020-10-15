@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 declare var $: any;
 @Component({
   selector: 'app-messenger-employee-search',
@@ -10,7 +11,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   search = '';
   empList = [];
   selectAll = false;
-  constructor(private empService: EmployeeService) { }
+  @Output()emitNewChat = new EventEmitter();
+  constructor(private empService: EmployeeService, private messengerService: MessengerService) { }
 
   ngOnInit(): void {
     this.getAllEmployees();
@@ -63,7 +65,46 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     }
   }
   addEmployees() {
+    let chatUserGroup = [];
     const selectedEmp = this.empList.filter(item => item.isSelected === true);
+    if (selectedEmp.length === 1) {
+this.emitNewChat.emit(selectedEmp);
+this.closeemp();
+    } else {
+      selectedEmp.map(item => {
+        const userGroup = {
+          chatGroupUserId: 0,
+          userId: item.EmployeeId,
+          chatGroupId: 0,
+          isActive: true,
+          isDeleted: false,
+          createdBy: 0,
+          createdDate: new Date()
+        };
+        chatUserGroup.push(userGroup);
+      });
+      console.log(chatUserGroup);
+      const groupObj = {
+        chatGroup: {
+          chatGroupId: 0,
+          groupName: 'Group Chat',
+          comments: null,
+          isActive: true,
+          isDeleted: false,
+          createdBy: 0,
+          createdDate: new Date(),
+          updatedBy: 0,
+          updatedDate: new Date()
+        },
+        chatUserGroup
+      };
+      this.messengerService.sendGroupMessage(groupObj).subscribe(data => {
+        console.log(data, 'groupChat');
+        if (data.status === 'Success') {
+
+        }
+      })
+    }
   }
   searchFocus() {
     this.search = this.search.trim();

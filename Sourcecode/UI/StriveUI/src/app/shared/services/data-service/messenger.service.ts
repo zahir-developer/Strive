@@ -38,8 +38,12 @@ export class MessengerService {
     }
 
     ReceivePrivateMessage(msg) {
+        console.log("ReceivePrivateMessage");
         console.log(msg.ConnectionId);
         
         console.log(msg);
+    }
+    sendGroupMessage(groupMsgObj) {
+        return this.http.post(`${UrlConfig.Messenger.sendGroupMessage}`, groupMsgObj);   
     }
 }

@@ -25,6 +25,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView vehicleModel;
         private TextView vehicleColor;
         private TextView vehicleMembership;
+        private TextView vehicleName;
         private Button backButton;
         private Button nextButton;
         private ImageButton editMembershipButton;
@@ -50,6 +51,7 @@ namespace StriveCustomer.Android.Fragments
             vehicleMake = rootview.FindViewById<TextView>(Resource.Id.vehicleMake);
             vehicleModel = rootview.FindViewById<TextView>(Resource.Id.vehicleModel);
             vehicleColor = rootview.FindViewById<TextView>(Resource.Id.vehicleColor);
+            vehicleName = rootview.FindViewById<TextView>(Resource.Id.vehicleName);
             vehicleMembership = rootview.FindViewById<TextView>(Resource.Id.vehicleMembershipName);
             backButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoNext);
@@ -95,7 +97,10 @@ namespace StriveCustomer.Android.Fragments
             MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
             MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
-            {               
+            {
+                vehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
+                                   this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr + " " +
+                                   this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel;
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
