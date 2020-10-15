@@ -201,7 +201,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
       }
     };
     this.ngxService.show();
-    this.whiteLabelService.uploadWhiteLabel(uploadObj).subscribe(data => {
+    this.whiteLabelService.updateWhiteLabelDetail(uploadObj).subscribe(data => {
       this.ngxService.hide();
       if (data.status === 'Success') {
         this.toastr.success('Theme Changed Successfully!!', 'Success!');
