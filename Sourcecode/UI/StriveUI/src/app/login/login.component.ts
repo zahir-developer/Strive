@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../shared/services/login.service';
 import { Router, ActivatedRoute } from '@angular/router'
 import { AuthService } from '../shared/services/common-service/auth.service';
+import { WhiteLabelService } from '../shared/services/data-service/white-label.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,10 @@ export class LoginComponent implements OnInit {
   display = false;
   loginDetail: string;
   isLoginLoading: boolean;
+  whiteLabelDetail: any;
+  colorTheme: any;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
-              private authService: AuthService) { }
+              private authService: AuthService, private whiteLabelService: WhiteLabelService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
@@ -52,6 +55,7 @@ export class LoginComponent implements OnInit {
           const token = JSON.parse(data.resultData);
           // this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' +
           //   token.EmployeeDetails.EmployeeRole[0].RoleName;
+          this.getThemeColor();
           this.loadTheLandingPage();
         } else {
           this.errorFlag = true;
@@ -68,5 +72,28 @@ export class LoginComponent implements OnInit {
 
   forgotPassword() {
     this.router.navigate([`/forgot-password`], { relativeTo: this.route });
+  }
+
+  getThemeColor() {
+    this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
+      if (res.status === 'Success') {
+        const label = JSON.parse(res.resultData);
+        console.log(label, 'white');
+        this.colorTheme = label.WhiteLabelling.Theme;
+        this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
+        // this.fontName = this.whiteLabelDetail.FontFace;
+        // this.themeId = this.whiteLabelDetail.ThemeId;
+        this.colorTheme.forEach(item => {
+          if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
+            document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
+            document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
+            document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
+            document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
+            document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
+          }
+        });
+        document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
+      }
+    });
   }
 }

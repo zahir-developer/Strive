@@ -1,0 +1,102 @@
+<h4><strong>Custom Theme</strong></h4>
+<br/>
+<div class="container" style="background-color: grey;">
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-11">
+           <h4><strong>Color</strong></h4> 
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <strong>Body Background</strong>
+        </div>
+        <div class="col-2">
+            <input #bodyInput [style.background]="bodyColor" [cpOKButton]="true" size="6" [cpPosition]="'top-right'"
+                [cpOKButtonClass]="'btn btn-primary btn-xs'" [cpIgnoredElements]="[bodyButton, bodyInput]"
+                [(cpToggle)]="bodyToggle" [(colorPicker)]="bodyColor" />
+        </div>
+        <div class="col-3 text-center">
+            <button type="button" class="btn theme-primary-button-color btn-sm" style="height: 26px;" #bodyButton (click)="bodyToggle=!bodyToggle">
+                <i class="fa fa-pencil" aria-hidden="true" style="font-size: 10px;"></i>
+            </button>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <strong>Navigation</strong>
+        </div>
+        <div class="col-2">
+            <input #navigationInput [style.background]="navigationColor" [cpOKButton]="true" size="6" [cpPosition]="'top-right'"
+                [cpOKButtonClass]="'btn btn-primary btn-xs'" [cpIgnoredElements]="[navigationButton, navigationInput]"
+                [(cpToggle)]="navigationToggle" [(colorPicker)]="navigationColor" />
+        </div>
+        <div class="col-3 text-center">
+            <button type="button" class="btn theme-primary-button-color btn-sm" style="height: 26px;" #navigationButton (click)="navigationToggle=!navigationToggle">
+                <i class="fa fa-pencil" aria-hidden="true" style="font-size: 10px;"></i>
+            </button>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <strong>Primary Color</strong>
+        </div>
+        <div class="col-2">
+            <input #primaryInput [style.background]="primaryColor" [cpOKButton]="true" size="6" [cpPosition]="'top-right'"
+                [cpOKButtonClass]="'btn btn-primary btn-xs'" [cpIgnoredElements]="[primaryButton, primaryInput]"
+                [(cpToggle)]="primaryToggle" [(colorPicker)]="primaryColor" />
+        </div>
+        <div class="col-3 text-center">
+            <button type="button" class="btn theme-primary-button-color btn-sm" style="height: 26px;" #primaryButton (click)="primaryToggle=!primaryToggle">
+                <i class="fa fa-pencil" aria-hidden="true" style="font-size: 10px;"></i>
+            </button>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <strong>Secondary Color</strong>
+        </div>
+        <div class="col-2">
+            <input #secondaryInput [style.background]="secondaryColor" [cpOKButton]="true" size="6" [cpPosition]="'top-right'"
+                [cpOKButtonClass]="'btn btn-primary btn-xs'" [cpIgnoredElements]="[secondaryButton, secondaryInput]"
+                [(cpToggle)]="secondaryToggle" [(colorPicker)]="secondaryColor" />
+        </div>
+        <div class="col-3 text-center">
+            <button type="button" class="btn theme-primary-button-color btn-sm" style="height: 26px;" #secondaryButton (click)="secondaryToggle=!secondaryToggle">
+                <i class="fa fa-pencil" aria-hidden="true" style="font-size: 10px;"></i>
+            </button>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <strong>Tertiary Color</strong>
+        </div>
+        <div class="col-2">
+            <input #tertiaryInput [style.background]="tertiaryColor" [cpOKButton]="true" size="6" [cpPosition]="'top-right'"
+                [cpOKButtonClass]="'btn btn-primary btn-xs'" [cpIgnoredElements]="[tertiaryButton, tertiaryInput]"
+                [(cpToggle)]="tertiaryToggle" [(colorPicker)]="tertiaryColor" />
+        </div>
+        <div class="col-3 text-center">
+            <button type="button" class="btn theme-primary-button-color btn-sm" style="height: 26px;" #tertiaryButton (click)="tertiaryToggle=!tertiaryToggle">
+                <i class="fa fa-pencil" aria-hidden="true" style="font-size: 10px;"></i>
+            </button>
+        </div>
+    </div>
+    <br/>
+</div>
+<div class="m-t-12 pull-right mw-100">
+    <button type="button" class="btn theme-optional-button-color m-r-5" (click)="closePopup()">Cancel</button>
+    <button type="button" class="btn theme-primary-button-color" (click)="saveColor()">Save</button>
+</div>
