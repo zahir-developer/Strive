@@ -46,7 +46,7 @@
                                         </div>
                             <ul class="conversation-list chat-box-slide" >
                                 <li *ngFor="let msg of msgList odd" [ngClass] = "{'odd': employeeId === msg.SenderId}" class="clearfix">
-                                    <div class="chat-avatar"> <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{ msg.SenderFirstName.charAt(0).toUpperCase() + msg.SenderLastName.charAt(0).toUpperCase()}}</div> </div>
+                                    <div class="chat-avatar"> <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{ msg.SenderFirstName.charAt(0).toUpperCase() + (msg?.SenderLastName !== null ? msg?.SenderLastName.charAt(0).toUpperCase() : '')}}</div> </div>
                                     <div class="conversation-text">
                                         <div class="ctext-wrap">
                                             <p> {{msg.MessageBody}} </p>

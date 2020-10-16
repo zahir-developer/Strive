@@ -68,9 +68,9 @@ export class MessengerComponent implements OnInit {
     this.recipientId = employeeObj.Id;
     this.FirstName = employeeObj.FirstName;
     this.LastName = employeeObj.LastName;
-    this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
+    this.chatFullName = employeeObj.FirstName + ' ' + (employeeObj.LastName ? employeeObj.LastName : '');
     this.chatInitial = employeeObj?.FirstName?.charAt(0).toUpperCase() +
-    (employeeObj?.LastName ? employeeObj?.LastName?.charAt(0).toUpperCase() : '');
+    (employeeObj?.LastName !== null ? employeeObj?.LastName?.charAt(0).toUpperCase() : '');
     this.recipientCommunicationId = employeeObj?.CommunicationId !== null ? employeeObj?.CommunicationId : '0';
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
