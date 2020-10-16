@@ -12,7 +12,7 @@ export class CheckoutGridComponent implements OnInit {
   uncheckedVehicleDetails: any = [];
   isTableEmpty: boolean;
   page = 1;
-  pageSize = 5;
+  pageSize = 25;
   collectionSize: number = 0;
 
   constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr) { }

@@ -59,7 +59,8 @@ export class VehicleCreateEditComponent implements OnInit {
       upcharge: ['',],
       upchargeType: ['',],
       monthlyCharge: ['',],
-      membership: ['',]
+      membership: ['',],
+      services: [[]]
     });
     this.getVehicleCodes();
     this.getVehicleMembership();
@@ -75,7 +76,7 @@ export class VehicleCreateEditComponent implements OnInit {
       color: this.selectedData.ColorId,
       upchargeType: this.selectedData.Upcharge,
       upcharge: this.selectedData.Upcharge,
-      monthlyCharge: this.selectedData.MonthlyCharge
+      monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2)
     });
   }
 
@@ -93,7 +94,7 @@ export class VehicleCreateEditComponent implements OnInit {
           this.getMemberServices(this.memberServiceId);
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
-          });
+          });          
         }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
           this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
@@ -108,6 +109,19 @@ export class VehicleCreateEditComponent implements OnInit {
               item_id: item.item_id,
               item_text: item.item_text
             };
+          });
+          this.dropdownSettings = {
+            singleSelection: false,
+            defaultOpen: false,
+            idField: 'item_id',
+            textField: 'item_text',
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
+            itemsShowLimit: 2,
+            allowSearchFilter: false
+          };
+          this.vehicleForm.patchValue({
+            services : this.memberService
           });
         }
       }
@@ -160,6 +174,9 @@ export class VehicleCreateEditComponent implements OnInit {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+        this.vehicleForm.patchValue({
+          monthlyCharge: membership.MembershipAndServiceDetail.Membership.Price.toFixed(2)
+        });
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
           this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
         }
@@ -184,6 +201,7 @@ export class VehicleCreateEditComponent implements OnInit {
             item_text: item.ServiceName
           };
         });
+        this.vehicleForm.get('services').patchValue(this.memberService);
         if (this.patchedService !== undefined) {
           this.patchedService.forEach(element => {
             if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
@@ -195,6 +213,33 @@ export class VehicleCreateEditComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+
+  onItemSelect(data) {
+    this.extraService.push(this.additionalService.filter(i => i.ServiceId === data.item_id)[0]);
+    this.memberService.push(data);
+    this.vehicleForm.get('services').patchValue(this.memberService);
+    let price = 0;
+    price = +this.additionalService.filter(i => i.ServiceId === data.item_id)[0].Price;
+    price += +this.vehicleForm.value.monthlyCharge;
+    this.vehicleForm.get('monthlyCharge').patchValue(price.toFixed(2));
+  }
+
+  onItemDeselect(data) {
+    this.memberService = this.memberService.filter(item => item.item_id !== data.item_id);
+    let extra = [];
+    extra = this.extraService.filter(i => +i.ServiceId === data.item_id);
+    if (extra.length === 0) {
+      this.memberService.push(data);
+      this.vehicleForm.get('services').patchValue(this.memberService);
+      this.toastr.warning('Membership Services cannot be removed', 'Warning!');
+    } else {
+      this.vehicleForm.get('services').patchValue(this.memberService);
+      let price = 0;
+      price = +this.additionalService.filter(i => i.ServiceId === data.item_id)[0].Price;
+      price = +this.vehicleForm.value.monthlyCharge - price;
+      this.vehicleForm.get('monthlyCharge').patchValue(price.toFixed(2));
+    }
   }
 
   getMemberServices(data) {
