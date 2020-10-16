@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="Search-Emp-item mt-3" *ngFor="let emp of empList"> 
-                <div id="profileImage">{{emp.Initial}}</div>&nbsp;&nbsp;&nbsp;
+                <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{emp.Initial}}</div>&nbsp;&nbsp;&nbsp;
                 <!-- <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search-Emp image"> -->
                 <div class="Search-Emp-item-body"> <span class="float-right"><div >
                     <input type="checkbox" [(ngModel)]="emp.isSelected" (click)="changeState()">

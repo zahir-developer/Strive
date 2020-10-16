@@ -39,7 +39,9 @@ namespace Strive.BusinessEntities
         {
             USPGETChatEMPLOYEELIST,
             UPDATECHATCOMMUNICATIONDETAIL,
-            GETCHATMESSAGE
+            GETCHATMESSAGE,
+            USPGETEMPLOYEERECENTCHATHISTORY,
+            GETCHATMESSAGECOUNT
         }
 
         public enum Membership

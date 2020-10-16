@@ -2,6 +2,7 @@
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Messenger;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Messenger;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -33,14 +34,47 @@ namespace Strive.BusinessLogic.Messenger
             return ResultWrap(new MessengerRal(_tenant).CreateChatGroup, chatGroupDto, "Status");
         }
 
-        public Result GetChatEmployeeList()
+        public Result GetChatEmployeeList(int employeeId)
         {
-            return ResultWrap(new MessengerRal(_tenant).GetChatEmployeeList, "EmployeeList");
+            var result = new MessengerRal(_tenant).GetChatEmployeeList(employeeId);
+
+            EmployeeChatHistoryViewModel chatHistory = new EmployeeChatHistoryViewModel();
+            chatHistory.ChatEmployeeList = new List<ChatEmployeeList>();
+            ChatEmployeeList list;
+
+            foreach (var item in result.ChatEmployeeList)
+            {
+                list = new ChatEmployeeList()
+                {
+                    Id = item.Id,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    CommunicationId = item.CommunicationId,
+                    IsGroup = false
+                };
+                chatHistory.ChatEmployeeList.Add(list);
+            }
+
+            foreach (var item in result.GroupList)
+            {
+                list = new ChatEmployeeList()
+                {
+                    Id = item.ChatGroupId,
+                    FirstName = item.GroupName,
+                    IsGroup = true
+                };
+                chatHistory.ChatEmployeeList.Add(list);
+            }
+            return ResultWrap(chatHistory, "EmployeeList");
         }
 
         public Result GetChatMessage(ChatDto chatDto)
         {
             return ResultWrap(new MessengerRal(_tenant).GetChatMessage, chatDto, "ChatMessage");
+        }
+        public Result GetUnReadMessageCount(int employeeid)
+        {
+            return ResultWrap(new MessengerRal(_tenant).GetUnReadMessageCount, employeeid, "UnreadMessage");
         }
     }
 }

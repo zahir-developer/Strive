@@ -53,11 +53,11 @@ namespace Admin.API.Controllers
             {
                 if (chatMessageDto.ChatMessageRecipient.RecipientGroupId == null && chatMessageDto.ChatMessageRecipient.RecipientId > 0)
                 {
-                    await chatHub.SendPrivateMessage(
+                    /*await chatHub.SendPrivateMessage(
                         chatMessageDto.ConnectionId,
                         chatMessageDto.ChatMessageRecipient.SenderId.GetValueOrDefault().ToString(),
                         chatMessageDto.FullName,
-                        chatMessageDto.ChatMessage.Messagebody);
+                        chatMessageDto.ChatMessage.Messagebody);*/
                 }
                 else if (chatMessageDto.ChatMessageRecipient.RecipientGroupId > 0 && chatMessageDto.ChatMessageRecipient.RecipientId == null)
                     await chatHub.SendMessageToGroup(
@@ -80,14 +80,23 @@ namespace Admin.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetChatEmployeeList")]
-        public Result GetAllEmployeeList() => _bplManager.GetChatEmployeeList();
+        [Route("GetChatEmployeeList/{employeeId}")]
+        public Result GetAllEmployeeList(int employeeId)
+        {
+            return _bplManager.GetChatEmployeeList(employeeId);
+        }
 
         [HttpPost]
         [Route("GetChatMessage")]
         public Result GetChatMessage([FromBody] ChatDto chatDto)
         {
             return _bplManager.GetChatMessage(chatDto);
+        }
+        [HttpGet]
+        [Route("GetUnReadMessageCount/{employeeId}")]
+        public Result GetUnReadMessageCount(int employeeId)
+        {
+            return _bplManager.GetUnReadMessageCount(employeeId);
         }
     }
 }

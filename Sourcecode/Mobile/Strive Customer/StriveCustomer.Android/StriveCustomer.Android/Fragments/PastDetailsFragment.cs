@@ -65,7 +65,7 @@ namespace StriveCustomer.Android.Fragments
             string previousVehicle;
             var result = await this.ViewModel.GetPastDetailsServices();
             PastDetailsCompleteDetails.pastClientServices = result;
-            if (result != null)
+            if (result != null && result.PastClientDetails.Count != 0)
             {
                 var count = 0;
                 previousID = result.PastClientDetails[0].VehicleId;
