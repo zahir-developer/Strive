@@ -49,7 +49,7 @@
                                                     <th scope="col">Service </th>
                                                     <th scope="col">Additional Services</th>
                                                     <th scope="col">Pay </th>
-                                                    <th scope="col">Monthly</th>
+                                                    <!-- <th scope="col">Monthly</th> -->
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
@@ -66,15 +66,15 @@
                                                     <td>{{checkout.ServiceName}}</td>
                                                     <td>{{checkout.ServiceName}}</td>
                                                     <td>{{checkout.Cost | currency}}</td>
-                                                    <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
-                                                    </td>
+                                                    <!-- <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
+                                                    </td> -->
                                                     <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
                                                     </td>
                                                     <td>
                                                         <button type="button"
                                                             class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9" (click)="checkoutVehicle(checkout)">Checkout</button>
                                                             <button type="button"
-                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" >Hold</button>
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" (click)="hold(checkout)">Hold</button>
                                                     </td>
                                                 </tr>
                                                 <tr *ngIf="uncheckedVehicleDetails.length === 0">

@@ -38,8 +38,8 @@ namespace Admin.API.Controllers
         /// Method to Update Job Status AS HOLD
         /// </summary>
         [HttpPost]
-        [Route("UpdateJobStatus/{id}")]
-        public Result UpdateJobStatus(int id) => _bplManager.UpdateJobStatus(id);
+        [Route("UpdateJobStatus")]
+        public Result UpdateJobStatus([FromBody] int id) => _bplManager.UpdateJobStatus(id);
         #endregion
     }
 }

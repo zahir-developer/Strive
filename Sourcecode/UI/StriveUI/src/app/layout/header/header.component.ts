@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   firstName: string;
   lastName: string;
+  unReadMessageDetail: any = [];
   constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
               private route: ActivatedRoute) { }
 
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
     this.userService.headerName.subscribe(data => {
       this.empName = data;
     });
+    this.getUnReadMessage();
   }
   logout() {
     this.authService.logout();
@@ -39,6 +41,16 @@ export class HeaderComponent implements OnInit {
         $('#hide-mainmenu').show();
         $('#show-submenu').hide();
       });
+    });
+  }
+
+  getUnReadMessage() {
+    this.userService.unReadMessageDetail.subscribe( res => {
+      this.unReadMessageDetail = res;
+      if (res === null) {
+        this.unReadMessageDetail = [];
+      }
+      console.log(res, 'checkimg');
     });
   }
 }
