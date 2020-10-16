@@ -20,7 +20,7 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
       this.empOnlineStatus = data;
-      //this.getRecentChatHistory();
+      this.getRecentChatHistory(this.employeeId);
     });
   }
   getRecentChatHistory(employeeId) {
@@ -36,7 +36,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   setCommunicationId() {
     if (this.empOnlineStatus !== undefined && this.empOnlineStatus !== null) {
       this.empList.forEach(item => {
-        if (+item.EmployeeId === +this.empOnlineStatus[0]) {
+        if (+item.Id === +this.empOnlineStatus[0]) {
           item.CommunicationId = this.empOnlineStatus[1];
         }
       });
@@ -65,14 +65,14 @@ export class MessengerEmployeeListComponent implements OnInit {
     let empname = '';
     if (event !== undefined && event.length === 1) {
       const empObj = {
-        EmployeeId: event[0].EmployeeId,
+        Id: event[0].Id,
         FirstName: event[0].FirstName,
         LastName: event[0].LastName,
         CommunicationId: '0',
         ChatCommunicationId: '0'
       };
       this.empList.unshift({
-        EmployeeId: event[0].EmployeeId, FirstName: event[0].FirstName,
+        Id: event[0].Id, FirstName: event[0].FirstName,
         LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
       });
       this.emitLoadMessageChat.emit(empObj);
@@ -81,11 +81,11 @@ export class MessengerEmployeeListComponent implements OnInit {
       event.map(item => {
         empname += item.FirstName + ',';
         return {
-          EmployeeId: event[0].EmployeeId,
-          FirstName: event[0].FirstName,
-          LastName: event[0].LastName,
-          CommunicationId: '0',
-          ChatCommunicationId: '0'
+        Id: event[0].Id,
+        FirstName: event[0].FirstName,
+        LastName: event[0].LastName,
+        CommunicationId: '0',
+        ChatCommunicationId: '0'
         }
       });
       console.log(event, 'emitted');
