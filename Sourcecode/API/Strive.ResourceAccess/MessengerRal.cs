@@ -36,9 +36,10 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public ChatEmployeeListViewModel GetChatEmployeeList()
+        public EmployeeChatHistoryDto GetChatEmployeeList(int employeeId)
         {
-            return db.FetchMultiResult<ChatEmployeeListViewModel>(EnumSP.Messenger.USPGETChatEMPLOYEELIST.ToString(), _prm);
+            _prm.Add("@EmployeeId", employeeId);
+            return db.FetchMultiResult<EmployeeChatHistoryDto>(EnumSP.Messenger.USPGETEMPLOYEERECENTCHATHISTORY.ToString(), _prm);
         }
 
         public ChatMessageDetailViewModel GetChatMessage(ChatDto chatDto)

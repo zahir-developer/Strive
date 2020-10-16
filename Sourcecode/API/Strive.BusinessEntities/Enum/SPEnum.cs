@@ -40,6 +40,7 @@ namespace Strive.BusinessEntities
             USPGETChatEMPLOYEELIST,
             UPDATECHATCOMMUNICATIONDETAIL,
             GETCHATMESSAGE,
+            USPGETEMPLOYEERECENTCHATHISTORY,
             GETCHATMESSAGECOUNT
         }
 
