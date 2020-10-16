@@ -215,6 +215,9 @@
         <InterfaceDefinition Include="Views\DealsView.xib" />
         <InterfaceDefinition Include="Views\DealsDetailView.xib" />
         <InterfaceDefinition Include="Views\DealsViewCell.xib" />
+        <InterfaceDefinition Include="Views\PastDetailView.xib" />
+        <InterfaceDefinition Include="Views\PastDetailViewCell.xib" />
+        <InterfaceDefinition Include="Views\PastDetailTabView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -278,6 +281,19 @@
           <DependentUpon>DealsViewCell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\DealsTableSource.cs" />
+        <Compile Include="Views\PastDetailView.cs" />
+        <Compile Include="Views\PastDetailView.designer.cs">
+          <DependentUpon>PastDetailView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\PastDetailViewCell.cs" />
+        <Compile Include="Views\PastDetailViewCell.designer.cs">
+          <DependentUpon>PastDetailViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\PastDetailTableSource.cs" />
+        <Compile Include="Views\PastDetailTabView.cs" />
+        <Compile Include="Views\PastDetailTabView.designer.cs">
+          <DependentUpon>PastDetailTabView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
