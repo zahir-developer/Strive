@@ -117,6 +117,10 @@ body .ui-state-disabled, body .ui-widget:disabled {
   margin-top: 35px;
 }
 .chat-box-slide {
-  height: 48.4vh;
+  height: 57.4vh;
+  overflow: scroll;
+}
+.chatslide {
+  height: 52.2vh !important;
   overflow: scroll;
 }
