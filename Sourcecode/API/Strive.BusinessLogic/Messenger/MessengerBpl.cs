@@ -72,5 +72,9 @@ namespace Strive.BusinessLogic.Messenger
         {
             return ResultWrap(new MessengerRal(_tenant).GetChatMessage, chatDto, "ChatMessage");
         }
+        public Result GetUnReadMessageCount(int employeeid)
+        {
+            return ResultWrap(new MessengerRal(_tenant).GetUnReadMessageCount, employeeid, "UnreadMessage");
+        }
     }
 }

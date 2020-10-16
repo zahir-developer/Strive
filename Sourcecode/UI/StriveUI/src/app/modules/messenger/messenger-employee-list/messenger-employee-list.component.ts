@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LocalStorage } from '@ng-idle/core';
-import { Subscription } from 'rxjs';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
@@ -55,21 +54,21 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.emitLoadMessageChat.emit(employeeObj);
   }
   getEmpForNewChat(event) {
-    if (event !== undefined) {
+    if (event !== undefined && event.length === 1) {
       const empObj = {
         EmployeeId: event[0].EmployeeId,
         FirstName: event[0].FirstName,
         LastName: event[0].LastName,
         CommunicationId: '0',
         ChatCommunicationId: '0'
-      }
-      event.CommunicationId = '0';
-      event.ChatCommunicationId = '0';
-      this.empList.push({
+      };
+      this.empList.unshift({
         EmployeeId: event[0].EmployeeId, FirstName: event[0].FirstName,
         LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
       });
       this.emitLoadMessageChat.emit(empObj);
+    } else {
+      console.log(event, 'emitted');
+    }
     }
   }
-}

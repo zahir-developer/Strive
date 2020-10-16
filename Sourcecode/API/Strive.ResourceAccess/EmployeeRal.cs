@@ -50,11 +50,11 @@ namespace Strive.ResourceAccess
             return dbRepo.UpdatePc(employee);
         }
 
-        public List<Code> GetAllEmployeeRoles()
+        public List<RoleViewModel> GetAllEmployeeRoles()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Code> lstEmployee = new List<Code>();
-            lstEmployee = db.Fetch<Code>(SPEnum.USPGETEMPLOYEEROLES.ToString(), dynParams);
+            List<RoleViewModel> lstEmployee = new List<RoleViewModel>();
+            lstEmployee = db.Fetch<RoleViewModel>(SPEnum.USPGETEMPLOYEEROLES.ToString(), dynParams);
             return lstEmployee;
         }
 

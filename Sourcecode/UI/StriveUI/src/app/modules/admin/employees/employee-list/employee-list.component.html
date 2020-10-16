@@ -37,10 +37,11 @@
                                 <div class="search-container  pull-right">
                                     <form>
                                         <div class="form-row">
-                                            <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="search" name="search" id="inputSearchbyName"
-                                                placeholder="Search by Name" (keyup.enter)="seachEmployee()"> </div>
+                                            <div class="form-group d-flex"> <input type="search" class="form-control"
+                                                    [(ngModel)]="search" name="search" id="inputSearchbyName"
+                                                    placeholder="Search by Name" (keyup.enter)="seachEmployee()"> </div>
                                             <div class="form-group col-sm m-l-5">
-                                                
+
                                                 <button type="button"
                                                     class="btn theme-primary-button-color btn-sm m-l-10"
                                                     (click)="seachEmployee()">Search</button>
@@ -120,12 +121,10 @@
     </div>
 </div>
 <div *ngIf="showDialog && actionType === 'create'">
-    <app-create-edit *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles" [location]="location"
-        [commissionType]="commissionType" [actionType]="actionType" [employeeId]="employeeId"
-        (closeDialog)="closeDialog($event)"></app-create-edit>
+    <app-create-edit *ngIf="showDialog" [commissionType]="commissionType" [actionType]="actionType"
+        [employeeId]="employeeId" (closeDialog)="closeDialog($event)"></app-create-edit>
 </div>
 <div *ngIf="showDialog && actionType !== 'create'">
-    <app-edit-employee *ngIf="showDialog" [gender]="gender" [employeeRoles]="employeeRoles" [location]="location"
-        [commissionType]="commissionType" [actionType]="actionType" [employeeId]="employeeId"
-        (closeDialog)="closeDialog($event)"></app-edit-employee>
+    <app-edit-employee *ngIf="showDialog" [commissionType]="commissionType"
+        [actionType]="actionType" [employeeId]="employeeId" (closeDialog)="closeDialog($event)"></app-edit-employee>
 </div>

@@ -17,5 +17,6 @@ namespace Strive.BusinessLogic.Messenger
         Result ChatCommunication(ChatCommunicationDto chatCommunicationDto);
         Result GetChatEmployeeList(int employeeId);
         Result GetChatMessage(ChatDto chatDto);
+        Result GetUnReadMessageCount(int employeeid);
     }
 }

@@ -51,6 +51,11 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<ChatMessageDetailViewModel>(EnumSP.Messenger.GETCHATMESSAGE.ToString(), _prm);
         }
 
+        public GetUnReadMessageViewModel GetUnReadMessageCount(int employeeid)
+        {
+            _prm.Add("@Employeeid", employeeid);
+            return db.FetchMultiResult<GetUnReadMessageViewModel>(EnumSP.Messenger.GETCHATMESSAGECOUNT.ToString(), _prm);
+        }
 
     }
 }

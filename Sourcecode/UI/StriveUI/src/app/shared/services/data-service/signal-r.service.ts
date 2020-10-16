@@ -3,6 +3,7 @@ import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ThemeService } from '../../common-service/theme.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class SignalRService {
   empId = localStorage.getItem('empId');
 private commId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 public communicationId: Observable<any> = this.commId.asObservable();
+private recMsg: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
   constructor(public messengerService: MessengerService) { }
 
   public data: any;
@@ -45,9 +48,10 @@ public communicationId: Observable<any> = this.commId.asObservable();
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
       console.log('Messager Received');
       console.log(data);
+      this.setReceivedMsg(data);
+      
       this.messengerService.ReceivePrivateMessage(data);
     });
-
 
     this.hubConnection.on("SendPrivateMessage", function (obj) {
       console.log(obj);
@@ -72,6 +76,10 @@ public communicationId: Observable<any> = this.commId.asObservable();
   }
   setname(data) {
 this.commId.next(data);
+  }
+  
+  setReceivedMsg(data) {
+    this.recMsg.next(data);
   }
 
   public SendPrivateMessage = (msg) => {

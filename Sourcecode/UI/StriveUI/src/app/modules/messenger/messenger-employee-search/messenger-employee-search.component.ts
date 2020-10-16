@@ -11,7 +11,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   search = '';
   empList = [];
   selectAll = false;
-  @Output()emitNewChat = new EventEmitter();
+  @Output() emitNewChat = new EventEmitter();
   constructor(private empService: EmployeeService, private messengerService: MessengerService) { }
 
   ngOnInit(): void {
@@ -68,8 +68,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     let chatUserGroup = [];
     const selectedEmp = this.empList.filter(item => item.isSelected === true);
     if (selectedEmp.length === 1) {
-this.emitNewChat.emit(selectedEmp);
-this.closeemp();
+      this.emitNewChat.emit(selectedEmp);
+      this.closeemp();
     } else {
       selectedEmp.map(item => {
         const userGroup = {
@@ -101,10 +101,24 @@ this.closeemp();
       this.messengerService.sendGroupMessage(groupObj).subscribe(data => {
         console.log(data, 'groupChat');
         if (data.status === 'Success') {
-
+          const groupId = JSON.parse(data.resultData);
+          this.groupIdInsertion(selectedEmp, groupId.Status);
         }
-      })
+      });
     }
+  }
+  groupIdInsertion(selectedEmp, groupId) {
+    const groupChatEmployees = selectedEmp.map(item => {
+      return {
+        EmployeeId: item.EmployeeId,
+        FirstName: item.FirstName,
+        LastName: item.LastName,
+        CommunicationId: '0',
+        ChatCommunicationId: '0',
+        GroupId: groupId
+      };
+    });
+    this.emitNewChat.emit(groupChatEmployees);
   }
   searchFocus() {
     this.search = this.search.trim();
