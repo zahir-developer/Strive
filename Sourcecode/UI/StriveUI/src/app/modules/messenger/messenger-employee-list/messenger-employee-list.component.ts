@@ -45,7 +45,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   setName() {
     if (this.empList.length > 0) {
       this.empList.map(item => {
-        const intial = item.FirstName.charAt(0).toUpperCase() + item.LastName.charAt(0).toUpperCase();
+        const intial = item?.FirstName?.charAt(0).toUpperCase() + item?.LastName?.charAt(0).toUpperCase();
         item.Initial = intial;
       });
       this.emitLoadMessageChat.emit(this.empList[0]);
@@ -55,6 +55,7 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.emitLoadMessageChat.emit(employeeObj);
   }
   getEmpForNewChat(event) {
+    let empname = '';
     if (event !== undefined && event.length === 1) {
       const empObj = {
         EmployeeId: event[0].EmployeeId,
@@ -69,6 +70,16 @@ export class MessengerEmployeeListComponent implements OnInit {
       });
       this.emitLoadMessageChat.emit(empObj);
     } else {
+      const groupChat = event.map(item => {
+        empname += item.FirstName ;
+        return {
+          EmployeeId: event[0].EmployeeId,
+        FirstName: event[0].FirstName,
+        LastName: event[0].LastName,
+        CommunicationId: '0',
+        ChatCommunicationId: '0'
+        }
+      });
       console.log(event, 'emitted');
     }
     }
