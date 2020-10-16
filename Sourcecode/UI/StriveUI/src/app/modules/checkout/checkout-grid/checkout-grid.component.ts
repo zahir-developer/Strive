@@ -56,6 +56,12 @@ export class CheckoutGridComponent implements OnInit {
 
   hold(checkout) {
     const id = checkout.JobId;
+    this.checkout.holdVehicle(id).subscribe( res => {
+      if (res.status === 'Success') {
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Hold successfully' });
+        this.getAllUncheckedVehicleDetails();
+      }
+    });
   }
 
 }
