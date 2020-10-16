@@ -42,7 +42,7 @@
                                     <div class="title-border p-b-8 m-b-12">
                                         <h4 class="d-inline-block align-middle  font-size-1-7">
                                         <span class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span><span class="align-middle">{{chatFullName}}</span>  </h4>
-                                            <div class="pull-right card-widgets"> <a onclick="openemp();"><i class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer"></i></a> </div>
+                                            <div class="pull-right card-widgets"> <a (click)="openemp();"><i class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer"></i></a> </div>
                                         </div>
                             <ul class="conversation-list">
                                 <li *ngFor="let msg of msgList odd" [ngClass] = "{'odd': employeeId === msg.SenderId}" class="clearfix">
