@@ -78,7 +78,7 @@ namespace StriveCustomer.Android.Fragments
                         .AddConnectionCallbacks(this)
                         .AddOnConnectionFailedListener(this)
                         .Build();
-                googleAPI.Connect();
+               googleAPI.Connect();
             }
 
             locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
@@ -89,6 +89,16 @@ namespace StriveCustomer.Android.Fragments
             geofenceHelper = new GeofenceHelper(this.Context);
         }
 
+        public override void OnStart()
+        {
+            base.OnStart();
+            googleAPI.Reconnect();
+        }
+        public override void OnStop()
+        {
+            base.OnStop();
+            googleAPI.Disconnect();
+        }
         private void checkLocationEnabled()
         {
             locationEnabled = locationManager.IsProviderEnabled(LocationManager.GpsProvider);
@@ -119,7 +129,6 @@ namespace StriveCustomer.Android.Fragments
                 if (rootView == null)
                 {
                     rootView = inflater.Inflate(Resource.Layout.MapScreenFragment, container, false);
-                    setUpMaps();
                 }
                 else
                 {      
@@ -219,11 +228,11 @@ namespace StriveCustomer.Android.Fragments
             {
                 carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
                 carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                if (carWashLocationsCount == 1)
-                {
-                    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
-                    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                }
+                //if (carWashLocationsCount == 1)
+                //{
+                //    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                //    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
+                //}
                 Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
                 carWashLocationsCount++;
             }
@@ -339,7 +348,7 @@ namespace StriveCustomer.Android.Fragments
         }
         public void OnConnected(Bundle connectionHint)
         {
-            //
+            setUpMaps();
         }
         public void OnConnectionSuspended(int cause)
         {

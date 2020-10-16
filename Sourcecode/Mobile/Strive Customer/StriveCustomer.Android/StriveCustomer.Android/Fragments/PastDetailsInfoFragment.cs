@@ -16,6 +16,8 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 
@@ -31,6 +33,8 @@ namespace StriveCustomer.Android.Fragments
         private PastDetailsFragment pastDetails;
         private MyProfileInfoFragment myProfile;
         private Button backButton;
+        private int pastDetailDates = 1;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -46,9 +50,9 @@ namespace StriveCustomer.Android.Fragments
             backButton = rootview.FindViewById<Button>(Resource.Id.pastServiceBack);
             pastDetails = new PastDetailsFragment();
             myProfile = new MyProfileInfoFragment();
-            dealFrag1 = new PastDetailsPageFragment();
-            dealFrag2 = new PastDetailsPageFragment();
-            dealFrag3 = new PastDetailsPageFragment();
+            
+            
+            
             backButton.Click += BackButton_Click;
             return rootview;
         }
@@ -64,9 +68,41 @@ namespace StriveCustomer.Android.Fragments
         {
             base.OnActivityCreated(savedInstanceState);
             adapter = new ViewPagerAdapter(ChildFragmentManager);
-            adapter.AddFragment(dealFrag1, "Deals1");
-            adapter.AddFragment(dealFrag2, "Deals2");
-            adapter.AddFragment(dealFrag3, "Deals3");
+            var data = CustomerInfo.SelectedVehiclePastDetails;
+            var count = 0;
+            foreach (var result in CustomerInfo.pastClientServices.PastClientDetails)
+            {
+                if (data == result.VehicleId)
+                {
+                    if(pastDetailDates == 1)
+                    {
+                        dealFrag1 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
+                        var splits = result.DetailVisitDate.Split('T');
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag1, finalDate);
+                    }
+                    if (pastDetailDates == 2)
+                    {
+                        dealFrag2 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
+                        var splits = result.DetailVisitDate.Split('T');
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag2, finalDate);
+                    }
+                    if (pastDetailDates == 3)
+                    {
+                        dealFrag3 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
+                        var splits = result.DetailVisitDate.Split('T');
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag3, finalDate);
+                    }
+                    
+                    pastDetailDates++;
+                }
+                count++;
+            }
             viewPager.Adapter = adapter;
             slidingTabs.SetupWithViewPager(viewPager);
         }

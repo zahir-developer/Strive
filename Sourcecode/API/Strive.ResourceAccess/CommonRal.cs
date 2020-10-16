@@ -9,6 +9,7 @@ using System.Text;
 using Strive.BusinessEntities.Code;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.DTO.Employee;
 
 namespace Strive.ResourceAccess
 {
@@ -115,6 +116,13 @@ namespace Strive.ResourceAccess
         public void UpdateClientAuth(Client client)
         {
             dbRepo.Update<Client>(client);
+        }
+
+        public bool GetEmailIdExist(string email)
+        {
+            _prm.Add("@Email", email);
+            var result = db.FetchSingle<bool>(SPEnum.USPEMAILEXIST.ToString(), _prm);
+            return result;
         }
     }
 }

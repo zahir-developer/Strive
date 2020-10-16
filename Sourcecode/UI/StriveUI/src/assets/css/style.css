@@ -1,3 +1,9 @@
+:root{ 
+    --primary-color: #1DC5B3;
+    --tertiary-color: #10B7A5;
+    --navigation-color: #24489A;
+    --secondary-color: #F2FCFE;
+}
 section#login
 {
 	background: url(../img/login-bg@2x.jpg);
@@ -67,7 +73,7 @@ content: "\F0143";
     position: fixed;
     z-index: 1;
     overflow-x: hidden;
-    background-color: #24489A;
+    background-color: var(--navigation-color);
 }
 
 .mobile-logo{
@@ -317,12 +323,12 @@ table th
 	.cashreg-tab.show>.nav-links,
 	.cashreg-tab .nav-links.active,
 	.cashreg-tab .show>.nav-links {
-		background-color: #1DC9B7;
+		background-color: var(--primary-color);
 		color: white;
 		border-radius: 3px;
 		padding: .3rem 1rem;
 		font-size: 16px;
-		border: 1px solid #21f6e0;
+		border: 1px solid var(--tertiary-color);
 	}
 	
 	.cashreg-tab > li {
@@ -366,14 +372,14 @@ table th
 		width: 62%;
 		height: 50px;
 		margin: 6px;
-		border: 2px solid #1DC9B7;
+		border: 2px solid var(--primary-color);
         border-radius: 4px;
         text-align: center;
-        color: #1DC9B7;
+        color: var(--primary-color);
 	}
 	
 	.text-cash {
-		color: #1DC9B7;
+		color: var(--primary-color);
 		font-weight: bold;
 		text-align: center;
 		font-size: 29px;
@@ -579,12 +585,12 @@ border-radius: 5px;
 .Schedules-tab.show > .nav-tab-link,
 .Schedules-tab .nav-tab-link.active,
 .Schedules-tab .show > .nav-tab-link {
-    background-color: #1dc9b7;
+    background-color: var(--primary-color);
     color: white;
     border-radius: 3px;
     padding: 0.3rem 1rem;
     font-size: 16px;
-    border: 1px solid #21f6e0;
+    border: 1px solid var(--tertiary-color);
 }
 .nav-tab-link {
     padding: 0.3rem 0.6rem 0.3rem 1rem;
@@ -597,7 +603,7 @@ border-radius: 5px;
 .Schedules-badge {
     border-radius: 3px;
     color: white;
-    background-color: #1dc9b7;
+    background-color: var(--primary-color);
     padding: 5px 5px;
 }
 
@@ -806,7 +812,7 @@ width:31.5%;
 		width:23%;
 }
 .actived, .btn-payment:hover {
-  background-color: #1DC5B3;
+  background-color: var(--primary-color);
   color: white !important;
 }
 .gift-card {
@@ -1030,4 +1036,105 @@ height: 40px;
 .opacity-16{
     opacity: 16%;
 }
+/*White labelling */
+.dropzone {
+    background: white;
+    border-radius: 5px;
+    border: 2px dashed #ced4da !important;
+    border-image: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dropzone .dz-message {
+    text-align: center;
+    margin: 2em 0;
+    color: #333333;
+    opacity: 39%;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.font-xolor {
+    color: #11283D;
+}
+
+.branding-form {
+    height: calc(2.5em + .75rem + 2px);
+}
+
+.font-card {
+    border-radius: 3px !important;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.card-width {
+    padding: 15.7px !important;
+    padding-bottom: 30px !important;
+}
+
+.p-60 {
+    padding: 60px !important;
+}
+.theme-pink-color{
+background-color:#FD3B7B;
+}
+.theme-cyan{
+background-color:#1DC9B7;
+}
+.theme-light-blue{
+background-color:#C4D6FF;
+}
+.theme-shaded-green{
+background-color:#F2FCFE;
+}
+.theme-light-ello{
+background-color:#FFF997;
+}
+.theme-ello{
+background-color:#FCDD6B;
+}
+.theme-dark-ello{
+background-color:#FEB83F;
+}
+.theme-orange {
+background-color:#FD8B20;
+}
+.theme-dark-orange{
+background-color:#FC6A0C;
+}
+.theme-solid{
+background-color:#280F36;
+}
+.theme-dark-purple{
+background-color:#632B6C;
+}
+.theme-purple{
+background-color:#C86B98;
+}
+.theme-light-purple{
+background-color:#F09F9C;
+}
+.theme-solid-pink{
+background-color:#FFC1A0;
+}
+.poppins-font{
+font-family: 'Poppins' !important;
+}
+.Roboto-font{
+font-family: 'Roboto' !important;
+}
+.FiraSans-font{
+font-family: 'Fira Sans' !important;
+}
+.Raleway-font{
+font-family: 'Raleway' !important;
+}
+.Ubuntu-font{
+font-family: 'Ubuntu' !important;
+}
+
 

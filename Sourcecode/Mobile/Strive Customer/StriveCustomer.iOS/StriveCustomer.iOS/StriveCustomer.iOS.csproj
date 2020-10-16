@@ -218,6 +218,7 @@
         <InterfaceDefinition Include="Views\PastDetailView.xib" />
         <InterfaceDefinition Include="Views\PastDetailViewCell.xib" />
         <InterfaceDefinition Include="Views\PastDetailTabView.xib" />
+        <InterfaceDefinition Include="Views\ProfileView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -293,6 +294,10 @@
         <Compile Include="Views\PastDetailTabView.cs" />
         <Compile Include="Views\PastDetailTabView.designer.cs">
           <DependentUpon>PastDetailTabView.cs</DependentUpon>
+	</Compile>
+        <Compile Include="Views\ProfileView.cs" />
+        <Compile Include="Views\ProfileView.designer.cs">
+          <DependentUpon>ProfileView.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

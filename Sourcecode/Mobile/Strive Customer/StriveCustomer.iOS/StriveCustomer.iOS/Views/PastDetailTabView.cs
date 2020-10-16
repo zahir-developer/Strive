@@ -5,7 +5,7 @@ using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class PastDetailTabView : MvxViewController<LoginViewModel>
+    public partial class PastDetailTabView : MvxViewController
     {
         public PastDetailTabView() : base("PastDetailTabView", null)
         {

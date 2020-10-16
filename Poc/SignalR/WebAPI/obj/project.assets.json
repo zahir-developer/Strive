@@ -12099,11 +12099,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zmohamed\\source\\Projects\\SignalR\\WebAPI\\WebAPI.csproj",
+      "projectUniqueName": "E:\\Projects\\Mammoth\\Strive\\Poc\\SignalR\\WebAPI\\WebAPI.csproj",
       "projectName": "WebAPI",
-      "projectPath": "C:\\Users\\zmohamed\\source\\Projects\\SignalR\\WebAPI\\WebAPI.csproj",
+      "projectPath": "E:\\Projects\\Mammoth\\Strive\\Poc\\SignalR\\WebAPI\\WebAPI.csproj",
       "packagesPath": "C:\\Users\\zmohamed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zmohamed\\source\\Projects\\SignalR\\WebAPI\\obj\\",
+      "outputPath": "E:\\Projects\\Mammoth\\Strive\\Poc\\SignalR\\WebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
