@@ -17,7 +17,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="title-border p-b-5 m-b-10">
+                                <div class="p-b-5 m-b-10">
                                     <h4 class="d-inline-block align-middle">Checkout</h4>
                                     <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Checkoutlist"
                                             role="button" aria-expanded="false" aria-controls="Checkoutlist"><i
@@ -25,7 +25,7 @@
                                     </div>
                                 </div>
                                 <div id="Checkoutlist" class="collapse show">
-                                    <div class="mt-2">
+                                    <!-- <div class="mt-2">
                                         <a href="#" class="theme-font-color mr-2 font-weight-600"><i
                                                 class="mdi mdi-circle font-13 theme-optional-icon-color mr-1"></i>In
                                             Progress</a>
@@ -36,20 +36,20 @@
                                                 class="mdi mdi-circle font-13 theme-primary-color mr-1"></i>Hold</a>
                                         <a href="#" class="theme-font-color mr-2 font-weight-600"><i
                                                 class="mdi mdi-circle font-13 theme-secondary-icon-color mr-1"></i>Completed</a>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped m-t-10">
+                                    </div> -->
+                                    <div class="table-responsive" style="overflow-x: scroll;">
+                                        <table class="table border table-striped m-t-10">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Ticket No</th>
                                                     <th scope="col">Customer Name </th>
-                                                    <th scope="col">Make/Model/Color of the Car</th>
-                                                    <th scope="col">Check-In Time</th>
-                                                    <th scope="col">Checkout Time</th>
+                                                    <th scope="col">Make/Model/Color</th>
+                                                    <th scope="col">CheckIn</th>
+                                                    <th scope="col">CheckOut</th>
                                                     <th scope="col">Service </th>
                                                     <th scope="col">Additional Services</th>
                                                     <th scope="col">Pay </th>
-                                                    <th scope="col">Monthly</th>
+                                                    <!-- <th scope="col">Monthly</th> -->
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
@@ -60,23 +60,25 @@
                                                     <th scope="row" style="border-left:5px solid" [ngStyle]="{'color': checkout.ColorCode, 'border-right-color': checkout.ColorCode}">
                                                         {{checkout.TicketNumber}}</th>
                                                     <td>{{checkout.CustomerName}}</td>
-                                                    <td>{{checkout.VehicleDescription}}</td>
+                                                    <td >{{checkout.VehicleDescription}}</td>
                                                     <td>{{checkout.Checkin}}</td>
                                                     <td>{{checkout.Checkout}}</td>
                                                     <td>{{checkout.ServiceName}}</td>
                                                     <td>{{checkout.ServiceName}}</td>
-                                                    <td>{{checkout.Cost}}</td>
-                                                    <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
-                                                    </td>
+                                                    <td>{{checkout.Cost | currency}}</td>
+                                                    <!-- <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
+                                                    </td> -->
                                                     <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
                                                     </td>
                                                     <td>
                                                         <button type="button"
-                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" (click)="checkoutVehicle(checkout)">Checkout</button>
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9" (click)="checkoutVehicle(checkout)">Checkout</button>
+                                                            <button type="button"
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" (click)="hold(checkout)">Hold</button>
                                                     </td>
                                                 </tr>
                                                 <tr *ngIf="uncheckedVehicleDetails.length === 0">
-                                                    <td colspan="9" class="text-center">
+                                                    <td colspan="10" class="text-center">
                                                         No Record Found
                                                     </td>
                                                 </tr>

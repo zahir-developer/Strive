@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   title = 'StriveUI';
   isUserAuthenticated = false;
   constructor(private user: UserDataService, private authService: AuthenticateObservableService,
-    private whiteLabelService: WhiteLabelService, private logoService: LogoService) {
+    private whiteLabelService: WhiteLabelService, private logoService: LogoService, private userService: UserDataService) {
     this.isUserAuthenticated = this.user.isAuthenticated;
     // console.log(this.isUserAuthenticated);
     // console.log(this.authService.getIsAuthenticate);
@@ -22,6 +22,13 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.getTheme();
+      this.setHeaderName();
+    }
+  }
+  setHeaderName() {
+    if (localStorage.getItem('employeeName') !== undefined) {
+      const headerName = localStorage.getItem('employeeName');
+      this.userService.setHeaderName(headerName);
     }
   }
   getTheme() {
