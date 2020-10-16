@@ -25,5 +25,11 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
             return true;
         }
+        public bool UpdateJobStatus(int id)
+        {
+            _prm.Add("JobId", id);
+            db.Save(SPEnum.USPUPDATEJOBSTATUSFORJOBID.ToString(), _prm);
+            return true;
+        }
     }
 }
