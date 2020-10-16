@@ -39,7 +39,8 @@ namespace Strive.BusinessEntities
         {
             USPGETChatEMPLOYEELIST,
             UPDATECHATCOMMUNICATIONDETAIL,
-            GETCHATMESSAGE
+            GETCHATMESSAGE,
+            GETCHATMESSAGECOUNT
         }
 
         public enum Membership
@@ -194,7 +195,9 @@ namespace Strive.BusinessEntities
         USPROLLBACKPAYMENT,
         USPGETALLSERVICEANDPRODUCTLIST,
         uspGetPayrollList,
+        //CHECKOUT
         USPGETCHECKEDINVEHICLEDETAILS,
-        USPUPDATECHECKOUTDETAILFORJOBID
+        USPUPDATECHECKOUTDETAILFORJOBID,
+        USPUPDATEJOBSTATUSFORJOBID
     }
 }

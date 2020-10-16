@@ -13,6 +13,8 @@ export class HeaderComponent implements OnInit {
   isAutheticated: boolean;
   empName = 'Admin';
   isLoggedIn$: Observable<boolean>;
+  firstName: string;
+  lastName: string;
   constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
               private route: ActivatedRoute) { }
 
