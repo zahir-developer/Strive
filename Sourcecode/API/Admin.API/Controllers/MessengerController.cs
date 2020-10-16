@@ -80,8 +80,11 @@ namespace Admin.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetChatEmployeeList")]
-        public Result GetAllEmployeeList() => _bplManager.GetChatEmployeeList();
+        [Route("GetChatEmployeeList/{employeeId}")]
+        public Result GetAllEmployeeList(int employeeId)
+        {
+            return _bplManager.GetChatEmployeeList(employeeId);
+        }
 
         [HttpPost]
         [Route("GetChatMessage")]
