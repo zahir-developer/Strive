@@ -12,11 +12,15 @@ declare var $: any;
 export class HeaderComponent implements OnInit {
   isAutheticated: boolean;
   isLoggedIn$: Observable<boolean>;
+  firstName: string;
+  lastName: string;
   constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.firstName = localStorage.getItem('employeeFirstName');
+    this.lastName = localStorage.getItem('employeeLastName');
   }
   logout() {
     this.authService.logout();
