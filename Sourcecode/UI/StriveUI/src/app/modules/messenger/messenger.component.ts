@@ -35,22 +35,15 @@ export class MessengerComponent implements OnInit {
   IsGroupChat: boolean;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
 
- 
 
-  ngOnInit(){
+
+  ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
-      console.log(data, 'received msg');
-      // const receivedMsg = {
-      //   SenderId: data[1],
-      //   RecipientLastName: data[3],
-      //   RecipientFirstName: data[2],
-      //   MessageBody: data[5],
-      //   CreatedDate: new Date()
-      // };
-      // console.log(receivedMsg);
-      // this.msgList.push(receivedMsg);
+      if (data !== null) {
+        this.LoadMessageChat(this.selectedEmployee);
+      }
     });
     //this.startHttpRequest();
   }
@@ -77,10 +70,6 @@ export class MessengerComponent implements OnInit {
     this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
     this.chatInitial = employeeObj.FirstName.charAt(0).toUpperCase() + employeeObj.LastName.charAt(0).toUpperCase();
     this.recipientCommunicationId = employeeObj.CommunicationId;
-
-    console.log(employeeObj);
-
-
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
@@ -121,7 +110,6 @@ export class MessengerComponent implements OnInit {
       fullName: null,
       groupName: null
     };
-    console.log(msg);
 
     const objmsg: string[] = [this.recipientCommunicationId,
     this.employeeId.toString(),
@@ -133,7 +121,6 @@ export class MessengerComponent implements OnInit {
 
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
-        console.log(objmsg);
         this.signalRService.SendPrivateMessage(objmsg);
         this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';

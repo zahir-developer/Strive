@@ -1,7 +1,8 @@
-<div class="Message-box-slide view-msg">
+<div class="Message-box-slide view-msg position-relative">
     <div class="Message-item" *ngFor="let emp of empList" (click) = 'loadChat(emp)'> 
         <ng-container>
-        <div id="profileImage" [ngClass]="{'status': emp.CommunicationId !== '0'}">{{emp.FirstName.charAt(0).toUpperCase() + emp.LastName.charAt(0).toUpperCase()}}</div>&nbsp;&nbsp;&nbsp;
+            <div [ngClass]="[emp.CommunicationId !== '0' ? 'online-badge': 'offline-badge']"></div><span class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{emp.FirstName.charAt(0).toUpperCase() + emp.LastName.charAt(0).toUpperCase()}}</span>
+        <!-- <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle " [ngClass]="{'online-badge': emp.CommunicationId !== '0'}"></div>&nbsp;&nbsp;&nbsp; -->
         <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
             <div class="m-t-10">
                 <h6 class="msg-title" [ngClass]="{'bold-text': emp.communicationId !== '0'}">{{emp.FirstName + ' ' + emp.LastName}}</h6> <span class="theme-title font-size-7">''recent message...''</span></div>
