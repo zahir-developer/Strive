@@ -54,6 +54,7 @@ export class MessengerComponent implements OnInit {
     $('.view-msg').removeClass('Message-box-slide');
     $('.view-msg').addClass('Message-box');
     $('.plus-icon').addClass('opacity-16');
+    $('.chat-box-slide').addClass('chatslide');
   }
 
 
