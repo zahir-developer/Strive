@@ -37,7 +37,7 @@
                                         <a href="#" class="theme-font-color mr-2 font-weight-600"><i
                                                 class="mdi mdi-circle font-13 theme-secondary-icon-color mr-1"></i>Completed</a>
                                     </div> -->
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" style="overflow-x: scroll;">
                                         <table class="table border table-striped m-t-10">
                                             <thead>
                                                 <tr>
@@ -72,11 +72,13 @@
                                                     </td>
                                                     <td>
                                                         <button type="button"
-                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" (click)="checkoutVehicle(checkout)">Checkout</button>
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9" (click)="checkoutVehicle(checkout)">Checkout</button>
+                                                            <button type="button"
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" >Hold</button>
                                                     </td>
                                                 </tr>
                                                 <tr *ngIf="uncheckedVehicleDetails.length === 0">
-                                                    <td colspan="9" class="text-center">
+                                                    <td colspan="10" class="text-center">
                                                         No Record Found
                                                     </td>
                                                 </tr>
