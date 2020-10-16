@@ -15,16 +15,17 @@ export class MessengerEmployeeListComponent implements OnInit {
   empList = [];
   empOnlineStatus: any;
   @Output() emitLoadMessageChat = new EventEmitter();
+  employeeId : number = +localStorage.getItem('empId');
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
   ngOnInit(): void {
-    this.getRecentChatHistory();
+    this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
       this.empOnlineStatus = data;
-      this.getRecentChatHistory();
+      //this.getRecentChatHistory();
     });
   }
-  getRecentChatHistory() {
-    this.msgService.GetEmployeeList().subscribe(data => {
+  getRecentChatHistory(employeeId) {
+    this.msgService.GetEmployeeList(employeeId).subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         this.empList = empList?.EmployeeList?.ChatEmployeeList;
