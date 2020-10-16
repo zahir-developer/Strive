@@ -19,6 +19,6 @@ export class CheckoutService {
   }
 
   holdVehicle(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.checkoutVehicle}`, obj);
+    return this.http.post(`${UrlConfig.totalUrl.holdoutVehicle}`, obj);
   }
 }
