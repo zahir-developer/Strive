@@ -144,7 +144,7 @@ export const UrlConfig = {
   },
   Messenger:
   {
-    GetEmployeeList: `Admin/Messenger/GetChatEmployeeList`,
+    GetEmployeeList: `Admin/Messenger/GetChatEmployeeList/`,
     SendMessage: `Admin/Messenger/SendChatMessage`,
     CreateGroup: `Admin/Messenger/CreateGroup`,
     UpdateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
