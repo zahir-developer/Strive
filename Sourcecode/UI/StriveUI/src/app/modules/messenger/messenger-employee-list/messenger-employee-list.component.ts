@@ -19,8 +19,17 @@ export class MessengerEmployeeListComponent implements OnInit {
   ngOnInit(): void {
     this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
+      if (data !== null) {
       this.empOnlineStatus = data;
-      this.getRecentChatHistory(this.employeeId);
+      const commObj = {
+        EmployeeId: +data[0],
+        CommunicationId: data[1]
+    };
+      this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
+        console.log(data);
+        this.getRecentChatHistory(this.employeeId);
+      });
+      }
     });
   }
   getRecentChatHistory(employeeId) {
@@ -65,14 +74,14 @@ export class MessengerEmployeeListComponent implements OnInit {
     let empname = '';
     if (event !== undefined && event.length === 1) {
       const empObj = {
-        Id: event[0].Id,
+        Id: event[0].EmployeeId,
         FirstName: event[0].FirstName,
         LastName: event[0].LastName,
         CommunicationId: '0',
         ChatCommunicationId: '0'
       };
       this.empList.unshift({
-        Id: event[0].Id, FirstName: event[0].FirstName,
+        Id: event[0].EmployeeId, FirstName: event[0].FirstName,
         LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
       });
       this.emitLoadMessageChat.emit(empObj);
@@ -86,7 +95,7 @@ export class MessengerEmployeeListComponent implements OnInit {
         LastName: event[0].LastName,
         CommunicationId: '0',
         ChatCommunicationId: '0'
-        }
+        };
       });
       console.log(event, 'emitted');
     }
