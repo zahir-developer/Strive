@@ -50,6 +50,7 @@ namespace Strive.BusinessLogic.Messenger
                     FirstName = item.FirstName,
                     LastName = item.LastName,
                     CommunicationId = item.CommunicationId,
+                    RecentChatMessage = item.RecentChatMessage,
                     IsGroup = false
                 };
                 chatHistory.ChatEmployeeList.Add(list);
@@ -61,6 +62,7 @@ namespace Strive.BusinessLogic.Messenger
                 {
                     Id = item.ChatGroupId,
                     FirstName = item.GroupName,
+                    RecentChatMessage = item.RecentChatMessage,
                     IsGroup = true
                 };
                 chatHistory.ChatEmployeeList.Add(list);
