@@ -77,9 +77,4 @@ this.commId.next(data);
     this.recMsg.next(data);
   }
 
-  public SendPrivateMessage = (msg) => {
-    this.hubConnection.invoke("SendPrivateMessage", msg).catch(function (err) {
-      return console.error(err.toString());
-    });
-  }
 }

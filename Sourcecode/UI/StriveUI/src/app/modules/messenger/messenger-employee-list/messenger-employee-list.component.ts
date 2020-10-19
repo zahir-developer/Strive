@@ -20,15 +20,15 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
       if (data !== null) {
-      this.empOnlineStatus = data;
-      const commObj = {
-        EmployeeId: +data[0],
-        CommunicationId: data[1]
-    };
-      this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
-        console.log(data);
-        this.getRecentChatHistory(this.employeeId);
-      });
+        this.empOnlineStatus = data;
+        const commObj = {
+          EmployeeId: +data[0],
+          CommunicationId: data[1]
+        };
+        this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
+          console.log(data);
+          this.getRecentChatHistory(this.employeeId);
+        });
       }
     });
   }
@@ -71,7 +71,6 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.emitLoadMessageChat.emit(employeeObj);
   }
   getEmpForNewChat(event) {
-    let empname = '';
     if (event !== undefined && event.length === 1) {
       const empObj = {
         Id: event[0].EmployeeId,
@@ -86,18 +85,7 @@ export class MessengerEmployeeListComponent implements OnInit {
       });
       this.emitLoadMessageChat.emit(empObj);
     } else {
-      const groupId = event[0].groupId;
-      event.map(item => {
-        empname += item.FirstName + ',';
-        return {
-        Id: event[0].Id,
-        FirstName: event[0].FirstName,
-        LastName: event[0].LastName,
-        CommunicationId: '0',
-        ChatCommunicationId: '0'
-        };
-      });
-      console.log(event, 'emitted');
-    }
+      const Id = event[0].GroupId;
   }
+}
 }
