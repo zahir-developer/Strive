@@ -18,18 +18,18 @@ export class CreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
-  @Input() employeeRoles?: any = [];
-  @Input() gender?: any;
+  employeeRoles?: any = [];
   @Input() maritalStatus?: any;
   @Input() state?: any;
   @Input() country?: any;
   @Input() employeeId?: any;
-  @Input() location?: any;
+  location?: any;
   documentDailog: boolean;
   documentForm: FormGroup;
   fileName: any = '';
   fileUploadformData: any;
   mulitselected: any;
+  gender: any;
   Status: any;
   @Input() commissionType: any;
   @Input() actionType: string;
@@ -68,6 +68,9 @@ export class CreateEditComponent implements OnInit {
     this.isLoading = false;
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
+    this.getGenderDropdownValue();
+    this.getAllRoles();
+    this.getLocation();
     this.getImmigrationStatus();
     this.documentDailog = false;
     this.submitted = false;
@@ -97,9 +100,6 @@ export class CreateEditComponent implements OnInit {
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
     });
-    this.employeRole();
-    this.locationDropDown();
-    // this.employeeDetail();
   }
 
   getImmigrationStatus(){
@@ -153,6 +153,16 @@ export class CreateEditComponent implements OnInit {
         item_text: item.LocationName
       };
     });
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: false
+    };
   }
 
   immigrationChange(data){
@@ -179,6 +189,62 @@ export class CreateEditComponent implements OnInit {
 
   getAllRoles() {
     this.employeeService.getAllRoles().subscribe(res => {
+      if (res.status === 'Success') {
+        const roles = JSON.parse(res.resultData);
+        this.employeeRoles = roles.EmployeeRoles.map( item => {
+          return {
+            item_id: item.RoleMasterId,
+            item_text: item.RoleName
+          };
+        });
+        this.dropdownSettings = {
+          singleSelection: false,
+          defaultOpen: false,
+          idField: 'item_id',
+          textField: 'item_text',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
+      }
+    });
+  }
+
+  getGenderDropdownValue() {
+    this.employeeService.getDropdownValue('GENDER').subscribe(res => {
+      console.log(res, 'gender');
+      if (res.status === 'Success') {
+        const gender = JSON.parse(res.resultData);
+        this.gender = gender.Codes;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  getLocation() {
+    this.employeeService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+        this.location = this.location.map(item => {
+          return {
+            item_id: item.LocationId,
+            item_text: item.LocationName
+          };
+        });
+        this.dropdownSettings = {
+          singleSelection: false,
+          defaultOpen: false,
+          idField: 'item_id',
+          textField: 'item_text',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
+      }
     });
   }
 

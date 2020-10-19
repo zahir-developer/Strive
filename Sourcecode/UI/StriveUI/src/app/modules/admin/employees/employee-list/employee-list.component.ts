@@ -48,13 +48,7 @@ export class EmployeeListComponent implements OnInit {
     this.isTableEmpty = true;
     // this.getAllEmployeeDetails();
     this.seachEmployee();
-    this.getAllRoles();
-    this.getGenderDropdownValue();
-    this.getMaritalStatusDropdownValue();
-    this.getCountry();
-    this.getStateList();
     this.getCommisionDropdownValue();
-    this.getLocation();
   }
   getAllEmployeeDetails() {
     this.employeeService.getEmployees().subscribe(data => {
