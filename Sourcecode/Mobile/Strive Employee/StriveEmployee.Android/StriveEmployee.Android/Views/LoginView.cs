@@ -20,18 +20,11 @@ namespace StriveEmployee.Android.Views
     [Activity(Label = "Login View")]
     public class LoginView : MvxAppCompatActivity<LoginViewModel>
     {
-        //public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
-        //{
-        //    base.OnCreate(savedInstanceState, persistentState);
-        //    SetContentView(Resource.Layout.activity_main);
-        //}
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.activity_main);
-            var buttons = this.FindViewById<Button>(Resource.Id.sample);
-            buttons.Click += Buttons_Click;
+            SetContentView(Resource.Layout.LoginViewScreen);
+
         }
 
         private void Buttons_Click(object sender, EventArgs e)
