@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3" id="show-search-emp">
-                    <app-messenger-employee-search (emitNewChat)="newChatEmit.getEmpForNewChat($event)"> </app-messenger-employee-search>
+                    <app-messenger-employee-search (emitNewChat)="newChatEmit.getEmpForNewChat($event)" [selectedEmployee]="selectedEmployee"> </app-messenger-employee-search>
                     <!-- end card-->
                 </div>
             </div>
