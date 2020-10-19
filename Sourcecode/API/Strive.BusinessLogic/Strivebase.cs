@@ -21,6 +21,12 @@ namespace Strive.BusinessLogic
         public readonly IConfiguration _config;
         public JObject _resultContent;
         public Result _result;
+
+        public Strivebase()
+        {
+
+        }
+
         public Strivebase(ITenantHelper tenantHelper, IDistributedCache cache = null, IConfiguration config = null)
         {
             _cache = cache;

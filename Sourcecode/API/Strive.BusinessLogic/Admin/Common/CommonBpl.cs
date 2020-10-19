@@ -27,6 +27,12 @@ namespace Strive.BusinessLogic.Common
     {
         private static Random random;
 
+
+        public CommonBpl()
+        {
+
+        }
+
         public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
         public Result GetSearchResult<T>(string searchTerm)

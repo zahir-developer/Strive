@@ -25,7 +25,7 @@
                                     <div class="m-b-10 row no-gutters">
                                         <div class="col-lg-12 border-bottom">
                                             <div class="pull-right"> <i
-                                                    class="mdi mdi-account-plus  theme-secondary-icon-color font-size-2 pointer"></i>
+                                                    class="mdi mdi-account-plus  theme-secondary-icon-color font-size-2 pointer" (click)="openemp()"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -41,18 +41,19 @@
                                 <div class="card-body">
                                     <div class="title-border p-b-8 m-b-12">
                                         <h4 class="d-inline-block align-middle  font-size-1-7">
-                                        <span class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span><span class="align-middle">{{chatFullName}}</span>  </h4>
+                                        <span class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span><span class="align-middle">{{chatFullName}}</span>  </h4>
                                             <div class="pull-right card-widgets"> <a (click)="openemp();"><i class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer"></i></a> </div>
                                         </div>
                             <ul class="conversation-list chat-box-slide" >
                                 <li *ngFor="let msg of msgList odd" [ngClass] = "{'odd': employeeId === msg.SenderId}" class="clearfix">
-                                    <div class="chat-avatar"> <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{ msg.SenderFirstName.charAt(0).toUpperCase() + msg.SenderLastName.charAt(0).toUpperCase()}}</div> </div>
+                                    <div class="chat-avatar"> <div class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">{{ msg.SenderFirstName.charAt(0).toUpperCase() + (msg?.SenderLastName !== null ? msg?.SenderLastName.charAt(0).toUpperCase() : '')}}</div> </div>
                                     <div class="conversation-text">
                                         <div class="ctext-wrap">
                                             <p> {{msg.MessageBody}} </p>
                                         </div> <span class="font-13 d-block m-t-10">{{msg.CreatedDate | date: 'hh:mm aa'}} | {{msg.CreatedDate | date: 'MMM d'}}</span>
                                     </div>
                                 </li>
+                            </ul>
                                 <div class="border-top m-t-16">
                                     <div class="row m-t-10">
                                         <div class="col mb-2 mb-sm-0">
@@ -64,7 +65,7 @@
                                         <!-- end col -->
                                     </div>
                                 </div>
-                            </ul>
+                           
                         </div>
                     </div>
                 </div>

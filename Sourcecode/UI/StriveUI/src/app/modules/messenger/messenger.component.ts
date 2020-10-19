@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
-import { LocalStorage } from '@ng-idle/core';
 
 declare var $: any;
 @Component({
@@ -33,19 +31,35 @@ export class MessengerComponent implements OnInit {
   chatFullName: string;
 
   IsGroupChat: boolean;
+  senderFirstName: string;
+  senderLastName: string;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
 
 
 
   ngOnInit() {
+    this.getSenderName();
     this.signalRService.startConnection();
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
       if (data !== null) {
-        this.LoadMessageChat(this.selectedEmployee);
+        const receivedMsg = {
+          SenderId: 0,
+          SenderFirstName: '' ,
+          SenderLastName: '',
+          ReceipientId: data[1],
+          RecipientFirstName: data[2],
+          RecipientLastName: data[3],
+          MessageBody: data[5],
+          CreatedDate: new Date()
+        };
+        this.msgList.push(receivedMsg);
       }
     });
-    //this.startHttpRequest();
+  }
+  getSenderName() {
+    this.senderFirstName = localStorage.getItem('employeeFirstName');
+    this.senderLastName = localStorage.getItem('employeeLastName');
   }
   openemp() {
     $('#show-search-emp').show();
@@ -62,15 +76,16 @@ export class MessengerComponent implements OnInit {
     this.selectedEmployee = employeeObj;
     const chatObj = {
       senderId: this.employeeId,
-      recipientId: employeeObj.EmployeeId,
+      recipientId: employeeObj.Id,
       groupId: 0
     };
-    this.recipientId = employeeObj.EmployeeId;
+    this.recipientId = employeeObj.Id;
     this.FirstName = employeeObj.FirstName;
     this.LastName = employeeObj.LastName;
-    this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
-    this.chatInitial = employeeObj.FirstName.charAt(0).toUpperCase() + employeeObj.LastName.charAt(0).toUpperCase();
-    this.recipientCommunicationId = employeeObj.CommunicationId;
+    this.chatFullName = employeeObj.FirstName + ' ' + (employeeObj.LastName ? employeeObj.LastName : '');
+    this.chatInitial = employeeObj?.FirstName?.charAt(0).toUpperCase() +
+      (employeeObj?.LastName !== null ? employeeObj?.LastName?.charAt(0).toUpperCase() : '');
+    this.recipientCommunicationId = employeeObj?.CommunicationId !== null ? employeeObj?.CommunicationId : '0';
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
@@ -122,8 +137,18 @@ export class MessengerComponent implements OnInit {
 
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
-        this.signalRService.SendPrivateMessage(objmsg);
-        this.LoadMessageChat(this.selectedEmployee);
+        const sendObj = {
+          SenderId: this.employeeId,
+          SenderFirstName: this.senderFirstName ,
+          SenderLastName: this.senderLastName,
+          ReceipientId: 0,
+          RecipientFirstName: '',
+          RecipientLastName: '',
+          MessageBody: this.messageBody.trim(),
+          CreatedDate: new Date()
+        };
+        this.msgList.push(sendObj);
+        // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
     });

@@ -37,7 +37,7 @@ public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
   public SubscribeChatEvents = () => {
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
-      this.messengerService.UpdateChatCommunication(id);
+      // this.messengerService.UpdateChatCommunication(id);
 
       this.hubConnection.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
         return console.error(err.toString());
@@ -65,26 +65,16 @@ public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
 
     this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
       if (data !== null) {
-        
-        console.log('ReceiveEmployeeCommunicationId');
-
-        console.log(data[0]);
-        console.log(data[1])
         this.setname(data);
+        // this.messengerService.UpdateChatCommunication(data[0], data[1]);
       }
     });
   }
   setname(data) {
 this.commId.next(data);
   }
-  
   setReceivedMsg(data) {
     this.recMsg.next(data);
   }
 
-  public SendPrivateMessage = (msg) => {
-    this.hubConnection.invoke("SendPrivateMessage", msg).catch(function (err) {
-      return console.error(err.toString());
-    });
-  }
 }
