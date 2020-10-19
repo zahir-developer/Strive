@@ -168,7 +168,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 return;
             }
             var product = PrepareAddProduct();
-            _userDialog.Loading(Strings.Loading);
+            _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.AddProduct(product);
             if(result.Status == "true")
             {
@@ -210,7 +210,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 ProductName = _SelectedItemName,
                 ProductDescription = _SelectedItemDescription,
                 ProductType = 1,
-                fileName = Filename,
+                fileName = _SelectedItemName + _SelectedItemCode,
                 base64 = Base64String,
                 LocationId = 1,
                 VendorId = CurrentVendor.VendorId,
@@ -263,6 +263,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             EmployeeData.EditableProduct.Product.Quantity = int.Parse(_SelectedItemQuantity);
             EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
             EmployeeData.EditableProduct.Product.base64 = Base64String;
+            EmployeeData.EditableProduct.Product.fileName = _SelectedItemName + _SelectedItemCode;
         }
 
         public async Task NavigateUploadImageCommand()

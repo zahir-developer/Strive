@@ -14,6 +14,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Customer;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Customer;
 
 namespace StriveCustomer.Android.Fragments
@@ -48,7 +49,9 @@ namespace StriveCustomer.Android.Fragments
             rootview.FindViewById<TextView>(Resource.Id.carModel).Text = pastClient.Model;
             rootview.FindViewById<TextView>(Resource.Id.carColor).Text = pastClient.Color;
             var splits = pastClient.DetailVisitDate.Split('T');
-            rootview.FindViewById<TextView>(Resource.Id.carVisitDate).Text = splits[0];
+            var dateTime = DateUtils.GetDateFromString(splits[0]);
+            var finalDate = dateTime.ToString("MM/dd/yyyy");
+            rootview.FindViewById<TextView>(Resource.Id.carVisitDate).Text = finalDate;
             rootview.FindViewById<TextView>(Resource.Id.packageName).Text = pastClient.ServiceName;
             foreach (var data in PastDetailsCompleteDetails.pastClientServices.PastClientDetails)
             {

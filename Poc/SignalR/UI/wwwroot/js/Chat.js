@@ -1,5 +1,5 @@
 ﻿"use strict";
-var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44319/chatHub",
+var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:55689/chatHub",
     {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
@@ -16,6 +16,25 @@ connection.on("ReceiveMessage", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
+var connID = document.getElementById("connectionId");
+
+var connectionId;
+
+connection.on("ReceiveConnID", function (connid) {
+    connID.innerHTML = "ConnID: " + connid;
+    connectionId = connid;
+});
+
+var connectionIds = "";
+
+connection.on("UserLoggedIn", function (id) {
+
+    if (connectionIds != "")
+        connectionIds += ",";
+    connectionIds += id;
+
+    console.log(connectionIds);
+});
 
 
 connection.on("UpdateCarCheckIn", function (count) {
@@ -36,3 +55,64 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     });
     event.preventDefault();
 });
+
+document.getElementById("createGroupChat").addEventListener("click", function (event) {
+    var groupName = document.getElementById("createGroupChatName").value;
+    var userName = document.getElementById("userName").value;
+
+    connection.invoke("JoinGroup", connectionId, userName, groupName).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+document.getElementById("joinGroup").addEventListener("click", function (event) {
+    var groupName = document.getElementById("groupChatName").value;
+    var userName = document.getElementById("userName").value;
+
+    connection.invoke("JoinGroup", connectionId, userName, groupName).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+document.getElementById("groupSend").addEventListener("click", function (event) {
+    var userName = document.getElementById("userName").value;
+    var groupName = document.getElementById("groupName").value;
+    var groupMessage = document.getElementById("groupMessage").value;
+
+
+    connection.invoke("SendMessageToGroup", groupName, userName, groupMessage ).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+connection.on("GroupMessageReceive", function (obj) {
+    DisplayMessage(obj[0], obj[1]);
+});
+
+
+document.getElementById("sendPrivateMessage").addEventListener("click", function (event) {
+    var userName = document.getElementById("userName").value;
+    var connectionId = document.getElementById("groupName").value;
+    var groupMessage = document.getElementById("groupMessage").value;
+
+
+    connection.invoke("SendMessageToGroup", groupName, userName, groupMessage).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+
+connection.on("ReceivePrivateMessage", function (obj) {
+    DisplayMessage(obj[0], obj[1]);
+});
+
+function DisplayMessage(userName, message) {
+    var liElement = document.createElement("LI");
+    var boldElement = document.createTextNode(userName + ": " + message);
+    liElement.appendChild(boldElement);
+    document.getElementById("messagesList").append(liElement);
+}
