@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic.PayRoll
     {
         Result GetPayRoll(PayRollDto payRoll);
         Result AddPayRoll(PayRollAddDto payRollAdd);
+        Result UpdatePayRoll(PayRollUpdateDto payRollUpdate);
     }
 }

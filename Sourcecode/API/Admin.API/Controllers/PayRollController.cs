@@ -26,5 +26,9 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("AddPayRoll")]
         public Result AddPayRoll([FromBody] PayRollAddDto payRollAddDto) => _bplManager.AddPayRoll(payRollAddDto);
+        [HttpGet]
+        [Route("UpdatePayRoll")]
+        public Result UpdatePayRoll(PayRollUpdateDto payRollUpdateDto) => _bplManager.UpdatePayRoll(payRollUpdateDto);
+        
     }
 }
