@@ -41,17 +41,25 @@ export class CheckoutGridComponent implements OnInit {
   }
 
   checkoutVehicle(checkout) {
-    const finalObj = {
-      id: checkout.JobId,
-      checkOut: true,
-      actualTimeOut: new Date()
-    };
-    this.checkout.checkoutVehicle(finalObj).subscribe( res => {
-      if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Checkout successfully' });
-        this.getAllUncheckedVehicleDetails();
+    if(checkout.JobPaymentId == 0)
+    {
+      this.toastr.showMessage({ severity: 'error', title: 'Checkout can be completed only upon payment', body: 'Cant Checkout Without Payment!' });
+    }
+    else
+    {
+      const finalObj = {
+        id: checkout.JobId,
+        checkOut: true,
+        actualTimeOut: new Date()
+      };
+      this.checkout.checkoutVehicle(finalObj).subscribe( res => {
+        if (res.status === 'Success') {
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Checkout successfully' });
+          this.getAllUncheckedVehicleDetails();
+        }
+      });
+  
+    }
       }
-    });
-  }
 
 }
