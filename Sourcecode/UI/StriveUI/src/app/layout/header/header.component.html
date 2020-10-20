@@ -19,13 +19,13 @@
     <li class="admin-menu">
       <ul class="d-flex float-right align-self-center m-r-20">
         <li> <a href="#"><i class="fa fa-gear"></i></a> </li>
-        <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span class="badge position-absolute theme-notification-background-icon-color">1</span> <span class="sr-only ">unread messages</span></a>
+        <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span class="badge position-absolute theme-notification-background-icon-color">{{unReadMessageDetail.length}}</span> <span class="sr-only ">unread messages</span></a>
           <div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
             <h6 class="font-weight-bold font-size--8"> Message Notification</h6>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item p-0 m-t-5 font-size--8" href="#"><i class="fa fa-user-md"></i>unread messgage john doe</a> </div>
         </li>
-        <li class="admin"> <a href="#"  class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle" data-toggle="dropdown"> <i class="fa fa-user-circle"><span class="i-text web-display">Admin</span></i></a>
+        <li class="admin"> <a href="#"  class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle" data-toggle="dropdown"> <i class="fa fa-user-circle"><span class="i-text web-display">{{empName}}</span></i></a>
           <div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle"> <a class="dropdown-item" href="#"><i class="fa fa-user-md"></i> Edit Profile</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out" (click)="logout()"></i> Logout</a> </div>

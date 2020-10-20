@@ -228,11 +228,11 @@ namespace StriveCustomer.Android.Fragments
             {
                 carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
                 carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                if (carWashLocationsCount == 1)
-                {
-                    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
-                    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                }
+                //if (carWashLocationsCount == 1)
+                //{
+                //    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                //    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
+                //}
                 Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
                 carWashLocationsCount++;
             }

@@ -27,6 +27,12 @@ namespace Strive.BusinessLogic.Common
     {
         private static Random random;
 
+
+        public CommonBpl()
+        {
+
+        }
+
         public CommonBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
         public Result GetSearchResult<T>(string searchTerm)
@@ -287,7 +293,7 @@ namespace Strive.BusinessLogic.Common
             };
 
 
-            
+
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
             return authId;
@@ -304,8 +310,8 @@ namespace Strive.BusinessLogic.Common
                 SecurityStamp = "1",
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now,
-                UserType= userSignup.UserType,
-                TenantId=userSignup.TenantId                
+                UserType = userSignup.UserType,
+                TenantId = userSignup.TenantId
             };
             string randomPassword = RandomString(6);
             var authId = commonRal.CreateLogin(authMaster);
@@ -408,6 +414,10 @@ namespace Strive.BusinessLogic.Common
             }
         }
 
+        public Result GetEmailIdExist(string emailId)
+        {
+            return ResultWrap(new CommonRal(_tenant, true).GetEmailIdExist, emailId, "EmailIdExist");
+        }
 
     }
 }
