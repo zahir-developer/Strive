@@ -14,6 +14,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   empList = [];
   empOnlineStatus: any;
   @Output() emitLoadMessageChat = new EventEmitter();
+  @Output() popupEmit = new EventEmitter();
   employeeId: number = +localStorage.getItem('empId');
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
   ngOnInit(): void {
@@ -87,5 +88,8 @@ export class MessengerEmployeeListComponent implements OnInit {
     } else {
       const Id = event[0].GroupId;
   }
+}
+addemp(){
+this.popupEmit.emit();
 }
 }

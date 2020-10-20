@@ -1136,5 +1136,23 @@ font-family: 'Raleway' !important;
 .Ubuntu-font{
 font-family: 'Ubuntu' !important;
 }
-
+.msgbody-active{
+	font-weight:700;
+}
+.recentchat {
+    border-radius: 25px !important;
+    color: #ffffff;
+    right: 0px !important;
+    font-size: 11px !important;
+    background-color: #1DC9B7;
+    width: 17px;
+    height: 17px;
+}
+.recentchat-active {
+	color:#24489A !important;
+	font-weight:700;
+}
+.Message-item:hover{
+	background: #f1f3fa;
+}
 

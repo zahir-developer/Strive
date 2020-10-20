@@ -45,13 +45,14 @@ export class MessengerComponent implements OnInit {
       if (data !== null) {
         const receivedMsg = {
           SenderId: 0,
-          SenderFirstName: '' ,
-          SenderLastName: '',
-          ReceipientId: data[1],
-          RecipientFirstName: data[2],
-          RecipientLastName: data[3],
-          MessageBody: data[5],
-          CreatedDate: new Date()
+          SenderFirstName: this.selectedEmployee.FirstName ,
+          SenderLastName: this.selectedEmployee.LastName,
+          ReceipientId: data.chatMessageRecipient.senderId,
+          RecipientFirstName: '',
+          RecipientLastName: '',
+          MessageBody: data.chatMessage.messagebody,
+          CreatedDate: data.chatMessage.createdDate,
+          CommunicationId: this.selectedEmployee.CommunicationId
         };
         this.msgList.push(receivedMsg);
       }
@@ -152,5 +153,8 @@ export class MessengerComponent implements OnInit {
         this.messageBody = '';
       }
     });
+  }
+  openpopup(event) {
+    this.openemp();
   }
 }
