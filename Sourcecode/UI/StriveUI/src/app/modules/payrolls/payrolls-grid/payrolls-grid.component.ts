@@ -14,6 +14,7 @@ export class PayrollsGridComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize = 0;
+  isEditAdjustment: boolean;
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -25,6 +26,7 @@ export class PayrollsGridComponent implements OnInit {
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required]
     });
+    this.isEditAdjustment = false;
     this.patchValue();
   }
 
@@ -46,15 +48,34 @@ export class PayrollsGridComponent implements OnInit {
     const locationId = localStorage.getItem('empLocationId');
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
-    this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
+    this.payrollsService.getPayroll(48, '2020-09-27', '2020-09-28').subscribe(res => {
       if (res.status === 'Success') {
-        const payRoll = JSON.parse(res.resultData);
+        const payRoll = JSON.parse(res.resultData); 
         if (payRoll.Result.PayRollRateViewModel !== null) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
+          this.payRollList.forEach( item => {
+            item.isEditAdjustment = false;
+          });
           this.collectionSize = Math.ceil(this.payRollList.length / this.pageSize) * 10;
         }
       }
     });
+  }
+
+  editAdjustemt() {
+    this.isEditAdjustment = !this.isEditAdjustment;
+  }
+
+  cancelEditAdjusment(payroll) {
+    this.payRollList.forEach( item => {
+      if (payroll.EmployeeId === item.EmployeeId ) {
+        item.isEditAdjustment = false;
+      }
+    });
+  }
+
+  saveAdjustemt() {
+    this.runReport();
   }
 
 }
