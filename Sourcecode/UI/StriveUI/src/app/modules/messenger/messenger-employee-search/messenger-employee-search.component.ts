@@ -90,7 +90,6 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         EmployeeId: item.EmployeeId,
         FirstName: item.FirstName,
         LastName: item.LastName,
-        CommunicationId: '0',
         ChatCommunicationId: '0',
         GroupId: groupId
       };
@@ -115,6 +114,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         const userGroup = {
           chatGroupUserId: 0,
           userId: item.EmployeeId ? item.EmployeeId : item.Id,
+          CommunicationId : item.ChatCommunicationId,
           chatGroupId: 0,
           isActive: true,
           isDeleted: false,

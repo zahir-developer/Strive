@@ -30,7 +30,8 @@ export class MessengerComponent implements OnInit {
 
   chatFullName: string;
 
-  IsGroupChat: boolean;
+  isGroupChat: boolean;
+  groupChatId: number;
   senderFirstName: string;
   senderLastName: string;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
@@ -75,10 +76,12 @@ export class MessengerComponent implements OnInit {
 
   LoadMessageChat(employeeObj) {
     this.selectedEmployee = employeeObj;
+    this.isGroupChat = employeeObj.IsGroup;
+    this.groupChatId = employeeObj.IsGroup ? employeeObj.Id : 0;
     const chatObj = {
-      senderId: this.employeeId,
-      recipientId: employeeObj.Id,
-      groupId: 0
+      senderId: employeeObj.IsGroup ? 0 : this.employeeId,
+      recipientId: employeeObj.IsGroup ? 0 : employeeObj.Id,
+      groupId: employeeObj.IsGroup ? employeeObj.Id : 0,
     };
     this.recipientId = employeeObj.Id;
     this.FirstName = employeeObj.FirstName;
@@ -119,8 +122,8 @@ export class MessengerComponent implements OnInit {
         chatRecipientId: 0,
         chatMessageId: 0,
         senderId: this.employeeId,
-        recipientId: this.recipientId,
-        recipientGroupId: null,
+        recipientId: this.isGroupChat ? null : this.recipientId,
+        recipientGroupId: this.isGroupChat ? this.groupChatId : null,
         isRead: true
       },
       connectionId: this.recipientCommunicationId,
