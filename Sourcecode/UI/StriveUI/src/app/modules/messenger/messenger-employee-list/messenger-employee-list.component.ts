@@ -18,7 +18,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   employeeId: number = +localStorage.getItem('empId');
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
   ngOnInit(): void {
-    this.getRecentChatHistory(this.employeeId);
+    // this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
       if (data !== null) {
         this.empOnlineStatus = data;
@@ -27,6 +27,9 @@ export class MessengerEmployeeListComponent implements OnInit {
           CommunicationId: data[1]
         };
         this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
+          if (this.empList.length > 0) {
+            this.setCommunicationId();
+          } else {}
           this.getRecentChatHistory(this.employeeId);
         });
       }
@@ -79,12 +82,17 @@ export class MessengerEmployeeListComponent implements OnInit {
         CommunicationId: '0',
         ChatCommunicationId: '0'
       };
-      this.empList.unshift({
-        Id: event[0].EmployeeId, FirstName: event[0].FirstName,
-        LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
-      });
-      this.emitLoadMessageChat.emit(empObj);
-    } 
+      const duplicateEmp = this.empList.filter(item => item.Id === event[0].EmployeeId);
+      if (duplicateEmp.length > 0) {
+        this.emitLoadMessageChat.emit(empObj);
+      } else {
+        this.empList.unshift({
+          Id: event[0].EmployeeId, FirstName: event[0].FirstName,
+          LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
+        });
+        this.emitLoadMessageChat.emit(empObj);
+      }
+    }
     }
     addemp() {
         this.popupEmit.emit();
