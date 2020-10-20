@@ -27,7 +27,6 @@ export class MessengerEmployeeListComponent implements OnInit {
           CommunicationId: data[1]
         };
         this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
-          console.log(data);
           this.getRecentChatHistory(this.employeeId);
         });
       }
@@ -85,11 +84,9 @@ export class MessengerEmployeeListComponent implements OnInit {
         LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
       });
       this.emitLoadMessageChat.emit(empObj);
-    } else {
-      const Id = event[0].GroupId;
-  }
-}
-addemp(){
-this.popupEmit.emit();
-}
+    } 
+    }
+    addemp() {
+        this.popupEmit.emit();
+    }
 }

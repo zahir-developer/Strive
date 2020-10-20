@@ -90,7 +90,7 @@ export class MessengerComponent implements OnInit {
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
-        this.msgList = msgData.ChatMessage.ChatMessageDetail;
+        this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
       }
     });
   }
