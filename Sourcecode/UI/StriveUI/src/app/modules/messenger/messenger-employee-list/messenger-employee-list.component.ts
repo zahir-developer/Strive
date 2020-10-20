@@ -21,13 +21,19 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.signalrService.communicationId.subscribe(data => {
       if (data !== null) {
         this.empOnlineStatus = data;
+
         const commObj = {
           EmployeeId: +data[0],
           CommunicationId: data[1]
         };
+
         this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
-          this.getRecentChatHistory(this.employeeId);
         });
+
+        if (this.empList.length > 0) {
+          this.setCommunicationId();
+          console.log(this.empList);
+        }
       }
     });
   }
@@ -83,6 +89,6 @@ export class MessengerEmployeeListComponent implements OnInit {
         LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
       });
       this.emitLoadMessageChat.emit(empObj);
-    } 
+    }
   }
 }
