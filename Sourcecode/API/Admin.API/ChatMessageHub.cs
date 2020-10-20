@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Strive.BusinessLogic.Messenger;
+using System;
 using System.Threading.Tasks;
 
 namespace Admin.API
@@ -12,14 +14,28 @@ namespace Admin.API
             return base.OnConnectedAsync();
         }
 
-        public async Task SendPrivateMessage(string[] obj)// string connectionId, string employeeId, string userName, string message)
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            if (Clients != null)
-            {
-                //string[] obj = new string[] { connectionId, employeeId, firstName, lastName, initial, message};
-                await Clients.Client(obj[0]).SendAsync("ReceivePrivateMessage", obj);
-            }
+            Clients.Clients(Context.ConnectionId).SendAsync("UserLogOutNotification", Context.ConnectionId);
+
+            return base.OnDisconnectedAsync(exception);
         }
+
+        //public async Task SendPrivateMessage(string[] obj)// string connectionId, string employeeId, string userName, string message)
+        //{
+        //    if (Clients != null)
+        //    {
+        //        //string[] obj = new string[] { connectionId, employeeId, firstName, lastName, initial, message};
+        //        await Clients.Client(obj[0]).SendAsync("ReceivePrivateMessage", obj);
+        //    }
+        //}
+
+        public async Task JoinGroup(string connectionId, string userName, string groupName)
+        {
+            await Clients.Group(groupName).SendAsync("GroupMessageReceive", userName + " has joined.");
+            await Groups.AddToGroupAsync(connectionId, groupName);
+        }
+
         public async Task SendMessageToGroup(string groupName, string employeeId, string userName, string message)
         {
             if (Clients != null)

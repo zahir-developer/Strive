@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 declare var $: any;
 @Component({
   selector: 'app-messenger-employee-search',
@@ -10,11 +11,15 @@ declare var $: any;
 export class MessengerEmployeeSearchComponent implements OnInit {
   search = '';
   empList = [];
+  groupname = '';
   selectAll = false;
-  @Output()emitNewChat = new EventEmitter();
-  constructor(private empService: EmployeeService, private messengerService: MessengerService) { }
+  @Output() emitNewChat = new EventEmitter();
+  @Input() selectedEmployee: any = [];
+  constructor(private empService: EmployeeService, private messengerService: MessengerService,
+    private messageService: MessageServiceToastr) { }
 
   ngOnInit(): void {
+    $('#getGroupName').hide();
     this.getAllEmployees();
   }
   closeemp() {
@@ -48,7 +53,6 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   setName() {
     this.empList.map(item => {
       const intial = item.FirstName.charAt(0).toUpperCase() + item.LastName.charAt(0).toUpperCase();
-      console.log(intial);
       item.Initial = intial;
     });
   }
@@ -64,17 +68,53 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       this.setDefaultBoolean(false);
     }
   }
+  getSelectedEmp() {
+    return this.empList.filter(item => item.isSelected === true);
+  }
   addEmployees() {
-    let chatUserGroup = [];
-    const selectedEmp = this.empList.filter(item => item.isSelected === true);
-    if (selectedEmp.length === 1) {
-this.emitNewChat.emit(selectedEmp);
-this.closeemp();
+    this.groupname = '';
+    const selectedEmp = this.getSelectedEmp();
+    if (selectedEmp.length === 0) {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Please select the employees' });
+      return;
+    } else if (selectedEmp.length > 1) {
+      $('#getGroupName').modal({ backdrop: 'static', keyboard: false });
     } else {
+      this.emitNewChat.emit(selectedEmp);
+      this.closeemp();
+    }
+  }
+  groupIdInsertion(selectedEmp, groupId) {
+    const groupChatEmployees = selectedEmp.map(item => {
+      return {
+        EmployeeId: item.EmployeeId,
+        FirstName: item.FirstName,
+        LastName: item.LastName,
+        CommunicationId: '0',
+        ChatCommunicationId: '0',
+        GroupId: groupId
+      };
+    });
+    this.emitNewChat.emit(groupChatEmployees);
+  }
+  searchFocus() {
+    this.search = this.search.trim();
+  }
+  changeState() {
+    this.clearSelectAllFlag();
+  }
+  AddGroupName(event) {
+    if (event === 'cancel') {
+      $('#getGroupName').modal('hide');
+      this.groupname = '';
+    } else {
+      const chatUserGroup = [];
+      const selectedEmp = this.getSelectedEmp();
+      selectedEmp.push(this.selectedEmployee);
       selectedEmp.map(item => {
         const userGroup = {
           chatGroupUserId: 0,
-          userId: item.EmployeeId,
+          userId: item.EmployeeId ? item.EmployeeId : item.Id,
           chatGroupId: 0,
           isActive: true,
           isDeleted: false,
@@ -83,11 +123,10 @@ this.closeemp();
         };
         chatUserGroup.push(userGroup);
       });
-      console.log(chatUserGroup);
       const groupObj = {
         chatGroup: {
           chatGroupId: 0,
-          groupName: 'Group Chat',
+          groupName: this.groupname,
           comments: null,
           isActive: true,
           isDeleted: false,
@@ -99,17 +138,21 @@ this.closeemp();
         chatUserGroup
       };
       this.messengerService.sendGroupMessage(groupObj).subscribe(data => {
-        console.log(data, 'groupChat');
         if (data.status === 'Success') {
-
+          $('#getGroupName').modal('hide');
+          const groupId = JSON.parse(data.resultData);
+          const createdGroupObj = [{
+            EmployeeId: groupId?.Status,
+            FirstName: this.groupname,
+            Initial: '',
+            LastName: null,
+          }];
+          this.emitNewChat.emit(createdGroupObj);
+          this.closeemp();
+          // this.groupIdInsertion(selectedEmp, groupId.Status);
         }
-      })
+      });
+
     }
-  }
-  searchFocus() {
-    this.search = this.search.trim();
-  }
-  changeState() {
-    this.clearSelectAllFlag();
   }
 }

@@ -11,8 +11,8 @@ import { UrlConfig } from '../url.config';
 export class MessengerService {
     constructor(private http: HttpUtilsService) { }
 
-    GetEmployeeList() {
-        return this.http.get(`${UrlConfig.Messenger.GetEmployeeList}`);
+    GetEmployeeList(employeeId) {
+        return this.http.get(`${UrlConfig.Messenger.GetEmployeeList}` + employeeId);
     }
 
     SendMessage(obj) {
@@ -23,13 +23,7 @@ export class MessengerService {
         this.http.post(`${UrlConfig.Messenger.CreateGroup}`, grpObj)
     }
 
-    UpdateChatCommunication(commId) {
-        const commObj =
-        {
-            EmployeeId: localStorage.getItem('empId'),
-            CommunicationId: commId
-        }
-        console.log(commObj);
+    UpdateChatCommunication(commObj) {
         return this.http.post(`${UrlConfig.Messenger.UpdateChatCommunicationDetail}`, commObj);
     }
 
@@ -44,6 +38,10 @@ export class MessengerService {
         console.log(msg);
     }
     sendGroupMessage(groupMsgObj) {
-        return this.http.post(`${UrlConfig.Messenger.sendGroupMessage}`, groupMsgObj);   
+        return this.http.post(`${UrlConfig.Messenger.sendGroupMessage}`, groupMsgObj);
+    }
+
+    getUnReadMessageCount(employeeId) {
+        return this.http.get(`${UrlConfig.Messenger.GetEmployeeList}` + employeeId);
     }
 }

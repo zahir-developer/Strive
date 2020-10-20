@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Admin.API.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Strive.BusinessEntities.DTO.Messenger;
+using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Messenger;
 using Strive.Common;
 
@@ -16,9 +18,11 @@ namespace Admin.API.Controllers
     public class MessengerController : StriveControllerBase<IMessengerBpl>
     {
 
-        public MessengerController(IMessengerBpl messengerBpl) : base(messengerBpl)
-        {
+        private readonly IHubContext<ChatMessageHub> _hubContext;
 
+        public MessengerController(IMessengerBpl messengerBpl, IHubContext<ChatMessageHub> hubContext) : base(messengerBpl)
+        {
+            _hubContext = hubContext;
         }
 
         /// <summary>
@@ -42,29 +46,20 @@ namespace Admin.API.Controllers
 
             Result result = _bplManager.SendMessenge(chatMessageDto);
 
-            /*await chatHub.SendPrivateMessage(
-                       chatMessageDto.ConnectionId,
-                       chatMessageDto.ChatMessageRecipient?.SenderId.GetValueOrDefault().ToString(),
-                       chatMessageDto.FullName,
-                       chatMessageDto.ChatMessage?.Messagebody);*/
-
-            
-            if(result.Status.ToLower().Equals("true"))
+            if (result.Status.Equals("Success"))
             {
                 if (chatMessageDto.ChatMessageRecipient.RecipientGroupId == null && chatMessageDto.ChatMessageRecipient.RecipientId > 0)
                 {
-                    /*await chatHub.SendPrivateMessage(
-                        chatMessageDto.ConnectionId,
-                        chatMessageDto.ChatMessageRecipient.SenderId.GetValueOrDefault().ToString(),
-                        chatMessageDto.FullName,
-                        chatMessageDto.ChatMessage.Messagebody);*/
+                    await _hubContext.Clients.Client(chatMessageDto.ConnectionId).SendAsync("ReceivePrivateMessage", chatMessageDto);
                 }
                 else if (chatMessageDto.ChatMessageRecipient.RecipientGroupId > 0 && chatMessageDto.ChatMessageRecipient.RecipientId == null)
+                {
                     await chatHub.SendMessageToGroup(
                         chatMessageDto.GroupName,
                         chatMessageDto.ChatMessageRecipient.SenderId.GetValueOrDefault().ToString(),
                         chatMessageDto.FullName,
                         chatMessageDto.ChatMessage.Messagebody);
+                }
             }
             return result;
         }
@@ -74,20 +69,40 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("CreateChatGroup")]
-        public Result CreateGroup([FromBody] ChatGroupDto chatGroupDto)
+        public async Task<Result> CreateGroup([FromBody] ChatGroupDto chatGroupDto)
         {
-            return _bplManager.CreateGroup(chatGroupDto);
+            CommonBpl commonBpl = new CommonBpl();
+
+            string groupName = chatGroupDto.ChatGroup.GroupName + "_" + commonBpl.RandomString(5);
+            chatGroupDto.ChatGroup.GroupId = groupName;
+            var result = _bplManager.CreateGroup(chatGroupDto);
+
+            foreach (var user in chatGroupDto.ChatUserGroup)
+            {
+                await _hubContext.Groups.AddToGroupAsync(user.CommunicationId, groupName);
+                await _hubContext.Clients.Group(groupName).SendAsync("GroupMessageReceive", user.UserId + " has joined.");
+            }
+            return result;
         }
 
         [HttpGet]
-        [Route("GetChatEmployeeList")]
-        public Result GetAllEmployeeList() => _bplManager.GetChatEmployeeList();
+        [Route("GetChatEmployeeList/{employeeId}")]
+        public Result GetAllEmployeeList(int employeeId)
+        {
+            return _bplManager.GetChatEmployeeList(employeeId);
+        }
 
         [HttpPost]
         [Route("GetChatMessage")]
         public Result GetChatMessage([FromBody] ChatDto chatDto)
         {
             return _bplManager.GetChatMessage(chatDto);
+        }
+        [HttpGet]
+        [Route("GetUnReadMessageCount/{employeeId}")]
+        public Result GetUnReadMessageCount(int employeeId)
+        {
+            return _bplManager.GetUnReadMessageCount(employeeId);
         }
     }
 }

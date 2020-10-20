@@ -39,6 +39,7 @@ import { ClientFormComponent } from './components/client-form/client-form.compon
 import { VehicleCreateEditComponent } from './components/vehicle-create-edit/vehicle-create-edit.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
     ConfirmDialogModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    TooltipModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
@@ -73,7 +75,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
-     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent],
+     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent, TooltipModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 
