@@ -38,7 +38,7 @@ public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
       // this.messengerService.UpdateChatCommunication(id);
-
+console.log('ReceiveCommunicationID: '+ id);
       this.hubConnection.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
         return console.error(err.toString());
       });
@@ -65,6 +65,7 @@ public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
 
     this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
       if (data !== null) {
+        console.log('ReceiveEmployeeCommunicationId' + data); 
         this.setname(data);
         // this.messengerService.UpdateChatCommunication(data[0], data[1]);
       }

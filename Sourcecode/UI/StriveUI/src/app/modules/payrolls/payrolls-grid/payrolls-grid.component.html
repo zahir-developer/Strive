@@ -40,7 +40,7 @@
                                         [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
                                         Report</button>
                                     <button type="button"
-                                        class="btn theme-primary-button-color btn-md m-l-10">Edit</button>
+                                        class="btn theme-primary-button-color btn-md m-l-10" (click)="editAdjustemt()">Edit</button>
                                     <button type="button"
                                         class="btn theme-primary-button-color btn-md m-l-10">Update</button>
                                     <button type="button"
@@ -63,11 +63,12 @@
                                         <th scope="col">OT Pay</th>
                                         <!-- <th scope="col">Uniform</th> -->
                                         <th scope="col">Collision</th>
-                                        <!-- <th scope="col">Adj.</th> -->
+                                        <th scope="col">Adjustment</th>
                                         <th scope="col">Details com.</th>
                                         <!-- <th scope="col">Tips</th> -->
                                         <!-- <th scope="col">Detail Tips</th> -->
                                         <th scope="col">Payee Total</th>
+                                        <!-- <th scope="col">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,14 +85,24 @@
                                         <td>{{payroll.OverTimePay | currency}}</td>
                                         <!-- <td>{{payroll.Uniform | currency}}</td> -->
                                         <td>{{payroll.Collision | currency}}</td>
-                                        <!-- <td>{{payroll.Adjustment | currency}}</td> -->
+                                        <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
+                                            <input type="text" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment" size="4" name="adjustment" appTwoDecimalNumber class="form-control"
+                                                placeholder="0.00">
+                                        </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
                                         <!-- <td>$10.00</td> -->
                                         <!-- <td>$50</td> -->
                                         <td>{{payroll.PayeeTotal  | currency}}</td>
+                                        <!-- <td><em *ngIf="!payroll.isEditAdjustment"
+                                                class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2" (click)="editAdjustemt(payroll)"></em>
+                                                <em *ngIf="payroll.isEditAdjustment"
+                                                class="mdi mdi-checkbox-marked-circle edit-list pointer theme-secondary-icon-color font-size-1-2" (click)="saveAdjustemt()"></em>
+                                            <em *ngIf="payroll.isEditAdjustment"
+                                                class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2" (click)="cancelEditAdjusment(payroll)"></em>
+                                        </td> -->
                                     </tr>
                                     <tr *ngIf="payRollList.length === 0">
-                                        <td colspan="14" class="text-center">
+                                        <td colspan="15" class="text-center">
                                             No Records Found
                                         </td>
                                     </tr>
