@@ -12,7 +12,7 @@ export class CheckoutGridComponent implements OnInit {
   uncheckedVehicleDetails: any = [];
   isTableEmpty: boolean;
   page = 1;
-  pageSize = 5;
+  pageSize = 25;
   collectionSize: number = 0;
 
   constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr) { }
@@ -49,6 +49,18 @@ export class CheckoutGridComponent implements OnInit {
     this.checkout.checkoutVehicle(finalObj).subscribe( res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Checkout successfully' });
+        this.getAllUncheckedVehicleDetails();
+      }
+    });
+  }
+
+  hold(checkout) {
+    const finalObj = {
+      id: checkout.JobId
+    };
+    this.checkout.holdVehicle(finalObj).subscribe( res => {
+      if (res.status === 'Success') {
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Hold successfully' });
         this.getAllUncheckedVehicleDetails();
       }
     });

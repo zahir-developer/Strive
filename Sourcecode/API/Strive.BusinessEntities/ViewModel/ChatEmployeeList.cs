@@ -13,6 +13,6 @@ namespace Strive.BusinessEntities.ViewModel.Messenger
         public string LastName { get; set; }
         public bool IsGroup { get; set; }
         public string CommunicationId { get; set; }
-        public int? ChatCommunicationId { get; set; }
+        public string RecentChatMessage { get; set; }
     }
 }

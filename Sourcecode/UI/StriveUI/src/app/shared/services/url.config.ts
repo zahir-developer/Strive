@@ -141,6 +141,7 @@ export const UrlConfig = {
     saveCustomColor: `Admin/WhiteLabelling/Save`,
     uploadWhiteLabel: `Admin/WhiteLabelling/Update`,
     getPayroll: `Admin/PayRoll/GetPayroll`,
+    holdoutVehicle: `Admin/Checkout/UpdateJobStatus`
   },
   Messenger:
   {
@@ -149,6 +150,7 @@ export const UrlConfig = {
     CreateGroup: `Admin/Messenger/CreateGroup`,
     UpdateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
     GetChatMessage: `Admin/Messenger/GetChatMessage`,
-    sendGroupMessage:  `Admin/Messenger/CreateChatGroup`
+    sendGroupMessage:  `Admin/Messenger/CreateChatGroup`,
+    getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`
   },
 };

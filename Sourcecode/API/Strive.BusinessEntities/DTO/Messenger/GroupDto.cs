@@ -6,6 +6,6 @@
 
         public string GroupName { get; set; }
 
-        public string RecentMessage { get; set; }
+        public string RecentChatMessage { get; set; }
     }
 }
