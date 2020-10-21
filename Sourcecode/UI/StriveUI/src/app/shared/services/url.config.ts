@@ -145,7 +145,8 @@ export const UrlConfig = {
     holdoutVehicle: `Admin/Checkout/UpdateJobStatus`,
     getAccountDetails: `Admin/Sales/GetAccountDetails`,
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
-    completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`
+    completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
+    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`
   },
   Messenger:
   {
