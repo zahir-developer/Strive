@@ -18,7 +18,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   employeeId: number = +localStorage.getItem('empId');
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
   ngOnInit(): void {
-    // this.getRecentChatHistory(this.employeeId);
+    this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
       if (data !== null) {
         this.empOnlineStatus = data;
@@ -33,7 +33,6 @@ export class MessengerEmployeeListComponent implements OnInit {
 
         if (this.empList.length > 0) {
           this.setCommunicationId();
-          console.log(this.empList);
         }
       }
     });
@@ -65,10 +64,6 @@ export class MessengerEmployeeListComponent implements OnInit {
           const recentMsg = item.RecentChatMessage.split(',');
           item.RecentChatMessage = recentMsg[1];
           item.createdDate = recentMsg[0];
-          // const index = item.RecentChatMessage.indexOf(',');
-          // if (index > 0) {
-          // item.RecentChatMessage = item.RecentChatMessage.substring(index + 1, item.RecentChatMessage.length);
-          // }
         }
       });
     }
