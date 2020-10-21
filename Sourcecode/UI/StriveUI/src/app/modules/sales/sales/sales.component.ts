@@ -59,6 +59,8 @@ export class SalesComponent implements OnInit {
   balance: number;
   PaymentType: any;
   PaymentStatus: any;
+  accountDetails: any;
+  isAccount: any;
   constructor(private membershipService: MembershipService, private salesService: SalesService,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -256,6 +258,17 @@ export class SalesComponent implements OnInit {
             this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
             return;
           } else {
+            const obj = {
+              ticketNumber: +ticketNumber,
+            };
+            this.salesService.getAccountDetails(obj).subscribe(data => {
+              if (data.status === 'Success') {                
+                const accountDetails = JSON.parse(data.resultData);
+                this.accountDetails = accountDetails.Account[0];
+                this.isAccount = this.accountDetails?.IsAccount;
+                console.log(this.accountDetails);
+              }
+            });
             this.JobId = this.itemList?.Status?.JobPaymentViewModel?.JobId;
           }
           if (this.itemList.Status.ScheduleItemViewModel !== null) {
@@ -273,6 +286,7 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === 'Air Fresheners');
               this.discountService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
                 item.ServiceType === 'Discounts');
+                console.log(this.washes);
             }
           } else {
             this.showPopup = false;
@@ -291,7 +305,8 @@ export class SalesComponent implements OnInit {
             this.giftCard = Math.abs(+summary?.GiftCard);
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
-
+            this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
+            this.balance = this.balance - this.account;
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
@@ -678,7 +693,7 @@ export class SalesComponent implements OnInit {
   addPayment() {
     let paymentDetailObj =[];
     const balancedue = this.getBalanceDue();
-    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Add any cash/credit payment and proceed' });
       return;
     }
@@ -757,6 +772,27 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       };
       paymentDetailObj.push(det);
+    }
+    if(this.account !== 0){
+      let accountPayType = this.PaymentType.filter(i => i.CodeValue === "Account")[0].CodeId;
+      if(this.accountDetails?.CodeValue !== "Comp"){
+        accountPayType = this.PaymentType.filter(i => i.CodeValue === "Membership")[0].CodeId;
+      }
+      const accountDet = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: accountPayType,
+        amount: this.account ? +this.account : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(accountDet);
     }
     if(this.credit !== 0){      
       let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Credit")[0].CodeId;
@@ -842,6 +878,15 @@ export class SalesComponent implements OnInit {
     this.salesService.addPayemnt(paymentObj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
+        if(this.accountDetails !== null && this.accountDetails?.CodeValue === "Comp"){
+          const amt = this.accountDetails?.Amount - this.account;
+          const obj = {
+            clientId:this.accountDetails?.ClientId,
+            amount: amt
+          }
+          this.salesService.updateAccountBalance(obj).subscribe(data => {
+          });
+        }
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
         this.getDetailByTicket(false);
       } else {
@@ -911,6 +956,12 @@ export class SalesComponent implements OnInit {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
       });
     }
+  }
+
+  processAccount(){
+    this.removAddedAmount(+this.account);
+    this.account = +this.washes[0].Price;
+    this.calculateTotalpaid(+this.account);
   }
   quantityFocus(event) {
     this.targetId = event.target.id;
