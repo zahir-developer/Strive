@@ -189,6 +189,7 @@ namespace Strive.BusinessEntities
         uspUpdateSalesItem,
         uspDeleteSalesItemById,
         uspGetItemList,
+        USPGETACCOUNTDETAILS,
         uspGetItemListByTicketNumber,
         USPCREATETENANT,
         uspGetServiceByItemList,
