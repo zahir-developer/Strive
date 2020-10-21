@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { group } from '@angular/animations';
 declare var $: any;
 @Component({
   selector: 'app-messenger-employee-search',
@@ -15,6 +16,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   selectAll = false;
   @Output() emitNewChat = new EventEmitter();
   @Input() selectedEmployee: any = [];
+  @Input() currentEmployeeId: any = 1;
+  @Input() popupType: any = '';
   constructor(private empService: EmployeeService, private messengerService: MessengerService,
     private messageService: MessageServiceToastr) { }
 
@@ -71,30 +74,36 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   getSelectedEmp() {
     return this.empList.filter(item => item.isSelected === true);
   }
+  showPopup(){
+    $('#getGroupName').modal({ backdrop: 'static', keyboard: false });
+  }
   addEmployees() {
     this.groupname = '';
     const selectedEmp = this.getSelectedEmp();
     if (selectedEmp.length === 0) {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Please select the employees' });
       return;
-    } else if (selectedEmp.length > 1) {
-      $('#getGroupName').modal({ backdrop: 'static', keyboard: false });
+    } else if (this.popupType === 'newChat') {
+      if (selectedEmp.length === 1) {
+        selectedEmp[0].IsGroup = false;
+        this.emitNewChat.emit(selectedEmp);
+        this.closeemp();
+      } else {
+        this.showPopup();
+      }
+    } else if (this.selectedEmployee.IsGroup === false ) {
+      const emp = this.checkDuplicate();
+      if (emp.length > 1) {
+        this.showPopup();
+      } else {
+        this.setDefaultBoolean(false);
+        this.clearSelectAllFlag();
+        return;
+      }
     } else {
-      this.emitNewChat.emit(selectedEmp);
-      this.closeemp();
+      this.groupname = this.selectedEmployee.FirstName;
+      this.AddGroupName('create');
     }
-  }
-  groupIdInsertion(selectedEmp, groupId) {
-    const groupChatEmployees = selectedEmp.map(item => {
-      return {
-        EmployeeId: item.EmployeeId,
-        FirstName: item.FirstName,
-        LastName: item.LastName,
-        ChatCommunicationId: '0',
-        GroupId: groupId
-      };
-    });
-    this.emitNewChat.emit(groupChatEmployees);
   }
   searchFocus() {
     this.search = this.search.trim();
@@ -102,19 +111,31 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   changeState() {
     this.clearSelectAllFlag();
   }
+  checkDuplicate(): any {
+    const selectedEmp = this.getSelectedEmp();
+    if (this.popupType === 'newChat') {
+      return selectedEmp;
+    }
+    const duplicateEmp = selectedEmp.filter(emp => +emp.EmployeeId === +this.selectedEmployee.Id);
+    if (duplicateEmp.length > 0) {
+      return selectedEmp;
+    } else {
+    selectedEmp.push(this.selectedEmployee);
+    return selectedEmp;
+    }
+  }
   AddGroupName(event) {
     if (event === 'cancel') {
       $('#getGroupName').modal('hide');
       this.groupname = '';
     } else {
       const chatUserGroup = [];
-      const selectedEmp = this.getSelectedEmp();
-      selectedEmp.push(this.selectedEmployee);
-      selectedEmp.map(item => {
+      const selectedEmp = this.checkDuplicate();
+      selectedEmp.forEach(item => {
         const userGroup = {
           chatGroupUserId: 0,
           userId: item.EmployeeId ? item.EmployeeId : item.Id,
-          CommunicationId : item.ChatCommunicationId,
+          CommunicationId: item.ChatCommunicationId,
           chatGroupId: 0,
           isActive: true,
           isDeleted: false,
@@ -137,6 +158,9 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         },
         chatUserGroup
       };
+      if (this.selectedEmployee.IsGroup === true && this.popupType === 'oldChat') {
+groupObj.chatGroup = null;
+      }
       this.messengerService.sendGroupMessage(groupObj).subscribe(data => {
         if (data.status === 'Success') {
           $('#getGroupName').modal('hide');
@@ -146,6 +170,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
             FirstName: this.groupname,
             Initial: '',
             LastName: null,
+            IsGroup: true
           }];
           this.emitNewChat.emit(createdGroupObj);
           this.closeemp();

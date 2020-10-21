@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ThemeService } from 'src/app/shared/common-service/theme.service';
+import { MessengerEmployeeSearchComponent } from './messenger-employee-search/messenger-employee-search.component';
 
 declare var $: any;
 @Component({
@@ -12,6 +14,7 @@ declare var $: any;
   styleUrls: ['./messenger.component.css']
 })
 export class MessengerComponent implements OnInit {
+  @ViewChild(MessengerEmployeeSearchComponent) messengerEmployeeSearchComponent: MessengerEmployeeSearchComponent;
   msgList = [];
 
   employeeId: number = +localStorage.getItem('empId');
@@ -34,6 +37,8 @@ export class MessengerComponent implements OnInit {
   groupChatId: number;
   senderFirstName: string;
   senderLastName: string;
+  currentEmployeeId: number;
+  popupType: any;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
 
 
@@ -46,7 +51,7 @@ export class MessengerComponent implements OnInit {
       if (data !== null) {
         const receivedMsg = {
           SenderId: 0,
-          SenderFirstName: this.selectedEmployee.FirstName ,
+          SenderFirstName: this.selectedEmployee.FirstName,
           SenderLastName: this.selectedEmployee.LastName,
           ReceipientId: data.chatMessageRecipient.senderId,
           RecipientFirstName: '',
@@ -63,7 +68,9 @@ export class MessengerComponent implements OnInit {
     this.senderFirstName = localStorage.getItem('employeeFirstName');
     this.senderLastName = localStorage.getItem('employeeLastName');
   }
-  openemp() {
+  openemp(event) {
+    this.popupType = event;
+    this.messengerEmployeeSearchComponent.getAllEmployees();
     $('#show-search-emp').show();
     $('.internal-employee').removeClass('col-xl-9');
     $('.internal-employee').addClass('col-xl-6');
@@ -99,7 +106,6 @@ export class MessengerComponent implements OnInit {
   }
 
   sendMessage() {
-
     if (this.messageBody.trim() === '') {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
       return;
@@ -143,7 +149,7 @@ export class MessengerComponent implements OnInit {
       if (data.status === 'Success') {
         const sendObj = {
           SenderId: this.employeeId,
-          SenderFirstName: this.senderFirstName ,
+          SenderFirstName: this.senderFirstName,
           SenderLastName: this.senderLastName,
           ReceipientId: 0,
           RecipientFirstName: '',
@@ -158,6 +164,8 @@ export class MessengerComponent implements OnInit {
     });
   }
   openpopup(event) {
-    this.openemp();
+    this.currentEmployeeId = 0;
+    // this.selectedEmployee = [];
+    this.openemp(event);
   }
 }
