@@ -51,7 +51,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:weightSum="2">
-            <android.webkit.WebView
+            <!--<android.webkit.WebView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.8" />-->
+            <TextView
+                android:id="@+id/termsandconditionsDetail"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.8" />

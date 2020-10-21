@@ -19,7 +19,7 @@
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
     </RelativeLayout>
-    <TextView
+  <!--  <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
@@ -27,7 +27,7 @@
         android:layout_weight="0.3"
         android:textSize="18sp"
         android:textColor="@android:color/white"
-        android:fontFamily="@font/opensans_bold"/>
+        android:fontFamily="@font/opensans_bold"/>-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dealsList"
         android:scrollbars="vertical"

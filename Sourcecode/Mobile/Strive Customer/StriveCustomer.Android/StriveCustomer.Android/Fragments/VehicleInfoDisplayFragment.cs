@@ -25,6 +25,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView vehicleModel;
         private TextView vehicleColor;
         private TextView vehicleMembership;
+        private TextView vehicleName;
         private Button backButton;
         private Button nextButton;
         private ImageButton editMembershipButton;
@@ -50,6 +51,7 @@ namespace StriveCustomer.Android.Fragments
             vehicleMake = rootview.FindViewById<TextView>(Resource.Id.vehicleMake);
             vehicleModel = rootview.FindViewById<TextView>(Resource.Id.vehicleModel);
             vehicleColor = rootview.FindViewById<TextView>(Resource.Id.vehicleColor);
+            vehicleName = rootview.FindViewById<TextView>(Resource.Id.vehicleName);
             vehicleMembership = rootview.FindViewById<TextView>(Resource.Id.vehicleMembershipName);
             backButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoBack);
             nextButton = rootview.FindViewById<Button>(Resource.Id.vehicleInfoNext);
@@ -61,18 +63,14 @@ namespace StriveCustomer.Android.Fragments
             return rootview;
         }
 
-        private void EditMembershipButton_Click(object sender, EventArgs e)
+        private async void EditMembershipButton_Click(object sender, EventArgs e)
         {
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership == null)
+            var result = await this.ViewModel.MembershipExists();
+            if (result)
             {
                 AppCompatActivity activity = (AppCompatActivity)Context;
                 activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, vehicleMembershipFrag).Commit();
-            }
-            else
-            {
-                this.ViewModel.MembershipExists();
-            }
-            
+            } 
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -91,6 +89,8 @@ namespace StriveCustomer.Android.Fragments
 
         public async void getSelectVehicleInfo()
         {
+            CheckMembership.hasExistingMembership = false;
+            CustomerVehiclesInformation.membershipDetails = null;
             await this.ViewModel.GetSelectedVehicleInfo();
             await this.ViewModel.GetCompleteVehicleDetails();
             MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
@@ -98,22 +98,31 @@ namespace StriveCustomer.Android.Fragments
             MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
             {
+                vehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
+                                   this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr + " " +
+                                   this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel;
                 vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
                 vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";
                 if(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
                 {
+                    CheckMembership.hasExistingMembership = true;
                     vehicleMembership.Text = "Yes";
                     nextButton.Visibility = ViewStates.Visible;
                 }
                 else
                 {
+                    CheckMembership.hasExistingMembership = false;
                     vehicleMembership.Text = "No";
                     nextButton.Visibility = ViewStates.Gone;
                 }
                
             }
         }
+    }
+    public class CheckMembership
+    {
+        public static bool hasExistingMembership { get; set; }
     }
 }

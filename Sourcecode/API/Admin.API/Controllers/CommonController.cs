@@ -52,5 +52,9 @@ namespace Admin.API.Controllers
         {
             return _commonBpl.GetAllEmail();
         }
+
+        [HttpGet]
+        [Route("GetEmailIdExist/{email}")]
+        public Result GetEmailIdExist(string email) => _commonBpl.GetEmailIdExist(email);
     }
 }

@@ -27,7 +27,8 @@ namespace Strive.Common
         public enum UploadFolder
         {
             EMPLOYEEDOCUMENT,
-            PRODUCTIMAGE
+            PRODUCTIMAGE,
+            LOGO
         }
     }
 
