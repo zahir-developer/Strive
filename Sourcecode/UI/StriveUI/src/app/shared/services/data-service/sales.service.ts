@@ -46,6 +46,12 @@ export class SalesService {
  updateProductItem(updateObj) {
   return this.http.post(`${UrlConfig.totalUrl.updateProductObj}`, updateObj);
  }
+ getAccountDetails(obj) {
+  return this.http.post(`${UrlConfig.totalUrl.getAccountDetails}`, obj);
+ } 
+ updateAccountBalance(obj) {
+  return this.http.post(`${UrlConfig.totalUrl.updateAccountBalance}`, obj);
+ }
  getPaymentStatus(code) {
   return this.http.get(`${UrlConfig.totalUrl.getPaymentStatus}` + code);
 }

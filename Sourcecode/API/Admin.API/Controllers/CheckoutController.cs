@@ -39,8 +39,15 @@ namespace Admin.API.Controllers
         /// Method to Update Job Status AS HOLD
         /// </summary>
         [HttpPost]
-        [Route("UpdateJobStatus")]
-        public Result UpdateJobStatus([FromBody]HoldByJobIdDto holdByJobId) => _bplManager.UpdateJobStatus(holdByJobId);
+        [Route("UpdateJobStatusHold")]
+        public Result UpdateJobStatusHold([FromBody]JobIdDto jobIdDto) => _bplManager.UpdateJobStatusHold(jobIdDto);
+
+        /// <summary>
+        /// Method to Update Job Status AS COMPLETED
+        /// </summary>
+        [HttpPost]
+        [Route("UpdateJobStatusComplete")]
+        public Result UpdateJobStatusComplete([FromBody]JobIdDto jobIdDto) => _bplManager.UpdateJobStatusComplete(jobIdDto);
         #endregion
     }
 }

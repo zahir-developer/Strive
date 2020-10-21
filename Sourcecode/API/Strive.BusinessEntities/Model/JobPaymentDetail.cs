@@ -1,20 +1,23 @@
-using Cocoon.ORM;
+﻿using Cocoon.ORM;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.Model
 {
-    [OverrideName("tblJobPayment")]
-    public class JobPayment
+    [OverrideName("tblJobPaymentDetail")]
+    public class JobPaymentDetail
     {
-
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-        public int JobPaymentId { get; set; }
+        public int JobPaymentDetailId { get; set; }
 
         [Column, PrimaryKey]
-        public int? JobId { get; set; }
+        public int? JobPaymentId { get; set; }
 
         [Column]
-        public int? DrawerId { get; set; }
+        public int? PaymentType { get; set; }
 
         [Column]
         public decimal? Amount { get; set; }
@@ -23,13 +26,7 @@ namespace Strive.BusinessEntities.Model
         public decimal? TaxAmount { get; set; }
 
         [Column]
-        public bool? Approval { get; set; }
-
-        [Column]
-        public int? PaymentStatus { get; set; }
-
-        [Column]
-        public string Comments { get; set; }
+        public string Signature { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
@@ -47,10 +44,7 @@ namespace Strive.BusinessEntities.Model
         public int? UpdatedBy { get; set; }
 
         [Column]
-        public  DateTimeOffset? UpdatedDate { get; set; }
-
-        [Column]
-        public bool? IsProcessed { get; set; }
+        public DateTimeOffset? UpdatedDate { get; set; }
 
     }
 }
