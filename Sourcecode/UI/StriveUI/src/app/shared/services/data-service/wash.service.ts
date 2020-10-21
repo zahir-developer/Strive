@@ -21,6 +21,9 @@ export class WashService {
   updateWashes(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateWash}`, obj);
   }
+  getJobStatus(code) {
+    return this.http.get(`${UrlConfig.totalUrl.getJobStatus}` + code);
+  }
   addWashes(obj) {
     return this.http.post(`${UrlConfig.totalUrl.addWash}`, obj);
   }
