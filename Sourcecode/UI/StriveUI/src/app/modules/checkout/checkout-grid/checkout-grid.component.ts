@@ -72,15 +72,17 @@ export class CheckoutGridComponent implements OnInit {
   }
 
   complete(checkout) {
-    const finalObj = {
-      id: checkout.JobId
-    };
-    this.checkout.completedVehicle(finalObj).subscribe(res => {
-      if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Completed Successfully' });
-        this.getAllUncheckedVehicleDetails();
-      }
-    });
+    if (checkout.MembershipNameOrPaymentStatus === 'In Progress') {
+      const finalObj = {
+        id: checkout.JobId
+      };
+      this.checkout.completedVehicle(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Completed Successfully' });
+          this.getAllUncheckedVehicleDetails();
+        }
+      });
+    }
   }
 
 }
