@@ -118,16 +118,16 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  getPaymentStatus(){
-    this.codes.getCodeByCategory("PAYMENTSTATUS").subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.PaymentStatus = sType.Codes;
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-      }
-    });
-  }
+  // getPaymentStatus(){
+  //   this.codes.getCodeByCategory("PAYMENTSTATUS").subscribe(data => {
+  //     if (data.status === 'Success') {
+  //       const sType = JSON.parse(data.resultData);
+  //       this.PaymentStatus = sType.Codes;
+  //     } else {
+  //       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+  //     }
+  //   });
+  // }
 
   getAllServiceandProduct() {
     this.salesService.getServiceAndProduct().subscribe(data => {

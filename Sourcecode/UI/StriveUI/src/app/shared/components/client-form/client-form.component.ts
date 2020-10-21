@@ -59,7 +59,8 @@ export class ClientFormComponent implements OnInit {
       status: ['', Validators.required],
       notes: ['',],
       checkOut: ['',],
-      type: ['', Validators.required]
+      type: ['', Validators.required],
+      amount:['',]
     });
     this.clientForm.get('status').patchValue(0);
     this.getClientType();
