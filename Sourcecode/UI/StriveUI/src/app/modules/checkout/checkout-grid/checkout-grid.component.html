@@ -72,9 +72,9 @@
                                                     </td>
                                                     <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="checkoutVehicle(checkout)"></em>
                                                         <em class="mdi mdi-file-clock theme-primary-color font-size-1-5 pointer" pTooltip="Hold" tooltipPosition="top" (click)="hold(checkout)"></em>
-                                                        <em *ngIf="checkout.MembershipNameOrPaymentStatus === 'In Progress'" class="mdi mdi-checkbox-marked theme-primary-color font-size-1-5 pointer" pTooltip="Complete" tooltipPosition="top" (click)="complete(checkout)"></em>
+                                                        <em  class="mdi mdi-checkbox-marked  font-size-1-5 pointer" [ngClass]="{'theme-disabled-icon-color':checkout.MembershipNameOrPaymentStatus !== 'In Progress', 'theme-primary-icon-color': checkout.MembershipNameOrPaymentStatus === 'In Progress'  }" pTooltip="Complete" tooltipPosition="top" (click)="complete(checkout)"></em>
                                                         <!-- <button type="button"
-                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9"  (click)="checkoutVehicle(checkout)">Checkout</button>
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9"  (click)="checkoutVehicle(checkout)">Checkout</button> theme-primary-color
                                                             <button type="button"
                                                             class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" (click)="hold(checkout)">Hold</button> -->
                                                     </td>
