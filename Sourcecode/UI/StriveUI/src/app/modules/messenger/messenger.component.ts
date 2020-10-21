@@ -82,6 +82,7 @@ export class MessengerComponent implements OnInit {
 
 
   LoadMessageChat(employeeObj) {
+    this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
     this.isGroupChat = employeeObj.IsGroup;
     this.groupChatId = employeeObj.IsGroup ? employeeObj.Id : 0;
