@@ -21,7 +21,11 @@ namespace Strive.BusinessEntities.Model
 
         [Column, PrimaryKey]
         public int? RecipientGroupId { get; set; }
-        
+
+        [Column]
+        public DateTimeOffset? CreatedDate { get; set; }
+
+
         [Column]
         public bool? IsRead { get; set; }
 
