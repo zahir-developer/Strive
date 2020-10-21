@@ -651,7 +651,7 @@ getJobType() {
     this.wash.getJobStatus('JOBSTATUS').subscribe(res => {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
-        this.jobStatus = status.Codes.filter(item => item.CodeValue === 'Completed');
+        this.jobStatus = status.Codes.filter(item => item.CodeValue === 'In Progress');
         this.jobStatusId = this.jobStatus[0].CodeId;
       }
     });
