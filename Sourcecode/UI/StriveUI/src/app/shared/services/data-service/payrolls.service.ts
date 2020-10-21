@@ -12,4 +12,8 @@ export class PayrollsService {
   getPayroll(LocationId, StartDate, EndDate) {
     return this.http.get(`${UrlConfig.totalUrl.getPayroll}`, { params: { LocationId , StartDate ,  EndDate } });
   }
+
+  updateAdjustment(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.updateAdjustment}`, obj);
+  }
 }

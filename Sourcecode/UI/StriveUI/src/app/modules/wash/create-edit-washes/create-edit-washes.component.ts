@@ -100,11 +100,14 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getTicketNumber() {
-    this.wash.getTicketNumber().subscribe(data => {
-      if (!this.isEdit) {
-        this.ticketNumber = data;
-      }
-    });
+    if (!this.isEdit) {
+      this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    }
+    // this.wash.getTicketNumber().subscribe(data => {
+    //   if (!this.isEdit) {
+    //     this.ticketNumber = data;
+    //   }
+    // });
     this.getAllClient();
     this.getServiceType();
     this.getColor();
