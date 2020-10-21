@@ -885,8 +885,21 @@ table th {
 .w-23 {
     width: 23% !important;
 }
+.w-33 {
+    width: 33% !important;
+}
+.p-8{
+	padding:8px !important;
+}
 .summary > .form-row > .form-group {
-    margin-bottom: 5px !important;
+    margin-bottom: 8px !important;
+    text-align: right;
+    color: #5F6281;
+	font-size: 15px;
+}
+.mb-height{
+	min-height: 100%;
+	height: auto;
 }
 
 .table-scroll {
@@ -934,7 +947,7 @@ table th {
 }
 
 .body-half-screen {
-    max-height: 20vh;
+    max-height: 60vh;
 }
 
 .small-col {
@@ -951,7 +964,55 @@ table th {
     text-align: center;
     line-height: 55px;
 }
+.removeuser{
+	display: none;
 
+}
+.drop-down-item:hover .removeuser {
+   display:inline-block;
+}
+.drop-down {
+    min-width: 15rem;
+	margin-top:-6px;
+}
+.drop-down-item:focus, .drop-down-item:hover {
+    background: #f1f3fa !important;
+	color:#000000 !important;
+}
+.participant-image {
+    height: 30px;
+    width: 30px;
+    background-color: #dde7e9;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+	line-height: 32px;
+    font-size: 0.7rem !important;
+    font-weight: 700;
+}
+.drop-down-item {
+    display: block;
+    width: 100%;
+    padding: .25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+	vertical-align:middle;
+	cursor:pointer;
+}
+.arrow-none:after {
+    display: none;
+}
+
+.conversation-list .odd .conversation-text .ctext-wrap {
+	background-color:#0E7268;
+	color:white;
+	border-radius: 20px 20px 0px 20px;
+}
 .recentchat {
     border-radius: 25px !important;
     color: #ffffff;
@@ -1078,16 +1139,15 @@ table th {
     float: left;
     font-size: 10px;
     margin-left: 30px;
-    width: 70%;
 	vertical-align:middle;
+	
 }
 .conversation-list .ctext-wrap {
     background: #f1f3fa;
-    border-radius: 3px;
     display: inline-block;
     padding: 12px;
     position: relative;
-    width: 54%;
+	border-radius: 20px 20px 20px 0;
 }
 
 .conversation-list .ctext-wrap i {

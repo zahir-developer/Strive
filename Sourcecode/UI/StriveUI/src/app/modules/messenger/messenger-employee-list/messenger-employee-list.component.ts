@@ -72,13 +72,14 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.emitLoadMessageChat.emit(employeeObj);
   }
   getEmpForNewChat(event) {
-    if (event !== undefined && event.length === 1) {
+    if (event !== undefined) {
       const empObj = {
         Id: event[0].EmployeeId,
         FirstName: event[0].FirstName,
         LastName: event[0].LastName,
         CommunicationId: '0',
-        ChatCommunicationId: '0'
+        ChatCommunicationId: '0',
+        IsGroup: event[0].IsGroup
       };
       const duplicateEmp = this.empList.filter(item => item.Id === event[0].EmployeeId);
       if (duplicateEmp.length > 0) {
@@ -86,13 +87,13 @@ export class MessengerEmployeeListComponent implements OnInit {
       } else {
         this.empList.unshift({
           Id: event[0].EmployeeId, FirstName: event[0].FirstName,
-          LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
+          LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0', IsGroup: event[0].IsGroup
         });
         this.emitLoadMessageChat.emit(empObj);
       }
     }
     }
     addemp() {
-        this.popupEmit.emit();
+        this.popupEmit.emit('newChat');
     }
 }
