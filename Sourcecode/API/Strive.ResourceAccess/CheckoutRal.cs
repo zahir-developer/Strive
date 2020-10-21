@@ -26,10 +26,16 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
             return true;
         }
-        public bool UpdateJobStatus(HoldByJobIdDto holdByJobId)
+        public bool UpdateJobStatusHold(JobIdDto jobIdDto)
         {
-            _prm.Add("JobId", holdByJobId.id);
-            db.Save(SPEnum.USPUPDATEJOBSTATUSFORJOBID.ToString(), _prm);
+            _prm.Add("JobId", jobIdDto.id); 
+            db.Save(SPEnum.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
+            return true;
+        }
+        public bool UpdateJobStatusComplete(JobIdDto jobIdDto)
+        {
+            _prm.Add("JobId", jobIdDto.id);
+            db.Save(SPEnum.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
             return true;
         }
     }

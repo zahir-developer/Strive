@@ -15,6 +15,8 @@ import insertTextAtCursor from 'insert-text-at-cursor';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { PrintComponent } from './print/print.component';
+import { element } from 'protractor';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -57,11 +59,13 @@ export class SalesComponent implements OnInit {
   newTicketNumber: any;
   selectedService: any;
   balance: number;
+  PaymentType: any;
+  PaymentStatus: any;
   constructor(private membershipService: MembershipService, private salesService: SalesService,private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute, private codes: GetCodeService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -94,11 +98,35 @@ export class SalesComponent implements OnInit {
       this.ticketNumber = paramsData;
       this.getDetailByTicket(false);
     }
-    // this.getAllService();
+    this.getPaymentType();
+    this.getPaymentStatus();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
     this.getPaymentStatus();
   }
+
+  getPaymentType(){
+    this.codes.getCodeByCategory("PAYMENTTYPE").subscribe(data => {
+      if (data.status === 'Success') {
+        const sType = JSON.parse(data.resultData);
+        this.PaymentType = sType.Codes;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  getPaymentStatus(){
+    this.codes.getCodeByCategory("PAYMENTSTATUS").subscribe(data => {
+      if (data.status === 'Success') {
+        const sType = JSON.parse(data.resultData);
+        this.PaymentStatus = sType.Codes;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
   getAllServiceandProduct() {
     this.salesService.getServiceAndProduct().subscribe(data => {
       if (data.status === 'Success') {
@@ -661,6 +689,7 @@ export class SalesComponent implements OnInit {
     return balancedue;
   }
   addPayment() {
+    let paymentDetailObj =[];
     const balancedue = this.getBalanceDue();
     if (this.cash === 0 && this.credit === 0 && this.giftCard === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Add any cash/credit payment and proceed' });
@@ -704,19 +733,89 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       }
     });
+    let discountPayType = this.PaymentType.filter(i => i.CodeValue === "Discount")[0].CodeId;
+    const discountDet = this.selectedDiscount.map(item => {
+      return {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: discountPayType,
+        amount: item.Cost,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      }
+    });
+    discountDet.forEach(element => {
+      paymentDetailObj.push(element);
+    })
+    if(this.cash !== 0){
+      let cashPayType = this.PaymentType.filter(i => i.CodeValue === "Cash")[0].CodeId;
+      const det = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: cashPayType,
+        amount: this.cash ? +this.cash : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(det);
+    }
+    if(this.credit !== 0){      
+      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Credit")[0].CodeId;
+      const credit = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: creditPayType,
+        amount: this.credit ? +this.credit : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(credit);
+    }
+    if(this.giftCard !== 0){
+      let giftPayType = this.PaymentType.filter(i => i.CodeValue === "GiftCard")[0].CodeId;
+      const gift = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: giftPayType,
+        amount: this.giftCard ? +this.giftCard : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: 1,
+        createdDate: new Date(),
+        updatedBy: 1,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(gift);
+    }
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
         jobId: this.isSelected ? +this.JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
-        paymentType: 109,
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
-        cashback: this.cashback ? this.cashback : 0,
         approval: true,
-        checkNumber: '',
-        signature: '',
-        paymentStatus: this.paymentStatusId,
+        paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
         comments: '',
         isActive: true,
         isDeleted: false,
@@ -726,6 +825,7 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date(),
         isProcessed: true
       },
+      jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: {
         jobPaymentCreditCardId: 0,
@@ -744,7 +844,7 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date()
       },
-      jobPaymentDiscount: discount.length === 0 ? null : discount,
+      //jobPaymentDiscount: discount.length === 0 ? null : discount,
 
     };
     this.spinner.show();
