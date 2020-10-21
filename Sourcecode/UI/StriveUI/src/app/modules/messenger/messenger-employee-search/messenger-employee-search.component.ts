@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
-import { group } from '@angular/animations';
 declare var $: any;
 @Component({
   selector: 'app-messenger-employee-search',
