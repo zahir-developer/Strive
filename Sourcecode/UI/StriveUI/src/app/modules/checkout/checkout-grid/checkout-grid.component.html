@@ -49,7 +49,7 @@
                                                     <th scope="col">Service </th>
                                                     <th scope="col">Additional Services</th>
                                                     <th scope="col">Pay </th>
-                                                    <!-- <th scope="col">Monthly</th> -->
+                                                    <th scope="col">Membership</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
@@ -66,9 +66,9 @@
                                                     <td>{{checkout.Services}}</td>
                                                     <td class="table-ellipsis" pTooltip="{{checkout.AdditionalServices}}" tooltipPosition="top">{{checkout.AdditionalServices}}</td>
                                                     <td>{{checkout.Cost | currency}}</td>
-                                                    <!-- <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
-                                                    </td> -->
-                                                    <td [ngStyle]="{'color': checkout.ColorCode}">{{checkout.MembershipNameOrPaymentStatus}}
+                                                    <td class="table-ellipsis" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top"><em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark theme-primary-color font-size-1-5 pointer"></em>{{checkout.MembershipName}}
+                                                    </td>
+                                                    <td [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'PAID' ? '#008000' : 'none'}">{{checkout.MembershipNameOrPaymentStatus}}
                                                     </td>
                                                     <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="checkoutVehicle(checkout)"></em>
                                                         <em class="mdi mdi-file-clock theme-primary-color font-size-1-5 pointer" pTooltip="Hold" tooltipPosition="top" (click)="hold(checkout)"></em>
