@@ -143,6 +143,8 @@ export const UrlConfig = {
     uploadWhiteLabel: `Admin/WhiteLabelling/Update`,
     getPayroll: `Admin/PayRoll/GetPayroll`,
     holdoutVehicle: `Admin/Checkout/UpdateJobStatus`,
+    getAccountDetails: `Admin/Sales/GetAccountDetails`,
+    updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`
   },
   Messenger:
