@@ -1,7 +1,7 @@
 <div class="row no-gutters  border-bottom">
     <div class="col-lg-11 m-b-5">
         <div class="input-icon right m-r-5"> <i class="mdi mdi-magnify search-icon"></i>
-        <input type="text" class="form-control" placeholder="Search"> </div>
+        <input type="text" class="form-control" (keyup)="search()" placeholder="Search" [(ngModel)]="query"> </div>
     </div>
     <div class="col-lg-1">
         <div class="pull-right"><i class="mdi mdi-account-plus theme-secondary-icon-color font-size-1-5 pointer" (click)="addemp()"></i></div>
