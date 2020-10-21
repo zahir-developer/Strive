@@ -13,6 +13,7 @@ namespace Strive.BusinessLogic.Checkout
     {
         Result GetCheckedInVehicleDetails();
         Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry);
-        Result UpdateJobStatus(HoldByJobIdDto holdByJobId);
+        Result UpdateJobStatus(JobIdDto holdByJobId);
+        Result UpdateJobStatusComplete(JobIdDto completeByJobId);
     }
 }
