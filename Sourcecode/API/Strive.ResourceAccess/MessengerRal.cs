@@ -2,6 +2,7 @@
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.Messenger;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.ViewModel.Messenger;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -57,5 +58,17 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<GetUnReadMessageViewModel>(EnumSP.Messenger.GETCHATMESSAGECOUNT.ToString(), _prm);
         }
 
+        public EmployeeChatHistoryViewModel GetChatGroupEmployeelist(int chatGroupId)
+        {
+            _prm.Add("@GroupId", chatGroupId);
+            return db.FetchMultiResult<EmployeeChatHistoryViewModel>(EnumSP.Messenger.USPGETCHATGROUPEMPLOYEELIST.ToString(), _prm);
+        }
+
+        public ChatGroupListViewModel GetChatEmployeeGrouplist(int employeeId)
+        {
+            _prm.Add("@EmployeeId", employeeId);
+            return db.FetchMultiResult<ChatGroupListViewModel>(EnumSP.Messenger.USPGETCHATEMPLOYEEGROUPLIST.ToString(), _prm);
+        }
+        
     }
 }

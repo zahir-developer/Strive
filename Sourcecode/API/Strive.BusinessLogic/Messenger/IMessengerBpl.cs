@@ -1,6 +1,7 @@
 ﻿using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Messenger;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Messenger;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,7 @@ namespace Strive.BusinessLogic.Messenger
         Result GetChatEmployeeList(int employeeId);
         Result GetChatMessage(ChatDto chatDto);
         Result GetUnReadMessageCount(int employeeid);
+        Result GetChatGroupEmployeelist(int chatGroupId);
+        ChatGroupListViewModel GetChatEmployeeGrouplist(int employeeId);
     }
 }
