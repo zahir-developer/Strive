@@ -33,5 +33,31 @@ namespace Strive.BusinessLogic.PayRoll
             }
             return _result;
         }
+        public Result UpdatePayRoll(PayRollUpdateDto payRollUpdate)
+        {
+            try
+            {
+                return ResultWrap(new PayRollRal(_tenant).UpdatePayRoll, payRollUpdate, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result UpdateEmployeeAdjustment(List<EmployeeAdjustmentDto> employeeAdjustment)
+        {
+            try
+            {
+                return ResultWrap(new PayRollRal(_tenant).UpdateEmployeeAdjustment, employeeAdjustment, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+
     }
 }
