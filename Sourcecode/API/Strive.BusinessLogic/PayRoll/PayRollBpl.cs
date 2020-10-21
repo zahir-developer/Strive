@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.PayRoll;
 using Strive.Common;
@@ -49,7 +50,14 @@ namespace Strive.BusinessLogic.PayRoll
         {
             try
             {
-                return ResultWrap(new PayRollRal(_tenant).UpdateEmployeeAdjustment, employeeAdjustment, "Result");
+                var result = new PayRollRal(_tenant).UpdateEmployeeAdjustment(employeeAdjustment);
+
+                JObject _resultContent = new JObject();
+                Result _result = new Result();
+                _resultContent.Add(result.WithName("Result"));
+                _result = Helper.BindSuccessResult(_resultContent);
+
+                return _result;
             }
             catch (Exception ex)
             {
