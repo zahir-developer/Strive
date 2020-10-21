@@ -118,16 +118,16 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  // getPaymentStatus(){
-  //   this.codes.getCodeByCategory("PAYMENTSTATUS").subscribe(data => {
-  //     if (data.status === 'Success') {
-  //       const sType = JSON.parse(data.resultData);
-  //       this.PaymentStatus = sType.Codes;
-  //     } else {
-  //       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-  //     }
-  //   });
-  // }
+  getPaymentStatus(){
+    this.codes.getCodeByCategory("PAYMENTSTATUS").subscribe(data => {
+      if (data.status === 'Success') {
+        const sType = JSON.parse(data.resultData);
+        this.PaymentStatus = sType.Codes;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
 
   getAllServiceandProduct() {
     this.salesService.getServiceAndProduct().subscribe(data => {
@@ -685,15 +685,15 @@ export class SalesComponent implements OnInit {
       }
     });
   }
-  getPaymentStatus() {
-    this.salesService.getPaymentStatus('PAYMENTSTATUS').subscribe(res => {
-      if (res.status === 'Success') {
-        const status = JSON.parse(res.resultData);
-        this.paymentStatus = status.Codes.filter(item => item.CodeValue === 'Success');
-        this.paymentStatusId = this.paymentStatus[0].CodeId;
-      }
-    });
-  }
+  // getPaymentStatus() {
+  //   this.salesService.getPaymentStatus('PAYMENTSTATUS').subscribe(res => {
+  //     if (res.status === 'Success') {
+  //       const status = JSON.parse(res.resultData);
+  //       this.paymentStatus = status.Codes.filter(item => item.CodeValue === 'Success');
+  //       this.paymentStatusId = this.paymentStatus[0].CodeId;
+  //     }
+  //   });
+  // }
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
