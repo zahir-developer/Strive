@@ -144,9 +144,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getTicketNumber() {
-    this.wash.getTicketNumber().subscribe(data => {
-      this.ticketNumber = data;
-    });
+    this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    // this.wash.getTicketNumber().subscribe(data => {
+    //   this.ticketNumber = data;
+    // });
     this.assignDate();
     this.getColor();
     this.getAllClient();

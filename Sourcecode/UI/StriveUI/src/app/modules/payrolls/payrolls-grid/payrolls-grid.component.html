@@ -48,12 +48,12 @@
                                     <button type="button"
                                         class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!isEditAdjustment" (click)="updateAdjustment()">Update</button>
                                     <button type="button"
-                                        class="btn theme-primary-button-color btn-md m-l-10" [disabled]="isEditAdjustment" (click)="processPayrolls()">Process</button>
+                                        class="btn theme-primary-button-color btn-md m-l-10" [disabled]="isEditAdjustment" (click)="processPayrolls()">Export</button>
                                 </div>
                             </div>
                         </form>
                         <div class="table-responsive" >
-                            <table class="table border table-hover" id="content" aria-describedby="payroll-list">
+                            <table class="table border table-hover" id="payrollPDF" aria-describedby="payroll-list">
                                 <thead>
                                     <tr>
                                         <th scope="col">Emp. ID</th>
@@ -82,9 +82,9 @@
                                         <td>{{payroll.PayeeName}}</td>
                                         <td>{{payroll.TotalWashHours}}</td>
                                         <td>{{payroll.TotalDetailHours}}</td>
-                                        <td>{{payroll.WashAmount | currency}}</td>
+                                        <td>{{payroll. WashRate}}</td>
                                         <!-- <td>0</td> -->
-                                        <td>{{payroll.WashRate}}</td>
+                                        <td>{{payroll.WashAmount | currency}}</td>
                                         <td>{{payroll.OverTimeHours}}</td>
                                         <td>{{payroll.OverTimePay | currency}}</td>
                                         <!-- <td>{{payroll.Uniform | currency}}</td> -->

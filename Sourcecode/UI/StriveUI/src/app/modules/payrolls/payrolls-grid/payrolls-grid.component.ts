@@ -3,6 +3,7 @@ import { PayrollsService } from 'src/app/shared/services/data-service/payrolls.s
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -50,7 +51,7 @@ export class PayrollsGridComponent implements OnInit {
     const locationId = localStorage.getItem('empLocationId');
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
-    this.payrollsService.getPayroll(48, '2020-09-27', '2020-09-28').subscribe(res => {
+    this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       if (res.status === 'Success') {
         const payRoll = JSON.parse(res.resultData);
         if (payRoll.Result.PayRollRateViewModel !== null) {
@@ -80,23 +81,35 @@ export class PayrollsGridComponent implements OnInit {
 
   updateAdjustment() {
     console.log(this.payRollList, 'edit');
+    const updateObj = [];
+    this.payRollList.forEach( item => {
+      updateObj.push({
+        id: item.EmployeeId,
+        adjustment: +item.Adjustment
+      });
+    });
+    this.payrollsService.updateAdjustment(updateObj).subscribe( res => {
+      if (res.status === 'Success') {
+        this.isEditAdjustment = false;
+        this.runReport();
+      }
+    });
   }
 
   processPayrolls() {
-    // const doc = new jsPDF();
-    // doc.text('Hello world!', 1, 1);
-    // doc.save('two-by-four.pdf');
-    // doc.addHTML(this.content.nativeElement, function() {
-    //    doc.save("obrz.pdf");
-    // });
-    // console.log(this.content.nativeElement);
-    // doc.addHTML(this.content.nativeElement, function () {
-    //   doc.save('obrz.pdf');
-    // });
-    const elementToPrint = document.getElementById('content'); // The html element to become a pdf
-    const pdf = new jsPDF('p', 'pt', 'a4');
-    pdf.addHTML(elementToPrint, () => {
-      pdf.save('web.pdf');
+    const data = document.getElementById('payrollPDF');
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options
+      const imgWidth = 208;
+      const pageHeight = 295;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const heightLeft = imgHeight;
+  
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      const position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('MYPdf.pdf'); // Generated PDF
     });
   }
 
