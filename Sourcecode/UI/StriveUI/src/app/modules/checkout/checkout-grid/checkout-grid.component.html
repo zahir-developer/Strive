@@ -66,12 +66,13 @@
                                                     <td>{{checkout.Services}}</td>
                                                     <td class="table-ellipsis" pTooltip="{{checkout.AdditionalServices}}" tooltipPosition="top">{{checkout.AdditionalServices}}</td>
                                                     <td>{{checkout.Cost | currency}}</td>
-                                                    <td class="table-ellipsis" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top"><em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark theme-primary-color font-size-1-5 pointer"></em>{{checkout.MembershipName}}
+                                                    <td class="table-ellipsis" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top"><em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark font-size-1-5 pointer" style="color: #FFA500;"></em>{{checkout.MembershipName}}
                                                     </td>
                                                     <td [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'PAID' ? '#008000' : 'none'}">{{checkout.MembershipNameOrPaymentStatus}}
                                                     </td>
                                                     <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="checkoutVehicle(checkout)"></em>
                                                         <em class="mdi mdi-file-clock theme-primary-color font-size-1-5 pointer" pTooltip="Hold" tooltipPosition="top" (click)="hold(checkout)"></em>
+                                                        <em *ngIf="checkout.MembershipNameOrPaymentStatus === 'In Progress'" class="mdi mdi-checkbox-marked theme-primary-color font-size-1-5 pointer" pTooltip="Complete" tooltipPosition="top" (click)="complete(checkout)"></em>
                                                         <!-- <button type="button"
                                                             class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9"  (click)="checkoutVehicle(checkout)">Checkout</button>
                                                             <button type="button"
