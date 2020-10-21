@@ -33,14 +33,11 @@ namespace Strive.ResourceAccess
             _prm.Add("@Amount", payRollUpdate.Amount);
             return db.Fetch<PayRollAdjusmentViewModel>(SPEnum.USPUPDATEADJUSMENT.ToString(), _prm);            
         }
-        public bool UpdateEmployeeAdjustment(List<EmployeeAdjustmentDto> employeeAdjustment)
+        public bool UpdateEmployeeAdjustment(EmployeeAdjustmentDto item)
         {
-            foreach(var item in employeeAdjustment)
-            {
                 _prm.Add("@EmployeeId", item.id);
                 _prm.Add("@Adjustment", item.adjustment);
                 db.Save(SPEnum.USPUPDATEEMPLOYEEADJUSTMENT.ToString(), _prm);
-            }
             return true;
         }
     }

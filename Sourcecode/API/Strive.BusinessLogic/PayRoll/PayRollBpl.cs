@@ -49,7 +49,11 @@ namespace Strive.BusinessLogic.PayRoll
         {
             try
             {
-                return ResultWrap(new PayRollRal(_tenant).UpdateEmployeeAdjustment, employeeAdjustment, "Result");
+                foreach (var item in employeeAdjustment)
+                {
+                    var employeeAdjustmentList =  ResultWrap(new PayRollRal(_tenant).UpdateEmployeeAdjustment, item, "Result");
+                }
+                
             }
             catch (Exception ex)
             {
