@@ -309,7 +309,7 @@ export class SalesComponent implements OnInit {
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
             this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
-            this.balance = this.balance - this.account;
+            this.calculateTotalpaid(+this.account);
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
