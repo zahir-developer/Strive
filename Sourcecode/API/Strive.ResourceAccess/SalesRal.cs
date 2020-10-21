@@ -56,9 +56,6 @@ namespace Strive.ResourceAccess
         public SalesAccountViewModel GetAccountDetails(SalesAccountDto salesAccountDto)
         {
             _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
-            _prm.Add("@StartDate", salesAccountDto.StartDate);
-            _prm.Add("@EndDate", salesAccountDto.EndDate);
-            _prm.Add("@VehicleId", salesAccountDto.VehicleId);
             var result = db.FetchSingle<SalesAccountViewModel>(SPEnum.USPGETACCOUNTDETAILS.ToString(), _prm);
             return result;
         }

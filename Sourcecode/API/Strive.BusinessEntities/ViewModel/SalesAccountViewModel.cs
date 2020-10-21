@@ -14,5 +14,6 @@ namespace Strive.BusinessEntities.ViewModel
        public string CodeValue { get; set; }
        public int? MembershipId { get; set; }
        public bool IsAccount { get; set; }
+       public decimal? Amount { get; set; }
     }
 }
