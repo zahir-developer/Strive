@@ -52,4 +52,7 @@ export class SalesService {
  updateAccountBalance(obj) {
   return this.http.post(`${UrlConfig.totalUrl.updateAccountBalance}`, obj);
  }
+ getPaymentStatus(code) {
+  return this.http.get(`${UrlConfig.totalUrl.getPaymentStatus}` + code);
+}
 }

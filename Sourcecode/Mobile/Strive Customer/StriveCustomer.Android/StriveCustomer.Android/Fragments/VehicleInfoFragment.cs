@@ -51,6 +51,8 @@ namespace StriveCustomer.Android.Fragments
 
         private void AddButton_Click(object sender, EventArgs e)
         {
+            CheckMembership.hasExistingMembership = false;
+            CustomerVehiclesInformation.membershipDetails = null;
             MembershipDetails.clearMembershipData();
             AppCompatActivity activity = (AppCompatActivity)Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, infoEditFragment).Commit();

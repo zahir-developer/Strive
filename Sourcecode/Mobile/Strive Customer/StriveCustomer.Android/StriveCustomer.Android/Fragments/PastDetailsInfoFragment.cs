@@ -16,6 +16,8 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 
@@ -29,7 +31,10 @@ namespace StriveCustomer.Android.Fragments
         ViewPagerAdapter adapter;
         PastDetailsPageFragment dealFrag1, dealFrag2, dealFrag3;
         private PastDetailsFragment pastDetails;
+        private MyProfileInfoFragment myProfile;
         private Button backButton;
+        private int pastDetailDates = 1;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,26 +49,60 @@ namespace StriveCustomer.Android.Fragments
             viewPager = rootview.FindViewById<ViewPager>(Resource.Id.pastViewPager);
             backButton = rootview.FindViewById<Button>(Resource.Id.pastServiceBack);
             pastDetails = new PastDetailsFragment();
-            dealFrag1 = new PastDetailsPageFragment();
-            dealFrag2 = new PastDetailsPageFragment();
-            dealFrag3 = new PastDetailsPageFragment();
+            myProfile = new MyProfileInfoFragment();
+            
+            
+            
             backButton.Click += BackButton_Click;
             return rootview;
         }
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            MyProfileInfoNeeds.selectedTab = 2;
             AppCompatActivity activity = (AppCompatActivity)Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, pastDetails).Commit();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, myProfile).Commit();
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
             adapter = new ViewPagerAdapter(ChildFragmentManager);
-            adapter.AddFragment(dealFrag1, "Deals1");
-            adapter.AddFragment(dealFrag2, "Deals2");
-            adapter.AddFragment(dealFrag3, "Deals3");
+            var data = CustomerInfo.SelectedVehiclePastDetails;
+            var count = 0;
+            foreach (var result in CustomerInfo.pastClientServices.PastClientDetails)
+            {
+                if (data == result.VehicleId)
+                {
+                    if(pastDetailDates == 1)
+                    {
+                        dealFrag1 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
+                        var splits = result.DetailVisitDate.Split('T');
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag1, finalDate);
+                    }
+                    if (pastDetailDates == 2)
+                    {
+                        dealFrag2 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
+                        var splits = result.DetailVisitDate.Split('T');
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag2, finalDate);
+                    }
+                    if (pastDetailDates == 3)
+                    {
+                        dealFrag3 = new PastDetailsPageFragment(result, CustomerInfo.TotalCost[count]);
+                        var splits = result.DetailVisitDate.Split('T');
+                        var dateTime = DateUtils.GetDateFromString(splits[0]);
+                        var finalDate = dateTime.ToString("MM/dd/yyyy");
+                        adapter.AddFragment(dealFrag3, finalDate);
+                    }
+                    
+                    pastDetailDates++;
+                }
+                count++;
+            }
             viewPager.Adapter = adapter;
             slidingTabs.SetupWithViewPager(viewPager);
         }

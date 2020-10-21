@@ -71,21 +71,34 @@ namespace StriveCustomer.Android.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            googleAPI = new GoogleApiClient.Builder(this.Context)
+            if(googleAPI == null)
+            {
+                googleAPI = new GoogleApiClient.Builder(this.Context)
                         .AddApi(LocationServices.API)
                         .AddConnectionCallbacks(this)
                         .AddOnConnectionFailedListener(this)
                         .Build();
-                        
-            googleAPI.Connect();
+               googleAPI.Connect();
+            }
+
             locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
             checkLocationEnabled();
-            AndroidPermissions.checkLocationPermission(this);
+            
             CustomerInfo.setMapInfo();
             geofencingClient = LocationServices.GetGeofencingClient(this.Context);
             geofenceHelper = new GeofenceHelper(this.Context);
         }
 
+        public override void OnStart()
+        {
+            base.OnStart();
+            googleAPI.Reconnect();
+        }
+        public override void OnStop()
+        {
+            base.OnStop();
+            googleAPI.Disconnect();
+        }
         private void checkLocationEnabled()
         {
             locationEnabled = locationManager.IsProviderEnabled(LocationManager.GpsProvider);
@@ -116,7 +129,6 @@ namespace StriveCustomer.Android.Fragments
                 if (rootView == null)
                 {
                     rootView = inflater.Inflate(Resource.Layout.MapScreenFragment, container, false);
-                    setUpMaps();
                 }
                 else
                 {      
@@ -143,11 +155,20 @@ namespace StriveCustomer.Android.Fragments
             else
                 return;
         }
-        public void OnMapReady(GoogleMap googleMap)
+        public async void OnMapReady(GoogleMap googleMap)
         {
             Googlemap = googleMap;
-            enableUserLocation();
-            lastUserLocation();
+            await AndroidPermissions.checkLocationPermission(this);
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted )// && googleAPI.IsConnected)
+            {
+                enableUserLocation();
+                lastUserLocation();
+            }
+            else
+            {
+                RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
+            }
+
             if (carWashLocations != null)
             {
                 Googlemap.MyLocationButtonClick += Googlemap_MyLocationButtonClick;
@@ -158,7 +179,14 @@ namespace StriveCustomer.Android.Fragments
         }
         private void Googlemap_MyLocationButtonClick(object sender, GoogleMap.MyLocationButtonClickEventArgs e)
         {
-            lastUserLocation();
+            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessFineLocation) == Permission.Granted)
+            {
+                lastUserLocation();
+            }
+            else
+            {
+                RequestPermissions(new[] { Manifest.Permission.AccessFineLocation }, 10001);
+            }
         }
         private async void setUpMaps()
         {
@@ -200,11 +228,11 @@ namespace StriveCustomer.Android.Fragments
             {
                 carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
                 carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                if (carWashLocationsCount == 1)
-                {
-                    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
-                    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                }
+                //if (carWashLocationsCount == 1)
+                //{
+                //    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                //    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
+                //}
                 Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
                 carWashLocationsCount++;
             }
@@ -320,7 +348,7 @@ namespace StriveCustomer.Android.Fragments
         }
         public void OnConnected(Bundle connectionHint)
         {
-            //
+            setUpMaps();
         }
         public void OnConnectionSuspended(int cause)
         {
@@ -328,7 +356,7 @@ namespace StriveCustomer.Android.Fragments
         }
         public void OnConnectionFailed(ConnectionResult result)
         {
-            //
+            googleAPI.Reconnect();
         }
         public void OnSuccess(Java.Lang.Object result)
         {

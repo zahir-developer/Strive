@@ -43,6 +43,11 @@ export class AuthService {
     this.loggedIn.next(false);
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
+    document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
+    document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
+    document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
+    document.documentElement.style.setProperty(`--tertiary-color`, '#10B7A5');
+    document.documentElement.style.setProperty(`--body-color`, '#F2FCFE');
     this.router.navigate([`/login`], { relativeTo: this.route });
   }
 }

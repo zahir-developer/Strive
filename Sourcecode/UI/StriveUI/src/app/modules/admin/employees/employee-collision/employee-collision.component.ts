@@ -109,7 +109,7 @@ export class EmployeeCollisionComponent implements OnInit {
       isActive: true,
       isDeleted: false,
       createdBy: 0,
-      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: 0,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
@@ -126,7 +126,7 @@ export class EmployeeCollisionComponent implements OnInit {
       vehicleId: this.collisionForm.value.vehicle,
       clientId: this.collisionForm.value.client.id,
       createdBy: 0,
-      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: 0,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };

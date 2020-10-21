@@ -10,6 +10,7 @@ import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
@@ -24,6 +25,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 })
 export class SalesComponent implements OnInit {
   services: any;
+  paymentStatusId: number;
   validGiftcard: any;
   targetId = '';
   enableButton = false;
@@ -61,7 +63,7 @@ export class SalesComponent implements OnInit {
   PaymentStatus: any;
   accountDetails: any;
   isAccount: any;
-  constructor(private membershipService: MembershipService, private salesService: SalesService,
+  constructor(private membershipService: MembershipService, private salesService: SalesService,private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
@@ -89,6 +91,7 @@ export class SalesComponent implements OnInit {
   balanceDue = 0;
   Cashback = '';
   discountAmount = 0;
+  paymentStatus: any = [];
   ngOnInit(): void {
     this.giftCardFromInit();
     this.addItemFormInit();
@@ -101,6 +104,7 @@ export class SalesComponent implements OnInit {
     this.getPaymentStatus();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
+    this.getPaymentStatus();
   }
 
   getPaymentType(){
@@ -681,6 +685,15 @@ export class SalesComponent implements OnInit {
       }
     });
   }
+  getPaymentStatus() {
+    this.salesService.getPaymentStatus('PAYMENTSTATUS').subscribe(res => {
+      if (res.status === 'Success') {
+        const status = JSON.parse(res.resultData);
+        this.paymentStatus = status.Codes.filter(item => item.CodeValue === 'Success');
+        this.paymentStatusId = this.paymentStatus[0].CodeId;
+      }
+    });
+  }
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
@@ -835,13 +848,9 @@ export class SalesComponent implements OnInit {
         jobPaymentId: 0,
         jobId: this.isSelected ? +this.JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
-        //paymentType: 109,
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
-        //cashback: this.cashback ? this.cashback : 0,
         approval: true,
-        //checkNumber: '',
-        //signature: '',
         paymentStatus: +this.PaymentStatus.filter(i => i.CodeValue === 'Success')[0].CodeId,
         comments: '',
         isActive: true,
@@ -889,6 +898,7 @@ export class SalesComponent implements OnInit {
         }
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
         this.getDetailByTicket(false);
+        this.router.navigate([`/checkout`], { relativeTo: this.route });
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
       }
@@ -896,6 +906,7 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
       this.spinner.hide();
     });
+
   }
   deleteTicket() {
     if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
