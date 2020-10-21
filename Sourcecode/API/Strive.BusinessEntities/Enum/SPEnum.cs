@@ -85,6 +85,7 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEEDOCUMENTBYID,
         //Client
         USPGETALLCLIENT,
+        USPUPDATEACCOUNTDETAILS,
         USPGETCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
@@ -189,6 +190,7 @@ namespace Strive.BusinessEntities
         uspUpdateSalesItem,
         uspDeleteSalesItemById,
         uspGetItemList,
+        USPGETACCOUNTDETAILS,
         uspGetItemListByTicketNumber,
         USPCREATETENANT,
         uspGetServiceByItemList,
