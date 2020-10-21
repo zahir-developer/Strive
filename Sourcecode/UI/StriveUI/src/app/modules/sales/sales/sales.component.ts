@@ -101,7 +101,7 @@ export class SalesComponent implements OnInit {
       this.getDetailByTicket(false);
     }
     this.getPaymentType();
-    // this.getPaymentStatus();
+    this.getPaymentStatus();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
   }

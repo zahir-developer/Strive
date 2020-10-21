@@ -9,11 +9,12 @@ namespace Strive.BusinessEntities.ViewModel
     public class SalesAccountViewModel
     {
        public string TicketNumber { get; set; }
-       public int ClientId { get; set; }
-       public int AccountType { get; set; }
-       public string CodeValue { get; set; }
-       public int? MembershipId { get; set; }
-       public bool IsAccount { get; set; }
-       public decimal? Amount { get; set; }
+        public int? ClientId { get; set; }
+        public int? AccountType { get; set; }
+        public string CodeValue { get; set; }
+        public int? MembershipId { get; set; }
+        public decimal? Amount { get; set; }
+        public bool? IsAccount { get; set; }
+
     }
 }
