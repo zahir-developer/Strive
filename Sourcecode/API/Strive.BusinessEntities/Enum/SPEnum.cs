@@ -85,6 +85,7 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEEDOCUMENTBYID,
         //Client
         USPGETALLCLIENT,
+        USPUPDATEACCOUNTDETAILS,
         USPGETCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
