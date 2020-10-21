@@ -3,6 +3,7 @@ import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ThemeService } from '../../common-service/theme.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class SignalRService {
   empId = localStorage.getItem('empId');
 private commId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 public communicationId: Observable<any> = this.commId.asObservable();
+private recMsg: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
   constructor(public messengerService: MessengerService) { }
 
   public data: any;
@@ -34,7 +37,7 @@ public communicationId: Observable<any> = this.commId.asObservable();
   public SubscribeChatEvents = () => {
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
-      this.messengerService.UpdateChatCommunication(id);
+      // this.messengerService.UpdateChatCommunication(id);
 
       this.hubConnection.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
         return console.error(err.toString());
@@ -43,9 +46,12 @@ public communicationId: Observable<any> = this.commId.asObservable();
     });
 
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
+      console.log('Messager Received');
+      console.log(data);
+      this.setReceivedMsg(data);
+      
       this.messengerService.ReceivePrivateMessage(data);
     });
-
 
     this.hubConnection.on("SendPrivateMessage", function (obj) {
       console.log(obj);
@@ -59,21 +65,20 @@ public communicationId: Observable<any> = this.commId.asObservable();
 
     this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
       if (data !== null) {
-        
-        console.log('ReceiveEmployeeCommunicationId');
-
-        console.log(data[0]);
-        console.log(data[1])
         this.setname(data);
+        // this.messengerService.UpdateChatCommunication(data[0], data[1]);
       }
     });
   }
   setname(data) {
 this.commId.next(data);
   }
+  setReceivedMsg(data) {
+    this.recMsg.next(data);
+  }
 
   public SendPrivateMessage = (msg) => {
-    this.hubConnection.invoke("SendPrivateMessage", msg.connId, msg.senderId, msg.user, msg.message).catch(function (err) {
+    this.hubConnection.invoke("SendPrivateMessage", msg).catch(function (err) {
       return console.error(err.toString());
     });
   }

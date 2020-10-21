@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CheckoutEntry;
 using Strive.BusinessLogic.Checkout;
 using Strive.Common;
@@ -33,6 +34,13 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateCheckoutDetails")]
         public Result UpdateCheckoutDetails([FromBody]CheckoutEntryDto checkoutEntry) => _bplManager.UpdateCheckoutDetails(checkoutEntry);
+
+        /// <summary>
+        /// Method to Update Job Status AS HOLD
+        /// </summary>
+        [HttpPost]
+        [Route("UpdateJobStatus")]
+        public Result UpdateJobStatus([FromBody]HoldByJobIdDto holdByJobId) => _bplManager.UpdateJobStatus(holdByJobId);
         #endregion
     }
 }

@@ -14,12 +14,9 @@ declare var $: any;
   styleUrls: ['./messenger.component.css']
 })
 export class MessengerComponent implements OnInit {
-
-  constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
-
   msgList = [];
 
-  employeeId : number = +localStorage.getItem('empId');
+  employeeId: number = +localStorage.getItem('empId');
 
   recipientId: number = 0;
 
@@ -28,18 +25,28 @@ export class MessengerComponent implements OnInit {
   messageBody: string;
 
   chatInitial: string;
+  selectedEmployee: any;
+  FirstName: string;
+
+  LastName: string;
 
   chatFullName: string;
 
   IsGroupChat: boolean;
+  constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
 
-  ngOnInit(): void {
+
+
+  ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.SubscribeChatEvents();
+    this.signalRService.ReceivedMsg.subscribe(data => {
+      if (data !== null) {
+        this.LoadMessageChat(this.selectedEmployee);
+      }
+    });
     //this.startHttpRequest();
   }
-
-
   openemp() {
     $('#show-search-emp').show();
     $('.internal-employee').removeClass('col-xl-9');
@@ -47,23 +54,24 @@ export class MessengerComponent implements OnInit {
     $('.view-msg').removeClass('Message-box-slide');
     $('.view-msg').addClass('Message-box');
     $('.plus-icon').addClass('opacity-16');
+    $('.chat-box-slide').addClass('chatslide');
   }
 
 
   LoadMessageChat(employeeObj) {
+    this.selectedEmployee = employeeObj;
     const chatObj = {
       senderId: this.employeeId,
-      recipientId: employeeObj.EmployeeId,
+      recipientId: employeeObj.Id,
       groupId: 0
     };
-    this.recipientId = employeeObj.EmployeeId;
-    this.chatFullName = employeeObj.FirstName + ' ' + employeeObj.LastName;
-    this.chatInitial = employeeObj.FirstName.charAt(0).toUpperCase() + employeeObj.LastName.charAt(0).toUpperCase();
-    this.recipientCommunicationId = employeeObj.communicationId;
-
-    console.log(employeeObj);
-
-
+    this.recipientId = employeeObj.Id;
+    this.FirstName = employeeObj.FirstName;
+    this.LastName = employeeObj.LastName;
+    this.chatFullName = employeeObj.FirstName + ' ' + (employeeObj.LastName ? employeeObj.LastName : '');
+    this.chatInitial = employeeObj?.FirstName?.charAt(0).toUpperCase() +
+    (employeeObj?.LastName !== null ? employeeObj?.LastName?.charAt(0).toUpperCase() : '');
+    this.recipientCommunicationId = employeeObj?.CommunicationId !== null ? employeeObj?.CommunicationId : '0';
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
@@ -103,23 +111,22 @@ export class MessengerComponent implements OnInit {
       connectionId: this.recipientCommunicationId,
       fullName: null,
       groupName: null
-    }
+    };
 
-    console.log(msg);
-
-    const objmsg = 
-    {
-      connectionId: this.recipientCommunicationId,
-      employeeId: this.employeeId,
-      userName: this.chatFullName,
-      message: this.messageBody.trim()
-    }
+    const objmsg: string[] = [this.recipientCommunicationId,
+    this.employeeId.toString(),
+    this.FirstName,
+    this.LastName,
+    this.chatInitial,
+    this.messageBody.trim()
+    ]
 
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
         this.signalRService.SendPrivateMessage(objmsg);
+        this.LoadMessageChat(this.selectedEmployee);
+        this.messageBody = '';
       }
     });
   }
-
 }

@@ -102,9 +102,9 @@ namespace StriveCustomer.Android.Fragments
             {
                 carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
                 carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-            }
-            Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]);
-            carWashLocationsCount++;
+                Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]);
+                carWashLocationsCount++;
+            }  
         }
         public async void setupMaps()
         {
@@ -131,7 +131,7 @@ namespace StriveCustomer.Android.Fragments
             locationDetails.Text = data.Address1;
             phoneDetails.Text = data.PhoneNumber;
             mailDetails.Text = data.Email;
-            clockDetails.Text = data.StartTime +"to"+data.EndTime;
+            clockDetails.Text = "11 am to 8 pm"; //data.StartTime +" "+"to"+ " " +data.EndTime;
         }
         private void loadFirstMarkerData()
         {

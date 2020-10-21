@@ -12,12 +12,12 @@ namespace Admin.API
             return base.OnConnectedAsync();
         }
 
-        public async Task SendPrivateMessage(string connectionId, string employeeId, string userName, string message)
+        public async Task SendPrivateMessage(string[] obj)// string connectionId, string employeeId, string userName, string message)
         {
             if (Clients != null)
             {
-                string[] obj = new string[] { connectionId, employeeId, userName, message };
-                await Clients.Client(connectionId).SendAsync("ReceivePrivateMessage", obj);
+                //string[] obj = new string[] { connectionId, employeeId, firstName, lastName, initial, message};
+                await Clients.Client(obj[0]).SendAsync("ReceivePrivateMessage", obj);
             }
         }
         public async Task SendMessageToGroup(string groupName, string employeeId, string userName, string message)
