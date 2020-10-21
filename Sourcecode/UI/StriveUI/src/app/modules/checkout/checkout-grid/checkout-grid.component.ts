@@ -41,29 +41,48 @@ export class CheckoutGridComponent implements OnInit {
   }
 
   checkoutVehicle(checkout) {
-    const finalObj = {
-      id: checkout.JobId,
-      checkOut: true,
-      actualTimeOut: new Date()
-    };
-    this.checkout.checkoutVehicle(finalObj).subscribe( res => {
-      if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Checkout successfully' });
-        this.getAllUncheckedVehicleDetails();
-      }
-    });
+    if (checkout.MembershipNameOrPaymentStatus === 'Completed' || checkout.MembershipNameOrPaymentStatus === 'PAID') {
+      const finalObj = {
+        id: checkout.JobId,
+        checkOut: true,
+        actualTimeOut: new Date()
+      };
+      this.checkout.checkoutVehicle(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Checkout successfully' });
+          this.getAllUncheckedVehicleDetails();
+        }
+      });
+    }
+    else {
+      this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Checkout should allow only completed tickets.' });
+    }
   }
 
   hold(checkout) {
     const finalObj = {
       id: checkout.JobId
     };
-    this.checkout.holdVehicle(finalObj).subscribe( res => {
+    this.checkout.holdVehicle(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Hold successfully' });
         this.getAllUncheckedVehicleDetails();
       }
     });
+  }
+
+  complete(checkout) {
+    if (checkout.MembershipNameOrPaymentStatus === 'In Progress') {
+      const finalObj = {
+        id: checkout.JobId
+      };
+      this.checkout.completedVehicle(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Completed Successfully' });
+          this.getAllUncheckedVehicleDetails();
+        }
+      });
+    }
   }
 
 }

@@ -1,4 +1,3 @@
-
 /*Strive Colors*/
 :root{
 --blue:#24489A;
@@ -28,6 +27,9 @@ Color
 .theme-mid-gray {
 	color:#B2B2BC;
 }
+.theme-content-color {
+	color:#000000 !important;
+}
 
 .theme-body-color,
 .theme-wrapper-color
@@ -55,7 +57,7 @@ Color
 
 .theme-optional-icon-color
 {
-	color: #FD397A;
+	color: #FD397A !important;
 }
 
 .theme-disabled-icon-color
