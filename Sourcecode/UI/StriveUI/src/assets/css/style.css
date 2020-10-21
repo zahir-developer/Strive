@@ -956,12 +956,21 @@ color: #5F6281;
     margin-top: 7px;
 }
 .conversation-list .ctext-wrap {
-    background: #f1f3fa;
-    border-radius: 3px;
+    background: #E3E3E3;
+    border-radius: 10px;
     display: inline-block;
     padding: 12px;
     position: relative;
 	width: 54%;
+}
+.conversation-list .odd .ctext-wrap {
+    background: #0E7268;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 12px;
+    position: relative;
+    width: 54%;
+    color: white;
 }
 .conversation-list .ctext-wrap i {
     display: block;
@@ -1136,5 +1145,23 @@ font-family: 'Raleway' !important;
 .Ubuntu-font{
 font-family: 'Ubuntu' !important;
 }
-
+.msgbody-active{
+	font-weight:700;
+}
+.recentchat {
+    border-radius: 25px !important;
+    color: #ffffff;
+    right: 0px !important;
+    font-size: 11px !important;
+    background-color: #1DC9B7;
+    width: 17px;
+    height: 17px;
+}
+.recentchat-active {
+	color:#24489A !important;
+	font-weight:700;
+}
+.Message-item:hover{
+	background: #f1f3fa;
+}
 

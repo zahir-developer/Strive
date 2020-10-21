@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
-import { LocalStorage } from '@ng-idle/core';
+import { ThemeService } from 'src/app/shared/common-service/theme.service';
+import { MessengerEmployeeSearchComponent } from './messenger-employee-search/messenger-employee-search.component';
 
 declare var $: any;
 @Component({
@@ -14,6 +14,7 @@ declare var $: any;
   styleUrls: ['./messenger.component.css']
 })
 export class MessengerComponent implements OnInit {
+  @ViewChild(MessengerEmployeeSearchComponent) messengerEmployeeSearchComponent: MessengerEmployeeSearchComponent;
   msgList = [];
 
   employeeId: number = +localStorage.getItem('empId');
@@ -32,22 +33,44 @@ export class MessengerComponent implements OnInit {
 
   chatFullName: string;
 
-  IsGroupChat: boolean;
+  isGroupChat: boolean;
+  groupChatId: number;
+  senderFirstName: string;
+  senderLastName: string;
+  currentEmployeeId: number;
+  popupType: any;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
 
 
 
   ngOnInit() {
+    this.getSenderName();
     this.signalRService.startConnection();
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
       if (data !== null) {
-        this.LoadMessageChat(this.selectedEmployee);
+        const receivedMsg = {
+          SenderId: 0,
+          SenderFirstName: this.selectedEmployee.FirstName,
+          SenderLastName: this.selectedEmployee.LastName,
+          ReceipientId: data.chatMessageRecipient.senderId,
+          RecipientFirstName: '',
+          RecipientLastName: '',
+          MessageBody: data.chatMessage.messagebody,
+          CreatedDate: data.chatMessage.createdDate,
+          CommunicationId: this.selectedEmployee.CommunicationId
+        };
+        this.msgList.push(receivedMsg);
       }
     });
-    //this.startHttpRequest();
   }
-  openemp() {
+  getSenderName() {
+    this.senderFirstName = localStorage.getItem('employeeFirstName');
+    this.senderLastName = localStorage.getItem('employeeLastName');
+  }
+  openemp(event) {
+    this.popupType = event;
+    this.messengerEmployeeSearchComponent.getAllEmployees();
     $('#show-search-emp').show();
     $('.internal-employee').removeClass('col-xl-9');
     $('.internal-employee').addClass('col-xl-6');
@@ -59,29 +82,31 @@ export class MessengerComponent implements OnInit {
 
 
   LoadMessageChat(employeeObj) {
+    this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
+    this.isGroupChat = employeeObj.IsGroup;
+    this.groupChatId = employeeObj.IsGroup ? employeeObj.Id : 0;
     const chatObj = {
-      senderId: this.employeeId,
-      recipientId: employeeObj.Id,
-      groupId: 0
+      senderId: employeeObj.IsGroup ? 0 : this.employeeId,
+      recipientId: employeeObj.IsGroup ? 0 : employeeObj.Id,
+      groupId: employeeObj.IsGroup ? employeeObj.Id : 0,
     };
     this.recipientId = employeeObj.Id;
     this.FirstName = employeeObj.FirstName;
     this.LastName = employeeObj.LastName;
     this.chatFullName = employeeObj.FirstName + ' ' + (employeeObj.LastName ? employeeObj.LastName : '');
     this.chatInitial = employeeObj?.FirstName?.charAt(0).toUpperCase() +
-    (employeeObj?.LastName !== null ? employeeObj?.LastName?.charAt(0).toUpperCase() : '');
+      (employeeObj?.LastName !== null ? employeeObj?.LastName?.charAt(0).toUpperCase() : '');
     this.recipientCommunicationId = employeeObj?.CommunicationId !== null ? employeeObj?.CommunicationId : '0';
     this.msgService.GetChatMessage(chatObj).subscribe(data => {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
-        this.msgList = msgData.ChatMessage.ChatMessageDetail;
+        this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
       }
     });
   }
 
   sendMessage() {
-
     if (this.messageBody.trim() === '') {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
       return;
@@ -104,8 +129,8 @@ export class MessengerComponent implements OnInit {
         chatRecipientId: 0,
         chatMessageId: 0,
         senderId: this.employeeId,
-        recipientId: this.recipientId,
-        recipientGroupId: null,
+        recipientId: this.isGroupChat ? null : this.recipientId,
+        recipientGroupId: this.isGroupChat ? this.groupChatId : null,
         isRead: true
       },
       connectionId: this.recipientCommunicationId,
@@ -123,10 +148,25 @@ export class MessengerComponent implements OnInit {
 
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
-        this.signalRService.SendPrivateMessage(objmsg);
-        this.LoadMessageChat(this.selectedEmployee);
+        const sendObj = {
+          SenderId: this.employeeId,
+          SenderFirstName: this.senderFirstName,
+          SenderLastName: this.senderLastName,
+          ReceipientId: 0,
+          RecipientFirstName: '',
+          RecipientLastName: '',
+          MessageBody: this.messageBody.trim(),
+          CreatedDate: new Date()
+        };
+        this.msgList.push(sendObj);
+        // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
     });
+  }
+  openpopup(event) {
+    this.currentEmployeeId = 0;
+    // this.selectedEmployee = [];
+    this.openemp(event);
   }
 }

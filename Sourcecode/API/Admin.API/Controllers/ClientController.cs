@@ -35,6 +35,11 @@ namespace Admin.API.Controllers
         {
             return _bplManager.DeleteClient(clientId);
         }
+
+        [HttpPost]
+        [Route("UpdateAccountBalance")]
+        public Result UpdateAccountBalance([FromBody] ClientAmountUpdateDto clientAmountUpdate) => _bplManager.UpdateAccountBalance(clientAmountUpdate);
+
         [HttpGet]
         [Route("GetClientById/{clientId}")]
         public Result GetClientById(int clientId)

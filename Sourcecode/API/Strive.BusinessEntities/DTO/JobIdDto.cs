@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO
 {
-    public class HoldByJobIdDto
+    public class JobIdDto
     {
         public int id { get; set; }
     }

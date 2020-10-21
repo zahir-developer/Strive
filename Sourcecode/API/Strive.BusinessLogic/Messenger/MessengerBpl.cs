@@ -64,7 +64,8 @@ namespace Strive.BusinessLogic.Messenger
                     FirstName = item.GroupName,
                     RecentChatMessage = item.RecentChatMessage,
                     CommunicationId = "0",
-                    IsGroup = true
+                    IsGroup = true,
+                    GroupId = item.GroupId
                 };
                 chatHistory.ChatEmployeeList.Add(list);
             }
@@ -78,6 +79,16 @@ namespace Strive.BusinessLogic.Messenger
         public Result GetUnReadMessageCount(int employeeid)
         {
             return ResultWrap(new MessengerRal(_tenant).GetUnReadMessageCount, employeeid, "UnreadMessage");
+        }
+
+        public Result GetChatGroupEmployeelist(int chatGroupId)
+        {
+            return ResultWrap(new MessengerRal(_tenant).GetChatGroupEmployeelist, chatGroupId, "EmployeeList");
+        }
+
+        public ChatGroupListViewModel GetChatEmployeeGrouplist(int employeeId)
+        {
+            return new MessengerRal(_tenant).GetChatEmployeeGrouplist(employeeId);
         }
     }
 }
