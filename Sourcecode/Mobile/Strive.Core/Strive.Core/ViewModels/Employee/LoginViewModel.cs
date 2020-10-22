@@ -36,7 +36,7 @@ namespace Strive.Core.ViewModels.Employee
                     ApiUtils.Token = loginResponse.Token;
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
-                       
+                        await _navigationService.Navigate<DashboardViewModel>();
                     }
                 }
                 else
