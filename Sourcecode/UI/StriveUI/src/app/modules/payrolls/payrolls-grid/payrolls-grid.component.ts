@@ -56,9 +56,9 @@ export class PayrollsGridComponent implements OnInit {
         const payRoll = JSON.parse(res.resultData);
         if (payRoll.Result.PayRollRateViewModel !== null) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
-          this.payRollList.forEach(item => {
-            item.isEditAdjustment = false;
-          });
+          // this.payRollList.forEach(item => {
+          //   item.isEditAdjustment = false;
+          // });
           this.collectionSize = Math.ceil(this.payRollList.length / this.pageSize) * 10;
         }
       }
@@ -91,6 +91,7 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.updateAdjustment(updateObj).subscribe( res => {
       if (res.status === 'Success') {
         this.isEditAdjustment = false;
+        this.payrollDateForm.enable();
         this.runReport();
       }
     });
