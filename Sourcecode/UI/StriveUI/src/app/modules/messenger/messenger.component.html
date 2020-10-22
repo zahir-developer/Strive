@@ -81,7 +81,7 @@
                                                     class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer float-right"></i></a>
                                         </div>
                                     </div>
-                                    <ul class="conversation-list chat-box-slide">
+                                    <ul class="conversation-list chat-box-slide" id="messsageWindow">
                                         <li *ngFor="let msg of msgList odd"
                                             [ngClass]="{'odd': employeeId === msg.SenderId}" class="clearfix">
                                             <div class="chat-avatar">
