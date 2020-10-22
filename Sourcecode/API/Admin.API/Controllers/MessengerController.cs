@@ -6,7 +6,9 @@ using Admin.API.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.DTO.Messenger;
+using Strive.BusinessEntities.ViewModel.Messenger;
 using Strive.BusinessLogic;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Messenger;
@@ -31,8 +33,20 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("ChatCommunication")]
-        public Result ChatCommunication([FromBody] ChatCommunicationDto chatCommunicationDto)
+        public async Task<Result> ChatCommunication([FromBody] ChatCommunicationDto chatCommunicationDto)
         {
+
+            var result = _bplManager.GetChatEmployeeGrouplist(chatCommunicationDto.EmployeeId);
+
+            foreach (var grp in result.ChatGroupList)
+            {
+                if (grp.GroupId != null)
+                {
+                    await _hubContext.Groups.AddToGroupAsync(chatCommunicationDto.CommunicationId, grp.GroupId);
+                    await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + chatCommunicationDto.EmployeeId + "GroupName"+ grp.GroupName +", GroupID "+ grp.GroupId +", CommunicationId: " + chatCommunicationDto.CommunicationId + " added.");
+                }
+            }
+
             return _bplManager.ChatCommunication(chatCommunicationDto);
         }
 
@@ -55,11 +69,14 @@ namespace Admin.API.Controllers
                 }
                 else if (chatMessageDto.ChatMessageRecipient.RecipientGroupId > 0 && chatMessageDto.ChatMessageRecipient.RecipientId == null)
                 {
-
-                    await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceivePrivateMessage", chatMessageDto);
-
+                    if (chatMessageDto.GroupId != null)
+                    {
+                        //await _hubContext.Clients.All.SendAsync("ReceiveGroupMessage", chatMessageDto);
+                        await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceivePrivateMessage", chatMessageDto);
+                    }
                 }
             }
+
             return result;
         }
 
@@ -70,22 +87,39 @@ namespace Admin.API.Controllers
         [Route("CreateChatGroup")]
         public async Task<Result> CreateGroup([FromBody] ChatGroupDto chatGroupDto)
         {
+            JObject _resultContent = new JObject();
+            Result _result = new Result();
+
             CommonBpl commonBpl = new CommonBpl();
 
-            string groupName = "Group" + "_" + commonBpl.RandomString(5);
+            ChatGroupViewModel chatGroupViewModel = new ChatGroupViewModel();
+
+            string groupId = "Group" + "_" + commonBpl.RandomString(5);
             if (chatGroupDto.ChatGroup != null)
-                chatGroupDto.ChatGroup.GroupId = groupName;
+            {
+                chatGroupDto.ChatGroup.GroupId = groupId;
+            }
+            else
+            {
+                groupId = chatGroupDto.GroupId;
+            }
+
             var result = _bplManager.CreateGroup(chatGroupDto);
 
             foreach (var user in chatGroupDto.ChatUserGroup)
             {
                 if (user.CommunicationId != null)
                 {
-                    await _hubContext.Groups.AddToGroupAsync(user.CommunicationId, groupName);
-                    await _hubContext.Clients.Group(groupName).SendAsync("GroupMessageReceive", user.UserId + " has joined.");
+                    await _hubContext.Groups.AddToGroupAsync(user.CommunicationId, groupId);
+                    await _hubContext.Clients.Group(groupId).SendAsync("GroupMessageReceive", user.UserId + " has joined.");
                 }
             }
-            return result;
+            chatGroupViewModel.GroupId = groupId;
+            chatGroupViewModel.ChatGroupId = result;
+
+            _resultContent.Add(chatGroupViewModel.WithName("Result"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
         }
 
         [HttpGet]
@@ -101,6 +135,7 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetChatMessage(chatDto);
         }
+
         [HttpGet]
         [Route("GetUnReadMessageCount/{employeeId}")]
         public Result GetUnReadMessageCount(int employeeId)
@@ -114,22 +149,6 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetChatGroupEmployeelist(chatGroupId);
         }
-
-        [HttpPut]
-        [Route("AddEmployeeToGroup/{employeeId}/{communicationId}")]
-        public async Task<bool> AddEmployeeToGroup(int employeeId, string communicationId)
-        {
-            var result = _bplManager.GetChatEmployeeGrouplist(employeeId);
-
-            foreach (var grp in result.ChatGroupList)
-            {
-                await _hubContext.Groups.AddToGroupAsync(communicationId, grp.GroupId);
-                await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + employeeId + ", CommunicationId: " + communicationId + " added.");
-            }
-
-            return true;
-        }
-
 
     }
 }

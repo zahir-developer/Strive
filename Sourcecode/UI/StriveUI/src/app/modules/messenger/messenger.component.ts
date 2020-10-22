@@ -135,7 +135,8 @@ export class MessengerComponent implements OnInit {
       },
       connectionId: this.recipientCommunicationId,
       fullName: null,
-      groupName: null
+      groupName: null,
+      groupId: this.selectedEmployee.CommunicationId
     };
 
     const objmsg: string[] = [this.recipientCommunicationId,
