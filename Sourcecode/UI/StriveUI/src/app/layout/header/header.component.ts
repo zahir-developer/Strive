@@ -53,4 +53,8 @@ export class HeaderComponent implements OnInit {
       console.log(res, 'checkimg');
     });
   }
+
+  navigateToMessage(message) {
+    this.router.navigate(['/messenger']);
+  }
 }
