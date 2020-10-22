@@ -10,8 +10,9 @@ import { SignalRService } from 'src/app/shared/services/data-service/signal-r.se
   styleUrls: ['./messenger-employee-list.component.css']
 })
 export class MessengerEmployeeListComponent implements OnInit {
-  search = '';
+  query = '';
   empList = [];
+  originalEmpList = [];
   empOnlineStatus: any;
   @Output() emitLoadMessageChat = new EventEmitter();
   @Output() popupEmit = new EventEmitter();
@@ -42,6 +43,7 @@ export class MessengerEmployeeListComponent implements OnInit {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         this.empList = empList?.EmployeeList?.ChatEmployeeList;
+        this.originalEmpList = this.empList;
         this.setName();
         this.setCommunicationId();
       }
@@ -92,8 +94,23 @@ export class MessengerEmployeeListComponent implements OnInit {
         this.emitLoadMessageChat.emit(empObj);
       }
     }
+  }
+  addemp() {
+    this.popupEmit.emit('newChat');
+  }
+  search() {
+    this.empList = this.originalEmpList;
+    const results: any = [];
+    if (!this.query || this.query === '*') {
+      this.query = '';
+    } else {
+      this.query = this.query.toLowerCase();
     }
-    addemp() {
-        this.popupEmit.emit('newChat');
-    }
+    this.empList = this.empList.filter(item => {
+      item.fullName = item.FirstName + ' ' + item.LastName;
+      if (JSON.stringify(item.fullName).toLowerCase().includes(this.query)) {
+        return item;
+      }
+    });
+  }
 }

@@ -69,6 +69,13 @@ console.log('ReceiveCommunicationID: '+ id);
         // this.messengerService.UpdateChatCommunication(data[0], data[1]);
       }
     });
+    this.hubConnection.on('UserAddedtoGroup', (data) => {
+      if (data !== null) {
+        console.log('UserAddedtoGroup' + data); 
+        // this.messengerService.UpdateChatCommunication(data[0], data[1]);
+      }
+    });
+    
   }
   setname(data) {
 this.commId.next(data);

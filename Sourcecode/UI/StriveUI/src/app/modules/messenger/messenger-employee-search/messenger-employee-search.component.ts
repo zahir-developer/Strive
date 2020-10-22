@@ -116,11 +116,13 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       return selectedEmp;
     }
     const duplicateEmp = selectedEmp.filter(emp => +emp.EmployeeId === +this.selectedEmployee.Id);
-    if (duplicateEmp.length > 0) {
+    if (duplicateEmp.length > 0 ) {
       return selectedEmp;
     } else {
-    selectedEmp.push(this.selectedEmployee);
-    return selectedEmp;
+      if (this.selectedEmployee.IsGroup === false) {
+        selectedEmp.push(this.selectedEmployee);
+      }
+      return selectedEmp;
     }
   }
   AddGroupName(event) {
@@ -134,8 +136,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         const userGroup = {
           chatGroupUserId: 0,
           userId: item.EmployeeId ? item.EmployeeId : item.Id,
-          CommunicationId: item.ChatCommunicationId,
-          chatGroupId: 0,
+          CommunicationId: item.CommunicationId,
+          chatGroupId: (this.popupType === 'oldChat' && this.selectedEmployee.IsGroup === true) ? this.selectedEmployee.Id : 0,
           isActive: true,
           isDeleted: false,
           createdBy: 0,
@@ -145,7 +147,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       });
       const groupObj = {
         chatGroup: {
-          chatGroupId: 0,
+          chatGroupId: (this.popupType === 'oldChat' && this.selectedEmployee.IsGroup === true) ? this.selectedEmployee.Id : 0,
           groupName: this.groupname,
           comments: null,
           isActive: true,
