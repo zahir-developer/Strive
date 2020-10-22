@@ -15,6 +15,7 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? Balance { get; set; }
         public decimal? Discount { get; set; }
         public decimal? Total { get; set; }
+        public decimal? Account { get; set; }
         public decimal? TaxAmount { get; set; }
         public decimal? GrandTotal { get; set; }
         public decimal? TotalPaid { get; set; }
