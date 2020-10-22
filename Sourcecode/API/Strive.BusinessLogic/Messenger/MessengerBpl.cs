@@ -3,6 +3,7 @@ using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Messenger;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Messenger;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -29,9 +30,9 @@ namespace Strive.BusinessLogic.Messenger
            return ResultWrap(new MessengerRal(_tenant).SendMessege, chatMessageDto, "Status");
         }
 
-        public Result CreateGroup(ChatGroupDto chatGroupDto)
+        public int CreateGroup(ChatGroupDto chatGroupDto)
         {
-            return ResultWrap(new MessengerRal(_tenant).CreateChatGroup, chatGroupDto, "Status");
+            return new MessengerRal(_tenant).CreateChatGroup(chatGroupDto);
         }
 
         public Result GetChatEmployeeList(int employeeId)
@@ -63,7 +64,7 @@ namespace Strive.BusinessLogic.Messenger
                     Id = item.ChatGroupId,
                     FirstName = item.GroupName,
                     RecentChatMessage = item.RecentChatMessage,
-                    CommunicationId = "0",
+                    CommunicationId = item.GroupId,
                     IsGroup = true,
                     GroupId = item.GroupId
                 };

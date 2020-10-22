@@ -14,7 +14,7 @@ namespace Strive.BusinessLogic.Messenger
     public interface IMessengerBpl
     {
         Result SendMessenge(ChatMessageDto chatMessageDto);
-        Result CreateGroup(ChatGroupDto chatGroupDto);
+        int CreateGroup(ChatGroupDto chatGroupDto);
         Result ChatCommunication(ChatCommunicationDto chatCommunicationDto);
         Result GetChatEmployeeList(int employeeId);
         Result GetChatMessage(ChatDto chatDto);
