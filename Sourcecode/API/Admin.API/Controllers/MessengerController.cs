@@ -72,7 +72,7 @@ namespace Admin.API.Controllers
                     if (chatMessageDto.GroupId != null)
                     {
                         //await _hubContext.Clients.All.SendAsync("ReceiveGroupMessage", chatMessageDto);
-                        await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceivePrivateMessage", chatMessageDto);
+                        await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceiveGroupPrivateMessage", chatMessageDto);
                     }
                 }
             }

@@ -62,7 +62,7 @@ console.log('ReceiveCommunicationID: '+ id);
       console.log('Messager Received');
 
       console.log(data);
-      //this.setReceivedMsg(data);
+      this.setReceivedMsg(data);
       //this.messengerService.ReceivePrivateMessage(data);
     });
 
