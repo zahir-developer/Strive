@@ -29,11 +29,16 @@ public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
           skipNegotiation: true,
           transport: signalR.HttpTransportType.WebSockets
         }).build();
+
+
     this.hubConnection
       .start()
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err))
   }
+
+  
+
   public SubscribeChatEvents = () => {
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
@@ -47,9 +52,18 @@ console.log('ReceiveCommunicationID: '+ id);
 
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
       console.log('Messager Received');
+
       console.log(data);
       this.setReceivedMsg(data);
-      this.messengerService.ReceivePrivateMessage(data);
+      //this.messengerService.ReceivePrivateMessage(data);
+    });
+
+    this.hubConnection.on('ReceiveGroupMessage', (data) => {
+      console.log('Messager Received');
+
+      console.log(data);
+      //this.setReceivedMsg(data);
+      //this.messengerService.ReceivePrivateMessage(data);
     });
 
     this.hubConnection.on("SendPrivateMessage", function (obj) {
@@ -72,9 +86,16 @@ console.log('ReceiveCommunicationID: '+ id);
     this.hubConnection.on('UserAddedtoGroup', (data) => {
       if (data !== null) {
         console.log('UserAddedtoGroup' + data); 
-        // this.messengerService.UpdateChatCommunication(data[0], data[1]);
       }
     });
+
+    this.hubConnection.on('GroupMessageReceive', (data) => {
+      if (data !== null) {
+        console.log('GroupMessageReceive');        
+        console.log(data); 
+      }
+    });
+
     
   }
   setname(data) {

@@ -79,7 +79,7 @@ export class MessengerEmployeeListComponent implements OnInit {
         Id: event[0].EmployeeId,
         FirstName: event[0].FirstName,
         LastName: event[0].LastName,
-        CommunicationId: '0',
+        CommunicationId: event[0]?.CommunicationId,
         ChatCommunicationId: '0',
         IsGroup: event[0].IsGroup
       };
@@ -89,7 +89,7 @@ export class MessengerEmployeeListComponent implements OnInit {
       } else {
         this.empList.unshift({
           Id: event[0].EmployeeId, FirstName: event[0].FirstName,
-          LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0', IsGroup: event[0].IsGroup
+          LastName: event[0].LastName, CommunicationId: event[0]?.CommunicationId, ChatCommunicationId: '0', IsGroup: event[0].IsGroup
         });
         this.emitLoadMessageChat.emit(empObj);
       }

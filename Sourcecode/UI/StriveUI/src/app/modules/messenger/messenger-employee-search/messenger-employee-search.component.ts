@@ -165,14 +165,17 @@ groupObj.chatGroup = null;
       this.messengerService.sendGroupMessage(groupObj).subscribe(data => {
         if (data.status === 'Success') {
           $('#getGroupName').modal('hide');
-          const groupId = JSON.parse(data.resultData);
+          const groupObj = JSON.parse(data.resultData);
+
           const createdGroupObj = [{
-            EmployeeId: groupId?.Status,
+            EmployeeId: groupObj.Result.ChatGroupId,
             FirstName: this.groupname,
             Initial: '',
+            CommunicationId : groupObj.Result.GroupId,
             LastName: null,
             IsGroup: true
           }];
+
           this.emitNewChat.emit(createdGroupObj);
           this.closeemp();
           // this.groupIdInsertion(selectedEmp, groupId.Status);
