@@ -93,10 +93,9 @@ console.log('ReceiveCommunicationID: '+ id);
       if (data !== null) {
         console.log('GroupMessageReceive');        
         console.log(data); 
+        this.setReceivedMsg(data);
       }
     });
-
-    
   }
   setname(data) {
 this.commId.next(data);

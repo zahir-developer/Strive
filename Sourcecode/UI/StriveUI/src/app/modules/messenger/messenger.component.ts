@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
@@ -13,7 +13,8 @@ declare var $: any;
   templateUrl: './messenger.component.html',
   styleUrls: ['./messenger.component.css']
 })
-export class MessengerComponent implements OnInit {
+export class MessengerComponent implements OnInit, AfterViewChecked {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   @ViewChild(MessengerEmployeeSearchComponent) messengerEmployeeSearchComponent: MessengerEmployeeSearchComponent;
   msgList = [];
 
@@ -45,6 +46,7 @@ export class MessengerComponent implements OnInit {
 
   ngOnInit() {
     this.getSenderName();
+    this.scrollToBottom();
     this.signalRService.startConnection();
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
@@ -65,6 +67,9 @@ export class MessengerComponent implements OnInit {
       }
     });
   }
+  ngAfterViewChecked() {        
+    this.scrollToBottom();        
+} 
   getSenderName() {
     this.senderFirstName = localStorage.getItem('employeeFirstName');
     this.senderLastName = localStorage.getItem('employeeLastName');
@@ -161,16 +166,17 @@ export class MessengerComponent implements OnInit {
           CreatedDate: new Date()
         };
         this.msgList.push(sendObj);
-        this.scrolldown();
+        this.scrollToBottom();
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
     });
   }
-  scrolldown() {
-    const elem = document.getElementById('messsageWindow');
-    elem.scrollTop = elem.scrollHeight;
-  }
+  scrollToBottom(): void {
+    try {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
+}
   openpopup(event) {
     this.currentEmployeeId = 0;
     // this.selectedEmployee = [];

@@ -119,7 +119,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     if (duplicateEmp.length > 0 ) {
       return selectedEmp;
     } else {
-      if (this.selectedEmployee.IsGroup === false) {
+      if (this.selectedEmployee?.IsGroup === false) {
         selectedEmp.push(this.selectedEmployee);
       }
       return selectedEmp;
