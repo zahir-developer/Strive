@@ -17,7 +17,7 @@
         <div class="Message-item-body msgbody-active"> <span class="float-right msg-date font-size--8 recentchat-active">{{emp?.createdDate | date: 'hh:mm aa'}} {{emp?.createDate ? '|' : ''}} {{emp?.createdDate | date: 'MMM d'}}</span>
             <div class="m-t-10">
                 <h6 class="msg-title" [ngClass]="{'bold-text': emp?.communicationId !== '0'}">{{emp?.FirstName + ' ' + (emp?.LastName ? emp?.LastName : '') }}</h6> <span class="theme-title font-size-7">{{(emp?.RecentChatMessage !== null && emp?.RecentChatMessage) ? emp?.RecentChatMessage: ''}}</span></div>
-                <span>{{emp?.CommunicationId}}</span>
+                <!-- <span>{{emp?.CommunicationId}}</span> -->
             </div>
         </ng-container>
     </div>

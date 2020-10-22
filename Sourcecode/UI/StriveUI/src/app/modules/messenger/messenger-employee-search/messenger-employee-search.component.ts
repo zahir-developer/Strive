@@ -90,7 +90,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       } else {
         this.showPopup();
       }
-    } else if (this.selectedEmployee.IsGroup === false ) {
+    } else if (this.selectedEmployee?.IsGroup === false ) {
       const emp = this.checkDuplicate();
       if (emp.length > 1) {
         this.showPopup();
@@ -100,7 +100,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         return;
       }
     } else {
-      this.groupname = this.selectedEmployee.FirstName;
+      this.groupname = this.selectedEmployee?.FirstName;
       this.AddGroupName('create');
     }
   }
@@ -159,7 +159,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         },
         chatUserGroup
       };
-      if (this.selectedEmployee.IsGroup === true && this.popupType === 'oldChat') {
+      if (this.selectedEmployee?.IsGroup === true && this.popupType === 'oldChat') {
 groupObj.chatGroup = null;
       }
       this.messengerService.sendGroupMessage(groupObj).subscribe(data => {

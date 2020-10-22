@@ -49,18 +49,19 @@ export class MessengerComponent implements OnInit {
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
       if (data !== null) {
-        const receivedMsg = {
-          SenderId: 0,
-          SenderFirstName: this.selectedEmployee.FirstName,
-          SenderLastName: this.selectedEmployee.LastName,
-          ReceipientId: data.chatMessageRecipient.senderId,
-          RecipientFirstName: '',
-          RecipientLastName: '',
-          MessageBody: data.chatMessage.messagebody,
-          CreatedDate: data.chatMessage.createdDate,
-          CommunicationId: this.selectedEmployee.CommunicationId
-        };
-        this.msgList.push(receivedMsg);
+        this.LoadMessageChat(this.selectedEmployee);
+        // const receivedMsg = {
+        //   SenderId: 0,
+        //   SenderFirstName: this.selectedEmployee.FirstName,
+        //   SenderLastName: this.selectedEmployee.LastName,
+        //   ReceipientId: data.chatMessageRecipient.senderId,
+        //   RecipientFirstName: '',
+        //   RecipientLastName: '',
+        //   MessageBody: data.chatMessage.messagebody,
+        //   CreatedDate: data.chatMessage.createdDate,
+        //   CommunicationId: this.selectedEmployee.CommunicationId
+        // };
+        // this.msgList.push(receivedMsg);
       }
     });
   }
@@ -123,7 +124,7 @@ export class MessengerComponent implements OnInit {
         nextRemindDate: null,
         reminderFrequencyId: null,
         createdBy: 0,
-        createdDate: null
+        createdDate: new Date()
       },
       chatMessageRecipient: {
         chatRecipientId: 0,
@@ -160,10 +161,15 @@ export class MessengerComponent implements OnInit {
           CreatedDate: new Date()
         };
         this.msgList.push(sendObj);
+        this.scrolldown();
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
     });
+  }
+  scrolldown() {
+    const elem = document.getElementById('messsageWindow');
+    elem.scrollTop = elem.scrollHeight;
   }
   openpopup(event) {
     this.currentEmployeeId = 0;
