@@ -574,7 +574,7 @@
                                         <div class="form-row border-bottom m-b-8">
                                             <div class="form-group col-md-6"> Account </div>
                                             <div class="form-group col-md-6 text-right">
-                                                {{account ? account : '$0.00'}} </div>
+                                                {{account ? (account | currency) : '$0.00'}} </div>
                                         </div>
                                         <div class="form-row font-weight-700 border-bottom m-b-25">
                                             <div class="form-group col-md-6"> Total Paid </div>
