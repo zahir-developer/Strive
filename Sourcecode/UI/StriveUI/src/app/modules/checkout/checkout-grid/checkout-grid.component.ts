@@ -76,7 +76,7 @@ export class CheckoutGridComponent implements OnInit {
   }
 
   complete(checkout) {
-    if (checkout.MembershipNameOrPaymentStatus === 'In Progress') {
+    if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
       const finalObj = {
         id: checkout.JobId
       };

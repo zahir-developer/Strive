@@ -142,7 +142,7 @@ export const UrlConfig = {
     saveCustomColor: `Admin/WhiteLabelling/Save`,
     uploadWhiteLabel: `Admin/WhiteLabelling/Update`,
     getPayroll: `Admin/PayRoll/GetPayroll`,
-    holdoutVehicle: `Admin/Checkout/UpdateJobStatus`,
+    holdoutVehicle: `Admin/Checkout/UpdateJobStatusHold`,
     getAccountDetails: `Admin/Sales/GetAccountDetails`,
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
