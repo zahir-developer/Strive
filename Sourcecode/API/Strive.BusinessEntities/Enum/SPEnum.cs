@@ -41,7 +41,9 @@ namespace Strive.BusinessEntities
             UPDATECHATCOMMUNICATIONDETAIL,
             GETCHATMESSAGE,
             USPGETEMPLOYEERECENTCHATHISTORY,
-            GETCHATMESSAGECOUNT
+            GETCHATMESSAGECOUNT,
+            USPGETCHATGROUPEMPLOYEELIST,
+            USPGETCHATEMPLOYEEGROUPLIST
         }
 
         public enum Membership
@@ -85,6 +87,7 @@ namespace Strive.BusinessEntities
         USPDELETEEMPLOYEEDOCUMENTBYID,
         //Client
         USPGETALLCLIENT,
+        USPUPDATEACCOUNTDETAILS,
         USPGETCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
@@ -189,16 +192,20 @@ namespace Strive.BusinessEntities
         uspUpdateSalesItem,
         uspDeleteSalesItemById,
         uspGetItemList,
+        USPGETACCOUNTDETAILS,
         uspGetItemListByTicketNumber,
         USPCREATETENANT,
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
         USPROLLBACKPAYMENT,
         USPGETALLSERVICEANDPRODUCTLIST,
-        uspGetPayrollList,
+        USPGETPAYROLLLIST,
+        USPUPDATEADJUSMENT,
+        USPUPDATEEMPLOYEEADJUSTMENT,
         //CHECKOUT
         USPGETCHECKEDINVEHICLEDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,
-        USPUPDATEJOBSTATUSFORJOBID
+        USPUPDATEJOBSTATUSHOLDBYJOBID,
+        USPUPDATEJOBSTATUSCOMPLETEBYJOBID
     }
 }

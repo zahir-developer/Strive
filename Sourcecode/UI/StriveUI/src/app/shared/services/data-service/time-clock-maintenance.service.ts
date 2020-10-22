@@ -23,8 +23,8 @@ export class TimeClockMaintenanceService {
     return this.http.post(`${UrlConfig.totalUrl.saveTimeClock}`, obj);
   }
 
-  getAllRoles(type) {
-    return this.http.get(`${UrlConfig.totalUrl.getDropdownValue}` + type);
+  getAllRoles() {
+    return this.http.get(`${UrlConfig.totalUrl.getAllRoles}`);
   }
 
   deleteTimeClockEmployee(obj)

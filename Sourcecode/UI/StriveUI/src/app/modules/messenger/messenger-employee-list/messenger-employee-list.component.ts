@@ -10,10 +10,12 @@ import { SignalRService } from 'src/app/shared/services/data-service/signal-r.se
   styleUrls: ['./messenger-employee-list.component.css']
 })
 export class MessengerEmployeeListComponent implements OnInit {
-  search = '';
+  query = '';
   empList = [];
+  originalEmpList = [];
   empOnlineStatus: any;
   @Output() emitLoadMessageChat = new EventEmitter();
+  @Output() popupEmit = new EventEmitter();
   employeeId: number = +localStorage.getItem('empId');
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
   ngOnInit(): void {
@@ -21,14 +23,18 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.signalrService.communicationId.subscribe(data => {
       if (data !== null) {
         this.empOnlineStatus = data;
+
         const commObj = {
           EmployeeId: +data[0],
           CommunicationId: data[1]
         };
+
         this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
-          console.log(data);
-          this.getRecentChatHistory(this.employeeId);
         });
+
+        if (this.empList.length > 0) {
+          this.setCommunicationId();
+        }
       }
     });
   }
@@ -37,6 +43,7 @@ export class MessengerEmployeeListComponent implements OnInit {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         this.empList = empList?.EmployeeList?.ChatEmployeeList;
+        this.originalEmpList = this.empList;
         this.setName();
         this.setCommunicationId();
       }
@@ -59,10 +66,6 @@ export class MessengerEmployeeListComponent implements OnInit {
           const recentMsg = item.RecentChatMessage.split(',');
           item.RecentChatMessage = recentMsg[1];
           item.createdDate = recentMsg[0];
-          // const index = item.RecentChatMessage.indexOf(',');
-          // if (index > 0) {
-          // item.RecentChatMessage = item.RecentChatMessage.substring(index + 1, item.RecentChatMessage.length);
-          // }
         }
       });
     }
@@ -71,21 +74,43 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.emitLoadMessageChat.emit(employeeObj);
   }
   getEmpForNewChat(event) {
-    if (event !== undefined && event.length === 1) {
+    if (event !== undefined) {
       const empObj = {
         Id: event[0].EmployeeId,
         FirstName: event[0].FirstName,
         LastName: event[0].LastName,
         CommunicationId: '0',
-        ChatCommunicationId: '0'
+        ChatCommunicationId: '0',
+        IsGroup: event[0].IsGroup
       };
-      this.empList.unshift({
-        Id: event[0].EmployeeId, FirstName: event[0].FirstName,
-        LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0'
-      });
-      this.emitLoadMessageChat.emit(empObj);
-    } else {
-      const Id = event[0].GroupId;
+      const duplicateEmp = this.empList.filter(item => item.Id === event[0].EmployeeId);
+      if (duplicateEmp.length > 0) {
+        this.emitLoadMessageChat.emit(empObj);
+      } else {
+        this.empList.unshift({
+          Id: event[0].EmployeeId, FirstName: event[0].FirstName,
+          LastName: event[0].LastName, CommunicationId: '0', ChatCommunicationId: '0', IsGroup: event[0].IsGroup
+        });
+        this.emitLoadMessageChat.emit(empObj);
+      }
+    }
   }
-}
+  addemp() {
+    this.popupEmit.emit('newChat');
+  }
+  search() {
+    this.empList = this.originalEmpList;
+    const results: any = [];
+    if (!this.query || this.query === '*') {
+      this.query = '';
+    } else {
+      this.query = this.query.toLowerCase();
+    }
+    this.empList = this.empList.filter(item => {
+      item.fullName = item.FirstName + ' ' + item.LastName;
+      if (JSON.stringify(item.fullName).toLowerCase().includes(this.query)) {
+        return item;
+      }
+    });
+  }
 }

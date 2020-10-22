@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Strive.BusinessEntities.DTO.Messenger;
+using Strive.BusinessLogic;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Messenger;
 using Strive.Common;
@@ -54,11 +55,9 @@ namespace Admin.API.Controllers
                 }
                 else if (chatMessageDto.ChatMessageRecipient.RecipientGroupId > 0 && chatMessageDto.ChatMessageRecipient.RecipientId == null)
                 {
-                    await chatHub.SendMessageToGroup(
-                        chatMessageDto.GroupName,
-                        chatMessageDto.ChatMessageRecipient.SenderId.GetValueOrDefault().ToString(),
-                        chatMessageDto.FullName,
-                        chatMessageDto.ChatMessage.Messagebody);
+
+                    await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceivePrivateMessage", chatMessageDto);
+
                 }
             }
             return result;
@@ -73,14 +72,18 @@ namespace Admin.API.Controllers
         {
             CommonBpl commonBpl = new CommonBpl();
 
-            string groupName = chatGroupDto.ChatGroup.GroupName + "_" + commonBpl.RandomString(5);
-            chatGroupDto.ChatGroup.GroupId = groupName;
+            string groupName = "Group" + "_" + commonBpl.RandomString(5);
+            if (chatGroupDto.ChatGroup != null)
+                chatGroupDto.ChatGroup.GroupId = groupName;
             var result = _bplManager.CreateGroup(chatGroupDto);
 
             foreach (var user in chatGroupDto.ChatUserGroup)
             {
-                await _hubContext.Groups.AddToGroupAsync(user.CommunicationId, groupName);
-                await _hubContext.Clients.Group(groupName).SendAsync("GroupMessageReceive", user.UserId + " has joined.");
+                if (user.CommunicationId != null)
+                {
+                    await _hubContext.Groups.AddToGroupAsync(user.CommunicationId, groupName);
+                    await _hubContext.Clients.Group(groupName).SendAsync("GroupMessageReceive", user.UserId + " has joined.");
+                }
             }
             return result;
         }
@@ -104,5 +107,29 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetUnReadMessageCount(employeeId);
         }
+
+        [HttpGet]
+        [Route("GetChatGroupEmployeelist/{chatGroupId}")]
+        public Result GetChatGroupEmployeelist(int chatGroupId)
+        {
+            return _bplManager.GetChatGroupEmployeelist(chatGroupId);
+        }
+
+        [HttpPut]
+        [Route("AddEmployeeToGroup/{employeeId}/{communicationId}")]
+        public async Task<bool> AddEmployeeToGroup(int employeeId, string communicationId)
+        {
+            var result = _bplManager.GetChatEmployeeGrouplist(employeeId);
+
+            foreach (var grp in result.ChatGroupList)
+            {
+                await _hubContext.Groups.AddToGroupAsync(communicationId, grp.GroupId);
+                await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + employeeId + ", CommunicationId: " + communicationId + " added.");
+            }
+
+            return true;
+        }
+
+
     }
 }

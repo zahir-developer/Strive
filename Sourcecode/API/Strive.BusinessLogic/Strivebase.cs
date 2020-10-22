@@ -292,6 +292,9 @@ namespace Strive.BusinessLogic
                     if (model is null) continue;
 
                     Type subModelType = model.GetType();
+
+                    if (typeof(int) == subModelType || typeof(string) == subModelType || typeof(decimal) == subModelType) continue;
+
                     PropertyInfo prInfo = null;
                     if (subModelType.IsGenericType)
                     {
@@ -311,8 +314,11 @@ namespace Strive.BusinessLogic
                     else
                     {
                         prInfo = type.GetProperties().Where(x => x.GetCustomAttributes(typeof(IgnoreOnInsert), true).Any()).FirstOrDefault();
-                        action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
-                        SetAuditDetails(action, ref model, type);
+                        if (prInfo != null)
+                        {
+                            action = (prInfo.GetValue(tdata, null).toInt() > 0) ? "UPD" : action;
+                            SetAuditDetails(action, ref model, type);
+                        }
                     }
                 }
             }

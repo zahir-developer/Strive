@@ -133,6 +133,7 @@ export const UrlConfig = {
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
+    getPaymentStatus:`Admin/Common/GetCodesByCategory/`,
     getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
@@ -141,7 +142,11 @@ export const UrlConfig = {
     saveCustomColor: `Admin/WhiteLabelling/Save`,
     uploadWhiteLabel: `Admin/WhiteLabelling/Update`,
     getPayroll: `Admin/PayRoll/GetPayroll`,
-    holdoutVehicle: `Admin/Checkout/UpdateJobStatus`
+    holdoutVehicle: `Admin/Checkout/UpdateJobStatus`,
+    getAccountDetails: `Admin/Sales/GetAccountDetails`,
+    updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
+    completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
+    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`
   },
   Messenger:
   {

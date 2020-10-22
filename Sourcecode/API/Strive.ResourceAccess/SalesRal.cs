@@ -53,6 +53,12 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<SalesViewModel>(SPEnum.uspGetItemList.ToString(), _prm);
             return result;
         }
+        public List<SalesAccountViewModel> GetAccountDetails(SalesAccountDto salesAccountDto)
+        {
+            _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
+            return  db.Fetch<SalesAccountViewModel>(SPEnum.USPGETACCOUNTDETAILS.ToString(), _prm);
+            
+        }
         public ScheduleItemListViewModel GetScheduleByTicketNumber(string ticketNumber)
         {
             _prm.Add("@TicketNumber", ticketNumber);

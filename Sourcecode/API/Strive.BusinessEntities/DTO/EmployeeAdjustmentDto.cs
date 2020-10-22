@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO
 {
-    public class HoldByJobIdDto
+    public class EmployeeAdjustmentDto
     {
-        public int id { get; set; }
+        public int id { get; set;}
+        public decimal adjustment { get; set; }
     }
 }

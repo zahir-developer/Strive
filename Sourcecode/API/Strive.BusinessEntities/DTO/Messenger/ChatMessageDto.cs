@@ -17,6 +17,6 @@ namespace Strive.BusinessEntities.DTO.Messenger
 
         public string FullName { get; set; }
 
-        public string GroupName { get; set; }
+        public string GroupId { get; set; }
     }
 }
