@@ -130,6 +130,10 @@ namespace Admin.API.Controllers
             return true;
         }
 
+        [HttpDelete]
+        [Route("DeleteChatGroupUser")]
+        public Result DeleteChatGroupUser(int id) => _bplManager.DeleteChatGroupUser(id);
+
 
     }
 }
