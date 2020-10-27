@@ -15,17 +15,21 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
 
 namespace StriveEmployee.Android.Fragments
 {
-    [MvxUnconventionalAttribute]
-    public class MessengerFragment : MvxFragment<MessengerViewModel> 
+    [MvxFragmentPresentationAttribute]
+        [MvxUnconventionalAttribute]
+    public class MessengerFragment : MvxFragment<MessengerViewModel>
     {
         private TabLayout messenger_TabLayout;
         private ViewPager messenger_ViewPager;
         private ViewPagerAdapter messenger_ViewPagerAdapter;
+        private MessengerRecentContactFragment recentContactFragment;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,13 +40,23 @@ namespace StriveEmployee.Android.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var rootview = this.BindingInflate(Resource.Layout.Messenger_Fragment, null);
+            var rootView = this.BindingInflate(Resource.Layout.Messenger_Fragment, null);
             this.ViewModel = new MessengerViewModel();
+            recentContactFragment = new MessengerRecentContactFragment();
 
-            messenger_TabLayout = rootview.FindViewById<TabLayout>(Resource.Id.messenger_TabLayout);
-            messenger_ViewPager = rootview.FindViewById<ViewPager>(Resource.Id.messenger_ViewPager);
+            messenger_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.messenger_TabLayout);
+            messenger_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.messenger_ViewPager);
 
-            return rootview;
+            return rootView;
+        }
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+
+            messenger_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
+            messenger_ViewPagerAdapter.AddFragment(recentContactFragment, "Recent");
+            messenger_ViewPager.Adapter = messenger_ViewPagerAdapter;
+            messenger_TabLayout.SetupWithViewPager(messenger_ViewPager);
         }
     }
 }
