@@ -158,4 +158,7 @@ export const UrlConfig = {
     sendGroupMessage:  `Admin/Messenger/CreateChatGroup`,
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`
   },
+  reports: {
+    getMonthlySalesReport: `Admin/MonthlySalesReport/GetMonthlySalesReport`
+  }
 };
