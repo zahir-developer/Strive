@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/fifteen"
+        android:layout_marginRight="@dimen/ten"
+        android:layout_marginLeft="@dimen/ten"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/secondarylinearlayout">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/messenger_TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/messenger_ViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>
