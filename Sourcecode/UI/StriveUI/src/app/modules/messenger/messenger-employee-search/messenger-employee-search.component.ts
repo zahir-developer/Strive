@@ -174,7 +174,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
             CommunicationId: groupObject.Result.GroupId,
             LastName: null,
             IsGroup: true,
-            isRead: true
+            isRead: true,
+            type: 'new Group'
           }];
           if (groupObj.chatGroup !== null) {
             this.emitNewChat.emit(createdGroupObj);
@@ -182,8 +183,6 @@ export class MessengerEmployeeSearchComponent implements OnInit {
           } else{
             this.closeemp();
           }
-
-          // this.groupIdInsertion(selectedEmp, groupId.Status);
         }
       });
 

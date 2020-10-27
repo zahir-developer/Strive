@@ -67,7 +67,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         };
  this.msgList.push(receivedMsg);
         } else {
-          this.showUnreadMsg(data.chatMessageRecipient.senderId, data.chatMessage.messagebody);
+          this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
         }
         // this.LoadMessageChat(this.selectedEmployee);
       }
@@ -117,6 +117,7 @@ this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
+        this.scrollToBottom();
       }
     });
   }
@@ -176,6 +177,7 @@ this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
         };
         this.msgList.push(sendObj);
         this.scrollToBottom();
+        this.messengerEmployeeListComponent.SetUnreadMsgBool(this.selectedEmployee?.Id, true, this.messageBody);
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
@@ -184,7 +186,7 @@ this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
   scrollToBottom(): void {
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
+    } catch (err) { }
 }
   openpopup(event) {
     this.currentEmployeeId = 0;
