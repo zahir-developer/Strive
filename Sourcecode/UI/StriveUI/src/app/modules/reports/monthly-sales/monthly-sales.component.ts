@@ -1,22 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
-
+import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker/ngx-bootstrap-datepicker';
+import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
+// import * as jsPDF from 'jspdf';
+// import 'jspdf-autotable';
+// declare let jsPDF;
 @Component({
   selector: 'app-monthly-sales',
   templateUrl: './monthly-sales.component.html',
   styleUrls: ['./monthly-sales.component.css']
 })
-export class MonthlySalesComponent implements OnInit {
+export class MonthlySalesComponent implements OnInit, AfterViewInit {
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  bsConfig: Partial<BsDatepickerConfig>;
   monthlySalesReport = [];
   employees = [];
   empCount = 1;
   originaldata = [];
   empName = '';
   total = 0;
-  constructor(private reportService: ReportsService) { }
+  date = new Date();
+  maxDate = new Date();
+  fileExportType = [];
+  fileType: number;
+  constructor(private reportService: ReportsService, private cd: ChangeDetectorRef,
+    private excelService: ExcelService) { }
 
   ngOnInit(): void {
     this.getMonthlySalesReport();
+    this.filetype();
+  }
+  filetype() {
+    this.fileExportType = [{ id: 0, name: 'select' },
+    { id: 1, name: 'Acrobat (PDF) File' },
+    { id: 2, name: 'CSV (comma delimited)' },
+    { id: 3, name: 'Excel 97 - 2003' },
+    { id: 4, name: 'Rich Text Format ' },
+    { id: 5, name: 'TIFF File' },
+    { id: 6, name: 'Web Archive' },
+    { id: 7, name: 'XPS Document' }];
+  }
+  ngAfterViewInit() {
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.datepicker.setConfig();
+    this.cd.detectChanges();
   }
   getMonthlySalesReport() {
     const obj = {
@@ -29,13 +56,13 @@ export class MonthlySalesComponent implements OnInit {
         const monthlySalesReport = JSON.parse(data.resultData);
         if (monthlySalesReport?.GetMonthlySalesReport !== null) {
           this.employees = monthlySalesReport?.GetMonthlySalesReport?.EmployeeViewModel ?
-          monthlySalesReport?.GetMonthlySalesReport?.EmployeeViewModel : [];
+            monthlySalesReport?.GetMonthlySalesReport?.EmployeeViewModel : [];
           this.monthlySalesReport = monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel;
           this.originaldata = monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel;
           this.employeeListFilter(this.empCount);
         }
       }
-});
+    });
   }
   count(action) {
     if (action === 'add') {
@@ -48,13 +75,40 @@ export class MonthlySalesComponent implements OnInit {
   }
   employeeListFilter(count) {
     this.monthlySalesReport = this.originaldata;
-    this.empName = this.employees[count - 1]?.EmployeeName;
-    this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
-    this.calculatePrice();
+    if (this.employees.length > 0) {
+      this.empName = this.employees[count - 1]?.EmployeeName;
+      this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
+      this.calculatePrice();
+    }
   }
   calculatePrice() {
     this.total = this.monthlySalesReport.reduce((sum, i) => {
       return sum + (+i.Total);
     }, 0);
+  }
+  onValueChange(event) {
+  }
+  getFileType(event) {
+    this.fileType = +event.target.value;
+  }
+  export() {
+    const fileType = this.fileType !== undefined ? this.fileType : '';
+    switch (fileType) {
+      case 1: {
+        this.excelService.exportAsPDFFile('MonthlySalesreport', 'MonthlySalesReport.pdf');
+        break;
+      }
+      case 2: {
+        this.excelService.exportAsCSVFile(this.monthlySalesReport, 'monthly-sales');
+        break;
+      }
+      case 3: {
+        this.excelService.exportAsExcelFile(this.monthlySalesReport, 'monthly-sales');
+        break;
+      }
+      default: {
+        return;
+      }
+    }
   }
 }
