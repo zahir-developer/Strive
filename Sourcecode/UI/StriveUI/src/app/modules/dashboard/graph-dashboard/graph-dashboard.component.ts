@@ -30,11 +30,27 @@ export class GraphDashboardComponent implements OnInit {
   public barChartData: ChartDataSets[] = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series c' }
+    { data: [18, 78, 30, 89, 80, 37, 30], label: 'Series c' }
   ];
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  dotLineChart() {
+    this.barChartType = 'line';
+  }
+
+  barChart() {
+    this.barChartType = 'bar';
+  }
+
+  pieChart() {
+
+  }
+
+  lineChart() {
+    this.barChartType = 'line';
   }
 
 }
