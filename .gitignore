@@ -2,6 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/Sourcecode/Ui/StriveUI/.scannerwork
 /Sourcecode/API/Strive.API/bin/Debug/netcoreapp3.1
 /Sourcecode/API/Strive.API/obj
 /Sourcecode/API/Strive.API/Properties
