@@ -145,7 +145,7 @@
 														<label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-1-2">Ticket No</label>
 														<div class="col-sm-9">
 															<div class="pull-right">
-																<input type="text" class="form-control  d-inline-block w-23 align-middle">
+																<input type="text" class="form-control  d-inline-block w-33 align-middle">
 																<button type="button" class="btn theme-primary-button-color disabled">Done</button>
 																<button type="button" class="btn theme-primary-button-color">Select</button>
 																<button type="button" class="btn theme-primary-button-color">New</button>
@@ -241,7 +241,7 @@
 														</div>
 													</div>
 													<!--credit card-->
-													  <div id="creditcardpopup" class="gift-card"> <a href="#" class="closebtn" onclick="closecreditcard()">&times;</a>
+													<div id="creditcardpopup" class="gift-card"> <a href="#" class="closebtn" onclick="closecreditcard()">&times;</a>
 														<div class="card-body">
 															<div class="title-border p-b-5 m-b-5">
 																<h4 class="d-inline-block">Credit Card</h4> </div>
@@ -284,16 +284,16 @@
 											<!-- end card-->
 										</div>
 										<!--Bills-->
-										<div class="col-xl-8 no-space">
-											<div class="card m-b-10">
+										<div class="col-xl-6 no-space">
+											<div class="card m-b-10 mb-height">
 												<div class="card-body">
 													<div class="form-row border-bottom">
-														<div class="form-group col-md-4">
+														<div class="form-group col-md-3">
 															<label for="colFormLabelSm" class="font-weight-600 font-size-1-2">Item List</label>
 														</div>
-														<div class="form-group col-md-8">
+														<div class="form-group col-md-9">
 															<div class=" pull-right">
-																<input type="text" class="form-control d-inline-block w-50 align-middle" placeholder="Item">
+																<input type="text" class="form-control d-inline-block w-45 align-middle" placeholder="Item">
 																<input type="text" class="form-control d-inline-block w-23 align-middle" placeholder="Qty">
 																<button type="button" class="btn theme-primary-button-color">Add</button>
 																<button type="button" class="btn theme-primary-button-color" href="#itemsearchmodal" data-toggle="modal">Search</button>
@@ -342,22 +342,25 @@
 												<!-- end card-body -->
 											</div>
 											<!-- end card-->
-											<div class="card">
+										</div>
+										<!-- Summary --->
+										<div class="col-xl-2 no-space">
+											<div class="card mb-height">
 												<div class="card-body">
 													<div class="title-border p-b-5 m-b-5">
-														<h4 class="d-inline-block">Summary</h4> </div>
+														<h4 class="d-inline-block font-weight-600 font-size-1-2">Summary</h4> </div>
 													<form class="summary">
-														<div class="form-row">
+														<div class="form-row m-t-15">
 															<div class="form-group col-md-6"> Total </div>
 															<div class="form-group col-md-6 text-right"> $163.95 </div>
 														</div>
-														<div class="form-row">
+														<div class="form-row  border-bottom m-b-8">
 															<div class="form-group col-md-6"> Tax </div>
 															<div class="form-group col-md-6 text-right"> $0.20 </div>
 														</div>
-														<div class="form-row">
-															<div class="form-group col-md-6"> Grand Total </div>
-															<div class="form-group col-md-6 text-right theme-optional-icon-color"> $164.15 </div>
+														<div class="form-row font-weight-700 border-bottom  m-b-25">
+															<div class="form-group col-md-6 theme-content-color">Grand Total</div>
+															<div class="form-group col-md-6 text-right theme-content-color"> $164.15 </div>
 														</div>
 														<div class="form-row">
 															<div class="form-group col-md-6"> Cash </div>
@@ -371,17 +374,17 @@
 															<div class="form-group col-md-6"> Gift Card </div>
 															<div class="form-group col-md-6 text-right"> $200.00 </div>
 														</div>
-														<div class="form-row">
+														<div class="form-row border-bottom m-b-8">
 															<div class="form-group col-md-6"> Account </div>
 															<div class="form-group col-md-6 text-right"> $0.00 </div>
 														</div>
-														<div class="form-row">
-															<div class="form-group col-md-6"> Total Paid </div>
-															<div class="form-group col-md-6 text-right"> $0.00 </div>
+														<div class="form-row font-weight-700 border-bottom m-b-25">
+															<div class="form-group col-md-6 theme-content-color"> Total Paid </div>
+															<div class="form-group col-md-6 text-right theme-content-color"> $0.00 </div>
 														</div>
-														<div class="form-row">
+														<div class="form-row border-bottom m-t-5 m-b-25">
 															<div class="form-group col-md-6"> Balance Due </div>
-															<div class="form-group col-md-6 text-right theme-optional-icon-color"> $35.85 </div>
+															<div class="form-group col-md-6 text-right theme-optional-icon-color font-weight-600"> $35.85 </div>
 														</div>
 														<div class="form-row">
 															<div class="form-group col-md-6"> Cash back </div>

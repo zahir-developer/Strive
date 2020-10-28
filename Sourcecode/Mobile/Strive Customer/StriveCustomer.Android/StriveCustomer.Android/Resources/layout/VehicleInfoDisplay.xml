@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Vehicle"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
         <Button
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="@dimen/ten"
-        android:textSize="@dimen/sixteen"
+        android:textSize="18sp"
         android:textColor="@android:color/white"
         android:text="Vehicle List"
         android:fontFamily="@font/opensans_bold" />
@@ -64,7 +64,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/ten"
-                android:text="White Color"
                 android:layout_marginTop="@dimen/ten"
                 android:textSize="16sp"
                 android:textColor="@color/profileQColor"
@@ -73,7 +72,7 @@
                 android:id="@+id/vehicleEdits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten"
+                android:layout_marginTop="@dimen/fifteen"
                 android:layout_marginLeft="@dimen/ten"
                 android:src="@drawable/editbutton"
                 android:background="@android:color/transparent"/>

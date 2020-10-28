@@ -52,8 +52,7 @@ namespace StriveCustomer.Android.Views
 
         private void DashActionButton_Click(object sender, EventArgs e)
         {
-            fragment = pastDetailsFrag;
-            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, fragment).Commit();
+            
         }
         private void NavigateFrag(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {

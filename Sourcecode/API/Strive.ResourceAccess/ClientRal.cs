@@ -13,6 +13,7 @@ using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.Code;
 using Strive.RepositoryCqrs;
+using Strive.BusinessEntities.DTO.Sales;
 
 namespace Strive.ResourceAccess
 {
@@ -26,9 +27,15 @@ namespace Strive.ResourceAccess
         }
         public bool UpdateClientVehicle(ClientDto client)
         {
-            return dbRepo.SaveAll(client, "ClientId");
+            return dbRepo.UpdatePc(client);
         }
-
+        public bool UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
+        {
+            _prm.Add("@ClientId", clientAmountUpdate.ClientId);
+            _prm.Add("@Amount", clientAmountUpdate.Amount);
+            db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
+            return true;
+        }
         public List<ClientViewModel> GetAllClient()
         {
             return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), null);

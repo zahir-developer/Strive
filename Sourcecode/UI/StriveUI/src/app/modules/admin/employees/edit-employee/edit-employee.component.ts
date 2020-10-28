@@ -17,17 +17,17 @@ export class EditEmployeeComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() isEdit?: any;
-  @Input() employeeRoles?: any;
-  @Input() gender?: any;
+  employeeRoles?: any;
   @Input() maritalStatus?: any;
   @Input() state?: any;
   @Input() country?: any;
   @Input() employeeId?: any;
   @Input() employeeDetailId?: any;
-  @Input() location?: any;
+  location?: any;
   Status: any;
   @Input() commissionType: any;
   @Input() actionType: string;
+  gender: any;
   employeeData: any;
   personalform: FormGroup;
   emplistform: FormGroup;
@@ -69,6 +69,7 @@ export class EditEmployeeComponent implements OnInit {
     this.submitted = false;
     this.Status = ['Active', 'Inactive'];
     this.getImmigrationStatus();
+    this.getGenderDropdownValue();
     this.personalform = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -96,8 +97,8 @@ export class EditEmployeeComponent implements OnInit {
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
-    this.employeRole();
-    this.locationDropDown();
+    this.getAllRoles();
+    this.getLocation();
     this.dropdownSetting();
     // this.getAllCollision();
     // this.getAllDocument();
@@ -123,6 +124,18 @@ export class EditEmployeeComponent implements OnInit {
         this.imigirationStatus = cType.Codes;
         this.dropdownSetting();
         this.employeeDetail();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  getGenderDropdownValue() {
+    this.employeeService.getDropdownValue('GENDER').subscribe(res => {
+      console.log(res, 'gender');
+      if (res.status === 'Success') {
+        const gender = JSON.parse(res.resultData);
+        this.gender = gender.Codes;
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -230,6 +243,38 @@ export class EditEmployeeComponent implements OnInit {
         item_id: item.CodeId,
         item_text: item.CodeValue
       };
+    });
+    this.dropdownSetting();
+  }
+
+  getAllRoles() {
+    this.employeeService.getAllRoles().subscribe(res => {
+      if (res.status === 'Success') {
+        const roles = JSON.parse(res.resultData);
+        this.employeeRoles = roles.EmployeeRoles.map( item => {
+          return {
+            item_id: item.RoleMasterId,
+            item_text: item.RoleName
+          };
+        });
+        this.dropdownSetting();
+      }
+    });
+  }
+
+  getLocation() {
+    this.employeeService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+        this.location = this.location.map(item => {
+          return {
+            item_id: item.LocationId,
+            item_text: item.LocationName
+          };
+        });
+        this.dropdownSetting();
+      }
     });
   }
 

@@ -32,8 +32,10 @@ export class TimeClockMaintenanceComponent implements OnInit {
   employeeList: any = [];
   selectedEmployee: any;
   startDate: any;
+  currentWeek: any;
   endDate: any;
   dateRange: any = [];
+  isView: boolean = false;
   constructor(
     private timeClockMaintenanceService: TimeClockMaintenanceService,
     private toastr: ToastrService,
@@ -55,9 +57,10 @@ export class TimeClockMaintenanceComponent implements OnInit {
     const first = currentDate.getDate() - currentDate.getDay();
     const last = first + 6;
     this.startDate = new Date(currentDate.setDate(first));
+    this.currentWeek = this.startDate;
     this.endDate = new Date(currentDate.setDate(last));
-    // this.endDate = this.endDate.setDate( this.startDate.getDate() + 7);
-    // this.endDate = new Date(moment(this.endDate).format());
+    this.endDate = this.endDate.setDate( this.startDate.getDate() + 6);
+    this.endDate = new Date(moment(this.endDate).format());
     this.daterangepickerModel = [this.startDate, this.endDate];
     this.getTimeClockEmployeeDetails();
   }
@@ -95,6 +98,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
   }
 
   deleteConfirm(obj) {
+    if (this.isView) {
+      return;
+    }
     this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
       information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
@@ -199,6 +205,11 @@ export class TimeClockMaintenanceComponent implements OnInit {
         } else {
           this.startDate = event[0];
           this.endDate = event[1];
+          if(this.startDate.toUTCString() !== this.currentWeek.toUTCString()){
+            this.isView = true;
+          }else{
+            this.isView = false;
+          }
           this.getTimeClockEmployeeDetails();
         }
       }

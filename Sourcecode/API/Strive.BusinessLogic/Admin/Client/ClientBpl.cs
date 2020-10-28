@@ -80,6 +80,19 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
+        public Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate)
+        {
+            try
+            {
+                return ResultWrap(new ClientRal(_tenant).UpdateAccountBalance, clientAmountUpdate, "Status");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        
         public Result GetAllClient()
         {
             return ResultWrap(new ClientRal(_tenant).GetAllClient, "Client");

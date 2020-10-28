@@ -48,6 +48,7 @@ function openemp() {
     $(".view-msg").removeClass("Message-box-slide");
     $(".view-msg").addClass("Message-box");
     $(".plus-icon").addClass("opacity-16");
+	$(".chat-box-slide").addClass("chatslide")
 }
 
 function openNav() {
@@ -77,6 +78,21 @@ $(".nav-slider-menu-items li a").on("click", function () {
     $(".nav-slider-menu-items li a").removeClass("theme-secondary-color text-underline");
     $(this).addClass("theme-secondary-color text-underline");
 });
+
+// messenger screen view participant dropdown 
+	$('.drop-down').on("click.bs.dropdown", function (e) {
+		e.stopPropagation();
+		e.preventDefault();                
+	});
+	$(document).ready(function(){
+    $('.removeuser').click(function(){
+        $(this).parent().remove();
+        return false;
+    });
+
+});
+
+
 //sidebar js //
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();

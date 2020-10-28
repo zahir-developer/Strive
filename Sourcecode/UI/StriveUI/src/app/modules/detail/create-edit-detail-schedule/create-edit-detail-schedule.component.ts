@@ -12,6 +12,7 @@ import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-w
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { PrintCustomerCopyComponent } from '../print-customer-copy/print-customer-copy.component';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -22,6 +23,7 @@ import * as _ from 'underscore';
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   @ViewChild(PrintWashComponent) printWashComponent: PrintWashComponent;
+  @ViewChild(PrintCustomerCopyComponent) printCustomerCopyComponent: PrintCustomerCopyComponent;
   detailForm: FormGroup;
   ticketNumber: any;
   barcodeDetails: any;
@@ -142,9 +144,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getTicketNumber() {
-    this.wash.getTicketNumber().subscribe(data => {
-      this.ticketNumber = data;
-    });
+    this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    // this.wash.getTicketNumber().subscribe(data => {
+    //   this.ticketNumber = data;
+    // });
     this.assignDate();
     this.getColor();
     this.getAllClient();
@@ -601,8 +604,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobStatus: jobStatusId,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      actualTimeOut: new Date(),
       isActive: true,
       isDeleted: false,
+      checkOut: false,
       createdBy: 0,
       updatedBy: 0,
       // barcode: this.detailForm.value.barcode,
@@ -655,8 +660,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobStatus: jobStatusId,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      actualTimeOut: new Date(),
       isActive: true,
       isDeleted: false,
+      checkOut: true,
       createdBy: 0,
       updatedBy: 0,
       // barcode: this.detailForm.value.barcode,
@@ -715,6 +722,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobStatus: this.isEdit ? this.jobStatusID : jobStatusId,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      actualTimeOut: new Date(),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -1070,5 +1078,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   pay() {
     this.router.navigate(['/sales'], { queryParams: { ticketNumber: this.ticketNumber } });
+  }
+
+  printCustomerCopy() {
+    this.printCustomerCopyComponent.print();
   }
 }

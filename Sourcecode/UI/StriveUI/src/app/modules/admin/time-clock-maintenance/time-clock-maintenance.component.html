@@ -26,7 +26,7 @@
                         <!-- <input type="text" class="daterange form-control input-large"> -->
                         <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control"
                           [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
-                          [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false }">
+                          [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
                       </div>
                     </form>
                     <!-- <div class="col-xs-12 col-12 col-md-4 form-group">
@@ -132,5 +132,5 @@
   </div>
 </div>
 <div *ngIf="isTimeClockWeekPage">
-  <app-time-clock-week [empClockInObj]="empClockInObj" (cancelCheckInPage)="cancelCheckInPage()"></app-time-clock-week>
+  <app-time-clock-week [empClockInObj]="empClockInObj" [isView]="isView" (cancelCheckInPage)="cancelCheckInPage()"></app-time-clock-week>
 </div>

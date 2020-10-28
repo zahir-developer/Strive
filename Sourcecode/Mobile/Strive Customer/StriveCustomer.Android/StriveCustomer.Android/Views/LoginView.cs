@@ -43,12 +43,12 @@ namespace StriveCustomer.Android.Views
             emailPhoneInput = FindViewById<EditText>(Resource.Id.emailPhoneInputs);
             passwordInput = FindViewById<EditText>(Resource.Id.passwordInputs);
             loginButton = FindViewById<Button>(Resource.Id.loginButton);
-            signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
-            signUp.PaintFlags = PaintFlags.UnderlineText;
+            //signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
+            //signUp.PaintFlags = PaintFlags.UnderlineText;
             rememberMe = FindViewById<TextView>(Resource.Id.rememberMeLabel);
             forgotPassword = FindViewById<TextView>(Resource.Id.forgotPasswordLink);
             forgotPassword.PaintFlags = PaintFlags.UnderlineText;
-            newAccount = FindViewById<TextView>(Resource.Id.newAccount);
+            //newAccount = FindViewById<TextView>(Resource.Id.newAccount);
             rememberMeCheck = FindViewById<CheckBox>(Resource.Id.rememberMeCheck);
 
             var bindingset = this.CreateBindingSet<LoginView, LoginViewModel>();
@@ -60,12 +60,12 @@ namespace StriveCustomer.Android.Views
             bindingset.Bind(loginButton).To(lvm => lvm.Commands["DoLogin"]);
             bindingset.Bind(rememberMe).To(lvm => lvm.RememberPassword);
             bindingset.Bind(forgotPassword).To(lvm => lvm.ForgotPassword);
-            bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
-            bindingset.Bind(signUp).To(lvm => lvm.SignUp);
+           // bindingset.Bind(newAccount).To(lvm => lvm.NewAccount);
+           // bindingset.Bind(signUp).To(lvm => lvm.SignUp);
             bindingset.Apply();
             basicSetup();
             rememberMeCheck.Click += checkStoredCredentials;
-            signUp.Click += navigateToSignUp;
+           // signUp.Click += navigateToSignUp;
             forgotPassword.Click += navigateToForgotPassword;
         }
 

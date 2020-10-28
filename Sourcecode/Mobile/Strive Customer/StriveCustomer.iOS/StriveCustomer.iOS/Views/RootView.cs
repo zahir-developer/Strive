@@ -28,11 +28,11 @@ namespace StriveCustomer.iOS.Views
             base.ViewDidLoad();
 
             var viewControllers = new UIViewController[5];
-            viewControllers[0] = CreateTabFor(0, "Home", "icon-wash-time", typeof(ForgotPasswordViewModel));
-            viewControllers[1] = CreateTabFor(1, "Deals", "icon-wash-time", typeof(ForgotPasswordViewModel));
-            viewControllers[2] = CreateTabFor(2, "Schedule", "icon-membership", typeof(ForgotPasswordViewModel));
-            viewControllers[3] = CreateTabFor(3, "Account", "icon-inventory", typeof(ForgotPasswordViewModel));
-            viewControllers[4] = CreateTabFor(4, "Contact us", "icon-inventory", typeof(ForgotPasswordViewModel));
+            viewControllers[0] = CreateTabFor(0, "Home", "icon-home", "icon-home-active", typeof(DealsViewModel));
+            viewControllers[1] = CreateTabFor(1, "Deals", "icon-deals", "icon-deals-active", typeof(DealsViewModel));
+            viewControllers[2] = CreateTabFor(2, "Schedule", "icon-clock-dashboard", "icon-clock-dashboard", typeof(MyProfileInfoViewModel));
+            viewControllers[3] = CreateTabFor(3, "Account", "icon-account", "icon-account-active", typeof(ForgotPasswordViewModel));
+            viewControllers[4] = CreateTabFor(4, "Contact us", "icon-contact", "icon-contact-active", typeof(ForgotPasswordViewModel));
 
             ViewControllers = viewControllers;
             CustomizableViewControllers = new UIViewController[] { };
@@ -45,30 +45,18 @@ namespace StriveCustomer.iOS.Views
             // Release any cached data, images, etc that aren't in use.
         }
 
-        private UIViewController CreateTabFor(int index, string title, string imageName, Type viewModelType)
+        private UIViewController CreateTabFor(int index, string title, string imageName,string selectedImageName, Type viewModelType)
         {
             var controller = new UINavigationController();
             var request = new MvxViewModelRequest(viewModelType, null, null);
             var viewModel = Mvx.IoCProvider.Resolve<IMvxViewModelLoader>().LoadViewModel(request, null);
             var screen = this.CreateViewControllerFor(viewModel) as UIViewController;
-            screen.Title = title;
-            //screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle(imageName), index);
-            TabBar.TintColor = UIColor.Clear.FromHex(0x0C4E47);
-            screen.TabBarItem.SetTitleTextAttributes(new UITextAttributes()
-            {
-                Font = UIFont.FromName("OpenSans-Regular", 10f),
-                TextColor = UIColor.Clear.FromHex(0x0C4E47),
-            }, UIControlState.Selected);
+            screen.TabBarItem.Image = UIImage.FromBundle(imageName).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+            screen.TabBarItem.SelectedImage = UIImage.FromBundle(selectedImageName).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+            screen.TabBarItem.ImageInsets = new UIEdgeInsets(5, 0, -5, 0);
+            if (index == 2)
+                screen.TabBarItem.ImageInsets = new UIEdgeInsets(0, 0, 0, 0);
 
-            screen.TabBarItem.SetTitleTextAttributes(new UITextAttributes()
-            {
-                Font = UIFont.FromName("OpenSans-Regular", 10f),
-                TextColor = UIColor.Clear.FromHex(0xFFFFFF),
-            }, UIControlState.Normal);
-
-            //screen.TabBarItem.Image = UIImage.FromBundle(imageName).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-            //screen.TabBarItem.SelectedImage = UIImage.FromBundle(imageName);
-           
             controller.PushViewController(screen, true);
             return controller;
         }

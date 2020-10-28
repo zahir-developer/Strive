@@ -57,10 +57,13 @@ export class CreateEditWashesComponent implements OnInit {
   closeclientDialog: any;
   printData: any;
   isPrint: boolean;
+  jobStatus: any = [];
+  jobStatusId: number;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
     private wash: WashService, private client: ClientService, private router: Router) { }
 
   ngOnInit() {
+    this.getJobStatus();
     this.isPrint = false;
     this.formInitialize();
     this.timeInDate = new Date();
@@ -97,11 +100,14 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getTicketNumber() {
-    this.wash.getTicketNumber().subscribe(data => {
-      if (!this.isEdit) {
-        this.ticketNumber = data;
-      }
-    });
+    if (!this.isEdit) {
+      this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    }
+    // this.wash.getTicketNumber().subscribe(data => {
+    //   if (!this.isEdit) {
+    //     this.ticketNumber = data;
+    //   }
+    // });
     this.getAllClient();
     this.getServiceType();
     this.getColor();
@@ -499,7 +505,7 @@ getJobType() {
       estimatedTimeOut: new Date(),
       actualTimeOut: new Date(),
       notes: this.washForm.value.notes,
-      jobStatus: 1,
+      jobStatus: this.jobStatusId,
       isActive: true,
       isDeleted: false,
       createdBy: 1,
@@ -640,6 +646,16 @@ getJobType() {
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         this.clientFormComponent.clientForm.reset();
+      }
+    });
+  }
+
+  getJobStatus() {
+    this.wash.getJobStatus('JOBSTATUS').subscribe(res => {
+      if (res.status === 'Success') {
+        const status = JSON.parse(res.resultData);
+        this.jobStatus = status.Codes.filter(item => item.CodeValue === 'In Progress');
+        this.jobStatusId = this.jobStatus[0].CodeId;
       }
     });
   }

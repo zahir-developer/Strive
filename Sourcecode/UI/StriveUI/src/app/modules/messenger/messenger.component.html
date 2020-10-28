@@ -1,0 +1,129 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item active" aria-current="page">Messenger</li>
+                </ol>
+            </nav>
+            <!--bread crumb-->
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Messenger</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="tab-content">
+                    <div class="row no-gutter">
+                        <div class="col-xl-3 m-b-6">
+                            <div class="card">
+                                <div class="card-body p-b-0">
+                                    <div class="p-b-5 m-b-5">
+                                        <h4 class="d-inline-block">Recent</h4>
+                                    </div>
+
+                                    <!-- <div class="m-b-10 row no-gutters">
+                                        <div class="col-lg-12 border-bottom">
+                                            <div class="pull-right"> <i
+                                                    class="mdi mdi-account-plus  theme-secondary-icon-color font-size-2 pointer" (click)="openemp()"></i>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <app-messenger-employee-list #newChatEmit
+                                        (emitLoadMessageChat)="LoadMessageChat($event)" (popupEmit)="openpopup($event)">
+                                    </app-messenger-employee-list>
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                            <!-- end card-->
+                        </div>
+                        <div class="col-xl-9 m-b-6 internal-employee">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="title-border p-b-8 m-b-12">
+                                        <h4 class="d-inline-block align-middle  font-size-1-7">
+                                            <div *ngIf="!selectedEmployee?.IsGroup"
+                                                [ngClass]="[selectedEmployee?.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
+                                            </div><span
+                                                class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span><span
+                                                class="align-middle">{{chatFullName}}</span>
+                                        </h4>
+                                        <div class="pull-right card-widgets d-flex" >
+                                            <div class="dropdown m-r-8" style="display:none;">
+                                                <a href="#" class="dropdown-toggle text-muted arrow-none"
+                                                    data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="theme-primary-color font-size-1-7 mdi mdi-account-group pointer"
+                                                        title="View Participants"></i> </a>
+                                                <div class="dropdown-menu dropdown-menu-right m-r-10 drop-down">
+                                                    <h4
+                                                        class="font-size-1 border-bottom p-t-4 p-b-5 p-r-24 p-l-24 font-weight-700">
+                                                        View Participants</h4> <a href="#" class="drop-down-item">
+                                                        Jeanne Weimann<i
+                                                            class="mdi mdi-close-circle pointer removeuser theme-optional-icon-color font-size-1-1 float-right align-middle"></i>
+                                                    </a> <a href="#" class="drop-down-item">Burley Wintheiser <i
+                                                            class="mdi mdi-close-circle pointer removeuser theme-optional-icon-color font-size-1-1 float-right"></i>
+
+                                                    </a> <a href="#" class="drop-down-item">Dr. William Hoeger<i
+                                                            class="mdi mdi-close-circle pointer removeuser theme-optional-icon-color font-size-1-1 float-right"></i>
+                                                    </a>
+                                                    <a class="border-top"></a> <a href="#"
+                                                        class="drop-down-item border-top align-middle"> Add People <span
+                                                            class="align-middle"><i
+                                                                class="font-size-1-2 mdi mdi-account-multiple-plus pointer float-right align-middle"></i></span>
+                                                    </a> <a href="#" class="drop-down-item align-middle"> Exit Group <i
+                                                            class="font-size-1-2 mdi mdi-logout-variant pointer float-right align-middle"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <a (click)="openemp('oldChat');"><i
+                                                    class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer float-right"></i></a>
+                                        </div>
+                                    </div>
+                                    <ul class="conversation-list chat-box-slide" #scrollMe>
+                                        <li *ngFor="let msg of msgList odd"
+                                            [ngClass]="{'odd': employeeId === msg.SenderId}" class="clearfix">
+                                            <div class="chat-avatar">
+                                                <div
+                                                    class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">
+                                                    {{ msg.SenderFirstName.charAt(0).toUpperCase() + (msg?.SenderLastName !== null ? msg?.SenderLastName.charAt(0).toUpperCase() : '')}}
+                                                </div>
+                                            </div>
+                                            <div class="conversation-text">
+                                                <div class="ctext-wrap">
+                                                    <p> {{msg.MessageBody}} </p>
+                                                </div> <span
+                                                    class="font-13 d-block m-t-10">{{msg.CreatedDate | date: 'hh:mm aa'}}
+                                                    | {{msg.CreatedDate | date: 'MMM d'}}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="border-top m-t-16">
+                                        <div class="row m-t-10">
+                                            <div class="col mb-2 mb-sm-0">
+                                                <input type="text" [(ngModel)]="messageBody"
+                                                    (keydown.enter)='sendMessage()' class="form-control border-0"
+                                                    placeholder="Type the message here..." required=""> </div>
+                                            <div class="col-sm-auto"> <i
+                                                    class="mdi mdi-send  theme-primary-color font-size-1-4"
+                                                    (click)='sendMessage()'></i> </div>
+                                            <!-- end col -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3" id="show-search-emp">
+                            <app-messenger-employee-search (emitNewChat)="newChatEmit.getEmpForNewChat($event)"
+                                [selectedEmployee]="selectedEmployee" [popupType]="popupType">
+                            </app-messenger-employee-search>
+                            <!-- end card-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
