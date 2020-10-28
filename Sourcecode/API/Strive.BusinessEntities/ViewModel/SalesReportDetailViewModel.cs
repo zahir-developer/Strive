@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class MonthlySalesReportDetailViewModel
+    public class SalesReportDetailViewModel
     {
         public List<EmployeeInputViewModel> EmployeeViewModel { get; set; }
-        public List<MonthlySalesReportViewModel> MonthlySalesReportViewModel { get; set; }
+        public List<SalesReportViewModel> MonthlySalesReportViewModel { get; set; }
     }
 }

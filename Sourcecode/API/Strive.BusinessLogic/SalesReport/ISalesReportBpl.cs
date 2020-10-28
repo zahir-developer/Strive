@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.MonthlySalesReport
 {
-    public interface IMonthlySalesReportBpl
+    public interface ISalesReportBpl
     {
-        Result GetMonthlySalesReport(MonthlySalesReportDto monthlysales);
+        Result GetMonthlySalesReport(SalesReportDto monthlysales);
     }
 }

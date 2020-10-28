@@ -14,16 +14,16 @@ namespace Admin.API.Controllers
     [Authorize]
 
     [Route("Admin/[Controller]")]
-    public class MonthlySalesReportController : StriveControllerBase<IMonthlySalesReportBpl>
+    public class SalesReportController : StriveControllerBase<ISalesReportBpl>
     {
-        public MonthlySalesReportController(IMonthlySalesReportBpl msBpl) : base(msBpl) { }
+        public SalesReportController(ISalesReportBpl msBpl) : base(msBpl) { }
         #region
         /// <summary>
-        /// Method to Get MonthlySales Report in Grid.
+        /// Method to Get MonthlySales Report.
         /// </summary>
         [HttpPost]
         [Route("GetMonthlySalesReport")]
-        public Result GetMonthlySalesReport([FromBody] MonthlySalesReportDto monthlysales) => _bplManager.GetMonthlySalesReport(monthlysales);
+        public Result GetMonthlySalesReport([FromBody] SalesReportDto monthlysales) => _bplManager.GetMonthlySalesReport(monthlysales);
         #endregion
 
     }

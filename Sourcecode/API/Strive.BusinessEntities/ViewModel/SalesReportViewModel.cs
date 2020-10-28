@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class MonthlySalesReportViewModel
+    public class SalesReportViewModel
     {
         public DateTime? JobDate { get; set; }
         public string Description { get; set; }

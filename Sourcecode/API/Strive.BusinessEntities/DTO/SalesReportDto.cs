@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO
 {
-    public class MonthlySalesReportDto
+    public class SalesReportDto
     {
         public int LocationId { get; set; }
         public string Date { get; set; }

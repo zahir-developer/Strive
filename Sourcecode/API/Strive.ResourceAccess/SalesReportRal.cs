@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Strive.ResourceAccess
 {
-    public class MonthlySalesReportRal : RalBase
+    public class SalesReportRal : RalBase
     {
-        public MonthlySalesReportRal(ITenantHelper tenant) : base(tenant) { }
-        public MonthlySalesReportDetailViewModel GetMonthlySalesReport(MonthlySalesReportDto monthlysales)
+        public SalesReportRal(ITenantHelper tenant) : base(tenant) { }
+        public SalesReportDetailViewModel GetMonthlySalesReport(SalesReportDto monthlysales)
         {
             _prm.Add("@LocationId", monthlysales.LocationId);
             _prm.Add("@Date", monthlysales.Date);
-            var result = db.FetchMultiResult<MonthlySalesReportDetailViewModel>(SPEnum.USPGETMONTHLYSALESREPORT.ToString(), _prm);
+            var result = db.FetchMultiResult<SalesReportDetailViewModel>(EnumSP.SalesReport.USPGETMONTHLYSALESREPORT.ToString(), _prm);
             return result;
         }
     }
