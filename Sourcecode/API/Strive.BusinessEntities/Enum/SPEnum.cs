@@ -16,7 +16,8 @@ namespace Strive.BusinessEntities
         }
         public enum SalesReport
         {
-            USPGETMONTHLYSALESREPORT
+            USPGETMONTHLYSALESREPORT,
+            USPGETCUSTOMERSUMMARYREPORT
         }
 
         public enum WhiteLabelling

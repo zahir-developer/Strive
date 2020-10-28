@@ -16,7 +16,8 @@ namespace Strive.ResourceAccess
         public SalesReportDetailViewModel GetMonthlySalesReport(SalesReportDto monthlysales)
         {
             _prm.Add("@LocationId", monthlysales.LocationId);
-            _prm.Add("@Date", monthlysales.Date);
+            _prm.Add("@FromDate", monthlysales.FromDate);
+            _prm.Add("@EndDate", monthlysales.EndDate);
             var result = db.FetchMultiResult<SalesReportDetailViewModel>(EnumSP.SalesReport.USPGETMONTHLYSALESREPORT.ToString(), _prm);
             return result;
         }

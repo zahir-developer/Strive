@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.DTO
+namespace Strive.BusinessEntities.DTO.CustomerSummaryReport
 {
-    public class SalesReportDto
+    public class CustomerSummaryReportDto
     {
         public int LocationId { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string Date { get; set; }
     }
 }
