@@ -4,7 +4,7 @@
     <ul>
       <li class="logo-container"><img [src]="logoBase64"
             alt="" width="50" /> </li>
-      <li class="p-t-10"><a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
+      <li class="p-t-10"><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
       <li class="active"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
             class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
       <li class=""><a [routerLink]='["./detail"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
@@ -50,7 +50,7 @@
   <div id="mySidenav" class="mobile-view-nav">
     <span class="closebtn" (click)="closembsidebar()"><em class="fa fa-close"></em></span>
     <ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
-      <li><a href="#"><em class="mdi mdi-view-dashboard"></em><span>Dashboard</span></a></li>
+      <li><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-view-dashboard"></em><span>Dashboard</span></a></li>
       <li><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em
             class="mdi mdi-car-wash"></em><span>Washes</span></a></li>
       <li><a [routerLink]='["./detail"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-car-back"></em><span>Details</span></a></li>
