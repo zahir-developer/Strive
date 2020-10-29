@@ -10,7 +10,10 @@ import { UrlConfig } from '../url.config';
 export class ReportsService {
 
   constructor(private http: HttpUtilsService) { }
-   getMonthlySalesReport(obj): Observable<any> {
+  getMonthlySalesReport(obj): Observable<any> {
     return this.http.post(`${UrlConfig.reports.getMonthlySalesReport}`, obj);
+  }
+  getCustomerSummaryReport(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.reports.getCustomerSummaryReport}`, obj);
   }
 }

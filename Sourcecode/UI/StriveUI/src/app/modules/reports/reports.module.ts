@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReportsRoutingModule } from './reports-routing.module';
@@ -13,6 +13,7 @@ import { MonthlyCustomerDetailComponent } from './monthly-customer-detail/monthl
 import { HourlyWashComponent } from './hourly-wash/hourly-wash.component';
 import { DailySalesComponent } from './daily-sales/daily-sales.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -22,7 +23,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     SharedModule,
+    RouterModule,
     ReportsRoutingModule
-  ]
+  ],
+  exports: [RouterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class ReportsModule { }

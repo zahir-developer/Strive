@@ -1,0 +1,3 @@
+<select class="form-control" [(ngModel)]="mm" (change)="monthChange($event)">
+    <option *ngFor="let p of months" [selected]="mm === p.val " value="{{p.val}}">{{p.name}}</option>
+</select>
