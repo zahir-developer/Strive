@@ -16,46 +16,12 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  Schedules-tab  mb-2">
                     <li>
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link"> <i
-                                class="mdi mdi-store Schedules-tab-icon"></i> <span
-                                class="text-center p-r-15 p-l-5">All</span> </a>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active" > <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >All</span> </a>
                     </li>
-                    <li>
-                        <a href="#main-street" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"> <i
-                                class="mdi mdi-store Schedules-tab-icon"></i> <span
-                                class="text-center p-r-15 p-l-10">Main Street </span>
-                            <div class="badge Schedules-badge">25 min</div>
-                        </a>
+                    <li *ngFor="let loc of location">
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" > <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">{{loc.WashTimeMinutes}}&nbsp; mins</div></a>
                     </li>
-                    <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-tab-link"> <i
-                                class="mdi mdi-store Schedules-tab-icon"></i><span class="text-center p-r-15 p-l-10">Old
-                                Milton</span>
-                            <div class="badge Schedules-badge">45 min</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-tab-link"> <i
-                                class="mdi mdi-store Schedules-tab-icon"></i> <span
-                                class="text-center p-r-15 p-l-10">Holcomb Bridge</span>
-                            <div class="badge Schedules-badge">35 min</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-tab-link-dash"> <i
-                                class="mdi mdi-store Schedules-tab-icon"></i><span
-                                class="text-center p-r-15 p-l-10">East Roswell</span>
-                            <div class="badge dashboard-badge">25 min</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#business-goal" data-toggle="tab" aria-expanded="false" class="nav-tab-link-dash"> <i
-                                class="mdi mdi-store Schedules-tab-icon"></i> <span
-                                class="text-center p-r-15 p-l-10">Old Alabama Rd</span>
-                            <div class="badge dashboard-badge" data-toggle="tooltip" title="" data-placement="top"
-                                data-original-title="Franchise">5 min</div>
-                        </a>
-                    </li>
+           
                 </ul>
                 <div class="tab-content">
                     <div class="row no-gutter mob-goal">
@@ -470,7 +436,7 @@
                     </div>
                     <app-today-schedule-dashboard></app-today-schedule-dashboard>
                     <!--no of washes graph-->
-                    <app-graph-dashboard></app-graph-dashboard>
+                    <app-graph-dashboard [location]="location"></app-graph-dashboard>
                 </div>
             </div>
         </div>

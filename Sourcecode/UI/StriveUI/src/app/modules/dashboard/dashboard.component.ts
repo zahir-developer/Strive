@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,11 +14,14 @@ export class DashboardComponent implements OnInit {
   currentCar: any = 0;
   foreCastedCar: any = 0;
   averageCarWashTime: any;
+  location: any = [];
   constructor(
-    public dashboardService: DashboardService
+    public dashboardService: DashboardService,
+    private messageService: MessageServiceToastr
   ) { }
 
   ngOnInit(): void {
+    this.getLocationList();
     this.getDashboardCount();
   }
 
@@ -35,6 +39,18 @@ export class DashboardComponent implements OnInit {
       this.currentCar = dashboardCount.Dashboard.Current.Current;
       this.foreCastedCar = dashboardCount.Dashboard.ForecastedCars.ForecastedCars;
       this.averageCarWashTime = dashboardCount.Dashboard.AverageWashTime.AverageWashTime;
+    });
+  }
+
+  // Get All Location
+  getLocationList() {
+    this.dashboardService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
     });
   }
 

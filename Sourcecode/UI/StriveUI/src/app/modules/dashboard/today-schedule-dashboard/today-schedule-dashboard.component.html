@@ -33,10 +33,10 @@
                                 <td>{{detail.ClientName}}</td>
                                 <td>{{detail.PhoneNumber}} </td>
                                 <td>{{detail.EstimatedTimeOut}}</td>
-                                <td>Black </td>
-                                <td>Aston Martin DB11</td>
+                                <td>{{detail.VehicleColor}}</td>
+                                <td>{{detail.VehicleMake}}&nbsp;{{detail.VehicleModel}}</td>
                                 <td>{{detail.ServiceName}}</td>
-                                <td> $20.00</td>
+                                <td>{{detail.Upcharge | currency}}</td>
                             </tr>
                             <tr *ngIf="todayScheduleDetail.length === 0">
                                 <td colspan="10" class="text-center">
