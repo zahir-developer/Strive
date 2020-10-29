@@ -12,6 +12,7 @@ import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-w
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { PrintCustomerCopyComponent } from '../print-customer-copy/print-customer-copy.component';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -22,6 +23,7 @@ import * as _ from 'underscore';
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   @ViewChild(PrintWashComponent) printWashComponent: PrintWashComponent;
+  @ViewChild(PrintCustomerCopyComponent) printCustomerCopyComponent: PrintCustomerCopyComponent;
   detailForm: FormGroup;
   ticketNumber: any;
   barcodeDetails: any;
@@ -77,6 +79,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   jobStatus: any = [];
   isCompleted: boolean;
   jobStatusID: any;
+  jobID: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -141,9 +144,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getTicketNumber() {
-    this.wash.getTicketNumber().subscribe(data => {
-      this.ticketNumber = data;
-    });
+    this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    // this.wash.getTicketNumber().subscribe(data => {
+    //   this.ticketNumber = data;
+    // });
     this.assignDate();
     this.getColor();
     this.getAllClient();
@@ -168,6 +172,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         bay: this.bayScheduleObj.bayId,
         inTime
       });
+      this.detailForm.controls.bay.disable();
       this.detailForm.controls.inTime.disable();
       console.log(this.bayScheduleObj, 'bayScheduleObj');
     }
@@ -599,8 +604,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobStatus: jobStatusId,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      actualTimeOut: new Date(),
       isActive: true,
       isDeleted: false,
+      checkOut: false,
       createdBy: 0,
       updatedBy: 0,
       // barcode: this.detailForm.value.barcode,
@@ -618,9 +625,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         this.isStart = false;
         this.isCompleted = true;
-        // this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.refreshDetailGrid.emit();
+        this.detailForm.controls.inTime.disable();
+        this.detailForm.controls.dueTime.disable();
+        this.detailForm.controls.bay.disable();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -653,8 +660,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobStatus: jobStatusId,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      actualTimeOut: new Date(),
       isActive: true,
       isDeleted: false,
+      checkOut: true,
       createdBy: 0,
       updatedBy: 0,
       // barcode: this.detailForm.value.barcode,
@@ -670,9 +679,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailService.updateDetail(formObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
-        // this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
-        this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.refreshDetailGrid.emit();
+        this.isCompleted = false;
+        this.isStart = false;
+        this.detailForm.controls.inTime.disable();
+        this.detailForm.controls.dueTime.disable();
+        this.detailForm.controls.bay.disable();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -686,9 +697,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     this.detailForm.controls.inTime.enable();
     this.detailForm.controls.dueTime.enable();
-    if (this.isEdit) {
-      this.detailForm.controls.bay.enable();
-    }
+    this.detailForm.controls.bay.enable();
     this.additional.forEach(element => {
       if (element.IsChecked) {
         this.additionalService.push(element);
@@ -713,6 +722,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobStatus: this.isEdit ? this.jobStatusID : jobStatusId,
       timeIn: moment(this.detailForm.value.inTime).format(),
       estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      actualTimeOut: new Date(),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -791,8 +801,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
-          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-          this.refreshDetailGrid.emit();
+          this.detailForm.controls.inTime.disable();
+          this.detailForm.controls.dueTime.disable();
+          this.detailForm.controls.bay.disable();
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
@@ -808,6 +819,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.isSaveClick = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
+          this.jobID = jobID.Status;
+          this.isEdit = true;
+          this.detailForm.controls.inTime.disable();
+          this.detailForm.controls.dueTime.disable();
+          this.detailForm.controls.bay.disable();
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
           // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           // this.refreshDetailGrid.emit();
@@ -821,6 +837,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
         this.selectedData = details.DetailsForDetailId;
+        this.washItem = this.selectedData.DetailsItem;
         this.detailItems = this.selectedData.DetailsItem;
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
           this.selectedData.DetailsJobServiceEmployee : [];
@@ -1012,6 +1029,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.showDialog = false;
   }
 
+  cancelAssignModel() {
+    this.showDialog = false;
+    this.getDetailByID(this.jobID);
+  }
+
   getEmployeeList() {
     this.detailService.getAllEmployeeList().subscribe(res => {
       if (res.status === 'Success') {
@@ -1022,7 +1044,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getJobStatus() {
-    this.detailService.getJobStatus('JOBSTATUS').subscribe( res => {
+    this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
         this.jobStatus = status.Codes;
@@ -1056,5 +1078,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   pay() {
     this.router.navigate(['/sales'], { queryParams: { ticketNumber: this.ticketNumber } });
+  }
+
+  printCustomerCopy() {
+    this.printCustomerCopyComponent.print();
   }
 }

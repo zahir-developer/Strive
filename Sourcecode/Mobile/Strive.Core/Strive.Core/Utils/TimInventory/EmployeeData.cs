@@ -15,6 +15,10 @@ namespace Strive.Core.Utils.TimInventory
         public static InventoryDataModel EditableProduct { get; set; }
 
         public static Vendors Vendors { get; set; }
+
+        public static string ViewSourceUrl { get; set; }
+
+        public static bool load { get; set; }
     }
 
     public static class MembershipData

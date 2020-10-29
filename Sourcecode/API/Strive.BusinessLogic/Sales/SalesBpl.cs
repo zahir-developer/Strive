@@ -48,11 +48,11 @@ namespace Strive.BusinessLogic.Sales
         }
 
         
-        public Result DeleteItemById(int jobItemId)
+        public Result DeleteItemById(DeleteItemDto itemDto)
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).DeleteItemById, jobItemId, "Result");
+                return ResultWrap(new SalesRal(_tenant).DeleteItemById, itemDto, "Result");
             }
             catch (Exception ex)
             {
@@ -69,6 +69,11 @@ namespace Strive.BusinessLogic.Sales
         {
             return ResultWrap(new SalesRal(_tenant).GetItemList, salesListItemDto, "SalesList");
         }
+        public Result GetAccountDetails(SalesAccountDto salesAccountDto)
+        {
+            return ResultWrap(new SalesRal(_tenant).GetAccountDetails, salesAccountDto, "Account");
+        }
+        
         public Result GetScheduleByTicketNumber(string ticketNumber)
         {
             return ResultWrap(new SalesRal(_tenant).GetScheduleByTicketNumber, ticketNumber, "Status");

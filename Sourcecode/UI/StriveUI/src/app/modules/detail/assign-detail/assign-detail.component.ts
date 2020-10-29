@@ -11,6 +11,7 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
   styleUrls: ['./assign-detail.component.css']
 })
 export class AssignDetailComponent implements OnInit {
+  @Input() isView?: any;
   @Input() details?: any;
   @Input() employeeList?: any;
   @Input() detailsJobServiceEmployee?: any;
@@ -27,6 +28,7 @@ export class AssignDetailComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number;
+  @Output() cancelAssignModel = new EventEmitter();
   constructor(
     private fb: FormBuilder,
     private confirmationService: ConfirmationUXBDialogService,
@@ -170,7 +172,7 @@ export class AssignDetailComponent implements OnInit {
     const assignServiceObj = [];
     this.detailService.forEach(item => {
       assignServiceObj.push({
-        jobServiceEmployeeId: 0,
+        jobServiceEmployeeId: item.JobServiceEmployeeId ? item.JobServiceEmployeeId : 0,
         jobItemId: item.JobItemId,
         serviceId: item.ServiceId,
         employeeId: item.EmployeeId,
@@ -201,7 +203,7 @@ export class AssignDetailComponent implements OnInit {
     };
     this.detailServices.saveEmployeeWithService(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.closeAssignModel.emit();
+        this.cancelAssignModel.emit();
       }
     });
   }

@@ -35,9 +35,9 @@ namespace Admin.API.Controllers
 
         [HttpDelete]
         [Route("DeleteItemById")]
-        public Result DeleteItemById(int jobItemId)
+        public Result DeleteItemById(DeleteItemDto itemDto)
         {
-            return _bplManager.DeleteItemById(jobItemId);
+            return _bplManager.DeleteItemById(itemDto);
         }
 
         [HttpGet]
@@ -47,6 +47,12 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetItemList")]
         public Result GetItemList([FromBody] SalesListItemDto salesListItemDto) => _bplManager.GetItemList(salesListItemDto);
+
+
+        [HttpPost]
+        [Route("GetAccountDetails")]
+        public Result GetAccountDetails([FromBody] SalesAccountDto salesAccountDto) => _bplManager.GetAccountDetails(salesAccountDto);
+        
 
         [HttpGet]
         [Route("GetScheduleByTicketNumber")]

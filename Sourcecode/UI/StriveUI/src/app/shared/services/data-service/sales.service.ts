@@ -13,8 +13,8 @@ export class SalesService {
   getItemByTicketNumber(ticketNo): Observable<any> {
    return this.http.get(`${UrlConfig.totalUrl.getItemByTicketNumber}`, {params: {ticketNumber: ticketNo}});
  }
- deleteItemById(id){
-  return this.http.delete(`${UrlConfig.totalUrl.deleteItemById}`, {params: {jobItemId: id}});
+ deleteItemById(deleteItem){
+  return this.http.delete(`${UrlConfig.totalUrl.deleteItemById}`, {params: {ItemId: deleteItem.ItemId, isJobItem: deleteItem.IsJobItem}});
  }
  addItem(addObj) {
   return this.http.post(`${UrlConfig.totalUrl.addItem}`, addObj);
@@ -46,4 +46,13 @@ export class SalesService {
  updateProductItem(updateObj) {
   return this.http.post(`${UrlConfig.totalUrl.updateProductObj}`, updateObj);
  }
+ getAccountDetails(obj) {
+  return this.http.post(`${UrlConfig.totalUrl.getAccountDetails}`, obj);
+ } 
+ updateAccountBalance(obj) {
+  return this.http.post(`${UrlConfig.totalUrl.updateAccountBalance}`, obj);
+ }
+ getPaymentStatus(code) {
+  return this.http.get(`${UrlConfig.totalUrl.getPaymentStatus}` + code);
+}
 }

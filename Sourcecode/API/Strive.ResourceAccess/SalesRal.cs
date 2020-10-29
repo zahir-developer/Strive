@@ -37,10 +37,11 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPc(salesProductItemDto, "JobProductItemId");
         }
 
-        public bool DeleteItemById(int jobItemId)
+        public bool DeleteItemById(DeleteItemDto itemDto)
         {
             DynamicParameters dynParams = new DynamicParameters();
-            dynParams.Add("@JobItemId", jobItemId);
+            dynParams.Add("@JobItemId", itemDto.ItemId);
+            dynParams.Add("@IsJobItem", itemDto.IsJobItem);
             CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
@@ -51,6 +52,12 @@ namespace Strive.ResourceAccess
             _prm.Add("@Quantity", salesListItemDto.Quantity);
             var result = db.FetchSingle<SalesViewModel>(SPEnum.uspGetItemList.ToString(), _prm);
             return result;
+        }
+        public List<SalesAccountViewModel> GetAccountDetails(SalesAccountDto salesAccountDto)
+        {
+            _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
+            return  db.Fetch<SalesAccountViewModel>(SPEnum.USPGETACCOUNTDETAILS.ToString(), _prm);
+            
         }
         public ScheduleItemListViewModel GetScheduleByTicketNumber(string ticketNumber)
         {

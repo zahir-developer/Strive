@@ -1,4 +1,15 @@
-﻿-- =============================================
+﻿
+
+
+
+
+
+
+
+
+
+
+-- =============================================
 -- Author:		Vineeth B
 -- Create date: 05-09-2020
 -- Description:	To show data in DetailsGrid
@@ -13,6 +24,8 @@
 -- 17-09-2020, Vineeth - Add valuedesc-Details
 -- 21-09-2020, Vineeth - Add Outside service cond
 --						 and order by condition
+-- 29-09-2020, Vineeth - Add bracket in Details
+--						 and Outside service
 ------------------------------------------------
 -- =============================================
 CREATE proc [StriveCarSalon].[uspGetAllDetails] 
@@ -62,9 +75,9 @@ WHERE
 and 
 (tblj.LocationId is null OR tblj.LocationId=@LocationId)
 and
-st.valuedesc='Details' 
+(st.valuedesc='Details' 
 or
-st.valuedesc='Outside Services'
+st.valuedesc='Outside Services')
 and
 tblj.IsActive=1
 and

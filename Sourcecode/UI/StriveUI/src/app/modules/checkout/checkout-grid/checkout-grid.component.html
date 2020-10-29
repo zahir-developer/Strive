@@ -1,0 +1,105 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </nav>
+            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Checkout</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="row no-gutter">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="p-b-5 m-b-10">
+                                    <h4 class="d-inline-block align-middle" >Checkout</h4>
+                                    <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Checkoutlist"
+                                            role="button" aria-expanded="false" aria-controls="Checkoutlist"><i
+                                                class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div id="Checkoutlist" class="collapse show">
+                                    <!-- <div class="mt-2">
+                                        <a href="#" class="theme-font-color mr-2 font-weight-600"><i
+                                                class="mdi mdi-circle font-13 theme-optional-icon-color mr-1"></i>In
+                                            Progress</a>
+                                        <a href="#" class="theme-font-color mr-2 font-weight-600"><i
+                                                class="mdi mdi-circle font-13 notstarted mr-1"></i> Additional Services
+                                            not started</a>
+                                        <a href="#" class="theme-font-color mr-2 font-weight-600"><i
+                                                class="mdi mdi-circle font-13 theme-primary-color mr-1"></i>Hold</a>
+                                        <a href="#" class="theme-font-color mr-2 font-weight-600"><i
+                                                class="mdi mdi-circle font-13 theme-secondary-icon-color mr-1"></i>Completed</a>
+                                    </div> -->
+                                    <div class="table-responsive" style="overflow-x: scroll;">
+                                        <table class="table border table-striped m-t-10">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Ticket No</th>
+                                                    <th scope="col">Customer Name </th>
+                                                    <th scope="col">Make/Model/Color</th>
+                                                    <th scope="col">CheckIn</th>
+                                                    <th scope="col">Est. CheckOut</th>
+                                                    <th scope="col">Service </th>
+                                                    <th scope="col">Additional Services</th>
+                                                    <th scope="col">Pay </th>
+                                                    <th scope="col">Membership</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    *ngFor="let checkout of uncheckedVehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    <th scope="row" style="border-left:5px solid" [ngStyle]="{'color': checkout.ColorCode, 'border-right-color': checkout.ColorCode}">
+                                                        {{checkout.TicketNumber}}</th>
+                                                    <td >{{checkout.CustomerName}}</td>
+                                                    <td class="table-ellipsis" pTooltip="{{checkout.VehicleDescription}}" tooltipPosition="top">{{checkout.VehicleDescription}}</td>
+                                                    <td >{{checkout.Checkin}}</td>
+                                                    <td >{{checkout.Checkout}}</td>
+                                                    <td>{{checkout.Services}}</td>
+                                                    <td class="table-ellipsis" pTooltip="{{checkout.AdditionalServices}}" tooltipPosition="top">{{checkout.AdditionalServices}}</td>
+                                                    <td>{{checkout.Cost | currency}}</td>
+                                                    <td class="table-ellipsis text-center" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top"><em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark font-size-1-5 pointer" style="color: #FFA500;"></em>{{checkout.MembershipName}}
+                                                    </td>
+                                                    <td [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'PAID' ? 'Green' : 'none'}"><span *ngIf="checkout.MembershipNameOrPaymentStatus === 'PAID'">{{checkout.MembershipNameOrPaymentStatus}}</span>
+                                                    </td>
+                                                    <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="checkoutVehicle(checkout)"></em>
+                                                        <em class="mdi mdi-file-clock theme-primary-color font-size-1-5 pointer" pTooltip="Hold" tooltipPosition="top" (click)="hold(checkout)"></em>
+                                                        <em  class="mdi mdi-checkbox-marked  font-size-1-5 pointer" [ngClass]="{'theme-disabled-icon-color':checkout.MembershipNameOrPaymentStatus === 'Completed', 'theme-primary-icon-color': checkout.MembershipNameOrPaymentStatus !== 'Completed'  }" pTooltip="Complete" tooltipPosition="top" (click)="complete(checkout)"></em>
+                                                        <!-- <button type="button"
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9"  (click)="checkoutVehicle(checkout)">Checkout</button> theme-primary-color
+                                                            <button type="button"
+                                                            class="btn theme-primary-button-color  btn-sm pt-0 pb-0 font-size--9" (click)="hold(checkout)">Hold</button> -->
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="uncheckedVehicleDetails.length === 0">
+                                                    <td colspan="10" class="text-center">
+                                                        No Record Found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end card-body -->
+                        </div>
+                        <!-- end card-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--delete modal--->
+</div>

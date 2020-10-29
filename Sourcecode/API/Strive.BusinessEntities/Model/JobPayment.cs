@@ -17,25 +17,13 @@ namespace Strive.BusinessEntities.Model
         public int? DrawerId { get; set; }
 
         [Column]
-        public int? PaymentType { get; set; }
-
-        [Column]
         public decimal? Amount { get; set; }
 
         [Column]
         public decimal? TaxAmount { get; set; }
 
         [Column]
-        public decimal? Cashback { get; set; }
-
-        [Column]
         public bool? Approval { get; set; }
-
-        [Column]
-        public string CheckNumber { get; set; }
-
-        [Column]
-        public string Signature { get; set; }
 
         [Column]
         public int? PaymentStatus { get; set; }

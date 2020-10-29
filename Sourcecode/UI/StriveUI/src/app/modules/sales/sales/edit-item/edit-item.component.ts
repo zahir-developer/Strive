@@ -56,7 +56,7 @@ export class EditItemComponent implements OnInit {
       quantity: this.editItemForm.value.quantity,
       reviewNote: null,
       isActive: true,
-      isDeleted: true,
+      isDeleted: false,
       createdBy: 0,
       createdDate: new Date(),
       updatedBy: 0,

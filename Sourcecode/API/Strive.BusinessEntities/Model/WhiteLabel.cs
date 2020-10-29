@@ -12,8 +12,16 @@ public class WhiteLabel
 
 	[Column]
 	public string LogoPath { get; set; }
+    [Ignore]
+    public string FileName { get; set; }
 
-	[Column]
+    [Ignore]
+    public string ThumbFileName { get; set; }
+
+    [Ignore]
+    public string Base64 { get; set; }
+
+        [Column]
 	public string Title { get; set; }
 
 	[Column]
@@ -21,15 +29,6 @@ public class WhiteLabel
 
 	[Column]
 	public string FontFace { get; set; }
-
-	[Column]
-	public string PrimaryColor { get; set; }
-
-	[Column]
-	public string SecondaryColor { get; set; }
-
-	[Column]
-	public string TertiaryColor { get; set; }
 
 	[Column]
 	public bool? IsActive { get; set; }
