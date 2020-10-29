@@ -159,6 +159,6 @@ export const UrlConfig = {
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`
   },
   reports: {
-    getMonthlySalesReport: `Admin/MonthlySalesReport/GetMonthlySalesReport`
+    getMonthlySalesReport: `Admin/SalesReport/GetMonthlySalesReport`
   }
 };

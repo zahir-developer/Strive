@@ -2,7 +2,11 @@
             <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
                 <h3 class="d-inline-block">Reports - </h3>
                 <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
-                    <input type="text" class="datepick" /> <span class="input-group-addon"><i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div>
+                    <!-- <input type="text" class="datepick" /> <span class="input-group-addon"><i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span>  -->
+                    <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()"
+                    [bsConfig]="bsConfig"  bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+                        <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+                </div>
             </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="row no-gutter">
@@ -31,18 +35,11 @@
                                     <div class="col-md-6">
                                         <div class="pull-right">
                                             <div class="d-inline-block align-middle">
-                                                <select class="form-control">
-                                                    <option selected="">Select</option>
-                                                    <option>Acrobat (PDF) File </option>
-                                                    <option>CSV (comma delimited) </option>
-                                                    <option>Excel 97 - 2003 </option>
-                                                    <option>Rich Text Format </option>
-                                                    <option>TIFF File </option>
-                                                    <option>Web Archive </option>
-                                                    <option>XPS Document </option>
+                                                <select class="form-control" (change)="getFileType($event)">
+                                                   <option *ngFor = "let filetype of fileExportType" value="{{filetype.id}}">{{filetype.name}}</option>
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn theme-primary-button-color">Export</button>
+                                            <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>
                                             <button type="button" class="btn theme-primary-button-color">Print</button>
                                             <button type="button" class="btn theme-primary-button-color">Refresh</button>
                                         </div>
@@ -57,7 +54,7 @@
             </h4>
                                     <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Monthlyreport" role="button" aria-expanded="false" aria-controls="Monthlyreport"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
                                 </div>
-                                <div id="Monthlyreport" class="collapse show">
+                                <div id="MonthlySalesreport" class="collapse show">
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <thead>
