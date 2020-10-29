@@ -7,7 +7,7 @@
                 <option *ngFor="let d of details" value={{d.ServiceId}}>{{d.ServiceName}}</option>
             </select> -->
             <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
-                [data]="clonedServices" formControlName="serviceId" (onSelect)="onItemSelect($event)">
+                [data]="clonedServices" formControlName="serviceId" (onSelect)="onItemSelect($event)" [disabled]= "isView">
             </ng-multiselect-dropdown>
         </div>
         <div class="form-group col-md-3">
@@ -23,7 +23,7 @@
                 </div>
             </div> -->
             <ng-multiselect-dropdown [placeholder]="'Select Employee'" [settings]="dropdownSettings"
-                [data]="employeeList" formControlName="employeeId">
+                [data]="employeeList" formControlName="employeeId" [disabled]="isView">
             </ng-multiselect-dropdown>
             <!-- <select class="form-control" formControlName="employeeId"
                 (change)="serviceByEmployeeId($event.target.value)">
@@ -90,7 +90,7 @@
 <div class="m-t-12">
     <span class="mw-100 pull-right">
         <button type="button" class="btn theme-primary-button-color m-r-5" (click)="saveAssignedService()"
-            [disabled]="detailService.length === 0">Save</button>
+            [disabled]="detailService.length === 0 || isView">Save</button>
         <button type="button" class="btn theme-optional-button-color" (click)="closeModel()">Cancel</button>
     </span>
 </div>

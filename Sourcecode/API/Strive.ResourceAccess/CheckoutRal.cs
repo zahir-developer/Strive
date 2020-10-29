@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CheckoutEntry;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
@@ -23,6 +24,18 @@ namespace Strive.ResourceAccess
             _prm.Add("CheckOut", checkoutEntry.CheckOut);
             _prm.Add("ActualTimeOut", checkoutEntry.ActualTimeOut);
             db.Save(SPEnum.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
+            return true;
+        }
+        public bool UpdateJobStatusHold(JobIdDto jobIdDto)
+        {
+            _prm.Add("JobId", jobIdDto.id); 
+            db.Save(SPEnum.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
+            return true;
+        }
+        public bool UpdateJobStatusComplete(JobIdDto jobIdDto)
+        {
+            _prm.Add("JobId", jobIdDto.id);
+            db.Save(SPEnum.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
             return true;
         }
     }

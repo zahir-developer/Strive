@@ -17,4 +17,12 @@ export class CheckoutService {
   checkoutVehicle(obj) {
     return this.http.post(`${UrlConfig.totalUrl.checkoutVehicle}`, obj);
   }
+
+  holdVehicle(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.holdoutVehicle}`, obj);
+  }
+
+  completedVehicle(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.completedVehicle}`, obj);
+  }
 }

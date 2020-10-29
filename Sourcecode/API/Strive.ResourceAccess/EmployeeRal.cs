@@ -50,11 +50,11 @@ namespace Strive.ResourceAccess
             return dbRepo.UpdatePc(employee);
         }
 
-        public List<Code> GetAllEmployeeRoles()
+        public List<RoleViewModel> GetAllEmployeeRoles()
         {
             DynamicParameters dynParams = new DynamicParameters();
-            List<Code> lstEmployee = new List<Code>();
-            lstEmployee = db.Fetch<Code>(SPEnum.USPGETEMPLOYEEROLES.ToString(), dynParams);
+            List<RoleViewModel> lstEmployee = new List<RoleViewModel>();
+            lstEmployee = db.Fetch<RoleViewModel>(SPEnum.USPGETEMPLOYEEROLES.ToString(), dynParams);
             return lstEmployee;
         }
 
@@ -74,16 +74,7 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public bool GetEmailIdExist(string email)
-        {
-            EmployeeEmailDto emdto = new EmployeeEmailDto();
-            _prm.Add("@Email", email);
-            var result = db.Fetch<EmployeeEmailDto>(SPEnum.USPEMAILEXIST.ToString(), _prm);
-            if (result.FirstOrDefault().EmailExist == true)
-                return true;
-            else
-                return false;
-        }
+    
     }
 }
 

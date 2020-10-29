@@ -26,6 +26,7 @@ export class MembershipCreateEditComponent implements OnInit {
   additionalService: any;
   patchedService: any;
   submitted: boolean;
+  PriceServices: any = [];
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
@@ -35,12 +36,12 @@ export class MembershipCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.membershipForm = this.fb.group({
-      membershipName: ['',Validators.required],
+      membershipName: ['', Validators.required],
       service: ['',],
-      washes: ['',Validators.required],
-      upcharge: ['',Validators.required],
+      washes: ['', Validators.required],
+      upcharge: ['', Validators.required],
       status: ['',],
-      price: ['',Validators.required],
+      price: ['', Validators.required],
       notes: ['',]
     });
     this.membershipForm.patchValue({ status: 0 });
@@ -90,6 +91,47 @@ export class MembershipCreateEditComponent implements OnInit {
     return this.membershipForm.controls;
   }
 
+  calculate(data, name) {
+    if (name === 'washes') {
+      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Washes');
+      this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
+      let price = 0;
+      this.PriceServices.forEach(element => {
+        price += +element.Price;
+      });
+      this.membershipForm.get('price').patchValue(price.toFixed(2));
+    } else if (name === 'upcharge') {
+      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Upcharges');
+      this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
+      let price = 0;
+      this.PriceServices.forEach(element => {
+        price += +element.Price;
+      });
+      this.membershipForm.get('price').patchValue(price.toFixed(2));
+    }
+    console.log(this.PriceServices);
+  }
+
+  onItemSelect(data) {
+    this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data.item_id)[0]);
+    let price = 0;
+    this.PriceServices.forEach(element => {
+      price += +element.Price;
+    });
+    this.membershipForm.get('price').patchValue(price.toFixed(2));
+    console.log(this.PriceServices,price);
+  }
+
+  onItemDeSelect(data) {
+    this.PriceServices = this.PriceServices.filter(i => +i.ServiceId !== +data.item_id);
+    let price = 0;
+    this.PriceServices.forEach(element => {
+      price += +element.Price;
+    });
+    this.membershipForm.get('price').patchValue(price.toFixed(2));
+    console.log(this.PriceServices,price);
+  }
+
   getMembershipById() {
     let service = [];
     this.membershipForm.patchValue({
@@ -100,9 +142,11 @@ export class MembershipCreateEditComponent implements OnInit {
     });
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0] !== undefined) {
       this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0].ServiceId);
+      this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.washes)[0]);
     }
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
       this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+      this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.upcharge)[0]);
     }
     if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
       this.patchedService = this.selectedData?.MembershipService.filter(item => Number(item.ServiceTypeId) === 17);
@@ -117,14 +161,22 @@ export class MembershipCreateEditComponent implements OnInit {
           item_text: item.ServiceName
         };
       });
-
+      this.memberService.forEach(element => {
+        this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +element.item_id)[0]);
+      });
     }
+    let price = 0;
+    this.PriceServices.forEach(element => {
+      price += +element.Price;
+    });
+    this.membershipForm.get('price').patchValue(price.toFixed(2));
   }
 
   bindUpcharge(data) {
     this.membershipForm.patchValue({
       upcharge: +data
     });
+    this.calculate(data, 'upcharge');
   }
 
   // Add/Update Membership
@@ -163,7 +215,7 @@ export class MembershipCreateEditComponent implements OnInit {
       r1.forEach(item => {
         item.MembershipServiceId = 0;
         item.isDeleted = false,
-        item.MembershipId = this.selectedData.Membership.MembershipId,
+          item.MembershipId = this.selectedData.Membership.MembershipId,
           item.ServiceId = item.item_id;
       });
       const r2 = this.patchedService.filter((elem) => !this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
@@ -191,8 +243,8 @@ export class MembershipCreateEditComponent implements OnInit {
       ServiceObj = memberService.map(item => {
         return {
           membershipServiceId: item.MembershipServiceId ? item.MembershipServiceId : 0,
-          membershipId: item.MembershipId ?  item.MembershipId : this.selectedData.Membership.MembershipId ?
-           this.selectedData.Membership.MembershipId : 0,
+          membershipId: item.MembershipId ? item.MembershipId : this.selectedData.Membership.MembershipId ?
+            this.selectedData.Membership.MembershipId : 0,
           serviceId: item.ServiceId ? item.ServiceId : item.item_id ? item.item_id : 0,
           isActive: true,
           isDeleted: item?.isDeleted ? item?.isDeleted : false,

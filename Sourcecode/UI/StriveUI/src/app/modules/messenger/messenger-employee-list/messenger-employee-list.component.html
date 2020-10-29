@@ -1,9 +1,23 @@
-<div class="Message-box-slide view-msg">
-    <div class="Message-item" *ngFor="let emp of empList"> 
-        <div id="profileImage">{{emp.Initial}}</div>&nbsp;&nbsp;&nbsp;
-        <div class="Message-item-body"> <span class="float-right msg-date font-size--8">Today</span>
+<div class="row no-gutters  border-bottom">
+    <div class="col-lg-11 m-b-5">
+        <div class="input-icon right m-r-5"> <i class="mdi mdi-magnify search-icon"></i>
+            <input type="text" class="form-control" (keyup)="search()" placeholder="Search" [(ngModel)]="query"> </div>
+    </div>
+    <div class="col-lg-1">
+        <div class="pull-right"><i class="mdi mdi-account-plus theme-secondary-icon-color font-size-1-5 pointer"
+                (click)="addemp()"></i></div>
+    </div>
+
+</div>
+<div class="Message-box-slide view-msg position-relative">
+    <div class="Message-item" *ngFor="let emp of empList" (click)='loadChat(emp)'>
+        <ng-container>
+            <div *ngIf="!emp?.IsGroup" [ngClass]="[emp.CommunicationId !== '0' ? 'online-badge': 'offline-badge']"></div><span class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{emp?.FirstName?.charAt(0).toUpperCase() + (emp?.LastName ? emp?.LastName?.charAt(0).toUpperCase(): '')}}</span>
+        <!-- <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle " [ngClass]="{'online-badge': emp.CommunicationId !== '0'}"></div>&nbsp;&nbsp;&nbsp; -->
+        <div class="Message-item-body msgbody-active"> <span class="float-right msg-date font-size--8 recentchat-active">{{emp?.createdDate | date: 'hh:mm aa'}} {{emp?.createDate ? '|' : ''}} {{emp?.createdDate | date: 'MMM d'}}</span>
             <div class="m-t-10">
-                <h6 class="msg-title">{{emp.FirstName + ' ' + emp.LastName}}</h6> <span class="theme-title font-size-7">Check out cashier section</span></div>
-        </div>
+                <h6 class="msg-title" [ngClass]="{'bold-text': emp?.communicationId !== '0'}">{{emp?.FirstName + ' ' + (emp?.LastName ? emp?.LastName : '') }}</h6> <span class="theme-title font-size-7">{{(emp?.RecentChatMessage !== null && emp?.RecentChatMessage) ? emp?.RecentChatMessage: ''}}</span></div>
+            </div>
+        </ng-container>
     </div>
 </div>
