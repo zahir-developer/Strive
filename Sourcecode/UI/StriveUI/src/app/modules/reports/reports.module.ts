@@ -13,13 +13,14 @@ import { MonthlyCustomerDetailComponent } from './monthly-customer-detail/monthl
 import { HourlyWashComponent } from './hourly-wash/hourly-wash.component';
 import { DailySalesComponent } from './daily-sales/daily-sales.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MonthlyMoneyOwnedComponent } from './monthly-money-owned/monthly-money-owned.component';
 import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [ReportsComponent, DailyStatusComponent, EodComponent, DailyTipComponent,
     MonthlyTipComponent, MonthlySalesComponent, MonthlyCustomerSummaryComponent, MonthlyCustomerDetailComponent,
-    HourlyWashComponent, DailySalesComponent],
+    HourlyWashComponent, DailySalesComponent, MonthlyMoneyOwnedComponent],
   imports: [
     CommonModule,
     SharedModule,

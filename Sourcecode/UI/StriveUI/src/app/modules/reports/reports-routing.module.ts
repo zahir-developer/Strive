@@ -10,6 +10,7 @@ import { MonthlyCustomerSummaryComponent } from './monthly-customer-summary/mont
 import { MonthlyCustomerDetailComponent } from './monthly-customer-detail/monthly-customer-detail.component';
 import { HourlyWashComponent } from './hourly-wash/hourly-wash.component';
 import { DailySalesComponent } from './daily-sales/daily-sales.component';
+import { MonthlyMoneyOwnedComponent } from './monthly-money-owned/monthly-money-owned.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
 {path: 'monthly-customer-detail', component: MonthlyCustomerDetailComponent},
 {path: 'hourly-wash', component: HourlyWashComponent},
 {path: 'daily-sales', component: DailySalesComponent},
+{path: 'monthly-money-owned', component: MonthlyMoneyOwnedComponent},
 ]
 }];
 
