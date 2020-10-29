@@ -28,6 +28,7 @@ namespace StriveEmployee.Android.Fragments
         private TabLayout messenger_TabLayout;
         private ViewPager messenger_ViewPager;
         private ViewPagerAdapter messenger_ViewPagerAdapter;
+        private MessengerContactFragment contactFragment;
         private MessengerRecentContactFragment recentContactFragment;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -42,6 +43,7 @@ namespace StriveEmployee.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Messenger_Fragment, null);
             this.ViewModel = new MessengerViewModel();
+            contactFragment = new MessengerContactFragment();
             recentContactFragment = new MessengerRecentContactFragment();
 
             messenger_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.messenger_TabLayout);
@@ -55,6 +57,7 @@ namespace StriveEmployee.Android.Fragments
 
             messenger_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
             messenger_ViewPagerAdapter.AddFragment(recentContactFragment, "Recent");
+            messenger_ViewPagerAdapter.AddFragment(contactFragment, "Contact");
             messenger_ViewPager.Adapter = messenger_ViewPagerAdapter;
             messenger_TabLayout.SetupWithViewPager(messenger_ViewPager);
         }
