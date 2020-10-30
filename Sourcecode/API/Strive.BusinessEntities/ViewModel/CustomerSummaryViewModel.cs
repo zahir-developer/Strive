@@ -8,6 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class CustomerSummaryViewModel
     {
+        public int? Month { get; set; }
         public int? NumberOfMembershipAccounts { get; set; }
         public int? CustomerCount { get; set; }
         public int? NumberOfCompletedWashes { get; set; }
