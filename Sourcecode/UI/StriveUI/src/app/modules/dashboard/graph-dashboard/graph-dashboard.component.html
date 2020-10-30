@@ -8,7 +8,8 @@
                 <div class="row">
                     <div style="display: block;">
                         <canvas baseChart width="600" height="400" [datasets]="barChartData" [labels]="barChartLabels"
-                            [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                            [chartType]="barChartType"></canvas>
                     </div>
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3 border">
@@ -48,29 +49,20 @@
                         </div>
                         <div class="button-list m-b-30 p-t-10  border-bottom">
                             <span *ngFor="let loc of chartDetail">
-                                <button type="button"  [ngClass]="{'btn-unactive': !loc.isSelected, 'theme-primary-button-color': loc.isSelected}"
+                                <button type="button"
+                                    [ngClass]="{'btn-unactive': !loc.isSelected, 'theme-primary-button-color': loc.isSelected}"
                                     class="btn  btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10"
                                     (click)="selectedLocation(loc)">{{loc.locationName}}</button>
                             </span>
-
-                            <!-- <button type="button"
-                                class="btn theme-primary-button-color btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">Main
-                                Street</button>
-                            <button type="button"
-                                class="btn theme-primary-button-color btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">Old
-                                Milton</button>
-                            <button type="button"
-                                class="btn theme-primary-button-color btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">Holcomb
-                                Bridge</button>
-                            <button type="button"
-                                class="btn btn-unactive btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">East
-                                Roswell</button>
-                            <button type="button"
-                                class="btn btn-unactive btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">Old
-                                Alabama Rd</button> -->
                         </div>
                         <div class="button-list m-b-5 p-t-10 m-t-10  border-bottom">
-                            <button type="button"
+                            <span *ngFor="let data of dataPoints">
+                                <button type="button"
+                                    [ngStyle]="{'background-color': data.isSelected ? data.color : 'white'}"
+                                    [ngClass]="{'btn-unactive': !data.isSelected}"
+                                    class="btn btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10" (click)="selectedDatapoints(data)">{{data.name}}</button>
+                            </span>
+                            <!-- <button type="button"
                                 class="btn theme-optional-bg-color btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">Washes</button>
                             <button type="button"
                                 class="btn theme-ello-color btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">Details</button>
@@ -83,7 +75,7 @@
                                 car wash time</button>
                             <button type="button"
                                 class="btn btn-unactive btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10">Current/Forecasted
-                                Cars</button>
+                                Cars</button> -->
                         </div>
                     </div>
                 </div>

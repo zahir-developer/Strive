@@ -224,3 +224,11 @@ body .ui-state-disabled, body .ui-widget:disabled {
 color-icon:hover {
   color: white !important;
 }
+
+.theme-optional-bg-color {
+  background-color: #fd397a;
+}
+
+.theme-ello-color {
+  background-color: #f3c200;
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { Label, Color } from 'ng2-charts';
 import * as _ from 'underscore';
 
 @Component({
@@ -40,8 +40,9 @@ export class GraphDashboardComponent implements OnInit {
   isPieChart: boolean;
   isDotLineChart: boolean;
   chartDetail: any = [];
-  dataPoints: any = ['wash', 'detail', 'employee'];
+  dataPoints: any; // = ['wash', 'detail', 'employee'];
   selectedLocationIds = [];
+  public barChartColors: Color[];
   constructor() { }
 
   ngOnInit(): void {
@@ -49,7 +50,52 @@ export class GraphDashboardComponent implements OnInit {
     this.isLineChart = false;
     this.isPieChart = false;
     this.isDotLineChart = false;
+    this.getDataPoints();
     this.getChartDetail();
+  }
+
+  getDataPoints() {
+    this.dataPoints = [  // ['wash', 'detail', 'employee'];
+      {
+        id: 1,
+        name: 'wash',
+        color: '#fd397a',
+        isSelected: true
+      },
+      {
+        id: 2,
+        name: 'detail',
+        color: '#f3c200',
+        isSelected: true
+      },
+      {
+        id: 3,
+        name: 'employee',
+        color: '#24489A',
+        isSelected: true
+      },
+      {
+        id: 4,
+        name: 'score',
+        color: '#24CAFF',
+        isSelected: true
+      },
+      {
+        id: 5,
+        name: 'washTime',
+        color: '#5968DD',
+        isSelected: false
+      }
+    ];
+    const backgroundColor = [];
+    this.dataPoints.forEach(item => {
+      if (item.isSelected) {
+        backgroundColor.push({
+          backgroundColor: item.color
+        });
+      }
+    });
+    this.barChartColors = backgroundColor;
   }
 
   dotLineChart() {
@@ -69,6 +115,10 @@ export class GraphDashboardComponent implements OnInit {
         }], yAxes: [{
           gridLines: {
             display: false
+          },
+          ticks: {
+            min: 0,
+            stepSize: 10,
           }
         }]
       },
@@ -113,6 +163,10 @@ export class GraphDashboardComponent implements OnInit {
         }], yAxes: [{
           gridLines: {
             display: false
+          },
+          ticks: {
+            min: 0,
+            stepSize: 10,
           }
         }]
       }
@@ -126,28 +180,32 @@ export class GraphDashboardComponent implements OnInit {
         locationName: 'Strive New Salon',
         wash: 45,
         detail: 35,
-        employee: 25
+        employee: 25,
+        score: 56
       },
       {
         LocationId: 2044,
         locationName: 'CHECK',
         wash: 55,
         detail: 45,
-        employee: 30
+        employee: 30,
+        score: 87
       },
       {
         LocationId: 2034,
         locationName: 'Main street',
         wash: 35,
         detail: 25,
-        employee: 10
+        employee: 15,
+        score: 45
       },
       {
         LocationId: 2033,
         locationName: 'Old Milton',
         wash: 65,
         detail: 55,
-        employee: 30
+        employee: 30,
+        score: 67
       }
     ];
     const locatioName = [];
@@ -158,18 +216,20 @@ export class GraphDashboardComponent implements OnInit {
       locatioName.push(item.locationName);
       this.selectedLocationIds.push(item.LocationId);
     });
-    this.chartDetail.forEach( item => {
+    this.chartDetail.forEach(item => {
       item.isSelected = true;
     });
     const chartData = [];
     this.dataPoints.forEach(item => {
-      const points = _.pluck(this.chartDetail, item);
-      chartData.push({
-        data: points,
-        label: item
-      });
+      if (item.isSelected) {
+        const points = _.pluck(this.chartDetail, item.name);
+        chartData.push({
+          data: points,
+          label: item.name
+        });
+      }
     });
-    this.barChartData  = chartData;
+    this.barChartData = chartData;
     this.barChartLabels = locatioName;
     console.log(this.barChartData, 'barchart');
   }
@@ -177,27 +237,57 @@ export class GraphDashboardComponent implements OnInit {
   selectedLocation(loc) {
     const chartData = [];
     const locatioName = [];
-    const locationId = this.selectedLocationIds.filter( item => item !== loc.LocationId);
-    this.chartDetail.forEach( item => {
-      if ( item.LocationId ===  loc.LocationId) {
+    const locationId = this.selectedLocationIds.filter(item => item !== loc.LocationId);
+    this.chartDetail.forEach(item => {
+      if (item.LocationId === loc.LocationId) {
         item.isSelected = !item.isSelected;
       }
     });
-    this.chartDetail.forEach( item => {
+    this.chartDetail.forEach(item => {
       if (item.isSelected) {
         locatioName.push(item.locationName);
       }
     });
-    const filteredLoction = this.chartDetail.filter( item => item.isSelected === true);
-    this.dataPoints.forEach( item => {
-      const points = _.pluck(filteredLoction, item);
-      chartData.push({
-        data: points,
-        label: item
-      });
+    const filteredLoction = this.chartDetail.filter(item => item.isSelected === true);
+    this.dataPoints.forEach(item => {
+      if (item.isSelected) {
+        const points = _.pluck(filteredLoction, item.name);
+        chartData.push({
+          data: points,
+          label: item.name
+        });
+      }
     });
-    this.barChartData  = chartData;
+    this.barChartData = chartData;
     this.barChartLabels = locatioName;
+  }
+
+  selectedDatapoints(data) {
+    this.dataPoints.forEach(item => {
+      if (item.id === data.id) {
+        item.isSelected = !item.isSelected;
+      }
+    });
+    const backgroundColor = [];
+    this.dataPoints.forEach(item => {
+      if (item.isSelected) {
+        backgroundColor.push({
+          backgroundColor: item.color
+        });
+      }
+    });
+    this.barChartColors = backgroundColor;
+    const chartData = [];
+    this.dataPoints.forEach(item => {
+      if (item.isSelected) {
+        const points = _.pluck(this.chartDetail, item.name);
+        chartData.push({
+          data: points,
+          label: item.name
+        });
+      }
+    });
+    this.barChartData = chartData;
   }
 
 }
