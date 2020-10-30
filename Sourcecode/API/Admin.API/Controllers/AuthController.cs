@@ -58,5 +58,9 @@ namespace Admin.Api.Controllers
 
         #endregion
 
+        [HttpGet, Route("LogoutAllApp")]
+        public void LogoutAllApp (string tokenkey) => _bplManager.Logout(tokenkey, GetSecretKey());
+
+
     }
 }
