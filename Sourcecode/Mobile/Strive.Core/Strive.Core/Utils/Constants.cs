@@ -72,5 +72,7 @@ namespace Strive.Core.Utils
         public const string URL_PAST_SERVICES_INFO = "/Admin/Vehicle/GetPastDetails/{0}";
 
         public const string URL_MESSENGER_RECENT_CONTACTS = "/Admin/Messenger/GetChatEmployeeList/{0}";
+
+        public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail/{0}";    
     }
 }

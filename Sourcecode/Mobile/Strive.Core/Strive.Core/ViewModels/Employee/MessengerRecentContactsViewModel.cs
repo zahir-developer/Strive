@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee;
+using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;

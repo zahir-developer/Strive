@@ -13,6 +13,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee;
+using Strive.Core.Models.Employee.Messenger;
 using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Listeners;
 

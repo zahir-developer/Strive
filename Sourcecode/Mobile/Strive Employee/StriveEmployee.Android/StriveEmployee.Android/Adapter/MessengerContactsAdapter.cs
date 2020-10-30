@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Listeners;
 
@@ -42,30 +43,39 @@ namespace StriveEmployee.Android.Adapter
 
         Context context;
         private MessengerContactsRecycleHolder contactsRecycleHolder;
-        private List<RecentContactsSampleData> contactsSampleDatas = new List<RecentContactsSampleData>();
-        public MessengerContactsAdapter(Context context, List<RecentContactsSampleData> sampleData)
+        private List<EmployeeList> contacts = new List<EmployeeList>();
+        private char[] firstInitial;
+        private char[] secondInitial;
+        public MessengerContactsAdapter(Context context, List<EmployeeList> contacts)
         {
             this.context = context;
-            this.contactsSampleDatas = sampleData;
+            this.contacts = contacts;
         }
 
         public override int ItemCount
         {
             get
             {
-                return contactsSampleDatas.Count;
+                return contacts.Count;
             }
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             contactsRecycleHolder = holder as MessengerContactsRecycleHolder;
-            var avatarInitials = contactsSampleDatas[position].ContactName.Split(" ");
-            char[] firstInitial = avatarInitials[0].ToCharArray();
-            char[] secondInitial = avatarInitials[1].ToCharArray();
-
-            contactsRecycleHolder.contact_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
-            contactsRecycleHolder.contactName_TextView.Text = contactsSampleDatas[position].ContactName;
+            if (!String.IsNullOrEmpty(contacts[position].FirstName))
+            {
+                firstInitial = contacts[position].FirstName.ToCharArray();
+            }
+            if (!String.IsNullOrEmpty(contacts[position].LastName))
+            {
+                secondInitial = contacts[position].LastName.ToCharArray();
+            }
+            if (firstInitial.Length != 0 || secondInitial.Length != 0)
+            {
+                contactsRecycleHolder.contact_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
+                contactsRecycleHolder.contactName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
+            }               
         }
 
         public void OnClick(View itemView, int position, bool isLongClick)
