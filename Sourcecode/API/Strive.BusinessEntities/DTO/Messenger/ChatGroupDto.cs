@@ -11,5 +11,6 @@ namespace Strive.BusinessEntities.DTO.Messenger
     {
         public ChatGroup ChatGroup { get; set; }
         public List<ChatUserGroup> ChatUserGroup { get; set; }
+        public string GroupId { get; set; }
     }
 }

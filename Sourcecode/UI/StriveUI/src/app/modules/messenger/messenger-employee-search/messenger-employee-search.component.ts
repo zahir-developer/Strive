@@ -14,6 +14,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   groupname = '';
   selectAll = false;
   @Output() emitNewChat = new EventEmitter();
+  @Output() emitFirstMessage = new EventEmitter();
   @Input() selectedEmployee: any = [];
   @Input() currentEmployeeId: any = 1;
   @Input() popupType: any = '';
@@ -47,6 +48,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         this.empList = empList.EmployeeList;
+        this.removeSelectedEmployee();
         this.setDefaultBoolean(false);
         this.setName();
       }
@@ -73,7 +75,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   getSelectedEmp() {
     return this.empList.filter(item => item.isSelected === true);
   }
-  showPopup(){
+  showPopup() {
     $('#getGroupName').modal({ backdrop: 'static', keyboard: false });
   }
   addEmployees() {
@@ -90,7 +92,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       } else {
         this.showPopup();
       }
-    } else if (this.selectedEmployee.IsGroup === false ) {
+      this.emitFirstMessage.emit(selectedEmp);
+    } else if (this.selectedEmployee?.IsGroup === false ) {
       const emp = this.checkDuplicate();
       if (emp.length > 1) {
         this.showPopup();
@@ -100,7 +103,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         return;
       }
     } else {
-      this.groupname = this.selectedEmployee.FirstName;
+      this.groupname = this.selectedEmployee?.FirstName;
       this.AddGroupName('create');
     }
   }
@@ -115,11 +118,11 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     if (this.popupType === 'newChat') {
       return selectedEmp;
     }
-    const duplicateEmp = selectedEmp.filter(emp => +emp.EmployeeId === +this.selectedEmployee.Id);
+    const duplicateEmp = selectedEmp.filter(emp => +emp.EmployeeId === +this.selectedEmployee?.Id);
     if (duplicateEmp.length > 0 ) {
       return selectedEmp;
     } else {
-      if (this.selectedEmployee.IsGroup === false) {
+      if (this.selectedEmployee?.IsGroup === false) {
         selectedEmp.push(this.selectedEmployee);
       }
       return selectedEmp;
@@ -137,7 +140,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
           chatGroupUserId: 0,
           userId: item.EmployeeId ? item.EmployeeId : item.Id,
           CommunicationId: item.CommunicationId,
-          chatGroupId: (this.popupType === 'oldChat' && this.selectedEmployee.IsGroup === true) ? this.selectedEmployee.Id : 0,
+          chatGroupId: (this.popupType === 'oldChat' && this.selectedEmployee?.IsGroup === true) ? this.selectedEmployee?.Id : 0,
           isActive: true,
           isDeleted: false,
           createdBy: 0,
@@ -147,7 +150,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       });
       const groupObj = {
         chatGroup: {
-          chatGroupId: (this.popupType === 'oldChat' && this.selectedEmployee.IsGroup === true) ? this.selectedEmployee.Id : 0,
+          chatGroupId: (this.popupType === 'oldChat' && this.selectedEmployee?.IsGroup === true) ? this.selectedEmployee?.Id : 0,
           groupName: this.groupname,
           comments: null,
           isActive: true,
@@ -159,26 +162,41 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         },
         chatUserGroup
       };
-      if (this.selectedEmployee.IsGroup === true && this.popupType === 'oldChat') {
-groupObj.chatGroup = null;
+      if (this.selectedEmployee?.IsGroup === true && this.popupType === 'oldChat') {
+        groupObj.chatGroup = null;
       }
       this.messengerService.sendGroupMessage(groupObj).subscribe(data => {
         if (data.status === 'Success') {
           $('#getGroupName').modal('hide');
-          const groupId = JSON.parse(data.resultData);
+          const groupObject = JSON.parse(data.resultData);
+
           const createdGroupObj = [{
-            EmployeeId: groupId?.Status,
+            EmployeeId: groupObject.Result.ChatGroupId,
             FirstName: this.groupname,
             Initial: '',
+            CommunicationId: groupObject.Result.GroupId,
             LastName: null,
-            IsGroup: true
+            IsGroup: true,
+            isRead: true,
+            type: 'new Group'
           }];
-          this.emitNewChat.emit(createdGroupObj);
-          this.closeemp();
-          // this.groupIdInsertion(selectedEmp, groupId.Status);
+          if (groupObj.chatGroup !== null) {
+            this.emitNewChat.emit(createdGroupObj);
+            this.closeemp();
+          } else{
+            this.closeemp();
+          }
         }
       });
 
+    }
+  }
+
+  removeSelectedEmployee()
+  {
+    if(!this.selectedEmployee.IsGroup)
+    {
+      this.empList = this.empList.filter(emp=> emp.EmployeeId !== this.selectedEmployee.Id);
     }
   }
 }

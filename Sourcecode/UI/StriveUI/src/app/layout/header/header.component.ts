@@ -3,6 +3,7 @@ import { UserDataService } from 'src/app/shared/util/user-data.service';
 import { AuthService } from 'src/app/shared/services/common-service/auth.service';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 declare var $: any;
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit {
   lastName: string;
   unReadMessageDetail: any = [];
   constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute, private msgService: MessengerService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit {
     this.getUnReadMessage();
   }
   logout() {
+    this.msgService.closeConnection();
     this.authService.logout();
   }
   openmbsidebar() {
@@ -52,5 +54,9 @@ export class HeaderComponent implements OnInit {
       }
       console.log(res, 'checkimg');
     });
+  }
+
+  navigateToMessage(message) {
+    this.router.navigate(['/messenger']);
   }
 }

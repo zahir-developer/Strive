@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
@@ -6,15 +6,19 @@ import { MessengerService } from 'src/app/shared/services/data-service/messenger
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { MessengerEmployeeSearchComponent } from './messenger-employee-search/messenger-employee-search.component';
+import { MessengerEmployeeListComponent } from './messenger-employee-list/messenger-employee-list.component';
 
 declare var $: any;
 @Component({
   selector: 'app-messenger',
   templateUrl: './messenger.component.html',
-  styleUrls: ['./messenger.component.css']
+  styleUrls: ['./messenger.component.css'],
+  providers: [SignalRService]
 })
-export class MessengerComponent implements OnInit {
+export class MessengerComponent implements OnInit, AfterViewChecked {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   @ViewChild(MessengerEmployeeSearchComponent) messengerEmployeeSearchComponent: MessengerEmployeeSearchComponent;
+  @ViewChild(MessengerEmployeeListComponent) messengerEmployeeListComponent: MessengerEmployeeListComponent;
   msgList = [];
 
   employeeId: number = +localStorage.getItem('empId');
@@ -39,17 +43,21 @@ export class MessengerComponent implements OnInit {
   senderLastName: string;
   currentEmployeeId: number;
   popupType: any;
+  isUserOnline : boolean = false;
+  groupEmpList: any;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
 
 
 
   ngOnInit() {
     this.getSenderName();
+    this.scrollToBottom();
     this.signalRService.startConnection();
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
       if (data !== null) {
-        const receivedMsg = {
+        if (this.selectedEmployee?.Id === data?.chatMessageRecipient?.senderId) {
+ const receivedMsg = {
           SenderId: 0,
           SenderFirstName: this.selectedEmployee.FirstName,
           SenderLastName: this.selectedEmployee.LastName,
@@ -60,13 +68,41 @@ export class MessengerComponent implements OnInit {
           CreatedDate: data.chatMessage.createdDate,
           CommunicationId: this.selectedEmployee.CommunicationId
         };
-        this.msgList.push(receivedMsg);
+ this.msgList.push(receivedMsg);
+        } else {
+          this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
+        }
+        // this.LoadMessageChat(this.selectedEmployee);
+      }
+    });
+
+    this.signalRService.communicationId.subscribe(data => {
+      if (data !== null) {
+        const commObj = {
+          EmployeeId: +data[0],
+          CommunicationId: data[1]
+        };
+
+        if(!this.selectedEmployee?.IsGroup)
+        {
+          if(this.selectedEmployee?.Id === commObj.EmployeeId)
+          {
+              this.isUserOnline = true;
+          }
+        }
       }
     });
   }
+  
+  ngAfterViewChecked() {        
+    this.scrollToBottom();        
+} 
   getSenderName() {
     this.senderFirstName = localStorage.getItem('employeeFirstName');
     this.senderLastName = localStorage.getItem('employeeLastName');
+  }
+  showUnreadMsg(data, msg) {
+this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
   }
   openemp(event) {
     this.popupType = event;
@@ -102,12 +138,18 @@ export class MessengerComponent implements OnInit {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
+        this.scrollToBottom();
       }
     });
+
+    if(this.isGroupChat)
+    {
+      this.getGroupMembers(this.groupChatId);
+    }
   }
 
-  sendMessage() {
-    if (this.messageBody.trim() === '') {
+  sendMessage(override=false) {
+    if (this.messageBody.trim() === '' && override) {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
       return;
     }
@@ -123,7 +165,7 @@ export class MessengerComponent implements OnInit {
         nextRemindDate: null,
         reminderFrequencyId: null,
         createdBy: 0,
-        createdDate: null
+        createdDate: new Date()
       },
       chatMessageRecipient: {
         chatRecipientId: 0,
@@ -135,7 +177,8 @@ export class MessengerComponent implements OnInit {
       },
       connectionId: this.recipientCommunicationId,
       fullName: null,
-      groupName: null
+      groupName: null,
+      groupId: this.selectedEmployee.CommunicationId
     };
 
     const objmsg: string[] = [this.recipientCommunicationId,
@@ -159,14 +202,38 @@ export class MessengerComponent implements OnInit {
           CreatedDate: new Date()
         };
         this.msgList.push(sendObj);
+        this.scrollToBottom();
+        this.messengerEmployeeListComponent.SetUnreadMsgBool(this.selectedEmployee?.Id, true, this.messageBody);
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
     });
   }
+  scrollToBottom(): void {
+    try {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
+}
   openpopup(event) {
     this.currentEmployeeId = 0;
     // this.selectedEmployee = [];
     this.openemp(event);
+  }
+
+  getGroupMembers(groupId)
+  {
+    this.msgService.getGroupMembers(groupId).subscribe(data =>
+      {
+        if(data.status === 'Success')
+        {
+          const employeeListData = JSON.parse(data.resultData);
+          this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
+        }
+      });
+  }
+
+  sendFirstMessage(selectedEmployee)
+  {
+    this.sendMessage(true);
   }
 }
