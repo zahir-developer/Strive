@@ -44,6 +44,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MonthPickerComponent } from './components/month-picker/month-picker.component';
 import { YearPickerComponent } from './components/year-picker/year-picker.component';
 import { LocationDropdownComponent } from './components/location-dropdown/location-dropdown.component';
+import { ExportFiletypeComponent } from './components/export-filetype/export-filetype.component';
 
 @NgModule({
   imports: [
@@ -74,7 +75,7 @@ import { LocationDropdownComponent } from './components/location-dropdown/locati
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, NoOfWashesComponent,
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
-    MonthPickerComponent, YearPickerComponent, LocationDropdownComponent],
+    MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -82,7 +83,8 @@ import { LocationDropdownComponent } from './components/location-dropdown/locati
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
-     VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, NgbPaginationModule],
+     VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
+     NgbPaginationModule, ExportFiletypeComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

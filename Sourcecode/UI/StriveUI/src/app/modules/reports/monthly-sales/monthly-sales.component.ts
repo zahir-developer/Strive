@@ -3,6 +3,7 @@ import { ReportsService } from 'src/app/shared/services/data-service/reports.ser
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker/ngx-bootstrap-datepicker';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 // import * as jsPDF from 'jspdf';
 // import 'jspdf-autotable';
 // declare let jsPDF;
@@ -15,6 +16,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   // @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   // bsConfig: Partial<BsDatepickerConfig>;
   monthlySalesReport = [];
+  selectedDate : any;
   employees = [];
   empCount = 1;
   originaldata = [];
@@ -31,7 +33,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   pageSize = 50;
   collectionSize: number;
   constructor(private reportService: ReportsService, private cd: ChangeDetectorRef,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.setMonth();
@@ -63,21 +65,24 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
       fromDate: this.fromDate,
       endDate: this.endDate
     };
+    this.spinner.show();
     this.reportService.getMonthlySalesReport(obj).subscribe(data => {
-      console.log(data);
+      this.spinner.hide();
       if (data.status === 'Success') {
+        this.selectedDate = moment(this.fromDate).format('MM/YYYY');
         const monthlySalesReport = JSON.parse(data.resultData);
         if (monthlySalesReport?.GetMonthlySalesReport !== null) {
           this.employees = monthlySalesReport?.GetMonthlySalesReport?.EmployeeViewModel ?
             monthlySalesReport?.GetMonthlySalesReport?.EmployeeViewModel : [];
           this.monthlySalesReport = monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel ?
           monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel : [];
-          this.originaldata = monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel;
+          this.originaldata = monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel ?
+          monthlySalesReport?.GetMonthlySalesReport?.MonthlySalesReportViewModel : [];
           this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
           this.employeeListFilter(this.empCount);
         }
       }
-    });
+    }, (err) => { this.spinner.hide(); });
   }
   count(action) {
     if (action === 'add') {
@@ -95,11 +100,12 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
       this.empName = this.employees[count - 1]?.EmployeeName;
       this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
       this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
-      this.calculatePrice();
+      // this.calculatePrice();
     }
+    this.calculatePrice();
   }
   calculatePrice() {
-    this.total = this.monthlySalesReport.reduce((sum, i) => {
+    this.total = this.monthlySalesReport?.reduce((sum, i) => {
       return sum + (+i.Total);
     }, 0);
   }
@@ -110,9 +116,6 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
       this.setMonth();
       this.getMonthlySalesReport();
     }
-  }
-  getFileType(event) {
-    this.fileType = +event.target.value;
   }
   export() {
     const fileType = this.fileType !== undefined ? this.fileType : '';
@@ -149,5 +152,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   }
   onLocationChange(event) {
     this.locationId = +event;
+  }
+  getfileType(event) {
+    this.fileType = +event.target.value;
   }
 }

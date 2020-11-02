@@ -1,113 +1,117 @@
-
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Reports  </h3>
-                <!-- <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
+<div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+    <h3 class="d-inline-block">Reports </h3>
+    <!-- <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
                     
                     <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()"
                     [bsConfig]="bsConfig"  bsDatepicker [outsideClick]="true"><span class="input-group-addon">
                         <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
                 </div> -->
+</div>
+<div class="col-lg-12 p-l-0 p-r-0">
+    <div class="row no-gutter">
+        <div class="col-12">
+            <div class="row no-gutter">
+                <div class="col-lg-2">
+                    <app-month-picker (emitMonth)='onMonthChange($event)'></app-month-picker>
+                </div>
+                <div class="col-lg-2">
+                    <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
+                </div>
+                <div class="col-lg-2">
+                    <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="getMonthlySalesReport();">Preview</button>
+                </div>
             </div>
-            <div class="col-lg-12 p-l-0 p-r-0">
-                <div class="row no-gutter">
-                    <div class="col-12">
-                        <div class="row no-gutter">
-                            <div class="col-lg-2">
-                                <app-month-picker (emitMonth)= 'onMonthChange($event)'></app-month-picker>
-                            </div>
-                            <div class="col-lg-2">
-                                <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
-                            </div>
-                            <div class="col-lg-2">
-                                <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
-                            </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn theme-primary-button-color" (click)="getMonthlySalesReport();">Preview</button>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="row">
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <div class="d-inline-block align-middle">
+                                    <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
+                                </div> &nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="getMonthlySalesReport()">Refresh</button>&nbsp;
                             </div>
                         </div>
-                        <div class="card m-t-10">
-                            <div class="card-body p-10">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                    
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="pull-right">
-                                            <div class="d-inline-block align-middle">
-                                                <select class="form-control" (change)="getFileType($event)">
-                                                   <option *ngFor = "let filetype of fileExportType" value="{{filetype.id}}">{{filetype.name}}</option>
-                                                </select>
-                                            </div>
-                                            <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>
-                                            <button type="button" class="btn theme-primary-button-color">Print</button>
-                                            <button type="button" class="btn theme-primary-button-color">Refresh</button>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card m-t-10">
+                <div class="card-body">
+                    <div class="p-b-5 m-b-8">
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Sales Report <span
+                                    class="font-size-1">({{selectedDate}}) - {{empName}}</span></span>
+                        </h4>
+                        <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#MonthlySalesreport"
+                                role="button" aria-expanded="false" aria-controls="Monthlyreport"><i
+                                    class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
+                    </div>
+                    <div id="MonthlySalesreport" class="collapse show">
+                        <div class="table-responsive" id='print-section'>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Number</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    *ngFor="let monthlySales of monthlySalesReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                    <tr>
+                                        <th>{{monthlySales.Number}}</th>
+                                        <td>{{monthlySales.Description}}</td>
+                                        <td>{{monthlySales.Price | currency}}</td>
+                                        <td>{{monthlySales.Total | currency}} </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="table-foot font-weight-700" *ngIf='monthlySalesReport?.length > 0'>
+                                    <tr>
+                                        <td colspan="3" class="text-right">Total </td>
+                                        <td>{{total | currency}}</td>
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div *ngIf="monthlySalesReport?.length === 0">
+                                <span class="text-center"> No Records Found</span>
                             </div>
-                        </div>
-                        <div class="card m-t-10">
-                            <div class="card-body">
-                                <div class="p-b-5 m-b-8">
-                                    <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Sales Report <span class="font-size-1">({{fromDate?.getMonth() + 1}}/{{fromDate?.getFullYear()}}) - {{empName}}</span></span>
-            </h4>
-                                    <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Monthlyreport" role="button" aria-expanded="false" aria-controls="Monthlyreport"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
-                                </div>
-                                <div id="MonthlySalesreport" class="collapse show">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Number</th>
-                                                    <th scope="col">Description</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let monthlySales of monthlySalesReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <tr>
-                                                    <th >{{monthlySales.Number}}</th>
-                                                    <td>{{monthlySales.Description}}</td>
-                                                    <td>{{monthlySales.Price | currency}}</td>
-                                                    <td>{{monthlySales.Total | currency}} </td>
-                                                </tr>
-                                                <tr *ngIf="monthlySalesReport.length === 0">
-                                                    <td colspan="9" class="text-center">
-                                                        No Records Found
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot class="table-foot font-weight-700" *ngIf='monthlySalesReport?.length > 0'>
-                                                <tr>
-                                                    <td colspan="3" class="text-right">Total </td>
-                                                    <td>{{total | currency}}</td>
-                                                
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                       
-                                        <ul class="pagination justify-content-end" *ngIf='monthlySalesReport?.length > 0'>
-                                            <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount" placeholder="1">
-                                            <label class="d-inline-block  m-t-7 m-r-10">of {{employees?.length === 0 ? 1 : employees?.length}}</label> <em class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"
-                                            (click)="count('minus')"></em> <em class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer" (click)="count('add')"></em>
-                                            <!-- <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-previous  theme-secondary-color"></i></a></li>
+                            <ul class="pagination justify-content-end" *ngIf='monthlySalesReport?.length > 0'>
+                                <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount"
+                                    placeholder="1">
+                                <label class="d-inline-block  m-t-7 m-r-10">of
+                                    {{employees?.length === 0 ? 1 : employees?.length}}</label> <em
+                                    class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"
+                                    (click)="count('minus')"></em> <em
+                                    class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"
+                                    (click)="count('add')"></em>
+                                <!-- <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-previous  theme-secondary-color"></i></a></li>
                                             <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-skip-backward theme-secondary-color"></i></a></li>
                                             <li class="page-item"><a class="page-link" href="#">1</a></li>
                                             <li class="page-item"><a class="page-link" href="#">2</a></li>
                                             <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-forward theme-secondary-color"></i></a></li>
                                             <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-next theme-secondary-color"></i></a></li> -->
-                                            <ngb-pagination  [collectionSize]="collectionSize"
-                                                [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                                [boundaryLinks]="true" class="d-flex justify-content-end">
-                                            </ngb-pagination>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end card-body -->
+                                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                    class="d-flex justify-content-end">
+                                </ngb-pagination>
+                            </ul>
                         </div>
-                        <!-- end card-->
                     </div>
                 </div>
+                <!-- end card-body -->
             </div>
-        
+            <!-- end card-->
+        </div>
+    </div>
+</div>
