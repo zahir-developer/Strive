@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -152,6 +152,25 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetChatGroupEmployeelist(chatGroupId);
         }
+
+        [HttpPut]
+        [Route("AddEmployeeToGroup/{employeeId}/{communicationId}")]
+        public async Task<bool> AddEmployeeToGroup(int employeeId, string communicationId)
+        {
+            var result = _bplManager.GetChatEmployeeGrouplist(employeeId);
+
+            foreach (var grp in result.ChatGroupList)
+            {
+                await _hubContext.Groups.AddToGroupAsync(communicationId, grp.GroupId);
+                await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + employeeId + ", CommunicationId: " + communicationId + " added.");
+            }
+
+            return true;
+        }
+
+        [HttpDelete]
+        [Route("DeleteChatGroupUser")]
+        public Result DeleteChatGroupUser(int id) => _bplManager.DeleteChatGroupUser(id);
 
     }
 }
