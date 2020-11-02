@@ -6,6 +6,7 @@ import { MessengerService } from 'src/app/shared/services/data-service/messenger
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { MessengerEmployeeSearchComponent } from './messenger-employee-search/messenger-employee-search.component';
+import { MessengerEmployeeListComponent } from './messenger-employee-list/messenger-employee-list.component';
 
 declare var $: any;
 @Component({
@@ -17,6 +18,7 @@ declare var $: any;
 export class MessengerComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   @ViewChild(MessengerEmployeeSearchComponent) messengerEmployeeSearchComponent: MessengerEmployeeSearchComponent;
+  @ViewChild(MessengerEmployeeListComponent) messengerEmployeeListComponent: MessengerEmployeeListComponent;
   msgList = [];
 
   employeeId: number = +localStorage.getItem('empId');
@@ -54,19 +56,23 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
       if (data !== null) {
-        this.LoadMessageChat(this.selectedEmployee);
-        // const receivedMsg = {
-        //   SenderId: 0,
-        //   SenderFirstName: this.selectedEmployee.FirstName,
-        //   SenderLastName: this.selectedEmployee.LastName,
-        //   ReceipientId: data.chatMessageRecipient.senderId,
-        //   RecipientFirstName: '',
-        //   RecipientLastName: '',
-        //   MessageBody: data.chatMessage.messagebody,
-        //   CreatedDate: data.chatMessage.createdDate,
-        //   CommunicationId: this.selectedEmployee.CommunicationId
-        // };
-        // this.msgList.push(receivedMsg);
+        if (this.selectedEmployee?.Id === data?.chatMessageRecipient?.senderId) {
+ const receivedMsg = {
+          SenderId: 0,
+          SenderFirstName: this.selectedEmployee.FirstName,
+          SenderLastName: this.selectedEmployee.LastName,
+          ReceipientId: data.chatMessageRecipient.senderId,
+          RecipientFirstName: '',
+          RecipientLastName: '',
+          MessageBody: data.chatMessage.messagebody,
+          CreatedDate: data.chatMessage.createdDate,
+          CommunicationId: this.selectedEmployee.CommunicationId
+        };
+ this.msgList.push(receivedMsg);
+        } else {
+          this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
+        }
+        // this.LoadMessageChat(this.selectedEmployee);
       }
     });
 
@@ -94,6 +100,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   getSenderName() {
     this.senderFirstName = localStorage.getItem('employeeFirstName');
     this.senderLastName = localStorage.getItem('employeeLastName');
+  }
+  showUnreadMsg(data, msg) {
+this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
   }
   openemp(event) {
     this.popupType = event;
@@ -129,6 +138,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       if (data.status === 'Success') {
         const msgData = JSON.parse(data.resultData);
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
+        this.scrollToBottom();
       }
     });
 
@@ -193,6 +203,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         };
         this.msgList.push(sendObj);
         this.scrollToBottom();
+        this.messengerEmployeeListComponent.SetUnreadMsgBool(this.selectedEmployee?.Id, true, this.messageBody);
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
@@ -201,7 +212,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   scrollToBottom(): void {
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
+    } catch (err) { }
 }
   openpopup(event) {
     this.currentEmployeeId = 0;

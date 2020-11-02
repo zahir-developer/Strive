@@ -44,7 +44,7 @@ export class CheckoutGridComponent implements OnInit {
     if (checkout.JobPaymentId === 0) {
       this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Checkout can be done only for paid tickets.' });
     } else {
-      if (checkout.MembershipNameOrPaymentStatus === 'Completed' || checkout.MembershipNameOrPaymentStatus === 'PAID') {
+      if (checkout.MembershipNameOrPaymentStatus === 'Completed') {
         const finalObj = {
           id: checkout.JobId,
           checkOut: true,

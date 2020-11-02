@@ -75,7 +75,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   getSelectedEmp() {
     return this.empList.filter(item => item.isSelected === true);
   }
-  showPopup(){
+  showPopup() {
     $('#getGroupName').modal({ backdrop: 'static', keyboard: false });
   }
   addEmployees() {
@@ -163,25 +163,29 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         chatUserGroup
       };
       if (this.selectedEmployee?.IsGroup === true && this.popupType === 'oldChat') {
-groupObj.chatGroup = null;
+        groupObj.chatGroup = null;
       }
       this.messengerService.sendGroupMessage(groupObj).subscribe(data => {
         if (data.status === 'Success') {
           $('#getGroupName').modal('hide');
-          const groupObj = JSON.parse(data.resultData);
+          const groupObject = JSON.parse(data.resultData);
 
           const createdGroupObj = [{
-            EmployeeId: groupObj.Result.ChatGroupId,
+            EmployeeId: groupObject.Result.ChatGroupId,
             FirstName: this.groupname,
             Initial: '',
-            CommunicationId : groupObj.Result.GroupId,
+            CommunicationId: groupObject.Result.GroupId,
             LastName: null,
-            IsGroup: true
+            IsGroup: true,
+            isRead: true,
+            type: 'new Group'
           }];
-
-          this.emitNewChat.emit(createdGroupObj);
-          this.closeemp();
-          // this.groupIdInsertion(selectedEmp, groupId.Status);
+          if (groupObj.chatGroup !== null) {
+            this.emitNewChat.emit(createdGroupObj);
+            this.closeemp();
+          } else{
+            this.closeemp();
+          }
         }
       });
 
