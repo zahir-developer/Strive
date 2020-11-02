@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,12 +38,15 @@ namespace Admin.API.Controllers
 
             var result = _bplManager.GetChatEmployeeGrouplist(chatCommunicationDto.EmployeeId);
 
-            foreach (var grp in result.ChatGroupList)
+            if (result.ChatGroupList != null)
             {
-                if (grp.GroupId != null)
+                foreach (var grp in result.ChatGroupList)
                 {
-                    await _hubContext.Groups.AddToGroupAsync(chatCommunicationDto.CommunicationId, grp.GroupId);
-                    await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + chatCommunicationDto.EmployeeId + "GroupName"+ grp.GroupName +", GroupID "+ grp.GroupId +", CommunicationId: " + chatCommunicationDto.CommunicationId + " added.");
+                    if (grp.GroupId != null)
+                    {
+                        await _hubContext.Groups.AddToGroupAsync(chatCommunicationDto.CommunicationId, grp.GroupId);
+                        await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + chatCommunicationDto.EmployeeId + "GroupName" + grp.GroupName + ", GroupID " + grp.GroupId + ", CommunicationId: " + chatCommunicationDto.CommunicationId + " added.");
+                    }
                 }
             }
 
@@ -149,6 +152,25 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetChatGroupEmployeelist(chatGroupId);
         }
+
+        [HttpPut]
+        [Route("AddEmployeeToGroup/{employeeId}/{communicationId}")]
+        public async Task<bool> AddEmployeeToGroup(int employeeId, string communicationId)
+        {
+            var result = _bplManager.GetChatEmployeeGrouplist(employeeId);
+
+            foreach (var grp in result.ChatGroupList)
+            {
+                await _hubContext.Groups.AddToGroupAsync(communicationId, grp.GroupId);
+                await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + employeeId + ", CommunicationId: " + communicationId + " added.");
+            }
+
+            return true;
+        }
+
+        [HttpDelete]
+        [Route("DeleteChatGroupUser")]
+        public Result DeleteChatGroupUser(int id) => _bplManager.DeleteChatGroupUser(id);
 
     }
 }

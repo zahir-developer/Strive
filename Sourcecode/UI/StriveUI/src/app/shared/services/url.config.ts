@@ -150,13 +150,14 @@ export const UrlConfig = {
   },
   Messenger:
   {
-    GetEmployeeList: `Admin/Messenger/GetChatEmployeeList/`,
-    SendMessage: `Admin/Messenger/SendChatMessage`,
-    CreateGroup: `Admin/Messenger/CreateGroup`,
-    UpdateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
-    GetChatMessage: `Admin/Messenger/GetChatMessage`,
+    getEmployeeList: `Admin/Messenger/GetChatEmployeeList/`,
+    sendMessage: `Admin/Messenger/SendChatMessage`,
+    createGroup: `Admin/Messenger/CreateGroup`,
+    updateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
+    getChatMessage: `Admin/Messenger/GetChatMessage`,
     sendGroupMessage:  `Admin/Messenger/CreateChatGroup`,
-    getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`
+    getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
+    getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`
   },
   reports: {
     getMonthlySalesReport: `Admin/SalesReport/GetMonthlySalesReport`,

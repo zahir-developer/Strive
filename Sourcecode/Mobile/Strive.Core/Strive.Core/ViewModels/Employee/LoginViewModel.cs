@@ -3,6 +3,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
+using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,6 +35,7 @@ namespace Strive.Core.ViewModels.Employee
                 if (loginResponse != null)
                 {
                     ApiUtils.Token = loginResponse.Token;
+                    EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
                         await _navigationService.Navigate<DashboardViewModel>();

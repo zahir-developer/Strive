@@ -196,11 +196,17 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             //app.UseSecureHeadersMiddleware(CustomSecureHeaderExtensions.CustomConfiguration());
             //app.UseSecureHeadersMiddleware(secureHeaderSettings.Value); 
             //app.UseSecureHeadersMiddleware(SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration());
             app.UseSecureHeadersMiddleware(Middleware.SecureHeaders.CustomConfiguration());
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatMessageHub>("/chatMessageHub");
+            });
+
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
             app.Use(next => context =>
@@ -214,10 +220,6 @@ namespace Admin.API
                 return next(context);
             });
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatMessageHub>("/chatMessageHub");
-            });
         }
     }
 }
