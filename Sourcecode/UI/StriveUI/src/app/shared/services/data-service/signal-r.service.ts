@@ -18,7 +18,7 @@ private commId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 public communicationId: Observable<any> = this.commId.asObservable();
 private recMsg: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
-  constructor(public messengerService: MessengerService) { }
+  constructor() { }
 
   public data: any;
   private hubConnection: signalR.HubConnection;
@@ -37,7 +37,9 @@ public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
       .catch(err => console.log('Error while starting connection: ' + err))
   }
 
-  
+  public stopConnection = () => {
+    this.hubConnection?.stop();
+  }
 
   public SubscribeChatEvents = () => {
     this.hubConnection.on('ReceiveCommunicationID', (id) => {

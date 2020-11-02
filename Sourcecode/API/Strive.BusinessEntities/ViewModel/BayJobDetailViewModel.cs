@@ -18,5 +18,9 @@ namespace Strive.BusinessEntities.ViewModel
         public string EstimatedTimeOut { get; set; }
         public string ServiceName { get; set; }
         public string ServiceTypeName { get; set; }
+        public string VehicleMake { get; set; }
+        public string VehicleModel { get; set; }
+        public string VehicleColor { get; set; }
+        public int Upcharge { get; set; }
     }
 }

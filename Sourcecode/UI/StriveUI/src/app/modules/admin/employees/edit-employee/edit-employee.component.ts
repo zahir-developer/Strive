@@ -55,6 +55,7 @@ export class EditEmployeeComponent implements OnInit {
   employeeLocation: any = [];
   roleId: any;
   locationId: any;
+  authId: any;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -185,6 +186,7 @@ export class EditEmployeeComponent implements OnInit {
     console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
+    this.authId = employee.EmployeeInfo.AuthId;
     if (employee.EmployeeRoles !== null) {
       this.dropdownSetting();
       this.selectedRole = employee.EmployeeRoles;
@@ -436,6 +438,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
       employeeCode: 'string',
+      authId: this.authId,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,

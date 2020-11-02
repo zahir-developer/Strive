@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities.DTO.Employee
         public string EmployeeCode { get; set; }
         public string Firstname { get; set; }
         public string LastName { get; set; }
+        public int? AuthId { get; set; }
         public int? Gender { get; set; }
         public string Address1 { get; set; }
         public string PhoneNumber { get; set; }
