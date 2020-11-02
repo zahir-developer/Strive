@@ -38,12 +38,15 @@ namespace Admin.API.Controllers
 
             var result = _bplManager.GetChatEmployeeGrouplist(chatCommunicationDto.EmployeeId);
 
-            foreach (var grp in result.ChatGroupList)
+            if (result.ChatGroupList != null)
             {
-                if (grp.GroupId != null)
+                foreach (var grp in result.ChatGroupList)
                 {
-                    await _hubContext.Groups.AddToGroupAsync(chatCommunicationDto.CommunicationId, grp.GroupId);
-                    await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + chatCommunicationDto.EmployeeId + "GroupName"+ grp.GroupName +", GroupID "+ grp.GroupId +", CommunicationId: " + chatCommunicationDto.CommunicationId + " added.");
+                    if (grp.GroupId != null)
+                    {
+                        await _hubContext.Groups.AddToGroupAsync(chatCommunicationDto.CommunicationId, grp.GroupId);
+                        await _hubContext.Clients.Group(grp.GroupId).SendAsync("UserAddedtoGroup", "EmployeeId:" + chatCommunicationDto.EmployeeId + "GroupName" + grp.GroupName + ", GroupID " + grp.GroupId + ", CommunicationId: " + chatCommunicationDto.CommunicationId + " added.");
+                    }
                 }
             }
 

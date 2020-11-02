@@ -11,7 +11,8 @@ declare var $: any;
 @Component({
   selector: 'app-messenger',
   templateUrl: './messenger.component.html',
-  styleUrls: ['./messenger.component.css']
+  styleUrls: ['./messenger.component.css'],
+  providers: [SignalRService]
 })
 export class MessengerComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -40,6 +41,8 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   senderLastName: string;
   currentEmployeeId: number;
   popupType: any;
+  isUserOnline : boolean = false;
+  groupEmpList: any;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
 
 
@@ -66,7 +69,25 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         // this.msgList.push(receivedMsg);
       }
     });
+
+    this.signalRService.communicationId.subscribe(data => {
+      if (data !== null) {
+        const commObj = {
+          EmployeeId: +data[0],
+          CommunicationId: data[1]
+        };
+
+        if(!this.selectedEmployee?.IsGroup)
+        {
+          if(this.selectedEmployee?.Id === commObj.EmployeeId)
+          {
+              this.isUserOnline = true;
+          }
+        }
+      }
+    });
   }
+  
   ngAfterViewChecked() {        
     this.scrollToBottom();        
 } 
@@ -110,10 +131,15 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
       }
     });
+
+    if(this.isGroupChat)
+    {
+      this.getGroupMembers(this.groupChatId);
+    }
   }
 
-  sendMessage() {
-    if (this.messageBody.trim() === '') {
+  sendMessage(override=false) {
+    if (this.messageBody.trim() === '' && override) {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
       return;
     }
@@ -181,5 +207,22 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.currentEmployeeId = 0;
     // this.selectedEmployee = [];
     this.openemp(event);
+  }
+
+  getGroupMembers(groupId)
+  {
+    this.msgService.getGroupMembers(groupId).subscribe(data =>
+      {
+        if(data.status === 'Success')
+        {
+          const employeeListData = JSON.parse(data.resultData);
+          this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
+        }
+      });
+  }
+
+  sendFirstMessage(selectedEmployee)
+  {
+    this.sendMessage(true);
   }
 }

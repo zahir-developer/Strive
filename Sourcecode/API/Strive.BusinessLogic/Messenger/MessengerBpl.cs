@@ -43,32 +43,38 @@ namespace Strive.BusinessLogic.Messenger
             chatHistory.ChatEmployeeList = new List<ChatEmployeeList>();
             ChatEmployeeList list;
 
-            foreach (var item in result.ChatEmployeeList)
+            if (result.ChatEmployeeList != null)
             {
-                list = new ChatEmployeeList()
+                foreach (var item in result.ChatEmployeeList)
                 {
-                    Id = item.Id,
-                    FirstName = item.FirstName,
-                    LastName = item.LastName,
-                    CommunicationId = item.CommunicationId,
-                    RecentChatMessage = item.RecentChatMessage,
-                    IsGroup = false
-                };
-                chatHistory.ChatEmployeeList.Add(list);
+                    list = new ChatEmployeeList()
+                    {
+                        Id = item.Id,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        CommunicationId = item.CommunicationId,
+                        RecentChatMessage = item.RecentChatMessage,
+                        IsGroup = false
+                    };
+                    chatHistory.ChatEmployeeList.Add(list);
+                }
             }
 
-            foreach (var item in result.GroupList)
+            if (result.GroupList != null)
             {
-                list = new ChatEmployeeList()
+                foreach (var item in result.GroupList)
                 {
-                    Id = item.ChatGroupId,
-                    FirstName = item.GroupName,
-                    RecentChatMessage = item.RecentChatMessage,
-                    CommunicationId = item.GroupId,
-                    IsGroup = true,
-                    GroupId = item.GroupId
-                };
-                chatHistory.ChatEmployeeList.Add(list);
+                    list = new ChatEmployeeList()
+                    {
+                        Id = item.ChatGroupId,
+                        FirstName = item.GroupName,
+                        RecentChatMessage = item.RecentChatMessage,
+                        CommunicationId = item.GroupId,
+                        IsGroup = true,
+                        GroupId = item.GroupId
+                    };
+                    chatHistory.ChatEmployeeList.Add(list);
+                }
             }
             return ResultWrap(chatHistory, "EmployeeList");
         }
