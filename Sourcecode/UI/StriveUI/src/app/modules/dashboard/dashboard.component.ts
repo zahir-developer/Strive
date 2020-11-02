@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,12 +17,15 @@ export class DashboardComponent implements OnInit {
   foreCastedCar: any = 0;
   averageCarWashTime: any;
   location: any = [];
+  showDialog: boolean;
   constructor(
     public dashboardService: DashboardService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
+    this.showDialog = false;
     this.getLocationList();
     this.getDashboardCount();
   }
@@ -52,6 +57,16 @@ export class DashboardComponent implements OnInit {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
+  }
+
+  filterDashboard() {
+    this.showDialog = true;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(FilterDashboardComponent, ngbModalOptions);
   }
 
 }
