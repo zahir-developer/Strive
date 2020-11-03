@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO.CustomerMonthlyDetailedReport;
 using Strive.BusinessEntities.DTO.CustomerSummaryReport;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -19,5 +20,9 @@ namespace Strive.BusinessLogic.CustomerSummaryReport
     {
         return ResultWrap(new CustomerSummaryReportRal(_tenant).GetCustomerSummaryReport, customersummary, "GetCustomerSummaryReport");
     }
-}
+        public Result GetCustomerMonthlyDetailedReport(CustomerMonthlyDetailedReport customerMonthlyDetail)
+        {
+            return ResultWrap(new CustomerSummaryReportRal(_tenant).GetCustomerMonthlyDetailReport, customerMonthlyDetail, "GetCustomerMonthlyDetailReport");
+        }
+    }
 }

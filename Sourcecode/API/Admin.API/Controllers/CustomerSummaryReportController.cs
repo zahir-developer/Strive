@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.CustomerMonthlyDetailedReport;
 using Strive.BusinessEntities.DTO.CustomerSummaryReport;
 using Strive.BusinessLogic.CustomerSummaryReport;
 using Strive.Common;
@@ -24,6 +25,15 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetCustomerSummaryReport")]
         public Result GetCustomerSummaryReport([FromBody] CustomerSummaryReportDto customersummary) => _bplManager.GetCustomerSummaryReport(customersummary);
+
+        [HttpPost]
+        [Route("GetCustomerMonthlyDetailed")]
+        public Result GetCustomerMonthlyDetailed([FromBody] CustomerSummaryReportDto customersummary) => _bplManager.GetCustomerSummaryReport(customersummary);
+
+        [HttpPost]
+        [Route("GetCustomerMonthlyDetailedReport")]
+        public Result GetCustomerMonthlyDetailedReport([FromBody] CustomerMonthlyDetailedReport customerMonthlyDetail) => _bplManager.GetCustomerMonthlyDetailedReport(customerMonthlyDetail);
+
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.CustomerMonthlyDetailedReport;
 using Strive.BusinessEntities.DTO.CustomerSummaryReport;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
@@ -18,6 +19,14 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId", customersummary.LocationId);
             _prm.Add("@Date", customersummary.Date);
             var result = db.Fetch<CustomerSummaryViewModel>(EnumSP.SalesReport.USPGETCUSTOMERSUMMARYREPORT.ToString(), _prm);
+            return result;
+        }
+        public List<CustomerMonthlyDetailedViewModel> GetCustomerMonthlyDetailReport(CustomerMonthlyDetailedReport customerMonthlyDetail)
+        {
+            _prm.Add("@LocationId", customerMonthlyDetail.LocationId);
+            _prm.Add("@Year", customerMonthlyDetail.Year);
+            _prm.Add("@Month", customerMonthlyDetail.Month);
+            var result = db.Fetch<CustomerMonthlyDetailedViewModel>(EnumSP.SalesReport.USPMONTHLYCUSTOMERDETAIL.ToString(), _prm);
             return result;
         }
     }
