@@ -16,4 +16,7 @@ export class ReportsService {
   getCustomerSummaryReport(obj): Observable<any> {
     return this.http.post(`${UrlConfig.reports.getCustomerSummaryReport}`, obj);
   }
+  getCustomerMonthlyDetailReport(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.reports.getCustomerMonthlyDetailReport}`, obj);
+  }
 }

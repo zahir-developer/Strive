@@ -11,5 +11,8 @@ export class MonthlyTipComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  getfileType(event) {
+
+  }
 
 }

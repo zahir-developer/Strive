@@ -11,5 +11,7 @@ export class DailyTipComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  getfileType(event) {
 
+  }
 }

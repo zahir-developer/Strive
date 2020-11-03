@@ -161,6 +161,7 @@ export const UrlConfig = {
   },
   reports: {
     getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
-    getCustomerSummaryReport: `Admin/Report/GetCustomerSummaryReport`
+    getCustomerSummaryReport: `Admin/Report/GetCustomerSummaryReport`,
+     getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`
   }
 };

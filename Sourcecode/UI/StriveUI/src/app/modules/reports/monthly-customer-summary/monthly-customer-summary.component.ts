@@ -37,6 +37,7 @@ locationId = +localStorage.getItem('empLocationId');
     this.reportService.getCustomerSummaryReport(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
+        this.selectedDate = moment(this.date).format('YYYY');
         const customerSummaryReport = JSON.parse(data.resultData);
         if (customerSummaryReport?.GetCustomerSummaryReport !== null) {
           const sumReport = customerSummaryReport?.GetCustomerSummaryReport ?

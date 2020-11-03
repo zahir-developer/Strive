@@ -30,16 +30,7 @@
                         <div class="col-md-6">
                             <div class="pull-right">
                                 <div class="d-inline-block align-middle">
-                                    <select class="form-control">
-                                        <option selected="">Select</option>
-                                        <option>Acrobat (PDF) File </option>
-                                        <option>CSV (comma delimited) </option>
-                                        <option>Excel 97 - 2003 </option>
-                                        <option>Rich Text Format </option>
-                                        <option>TIFF File </option>
-                                        <option>Web Archive </option>
-                                        <option>XPS Document </option>
-                                    </select>
+                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>
                                 <button type="button" class="btn theme-primary-button-color">Export</button>
                                 <button type="button" class="btn theme-primary-button-color">Print</button>

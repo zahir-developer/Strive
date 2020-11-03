@@ -11,5 +11,8 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  getfileType(event) {
+    
+  }
 
 }

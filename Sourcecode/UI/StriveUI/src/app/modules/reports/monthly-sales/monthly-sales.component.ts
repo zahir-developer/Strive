@@ -38,21 +38,10 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.setMonth();
     this.getMonthlySalesReport();
-    this.filetype();
   }
   setMonth() {
     const currentMonth = this.fromDate.getMonth() + 1;
     this.onMonthChange(currentMonth);
-  }
-  filetype() {
-    this.fileExportType = [{ id: 0, name: 'select' },
-    { id: 1, name: 'Acrobat (PDF) File' },
-    { id: 2, name: 'CSV (comma delimited)' },
-    { id: 3, name: 'Excel 97 - 2003' },
-    { id: 4, name: 'Rich Text Format ' },
-    { id: 5, name: 'TIFF File' },
-    { id: 6, name: 'Web Archive' },
-    { id: 7, name: 'XPS Document' }];
   }
   ngAfterViewInit() {
     // this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
