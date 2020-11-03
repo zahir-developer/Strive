@@ -44,7 +44,6 @@ using Strive.BusinessLogic.Messenger;
 using Strive.BusinessLogic.WhiteLabelling;
 using Strive.BusinessLogic.Checkout;
 using Strive.BusinessLogic.MonthlySalesReport;
-using Strive.BusinessLogic.CustomerSummaryReport;
 
 namespace Admin.API
 {
@@ -89,8 +88,7 @@ namespace Admin.API
             services.AddTransient<IMessengerBpl, MessengerBpl>();
             services.AddTransient<IWhiteLabelBpl, WhiteLabelBpl>();
             services.AddTransient<ICheckoutBpl, CheckoutBpl>();
-            services.AddTransient<ISalesReportBpl, SalesReportBpl>();
-            services.AddTransient<ICustomerSummaryReportBpl, CustomerSummaryReportBpl>();
+            services.AddTransient<IReportBpl, ReportBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

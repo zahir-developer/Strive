@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Report;
 using Strive.BusinessLogic.MonthlySalesReport;
 using Strive.Common;
 using System;
@@ -14,9 +15,9 @@ namespace Admin.API.Controllers
     [Authorize]
 
     [Route("Admin/[Controller]")]
-    public class SalesReportController : StriveControllerBase<ISalesReportBpl>
+    public class ReportController : StriveControllerBase<IReportBpl>
     {
-        public SalesReportController(ISalesReportBpl msBpl) : base(msBpl) { }
+        public ReportController(IReportBpl msBpl) : base(msBpl) { }
         #region
         /// <summary>
         /// Method to Get MonthlySales Report.
@@ -24,6 +25,13 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetMonthlySalesReport")]
         public Result GetMonthlySalesReport([FromBody] SalesReportDto monthlysales) => _bplManager.GetMonthlySalesReport(monthlysales);
+
+        /// <summary>
+        /// Method to Get Customer Summary Report.
+        /// </summary>
+        [HttpPost]
+        [Route("GetCustomerSummaryReport")]
+        public Result GetCustomerSummaryReport([FromBody] CustomerSummaryReportDto customersummary) => _bplManager.GetCustomerSummaryReport(customersummary);
         #endregion
 
     }

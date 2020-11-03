@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Report;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.MonthlySalesReport
 {
-    public interface ISalesReportBpl
+    public interface IReportBpl
     {
         Result GetMonthlySalesReport(SalesReportDto monthlysales);
+        Result GetCustomerSummaryReport(CustomerSummaryReportDto customersummary);
     }
 }
