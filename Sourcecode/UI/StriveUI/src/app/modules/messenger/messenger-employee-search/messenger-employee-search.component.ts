@@ -14,6 +14,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   groupname = '';
   selectAll = false;
   @Output() emitNewChat = new EventEmitter();
+  @Output() emitFirstMessage = new EventEmitter();
   @Input() selectedEmployee: any = [];
   @Input() currentEmployeeId: any = 1;
   @Input() popupType: any = '';
@@ -47,6 +48,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         this.empList = empList.EmployeeList;
+        this.removeSelectedEmployee();
         this.setDefaultBoolean(false);
         this.setName();
       }
@@ -90,7 +92,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       } else {
         this.showPopup();
       }
-    } else if (this.selectedEmployee?.IsGroup === false) {
+      this.emitFirstMessage.emit(selectedEmp);
+    } else if (this.selectedEmployee?.IsGroup === false ) {
       const emp = this.checkDuplicate();
       if (emp.length > 1) {
         this.showPopup();
@@ -115,8 +118,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     if (this.popupType === 'newChat') {
       return selectedEmp;
     }
-    const duplicateEmp = selectedEmp.filter(emp => +emp.EmployeeId === +this.selectedEmployee.Id);
-    if (duplicateEmp.length > 0) {
+    const duplicateEmp = selectedEmp.filter(emp => +emp.EmployeeId === +this.selectedEmployee?.Id);
+    if (duplicateEmp.length > 0 ) {
       return selectedEmp;
     } else {
       if (this.selectedEmployee?.IsGroup === false) {
@@ -174,7 +177,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
             CommunicationId: groupObject.Result.GroupId,
             LastName: null,
             IsGroup: true,
-            isRead: true
+            isRead: true,
+            type: 'new Group'
           }];
           if (groupObj.chatGroup !== null) {
             this.emitNewChat.emit(createdGroupObj);
@@ -182,11 +186,17 @@ export class MessengerEmployeeSearchComponent implements OnInit {
           } else{
             this.closeemp();
           }
-
-          // this.groupIdInsertion(selectedEmp, groupId.Status);
         }
       });
 
+    }
+  }
+
+  removeSelectedEmployee()
+  {
+    if(!this.selectedEmployee.IsGroup)
+    {
+      this.empList = this.empList.filter(emp=> emp.EmployeeId !== this.selectedEmployee.Id);
     }
   }
 }

@@ -9,14 +9,13 @@
                     <div class="col-12">
                         <div class="row no-gutter">
                             <div class="col-lg-2">
-                                <input type="text" class="form-control date datepicker-month" data-toggle="date-picker" data-single-date-picker="true"  placeholder="Month"> </div>
+                                <app-month-picker></app-month-picker>
+                            </div>
                             <div class="col-lg-2">
-                                <input type="text" class="form-control date datepicker-year" data-toggle="date-picker" data-single-date-picker="true" placeholder="Year"> </div>
+                                <app-year-picker></app-year-picker>
+                            </div>
                             <div class="col-lg-2">
-                                <select class="form-control">
-                                    <option selected="">Main Street</option>
-                                    <option> </option>
-                                </select>
+                                <app-location-dropdown></app-location-dropdown>
                             </div>
                             <div class="col-lg-2">
                                 <button type="button" class="btn theme-primary-button-color">Preview</button>
