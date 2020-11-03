@@ -7,6 +7,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { MessengerEmployeeSearchComponent } from './messenger-employee-search/messenger-employee-search.component';
 import { MessengerEmployeeListComponent } from './messenger-employee-list/messenger-employee-list.component';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 
 declare var $: any;
 @Component({
@@ -43,9 +45,11 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   senderLastName: string;
   currentEmployeeId: number;
   popupType: any;
-  isUserOnline : boolean = false;
+  isUserOnline: boolean = false;
   groupEmpList: any;
-  constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient) { }
+  selectedChatId: number;
+  constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient,
+    private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
 
 
@@ -55,20 +59,44 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.signalRService.startConnection();
     this.signalRService.SubscribeChatEvents();
     this.signalRService.ReceivedMsg.subscribe(data => {
-      if (data !== null) {
-        if (this.selectedEmployee?.Id === data?.chatMessageRecipient?.senderId) {
- const receivedMsg = {
-          SenderId: 0,
-          SenderFirstName: this.selectedEmployee.FirstName,
-          SenderLastName: this.selectedEmployee.LastName,
-          ReceipientId: data.chatMessageRecipient.senderId,
-          RecipientFirstName: '',
-          RecipientLastName: '',
-          MessageBody: data.chatMessage.messagebody,
-          CreatedDate: data.chatMessage.createdDate,
-          CommunicationId: this.selectedEmployee.CommunicationId
-        };
- this.msgList.push(receivedMsg);
+      this.selectedChatId = this.selectedEmployee?.Id;
+      if (data !== null && this.selectedEmployee !== null) {
+        if (this.selectedChatId === data?.chatMessageRecipient?.Id) {
+          const receivedMsg = {
+            SenderId: 0,
+            SenderFirstName: this.selectedEmployee.FirstName,
+            SenderLastName: this.selectedEmployee.LastName,
+            ReceipientId: data.chatMessageRecipient.senderId,
+            RecipientFirstName: '',
+            RecipientLastName: '',
+            MessageBody: data.chatMessage.messagebody,
+            CreatedDate: data.chatMessage.createdDate,
+            CommunicationId: this.selectedEmployee.CommunicationId
+          };
+          this.msgList.push(receivedMsg);
+        } else {
+          this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
+        }
+        // this.LoadMessageChat(this.selectedEmployee);
+      }
+    });
+
+    this.signalRService.ReceiveGrpMsg.subscribe(data => {
+      this.selectedChatId = this.selectedEmployee?.Id;
+      if (data !== null && this.selectedEmployee !== null) {
+        if (this.selectedChatId === data?.chatMessageRecipient?.recipientGroupId && this.employeeId !== data.chatMessageRecipient.senderId) {
+          const receivedMsg = {
+            SenderId: 0,
+            SenderFirstName: this.selectedEmployee.FirstName,
+            SenderLastName: this.selectedEmployee.LastName,
+            ReceipientId: data.chatMessageRecipient.senderId,
+            RecipientFirstName: '',
+            RecipientLastName: '',
+            MessageBody: data.chatMessage.messagebody,
+            CreatedDate: data.chatMessage.createdDate,
+            CommunicationId: this.selectedEmployee.CommunicationId
+          };
+          this.msgList.push(receivedMsg);
         } else {
           this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
         }
@@ -83,26 +111,24 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
           CommunicationId: data[1]
         };
 
-        if(!this.selectedEmployee?.IsGroup)
-        {
-          if(this.selectedEmployee?.Id === commObj.EmployeeId)
-          {
-              this.isUserOnline = true;
+        if (!this.selectedEmployee?.IsGroup) {
+          if (this.selectedEmployee?.Id === commObj.EmployeeId) {
+            this.isUserOnline = true;
           }
         }
       }
     });
   }
-  
-  ngAfterViewChecked() {        
-    this.scrollToBottom();        
-} 
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
   getSenderName() {
     this.senderFirstName = localStorage.getItem('employeeFirstName');
     this.senderLastName = localStorage.getItem('employeeLastName');
   }
   showUnreadMsg(data, msg) {
-this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
+    this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
   }
   openemp(event) {
     this.popupType = event;
@@ -140,15 +166,17 @@ this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
         this.scrollToBottom();
       }
+      else{
+        this.toastrService.error('Communication Error','Error getting chat messages!');
+      }
     });
 
-    if(this.isGroupChat)
-    {
+    if (this.isGroupChat) {
       this.getGroupMembers(this.groupChatId);
     }
   }
 
-  sendMessage(override=false) {
+  sendMessage(override = false) {
     if (this.messageBody.trim() === '' && override) {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
       return;
@@ -207,33 +235,73 @@ this.messengerEmployeeListComponent.SetUnreadMsgBool(data, false, msg);
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
+      else{
+        this.toastrService.error('Communication Error','Error sending message!');
+      }
     });
   }
   scrollToBottom(): void {
     try {
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch (err) { }
-}
+  }
   openpopup(event) {
     this.currentEmployeeId = 0;
     // this.selectedEmployee = [];
     this.openemp(event);
   }
 
-  getGroupMembers(groupId)
-  {
-    this.msgService.getGroupMembers(groupId).subscribe(data =>
-      {
-        if(data.status === 'Success')
-        {
-          const employeeListData = JSON.parse(data.resultData);
-          this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
-        }
-      });
+  getGroupMembers(groupId) {
+    this.msgService.getGroupMembers(groupId).subscribe(data => {
+      if (data.status === 'Success') {
+        const employeeListData = JSON.parse(data.resultData);
+        this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
+      }
+      else{
+        this.toastrService.error('Communication Error','Error getting Group Members!');
+      }
+    });
   }
 
-  sendFirstMessage(selectedEmployee)
-  {
+  refreshGroupMembers(groupId) {
+    this.msgService.getGroupMembers(groupId).subscribe(data => {
+      if (data.status === 'Success') {
+        const employeeListData = JSON.parse(data.resultData);
+        this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
+        this.toastrService.success('Group user added successfully..!!!');
+      }
+      else{
+        this.toastrService.error('Communication Error','Error getting Group Members!');
+      }
+    });
+  }
+
+  sendFirstMessage(selectedEmployee) {
     this.sendMessage(true);
+  }
+
+  confirmDeleteGroupUser(groupChatUserId, chatGroupId) {
+    this.confirmationService.confirm('Delete Group user', `Are you sure you want to delete this user from Group?`, 'Yes', 'No').then((confirmed) => {
+      if (confirmed === true) {
+        this.deleteGroupUser(groupChatUserId, chatGroupId);
+      }
+    })
+      .catch(() => { });
+  }
+
+  deleteGroupUser(groupChatUserId, chatGroupId) {
+    this.msgService.removeGroupUser(groupChatUserId).subscribe(data =>
+    {
+      const result = JSON.parse(data.resultData);
+      if(result.ChatGroupUserDelete === true)
+      {
+        this.getGroupMembers(chatGroupId);
+        this.toastrService.success('User removed from group successfully..!');
+      }
+      else{
+        this.toastrService.error('Communication Error','Error removing user from Group!');
+      }
+
+    });
   }
 }

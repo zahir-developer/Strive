@@ -75,7 +75,7 @@ namespace Admin.API.Controllers
                     if (chatMessageDto.GroupId != null)
                     {
                         //await _hubContext.Clients.All.SendAsync("ReceiveGroupMessage", chatMessageDto);
-                        await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceiveGroupPrivateMessage", chatMessageDto);
+                        await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceiveGroupMessage", chatMessageDto);
                     }
                 }
             }
@@ -97,27 +97,25 @@ namespace Admin.API.Controllers
 
             ChatGroupViewModel chatGroupViewModel = new ChatGroupViewModel();
 
-            string groupId = "Group" + "_" + commonBpl.RandomString(5);
+            
             if (chatGroupDto.ChatGroup != null)
             {
+                string groupId = "Group" + "_" + commonBpl.RandomString(5);
                 chatGroupDto.ChatGroup.GroupId = groupId;
-            }
-            else
-            {
-                groupId = chatGroupDto.GroupId;
+                chatGroupDto.GroupId = groupId;
             }
 
             var result = _bplManager.CreateGroup(chatGroupDto);
 
             foreach (var user in chatGroupDto.ChatUserGroup)
             {
-                if (user.CommunicationId != null)
+                if (user.CommunicationId != null && !string.IsNullOrEmpty(chatGroupDto.GroupId))
                 {
-                    await _hubContext.Groups.AddToGroupAsync(user.CommunicationId, groupId);
-                    await _hubContext.Clients.Group(groupId).SendAsync("GroupMessageReceive", user.UserId + " has joined.");
+                    await _hubContext.Groups.AddToGroupAsync(user.CommunicationId, chatGroupDto.GroupId);
+                    await _hubContext.Clients.Group(chatGroupDto.GroupId).SendAsync("GroupMessageReceive", user.UserId + " has joined.");
                 }
             }
-            chatGroupViewModel.GroupId = groupId;
+            chatGroupViewModel.GroupId = chatGroupDto.GroupId;
             chatGroupViewModel.ChatGroupId = result;
 
             _resultContent.Add(chatGroupViewModel.WithName("Result"));
@@ -139,6 +137,11 @@ namespace Admin.API.Controllers
             return _bplManager.GetChatMessage(chatDto);
         }
 
+        /// <summary>
+        /// Retreives list of unread messae count from each sen.
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetUnReadMessageCount/{employeeId}")]
         public Result GetUnReadMessageCount(int employeeId)
@@ -146,12 +149,18 @@ namespace Admin.API.Controllers
             return _bplManager.GetUnReadMessageCount(employeeId);
         }
 
+        /// <summary>
+        /// Method to retrieve list of user belongs to a group.
+        /// </summary>
+        /// <param name="chatGroupId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetChatGroupEmployeelist/{chatGroupId}")]
         public Result GetChatGroupEmployeelist(int chatGroupId)
         {
             return _bplManager.GetChatGroupEmployeelist(chatGroupId);
         }
+
 
         [HttpPut]
         [Route("AddEmployeeToGroup/{employeeId}/{communicationId}")]
@@ -167,10 +176,14 @@ namespace Admin.API.Controllers
 
             return true;
         }
-
+        /// <summary>
+        /// Method to remove user from group
+        /// </summary>
+        /// <param name="chatGroupUserId"></param>
+        /// <returns></returns>
         [HttpDelete]
-        [Route("DeleteChatGroupUser")]
-        public Result DeleteChatGroupUser(int id) => _bplManager.DeleteChatGroupUser(id);
+        [Route("DeleteChatGroupUser/{chatGroupUserId}")]
+        public Result DeleteChatGroupUser(int chatGroupUserId) => _bplManager.DeleteChatGroupUser(chatGroupUserId);
 
     }
 }

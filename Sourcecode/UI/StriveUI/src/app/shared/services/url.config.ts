@@ -152,11 +152,11 @@ export const UrlConfig = {
   {
     getEmployeeList: `Admin/Messenger/GetChatEmployeeList/`,
     sendMessage: `Admin/Messenger/SendChatMessage`,
-    createGroup: `Admin/Messenger/CreateGroup`,
     updateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
     getChatMessage: `Admin/Messenger/GetChatMessage`,
-    sendGroupMessage:  `Admin/Messenger/CreateChatGroup`,
+    createGroup:  `Admin/Messenger/CreateChatGroup`,
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
-    getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`
+    getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
+    deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`
   },
 };

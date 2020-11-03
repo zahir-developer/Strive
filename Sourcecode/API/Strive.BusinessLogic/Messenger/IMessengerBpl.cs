@@ -21,6 +21,6 @@ namespace Strive.BusinessLogic.Messenger
         Result GetUnReadMessageCount(int employeeid);
         Result GetChatGroupEmployeelist(int chatGroupId);
         ChatGroupListViewModel GetChatEmployeeGrouplist(int employeeId);
-        Result DeleteChatGroupUser(int id);
+        Result DeleteChatGroupUser(int chatUserGroupId);
     }
 }
