@@ -8,9 +8,9 @@
                 <div class="row no-gutter">
                     <div class="col-12">
                         <div class="row no-gutter">
-                            <div class="col-lg-2">
+                            <!-- <div class="col-lg-2">
                                 <app-month-picker (emitMonth)= 'onMonthChange($event)'></app-month-picker>
-                            </div>
+                            </div> -->
                             <div class="col-lg-2">
                                 <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
                             </div>
@@ -33,8 +33,8 @@
                                                 <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                             </div>&nbsp;
                                             <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color">Print</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color">Refresh</button>&nbsp;
+                                            <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;
+                                            <button type="button" class="btn theme-primary-button-color" (click)="getCustomerSummaryReport()">Refresh</button>&nbsp;
                                         </div>
                                     </div>
                                 </div>
@@ -44,12 +44,12 @@
                         <div class="card m-t-10">
                             <div class="card-body">
                                 <div class="p-b-5 m-b-8">
-                                    <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Summary Report for {{selectedDate}}</span>
+                                    <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Summary Report for {{date}}</span>
             </h4>
                                     <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#MonthlyCustomerreport" role="button" aria-expanded="false" aria-controls="MonthlyCustomerreport"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
                                 </div>
                                 <div id="MonthlyCustomerreport" class="collapse show">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" id='print-section'>
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
@@ -65,27 +65,26 @@
                                                     <th scope="col">% of customers turned up</th>
                                                 </tr>
                                             </thead>
-                                            <!-- <tbody *ngFor="let custSummary of customerSummaryReport">
+                                            <tbody *ngFor="let custSummary of customerSummaryReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                 <tr>
-                                                    <th scope="row">1</th>
+                                                    <th scope="row">{{custSummary?.Month}}</th>
                                                     <td>{{custSummary?.NumberOfMembershipAccounts}}</td>
                                                     <td>{{custSummary?.CustomerCount}}</td>
                                                     <td>{{custSummary?.NumberOfCompletedWashes}} </td>
-                                                    <td> {{custSummary?.AverageNumberOfWashesPerCustomer}}</td>
-                                                    <td> {{custSummary?.TotalNumberOfWashesPerCustomer}}</td>
-                                                    <td> {{custSummary?.PercentageOfCustomersThatTurnedUp}}</td>
+                                                    <td> {{custSummary?.AverageNumberOfWashesPerCustomer | number : '1.2-2'}}</td>
+                                                    <td> {{custSummary?.TotalNumberOfWashesPerCustomer | number : '1.2-2'}}</td>
+                                                    <td> {{custSummary?.PercentageOfCustomersThatTurnedUp | number : '1.2-2'}}</td>
                                                 </tr>
-                                            </tbody> -->
+                                            </tbody>
                                         </table>
+                                        <div *ngIf="customerSummaryReport?.length === 0">
+                                            <span class="text-center"> No Records Found</span>
+                                        </div>
                                         <ul class="pagination justify-content-end">
-                                            <input type="text" class="form-control m-r-8 paginationinput" placeholder="1">
-                                            <label class="d-inline-block  m-t-7 m-r-10">of 3</label> <i class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"></i> <i class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"></i>
-                                            <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-previous  theme-secondary-color"></i></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-skip-backward theme-secondary-color"></i></a></li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-forward theme-secondary-color"></i></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-next theme-secondary-color"></i></a></li>
+                                            <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                                class="d-flex justify-content-end">
+                                            </ngb-pagination>
                                         </ul>
                                     </div>
                                 </div>

@@ -86,7 +86,7 @@
                             <div *ngIf="monthlySalesReport?.length === 0">
                                 <span class="text-center"> No Records Found</span>
                             </div>
-                            <ul class="pagination justify-content-end" *ngIf='monthlySalesReport?.length > 0'>
+                            <ul class="pagination justify-content-end">
                                 <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount"
                                     placeholder="1">
                                 <label class="d-inline-block  m-t-7 m-r-10">of
@@ -95,13 +95,7 @@
                                     (click)="count('minus')"></em> <em
                                     class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"
                                     (click)="count('add')"></em>
-                                <!-- <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-previous  theme-secondary-color"></i></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-skip-backward theme-secondary-color"></i></a></li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-forward theme-secondary-color"></i></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><i class=" mdi mdi-skip-next theme-secondary-color"></i></a></li> -->
-                                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
                                     [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                                     class="d-flex justify-content-end">
                                 </ngb-pagination>

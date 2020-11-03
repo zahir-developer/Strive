@@ -2,56 +2,56 @@ import { Component, OnInit } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as moment from 'moment';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-monthly-customer-summary',
   templateUrl: './monthly-customer-summary.component.html',
   styleUrls: ['./monthly-customer-summary.component.css']
 })
 export class MonthlyCustomerSummaryComponent implements OnInit {
-fromDate = new Date();
-endDate = new Date();
+date = new Date();
 customerSummaryReport = [];
 originaldata = [];
 locationId = +localStorage.getItem('empLocationId');
   fileType: number;
   selectedDate: string;
-  constructor(private reportService: ReportsService, private excelService: ExcelService) { }
+  page = 1;
+  pageSize = 50;
+  collectionSize: number;
+  constructor(private reportService: ReportsService, private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.setMonth();
     this.getCustomerSummaryReport();
   }
   setMonth() {
-    const currentMonth = this.fromDate.getMonth() + 1;
-    this.onMonthChange(currentMonth);
+    const currentYear = this.date.getFullYear();
+    this.onYearChange(currentYear);
   }
   getCustomerSummaryReport() {
     const obj = {
       locationId: this.locationId,
-      date: this.fromDate,
+      date: this.date,
     };
+    this.spinner.show();
     this.reportService.getCustomerSummaryReport(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const customerSummaryReport = JSON.parse(data.resultData);
-        this.selectedDate = moment(this.fromDate).format('YYYY');
         if (customerSummaryReport?.GetCustomerSummaryReport !== null) {
-          this.customerSummaryReport = customerSummaryReport?.GetCustomerSummaryReport ?
+          const sumReport = customerSummaryReport?.GetCustomerSummaryReport ?
           customerSummaryReport?.GetCustomerSummaryReport : [];
-          this.originaldata =  customerSummaryReport?.GetCustomerSummaryReport;
+          this.customerSummaryReport = sumReport;
+          this.originaldata =  sumReport;
+          this.collectionSize = Math.ceil(this.customerSummaryReport.length / this.pageSize) * 10;
         }
       }
-      console.log(data, 'customer');
+    }, (err) => {
+      this.spinner.hide();
     });
   }
-  onMonthChange(event) {
-    this.fromDate.setMonth(event - 1);
-    this.endDate.setMonth(event - 1);
-    this.fromDate = moment(this.fromDate).startOf('month').toDate();
-    this.endDate = moment(this.endDate).endOf('month').toDate();
-  }
   onYearChange(event) {
-    this.fromDate.setFullYear(event);
-    this.endDate.setFullYear(event);
+    this.date = event;
   }
   onLocationChange(event) {
     this.locationId = +event;
@@ -68,7 +68,7 @@ locationId = +localStorage.getItem('empLocationId');
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('customerSummaryReport', 'customerSummaryReport.pdf');
+        this.excelService.exportAsPDFFile('MonthlyCustomerreport', 'customerSummaryReport.pdf');
         break;
       }
       case 2: {
