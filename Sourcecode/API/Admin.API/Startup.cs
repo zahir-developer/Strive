@@ -89,7 +89,7 @@ namespace Admin.API
             services.AddTransient<IMessengerBpl, MessengerBpl>();
             services.AddTransient<IWhiteLabelBpl, WhiteLabelBpl>();
             services.AddTransient<ICheckoutBpl, CheckoutBpl>();
-            services.AddTransient<ISalesReportBpl, SalesReportBpl>();
+            services.AddTransient<IReportBpl, ReportBpl>();
             services.AddTransient<ICustomerSummaryReportBpl, CustomerSummaryReportBpl>();
 
             #region Add CORS

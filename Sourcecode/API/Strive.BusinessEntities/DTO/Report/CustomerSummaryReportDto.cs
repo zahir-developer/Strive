@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.DTO.CustomerSummaryReport
+namespace Strive.BusinessEntities.DTO.Report
 {
     public class CustomerSummaryReportDto
     {
