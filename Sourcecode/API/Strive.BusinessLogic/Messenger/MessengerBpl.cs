@@ -47,15 +47,24 @@ namespace Strive.BusinessLogic.Messenger
             {
                 foreach (var item in result.ChatEmployeeList)
                 {
+                    string[] msgDetail = item.RecentChatMessage != null ? item.RecentChatMessage.Split(','): new string[3];
+                    string dateTime = msgDetail[0];
+                    string msg = msgDetail[1];
+                    string isRead = msgDetail[2];
+
                     list = new ChatEmployeeList()
                     {
+
                         Id = item.Id,
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         CommunicationId = item.CommunicationId,
-                        RecentChatMessage = item.RecentChatMessage,
-                        IsGroup = false
-                    };
+                        RecentChatMessage = msg,
+                        IsRead = isRead == "1" ? true : false,
+                        CreatedDate = dateTime,
+                        IsGroup = false,
+                        Selected = chatHistory.ChatEmployeeList.Count == 0 ? true : false
+                };
                     chatHistory.ChatEmployeeList.Add(list);
                 }
             }
@@ -64,14 +73,21 @@ namespace Strive.BusinessLogic.Messenger
             {
                 foreach (var item in result.GroupList)
                 {
+                    string[] msgDetail = item.RecentChatMessage != null ? item.RecentChatMessage.Split(',') : new string[2];
+                    string dateTime = msgDetail[0];
+                    string msg = msgDetail[1];
+
                     list = new ChatEmployeeList()
                     {
                         Id = item.ChatGroupId,
                         FirstName = item.GroupName,
-                        RecentChatMessage = item.RecentChatMessage,
+                        RecentChatMessage = msg,
                         CommunicationId = item.GroupId,
                         IsGroup = true,
-                        GroupId = item.GroupId
+                        GroupId = item.GroupId,
+                        CreatedDate = dateTime,
+                        IsRead = item.IsRead,
+                        Selected = chatHistory.ChatEmployeeList.Count == 0 ? true : false
                     };
                     chatHistory.ChatEmployeeList.Add(list);
                 }

@@ -17,6 +17,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   @Output() emitLoadMessageChat = new EventEmitter();
   @Output() popupEmit = new EventEmitter();
   employeeId: number = +localStorage.getItem('empId');
+  selectedClass : string;
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
   ngOnInit(): void {
     this.getRecentChatHistory(this.employeeId);
@@ -68,17 +69,17 @@ export class MessengerEmployeeListComponent implements OnInit {
     if (this.empList.length > 0) {
       this.empList[0].type = 'first Employee';
       this.emitLoadMessageChat.emit(this.empList[0]);
-      this.empList.forEach(item => {
-        if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
-          const recentMsg = item.RecentChatMessage.split(',');
-          item.RecentChatMessage = recentMsg[1];
-          item.createdDate = recentMsg[0];
-        }
-      });
+      // this.empList.forEach(item => {
+      //   if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
+      //     const recentMsg = item.RecentChatMessage.split(',');
+      //     item.RecentChatMessage = recentMsg[1];
+      //     item.createdDate = recentMsg[0];
+      //   }
+      // });
     }
   }
-  SetUnreadMsgBool(empId , event, msg) {
-    this.empList.forEach (item => {
+  SetUnreadMsgBool(empId, event, msg) {
+    this.empList.forEach(item => {
       if (+item.Id === +empId && msg !== '') {
         item.isRead = event;
         item.RecentChatMessage = msg;
@@ -91,6 +92,12 @@ export class MessengerEmployeeListComponent implements OnInit {
     });
   }
   loadChat(employeeObj) {
+    employeeObj.Selected = true;
+    this.empList.filter(s=>s.Id !== employeeObj.Id).forEach(item => {
+        if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
+          item.Selected = false
+        }
+      });
     employeeObj.type = 'selected Employee';
     this.SetUnreadMsgBool(employeeObj.Id, true, '');
     this.emitLoadMessageChat.emit(employeeObj);
