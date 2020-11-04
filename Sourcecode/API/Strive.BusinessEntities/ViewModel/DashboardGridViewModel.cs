@@ -8,6 +8,8 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class DashboardGridViewModel
     {
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
         public int? WashesCount { get; set; }
         public int? DetailCount { get; set; }
         public int? EmployeeCount { get; set; }
