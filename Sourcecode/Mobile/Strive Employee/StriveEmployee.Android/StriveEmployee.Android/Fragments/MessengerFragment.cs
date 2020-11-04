@@ -56,8 +56,6 @@ namespace StriveEmployee.Android.Fragments
             messenger_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.messenger_ViewPager);
             messenger_PopupMenu = new PopupMenu(Context, messenger_ImageButton);
             messenger_Menu = messenger_PopupMenu.Menu;
-            //messenger_Menu.Add(0,0,0,"Create Group").SetIcon(Resource.Drawable.dotsThree);
-            //messenger_Menu.Add(0, 1, 0, "Refresh");
             messenger_PopupMenu.MenuInflater.Inflate(Resource.Menu.group_create_menu, messenger_Menu);
             messenger_PopupMenu.MenuItemClick += Messenger_PopupMenu_MenuItemClick;
             messenger_ImageButton.Click += Messenger_ImageButton_Click;
