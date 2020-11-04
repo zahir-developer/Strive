@@ -25,13 +25,16 @@ namespace StriveEmployee.Android.Fragments
         [MvxUnconventionalAttribute]
     public class MessengerFragment : MvxFragment<MessengerViewModel>
     {
+        private ImageButton messenger_ImageButton;
         private TabLayout messenger_TabLayout;
         private ViewPager messenger_ViewPager;
         private ViewPagerAdapter messenger_ViewPagerAdapter;
+        private PopupMenu messenger_PopupMenu;
+        private IMenu messenger_Menu;
         private MessengerContactFragment contactFragment;
         private MessengerRecentContactFragment recentContactFragment;
         private MessengerGroupContactFragment groupContactFragment;
-
+        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -48,11 +51,33 @@ namespace StriveEmployee.Android.Fragments
             recentContactFragment = new MessengerRecentContactFragment();
             groupContactFragment = new MessengerGroupContactFragment();
 
+            messenger_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.menu_ImageButton);
             messenger_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.messenger_TabLayout);
             messenger_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.messenger_ViewPager);
+            messenger_PopupMenu = new PopupMenu(Context, messenger_ImageButton);
+            messenger_Menu = messenger_PopupMenu.Menu;
+            //messenger_Menu.Add(0,0,0,"Create Group").SetIcon(Resource.Drawable.dotsThree);
+            //messenger_Menu.Add(0, 1, 0, "Refresh");
+            messenger_PopupMenu.MenuInflater.Inflate(Resource.Menu.group_create_menu, messenger_Menu);
+            messenger_PopupMenu.MenuItemClick += Messenger_PopupMenu_MenuItemClick;
+            messenger_ImageButton.Click += Messenger_ImageButton_Click;
 
             return rootView;
         }
+
+        private void Messenger_PopupMenu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+            switch(e.Item.ItemId)
+            {
+
+            }
+        }
+
+        private void Messenger_ImageButton_Click(object sender, EventArgs e)
+        {
+            messenger_PopupMenu.Show();
+        }
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
