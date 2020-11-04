@@ -18,7 +18,11 @@ private commId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 public communicationId: Observable<any> = this.commId.asObservable();
 private recMsg: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
-  constructor(public messengerService: MessengerService) { }
+
+private recGrpMsg: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+public ReceiveGrpMsg: Observable<any> = this.recGrpMsg.asObservable();
+
+  constructor() { }
 
   public data: any;
   private hubConnection: signalR.HubConnection;
@@ -37,17 +41,29 @@ public ReceivedMsg: Observable<any> = this.recMsg.asObservable();
       .catch(err => console.log('Error while starting connection: ' + err))
   }
 
-  
+  public stopConnection = () => {
+    console.log('stopConnection');
+    this.hubConnection?.invoke('SendEmployeeCommunicationId', localStorage.getItem('empId'), '0').catch(function (err) {
+      return console.error(err.toString());
+    });
+    this.hubConnection?.stop();
+  }
+
+  public connectionDisconnected = () => {
+    this.hubConnection?.on('OnDisconnected', (data) => {
+      console.log('onDisconnected');
+      console.log(data);
+    });
+  }
 
   public SubscribeChatEvents = () => {
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
       // this.messengerService.UpdateChatCommunication(id);
 console.log('ReceiveCommunicationID: '+ id);
-      this.hubConnection.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
+      this.hubConnection?.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
         return console.error(err.toString());
       });
-
     });
 
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
@@ -59,10 +75,8 @@ console.log('ReceiveCommunicationID: '+ id);
     });
 
     this.hubConnection.on('ReceiveGroupMessage', (data) => {
-      console.log('Messager Received');
-
-      console.log(data);
-      this.setReceivedMsg(data);
+      console.log('Messager Group Received');
+      this.setGrpReceivedMsg(data);
       //this.messengerService.ReceivePrivateMessage(data);
     });
 
@@ -75,6 +89,8 @@ console.log('ReceiveCommunicationID: '+ id);
       console.log(connId + senderId + user + message);*/
       //document.getElementById("messagesList").appendChild(li);
     });
+
+    
 
     this.hubConnection.on('ReceiveEmployeeCommunicationId', (data) => {
       if (data !== null) {
@@ -93,7 +109,7 @@ console.log('ReceiveCommunicationID: '+ id);
       if (data !== null) {
         console.log('GroupMessageReceive');        
         console.log(data); 
-        this.setReceivedMsg(data);
+        this.setGrpReceivedMsg(data);
       }
     });
   }
@@ -102,6 +118,10 @@ this.commId.next(data);
   }
   setReceivedMsg(data) {
     this.recMsg.next(data);
+  }
+
+  setGrpReceivedMsg(data) {
+    this.recGrpMsg.next(data);
   }
 
 }

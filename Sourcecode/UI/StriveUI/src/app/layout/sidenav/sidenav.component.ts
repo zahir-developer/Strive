@@ -22,7 +22,6 @@ export class SidenavComponent implements OnInit {
   }
   getLogo() {
     this.logoService.name.subscribe(data => {
-      console.log(data);
       const base64 = 'data:image/png;base64,';
       this.logoBase64 = base64 + data;
     });

@@ -66,6 +66,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   }
   setName() {
     if (this.empList.length > 0) {
+      this.empList[0].type = 'first Employee';
       this.emitLoadMessageChat.emit(this.empList[0]);
       this.empList.forEach(item => {
         if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
@@ -81,6 +82,7 @@ export class MessengerEmployeeListComponent implements OnInit {
       if (+item.Id === +empId && msg !== '') {
         item.isRead = event;
         item.RecentChatMessage = msg;
+        item.createdDate = new Date();
       } else {
         if (+item.Id === +empId && msg === '') {
           item.isRead = event;
@@ -89,6 +91,7 @@ export class MessengerEmployeeListComponent implements OnInit {
     });
   }
   loadChat(employeeObj) {
+    employeeObj.type = 'selected Employee';
     this.SetUnreadMsgBool(employeeObj.Id, true, '');
     this.emitLoadMessageChat.emit(employeeObj);
   }
@@ -101,7 +104,8 @@ export class MessengerEmployeeListComponent implements OnInit {
         CommunicationId: event[0]?.CommunicationId,
         ChatCommunicationId: '0',
         IsGroup: event[0].IsGroup,
-        isRead: event[0].isRead
+        isRead: event[0].isRead,
+        type: event[0].type ? event[0].type : ''
       };
       const duplicateEmp = this.empList.filter(item => item.Id === event[0].EmployeeId);
       if (duplicateEmp.length > 0) {

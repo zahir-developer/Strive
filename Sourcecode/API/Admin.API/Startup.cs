@@ -203,6 +203,12 @@ namespace Admin.API
             //app.UseSecureHeadersMiddleware(secureHeaderSettings.Value); 
             //app.UseSecureHeadersMiddleware(SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration());
             app.UseSecureHeadersMiddleware(Middleware.SecureHeaders.CustomConfiguration());
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatMessageHub>("/chatMessageHub");
+            });
+
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
             app.Use(next => context =>
@@ -216,10 +222,6 @@ namespace Admin.API
                 return next(context);
             });
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatMessageHub>("/chatMessageHub");
-            });
         }
     }
 }
