@@ -968,6 +968,13 @@ table th {
 	display: none;
 
 }
+.line-height-0{
+	line-height:0;
+}
+.aligncenter{
+	padding:150px 0;
+}
+
 .drop-down-item:hover .removeuser {
    display:inline-block;
 }

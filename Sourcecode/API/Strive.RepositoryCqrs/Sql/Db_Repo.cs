@@ -286,7 +286,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null) continue;
+                            if (model is null || model.GetType() == typeof(string)) continue;
 
                             Type subModelType = model.GetType();
 

@@ -51,6 +51,8 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public bool? IsProcessed { get; set; }
+        [Column]
+        public int MembershipId { get; set; }
 
     }
 }

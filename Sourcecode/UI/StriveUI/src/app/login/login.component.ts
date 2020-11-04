@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
           //   token.EmployeeDetails.EmployeeRole[0].RoleName;
           this.getThemeColor();
           this.loadTheLandingPage();
+          this.msgService.startConnection();
         } else {
           this.errorFlag = true;
           this.isLoginLoading = false;

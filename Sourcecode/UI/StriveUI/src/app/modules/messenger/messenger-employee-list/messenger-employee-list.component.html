@@ -12,7 +12,8 @@
 <div class="Message-box-slide view-msg position-relative">
     <div class="Message-item" *ngFor="let emp of empList" (click)='loadChat(emp)'>
         <ng-container>
-            <div *ngIf="!emp?.IsGroup" [ngClass]="[emp.CommunicationId !== '0' ? 'online-badge': 'offline-badge']"></div><span class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{emp?.FirstName?.charAt(0).toUpperCase() + (emp?.LastName ? emp?.LastName?.charAt(0).toUpperCase(): '')}}</span>
+            <div *ngIf="!emp?.IsGroup" [ngClass]="[emp.CommunicationId !== '0' ? 'online-badge': 'offline-badge']"></div>
+            <span class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle">{{emp?.FirstName?.charAt(0).toUpperCase() + (emp?.LastName ? emp?.LastName?.charAt(0).toUpperCase(): '')}}</span>
         <!-- <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle " [ngClass]="{'online-badge': emp.CommunicationId !== '0'}"></div>&nbsp;&nbsp;&nbsp; -->
         <div class="Message-item-body msgbody-active"> <span class="float-right msg-date font-size--8 recentchat-active" [ngClass]="[!emp.isRead ? 'bold-text': '']">{{emp?.createdDate | date: 'hh:mm aa'}} {{emp?.createDate ? '|' : ''}} {{emp?.createdDate | date: 'MMM d'}}</span>
             <div class="m-t-10">
