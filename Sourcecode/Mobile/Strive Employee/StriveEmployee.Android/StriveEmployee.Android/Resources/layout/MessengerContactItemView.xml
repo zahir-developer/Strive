@@ -16,6 +16,8 @@
             android:layout_marginTop = "@dimen/ten"
             android:layout_marginBottom = "@dimen/ten"
             android:layout_marginLeft = "@dimen/ten"
+            android:textColor="@color/profileQColor"
+            android:fontFamily="@font/opensans_semibold"
             android:background="@drawable/profileavatar_button"/>
         <TextView
             android:id="@+id/contactName_TextView"
@@ -24,8 +26,8 @@
             android:layout_marginLeft="@dimen/twenty"
             android:gravity="left|center"
             android:textSize="@dimen/fifteen"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/opensans_bold" />
+            android:textColor="@color/profileQColor"
+                    android:fontFamily="@font/opensans_semibold" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

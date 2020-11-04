@@ -30,6 +30,7 @@ namespace StriveEmployee.Android.Fragments
         private ViewPagerAdapter messenger_ViewPagerAdapter;
         private MessengerContactFragment contactFragment;
         private MessengerRecentContactFragment recentContactFragment;
+        private MessengerGroupContactFragment groupContactFragment;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -45,6 +46,7 @@ namespace StriveEmployee.Android.Fragments
             this.ViewModel = new MessengerViewModel();
             contactFragment = new MessengerContactFragment();
             recentContactFragment = new MessengerRecentContactFragment();
+            groupContactFragment = new MessengerGroupContactFragment();
 
             messenger_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.messenger_TabLayout);
             messenger_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.messenger_ViewPager);
@@ -58,6 +60,7 @@ namespace StriveEmployee.Android.Fragments
             messenger_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
             messenger_ViewPagerAdapter.AddFragment(recentContactFragment, "Recent");
             messenger_ViewPagerAdapter.AddFragment(contactFragment, "Contact");
+            messenger_ViewPagerAdapter.AddFragment(groupContactFragment, "Groups");
             messenger_ViewPager.Adapter = messenger_ViewPagerAdapter;
             messenger_TabLayout.SetupWithViewPager(messenger_ViewPager);
         }

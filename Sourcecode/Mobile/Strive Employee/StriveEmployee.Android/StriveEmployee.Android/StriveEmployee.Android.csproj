@@ -66,6 +66,7 @@
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
     <Compile Include="Fragments\MessengerFragment.cs" />
+    <Compile Include="Fragments\MessengerGroupContactFragment.cs" />
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
     <Compile Include="Listeners\IItemClickListener.cs" />
     <Compile Include="MainApplication.cs" />
@@ -275,6 +276,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MessengerContacts_Fragment.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerGroupContacts_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
