@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   averageCarWashTime: any;
   location: any = [];
   showDialog: boolean;
+  dashboardStatistics: any;
   constructor(
     public dashboardService: DashboardService,
     private messageService: MessageServiceToastr,
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.showDialog = false;
     this.getLocationList();
-    this.getDashboardCount();
+    this.getDashboardStatistics();
   }
 
   getDashboardCount() {
@@ -37,13 +38,20 @@ export class DashboardComponent implements OnInit {
     };
     this.dashboardService.getDetailCount(obj).subscribe( res => {
       const dashboardCount = JSON.parse(res.resultData);
-      console.log(dashboardCount, 'count');
       this.noOfWashes = dashboardCount.Dashboard.WashesCount.WashesCount;
       this.nOfDetail = dashboardCount.Dashboard.DetailsCount.DetailsCount;
       this.washEmployee = dashboardCount.Dashboard.EmployeeCount.EmployeeCount;
       this.currentCar = dashboardCount.Dashboard.Current.Current;
       this.foreCastedCar = dashboardCount.Dashboard.ForecastedCars.ForecastedCars;
       this.averageCarWashTime = dashboardCount.Dashboard.AverageWashTime.AverageWashTime;
+    });
+  }
+
+  getDashboardStatistics() {
+    const locationId = localStorage.getItem('empLocationId');
+    this.dashboardService.getDashboardStatistics(locationId).subscribe( res => {
+      const dashboardCount = JSON.parse(res.resultData);
+      this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
     });
   }
 

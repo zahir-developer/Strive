@@ -146,7 +146,8 @@ export const UrlConfig = {
     getAccountDetails: `Admin/Sales/GetAccountDetails`,
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
-    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`
+    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
+    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
   },
   Messenger:
   {
@@ -159,4 +160,9 @@ export const UrlConfig = {
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`
   },
+  dashboard: {
+    getDashboardLocation: `Admin/Location/GetAll`,
+    getTodayScheduleList: `Admin/Details/GetAllDetails`,
+    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
+  }
 };

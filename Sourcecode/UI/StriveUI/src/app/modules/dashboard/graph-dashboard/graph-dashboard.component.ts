@@ -29,18 +29,13 @@ export class GraphDashboardComponent implements OnInit {
   public barChartLegend = false;
 
   public barChartData: ChartDataSets[];
-  // public barChartData: ChartDataSets[] = [   = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-  //   { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-  //   { data: [18, 78, 30, 89, 80, 37, 30], label: 'Series c' }
-  // ];
   @Input() location?: any;
   isBarChart: boolean;
   isLineChart: boolean;
   isPieChart: boolean;
   isDotLineChart: boolean;
   chartDetail: any = [];
-  dataPoints: any; // = ['wash', 'detail', 'employee'];
+  dataPoints: any;
   selectedLocationIds = [];
   public barChartColors: Color[];
   constructor() { }
@@ -55,7 +50,7 @@ export class GraphDashboardComponent implements OnInit {
   }
 
   getDataPoints() {
-    this.dataPoints = [  // ['wash', 'detail', 'employee'];
+    this.dataPoints = [
       {
         id: 1,
         name: 'wash',
@@ -231,7 +226,6 @@ export class GraphDashboardComponent implements OnInit {
     });
     this.barChartData = chartData;
     this.barChartLabels = locatioName;
-    console.log(this.barChartData, 'barchart');
   }
 
   selectedLocation(loc) {
