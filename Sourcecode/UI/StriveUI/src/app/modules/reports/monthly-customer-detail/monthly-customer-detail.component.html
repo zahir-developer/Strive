@@ -28,10 +28,10 @@
                             <div class="pull-right">
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
-                                </div>
-                                <button type="button" class="btn theme-primary-button-color">Export</button>
-                                <button type="button" class="btn theme-primary-button-color">Print</button>
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                </div>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="getCustomerMonthlyDetailReport()">Refresh</button>
                             </div>
                         </div>
                     </div>
@@ -50,8 +50,8 @@
                                     class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
                     </div>
                     <div id="MonthlyCustomerDetailreport" class="collapse show">
-                        <div class="table-responsive">
-                            <table class="table montthcustreport">
+                        <div class="table-responsive scrollbar" id = "print-section">
+                            <table class="table montthcustreport" id="customerDetail">
                                 <thead>
                                     <tr>
                                         <th scope="col"></th>
@@ -65,8 +65,8 @@
                                         <th scope="col">Ticket Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody class="border" *ngFor="let custDetail of customerDetailReport">
-                                    <tr>
+                                <tbody class="border">
+                                    <!-- <tr>
                                         <th rowspan="3" class="text-center align-middle font-weight-700">{{custDetail?.ClientName}}</th>
                                         <td>{{custDetail?.TicketNumber}}</td>
                                         <td>{{custDetail?.Color}}</td>
@@ -76,18 +76,13 @@
                                         <td> {{custDetail?.MemberShipId}}</td>
                                         <td> {{custDetail?.MembershipPrice}}</td>
                                         <td> {{custDetail?.TicketAmount}}</td>
-                                    </tr>
-                                    <!-- <tr>
-                                        <td class="font-weight-600">Washes</td>
-                                        <td class="font-weight-600">5</td>
-                                        <td colspan="3"></td>
-                                        <td class="font-weight-600 text-right">Customer Total :</td>
-                                        <td class="font-weight-600">$215.00</td>
-                                        <td class="font-weight-600 text-right">Difference :</td>
-                                        <td class="font-weight-600">$50.00</td>
                                     </tr> -->
+                                   
                                 </tbody>
                             </table>
+                            <div *ngIf="customerDetailReport?.length === 0">
+                                <span class="text-center"> No Records Found</span>
+                            </div>
                             <ul class="pagination justify-content-end">
                                
                             </ul>

@@ -133,7 +133,7 @@ export const UrlConfig = {
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
-    getPaymentStatus:`Admin/Common/GetCodesByCategory/`,
+    getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
@@ -155,13 +155,15 @@ export const UrlConfig = {
     createGroup: `Admin/Messenger/CreateGroup`,
     updateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
     getChatMessage: `Admin/Messenger/GetChatMessage`,
-    sendGroupMessage:  `Admin/Messenger/CreateChatGroup`,
+    sendGroupMessage: `Admin/Messenger/CreateChatGroup`,
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`
   },
   reports: {
     getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
     getCustomerSummaryReport: `Admin/Report/GetCustomerSummaryReport`,
-     getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`
+    getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`,
+    getDailyTipReport: ``,
+    getMonthlyTipReport: ``
   }
 };

@@ -14,7 +14,7 @@ customerSummaryReport = [];
 originaldata = [];
 locationId = +localStorage.getItem('empLocationId');
   fileType: number;
-  selectedDate: string;
+  selectedDate: any;
   page = 1;
   pageSize = 50;
   collectionSize: number;
@@ -37,7 +37,7 @@ locationId = +localStorage.getItem('empLocationId');
     this.reportService.getCustomerSummaryReport(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
-        this.selectedDate = moment(this.date).format('YYYY');
+        this.selectedDate = this.date;
         const customerSummaryReport = JSON.parse(data.resultData);
         if (customerSummaryReport?.GetCustomerSummaryReport !== null) {
           const sumReport = customerSummaryReport?.GetCustomerSummaryReport ?
@@ -64,7 +64,7 @@ locationId = +localStorage.getItem('empLocationId');
     const fileType = this.fileType !== undefined ? this.fileType : '';
     if (fileType === '' || fileType === 0) {
       return;
-    } else if (this.customerSummaryReport === null) {
+    } else if (this.customerSummaryReport.length === 0) {
       return;
     }
     switch (fileType) {
