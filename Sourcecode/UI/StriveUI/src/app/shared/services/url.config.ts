@@ -163,6 +163,6 @@ export const UrlConfig = {
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
-    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
+    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics/`
   }
 };

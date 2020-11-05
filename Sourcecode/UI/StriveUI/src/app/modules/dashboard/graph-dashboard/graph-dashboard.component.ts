@@ -30,6 +30,7 @@ export class GraphDashboardComponent implements OnInit {
 
   public barChartData: ChartDataSets[];
   @Input() location?: any;
+  @Input() dashboardStatistics?: any;
   isBarChart: boolean;
   isLineChart: boolean;
   isPieChart: boolean;
@@ -53,33 +54,38 @@ export class GraphDashboardComponent implements OnInit {
     this.dataPoints = [
       {
         id: 1,
-        name: 'wash',
+        name: 'WashesCount',
         color: '#fd397a',
-        isSelected: true
+        isSelected: true,
+        displayName: 'Washes'
       },
       {
         id: 2,
-        name: 'detail',
+        name: 'DetailCount',
         color: '#f3c200',
-        isSelected: true
+        isSelected: true,
+        displayName: 'Details'
       },
       {
         id: 3,
-        name: 'employee',
+        name: 'EmployeeCount',
         color: '#24489A',
-        isSelected: true
+        isSelected: true,
+        displayName: 'Employees'
       },
       {
         id: 4,
-        name: 'score',
+        name: 'Score',
         color: '#24CAFF',
-        isSelected: true
+        isSelected: true,
+        displayName: 'Score'
       },
       {
         id: 5,
-        name: 'washTime',
+        name: 'ForecastedCar',
         color: '#5968DD',
-        isSelected: false
+        isSelected: false,
+        displayName: 'Currents/Forecasted Car'
       }
     ];
     const backgroundColor = [];
@@ -169,55 +175,22 @@ export class GraphDashboardComponent implements OnInit {
   }
 
   getChartDetail() {
-    this.chartDetail = [
-      {
-        LocationId: 2045,
-        locationName: 'Strive New Salon',
-        wash: 45,
-        detail: 35,
-        employee: 25,
-        score: 56
-      },
-      {
-        LocationId: 2044,
-        locationName: 'CHECK',
-        wash: 55,
-        detail: 45,
-        employee: 30,
-        score: 87
-      },
-      {
-        LocationId: 2034,
-        locationName: 'Main street',
-        wash: 35,
-        detail: 25,
-        employee: 15,
-        score: 45
-      },
-      {
-        LocationId: 2033,
-        locationName: 'Old Milton',
-        wash: 65,
-        detail: 55,
-        employee: 30,
-        score: 67
-      }
-    ];
+    this.barChartData = [];
+    this.barChartLabels = [];
     const locatioName = [];
     const wash = [];
     const detail = [];
     const employee = [];
-    this.chartDetail.forEach(item => {
-      locatioName.push(item.locationName);
-      this.selectedLocationIds.push(item.LocationId);
+    this.dashboardStatistics.forEach( item => {
+      locatioName.push(item.LocationName);
     });
-    this.chartDetail.forEach(item => {
+    this.dashboardStatistics.forEach(item => {
       item.isSelected = true;
     });
     const chartData = [];
     this.dataPoints.forEach(item => {
       if (item.isSelected) {
-        const points = _.pluck(this.chartDetail, item.name);
+        const points = _.pluck(this.dashboardStatistics, item.name);
         chartData.push({
           data: points,
           label: item.name
@@ -229,20 +202,22 @@ export class GraphDashboardComponent implements OnInit {
   }
 
   selectedLocation(loc) {
+    this.barChartData = [];
+    this.barChartLabels = [];
     const chartData = [];
     const locatioName = [];
     const locationId = this.selectedLocationIds.filter(item => item !== loc.LocationId);
-    this.chartDetail.forEach(item => {
+    this.dashboardStatistics.forEach(item => {
       if (item.LocationId === loc.LocationId) {
         item.isSelected = !item.isSelected;
       }
     });
-    this.chartDetail.forEach(item => {
+    this.dashboardStatistics.forEach(item => {
       if (item.isSelected) {
-        locatioName.push(item.locationName);
+        locatioName.push(item.LocationName);
       }
     });
-    const filteredLoction = this.chartDetail.filter(item => item.isSelected === true);
+    const filteredLoction = this.dashboardStatistics.filter(item => item.isSelected === true);
     this.dataPoints.forEach(item => {
       if (item.isSelected) {
         const points = _.pluck(filteredLoction, item.name);
@@ -257,6 +232,7 @@ export class GraphDashboardComponent implements OnInit {
   }
 
   selectedDatapoints(data) {
+    this.barChartData = [];
     this.dataPoints.forEach(item => {
       if (item.id === data.id) {
         item.isSelected = !item.isSelected;
@@ -274,7 +250,7 @@ export class GraphDashboardComponent implements OnInit {
     const chartData = [];
     this.dataPoints.forEach(item => {
       if (item.isSelected) {
-        const points = _.pluck(this.chartDetail, item.name);
+        const points = _.pluck(this.dashboardStatistics, item.name);
         chartData.push({
           data: points,
           label: item.name

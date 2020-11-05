@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.component';
+import { GraphDashboardComponent } from './graph-dashboard/graph-dashboard.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,26 @@ export class DashboardComponent implements OnInit {
   averageCarWashTime: any;
   location: any = [];
   showDialog: boolean;
-  dashboardStatistics: any;
+  dashboardStatistics: any = [];
+  averageDetailPerCar = 0;
+  averageExtraServicePerCar = 0;
+  averageTotalPerCar = 0;
+  averageWashPerCar = 0;
+  currents = 0;
+  detailCostPerCar = 0;
+  detailCount = 0;
+  detailSales = 0;
+  employeeCount = 0;
+  extraServiceSales = 0;
+  forecastedCar = 0;
+  labourCostPerCarMinusDetail = 0;
+  merchandizeSales = 0;
+  monthlyClientSales = 0;
+  score = 0;
+  totalSales = 0;
+  washSales = 0;
+  washTime = 0;
+  washesCount = 0;
   constructor(
     public dashboardService: DashboardService,
     private messageService: MessageServiceToastr,
@@ -28,7 +48,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.showDialog = false;
     this.getLocationList();
-    this.getDashboardStatistics();
+    this.getDashboardStatistics(0);
   }
 
   getDashboardCount() {
@@ -36,7 +56,7 @@ export class DashboardComponent implements OnInit {
       id: localStorage.getItem('empLocationId'),
       date: new Date()
     };
-    this.dashboardService.getDetailCount(obj).subscribe( res => {
+    this.dashboardService.getDetailCount(obj).subscribe(res => {
       const dashboardCount = JSON.parse(res.resultData);
       this.noOfWashes = dashboardCount.Dashboard.WashesCount.WashesCount;
       this.nOfDetail = dashboardCount.Dashboard.DetailsCount.DetailsCount;
@@ -47,12 +67,57 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getDashboardStatistics() {
-    const locationId = localStorage.getItem('empLocationId');
-    this.dashboardService.getDashboardStatistics(locationId).subscribe( res => {
+  getDashboardStatistics(locationID) {
+    // const locationId = localStorage.getItem('empLocationId');
+    this.dashboardStatistics = [];
+    this.resetValue();
+    this.dashboardService.getDashboardStatistics(locationID).subscribe(res => {
       const dashboardCount = JSON.parse(res.resultData);
+      console.log(dashboardCount, 'dashboard');
       this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
+      this.dashboardStatistics.forEach(item => {
+        this.washesCount = this.washesCount + item.WashesCount;
+        this.detailCount = this.detailCount + item.DetailCount;
+        this.employeeCount = this.employeeCount + item.EmployeeCount;
+        this.score = this.score + item.Score;
+        this.currents = this.currents + item.Currents;
+        this.forecastedCar = this.forecastedCar + item.ForecastedCar;
+        this.washSales = this.washSales + item.WashSales;
+        this.detailSales = this.detailSales + item.DetailSales;
+        this.extraServiceSales = this.extraServiceSales + item.ExtraServiceSales;
+        this.merchandizeSales = this.merchandizeSales + item.MerchandizeSales;
+        this.totalSales = this.totalSales + item.TotalSales;
+        this.monthlyClientSales = this.monthlyClientSales + item.MonthlyClientSales;
+        this.averageWashPerCar = this.averageWashPerCar + item.AverageWashPerCar;
+        this.averageDetailPerCar = this.averageDetailPerCar + item.AverageDetailPerCar;
+        this.averageExtraServicePerCar = this.averageExtraServicePerCar + item.AverageExtraServicePerCar;
+        this.averageTotalPerCar = this.averageTotalPerCar + item.AverageTotalPerCar;
+        this.labourCostPerCarMinusDetail = this.labourCostPerCarMinusDetail + item.LabourCostPerCarMinusDetail;
+        this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
+      });
+      // this.graphDashboardComponent.getChartDetail();
     });
+  }
+
+  resetValue() {
+    this.washesCount = 0;
+    this.detailCount = 0;
+    this.employeeCount = 0;
+    this.score = 0;
+    this.currents = 0;
+    this.forecastedCar = 0;
+    this.washSales = 0;
+    this.detailSales = 0;
+    this.extraServiceSales = 0;
+    this.merchandizeSales = 0;
+    this.totalSales = 0;
+    this.monthlyClientSales = 0;
+    this.averageWashPerCar = 0;
+    this.averageDetailPerCar = 0;
+    this.averageExtraServicePerCar = 0;
+    this.averageTotalPerCar = 0;
+    this.labourCostPerCarMinusDetail = 0;
+    this.detailCostPerCar = 0;
   }
 
   // Get All Location
