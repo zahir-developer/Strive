@@ -88,7 +88,7 @@ namespace Admin.API
             services.AddTransient<IMessengerBpl, MessengerBpl>();
             services.AddTransient<IWhiteLabelBpl, WhiteLabelBpl>();
             services.AddTransient<ICheckoutBpl, CheckoutBpl>();
-            services.AddTransient<IDashboardStatisticsBpl, DashboardStatisticsBpl>();
+            services.AddTransient<IDashboardBpl, DashboardBpl>();
             
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

@@ -13,16 +13,16 @@ namespace Admin.API.Controllers
     [Authorize]
 
     [Route("Admin/[Controller]")]
-    public class DashboardStatisticsController : StriveControllerBase<IDashboardStatisticsBpl>
+    public class DashboardController : StriveControllerBase<IDashboardBpl>
     {
-        public DashboardStatisticsController(IDashboardStatisticsBpl dBpl) : base(dBpl) { }
+        public DashboardController(IDashboardBpl dBpl) : base(dBpl) { }
         #region
         /// <summary>
         /// Method to retrieve Dashboard based on given LocationId.
         /// </summary>
         [HttpGet]
-        [Route("GetDashboardStatisticsForLocationId/{id}")]
-        public Result GetDashboardStatisticsForLocationId(int id) => _bplManager.GetDashboardStatisticsForLocationId(id);
+        [Route("GetDashboardStatistics/{locationId}")]
+        public Result GetDashboardStatistics(int locationId) => _bplManager.GetDashboardStatistics(locationId);
         #endregion
     }
 }

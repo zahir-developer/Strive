@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.DashboardStatistics
 {
-    public interface IDashboardStatisticsBpl
+    public interface IDashboardBpl
     {
-        Result GetDashboardStatisticsForLocationId(int id);
+        Result GetDashboardStatistics(int locationId);
     }
 }
