@@ -149,39 +149,15 @@ export class DashboardComponent implements OnInit {
   }
 
   mainStreet() {
-    let toggleState = false;
-    $('#mainstreet').click(function() {
-      $('.dashboard-card').toggle();
-      $(this).toggleClass('click-up-icon');
-      $(this).toggleClass('click-down-icon');
-      $('.dashbd-title').toggleClass('dashbd-margin');
-      $('i', this).toggleClass('mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle');
-      toggleState = !toggleState;
-    }  );
+    this.firstSectionTogggle = !this.firstSectionTogggle;
   }
 
   mainStreets() {
-    let toggleState = false;
-    $('#mainstreets').click(function() {
-      $('.dashboard-cards').toggle();
-      $(this).toggleClass('click-up-icon');
-      $(this).toggleClass('click-down-icon');
-      $('.dashbd-titles').toggleClass('dashbd-margin');
-      $('i', this).toggleClass('mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle');
-      toggleState = !toggleState;
-    });
+    this.secondSectionToggle = !this.secondSectionToggle;
   }
 
   mainStreetAvg() {
-    // let toggleState = false;
-    $('#mainstreet-avg').click(function() {
-      $('.dashboard-cards-avg').toggle();
-      $(this).toggleClass('click-up-icon');
-      $(this).toggleClass('click-down-icon');
-      $('.dashbd-titles-avg').toggleClass('dashbd-margin');
-      $('i', this).toggleClass('mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle');
-      // toggleState = !toggleState;
-    });
+    this.thirdSectionToggle = !this.thirdSectionToggle;
   }
 
 }
