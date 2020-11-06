@@ -73,4 +73,9 @@ export class MessengerService {
     {
         return this.http.delete(`${UrlConfig.Messenger.deleteGroupUser}` + chatGroupUserId)
     }
+    changeUnreadMessageState(chatDetail)
+    {
+        return this.http.post(`${UrlConfig.Messenger.changeUnreadMessageState}` + chatDetail)
+    }
+    
 }

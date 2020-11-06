@@ -77,5 +77,14 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public bool ChangeUnreadMessageState(ChatDto chatDto)
+        {
+            _prm.Add("senderId", chatDto.SenderId);
+            _prm.Add("receiverId", chatDto.RecipientId);
+            _prm.Add("groupId", chatDto.GroupId);
+
+            db.Save(EnumSP.Messenger.CHANGEUNREADMESSAGESTATE.ToString(), _prm);
+            return true;
+        }
     }
 }

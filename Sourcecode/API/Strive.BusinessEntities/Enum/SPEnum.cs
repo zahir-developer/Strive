@@ -53,7 +53,8 @@ namespace Strive.BusinessEntities
             GETCHATMESSAGECOUNT,
             USPGETCHATGROUPEMPLOYEELIST,
             USPGETCHATEMPLOYEEGROUPLIST,
-            USPDELETECHATUSERGROUP
+            USPDELETECHATUSERGROUP,
+            CHANGEUNREADMESSAGESTATE
         }
 
         public enum Membership
