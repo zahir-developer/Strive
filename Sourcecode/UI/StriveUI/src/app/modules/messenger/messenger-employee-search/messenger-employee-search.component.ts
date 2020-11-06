@@ -150,21 +150,22 @@ export class MessengerEmployeeSearchComponent implements OnInit {
           createdDate: new Date()
         };
         chatUserGroup.push(userGroup);
-        
+
       });
 
-      const currentUser = {
-        chatGroupUserId: 0,
-        userId: localStorage.getItem('empId'),
-        CommunicationId: '0',
-        chatGroupId: this.chatGroupId,
-        isActive: true,
-        isDeleted: false,
-        createdBy: 0,
-        createdDate: new Date()
-      };
-
-      chatUserGroup.push(currentUser);
+      if (!this.selectedEmployee?.IsGroup) {
+        const currentUser = {
+          chatGroupUserId: 0,
+          userId: localStorage.getItem('empId'),
+          CommunicationId: '0',
+          chatGroupId: this.chatGroupId,
+          isActive: true,
+          isDeleted: false,
+          createdBy: 0,
+          createdDate: new Date()
+        };
+        chatUserGroup.push(currentUser);
+      }
 
       const groupObj = {
         chatGroup: {
@@ -209,8 +210,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
             this.chatGroupId = this.chatGroupId === 0 ? groupObject.Result.ChatGroupId : this.chatGroupId;
             this.emitRefreshGroupUsers.emit(this.chatGroupId);
           }
-          else
-          {
+          else {
             this.emitRefreshGroupUsers.emit(groupObject.Result.ChatGroupId);
           }
         }

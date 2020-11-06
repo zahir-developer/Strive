@@ -49,14 +49,12 @@ public ReceiveGrpMsg: Observable<any> = this.recGrpMsg.asObservable();
     this.hubConnection?.stop();
   }
 
-  public connectionDisconnected = () => {
+  public SubscribeChatEvents = () => {
     this.hubConnection?.on('OnDisconnected', (data) => {
       console.log('onDisconnected');
       console.log(data);
     });
-  }
 
-  public SubscribeChatEvents = () => {
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
       // this.messengerService.UpdateChatCommunication(id);

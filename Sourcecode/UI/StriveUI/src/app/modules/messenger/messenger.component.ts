@@ -9,6 +9,7 @@ import { MessengerEmployeeSearchComponent } from './messenger-employee-search/me
 import { MessengerEmployeeListComponent } from './messenger-employee-list/messenger-employee-list.component';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any;
 @Component({
@@ -49,7 +50,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   groupEmpList: any;
   selectedChatId: number;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient,
-    private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+    private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
 
 
@@ -61,7 +62,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.signalRService.ReceivedMsg.subscribe(data => {
       this.selectedChatId = this.selectedEmployee?.Id;
       if (data !== null && this.selectedEmployee !== null) {
-        if (this.selectedChatId === data?.chatMessageRecipient?.Id) {
+        if (this.selectedChatId === data?.chatMessageRecipient?.senderId) {
           const receivedMsg = {
             SenderId: 0,
             SenderFirstName: this.selectedEmployee.FirstName,
@@ -87,8 +88,8 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         if (this.selectedChatId === data?.chatMessageRecipient?.recipientGroupId && this.employeeId !== data.chatMessageRecipient.senderId) {
           const receivedMsg = {
             SenderId: 0,
-            SenderFirstName: this.selectedEmployee.FirstName,
-            SenderLastName: this.selectedEmployee.LastName,
+            SenderFirstName: data.firstName,
+            SenderLastName: data.lastName,
             ReceipientId: data.chatMessageRecipient.senderId,
             RecipientFirstName: '',
             RecipientLastName: '',
@@ -144,6 +145,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
 
   LoadMessageChat(employeeObj) {
+    this.spinner.show();
     this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
     this.isGroupChat = employeeObj.IsGroup;
@@ -165,8 +167,10 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         const msgData = JSON.parse(data.resultData);
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
         this.scrollToBottom();
+        this.spinner.hide();
       }
       else{
+        this.spinner.hide();
         this.toastrService.error('Communication Error','Error getting chat messages!');
       }
     });
@@ -201,24 +205,19 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         senderId: this.employeeId,
         recipientId: this.isGroupChat ? null : this.recipientId,
         recipientGroupId: this.isGroupChat ? this.groupChatId : null,
-        isRead: true
+        isRead: false
       },
-      connectionId: this.recipientCommunicationId,
+      connectionId: this.selectedEmployee.CommunicationId,
       fullName: null,
       groupName: null,
-      groupId: this.selectedEmployee.CommunicationId
+      groupId: this.selectedEmployee.CommunicationId,
+      firstName: localStorage.getItem('employeeFirstName'),
+      lastName: localStorage.getItem('employeeLastName')
     };
-
-    const objmsg: string[] = [this.recipientCommunicationId,
-    this.employeeId.toString(),
-    this.FirstName,
-    this.LastName,
-    this.chatInitial,
-    this.messageBody.trim()
-    ]
-
+    this.spinner.show();
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
         const sendObj = {
           SenderId: this.employeeId,
           SenderFirstName: this.senderFirstName,
@@ -236,6 +235,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.messageBody = '';
       }
       else{
+        this.spinner.hide();
         this.toastrService.error('Communication Error','Error sending message!');
       }
     });
@@ -264,13 +264,16 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   refreshGroupMembers(groupId) {
+    this.spinner.show();
     this.msgService.getGroupMembers(groupId).subscribe(data => {
       if (data.status === 'Success') {
         const employeeListData = JSON.parse(data.resultData);
         this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
+        this.spinner.hide();
         this.toastrService.success('Group user added successfully..!!!');
       }
       else{
+        this.spinner.hide();
         this.toastrService.error('Communication Error','Error getting Group Members!');
       }
     });
