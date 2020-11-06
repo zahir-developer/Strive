@@ -40,6 +40,7 @@ import { VehicleCreateEditComponent } from './components/vehicle-create-edit/veh
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { TooltipModule } from 'primeng/tooltip';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { TooltipModule } from 'primeng/tooltip';
     TypeaheadModule.forRoot(),
     ConfirmDialogModule,
     NgMultiSelectDropDownModule.forRoot(),
-    TooltipModule
+    TooltipModule,
+    ChartsModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
@@ -75,7 +77,8 @@ import { TooltipModule } from 'primeng/tooltip';
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
-     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent, TooltipModule],
+     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent,
+      ClientFormComponent, VehicleCreateEditComponent, TooltipModule, ChartsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 
