@@ -14,6 +14,12 @@ namespace Strive.BusinessEntities
             USPGETTIMECLOCKWEEKDETAILS,
             USPDELETETIMECLOCKEMPLOYEE
         }
+        public enum SalesReport
+        {
+            USPGETMONTHLYSALESREPORT,
+            USPGETCUSTOMERSUMMARYREPORT,
+            USPMONTHLYCUSTOMERDETAIL
+        }
 
         public enum WhiteLabelling
         {
@@ -55,10 +61,7 @@ namespace Strive.BusinessEntities
             USPGETALLMEMBERSHIP
         }
     }
-
-
-
-
+    
     public enum SPEnum
     {
         USPLOGIN,
