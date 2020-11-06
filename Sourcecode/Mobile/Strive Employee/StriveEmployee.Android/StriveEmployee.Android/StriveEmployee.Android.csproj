@@ -62,10 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapter\MessengerContactsAdapter.cs" />
+    <Compile Include="Adapter\MessengerCreateGroupAdapter.cs" />
     <Compile Include="Adapter\MessengerGroupChatAdapter.cs" />
     <Compile Include="Adapter\MessengerRecentContactsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
+    <Compile Include="Fragments\MessengerCreateGroupFragment.cs" />
     <Compile Include="Fragments\MessengerFragment.cs" />
     <Compile Include="Fragments\MessengerGroupContactFragment.cs" />
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
@@ -459,6 +461,53 @@
     <AndroidResource Include="Resources\layout\MessengerGroupChatItemView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerCreateGroup_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerCreateGroupItemView.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\custom_RadioButton.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\Uncheck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\Uncheck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\Uncheck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\Uncheck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\Uncheck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Uncheck.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

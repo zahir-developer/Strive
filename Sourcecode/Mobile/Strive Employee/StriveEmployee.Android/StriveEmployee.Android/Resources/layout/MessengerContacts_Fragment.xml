@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
     <android.support.v7.widget.SearchView
-        android:id="@+id/contactsSearchView"
+        android:id="@+id/contacts_SearchView"
         android:layout_marginTop="@dimen/ten"
         android:layout_marginLeft="@dimen/ten"
         android:layout_marginRight="@dimen/ten"

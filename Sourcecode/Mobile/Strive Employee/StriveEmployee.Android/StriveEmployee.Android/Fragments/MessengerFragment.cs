@@ -30,6 +30,7 @@ namespace StriveEmployee.Android.Fragments
         private ViewPager messenger_ViewPager;
         private ViewPagerAdapter messenger_ViewPagerAdapter;
         private PopupMenu messenger_PopupMenu;
+        private MvxFragment selected_MvxFragment;
         private IMenu messenger_Menu;
         private MessengerContactFragment contactFragment;
         private MessengerRecentContactFragment recentContactFragment;
@@ -67,8 +68,14 @@ namespace StriveEmployee.Android.Fragments
         {
             switch(e.Item.ItemId)
             {
+                case Resource.Id.menu_CreateGroup:
+                    selected_MvxFragment = new MessengerCreateGroupFragment();
+                    break;
 
+                case Resource.Id.menu_Refresh:
+                    break;
             }
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
 
         private void Messenger_ImageButton_Click(object sender, EventArgs e)
