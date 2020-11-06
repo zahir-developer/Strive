@@ -1,0 +1,71 @@
+<div class="row no-gutter m-t-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="title-border p-b-5 m-b-10">
+                    <h4 class="d-inline-block align-middle">No. of washes/Employees/Details </h4>
+                </div>
+                <div class="row">
+                    <div style="display: block;">
+                        <canvas baseChart width="600" height="400" [datasets]="barChartData" [labels]="barChartLabels"
+                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                            [chartType]="barChartType"></canvas>
+                    </div>
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3 border">
+                        <div class="m-t-10 border-bottom p-b-15">
+                            <a (click)="dotLineChart()" style="cursor: pointer;"
+                                [ngClass]="{'border': !isDotLineChart, 'graph-border': isDotLineChart}"
+                                class="p-10 m-r-5"> <i
+                                    [ngClass]="{'graph-icon': !isDotLineChart, 'theme-secondary-icon-color': isDotLineChart}"
+                                    class="mdi mdi-chart-line font-size-1-3"></i>
+                            </a>
+                            <a (click)="barChart()" style="cursor: pointer;"
+                                [ngClass]="{'border': !isBarChart, 'graph-border': isBarChart}" class="p-10 m-r-5"> <i
+                                    [ngClass]="{'graph-icon': !isBarChart, 'theme-secondary-icon-color': isBarChart}"
+                                    class="mdi mdi-chart-bar font-size-1-3"></i>
+                            </a>
+                            <a (click)="pieChart()" style="cursor: pointer;"
+                                [ngClass]="{'border': !isPieChart, 'graph-border': isPieChart}"
+                                class="border p-10 m-r-5"> <i
+                                    [ngClass]="{'graph-icon': !isPieChart, 'theme-secondary-icon-color': isPieChart}"
+                                    class="mdi mdi-chart-pie font-size-1-3"></i>
+                            </a>
+                            <a (click)="lineChart()" style="cursor: pointer;"
+                                [ngClass]="{'border': !isLineChart, 'graph-border': isLineChart}"
+                                class="border p-10 m-r-5"> <i
+                                    [ngClass]="{'graph-icon': !isLineChart, 'theme-secondary-icon-color': isLineChart}"
+                                    class="fa fa-line-chart font-size-1-3"></i>
+                            </a>
+                            <div class="form-group d-inline-block m-b-0">
+                                <select id="weekform" class="form-control rounded-0">
+                                    <option selected="">Week</option>
+                                    <option>Day</option>
+                                    <option>Month</option>
+                                    <option>Week</option>
+                                    <option>Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="button-list m-b-30 p-t-10  border-bottom">
+                            <span *ngFor="let loc of dashboardStatistics">
+                                <button type="button"
+                                    [ngClass]="{'btn-unactive': !loc.isSelected, 'theme-primary-button-color': loc.isSelected}"
+                                    class="btn  btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10"
+                                    (click)="selectedLocation(loc)">{{loc.LocationName}}</button>
+                            </span>
+                        </div>
+                        <div class="button-list m-b-5 p-t-10 m-t-10  border-bottom">
+                            <span *ngFor="let data of dataPoints">
+                                <button type="button"
+                                    [ngStyle]="{'background-color': data.isSelected ? data.color : 'white'}"
+                                    [ngClass]="{'btn-unactive': !data.isSelected}"
+                                    class="btn btn-rounded btn-sm pt-0 pb-0 font-size-7 m-b-10" (click)="selectedDatapoints(data)">{{data.displayName}}</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

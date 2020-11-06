@@ -45,6 +45,7 @@ import { MonthPickerComponent } from './components/month-picker/month-picker.com
 import { YearPickerComponent } from './components/year-picker/year-picker.component';
 import { LocationDropdownComponent } from './components/location-dropdown/location-dropdown.component';
 import { ExportFiletypeComponent } from './components/export-filetype/export-filetype.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -65,7 +66,8 @@ import { ExportFiletypeComponent } from './components/export-filetype/export-fil
     ConfirmDialogModule,
     NgMultiSelectDropDownModule.forRoot(),
     TooltipModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    ChartsModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
@@ -84,7 +86,7 @@ import { ExportFiletypeComponent } from './components/export-filetype/export-fil
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent],
+     NgbPaginationModule, ExportFiletypeComponent, ChartsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

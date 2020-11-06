@@ -70,9 +70,9 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<ChatGroupListViewModel>(EnumSP.Messenger.USPGETCHATEMPLOYEEGROUPLIST.ToString(), _prm);
         }
 
-        public bool DeleteChatGroupUser(int id)
+        public bool DeleteChatGroupUser(int chatGroupUserId)
         {
-            _prm.Add("ChatGroupUserId", id);
+            _prm.Add("ChatGroupUserId", chatGroupUserId);
             db.Save(EnumSP.Messenger.USPDELETECHATUSERGROUP.ToString(), _prm);
             return true;
         }
