@@ -1,9 +1,10 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FullCalendarModule } from 'primeng/fullcalendar';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { CardComponent } from './components/card/card.component';
@@ -40,6 +41,11 @@ import { VehicleCreateEditComponent } from './components/vehicle-create-edit/veh
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { TooltipModule } from 'primeng/tooltip';
+import { MonthPickerComponent } from './components/month-picker/month-picker.component';
+import { YearPickerComponent } from './components/year-picker/year-picker.component';
+import { LocationDropdownComponent } from './components/location-dropdown/location-dropdown.component';
+import { ExportFiletypeComponent } from './components/export-filetype/export-filetype.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -59,7 +65,9 @@ import { TooltipModule } from 'primeng/tooltip';
     TypeaheadModule.forRoot(),
     ConfirmDialogModule,
     NgMultiSelectDropDownModule.forRoot(),
-    TooltipModule
+    TooltipModule,
+    NgbPaginationModule,
+    ChartsModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
@@ -68,14 +76,17 @@ import { TooltipModule } from 'primeng/tooltip';
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, NoOfWashesComponent,
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
-    AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent],
+    AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
+    MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
-     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent, TooltipModule],
+     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
+     VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
+     NgbPaginationModule, ExportFiletypeComponent, ChartsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button   
+            android:id="@+id/contact_ImageView" 
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop = "@dimen/ten"
+            android:layout_marginBottom = "@dimen/ten"
+            android:layout_marginLeft = "@dimen/ten"
+            android:background="@drawable/profileavatar_button"/>
+        <TextView
+            android:id="@+id/contactName_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/twenty"
+            android:gravity="left|center"
+            android:textSize="@dimen/fifteen"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/opensans_bold" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+</LinearLayout>

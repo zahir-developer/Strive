@@ -43,32 +43,54 @@ namespace Strive.BusinessLogic.Messenger
             chatHistory.ChatEmployeeList = new List<ChatEmployeeList>();
             ChatEmployeeList list;
 
-            foreach (var item in result.ChatEmployeeList)
+            if (result.ChatEmployeeList != null)
             {
-                list = new ChatEmployeeList()
+                foreach (var item in result.ChatEmployeeList)
                 {
-                    Id = item.Id,
-                    FirstName = item.FirstName,
-                    LastName = item.LastName,
-                    CommunicationId = item.CommunicationId,
-                    RecentChatMessage = item.RecentChatMessage,
-                    IsGroup = false
+                    string[] msgDetail = item.RecentChatMessage != null ? item.RecentChatMessage.Split(','): new string[3];
+                    string dateTime = msgDetail[0];
+                    string msg = msgDetail[1];
+                    string isRead = msgDetail[2];
+
+                    list = new ChatEmployeeList()
+                    {
+
+                        Id = item.Id,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        CommunicationId = item.CommunicationId,
+                        RecentChatMessage = msg,
+                        IsRead = isRead == "1" ? true : false,
+                        CreatedDate = dateTime,
+                        IsGroup = false,
+                        Selected = chatHistory.ChatEmployeeList.Count == 0 ? true : false
                 };
-                chatHistory.ChatEmployeeList.Add(list);
+                    chatHistory.ChatEmployeeList.Add(list);
+                }
             }
 
-            foreach (var item in result.GroupList)
+            if (result.GroupList != null)
             {
-                list = new ChatEmployeeList()
+                foreach (var item in result.GroupList)
                 {
-                    Id = item.ChatGroupId,
-                    FirstName = item.GroupName,
-                    RecentChatMessage = item.RecentChatMessage,
-                    CommunicationId = item.GroupId,
-                    IsGroup = true,
-                    GroupId = item.GroupId
-                };
-                chatHistory.ChatEmployeeList.Add(list);
+                    string[] msgDetail = item.RecentChatMessage != null ? item.RecentChatMessage.Split(',') : new string[2];
+                    string dateTime = msgDetail[0];
+                    string msg = msgDetail[1];
+
+                    list = new ChatEmployeeList()
+                    {
+                        Id = item.ChatGroupId,
+                        FirstName = item.GroupName,
+                        RecentChatMessage = msg,
+                        CommunicationId = item.GroupId,
+                        IsGroup = true,
+                        GroupId = item.GroupId,
+                        CreatedDate = dateTime,
+                        IsRead = item.IsRead,
+                        Selected = chatHistory.ChatEmployeeList.Count == 0 ? true : false
+                    };
+                    chatHistory.ChatEmployeeList.Add(list);
+                }
             }
             return ResultWrap(chatHistory, "EmployeeList");
         }
@@ -90,6 +112,11 @@ namespace Strive.BusinessLogic.Messenger
         public ChatGroupListViewModel GetChatEmployeeGrouplist(int employeeId)
         {
             return new MessengerRal(_tenant).GetChatEmployeeGrouplist(employeeId);
+        }
+
+        public Result DeleteChatGroupUser(int chatGroupUserId)
+        {
+            return ResultWrap(new MessengerRal(_tenant).DeleteChatGroupUser, chatGroupUserId, "ChatGroupUserDelete");
         }
     }
 }

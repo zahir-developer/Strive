@@ -9,5 +9,8 @@
         public string RecentChatMessage { get; set; }
 
         public string GroupId { get; set; }
+
+        public bool? IsRead { get; set; }
+
     }
 }

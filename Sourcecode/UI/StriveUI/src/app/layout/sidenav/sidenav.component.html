@@ -4,19 +4,36 @@
     <ul>
       <li class="logo-container"><img [src]="logoBase64"
             alt="" width="50" /> </li>
-      <li class="p-t-10"><a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
+      <li class="p-t-10"><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
       <li class="active"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
             class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
       <li class=""><a [routerLink]='["./detail"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
       <li class=""><a [routerLink]='["./sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-cash-usd"></i>Sales</a></li>
-      <li class=""><a href="#"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
-      <li class="active"><a style="cursor: pointer;" (click)="openNav()"><i
+      <li class=""><a style="cursor: pointer;" (click)="openNav('reports')"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
+      <li class="active"><a style="cursor: pointer;" (click)="openNav('admin')"><i
             class="fa fa-2x fa-user-o"></i>Admin</a></li>
       <li class=""><a [routerLink]='["./payrolls"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
       <li class=""><a [routerLink]='["./checkout"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
      
       <li class=""><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-square-edit-outline" ></i>While Labelling</a></li>
       <li class=""><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message"></i>Messenger</a></li>
+    </ul>
+  </div>
+  <div id="reportSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block"> 
+    <a class="closebtn" (click)="closeNav()">×</a>
+    <div class="p-l-15 p-r-15 m-b-10">
+      <h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Reports</h5> </div>
+    <ul class="nav-slider-menu-items">
+      <li><a [routerLink]='["./reports/daily-staus"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Daily Status Screen</a> </li>
+      <li><a [routerLink]='["./reports/eod"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">EOD Report</a> </li>
+      <li><a [routerLink]='["./reports/daily-tip"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Daily Tip Report</a></li>
+      <li><a [routerLink]='["./reports/monthly-tip"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Tip</a></li>
+      <li><a [routerLink]='["./reports/monthly-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Sales</a></li>
+      <li> <a [routerLink]='["./reports/monthly-customer-summary"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Customer Summary</a></li>
+      <li><a [routerLink]='["./reports/monthly-money-owned"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthy Money Owned</a></li>
+      <li><a [routerLink]='["./reports/monthly-customer-detail"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Customer Detail</a></li>
+      <li><a [routerLink]='["./reports/hourly-wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Hourly Wash Report</a></li>
+      <li><a [routerLink]='["./reports/daily-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Daily Sales Report</a></li>
     </ul>
   </div>
   <div id="navSliderMenu"
@@ -50,7 +67,7 @@
   <div id="mySidenav" class="mobile-view-nav">
     <span class="closebtn" (click)="closembsidebar()"><em class="fa fa-close"></em></span>
     <ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
-      <li><a href="#"><em class="mdi mdi-view-dashboard"></em><span>Dashboard</span></a></li>
+      <li><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-view-dashboard"></em><span>Dashboard</span></a></li>
       <li><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em
             class="mdi mdi-car-wash"></em><span>Washes</span></a></li>
       <li><a [routerLink]='["./detail"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-car-back"></em><span>Details</span></a></li>
