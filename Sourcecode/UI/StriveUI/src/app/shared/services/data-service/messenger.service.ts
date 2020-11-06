@@ -12,7 +12,6 @@ import { SignalRService } from './signal-r.service';
 export class MessengerService {
     constructor(private http: HttpUtilsService, private signalRService: SignalRService) { }
 
-
     closeConnection() {
 
         const commObj = {
@@ -25,6 +24,10 @@ export class MessengerService {
         });
 
         this.signalRService.stopConnection();
+    }
+
+    startConnection() {
+        this.signalRService.startConnection();
     }
 
 
@@ -54,8 +57,8 @@ export class MessengerService {
 
         console.log(msg);
     }
-    sendGroupMessage(groupMsgObj) {
-        return this.http.post(`${UrlConfig.Messenger.sendGroupMessage}`, groupMsgObj);
+    createGroup(groupMsgObj) {
+        return this.http.post(`${UrlConfig.Messenger.createGroup}`, groupMsgObj);
     }
 
     getUnReadMessageCount(employeeId) {
@@ -64,5 +67,10 @@ export class MessengerService {
 
     getGroupMembers(groupId) {
         return this.http.get(`${UrlConfig.Messenger.getGroupMemberList}` + groupId)
+    }
+
+    removeGroupUser(chatGroupUserId)
+    {
+        return this.http.delete(`${UrlConfig.Messenger.deleteGroupUser}` + chatGroupUserId)
     }
 }

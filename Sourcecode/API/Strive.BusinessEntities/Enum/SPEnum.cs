@@ -34,7 +34,10 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEROLES,
             USPGETALLEMPLOYEEDETAIL,
         }
-
+        public enum DashboardStatistics
+        {
+            USPGETDASHBOARDSTATISTICS
+        }
         public enum Messenger
         {
             USPGETChatEMPLOYEELIST,

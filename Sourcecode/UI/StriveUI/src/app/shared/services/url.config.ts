@@ -146,18 +146,19 @@ export const UrlConfig = {
     getAccountDetails: `Admin/Sales/GetAccountDetails`,
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
-    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`
+    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
+    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
   },
   Messenger:
   {
     getEmployeeList: `Admin/Messenger/GetChatEmployeeList/`,
     sendMessage: `Admin/Messenger/SendChatMessage`,
-    createGroup: `Admin/Messenger/CreateGroup`,
     updateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
     getChatMessage: `Admin/Messenger/GetChatMessage`,
-    sendGroupMessage: `Admin/Messenger/CreateChatGroup`,
+    createGroup:  `Admin/Messenger/CreateChatGroup`,
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
-    getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`
+    getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
+    deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`
   },
   reports: {
     getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
@@ -165,5 +166,10 @@ export const UrlConfig = {
     getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`,
     getDailyTipReport: ``,
     getMonthlyTipReport: ``
+  },
+  dashboard: {
+    getDashboardLocation: `Admin/Location/GetAll`,
+    getTodayScheduleList: `Admin/Details/GetAllDetails`,
+    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics/`
   }
 };

@@ -848,6 +848,7 @@ export class SalesComponent implements OnInit {
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
+        membershipId: this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null,
         jobId: this.isSelected ? +this.JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,

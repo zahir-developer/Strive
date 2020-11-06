@@ -98,6 +98,7 @@ export class EditEmployeeComponent implements OnInit {
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
+    
     this.getAllRoles();
     this.getLocation();
     this.dropdownSetting();
@@ -346,10 +347,10 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   onRoleDeSelect(event) {
-    if (event.item_id === +this.roleId) {
+    if (event.item_id === +this.roleId && this.employeeId === +localStorage.getItem('empId')) {
       this.employeeRole = this.employeeRole.filter(item => item.item_id !== event.item_id);
       this.employeeRole.push(event);
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Cuurent logged in role cannot be removed' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Current logged in role cannot be removed' });
       this.emplistform.patchValue({
         roles: this.employeeRole
       });
@@ -365,10 +366,10 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   onLocationDeSelect(event) {
-    if (event.item_id === +this.locationId) {
+    if (event.item_id === +this.locationId && this.employeeId === +localStorage.getItem('empId')) {
       this.employeeLocation = this.employeeLocation.filter(item => item.item_id !== event.item_id);
       this.employeeLocation.push(event);
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Cuurent logged in location cannot be removed' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Current logged in location cannot be removed' });
       this.emplistform.patchValue({
         location: this.employeeLocation
       });
