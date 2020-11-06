@@ -3,7 +3,7 @@ import { DashboardService } from 'src/app/shared/services/data-service/dashboard
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.component';
-import { GraphDashboardComponent } from './graph-dashboard/graph-dashboard.component';
+declare var $: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -39,6 +39,9 @@ export class DashboardComponent implements OnInit {
   washSales = 0;
   washTime = 0;
   washesCount = 0;
+  firstSectionTogggle: boolean;
+  secondSectionToggle: boolean;
+  thirdSectionToggle: boolean;
   constructor(
     public dashboardService: DashboardService,
     private messageService: MessageServiceToastr,
@@ -47,6 +50,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.showDialog = false;
+    this.firstSectionTogggle = false;
+    this.secondSectionToggle = false;
+    this.thirdSectionToggle = false;
     this.getLocationList();
     this.getDashboardStatistics(0);
   }
@@ -140,6 +146,42 @@ export class DashboardComponent implements OnInit {
       size: 'lg'
     };
     const modalRef = this.modalService.open(FilterDashboardComponent, ngbModalOptions);
+  }
+
+  mainStreet() {
+    let toggleState = false;
+    $('#mainstreet').click(function() {
+      $('.dashboard-card').toggle();
+      $(this).toggleClass('click-up-icon');
+      $(this).toggleClass('click-down-icon');
+      $('.dashbd-title').toggleClass('dashbd-margin');
+      $('i', this).toggleClass('mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle');
+      toggleState = !toggleState;
+    }  );
+  }
+
+  mainStreets() {
+    let toggleState = false;
+    $('#mainstreets').click(function() {
+      $('.dashboard-cards').toggle();
+      $(this).toggleClass('click-up-icon');
+      $(this).toggleClass('click-down-icon');
+      $('.dashbd-titles').toggleClass('dashbd-margin');
+      $('i', this).toggleClass('mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle');
+      toggleState = !toggleState;
+    });
+  }
+
+  mainStreetAvg() {
+    // let toggleState = false;
+    $('#mainstreet-avg').click(function() {
+      $('.dashboard-cards-avg').toggle();
+      $(this).toggleClass('click-up-icon');
+      $(this).toggleClass('click-down-icon');
+      $('.dashbd-titles-avg').toggleClass('dashbd-margin');
+      $('i', this).toggleClass('mdi mdi-chevron-down-circle  mdi mdi-chevron-up-circle');
+      // toggleState = !toggleState;
+    });
   }
 
 }

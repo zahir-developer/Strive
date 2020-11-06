@@ -193,7 +193,7 @@ export class GraphDashboardComponent implements OnInit {
         const points = _.pluck(this.dashboardStatistics, item.name);
         chartData.push({
           data: points,
-          label: item.name
+          label: item.displayName
         });
       }
     });
@@ -223,7 +223,7 @@ export class GraphDashboardComponent implements OnInit {
         const points = _.pluck(filteredLoction, item.name);
         chartData.push({
           data: points,
-          label: item.name
+          label: item.displayName
         });
       }
     });
@@ -253,7 +253,7 @@ export class GraphDashboardComponent implements OnInit {
         const points = _.pluck(this.dashboardStatistics, item.name);
         chartData.push({
           data: points,
-          label: item.name
+          label: item.displayName
         });
       }
     });
