@@ -43,6 +43,7 @@ using Strive.BusinessLogic.PayRoll;
 using Strive.BusinessLogic.Messenger;
 using Strive.BusinessLogic.WhiteLabelling;
 using Strive.BusinessLogic.Checkout;
+using Strive.BusinessLogic.DashboardStatistics;
 
 namespace Admin.API
 {
@@ -87,6 +88,7 @@ namespace Admin.API
             services.AddTransient<IMessengerBpl, MessengerBpl>();
             services.AddTransient<IWhiteLabelBpl, WhiteLabelBpl>();
             services.AddTransient<ICheckoutBpl, CheckoutBpl>();
+            services.AddTransient<IDashboardBpl, DashboardBpl>();
             
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
