@@ -133,7 +133,7 @@ export const UrlConfig = {
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
-    getPaymentStatus:`Admin/Common/GetCodesByCategory/`,
+    getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
@@ -159,6 +159,13 @@ export const UrlConfig = {
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
     deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`
+  },
+  reports: {
+    getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
+    getCustomerSummaryReport: `Admin/Report/GetCustomerSummaryReport`,
+    getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`,
+    getDailyTipReport: ``,
+    getMonthlyTipReport: ``
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
