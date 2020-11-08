@@ -20,8 +20,10 @@ namespace StriveEmployee.Android.Fragments
 {
     public class MessengerCreateGroupFragment : MvxFragment<MessengerCreateGroupViewModel>
     {
+        private Button next_Button;
         private RecyclerView createGroup_RecyclerView;
         private MessengerCreateGroupAdapter messengerCreateGroup_Adapter;
+        private MessengerFinalizeGroupFragment FinalizeGroup_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -35,10 +37,20 @@ namespace StriveEmployee.Android.Fragments
             var rootView = this.BindingInflate(Resource.Layout.MessengerCreateGroup_Fragment, null);
             this.ViewModel = new MessengerCreateGroupViewModel();
 
+            next_Button = rootView.FindViewById<Button>(Resource.Id.createGroupNext);
             createGroup_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.createGroup_RecyclerView);
+
+            next_Button.Click += Next_Button_Click;
+
             selectGroupChatEntry();
 
             return rootView;
+        }
+
+        private void Next_Button_Click(object sender, EventArgs e)
+        {
+            FinalizeGroup_Fragment = new MessengerFinalizeGroupFragment();
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, FinalizeGroup_Fragment).Commit();
         }
 
         private async void selectGroupChatEntry()

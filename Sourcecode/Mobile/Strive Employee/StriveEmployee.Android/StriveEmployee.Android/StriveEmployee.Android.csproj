@@ -68,6 +68,7 @@
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
     <Compile Include="Fragments\MessengerCreateGroupFragment.cs" />
+    <Compile Include="Fragments\MessengerFinalizeGroupFragment.cs" />
     <Compile Include="Fragments\MessengerFragment.cs" />
     <Compile Include="Fragments\MessengerGroupContactFragment.cs" />
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
@@ -508,6 +509,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\Uncheck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerFinalizeGroup_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -24,7 +24,8 @@ namespace StriveEmployee.Android.Adapter
         public MessengerCreateGroupRecycleHolder(View entry) : base(entry)
         {
             entry.SetOnClickListener(this);
-            createGroup_Button = entry.FindViewById<Button>(Resource.Id.createGroup_ImageView);
+            createGroup_Button = entry.FindViewById<Button>(Resource.Id.createGroup_ImageView); 
+            createGroup_CheckBox = entry.FindViewById<CheckBox>(Resource.Id.createGroup_Checkbox);
             createGroupName_TextView = entry.FindViewById<TextView>(Resource.Id.createGroupName_TextView);
         }
 
@@ -68,12 +69,15 @@ namespace StriveEmployee.Android.Adapter
         }
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            messengerCreateGroup.createGroupName_TextView.SetCompoundDrawablesWithIntrinsicBounds(0, 0, Resource.Drawable.Check, 0);
+            
+            messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Visible;
+            messengerCreateGroup.createGroup_CheckBox.Checked = true;
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             messengerCreateGroup = holder as MessengerCreateGroupRecycleHolder;
+            messengerCreateGroup.IsRecyclable = false;
             messengerCreateGroup.SetItemClickListener(this);
             if (!String.IsNullOrEmpty(contacts[position].FirstName))
             {
@@ -87,9 +91,9 @@ namespace StriveEmployee.Android.Adapter
             {
                 messengerCreateGroup.createGroup_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
                 messengerCreateGroup.createGroupName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
+                messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Gone;
             }
         }
-       
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
