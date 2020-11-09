@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -28,7 +29,9 @@ namespace StriveEmployee.Android.Adapter
         public void bindMessage(string Message, string MessageTime)
         {
             chatMessage_TextView.Text = Message;
-            chatMessageTime_TextView.Text = MessageTime; 
+            var date = MessageTime.Split("T");
+            DateTime localMessageTime = DateTime.Parse(date[0]);
+            chatMessageTime_TextView.Text = localMessageTime.ToString("HH:mm tt", CultureInfo.CurrentCulture) + " | " + localMessageTime.ToString("MMM");
         }
     }
     public class RecipientChatViewHolder : RecyclerView.ViewHolder
@@ -45,7 +48,9 @@ namespace StriveEmployee.Android.Adapter
         public void bindMessage(string Message, string MessageTime, string ContactName)
         {
             chatMessage_TextView.Text = Message;
-            chatMessageTime_TextView.Text = MessageTime;
+            var date = MessageTime.Split("T");
+            DateTime localMessageTime = DateTime.Parse(date[0]);
+            chatMessageTime_TextView.Text = localMessageTime.ToString("HH:mm tt", CultureInfo.CurrentCulture)+ " | "+ localMessageTime.ToString("MMM");
             chatRecipientName_TextView.Text = ContactName;
         }
     }
@@ -105,6 +110,7 @@ namespace StriveEmployee.Android.Adapter
 
                 case TYPE_RECIPIENT:
                     var ContactName = chatMessages[position].RecipientFirstName;
+                    var Datetime = chatMessages[position].CreatedDate.ToString();
                     recipient_holder = holder as RecipientChatViewHolder;
                     recipient_holder.bindMessage(Message, MessageTime, ContactName);
                     break;
