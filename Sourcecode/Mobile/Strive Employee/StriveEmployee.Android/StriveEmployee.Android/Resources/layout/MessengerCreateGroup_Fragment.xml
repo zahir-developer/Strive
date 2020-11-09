@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -12,12 +13,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Recent Chats"
+            android:text="Create Group"
             android:textSize="18sp"
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
         <Button
-            android:id="@+id/signatureBack"
+            android:id="@+id/createGroupBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -25,8 +26,17 @@
             android:textColor="@color/profileQColor"
             android:background="@color/mtrl_btn_transparent_bg_color"
             android:text="Back" />
-        </RelativeLayout>
-     <LinearLayout
+        <Button
+            android:id="@+id/createGroupNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Next" />
+    </RelativeLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -35,30 +45,31 @@
         android:layout_marginLeft="@dimen/ten"
         android:layout_marginBottom="90dp"
         android:background="@drawable/secondarylinearlayout">
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1">
-             <android.support.design.widget.TabLayout
-                android:id="@+id/messenger_TabLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.95"
-                app:tabGravity="fill"
-                app:tabMode="fixed" />
-            <ImageButton
-                android:id="@+id/menu_ImageButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.02"
-                android:layout_marginLeft="@dimen/ten"
-                android:layout_gravity="center"
-                android:src="@drawable/dotsThree"
-                android:background="@color/mtrl_btn_transparent_bg_color"/>
-        </LinearLayout>
-        <android.support.v4.view.ViewPager
-            android:id="@+id/messenger_ViewPager"
+            android:layout_marginLeft="@dimen/fifteen"
+            android:layout_marginTop="@dimen/five"
+            android:text="Contacts"
+            android:textSize="@dimen/textSixteen"
+            android:textColor="@color/profileQColor"
+            android:fontFamily="@font/opensans_bold"/>
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/ten"
+            android:background="@android:color/darker_gray"/>
+        <android.support.v7.widget.SearchView
+            android:id="@+id/createGroupSearchView"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginRight="@dimen/ten"
+            android:background="@drawable/color_searchview"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:queryHint="Search Employees"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/createGroup_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

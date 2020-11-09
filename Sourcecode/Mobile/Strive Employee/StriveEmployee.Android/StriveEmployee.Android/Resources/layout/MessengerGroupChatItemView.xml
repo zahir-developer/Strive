@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button   
-            android:id="@+id/contact_ImageView" 
+            android:id="@+id/group_ImageView" 
             android:clickable="false"
             android:layout_gravity="center"
             android:layout_width="30dp"
@@ -20,7 +20,7 @@
             android:fontFamily="@font/opensans_semibold"
             android:background="@drawable/profileavatar_button"/>
         <TextView
-            android:id="@+id/contactName_TextView"
+            android:id="@+id/groupName_TextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/twenty"
