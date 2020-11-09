@@ -131,6 +131,108 @@ body .ui-state-disabled, body .ui-widget:disabled {
 .bold-text {
   font-weight: 700 ;
 }
+/*dashboard */
+.click-down-icon {
+  margin-top: -29px;
+  transition: right 0.3s;
+}
+.click-up-icon {
+  margin-top: -60px;
+  transition: right 0.3s;
+}
+.m-r--13 {
+  margin-right: -13px;
+}
+.dashbd-margin {
+  margin-bottom: 7px;
+}
+#weekform {
+  height: calc(1.8em + 0.75rem + 2px) !important;
+}
+.graph-icon {
+  color: #b2b2bc;
+}
+.graph-border {
+  border: 1px solid #1dc5b3;
+}
+.btn-rounded {
+  border-radius: 2em;
+}
+.btn-unactive {
+  border: 1px solid #dee2e6 !important;
+  color: black !important;
+}
+.dashboard-badge {
+  border-radius: 3px;
+  color: white;
+  background-color: #00bbe1;
+  padding: 5px 5px;
+}
+
+.theme-font-color:hover {
+  color: #30343c !important;
+}
+
+.card-width-color {
+  padding: 24px !important;
+  padding-bottom: 30px !important;
+}
+.Schedules-tab div a.active,
+.Schedules-tab.show > .nav-tab-link-dash,
+.Schedules-tab .nav-tab-link-dash.active,
+.Schedules-tab .show > .nav-tab-link-dash {
+  background-color: #00bbe1;
+  color: white;
+  border-radius: 3px;
+  padding: 0.3rem 1rem;
+  font-size: 16px;
+  border: 1px solid #00bbe1;
+}
+.nav-tab-link-dash {
+  padding: 0.3rem 0.6rem 0.3rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  color: black;
+  font-size: 16px;
+  background-color: #fafafa;
+}
+.Schedules-tab div a.active > .dashboard-badge,
+.Schedules-tab.show > .nav-tab-link-dash,
+.Schedules-tab .nav-tab-link-dash.active > .dashboard-badge,
+.Schedules-tab .show > .nav-tab-link-dash > .dashboard-badge {
+  color: #30343c;
+  background-color: white;
+}
+.Schedules-tab div a.active > i,
+.Schedules-tab.show > .nav-tab-link-dash,
+.Schedules-tab .nav-tab-link-dash.active > i,
+.Schedules-tab .show > .nav-tab-link-dash > i {
+  color: white;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: #10b7a5 !important;
+  border-color: #1dc5b3 !important;
+  color: white !important;
+}
+
+.dropdown-item i:focus,
+.dropdown-item i:hover {
+  color: white !important;
+}
+color-icon:hover {
+  color: white !important;
+}
+
+.theme-optional-bg-color {
+  background-color: #fd397a;
+}
+
+.theme-ello-color {
+  background-color: #f3c200;
+}
+}
 .noRecords {
   text-align: center !important;
 }

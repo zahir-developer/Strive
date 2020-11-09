@@ -41,8 +41,8 @@ export class UserDataService {
     this.http.get(`${UrlConfig.Messenger.getUnReadMessageCount}` + id).subscribe( res => {
       const unReadCount = JSON.parse(res.resultData);
       console.log(unReadCount, 'unread');
-      if (unReadCount.UnreadMessage.getUnReadMessageCountViewModels !== null) {
-        this.unReadMessage.next(unReadCount.UnreadMessage.getUnReadMessageCountViewModels);
+      if (unReadCount?.UnreadMessage.getUnReadMessageCountViewModels !== null) {
+        this.unReadMessage.next(unReadCount?.UnreadMessage.getUnReadMessageCountViewModels);
       }
     });
   }

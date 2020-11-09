@@ -1,0 +1,30 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Filter Dashboard</h5>
+        <div class="float-right" style="cursor: pointer;">
+            <i class="fa fa-times" aria-hidden="true" (click)="closeFilterModal()"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="filterForm" style="margin-bottom: 100px;margin-top: 20px;">
+            <div class="row">
+                <div class="col-sm-1">
+                    Date:
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" placeholder="From" formControlName="fromDate" appCalendarMask
+                        class="form-control" bsDatepicker>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" placeholder="To" formControlName="toDate" appCalendarMask class="form-control"
+                        bsDatepicker>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="float-right">
+            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm" [disabled]="!filterForm.valid">Apply</button>
+        </div>
+    </div>
+</div>

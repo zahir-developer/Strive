@@ -16,5 +16,9 @@ namespace Strive.BusinessEntities.ViewModel.Messenger
         public string GroupId { get; set; }
         public string CommunicationId { get; set; }
         public string RecentChatMessage { get; set; }
+        public int? ChatGroupUserId { get; set; }
+        public string CreatedDate { get; set; }
+        public bool? IsRead { get; set; }
+        public bool Selected { get; set; }
     }
 }

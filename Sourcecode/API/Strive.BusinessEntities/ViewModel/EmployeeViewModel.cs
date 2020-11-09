@@ -9,6 +9,6 @@ namespace Strive.BusinessEntities.ViewModel.Employee
 {
     public class EmployeeViewModel : EmployeeDto
     {
-        
+
     }
 }

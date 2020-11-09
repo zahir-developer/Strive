@@ -282,9 +282,9 @@ namespace Strive.BusinessLogic
             Type type = typeof(T);
             var clsProperty = type.GetProperties().Any(x => !x.PropertyType.FullName.StartsWith("System."));// type.GetProperties().Any(x => x.PropertyType.IsClass == true);
             //var prpTypes = type.GetProperties().Select(x => x.PropertyType);
-            if (clsProperty)
+            if (clsProperty & tdata != null)
             {
-
+                 
                 foreach (PropertyInfo prp in type.GetProperties())
                 {
                     var model = prp.GetValue(tdata, null);
