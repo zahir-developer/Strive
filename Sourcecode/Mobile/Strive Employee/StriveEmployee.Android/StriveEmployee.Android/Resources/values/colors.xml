@@ -20,6 +20,5 @@
   <color name="vehicleInfoCardColor">#F2F2F2</color>
   <color name="AvatarProfileColor">#AFE9E3</color>
   <color name="AvatarTextColor">#5F6281</color>
-
-
+  <color name="chatTextLayoutColor">#EAF1F6</color>
 </resources>

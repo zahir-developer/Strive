@@ -17,8 +17,10 @@ using Strive.Core.ViewModels.Employee;
 
 namespace StriveEmployee.Android.Fragments
 {
+    [Activity (WindowSoftInputMode = SoftInput.AdjustResize)]
     public class MessengerPersonalChatFragment : MvxFragment<MessengerPersonalChatViewModel>
     {
+        private EditText chatMessage_EditText;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,6 +32,10 @@ namespace StriveEmployee.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.MessengerPersonalChat_Fragment, null);
             this.ViewModel = new MessengerPersonalChatViewModel();
+
+            chatMessage_EditText = rootView.FindViewById<EditText>(Resource.Id.chatMessage_EditText);
+            chatMessage_EditText.SetCompoundDrawablesWithIntrinsicBounds(0, 0, Resource.Drawable.sendcircle, 0);
+
             getChatData();
             return rootView;
         }
