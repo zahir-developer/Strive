@@ -515,6 +515,29 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerFinalizeGroupItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\delete_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\delete_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\delete_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\delete_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\delete_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\delete_circle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
