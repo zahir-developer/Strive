@@ -68,16 +68,18 @@ export class MonthlyCustomerDetailComponent implements OnInit {
     this.finalArr.forEach((obj) => {
       const userData = obj.userData;
       let total = 0;
+      let wash = 0;
 
       userData.forEach((o, index) => {
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
           '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + (o.MemberShipName !== '' ?
-          ('Membership - ' + o.MemberShipName) : 'DriveUp')+ '</td><td>' + o.MemberShipId +
+          ('Membership - ' + o.MemberShipName) : 'DriveUp') + '</td><td>' + o.MemberShipId +
           '</td><td>' + o.MembershipPrice.toFixed(2) + '</td><td>' + o.TicketAmount.toFixed(2) + '</td></tr>';
         total += o.TicketAmount;
+        wash += index;
       });
-      tableStr += '<tr><th>Washes</th><td>5</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>' + total.toFixed(2) +
-      '</th><th> Difference : 10</th></tr>';
+      tableStr += '<tr><th>Washes</th><td>' + (wash + 1) + '</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>'
+      + total.toFixed(2) +'</th><th> Difference : 10</th></tr>';
     });
     $('#customerDetail tbody').html(tableStr);
   }
