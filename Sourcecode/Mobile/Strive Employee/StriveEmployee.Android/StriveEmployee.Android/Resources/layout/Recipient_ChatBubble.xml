@@ -16,7 +16,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop = "@dimen/ten"
-            android:layout_marginBottom = "@dimen/ten"
+            android:layout_marginBottom = "@dimen/five"
             android:layout_marginLeft = "@dimen/ten"
             android:textColor="@color/profileQColor"
             android:fontFamily="@font/opensans_semibold"
@@ -33,7 +33,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ten"
         android:layout_marginBottom="@dimen/ten"
         android:orientation="vertical"
