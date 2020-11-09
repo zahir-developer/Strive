@@ -1,5 +1,6 @@
 ﻿using Strive.Core.Models.Employee;
 using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Strive.Core.Services.Interfaces
     {
         Task<EmployeeLists> GetRecentContacts(int employeeId);
         Task<employeeLists> GetContacts(string contactName);
+        Task<PersonalChatMessages> GetPersonalChatMessages(ChatDataRequest chatData);
     }
 }

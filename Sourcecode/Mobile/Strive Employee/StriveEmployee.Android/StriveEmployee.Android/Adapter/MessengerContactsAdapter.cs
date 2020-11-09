@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -20,15 +21,22 @@ namespace StriveEmployee.Android.Adapter
     {
         public Button contact_Button;
         public TextView contactName_TextView;
+        public IItemClickListener itemClickListener;
         public MessengerContactsRecycleHolder(View contact) : base(contact)
         {
+            
             contact_Button = contact.FindViewById<Button>(Resource.Id.contact_ImageView);
             contactName_TextView = contact.FindViewById<TextView>(Resource.Id.contactName_TextView);
+            contact.SetOnClickListener(this);
+        }
+        public void SetItemClickListener(IItemClickListener itemClickListener)
+        {
+            this.itemClickListener = itemClickListener;
         }
 
-        public void OnClick(View v)
+        public void OnClick(View view)
         {
-            
+            itemClickListener.OnClick(view, AdapterPosition, false);
         }
 
         public bool OnLongClick(View v)
@@ -75,12 +83,15 @@ namespace StriveEmployee.Android.Adapter
             {
                 contactsRecycleHolder.contact_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
                 contactsRecycleHolder.contactName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
-            }               
+            }
+            contactsRecycleHolder.SetItemClickListener(this);
         }
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            
+            AppCompatActivity activity = (AppCompatActivity)itemView.Context;
+            MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

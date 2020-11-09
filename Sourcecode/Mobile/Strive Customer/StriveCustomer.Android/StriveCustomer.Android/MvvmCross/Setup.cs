@@ -43,6 +43,7 @@ namespace StriveCustomer.Android.MvvmCross
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<ICarwashLocationService, CarwashLocationService>();
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<IMessengerService, MessengerService>();
 
             base.InitializeFirstChance();
         }
