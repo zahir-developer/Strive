@@ -69,15 +69,15 @@ locationId = +localStorage.getItem('empLocationId');
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('MonthlyCustomerreport', 'customerSummaryReport.pdf');
+        this.excelService.exportAsPDFFile('custSummaryExport', 'CustomerSummaryReport_' + this.selectedDate + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.customerSummaryReport, 'customerSummaryReport');
+        this.excelService.exportAsCSVFile(this.customerSummaryReport, 'CustomerSummaryReport_' + this.selectedDate);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.customerSummaryReport, 'customerSummaryReport');
+        this.excelService.exportAsExcelFile(this.customerSummaryReport, 'CustomerSummaryReport_' + this.selectedDate);
         break;
       }
       default: {

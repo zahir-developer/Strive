@@ -52,15 +52,15 @@ export class MonthlyTipComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Monthlyreport', 'MonthlyTipReport.pdf');
+        this.excelService.exportAsPDFFile('Monthlyreport', 'MonthlyTipReport_' + this.month + '/' + this.year + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.monthlyTip, 'monthly-tip');
+        this.excelService.exportAsCSVFile(this.monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.monthlyTip, 'monthly-tip');
+        this.excelService.exportAsExcelFile(this.monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
         break;
       }
       default: {

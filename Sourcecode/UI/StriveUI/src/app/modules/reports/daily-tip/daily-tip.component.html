@@ -72,8 +72,8 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
-                                        <div *ngIf="dailyTip?.length === 0">
-                                            <span class="text-center"> No Records Found</span>
+                                        <div *ngIf="dailyTip?.length === 0" class="noRecords">
+                                            <span> No Records Found</span>
                                         </div>
                                         <ul class="pagination justify-content-end">
                                             <ngb-pagination *ngIf="collectionSize > 5" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"

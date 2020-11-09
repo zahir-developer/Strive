@@ -74,15 +74,15 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Dailyreport', 'DailyTipReport.pdf');
+        this.excelService.exportAsPDFFile('Dailyreport', 'DailyTipReport' + this.date + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.dailyTip, 'DailyTip');
+        this.excelService.exportAsCSVFile(this.dailyTip, 'DailyTipReport_' + this.date);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.dailyTip, 'DailyTip');
+        this.excelService.exportAsExcelFile(this.dailyTip, 'DailyTipReport_' + this.date);
         break;
       }
       default: {

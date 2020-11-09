@@ -71,7 +71,8 @@ export class MonthlyCustomerDetailComponent implements OnInit {
 
       userData.forEach((o, index) => {
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
-          '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + o.MemberShipName + '</td><td>' + o.MemberShipId +
+          '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + (o.MemberShipName !== '' ?
+          ('Membership - ' + o.MemberShipName) : 'DriveUp')+ '</td><td>' + o.MemberShipId +
           '</td><td>' + o.MembershipPrice.toFixed(2) + '</td><td>' + o.TicketAmount.toFixed(2) + '</td></tr>';
         total += o.TicketAmount;
       });
@@ -101,15 +102,15 @@ export class MonthlyCustomerDetailComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('MonthlyCustomerDetailreport', 'customerDetailReport.pdf');
+        this.excelService.exportAsPDFFile('custDetailExport', 'customerDetailReport_' + this.selectedDate + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.customerDetailReport, 'customerDetailReport');
+        this.excelService.exportAsCSVFile(this.customerDetailReport, 'customerDetailReport_' + this.selectedDate);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.customerDetailReport, 'customerDetailReport');
+        this.excelService.exportAsExcelFile(this.customerDetailReport, 'customerDetailReport_' + this.selectedDate);
         break;
       }
       default: {

@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="card m-t-10">
-                <div class="card-body p-10">
+                <div class="card-body p-10" >
                     <div class="row">
                         <div class="col-lg-6">
 
@@ -38,7 +38,7 @@
                                 </div> &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="monthlySalesExport" ngxPrint>Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="getMonthlySalesReport()">Refresh</button>&nbsp;
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="card m-t-10">
-                <div class="card-body">
+                <div class="card-body" id="monthlySalesExport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Sales Report <span
                                     class="font-size-1">({{selectedDate}}) - {{empName}}</span></span>
@@ -56,7 +56,7 @@
                                     class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
                     </div>
                     <div id="MonthlySalesreport" class="collapse show">
-                        <div class="table-responsive" id='print-section'>
+                        <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -83,8 +83,8 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                            <div *ngIf="monthlySalesReport?.length === 0">
-                                <span class="text-center"> No Records Found</span>
+                            <div class="noRecords" *ngIf="monthlySalesReport?.length === 0">
+                                <span > No Records Found</span>
                             </div>
                             <ul class="pagination justify-content-end">
                                 <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount"
