@@ -48,8 +48,7 @@
             android:layout_marginTop="@dimen/ten"
             android:textSize="@dimen/textSixteen"
             android:textColor="@color/profileQColor"
-            android:fontFamily="@font/opensans_bold"
-            android:text="John"/>
+            android:fontFamily="@font/opensans_bold" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"

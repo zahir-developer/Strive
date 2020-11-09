@@ -12,6 +12,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Listeners;
 
@@ -89,6 +90,8 @@ namespace StriveEmployee.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
+            MessengerTempData.RecipientID = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).EmployeeId;
+            MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName +" "+ MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();

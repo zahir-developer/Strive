@@ -9,6 +9,9 @@ namespace Strive.Core.ViewModels.Employee
     public class MessengerPersonalChatViewModel : BaseViewModel
     {
         #region Properties
+
+        public PersonalChatMessages chatMessages { get; set; }
+
         #endregion Properties
 
         #region Commands
@@ -16,13 +19,16 @@ namespace Strive.Core.ViewModels.Employee
         public async Task GetAllMessages(ChatDataRequest chatData)
         {
             var result = await MessengerService.GetPersonalChatMessages(chatData);
-            if(result == null)
+            if(result == null || result.ChatMessage == null || result.ChatMessage.ChatMessageDetail == null || result.ChatMessage.ChatMessageDetail.Count == 0)
             {
                 //_userDialog.Toast("No messages");
             }
             else
             {
-
+                chatMessages = new PersonalChatMessages();
+                chatMessages.ChatMessage = new ChatMessage();
+                chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
+                chatMessages = result;
             }
         }
 
