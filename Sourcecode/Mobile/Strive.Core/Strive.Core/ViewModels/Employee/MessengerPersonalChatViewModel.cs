@@ -1,5 +1,6 @@
 ﻿using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Utils;
+using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Strive.Core.ViewModels.Employee
         #region Properties
 
         public string Message { get; set; }
+
+        public bool SentSuccess { get; set; }
         public PersonalChatMessages chatMessages { get; set; }
         public SendChatMessage sendChat { get; set; }
 
@@ -42,7 +45,17 @@ namespace Strive.Core.ViewModels.Employee
                 sendChat = new SendChatMessage();
                 sendChat.chatMessage = new chatMessage();
                 sendChat.chatMessageRecipient = new chatMessageRecipient();
+                FillChatDetails();
                 var result = await MessengerService.SendChatMessage(sendChat);
+                if(result.Status)
+                {
+                    SentSuccess = result.Status;
+                }
+                else
+                {
+                    SentSuccess = result.Status;
+                    _userDialog.Toast("Message not sent");
+                }
             }
         }
 
@@ -59,16 +72,36 @@ namespace Strive.Core.ViewModels.Employee
 
         public void FillChatDetails()
         {
-            sendChat.chatMessage.ChatMessageId = 0;
-            sendChat.chatMessage.Subject = null;
-            sendChat.chatMessage.Messagebody = Message;
-            sendChat.chatMessage.ParentChatMessageId = null;
-            sendChat.chatMessage.ExpiryDate = null;
-            sendChat.chatMessage.IsReminder = true;
-            sendChat.chatMessage.NextRemindDate = null;
-            sendChat.chatMessage.ReminderFrequencyId = null;
-            sendChat.chatMessage.CreatedBy = 0;
-            sendChat.chatMessage.CreatedDate = DateUtils.ConvertDateTimeWithZ();
+            sendChat.chatMessage.chatMessageId = 0;
+            sendChat.chatMessage.subject = null;
+            sendChat.chatMessage.messagebody = Message;
+            sendChat.chatMessage.parentChatMessageId = null;
+            sendChat.chatMessage.expiryDate = null;
+            sendChat.chatMessage.isReminder = true;
+            sendChat.chatMessage.nextRemindDate = null;
+            sendChat.chatMessage.reminderFrequencyId = null;
+            sendChat.chatMessage.createdBy = 0;
+            sendChat.chatMessage.createdDate = DateUtils.ConvertDateTimeWithZ();
+
+            sendChat.chatMessageRecipient.chatRecipientId = 0;
+            sendChat.chatMessageRecipient.chatMessageId = 0;
+            sendChat.chatMessageRecipient.senderId = EmployeeTempData.EmployeeID;
+           
+            
+            sendChat.connectionId = "0";
+            sendChat.fullName = null;
+            if (MessengerTempData.IsGroup)
+            {
+                sendChat.chatMessageRecipient.recipientId = null;
+                sendChat.chatMessageRecipient.recipientGroupId = MessengerTempData.GroupID;
+                sendChat.groupId = null;
+            }
+            else
+            {
+                sendChat.chatMessageRecipient.recipientId = MessengerTempData.RecipientID;
+                sendChat.chatMessageRecipient.recipientGroupId = null;
+                sendChat.groupId = "0";
+            }
         }
         #endregion Commands
     }

@@ -16,6 +16,7 @@ namespace Strive.Core.Utils.Employee
         public static string RecipientName { get; set; }
         public static int RecipientID { get; set; }
         public static int GroupID { get; set; }
+        public static bool IsGroup { get; set; }
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
 
@@ -27,6 +28,7 @@ namespace Strive.Core.Utils.Employee
         {
             RecipientID = 0;
             GroupID = 0;
+            IsGroup = false;
             RecipientName = "";
         }
 

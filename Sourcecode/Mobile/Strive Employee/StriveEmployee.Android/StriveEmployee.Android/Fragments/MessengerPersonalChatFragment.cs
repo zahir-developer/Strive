@@ -14,6 +14,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
+using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
@@ -56,8 +57,41 @@ namespace StriveEmployee.Android.Fragments
 
         private async void SendChat_Button_Click(object sender, EventArgs e)
         {
+            var data = new ChatMessageDetail()
+            {
+                MessageBody = chatMessage_EditText.Text,
+                ReceipientId = 0,
+                RecipientFirstName = "",
+                RecipientLastName = "",
+                SenderFirstName = "",
+                SenderLastName = "",
+                SenderId = EmployeeTempData.EmployeeID,
+                CreatedDate = DateTime.UtcNow
+            };
+            if(ViewModel.chatMessages == null)
+            {
+                ViewModel.chatMessages = new PersonalChatMessages();
+                ViewModel.chatMessages.ChatMessage = new ChatMessage();
+                ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
+                ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
+                messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.chatMessages.ChatMessage.ChatMessageDetail);
+                 
+                var layoutManager = new LinearLayoutManager(Context);
+                chatMessage_RecyclerView.SetLayoutManager(layoutManager);
+                chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);
+                chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+            }
+            else
+            {
+                ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
+            }
+            messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
             this.ViewModel.Message = chatMessage_EditText.Text;
             await this.ViewModel.SendMessage();
+            if(this.ViewModel.SentSuccess)
+            {
+                chatMessage_EditText.Text = "";
+            }
         }
 
         private void PersonalChat_Button_Click(object sender, EventArgs e)
@@ -81,6 +115,7 @@ namespace StriveEmployee.Android.Fragments
                 var layoutManager = new LinearLayoutManager(Context);
                 chatMessage_RecyclerView.SetLayoutManager(layoutManager);
                 chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);
+                chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
             }
         }
     }
