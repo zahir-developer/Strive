@@ -12,5 +12,6 @@ namespace Strive.BusinessEntities.DTO
         public int year { get; set; }
         public int LocationId { get; set; }
         public DateTime? Date { get; set; }
+        public Decimal? TotalTip { get; set; }
     }
 }
