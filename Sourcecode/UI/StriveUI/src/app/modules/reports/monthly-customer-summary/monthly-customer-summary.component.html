@@ -33,7 +33,7 @@
                                                 <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                             </div>&nbsp;
                                             <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;
+                                            <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="custSummaryExport" ngxPrint>Print</button>&nbsp;
                                             <button type="button" class="btn theme-primary-button-color" (click)="getCustomerSummaryReport()">Refresh</button>&nbsp;
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                         </div>
                         <!-- end card-->
                         <div class="card m-t-10">
-                            <div class="card-body">
+                            <div class="card-body" id="custSummaryExport">
                                 <div class="p-b-5 m-b-8">
                                     <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Summary Report for {{selectedDate}}</span>
             </h4>
@@ -54,15 +54,15 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Month</th>
-                                                    <th scope="col"># of Membership
-                                                        <br> Accounts Customers</th>
-                                                    <th scope="col">No of Customers</th>
-                                                    <th scope="col">No of Washes</th>
-                                                    <th scope="col">Avg No of Washes
+                                                    <th scope="col">No. of Membership
+                                                        <br> Account Customers</th>
+                                                    <th scope="col">No. of Customers</th>
+                                                    <th scope="col">No. of Washes</th>
+                                                    <th scope="col">Avg No. of Washes
                                                         <br> per Customer</th>
-                                                    <th scope="col">Total No of Washes
+                                                    <th scope="col">Total No. of Washes
                                                         <br> per Customer</th>
-                                                    <th scope="col">% of customers turned up</th>
+                                                    <th scope="col">% of Customers turned up</th>
                                                 </tr>
                                             </thead>
                                             <tbody *ngFor="let custSummary of customerSummaryReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
@@ -70,15 +70,15 @@
                                                     <th scope="row">{{custSummary?.Month}}</th>
                                                     <td>{{custSummary?.NumberOfMembershipAccounts}}</td>
                                                     <td>{{custSummary?.CustomerCount}}</td>
-                                                    <td>{{custSummary?.NumberOfCompletedWashes}} </td>
+                                                    <td>{{custSummary?.WashesCompletedCount}} </td>
                                                     <td> {{custSummary?.AverageNumberOfWashesPerCustomer | number : '1.2-2'}}</td>
                                                     <td> {{custSummary?.TotalNumberOfWashesPerCustomer | number : '1.2-2'}}</td>
                                                     <td> {{custSummary?.PercentageOfCustomersThatTurnedUp | number : '1.2-2'}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div *ngIf="customerSummaryReport?.length === 0">
-                                            <span class="text-center"> No Records Found</span>
+                                        <div *ngIf="customerSummaryReport?.length === 0" class="noRecords">
+                                            <span> No Records Found</span>
                                         </div>
                                         <ul class="pagination justify-content-end">
                                             <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"

@@ -1,3 +1,4 @@
 <select class="form-control" (change)="getFileType($event)">
+    <option value='' selected hidden>Select</option>
     <option *ngFor = "let filetype of fileExportType" value="{{filetype.id}}">{{filetype.name}}</option>
  </select>

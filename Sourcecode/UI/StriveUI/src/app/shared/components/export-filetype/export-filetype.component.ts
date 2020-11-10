@@ -14,7 +14,7 @@ export class ExportFiletypeComponent implements OnInit {
     this.filetype();
   }
   filetype() {
-    this.fileExportType = [{ id: 0, name: 'select' },
+    this.fileExportType = [
     { id: 1, name: 'Acrobat (PDF) File' },
     { id: 2, name: 'CSV (comma delimited)' },
     { id: 3, name: 'Excel 97 - 2003' },

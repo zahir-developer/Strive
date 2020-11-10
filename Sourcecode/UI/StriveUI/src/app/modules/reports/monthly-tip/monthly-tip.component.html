@@ -1,93 +1,100 @@
-
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Reports </h3>
+<div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+    <h3 class="d-inline-block">Reports </h3>
+</div>
+<div class="col-lg-12 p-l-0 p-r-0">
+    <div class="row no-gutter">
+        <div class="col-12">
+            <div class="row no-gutter">
+                <div class="col-lg-2">
+                    <app-month-picker (emitMonth)='onMonthChange($event)'></app-month-picker>
+                </div>
+                <div class="col-lg-2">
+                    <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
+                </div>
+                <div class="col-lg-2">
+                    <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn theme-primary-button-color" (click)="preview()">Preview</button>
+                </div>
             </div>
-            <div class="col-lg-12 p-l-0 p-r-0">
-                <div class="row no-gutter">
-                    <div class="col-12">
-                        <div class="row no-gutter">
-                            <div class="col-lg-2">
-                                <app-month-picker (emitMonth)='onMonthChange($event)'></app-month-picker>
-                            </div>
-                            <div class="col-lg-2">
-                                <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
-                            </div>
-                            <div class="col-lg-2">
-                                <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
-                            </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn theme-primary-button-color">Preview</button>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="row">
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <div class="d-inline-block align-middle">
+                                    <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
+                                </div>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
+                                    printSectionId="Monthlyreport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="getMonthlyTipReport()">Refresh</button>
                             </div>
                         </div>
-                        <div class="card m-t-10">
-                            <div class="card-body p-10">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                    
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="pull-right">
-                                            <div class="d-inline-block align-middle">
-                                                <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
-                                            </div>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color"  [useExistingCss]="true" printSectionId="Monthlyreport" ngxPrint>Print</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color" (click)="getMonthlyTipReport()">Refresh</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-->
-                            <!-- end card-->
-                        <div class="card m-t-10">
-                            <div class="card-body">
-                                <div class="p-b-5 m-b-8">
-                                    <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Tip Report </span>
-                                    <div class="d-inline-block"><input type="text" class="form-control"  placeholder="Tip Total"></div>
-            </h4>
-                                    <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Monthlyreport" role="button" aria-expanded="false" aria-controls="Monthlyreport"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
-                                </div>
-                                <div id="Monthlyreport" class="collapse show">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Payee</th>
-                                                    <th scope="col">Hours</th>
-                                                    <th scope="col" class="w-10">Tip</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let monthlytip of monthlyTip | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <tr>
-                                             <td>{{monthlytip?.Payee}}</td>   
-                                             <td>{{monthlytip?.Hours}}</td>   
-                                             <td>{{monthlytip?.Tip}}</td>  
-                                            </tr> 
-                                            </tbody>
-                                            <tfoot class="table-foot font-weight-700">
-                                                <tr>
-                                                    <td colspan="2" class="font-weight-700 text-right">Tip Total </td>
-                                                    <td>$40.00 </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <div *ngIf="monthlyTip?.length === 0">
-                                            <span class="text-center"> No Records Found</span>
-                                        </div>
-                                        <ul class="pagination justify-content-end">
-                                            <ngb-pagination *ngIf="collectionSize > 5" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                                class="d-flex justify-content-end">
-                                            </ngb-pagination>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end card-body -->
-                        </div>
-                        <!-- end card-->
                     </div>
                 </div>
             </div>
-       
+            <!-- end card-->
+            <!-- end card-->
+            <div class="card m-t-10">
+                <div class="card-body">
+                    <div class="p-b-5 m-b-8">
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Tip Report </span>
+                            <div class="d-inline-block"><input type="text" class="form-control" placeholder="Tip Total">
+                            </div>
+                        </h4>
+                        <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Monthlyreport"
+                                role="button" aria-expanded="false" aria-controls="Monthlyreport"><i
+                                    class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
+                    </div>
+                    <div id="Monthlyreport" class="collapse show">
+                        <div class="table-responsive">
+                            <table class="table border table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Payee</th>
+                                        <th scope="col">Hours</th>
+                                        <th scope="col" class="w-10">Tip</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let monthlytip of monthlyTip | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                        <td>{{monthlytip?.EmployeeName}}</td>
+                                        <td>{{monthlytip?.HoursPerDay}}</td>
+                                        <td>{{monthlytip?.Tip}}</td>
+                                    </tr>
+                                    <tr *ngIf="monthlyTip?.length === 0">
+                                        <td colspan="3" class="text-center">
+                                            No Records Found
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="table-foot font-weight-700" *ngIf="monthlyTip?.length > 0">
+                                    <tr>
+                                        <td colspan="2" class="font-weight-700 text-right">Tip Total </td>
+                                        <td>{{totalTip | currency}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <ul class="pagination justify-content-end">
+                                <ngb-pagination *ngIf="collectionSize > 5" [collectionSize]="collectionSize"
+                                    [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                    [boundaryLinks]="true" class="d-flex justify-content-end">
+                                </ngb-pagination>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card-body -->
+            </div>
+            <!-- end card-->
+        </div>
+    </div>
+</div>

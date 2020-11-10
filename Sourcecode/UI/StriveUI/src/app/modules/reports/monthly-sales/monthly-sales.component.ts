@@ -111,17 +111,20 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
     if (fileType === '' || fileType === 0) {
       return;
     }
+    if (this.monthlySalesReport.length === 0) {
+      return;
+    }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('MonthlySalesreport', 'MonthlySalesReport.pdf');
+        this.excelService.exportAsPDFFile('monthlySalesExport', 'MonthlySalesReport_' + this.selectedDate + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.monthlySalesReport, 'monthly-sales');
+        this.excelService.exportAsCSVFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.monthlySalesReport, 'monthly-sales');
+        this.excelService.exportAsExcelFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate);
         break;
       }
       default: {

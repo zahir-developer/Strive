@@ -322,7 +322,7 @@ export class VehicleCreateEditComponent implements OnInit {
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
         clientId: this.selectedData.ClientId,
-        locationId: 1,
+        locationId: localStorage.getItem('empLocationId'),
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
         vehicleMfr: this.vehicleForm.value.make,
         vehicleModel: this.vehicleForm.value.model,
@@ -344,7 +344,7 @@ export class VehicleCreateEditComponent implements OnInit {
         clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
         // clientMembershipId: this.,
         clientVehicleId: this.selectedData.ClientVehicleId,
-        locationId: 1,
+        locationId: localStorage.getItem('empLocationId'),
         membershipId: this.vehicleForm.value.membership,
         startDate: new Date().toLocaleDateString(),
         endDate: new Date((new Date()).setDate((new Date).getDate() + 30)).toLocaleDateString(),
@@ -355,7 +355,8 @@ export class VehicleCreateEditComponent implements OnInit {
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
-        updatedDate: new Date()
+        updatedDate: new Date(),
+        totalPrice: this.vehicleForm.value.monthlyCharge
       };
       let membershipServices = [];
       membershipServices = memberService.map(item => {
@@ -393,7 +394,7 @@ export class VehicleCreateEditComponent implements OnInit {
       const add = {
         VehicleId: 0,
         ClientId: this.clientId,
-        LocationId: 1,
+        LocationId: localStorage.getItem('empLocationId'),
         VehicleNumber: this.vehicleForm.value.vehicleNumber,
         VehicleMfr: Number(this.vehicleForm.value.make),
         VehicleModel: Number(this.vehicleForm.value.model),
