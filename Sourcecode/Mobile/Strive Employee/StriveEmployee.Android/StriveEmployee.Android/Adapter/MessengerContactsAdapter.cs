@@ -90,6 +90,7 @@ namespace StriveEmployee.Android.Adapter
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
+            MessengerTempData.resetChatData();
             MessengerTempData.RecipientID = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).EmployeeId;
             MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName +" "+ MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;

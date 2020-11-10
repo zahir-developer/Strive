@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using EmployeeList = Strive.Core.Models.Employee.Messenger.EmployeeList;
 namespace Strive.Core.Utils.Employee
 {
     public static class EmployeeTempData
@@ -12,9 +12,24 @@ namespace Strive.Core.Utils.Employee
     }
     public static class MessengerTempData
     {
+        #region Properties
         public static string RecipientName { get; set; }
         public static int RecipientID { get; set; }
         public static int GroupID { get; set; }
         public static EmployeeLists EmployeeLists { get; set; }
+        public static EmployeeList RecentEmployeeLists { get; set; }
+
+        #endregion Properties
+
+        #region Commands
+
+        public static void resetChatData()
+        {
+            RecipientID = 0;
+            GroupID = 0;
+            RecipientName = "";
+        }
+
+        #endregion Commands
     }
 }

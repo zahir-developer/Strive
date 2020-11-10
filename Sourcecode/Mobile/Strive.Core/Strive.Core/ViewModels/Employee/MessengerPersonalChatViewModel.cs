@@ -21,7 +21,7 @@ namespace Strive.Core.ViewModels.Employee
             var result = await MessengerService.GetPersonalChatMessages(chatData);
             if(result == null || result.ChatMessage == null || result.ChatMessage.ChatMessageDetail == null || result.ChatMessage.ChatMessageDetail.Count == 0)
             {
-                //_userDialog.Toast("No messages");
+                chatMessages = null;
             }
             else
             {

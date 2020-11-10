@@ -23,6 +23,7 @@ namespace StriveEmployee.Android.Fragments
     [Activity (WindowSoftInputMode = SoftInput.AdjustResize)]
     public class MessengerPersonalChatFragment : MvxFragment<MessengerPersonalChatViewModel>
     {
+        private Button personalChat_Button;
         private EditText chatMessage_EditText;
         private TextView personalContactName_TextView;
         private RecyclerView chatMessage_RecyclerView;
@@ -39,14 +40,22 @@ namespace StriveEmployee.Android.Fragments
             var rootView = this.BindingInflate(Resource.Layout.MessengerPersonalChat_Fragment, null);
             this.ViewModel = new MessengerPersonalChatViewModel();
 
+            personalChat_Button = rootView.FindViewById<Button>(Resource.Id.personalChatBack_Button);
             personalContactName_TextView = rootView.FindViewById<TextView>(Resource.Id.personalContactName_TextView);
             chatMessage_EditText = rootView.FindViewById<EditText>(Resource.Id.chatMessage_EditText);
             chatMessage_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.message_recyclerview);
             chatMessage_EditText.SetCompoundDrawablesWithIntrinsicBounds(0, 0, Resource.Drawable.sendcircle, 0);
 
             personalContactName_TextView.Text = MessengerTempData.RecipientName;
+            personalChat_Button.Click += PersonalChat_Button_Click;
             getChatData();
             return rootView;
+        }
+
+        private void PersonalChat_Button_Click(object sender, EventArgs e)
+        {
+            MessengerFragment messengerFragment = new MessengerFragment();
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
         }
 
         private async void getChatData()
@@ -55,10 +64,10 @@ namespace StriveEmployee.Android.Fragments
             {
                 SenderId = EmployeeTempData.EmployeeID,
                 RecipientId = MessengerTempData.RecipientID,
-                GroupId = 0
+                GroupId = MessengerTempData.GroupID
             };
             await this.ViewModel.GetAllMessages(chatData);
-            if(ViewModel.chatMessages != null || ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count != 0)
+            if(ViewModel.chatMessages != null )
             {
                 messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.chatMessages.ChatMessage.ChatMessageDetail);
                 var layoutManager = new LinearLayoutManager(Context);

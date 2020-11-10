@@ -9,11 +9,13 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee;
 using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Listeners;
 
@@ -25,6 +27,7 @@ namespace StriveEmployee.Android.Adapter
         public TextView recentContactName_TextView;
         public TextView recentContactLastText_TextView;
         public TextView recentContactMessageTime_TextView;
+        public IItemClickListener itemClickListener;
         public MessengerRecentContactsRecycleHolder(View recentContact) : base(recentContact)
         {
 
@@ -32,11 +35,16 @@ namespace StriveEmployee.Android.Adapter
             recentContactName_TextView = recentContact.FindViewById<TextView>(Resource.Id.recentContactName_TextView);
             recentContactLastText_TextView = recentContact.FindViewById<TextView>(Resource.Id.recentContactLastText_TextView);
             recentContactMessageTime_TextView = recentContact.FindViewById<TextView>(Resource.Id.recentContactMessageTime_TextView);
+            recentContact.SetOnClickListener(this);
 
         }
-        public void OnClick(View v)
+        public void SetItemClickListener(IItemClickListener itemClickListener)
         {
-            
+            this.itemClickListener = itemClickListener;
+        }
+        public void OnClick(View view)
+        {
+            itemClickListener.OnClick(view, AdapterPosition, false);
         }
 
         public bool OnLongClick(View v)
@@ -99,12 +107,27 @@ namespace StriveEmployee.Android.Adapter
                 }
                 recentContactsRecycleHolder.recentContactLastText_TextView.Text = lastMessage[1];
             }
-           // recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = recentContactsSampleDatas[position].MessageTime;
+            recentContactsRecycleHolder.SetItemClickListener(this);
         }
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-            
+            MessengerTempData.resetChatData();
+            if (MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).IsGroup)
+            {
+                MessengerTempData.GroupID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).Id;
+                MessengerTempData.RecipientName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).FirstName;
+                MessengerTempData.RecipientID = 0;
+            }
+            else
+            {
+                MessengerTempData.GroupID = 0;
+                MessengerTempData.RecipientName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).FirstName + " "+ MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).LastName;
+                MessengerTempData.RecipientID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).Id;
+            }
+            AppCompatActivity activity = (AppCompatActivity)itemView.Context;
+            MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
