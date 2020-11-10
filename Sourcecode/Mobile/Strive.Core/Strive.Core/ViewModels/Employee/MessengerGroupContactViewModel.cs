@@ -29,12 +29,15 @@ namespace Strive.Core.ViewModels.Employee
             {
                 GroupList = new EmployeeList();
                 GroupList.ChatEmployeeList = new List<ChatEmployeeList>();
+                MessengerTempData.GroupLists = new EmployeeList();
+                MessengerTempData.GroupLists.ChatEmployeeList = new List<ChatEmployeeList>();
 
-                foreach(var group in recentContact.EmployeeList.ChatEmployeeList)
+                foreach (var group in recentContact.EmployeeList.ChatEmployeeList)
                 {
                     if(group.IsGroup)
                     {
                         GroupList.ChatEmployeeList.Add(group);
+                        MessengerTempData.GroupLists.ChatEmployeeList.Add(group);
                     }
                 }
             }

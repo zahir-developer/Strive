@@ -113,9 +113,10 @@ namespace StriveEmployee.Android.Fragments
             {
                 messengerChat_Adapter = new MessengerChatAdapter(Context, ViewModel.chatMessages.ChatMessage.ChatMessageDetail);
                 var layoutManager = new LinearLayoutManager(Context);
+                layoutManager.StackFromEnd = true;
                 chatMessage_RecyclerView.SetLayoutManager(layoutManager);
                 chatMessage_RecyclerView.SetAdapter(messengerChat_Adapter);
-                chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+               
             }
         }
     }
