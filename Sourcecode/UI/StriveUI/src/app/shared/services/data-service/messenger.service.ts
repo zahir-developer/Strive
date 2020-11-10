@@ -75,7 +75,7 @@ export class MessengerService {
     }
     changeUnreadMessageState(chatDetail)
     {
-        return this.http.post(`${UrlConfig.Messenger.changeUnreadMessageState}` + chatDetail)
+        return this.http.post(`${UrlConfig.Messenger.changeUnreadMessageState}`, chatDetail)
     }
     
 }

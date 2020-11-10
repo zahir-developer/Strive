@@ -171,8 +171,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         if (!this.selectedEmployee.IsGroup) {
           const chatDetail =
           {
-            SenderId: this.selectedEmployee.Id,
-            RecipientId: this.employeeId
+            senderId: !this.isGroupChat ? this.employeeId : 0,
+            recipientId: !this.isGroupChat ? this.selectedEmployee.Id : this.employeeId,
+            groupId: this.isGroupChat ? this.groupChatId : null
           }
           this.changeUnreadMessageState(chatDetail);
         }
@@ -220,8 +221,26 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       groupName: null,
       groupId: this.selectedEmployee.CommunicationId,
       firstName: localStorage.getItem('employeeFirstName'),
-      lastName: localStorage.getItem('employeeLastName')
+      lastName: localStorage.getItem('employeeLastName'),
+      chatGroupRecipient: []
     };
+
+    if (this.selectedEmployee.IsGroup) {
+      if (this.groupEmpList?.length > 0) {
+        this.groupEmpList.forEach(s => {
+          const grpRecp =
+          {
+            chatGroupRecipientId: 0,
+            chatGroupId: s.ChatGroupId,
+            recipientId: s.Id,
+            isRead: false
+          }
+          msg.chatGroupRecipient.push(grpRecp);
+        });
+
+      }
+    }
+
     this.spinner.show();
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
@@ -318,7 +337,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.msgService.changeUnreadMessageState(chatDetail).subscribe(data => {
       if (data.status === 'Success') {
         const result = JSON.parse(data.resultData);
-        console.log(result,'changeUnreadMessageState');
+        console.log(result, 'changeUnreadMessageState');
       }
       else {
         console.log('Error')
