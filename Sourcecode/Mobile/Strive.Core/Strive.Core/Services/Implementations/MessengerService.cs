@@ -1,4 +1,5 @@
 ﻿using MvvmCross;
+using Strive.Core.Models;
 using Strive.Core.Models.Employee;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
@@ -30,6 +31,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<Models.Employee.Messenger.EmployeeLists> GetRecentContacts(int employeeId)
         {
             return await _restClient.MakeApiCall<Models.Employee.Messenger.EmployeeLists>(string.Format(ApiUtils.URL_MESSENGER_RECENT_CONTACTS, employeeId), HttpMethod.Get);
+        }
+
+        public async Task<PostResponseBool> SendChatMessage(SendChatMessage chatMessage)
+        {
+            return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_MESSENGER_SEND_CHAT_MESSAGE,  HttpMethod.Post, chatMessage);
         }
     }
 }
