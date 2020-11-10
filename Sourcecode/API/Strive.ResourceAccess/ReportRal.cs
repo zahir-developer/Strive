@@ -42,7 +42,7 @@ namespace Strive.ResourceAccess
         public List<EmployeeTipViewModel> GetEmployeeTipReport(EmployeeTipReportDto EmployeeTipReport)
         {
             List<EmployeeTipViewModel> result = new List<EmployeeTipViewModel>();
-            if (EmployeeTipReport.Date != null)
+            if (EmployeeTipReport.Date == null)
             {
                 _prm.Add("@LocationId", EmployeeTipReport.LocationId);
                 _prm.Add("@Year", EmployeeTipReport.year);
