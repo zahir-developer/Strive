@@ -18,7 +18,9 @@ namespace Strive.BusinessEntities
         {
             USPGETMONTHLYSALESREPORT,
             USPGETCUSTOMERSUMMARYREPORT,
-            USPMONTHLYCUSTOMERDETAIL
+            USPMONTHLYCUSTOMERDETAIL,
+            uspGetMonthlyTipDetail,
+            uspGetDailyTipDetail
         }
 
         public enum WhiteLabelling
@@ -40,7 +42,10 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEROLES,
             USPGETALLEMPLOYEEDETAIL,
         }
-
+        public enum DashboardStatistics
+        {
+            USPGETDASHBOARDSTATISTICS
+        }
         public enum Messenger
         {
             USPGETChatEMPLOYEELIST,
@@ -49,7 +54,8 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEERECENTCHATHISTORY,
             GETCHATMESSAGECOUNT,
             USPGETCHATGROUPEMPLOYEELIST,
-            USPGETCHATEMPLOYEEGROUPLIST
+            USPGETCHATEMPLOYEEGROUPLIST,
+            USPDELETECHATUSERGROUP
         }
 
         public enum Membership

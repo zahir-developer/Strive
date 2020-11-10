@@ -133,7 +133,7 @@ export const UrlConfig = {
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
-    getPaymentStatus:`Admin/Common/GetCodesByCategory/`,
+    getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
@@ -146,16 +146,30 @@ export const UrlConfig = {
     getAccountDetails: `Admin/Sales/GetAccountDetails`,
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
-    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`
+    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
+    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
   },
   Messenger:
   {
-    GetEmployeeList: `Admin/Messenger/GetChatEmployeeList/`,
-    SendMessage: `Admin/Messenger/SendChatMessage`,
-    CreateGroup: `Admin/Messenger/CreateGroup`,
-    UpdateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
-    GetChatMessage: `Admin/Messenger/GetChatMessage`,
-    sendGroupMessage:  `Admin/Messenger/CreateChatGroup`,
-    getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`
+    getEmployeeList: `Admin/Messenger/GetChatEmployeeList/`,
+    sendMessage: `Admin/Messenger/SendChatMessage`,
+    updateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
+    getChatMessage: `Admin/Messenger/GetChatMessage`,
+    createGroup:  `Admin/Messenger/CreateChatGroup`,
+    getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
+    getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
+    deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`
   },
+  reports: {
+    getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
+    getCustomerSummaryReport: `Admin/Report/GetCustomerSummaryReport`,
+    getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`,
+    getDailyTipReport: ``,
+    getMonthlyTipReport: ``
+  },
+  dashboard: {
+    getDashboardLocation: `Admin/Location/GetAll`,
+    getTodayScheduleList: `Admin/Details/GetAllDetails`,
+    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics/`
+  }
 };

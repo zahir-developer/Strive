@@ -22,15 +22,21 @@ export class SidenavComponent implements OnInit {
   }
   getLogo() {
     this.logoService.name.subscribe(data => {
-      console.log(data);
       const base64 = 'data:image/png;base64,';
       this.logoBase64 = base64 + data;
     });
   }
-  openNav() {
-    document.getElementById('navSliderMenu').style.width = '180px';
-    document.getElementById('content-wrapper').style.marginLeft = '180px';
-    $('.menu li').on('click', function () {
+  openNav(menu) {
+    if (menu === 'reports'){
+      document.getElementById('reportSliderMenu').style.width = '180px';
+      document.getElementById('navSliderMenu').style.width = '0';
+      document.getElementById('content-wrapper').style.marginLeft = '0';
+      document.getElementById('content-wrapper').style.marginLeft = '180px';
+    } else {
+      document.getElementById('navSliderMenu').style.width = '180px';
+      document.getElementById('content-wrapper').style.marginLeft = '180px';
+    }
+    $('.menu li').on('click', function() {
       $('.menu li').removeClass('theme-secondary-background-color active');
       $(this).addClass('theme-secondary-background-color active');
     });
@@ -41,6 +47,7 @@ export class SidenavComponent implements OnInit {
   }
 
   closeNav() {
+    document.getElementById('reportSliderMenu').style.width = '0';
     document.getElementById('navSliderMenu').style.width = '0';
     document.getElementById('content-wrapper').style.marginLeft = '0';
   }

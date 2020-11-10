@@ -42,15 +42,22 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="title-border p-b-8 m-b-12">
-                                        <h4 class="d-inline-block align-middle  font-size-1-7">
-                                            <div *ngIf="!selectedEmployee?.IsGroup"
-                                                [ngClass]="[selectedEmployee?.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
-                                            </div><span
-                                                class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span><span
-                                                class="align-middle">{{chatFullName}}</span>
-                                        </h4>
-                                        <div class="pull-right card-widgets d-flex" >
-                                            <div class="dropdown m-r-8" style="display:none;">
+                                            <h4 *ngIf="!selectedEmployee?.IsGroup"
+                                                class="d-inline-block align-middle font-size-1-7">
+                                                <div
+                                                    [ngClass]="[selectedEmployee?.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
+                                                </div>
+                                                <span
+                                                    class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span>
+                                                <span class="align-middle msg-title">{{chatFullName}}</span>
+                                            </h4>
+                                            <h4 *ngIf="selectedEmployee?.IsGroup"
+                                                class="d-inline-block align-middle  font-size-1-7">
+                                                <span class="circle-icon m-r-10"><i
+                                                        class="group-icon-color font-size-1-7  mdi mdi-account-supervisor align-middle"></i></span>{{chatFullName}}
+                                            </h4>
+                                        <div class="pull-right card-widgets d-flex">
+                                            <div class="dropdown m-r-8" *ngIf="this.selectedEmployee?.IsGroup">
                                                 <a href="#" class="dropdown-toggle text-muted arrow-none"
                                                     data-toggle="dropdown" aria-expanded="false">
                                                     <i class="theme-primary-color font-size-1-7 mdi mdi-account-group pointer"
@@ -58,30 +65,41 @@
                                                 <div class="dropdown-menu dropdown-menu-right m-r-10 drop-down">
                                                     <h4
                                                         class="font-size-1 border-bottom p-t-4 p-b-5 p-r-24 p-l-24 font-weight-700">
-                                                        View Participants</h4> <a href="#" class="drop-down-item">
-                                                        Jeanne Weimann<i
+                                                        View Participants</h4>
+                                                    <a *ngFor="let emp of groupEmpList" class="drop-down-item">
+                                                        {{ emp.FirstName + ' ' + emp.LastName }}<i
+                                                            (click)='confirmDeleteGroupUser(emp.ChatGroupUserId, emp.ChatGroupId)'
                                                             class="mdi mdi-close-circle pointer removeuser theme-optional-icon-color font-size-1-1 float-right align-middle"></i>
-                                                    </a> <a href="#" class="drop-down-item">Burley Wintheiser <i
-                                                            class="mdi mdi-close-circle pointer removeuser theme-optional-icon-color font-size-1-1 float-right"></i>
-
-                                                    </a> <a href="#" class="drop-down-item">Dr. William Hoeger<i
-                                                            class="mdi mdi-close-circle pointer removeuser theme-optional-icon-color font-size-1-1 float-right"></i>
                                                     </a>
-                                                    <a class="border-top"></a> <a href="#"
+                                                    <a class="border-top" style="display: none;"></a> <a href="#"
+                                                        style="display: none;"
                                                         class="drop-down-item border-top align-middle"> Add People <span
-                                                            class="align-middle"><i
+                                                            class="align-middle">
+                                                            <i
                                                                 class="font-size-1-2 mdi mdi-account-multiple-plus pointer float-right align-middle"></i></span>
-                                                    </a> <a href="#" class="drop-down-item align-middle"> Exit Group <i
+                                                    </a>
+                                                    <a href="#" style="display: none;"
+                                                        class="drop-down-item align-middle"> Exit Group <i
                                                             class="font-size-1-2 mdi mdi-logout-variant pointer float-right align-middle"></i>
                                                     </a>
                                                 </div>
                                             </div>
 
-                                            <a (click)="openemp('oldChat');"><i
+                                            <a *ngIf="selectedEmployee !== undefined" (click)="openemp('oldChat');"><i
                                                     class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer float-right"></i></a>
                                         </div>
+                                       
+
                                     </div>
-                                    <ul class="conversation-list chat-box-slide" #scrollMe>
+                                    <ul *ngIf="msgList === undefined">
+                                        <ul class="conversation-list chat-box-slide">
+                                            <li class="text-center aligncenter">
+                                                <p class="font-weight-800 font-size-1-5 line-height-0">You have not
+                                                    started a conversation Yet.. Please start one !!!</p>
+                                        </ul>
+                                    </ul>
+                                    <ul *ngIf="msgList !== undefined" class="conversation-list chat-box-slide"
+                                        #scrollMe>
                                         <li *ngFor="let msg of msgList odd"
                                             [ngClass]="{'odd': employeeId === msg.SenderId}" class="clearfix">
                                             <div class="chat-avatar">
@@ -99,24 +117,25 @@
                                             </div>
                                         </li>
                                     </ul>
-                                    <div class="border-top m-t-16">
+                                    <div *ngIf="selectedEmployee !== undefined" class="border-top m-t-16">
                                         <div class="row m-t-10">
                                             <div class="col mb-2 mb-sm-0">
                                                 <input type="text" [(ngModel)]="messageBody"
-                                                    (keydown.enter)='sendMessage()' class="form-control border-0"
+                                                    (keydown.enter)='sendMessage(false)' class="form-control border-0"
                                                     placeholder="Type the message here..." required=""> </div>
                                             <div class="col-sm-auto"> <i
                                                     class="mdi mdi-send  theme-primary-color font-size-1-4"
-                                                    (click)='sendMessage()'></i> </div>
+                                                    (click)='sendMessage(false)'></i> </div>
                                             <!-- end col -->
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3" id="show-search-emp">
                             <app-messenger-employee-search (emitNewChat)="newChatEmit.getEmpForNewChat($event)"
+                                (emitFirstMessage)="sendFirstMessage($event)"
+                                (emitRefreshGroupUsers)="refreshGroupMembers($event)"
                                 [selectedEmployee]="selectedEmployee" [popupType]="popupType">
                             </app-messenger-employee-search>
                             <!-- end card-->

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,6 +44,7 @@ using Strive.BusinessLogic.Messenger;
 using Strive.BusinessLogic.WhiteLabelling;
 using Strive.BusinessLogic.Checkout;
 using Strive.BusinessLogic.MonthlySalesReport;
+using Strive.BusinessLogic.DashboardStatistics;
 
 namespace Admin.API
 {
@@ -89,7 +90,7 @@ namespace Admin.API
             services.AddTransient<IWhiteLabelBpl, WhiteLabelBpl>();
             services.AddTransient<ICheckoutBpl, CheckoutBpl>();
             services.AddTransient<IReportBpl, ReportBpl>();
-
+            services.AddTransient<IDashboardBpl, DashboardBpl>();
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
@@ -203,6 +204,12 @@ namespace Admin.API
             //app.UseSecureHeadersMiddleware(secureHeaderSettings.Value); 
             //app.UseSecureHeadersMiddleware(SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration());
             app.UseSecureHeadersMiddleware(Middleware.SecureHeaders.CustomConfiguration());
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatMessageHub>("/chatMessageHub");
+            });
+
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
             app.Use(next => context =>
@@ -216,10 +223,6 @@ namespace Admin.API
                 return next(context);
             });
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatMessageHub>("/chatMessageHub");
-            });
         }
     }
 }

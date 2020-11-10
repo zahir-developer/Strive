@@ -8,8 +8,7 @@
     <FrameLayout
         android:id="@+id/content_Frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:layout_above="@+id/dash_BottomBar"/>
+        android:layout_height="match_parent" />
     <android.support.design.bottomappbar.BottomAppBar
         android:id="@+id/dash_BottomBar"
         android:layout_width="match_parent"

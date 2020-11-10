@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class SalesReportDetailViewModel
     {
-        public List<EmployeeInputViewModel> EmployeeViewModel { get; set; }
+        public List<MonthlySalesInputViewModel> EmployeeViewModel { get; set; }
         public List<SalesReportViewModel> MonthlySalesReportViewModel { get; set; }
     }
 }

@@ -574,6 +574,13 @@ border-radius: 5px;
 .Schedules-tab .show > .nav-tab-link > i {
     color: white;
 }
+.Schedules-tab div a.active > .Schedules-badge,
+.Schedules-tab.show > .nav-tab-link,
+.Schedules-tab .nav-tab-link.active > .Schedules-badge,
+.Schedules-tab .show > .nav-tab-link > .Schedules-badge {
+    color: #30343c;
+    background-color: white;
+}
 .Schedules-tab div a.active > p,
 .Schedules-tab.show > .nav-tab-link,
 .Schedules-tab .nav-tab-link.active > p,
@@ -904,6 +911,13 @@ width:31.5%;
 	display: none;
 
 }
+.line-height-0{
+	line-height:0;
+}
+.aligncenter{
+	padding:150px 0;
+}
+
 .drop-down-item:hover .removeuser {
    display:inline-block;
 }
@@ -963,7 +977,8 @@ width:31.5%;
 	font-weight:700;
 }
 .msgbody-active{
-	font-weight:700;
+    font-weight:700;
+    
 }
 
 
@@ -1044,6 +1059,7 @@ width:31.5%;
 }
 .msg-title {
     color: #11283d;
+    text-transform: capitalize;
 }
 .msg-date {
     color: #5f6281;
@@ -1287,9 +1303,39 @@ font-family: 'Ubuntu' !important;
 }
 .recentchat-active {
 	color:#24489A !important;
-	font-weight:700;
+    font-weight:700;
+    background: #f1f3fa;
 }
 .Message-item:hover{
 	background: #f1f3fa;
 }
 
+/* reports */
+.paginationinput {
+    width: 50px !important;
+    padding: 5px;
+}
+.montthcustreport td,
+.montthcustreport th {
+    border-top: 0px solid #dee2e6 !important;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    border-color: #1dc5b3 !important;
+    background-color: #1dc5b3 !important;
+}
+.modal-title-bg {
+    background-color: #f5f5f5;
+}
+.w-10 {
+    width: 10%;
+}
+.w-15 {
+    width: 15%;
+}
+.w-45 {
+    width: 45%;
+}
+.page-link {
+    color: #000000 !important;
+}

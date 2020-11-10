@@ -5,6 +5,7 @@ import { LoginService } from '../shared/services/login.service';
 import { Router, ActivatedRoute } from '@angular/router'
 import { AuthService } from '../shared/services/common-service/auth.service';
 import { WhiteLabelService } from '../shared/services/data-service/white-label.service';
+import { MessengerService } from '../shared/services/data-service/messenger.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   whiteLabelDetail: any;
   colorTheme: any;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
-              private authService: AuthService, private whiteLabelService: WhiteLabelService) { }
+              private authService: AuthService, private whiteLabelService: WhiteLabelService,
+              private msgService: MessengerService ) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
@@ -32,7 +34,7 @@ export class LoginComponent implements OnInit {
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required)
     });
-
+    this.msgService.closeConnection();
   }
   get f() { return this.loginForm.controls; }
   LoginSubmit(): void {
@@ -57,6 +59,7 @@ export class LoginComponent implements OnInit {
           //   token.EmployeeDetails.EmployeeRole[0].RoleName;
           this.getThemeColor();
           this.loadTheLandingPage();
+          this.msgService.startConnection();
         } else {
           this.errorFlag = true;
           this.isLoginLoading = false;

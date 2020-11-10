@@ -24,6 +24,7 @@ const routes: Routes = [
   import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)},
   { path: 'payrolls', loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
   {path: 'messenger', loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
+  {path: 'reports', loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)},
   {
     path: '',
     redirectTo: '',
