@@ -17,25 +17,15 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   dailyTip = [];
   fileType: any;
   page = 1;
-  pageSize = 5;
+  pageSize = 25;
   collectionSize: number;
+  totalTip = 0;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
-              private excelService: ExcelService) { }
+    private excelService: ExcelService) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
-    // this.getDailyTipReport();
-    this.dailyTip = [{ Payee: 12, Hours: 10, Tip: 20 },
-    { Payee: 13, Hours: 10, Tip: 20 },
-    { Payee: 14, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 20, Hours: 10, Tip: 20 }];
-    this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
+    // // this.getDailyTipReport();
   }
   getfileType(event) {
     this.fileType = +event.target.value;
@@ -46,14 +36,22 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
   getDailyTipReport() {
+    const month = this.date.getMonth() + 1;
+    const year = this.date.getFullYear();
     const obj = {
       locationId: +this.locationId,
-      date: this.date
+      date: this.date,
+      month,
+      year
     };
-    this.reportService.getDailyTipReport(obj).subscribe(data => {
-      if (data.status === ' Success') {
+    this.reportService.getMonthlyDailyTipReport(obj).subscribe(data => {
+      if (data.status === 'Success') {
         const dailytip = JSON.parse(data.resultData);
-        this.dailyTip = dailytip;
+        console.log(dailytip);
+        this.dailyTip = dailytip.GetEmployeeTipReport;
+        this.dailyTip.forEach( item => {
+          this.totalTip = this.totalTip + item.Tip;
+        });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
       }
     });
