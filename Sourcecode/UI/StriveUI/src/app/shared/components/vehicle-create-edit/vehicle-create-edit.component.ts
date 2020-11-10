@@ -355,7 +355,8 @@ export class VehicleCreateEditComponent implements OnInit {
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
-        updatedDate: new Date()
+        updatedDate: new Date(),
+        totalPrice: this.vehicleForm.value.monthlyCharge
       };
       let membershipServices = [];
       membershipServices = memberService.map(item => {
