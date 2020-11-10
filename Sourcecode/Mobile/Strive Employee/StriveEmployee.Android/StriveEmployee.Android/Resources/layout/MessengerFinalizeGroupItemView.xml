@@ -2,13 +2,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/createGroupEntry_LinearLayout"
     android:background="@android:color/white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="1"
         android:orientation="horizontal">
         <Button   
-            android:id="@+id/contact_ImageView" 
+            android:id="@+id/createGroup_ImageView" 
             android:clickable="false"
             android:layout_gravity="center"
             android:layout_width="30dp"
@@ -20,14 +22,21 @@
             android:fontFamily="@font/opensans_semibold"
             android:background="@drawable/profileavatar_button"/>
         <TextView
-            android:id="@+id/contactName_TextView"
-            android:layout_width="match_parent"
+            android:id="@+id/createGroupName_TextView"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/twenty"
             android:gravity="left|center"
+            android:layout_weight="0.9"
             android:textSize="@dimen/fifteen"
             android:textColor="@color/profileQColor"
-                    android:fontFamily="@font/opensans_semibold" />
+            android:fontFamily="@font/opensans_semibold" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:src="@drawable/delete_circle" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
