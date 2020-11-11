@@ -13,11 +13,13 @@ namespace Strive.Core.Utils.Employee
     public static class MessengerTempData
     {
         #region Properties
-        public static int selectedPosition { get; set; } = -1;
+        public static int ClickAction { get; set; } = 0;
         public static string RecipientName { get; set; }
         public static int RecipientID { get; set; }
         public static int GroupID { get; set; }
         public static bool IsGroup { get; set; }
+        public static Dictionary<int, int> ChatParticipants { get; set; }
+        public static EmployeeLists SelectedParticipants { get; set; }
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
