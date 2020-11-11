@@ -378,7 +378,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
 
       const model = {
-        clientVehicleMembershipDetails: membership,
+        clientVehicleMembershipDetails: membership.membershipId !== null ? membership : null,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
