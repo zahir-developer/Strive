@@ -92,6 +92,7 @@ export class MonthlyTipComponent implements OnInit {
 
   submit() {
     if (this.tipAmount !== 0) {
+      this.totalTip = 0;
       this.monthlyTip.forEach( item => {
         item.Tip = item.HoursPerDay / this.tipAmount;
       });

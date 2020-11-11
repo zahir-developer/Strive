@@ -92,6 +92,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
 
   submit() {
     if (this.tipAmount !== 0) {
+      this.totalTip = 0;
       this.dailyTip.forEach( item => {
         item.Tip = item.HoursPerDay / this.tipAmount;
       });
