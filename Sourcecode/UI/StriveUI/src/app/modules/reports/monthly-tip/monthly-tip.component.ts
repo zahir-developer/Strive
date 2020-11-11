@@ -40,6 +40,9 @@ export class MonthlyTipComponent implements OnInit {
         const dailytip = JSON.parse(res.resultData);
         console.log(dailytip);
         this.monthlyTip = dailytip.GetEmployeeTipReport;
+        // this.monthlyTip.forEach( item => {
+        //   const uniqEmployee = this.monthlyTip.filter( data => item.EmployeeName === )
+        // });
         this.monthlyTip.forEach( item => {
           this.totalTip = this.totalTip + item.Tip;
         });
