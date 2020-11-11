@@ -17,45 +17,28 @@
                 <div class="tab-content">
                     <div class="row no-gutter">
                         <div class="col-xl-3 m-b-6">
-                            <div class="card">
-                                <div class="card-body p-b-0">
-                                    <div class="p-b-5 m-b-5">
-                                        <h4 class="d-inline-block">Recent</h4>
-                                    </div>
-
-                                    <!-- <div class="m-b-10 row no-gutters">
-                                        <div class="col-lg-12 border-bottom">
-                                            <div class="pull-right"> <i
-                                                    class="mdi mdi-account-plus  theme-secondary-icon-color font-size-2 pointer" (click)="openemp()"></i>
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    <app-messenger-employee-list #newChatEmit
-                                        (emitLoadMessageChat)="LoadMessageChat($event)" (popupEmit)="openpopup($event)">
-                                    </app-messenger-employee-list>
-                                </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- end card-->
+                            <app-messenger-employee-list #newChatEmit (emitLoadMessageChat)="LoadMessageChat($event)"
+                                (popupEmit)="openpopup($event)">
+                            </app-messenger-employee-list>
                         </div>
                         <div class="col-xl-9 m-b-6 internal-employee">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="title-border p-b-8 m-b-12">
-                                            <h4 *ngIf="!selectedEmployee?.IsGroup"
-                                                class="d-inline-block align-middle font-size-1-7">
-                                                <div
-                                                    [ngClass]="[selectedEmployee?.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
-                                                </div>
-                                                <span
-                                                    class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span>
-                                                <span class="align-middle msg-title">{{chatFullName}}</span>
-                                            </h4>
-                                            <h4 *ngIf="selectedEmployee?.IsGroup"
-                                                class="d-inline-block align-middle  font-size-1-7">
-                                                <span class="circle-icon m-r-10"><i
-                                                        class="group-icon-color font-size-1-7  mdi mdi-account-supervisor align-middle"></i></span>{{chatFullName}}
-                                            </h4>
+                                        <h4 *ngIf="!selectedEmployee?.IsGroup"
+                                            class="d-inline-block align-middle font-size-1-7">
+                                            <div
+                                                [ngClass]="[selectedEmployee?.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
+                                            </div>
+                                            <span
+                                                class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">{{chatInitial}}</span>
+                                            <span class="align-middle msg-title">{{chatFullName}}</span>
+                                        </h4>
+                                        <h4 *ngIf="selectedEmployee?.IsGroup"
+                                            class="d-inline-block align-middle  font-size-1-7">
+                                            <span class="circle-icon m-r-10"><i
+                                                    class="group-icon-color font-size-1-7  mdi mdi-account-supervisor align-middle"></i></span>{{chatFullName}}
+                                        </h4>
                                         <div class="pull-right card-widgets d-flex">
                                             <div class="dropdown m-r-8" *ngIf="this.selectedEmployee?.IsGroup">
                                                 <a href="#" class="dropdown-toggle text-muted arrow-none"
@@ -88,7 +71,7 @@
                                             <a *ngIf="selectedEmployee !== undefined" (click)="openemp('oldChat');"><i
                                                     class="theme-primary-color plus-icon font-size-1-7 mdi mdi-plus-circle pointer float-right"></i></a>
                                         </div>
-                                       
+
 
                                     </div>
                                     <ul *ngIf="msgList === undefined">

@@ -11,6 +11,6 @@ namespace Strive.BusinessEntities.DTO.Messenger
     {
         public int SenderId { get; set; }
         public int RecipientId { get; set; }
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
     }
 }

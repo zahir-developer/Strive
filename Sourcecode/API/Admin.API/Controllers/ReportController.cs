@@ -38,5 +38,9 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetCustomerMonthlyDetailedReport")]
         public Result GetCustomerMonthlyDetailedReport([FromBody] CustomerMonthlyDetailedReport customerMonthlyDetail) => _bplManager.GetCustomerMonthlyDetailedReport(customerMonthlyDetail);
+
+        [HttpPost]
+        [Route("MonthlyDailyTipReport")]
+        public Result GetEmployeeTipReport([FromBody] EmployeeTipReportDto EmployeeTipReport) => _bplManager.GetEmployeeTipReport(EmployeeTipReport);
     }
 }

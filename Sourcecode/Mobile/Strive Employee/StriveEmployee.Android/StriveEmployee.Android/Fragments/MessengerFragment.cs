@@ -25,12 +25,17 @@ namespace StriveEmployee.Android.Fragments
         [MvxUnconventionalAttribute]
     public class MessengerFragment : MvxFragment<MessengerViewModel>
     {
+        private ImageButton messenger_ImageButton;
         private TabLayout messenger_TabLayout;
         private ViewPager messenger_ViewPager;
         private ViewPagerAdapter messenger_ViewPagerAdapter;
+        private PopupMenu messenger_PopupMenu;
+        private MvxFragment selected_MvxFragment;
+        private IMenu messenger_Menu;
         private MessengerContactFragment contactFragment;
         private MessengerRecentContactFragment recentContactFragment;
-
+        private MessengerGroupContactFragment groupContactFragment;
+        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -45,12 +50,39 @@ namespace StriveEmployee.Android.Fragments
             this.ViewModel = new MessengerViewModel();
             contactFragment = new MessengerContactFragment();
             recentContactFragment = new MessengerRecentContactFragment();
+            groupContactFragment = new MessengerGroupContactFragment();
 
+            messenger_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.menu_ImageButton);
             messenger_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.messenger_TabLayout);
             messenger_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.messenger_ViewPager);
+            messenger_PopupMenu = new PopupMenu(Context, messenger_ImageButton);
+            messenger_Menu = messenger_PopupMenu.Menu;
+            messenger_PopupMenu.MenuInflater.Inflate(Resource.Menu.group_create_menu, messenger_Menu);
+            messenger_PopupMenu.MenuItemClick += Messenger_PopupMenu_MenuItemClick;
+            messenger_ImageButton.Click += Messenger_ImageButton_Click;
 
             return rootView;
         }
+
+        private void Messenger_PopupMenu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+            switch(e.Item.ItemId)
+            {
+                case Resource.Id.menu_CreateGroup:
+                    selected_MvxFragment = new MessengerCreateGroupFragment();
+                    break;
+
+                case Resource.Id.menu_Refresh:
+                    break;
+            }
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+        }
+
+        private void Messenger_ImageButton_Click(object sender, EventArgs e)
+        {
+            messenger_PopupMenu.Show();
+        }
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
@@ -58,6 +90,7 @@ namespace StriveEmployee.Android.Fragments
             messenger_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
             messenger_ViewPagerAdapter.AddFragment(recentContactFragment, "Recent");
             messenger_ViewPagerAdapter.AddFragment(contactFragment, "Contact");
+            messenger_ViewPagerAdapter.AddFragment(groupContactFragment, "Groups");
             messenger_ViewPager.Adapter = messenger_ViewPagerAdapter;
             messenger_TabLayout.SetupWithViewPager(messenger_ViewPager);
         }

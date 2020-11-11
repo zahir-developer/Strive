@@ -168,10 +168,19 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
         this.scrollToBottom();
         this.spinner.hide();
+        if (!this.selectedEmployee.IsGroup) {
+          const chatDetail =
+          {
+            senderId: !this.isGroupChat ? this.employeeId : 0,
+            recipientId: !this.isGroupChat ? this.selectedEmployee.Id : this.employeeId,
+            groupId: this.isGroupChat ? this.groupChatId : null
+          }
+          this.changeUnreadMessageState(chatDetail);
+        }
       }
-      else{
+      else {
         this.spinner.hide();
-        this.toastrService.error('Communication Error','Error getting chat messages!');
+        this.toastrService.error('Communication Error', 'Error getting chat messages!');
       }
     });
 
@@ -212,8 +221,26 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       groupName: null,
       groupId: this.selectedEmployee.CommunicationId,
       firstName: localStorage.getItem('employeeFirstName'),
-      lastName: localStorage.getItem('employeeLastName')
+      lastName: localStorage.getItem('employeeLastName'),
+      chatGroupRecipient: []
     };
+
+    if (this.selectedEmployee.IsGroup) {
+      if (this.groupEmpList?.length > 0) {
+        this.groupEmpList.forEach(s => {
+          const grpRecp =
+          {
+            chatGroupRecipientId: 0,
+            chatGroupId: s.ChatGroupId,
+            recipientId: s.Id,
+            isRead: false
+          }
+          msg.chatGroupRecipient.push(grpRecp);
+        });
+
+      }
+    }
+
     this.spinner.show();
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
@@ -234,9 +261,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
-      else{
+      else {
         this.spinner.hide();
-        this.toastrService.error('Communication Error','Error sending message!');
+        this.toastrService.error('Communication Error', 'Error sending message!');
       }
     });
   }
@@ -257,8 +284,8 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         const employeeListData = JSON.parse(data.resultData);
         this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
       }
-      else{
-        this.toastrService.error('Communication Error','Error getting Group Members!');
+      else {
+        this.toastrService.error('Communication Error', 'Error getting Group Members!');
       }
     });
   }
@@ -272,9 +299,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.spinner.hide();
         this.toastrService.success('Group user added successfully..!!!');
       }
-      else{
+      else {
         this.spinner.hide();
-        this.toastrService.error('Communication Error','Error getting Group Members!');
+        this.toastrService.error('Communication Error', 'Error getting Group Members!');
       }
     });
   }
@@ -293,18 +320,29 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   deleteGroupUser(groupChatUserId, chatGroupId) {
-    this.msgService.removeGroupUser(groupChatUserId).subscribe(data =>
-    {
+    this.msgService.removeGroupUser(groupChatUserId).subscribe(data => {
       const result = JSON.parse(data.resultData);
-      if(result.ChatGroupUserDelete === true)
-      {
+      if (result.ChatGroupUserDelete === true) {
         this.getGroupMembers(chatGroupId);
         this.toastrService.success('User removed from group successfully..!');
       }
-      else{
-        this.toastrService.error('Communication Error','Error removing user from Group!');
+      else {
+        this.toastrService.error('Communication Error', 'Error removing user from Group!');
       }
 
     });
+  }
+
+  changeUnreadMessageState(chatDetail) {
+    this.msgService.changeUnreadMessageState(chatDetail).subscribe(data => {
+      if (data.status === 'Success') {
+        const result = JSON.parse(data.resultData);
+        console.log(result, 'changeUnreadMessageState');
+      }
+      else {
+        console.log('Error')
+      }
+    });
+
   }
 }

@@ -1,44 +1,57 @@
-<div class="row no-gutters  border-bottom">
-    <div class="col-lg-11 m-b-5">
-        <div class="input-icon right m-r-5"> <i class="mdi mdi-magnify search-icon"></i>
-            <input type="text" class="form-control" (keyup)="search()" placeholder="Search" [(ngModel)]="query"> </div>
-    </div>
-    <div class="col-lg-1">
-        <div class="pull-right"><i class="mdi mdi-account-plus theme-secondary-icon-color font-size-1-5 pointer"
-                (click)="addemp()"></i></div>
-    </div>
-
-</div>
-<div *ngIf="empList === undefined" class="Message-box-slide view-msg position-relative">
-    <p class="font-weight-700 font-size-1-3 text-center aligncenter">No Recent Chats found..!!!</p>
-</div>
-<div *ngIf="empList !== undefined" class="Message-box-slide view-msg position-relative">
-    <div *ngIf="empList !== undefined">
-        <div class="Message-item" [ngClass]="{'recentchat-active' : emp.Selected}" *ngFor="let emp of empList"
-            (click)='loadChat(emp)'>
-            <ng-container>
-                <div *ngIf="!emp?.IsGroup" [ngClass]="[emp.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
+<div class="card">
+    <div class="p-r-15 p-l-15 p-t-10">
+        <div class="p-b-5 m-b-5">
+            <h4 class="d-inline-block">Recent</h4>
+        </div>
+        <div class="row no-gutters  border-bottom">
+            <div class="col-lg-11 m-b-5">
+                <div class="input-icon right m-r-5"> <i class="mdi mdi-magnify search-icon"></i>
+                    <input type="text" class="form-control" (keyup)="search()" placeholder="Search" [(ngModel)]="query">
                 </div>
-
-                <span *ngIf="!emp?.IsGroup"
-                    class="profile-image m-r-10 m-l-10 group-icon-color font-size-1-2 align-middle">{{emp?.FirstName?.charAt(0).toUpperCase() + (emp?.LastName ? emp?.LastName?.charAt(0).toUpperCase(): '')}}</span>
-                <span *ngIf="emp?.IsGroup"
-                    class="profile-image m-r-10  m-l-10 group-icon-color font-size-1-2 align-middle"><i
-                        class="mdi mdi-account-supervisor font-size-1-5"></i></span>
-                <!-- <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle " [ngClass]="{'online-badge': emp.CommunicationId !== '0'}"></div>&nbsp;&nbsp;&nbsp; -->
-                <div class="Message-item-body">
-                    <span class="float-right msg-date font-size--8"
-                        [ngClass]="[!emp.isRead ? 'bold-text': '']">{{emp?.CreatedDate | date: 'hh:mm aa'}}
-                        {{emp?.CreateDate ? '|' : ''}} {{ emp?.CreateDate !== undefined ? '|' : '' }}
-                        {{emp?.CreatedDate | date: 'MMM d'}}</span>
-                    <div class="m-t-10">
-                        <h6 class="msg-title" [ngClass]="[!emp.IsRead ? 'bold-text': '']">
-                            {{ emp?.FirstName + ' ' + (emp?.LastName ? emp?.LastName : '') }}</h6> <span
-                            class="theme-title font-size-7"
-                            [ngClass]="[!emp.isRead ? 'bold-text': '']">{{(emp?.RecentChatMessage !== null && emp?.RecentChatMessage) ? emp?.RecentChatMessage: ''}}</span>
-                    </div>
-                </div>
-            </ng-container>
+            </div>
+            <div class="col-lg-1">
+                <div class="pull-right"><i class="mdi mdi-account-plus theme-secondary-icon-color font-size-1-5 pointer"
+                        (click)="addemp()"></i></div>
+            </div>
         </div>
     </div>
+    <div class="card-body p-0">
+
+        <div *ngIf="empList === undefined" class="Message-box-slide view-msg position-relative">
+            <p class="font-weight-700 font-size-1-3 text-center aligncenter">No Recent Chats found..!!!</p>
+        </div>
+        <div *ngIf="empList !== undefined" class="Message-box-slide view-msg position-relative">
+            <div *ngIf="empList !== undefined">
+                <div class="Message-item" [ngClass]="{'recentchat-active' : emp.Selected}" *ngFor="let emp of empList"
+                    (click)='loadChat(emp)'>
+                    <ng-container>
+                        <div *ngIf="!emp?.IsGroup"
+                            [ngClass]="[emp.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
+                        </div>
+
+                        <span *ngIf="!emp?.IsGroup"
+                            class="profile-image m-r-10 m-l-10 group-icon-color font-size-1-2 align-middle">{{emp?.FirstName?.charAt(0).toUpperCase() + (emp?.LastName ? emp?.LastName?.charAt(0).toUpperCase(): '')}}</span>
+                        <span *ngIf="emp?.IsGroup"
+                            class="profile-image m-r-10  m-l-10 group-icon-color font-size-1-2 align-middle"><i
+                                class="mdi mdi-account-supervisor font-size-1-5"></i></span>
+                        <!-- <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle " [ngClass]="{'online-badge': emp.CommunicationId !== '0'}"></div>&nbsp;&nbsp;&nbsp; -->
+                        <div class="Message-item-body">
+                            <span class="float-right msg-date font-size--8"
+                                [ngClass]="[!emp.isRead ? 'bold-text': '']">{{emp?.CreatedDate | date: 'hh:mm aa'}}
+                                {{emp?.CreateDate ? '|' : ''}} {{ emp?.CreateDate !== undefined ? '|' : '' }}
+                                {{emp?.CreatedDate | date: 'MMM d'}}</span>
+                            <div class="m-t-10">
+                                <h6 class="msg-title" [ngClass]="[!emp.IsRead ? 'bold-text': '']">
+                                    {{ emp?.FirstName + ' ' + (emp?.LastName ? emp?.LastName : '') }}</h6> <span
+                                    class="theme-title font-size-7"
+                                    [ngClass]="[!emp.isRead ? 'bold-text': '']">{{(emp?.RecentChatMessage !== null && emp?.RecentChatMessage) ? emp?.RecentChatMessage: ''}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end card-body -->
 </div>
+<!-- end card-->
