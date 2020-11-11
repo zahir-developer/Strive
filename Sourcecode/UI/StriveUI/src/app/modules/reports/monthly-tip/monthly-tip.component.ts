@@ -20,6 +20,7 @@ export class MonthlyTipComponent implements OnInit {
   pageSize = 25;
   collectionSize: number;
   totalTip = 0;
+  tipAmount: number;
   constructor(private excelService: ExcelService, private reportService: ReportsService) { }
 
   ngOnInit(): void {
@@ -84,6 +85,17 @@ export class MonthlyTipComponent implements OnInit {
 
   preview() {
     this.getMonthlyTipReport();
+  }
+
+  submit() {
+    if (this.tipAmount !== 0) {
+      this.monthlyTip.forEach( item => {
+        item.Tip = item.HoursPerDay / this.tipAmount;
+      });
+      this.monthlyTip.forEach( item => {
+        this.totalTip = this.totalTip + item.Tip;
+      });
+    }
   }
 
 }

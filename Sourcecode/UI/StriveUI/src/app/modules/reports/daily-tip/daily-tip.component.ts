@@ -20,6 +20,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   pageSize = 25;
   collectionSize: number;
   totalTip = 0;
+  tipAmount: number;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
     private excelService: ExcelService) { }
 
@@ -86,6 +87,17 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
       default: {
         return;
       }
+    }
+  }
+
+  submit() {
+    if (this.tipAmount !== 0) {
+      this.dailyTip.forEach( item => {
+        item.Tip = item.HoursPerDay / this.tipAmount;
+      });
+      this.dailyTip.forEach( item => {
+        this.totalTip = this.totalTip + item.Tip;
+      });
     }
   }
 }
