@@ -20,8 +20,8 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   pageSize = 25;
   collectionSize: number;
   totalTip = 0;
-  tipAmount = 0;
-  totalHours = 0;
+  tipAmount: number;
+  totalHours: number = 0;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
     private excelService: ExcelService) { }
 
