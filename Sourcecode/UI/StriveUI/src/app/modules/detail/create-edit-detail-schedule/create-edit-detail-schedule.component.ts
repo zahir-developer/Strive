@@ -80,6 +80,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   isCompleted: boolean;
   jobStatusID: any;
   jobID: any;
+  clientName = '';
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -500,8 +501,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   selectedClient(event) {
     this.clientId = event.id;
-    this.getClientVehicle(this.clientId);
-    this.getPastClientNotesById(this.clientId);
+    this.clientName = event.name;
+    const name = event.name.toLowerCase();
+    if (name.startsWith('drive')) {
+      this.detailForm.get('vehicle').disable();
+      return;
+    } else {
+      this.detailForm.get('vehicle').enable();
+      this.getClientVehicle(this.clientId);
+      this.getPastClientNotesById(this.clientId);
+    }
   }
 
   vehicleChange(id) {
@@ -713,7 +722,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       ticketNumber: this.ticketNumber,
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
-      vehicleId: this.detailForm.value.vehicle,
+      vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.detailForm.value.vehicle,
       make: this.detailForm.value.type,
       model: this.detailForm.value.model,
       color: this.detailForm.value.color,

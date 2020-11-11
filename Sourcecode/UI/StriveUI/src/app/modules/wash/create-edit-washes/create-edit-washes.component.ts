@@ -25,6 +25,7 @@ export class CreateEditWashesComponent implements OnInit {
   @Input() isEdit?: any;
   @Input() isView?: any;
   Score: any;
+  ShowVehicle = false;
   ticketNumber: any;
   barcodeDetails: any;
   vehicle: any;
@@ -59,6 +60,7 @@ export class CreateEditWashesComponent implements OnInit {
   isPrint: boolean;
   jobStatus: any = [];
   jobStatusId: number;
+  clientName = '';
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
     private wash: WashService, private client: ClientService, private router: Router) { }
 
@@ -130,6 +132,12 @@ export class CreateEditWashesComponent implements OnInit {
       upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 19)[0]?.ServiceId,
     });
+    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
+      this.washForm.get('vehicle').disable();
+    } else {
+      this.washForm.get('vehicle').enable();
+    }
+    this.washForm.get('vehicle').disable();
     this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
     this.washItem = this.selectedData.WashItem;
     this.washItem.forEach(element => {
@@ -205,21 +213,21 @@ export class CreateEditWashesComponent implements OnInit {
       }
     });
   }
-//To get JobType
-getJobType() {
-  this.wash.getJobType().subscribe(res => {
-    if (res.status === 'Success') {
-      const jobtype = JSON.parse(res.resultData);
-      if (jobtype.GetJobType.length > 0) {
-        jobtype.GetJobType.forEach(item => {
-          if (item.valuedesc === 'Wash') {
-            this.jobTypeId = item.valueid;
-          }
-        });
+  //To get JobType
+  getJobType() {
+    this.wash.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Wash') {
+              this.jobTypeId = item.valueid;
+            }
+          });
+        }
       }
-    }
-  });
-}
+    });
+  }
   getVehicleById(data) {
     this.wash.getVehicleById(data).subscribe(res => {
       if (res.status === 'Success') {
@@ -296,10 +304,18 @@ getJobType() {
 
   selectedClient(event) {
     this.clientId = event.id;
-    this.getClientVehicle(this.clientId);
+    this.clientName = event.name;
+    const name = event.name.toLowerCase();
+    if (name.startsWith('drive')) {
+      this.washForm.get('vehicle').disable();
+      return;
+    } else {
+      this.washForm.get('vehicle').enable();
+      this.getClientVehicle(this.clientId);
+    }
   }
 
-  clientChange(){
+  clientChange() {
     this.clientId = this.washForm.value.client.id;
   }
 
@@ -493,11 +509,11 @@ getJobType() {
     const job = {
       jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
       ticketNumber: this.ticketNumber,
-      locationId: 1,
+      locationId: +localStorage.getItem('empLocationId'),
       clientId: this.washForm.value.client.id,
-      vehicleId: this.washForm.value.vehicle,
+      vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
       make: this.washForm.value.type,
-      model: this.washForm.value.model,//0,
+      model: this.washForm.value.model, // 0,
       color: this.washForm.value.color,
       jobType: this.jobTypeId,
       jobDate: new Date(),
@@ -584,7 +600,7 @@ getJobType() {
     this.showClientDialog = true;
   }
 
-  closePopupEmitClient() {    
+  closePopupEmitClient() {
     this.showClientDialog = false;
   }
 

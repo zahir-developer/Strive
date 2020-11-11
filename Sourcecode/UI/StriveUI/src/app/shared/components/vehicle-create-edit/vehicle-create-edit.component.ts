@@ -359,24 +359,27 @@ export class VehicleCreateEditComponent implements OnInit {
         totalPrice: this.vehicleForm.value.monthlyCharge
       };
       let membershipServices = [];
-      membershipServices = memberService.map(item => {
-        return {
-          clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
-          clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
-          serviceId: item.ServiceId ? item.ServiceId : item.item_id,
-          isActive: true,
-          isDeleted: item.IsDeleted,
-          createdBy: 1,
-          createdDate: new Date(),
-          updatedBy: 1,
-          updatedDate: new Date()
-        };
-      });
+      if (memberService !== undefined && memberService.length) {
+        membershipServices = memberService.map(item => {
+          return {
+            clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
+            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+            serviceId: item.ServiceId ? item.ServiceId : item.item_id,
+            isActive: true,
+            isDeleted: item.IsDeleted,
+            createdBy: 1,
+            createdDate: new Date(),
+            updatedBy: 1,
+            updatedDate: new Date()
+          };
+        });
+      }
+      
 
 
       const model = {
         clientVehicleMembershipDetails: membership,
-        clientVehicleMembershipService: membershipServices
+        clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
         clientVehicle: { clientVehicle: formObj },
