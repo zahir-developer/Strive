@@ -21,6 +21,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   collectionSize: number;
   totalTip = 0;
   tipAmount: number;
+  totalHours: number = 0;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
     private excelService: ExcelService) { }
 
@@ -50,9 +51,6 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
         const dailytip = JSON.parse(data.resultData);
         console.log(dailytip);
         this.dailyTip = dailytip.GetEmployeeTipReport;
-        this.dailyTip.forEach( item => {
-          this.totalTip = this.totalTip + item.Tip;
-        });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
       }
     });
@@ -91,12 +89,15 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
+    this.totalHours = 0;
+    this.totalTip = 0;
     if (this.tipAmount !== 0) {
-      this.dailyTip.forEach( item => {
-        item.Tip = item.HoursPerDay / this.tipAmount;
-      });
-      this.dailyTip.forEach( item => {
-        this.totalTip = this.totalTip + item.Tip;
+      this.dailyTip.forEach(s => { this.totalHours = this.totalHours + s.HoursPerDay });
+
+      const hourTip = +this.tipAmount / this.totalHours;
+      this.dailyTip.forEach(item => {
+        item.Tip = (item.HoursPerDay * hourTip).toFixed(2);
+        this.totalTip += +item.Tip;
       });
     }
   }
