@@ -21,6 +21,7 @@ export class MonthlyTipComponent implements OnInit {
   collectionSize: number;
   totalTip = 0;
   tipAmount: number;
+  totalHours = 0;
   constructor(private excelService: ExcelService, private reportService: ReportsService) { }
 
   ngOnInit(): void {
@@ -35,15 +36,13 @@ export class MonthlyTipComponent implements OnInit {
       month: +this.month,
       date: null
     };
+    this.totalTip = 0;
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(res => {
       if (res.status === 'Success') {
         const dailytip = JSON.parse(res.resultData);
         console.log(dailytip);
         this.monthlyTip = dailytip.GetEmployeeTipReport;
-        // this.monthlyTip.forEach( item => {
-        //   const uniqEmployee = this.monthlyTip.filter( data => item.EmployeeName === )
-        // });
-        this.monthlyTip.forEach( item => {
+        this.monthlyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;
         });
         this.collectionSize = Math.ceil(this.monthlyTip.length / this.pageSize) * 10;
@@ -91,13 +90,17 @@ export class MonthlyTipComponent implements OnInit {
   }
 
   submit() {
+    this.totalHours = 0;
+    this.totalTip = 0;
     if (this.tipAmount !== 0) {
-      this.totalTip = 0;
-      this.monthlyTip.forEach( item => {
-        item.Tip = item.HoursPerDay / this.tipAmount;
+      this.monthlyTip.forEach(s => {
+        this.totalHours = this.totalHours + s.HoursPerDay;
       });
-      this.monthlyTip.forEach( item => {
-        this.totalTip = this.totalTip + item.Tip;
+
+      const hourTip = +this.tipAmount / this.totalHours;
+      this.monthlyTip.forEach(item => {
+        item.Tip = (item.HoursPerDay * hourTip).toFixed(2);
+        this.totalTip += +item.Tip;
       });
     }
   }
