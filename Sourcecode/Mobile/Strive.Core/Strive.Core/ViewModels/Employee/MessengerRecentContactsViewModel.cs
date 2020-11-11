@@ -32,7 +32,10 @@ namespace Strive.Core.ViewModels.Employee
             {
                 EmployeeList = new EmployeeList();
                 EmployeeList.ChatEmployeeList = new List<ChatEmployeeList>();
+                MessengerTempData.RecentEmployeeLists = new EmployeeList();
+                MessengerTempData.RecentEmployeeLists.ChatEmployeeList = new List<ChatEmployeeList>();
                 EmployeeList = recentContact.EmployeeList;
+                MessengerTempData.RecentEmployeeLists = recentContact.EmployeeList;
             }
         }
 

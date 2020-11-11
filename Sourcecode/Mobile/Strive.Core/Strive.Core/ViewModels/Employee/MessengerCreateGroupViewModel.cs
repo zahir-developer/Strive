@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +28,13 @@ namespace Strive.Core.ViewModels.Employee
             {
                 EmployeeLists = new EmployeeLists();
                 EmployeeLists.EmployeeList = new List<EmployeeList>();
+                MessengerTempData.EmployeeLists = new EmployeeLists();
+                MessengerTempData.EmployeeLists.EmployeeList = new List<EmployeeList>();
                 EmployeeLists = contactList;
+                MessengerTempData.EmployeeLists = contactList;
+                MessengerTempData.ChatParticipants = new Dictionary<int, int>();
+                MessengerTempData.SelectedParticipants = new EmployeeLists();
+                MessengerTempData.SelectedParticipants.EmployeeList = new List<EmployeeList>();
             }
         }
 

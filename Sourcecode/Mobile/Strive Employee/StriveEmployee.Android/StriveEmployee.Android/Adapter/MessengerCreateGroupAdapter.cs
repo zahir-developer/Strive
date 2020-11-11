@@ -5,17 +5,19 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
 {
-    public class MessengerCreateGroupRecycleHolder : RecyclerView.ViewHolder, View.IOnClickListener, View.IOnLongClickListener
+    public class MessengerCreateGroupRecycleHolder : RecyclerView.ViewHolder
     {
         public Button createGroup_Button;
         public CheckBox createGroup_CheckBox;
@@ -23,29 +25,13 @@ namespace StriveEmployee.Android.Adapter
         public IItemClickListener itemClickListener;
         public MessengerCreateGroupRecycleHolder(View entry) : base(entry)
         {
-            entry.SetOnClickListener(this);
             createGroup_Button = entry.FindViewById<Button>(Resource.Id.createGroup_ImageView); 
             createGroup_CheckBox = entry.FindViewById<CheckBox>(Resource.Id.createGroup_Checkbox);
             createGroupName_TextView = entry.FindViewById<TextView>(Resource.Id.createGroupName_TextView);
         }
-
-        public void SetItemClickListener(IItemClickListener itemClickListener)
-        {
-            this.itemClickListener = itemClickListener;
-        }
-
-        public void OnClick(View view)
-        {
-            itemClickListener.OnClick(view, AdapterPosition, false);
-        }
-
-        public bool OnLongClick(View v)
-        {
-            return false;
-        }
     }
 
-    public class MessengerCreateGroupAdapter : RecyclerView.Adapter, IItemClickListener
+    public class MessengerCreateGroupAdapter : RecyclerView.Adapter, View.IOnClickListener, View.IOnLongClickListener
     {
 
         Context context;
@@ -67,18 +53,9 @@ namespace StriveEmployee.Android.Adapter
                 return contacts.Count;
             }
         }
-        public void OnClick(View itemView, int position, bool isLongClick)
-        {
-            
-            messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Visible;
-            messengerCreateGroup.createGroup_CheckBox.Checked = true;
-        }
-
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             messengerCreateGroup = holder as MessengerCreateGroupRecycleHolder;
-            messengerCreateGroup.IsRecyclable = false;
-            messengerCreateGroup.SetItemClickListener(this);
             if (!String.IsNullOrEmpty(contacts[position].FirstName))
             {
                 firstInitial = contacts[position].FirstName.ToCharArray();
@@ -93,7 +70,32 @@ namespace StriveEmployee.Android.Adapter
                 messengerCreateGroup.createGroupName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
                 messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Gone;
             }
+            messengerCreateGroup.ItemView.Tag = position;
+            if(!MessengerTempData.ChatParticipants.ContainsKey(contacts[position].EmployeeId))
+            {
+                MessengerTempData.ChatParticipants.Add(contacts[position].EmployeeId, position);
+            }
+            
+            messengerCreateGroup.ItemView.SetOnClickListener(this);
+            
         }
+
+        public void OnClick(View v)
+        {
+            var position = (int)v.Tag;
+            if(MessengerTempData.SelectedParticipants.EmployeeList.Contains(contacts[position]))
+            {
+                var index = MessengerTempData.SelectedParticipants.EmployeeList.IndexOf(contacts[position]);
+                MessengerTempData.SelectedParticipants.EmployeeList.RemoveAt(index);
+                v.SetBackgroundColor(Color.Transparent);
+            }
+            else
+            {
+                MessengerTempData.SelectedParticipants.EmployeeList.Add(contacts[position]);
+                v.SetBackgroundColor(Color.LightCyan);
+            }
+        }
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
@@ -101,6 +103,9 @@ namespace StriveEmployee.Android.Adapter
             return new MessengerCreateGroupRecycleHolder(itemView);
         }
 
-       
+        public bool OnLongClick(View v)
+        {
+            return false;
+        }
     }    
 }

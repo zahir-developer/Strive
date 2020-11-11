@@ -61,16 +61,20 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\MessengerChatAdapter.cs" />
     <Compile Include="Adapter\MessengerContactsAdapter.cs" />
     <Compile Include="Adapter\MessengerCreateGroupAdapter.cs" />
+    <Compile Include="Adapter\MessengerFinalizeGroupAdapter.cs" />
     <Compile Include="Adapter\MessengerGroupChatAdapter.cs" />
     <Compile Include="Adapter\MessengerRecentContactsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
+    <Compile Include="Enums\MessageType_Enum.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
     <Compile Include="Fragments\MessengerCreateGroupFragment.cs" />
     <Compile Include="Fragments\MessengerFinalizeGroupFragment.cs" />
     <Compile Include="Fragments\MessengerFragment.cs" />
     <Compile Include="Fragments\MessengerGroupContactFragment.cs" />
+    <Compile Include="Fragments\MessengerPersonalChatFragment.cs" />
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
     <Compile Include="Listeners\IItemClickListener.cs" />
     <Compile Include="MainApplication.cs" />
@@ -537,6 +541,67 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\delete_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerPersonalChat_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\paperclip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\paperclip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\paperclip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\paperclip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\paperclip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\paperclip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\sendcircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\sendcircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\sendcircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\sendcircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\sendcircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\sendcircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Sender_ChatBubble.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Sender_ChatBubble.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Recipient_ChatBubble.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Recipient_ChatBubble.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

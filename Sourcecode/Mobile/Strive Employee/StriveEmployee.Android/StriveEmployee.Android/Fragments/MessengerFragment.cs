@@ -22,7 +22,7 @@ using StriveEmployee.Android.Adapter;
 namespace StriveEmployee.Android.Fragments
 {
     [MvxFragmentPresentationAttribute]
-        [MvxUnconventionalAttribute]
+    [MvxUnconventionalAttribute]
     public class MessengerFragment : MvxFragment<MessengerViewModel>
     {
         private ImageButton messenger_ImageButton;

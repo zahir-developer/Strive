@@ -10,7 +10,7 @@
         android:weightSum="1"
         android:orientation="horizontal">
         <Button   
-            android:id="@+id/createGroup_ImageView" 
+            android:id="@+id/FinalizeGroupProfile_ImageButton" 
             android:clickable="false"
             android:layout_gravity="center"
             android:layout_width="30dp"
@@ -22,7 +22,7 @@
             android:fontFamily="@font/opensans_semibold"
             android:background="@drawable/profileavatar_button"/>
         <TextView
-            android:id="@+id/createGroupName_TextView"
+            android:id="@+id/FinalizeGroup_TextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/twenty"
@@ -32,6 +32,7 @@
             android:textColor="@color/profileQColor"
             android:fontFamily="@font/opensans_semibold" />
         <ImageButton
+            android:id="@+id/FinalizeGroupDelete_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
