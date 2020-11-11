@@ -16,5 +16,6 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         Result GetCustomerSummaryReport(CustomerSummaryReportDto customersummary);
         Result GetCustomerMonthlyDetailedReport(CustomerMonthlyDetailedReport customerMonthlyDetail);
         Result GetEmployeeTipReport(EmployeeTipReportDto EmployeeTipReport);
+        Result GetDailyStatusReport(DailyStatusReportDto DailyStatusReport);
     }
 }
