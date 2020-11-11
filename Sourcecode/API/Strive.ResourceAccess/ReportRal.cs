@@ -38,5 +38,24 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<CustomerMonthlyDetailedViewModel>(EnumSP.SalesReport.USPMONTHLYCUSTOMERDETAIL.ToString(), _prm);
             return result;
         }
+
+        public List<EmployeeTipViewModel> GetEmployeeTipReport(EmployeeTipReportDto EmployeeTipReport)
+        {
+            List<EmployeeTipViewModel> result = new List<EmployeeTipViewModel>();
+            if (EmployeeTipReport.Date == null)
+            {
+                _prm.Add("@LocationId", EmployeeTipReport.LocationId);
+                _prm.Add("@Year", EmployeeTipReport.year);
+                _prm.Add("@Month", EmployeeTipReport.month);
+                 result = db.Fetch<EmployeeTipViewModel>(EnumSP.SalesReport.uspGetMonthlyTipDetail.ToString(), _prm);
+            }
+           else
+            {
+                _prm.Add("@locationId", EmployeeTipReport.LocationId);
+                _prm.Add("@Date", EmployeeTipReport.Date);
+                 result = db.Fetch<EmployeeTipViewModel>(EnumSP.SalesReport.uspGetDailyTipDetail.ToString(), _prm);
+            }
+            return result;
+        }
     }
 }

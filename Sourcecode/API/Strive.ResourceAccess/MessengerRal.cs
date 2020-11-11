@@ -37,10 +37,10 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public EmployeeChatHistoryDto GetChatEmployeeList(int employeeId)
+        public EmployeeChatHistoryViewModel GetChatEmployeeList(int employeeId)
         {
             _prm.Add("@EmployeeId", employeeId);
-            return db.FetchMultiResult<EmployeeChatHistoryDto>(EnumSP.Messenger.USPGETEMPLOYEERECENTCHATHISTORY.ToString(), _prm);
+            return db.FetchMultiResult<EmployeeChatHistoryViewModel>(EnumSP.Messenger.USPGETCHATEMPLOYEEANDGROUPHISTORY.ToString(), _prm);
         }
 
         public ChatMessageDetailViewModel GetChatMessage(ChatDto chatDto)
@@ -49,13 +49,13 @@ namespace Strive.ResourceAccess
             _prm.Add("@RecipientId", chatDto.RecipientId);
             _prm.Add("@GroupId", chatDto.GroupId);
 
-            return db.FetchMultiResult<ChatMessageDetailViewModel>(EnumSP.Messenger.GETCHATMESSAGE.ToString(), _prm);
+            return db.FetchMultiResult<ChatMessageDetailViewModel>(EnumSP.Messenger.USPGETCHATMESSAGE.ToString(), _prm);
         }
 
         public GetUnReadMessageViewModel GetUnReadMessageCount(int employeeid)
         {
             _prm.Add("@Employeeid", employeeid);
-            return db.FetchMultiResult<GetUnReadMessageViewModel>(EnumSP.Messenger.GETCHATMESSAGECOUNT.ToString(), _prm);
+            return db.FetchMultiResult<GetUnReadMessageViewModel>(EnumSP.Messenger.USPGETCHATMESSAGECOUNT.ToString(), _prm);
         }
 
         public EmployeeChatHistoryViewModel GetChatGroupEmployeelist(int chatGroupId)
@@ -77,5 +77,14 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public bool ChangeUnreadMessageState(ChatDto chatDto)
+        {
+            _prm.Add("senderId", chatDto.SenderId);
+            _prm.Add("recipientId", chatDto.RecipientId);
+            _prm.Add("groupId", chatDto.GroupId);
+
+            db.Save(EnumSP.Messenger.USPUPDATECHATUNREADMESSAGESTATE.ToString(), _prm);
+            return true;
+        }
     }
 }

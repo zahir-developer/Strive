@@ -29,5 +29,10 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         {
             return ResultWrap(new ReportRal(_tenant).GetCustomerMonthlyDetailReport, customerMonthlyDetail, "GetCustomerMonthlyDetailReport");
         }
+
+        public Result GetEmployeeTipReport(EmployeeTipReportDto EmployeeTipReport)
+        {
+            return ResultWrap(new ReportRal(_tenant).GetEmployeeTipReport, EmployeeTipReport, "GetEmployeeTipReport");
+        }
     }
 }

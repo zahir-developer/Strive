@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/createGroupEntry_LinearLayout"
+    android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal">
+        <Button   
+            android:id="@+id/createGroup_ImageView" 
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop = "@dimen/ten"
+            android:layout_marginBottom = "@dimen/ten"
+            android:layout_marginLeft = "@dimen/ten"
+            android:textColor="@color/profileQColor"
+            android:fontFamily="@font/opensans_semibold"
+            android:background="@drawable/profileavatar_button"/>
+        <TextView
+            android:id="@+id/createGroupName_TextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/twenty"
+            android:gravity="left|center"
+            android:layout_weight="0.8"
+            android:textSize="@dimen/fifteen"
+            android:textColor="@color/profileQColor"
+            android:fontFamily="@font/opensans_semibold" />
+        <CheckBox
+            android:id="@+id/createGroup_Checkbox"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/fifteen"
+            android:button="@drawable/custom_radiobutton"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+</LinearLayout>
