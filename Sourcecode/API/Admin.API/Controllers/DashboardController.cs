@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO.Dashboard;
 using Strive.BusinessLogic.DashboardStatistics;
 using Strive.Common;
 using System;
@@ -16,13 +17,13 @@ namespace Admin.API.Controllers
     public class DashboardController : StriveControllerBase<IDashboardBpl>
     {
         public DashboardController(IDashboardBpl dBpl) : base(dBpl) { }
-        #region
+        #region POST
         /// <summary>
         /// Method to retrieve Dashboard based on given LocationId.
         /// </summary>
-        [HttpGet]
-        [Route("GetDashboardStatistics/{locationId}")]
-        public Result GetDashboardStatistics(int locationId) => _bplManager.GetDashboardStatistics(locationId);
+        [HttpPost]
+        [Route("GetDashboardStatistics")]
+        public Result GetDashboardStatistics([FromBody] DashboardDto dashboard) => _bplManager.GetDashboardStatistics(dashboard);
         #endregion
     }
 }
