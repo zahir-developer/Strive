@@ -39,5 +39,14 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         {
             return ResultWrap(new ReportRal(_tenant).GetDailyStatusReport, DailyStatusReport, "GetDailyStatusReport");
         }
+        public Result GetDailyStatusDetailInfo(DailyStatusReportDto DailyStatusDetailInfo)
+        {
+            return ResultWrap(new ReportRal(_tenant).GetDailyStatusDetailInfo, DailyStatusDetailInfo, "GetDailyStatusReport");
+        }
+        public Result GetDailyClockDetail(DailyStatusReportDto DailyClockDetail)
+        {
+            return ResultWrap(new ReportRal(_tenant).GetDailyClockDetail, DailyClockDetail, "GetDailyClockDetail");
+        }
+
     }
 }

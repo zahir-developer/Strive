@@ -68,5 +68,21 @@ namespace Strive.ResourceAccess
             
             return result;
         }
+        public List<DailyStatusDetailInfoViewModel> GetDailyStatusDetailInfo(DailyStatusReportDto DailyStatusReport)
+        { 
+            _prm.Add("@LocationId", DailyStatusReport.LocationId);
+            _prm.Add("@Date", DailyStatusReport.Date);
+            var result = db.Fetch<DailyStatusDetailInfoViewModel>(EnumSP.SalesReport.uspGetDailyStatusDetailInfo.ToString(), _prm);
+
+            return result;
+        }
+        public List<DailyClockDetailViewModel> GetDailyClockDetail(DailyStatusReportDto DailyStatusReport)
+        {
+            _prm.Add("@locationId", DailyStatusReport.LocationId);
+            _prm.Add("@Date", DailyStatusReport.Date);
+            var result = db.Fetch<DailyClockDetailViewModel>(EnumSP.SalesReport.uspGetDailyClockDetail.ToString(), _prm);
+
+            return result;
+        }
     }
 }

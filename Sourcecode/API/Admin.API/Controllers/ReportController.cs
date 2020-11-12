@@ -45,5 +45,12 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("DailyStatusReport")]
         public Result uspGetDailyStatusReport([FromBody] DailyStatusReportDto DailyStatusReport) => _bplManager.GetDailyStatusReport(DailyStatusReport);
+        [HttpPost]
+        [Route("DailyStatusDetailInfo")]
+        public Result uspGetDailyStatusDetailInfo([FromBody] DailyStatusReportDto DailyStatusReport) => _bplManager.GetDailyStatusDetailInfo(DailyStatusReport);
+        [HttpPost]
+        [Route("DailyClockDetail")]
+        public Result uspGetDailyClockDetail([FromBody] DailyStatusReportDto DailyClockDetail) => _bplManager.GetDailyClockDetail(DailyClockDetail);
+
     }
 }
