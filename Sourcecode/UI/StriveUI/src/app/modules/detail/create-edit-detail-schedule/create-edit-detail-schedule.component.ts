@@ -80,6 +80,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   isCompleted: boolean;
   jobStatusID: any;
   jobID: any;
+  clientName = '';
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -500,8 +501,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   selectedClient(event) {
     this.clientId = event.id;
-    this.getClientVehicle(this.clientId);
-    this.getPastClientNotesById(this.clientId);
+    this.clientName = event.name;
+    const name = event.name.toLowerCase();
+    if (name.startsWith('drive')) {
+      this.detailForm.get('vehicle').disable();
+      return;
+    } else {
+      this.detailForm.get('vehicle').enable();
+      this.getClientVehicle(this.clientId);
+      this.getPastClientNotesById(this.clientId);
+    }
   }
 
   vehicleChange(id) {
@@ -713,7 +722,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       ticketNumber: this.ticketNumber,
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
-      vehicleId: this.detailForm.value.vehicle,
+      vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.detailForm.value.vehicle,
       make: this.detailForm.value.type,
       model: this.detailForm.value.model,
       color: this.detailForm.value.color,
@@ -820,7 +829,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.jobID = jobID.Status;
-          this.isEdit = true;
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
@@ -837,6 +845,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
         this.selectedData = details.DetailsForDetailId;
+        this.isEdit = true;
         this.washItem = this.selectedData.DetailsItem;
         this.detailItems = this.selectedData.DetailsItem;
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?

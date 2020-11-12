@@ -46,11 +46,15 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
       month,
       year
     };
+    this.totalTip = 0;
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(data => {
       if (data.status === 'Success') {
         const dailytip = JSON.parse(data.resultData);
         console.log(dailytip);
         this.dailyTip = dailytip.GetEmployeeTipReport;
+        this.dailyTip.forEach(item => {
+          this.totalTip = this.totalTip + item.Tip;
+        });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
       }
     });

@@ -16,6 +16,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   maxDate = new Date();
   dailyStatusReport = [];
   fileType: number;
+  washes = [];
+  details = [];
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef) {
 
    }
@@ -35,12 +37,17 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   getDailyStatusReport()  {
     const obj = {
       locationId: +this.locationId,
-      date: this.date
+      date: moment(this.date).format('YYYY-MM-DD')
     };
     this.reportService.getDailyStatusReport(obj).subscribe(data => {
       if (data.status === 'Success') {
 const dailyStatusReport = JSON.parse(data.resultData);
-this.dailyStatusReport = dailyStatusReport;
+console.log(dailyStatusReport);
+this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
+if (this.dailyStatusReport.length > 0) {
+  this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
+  this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
+}
       }
     }, (err) => {
 
