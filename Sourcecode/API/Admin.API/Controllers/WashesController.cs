@@ -37,7 +37,7 @@ namespace Admin.API.Controllers
         #region
         [HttpPost]
         [Route("DashboardCount")]
-        public Result GetDailyDashboard([FromBody]DashboardDto dashboard) => _bplManager.GetDailyDashboard(dashboard);
+        public Result GetDailyDashboard([FromBody]WashesDashboardDto dashboard) => _bplManager.GetDailyDashboard(dashboard);
         #endregion
         #region
         [HttpGet]

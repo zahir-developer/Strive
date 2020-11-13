@@ -38,7 +38,7 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
         }
-        public Result GetDailyDashboard(DashboardDto dashboard)
+        public Result GetDailyDashboard(WashesDashboardDto dashboard)
         {
             return ResultWrap(new WashesRal(_tenant).GetDailyDashboard,dashboard, "Dashboard");
         }
