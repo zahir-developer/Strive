@@ -174,7 +174,7 @@
             android:textSize="@dimen/textFourteen"
             android:fontFamily="@font/opensans_regular"/>
          <TextView
-             android:id="@+id/packageName"
+             android:id="@+id/immigration_TextView"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:layout_weight="1"
@@ -200,7 +200,7 @@
             android:textSize="@dimen/textFourteen"
             android:fontFamily="@font/opensans_regular"/>
          <TextView
-             android:id="@+id/additionalService"
+             android:id="@+id/address_TextView"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:layout_weight="1"
