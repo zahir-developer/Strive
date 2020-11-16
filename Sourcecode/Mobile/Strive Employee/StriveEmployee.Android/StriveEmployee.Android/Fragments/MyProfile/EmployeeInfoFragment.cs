@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -18,18 +19,24 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 {
     public class EmployeeInfoFragment : MvxFragment<EmployeeInfoViewModel>
     {
-        public TextView FirstName_TextView;
-        public TextView LastName_TextView;
-        public TextView Gender_TextView;
-        public TextView ContactNo_TextView;
-        public TextView SSN_TextView;
-        public TextView Immigration_TextView;
-        public TextView Address_TextView;
-        public TextView LoginID_TextView;
-        public TextView Password_TextView;
-        public TextView DOH_TextView;
-        public TextView Status_TextView;
-        public TextView Exemptions_TextVIew;
+        private ImageButton personalDetailEdit_ImageButton;
+        private ImageButton personalDetailDelete_ImageButton;
+        private ImageButton employeeDetailEdit_ImageButton;
+        private ImageButton employeeDetailDelete_ImageButton;
+        private TextView FirstName_TextView;
+        private TextView LastName_TextView;
+        private TextView Gender_TextView;
+        private TextView ContactNo_TextView;
+        private TextView SSN_TextView;
+        private TextView Immigration_TextView;
+        private TextView Address_TextView;
+        private TextView LoginID_TextView;
+        private TextView Password_TextView;
+        private TextView DOH_TextView;
+        private TextView Status_TextView;
+        private TextView Exemptions_TextVIew;
+        private EditPersonalDetailsFragment personalDetails_Fragment;
+        private EditEmployeeDetailFragment employeeDetails_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,6 +51,11 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             this.ViewModel = new EmployeeInfoViewModel();
             GetEmployeeDetails();
 
+            personalDetailEdit_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.PersonalEdit_ImageButton);
+            personalDetailDelete_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.personalDelete_ImageButton);
+            employeeDetailEdit_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.employeeEdit_ImageButton);
+            employeeDetailDelete_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.employeeDelete_ImageButton);
+
             FirstName_TextView = rootView.FindViewById<TextView>(Resource.Id.employeeFirstName_TextView);
             LastName_TextView = rootView.FindViewById<TextView>(Resource.Id.employeeLastName_TextView);
             Gender_TextView = rootView.FindViewById<TextView>(Resource.Id.gender_TextView);
@@ -57,9 +69,39 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             Status_TextView = rootView.FindViewById<TextView>(Resource.Id.status_TextView);
             Exemptions_TextVIew = rootView.FindViewById<TextView>(Resource.Id.exemptions_TextVIew);
 
+            personalDetailEdit_ImageButton.Click += PersonalDetailEdit_ImageButton_Click; ;
+            personalDetailDelete_ImageButton.Click += PersonalDetailDelete_ImageButton_Click; ;
+            employeeDetailEdit_ImageButton.Click += EmployeeDetailEdit_ImageButton_Click; ;
+            employeeDetailDelete_ImageButton.Click += EmployeeDetailDelete_ImageButton_Click; ;
+
+           
+           
             return rootView;
         }
 
+        private void EmployeeDetailDelete_ImageButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void EmployeeDetailEdit_ImageButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            employeeDetails_Fragment = new EditEmployeeDetailFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, employeeDetails_Fragment).Commit();
+        }
+
+        private void PersonalDetailDelete_ImageButton_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void PersonalDetailEdit_ImageButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            personalDetails_Fragment = new EditPersonalDetailsFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, personalDetails_Fragment).Commit();
+        }
         private async void GetEmployeeDetails()
         {
             await this.ViewModel.GetPersonalEmployeeInfo();
@@ -87,5 +129,6 @@ namespace StriveEmployee.Android.Fragments.MyProfile
                 Exemptions_TextVIew.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Exemptions.ToString();
             }
         }
+
     }
 }

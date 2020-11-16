@@ -6,6 +6,7 @@ using System.Web;
 using MvvmCross;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
@@ -202,6 +203,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<PersonalDetails> GetPersonalDetails(int EmployeeID)
         {
             return await _restClient.MakeApiCall<PersonalDetails>(ApiUtils.URL_MESSENGER_PERSONAL_INFO+"?id="+EmployeeID, HttpMethod.Get, EmployeeID);
+        }
+
+        public async Task<Gender> GetGender()
+        {
+           return await _restClient.MakeApiCall<Gender>(ApiUtils.URL_COMMON_GENDER,HttpMethod.Get);
         }
     }
     public static class RestUtils
