@@ -76,7 +76,8 @@ export class VehicleCreateEditComponent implements OnInit {
       color: this.selectedData.ColorId,
       upchargeType: this.selectedData.Upcharge,
       upcharge: this.selectedData.Upcharge,
-      monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2)
+      monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2),
+      membership: ''
     });
   }
 
@@ -378,7 +379,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
 
       const model = {
-        clientVehicleMembershipDetails: membership,
+        clientVehicleMembershipDetails: membership.membershipId !== '' ? membership : null,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {

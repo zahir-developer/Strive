@@ -167,8 +167,10 @@ export const UrlConfig = {
     getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`,
     getDailyTipReport: ``,
     getMonthlyTipReport: ``,
-    getDailyStatusReport: ``,
+    getDailyStatusReport: `Admin/Report/DailyStatusReport`,
     getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`,
+    getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
+    getDailyClockDetail: `Admin/Report/DailyClockDetail`,
     getCashRegister: `Admin/CashRegister/Get`,
     getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`
   },

@@ -31,6 +31,12 @@ export class ReportsService {
   getMonthlyDailyTipReport(obj) {
     return this.http.post(`${UrlConfig.reports.getMonthlyDailyTipReport}`, obj);
   }
+  getDailyStatusDetailInfo(obj) {
+    return this.http.post(`${UrlConfig.reports.getDetailStatusInfo}`, obj);
+  }
+  getDailyClockDetail(obj) {
+    return this.http.post(`${UrlConfig.reports.getDailyClockDetail}`, obj);
+  }
   getCashRegisterByDate(type: string, locId: number, date: string) {
     return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`,
     { params: { cashRegisterType: type, locationId: locId, dateTime: date } });

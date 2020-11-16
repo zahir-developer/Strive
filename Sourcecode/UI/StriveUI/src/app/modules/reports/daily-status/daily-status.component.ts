@@ -16,6 +16,13 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   maxDate = new Date();
   dailyStatusReport = [];
   fileType: number;
+  washes = [];
+  details = [];
+  washTotal  = 0;
+  detailTotal = 0;
+  detailInfoTotal = 0;
+  dailyStatusDetailInfo = [];
+  clockDetail = [];
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef) {
 
    }
@@ -23,6 +30,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
     this.getDailyStatusReport();
+    this.getDailyStatusDetailInfo();
+    this.getClockDetail();
   }
   getfileType(event) {
     this.fileType = +event.target.value;
@@ -32,27 +41,64 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
-  getDailyStatusReport()  {
+  getClockDetail() {
     const obj = {
       locationId: +this.locationId,
-      date: this.date
+      date: moment(this.date).format('YYYY-MM-DD')
     };
-    this.reportService.getDailyStatusReport(obj).subscribe(data => {
+    this.reportService.getDailyClockDetail(obj).subscribe(data => {
       if (data.status === 'Success') {
-const dailyStatusReport = JSON.parse(data.resultData);
-this.dailyStatusReport = dailyStatusReport;
+const clockDetail = JSON.parse(data.resultData);
+console.log(clockDetail);
+this.clockDetail = clockDetail?.GetDailyClockDetail;
       }
     }, (err) => {
 
     });
   }
+  getDailyStatusReport()  {
+    const obj = {
+      locationId: +this.locationId,
+      date: moment(this.date).format('YYYY-MM-DD')
+    };
+    this.reportService.getDailyStatusReport(obj).subscribe(data => {
+      if (data.status === 'Success') {
+const dailyStatusReport = JSON.parse(data.resultData);
+console.log(dailyStatusReport);
+this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
+if (this.dailyStatusReport.length > 0) {
+  this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
+  this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
+  this.washTotal = this.calculateTotal(this.washes, 'wash');
+  this.detailTotal = this.calculateTotal(this.details, 'detail');
+}
+      }
+    }, (err) => {
+
+    });
+  }
+  getDailyStatusDetailInfo() {
+    const obj = {
+      locationId: +this.locationId,
+      date: moment(this.date).format('YYYY-MM-DD')
+    };
+    this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {
+      if (data.status === 'Success') {
+const dailyStatusDetailInfo = JSON.parse(data.resultData);
+console.log(dailyStatusDetailInfo);
+this.dailyStatusDetailInfo = dailyStatusDetailInfo.GetDailyStatusReport;
+this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
+      }
+    }, (err) => {
+ 
+  });
+}
   onLocationChange(event) {
     this.locationId = +event;
   }
   onValueChange(event) {
     if (event !== null) {
       this.date = event;
-      this.getDailyStatusReport();
     }
   }
   export() {
@@ -79,5 +125,15 @@ this.dailyStatusReport = dailyStatusReport;
         return;
       }
     }
+  }
+  preview() {
+    this.getDailyStatusReport();
+    this.getDailyStatusDetailInfo();
+    this.getClockDetail();
+  }
+  calculateTotal(obj, type) {
+      return obj.reduce((sum, i) => {
+        return sum + (type === 'detailInfo' ? +i.Commision : +i.Number);
+      }, 0);
   }
 }
