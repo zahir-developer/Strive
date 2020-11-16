@@ -885,6 +885,9 @@ table th {
 .w-23 {
     width: 23% !important;
 }
+.w-45{
+	width:45% !important;
+}
 .w-33 {
     width: 33% !important;
 }
@@ -1463,6 +1466,10 @@ color-icon:hover {
 }
 
 /*Reports */
+.reportbox-slide {
+    height: 48.4vh;
+    overflow: scroll;
+}
 .paginationinput {
     width: 50px !important;
     padding: 5px;
@@ -1491,3 +1498,6 @@ color-icon:hover {
 .page-link {
     color: #000000 !important;
 }
+.dailyreport thead th {
+    border-top: 0px !important;
+} 

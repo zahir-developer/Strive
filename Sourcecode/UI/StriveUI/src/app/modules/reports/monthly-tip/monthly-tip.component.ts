@@ -17,32 +17,36 @@ export class MonthlyTipComponent implements OnInit {
   year: number;
   locationId = +localStorage.getItem('empLocationId');
   page = 1;
-  pageSize = 5;
+  pageSize = 25;
   collectionSize: number;
+  totalTip = 0;
+  tipAmount: number;
+  totalHours = 0;
   constructor(private excelService: ExcelService, private reportService: ReportsService) { }
 
   ngOnInit(): void {
-    this.monthlyTip = [{ Payee: 12, Hours: 10, Tip: 20 },
-    { Payee: 13, Hours: 10, Tip: 20 },
-    { Payee: 14, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 11, Hours: 10, Tip: 20 },
-    { Payee: 20, Hours: 10, Tip: 20 }];
-    this.collectionSize = Math.ceil(this.monthlyTip.length / this.pageSize) * 10;
+    this.month = this.date.getMonth() + 1;
+    this.year = this.date.getFullYear();
     this.getMonthlyTipReport();
   }
   getMonthlyTipReport() {
     const obj = {
       locationId: +this.locationId,
       year: this.year,
-      month: this.month
+      month: +this.month,
+      date: null
     };
-    this.reportService.getMonthlyTipReport(obj).subscribe(res => {
-      if (res.status === 'Success') { }
+    this.totalTip = 0;
+    this.reportService.getMonthlyDailyTipReport(obj).subscribe(res => {
+      if (res.status === 'Success') {
+        const dailytip = JSON.parse(res.resultData);
+        console.log(dailytip);
+        this.monthlyTip = dailytip.GetEmployeeTipReport;
+        this.monthlyTip.forEach(item => {
+          this.totalTip = this.totalTip + item.Tip;
+        });
+        this.collectionSize = Math.ceil(this.monthlyTip.length / this.pageSize) * 10;
+      }
     });
   }
   export() {
@@ -52,15 +56,15 @@ export class MonthlyTipComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Monthlyreport', 'MonthlyTipReport.pdf');
+        this.excelService.exportAsPDFFile('Monthlyreport', 'MonthlyTipReport_' + this.month + '/' + this.year + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.monthlyTip, 'monthly-tip');
+        this.excelService.exportAsCSVFile(this.monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.monthlyTip, 'monthly-tip');
+        this.excelService.exportAsExcelFile(this.monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
         break;
       }
       default: {
@@ -79,6 +83,26 @@ export class MonthlyTipComponent implements OnInit {
   }
   getfileType(event) {
     this.fileType = +event.target.value;
+  }
+
+  preview() {
+    this.getMonthlyTipReport();
+  }
+
+  submit() {
+    this.totalHours = 0;
+    this.totalTip = 0;
+    if (this.tipAmount !== 0) {
+      this.monthlyTip.forEach(s => {
+        this.totalHours = this.totalHours + s.HoursPerDay;
+      });
+
+      const hourTip = +this.tipAmount / this.totalHours;
+      this.monthlyTip.forEach(item => {
+        item.Tip = (item.HoursPerDay * hourTip).toFixed(2);
+        this.totalTip += +item.Tip;
+      });
+    }
   }
 
 }

@@ -369,7 +369,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null || model.ToString() == "string" ) continue;
+                            if (model is null || model.ToString() == "string") continue;
 
                             Type subModelType = model.GetType();
 
@@ -469,14 +469,18 @@ namespace Strive.RepositoryCqrs
                                     foreach (var m in components)
                                     {
                                         var smt = m.GetType();
-                                        smt.GetProperty(PrimaryField).SetValue(m, primeId);
+                                        var prop = subModelType.GetProperty(PrimaryField);
+                                        if (prop != null)
+                                            smt.GetProperty(PrimaryField)?.SetValue(m, primeId);
                                     }
 
                                     model = components;
                                 }
                                 else
                                 {
-                                    subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
+                                    var prop = subModelType.GetProperty(PrimaryField);
+                                    if (prop != null)
+                                        subModelType.GetProperty(PrimaryField).SetValue(model, primeId);
                                 }
                             }
 

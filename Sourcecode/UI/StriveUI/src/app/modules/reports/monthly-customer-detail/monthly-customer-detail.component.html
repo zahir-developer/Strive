@@ -39,7 +39,7 @@
             </div>
             <!-- end card-->
             <div class="card m-t-10">
-                <div class="card-body">
+                <div class="card-body" id="custDetailExport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Detail Report
                                 for {{selectedDate}}</span>
@@ -80,8 +80,8 @@
                                    
                                 </tbody>
                             </table>
-                            <div *ngIf="customerDetailReport?.length === 0">
-                                <span class="text-center"> No Records Found</span>
+                            <div *ngIf="customerDetailReport?.length === 0" class="noRecords">
+                                <span> No Records Found</span>
                             </div>
                             <ul class="pagination justify-content-end">
                                

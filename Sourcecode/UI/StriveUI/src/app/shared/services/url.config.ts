@@ -158,14 +158,17 @@ export const UrlConfig = {
     createGroup:  `Admin/Messenger/CreateChatGroup`,
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
-    deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`
+    deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`,
+    changeUnreadMessageState: `Admin/Messenger/ChangeUnreadMessageState`
   },
   reports: {
     getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
     getCustomerSummaryReport: `Admin/Report/GetCustomerSummaryReport`,
     getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`,
     getDailyTipReport: ``,
-    getMonthlyTipReport: ``
+    getMonthlyTipReport: ``,
+    getDailyStatusReport: `Admin/Report/DailyStatusReport`,
+    getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
