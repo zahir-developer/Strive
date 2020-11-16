@@ -20,9 +20,9 @@ namespace Strive.BusinessLogic.Washes
         public WashesBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
-        public Result GetAllWashTime()
+        public Result GetAllWashTime(int locationId)
         {
-            return ResultWrap(new WashesRal(_tenant).GetAllWashTime, "Washes");
+            return ResultWrap(new WashesRal(_tenant).GetAllWashTime, locationId, "Washes");
         }
 
         public Result GetWashTimeDetail(int id)

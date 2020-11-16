@@ -71,7 +71,7 @@ export const UrlConfig = {
     updateEmployee: `Admin/Employee/Update`,
     saveGiftCard: `Admin/GiftCard/AddGiftCard`,
     updateStatus: `Admin/GiftCard/ChangeStatus`,
-    getAllWash: `Admin/Washes/GetAllWashTime`,
+    getAllWash: `Admin/Washes/GetAllWashes/`,
     getWashById: `Admin/Washes/GetWashTimeDetail/`,
     addWash: `Admin/Washes/AddWashTime`,
     updateWash: `Admin/Washes/UpdateWashTime`,
