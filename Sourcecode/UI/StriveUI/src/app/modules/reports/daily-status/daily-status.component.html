@@ -1,93 +1,301 @@
+<div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+    <h3 class="d-inline-block">Reports - </h3>
+    <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
 
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Reports - </h3>
-              <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
-                    
-                    <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"  (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()"
-                    [bsConfig]="bsConfig"  bsDatepicker [outsideClick]="true"><span class="input-group-addon">
-                        <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
+            (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
+            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+            <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+    </div>
+</div>
+<div class="col-lg-12 p-l-0 p-r-0">
+    <div class="row no-gutter">
+        <div class="col-12">
+            <div class="row no-gutter">
+                <div class="col-lg-2">
+                    <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="preview()">Preview</button>
                 </div>
             </div>
-            <div class="col-lg-12 p-l-0 p-r-0">
-                <div class="row no-gutter">
-                    <div class="col-12">
-                        <div class="row no-gutter">
-                            <div class="col-lg-2">
-                                <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
-                            </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn theme-primary-button-color" (click)="getDailyStatusReport()">Preview</button>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="row">
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <div class="d-inline-block align-middle">
+                                    <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
+                                </div>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
+                                    printSectionId="DailyStatusreport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="getDailyStatusReport()">Refresh</button>
                             </div>
                         </div>
-                        <div class="card m-t-10">
-                            <div class="card-body p-10">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                    
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="pull-right">
-                                            <div class="d-inline-block align-middle">
-                                                <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
-                                            </div>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="DailyStatusreport" ngxPrint>Print</button>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color" (click)="getDailyStatusReport()">Refresh</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-->
-                            <!-- end card-->
-                        <div class="card m-t-10">
-                            <div class="card-body">
-                                <div class="p-b-5 m-b-8">
-                                    <h4 class="d-inline-block align-middle"><span class="resp-title">Daily Status Report </span>
-                                   
-            </h4>
-                                    <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Dailyreport" role="button" aria-expanded="false" aria-controls="Monthlyreport"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
-                                </div>
-                                <div id="Dailyreport" class="collapse show">
-                                    <!-- <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Payee</th>
-                                                    <th scope="col">Hours</th>
-                                                    <th scope="col" class="w-10">Tip</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let dailytip of dailyTip | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <tr>
-                                             <td>{{dailytip?.Payee}}</td>   
-                                             <td>{{dailytip?.Hours}}</td>   
-                                             <td>{{dailytip?.Tip}}</td>  
-                                            </tr> 
-                                            </tbody>
-                                            <tfoot class="table-foot font-weight-700">
-                                                <tr>
-                                                    <td colspan="2" class="font-weight-700 text-right">Tip Total </td>
-                                                    <td>$40.00 </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <div *ngIf="dailyTip?.length === 0" class="noRecords">
-                                            <span> No Records Found</span>
-                                        </div>
-                                        <ul class="pagination justify-content-end">
-                                            <ngb-pagination *ngIf="collectionSize > 5" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                                class="d-flex justify-content-end">
-                                            </ngb-pagination>
-                                        </ul>
-                                    </div> -->
-                                </div>
-                            </div>
-                            <!-- end card-body -->
-                        </div>
-                        <!-- end card-->
                     </div>
                 </div>
             </div>
-       
+            <div class="row no-gutter">
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Washes</span>
+                                </h4> </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive scroll">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Washes</th>
+                                                <th scope="col"> Total</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let wash of washes">
+                                                <td class="pointer" title= "{{wash?.ServiceName}}">
+                                                    {{wash?.ServiceName | slice:0:15}} {{(wash?.ServiceName!== null) ?wash?.ServiceName.length <= 15 ? '': '...':''}}
+                                                </td>
+                                                <td>{{wash?.Number}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="font-weight-700" *ngIf="washes?.length > 0">
+                                            <tr>
+                                                <td class="text-right">Total </td>
+                                                <td>{{washTotal}}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div *ngIf="washes?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Wash Info</span>
+                                </h4> </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive scroll">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Washes </th>
+                                                <th scope="col">Amount</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
+                                                <td class="pointer" title= "{{detailInfo?.ServiceName}}">
+                                                    {{detailInfo?.ServiceName | slice:0:15}} {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                                    </td>
+                                                <td>{{detailInfo?.TicketNumber}}</td>
+                                                <td>{{detailInfo?.Commision}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
+                                            <tr>
+                                                <td colspan="2" class="text-right">Total Comm. </td>
+                                                <td>{{detailInfoTotal}}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div *ngIf="dailyStatusDetailInfo?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Details</span>
+                                </h4> </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive scroll">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="w-100">Details</th>
+                                                <th scope="col"> Total</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody class="body-half-screen">
+                                            <tr *ngFor="let detail of details">
+                                                <td class="pointer" title= "{{detail?.ServiceName}}">
+                                                    {{detail?.ServiceName | slice:0:15}} {{(detail?.ServiceName!== null) ?detail?.ServiceName.length <= 15 ? '': '...':''}}
+                                                    </td>
+                                                <td>{{detail?.Number}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="font-weight-700" *ngIf="details?.length > 0">
+                                            <tr>
+                                                <td class="text-right">Total </td>
+                                                <td>{{detailTotal}} </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div *ngIf="details?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+<div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Detail Info</span>
+                                </h4> </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive scroll">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col"> Ticket</th>
+                                                <th scope="col"> Comm</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
+                                                <td class="pointer" title= "{{detailInfo?.ServiceName}}">
+                                                    {{detailInfo?.ServiceName | slice:0:15}} {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                                    </td>
+                                                <td>{{detailInfo?.TicketNumber}}</td>
+                                                <td>{{detailInfo?.Commision}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
+                                            <tr>
+                                                <td colspan="2" class="text-right">Total Comm. </td>
+                                                <td>{{detailInfoTotal}}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div *ngIf="dailyStatusDetailInfo?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+            </div>
+
+            
+            
+            <div class="card m-t-10">
+                <div class="card-body">
+                    <div class="p-b-5 m-b-8">
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Employee List with Time Clock</span>
+                        </h4>
+                    </div>
+                    
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Employee Name </th>
+                                        <th scope="col">Total Hours </th>
+                                        <th scope="col"> Rate </th>
+                                        <th scope="col">Total Amount</th>
+                                        <th scope="col">In</th>
+                                        <th scope="col">Out</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">In</th>
+                                        <th scope="col">Out</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">In</th>
+                                        <th scope="col">Out</th>
+                                        <th scope="col">Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let clock of clockDetail">
+                                        <td class="pointer">
+                                            {{clock?.EmployeeName}}
+                                            </td>
+                                        <td>{{clock?.TicketNumber}}</td>
+                                        <td>{{clock?.HoursPerDay}}</td>
+                                        <td></td>
+                                        <td>{{clock?.InTime | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{clock?.OutTime | date: 'MM/dd/yyyy'}}</td>
+                                    </tr>
+
+                                    <!-- <tr>
+                                        <th scope="row">Wilford Franecki</th>
+                                        <td>7.62</td>
+                                        <td>
+                                            12
+                                        </td>
+                                        <td>$ 76.2 </td>
+                                        <td>
+                                            07.00 AM
+                                        </td>
+                                        <td>
+                                            08.00 AM
+                                        </td>
+                                        <td>
+                                            Washer
+                                        </td>
+                                        <td>
+                                            07.00 AM
+                                        </td>
+                                        <td>
+                                            08.00 PM
+                                        </td>
+                                        <td>
+                                        Detailer
+                                        </td>
+                                        <td>
+                                            09.00 AM
+                                        </td>
+                                        <td>
+                                            11.00 PM
+                                        </td>
+                                        <td>
+                                            Washer
+                                        </td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                
+                </div>
+                <!-- end card-body -->
+            </div>
+            </div>
+        </div>
+    </div>

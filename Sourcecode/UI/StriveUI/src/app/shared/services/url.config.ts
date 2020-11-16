@@ -168,7 +168,11 @@ export const UrlConfig = {
     getDailyTipReport: ``,
     getMonthlyTipReport: ``,
     getDailyStatusReport: `Admin/Report/DailyStatusReport`,
-    getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`
+    getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`,
+    getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
+    getDailyClockDetail: `Admin/Report/DailyClockDetail`,
+    getCashRegister: `Admin/CashRegister/Get`,
+    getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
