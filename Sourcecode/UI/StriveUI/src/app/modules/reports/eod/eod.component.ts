@@ -18,6 +18,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   cashRegisterCoins: any;
   cashRegisterBills: any;
   cashRegisterRolls: any;
+  locationId: any;
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
@@ -25,6 +26,7 @@ export class EodComponent implements OnInit, AfterViewInit {
     ) { }
 
   ngOnInit(): void {
+    this.locationId = localStorage.getItem('empLocationId');
     this.selectDate = moment(new Date()).format('MM-DD-YYYY');
   }
 
@@ -107,6 +109,10 @@ export class EodComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+
+  onLocationChange(event) {
+    this.locationId = +event;
   }
 
 }
