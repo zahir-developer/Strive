@@ -34,7 +34,7 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(washes);
         }
-        public WashesDashboardViewModel GetDailyDashboard(DashboardDto dashboard)
+        public WashesDashboardViewModel GetDailyDashboard(WashesDashboardDto dashboard)
         {
             _prm.Add("@LocationId",dashboard.id);
             _prm.Add("@CurrentDate",dashboard.date);

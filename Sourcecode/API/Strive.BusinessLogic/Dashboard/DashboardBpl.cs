@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO.Dashboard;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -14,9 +15,9 @@ namespace Strive.BusinessLogic.DashboardStatistics
         public DashboardBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
-        public Result GetDashboardStatistics(int locationId)
+        public Result GetDashboardStatistics(DashboardDto dashboard)
         {
-            return ResultWrap(new DashboardRal(_tenant).GetDashboardStatistics, locationId, "GetDashboardStatisticsForLocationId");
+            return ResultWrap(new DashboardRal(_tenant).GetDashboardStatistics, dashboard, "GetDashboardStatisticsForLocationId");
         }
     }
 }
