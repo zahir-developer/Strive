@@ -47,6 +47,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         {
             return ResultWrap(new ReportRal(_tenant).GetDailyClockDetail, DailyClockDetail, "GetDailyClockDetail");
         }
-
+        public Result GetMonthlyMoneyOwnedReport(string date)
+        {
+            return ResultWrap(new ReportRal(_tenant).GetMonthlyMoneyOwnedReport, date, "GetMonthlyMoneyOwnedReport");
+        }
     }
 }

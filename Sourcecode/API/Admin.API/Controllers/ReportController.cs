@@ -51,6 +51,11 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("DailyClockDetail")]
         public Result uspGetDailyClockDetail([FromBody] DailyStatusReportDto DailyClockDetail) => _bplManager.GetDailyClockDetail(DailyClockDetail);
-
+        /// <summary>
+        /// Method to Get MonthlyMoneyOwned Report.
+        /// </summary>
+        [HttpPost]
+        [Route("GetMonthlyMoneyOwnedReport/{date}")]
+        public Result GetMonthlyMoneyOwnedReport(string date) => _bplManager.GetMonthlyMoneyOwnedReport(date);
     }
 }
