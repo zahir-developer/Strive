@@ -14,6 +14,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using StriveEmployee.Android.Adapter;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
 {
@@ -21,6 +22,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile
     {
         private TabLayout profile_TabLayout;
         private ViewPager profile_ViewPager;
+        private ViewPagerAdapter profile_ViewPagerAdapter;
+        private EmployeeInfoFragment employeeInfo_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,11 +39,17 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             profile_TabLayout = rootView.FindViewById<TabLayout>(Resource.Id.myProfile_TabLayout);
             profile_ViewPager = rootView.FindViewById<ViewPager>(Resource.Id.myProfile_ViewPager);
 
+            employeeInfo_Fragment = new EmployeeInfoFragment();
             return rootView;
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-      
+            base.OnActivityCreated(savedInstanceState);
+            profile_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
+            profile_ViewPagerAdapter.AddFragment(employeeInfo_Fragment, "Employee Info");
+
+            profile_ViewPager.Adapter = profile_ViewPagerAdapter;
+            profile_TabLayout.SetupWithViewPager(profile_ViewPager);
         }
     }
 }
