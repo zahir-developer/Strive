@@ -31,4 +31,10 @@ export class ReportsService {
   getMonthlyDailyTipReport(obj) {
     return this.http.post(`${UrlConfig.reports.getMonthlyDailyTipReport}`, obj);
   }
+  getDailyStatusDetailInfo(obj) {
+    return this.http.post(`${UrlConfig.reports.getDetailStatusInfo}`, obj);
+  }
+  getDailyClockDetail(obj) {
+    return this.http.post(`${UrlConfig.reports.getDailyClockDetail}`, obj);
+  }
 }
