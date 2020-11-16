@@ -61,11 +61,11 @@ namespace Strive.Core.ViewModels.Employee
             groupChatResponse = await MessengerService.CreateChatGroup(groupChatInfo);
             if(groupChatResponse == null)
             {
-
+                _userDialog.Toast("Group chat not created");
             }
             else
             {
-
+                _userDialog.Toast("Group chat created successfully");
             }
         }
         public void AddCreatingUser()
