@@ -80,7 +80,6 @@ namespace StriveEmployee.Android.Fragments
                     foreach (var data in MessengerTempData.ExistingParticipants.ChatEmployeeList)
                     {
                         var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.Id);
-                        MessengerTempData.SelectedParticipants.EmployeeList.Add(participant);
                         ViewModel.EmployeeLists.EmployeeList.Remove(participant);
                     }
                     foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
