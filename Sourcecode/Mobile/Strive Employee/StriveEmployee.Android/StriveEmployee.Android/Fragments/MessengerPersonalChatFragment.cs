@@ -35,6 +35,8 @@ namespace StriveEmployee.Android.Fragments
         private IMenu chat_Menu;
         private RecyclerView chatMessage_RecyclerView;
         private MessengerChatAdapter messengerChat_Adapter;
+        private MvxFragment selected_MvxFragment;
+        private MessengerViewParticipantsFragment viewParticipants_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -53,7 +55,7 @@ namespace StriveEmployee.Android.Fragments
             personalContactName_TextView = rootView.FindViewById<TextView>(Resource.Id.personalContactName_TextView);
             chatMessage_EditText = rootView.FindViewById<EditText>(Resource.Id.chatMessage_EditText);
             chatMessage_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.message_recyclerview);
-            personalContactName_TextView.Text = MessengerTempData.RecipientName;
+            personalContactName_TextView.Text = MessengerTempData.IsGroup ? MessengerTempData.GroupName : MessengerTempData.RecipientName;
             personalChat_Button.Click += PersonalChat_Button_Click;
             sendChat_Button.Click += SendChat_Button_Click;
             chatMenu_ImageButton.Click += ChatMenu_ImageButton_Click;
@@ -71,7 +73,8 @@ namespace StriveEmployee.Android.Fragments
             switch (e.Item.ItemId)
             {
                 case Resource.Id.menu_viewParticipants:
-                    
+                    selected_MvxFragment = new MessengerViewParticipantsFragment();
+                    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
                     break;
 
 
@@ -133,7 +136,7 @@ namespace StriveEmployee.Android.Fragments
         {
             ChatDataRequest chatData = new ChatDataRequest
             {
-                SenderId = EmployeeTempData.EmployeeID,
+                SenderId = MessengerTempData.IsGroup ? 0 : EmployeeTempData.EmployeeID,
                 RecipientId = MessengerTempData.RecipientID,
                 GroupId = MessengerTempData.GroupID
             };

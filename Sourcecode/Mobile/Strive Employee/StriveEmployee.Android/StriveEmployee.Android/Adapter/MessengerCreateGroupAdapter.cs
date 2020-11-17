@@ -70,6 +70,7 @@ namespace StriveEmployee.Android.Adapter
                 messengerCreateGroup.createGroupName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
                 messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Gone;
             }
+
             messengerCreateGroup.ItemView.Tag = position;
             if(!MessengerTempData.ChatParticipants.ContainsKey(contacts[position].EmployeeId))
             {

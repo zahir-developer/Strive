@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
 
@@ -56,6 +57,14 @@ namespace StriveEmployee.Android.Fragments
         private async void selectGroupChatEntry()
         {
             await ViewModel.GetContactsList();
+            if(MessengerTempData.ExistingParticipants != null)
+            {
+                MessengerTempData.IsCreateGroup = false;
+            }
+            else
+            {
+                MessengerTempData.IsCreateGroup = true;
+            }
             if(ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
             {
                 messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);

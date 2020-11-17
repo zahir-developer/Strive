@@ -67,6 +67,7 @@
     <Compile Include="Adapter\MessengerFinalizeGroupAdapter.cs" />
     <Compile Include="Adapter\MessengerGroupChatAdapter.cs" />
     <Compile Include="Adapter\MessengerRecentContactsAdapter.cs" />
+    <Compile Include="Adapter\MessengerViewParticipantsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Enums\MessageType_Enum.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Fragments\MessengerGroupContactFragment.cs" />
     <Compile Include="Fragments\MessengerPersonalChatFragment.cs" />
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
+    <Compile Include="Fragments\MessengerViewParticipantsFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditEmployeeDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditPersonalDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EmployeeInfoFragment.cs" />
@@ -655,6 +657,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\chat_menu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerViewParticipants_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MessengerViewParticiapantsItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
