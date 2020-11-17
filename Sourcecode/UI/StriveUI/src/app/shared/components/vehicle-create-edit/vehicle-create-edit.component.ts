@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -8,7 +8,8 @@ import * as _ from 'underscore';
 @Component({
   selector: 'app-vehicle-create-edit',
   templateUrl: './vehicle-create-edit.component.html',
-  styleUrls: ['./vehicle-create-edit.component.css']
+  styleUrls: ['./vehicle-create-edit.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VehicleCreateEditComponent implements OnInit {
   vehicleForm: FormGroup;
