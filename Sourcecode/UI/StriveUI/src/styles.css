@@ -5,7 +5,7 @@ body .ui-dialog .ui-dialog-titlebar {
 }
 body .ui-dialog .ui-dialog-content {
   font-size: 1rem;
-  overflow-y: visible !important;
+  /* overflow-y: visible !important; */
 }
 body .ui-paginator {
   background-color: #fff;
@@ -236,10 +236,8 @@ color-icon:hover {
 .noRecords {
   text-align: center !important;
 }
-.ui-dialog-resizable .ui-dialog-content {
-  overflow: visible !important;
-}
+
 .scroll {
-  height: 27.4vh;
+  height: 50.4vh;
   overflow: scroll;
 }

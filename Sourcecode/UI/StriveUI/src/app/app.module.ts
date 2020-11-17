@@ -33,6 +33,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPrintModule} from 'ngx-print';
+import { SelectLocationComponent } from './select-location/select-location.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -82,6 +83,7 @@ const load = (http: HttpClient) => {
     CreateCustomerDetailsComponent,
     DynamicTextboxComponent,
     ForgotPasswordComponent,
+    SelectLocationComponent,
   ],
   imports: [
     BrowserModule,
