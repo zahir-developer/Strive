@@ -10,26 +10,22 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AuthService {
   userDetails: any;
-  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
   constructor(private http: HttpUtilsService, private userService: UserDataService, private router: Router,
-              private route: ActivatedRoute) {
+    private route: ActivatedRoute) {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.loggedIn.next(true);
-    } 
-    // else {
-    //   this.loggedIn.next(false);
-    // }
+    }
   }
   login(loginData: any): Observable<any> {
     return this.http.post(`${UrlConfig.totalUrl.login}`, loginData).pipe(map((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
-          localStorage.setItem('isAuthenticated', 'true');
-          this.loggedIn.next(true);
+
           this.userService.setUserSettings(user.resultData);
           return user;
         }
@@ -37,7 +33,8 @@ export class AuthService {
       return user;
     }));
   }
-  
+ 
+
   logout() {
     localStorage.setItem('isAuthenticated', 'false');
     this.loggedIn.next(false);

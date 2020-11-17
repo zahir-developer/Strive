@@ -57,7 +57,7 @@
                                 </h4>
                             </div>
                             <div class="collapse show row">
-                                <div class="table-responsive">
+                                <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
                                         <thead>
                                             <tr>
@@ -67,27 +67,25 @@
                                             <tr> </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Ultra Mammoth Wash</td>
-                                                <td>10</td>
+                                            <tr *ngFor="let wash of washes">
+                                                <td class="pointer" title="{{wash?.ServiceName}}">
+                                                    {{wash?.ServiceName | slice:0:15}}
+                                                    {{(wash?.ServiceName!== null) ?wash?.ServiceName.length <= 15 ? '': '...':''}}
+                                                </td>
+                                                <td>{{wash?.Number}}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Ultra Mammoth Wash</td>
-                                                <td>10</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ultra Mammoth Wash</td>
-                                                <td>10</td>
-                                            </tr>
-
                                         </tbody>
-                                        <tfoot class="font-weight-700">
+                                        <tfoot class="font-weight-700" *ngIf="washes?.length > 0">
                                             <tr>
                                                 <td class="text-right">Total </td>
-                                                <td>30.00 </td>
+                                                <td>{{washTotal}}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    <div *ngIf="washes?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -103,7 +101,7 @@
                                 </h4>
                             </div>
                             <div class="collapse show row">
-                                <div class="table-responsive">
+                                <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
                                         <thead>
                                             <tr>
@@ -114,29 +112,25 @@
                                             <tr> </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Loreum Ipsum</td>
-                                                <td>10</td>
-                                                <td>00.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Loreum Ipsum</td>
-                                                <td>10</td>
-                                                <td>00.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Loreum Ipsum</td>
-                                                <td>10</td>
-                                                <td>00.00</td>
+                                            <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
+                                                <td class="pointer" title="{{detailInfo?.ServiceName}}">
+                                                    {{detailInfo?.ServiceName | slice:0:15}}
+                                                    {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                                </td>
+                                                <td>{{detailInfo?.TicketNumber}}</td>
+                                                <td>{{detailInfo?.Commision}}</td>
                                             </tr>
                                         </tbody>
-                                        <tfoot class="font-weight-700">
+                                        <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
                                             <tr>
-                                                <td colspan="2" class="text-right">Total </td>
-                                                <td>00.00 </td>
+                                                <td colspan="2" class="text-right">Total Comm. </td>
+                                                <td>{{detailInfoTotal}}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    <div *ngIf="dailyStatusDetailInfo?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +146,7 @@
                                 </h4>
                             </div>
                             <div class="collapse show row">
-                                <div class="table-responsive">
+                                <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
                                         <thead>
                                             <tr>
@@ -161,27 +155,25 @@
                                             </tr>
                                             <tr> </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Interior Details</td>
-                                                <td>10</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ceramic Coating</td>
-                                                <td>10</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Correct/seal</td>
-                                                <td>10</td>
+                                        <tbody class="body-half-screen">
+                                            <tr *ngFor="let detail of details">
+                                                <td class="pointer" title="{{detail?.ServiceName}}">
+                                                    {{detail?.ServiceName | slice:0:15}}
+                                                    {{(detail?.ServiceName!== null) ?detail?.ServiceName.length <= 15 ? '': '...':''}}
+                                                </td>
+                                                <td>{{detail?.Number}}</td>
                                             </tr>
                                         </tbody>
-                                        <tfoot class="font-weight-700">
+                                        <tfoot class="font-weight-700" *ngIf="details?.length > 0">
                                             <tr>
                                                 <td class="text-right">Total </td>
-                                                <td>30.00 </td>
+                                                <td>{{detailTotal}} </td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    <div *ngIf="details?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +189,7 @@
                                 </h4>
                             </div>
                             <div class="collapse show row">
-                                <div class="table-responsive">
+                                <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
                                         <thead>
                                             <tr>
@@ -208,29 +200,25 @@
                                             <tr> </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Loreum Ipsum</td>
-                                                <td>10</td>
-                                                <td>00.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Loreum Ipsum</td>
-                                                <td>10</td>
-                                                <td>00.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Loreum Ipsum</td>
-                                                <td>10</td>
-                                                <td>00.00</td>
+                                            <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
+                                                <td class="pointer" title="{{detailInfo?.ServiceName}}">
+                                                    {{detailInfo?.ServiceName | slice:0:15}}
+                                                    {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                                </td>
+                                                <td>{{detailInfo?.TicketNumber}}</td>
+                                                <td>{{detailInfo?.Commision}}</td>
                                             </tr>
                                         </tbody>
-                                        <tfoot class="font-weight-700">
+                                        <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
                                             <tr>
                                                 <td colspan="2" class="text-right">Total Comm. </td>
-                                                <td>00.00 </td>
+                                                <td>{{detailInfoTotal}}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    <div *ngIf="dailyStatusDetailInfo?.length === 0" class="noRecords m-t-49">
+                                        <span> No Records Found</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

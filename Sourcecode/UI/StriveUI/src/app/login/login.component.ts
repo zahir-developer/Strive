@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
   whiteLabelDetail: any;
   colorTheme: any;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
-              private authService: AuthService, private whiteLabelService: WhiteLabelService,
-              private msgService: MessengerService ) { }
+    private authService: AuthService, private whiteLabelService: WhiteLabelService,
+    private msgService: MessengerService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
@@ -53,10 +53,7 @@ export class LoginComponent implements OnInit {
       this.isLoginLoading = false;
       if (data) {
         if (data.status === 'Success') {
-          // this.display = true;
           const token = JSON.parse(data.resultData);
-          // this.loginDetail = token.EmployeeDetails.FirstName + ' - ' + token.EmployeeDetails.EmployeeDetail.EmployeeCode + ' - ' +
-          //   token.EmployeeDetails.EmployeeRole[0].RoleName;
           this.getThemeColor();
           this.loadTheLandingPage();
           this.msgService.startConnection();
@@ -70,7 +67,14 @@ export class LoginComponent implements OnInit {
     });
   }
   loadTheLandingPage(): void {
-    this.router.navigate([`/admin/setup`], { relativeTo: this.route });
+    const location = localStorage.getItem('empLocationId');
+    if (!Array.isArray(JSON.parse(location))) {
+      localStorage.setItem('isAuthenticated', 'true');
+      this.authService.loggedIn.next(true);
+      this.router.navigate([`/admin/setup`], { relativeTo: this.route });
+    } else {
+      this.router.navigate([`/location`], { relativeTo: this.route });
+    }
   }
 
   forgotPassword() {
@@ -78,25 +82,27 @@ export class LoginComponent implements OnInit {
   }
 
   getThemeColor() {
-    this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
-      if (res.status === 'Success') {
-        const label = JSON.parse(res.resultData);
-        console.log(label, 'white');
-        this.colorTheme = label.WhiteLabelling.Theme;
-        this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
-        // this.fontName = this.whiteLabelDetail.FontFace;
-        // this.themeId = this.whiteLabelDetail.ThemeId;
-        this.colorTheme.forEach(item => {
-          if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
-            document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
-            document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
-            document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
-            document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
-            document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
-          }
-        });
-        document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
-      }
-    });
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
+        if (res.status === 'Success') {
+          const label = JSON.parse(res.resultData);
+          console.log(label, 'white');
+          this.colorTheme = label.WhiteLabelling.Theme;
+          this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
+          // this.fontName = this.whiteLabelDetail.FontFace;
+          // this.themeId = this.whiteLabelDetail.ThemeId;
+          this.colorTheme.forEach(item => {
+            if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
+              document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
+              document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
+              document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
+              document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
+              document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
+            }
+          });
+          document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
+        }
+      });
+    }
   }
 }
