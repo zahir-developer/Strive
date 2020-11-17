@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class ScheduleItemSummaryViewModel
+    public class SalesSummaryViewModel
     {
         public decimal? Cash { get; set; }
         public decimal? Credit { get; set; }
