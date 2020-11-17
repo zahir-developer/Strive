@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class JobPaymentViewModel
+    public class PaymentStatusViewModel
     {
         public int JobId { get; set; }
         public int JobPaymentId { get; set; }

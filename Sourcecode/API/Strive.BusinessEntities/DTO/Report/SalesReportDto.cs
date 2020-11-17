@@ -9,7 +9,7 @@ namespace Strive.BusinessEntities.DTO.Report
     public class SalesReportDto
     {
         public int LocationId { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

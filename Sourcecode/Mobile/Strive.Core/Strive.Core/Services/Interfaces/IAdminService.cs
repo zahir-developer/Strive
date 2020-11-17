@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Common;
+using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 
 namespace Strive.Core.Services.Interfaces
@@ -71,5 +73,9 @@ namespace Strive.Core.Services.Interfaces
         Task<CustomerCompleteDetails> GetVehicleCompleteDetails(int VehicleID);
 
         Task<PastClientServices> GetPastClientServices(int ClientID);
+
+        Task<PersonalDetails> GetPersonalDetails(int EmployeeID);
+
+        Task<Gender> GetGender();
     }
 }

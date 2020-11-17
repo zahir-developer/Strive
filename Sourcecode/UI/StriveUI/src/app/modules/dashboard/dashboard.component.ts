@@ -3,6 +3,7 @@ import { DashboardService } from 'src/app/shared/services/data-service/dashboard
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.component';
+import * as moment from 'moment';
 declare var $: any;
 
 @Component({
@@ -42,6 +43,9 @@ export class DashboardComponent implements OnInit {
   firstSectionTogggle: boolean;
   secondSectionToggle: boolean;
   thirdSectionToggle: boolean;
+  fromDate: any;
+  toDate: any;
+  locationId = 0;
   constructor(
     public dashboardService: DashboardService,
     private messageService: MessageServiceToastr,
@@ -53,6 +57,8 @@ export class DashboardComponent implements OnInit {
     this.firstSectionTogggle = false;
     this.secondSectionToggle = false;
     this.thirdSectionToggle = false;
+    this.fromDate = moment(new Date()).format();
+    this.toDate = moment(new Date()).format();
     this.getLocationList();
     this.getDashboardStatistics(0);
   }
@@ -75,9 +81,15 @@ export class DashboardComponent implements OnInit {
 
   getDashboardStatistics(locationID) {
     // const locationId = localStorage.getItem('empLocationId');
+    this.locationId = locationID;
     this.dashboardStatistics = [];
     this.resetValue();
-    this.dashboardService.getDashboardStatistics(locationID).subscribe(res => {
+    const finalObj = {
+      locationId: locationID,
+      fromDate: this.fromDate,
+      toDate: this.toDate
+    };
+    this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
       const dashboardCount = JSON.parse(res.resultData);
       console.log(dashboardCount, 'dashboard');
       this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
@@ -146,6 +158,13 @@ export class DashboardComponent implements OnInit {
       size: 'lg'
     };
     const modalRef = this.modalService.open(FilterDashboardComponent, ngbModalOptions);
+    modalRef.componentInstance.filterDashboard.subscribe((receivedEntry) => {
+      if (receivedEntry) {
+        this.fromDate = receivedEntry.fromDate;
+        this.toDate = receivedEntry.toDate;
+        this.getDashboardStatistics(this.locationId);
+      }
+    });
   }
 
   mainStreet() {

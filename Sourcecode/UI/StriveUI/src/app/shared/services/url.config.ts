@@ -71,7 +71,7 @@ export const UrlConfig = {
     updateEmployee: `Admin/Employee/Update`,
     saveGiftCard: `Admin/GiftCard/AddGiftCard`,
     updateStatus: `Admin/GiftCard/ChangeStatus`,
-    getAllWash: `Admin/Washes/GetAllWashTime`,
+    getAllWash: `Admin/Washes/GetAllWashes/`,
     getWashById: `Admin/Washes/GetWashTimeDetail/`,
     addWash: `Admin/Washes/AddWashTime`,
     updateWash: `Admin/Washes/UpdateWashTime`,
@@ -168,11 +168,15 @@ export const UrlConfig = {
     getDailyTipReport: ``,
     getMonthlyTipReport: ``,
     getDailyStatusReport: `Admin/Report/DailyStatusReport`,
-    getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`
+    getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`,
+    getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
+    getDailyClockDetail: `Admin/Report/DailyClockDetail`,
+    getCashRegister: `Admin/CashRegister/Get`,
+    getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
-    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics/`
+    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
   }
 };

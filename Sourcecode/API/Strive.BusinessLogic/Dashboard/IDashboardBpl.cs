@@ -1,4 +1,5 @@
-﻿using Strive.Common;
+﻿using Strive.BusinessEntities.DTO.Dashboard;
+using Strive.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Strive.BusinessLogic.DashboardStatistics
 {
     public interface IDashboardBpl
     {
-        Result GetDashboardStatistics(int locationId);
+        Result GetDashboardStatistics(DashboardDto dashboard);
     }
 }

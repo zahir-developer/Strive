@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,6 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FilterDashboardComponent implements OnInit {
   filterForm: FormGroup;
+  @Output() filterDashboard = new EventEmitter();
   constructor(
     private fb: FormBuilder,
     private activeModal: NgbActiveModal
@@ -22,6 +23,15 @@ export class FilterDashboardComponent implements OnInit {
   }
 
   closeFilterModal() {
+    this.activeModal.close();
+  }
+
+  apply() {
+    const filterObj = {
+      fromDate: this.filterForm.value.fromDate,
+      toDate: this.filterForm.value.toDate
+    };
+    this.filterDashboard.emit(filterObj);
     this.activeModal.close();
   }
 

@@ -20,5 +20,6 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         Result GetDailyStatusDetailInfo(DailyStatusReportDto DailyStatusDailyStatusDetailInfo);
         Result GetDailyClockDetail(DailyStatusReportDto GetDailyClockDetail);
         Result GetMonthlyMoneyOwnedReport(string date);
+        Result GetEODSalesReport(SalesReportDto salesReportDto);
     }
 }

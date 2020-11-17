@@ -80,5 +80,10 @@ namespace Strive.Core.Utils
         public const string URL_MESSENGER_SEND_CHAT_MESSAGE = "/Admin/Messenger/SendChatMessage";
 
         public const string URL_MESSENGER_CREATE_GROUP_CHAT = "/Admin/Messenger/CreateChatGroup";
+
+        public const string URL_MESSENGER_PERSONAL_INFO = "/Admin/Employee/GetEmployeeById";
+
+        public const string URL_COMMON_GENDER = "/Admin/Common/GetCodesByCategory/GENDER";
+
     }
 }

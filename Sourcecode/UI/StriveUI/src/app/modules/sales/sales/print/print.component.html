@@ -34,19 +34,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of itemList.ScheduleItemViewModel">
+                        <tr *ngFor="let item of itemList.SalesItemViewModel">
                             <td>{{item?.ServiceName}}</td>
                             <td>{{item?.Quantity}}</td>
                             <td style="text-align: right;">{{item?.Price | currency}}</td>
                         </tr>
                         <tr>
                             <td colspan="2" class="pointer" style="text-align: right;">Sub Total <br> Tax <br> Total</td>
-                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right;">{{itemList.ScheduleItemSummaryViewModels.Total | currency}} <br> {{itemList.ScheduleItemSummaryViewModels.Tax ? (itemList.ScheduleItemSummaryViewModels.Tax  | currency) : '$0.00'}}<br>
-                                {{itemList.ScheduleItemSummaryViewModels.GrandTotal | currency}} </td>
+                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right;">{{itemList.SalesSummaryViewModel.Total | currency}} <br> {{itemList.SalesSummaryViewModel.Tax ? (itemList.SalesSummaryViewModel.Tax  | currency) : '$0.00'}}<br>
+                                {{itemList.SalesSummaryViewModel.GrandTotal | currency}} </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: right;">Charge</td>
-                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right">{{itemList.ScheduleItemSummaryViewModels.GrandTotal | currency}}</td>
+                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right">{{itemList.SalesSummaryViewModel.GrandTotal | currency}}</td>
                         </tr>
                         <tr></tr>
                         <tr></tr>
