@@ -73,7 +73,6 @@ namespace StriveEmployee.Android.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             MessengerParticipantGroup = holder as MessengerViewParticipantsViewHolder;
-
             if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList.ChatEmployeeList[position].FirstName))
             {
                 firstInitial = selectedParticipants.EmployeeList.ChatEmployeeList[position].FirstName.ToCharArray();
@@ -94,8 +93,9 @@ namespace StriveEmployee.Android.Adapter
         public void OnClick(View itemView, int position, bool isLongClick)
         {
             if (MessengerTempData.ClickAction == 1)
-            {
+            {               
                 MessengerTempData.ExistingParticipants.ChatEmployeeList.RemoveAt(position);
+                selectedParticipants.EmployeeList.ChatEmployeeList.RemoveAt(position);
                 NotifyItemRemoved(position);
                 NotifyItemRangeChanged(position, selectedParticipants.EmployeeList.ChatEmployeeList.Count);
                 MessengerTempData.ClickAction = 0;

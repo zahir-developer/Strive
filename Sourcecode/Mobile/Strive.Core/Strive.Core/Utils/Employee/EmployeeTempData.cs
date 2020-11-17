@@ -19,6 +19,7 @@ namespace Strive.Core.Utils.Employee
         public static string RecipientName { get; set; }
         public static int RecipientID { get; set; }
         public static int GroupID { get; set; }
+        public static string GroupUniqueID { get; set; }
         public static string GroupName { get; set; }
         public static bool IsGroup { get; set; }
         public static bool IsCreateGroup { get; set; } = false;
@@ -40,6 +41,14 @@ namespace Strive.Core.Utils.Employee
             IsGroup = false;
             RecipientName = "";
             GroupName = "";
+            GroupUniqueID = "";
+        }
+
+        public static void resetParticipantInfo()
+        {
+            SelectedParticipants = null;
+            ExistingParticipants = null;
+            ChatParticipants = null;
         }
 
         #endregion Commands
