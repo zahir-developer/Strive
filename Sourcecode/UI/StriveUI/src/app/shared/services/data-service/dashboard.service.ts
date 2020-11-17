@@ -21,7 +21,7 @@ export class DashboardService {
     return this.http.get(`${UrlConfig.dashboard.getDashboardLocation}`);
   }
 
-  getDashboardStatistics(id) {
-    return this.http.get(`${UrlConfig.dashboard.getDashboardStatistics}` + id);
+  getDashboardStatistics(obj) {
+    return this.http.post(`${UrlConfig.dashboard.getDashboardStatistics}`, obj );
   }
 }
