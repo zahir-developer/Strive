@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO.Washes
 {
-    public class DashboardDto
+    public class WashesDashboardDto
     {
         public int id { get; set; }
         public DateTime date { get; set; }

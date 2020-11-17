@@ -21,7 +21,10 @@ namespace Strive.BusinessEntities
             USPMONTHLYCUSTOMERDETAIL,
             uspGetMonthlyTipDetail,
             uspGetDailyTipDetail,
-            uspGetDailyStatusReport
+            uspGetDailyStatusReport,
+            uspGetDailyStatusDetailInfo,
+            uspGetDailyClockDetail,
+            USPGETMONTHLYMONEYOWNEDREPORT
         }
 
         public enum WhiteLabelling

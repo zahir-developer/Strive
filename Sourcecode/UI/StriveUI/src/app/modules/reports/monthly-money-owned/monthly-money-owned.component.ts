@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
+import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 
 @Component({
   selector: 'app-monthly-money-owned',
@@ -18,11 +19,17 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   totalOwnedHB = 0;
   totalOwnedOM = 0;
   fileType: any = '';
+  date = new Date();
+  month: number;
+  year: number;
   constructor(
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private reportsService: ReportsService
   ) { }
 
   ngOnInit(): void {
+    this.month = this.date.getMonth() + 1;
+    this.year = this.date.getFullYear();
     this.getMoneyOwnedReportList();
   }
   getfileType(event) {
@@ -30,50 +37,69 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   }
 
   getMoneyOwnedReportList() {
-    this.ownedReportList = [
-      {
-        date: '12-11-2020',
-        amount: 10,
-        driveUpRate: 9,
-        customer: 2,
-        firstName: 'steve',
-        lastName: 'jobs',
-        hb: 10,
-        ms: 4,
-        om: 3,
-        total: 78,
-        washRate: 67,
-        totalOwnedHB: 34,
-        totalOwnedOM: 56
-      },
-      {
-        date: '12-11-2020',
-        amount: 10,
-        driveUpRate: 9,
-        customer: 2,
-        firstName: 'steve',
-        lastName: 'jobs',
-        hb: 10,
-        ms: 4,
-        om: 3,
-        total: 78,
-        washRate: 67,
-        totalOwnedHB: 34,
-        totalOwnedOM: 56
+    // this.ownedReportList = [
+    //   {
+    //     date: '12-11-2020',
+    //     amount: 10,
+    //     driveUpRate: 9,
+    //     customer: 2,
+    //     firstName: 'steve',
+    //     lastName: 'jobs',
+    //     hb: 10,
+    //     ms: 4,
+    //     om: 3,
+    //     total: 78,
+    //     washRate: 67,
+    //     totalOwnedHB: 34,
+    //     totalOwnedOM: 56
+    //   },
+    //   {
+    //     date: '12-11-2020',
+    //     amount: 10,
+    //     driveUpRate: 9,
+    //     customer: 2,
+    //     firstName: 'steve',
+    //     lastName: 'jobs',
+    //     hb: 10,
+    //     ms: 4,
+    //     om: 3,
+    //     total: 78,
+    //     washRate: 67,
+    //     totalOwnedHB: 34,
+    //     totalOwnedOM: 56
+    //   }
+    // ];
+    // this.ownedReportList.forEach(item => {
+    //   this.accountAmount = this.accountAmount + item.amount;
+    //   this.driveUpRate = this.driveUpRate + item.driveUpRate;
+    //   this.totalHB = this.totalHB + item.hb;
+    //   this.totalMS = this.totalMS + item.ms;
+    //   this.totalOM = this.totalOM + item.om;
+    //   this.total = this.total + item.total;
+    //   this.averageWashRate = this.averageWashRate + item.washRate;
+    //   this.totalOwnedHB = this.totalOwnedHB + item.totalOwnedHB;
+    //   this.totalOwnedOM = this.totalOwnedOM + item.totalOwnedOM;
+    // });
+
+    // console.log(this.month , this.year , 'year month');
+    const date = this.year + '-' + this.month;
+    this.reportsService.getMonthlyMoneyOwnedReport(date).subscribe( res => {
+      if (res.status === 'Success') {
+        const monthlyReport = JSON.parse(res.resultData);
+        console.log(monthlyReport, 'monthlyrEport');
       }
-    ];
-    this.ownedReportList.forEach(item => {
-      this.accountAmount = this.accountAmount + item.amount;
-      this.driveUpRate = this.driveUpRate + item.driveUpRate;
-      this.totalHB = this.totalHB + item.hb;
-      this.totalMS = this.totalMS + item.ms;
-      this.totalOM = this.totalOM + item.om;
-      this.total = this.total + item.total;
-      this.averageWashRate = this.averageWashRate + item.washRate;
-      this.totalOwnedHB = this.totalOwnedHB + item.totalOwnedHB;
-      this.totalOwnedOM = this.totalOwnedOM + item.totalOwnedOM;
     });
   }
+
+  onMonthChange(event) {
+    this.month = event;
+  }
+  onYearChange(event) {
+    this.year = event;
+  }
+  // onLocationChange(event) {
+  //   this.locationId = +event;
+  // }
 
   export() {
     const fileType = this.fileType !== '' ? this.fileType : '';

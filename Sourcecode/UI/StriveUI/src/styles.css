@@ -239,3 +239,7 @@ color-icon:hover {
 .ui-dialog-resizable .ui-dialog-content {
   overflow: visible !important;
 }
+.scroll {
+  height: 27.4vh;
+  overflow: scroll;
+}

@@ -1,1 +1,388 @@
-<p>eod works!</p>
+<div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+    <h3 class="d-inline-block">Reports - </h3>
+    <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
+
+        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
+            (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
+            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+            <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+    </div>
+</div>
+<div class="col-lg-12 p-l-0 p-r-0">
+    <div class="row no-gutter">
+        <div class="col-12">
+            <div class="row no-gutter">
+                <div class="col-lg-2">
+                    <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn theme-primary-button-color">Preview</button>
+                </div>
+            </div>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="row">
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <div class="d-inline-block align-middle">
+                                    <app-export-filetype></app-export-filetype>
+                                </div>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
+                                    printSectionId="Dailyreport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card m-t-10">
+                <div class="card-body">
+                    <div class="p-b-5 m-b-8">
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">EOD Tip Report </span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutter">
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Washes</span>
+                                </h4>
+                            </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Washes</th>
+                                                <th scope="col"> Total</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Ultra Mammoth Wash</td>
+                                                <td>10</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ultra Mammoth Wash</td>
+                                                <td>10</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ultra Mammoth Wash</td>
+                                                <td>10</td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot class="font-weight-700">
+                                            <tr>
+                                                <td class="text-right">Total </td>
+                                                <td>30.00 </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Wash Info</span>
+                                </h4>
+                            </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Washes </th>
+                                                <th scope="col">Amount</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Loreum Ipsum</td>
+                                                <td>10</td>
+                                                <td>00.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Loreum Ipsum</td>
+                                                <td>10</td>
+                                                <td>00.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Loreum Ipsum</td>
+                                                <td>10</td>
+                                                <td>00.00</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="font-weight-700">
+                                            <tr>
+                                                <td colspan="2" class="text-right">Total </td>
+                                                <td>00.00 </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Details</span>
+                                </h4>
+                            </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="w-100">Details</th>
+                                                <th scope="col"> Total</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Interior Details</td>
+                                                <td>10</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ceramic Coating</td>
+                                                <td>10</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Correct/seal</td>
+                                                <td>10</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="font-weight-700">
+                                            <tr>
+                                                <td class="text-right">Total </td>
+                                                <td>30.00 </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Detail Info</span>
+                                </h4>
+                            </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col"> Ticket</th>
+                                                <th scope="col"> Comm</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Loreum Ipsum</td>
+                                                <td>10</td>
+                                                <td>00.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Loreum Ipsum</td>
+                                                <td>10</td>
+                                                <td>00.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Loreum Ipsum</td>
+                                                <td>10</td>
+                                                <td>00.00</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="font-weight-700">
+                                            <tr>
+                                                <td colspan="2" class="text-right">Total Comm. </td>
+                                                <td>00.00 </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Coins</span>
+                                </h4>
+                            </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Washes</th>
+                                                <th scope="col"> Total</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Pennies</td>
+                                                <td>{{cashRegisterCoins?.Pennies | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nickels</td>
+                                                <td>{{cashRegisterCoins?.Nickels | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dimes</td>
+                                                <td>{{cashRegisterCoins?.Dimes | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Quarters</td>
+                                                <td>{{cashRegisterCoins?.Quarters | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>HalfDollars</td>
+                                                <td>{{cashRegisterCoins?.HalfDollars | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Bills</span>
+                                </h4>
+                            </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col"> Total</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1s</td>
+                                                <td>{{cashRegisterBills?.s1 | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5s</td>
+                                                <td>{{cashRegisterBills?.s5 | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10s</td>
+                                                <td>{{cashRegisterBills?.s10 | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>20s</td>
+                                                <td>{{cashRegisterBills?.s20 | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>50s</td>
+                                                <td>{{cashRegisterBills?.s50 | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>100s</td>
+                                                <td>{{cashRegisterBills?.s100 | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body">
+                            <div class="p-b-5 m-b-8">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Rolls</span>
+                                </h4>
+                            </div>
+                            <div class="collapse show row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col"> Total</th>
+                                            </tr>
+                                            <tr> </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Pennies</td>
+                                                <td>{{cashRegisterRolls?.Pennies | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nickels</td>
+                                                <td>{{cashRegisterRolls?.Nickels | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dimes</td>
+                                                <td>{{cashRegisterRolls?.Dimes | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Quarters</td>
+                                                <td>{{cashRegisterRolls?.Quarters | currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>HalfDollars</td>
+                                                <td>{{cashRegisterRolls?.HalfDollars | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

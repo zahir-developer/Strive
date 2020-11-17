@@ -22,18 +22,24 @@ export class WashesListComponent implements OnInit {
   pageSize = 5;
   collectionSize: number = 0;
   dashboardDetails: any;
+  locationId = +localStorage.getItem('empLocationId');
   constructor(private washes: WashService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
 
   ngOnInit() {
-    this.washes.getDashBoard();
+
+    const obj = {
+      id: this.locationId,
+      date: new Date()
+    };
+    this.washes.getDashBoard(obj);
     this.getAllWashDetails();
   }
   
 
   // Get All Washes
   getAllWashDetails() {
-    this.washes.getAllWashes().subscribe(data => {
+    this.washes.getAllWashes(this.locationId).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.washDetails = wash.Washes;
@@ -78,7 +84,11 @@ export class WashesListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.washes.getDashBoard();
+      const obj = {
+        id: this.locationId,
+        date: new Date()
+      };
+      this.washes.getDashBoard(obj);
       this.getAllWashDetails();
     }
     this.showDialog = event.isOpenPopup;

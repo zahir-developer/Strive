@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.PersonalDetails;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Strive.Core.Utils.Employee
     {
         public static int EmployeeID { get; set; }
         public static string MessengerTabHeader { get; set; }
+        public static PersonalDetails EmployeePersonalDetails { get; set; }
     }
     public static class MessengerTempData
     {
