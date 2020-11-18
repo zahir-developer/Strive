@@ -49,6 +49,7 @@ namespace Strive.Core.Utils.Employee
             SelectedParticipants = null;
             ExistingParticipants = null;
             ChatParticipants = null;
+            IsCreateGroup = false;
         }
 
         #endregion Commands

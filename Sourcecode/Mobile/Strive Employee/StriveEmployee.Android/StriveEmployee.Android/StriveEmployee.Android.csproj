@@ -78,6 +78,7 @@
     <Compile Include="Fragments\MessengerPersonalChatFragment.cs" />
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
     <Compile Include="Fragments\MessengerViewParticipantsFragment.cs" />
+    <Compile Include="Fragments\MyProfile\Collisions\CollisionsFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditEmployeeDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditPersonalDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EmployeeInfoFragment.cs" />
@@ -665,6 +666,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MessengerViewParticiapantsItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Collisions_Fragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
