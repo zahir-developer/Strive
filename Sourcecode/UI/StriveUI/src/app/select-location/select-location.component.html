@@ -1,0 +1,26 @@
+<section id="login"><!--Login-->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 web-display"> </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 d-flex vh-100 login-panel theme-wrapper-color">
+          <div class="login-panel-container my-auto w-100">
+            <div class="login-form">
+              <h1 class="form-title p-b-20 msg-title"> Welcome, {{empName}} </h1>
+                <div class="form-group">
+                  <label for="location">Select Location</label>
+                  <select  class="form-control" [(ngModel)]="locationId" [ngModelOptions]="{standalone: true}" >
+                    <option value =''selected hidden>Select</option>
+                    <option *ngFor="let location of location" value="{{location.LocationId}}">
+                        {{location.LocationName}}</option>
+                </select>
+                </div>
+               
+                <div class="form-group">
+                  <button type="submit" class="btn theme-primary-button-color w-100 btn-sm" (click)="proceed()">Proceed</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
