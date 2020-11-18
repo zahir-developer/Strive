@@ -39,16 +39,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="1">
         <TextView
             android:id="@+id/personalContactName_TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.95"    
             android:layout_marginLeft="@dimen/twenty"
             android:layout_marginTop="@dimen/ten"
             android:textSize="@dimen/textSixteen"
             android:textColor="@color/profileQColor"
             android:fontFamily="@font/opensans_bold" />
+        <ImageButton
+            android:id="@+id/chatMenu_ImageButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.02"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_gravity="center"
+            android:src="@drawable/dotsThree"
+            android:background="@color/mtrl_btn_transparent_bg_color"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

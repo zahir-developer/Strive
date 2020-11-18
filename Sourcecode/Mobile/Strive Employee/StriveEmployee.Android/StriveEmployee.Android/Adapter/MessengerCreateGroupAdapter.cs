@@ -22,12 +22,14 @@ namespace StriveEmployee.Android.Adapter
         public Button createGroup_Button;
         public CheckBox createGroup_CheckBox;
         public TextView createGroupName_TextView;
+        public LinearLayout createGroupEntry_LinearLayout;
         public IItemClickListener itemClickListener;
         public MessengerCreateGroupRecycleHolder(View entry) : base(entry)
         {
             createGroup_Button = entry.FindViewById<Button>(Resource.Id.createGroup_ImageView); 
             createGroup_CheckBox = entry.FindViewById<CheckBox>(Resource.Id.createGroup_Checkbox);
             createGroupName_TextView = entry.FindViewById<TextView>(Resource.Id.createGroupName_TextView);
+            createGroupEntry_LinearLayout = entry.FindViewById<LinearLayout>(Resource.Id.createGroupEntry_LinearLayout);
         }
     }
 
@@ -56,6 +58,8 @@ namespace StriveEmployee.Android.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             messengerCreateGroup = holder as MessengerCreateGroupRecycleHolder;
+
+
             if (!String.IsNullOrEmpty(contacts[position].FirstName))
             {
                 firstInitial = contacts[position].FirstName.ToCharArray();
@@ -70,12 +74,12 @@ namespace StriveEmployee.Android.Adapter
                 messengerCreateGroup.createGroupName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
                 messengerCreateGroup.createGroup_CheckBox.Visibility = ViewStates.Gone;
             }
+
             messengerCreateGroup.ItemView.Tag = position;
             if(!MessengerTempData.ChatParticipants.ContainsKey(contacts[position].EmployeeId))
             {
                 MessengerTempData.ChatParticipants.Add(contacts[position].EmployeeId, position);
             }
-            
             messengerCreateGroup.ItemView.SetOnClickListener(this);
             
         }

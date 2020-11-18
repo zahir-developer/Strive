@@ -44,6 +44,14 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<GroupChatResponse>(ApiUtils.URL_MESSENGER_CREATE_GROUP_CHAT, HttpMethod.Post, groupInfo);
         }
 
+        public async Task<Models.Employee.Messenger.EmployeeLists> GetParticipants(int groupID)
+        {
+            return await _restClient.MakeApiCall<Models.Employee.Messenger.EmployeeLists>(string.Format(ApiUtils.URL_GET_GROUP_PARTICIPANTS, groupID), HttpMethod.Get);
+        }
 
+        public async Task<ChatGroupUserDeleted> DeleteGroupUser(int? GroupUserId)
+        {
+            return await _restClient.MakeApiCall<ChatGroupUserDeleted>(string.Format(ApiUtils.URL_GROUP_PARTICIPANT_DELETE, GroupUserId), HttpMethod.Delete);
+        }
     }
 }

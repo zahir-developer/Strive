@@ -15,8 +15,10 @@ namespace Strive.Core.Services.Interfaces
     {
         Task<EmployeeLists> GetRecentContacts(int employeeId);
         Task<employeeLists> GetContacts(string contactName);
+        Task<EmployeeLists> GetParticipants(int GroupID);
         Task<PersonalChatMessages> GetPersonalChatMessages(ChatDataRequest chatData);
         Task<PostResponseBool> SendChatMessage(SendChatMessage chatMessage);
         Task<GroupChatResponse> CreateChatGroup(CreateGroupChat groupInfo);
+        Task<ChatGroupUserDeleted> DeleteGroupUser(int? GroupUserId);
     }
 }
