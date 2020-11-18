@@ -33,8 +33,13 @@ namespace Strive.Core.ViewModels.Employee
                 EmployeeLists = contactList;
                 MessengerTempData.EmployeeLists = contactList;
                 MessengerTempData.ChatParticipants = new Dictionary<int, int>();
-                MessengerTempData.SelectedParticipants = new EmployeeLists();
-                MessengerTempData.SelectedParticipants.EmployeeList = new List<EmployeeList>();
+
+                if (MessengerTempData.SelectedParticipants == null)
+                {
+                    MessengerTempData.SelectedParticipants = new EmployeeLists();
+                    MessengerTempData.SelectedParticipants.EmployeeList = new List<EmployeeList>();
+                }
+               
             }
         }
 

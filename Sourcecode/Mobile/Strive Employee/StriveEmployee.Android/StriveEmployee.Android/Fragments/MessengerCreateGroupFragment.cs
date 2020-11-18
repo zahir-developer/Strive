@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
 
@@ -24,6 +25,7 @@ namespace StriveEmployee.Android.Fragments
         private RecyclerView createGroup_RecyclerView;
         private MessengerCreateGroupAdapter messengerCreateGroup_Adapter;
         private MessengerFinalizeGroupFragment FinalizeGroup_Fragment;
+        private MvxFragment selected_MvxFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -49,16 +51,50 @@ namespace StriveEmployee.Android.Fragments
 
         private void Next_Button_Click(object sender, EventArgs e)
         {
-            FinalizeGroup_Fragment = new MessengerFinalizeGroupFragment();
-            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, FinalizeGroup_Fragment).Commit();
+            if(!MessengerTempData.IsCreateGroup)
+            {
+                selected_MvxFragment = new MessengerViewParticipantsFragment();
+            }
+
+            else
+            {
+                selected_MvxFragment = new MessengerFinalizeGroupFragment();
+            }
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
 
         private async void selectGroupChatEntry()
         {
             await ViewModel.GetContactsList();
+           
             if(ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
             {
-                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
+                if (MessengerTempData.ExistingParticipants != null)
+                {
+                    MessengerTempData.IsCreateGroup = false;
+                    if(MessengerTempData.SelectedParticipants == null)
+                    {
+                        MessengerTempData.SelectedParticipants = new Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeLists();
+                        MessengerTempData.SelectedParticipants.EmployeeList = new List<Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList>();
+                    }                 
+                    foreach (var data in MessengerTempData.ExistingParticipants.ChatEmployeeList)
+                    {
+                        var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.Id);
+                        ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+                    }
+                    foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
+                    {
+                        var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.EmployeeId);
+                        ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+                    }
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
+                }
+                else
+                {
+                    MessengerTempData.IsCreateGroup = true;
+                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
+                }
+                
                 var layoutManager = new LinearLayoutManager(Context);
                 createGroup_RecyclerView.SetLayoutManager(layoutManager);
                 createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);

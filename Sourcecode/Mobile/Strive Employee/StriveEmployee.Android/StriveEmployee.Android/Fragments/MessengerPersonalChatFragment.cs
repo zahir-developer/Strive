@@ -19,6 +19,7 @@ using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
 using static Android.Views.View;
+using PopupMenu = Android.Widget.PopupMenu;
 
 namespace StriveEmployee.Android.Fragments
 {
@@ -28,9 +29,14 @@ namespace StriveEmployee.Android.Fragments
         private Button personalChat_Button;
         private EditText chatMessage_EditText;
         private ImageButton sendChat_Button;
+        private ImageButton chatMenu_ImageButton;
         private TextView personalContactName_TextView;
+        private PopupMenu chat_PopupMenu;
+        private IMenu chat_Menu;
         private RecyclerView chatMessage_RecyclerView;
         private MessengerChatAdapter messengerChat_Adapter;
+        private MvxFragment selected_MvxFragment;
+        private MessengerViewParticipantsFragment viewParticipants_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -45,14 +51,40 @@ namespace StriveEmployee.Android.Fragments
          
             personalChat_Button = rootView.FindViewById<Button>(Resource.Id.personalChatBack_Button);
             sendChat_Button = rootView.FindViewById<ImageButton>(Resource.Id.chatSend_ImageButton);
+            chatMenu_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.chatMenu_ImageButton);
             personalContactName_TextView = rootView.FindViewById<TextView>(Resource.Id.personalContactName_TextView);
             chatMessage_EditText = rootView.FindViewById<EditText>(Resource.Id.chatMessage_EditText);
             chatMessage_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.message_recyclerview);
-            personalContactName_TextView.Text = MessengerTempData.RecipientName;
+            personalContactName_TextView.Text = MessengerTempData.IsGroup ? MessengerTempData.GroupName : MessengerTempData.RecipientName;
             personalChat_Button.Click += PersonalChat_Button_Click;
             sendChat_Button.Click += SendChat_Button_Click;
+            chatMenu_ImageButton.Click += ChatMenu_ImageButton_Click;
+            chat_PopupMenu = new PopupMenu(Context, chatMenu_ImageButton);
+            chat_Menu = chat_PopupMenu.Menu;
+            chat_PopupMenu.MenuInflater.Inflate(Resource.Menu.chat_menu, chat_Menu);
+            chat_PopupMenu.MenuItemClick += Chat_PopupMenu_MenuItemClick;
+            chatMenu_ImageButton.Visibility = MessengerTempData.IsGroup ? ViewStates.Visible : ViewStates.Gone;
             getChatData();
             return rootView;
+        }
+
+        private void Chat_PopupMenu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+            switch (e.Item.ItemId)
+            {
+                case Resource.Id.menu_viewParticipants:
+                    selected_MvxFragment = new MessengerViewParticipantsFragment();
+                    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+                    break;
+
+
+            }
+
+        }
+
+        private void ChatMenu_ImageButton_Click(object sender, EventArgs e)
+        {
+            chat_PopupMenu.Show();
         }
 
         private async void SendChat_Button_Click(object sender, EventArgs e)
@@ -104,7 +136,7 @@ namespace StriveEmployee.Android.Fragments
         {
             ChatDataRequest chatData = new ChatDataRequest
             {
-                SenderId = EmployeeTempData.EmployeeID,
+                SenderId = MessengerTempData.IsGroup ? 0 : EmployeeTempData.EmployeeID,
                 RecipientId = MessengerTempData.RecipientID,
                 GroupId = MessengerTempData.GroupID
             };
