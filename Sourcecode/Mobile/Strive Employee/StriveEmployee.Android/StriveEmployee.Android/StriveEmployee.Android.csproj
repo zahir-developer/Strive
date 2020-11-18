@@ -68,6 +68,7 @@
     <Compile Include="Adapter\MessengerGroupChatAdapter.cs" />
     <Compile Include="Adapter\MessengerRecentContactsAdapter.cs" />
     <Compile Include="Adapter\MessengerViewParticipantsAdapter.cs" />
+    <Compile Include="Adapter\MyProfile\Collision\CollisionAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Enums\MessageType_Enum.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
@@ -682,6 +683,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Documents_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\circular_ImageView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
