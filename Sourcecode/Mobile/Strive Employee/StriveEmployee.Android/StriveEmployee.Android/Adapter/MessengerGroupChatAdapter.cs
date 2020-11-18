@@ -75,6 +75,8 @@ namespace StriveEmployee.Android.Adapter
         {
             MessengerTempData.resetChatData();
             MessengerTempData.GroupID = MessengerTempData.GroupLists.ChatEmployeeList[position].ChatGroupId;
+            MessengerTempData.GroupUniqueID = MessengerTempData.GroupLists.ChatEmployeeList[position].GroupId;
+            MessengerTempData.GroupName = MessengerTempData.GroupLists.ChatEmployeeList[position].FirstName;
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();
