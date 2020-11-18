@@ -16,8 +16,7 @@
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2">
-                    <button type="button" class="btn theme-primary-button-color"
-                        (click)="preview()">Preview</button>
+                    <button type="button" class="btn theme-primary-button-color" (click)="preview()">Preview</button>
                 </div>
             </div>
             <div class="card m-t-10">
@@ -49,7 +48,8 @@
                         <div class="card-body">
                             <div class="p-b-5 m-b-8">
                                 <h4 class="d-inline-block align-middle"><span class="resp-title">Washes</span>
-                                </h4> </div>
+                                </h4>
+                            </div>
                             <div class="collapse show row">
                                 <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
@@ -62,8 +62,9 @@
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let wash of washes">
-                                                <td class="pointer" title= "{{wash?.ServiceName}}">
-                                                    {{wash?.ServiceName | slice:0:15}} {{(wash?.ServiceName!== null) ?wash?.ServiceName.length <= 15 ? '': '...':''}}
+                                                <td class="pointer" title="{{wash?.ServiceName}}">
+                                                    {{wash?.ServiceName | slice:0:15}}
+                                                    {{(wash?.ServiceName!== null) ?wash?.ServiceName.length <= 15 ? '': '...':''}}
                                                 </td>
                                                 <td>{{wash?.Number}}</td>
                                             </tr>
@@ -91,7 +92,8 @@
                         <div class="card-body">
                             <div class="p-b-5 m-b-8">
                                 <h4 class="d-inline-block align-middle"><span class="resp-title">Wash Info</span>
-                                </h4> </div>
+                                </h4>
+                            </div>
                             <div class="collapse show row">
                                 <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
@@ -105,9 +107,10 @@
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
-                                                <td class="pointer" title= "{{detailInfo?.ServiceName}}">
-                                                    {{detailInfo?.ServiceName | slice:0:15}} {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
-                                                    </td>
+                                                <td class="pointer" title="{{detailInfo?.ServiceName}}">
+                                                    {{detailInfo?.ServiceName | slice:0:15}}
+                                                    {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                                </td>
                                                 <td>{{detailInfo?.TicketNumber}}</td>
                                                 <td>{{detailInfo?.Commision}}</td>
                                             </tr>
@@ -134,7 +137,8 @@
                         <div class="card-body">
                             <div class="p-b-5 m-b-8">
                                 <h4 class="d-inline-block align-middle"><span class="resp-title">Details</span>
-                                </h4> </div>
+                                </h4>
+                            </div>
                             <div class="collapse show row">
                                 <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
@@ -147,9 +151,10 @@
                                         </thead>
                                         <tbody class="body-half-screen">
                                             <tr *ngFor="let detail of details">
-                                                <td class="pointer" title= "{{detail?.ServiceName}}">
-                                                    {{detail?.ServiceName | slice:0:15}} {{(detail?.ServiceName!== null) ?detail?.ServiceName.length <= 15 ? '': '...':''}}
-                                                    </td>
+                                                <td class="pointer" title="{{detail?.ServiceName}}">
+                                                    {{detail?.ServiceName | slice:0:15}}
+                                                    {{(detail?.ServiceName!== null) ?detail?.ServiceName.length <= 15 ? '': '...':''}}
+                                                </td>
                                                 <td>{{detail?.Number}}</td>
                                             </tr>
                                         </tbody>
@@ -169,13 +174,14 @@
                         <!-- end card-body -->
                     </div>
                 </div>
-<div class="col-lg-3">
+                <div class="col-lg-3">
                     <!-- end card-->
                     <div class="card m-t-10">
                         <div class="card-body">
                             <div class="p-b-5 m-b-8">
                                 <h4 class="d-inline-block align-middle"><span class="resp-title">Detail Info</span>
-                                </h4> </div>
+                                </h4>
+                            </div>
                             <div class="collapse show row">
                                 <div class="table-responsive scroll">
                                     <table class="table table-striped m-b-0">
@@ -189,9 +195,10 @@
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
-                                                <td class="pointer" title= "{{detailInfo?.ServiceName}}">
-                                                    {{detailInfo?.ServiceName | slice:0:15}} {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
-                                                    </td>
+                                                <td class="pointer" title="{{detailInfo?.ServiceName}}">
+                                                    {{detailInfo?.ServiceName | slice:0:15}}
+                                                    {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                                </td>
                                                 <td>{{detailInfo?.TicketNumber}}</td>
                                                 <td>{{detailInfo?.Commision}}</td>
                                             </tr>
@@ -214,47 +221,48 @@
                 </div>
             </div>
 
-            
-            
+
+
             <div class="card m-t-10">
                 <div class="card-body">
                     <div class="p-b-5 m-b-8">
-                        <h4 class="d-inline-block align-middle"><span class="resp-title">Employee List with Time Clock</span>
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Employee List with Time
+                                Clock</span>
                         </h4>
                     </div>
-                    
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Employee Name </th>
-                                        <th scope="col">Total Hours </th>
-                                        <th scope="col"> Rate </th>
-                                        <th scope="col">Total Amount</th>
-                                        <th scope="col">In</th>
-                                        <th scope="col">Out</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col">In</th>
-                                        <th scope="col">Out</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col">In</th>
-                                        <th scope="col">Out</th>
-                                        <th scope="col">Role</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let clock of clockDetail">
-                                        <td class="pointer">
-                                            {{clock?.EmployeeName}}
-                                            </td>
-                                        <td>{{clock?.TicketNumber}}</td>
-                                        <td>{{clock?.HoursPerDay}}</td>
-                                        <td></td>
-                                        <td>{{clock?.InTime | date: 'MM/dd/yyyy'}}</td>
-                                        <td>{{clock?.OutTime | date: 'MM/dd/yyyy'}}</td>
-                                    </tr>
 
-                                    <!-- <tr>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Employee Name </th>
+                                    <th scope="col">Total Hours </th>
+                                    <th scope="col"> Rate </th>
+                                    <th scope="col">Total Amount</th>
+                                    <th scope="col">In</th>
+                                    <th scope="col">Out</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">In</th>
+                                    <th scope="col">Out</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">In</th>
+                                    <th scope="col">Out</th>
+                                    <th scope="col">Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let clock of clockDetail">
+                                    <td class="pointer">
+                                        {{clock?.EmployeeName}}
+                                    </td>
+                                    <td>{{clock?.TicketNumber}}</td>
+                                    <td>{{clock?.HoursPerDay}}</td>
+                                    <td></td>
+                                    <td>{{clock?.InTime | date: 'MM/dd/yyyy'}}</td>
+                                    <td>{{clock?.OutTime | date: 'MM/dd/yyyy'}}</td>
+                                </tr>
+
+                                <!-- <tr>
                                         <th scope="row">Wilford Franecki</th>
                                         <td>7.62</td>
                                         <td>
@@ -289,13 +297,13 @@
                                             Washer
                                         </td>
                                     </tr> -->
-                                </tbody>
-                            </table>
-                        </div>
-                
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
                 <!-- end card-body -->
             </div>
-            </div>
         </div>
     </div>
+</div>

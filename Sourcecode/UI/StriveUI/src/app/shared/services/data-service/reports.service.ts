@@ -44,4 +44,10 @@ export class ReportsService {
   getMonthlyMoneyOwnedReport(date) {
     return this.http.get(`${UrlConfig.reports.getMonthlyMoneyOwnedReport}` + date );
   }
+  getEodSaleReport(obj) {
+    return this.http.post(`${UrlConfig.reports.getEodSaleReport}`, obj);
+  }
+  getTimeClockEmpHoursDetail(obj) {
+    return this.http.post(`${UrlConfig.reports.getTimeClockEmpHoursDetail}`, obj);
+  }
 }
