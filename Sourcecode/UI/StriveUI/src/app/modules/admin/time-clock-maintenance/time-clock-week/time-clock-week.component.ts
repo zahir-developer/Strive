@@ -230,14 +230,26 @@ export class TimeClockWeekComponent implements OnInit {
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
+        const inEventDate = new Date(time.EventDate);
+        const outEventDate = new Date(time.EventDate);
+        const inTime = this.datePipe.transform(time.InTime, 'HH:mm').split(':');
+        const outTime = this.datePipe.transform(time.OutTime, 'HH:mm').split(':');
+        const inTimeHours = +inTime[0];
+        const inTimeMins = +inTime[1];
+        const outTimeHours = +outTime[0];
+        const outTimeMins = +outTime[1];
+        inEventDate.setHours(inTimeHours);
+        inEventDate.setMinutes(inTimeMins);
+        outEventDate.setHours(outTimeHours);
+        outEventDate.setMinutes(outTimeMins);
         weekDetailObj.push({
           timeClockId: time.TimeClockId,
           employeeId: time.employeeId,
           locationId: time.locationId,
           roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
           eventDate: time.EventDate,
-          inTime: this.datePipe.transform(time.InTime, 'HH:mm'),
-          outTime: this.datePipe.transform(time.OutTime, 'HH:mm'),
+          inTime: moment(inEventDate).format(),  // this.datePipe.transform(time.InTime, 'HH:mm'),
+          outTime: moment(outEventDate).format(), // this.datePipe.transform(time.OutTime, 'HH:mm'),
           eventType: 1,
           updatedFrom: 'string',
           status: true,

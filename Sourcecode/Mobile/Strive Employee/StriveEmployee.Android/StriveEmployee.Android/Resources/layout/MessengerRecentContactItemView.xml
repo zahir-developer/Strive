@@ -17,6 +17,8 @@
             android:layout_marginTop = "@dimen/five"
             android:layout_marginBottom = "@dimen/five"
             android:layout_marginLeft = "@dimen/ten"
+            android:textColor="@color/profileQColor"
+            android:fontFamily="@font/opensans_semibold"
             android:background="@drawable/profileavatar_button"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,13 +37,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/ten"
                     android:layout_weight="0.7"
-                    android:fontFamily="@font/opensans_bold"/>
+                    android:textColor="@color/profileQColor"
+                    android:fontFamily="@font/opensans_semibold"/>
                  <TextView
                     android:id="@+id/recentContactMessageTime_TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five"
                     android:layout_weight="0.3"
+                    android:textColor="@color/AvatarTextColor"
                     android:fontFamily="@font/opensans_regular"/>
              </LinearLayout>
             <TextView
@@ -49,7 +53,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:layout_marginLeft="@dimen/ten"/>
+                android:textColor="@color/AvatarTextColor"
+                android:layout_marginLeft="@dimen/ten"
+                android:fontFamily="@font/opensans_regular"/>
         </LinearLayout>
     </LinearLayout>
     <View

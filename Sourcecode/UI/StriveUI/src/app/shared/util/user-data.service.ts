@@ -20,7 +20,11 @@ export class UserDataService {
     const token = JSON.parse(loginToken);
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
-    localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
+    if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
+      localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
+    } else {
+      localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
+    }
     this.setHeaderName(token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
     token.EmployeeDetails?.EmployeeLogin?.LastName);
     this.getUnreadMessage(token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
@@ -41,8 +45,8 @@ export class UserDataService {
     this.http.get(`${UrlConfig.Messenger.getUnReadMessageCount}` + id).subscribe( res => {
       const unReadCount = JSON.parse(res.resultData);
       console.log(unReadCount, 'unread');
-      if (unReadCount.UnreadMessage.getUnReadMessageCountViewModels !== null) {
-        this.unReadMessage.next(unReadCount.UnreadMessage.getUnReadMessageCountViewModels);
+      if (unReadCount?.UnreadMessage.getUnReadMessageCountViewModels !== null) {
+        this.unReadMessage.next(unReadCount?.UnreadMessage.getUnReadMessageCountViewModels);
       }
     });
   }

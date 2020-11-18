@@ -11,12 +11,9 @@ export class WashService {
   dashBoardData: any;
 
   constructor(private http: HttpUtilsService) {
-    setTimeout(() => {
-      this.getDashBoard();
-    }, 1000);
   }
-  getAllWashes(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getAllWash}`);
+  getAllWashes(locationId): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getAllWash}` + locationId);
   }
   updateWashes(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateWash}`, obj);
@@ -68,11 +65,8 @@ export class WashService {
   }
 
   // Get Dashboard Count
-  getDashBoard() {
-    const obj = {
-      id: localStorage.getItem('empLocationId'),
-      date: new Date()
-    };
+  getDashBoard(obj) {
+    
     this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj).subscribe((data: any) => {
       const wash = JSON.parse(data.resultData);
       this.dashBoardData = wash.Dashboard;

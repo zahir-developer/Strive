@@ -1,15 +1,15 @@
 <div id="print-header">
     <div class="row m-b-5">
         <div class="col-6">
-            <div>In: &nbsp; {{selectedData.Details.TimeIn | date : 'MM/dd/yyyy, hh:mm a'}}</div>
+            <div>In: &nbsp; {{selectedData?.Details?.TimeIn | date : 'MM/dd/yyyy, hh:mm a'}}</div>
         </div>
         <div class="col-6">
-            <div class="float-right">{{selectedData.Details.Barcode}}</div>
+            <div class="float-right">{{selectedData?.Details?.Barcode}}</div>
         </div>
     </div>
     <div class="row m-b-5">
         <div class="col-6">
-            <div><strong>Out: &nbsp; {{selectedData.Details.EstimatedTimeOut | date: 'hh:mm a'}}</strong></div>
+            <div><strong>Out: &nbsp; {{selectedData?.Details?.EstimatedTimeOut | date: 'hh:mm a'}}</strong></div>
         </div>
         <div class="col-6">
             <!-- <div>{{selectedData.Details.TimeIn}}</div> -->
@@ -17,7 +17,7 @@
     </div>
     <div class="row m-b-5 ">
         <div class="col-6">
-            <div>Client: &nbsp;{{selectedData.Details.ClientName}}</div>
+            <div>Client: &nbsp;{{selectedData?.Details?.ClientName}}</div>
         </div>
         <div class="col-6">
             <div class="float-right">
@@ -27,9 +27,9 @@
     </div>
     <div class="row border-bottom m-b-5">
         <!-- <div class="col-12"> -->
-        <div class="col-4">Vehicle: &nbsp;{{selectedData.Details.vehicleModel}}</div>
-        <div class="col-4 text-center">{{selectedData.Details.vehicleMake}}</div>
-        <div class="col-4 text-right">{{selectedData.Details.vehicleColor}}</div>
+        <div class="col-4">Vehicle: &nbsp;{{selectedData?.Details?.vehicleModel}}</div>
+        <div class="col-4 text-center">{{selectedData?.Details?.vehicleMake}}</div>
+        <div class="col-4 text-right">{{selectedData?.Details?.vehicleColor}}</div>
         <!-- </div> -->
     </div>
 </div>
@@ -39,7 +39,7 @@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="defaultCheck_{{index}}">
                 <label class="form-check-label" for="defaultCheck_{{index}}">
-                    {{addService.ServiceName}}
+                    {{addService?.ServiceName}}
                 </label>
             </div>
         </div>
@@ -48,7 +48,7 @@
 <div id="print-footer">
     <div class="row">
         <div class="col-sm-12">
-            <div>Note: {{selectedData.Details.Notes}}</div>
+            <div>Note: {{selectedData?.Details?.Notes}}</div>
         </div>
     </div>
 </div>

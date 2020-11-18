@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -8,7 +8,8 @@ import * as _ from 'underscore';
 @Component({
   selector: 'app-vehicle-create-edit',
   templateUrl: './vehicle-create-edit.component.html',
-  styleUrls: ['./vehicle-create-edit.component.css']
+  styleUrls: ['./vehicle-create-edit.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VehicleCreateEditComponent implements OnInit {
   vehicleForm: FormGroup;
@@ -76,7 +77,8 @@ export class VehicleCreateEditComponent implements OnInit {
       color: this.selectedData.ColorId,
       upchargeType: this.selectedData.Upcharge,
       upcharge: this.selectedData.Upcharge,
-      monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2)
+      monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2),
+      membership: ''
     });
   }
 
@@ -322,7 +324,7 @@ export class VehicleCreateEditComponent implements OnInit {
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
         clientId: this.selectedData.ClientId,
-        locationId: 1,
+        locationId: localStorage.getItem('empLocationId'),
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
         vehicleMfr: this.vehicleForm.value.make,
         vehicleModel: this.vehicleForm.value.model,
@@ -344,7 +346,7 @@ export class VehicleCreateEditComponent implements OnInit {
         clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
         // clientMembershipId: this.,
         clientVehicleId: this.selectedData.ClientVehicleId,
-        locationId: 1,
+        locationId: localStorage.getItem('empLocationId'),
         membershipId: this.vehicleForm.value.membership,
         startDate: new Date().toLocaleDateString(),
         endDate: new Date((new Date()).setDate((new Date).getDate() + 30)).toLocaleDateString(),
@@ -355,27 +357,31 @@ export class VehicleCreateEditComponent implements OnInit {
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
-        updatedDate: new Date()
+        updatedDate: new Date(),
+        totalPrice: this.vehicleForm.value.monthlyCharge
       };
       let membershipServices = [];
-      membershipServices = memberService.map(item => {
-        return {
-          clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
-          clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
-          serviceId: item.ServiceId ? item.ServiceId : item.item_id,
-          isActive: true,
-          isDeleted: item.IsDeleted,
-          createdBy: 1,
-          createdDate: new Date(),
-          updatedBy: 1,
-          updatedDate: new Date()
-        };
-      });
+      if (memberService !== undefined && memberService.length) {
+        membershipServices = memberService.map(item => {
+          return {
+            clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
+            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+            serviceId: item.ServiceId ? item.ServiceId : item.item_id,
+            isActive: true,
+            isDeleted: item.IsDeleted,
+            createdBy: 1,
+            createdDate: new Date(),
+            updatedBy: 1,
+            updatedDate: new Date()
+          };
+        });
+      }
+      
 
 
       const model = {
-        clientVehicleMembershipDetails: membership,
-        clientVehicleMembershipService: membershipServices
+        clientVehicleMembershipDetails: membership.membershipId !== '' ? membership : null,
+        clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
         clientVehicle: { clientVehicle: formObj },
@@ -393,7 +399,7 @@ export class VehicleCreateEditComponent implements OnInit {
       const add = {
         VehicleId: 0,
         ClientId: this.clientId,
-        LocationId: 1,
+        LocationId: localStorage.getItem('empLocationId'),
         VehicleNumber: this.vehicleForm.value.vehicleNumber,
         VehicleMfr: Number(this.vehicleForm.value.make),
         VehicleModel: Number(this.vehicleForm.value.model),

@@ -5,10 +5,12 @@ import { SignupComponent } from './signup/signup.component';
 import { HelpsComponent } from './helps/helps.component';
 import { AuthGuard } from './shared/guards/auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { SelectLocationComponent } from './select-location/select-location.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { label: 'forgot-password', title: 'forgot-password' } },
+  { path: 'location', component: SelectLocationComponent, data: { label: 'select-location', title: 'select-location' } },
   { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
   { path: 'helps', component: HelpsComponent },
   { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
@@ -24,6 +26,7 @@ const routes: Routes = [
   import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)},
   { path: 'payrolls', loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
   {path: 'messenger', loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
+  {path: 'reports', loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)},
   {
     path: '',
     redirectTo: '',

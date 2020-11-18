@@ -13,6 +13,8 @@ namespace Strive.BusinessEntities.DTO.Messenger
 
         public ChatMessageRecipient ChatMessageRecipient { get; set; }
 
+        public List<ChatGroupRecipient> ChatGroupRecipient { get; set; }
+
         public string ConnectionId { get; set; }
 
         public string FullName { get; set; }
@@ -20,5 +22,10 @@ namespace Strive.BusinessEntities.DTO.Messenger
         public string GroupId { get; set; }
 
         public string GroupName { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
     }
 }

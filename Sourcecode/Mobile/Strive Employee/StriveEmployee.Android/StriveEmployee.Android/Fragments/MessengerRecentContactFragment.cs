@@ -52,17 +52,4 @@ namespace StriveEmployee.Android.Fragments
             }
         }
     }
-
-    
-    public class RecentContactsSampleData
-    { 
-    
-     public string ContactName { get; set; }
-
-     public string LastMessage { get; set; }
-
-        public string MessageTime { get; set; }
-
-    }
-
 }

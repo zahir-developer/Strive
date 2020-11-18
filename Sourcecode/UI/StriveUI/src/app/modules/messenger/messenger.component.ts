@@ -9,6 +9,7 @@ import { MessengerEmployeeSearchComponent } from './messenger-employee-search/me
 import { MessengerEmployeeListComponent } from './messenger-employee-list/messenger-employee-list.component';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any;
 @Component({
@@ -49,7 +50,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   groupEmpList: any;
   selectedChatId: number;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient,
-    private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+    private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
 
 
@@ -61,7 +62,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.signalRService.ReceivedMsg.subscribe(data => {
       this.selectedChatId = this.selectedEmployee?.Id;
       if (data !== null && this.selectedEmployee !== null) {
-        if (this.selectedChatId === data?.chatMessageRecipient?.Id) {
+        if (this.selectedChatId === data?.chatMessageRecipient?.senderId) {
           const receivedMsg = {
             SenderId: 0,
             SenderFirstName: this.selectedEmployee.FirstName,
@@ -87,8 +88,8 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         if (this.selectedChatId === data?.chatMessageRecipient?.recipientGroupId && this.employeeId !== data.chatMessageRecipient.senderId) {
           const receivedMsg = {
             SenderId: 0,
-            SenderFirstName: this.selectedEmployee.FirstName,
-            SenderLastName: this.selectedEmployee.LastName,
+            SenderFirstName: data.firstName,
+            SenderLastName: data.lastName,
             ReceipientId: data.chatMessageRecipient.senderId,
             RecipientFirstName: '',
             RecipientLastName: '',
@@ -144,6 +145,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
 
   LoadMessageChat(employeeObj) {
+    this.spinner.show();
     this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
     this.isGroupChat = employeeObj.IsGroup;
@@ -165,9 +167,20 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         const msgData = JSON.parse(data.resultData);
         this.msgList = msgData.ChatMessage.ChatMessageDetail !== null ? msgData.ChatMessage.ChatMessageDetail : [];
         this.scrollToBottom();
+        this.spinner.hide();
+        if (!this.selectedEmployee.IsGroup) {
+          const chatDetail =
+          {
+            senderId: !this.isGroupChat ? this.employeeId : 0,
+            recipientId: !this.isGroupChat ? this.selectedEmployee.Id : this.employeeId,
+            groupId: this.isGroupChat ? this.groupChatId : null
+          }
+          this.changeUnreadMessageState(chatDetail);
+        }
       }
-      else{
-        this.toastrService.error('Communication Error','Error getting chat messages!');
+      else {
+        this.spinner.hide();
+        this.toastrService.error('Communication Error', 'Error getting chat messages!');
       }
     });
 
@@ -201,24 +214,37 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         senderId: this.employeeId,
         recipientId: this.isGroupChat ? null : this.recipientId,
         recipientGroupId: this.isGroupChat ? this.groupChatId : null,
-        isRead: true
+        isRead: false
       },
-      connectionId: this.recipientCommunicationId,
+      connectionId: this.selectedEmployee.CommunicationId,
       fullName: null,
       groupName: null,
-      groupId: this.selectedEmployee.CommunicationId
+      groupId: this.selectedEmployee.CommunicationId,
+      firstName: localStorage.getItem('employeeFirstName'),
+      lastName: localStorage.getItem('employeeLastName'),
+      chatGroupRecipient: []
     };
 
-    const objmsg: string[] = [this.recipientCommunicationId,
-    this.employeeId.toString(),
-    this.FirstName,
-    this.LastName,
-    this.chatInitial,
-    this.messageBody.trim()
-    ]
+    if (this.selectedEmployee.IsGroup) {
+      if (this.groupEmpList?.length > 0) {
+        this.groupEmpList.forEach(s => {
+          const grpRecp =
+          {
+            chatGroupRecipientId: 0,
+            chatGroupId: s.ChatGroupId,
+            recipientId: s.Id,
+            isRead: false
+          }
+          msg.chatGroupRecipient.push(grpRecp);
+        });
 
+      }
+    }
+
+    this.spinner.show();
     this.msgService.SendMessage(msg).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
         const sendObj = {
           SenderId: this.employeeId,
           SenderFirstName: this.senderFirstName,
@@ -235,8 +261,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         // this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
-      else{
-        this.toastrService.error('Communication Error','Error sending message!');
+      else {
+        this.spinner.hide();
+        this.toastrService.error('Communication Error', 'Error sending message!');
       }
     });
   }
@@ -257,21 +284,24 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         const employeeListData = JSON.parse(data.resultData);
         this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
       }
-      else{
-        this.toastrService.error('Communication Error','Error getting Group Members!');
+      else {
+        this.toastrService.error('Communication Error', 'Error getting Group Members!');
       }
     });
   }
 
   refreshGroupMembers(groupId) {
+    this.spinner.show();
     this.msgService.getGroupMembers(groupId).subscribe(data => {
       if (data.status === 'Success') {
         const employeeListData = JSON.parse(data.resultData);
         this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
+        this.spinner.hide();
         this.toastrService.success('Group user added successfully..!!!');
       }
-      else{
-        this.toastrService.error('Communication Error','Error getting Group Members!');
+      else {
+        this.spinner.hide();
+        this.toastrService.error('Communication Error', 'Error getting Group Members!');
       }
     });
   }
@@ -290,18 +320,29 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   deleteGroupUser(groupChatUserId, chatGroupId) {
-    this.msgService.removeGroupUser(groupChatUserId).subscribe(data =>
-    {
+    this.msgService.removeGroupUser(groupChatUserId).subscribe(data => {
       const result = JSON.parse(data.resultData);
-      if(result.ChatGroupUserDelete === true)
-      {
+      if (result.ChatGroupUserDelete === true) {
         this.getGroupMembers(chatGroupId);
         this.toastrService.success('User removed from group successfully..!');
       }
-      else{
-        this.toastrService.error('Communication Error','Error removing user from Group!');
+      else {
+        this.toastrService.error('Communication Error', 'Error removing user from Group!');
       }
 
     });
+  }
+
+  changeUnreadMessageState(chatDetail) {
+    this.msgService.changeUnreadMessageState(chatDetail).subscribe(data => {
+      if (data.status === 'Success') {
+        const result = JSON.parse(data.resultData);
+        console.log(result, 'changeUnreadMessageState');
+      }
+      else {
+        console.log('Error')
+      }
+    });
+
   }
 }

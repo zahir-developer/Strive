@@ -262,7 +262,7 @@ export class MembershipCreateEditComponent implements OnInit {
       membershipName: this.membershipForm.value.membershipName === '' ? "None/UNK" : this.membershipForm.value.membershipName,
       price: this.membershipForm.value.price ? this.membershipForm.value.price : 0,
       notes: this.membershipForm.value.notes ? this.membershipForm.value.notes : '',
-      locationId: 1,
+      locationId: localStorage.getItem('empLocationId'),
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,

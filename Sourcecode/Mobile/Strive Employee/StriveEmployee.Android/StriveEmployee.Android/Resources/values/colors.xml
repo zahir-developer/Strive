@@ -18,5 +18,13 @@
   <color name="secondarybuttonColor">#BEB8B8</color>
   <color name="secondaryTextColor">#333333</color>
   <color name="vehicleInfoCardColor">#F2F2F2</color>
+  <color name="AvatarProfileColor">#AFE9E3</color>
+  <color name="AvatarTextColor">#5F6281</color>
+  <color name="chatTextLayoutColor">#EAF1F6</color>
+  <color name="recipientChatBubble">#E3E3E3</color>
+  <color name="recipientChatTime">#000000</color>
+  <color name="recipientTextColor">#11141A</color>
+  <color name="senderChatBubble">#0E7268</color>
+  <color name="senderChatTime">#5F6281</color>
 
 </resources>

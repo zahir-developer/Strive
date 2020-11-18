@@ -36,47 +36,11 @@ namespace Strive.BusinessLogic.Messenger
         }
 
         public Result GetChatEmployeeList(int employeeId)
-        {
+         {
             var result = new MessengerRal(_tenant).GetChatEmployeeList(employeeId);
 
-            EmployeeChatHistoryViewModel chatHistory = new EmployeeChatHistoryViewModel();
-            chatHistory.ChatEmployeeList = new List<ChatEmployeeList>();
-            ChatEmployeeList list;
+            return ResultWrap(result, "EmployeeList");
 
-            if (result.ChatEmployeeList != null)
-            {
-                foreach (var item in result.ChatEmployeeList)
-                {
-                    list = new ChatEmployeeList()
-                    {
-                        Id = item.Id,
-                        FirstName = item.FirstName,
-                        LastName = item.LastName,
-                        CommunicationId = item.CommunicationId,
-                        RecentChatMessage = item.RecentChatMessage,
-                        IsGroup = false
-                    };
-                    chatHistory.ChatEmployeeList.Add(list);
-                }
-            }
-
-            if (result.GroupList != null)
-            {
-                foreach (var item in result.GroupList)
-                {
-                    list = new ChatEmployeeList()
-                    {
-                        Id = item.ChatGroupId,
-                        FirstName = item.GroupName,
-                        RecentChatMessage = item.RecentChatMessage,
-                        CommunicationId = item.GroupId,
-                        IsGroup = true,
-                        GroupId = item.GroupId
-                    };
-                    chatHistory.ChatEmployeeList.Add(list);
-                }
-            }
-            return ResultWrap(chatHistory, "EmployeeList");
         }
 
         public Result GetChatMessage(ChatDto chatDto)
@@ -101,6 +65,11 @@ namespace Strive.BusinessLogic.Messenger
         public Result DeleteChatGroupUser(int chatGroupUserId)
         {
             return ResultWrap(new MessengerRal(_tenant).DeleteChatGroupUser, chatGroupUserId, "ChatGroupUserDelete");
+        }
+
+        public Result ChangeUnreadMessageState(ChatDto chatDto)
+        {
+            return ResultWrap(new MessengerRal(_tenant).ChangeUnreadMessageState, chatDto, "ChatGroupUserDelete");
         }
     }
 }

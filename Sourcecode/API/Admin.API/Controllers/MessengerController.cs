@@ -97,7 +97,7 @@ namespace Admin.API.Controllers
 
             ChatGroupViewModel chatGroupViewModel = new ChatGroupViewModel();
 
-            
+
             if (chatGroupDto.ChatGroup != null)
             {
                 string groupId = "Group" + "_" + commonBpl.RandomString(5);
@@ -123,6 +123,11 @@ namespace Admin.API.Controllers
             return _result;
         }
 
+        /// <summary>
+        /// Returns the recent private and group chat contact list.
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetChatEmployeeList/{employeeId}")]
         public Result GetAllEmployeeList(int employeeId)
@@ -130,6 +135,11 @@ namespace Admin.API.Controllers
             return _bplManager.GetChatEmployeeList(employeeId);
         }
 
+        /// <summary>
+        /// Returns the private chat and group chat information.
+        /// </summary>
+        /// <param name="chatDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("GetChatMessage")]
         public Result GetChatMessage([FromBody] ChatDto chatDto)
@@ -184,6 +194,17 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("DeleteChatGroupUser/{chatGroupUserId}")]
         public Result DeleteChatGroupUser(int chatGroupUserId) => _bplManager.DeleteChatGroupUser(chatGroupUserId);
+
+
+        /// <summary>
+        /// Changes the status of unread messages.
+        /// </summary>
+        /// <param name="chatDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("ChangeUnreadMessageState")]
+        public Result ChangeUnreadMessageState([FromBody] ChatDto chatDto) => _bplManager.ChangeUnreadMessageState(chatDto);
+
 
     }
 }

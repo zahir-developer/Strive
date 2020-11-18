@@ -10,7 +10,7 @@ namespace Strive.BusinessLogic.Washes
 {
     public interface IWashesBpl
     {
-        Result GetAllWashTime();
+        Result GetAllWashTime(int locationId);
         Result GetWashTimeDetail(int id);
         Result AddWashTime(WashesDto washes);
         Result UpdateWashTime(WashesDto washes);

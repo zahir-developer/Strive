@@ -71,7 +71,7 @@ export const UrlConfig = {
     updateEmployee: `Admin/Employee/Update`,
     saveGiftCard: `Admin/GiftCard/AddGiftCard`,
     updateStatus: `Admin/GiftCard/ChangeStatus`,
-    getAllWash: `Admin/Washes/GetAllWashTime`,
+    getAllWash: `Admin/Washes/GetAllWashes/`,
     getWashById: `Admin/Washes/GetWashTimeDetail/`,
     addWash: `Admin/Washes/AddWashTime`,
     updateWash: `Admin/Washes/UpdateWashTime`,
@@ -133,7 +133,7 @@ export const UrlConfig = {
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
-    getPaymentStatus:`Admin/Common/GetCodesByCategory/`,
+    getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
@@ -146,7 +146,8 @@ export const UrlConfig = {
     getAccountDetails: `Admin/Sales/GetAccountDetails`,
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
-    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`
+    updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
+    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
   },
   Messenger:
   {
@@ -157,6 +158,25 @@ export const UrlConfig = {
     createGroup:  `Admin/Messenger/CreateChatGroup`,
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
-    deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`
+    deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`,
+    changeUnreadMessageState: `Admin/Messenger/ChangeUnreadMessageState`
   },
+  reports: {
+    getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
+    getCustomerSummaryReport: `Admin/Report/GetCustomerSummaryReport`,
+    getCustomerMonthlyDetailReport: `Admin/Report/GetCustomerMonthlyDetailedReport`,
+    getDailyTipReport: ``,
+    getMonthlyTipReport: ``,
+    getDailyStatusReport: `Admin/Report/DailyStatusReport`,
+    getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`,
+    getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
+    getDailyClockDetail: `Admin/Report/DailyClockDetail`,
+    getCashRegister: `Admin/CashRegister/Get`,
+    getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`
+  },
+  dashboard: {
+    getDashboardLocation: `Admin/Location/GetAll`,
+    getTodayScheduleList: `Admin/Details/GetAllDetails`,
+    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
+  }
 };

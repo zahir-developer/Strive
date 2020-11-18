@@ -195,7 +195,7 @@ export class ServiceCreateEditComponent implements OnInit {
       upcharges: this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
       isActive: this.serviceSetupForm.value.status == 0 ? true : false,
-      locationId: 1,
+      locationId: localStorage.getItem('empLocationId'),
       commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
       isDeleted: false,
       createdBy: 0,

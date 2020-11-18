@@ -36,7 +36,7 @@ namespace StriveCustomer.Android.Adapter
         }
         public bool OnLongClick(View v)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
     public class PastDetailsAdapter : RecyclerView.Adapter, IItemClickListener
@@ -74,9 +74,9 @@ namespace StriveCustomer.Android.Adapter
         }
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-                LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
-                View itemView = layoutInflater.Inflate(Resource.Layout.PastDetailsList, parent, false);
-                return new DetailsRecyclerViewHolder(itemView);
+            LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);
+            View itemView = layoutInflater.Inflate(Resource.Layout.PastDetailsList, parent, false);
+            return new DetailsRecyclerViewHolder(itemView);
         }
     }
 

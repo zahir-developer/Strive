@@ -14,9 +14,10 @@ namespace Strive.ResourceAccess
     public class WashesRal : RalBase
     {
         public WashesRal(ITenantHelper tenant) : base(tenant) { }
-        public List<AllWashesViewModel> GetAllWashTime()
+        public List<AllWashesViewModel> GetAllWashTime(int locationId)
         {
-            return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), null);
+            _prm.Add("@locationId", locationId);
+            return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
         }
 
         public WashDetailViewModel GetWashTimeDetail(int id)

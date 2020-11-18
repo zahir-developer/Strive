@@ -69,6 +69,15 @@ namespace Strive.ResourceAccess
             CommandDefinition cmd = new CommandDefinition(EnumSP.ClockTime.USPDELETETIMECLOCKEMPLOYEE.ToString(), _prm, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
-        }        
+        }
+
+        public TimeClockEmployeeHourViewModel TimeClockEmployeeHourDetail(TimeClockLocationDto timeClockLocationDto)
+        {
+            _prm.Add("locationId", timeClockLocationDto.LocationId);
+            _prm.Add("date", timeClockLocationDto.Date);
+
+            return db.FetchMultiResult<TimeClockEmployeeHourViewModel>(EnumSP.ClockTime.USPGETTIMECLOCKEMPLOYEEHOURDETAIL.ToString(), _prm);
+        }
+        
     }
 }
