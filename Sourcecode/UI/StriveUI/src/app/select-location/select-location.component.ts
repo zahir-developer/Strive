@@ -18,9 +18,11 @@ locationId = '';
     this.location = JSON.parse(localStorage.getItem('empLocationId'));
   }
   proceed() {
+    if (this.locationId !== '') {
 localStorage.setItem('empLocationId', this.locationId);
 localStorage.setItem('isAuthenticated', 'true');
 this.authService.loggedIn.next(true);
 this.router.navigate([`/admin/setup`], { relativeTo: this.route });
   }
+}
 }

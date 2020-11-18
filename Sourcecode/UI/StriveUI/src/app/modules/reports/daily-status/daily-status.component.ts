@@ -39,61 +39,6 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.getDailyStatusReport();
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
-    // <tr><td>` + item.EmployeeName + `</td><td>` + (item.WashHours ? item.WashHours : '') + `</td><td>` +
-    //     (item.DetailHours ? item.DetailHours : '') + `</td><td>` + (item.TotalHours ? item.TotalHours : '') + `</td><td>`
-    //     + (item.HoursPerDay ? item.HoursPerDay : '') + `</td><td>` + (item.TotalAmount ? item.TotalAmount : '') + `</td>`;
-    this.clockDetail = [{
-      Checked: 'On',
-      EmployeeName: 'NewEmployeestring',
-      EmployeeId: 1,
-      WashHours: 12,
-      DetailHours: 11,
-      TotalHours: 33,
-      TotalAmount: 120,
-      EventDate: '2020-11-17T00:00:00',
-      HoursPerDay: 22,
-    },
-    {
-      Checked: 'On',
-      EmployeeName: 'NewEmployeestring',
-      EmployeeId: 2,
-      WashHours: 12,
-      DetailHours: 11,
-      TotalHours: 33,
-      TotalAmount: 120,
-      EventDate: '2020-11-17T00:00:00',
-      HoursPerDay: 22,
-    }];
-    this.clockDetailValue = [{
-      Checked: 'On',
-      EmployeeName: 'NewEmployeestring',
-      EmployeeId: 1,
-      EventDate: '2020-11-17T00:00:00',
-      HoursPerDay: 22,
-      RoleName: 'Washer',
-      InTime: '2020-11-17T01:00:00+05:30',
-      OutTime: '2020-11-17T23:00:00+05:30'
-    },
-    {
-      Checked: 'On',
-      EmployeeName: 'NewEmployeestring',
-      EmployeeId: 1,
-      EventDate: '2020-11-17T00:00:00',
-      HoursPerDay: 22,
-      RoleName: 'Detailer',
-      InTime: '2020-11-17T01:00:00+05:30',
-      OutTime: '2020-11-17T23:00:00+05:30'
-    },
-    {
-      Checked: 'On',
-      EmployeeName: 'NewEmployeestring',
-      EmployeeId: 2,
-      EventDate: '2020-11-17T00:00:00',
-      HoursPerDay: 22,
-      InTime: '2020-11-17T01:00:00+05:30',
-      OutTime: '2020-11-17T23:00:00+05:30'
-    }
-    ];
   }
   getfileType(event) {
     this.fileType = +event.target.value;
@@ -111,8 +56,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.reportService.getDailyClockDetail(obj).subscribe(data => {
       if (data.status === 'Success') {
         const clockDetail = JSON.parse(data.resultData);
-        console.log(clockDetail);
-        // this.clockDetail = clockDetail?.GetDailyClockDetail;
+        this.clockDetail = clockDetail?.Result?.TimeClockEmployeeDetails ? clockDetail?.Result?.TimeClockEmployeeDetails : [];
+        this.clockDetailValue = clockDetail?.Result?.TimeClockDetails ? clockDetail?.Result?.TimeClockDetails : [];
         this.objConversion();
       }
     }, (err) => {
@@ -120,44 +65,45 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     });
   }
   objConversion() {
-    this.clockDetail.forEach(item => {
+    this.clockDetail?.forEach(item => {
       let i = 1;
       this.clockDetailValue.forEach(data => {
         if (+data.EmployeeId === +item.EmployeeId) {
+          item.EmployeeName = item.FirstName + ' ' + item.LastName;
           const Intime = 'Intime' + i;
           const Outtime = 'Outtime' + i;
+          const RoleName = 'RoleName' + i;
           item[Intime] = data.InTime;
           item[Outtime] = data.OutTime;
-          item.RoleName = data.RoleName;
+          item[RoleName] = data.RoleName;
           item.count = i;
           i++;
         }
       });
     });
     this.generateTable();
-    console.log(this.clockDetail);
   }
   generateTable() {
     let tableheader = '';
     let tableBody = '';
-    const count = Math.max(...this.clockDetail.map(val => val.count));
+    const count = Math.max(...this.clockDetail?.map(val => val.count));
     tableheader = `<tr><th scope="col">Employee Name</th><th scope="col">Wash Hours</th><th scope="col">Detail Hours</th>
-    <th scope="col">Total Hours</th><th scope="col">Rate/Hour</th><th scope="col">Total Amount</th>`
+    <th scope="col">Total Hours</th>`
     for (let i = 0; i < count; i++) {
       tableheader += `<th scope="col">In</th><th scope="col">Out</th><th scope="col">Role</th>`;
     }
     tableheader += `</tr>`;
     $('#table thead').html(tableheader);
     this.clockDetail.forEach(item => {
-      tableBody += `<tr><td>` + item.EmployeeName + `</td><td>` + (item.WashHours ? item.WashHours : '') + `</td><td>` +
-        (item.DetailHours ? item.DetailHours : '') + `</td><td>` + (item.TotalHours ? item.TotalHours : '') + `</td><td>`
-        + (item.HoursPerDay ? item.HoursPerDay : '') + `</td><td>` + (item.TotalAmount ? item.TotalAmount : '') + `</td>`;
+      tableBody += `<tr><td>` + item.EmployeeName + `</td><td>` + (item?.WashHours ? item?.WashHours : 0) + `</td><td>` +
+        (item?.DetailHours ? item.DetailHours : 0) + `</td><td>` + (item?.WashHours + item?.DetailHours) + `</td>`;
       for (let i = 1; i <= count; i++) {
         const Intime = 'Intime' + i;
         const Outtime = 'Outtime' + i;
+        const RoleName = 'RoleName' + i;
         tableBody += `<td>` + (item[Intime] !== undefined ? this.datePipe.transform(item[Intime] , 'hh:mm:ss') : '') + `</td><td>`
         + (item[Outtime] !== undefined ? this.datePipe.transform(item[Outtime] , 'hh:mm:ss') : '') + `</td><td>` +
-        (item.RoleName ? item.RoleName : '') + `</td>`;
+        (item[RoleName] !== undefined ? item[RoleName] : '') + `</td>`;
       }
       this.washHours += item.WashHours;
       this.detailHours += item.DetailHours;
@@ -194,7 +140,6 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
-        console.log(dailyStatusDetailInfo);
         this.dailyStatusDetailInfo = dailyStatusDetailInfo.GetDailyStatusReport;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
