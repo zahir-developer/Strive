@@ -120,6 +120,8 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
+                            if (model is null || model.GetType() == typeof(string)) continue;
+
                             Type subModelType = model.GetType();
                             if (subModelType.IsGenericType)
                             {

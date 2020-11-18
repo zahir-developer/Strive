@@ -7,27 +7,35 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Utils.Employee;
+using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
 {
     public class MessengerGroupChatViewHolder : RecyclerView.ViewHolder, View.IOnClickListener, View.IOnLongClickListener
     {
+        public IItemClickListener itemClickListener;
         public Button group_Button;
         public TextView groupName_TextView;
         public MessengerGroupChatViewHolder(View groups) : base(groups)
         {
             group_Button = groups.FindViewById<Button>(Resource.Id.group_ImageView);
             groupName_TextView = groups.FindViewById<TextView>(Resource.Id.groupName_TextView);
+            groups.SetOnClickListener(this);
         }
-
-        public void OnClick(View v)
+        public void SetItemClickListener(IItemClickListener itemClickListener)
         {
-            
+            this.itemClickListener = itemClickListener;
+        }
+        public void OnClick(View view)
+        {
+            itemClickListener.OnClick(view, AdapterPosition, false);
         }
 
         public bool OnLongClick(View v)
@@ -60,11 +68,18 @@ namespace StriveEmployee.Android.Adapter
         {
             messengerGroup = holder as MessengerGroupChatViewHolder;
             messengerGroup.groupName_TextView.Text = groups[position].FirstName + groups[position].LastName;
+            messengerGroup.SetItemClickListener(this);
         }
 
         public void OnClick(View itemView, int position, bool isLongClick)
         {
-
+            MessengerTempData.resetChatData();
+            MessengerTempData.GroupID = MessengerTempData.GroupLists.ChatEmployeeList[position].ChatGroupId;
+            MessengerTempData.GroupUniqueID = MessengerTempData.GroupLists.ChatEmployeeList[position].GroupId;
+            MessengerTempData.GroupName = MessengerTempData.GroupLists.ChatEmployeeList[position].FirstName;
+            AppCompatActivity activity = (AppCompatActivity)itemView.Context;
+            MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Fragments;
+using StriveEmployee.Android.Fragments.MyProfile;
 
 namespace StriveEmployee.Android.Views
 {
@@ -27,11 +28,13 @@ namespace StriveEmployee.Android.Views
         private BottomNavigationView bottom_NavigationView;
         private MvxFragment selected_MvxFragment;
         private MessengerFragment messenger_Fragment;
+        private MyProfileFragment profile_Fragment;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.DashboardViewScreen);
             messenger_Fragment = new MessengerFragment();
+            profile_Fragment = new MyProfileFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
@@ -52,6 +55,7 @@ namespace StriveEmployee.Android.Views
                     break;
 
                 case Resource.Id.menu_profile:
+                    selected_MvxFragment = profile_Fragment;
                     break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();

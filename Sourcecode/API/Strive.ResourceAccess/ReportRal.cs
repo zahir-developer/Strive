@@ -47,15 +47,56 @@ namespace Strive.ResourceAccess
                 _prm.Add("@LocationId", EmployeeTipReport.LocationId);
                 _prm.Add("@Year", EmployeeTipReport.year);
                 _prm.Add("@Month", EmployeeTipReport.month);
-                 result = db.Fetch<EmployeeTipViewModel>(EnumSP.SalesReport.uspGetMonthlyTipDetail.ToString(), _prm);
+                result = db.Fetch<EmployeeTipViewModel>(EnumSP.SalesReport.uspGetMonthlyTipDetail.ToString(), _prm);
             }
-           else
+            else
             {
                 _prm.Add("@locationId", EmployeeTipReport.LocationId);
                 _prm.Add("@Date", EmployeeTipReport.Date);
-                 result = db.Fetch<EmployeeTipViewModel>(EnumSP.SalesReport.uspGetDailyTipDetail.ToString(), _prm);
+                result = db.Fetch<EmployeeTipViewModel>(EnumSP.SalesReport.uspGetDailyTipDetail.ToString(), _prm);
             }
             return result;
+        }
+
+        public List<DailyStatusReportViewModel> GetDailyStatusReport(DailyStatusReportDto DailyStatusReport)
+        {
+
+
+            _prm.Add("@LocationId", DailyStatusReport.LocationId);
+            _prm.Add("@Date", DailyStatusReport.Date);
+            var result = db.Fetch<DailyStatusReportViewModel>(EnumSP.SalesReport.uspGetDailyStatusReport.ToString(), _prm);
+
+            return result;
+        }
+        public List<DailyStatusDetailInfoViewModel> GetDailyStatusDetailInfo(DailyStatusReportDto DailyStatusReport)
+        {
+            _prm.Add("@LocationId", DailyStatusReport.LocationId);
+            _prm.Add("@Date", DailyStatusReport.Date);
+            var result = db.Fetch<DailyStatusDetailInfoViewModel>(EnumSP.SalesReport.uspGetDailyStatusDetailInfo.ToString(), _prm);
+
+            return result;
+        }
+        public List<DailyClockDetailViewModel> GetDailyClockDetail(DailyStatusReportDto DailyStatusReport)
+        {
+            _prm.Add("@locationId", DailyStatusReport.LocationId);
+            _prm.Add("@Date", DailyStatusReport.Date);
+            var result = db.Fetch<DailyClockDetailViewModel>(EnumSP.SalesReport.uspGetDailyClockDetail.ToString(), _prm);
+
+            return result;
+        }
+        public List<MonthlyMoneyOwnedReportViewModel> GetMonthlyMoneyOwnedReport(string date)
+        {
+            _prm.Add("@Date", date);
+            var result = db.Fetch<MonthlyMoneyOwnedReportViewModel>(EnumSP.SalesReport.USPGETMONTHLYMONEYOWNEDREPORT.ToString(), _prm);
+            return result;
+        }
+
+        public EODSalesReportViewModel GetEODSalesReport(SalesReportDto salesReportDto)
+        {
+            _prm.Add("@LocationId", salesReportDto.LocationId);
+            _prm.Add("@FromDate", salesReportDto.FromDate);
+            _prm.Add("@EndDate", salesReportDto.EndDate);
+            return db.FetchMultiResult<EODSalesReportViewModel>(EnumSP.SalesReport.USPGETEODSALESREPORT.ToString(), _prm);
         }
     }
 }

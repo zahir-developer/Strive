@@ -73,6 +73,20 @@ namespace Strive.Core.Utils
 
         public const string URL_MESSENGER_RECENT_CONTACTS = "/Admin/Messenger/GetChatEmployeeList/{0}";
 
-        public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail/{0}";    
+        public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail/{0}";
+
+        public const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage"; 
+        
+        public const string URL_MESSENGER_SEND_CHAT_MESSAGE = "/Admin/Messenger/SendChatMessage";
+
+        public const string URL_MESSENGER_CREATE_GROUP_CHAT = "/Admin/Messenger/CreateChatGroup";
+
+        public const string URL_MESSENGER_PERSONAL_INFO = "/Admin/Employee/GetEmployeeById";
+
+        public const string URL_COMMON_GENDER = "/Admin/Common/GetCodesByCategory/GENDER"; 
+        
+        public const string URL_GET_GROUP_PARTICIPANTS = "/Admin/Messenger/GetChatGroupEmployeelist/{0}"; 
+    
+        public const string URL_GROUP_PARTICIPANT_DELETE = "/Admin/Messenger/DeleteChatGroupUser/{0}";
     }
 }

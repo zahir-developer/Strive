@@ -42,5 +42,29 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("MonthlyDailyTipReport")]
         public Result GetEmployeeTipReport([FromBody] EmployeeTipReportDto EmployeeTipReport) => _bplManager.GetEmployeeTipReport(EmployeeTipReport);
+        [HttpPost]
+        [Route("DailyStatusReport")]
+        public Result uspGetDailyStatusReport([FromBody] DailyStatusReportDto DailyStatusReport) => _bplManager.GetDailyStatusReport(DailyStatusReport);
+        [HttpPost]
+        [Route("DailyStatusDetailInfo")]
+        public Result uspGetDailyStatusDetailInfo([FromBody] DailyStatusReportDto DailyStatusReport) => _bplManager.GetDailyStatusDetailInfo(DailyStatusReport);
+        [HttpPost]
+        [Route("DailyClockDetail")]
+        public Result uspGetDailyClockDetail([FromBody] DailyStatusReportDto DailyClockDetail) => _bplManager.GetDailyClockDetail(DailyClockDetail);
+        /// <summary>
+        /// Method to Get MonthlyMoneyOwned Report.
+        /// </summary>
+        [HttpGet]
+        [Route("GetMonthlyMoneyOwnedReport/{date}")]
+        public Result GetMonthlyMoneyOwnedReport(string date) => _bplManager.GetMonthlyMoneyOwnedReport(date);
+
+
+        /// <summary>
+        /// Method to Get EOD Sales Report.
+        /// </summary>
+        [HttpPost]
+        [Route("EODSalesReport")]
+        public Result GetEODSalesReport([FromBody] SalesReportDto salesReportDto) => _bplManager.GetEODSalesReport(salesReportDto);
+
     }
 }

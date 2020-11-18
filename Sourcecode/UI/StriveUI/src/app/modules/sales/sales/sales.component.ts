@@ -218,8 +218,8 @@ export class SalesComponent implements OnInit {
     this.outsideServices = [];
     this.discountService = [];
     this.Products = [];
-    if (this.itemList?.Status?.ScheduleItemSummaryViewModels) {
-      this.itemList.Status.ScheduleItemSummaryViewModels = {};
+    if (this.itemList?.Status?.SalesSummaryViewModel) {
+      this.itemList.Status.SalesSummaryViewModel = {};
     }
     this.showPopup = false;
     this.giftCardForm.reset();
@@ -268,34 +268,34 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
-          if (this.itemList.Status.JobPaymentViewModel === null) {
+          if (this.itemList.Status.PaymentStatusViewModel === null) {
             this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
             return;
           } else {
-            this.JobId = this.itemList?.Status?.JobPaymentViewModel?.JobId;
+            this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
           }
-          if (this.itemList.Status.ScheduleItemViewModel !== null) {
-            if (this.itemList.Status.ScheduleItemViewModel.length !== 0) {
+          if (this.itemList.Status.SalesItemViewModel !== null) {
+            if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
-              this.washes = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Washes');
-              this.details = this.itemList.Status.ScheduleItemViewModel.filter(item => item.ServiceType === 'Details');
-              this.additionalService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Washes');
+              this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
+              this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Additional Services');
-              this.upCharges = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+              this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Upcharges');
-              this.outsideServices = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+              this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Outside Services');
-              this.airfreshnerService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+              this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Air Fresheners');
-              this.discountService = this.itemList.Status.ScheduleItemViewModel.filter(item =>
+              this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Discounts');
               console.log(this.washes);
             }
           } else {
             this.showPopup = false;
           }
-          if (this.itemList?.Status?.ScheduleItemSummaryViewModels !== null) {
-            const summary = this.itemList?.Status?.ScheduleItemSummaryViewModels;
+          if (this.itemList?.Status?.SalesSummaryViewModel !== null) {
+            const summary = this.itemList?.Status?.SalesSummaryViewModel;
             this.initialcashback = summary?.Cashback ? summary?.Cashback : 0;
             this.cashback = summary?.CashBack ? summary?.CashBack : 0;
             this.grandTotal = summary?.GrandTotal ? summary?.GrandTotal : summary?.Total ? (summary?.Total + summary?.Tax) : 0;
@@ -317,7 +317,7 @@ export class SalesComponent implements OnInit {
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
           }
-          if (this.itemList?.Status?.JobPaymentViewModel?.IsProcessed === true) {
+          if (this.itemList?.Status?.PaymentStatusViewModel?.IsProcessed === true) {
             this.enableButton = true;
           } else {
             this.enableButton = false;

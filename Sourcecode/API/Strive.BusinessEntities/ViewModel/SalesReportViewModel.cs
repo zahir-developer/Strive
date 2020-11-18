@@ -10,9 +10,8 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public string Description { get; set; }
         public decimal? Price { get; set; }
-        public int? EmployeeId { get; set; }
+        public DateTime? JobDate { get; set; }
         public int? Number { get; set; }
         public string Total { get; set; }
-        
     }
 }

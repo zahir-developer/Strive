@@ -12,7 +12,8 @@ namespace Strive.BusinessEntities
             USPGETTIMECLOCK,
             USPGETTIMECLOCKEMPLOYEEDETAILS,
             USPGETTIMECLOCKWEEKDETAILS,
-            USPDELETETIMECLOCKEMPLOYEE
+            USPDELETETIMECLOCKEMPLOYEE,
+            USPGETTIMECLOCKEMPLOYEEHOURDETAIL
         }
         public enum SalesReport
         {
@@ -20,7 +21,12 @@ namespace Strive.BusinessEntities
             USPGETCUSTOMERSUMMARYREPORT,
             USPMONTHLYCUSTOMERDETAIL,
             uspGetMonthlyTipDetail,
-            uspGetDailyTipDetail
+            uspGetDailyTipDetail,
+            uspGetDailyStatusReport,
+            uspGetDailyStatusDetailInfo,
+            uspGetDailyClockDetail,
+            USPGETMONTHLYMONEYOWNEDREPORT,
+            USPGETEODSALESREPORT
         }
 
         public enum WhiteLabelling
