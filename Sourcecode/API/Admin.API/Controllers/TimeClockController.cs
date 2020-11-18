@@ -40,9 +40,16 @@ namespace Admin.API.Controllers
         [Route("GetTimeClockWeekDetails")]
         public Result TimeClockWeekDetails([FromBody] TimeClockWeekDetailDto timeClockWeekDetailDto) => _bplManager.TimeClockWeekDetails(timeClockWeekDetailDto);
 
+        [HttpPost]
+        [Route("GetTimeClockEmployeeHourDetails")]
+        public Result GetTimeClockEmployeeHourDetails([FromBody] TimeClockLocationDto timeClockLocationDto) => _bplManager.TimeClockEmployeeHourDetail(timeClockLocationDto);
+
+
         [HttpDelete]
         [Route("DeleteTimeClockEmployee")]
         public Result DeleteTimeClockEmployee(TimeClockDeleteDto timeClockDeleteDto) => _bplManager.DeleteTimeClockEmployee(timeClockDeleteDto);
+
+     
 
     }
 }
