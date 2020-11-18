@@ -6,12 +6,13 @@ const EXCEL_EXTENSION = '.xlsx';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ExportToCsv } from 'export-to-csv';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable({
   providedIn: 'root'
 })
 export class ExcelService {
 
-  constructor() { }
+  constructor(private spinner: NgxSpinnerService) { }
   options = {
     fieldSeparator: ',',
     quoteStrings: '"',
@@ -26,6 +27,7 @@ export class ExcelService {
     // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
   };
   public exportAsExcelFile(json: any[], excelFileName: string): void {
+    this.spinner.show();
     const myworksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json, {header: [excelFileName]});
     const myworkbook: XLSX.WorkBook = { Sheets: { data: myworksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(myworkbook, { bookType: 'xlsx', type: 'array' });
@@ -36,14 +38,20 @@ export class ExcelService {
       type: EXCEL_TYPE
     });
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+    this.spinner.hide();
   }
   exportAsPDFFile(templateId, fileName) {
+    this.spinner.show();
     const data = document.getElementById(templateId);
     html2canvas(data).then(canvas => {
       // Few necessary setting options
-      const imgWidth = 208;
+      // const imgWidth = 208;
+      // const pageHeight = 295;
+      // const imgHeight = canvas.height * imgWidth / canvas.width;
+      // const heightLeft = imgHeight;
+      const imgWidth = canvas.width;
       const pageHeight = 295;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const imgHeight = canvas.height;
       const heightLeft = imgHeight;
 
       const contentDataURL = canvas.toDataURL('image/png');
@@ -51,12 +59,15 @@ export class ExcelService {
       const position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save(fileName); // Generated PDF
+      this.spinner.hide();
     });
   }
   exportAsCSVFile(data, fileName) {
+    this.spinner.show();
     this.options.title = fileName;
     this.options.filename = fileName;
     const csvExporter = new ExportToCsv(this.options);
     csvExporter.generateCsv(data);
+    this.spinner.hide();
   }
 }
