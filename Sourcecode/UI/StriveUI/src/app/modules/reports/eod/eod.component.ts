@@ -3,6 +3,7 @@ import { BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/da
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
+declare var $: any;
 
 @Component({
   selector: 'app-eod',
@@ -28,6 +29,11 @@ export class EodComponent implements OnInit, AfterViewInit {
   detailInfoTotal = 0;
   dailyStatusDetailInfo = [];
   clockDetail = [];
+  salesReport: any;
+  empTotalHours = 0;
+  isPrintReport: boolean;
+  washReport = [];
+  detailReport = [];
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
@@ -35,8 +41,13 @@ export class EodComponent implements OnInit, AfterViewInit {
     ) { }
 
   ngOnInit(): void {
+    this.isPrintReport = false;
     this.locationId = localStorage.getItem('empLocationId');
     this.selectDate = moment(new Date()).format('MM-DD-YYYY');
+    this.getEodSalesReport();
+    this.getDailyStatusReport();
+    this.getDailyStatusDetailInfo();
+    this.getClockDetail();
   }
 
   ngAfterViewInit() {
@@ -50,6 +61,13 @@ export class EodComponent implements OnInit, AfterViewInit {
       this.selectDate = event;
       this.getCashRegister();
     }
+  }
+
+  preview() {
+    this.getEodSalesReport();
+    this.getDailyStatusReport();
+    this.getDailyStatusDetailInfo();
+    this.getClockDetail();
   }
 
   getCashRegister() {
@@ -124,6 +142,47 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.locationId = +event;
   }
 
+  getfileType(event) {
+    this.fileType = +event.target.value;
+  }
+
+  export() {
+    $('#printReport').show();
+    const fileType = this.fileType !== undefined ? this.fileType : '';
+    if (fileType === '' || fileType === 0) {
+      return;
+    } else if (this.dailyStatusReport.length === 0) {
+      return;
+    }
+    switch (fileType) {
+      case 1: {
+        this.excelService.exportAsPDFFile('EodStatusReport', 'EodStatusReport_' + moment(this.date).format('MM/dd/yyyy') + '.pdf');
+        break;
+      }
+      case 2: {
+        this.excelService.exportAsCSVFile(this.washReport, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsCSVFile(this.detailReport, 'EodDetailStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        break;
+      }
+      case 3: {
+        this.excelService.exportAsExcelFile(this.washReport, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsExcelFile(this.detailReport, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        break;
+      }
+      default: {
+        return;
+      }
+    }
+    $('#printReport').hide();
+  }
+
+  print() {
+    $('#printReport').show();
+    setTimeout(() => {
+      $('#printReport').hide();
+    }, 1000);
+  }
+
   getDailyStatusReport() {
     const obj = {
       locationId: +this.locationId,
@@ -139,6 +198,18 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
           this.washTotal = this.calculateTotal(this.washes, 'wash');
           this.detailTotal = this.calculateTotal(this.details, 'detail');
+          this.washes.forEach( item => {
+            this.washReport.push({
+              ServiceName: item.ServiceName,
+              Number: item.Number
+            });
+          });
+          this.details.forEach( item => {
+            this.detailReport.push({
+              ServiceName: item.ServiceName,
+              Number: item.Number
+            });
+          });
         }
       }
     }, (err) => {
@@ -162,10 +233,51 @@ export class EodComponent implements OnInit, AfterViewInit {
     });
   }
 
+  refresh() {
+    this.preview();
+  }
+
+  getClockDetail() {
+    const obj = {
+      locationId: +this.locationId,
+      date: moment(this.date).format('YYYY-MM-DD')
+    };
+    this.reportService.getTimeClockEmpHoursDetail(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const clockDetail = JSON.parse(data.resultData);
+        console.log(clockDetail);
+        this.clockDetail = clockDetail?.Result;
+        if (clockDetail.Result.TimeClockEmployeeDetails !== null) {
+          this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
+        }
+        this.clockDetail.forEach( item => {
+            this.empTotalHours = this.empTotalHours + item.HoursPerDay;
+        });
+      }
+    }, (err) => {
+
+    });
+  }
+
   calculateTotal(obj, type) {
     return obj.reduce((sum, i) => {
       return sum + (type === 'detailInfo' ? +i.Commision : +i.Number);
     }, 0);
+  }
+
+  getEodSalesReport() {
+    const saleObj = {
+      locationId: this.locationId,
+      fromDate: moment(this.selectDate).format('YYYY-MM-DD'),
+      endDate: moment(this.selectDate).format('YYYY-MM-DD')
+    };
+    this.reportService.getEodSaleReport(saleObj).subscribe( res => {
+      if (res.status === 'Success') {
+        const saleReport = JSON.parse(res.resultData);
+        console.log(saleReport, 'sales');
+        this.salesReport = saleReport.GetEODSalesReport.EODSalesDetails;
+      }
+    });
   }
 
 }

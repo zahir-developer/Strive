@@ -172,7 +172,9 @@ export const UrlConfig = {
     getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
     getDailyClockDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getCashRegister: `Admin/CashRegister/Get`,
-    getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`
+    getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`,
+    getEodSaleReport: `Admin/Report/EODSalesReport`,
+    getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
