@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Listeners;
 
 namespace StriveEmployee.Android.Adapter
@@ -90,11 +91,14 @@ namespace StriveEmployee.Android.Adapter
             MessengerParticipantGroup.SetItemClickListener(this);
         }
 
-        public void OnClick(View itemView, int position, bool isLongClick)
+        public async void OnClick(View itemView, int position, bool isLongClick)
         {
             if (MessengerTempData.ClickAction == 1)
-            {               
-                MessengerTempData.ExistingParticipants.ChatEmployeeList.RemoveAt(position);
+            {
+                //MessengerTempData.ExistingParticipants.ChatEmployeeList.RemoveAt(position);
+                var model =  new MessengerViewParticipantsViewModel();
+                model.GroupUserId = selectedParticipants.EmployeeList.ChatEmployeeList[position].ChatGroupUserId;
+                await model.DeleteGroupUser();
                 selectedParticipants.EmployeeList.ChatEmployeeList.RemoveAt(position);
                 NotifyItemRemoved(position);
                 NotifyItemRangeChanged(position, selectedParticipants.EmployeeList.ChatEmployeeList.Count);

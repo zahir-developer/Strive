@@ -17,7 +17,9 @@ namespace Strive.Core.ViewModels.Employee
 
         public EmployeeLists EmployeeList { get; set; }
         public CreateGroupChat groupChatInfo { get; set; }
+        public bool Confirm { get; set; }
         public string GroupName { get; set; }
+        public int? GroupUserId { get; set; }
 
         #endregion Properties
 
@@ -47,21 +49,7 @@ namespace Strive.Core.ViewModels.Employee
         {
             groupChatInfo = new CreateGroupChat();
             groupChatInfo.chatGroup = null;
-            //groupChatInfo.chatGroup = new chatGroup()
-            //{
-            //    chatGroupId = MessengerTempData.GroupID,
-            //    groupId = MessengerTempData.GroupUniqueID,
-            //    groupName = MessengerTempData.GroupName,
-            //    comments = null,
-            //    isActive = true,
-            //    isDeleted = false,
-            //    createdBy = EmployeeTempData.EmployeeID,
-            //    createdDate = DateUtils.ConvertDateTimeWithZ(),
-            //    updatedBy = EmployeeTempData.EmployeeID,
-            //    updatedDate = DateUtils.ConvertDateTimeWithZ()
-            //};
             groupChatInfo.chatUserGroup = new List<chatUserGroup>();
-           // AddCreatingUser();
 
             foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
             {
@@ -91,6 +79,20 @@ namespace Strive.Core.ViewModels.Employee
             else
             {
                 _userDialog.Toast("Group chat created successfully");
+            }
+        }
+
+        public async Task DeleteGroupUser()
+        {
+
+            Confirm = await _userDialog.ConfirmAsync("Are you sure you want to delete this user from Group?");
+            if(Confirm)
+            {
+                var result = await MessengerService.DeleteGroupUser(GroupUserId);
+                if (result.ChatGroupUserDelete)
+                {
+                    _userDialog.Toast("User has been removed");
+                }
             }
         }
         public void AddCreatingUser()
