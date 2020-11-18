@@ -51,8 +51,11 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Collision
             collisionViewHolder = holder as CollisionViewHolder;
 
             collisionViewHolder.collisionName_TextView.Text = employeeCollisions[position].LiabilityType;
-            var date = employeeCollisions[position].CreatedDate.Split("T");
-            collisionViewHolder.collisionDate_TextView.Text = date[0];
+           if(!String.IsNullOrEmpty(employeeCollisions[position].CreatedDate))
+            {
+                var date = employeeCollisions[position].CreatedDate.Split("T");
+                collisionViewHolder.collisionDate_TextView.Text = date[0];
+            }
             collisionViewHolder.collisionCost_TextView.Text = employeeCollisions[position].Amount.ToString();
         }
 
