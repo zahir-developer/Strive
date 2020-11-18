@@ -17,6 +17,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using StriveEmployee.Android.Adapter;
 using StriveEmployee.Android.Fragments.MyProfile.Collisions;
+using StriveEmployee.Android.Fragments.MyProfile.Documents;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
 {
@@ -28,6 +29,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
         private ViewPagerAdapter profile_ViewPagerAdapter;
         private EmployeeInfoFragment employeeInfo_Fragment;
         private CollisionsFragment collisions_Fragment;
+        private DocumentsFragment document_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -45,6 +47,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 
             employeeInfo_Fragment = new EmployeeInfoFragment();
             collisions_Fragment = new CollisionsFragment();
+            document_Fragment = new DocumentsFragment();
             return rootView;
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
@@ -53,6 +56,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             profile_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
             profile_ViewPagerAdapter.AddFragment(employeeInfo_Fragment, "Employee Info");
             profile_ViewPagerAdapter.AddFragment(collisions_Fragment, "Collision");
+            profile_ViewPagerAdapter.AddFragment(document_Fragment, "Documents");
 
             profile_ViewPager.Adapter = profile_ViewPagerAdapter;
             profile_TabLayout.SetupWithViewPager(profile_ViewPager);

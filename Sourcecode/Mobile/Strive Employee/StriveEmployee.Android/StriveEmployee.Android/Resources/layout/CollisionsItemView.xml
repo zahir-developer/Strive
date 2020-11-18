@@ -1,0 +1,76 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+    <android.support.v7.widget.CardView
+        android:id="@+id/dealsInfoCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/vehicleInfoCardColor"
+        app:cardElevation="@dimen/five"
+        app:cardUseCompatPadding="true">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginBottom="@dimen/ten"
+            android:weightSum="2">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.6"
+                android:layout_marginLeft="@dimen/ten">
+                 <TextView
+                    android:id="@+id/carNames"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chevrolet White SUV 4x4"
+                    android:textColor="@color/profileQColor"
+                    android:fontFamily="@font/opensans_bold">
+                  </TextView>
+                 <TextView
+                    android:id="@+id/regNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Reg. # GTP 01 Y 1025 "
+                    android:textColor="@color/profileQColor"
+                    android:fontFamily="@font/opensans_semibold">
+                </TextView>
+                <TextView
+                    android:id="@+id/vehicleMembership"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ultra Mammoth"
+                    android:textColor="@color/profileQColor"
+                    android:fontFamily="@font/opensans_semibold">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:layout_marginRight="@dimen/ten">
+                <ImageButton
+                    android:id="@+id/editButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/five"
+                    android:src="@drawable/edit"
+                    android:background="@android:color/transparent" />
+                <ImageButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/delete_circle"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
