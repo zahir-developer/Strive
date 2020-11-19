@@ -170,7 +170,13 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     $('#printReport').show();
     const fileType = this.fileType !== undefined ? this.fileType : '';
     if (fileType === '' || fileType === 0) {
+      $('#printReport').hide();
       return;
+    } else {
+      if (this.washes.length === 0 && this.details.length === 0 && this.clockDetail.length === 0) {
+        $('#printReport').hide();
+        return;
+      }
     }
     switch (fileType) {
       case 1: {
