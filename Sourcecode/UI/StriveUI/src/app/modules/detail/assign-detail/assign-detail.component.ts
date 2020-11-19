@@ -66,33 +66,33 @@ export class AssignDetailComponent implements OnInit {
         }
       });
     });
+
+    console.log(this.details,'details');
+
+    console.log(selectedService, 'selectedservices');
+
     selectedService.forEach( service => {
       this.assignForm.value.employeeId.forEach( emp => {
-        if (service.CommisionType === 'Flat Fee') {
-          let commision = 0;
-          commision = service.CommissionCost / this.assignForm.value.employeeId.length;
-          this.detailService.push({
-            ServiceId: service.ServiceId,
+        let commision = 0;
+
+        const employeeService = {
+          ServiceId: service.ServiceId,
             ServiceName: service.ServiceName,
             EmployeeId: emp.item_id,
             EmployeeName: emp.item_text,
             Cost: service.Cost,
             JobItemId: service.JobItemId,
-            CommissionAmount: commision
-          });
+            CommissionAmount: 0
+        }
+
+        if (service.CommisionType === 'Flat Fee') {
+          employeeService.CommissionAmount = service.CommissionCost / this.assignForm.value.employeeId.length;
         } else if (service.CommisionType === 'Percentage') {
           const percentage = service.CommissionCost / this.assignForm.value.employeeId.length;
-          const commision = ( service.Cost * percentage ) / 100;
-          this.detailService.push({
-            ServiceId: service.ServiceId,
-            ServiceName: service.ServiceName,
-            EmployeeId: emp.item_id,
-            EmployeeName: emp.item_text,
-            Cost: service.Cost,
-            JobItemId: service.JobItemId,
-            CommissionAmount: commision
-          });
+          employeeService.CommissionAmount = ( service.Cost * percentage ) / 100;
         }
+
+        this.detailService.push(employeeService);
       });
     });
     // this.detailService = assignedService;
