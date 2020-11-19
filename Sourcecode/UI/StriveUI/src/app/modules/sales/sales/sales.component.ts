@@ -318,8 +318,10 @@ export class SalesComponent implements OnInit {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
           }
           if (this.itemList?.Status?.PaymentStatusViewModel?.IsProcessed === true) {
+            this.showPopup = false;
             this.enableButton = true;
           } else {
+            this.showPopup = true;
             this.enableButton = false;
           }
         }

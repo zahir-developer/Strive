@@ -5,6 +5,7 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import * as moment from 'moment';
 declare var $: any;
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-daily-status',
   templateUrl: './daily-status.component.html',
@@ -30,7 +31,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   clockDetail = [];
   clockDetailValue = [];
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe, private spinner: NgxSpinnerService) {
 
   }
 
@@ -53,7 +54,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD')
     };
+    this.spinner.show();
     this.reportService.getDailyClockDetail(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const clockDetail = JSON.parse(data.resultData);
         this.clockDetail = clockDetail?.Result?.TimeClockEmployeeDetails ? clockDetail?.Result?.TimeClockEmployeeDetails : [];
@@ -61,7 +64,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         this.objConversion();
       }
     }, (err) => {
-
+      this.spinner.hide();
     });
   }
   objConversion() {
@@ -113,11 +116,17 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     $('#table tbody').html(tableBody);
   }
   getDailyStatusReport() {
+    this.washes = [];
+    this.details = [];
+    this.washTotal = 0;
+    this.detailTotal = 0;
     const obj = {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD')
     };
+    this.spinner.show();
     this.reportService.getDailyStatusReport(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const dailyStatusReport = JSON.parse(data.resultData);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
@@ -129,7 +138,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         }
       }
     }, (err) => {
-
+      this.spinner.hide();
     });
   }
   getDailyStatusDetailInfo() {
@@ -137,14 +146,16 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD')
     };
+    this.spinner.show();
     this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
         this.dailyStatusDetailInfo = dailyStatusDetailInfo.GetDailyStatusReport;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
-
+      this.spinner.show();
     });
   }
   onLocationChange(event) {
@@ -156,34 +167,45 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     }
   }
   export() {
+    $('#printReport').show();
     const fileType = this.fileType !== undefined ? this.fileType : '';
     if (fileType === '' || fileType === 0) {
-      return;
-    } else if (this.dailyStatusReport.length === 0) {
       return;
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('dailyStatusExport', 'customerDetailReport_' + moment(this.date).format('MM/dd/yyyy') + '.pdf');
+        this.excelService.exportAsPDFFile('dailyStatusReport', 'DailyStatusReport_' + moment(this.date).format('MM/dd/yyyy') + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.dailyStatusReport, 'customerDetailReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsCSVFile(this.washes, 'DailyWashStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsCSVFile(this.details, 'DailyDetailStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsCSVFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' + moment(this.date).format('MM/DD/YYYY'));
+
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.dailyStatusReport, 'customerDetailReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsExcelFile(this.washes, 'DailyWashStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsExcelFile(this.details, 'DailyDetailStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsExcelFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' + moment(this.date).format('MM/DD/YYYY'));
         break;
       }
       default: {
         return;
       }
     }
+    $('#printReport').hide();
   }
   preview() {
     this.getDailyStatusReport();
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
+  }
+  print() {
+    $('#printReport').show();
+    setTimeout(() => {
+      $('#printReport').hide();
+    }, 1000);
   }
   calculateTotal(obj, type) {
     return obj.reduce((sum, i) => {
