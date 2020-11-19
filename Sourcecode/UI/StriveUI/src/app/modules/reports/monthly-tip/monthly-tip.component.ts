@@ -60,16 +60,30 @@ export class MonthlyTipComponent implements OnInit {
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
+        const monthlyTip = this.customizeObj(this.monthlyTip);
+        this.excelService.exportAsCSVFile(monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
+        const monthlyTip = this.customizeObj(this.monthlyTip);
+        this.excelService.exportAsExcelFile(monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
         break;
       }
       default: {
         return;
       }
+    }
+  }
+  customizeObj(dailyTip) {
+    if (dailyTip.length > 0) {
+      const dTip = dailyTip.map(item => {
+        return {
+          Payee: item.EmployeeName,
+          Hours: item.HoursPerDay,
+          Tip: item.Tip
+        };
+      });
+      return dTip;
     }
   }
   onMonthChange(event) {

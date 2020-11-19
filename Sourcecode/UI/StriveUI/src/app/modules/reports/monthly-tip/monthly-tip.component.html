@@ -46,7 +46,7 @@
                 <div class="card-body">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Tip Report </span>
-                            <div class="d-inline-block"><input type="text" class="form-control" [(ngModel)]="tipAmount" size="2" placeholder="Tip Total">
+                            <div class="d-inline-block"><input type="text" class="form-control" [(ngModel)]="tipAmount" appTwoDecimalNumber size="2" placeholder="Tip Total">
                             </div>
                             &nbsp;<button type="button" class="btn theme-primary-button-color" [disabled]="!tipAmount" (click)="submit()">Submit</button>
                         </h4>
