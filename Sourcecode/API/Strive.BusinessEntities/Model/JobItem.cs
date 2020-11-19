@@ -26,6 +26,9 @@ namespace Strive.BusinessEntities.Model
         public decimal? Commission { get; set; }
 
         [Column]
+        public int? CommissionType { get; set; }
+
+        [Column]
         public decimal? Price { get; set; }
 
         [Column]
@@ -51,6 +54,8 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
+
+       
 
 
     }
