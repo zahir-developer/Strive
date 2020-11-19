@@ -160,13 +160,15 @@ export class EodComponent implements OnInit, AfterViewInit {
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.washReport, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
-        this.excelService.exportAsCSVFile(this.detailReport, 'EodDetailStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsCSVFile(this.washes, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsCSVFile(this.details, 'EodDetailStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsCSVFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' + moment(this.date).format('MM/DD/YYYY'));
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.washReport, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
-        this.excelService.exportAsExcelFile(this.detailReport, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' + moment(this.date).format('MM/dd/yyyy'));
         break;
       }
       default: {
@@ -198,18 +200,18 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
           this.washTotal = this.calculateTotal(this.washes, 'wash');
           this.detailTotal = this.calculateTotal(this.details, 'detail');
-          this.washes.forEach( item => {
-            this.washReport.push({
-              ServiceName: item.ServiceName,
-              Number: item.Number
-            });
-          });
-          this.details.forEach( item => {
-            this.detailReport.push({
-              ServiceName: item.ServiceName,
-              Number: item.Number
-            });
-          });
+          // this.washes.forEach( item => {
+          //   this.washReport.push({
+          //     ServiceName: item.ServiceName,
+          //     Number: item.Number
+          //   });
+          // });
+          // this.details.forEach( item => {
+          //   this.detailReport.push({
+          //     ServiceName: item.ServiceName,
+          //     Number: item.Number
+          //   });
+          // });
         }
       }
     }, (err) => {
