@@ -19,9 +19,10 @@ export class ExportFiletypeComponent implements OnInit {
     { id: 2, name: 'CSV (comma delimited)' },
     { id: 3, name: 'Excel 97 - 2003' },
     { id: 4, name: 'Rich Text Format ' },
-    { id: 5, name: 'TIFF File' },
+    // { id: 5, name: 'TIFF File' },
     { id: 6, name: 'Web Archive' },
-    { id: 7, name: 'XPS Document' }];
+    // { id: 7, name: 'XPS Document' }
+  ];
   }
   getFileType(event) {
     this.emitExportType.emit(event);
