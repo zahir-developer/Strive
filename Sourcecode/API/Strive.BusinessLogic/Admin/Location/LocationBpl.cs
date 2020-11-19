@@ -6,6 +6,7 @@ using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Strive.BusinessLogic.Location
@@ -13,7 +14,14 @@ namespace Strive.BusinessLogic.Location
     public class LocationBpl : Strivebase, ILocationBpl
     {
         public LocationBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
-
+        private List<Bay> CreateBay()
+        {
+            List<Bay> bay = new List<Bay>();
+            bay.Add(new Bay() { BayName = "Bay1", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
+            bay.Add(new Bay() { BayName = "Bay2", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
+            bay.Add(new Bay() { BayName = "Bay3", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
+            return bay;
+        }
         public Result AddLocation(LocationDto location)
         {
             var random = new Random();
@@ -21,7 +29,7 @@ namespace Strive.BusinessLogic.Location
 
             location.Location.ColorCode = color;
             location.Location.WashTimeMinutes = random.Next(30, 45);
-
+            location.Bay = CreateBay();
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 
