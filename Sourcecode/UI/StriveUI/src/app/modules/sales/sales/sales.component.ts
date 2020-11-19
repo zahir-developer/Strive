@@ -28,7 +28,7 @@ export class SalesComponent implements OnInit {
   paymentStatusId: number;
   validGiftcard: any;
   targetId = '';
-  enableButton = false;
+  enableButton = true;
   showPopup = false;
   products = [];
   discountService = [];

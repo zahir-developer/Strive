@@ -73,32 +73,32 @@
                                             (click)="clear()">Clear</button>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" (click)="showPopup ? openCash(): closecash()"> <img
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" (click)="showPopup ? openCash(): closecash()" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"> <img
                                                 src="assets/img/cash.png" alt="" />
                                             <div> Cash </div>
                                         </div>
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton"
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup ? opengiftcard(): closegiftcard()"> <img
                                                 src="assets/img/Gift.png" alt="" />
                                             <div> Gift </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton"
+                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup ? opencreditcard(): closecreditcard()"> <img
                                                 src="assets/img/Credit.png" alt="" />
                                             <div> Credit </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton"
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup? opendiscount(): closediscount()"> <img
                                                 src="assets/img/Discount.png" alt="" />
                                             <div> Discount </div>
                                         </div>
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" [disable]="!isAccount" (click)="processAccount()">
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton"  [ngClass]="{'disable': enableButton, 'enable': !enableButton}" [disable]="!isAccount" (click)="processAccount()">
                                             <img src="assets/img/Account.png" alt="" />
                                             <div> Account </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton"
+                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup ? getDetailByTicket(false): ''"> <img
                                                 src="assets/img/Clear.png" alt="" />
                                             <div> Clear </div>
