@@ -80,6 +80,7 @@
     <Compile Include="Fragments\MessengerPersonalChatFragment.cs" />
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
     <Compile Include="Fragments\MessengerViewParticipantsFragment.cs" />
+    <Compile Include="Fragments\MyProfile\Collisions\AddCollisionsFragment.cs" />
     <Compile Include="Fragments\MyProfile\Collisions\CollisionsFragment.cs" />
     <Compile Include="Fragments\MyProfile\Documents\DocumentsFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditEmployeeDetailFragment.cs" />
@@ -732,6 +733,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\download.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AddCollisions_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

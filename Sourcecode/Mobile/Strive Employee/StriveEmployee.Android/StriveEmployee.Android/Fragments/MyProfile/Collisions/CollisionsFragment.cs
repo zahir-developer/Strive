@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -24,6 +25,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
     {
         private RecyclerView collison_RecyclerView;
         private CollisionAdapter collision_Adapter;
+        private ImageButton addCollision_Buttton;
+        private MvxFragment selected_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,9 +39,18 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             var rootView = this.BindingInflate(Resource.Layout.Collisions_Fragment, null);
             this.ViewModel = new CollisionsViewModel();
 
+            addCollision_Buttton = rootView.FindViewById<ImageButton>(Resource.Id.addCollisions_ImageButton);
             collison_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.collison_RecyclerView);
+            addCollision_Buttton.Click += AddCollision_Buttton_Click;
             GetCollisionInfo();
             return rootView;
+        }
+
+        private void AddCollision_Buttton_Click(object sender, EventArgs e)
+        {
+            selected_Fragment = new AddCollisionsFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+           activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_Fragment).Commit();
         }
 
         private async void GetCollisionInfo()

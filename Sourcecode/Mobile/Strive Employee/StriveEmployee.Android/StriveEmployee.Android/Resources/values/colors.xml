@@ -27,5 +27,6 @@
   <color name="senderChatBubble">#0E7268</color>
   <color name="senderChatTime">#5F6281</color>
   <color name="documentDate">#747475</color>
+  <color name="addImage">#030303</color>
 
 </resources>
