@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker/ngx-bootstrap-datepicker';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-daily-tip',
@@ -75,15 +76,17 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Dailyreport', 'DailyTipReport' + this.date + '.pdf');
+        this.excelService.exportAsPDFFile('Dailyreport', 'DailyTipReport' + moment(this.date).format('MM/DD/YYYY') + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.dailyTip, 'DailyTipReport_' + this.date);
+        const dailyTip = this.customizeObj(this.dailyTip);
+        this.excelService.exportAsCSVFile(dailyTip, 'DailyTipReport_' + moment(this.date).format('MM/DD/YYYY'));
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.dailyTip, 'DailyTipReport_' + this.date);
+        const dailyTip = this.customizeObj(this.dailyTip);
+        this.excelService.exportAsExcelFile(dailyTip, 'DailyTipReport_' + moment(this.date).format('MM/DD/YYYY'));
         break;
       }
       default: {
@@ -91,7 +94,18 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
       }
     }
   }
-
+  customizeObj(dailyTip) {
+    if (dailyTip.length > 0) {
+const dTip = dailyTip.map(item => {
+  return {
+    Payee: item.EmployeeName,
+    Hours: item.HoursPerDay,
+    Tip: item.Tip
+  };
+});
+return dTip;
+    }
+  }
   submit() {
     this.totalHours = 0;
     this.totalTip = 0;
