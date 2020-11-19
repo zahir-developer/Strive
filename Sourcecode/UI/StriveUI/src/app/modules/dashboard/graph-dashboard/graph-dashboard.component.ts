@@ -50,55 +50,6 @@ export class GraphDashboardComponent implements OnInit {
     this.getChartDetail();
   }
 
-  getDataPoints() {
-    this.dataPoints = [
-      {
-        id: 1,
-        name: 'WashesCount',
-        color: '#fd397a',
-        isSelected: true,
-        displayName: 'Washes'
-      },
-      {
-        id: 2,
-        name: 'DetailCount',
-        color: '#f3c200',
-        isSelected: true,
-        displayName: 'Details'
-      },
-      {
-        id: 3,
-        name: 'EmployeeCount',
-        color: '#24489A',
-        isSelected: true,
-        displayName: 'Employees'
-      },
-      {
-        id: 4,
-        name: 'Score',
-        color: '#24CAFF',
-        isSelected: true,
-        displayName: 'Score'
-      },
-      {
-        id: 5,
-        name: 'ForecastedCar',
-        color: '#5968DD',
-        isSelected: false,
-        displayName: 'Currents/Forecasted Car'
-      }
-    ];
-    const backgroundColor = [];
-    this.dataPoints.forEach(item => {
-      if (item.isSelected) {
-        backgroundColor.push({
-          backgroundColor: item.color
-        });
-      }
-    });
-    this.barChartColors = backgroundColor;
-  }
-
   dotLineChart() {
     this.barChartType = 'line';
     this.isDotLineChart = true;
@@ -258,6 +209,139 @@ export class GraphDashboardComponent implements OnInit {
       }
     });
     this.barChartData = chartData;
+  }
+
+  getDataPoints() {
+    this.dataPoints = [
+      {
+        id: 1,
+        name: 'WashesCount',
+        color: '#fd397a',
+        isSelected: true,
+        displayName: 'Washes'
+      },
+      {
+        id: 2,
+        name: 'DetailCount',
+        color: '#f3c200',
+        isSelected: true,
+        displayName: 'Details'
+      },
+      {
+        id: 3,
+        name: 'EmployeeCount',
+        color: '#24489A',
+        isSelected: true,
+        displayName: 'Employees'
+      },
+      {
+        id: 4,
+        name: 'Score',
+        color: '#24CAFF',
+        isSelected: true,
+        displayName: 'Score'
+      },
+      {
+        id: 5,
+        name: 'ForecastedCar',
+        color: '#5968DD',
+        isSelected: false,
+        displayName: 'Currents/Forecasted Car'
+      },
+      {
+        id: 6,
+        name: 'WashSales',
+        color: '#fd397a',
+        isSelected: false,
+        displayName: 'Wash Sales'
+      },
+      {
+        id: 7,
+        name: 'DetailSales',
+        color: '#FFB822',
+        isSelected: false,
+        displayName: 'Detail Sales'
+      },
+      {
+        id: 8,
+        name: 'ExtraServiceSales',
+        color: '#24489A',
+        isSelected: false,
+        displayName: 'Extra Service Sales'
+      },
+      {
+        id: 9,
+        name: 'MerchandizeSales',
+        color: '#24CAFF',
+        isSelected: false,
+        displayName: 'Merchandize Sales'
+      },
+      {
+        id: 10,
+        name: 'TotalSales',
+        color: '#1DC9B7',
+        isSelected: false,
+        displayName: 'Total Sales'
+      },
+      {
+        id: 11,
+        name: 'MonthlyClientSales',
+        color: '#5968DD',
+        isSelected: false,
+        displayName: 'Monthly Client Sales'
+      },
+      {
+        id: 12,
+        name: 'AverageWashPerCar',
+        color: '#FD397A',
+        isSelected: false,
+        displayName: 'Average Wash Per Car'
+      },
+      {
+        id: 13,
+        name: 'AverageDetailPerCar',
+        color: '#FFB822',
+        isSelected: false,
+        displayName: 'Average Detail Per Car'
+      },
+      {
+        id: 14,
+        name: 'AverageExtraServicePerCar',
+        color: '#24489A',
+        isSelected: false,
+        displayName: 'Average ExtraService Per Car'
+      },
+      {
+        id: 15,
+        name: 'AverageTotalPerCar',
+        color: '#24CAFF',
+        isSelected: false,
+        displayName: 'Average Total Per Car'
+      },
+      {
+        id: 16,
+        name: 'LabourCostPerCarMinusDetail',
+        color: '#1DC9B7',
+        isSelected: false,
+        displayName: 'Labour Cost Per Car'
+      },
+      {
+        id: 17,
+        name: 'DetailCostPerCar',
+        color: '#5968DD',
+        isSelected: false,
+        displayName: 'Detail Cost Per Car'
+      },
+    ];
+    const backgroundColor = [];
+    this.dataPoints.forEach(item => {
+      if (item.isSelected) {
+        backgroundColor.push({
+          backgroundColor: item.color
+        });
+      }
+    });
+    this.barChartColors = backgroundColor;
   }
 
 }

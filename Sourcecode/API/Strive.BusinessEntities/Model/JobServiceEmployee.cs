@@ -20,6 +20,9 @@ namespace Strive.BusinessEntities.Model
         public int? EmployeeId { get; set; }
 
         [Column]
+        public decimal? CommissionAmount { get; set; }
+
+        [Column]
         public bool? IsActive { get; set; }
 
         [Column]
