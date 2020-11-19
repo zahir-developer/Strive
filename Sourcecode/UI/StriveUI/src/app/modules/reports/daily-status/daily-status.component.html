@@ -113,7 +113,7 @@
                                             <tbody>
                                                 <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
                                                     <td class="pointer" title= "{{detailInfo?.ServiceName}}">
-                                                        {{detailInfo?.ServiceName | slice:0:15}} {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                                        {{detailInfo?.EmployeeName | slice:0:15}} {{(detailInfo?.EmployeeName !== null) ?detailInfo?.EmployeeName?.length <= 15 ? '': '...':''}}
                                                         </td>
                                                     <td>{{detailInfo?.TicketNumber}}</td>
                                                     <td>{{detailInfo?.Commision}}</td>
