@@ -6,25 +6,36 @@ using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Content;
+using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Plugin.Media;
 using StriveEmployee.Android.Resources.Services;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
-{    
+{
     public class AddCollisions_DialogFragment : BottomSheetDialogFragment
     {
         private ImageView openGallery_ImageView;
         private ImageView openCamera_ImageView;
+        readonly string[] permissionGroups =
+        {
+            Manifest.Permission.ReadExternalStorage,
+            Manifest.Permission.WriteExternalStorage,
+            Manifest.Permission.Camera,
+        };
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            Xamarin.Essentials.Platform.Init((Activity)this.Context, savedInstanceState);
             // Create your fragment here
         }
 
@@ -37,12 +48,11 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 
             openGallery_ImageView.Click += OpenGallery_ImageView_Click;
             openCamera_ImageView.Click += OpenCamera_ImageView_Click;
-
+            RequestPermissions(permissionGroups, 0);
 
 
             return view;
         }
-
         private void OpenCamera_ImageView_Click(object sender, EventArgs e)
         {
             TakePhoto();
@@ -52,24 +62,56 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         {
             UploadPhoto();
         }
-
-        private async void TakePhoto()
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            await Permission_Services.checkCameraPermission(this);
-            await Permission_Services.ReadExternalStoragePermission(this);
-            await Permission_Services.WriteExternalStoragePermission(this);
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.Camera) == Permission.Granted &&
-                ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) == Permission.Granted &&
-                ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+         async void TakePhoto()
+        {
+            //await Permission_Services.checkCameraPermission(this);
+            //await Permission_Services.ReadExternalStoragePermission(this);
+            //await Permission_Services.WriteExternalStoragePermission(this);
+
+            //if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.Camera) == Permission.Granted &&
+            //    ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) == Permission.Granted &&
+            //    ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+            //{
+            
+            try
             {
-
+                await CrossMedia.Current.Initialize();
+                if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+                {
+                    var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                    {
+                        DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Rear,
+                        PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium,
+                        CompressionQuality = 40,
+                        Name = "collisionandroid.jpg",
+                        Directory = "sample"
+                    });
+                    if (file == null)
+                    {
+                        return;
+                    }
+                    byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+                    Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+                }               
             }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //}
         }
 
         private async void UploadPhoto()
         {
-          
+
         }
     }
 }
+
