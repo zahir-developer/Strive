@@ -81,6 +81,7 @@
     <Compile Include="Fragments\MessengerRecentContactFragment.cs" />
     <Compile Include="Fragments\MessengerViewParticipantsFragment.cs" />
     <Compile Include="Fragments\MyProfile\Collisions\AddCollisionsFragment.cs" />
+    <Compile Include="Fragments\MyProfile\Collisions\AddCollisions_DialogFragment.cs" />
     <Compile Include="Fragments\MyProfile\Collisions\CollisionsFragment.cs" />
     <Compile Include="Fragments\MyProfile\Documents\DocumentsFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditEmployeeDetailFragment.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="MvvmCross\Setup.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Services\Permission_Services.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\BaseExampleView.cs" />
     <Compile Include="Views\DashboardView.cs" />
@@ -152,6 +154,9 @@
     </PackageReference>
     <PackageReference Include="MvvmCross.Plugin.Json">
       <Version>7.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Media">
+      <Version>5.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
@@ -738,6 +743,52 @@
     <AndroidResource Include="Resources\layout\AddCollisions_Fragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AddCollisions_BottomSheet.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\customBottomLayoutIcons.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\gallery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\gallery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\gallery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\gallery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\gallery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\gallery.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
