@@ -38,7 +38,7 @@ export class EodComponent implements OnInit, AfterViewInit {
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
     private excelService: ExcelService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.isPrintReport = false;
@@ -74,17 +74,17 @@ export class EodComponent implements OnInit, AfterViewInit {
     const date = moment(this.selectDate).format('YYYY-MM-DD');
     const cashRegisterType = 'CASHIN';
     const locationId = +localStorage.getItem('empLocationId');
-    this.reportService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe( res => {
+    this.reportService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(res => {
       if (res.status === 'Success') {
         const cashIn = JSON.parse(res.resultData);
         console.log(cashIn, 'cashIn');
         if (cashIn.CashRegister.CashRegisterCoins !== null) {
           this.cashRegisterCoins = {
             Pennies: cashIn.CashRegister.CashRegisterCoins.Pennies / 100,
-            Nickels: ( 5 * cashIn.CashRegister.CashRegisterCoins.Nickels) / 100,
+            Nickels: (5 * cashIn.CashRegister.CashRegisterCoins.Nickels) / 100,
             Dimes: (10 * cashIn.CashRegister.CashRegisterCoins.Dimes) / 100,
-            Quarters: ( 25 * cashIn.CashRegister.CashRegisterCoins.Quarters) / 100,
-            HalfDollars: ( 50 * cashIn.CashRegister.CashRegisterCoins.HalfDollars) / 100
+            Quarters: (25 * cashIn.CashRegister.CashRegisterCoins.Quarters) / 100,
+            HalfDollars: (50 * cashIn.CashRegister.CashRegisterCoins.HalfDollars) / 100
           };
         } else {
           this.cashRegisterCoins = {
@@ -98,7 +98,7 @@ export class EodComponent implements OnInit, AfterViewInit {
         if (cashIn.CashRegister.CashRegisterBills !== null) {
           this.cashRegisterBills = {
             s1: cashIn.CashRegister.CashRegisterBills.s1,
-            s5: ( 5 * cashIn.CashRegister.CashRegisterBills.s5),
+            s5: (5 * cashIn.CashRegister.CashRegisterBills.s5),
             s10: (10 * cashIn.CashRegister.CashRegisterBills.s10),
             s20: (20 * cashIn.CashRegister.CashRegisterBills.s20),
             s50: (50 * cashIn.CashRegister.CashRegisterBills.s50),
@@ -117,13 +117,13 @@ export class EodComponent implements OnInit, AfterViewInit {
         if (cashIn.CashRegister.CashRegisterRolls !== null) {
           this.cashRegisterRolls = {
             Pennies: cashIn.CashRegister.CashRegisterRolls.Pennies !== null ? cashIn.CashRegister.CashRegisterRolls.Pennies / 100 : 0,
-            Nickels: cashIn.CashRegister.CashRegisterRolls.Nickels !== null ? ( 5 * cashIn.CashRegister.CashRegisterRolls.Nickels) / 100
-            : 0,
+            Nickels: cashIn.CashRegister.CashRegisterRolls.Nickels !== null ? (5 * cashIn.CashRegister.CashRegisterRolls.Nickels) / 100
+              : 0,
             Dimes: cashIn.CashRegister.CashRegisterRolls.Dimes !== null ? (10 * cashIn.CashRegister.CashRegisterRolls.Dimes) / 100 : 0,
-            Quarters: cashIn.CashRegister.CashRegisterRolls.Quarters !== null ? ( 25 * cashIn.CashRegister.CashRegisterRolls.Quarters) / 100
-            : 0,
+            Quarters: cashIn.CashRegister.CashRegisterRolls.Quarters !== null ? (25 * cashIn.CashRegister.CashRegisterRolls.Quarters) / 100
+              : 0,
             HalfDollars: cashIn.CashRegister.CashRegisterRolls.HalfDollars !== null ?
-             ( 50 * cashIn.CashRegister.CashRegisterRolls.HalfDollars) / 100 : 0
+              (50 * cashIn.CashRegister.CashRegisterRolls.HalfDollars) / 100 : 0
           };
         } else {
           this.cashRegisterRolls = {
@@ -248,13 +248,13 @@ export class EodComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const clockDetail = JSON.parse(data.resultData);
         console.log(clockDetail);
-        this.clockDetail = clockDetail?.Result;
+        // this.clockDetail = clockDetail?.Result;
         if (clockDetail.Result.TimeClockEmployeeDetails !== null) {
           this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
-        }
-        this.clockDetail.forEach( item => {
+          this.clockDetail.forEach(item => {
             this.empTotalHours = this.empTotalHours + item.HoursPerDay;
-        });
+          });
+        }
       }
     }, (err) => {
 
@@ -273,7 +273,7 @@ export class EodComponent implements OnInit, AfterViewInit {
       fromDate: moment(this.selectDate).format('YYYY-MM-DD'),
       endDate: moment(this.selectDate).format('YYYY-MM-DD')
     };
-    this.reportService.getEodSaleReport(saleObj).subscribe( res => {
+    this.reportService.getEodSaleReport(saleObj).subscribe(res => {
       if (res.status === 'Success') {
         const saleReport = JSON.parse(res.resultData);
         console.log(saleReport, 'sales');

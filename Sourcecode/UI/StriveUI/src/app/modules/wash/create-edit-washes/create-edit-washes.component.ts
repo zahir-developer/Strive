@@ -72,8 +72,6 @@ export class CreateEditWashesComponent implements OnInit {
     this.isPrint = false;
     this.formInitialize();
     this.timeInDate = new Date();
-    const dt = new Date();
-    this.timeOutDate = dt.setMinutes(dt.getMinutes() + 30);
     // this.timeOutDate = new Date() + 30;
     this.Score = [{ CodeId: 1, CodeValue: "None" }, { CodeId: 2, CodeValue: "Option1" }, { CodeId: 3, CodeValue: "Option2" }];
     if (this.isView === true) {
@@ -113,6 +111,7 @@ export class CreateEditWashesComponent implements OnInit {
     //     this.ticketNumber = data;
     //   }
     // });
+    this.getWashTimeByLocationID();
     this.getAllClient();
     this.getServiceType();
     this.getColor();
@@ -125,6 +124,8 @@ export class CreateEditWashesComponent implements OnInit {
         const washTime = JSON.parse(res.resultData);
         const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
         this.washTime = WashTimeMinutes;
+        const dt = new Date();
+        this.timeOutDate = dt.setMinutes(dt.getMinutes() + this.washTime);
       }
     });
   }
