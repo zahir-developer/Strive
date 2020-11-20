@@ -1,0 +1,6 @@
+@media print {
+    #monthlySalesExport {
+      overflow-y: visible !important; 
+      position: relative;
+    }
+  }

@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker/ngx-bootstrap-datepicker';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 // import * as jsPDF from 'jspdf';
 // import 'jspdf-autotable';
 // declare let jsPDF;
@@ -13,8 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./monthly-sales.component.css']
 })
 export class MonthlySalesComponent implements OnInit, AfterViewInit {
-  // @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
-  // bsConfig: Partial<BsDatepickerConfig>;
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
   monthlySalesReport = [];
   selectedDate : any;
   employees = [];
@@ -44,9 +44,6 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
     this.onMonthChange(currentMonth);
   }
   ngAfterViewInit() {
-    // this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
-    // this.datepicker.setConfig();
-    // this.cd.detectChanges();
   }
   getMonthlySalesReport() {
     const obj = {
@@ -108,6 +105,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   }
   export() {
     const fileType = this.fileType !== undefined ? this.fileType : '';
+    const locationName = this.locationDropdownComponent.locationName;
     if (fileType === '' || fileType === 0) {
       return;
     }
@@ -116,15 +114,15 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('monthlySalesExport', 'MonthlySalesReport_' + this.selectedDate + '.pdf');
+        this.excelService.exportAsPDFFile('monthlySalesExport', 'MonthlySalesReport_' + this.selectedDate + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate);
+        this.excelService.exportAsCSVFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate);
+        this.excelService.exportAsExcelFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       default: {

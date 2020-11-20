@@ -3,6 +3,7 @@ import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/da
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 
 @Component({
   selector: 'app-daily-tip',
@@ -10,6 +11,7 @@ import * as moment from 'moment';
   styleUrls: ['./daily-tip.component.css']
 })
 export class DailyTipComponent implements OnInit, AfterViewInit {
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   date = new Date();
@@ -71,22 +73,23 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   }
   export() {
     const fileType = this.fileType !== undefined ? this.fileType : '';
+    const locationName = this.locationDropdownComponent.locationName;
     if (fileType === '' || fileType === 0) {
       return;
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Dailyreport', 'DailyTipReport' + moment(this.date).format('MM/DD/YYYY') + '.pdf');
+        this.excelService.exportAsPDFFile('Dailyreport', 'DailyTipReport' + moment(this.date).format('MM/DD/YYYY') + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
         const dailyTip = this.customizeObj(this.dailyTip);
-        this.excelService.exportAsCSVFile(dailyTip, 'DailyTipReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsCSVFile(dailyTip, 'DailyTipReport_' + moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
         break;
       }
       case 3: {
         const dailyTip = this.customizeObj(this.dailyTip);
-        this.excelService.exportAsExcelFile(dailyTip, 'DailyTipReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsExcelFile(dailyTip, 'DailyTipReport_' + moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
         break;
       }
       default: {

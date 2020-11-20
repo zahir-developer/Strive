@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as moment from 'moment';
 import * as _ from 'underscore';
@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 declare var $: any;
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 @Component({
   selector: 'app-monthly-customer-detail',
   templateUrl: './monthly-customer-detail.component.html',
@@ -13,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class MonthlyCustomerDetailComponent implements OnInit {
   locationId: any;
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
   date = new Date();
   month: number;
   year: number;
@@ -97,6 +99,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
   }
   export() {
     const fileType = this.fileType !== undefined ? this.fileType : '';
+    const locationName = this.locationDropdownComponent.locationName;
     if (fileType === '' || fileType === 0) {
       return;
     } else if (this.customerDetailReport.length === 0) {
@@ -104,20 +107,40 @@ export class MonthlyCustomerDetailComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('custDetailExport', 'customerDetailReport_' + this.selectedDate + '.pdf');
+        this.excelService.exportAsPDFFile('custDetailExport', 'customerDetailReport_' + this.selectedDate  +  '_' + locationName + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.customerDetailReport, 'customerDetailReport_' + this.selectedDate);
+        const customerDetailReport = this.customizeObj(this.customerDetailReport);
+        this.excelService.exportAsCSVFile(customerDetailReport, 'customerDetailReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.customerDetailReport, 'customerDetailReport_' + this.selectedDate);
+        const customerDetailReport = this.customizeObj(this.customerDetailReport);
+        this.excelService.exportAsExcelFile(customerDetailReport, 'customerDetailReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       default: {
         return;
       }
+    }
+  }
+  customizeObj(customerDetailReport) {
+    if (customerDetailReport.length > 0) {
+const customerDetail = customerDetailReport.map(item => {
+  return {
+    ClientName: item.ClientName,
+    TicketNumber: item.TicketNumber,
+    Color: item.Color,
+    Model: item.Model,
+    Date: item.JobDate,
+    MembershipOrDrive: item.MemberShipName !== '' ? item.MemberShipName: 'DriveUp',
+    MembershipID: item.MemberShipId,
+    MembershipAmount: item.MembershipPrice,
+    TicketAmount: item.TicketAmount
+  };
+});
+return customerDetail;
     }
   }
 }
