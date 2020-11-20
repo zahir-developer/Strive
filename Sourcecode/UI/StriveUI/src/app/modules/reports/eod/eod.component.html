@@ -131,17 +131,17 @@
                                             </th>
                                         </tr>
                                         <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
-                                            <td>{{detailInfo?.ServiceName | slice:0:15}}
-                                                {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                            <td>{{detailInfo?.EmployeeName | slice:0:15}}
+                                                {{(detailInfo?.EmployeeName!== null) ?detailInfo?.EmployeeName?.length <= 15 ? '': '...':''}}
                                             </td>
                                             <td class="text-right">{{detailInfo?.TicketNumber}}</td>
-                                            <td class="text-right">{{detailInfo?.Commision}}</td>
+                                            <td class="text-right">{{detailInfo?.Commission}}</td>
                                         </tr>
                                     </tbody>
                                     <tfoot class="font-weight-700">
                                         <tr class="table-foot">
                                             <td class="text-right" colspan="2">Total Expenses: </td>
-                                            <td class="text-right">{{detailInfoTotal}}</td>
+                                            <td class="text-right">{{detailInfoTotal?.toFixed(2)}}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
