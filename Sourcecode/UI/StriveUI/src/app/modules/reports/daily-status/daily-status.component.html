@@ -80,7 +80,8 @@
                                             </tbody>
                                             <tfoot class="font-weight-700"  *ngIf="washes.length > 0 || details.length >0">
                                                 <tr>
-                                                    <td  colspan="2" class="text-right">Total: {{washTotal + detailTotal}}</td>
+                                                    <td class="text-right">Total: </td>
+                                                    <td>{{washTotal + detailTotal}}</td>
                                                     
                                                 </tr>
                                             </tfoot>
@@ -107,8 +108,8 @@
                                         
                                                 <tr  class="bg-white">
                                                     <th scope="col" class="font-weight-700">Name</th>
-                                                    <th scope="col" class="font-weight-700 text-right">Ticket</th>
-                                                    <th scope="col" class="font-weight-700 text-right">Commission</th>
+                                                    <th scope="col" class="font-weight-700">Ticket</th>
+                                                    <th scope="col" class="font-weight-700 ">Commission</th>
                                                 </tr>
                                                 
                                             </thead>
@@ -123,7 +124,8 @@
                                             </tbody>
                                             <tfoot class="font-weight-700"  *ngIf="dailyStatusDetailInfo?.length > 0">
                                                 <tr>
-                                                    <td class="text-right" colspan="3">Total Expenses: {{detailInfoTotal}} </td>
+                                                    <td colspan="2" class="text-right"> Total Expenses:</td>
+                                                    <td> {{detailInfoTotal}} </td>
                                                     
                                                 </tr>
                                             </tfoot>
