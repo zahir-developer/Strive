@@ -20,9 +20,10 @@ emp.SSNo,
 empAdd.Email,
 empDetail.EmployeeDetailId,
 empDetail.HiredDate,
-empDetail.PayRate,
+empDetail.WashRate,
 empDetail.ComRate,
 empDetail.DetailRate,
+empDetail.AuthId,
 emp.IsActive as Status,
 empDetail.Tip,
 empDetail.Exemptions,
@@ -30,7 +31,7 @@ empDetail.ComType
 from StriveCarSalon.tblEmployee emp
 left join strivecarsalon.tblEmployeeAddress empAdd on emp.EmployeeId= empAdd.EmployeeId
 left join StriveCarSalon.tblEmployeeDetail empDetail on emp.EmployeeId = empDetail.EmployeeId
-where isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and emp.EmployeeId = @EmployeeId
+where isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and emp.EmployeeId = @EmployeeId 
 
 
 select row_number() OVER (
@@ -72,6 +73,7 @@ select row_number() OVER (
 
    select emplo.EmployeeId,EmployeeLocationId, emplo.LocationId,lo.Locationname from strivecarsalon.tblEmployeeLocation emplo inner join
    StriveCarSalon.tblLocation lo on emplo.locationid=lo.locationid where emplo.employeeid=@EmployeeId
+   and isnull(emplo.IsDeleted,0)=0 and emplo.IsActive = 1
 
 END
 --	[StriveCarSalon].uspGetEmployeeById 1

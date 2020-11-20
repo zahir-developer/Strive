@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblChatMessageRecipient] (
     [ChatRecipientId]  BIGINT IDENTITY (1, 1) NOT NULL,
     [ChatMessageId]    BIGINT NULL,
+    [RecipientId]      INT    NULL,
     [RecipientGroupId] INT    NULL,
     [IsRead]           BIT    NULL,
     [SenderId]         INT    NULL,
@@ -9,6 +10,8 @@
     CONSTRAINT [FK_tblChatMessageRecipient_RecipientGroupId] FOREIGN KEY ([RecipientGroupId]) REFERENCES [StriveCarSalon].[tblChatUserGroup] ([ChatGroupUserId]),
     CONSTRAINT [FK_tblChatMessageRecipient_SenderId] FOREIGN KEY ([SenderId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
+
+
 
 
 GO

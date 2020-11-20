@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblChatGroup] (
     [ChatGroupId] INT                IDENTITY (1, 1) NOT NULL,
-    [GroupName]   VARCHAR (10)       NULL,
+    [GroupId]     NVARCHAR (50)      NULL,
+    [GroupName]   VARCHAR (20)       NULL,
     [Comments]    VARCHAR (20)       NULL,
     [IsActive]    BIT                NULL,
     [IsDeleted]   BIT                NULL,
@@ -10,4 +11,6 @@
     [UpdatedDate] DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblChatGroup] PRIMARY KEY CLUSTERED ([ChatGroupId] ASC)
 );
+
+
 
