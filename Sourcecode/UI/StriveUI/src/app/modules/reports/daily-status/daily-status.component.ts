@@ -6,6 +6,7 @@ import * as moment from 'moment';
 declare var $: any;
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 @Component({
   selector: 'app-daily-status',
   templateUrl: './daily-status.component.html',
@@ -13,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class DailyStatusComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
   bsConfig: Partial<BsDatepickerConfig>;
   locationId: any;
   date = new Date();
@@ -169,6 +171,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   export() {
     $('#printReport').show();
     const fileType = this.fileType !== undefined ? this.fileType : '';
+    const locationName = this.locationDropdownComponent.locationName;
     if (fileType === '' || fileType === 0) {
       $('#printReport').hide();
       return;
@@ -180,20 +183,27 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('dailyStatusReport', 'DailyStatusReport_' + moment(this.date).format('MM/dd/yyyy') + '.pdf');
+        this.excelService.exportAsPDFFile('dailyStatusReport', 'DailyStatusReport_' +
+        moment(this.date).format('MM/dd/yyyy') + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.washes, 'DailyWashStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
-        this.excelService.exportAsCSVFile(this.details, 'DailyDetailStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
-        this.excelService.exportAsCSVFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsCSVFile(this.washes, 'DailyWashStatusReport_' +
+        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+        this.excelService.exportAsCSVFile(this.details, 'DailyDetailStatusReport_' +
+        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+        this.excelService.exportAsCSVFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' +
+        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
 
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.washes, 'DailyWashStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
-        this.excelService.exportAsExcelFile(this.details, 'DailyDetailStatusReport_' + moment(this.date).format('MM/DD/YYYY'));
-        this.excelService.exportAsExcelFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsExcelFile(this.washes, 'DailyWashStatusReport_' +
+        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+        this.excelService.exportAsExcelFile(this.details, 'DailyDetailStatusReport_' +
+        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+        this.excelService.exportAsExcelFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' +
+        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
         break;
       }
       default: {
@@ -215,7 +225,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   }
   calculateTotal(obj, type) {
     return obj.reduce((sum, i) => {
-      return sum + (type === 'detailInfo' ? +i.Commision : +i.Number);
+      return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }
 }

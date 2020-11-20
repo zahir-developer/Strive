@@ -3,6 +3,7 @@ import { BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/da
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 declare var $: any;
 
 @Component({
@@ -11,6 +12,7 @@ declare var $: any;
   styleUrls: ['./eod.component.css']
 })
 export class EodComponent implements OnInit, AfterViewInit {
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   date = new Date();
@@ -48,6 +50,7 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.getDailyStatusReport();
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
+    this.getCashRegister();
   }
 
   ngAfterViewInit() {
@@ -72,7 +75,7 @@ export class EodComponent implements OnInit, AfterViewInit {
 
   getCashRegister() {
     const date = moment(this.selectDate).format('YYYY-MM-DD');
-    const cashRegisterType = 'CASHIN';
+    const cashRegisterType = 'CLOSEOUT';
     const locationId = +localStorage.getItem('empLocationId');
     this.reportService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(res => {
       if (res.status === 'Success') {
@@ -149,6 +152,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   export() {
     $('#printReport').show();
     const fileType = this.fileType !== undefined ? this.fileType : '';
+    const locationName = this.locationDropdownComponent.locationName;
     if (fileType === '' || fileType === 0) {
       return;
     } else if (this.dailyStatusReport.length === 0) {
@@ -156,19 +160,26 @@ export class EodComponent implements OnInit, AfterViewInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('EodStatusReport', 'EodStatusReport_' + moment(this.date).format('MM/dd/yyyy') + '.pdf');
+        this.excelService.exportAsPDFFile('EodStatusReport', 'EodStatusReport_' + moment(this.date).format('MM/dd/yyyy')
+        + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.washes, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
-        this.excelService.exportAsCSVFile(this.details, 'EodDetailStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
-        this.excelService.exportAsCSVFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' + moment(this.date).format('MM/DD/YYYY'));
+        this.excelService.exportAsCSVFile(this.washes, 'EodWashStatusReport_' + 
+        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        this.excelService.exportAsCSVFile(this.details, 'EodDetailStatusReport_' +
+        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        this.excelService.exportAsCSVFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' +
+        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
-        this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' + moment(this.date).format('MM/dd/yyyy'));
-        this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' +
+        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' +
+        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' +
+        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
         break;
       }
       default: {
@@ -263,7 +274,7 @@ export class EodComponent implements OnInit, AfterViewInit {
 
   calculateTotal(obj, type) {
     return obj.reduce((sum, i) => {
-      return sum + (type === 'detailInfo' ? +i.Commision : +i.Number);
+      return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }
 
