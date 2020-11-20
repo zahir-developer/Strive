@@ -61,7 +61,7 @@ export class AssignDetailComponent implements OnInit {
     const selectedService = [];
     this.details.forEach(item => {
       this.assignForm.value.serviceId.forEach(service => {
-        if (item.ServiceId === service.item_id) {
+        if (item.ServiceId === service.item_id || item.item_id === service.item_id) {
           selectedService.push(item);
         }
       });
@@ -85,9 +85,9 @@ export class AssignDetailComponent implements OnInit {
             CommissionAmount: 0
         }
 
-        if (service.CommisionType === 'Flat Fee') {
+        if (service.CommissionType === 'Flat Fee') {
           employeeService.CommissionAmount = service.CommissionCost / this.assignForm.value.employeeId.length;
-        } else if (service.CommisionType === 'Percentage') {
+        } else if (service.CommissionType === 'Percentage') {
           const percentage = service.CommissionCost / this.assignForm.value.employeeId.length;
           employeeService.CommissionAmount = ( service.Cost * percentage ) / 100;
         }
