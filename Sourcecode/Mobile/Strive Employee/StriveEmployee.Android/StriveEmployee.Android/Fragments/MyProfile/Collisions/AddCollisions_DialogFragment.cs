@@ -58,7 +58,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             TakePhoto();
         }
 
-        private async void OpenGallery_ImageView_Click(object sender, EventArgs e)
+        private void OpenGallery_ImageView_Click(object sender, EventArgs e)
         {
             UploadPhoto();
         }
@@ -68,17 +68,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-         async void TakePhoto()
+        async void TakePhoto()
         {
-            //await Permission_Services.checkCameraPermission(this);
-            //await Permission_Services.ReadExternalStoragePermission(this);
-            //await Permission_Services.WriteExternalStoragePermission(this);
-
-            //if (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.Camera) == Permission.Granted &&
-            //    ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) == Permission.Granted &&
-            //    ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) == Permission.Granted)
-            //{
-            
             try
             {
                 await CrossMedia.Current.Initialize();
@@ -105,12 +96,31 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             {
                 Console.WriteLine(ex.Message);
             }
-            //}
         }
 
-        private async void UploadPhoto()
+        async void UploadPhoto()
         {
+            try
+            {
+                await CrossMedia.Current.Initialize();
+                if(CrossMedia.Current.IsPickPhotoSupported)
+                {
+                    var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+                    {
 
+                        PhotoSize = Plugin.Media.Abstractions.PhotoSize.Custom,
+                        CompressionQuality = 40,
+
+
+                    });
+                    byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+                    Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+                }  
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }            
         }
     }
 }
