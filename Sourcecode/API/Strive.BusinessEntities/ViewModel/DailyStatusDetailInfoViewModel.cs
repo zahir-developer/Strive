@@ -12,6 +12,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string TicketNumber { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
-        public decimal Commision { get; set; }
+        public decimal Commission { get; set; }
     }
 }
