@@ -33,15 +33,17 @@
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="DailyStatusreport" ngxPrint>Print</button>&nbsp;
+                                    printSectionId="dailyStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="getDailyStatusReport()">Refresh</button>
+                                    (click)="preview()">Refresh</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row no-gutter">
+            <div id="dailyStatusReport">
+            <div class="row no-gutter" >
+                <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">Daily Stats Report</div>
                 <div class="col-lg-6">
                         <!-- end card-->
                         <div class="card m-t-10">
@@ -83,7 +85,7 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
-                                        <div *ngIf="(washes?.length && details?.length) === 0" class="noRecords m-t-49">
+                                        <div *ngIf="(washes?.length === 0 && details?.length === 0)" class="noRecords m-t-49">
                                             <span> No Records Found</span>
                                         </div>
                                     </div>
@@ -136,8 +138,6 @@
                     </div>
 
                 </div>
-                
-                
                 <div class="card m-t-10">
                     <div class="card-body">
                         <div class="p-b-5 m-b-8">
@@ -172,6 +172,7 @@
                     </div>
                     <!-- end card-body -->
                 </div>
+            </div>
             </div>
         </div>
     </div>

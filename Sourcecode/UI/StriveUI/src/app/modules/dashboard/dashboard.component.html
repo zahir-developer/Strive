@@ -463,7 +463,7 @@
                             </div>
                         </div>
                     </div>
-                    <app-today-schedule-dashboard></app-today-schedule-dashboard>
+                    <app-today-schedule-dashboard *ngIf="dashboardStatistics.length > 0" [locationId]="locationId"></app-today-schedule-dashboard>
                     <!--no of washes graph-->
                     <app-graph-dashboard *ngIf="dashboardStatistics.length > 0" [location]="location"
                         [dashboardStatistics]="dashboardStatistics"></app-graph-dashboard>
