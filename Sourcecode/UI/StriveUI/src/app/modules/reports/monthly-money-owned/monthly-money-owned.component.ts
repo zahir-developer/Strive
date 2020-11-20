@@ -110,15 +110,15 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('MonthlyMoneyreport', 'MoneyOwnedReport.pdf');
+        this.excelService.exportAsPDFFile('MonthlyMoneyreport', 'MoneyOwnedReport_' + this.date  + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.ownedReportList, 'MoneyOwnedReport');
+        this.excelService.exportAsCSVFile(this.ownedReportList, 'MoneyOwnedReport_' + this.date);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.ownedReportList, 'MoneyOwnedReport');
+        this.excelService.exportAsExcelFile(this.ownedReportList, 'MoneyOwnedReport_' + this.date);
         break;
       }
       default: {

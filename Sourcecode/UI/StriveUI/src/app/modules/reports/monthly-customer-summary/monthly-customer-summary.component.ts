@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as moment from 'moment';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 @Component({
   selector: 'app-monthly-customer-summary',
   templateUrl: './monthly-customer-summary.component.html',
   styleUrls: ['./monthly-customer-summary.component.css']
 })
 export class MonthlyCustomerSummaryComponent implements OnInit {
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
 date = new Date();
 customerSummaryReport = [];
 originaldata = [];
@@ -61,6 +63,7 @@ locationId = +localStorage.getItem('empLocationId');
     this.fileType = +event.target.value;
   }
   export() {
+    const locationName = this.locationDropdownComponent.locationName;
     const fileType = this.fileType !== undefined ? this.fileType : '';
     if (fileType === '' || fileType === 0) {
       return;
@@ -69,20 +72,38 @@ locationId = +localStorage.getItem('empLocationId');
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('custSummaryExport', 'CustomerSummaryReport_' + this.selectedDate + '.pdf');
+        this.excelService.exportAsPDFFile('custSummaryExport', 'CustomerSummaryReport_' + this.selectedDate + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.customerSummaryReport, 'CustomerSummaryReport_' + this.selectedDate);
+        const customerSummaryReport = this.customizeObj(this.customerSummaryReport);
+        this.excelService.exportAsCSVFile(customerSummaryReport, 'CustomerSummaryReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.customerSummaryReport, 'CustomerSummaryReport_' + this.selectedDate);
+        const customerSummaryReport = this.customizeObj(this.customerSummaryReport);
+        this.excelService.exportAsExcelFile(customerSummaryReport, 'CustomerSummaryReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       default: {
         return;
       }
+    }
+  }
+  customizeObj(customerSummaryReport) {
+    if (customerSummaryReport.length > 0) {
+const customerSummary = customerSummaryReport.map(item => {
+  return {
+    Month: item.Month,
+    NumberOfMembershipAccountCustomers: item.NumberOfMembershipAccounts,
+    NumberOfCustomer: item.CustomerCount,
+    NumberOfWashes: item.WashesCompletedCount,
+    AverageNumberOfWashesPerCustomer: item.AverageNumberOfWashesPerCustomer,
+    TotalNumberOfWashesPerCustomer: item.TotalNumberOfWashesPerCustomer,
+    PercentageOfCustomersThatTurnedUp: item.PercentageOfCustomersThatTurnedUp
+  };
+});
+return customerSummary;
     }
   }
 }

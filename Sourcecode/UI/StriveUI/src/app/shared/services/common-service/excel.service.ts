@@ -28,7 +28,7 @@ export class ExcelService {
   };
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     this.spinner.show();
-    const myworksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json, {header: [excelFileName]});
+    const myworksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json, { header: [excelFileName] });
     const myworkbook: XLSX.WorkBook = { Sheets: { data: myworksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(myworkbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
@@ -58,6 +58,9 @@ export class ExcelService {
     });
   }
   exportAsCSVFile(data, fileName) {
+    if (data.length === 0) {
+      return;
+    }
     this.spinner.show();
     this.options.title = fileName;
     this.options.filename = fileName;

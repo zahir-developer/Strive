@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as moment from 'moment';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 @Component({
   selector: 'app-monthly-tip',
   templateUrl: './monthly-tip.component.html',
   styleUrls: ['./monthly-tip.component.css']
 })
 export class MonthlyTipComponent implements OnInit {
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
   fromDate = new Date();
   endDate = new Date();
   fileType: any;
@@ -51,22 +53,24 @@ export class MonthlyTipComponent implements OnInit {
   }
   export() {
     const fileType = this.fileType !== undefined ? this.fileType : '';
+    const locationName = this.locationDropdownComponent.locationName;
     if (fileType === '' || fileType === 0) {
       return;
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Monthlyreport', 'MonthlyTipReport_' + this.month + '/' + this.year + '.pdf');
+        this.excelService.exportAsPDFFile('Monthlyreport', 'MonthlyTipReport_' + this.month + '/' + this.year
+        + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
         const monthlyTip = this.customizeObj(this.monthlyTip);
-        this.excelService.exportAsCSVFile(monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
+        this.excelService.exportAsCSVFile(monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year + '_' + locationName);
         break;
       }
       case 3: {
         const monthlyTip = this.customizeObj(this.monthlyTip);
-        this.excelService.exportAsExcelFile(monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year);
+        this.excelService.exportAsExcelFile(monthlyTip, 'MonthlyTipReport_' + this.month + '/' + this.year + '_' + locationName);
         break;
       }
       default: {
