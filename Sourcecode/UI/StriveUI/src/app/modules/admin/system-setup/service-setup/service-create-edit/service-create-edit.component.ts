@@ -28,6 +28,7 @@ export class ServiceCreateEditComponent implements OnInit {
   ctypeLabel: any;
   isUpcharge = false;
   isAdditional = false;
+  isDetails: boolean;
   constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -152,6 +153,11 @@ export class ServiceCreateEditComponent implements OnInit {
       this.isAdditional = true;
     }else{
        this.isAdditional = false;
+    }
+    if(Number(data) === 16){
+      this.isDetails = true;
+    }else{
+       this.isDetails = false;
     }
     if (Number(data) === 15) {
       this.isCommisstionShow = false;
