@@ -81,7 +81,7 @@ export class CloseoutRegisterComponent implements OnInit {
   getCloseOutRegister() {
     const today = moment(new Date).format('YYYY-MM-DD');
     const cashRegisterType = "CLOSEOUT";
-    const locationId = 1;
+    const locationId = +localStorage.getItem('empLocationId');
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
