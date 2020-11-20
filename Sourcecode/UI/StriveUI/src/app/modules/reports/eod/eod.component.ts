@@ -274,7 +274,7 @@ export class EodComponent implements OnInit, AfterViewInit {
 
   calculateTotal(obj, type) {
     return obj.reduce((sum, i) => {
-      return sum + (type === 'detailInfo' ? +i.Commision : +i.Number);
+      return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }
 
