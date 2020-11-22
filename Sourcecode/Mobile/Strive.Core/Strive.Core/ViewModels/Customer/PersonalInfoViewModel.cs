@@ -32,6 +32,10 @@ namespace Strive.Core.ViewModels.Customer
             return;
         }
 
+        public async void NavToEditPersonalInfo()
+        {
+            await _navigationService.Navigate<PersonalInfoEditViewModel>();
+        }
         #endregion Commands
 
 
