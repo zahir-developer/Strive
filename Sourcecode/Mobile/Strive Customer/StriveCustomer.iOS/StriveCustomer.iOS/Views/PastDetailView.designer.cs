@@ -9,17 +9,17 @@ using System.CodeDom.Compiler;
 
 namespace StriveCustomer.iOS.Views
 {
-	[Register ("ProfileView")]
-	partial class ProfileView
+	[Register ("PastDetailView")]
+	partial class PastDetailView
 	{
 		[Outlet]
-		UIKit.UISegmentedControl SegmentControl { get; set; }
+		UIKit.UITableView PastDetailTableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (SegmentControl != null) {
-				SegmentControl.Dispose ();
-				SegmentControl = null;
+			if (PastDetailTableView != null) {
+				PastDetailTableView.Dispose ();
+				PastDetailTableView = null;
 			}
 		}
 	}

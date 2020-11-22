@@ -1,13 +1,14 @@
 ﻿using System;
+using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class PastDetailTabView : MvxViewController
+    public partial class PastDetailView : MvxViewController//<LoginViewModel>
     {
-        public PastDetailTabView() : base("PastDetailTabView", null)
+        public PastDetailView() : base("PastDetailView", null)
         {
         }
 
@@ -16,7 +17,12 @@ namespace StriveCustomer.iOS.Views
             base.ViewDidLoad();
             NavigationController.NavigationBarHidden = true;
 
-            // Perform any additional setup after loading the view, typically from a nib.
+            //var PastDetailTableSource = new PastDetailTableSource(PastDetailTableView, ViewModel);
+
+            //PastDetailTableView.Source = PastDetailTableSource;
+            //PastDetailTableView.TableFooterView = new UIView(CGRect.Empty);
+            //PastDetailTableView.DelaysContentTouches = false;
+            //PastDetailTableView.ReloadData();
         }
 
         public override void DidReceiveMemoryWarning()
