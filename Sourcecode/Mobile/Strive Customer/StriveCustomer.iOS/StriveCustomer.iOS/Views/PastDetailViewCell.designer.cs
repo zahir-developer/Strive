@@ -13,9 +13,6 @@ namespace StriveCustomer.iOS.Views
 	partial class PastDetailViewCell
 	{
 		[Outlet]
-		UIKit.UIImageView PastDetail_Arrow { get; set; }
-
-		[Outlet]
 		UIKit.UIView PastDetailCellView { get; set; }
 
 		[Outlet]
@@ -31,11 +28,6 @@ namespace StriveCustomer.iOS.Views
 			if (PastDetailLabel != null) {
 				PastDetailLabel.Dispose ();
 				PastDetailLabel = null;
-			}
-
-			if (PastDetail_Arrow != null) {
-				PastDetail_Arrow.Dispose ();
-				PastDetail_Arrow = null;
 			}
 		}
 	}
