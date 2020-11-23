@@ -132,7 +132,10 @@ namespace Strive.Core.ViewModels.Customer
             return proceed;
         }
 
-
+        public async void NavigateToProfile()
+        {
+            await _navigationService.Navigate<MyProfileInfoViewModel>();
+        }
         #endregion Commands
     }
 }

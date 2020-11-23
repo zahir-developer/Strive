@@ -21,7 +21,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileView">
             <connections>
+                <outlet property="Address_Value" destination="N3j-Ex-YiA" id="lCH-Ih-VNJ"/>
+                <outlet property="ContactNo_Value" destination="aY4-fv-Ecv" id="hzc-Up-0ak"/>
+                <outlet property="Email_Value" destination="wqS-NA-u9m" id="p7P-5Y-fh2"/>
+                <outlet property="FullName_Value" destination="dGr-SW-uzx" id="I3J-gr-HxG"/>
+                <outlet property="PastDetailTableView" destination="BbU-IS-cYC" id="yfG-e7-aAl"/>
+                <outlet property="PastDetail_Segment" destination="8Lu-fP-tLs" id="M3f-yU-nBt"/>
+                <outlet property="PersonalEditBtn_View" destination="Al7-4I-r8X" id="xfk-Up-Bdj"/>
+                <outlet property="PersonalInfo_Segment" destination="nlX-VZ-Ftg" id="DoY-Rv-qRL"/>
+                <outlet property="PhoneNo_Value" destination="CMM-Fx-HRZ" id="DyP-ee-ncV"/>
+                <outlet property="ProfileParent_View" destination="a6a-m2-USu" id="ZHA-vZ-fgB"/>
                 <outlet property="SegmentControl" destination="DdK-sF-Xmj" id="plC-0Q-Jr8"/>
+                <outlet property="ZipCode_Value" destination="TMo-1d-GN4" id="6wb-fq-ORe"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -40,88 +51,93 @@
                             <rect key="frame" x="0.0" y="45" width="347" height="499"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Personal Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzN-Y0-mSp">
-                                    <rect key="frame" x="25" y="25" width="103" height="22"/>
+                                    <rect key="frame" x="25" y="25" width="102.5" height="22"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                     <color key="textColor" red="0.14107435939999999" green="0.28358918430000002" blue="0.60295563939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Al7-4I-r8X">
-                                    <rect key="frame" x="138" y="23.5" width="25" height="25"/>
+                                    <rect key="frame" x="137.5" y="21" width="30" height="30"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="25" id="8W3-CH-gJH"/>
-                                        <constraint firstAttribute="width" constant="25" id="wbP-nr-gLe"/>
+                                        <constraint firstAttribute="height" constant="30" id="8W3-CH-gJH"/>
+                                        <constraint firstAttribute="width" constant="30" id="wbP-nr-gLe"/>
                                     </constraints>
-                                    <color key="tintColor" red="0.1150721237" green="0.78556483980000003" blue="0.71554869409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" title="Button" image="highlighter" catalog="system"/>
+                                    <state key="normal" image="icon-edit-personalInfo">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <state key="selected" image="icon-checked" backgroundImage="icon-edit-personalInfo"/>
+                                    <connections>
+                                        <action selector="EditProfile_Touch:" destination="-1" eventType="touchUpInside" id="INd-Qn-Wdq"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8PN-Tw-eyU">
-                                    <rect key="frame" x="45" y="68" width="70" height="20"/>
+                                    <rect key="frame" x="45" y="68" width="69.5" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact No:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQV-UT-TtU">
-                                    <rect key="frame" x="45" y="103" width="77" height="20"/>
+                                    <rect key="frame" x="45" y="102.5" width="77" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Xz-9J-EBb">
-                                    <rect key="frame" x="45" y="143" width="57" height="20"/>
+                                    <rect key="frame" x="45" y="142" width="57" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zip Code:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mBc-ot-nTO">
-                                    <rect key="frame" x="45" y="183" width="61.5" height="20"/>
+                                    <rect key="frame" x="45" y="181.5" width="62" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sec. Phone.No:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m7N-Ni-ogd">
-                                    <rect key="frame" x="45" y="223" width="98" height="20"/>
+                                    <rect key="frame" x="45" y="221" width="98" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyU-fh-RRY">
-                                    <rect key="frame" x="45" y="263" width="39.5" height="20"/>
+                                    <rect key="frame" x="45" y="260.5" width="39.5" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jessica" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGr-SW-uzx">
-                                    <rect key="frame" x="163" y="68" width="45" height="20"/>
+                                    <rect key="frame" x="162.5" y="68" width="45" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9992-123-123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aY4-fv-Ecv">
-                                    <rect key="frame" x="163" y="103" width="89" height="20"/>
+                                    <rect key="frame" x="162.5" y="102.5" width="89" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3j-Ex-YiA">
-                                    <rect key="frame" x="163" y="143" width="53" height="20"/>
+                                    <rect key="frame" x="162.5" y="142" width="53" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMo-1d-GN4">
-                                    <rect key="frame" x="163" y="183" width="53" height="20"/>
+                                    <rect key="frame" x="162.5" y="181.5" width="53" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9992-123-123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMM-Fx-HRZ">
-                                    <rect key="frame" x="163" y="223" width="89" height="20"/>
+                                    <rect key="frame" x="162.5" y="221" width="89" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqS-NA-u9m">
-                                    <rect key="frame" x="163" y="263" width="53" height="20"/>
+                                    <rect key="frame" x="162.5" y="260.5" width="53" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -159,28 +175,52 @@
                                 <constraint firstItem="wqS-NA-u9m" firstAttribute="centerY" secondItem="iyU-fh-RRY" secondAttribute="centerY" id="z7P-N2-dGi"/>
                             </constraints>
                         </view>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DdK-sF-Xmj">
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Lu-fP-tLs">
+                            <rect key="frame" x="0.0" y="45" width="347" height="499"/>
+                            <subviews>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BbU-IS-cYC">
+                                    <rect key="frame" x="0.0" y="8" width="347" height="491"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="BbU-IS-cYC" firstAttribute="leading" secondItem="8Lu-fP-tLs" secondAttribute="leading" id="Brz-xh-nzI"/>
+                                <constraint firstAttribute="trailing" secondItem="BbU-IS-cYC" secondAttribute="trailing" id="TMt-ML-WYX"/>
+                                <constraint firstAttribute="bottom" secondItem="BbU-IS-cYC" secondAttribute="bottom" id="ow8-dh-dRJ"/>
+                                <constraint firstItem="BbU-IS-cYC" firstAttribute="top" secondItem="8Lu-fP-tLs" secondAttribute="top" constant="8" id="yxK-Vg-DPu"/>
+                            </constraints>
+                        </view>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DdK-sF-Xmj">
                             <rect key="frame" x="0.0" y="0.0" width="347" height="46"/>
                             <segments>
                                 <segment title="Personal Info"/>
                                 <segment title="Vehicle List"/>
+                                <segment title="Past Details"/>
                             </segments>
+                            <connections>
+                                <action selector="ProfileSegment_SelectedTab:" destination="-1" eventType="valueChanged" id="SiS-80-gvv"/>
+                            </connections>
                         </segmentedControl>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
+                        <constraint firstItem="8Lu-fP-tLs" firstAttribute="trailing" secondItem="nlX-VZ-Ftg" secondAttribute="trailing" id="Aml-iB-fSc"/>
                         <constraint firstItem="DdK-sF-Xmj" firstAttribute="top" secondItem="a6a-m2-USu" secondAttribute="top" id="NGV-gw-gsW"/>
+                        <constraint firstItem="8Lu-fP-tLs" firstAttribute="leading" secondItem="nlX-VZ-Ftg" secondAttribute="leading" id="Wma-8q-MV1"/>
                         <constraint firstItem="DdK-sF-Xmj" firstAttribute="leading" secondItem="a6a-m2-USu" secondAttribute="leading" id="Y4j-Nx-fNS"/>
                         <constraint firstAttribute="bottom" secondItem="nlX-VZ-Ftg" secondAttribute="bottom" id="bgc-Ui-6Uh"/>
                         <constraint firstAttribute="trailing" secondItem="nlX-VZ-Ftg" secondAttribute="trailing" id="ibt-GF-UPk"/>
                         <constraint firstItem="nlX-VZ-Ftg" firstAttribute="top" secondItem="a6a-m2-USu" secondAttribute="top" constant="45" id="l1n-rW-Jel"/>
+                        <constraint firstItem="8Lu-fP-tLs" firstAttribute="bottom" secondItem="nlX-VZ-Ftg" secondAttribute="bottom" id="ldi-8n-bAB"/>
                         <constraint firstItem="nlX-VZ-Ftg" firstAttribute="leading" secondItem="a6a-m2-USu" secondAttribute="leading" id="o3R-Ck-926"/>
                         <constraint firstItem="nlX-VZ-Ftg" firstAttribute="top" secondItem="DdK-sF-Xmj" secondAttribute="bottom" id="qVT-Mz-sfq"/>
                         <constraint firstAttribute="trailing" secondItem="DdK-sF-Xmj" secondAttribute="trailing" id="uew-iR-uTp"/>
+                        <constraint firstItem="8Lu-fP-tLs" firstAttribute="top" secondItem="nlX-VZ-Ftg" secondAttribute="top" id="vER-4c-QMd"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9t-dh-pZS">
-                    <rect key="frame" x="156.5" y="113" width="101.5" height="28"/>
+                    <rect key="frame" x="156.5" y="113.5" width="101.5" height="27.5"/>
                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -199,11 +239,12 @@
                 <constraint firstItem="a6a-m2-USu" firstAttribute="height" secondItem="ZkS-gX-Sik" secondAttribute="height" multiplier="0.6" id="lvk-hl-6zd"/>
                 <constraint firstItem="ZkS-gX-Sik" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="wYv-IV-guD"/>
             </constraints>
-            <point key="canvasLocation" x="86" y="1"/>
+            <point key="canvasLocation" x="85.507246376811594" y="0.6696428571428571"/>
         </view>
     </objects>
     <resources>
-        <image name="highlighter" catalog="system" width="128" height="119"/>
+        <image name="icon-checked" width="21" height="19"/>
+        <image name="icon-edit-personalInfo" width="18" height="18"/>
         <image name="splash" width="390" height="812"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

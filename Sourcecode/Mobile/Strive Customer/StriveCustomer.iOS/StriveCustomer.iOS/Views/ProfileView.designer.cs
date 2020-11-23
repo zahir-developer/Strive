@@ -13,13 +13,110 @@ namespace StriveCustomer.iOS.Views
 	partial class ProfileView
 	{
 		[Outlet]
+		UIKit.UILabel Address_Value { get; set; }
+
+		[Outlet]
+		UIKit.UILabel ContactNo_Value { get; set; }
+
+		[Outlet]
+		UIKit.UILabel Email_Value { get; set; }
+
+		[Outlet]
+		UIKit.UILabel FullName_Value { get; set; }
+
+		[Outlet]
+		UIKit.UIView PastDetail_Segment { get; set; }
+
+		[Outlet]
+		UIKit.UITableView PastDetailTableView { get; set; }
+
+		[Outlet]
+		UIKit.UIButton PersonalEditBtn_View { get; set; }
+
+		[Outlet]
+		UIKit.UIView PersonalInfo_Segment { get; set; }
+
+		[Outlet]
+		UIKit.UILabel PhoneNo_Value { get; set; }
+
+		[Outlet]
+		UIKit.UIView ProfileParent_View { get; set; }
+
+		[Outlet]
 		UIKit.UISegmentedControl SegmentControl { get; set; }
+
+		[Outlet]
+		UIKit.UILabel ZipCode_Value { get; set; }
+
+		[Action ("EditProfile_Touch:")]
+		partial void EditProfile_Touch (UIKit.UIButton sender);
+
+		[Action ("PersonalInfo_EditBtn:")]
+		partial void PersonalInfo_EditBtn (Foundation.NSObject sender);
+
+		[Action ("ProfileSegment_SelectedTab:")]
+		partial void ProfileSegment_SelectedTab (UIKit.UISegmentedControl sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Address_Value != null) {
+				Address_Value.Dispose ();
+				Address_Value = null;
+			}
+
+			if (ContactNo_Value != null) {
+				ContactNo_Value.Dispose ();
+				ContactNo_Value = null;
+			}
+
+			if (Email_Value != null) {
+				Email_Value.Dispose ();
+				Email_Value = null;
+			}
+
+			if (FullName_Value != null) {
+				FullName_Value.Dispose ();
+				FullName_Value = null;
+			}
+
+			if (PastDetail_Segment != null) {
+				PastDetail_Segment.Dispose ();
+				PastDetail_Segment = null;
+			}
+
+			if (PastDetailTableView != null) {
+				PastDetailTableView.Dispose ();
+				PastDetailTableView = null;
+			}
+
+			if (PersonalEditBtn_View != null) {
+				PersonalEditBtn_View.Dispose ();
+				PersonalEditBtn_View = null;
+			}
+
+			if (PersonalInfo_Segment != null) {
+				PersonalInfo_Segment.Dispose ();
+				PersonalInfo_Segment = null;
+			}
+
+			if (PhoneNo_Value != null) {
+				PhoneNo_Value.Dispose ();
+				PhoneNo_Value = null;
+			}
+
 			if (SegmentControl != null) {
 				SegmentControl.Dispose ();
 				SegmentControl = null;
+			}
+
+			if (ZipCode_Value != null) {
+				ZipCode_Value.Dispose ();
+				ZipCode_Value = null;
+			}
+
+			if (ProfileParent_View != null) {
+				ProfileParent_View.Dispose ();
+				ProfileParent_View = null;
 			}
 		}
 	}
