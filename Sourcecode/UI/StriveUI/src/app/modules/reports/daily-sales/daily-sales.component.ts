@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
+import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 @Component({
   selector: 'app-daily-sales',
   templateUrl: './daily-sales.component.html',
@@ -12,13 +14,34 @@ export class DailySalesComponent implements OnInit {
   fileType: number;
   dailySalesReport = [];
   date = new Date();
-  constructor(private reportService: ReportsService, private excelService: ExcelService) { }
+  isTableEmpty: boolean;
+  page = 1;
+  pageSize = 25;
+  collectionSize: number = 0;
+
+  constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr,private reportService: ReportsService, private excelService: ExcelService) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
     this.getDailySalesReport();
   }
-  getDailySalesReport() {}
+  getDailySalesReport() {
+  this.checkout.getUncheckedVehicleDetails().subscribe(data => {
+    if (data.status === 'Success') {
+      const uncheck = JSON.parse(data.resultData);
+      this.dailySalesReport = uncheck.GetCheckedInVehicleDetails;
+      if (this.dailySalesReport.length === 0) {
+        this.isTableEmpty = true;
+      } else {
+        this.collectionSize = Math.ceil(this.dailySalesReport.length / this.pageSize) * 10;
+        this.isTableEmpty = false;
+      }
+    } else {
+      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+    }
+  });
+  }
+
   onLocationChange(event) {
     this.locationId = +event;
   }
