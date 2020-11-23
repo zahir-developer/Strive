@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -20,8 +21,10 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
 {
     public class DocumentsFragment : MvxFragment<DocumentsViewModel>
     {
+        private ImageButton addDocument_ImageButton;
         private RecyclerView documents_RecyclerView;
         private DocumentsAdapter documents_Adapter;
+        private AddDocumentsFragment addDocuments_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,8 +39,17 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             this.ViewModel = new DocumentsViewModel();
 
             documents_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.documents_RecyclerView);
+            addDocument_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.addDocuments_ImageButton);
+            addDocument_ImageButton.Click += AddDocument_ImageButton_Click;
             GetDocumentDetails();
             return rootView;
+        }
+
+        private void AddDocument_ImageButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity acitivity = (AppCompatActivity)this.Context;
+            addDocuments_Fragment = new AddDocumentsFragment();
+            acitivity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, addDocuments_Fragment).Commit();
         }
 
         private async void GetDocumentDetails()

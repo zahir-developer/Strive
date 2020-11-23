@@ -103,7 +103,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
                 var result = await AdminService.UpdateCollisions(addCollisions);
                 if (result == null)
                 {
-
+                    collisionAdded = false;
                 }
                 else
                 {

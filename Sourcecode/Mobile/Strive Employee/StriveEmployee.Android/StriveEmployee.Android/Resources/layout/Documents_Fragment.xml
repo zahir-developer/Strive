@@ -18,7 +18,7 @@
             android:textColor="@color/recipientChatTime"
             android:fontFamily="@font/opensans_semibold"/>
         <ImageButton
-            android:id="@+id/addCollisions_ImageButton"
+            android:id="@+id/addDocuments_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fifteen"
