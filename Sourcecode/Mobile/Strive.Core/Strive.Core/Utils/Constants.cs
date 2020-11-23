@@ -96,5 +96,7 @@ namespace Strive.Core.Utils
         public const string URL_DELETE_COLLISIONS = "/Admin/Collision/Delete";
 
         public const string URL_GET_COLLISIONS = "/Admin/Collision/GetCollisionById/";
+
+        public const string URL_SAVE_DOCUMENTS = "/Admin/Document/SaveDocument";
     }
 }
