@@ -57,15 +57,15 @@ export class DailySalesComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('dailySalesReport', 'customerDetailReport_' + moment(this.date).format('MM/dd/yyyy') + '.pdf');
+        this.excelService.exportAsPDFFile('dailySalesReport', 'dailySalesReport_' + moment(this.date).format('MM/dd/yyyy') + '.pdf');
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.dailySalesReport, 'customerDetailReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsCSVFile(this.dailySalesReport, 'dailySalesReport_' + moment(this.date).format('MM/dd/yyyy'));
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.dailySalesReport, 'customerDetailReport_' + moment(this.date).format('MM/dd/yyyy'));
+        this.excelService.exportAsExcelFile(this.dailySalesReport, 'dailySalesReport_' + moment(this.date).format('MM/dd/yyyy'));
         break;
       }
       default: {

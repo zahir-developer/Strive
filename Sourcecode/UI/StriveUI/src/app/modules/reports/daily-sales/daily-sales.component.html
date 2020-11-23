@@ -17,7 +17,7 @@
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2 m-t-31">
-                    <button type="button" class="btn theme-primary-button-color">View</button>
+                    <button type="button" class="btn theme-primary-button-color" (click)="getDailySalesReport()">View</button>
                 </div>
             </div>
             <div class="card m-t-10">
@@ -35,9 +35,12 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
+                                    printSectionId="dailySalesReport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="getDailySalesReport()">Refresh</button>&nbsp;
                             </div>
                         </div>
                     </div>
@@ -98,14 +101,14 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <ul class="pagination justify-content-end">
-                            <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize"
-                                [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                class="d-flex justify-content-end">
-                            </ngb-pagination>
-                        </ul>
                     </div>
                 </div>
+                <ul class="pagination justify-content-end">
+                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize"
+                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                        class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </ul>
                 <!-- end card-body -->
             </div>
         </div>
