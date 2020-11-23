@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Strive.Core.Models.Employee.Common
 {
-    public class Gender
+    public class CommonCodes
     {
-        public List<Codes> Codes { get; set; }
+        public List<Codes> Codes;
     }
     public class Codes
     {

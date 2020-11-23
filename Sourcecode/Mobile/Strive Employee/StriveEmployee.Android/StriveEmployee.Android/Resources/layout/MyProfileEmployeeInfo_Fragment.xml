@@ -23,13 +23,15 @@
             android:id="@+id/PersonalEdit_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/edit"
             android:background="@android:color/transparent"/>
         <ImageButton
             android:id="@+id/personalDelete_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/seven"
             android:src="@drawable/delete_circle"
             android:background="@android:color/transparent"/>
     </LinearLayout>
@@ -235,13 +237,15 @@
             android:id="@+id/employeeEdit_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/edit"
             android:background="@android:color/transparent"/>
         <ImageButton
             android:id="@+id/employeeDelete_ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/seven"
             android:src="@drawable/delete_circle"
             android:background="@android:color/transparent"/>
     </LinearLayout>
