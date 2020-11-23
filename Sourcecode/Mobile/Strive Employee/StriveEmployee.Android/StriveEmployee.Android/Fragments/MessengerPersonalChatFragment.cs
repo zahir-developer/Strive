@@ -48,7 +48,8 @@ namespace StriveEmployee.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.MessengerPersonalChat_Fragment, null);
             this.ViewModel = new MessengerPersonalChatViewModel();
-         
+
+            MessengerTempData.resetParticipantInfo();
             personalChat_Button = rootView.FindViewById<Button>(Resource.Id.personalChatBack_Button);
             sendChat_Button = rootView.FindViewById<ImageButton>(Resource.Id.chatSend_ImageButton);
             chatMenu_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.chatMenu_ImageButton);

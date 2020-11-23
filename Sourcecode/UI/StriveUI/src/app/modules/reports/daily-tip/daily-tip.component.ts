@@ -45,7 +45,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     const year = this.date.getFullYear();
     const obj = {
       locationId: +this.locationId,
-      date: this.date,
+      date: moment(this.date).format('MM/DD/YYYY'),
       month,
       year
     };
@@ -79,7 +79,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Dailyreport', 'DailyTipReport' + moment(this.date).format('MM/DD/YYYY') + '_' + locationName + '.pdf');
+        this.excelService.exportAsPDFFile('dailyreport', 'DailyTipReport' + moment(this.date).format('MM/DD/YYYY') + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
@@ -99,14 +99,14 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   }
   customizeObj(dailyTip) {
     if (dailyTip.length > 0) {
-const dTip = dailyTip.map(item => {
-  return {
-    Payee: item.EmployeeName,
-    Hours: item.HoursPerDay,
-    Tip: item.Tip
-  };
-});
-return dTip;
+      const dTip = dailyTip.map(item => {
+        return {
+          Payee: item.EmployeeName,
+          Hours: item.HoursPerDay,
+          Tip: item.Tip
+        };
+      });
+      return dTip;
     }
   }
   submit() {
@@ -122,4 +122,12 @@ return dTip;
       });
     }
   }
+  print() {
+    // document.getElementById('tipTotal').setAttribute('disabled', 'disabled');
+    // document.getElementById('tipSubmit').setAttribute('disabled', 'disabled');
+    // HTMLInputElement as document.getElementById("btnExcel").disabled = true;
+// document.getElementById('tipTotal') as HTMLElement;
+//     element.disabled = true;
+  }
 }
+

@@ -38,7 +38,7 @@
                                 </div> &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="monthlySalesExport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="monthlySalesExport" ngxPrint >Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="getMonthlySalesReport()">Refresh</button>&nbsp;
                             </div>
                         </div>
@@ -46,7 +46,8 @@
                 </div>
             </div>
             <div class="card m-t-10">
-                <div class="card-body" id="monthlySalesExport">
+                <div class="card-body" >
+                    <div id="monthlySalesExport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Sales Report <span
                                     class="font-size-1">({{selectedDate}}) {{empName ? '-' : ''}} {{empName}}</span></span>
@@ -55,8 +56,11 @@
                                 role="button" aria-expanded="false" aria-controls="Monthlyreport"><i
                                     class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
                     </div>
-                    <div id="MonthlySalesreport" class="collapse show">
-                        <div class="table-responsive scroll">
+                    
+                    <div  class="collapse show">
+                        <div class="table-responsive scroll"  id="MonthlySalesreport">
+                            <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">Monthly Sales Report ({{selectedDate}}) {{empName ? '-' : ''}} {{empName}}
+                            </div>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -88,22 +92,27 @@
                             </div>
                            
                         </div>
-                        <ul class="pagination justify-content-end" *ngIf="monthlySalesReport?.length > 0">
-                            <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount"
-                                placeholder="1">
-                            <label class="d-inline-block  m-t-7 m-r-10">of
-                                {{employees?.length === 0 ? 1 : employees?.length}}</label> <em
-                                class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"
-                                (click)="count('minus')"></em> <em
-                                class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"
-                                (click)="count('add')"></em>
-                            <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                class="d-flex justify-content-end">
-                            </ngb-pagination>
-                        </ul>
+                        <div id="showNavigation" style="display: block;">
+                       
+                    </div>
                     </div>
                 </div>
+                <ul class="pagination justify-content-end" *ngIf="monthlySalesReport?.length > 0">
+                    <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount"
+                        placeholder="1">
+                    <label class="d-inline-block  m-t-7 m-r-10">of
+                        {{employees?.length === 0 ? 1 : employees?.length}}</label> <em
+                        class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"
+                        (click)="count('minus')"></em> <em
+                        class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"
+                        (click)="count('add')"></em>
+                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                        class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </ul>
+                </div>
+                
                 <!-- end card-body -->
             </div>
             <!-- end card-->
