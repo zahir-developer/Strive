@@ -21,7 +21,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileView">
             <connections>
+                <outlet property="Address_Value" destination="N3j-Ex-YiA" id="eXq-VV-8BV"/>
+                <outlet property="ContactNo_Value" destination="aY4-fv-Ecv" id="kSh-pc-ElN"/>
+                <outlet property="Email_Value" destination="wqS-NA-u9m" id="Kd8-LF-REx"/>
+                <outlet property="FullName_Value" destination="dGr-SW-uzx" id="6L8-a6-7ue"/>
+                <outlet property="PastDetailTableView" destination="czr-MM-PLs" id="1ck-Y3-4L0"/>
+                <outlet property="PastDetail_Segment" destination="jNq-aQ-eCa" id="uyI-1R-I3B"/>
+                <outlet property="PersonalEditBtn_View" destination="Al7-4I-r8X" id="5HR-YL-TeS"/>
+                <outlet property="PersonalInfo_Segment" destination="nlX-VZ-Ftg" id="Ocx-Hr-DaL"/>
+                <outlet property="PhoneNo_Value" destination="CMM-Fx-HRZ" id="e24-ap-aDC"/>
+                <outlet property="ProfileParent_View" destination="a6a-m2-USu" id="3fB-lE-Kbn"/>
                 <outlet property="SegmentControl" destination="DdK-sF-Xmj" id="plC-0Q-Jr8"/>
+                <outlet property="ZipCode_Value" destination="TMo-1d-GN4" id="3z3-30-YHh"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -52,7 +63,10 @@
                                         <constraint firstAttribute="width" constant="25" id="wbP-nr-gLe"/>
                                     </constraints>
                                     <color key="tintColor" red="0.1150721237" green="0.78556483980000003" blue="0.71554869409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" title="Button" image="highlighter" catalog="system"/>
+                                    <state key="normal" title="Button" image="icon-edit-personalInfo"/>
+                                    <connections>
+                                        <action selector="EditProfile_Touch:" destination="-1" eventType="touchUpInside" id="1WV-og-S2o"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8PN-Tw-eyU">
                                     <rect key="frame" x="45" y="68" width="70" height="20"/>
@@ -159,16 +173,39 @@
                                 <constraint firstItem="wqS-NA-u9m" firstAttribute="centerY" secondItem="iyU-fh-RRY" secondAttribute="centerY" id="z7P-N2-dGi"/>
                             </constraints>
                         </view>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNq-aQ-eCa">
+                            <rect key="frame" x="0.0" y="45" width="347" height="499"/>
+                            <subviews>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="czr-MM-PLs">
+                                    <rect key="frame" x="0.0" y="0.0" width="347" height="499"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="czr-MM-PLs" secondAttribute="bottom" id="NmT-rj-Z0I"/>
+                                <constraint firstItem="czr-MM-PLs" firstAttribute="top" secondItem="jNq-aQ-eCa" secondAttribute="top" id="Ph4-Qy-jDH"/>
+                                <constraint firstAttribute="trailing" secondItem="czr-MM-PLs" secondAttribute="trailing" id="QXB-Tt-Klc"/>
+                                <constraint firstItem="czr-MM-PLs" firstAttribute="leading" secondItem="jNq-aQ-eCa" secondAttribute="leading" id="ffe-OA-9xM"/>
+                            </constraints>
+                        </view>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DdK-sF-Xmj">
                             <rect key="frame" x="0.0" y="0.0" width="347" height="46"/>
                             <segments>
                                 <segment title="Personal Info"/>
                                 <segment title="Vehicle List"/>
+                                <segment title="Past Details"/>
                             </segments>
+                            <connections>
+                                <action selector="ProfileSegment_SelectedTab:" destination="-1" eventType="valueChanged" id="nt2-sa-9iV"/>
+                            </connections>
                         </segmentedControl>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="jNq-aQ-eCa" secondAttribute="trailing" id="7Z3-aF-fDN"/>
+                        <constraint firstItem="jNq-aQ-eCa" firstAttribute="leading" secondItem="a6a-m2-USu" secondAttribute="leading" id="GxE-2V-cHT"/>
+                        <constraint firstItem="jNq-aQ-eCa" firstAttribute="leading" secondItem="a6a-m2-USu" secondAttribute="leading" id="Mhk-WU-wCl"/>
                         <constraint firstItem="DdK-sF-Xmj" firstAttribute="top" secondItem="a6a-m2-USu" secondAttribute="top" id="NGV-gw-gsW"/>
                         <constraint firstItem="DdK-sF-Xmj" firstAttribute="leading" secondItem="a6a-m2-USu" secondAttribute="leading" id="Y4j-Nx-fNS"/>
                         <constraint firstAttribute="bottom" secondItem="nlX-VZ-Ftg" secondAttribute="bottom" id="bgc-Ui-6Uh"/>
@@ -177,6 +214,8 @@
                         <constraint firstItem="nlX-VZ-Ftg" firstAttribute="leading" secondItem="a6a-m2-USu" secondAttribute="leading" id="o3R-Ck-926"/>
                         <constraint firstItem="nlX-VZ-Ftg" firstAttribute="top" secondItem="DdK-sF-Xmj" secondAttribute="bottom" id="qVT-Mz-sfq"/>
                         <constraint firstAttribute="trailing" secondItem="DdK-sF-Xmj" secondAttribute="trailing" id="uew-iR-uTp"/>
+                        <constraint firstAttribute="bottom" secondItem="jNq-aQ-eCa" secondAttribute="bottom" id="x5Z-aL-7bR"/>
+                        <constraint firstItem="jNq-aQ-eCa" firstAttribute="top" secondItem="nlX-VZ-Ftg" secondAttribute="top" id="yKr-MO-ceZ"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9t-dh-pZS">
@@ -203,7 +242,7 @@
         </view>
     </objects>
     <resources>
-        <image name="highlighter" catalog="system" width="128" height="119"/>
+        <image name="icon-edit-personalInfo" width="18" height="18"/>
         <image name="splash" width="390" height="812"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

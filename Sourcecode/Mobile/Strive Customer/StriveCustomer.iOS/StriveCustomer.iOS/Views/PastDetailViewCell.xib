@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COg-xy-eO3">
-                                <rect key="frame" x="25" y="14" width="130.5" height="16.5"/>
+                                <rect key="frame" x="25" y="12.5" width="131" height="19.5"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Black Chevrolet SUV">
                                         <attributes>
@@ -33,22 +33,21 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J30-u5-4ZD">
-                                <rect key="frame" x="265" y="7" width="30" height="30"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-right-arrow" translatesAutoresizingMaskIntoConstraints="NO" id="xa4-Bl-Waa">
+                                <rect key="frame" x="265" y="12" width="30" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="dwB-sx-wux"/>
-                                    <constraint firstAttribute="width" constant="30" id="gjO-x9-J1p"/>
+                                    <constraint firstAttribute="height" constant="20" id="YKn-OP-5Cr"/>
+                                    <constraint firstAttribute="width" constant="30" id="nwZ-ap-PsX"/>
                                 </constraints>
-                                <state key="normal" title="Button" backgroundImage="icon-checked"/>
-                            </button>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="J30-u5-4ZD" firstAttribute="centerY" secondItem="COg-xy-eO3" secondAttribute="centerY" id="2fl-Q1-46i"/>
                             <constraint firstItem="COg-xy-eO3" firstAttribute="leading" secondItem="QGn-qe-Gns" secondAttribute="leading" constant="25" id="ImF-ix-Wgr"/>
                             <constraint firstItem="COg-xy-eO3" firstAttribute="centerY" secondItem="QGn-qe-Gns" secondAttribute="centerY" id="JB5-19-38i"/>
-                            <constraint firstAttribute="trailing" secondItem="J30-u5-4ZD" secondAttribute="trailing" constant="25" id="yXR-jb-nyd"/>
+                            <constraint firstAttribute="trailing" secondItem="xa4-Bl-Waa" secondAttribute="trailing" constant="25" id="x41-aV-EBO"/>
+                            <constraint firstItem="xa4-Bl-Waa" firstAttribute="centerY" secondItem="COg-xy-eO3" secondAttribute="centerY" id="ykf-XU-tsT"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -64,12 +63,13 @@
             <connections>
                 <outlet property="PastDetailCellView" destination="QGn-qe-Gns" id="yVs-Iv-fb5"/>
                 <outlet property="PastDetailLabel" destination="COg-xy-eO3" id="iTM-9e-Ai8"/>
+                <outlet property="PastDetail_Arrow" destination="xa4-Bl-Waa" id="1a6-bU-zfE"/>
             </connections>
-            <point key="canvasLocation" x="195" y="0.0"/>
+            <point key="canvasLocation" x="194.20289855072465" y="0.0"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="icon-checked" width="21" height="19"/>
+        <image name="icon-right-arrow" width="8" height="8"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

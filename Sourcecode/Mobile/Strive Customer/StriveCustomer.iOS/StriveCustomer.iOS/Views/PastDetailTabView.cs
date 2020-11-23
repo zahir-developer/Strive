@@ -5,7 +5,7 @@ using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class PastDetailTabView : MvxViewController
+    public partial class PastDetailTabView : UIViewController
     {
         public PastDetailTabView() : base("PastDetailTabView", null)
         {
@@ -14,8 +14,7 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            NavigationController.NavigationBarHidden = true;
-
+            
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
