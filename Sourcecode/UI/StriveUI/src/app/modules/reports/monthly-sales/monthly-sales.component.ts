@@ -82,6 +82,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   }
   employeeListFilter(count) {
     this.monthlySalesReport = this.originaldata;
+    this.empName = '';
     if (this.employees.length > 0) {
       this.empName = this.employees[count - 1]?.EmployeeName;
       this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
@@ -118,16 +119,31 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate + '_' + locationName);
+        const monthlySalesReport = this.customizeObj(this.monthlySalesReport);
+        this.excelService.exportAsCSVFile(monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate + '_' + locationName);
+        const monthlySalesReport = this.customizeObj(this.monthlySalesReport);
+        this.excelService.exportAsExcelFile(monthlySalesReport, 'MonthlySalesReport_' + this.selectedDate + '_' + locationName);
         break;
       }
       default: {
         return;
       }
+    }
+  }
+  customizeObj(monthlySalesReport) {
+    if (monthlySalesReport?.length > 0) {
+const monthlySales = monthlySalesReport.map(item => {
+  return {
+    Number: item?.Number,
+    Description: item?.Description,
+    Price: item?.Price,
+    Total: item?.Total
+  };
+});
+return monthlySales;
     }
   }
   onMonthChange(event) {
