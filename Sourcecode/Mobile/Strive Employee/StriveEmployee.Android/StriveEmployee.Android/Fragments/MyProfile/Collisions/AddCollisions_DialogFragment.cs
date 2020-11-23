@@ -88,6 +88,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
                         return;
                     }
                     byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+                    var base64String = Convert.ToBase64String(imageArray);
                     Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
                 }               
             }
@@ -114,6 +115,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
 
                     });
                     byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+                    var base64String = Convert.ToBase64String(imageArray);
                     Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
                 }  
             }

@@ -83,10 +83,14 @@ namespace Strive.Core.Utils
 
         public const string URL_MESSENGER_PERSONAL_INFO = "/Admin/Employee/GetEmployeeById";
 
-        public const string URL_COMMON_GENDER = "/Admin/Common/GetCodesByCategory/GENDER"; 
-        
+        public const string URL_COMMON_TYPES = "/Admin/Common/GetCodesByCategory/";
+
         public const string URL_GET_GROUP_PARTICIPANTS = "/Admin/Messenger/GetChatGroupEmployeelist/{0}"; 
     
         public const string URL_GROUP_PARTICIPANT_DELETE = "/Admin/Messenger/DeleteChatGroupUser/{0}";
+
+        public const string URL_ADD_COLLISIONS = "/Admin/Collision/Add";
+
+        public const string URL_UPDATE_COLLISIONS = "/Admin/Collision/Update";
     }
 }

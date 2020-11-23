@@ -73,7 +73,7 @@
                 android:layout_gravity="center_vertical"
                 app:hintEnabled="true">
                 <EditText
-                    android:id="@+id/emailPhoneInputs"
+                    android:id="@+id/collisionsDate_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
@@ -101,14 +101,14 @@
                 android:layout_gravity="center_vertical"
                 app:hintEnabled="true">
                 <EditText
-                    android:id="@+id/type_Spinner"
+                    android:id="@+id/collisionAmount_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
                     android:hint="Amount"
                     android:textColorHint="@color/defaultHintColor"
                     android:background="@drawable/edit_text"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"/> 
             </android.support.design.widget.TextInputLayout>
@@ -128,7 +128,7 @@
                 android:layout_gravity="center_vertical"
                 app:hintEnabled="true">
                 <EditText
-                    android:id="@+id/notes_EditText"
+                    android:id="@+id/collisionNotes_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
