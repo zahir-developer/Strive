@@ -5,6 +5,7 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+declare var $: any;
 // import * as jsPDF from 'jspdf';
 // import 'jspdf-autotable';
 // declare let jsPDF;
@@ -18,6 +19,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   monthlySalesReport = [];
   selectedDate : any;
   employees = [];
+  showNavigation = true;
+  showLocation = false;
   empCount = 1;
   originaldata = [];
   empName = '';
@@ -162,4 +165,5 @@ return monthlySales;
   getfileType(event) {
     this.fileType = +event.target.value;
   }
+ 
 }
