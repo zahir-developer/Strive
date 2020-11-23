@@ -34,7 +34,7 @@
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                [printStyle]="{input : {disabled: 'none'}, button : {disabled: 'none'}}"
+                                [printStyle]="{input: {'visibility': 'hidden'}, button: {'visibility': 'hidden'}}"
                                 printTitle="Daily Tip Report"  printSectionId="dailyreport" ngxPrint (click)="print()">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="getDailyTipReport()">Refresh</button>
