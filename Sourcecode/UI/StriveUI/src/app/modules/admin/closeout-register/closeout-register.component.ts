@@ -202,7 +202,7 @@ export class CloseoutRegisterComponent implements OnInit {
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: 120,
-      locationId: 1,
+      locationId: +localStorage.getItem('empLocationId'),
       drawerId: 1,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,      

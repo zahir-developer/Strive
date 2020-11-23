@@ -49,29 +49,25 @@ SELECT
 	  EmployeeId
 	, LocationId
 	, TimeClockId
-	, tblCV.id AS RoleId
+	, tblRM.RoleMasterId AS RoleId
 	, DATENAME(DW,EventDate) AS [Day]
 	, EventDate
 	, CONVERT(VARCHAR(8),InTime,108) AS InTime
 	, CONVERT(VARCHAR(8),ISNULL(OutTime,INTIME),108) AS OutTime
-	, tblCV.CodeValue as RoleName
+	, tblRM.RoleName
 	, DATEDIFF(HOUR,ISNULL(InTime,OutTime),ISNULL(OutTime,Intime)) AS TotalHours
 	,CONVERT(VARCHAR(8),DATEADD(minute, DATEDIFF(MI, ISNULL(InTime,OutTime), ISNULL(OutTime,Intime)), 0), 114) AS TotH
 INTO
 	#TimeClock
 FROM 
 	tblTimeClock tblTC
-	LEFT JOIN
-	tblCodeValue tblCV
-ON		tblCV.id=tblTC.RoleId
-LEFT JOIN
-	tblCodeCategory tblCC
-ON		tblCC.id=tblCV.CategoryId
+	INNER JOIN	tblRoleMaster tblRM
+ON		tblRM.RoleMasterId=tblTC.RoleId
 WHERE 
 	EmployeeId=@EmployeeId
-AND tblCC.Category='EmployeeRole' 
 AND LocationId=@LocationId 
-AND EventDate BETWEEN @StartDate AND @EndDate 
+AND EventDate BETWEEN @StartDate AND @EndDate
+AND  ISNULL(tblTC.IsDeleted,0) = 0
 
 
 -- Detail Amount Sum

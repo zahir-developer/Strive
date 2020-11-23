@@ -18,9 +18,12 @@
     [CreatedDate]   DATETIMEOFFSET (7) NULL,
     [UpdatedBy]     INT                NULL,
     [UpdatedDate]   DATETIMEOFFSET (7) NULL,
+    [Amount]        DECIMAL (18, 2)    NULL,
     CONSTRAINT [PK_tblClient] PRIMARY KEY CLUSTERED ([ClientId] ASC),
     CONSTRAINT [FK_tblClient_ClientType] FOREIGN KEY ([ClientType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClient_Gender] FOREIGN KEY ([Gender]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClient_MaritalStatus] FOREIGN KEY ([MaritalStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 

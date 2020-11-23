@@ -12,9 +12,9 @@ namespace Strive.BusinessEntities.ViewModel
         public string ClientName { get; set; }
         public int JobId { get; set; }
         public string TicketNumber { get; set; }
-        public int Model { get; set; }
+        public string Model { get; set; }
         public string ModelDescription { get; set; }
-        public int Color { get; set; }
+        public string Color { get; set; }
         public string ModelColor { get; set; }
         public DateTime JobDate { get; set; }
         public int MemberShipId { get; set; }

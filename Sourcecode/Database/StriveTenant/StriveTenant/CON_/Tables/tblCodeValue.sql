@@ -11,7 +11,8 @@
     [CreatedDate]    DATETIMEOFFSET (7) NULL,
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
-    CONSTRAINT [PK_tblCodeValue] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_tblCodeValue_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [CON].[tblCodeCategory] ([id])
+    CONSTRAINT [PK_tblCodeValue] PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 
