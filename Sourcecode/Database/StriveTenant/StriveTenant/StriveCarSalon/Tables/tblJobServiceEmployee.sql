@@ -3,6 +3,7 @@
     [JobItemId]            INT                NULL,
     [ServiceId]            INT                NULL,
     [EmployeeId]           INT                NULL,
+    [CommissionAmount]     DECIMAL (18, 2)    NULL,
     [IsActive]             BIT                NULL,
     [IsDeleted]            BIT                NULL,
     [CreatedBy]            INT                NULL,
@@ -14,4 +15,6 @@
     CONSTRAINT [FK_tblJobServiceEmployee_JobItemId] FOREIGN KEY ([JobItemId]) REFERENCES [StriveCarSalon].[tblJobItem] ([JobItemId]),
     CONSTRAINT [FK_tblJobServiceEmployee_ServiceId] FOREIGN KEY ([ServiceId]) REFERENCES [StriveCarSalon].[tblService] ([ServiceId])
 );
+
+
 

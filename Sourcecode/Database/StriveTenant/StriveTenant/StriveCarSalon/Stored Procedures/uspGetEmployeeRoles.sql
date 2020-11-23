@@ -2,19 +2,26 @@
 
 
 
+
+
 CREATE proc [StriveCarSalon].[uspGetEmployeeRoles]
 as
+-- =============================================
+-- Author:		Vineeth B
+-- Create date: 28-07-2020
+-- Description:	To get Employee Roles
+-- =============================================
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-- Rev | Date Modified  | Developer	| Change Summary
+-----------------------------------------------------------------------------------------------------------------------------------------
+--  1  |  2020-Oct-14   | Vineeth	| Added NULL Condition in CodeCategory and CodeValue table
+--  2  |  2020-Oct-15   | Vineeth   | Removed tblcodevalue and tblcodecategory table and include RoleMaster table
+-----------------------------------------------------------------------------------------------------------------------------------------
 begin
 select 
-tblcv.CategoryId,
-tblcc.Category,
-tblcv.id AS CodeId,
-tblcv.CodeValue,
-tblcv.CodeShortValue,
-tblcv.SortOrder
-
-from [StriveCarSalon].[tblCodeValue] tblcv inner join 
-[StriveCarSalon].[tblCodeCategory] tblcc on(tblcv.CategoryId = tblcc.id) 
-where tblcc.Category='EmployeeRole'
-AND tblcv.IsDeleted=0 AND tblcc.IsDeleted=0
+RoleMasterId,
+RoleName
+from [tblRoleMaster] 
+WHERE ISNULL(IsDeleted,0)=0 AND ISNULL(IsActive,1)=1
 end

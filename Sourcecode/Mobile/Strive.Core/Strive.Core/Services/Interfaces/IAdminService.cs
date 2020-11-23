@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
@@ -76,6 +77,14 @@ namespace Strive.Core.Services.Interfaces
 
         Task<PersonalDetails> GetPersonalDetails(int EmployeeID);
 
-        Task<Gender> GetGender();
+        Task<CommonCodes> GetCommonCodes(string CommonCodes);
+
+        Task<PostResponse> AddCollisions(AddCollisions collisionDetails);
+
+        Task<PostResponse> UpdateCollisions(AddCollisions collisionDetails);
+
+        Task<PostResponse> DeleteCollisions(int liabilityID);
+
+        Task<GetCollisions> GetCollisions(int liabilityID);
     }
 }

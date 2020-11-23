@@ -3,6 +3,8 @@
 
 
 
+
+
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 31-08-2020
@@ -25,11 +27,12 @@
 -- 28-09-2020, Zahir - Added JobStatus property
 --------------------------------------------------------
 -- =====================================================
-CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] 
+
+CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] --375
 (@JobId int)
 AS
 BEGIN
-Select 
+Select TOP 1
 tbj.JobId
 ,tbljd.BayId
 ,tblclv.Barcode
@@ -46,17 +49,13 @@ tbj.JobId
 ,tbj.JobStatus
 ,tbj.TimeIn
 ,tbj.EstimatedTimeOut
-,tblji.ServiceId
-,tblji.EmployeeId
-,tbls.ServiceName
 ,tbj.Notes
 from 
 StriveCarSalon.tblJob tbj with(nolock)
-INNER JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
+LEFT JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
 INNER JOIN StriveCarSalon.tblJobDetail tbljd on tbj.JobId = tbljd.JobId
 INNER JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
 INNER JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
-INNER JOIN StriveCarSalon.tblService tbls on tblji.ServiceId = tbls.ServiceId
 INNER JOIN StriveCarSalon.GetTable('JobType') tbljt on tbljt.valueid = tbj.JobType
 WHERE tbljt.valuedesc='Detail'
 AND isnull(tbj.IsDeleted,0)=0 
@@ -72,10 +71,14 @@ tblji.JobItemId,
 tblji.JobId,
 tblji.ServiceId,
 s.ServiceType as ServiceTypeId,
+ISNULL(ct.valuedesc,'') CommissionType,
+ISNULL(s.CommissionCost,0.00) CommissionCost,
 s.ServiceName,
 s.Cost
 from StriveCarSalon.tblJobItem tblji with(nolock)
 INNER JOIN StriveCarSalon.tblService s ON s.ServiceId = tblji.ServiceId
+LEFT JOIN StriveCarSalon.GetTable('CommisionType') ct on ct.valueid = s.CommisionType
+LEFT JOIN StriveCarSalon.tblJobServiceEmployee tblJSE ON tblji.JobItemId= tblJSE.JobItemId
 WHERE tblji.JobId = @JobId
 AND isnull(tblji.IsDeleted,0)=0
 AND tblji.IsActive=1

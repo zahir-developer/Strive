@@ -1,0 +1,26 @@
+﻿CREATE TABLE [StriveCarSalon].[tblPayroll] (
+    [PayrollId]       INT                IDENTITY (1, 1) NOT NULL,
+    [EmployeeId]      INT                NULL,
+    [PayeeName]       VARCHAR (50)       NULL,
+    [WashHours]       INT                NULL,
+    [DetailHours]     INT                NULL,
+    [Rate]            DECIMAL (18)       NULL,
+    [RegularPay]      DECIMAL (18)       NULL,
+    [OverTimeHours]   INT                NULL,
+    [OverTimePay]     DECIMAL (18)       NULL,
+    [Collison]        DECIMAL (18)       NULL,
+    [Uniform]         DECIMAL (18)       NULL,
+    [Adjustment]      DECIMAL (18)       NULL,
+    [DetailCommision] DECIMAL (18)       NULL,
+    [Tips]            DECIMAL (18)       NULL,
+    [PayeeTotal]      DECIMAL (18)       NULL,
+    [Comments]        VARCHAR (20)       NULL,
+    [IsActive]        BIT                NULL,
+    [IsDeleted]       BIT                NULL,
+    [CreatedBy]       INT                NULL,
+    [CreatedDate]     DATETIMEOFFSET (7) NULL,
+    [UpdatedBy]       INT                NULL,
+    [UpdatedDate]     DATETIMEOFFSET (7) NULL,
+    CONSTRAINT [FK_tblPayroll_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
+);
+

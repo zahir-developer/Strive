@@ -4,6 +4,9 @@
     [FontFace]        VARCHAR (20)       NULL,
     [PrimaryColor]    VARCHAR (10)       NULL,
     [SecondaryColor]  VARCHAR (10)       NULL,
+    [TertiaryColor]   VARCHAR (10)       NULL,
+    [NavigationColor] VARCHAR (10)       NULL,
+    [BodyColor]       VARCHAR (10)       NULL,
     [DefaultLogoPath] VARCHAR (60)       NULL,
     [DefaultTitle]    VARCHAR (20)       NULL,
     [Comments]        VARCHAR (50)       NULL,
@@ -15,4 +18,6 @@
     [UpdatedDate]     DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblThemes] PRIMARY KEY CLUSTERED ([ThemeId] ASC)
 );
+
+
 

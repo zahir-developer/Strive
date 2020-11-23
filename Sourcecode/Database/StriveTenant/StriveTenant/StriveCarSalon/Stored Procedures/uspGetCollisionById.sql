@@ -30,7 +30,8 @@ LiabilityType,
 LiabilityDescription,
 ProductId,
 IsDeleted,
-Status
+Status,
+CreatedDate
 FROM 
 strivecarsalon.tblEmployeeLiability  
 WHERE

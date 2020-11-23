@@ -15,6 +15,7 @@
 -- ====================================================
 
 CREATE PROC [StriveCarSalon].[uspGetAllJob]
+@locationId INT = NULL
 AS
 BEGIN
 
@@ -42,6 +43,7 @@ LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tbj.Make = cvM
 LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON tbj.Model = cvMo.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid
 WHERE
+(tbj.locationId = @locationId OR @locationId is NULL) AND
 tblcv.valuedesc='Washes'
 AND isnull(tbj.IsDeleted,0)=0
 --AND isnull(tblc.IsDeleted,0)=0
