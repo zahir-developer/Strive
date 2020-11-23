@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
 
@@ -69,6 +70,7 @@ namespace StriveEmployee.Android.Fragments
             switch(e.Item.ItemId)
             {
                 case Resource.Id.menu_CreateGroup:
+                    MessengerTempData.resetParticipantInfo();
                     selected_MvxFragment = new MessengerCreateGroupFragment();
                     FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
                     break;

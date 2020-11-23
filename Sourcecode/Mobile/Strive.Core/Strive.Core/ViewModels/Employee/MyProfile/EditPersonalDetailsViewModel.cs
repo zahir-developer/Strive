@@ -11,7 +11,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
 
         #region Properties
 
-        public Gender gender { get; set; }
+        public CommonCodes gender { get; set; }
 
         #endregion Properties
 
@@ -21,7 +21,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
 
         public async Task GetGender()
         {
-            var result = await AdminService.GetGender();
+            var result = await AdminService.GetCommonCodes("GENDER");
 
             if(result == null)
             {
@@ -29,7 +29,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             }
             else
             {
-                gender = new Gender();
+                gender = new CommonCodes();
                 gender.Codes = new List<Codes>();
                 gender = result;
             }

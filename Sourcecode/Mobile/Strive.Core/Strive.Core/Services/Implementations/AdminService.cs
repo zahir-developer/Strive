@@ -6,6 +6,7 @@ using System.Web;
 using MvvmCross;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
@@ -205,9 +206,29 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<PersonalDetails>(ApiUtils.URL_MESSENGER_PERSONAL_INFO+"?id="+EmployeeID, HttpMethod.Get, EmployeeID);
         }
 
-        public async Task<Gender> GetGender()
+        public async Task<CommonCodes> GetCommonCodes(string CommonCode)
         {
-           return await _restClient.MakeApiCall<Gender>(ApiUtils.URL_COMMON_GENDER,HttpMethod.Get);
+           return await _restClient.MakeApiCall<CommonCodes>(ApiUtils.URL_COMMON_TYPES + CommonCode,HttpMethod.Get);
+        }
+
+        public async Task<PostResponse> AddCollisions(AddCollisions collisionDetails)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_ADD_COLLISIONS, HttpMethod.Post, collisionDetails);
+        }
+
+        public async Task<PostResponse> UpdateCollisions(AddCollisions collisionDetails)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_COLLISIONS, HttpMethod.Post, collisionDetails);
+        }
+
+        public async Task<PostResponse> DeleteCollisions(int liabilityID)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_DELETE_COLLISIONS+"?id="+liabilityID, HttpMethod.Delete);
+        }
+
+        public async Task<GetCollisions> GetCollisions(int liabilityID)
+        {
+            return await _restClient.MakeApiCall<GetCollisions>(ApiUtils.URL_GET_COLLISIONS + liabilityID, HttpMethod.Get);
         }
     }
     public static class RestUtils
