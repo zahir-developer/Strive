@@ -82,5 +82,9 @@ namespace Strive.Core.Services.Interfaces
         Task<PostResponse> AddCollisions(AddCollisions collisionDetails);
 
         Task<PostResponse> UpdateCollisions(AddCollisions collisionDetails);
+
+        Task<PostResponse> DeleteCollisions(int liabilityID);
+
+        Task<GetCollisions> GetCollisions(int liabilityID);
     }
 }

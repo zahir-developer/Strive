@@ -92,5 +92,9 @@ namespace Strive.Core.Utils
         public const string URL_ADD_COLLISIONS = "/Admin/Collision/Add";
 
         public const string URL_UPDATE_COLLISIONS = "/Admin/Collision/Update";
+
+        public const string URL_DELETE_COLLISIONS = "/Admin/Collision/Delete";
+
+        public const string URL_GET_COLLISIONS = "/Admin/Collision/GetCollisionById/";
     }
 }

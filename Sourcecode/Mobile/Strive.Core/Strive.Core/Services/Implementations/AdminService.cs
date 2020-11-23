@@ -220,6 +220,16 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_COLLISIONS, HttpMethod.Post, collisionDetails);
         }
+
+        public async Task<PostResponse> DeleteCollisions(int liabilityID)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_DELETE_COLLISIONS+"?id="+liabilityID, HttpMethod.Delete);
+        }
+
+        public async Task<GetCollisions> GetCollisions(int liabilityID)
+        {
+            return await _restClient.MakeApiCall<GetCollisions>(ApiUtils.URL_GET_COLLISIONS + liabilityID, HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

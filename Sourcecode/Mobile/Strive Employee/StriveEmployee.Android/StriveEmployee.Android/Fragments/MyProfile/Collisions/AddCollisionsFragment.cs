@@ -32,6 +32,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         private ArrayAdapter<string> codesAdapter;
         private List<string> codes;
         private AddCollisions_DialogFragment collisions_DialogFragment;
+        private MyProfileFragment profileFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -58,10 +59,17 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             addImage_TextView.Click += AddImage_TextView_Click;
             collisionDate_EditText.Click += CollisionDate_EditText_Click;
             save_Button.Click += Save_Button_Click;
-
+            back_Button.Click += Back_Button_Click;
             GetLiabilityTypes();
 
             return rootView;
+        }
+
+        private void Back_Button_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            profileFragment = new MyProfileFragment();
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profileFragment).Commit();
         }
 
         private async void Save_Button_Click(object sender, EventArgs e)

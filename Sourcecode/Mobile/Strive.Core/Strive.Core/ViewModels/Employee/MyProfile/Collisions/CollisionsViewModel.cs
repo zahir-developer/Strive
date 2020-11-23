@@ -13,6 +13,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
         #region Properties
 
         public PersonalDetails CollisionDetails { get; set; }
+        public bool confirm { get; set; }
 
         #endregion Properties
 
@@ -53,6 +54,16 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeInfo = new EmployeeInfo();
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeLocations = new List<EmployeeLocations>();
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeRoles = new List<EmployeeRoles>();
+        }
+
+        public async Task DeleteCollisions(int liabilityID)
+        {
+            confirm = await _userDialog.ConfirmAsync("Are you sure you want to delete the collision document?");
+            
+            if (confirm)
+            {
+                await AdminService.DeleteCollisions(liabilityID);
+            }
         }
 
         #endregion Commands

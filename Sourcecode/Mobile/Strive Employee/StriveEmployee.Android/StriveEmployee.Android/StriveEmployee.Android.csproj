@@ -83,6 +83,7 @@
     <Compile Include="Fragments\MyProfile\Collisions\AddCollisionsFragment.cs" />
     <Compile Include="Fragments\MyProfile\Collisions\AddCollisions_DialogFragment.cs" />
     <Compile Include="Fragments\MyProfile\Collisions\CollisionsFragment.cs" />
+    <Compile Include="Fragments\MyProfile\Collisions\EditCollisionsFragment.cs" />
     <Compile Include="Fragments\MyProfile\Documents\DocumentsFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditEmployeeDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditPersonalDetailFragment.cs" />
@@ -792,6 +793,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\xml\file_paths.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\EditCollisions_Fragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
