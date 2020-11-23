@@ -1,62 +1,88 @@
 ﻿using System;
-
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Foundation;
-using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.Platforms.Ios.Binding.Views;
-using MvvmCross.Platforms.Ios.Views;
-using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public class PastDetailTableSource : UITableViewSource
+    public class PastDetailTableSource : MvxTableViewSource
     {
         private static string CellId = "PastDetailViewCell";
 
-        private PastDetailViewModel ViewModel;
-        private PastClientServices services = new PastClientServices();
-        private MvxViewController view;
+        private LoginViewModel ViewModel;
 
-        public PastDetailTableSource(MvxViewController profileView, PastClientServices clientServices)
+        private ObservableCollection<string> ItemList = new ObservableCollection<String>();
+
+        public PastDetailTableSource(UITableView tableView, LoginViewModel ViewModel) : base(tableView)
         {
-            this.view = profileView;
-            this.services = clientServices;
-        }        
+            tableView.RegisterNibForCellReuse(PastDetailViewCell.Nib, CellId);
+            this.ViewModel = ViewModel;
 
-        public override nint NumberOfSections(UITableView tableView)
-        {        
-            return 1;            
+            ItemList.Add("Rose");
+            ItemList.Add("Jasmine");
+            ItemList.Add("Lotus");
+            ItemList.Add("Lily");
+            ItemList.Add("Hibiscus");
+            ItemList.Add("Daisy");
         }
-        
-        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+
+        public override IEnumerable ItemsSource
         {
-            var cell = tableView.DequeueReusableCell("PastDetailViewCell", indexPath) as PastDetailViewCell;
-            cell.SelectionStyle = UITableViewCellSelectionStyle.None;            
-            cell.SetData(services, indexPath);
-            return cell;
-        } 
+            get => base.ItemsSource;
+            set
+            {
+                if (value != null)
+                {
+                    ItemList = (ObservableCollection<string>)value;
+                }
+                else
+                {
+                    ItemList = new ObservableCollection<string>();
+                }
+
+                base.ItemsSource = value;
+            }
+        }
+
+        protected override object GetItemAt(NSIndexPath indexPath)
+        {
+            var item = ItemList[indexPath.Row];
+            return item;
+        }
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 45;
+            return 50;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return services.PastClientDetails.Count();
+            return ItemList.Count();
         }
 
-        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            PastDetailViewCell cell = (PastDetailViewCell)tableView.CellAt(indexPath);
-            CustomerInfo.SelectedVehiclePastDetails = services.PastClientDetails[indexPath.Row].VehicleId;
-            var pastTabView = new PastDetailTabView();
-            view.NavigationController.PushViewController(pastTabView, true);            
-        }        
+            var item = ItemList[indexPath.Row];
+            var cell = GetOrCreateCellFor(tableView, indexPath, item);
+            cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+            IMvxDataConsumer bindable = cell as IMvxDataConsumer;
+            if (bindable != null)
+            {
+                bindable.DataContext = item;
+            }
+            return cell;
+        }
+
+        protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
+        {
+            PastDetailViewCell cell = (PastDetailViewCell)tableView.DequeueReusableCell(CellId, indexPath);
+            cell.SetCell();
+            return cell;
+        }
     }
-}   
+}

@@ -182,14 +182,6 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\Group 558.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\Group 558%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\Group 558%403x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-right-arrow.imageset\Contents.json" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-right-arrow.imageset\103303-24.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-right-arrow.imageset\103303-24%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-right-arrow.imageset\103303-24%403x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Contents.json" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -208,8 +200,6 @@
         <Folder Include="Resources\Assets.xcassets\icon-home.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-home-active.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\" />
-        <Folder Include="Resources\Assets.xcassets\icon-right-arrow.imageset\" />
-        <Folder Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -225,10 +215,10 @@
         <InterfaceDefinition Include="Views\DealsView.xib" />
         <InterfaceDefinition Include="Views\DealsDetailView.xib" />
         <InterfaceDefinition Include="Views\DealsViewCell.xib" />
+        <InterfaceDefinition Include="Views\PastDetailView.xib" />
         <InterfaceDefinition Include="Views\PastDetailViewCell.xib" />
         <InterfaceDefinition Include="Views\PastDetailTabView.xib" />
         <InterfaceDefinition Include="Views\ProfileView.xib" />
-        <InterfaceDefinition Include="Views\EditProfileInfo.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -292,6 +282,10 @@
           <DependentUpon>DealsViewCell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\DealsTableSource.cs" />
+        <Compile Include="Views\PastDetailView.cs" />
+        <Compile Include="Views\PastDetailView.designer.cs">
+          <DependentUpon>PastDetailView.cs</DependentUpon>
+        </Compile>
         <Compile Include="Views\PastDetailViewCell.cs" />
         <Compile Include="Views\PastDetailViewCell.designer.cs">
           <DependentUpon>PastDetailViewCell.cs</DependentUpon>
@@ -304,10 +298,6 @@
         <Compile Include="Views\ProfileView.cs" />
         <Compile Include="Views\ProfileView.designer.cs">
           <DependentUpon>ProfileView.cs</DependentUpon>
-        </Compile>
-        <Compile Include="Views\EditProfileInfo.cs" />
-        <Compile Include="Views\EditProfileInfo.designer.cs">
-          <DependentUpon>EditProfileInfo.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

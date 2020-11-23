@@ -2,17 +2,14 @@
 
 using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
-using Strive.Core.Models.Customer;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class PastDetailViewCell : UITableViewCell
+    public partial class PastDetailViewCell : MvxTableViewCell
     {
         public static readonly NSString Key = new NSString("PastDetailViewCell");
         public static readonly UINib Nib;
-        public ProfileView profileViewController = new ProfileView();
-        private PastClientServices pservices = new PastClientServices();
 
         static PastDetailViewCell()
         {
@@ -26,13 +23,7 @@ namespace StriveCustomer.iOS.Views
 
         public void SetCell()
         {
-            PastDetailCellView.Layer.CornerRadius = 5;  
-        }
-
-        public void SetData(PastClientServices services, NSIndexPath indexpath)
-        {           
-            PastDetailLabel.Text = services.PastClientDetails[indexpath.Row].Color + " " + services.PastClientDetails[indexpath.Row].Make + " " + services.PastClientDetails[indexpath.Row].Model;
-            PastDetail_Arrow.Image = UIImage.FromBundle("icon-right-arrow");
+            PastDetailCellView.Layer.CornerRadius = 5;
         }
     }
 }
