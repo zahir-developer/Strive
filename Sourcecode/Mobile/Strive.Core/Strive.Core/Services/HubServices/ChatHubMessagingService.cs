@@ -33,33 +33,75 @@ namespace Strive.Core.Services.HubServices
             return ConnectionID;
         }
 
-        //to maintain the connection ID ...bruh this is really an expensive process !
+
         public static async Task SubscribeChatEvents()
         {
-            connection?.On<dynamic>("OnDisconnected", (data) => {
+            try
+            {
+                connection?.On<string>("OnDisconnected", (data) => {
 
-                Console.WriteLine("Connection has been disconnected !", data);
-            });
+                    Console.WriteLine("Connection has been disconnected !");
 
-            connection?.On<dynamic>("ReceiveCommunicationID", (id) => {
+                });
 
-                RecipientsConnectionID = id;
-                Console.WriteLine("Communication ID", id);
-                try
-                {
-                    connection.InvokeAsync("SendEmployeeCommunicationId");
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            });
+                connection?.On<string>("ReceiveCommunicationID", (id) => {
+                    ConnectionID = id;
+                    SendEmployeeCommunicationId();
+                });
 
-        
-        
+                connection?.On<string>("ReceivePrivateMessage", (data) => {
+
+                    Console.WriteLine("Private Message received", data);
+
+                });
+
+                connection?.On<string>("ReceiveGroupMessage", (data) => {
+
+                    Console.WriteLine("Group Message received", data);
+
+                });
+
+                connection?.On<string>("SendPrivateMessage", (data) => {
+
+                    Console.WriteLine("Private Message sent", data);
+
+                });
+
+                connection?.On<string>("ReceiveEmployeeCommunicationId", (data) => {
+
+                    Console.WriteLine("Employee Communication ID", data);
+
+                });
+
+                connection?.On<string>("UserAddedtoGroup", (data) => {
+
+                    Console.WriteLine("User added", data);
+
+                });
+
+                connection?.On<string>("GroupMessageReceive", (data) => {
+
+                    Console.WriteLine("Group Message Received", data);
+
+                });
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
-
+        public static async void SendEmployeeCommunicationId()
+        {
+            try
+            {
+               await connection?.InvokeAsync("SendEmployeeCommunicationId", EmployeeTempData.EmployeeID, ConnectionID);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
 
     }
 }
