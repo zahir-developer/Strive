@@ -5,54 +5,31 @@ using System.Linq;
 using Foundation;
 using MvvmCross.Base;
 using MvvmCross.Platforms.Ios.Binding.Views;
+using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public class PastDetailTableSource : MvxTableViewSource
+    public class PastDetailTableSource : UITableViewSource
     {
         private static string CellId = "PastDetailViewCell";
 
-        private LoginViewModel ViewModel;
+        private PastDetailViewModel ViewModel;
+        private PastClientServices services = new PastClientServices();
+        private MvxViewController view;
 
-        private ObservableCollection<string> ItemList = new ObservableCollection<String>();
-
-        public PastDetailTableSource(UITableView tableView, LoginViewModel ViewModel) : base(tableView)
+        
+        public PastDetailTableSource(MvxViewController profileView, PastClientServices clientServices) 
         {
-            tableView.RegisterNibForCellReuse(PastDetailViewCell.Nib, CellId);
-            this.ViewModel = ViewModel;
-
-            ItemList.Add("Rose");
-            ItemList.Add("Jasmine");
-            ItemList.Add("Lotus");
-            ItemList.Add("Lily");
-            ItemList.Add("Hibiscus");
-            ItemList.Add("Daisy");
+            this.view = profileView;
+            this.services = clientServices;                                    
         }
 
-        public override IEnumerable ItemsSource
+        public override nint NumberOfSections(UITableView tableView)
         {
-            get => base.ItemsSource;
-            set
-            {
-                if (value != null)
-                {
-                    ItemList = (ObservableCollection<string>)value;
-                }
-                else
-                {
-                    ItemList = new ObservableCollection<string>();
-                }
-
-                base.ItemsSource = value;
-            }
-        }
-
-        protected override object GetItemAt(NSIndexPath indexPath)
-        {
-            var item = ItemList[indexPath.Row];
-            return item;
+            return 1;
         }
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
@@ -62,27 +39,24 @@ namespace StriveCustomer.iOS.Views
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return ItemList.Count();
+            return services.PastClientDetails.Count();
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var item = ItemList[indexPath.Row];
-            var cell = GetOrCreateCellFor(tableView, indexPath, item);
+            var cell = tableView.DequeueReusableCell("PastDetailViewCell", indexPath) as PastDetailViewCell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            IMvxDataConsumer bindable = cell as IMvxDataConsumer;
-            if (bindable != null)
-            {
-                bindable.DataContext = item;
-            }
+            cell.SetData(services, indexPath);
             return cell;
         }
 
-        protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            PastDetailViewCell cell = (PastDetailViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetCell();
-            return cell;
+            PastDetailViewCell cell = (PastDetailViewCell)tableView.CellAt(indexPath);
+            CustomerInfo.SelectedVehiclePastDetails = services.PastClientDetails[indexPath.Row].VehicleId;
+            var pastTabView = new PastDetailTabView();
+            view.NavigationController.PushViewController(pastTabView, true);
         }
+
     }
 }

@@ -20,7 +20,6 @@ export class AssignDetailComponent implements OnInit {
   clonedServices: any = [];
   filteredEmployee: any = [];
   @Output() public storedService = new EventEmitter();
-  @Input() assignedDetailService?: any;
   @Output() public closeAssignModel = new EventEmitter();
   clonedEmployee: any = [];
   dropdownSettings: IDropdownSettings = {};
@@ -37,9 +36,15 @@ export class AssignDetailComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.details, 'assignedDetailService');
+    this.detailService = this.detailsJobServiceEmployee;
     this.getDetailService();
     this.employeeDetail();
-    this.detailService = this.detailsJobServiceEmployee;
+    console.log(this.detailService, this.detailsJobServiceEmployee, 'detailsJobServiceEmployee');
+    if (this.detailService.length > 0) {
+      this.detailService.forEach((item, index) => {  // Adding Id to the grid
+        item.detailServiceId = index + 1;
+      });
+    }
     this.collectionSize = Math.ceil(this.detailService.length / this.pageSize) * 10;
     this.assignForm = this.fb.group({
       employeeId: [''],
@@ -67,29 +72,33 @@ export class AssignDetailComponent implements OnInit {
       });
     });
 
-    console.log(this.details,'details');
+    this.assignForm.value.serviceId.forEach(service => {
+      this.clonedServices = this.clonedServices.filter(item => item.item_id !== service.item_id);
+    });
+
+    console.log(this.details, 'details');
 
     console.log(selectedService, 'selectedservices');
 
-    selectedService.forEach( service => {
-      this.assignForm.value.employeeId.forEach( emp => {
-        let commision = 0;
-
+    selectedService.forEach(service => {
+      this.assignForm.value.employeeId.forEach(emp => {
         const employeeService = {
           ServiceId: service.ServiceId,
-            ServiceName: service.ServiceName,
-            EmployeeId: emp.item_id,
-            EmployeeName: emp.item_text,
-            Cost: service.Cost,
-            JobItemId: service.JobItemId,
-            CommissionAmount: 0
-        }
+          ServiceName: service.ServiceName,
+          EmployeeId: emp.item_id,
+          EmployeeName: emp.item_text,
+          Cost: service.Cost,
+          JobItemId: service.JobItemId,
+          CommissionAmount: 0,
+          CommissionCost: service.CommissionCost,
+          CommissionType: service.CommissionType
+        };
 
         if (service.CommissionType === 'Flat Fee') {
           employeeService.CommissionAmount = service.CommissionCost / this.assignForm.value.employeeId.length;
         } else if (service.CommissionType === 'Percentage') {
           const percentage = service.CommissionCost / this.assignForm.value.employeeId.length;
-          employeeService.CommissionAmount = ( service.Cost * percentage ) / 100;
+          employeeService.CommissionAmount = (service.Cost * percentage) / 100;
         }
 
         this.detailService.push(employeeService);
@@ -123,12 +132,34 @@ export class AssignDetailComponent implements OnInit {
   }
 
   delete(service) {
-    this.detailService = this.detailService.filter(item => item.JobServiceEmployeeId !== service.JobServiceEmployeeId);
+    this.detailService = this.detailService.filter(item => item.detailServiceId !== service.detailServiceId);
+    const clonedDetailService = this.detailService.map(x => Object.assign({}, x));
     this.serviceByEmployeeId(service.ServiceId);
     const deleteService = _.where(this.detailService, { JobServiceEmployeeId: +service.JobServiceEmployeeId });
     if (deleteService.length > 0) {
       this.deleteIds.push(deleteService[0]);
     }
+    this.detailService = [];
+    this.clonedServices = [];
+    this.details.forEach(item => {
+      const selectedService = clonedDetailService.filter(elem => elem.ServiceId === item.ServiceId);
+      if (selectedService.length > 0) {
+        selectedService.forEach(emp => {
+          if (service.CommissionType === 'Flat Fee') {
+            emp.CommissionAmount = emp.CommissionCost / selectedService.length;
+          } else if (emp.CommissionType === 'Percentage') {
+            const percentage = emp.CommissionCost / selectedService.length;
+            emp.CommissionAmount = (emp.Cost * percentage) / 100;
+          }
+          this.detailService.push(emp);
+        });
+      } else {
+        this.clonedServices.push({
+          item_id: item.ServiceId,
+          item_text: item.ServiceName
+        });
+      }
+    });
   }
 
   confirmDelete(service) {
@@ -137,7 +168,7 @@ export class AssignDetailComponent implements OnInit {
   }
 
   serviceByEmployeeId(id) {
-    this.details = this.clonedServices;
+    // this.details = this.clonedServices;
     if (this.detailService.length > 0) {
       const assignedEmployee = _.where(this.detailService, { EmployeeId: +id });
       if (assignedEmployee.length > 0) {
@@ -145,7 +176,7 @@ export class AssignDetailComponent implements OnInit {
           this.details = this.details.filter(elem => elem.ServiceId !== item.ServiceId);
         });
       } else {
-        this.details = this.clonedServices;
+        // this.details = this.clonedServices;
       }
     }
   }
@@ -233,6 +264,18 @@ export class AssignDetailComponent implements OnInit {
         item_text: item.ServiceName
       };
     });
+    if (this.detailService.length > 0) {
+      this.clonedServices = [];
+      this.details.forEach(item => {
+        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId);
+        if (selectedService.length === 0) {
+          this.clonedServices.push({
+            item_id: item.ServiceId,
+            item_text: item.ServiceName
+          });
+        }
+      });
+    }
     this.dropdownSettings = {
       singleSelection: false,
       defaultOpen: false,
