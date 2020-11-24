@@ -74,6 +74,11 @@ namespace Strive.BusinessEntities
         {
             USPGETCHECKLIST
         }
+
+        public enum BonusSetup
+        {
+            USPDELETEBONUSSETUP
+        }
     }
     
     public enum SPEnum
