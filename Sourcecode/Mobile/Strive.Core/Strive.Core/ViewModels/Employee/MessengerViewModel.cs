@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,13 @@ namespace Strive.Core.ViewModels.Employee
 {
     public class MessengerViewModel : BaseViewModel
     {
+
+
+        public async Task<string> StartCommunication()
+        {
+             var ConnectionID = await ChatHubMessagingService.StartConnection();
+            return ConnectionID;
+        }
 
         public async Task SetChatCommunicationDetails(string commID)
         {
