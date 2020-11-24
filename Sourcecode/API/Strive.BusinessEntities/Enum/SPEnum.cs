@@ -72,7 +72,8 @@ namespace Strive.BusinessEntities
         }
         public enum Checklist
         {
-            USPGETCHECKLIST
+            USPGETCHECKLIST,
+            USPDELETECHECKLIST
         }
     }
     

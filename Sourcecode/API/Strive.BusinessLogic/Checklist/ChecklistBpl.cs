@@ -21,5 +21,9 @@ namespace Strive.BusinessLogic.Checklist
         {
             return ResultWrap(new ChecklistRal(_tenant).AddChecklist, checklistAdd, "Status");
         }
+        public Result DeleteChecklist(int id)
+        {
+            return ResultWrap(new ChecklistRal(_tenant).DeleteChecklist, id, "DeleteChecklist");
+        }
     }
 }

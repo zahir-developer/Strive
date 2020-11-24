@@ -12,5 +12,6 @@ namespace Strive.BusinessLogic.Checklist
     {
         Result GetChecklist();
         Result AddChecklist(ChecklistAddDto checklistAdd);
+        Result DeleteChecklist(int id);
     }
 }

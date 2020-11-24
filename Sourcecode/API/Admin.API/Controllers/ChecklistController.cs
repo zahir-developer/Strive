@@ -34,7 +34,11 @@ namespace Admin.API.Controllers
         [Route("Add")]
         public Result AddChecklist([FromBody]ChecklistAddDto checklistAdd) => _bplManager.AddChecklist(checklistAdd);
 
-        
+
         #endregion
+
+        [HttpDelete]
+        [Route("Delete")]
+        public Result DeleteChecklist(int id) => _bplManager.DeleteChecklist(id);
     }
 }

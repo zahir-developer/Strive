@@ -18,5 +18,11 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public int? RoleId { get; set; }
+
+        [Column]
+        public bool IsActive { get; set; } 
+
+        [Column]
+        public bool IsDeleted { get; set; }
     }
 }
