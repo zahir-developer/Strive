@@ -1,45 +1,62 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
-import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
+import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-daily-sales',
   templateUrl: './daily-sales.component.html',
   styleUrls: ['./daily-sales.component.css']
 })
-export class DailySalesComponent implements OnInit {
+export class DailySalesComponent implements OnInit, AfterViewInit {
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  bsConfig: Partial<BsDatepickerConfig>;
+  maxDate = new Date();
   locationId: any;
   fileType: number;
   dailySalesReport = [];
-  date = new Date();
+  date = moment(new Date()).format('MM-DD-YYYY');
   isTableEmpty: boolean;
   page = 1;
   pageSize = 25;
   collectionSize: number = 0;
 
-  constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr,private reportService: ReportsService, private excelService: ExcelService) { }
+  constructor(private spinner: NgxSpinnerService, private toastr: MessageServiceToastr,
+    private cd: ChangeDetectorRef, private reportService: ReportsService, private excelService: ExcelService) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
     this.getDailySalesReport();
   }
+  ngAfterViewInit() {
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.datepicker.setConfig();
+    this.cd.detectChanges();
+  }
   getDailySalesReport() {
-  this.checkout.getUncheckedVehicleDetails().subscribe(data => {
-    if (data.status === 'Success') {
-      const uncheck = JSON.parse(data.resultData);
-      this.dailySalesReport = uncheck.GetCheckedInVehicleDetails;
-      if (this.dailySalesReport.length === 0) {
-        this.isTableEmpty = true;
+    const obj = {
+      date: this.date
+    };
+    this.spinner.show();
+    this.reportService.getDailySalesReport(obj).subscribe(data => {
+      this.spinner.hide();
+      if (data.status === 'Success') {
+        const sales = JSON.parse(data.resultData);
+        this.dailySalesReport = sales.GetDailySalesReport;
+        if (this.dailySalesReport.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.dailySalesReport.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
       } else {
-        this.collectionSize = Math.ceil(this.dailySalesReport.length / this.pageSize) * 10;
-        this.isTableEmpty = false;
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
-    } else {
-      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
-    }
-  });
+    }, (err) => {
+      this.spinner.hide();
+    });
   }
 
   onLocationChange(event) {
@@ -72,5 +89,14 @@ export class DailySalesComponent implements OnInit {
         return;
       }
     }
+  }
+  
+  onValueChange(event) {
+    let selectedDate = event;
+    if (selectedDate !== null) {
+      selectedDate = moment(event.toISOString()).format('MM-DD-YYYY');
+      this.date = selectedDate;
+    }
+    this.getDailySalesReport();
   }
 }
