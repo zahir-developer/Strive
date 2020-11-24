@@ -70,6 +70,10 @@ namespace Strive.BusinessEntities
         {
             USPGETALLMEMBERSHIP
         }
+        public enum Checklist
+        {
+            USPGETCHECKLIST
+        }
     }
     
     public enum SPEnum
