@@ -66,5 +66,8 @@ namespace Admin.API.Controllers
         [Route("EODSalesReport")]
         public Result GetEODSalesReport([FromBody] SalesReportDto salesReportDto) => _bplManager.GetEODSalesReport(salesReportDto);
 
+        [HttpPost]
+        [Route("DailySalesReport")]
+        public Result uspGetDailySalesReport([FromBody] DailySalesReportDto DailySalesReport) => _bplManager.GetDailySalesReport(DailySalesReport);
     }
 }
