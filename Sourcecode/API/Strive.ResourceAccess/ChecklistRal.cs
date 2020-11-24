@@ -19,7 +19,13 @@ namespace Strive.ResourceAccess
         }
         public bool AddChecklist(ChecklistAddDto checklistAdd)
         {
-            return dbRepo.InsertPc(checklistAdd, "ChecklistId");
+            return dbRepo.SavePc(checklistAdd, "ChecklistId");
+        }
+        public bool DeleteChecklist(int id)
+        {
+            _prm.Add("ChecklistId", id.toInt());
+            db.Save(EnumSP.Checklist.USPDELETECHECKLIST.ToString(), _prm);
+            return true;
         }
     }
 }
