@@ -82,7 +82,7 @@ namespace StriveEmployee.Android.Fragments
         private async void EstablishHubConnection()
         {
             ConnectionID = await this.ViewModel.StartCommunication();
-            await ChatHubMessagingService.SubscribeChatEvents();
+            await ChatHubMessagingService.SubscribeChatEvent();
             await this.ViewModel.SetChatCommunicationDetails(ConnectionID);
         }
 

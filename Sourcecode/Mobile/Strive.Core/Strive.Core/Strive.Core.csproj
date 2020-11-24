@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     <PackageReference Include="MvvmCross" Version="6.4.2" />
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.442" />
     <PackageReference Include="MvvmCross.Plugin.Messenger" Version="6.4.2" />

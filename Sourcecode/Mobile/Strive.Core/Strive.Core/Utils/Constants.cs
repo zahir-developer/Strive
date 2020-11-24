@@ -2,9 +2,10 @@
 namespace Strive.Core.Utils
 {
     public class ApiUtils
-    { 
-        public const string BASE_URL = "http://14.141.185.75:5004";
+    {
+        //public const string BASE_URL = "http://10.0.2.2:60001";
 
+        public const string BASE_URL = "http://14.141.185.75:5004";
         public static string Token { get; set; }
 
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
