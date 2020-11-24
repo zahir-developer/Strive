@@ -69,21 +69,15 @@ namespace StriveEmployee.Android.Fragments
             messenger_ImageButton.Click += Messenger_ImageButton_Click;
 
             EstablishHubConnection();            
-
-            //connection.On<string, string, string, string>("ReceiveGroupMessage", (groupName, employeeId, userName, message) =>
-            //{
-
-
-            //});
-
             return rootView;
         }
 
         private async void EstablishHubConnection()
         {
             ConnectionID = await this.ViewModel.StartCommunication();
-            await ChatHubMessagingService.SubscribeChatEvent();
             await this.ViewModel.SetChatCommunicationDetails(ConnectionID);
+            await ChatHubMessagingService.SubscribeChatEvent();
+            
         }
 
         private void Messenger_PopupMenu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)

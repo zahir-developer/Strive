@@ -87,8 +87,15 @@ namespace Strive.Core.ViewModels.Employee
             sendChat.chatMessageRecipient.chatMessageId = 0;
             sendChat.chatMessageRecipient.senderId = EmployeeTempData.EmployeeID;
            
+            if(String.IsNullOrEmpty(MessengerTempData.ConnectionID))
+            {
+                sendChat.connectionId = "0";
+            }
+            else
+            {
+                sendChat.connectionId = MessengerTempData.ConnectionID;
+            }
             
-            sendChat.connectionId = "0";
             sendChat.fullName = null;
             if (MessengerTempData.IsGroup)
             {

@@ -43,8 +43,14 @@ namespace Strive.Core.Services.HubServices
             });
 
             connection.On<string>("ReceiveCommunicationID", (id) => {
-
-                connection.InvokeAsync("SendEmployeeCommunicationId", EmployeeTempData.EmployeeID, id);
+                try
+                {
+                    connection.InvokeAsync("SendEmployeeCommunicationId", EmployeeTempData.EmployeeID, id);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             });
 
             connection?.On<string>("ReceivePrivateMessage", (data) => {
