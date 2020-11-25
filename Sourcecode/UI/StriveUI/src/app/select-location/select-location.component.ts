@@ -16,6 +16,8 @@ locationId = '';
   ngOnInit(): void {
     this.empName = localStorage.getItem('employeeName');
     this.location = JSON.parse(localStorage.getItem('empLocationId'));
+    this.locationId = JSON.parse(localStorage.getItem('empLocationId'))[0].LocationId;
+
   }
   proceed() {
     if (this.locationId !== '') {

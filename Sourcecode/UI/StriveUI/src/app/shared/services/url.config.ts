@@ -147,7 +147,12 @@ export const UrlConfig = {
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
-    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
+    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`,
+    getCheckList : `Admin/Checklist/GetChecklist`,
+    addCheckList : `Admin/Checklist/Add`,
+    DeleteCheckList : `Admin/Checklist/Delete`,
+
+
   },
   Messenger:
   {
