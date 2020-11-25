@@ -1501,3 +1501,132 @@ color-icon:hover {
 .dailyreport thead th {
     border-top: 0px !important;
 } 
+.border-bottom-1 {
+	border-bottom:1px solid #dee2e6 !important;
+}
+
+
+/* Zenbook */
+
+.Schedulezenbook td, .Schedulezenbook th {
+    border-top: 0px !important;
+}
+.textgreen{
+	color:#007B6E;
+}
+.check-box .custom-control-label::before {
+    border-radius: .50rem !important;
+}
+:checked + .labelcheck {
+   font-weight: bold;
+}
+.timeslot-unactive {
+	background-color:#DEDEDE;
+	color:black !important;
+	border-radius: 3px !important;
+}
+.timeslot-active {
+	background-color:#1DC5B3;
+	color:white !important;
+	border-radius: 3px !important;
+}
+.preview-card{
+background: #F8F8F8;
+box-shadow: 0px 3px 6px #00000047;
+border-radius: 8px;
+opacity: 1;
+padding:10px 30px 10px 30px;;
+}
+
+.cancellink{
+	color:#82828A;
+}
+.form-padding{
+	    padding: 10px 20px 10px 20px;
+}
+.form-schedule{
+	 padding: 10px 40px 10px 40px;
+}
+.padding-60{
+	padding:60px;
+}
+.height-500{
+	height:500px;
+}
+.margin-auto{
+	margin-top: auto;
+}
+.card-auto{
+	display: flex;
+  flex-direction: column;
+}
+.labelcontainer {
+  display: block;
+  position: relative;
+  padding-left: 23px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.labelcontainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+.checkmark {
+    border-radius: .50rem !important;
+    position: absolute;
+    top: .25rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    content: "";
+    background-color: #fff;
+    border: #adb5bd solid 1px;
+}
+
+.labelcontainer input:checked ~ .checkmark {
+  color: #fff;
+    border-color: #1dc5b3 !important;
+    background-color: #1dc5b3 !important;
+}
+.labelcontainer input:checked ~ .labelcheck {
+font-weight:bold;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.labelcontainer input:checked ~ .checkmark:after {
+  display: block;
+}
+.labelcontainer .checkmark::before {
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.labelcontainer .checkmark:after {
+    left: 5px;
+    top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
