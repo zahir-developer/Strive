@@ -17,10 +17,13 @@
               <label class="col-form-label sbold">Setup</label>
               <select class="form-control">
                 <option>Basic</option>
+                <option>Service</option>
                 <option>Product</option>
                 <option>Vendor</option>
                 <option>Membership</option>
                 <option>Check List</option>
+                <option>Employee Handbook</option>
+
 
               </select>
             </div>
@@ -45,6 +48,10 @@
                 [routerLink]="'/admin/setup/checkList'" [routerLinkActive]='["link-active"]' role="tab"
                 aria-controls="v-pills-checkList" aria-selected="true">Check List</a>
             </li>
+            <li class="nav-item"> <a class="nav-link" id="v-pills-empHandBook-tab" data-toggle="pill"
+              [routerLink]="'/admin/setup/empHandBook'" [routerLinkActive]='["link-active"]' role="tab"
+              aria-controls="v-pills-empHandBook" aria-selected="true">Employee Handbook</a>
+          </li>
             </ul>
           </div>
           <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 setup-content m-t-5 p-0">

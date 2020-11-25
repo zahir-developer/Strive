@@ -60,6 +60,8 @@ import { ClientHistoryComponent } from './client/client-history/client-history.c
 import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
 import { CheckListComponent } from './system-setup/check-list/check-list.component';
+import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/employee-hand-book.component';
+import { CreateEditEmployeeHandBookComponent } from './system-setup/employee-hand-book/create-edit-employee-hand-book/create-edit-employee-hand-book.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -74,7 +76,7 @@ import { CheckListComponent } from './system-setup/check-list/check-list.compone
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent,
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
-    CheckListComponent
+    CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
   ],
   imports: [
     CommonModule,
