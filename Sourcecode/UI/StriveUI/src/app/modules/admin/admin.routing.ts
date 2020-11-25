@@ -20,6 +20,8 @@ import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clo
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
 import { CheckListComponent } from './system-setup/check-list/check-list.component';
 import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/employee-hand-book.component';
+import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
+import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
 
 
 const adminRoutes: Routes = [
@@ -48,6 +50,8 @@ const adminRoutes: Routes = [
         { path: 'checkList', component: CheckListComponent },
         { path: 'empHandBook', component: EmployeeHandBookComponent },
 
+        { path: 'terms&condition', component: TermsAndConditionsComponent },
+        { path: 'bonus', component: BonusSetupComponent },
       ]
     }
     ]
