@@ -100,7 +100,7 @@ namespace Admin.API.Controllers
                         worksheet.Cell(currentRow, 5).Value = employeeTimeClock.OtherHours;
                     }
                 }
-                var worksheet2 = workbook.Worksheets.Add("Sales");
+                var worksheet2 = workbook.Worksheets.Add("CloseOutRegister");
                 currentRow = 1;
 
 
@@ -134,25 +134,7 @@ namespace Admin.API.Controllers
                 worksheet2.Cell(17, 1).Value = "50's";
                 worksheet2.Cell(18, 1).Value = "100's";
 
-                worksheet2.Cell(19, 1).Value = "IN";
-                worksheet2.Cell(20, 1).Value = "OUT";
-                worksheet2.Cell(21, 1).Value = "Difference";
-                worksheet2.Cell(22, 1).Value = "BC Credit Cards";
-                worksheet2.Cell(23, 1).Value = "Total Expenses";
-                worksheet2.Cell(24, 1).Value = "Account";
-                worksheet2.Cell(25, 1).Value = "Gift Cards";
-                worksheet2.Cell(26, 1).Value = "Grand Total";
-                worksheet2.Cell(27, 1).Value = "Sales";
-                worksheet2.Cell(28, 1).Value = "Total";
-                worksheet2.Cell(29, 1).Value = "Tax";
-                worksheet2.Cell(30, 1).Value = "Grand Total";
-                worksheet2.Cell(31, 1).Value = "Cash";
-                worksheet2.Cell(32, 1).Value = "Check";
-                worksheet2.Cell(33, 1).Value = "Charge Cards";
-                worksheet2.Cell(34, 1).Value = "Account";
-                worksheet2.Cell(35, 1).Value = "Gift Card";
-                worksheet2.Cell(36, 1).Value = "Total Paid";
-                worksheet2.Cell(37, 1).Value = "Cash back";
+                
 
                 var coins = eodResult.CashRegister.CashRegisterCoins;
                 {
@@ -182,28 +164,7 @@ namespace Admin.API.Controllers
                     worksheet2.Cell(18, 2).Value = bills.s100.ToString("C", CultureInfo.GetCultureInfo("en-US"));
 
                 }
-                var sales = eodResult.Sales.EODSalesDetails;
-                {
-                    worksheet2.Cell(19, 2).Value = "0.00";
-                    worksheet2.Cell(20, 2).Value = "0.00";
-                    worksheet2.Cell(21, 2).Value = "0.00";
-                    worksheet2.Cell(22, 2).Value = sales.Credit.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(23, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(24, 2).Value = sales.Account.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(25, 2).Value = sales.GiftCard.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(26, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(27, 2).Value = "";
-                    worksheet2.Cell(28, 2).Value = sales.Total.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(29, 2).Value = sales.TaxAmount.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(30, 2).Value = sales.GrandTotal.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(31, 2).Value = sales.Cash.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(32, 2).Value = "0.00";
-                    worksheet2.Cell(33, 2).Value = sales.Credit.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(34, 2).Value = sales.Account.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(35, 2).Value = sales.GiftCard.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(36, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(37, 2).Value = sales.CashBack.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                }
+                
 
                 var worksheet3 = workbook.Worksheets.Add("Daily Status");
                 currentRow = 1;
@@ -237,6 +198,49 @@ namespace Admin.API.Controllers
                     worksheet4.Cell(currentRow, 3).Value = detailsInfo.EmployeeId;
                     worksheet4.Cell(currentRow, 4).Value = detailsInfo.FirstName;
                     worksheet4.Cell(currentRow, 5).Value = detailsInfo.Commision;
+                }
+                var worksheet5 = workbook.Worksheets.Add("Sales");
+                currentRow = 1;
+                worksheet5.Cell(1, 1).Value = "IN";
+                worksheet5.Cell(2, 1).Value = "OUT";
+                worksheet5.Cell(3, 1).Value = "Difference";
+                worksheet5.Cell(4, 1).Value = "BC Credit Cards";
+                worksheet5.Cell(5, 1).Value = "Total Expenses";
+                worksheet5.Cell(6, 1).Value = "Account";
+                worksheet5.Cell(7, 1).Value = "Gift Cards";
+                worksheet5.Cell(8, 1).Value = "Grand Total";
+                worksheet5.Cell(9, 1).Value = "Sales";
+                worksheet5.Cell(10, 1).Value = "Total";
+                worksheet5.Cell(11, 1).Value = "Tax";
+                worksheet5.Cell(12, 1).Value = "Grand Total";
+                worksheet5.Cell(13, 1).Value = "Cash";
+                worksheet5.Cell(14, 1).Value = "Check";
+                worksheet5.Cell(15, 1).Value = "Charge Cards";
+                worksheet5.Cell(16, 1).Value = "Account";
+                worksheet5.Cell(17, 1).Value = "Gift Card";
+                worksheet5.Cell(18, 1).Value = "Total Paid";
+                worksheet5.Cell(19, 1).Value = "Cash back";
+                var sales = eodResult.Sales.EODSalesDetails;
+                {
+                    worksheet5.Cell(1, 2).Value = "0.00";
+                    worksheet5.Cell(2, 2).Value = "0.00";
+                    worksheet5.Cell(3, 2).Value = "0.00";
+                    worksheet5.Cell(4, 2).Value = sales.Credit.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(5, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(6, 2).Value = sales.Account.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(7, 2).Value = sales.GiftCard.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(8, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(9, 2).Value = "";
+                    worksheet5.Cell(10, 2).Value = sales.Total.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(11, 2).Value = sales.TaxAmount.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(12, 2).Value = sales.GrandTotal.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(13, 2).Value = sales.Cash.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(14, 2).Value = "0.00";
+                    worksheet5.Cell(15, 2).Value = sales.Credit.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(16, 2).Value = sales.Account.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(17, 2).Value = sales.GiftCard.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(18, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(19, 2).Value = sales.CashBack.ToString("C", CultureInfo.GetCultureInfo("en-US"));
                 }
 
 
