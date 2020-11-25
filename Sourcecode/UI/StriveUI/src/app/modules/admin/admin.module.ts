@@ -60,6 +60,8 @@ import { ClientHistoryComponent } from './client/client-history/client-history.c
 import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
 import { CheckListComponent } from './system-setup/check-list/check-list.component';
+import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/employee-hand-book.component';
+import { CreateEditEmployeeHandBookComponent } from './system-setup/employee-hand-book/create-edit-employee-hand-book/create-edit-employee-hand-book.component';
 import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
 import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
 
@@ -75,8 +77,9 @@ import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.comp
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent,
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
-    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent,
-    CheckListComponent, TermsAndConditionsComponent, BonusSetupComponent],
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
+    CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
+  , TermsAndConditionsComponent, BonusSetupComponent],
   imports: [
     CommonModule,
     RouterModule,

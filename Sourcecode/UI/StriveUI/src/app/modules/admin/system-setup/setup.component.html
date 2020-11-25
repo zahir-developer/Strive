@@ -17,10 +17,13 @@
               <label class="col-form-label sbold">Setup</label>
               <select class="form-control">
                 <option>Basic</option>
+                <option>Service</option>
                 <option>Product</option>
                 <option>Vendor</option>
                 <option>Membership</option>
                 <option>Check List</option>
+                <option>Employee Handbook</option>
+
 
                 <option>Terms&Condition</option>
               </select>
@@ -46,6 +49,10 @@
                 [routerLink]="'/admin/setup/checkList'" [routerLinkActive]='["link-active"]' role="tab"
                 aria-controls="v-pills-checkList" aria-selected="true">Check List</a>
             </li>
+            <li class="nav-item"> <a class="nav-link" id="v-pills-empHandBook-tab" data-toggle="pill"
+              [routerLink]="'/admin/setup/empHandBook'" [routerLinkActive]='["link-active"]' role="tab"
+              aria-controls="v-pills-empHandBook" aria-selected="true">Employee Handbook</a>
+          </li>
               <li class="nav-item"> <a class="nav-link" id="v-pills-terms-tab" data-toggle="pill"
                 [routerLink]="'/admin/setup/terms&condition'" [routerLinkActive]='["link-active"]' role="tab"
                 aria-controls="v-pills-terms" aria-selected="true">Terms & Condition</a>
