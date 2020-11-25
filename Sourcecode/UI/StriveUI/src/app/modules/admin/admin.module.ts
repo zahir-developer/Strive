@@ -59,6 +59,7 @@ import { ClientStatementComponent } from './client/client-statement/client-state
 import { ClientHistoryComponent } from './client/client-history/client-history.component';
 import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
+import { CheckListComponent } from './system-setup/check-list/check-list.component';
 import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
@@ -73,7 +74,8 @@ import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent,
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
-    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, TermsAndConditionsComponent],
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
+    CheckListComponent, TermsAndConditionsComponent],
   imports: [
     CommonModule,
     RouterModule,

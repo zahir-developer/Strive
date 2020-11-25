@@ -20,6 +20,8 @@
                 <option>Product</option>
                 <option>Vendor</option>
                 <option>Membership</option>
+                <option>Check List</option>
+
                 <option>Terms&Condition</option>
               </select>
             </div>
@@ -40,6 +42,10 @@
                   [routerLink]="'/admin/setup/membership'" [routerLinkActive]='["link-active"]' role="tab"
                   aria-controls="v-pills-membership" aria-selected="true">Membership</a>
               </li>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-checkList-tab" data-toggle="pill"
+                [routerLink]="'/admin/setup/checkList'" [routerLinkActive]='["link-active"]' role="tab"
+                aria-controls="v-pills-checkList" aria-selected="true">Check List</a>
+            </li>
               <li class="nav-item"> <a class="nav-link" id="v-pills-terms-tab" data-toggle="pill"
                 [routerLink]="'/admin/setup/terms&condition'" [routerLinkActive]='["link-active"]' role="tab"
                 aria-controls="v-pills-terms" aria-selected="true">Terms & Condition</a>
