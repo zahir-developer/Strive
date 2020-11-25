@@ -19,8 +19,8 @@
                                     <div class="col-lg-1"></div>
                                     <div class="form-group col-lg-2">
                                         <label>Month/Year:</label>
-                                        <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate" class="form-control" bsDatepicker
-                                            #dp="bsDatepicker">
+                                        <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
+                                            class="form-control" bsDatepicker #dp="bsDatepicker">
                                     </div>
                                     <div class="col-lg-1"></div>
                                     <div class="form-group col-lg-2">
@@ -50,12 +50,36 @@
                                     <tbody>
                                         <tr *ngFor="let bonus of monthBonusList; let i = index">
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.min"
+                                                <input type="text" [(ngModel)]="bonus.min" (change)="validateMinValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.min === '' || isValueMax && bonus.min === '' || isMinValueObj?.isMinValue && isMinValueObj?.index === i}"
                                                     class="form-control rounded-0 input-table text-right">
+                                                <div *ngIf="submitted && bonus.min === ''" class="invalid-feedback">
+                                                    Enter Min value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.min === ''" class="invalid-feedback">
+                                                    Enter Min value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.min === ''" class="invalid-feedback">
+                                                    Enter Min value
+                                                </div>
+                                                <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
+                                                    Min value greater than Max value
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.max"
+                                                    (change)="validateMaxValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.max === '' || isValueMax && bonus.max === '' || isValueObj?.isValueMax && isValueObj?.index === i }"
                                                     class="form-control rounded-0 input-table text-right">
+                                                <div *ngIf="submitted && bonus.max === ''" class="invalid-feedback">
+                                                    Enter Max value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.max === ''" class="invalid-feedback">
+                                                    Enter Max value
+                                                </div>
+                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i" class="invalid-feedback">
+                                                    Max value is greater than Min value
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.noOfWashes"
@@ -63,7 +87,16 @@
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.bonusAmount"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.bonusAmount === ''|| isValueMax && bonus.bonusAmount === '' }"
                                                     class="form-control rounded-0 input-table text-right">
+                                                <div *ngIf="submitted && bonus.bonusAmount === ''"
+                                                    class="invalid-feedback">
+                                                    Enter Bonus amount value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.bonusAmount === ''"
+                                                    class="invalid-feedback">
+                                                    Enter Bonus amount value
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.total"
@@ -155,7 +188,8 @@
                             </div>
                             <div class="m-t-12 pull-right mw-100">
                                 <button type="button" class="btn theme-optional-button-color m-r-5">Cancel</button>
-                                <button type="button" class="btn theme-primary-button-color" (click)="saveBonus()">Save</button>
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="saveBonus()">Save</button>
                             </div>
                         </div>
                     </div>
