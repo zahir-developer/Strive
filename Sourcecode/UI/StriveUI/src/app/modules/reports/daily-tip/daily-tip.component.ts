@@ -79,6 +79,12 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
     switch (fileType) {
       case 1: {
+        document.getElementById('tipTotal').style.visibility = 'hidden';
+        document.getElementById('tipSubmit').style.visibility = 'hidden';
+        setTimeout(() => {
+          document.getElementById('tipTotal').style.visibility = 'visible';
+          document.getElementById('tipSubmit').style.visibility = 'visible';
+        }, 3000);
         this.excelService.exportAsPDFFile('dailyreport', 'DailyTipReport' + moment(this.date).format('MM/DD/YYYY') + '_' + locationName + '.pdf');
         break;
       }
@@ -121,13 +127,6 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
         this.totalTip += +item.Tip;
       });
     }
-  }
-  print() {
-    // document.getElementById('tipTotal').setAttribute('disabled', 'disabled');
-    // document.getElementById('tipSubmit').setAttribute('disabled', 'disabled');
-    // HTMLInputElement as document.getElementById("btnExcel").disabled = true;
-// document.getElementById('tipTotal') as HTMLElement;
-//     element.disabled = true;
   }
 }
 
