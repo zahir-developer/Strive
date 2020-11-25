@@ -1,6 +1,7 @@
 ﻿using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CustomerMonthlyDetailedReport;
 using Strive.BusinessEntities.DTO.Report;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,8 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         Result GetDailyClockDetail(DailyStatusReportDto GetDailyClockDetail);
         Result GetMonthlyMoneyOwnedReport(string date);
         Result GetEODSalesReport(SalesReportDto salesReportDto);
+        EODReportPrintViewModel GetEODSalesExport(EODReportDto eodReportDto);
+        DailyStatusReportPrintViewModel GetDailyStatusExport(EODReportDto eodReportDto);
+
     }
 }
