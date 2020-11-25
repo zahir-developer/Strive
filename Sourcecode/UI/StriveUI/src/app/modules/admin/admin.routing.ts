@@ -18,6 +18,7 @@ import { GiftCardComponent } from './gift-card/gift-card.component';
 import { MembershipComponent } from './system-setup/membership/membership.component';
 import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
+import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
 
 
 const adminRoutes: Routes = [
@@ -43,6 +44,7 @@ const adminRoutes: Routes = [
         { path: 'product', component: ProductSetupComponent },
         { path: 'vendor', component: VendorSetupComponent },
         { path: 'membership', component: MembershipComponent },
+        { path: 'bonus', component: BonusSetupComponent },
       ]
     }
     ]

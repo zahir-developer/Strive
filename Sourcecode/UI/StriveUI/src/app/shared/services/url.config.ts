@@ -180,5 +180,8 @@ export const UrlConfig = {
     getDashboardLocation: `Admin/Location/GetAll`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
+  },
+  bonusSetup: {
+    saveBonus: `Admin/BonusSetup/Add`
   }
 };

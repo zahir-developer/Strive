@@ -59,6 +59,7 @@ import { ClientStatementComponent } from './client/client-statement/client-state
 import { ClientHistoryComponent } from './client/client-history/client-history.component';
 import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
+import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -72,7 +73,7 @@ import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent,
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
-    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent],
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, BonusSetupComponent],
   imports: [
     CommonModule,
     RouterModule,
