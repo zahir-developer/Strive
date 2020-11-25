@@ -160,5 +160,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 throw ex;
             }   
         }
+        public Result GetDailySalesReport(DailySalesReportDto DailySalesReport)
+        {
+            return ResultWrap(new ReportRal(_tenant).GetDailySalesReport, DailySalesReport, "GetDailySalesReport");
+        }
     }
 }

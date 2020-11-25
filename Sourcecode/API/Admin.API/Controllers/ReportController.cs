@@ -337,5 +337,8 @@ namespace Admin.API.Controllers
                 }
             }
         }
+        [HttpPost]
+        [Route("DailySalesReport")]
+        public Result uspGetDailySalesReport([FromBody] DailySalesReportDto DailySalesReport) => _bplManager.GetDailySalesReport(DailySalesReport);
     }
 }

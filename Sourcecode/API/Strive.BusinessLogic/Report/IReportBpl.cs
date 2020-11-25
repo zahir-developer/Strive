@@ -25,5 +25,6 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         EODReportPrintViewModel GetEODSalesExport(EODReportDto eodReportDto);
         DailyStatusReportPrintViewModel GetDailyStatusExport(EODReportDto eodReportDto);
 
+        Result GetDailySalesReport(DailySalesReportDto DailySalesReport);
     }
 }

@@ -98,5 +98,13 @@ namespace Strive.ResourceAccess
             _prm.Add("@EndDate", salesReportDto.EndDate);
             return db.FetchMultiResult<EODSalesReportViewModel>(EnumSP.SalesReport.USPGETEODSALESREPORT.ToString(), _prm);
         }
+
+        public List<DailySalesReportViewModel> GetDailySalesReport(DailySalesReportDto DailySalesReport)
+        {
+            //_prm.Add("@LocationId", DailySalesReport.LocationId);
+            _prm.Add("@Date", DailySalesReport.Date);
+            var result = db.Fetch<DailySalesReportViewModel>(EnumSP.SalesReport.USPGETDAILYSALESREPORT.ToString(), _prm);
+            return result;
+        }
     }
 }
