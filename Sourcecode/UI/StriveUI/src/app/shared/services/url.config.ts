@@ -187,6 +187,8 @@ export const UrlConfig = {
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
   },
   bonusSetup: {
-    saveBonus: `Admin/BonusSetup/Add`
+    saveBonus: `Admin/BonusSetup/Add`,
+    getBonusList: `Admin/BonusSetup/GetBonus`,
+    editBonus: `Admin/BonusSetup/Update`
   }
 };
