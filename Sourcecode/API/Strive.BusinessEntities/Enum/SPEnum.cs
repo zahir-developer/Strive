@@ -70,6 +70,17 @@ namespace Strive.BusinessEntities
         {
             USPGETALLMEMBERSHIP
         }
+
+        public enum Document
+        {
+            USPGETDOCUMENT,
+            USPSAVEDOCUMENT,
+            USPGETEMPLOYEEDOCUMENTBYID,
+            USPUPDATEDOCUMENTPASSWORD,
+            USPGETEMPLOYEEDOCUMENTBYEMPID,
+            USPDELETEEMPLOYEEDOCUMENTBYID,
+            USPDELETEDOCUMENT,
+        }
     }
     
     public enum SPEnum
@@ -96,12 +107,7 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
         USPEMAILEXIST,
-        //Document
-        USPSAVEDOCUMENT,
-        USPGETEMPLOYEEDOCUMENTBYID,
-        USPUPDATEDOCUMENTPASSWORD,
-        USPGETEMPLOYEEDOCUMENTBYEMPID,
-        USPDELETEEMPLOYEEDOCUMENTBYID,
+        
         //Client
         USPGETALLCLIENT,
         USPUPDATEACCOUNTDETAILS,

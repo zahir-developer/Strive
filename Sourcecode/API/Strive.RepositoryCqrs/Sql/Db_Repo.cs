@@ -369,7 +369,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null || model.ToString() == "string") continue;
+                            if (model is null || model.ToString() == "string" || model.GetType().BaseType == typeof(Enum)) continue;
 
                             Type subModelType = model.GetType();
 
@@ -416,7 +416,7 @@ namespace Strive.RepositoryCqrs
                             primInsert = true;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
                         throw;

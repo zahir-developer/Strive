@@ -12,4 +12,7 @@
   <ItemGroup>
     <Folder Include="ModelBinder\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Strive.Common\Strive.Common.csproj" />
+  </ItemGroup>
 </Project>

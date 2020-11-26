@@ -47,7 +47,7 @@ namespace Strive.BusinessLogic.WhiteLabelling
         {
             var whiteLabel = new WhiteLabelRal(_tenant).GetAll();
             if (!string.IsNullOrEmpty(whiteLabel.WhiteLabel.LogoPath))
-                whiteLabel.WhiteLabel.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.UploadFolder.LOGO, whiteLabel.WhiteLabel.LogoPath);
+                whiteLabel.WhiteLabel.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.LOGO, whiteLabel.WhiteLabel.LogoPath);
             return ResultWrap(whiteLabel, "WhiteLabelling");
         }
 
@@ -62,11 +62,11 @@ namespace Strive.BusinessLogic.WhiteLabelling
             if (!string.IsNullOrEmpty(base64) && !string.IsNullOrEmpty(fileName))
             {
                 var documentBpl = new DocumentBpl(_cache, _tenant);
-                error = documentBpl.ValidateFileFormat(GlobalUpload.UploadFolder.LOGO, fileName);
+                error = documentBpl.ValidateFileFormat(GlobalUpload.DocumentType.LOGO, fileName);
 
                 if (error != string.Empty)
                     return (error, fileName, thumbFileName);
-                (fileName) = documentBpl.Upload(GlobalUpload.UploadFolder.LOGO, base64, fileName);
+                (fileName) = documentBpl.Upload(GlobalUpload.DocumentType.LOGO, base64, fileName);
                 if (fileName == string.Empty)
                 {
                     return (error, string.Empty, string.Empty);
