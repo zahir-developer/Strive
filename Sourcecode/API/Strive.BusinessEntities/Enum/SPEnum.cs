@@ -26,7 +26,8 @@ namespace Strive.BusinessEntities
             uspGetDailyStatusDetailInfo,
             uspGetDailyClockDetail,
             USPGETMONTHLYMONEYOWNEDREPORT,
-            USPGETEODSALESREPORT
+            USPGETEODSALESREPORT,
+            USPGETDAILYSALESREPORT
         }
 
         public enum WhiteLabelling
@@ -165,6 +166,7 @@ namespace Strive.BusinessEntities
         USPGETALLSERVICE,
         USPGETPRODUCTS,
         USPGETCASHREGISTER,
+        USPGETCLOSEOUTREGISTER,
         USPGETCOLLISIONBYEMPID,
         USPGETCOLLISIONBYID,
         USPGETVEHICLELISTBYCLIENTID,

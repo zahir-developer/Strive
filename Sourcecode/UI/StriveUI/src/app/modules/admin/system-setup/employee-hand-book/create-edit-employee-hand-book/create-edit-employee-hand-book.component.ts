@@ -1,17 +1,18 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ProductService } from 'src/app/shared/services/data-service/product.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
-import { LocationService } from 'src/app/shared/services/data-service/location.service';
+import { ProductService } from 'src/app/shared/services/data-service/product.service';
+import * as moment from 'moment';
 
 @Component({
-  selector: 'app-product-create-edit',
-  templateUrl: './product-create-edit.component.html',
-  styleUrls: ['./product-create-edit.component.css']
+  selector: 'app-create-edit-employee-hand-book',
+  templateUrl: './create-edit-employee-hand-book.component.html',
+  styleUrls: ['./create-edit-employee-hand-book.component.css']
 })
-export class ProductCreateEditComponent implements OnInit {
-  productSetupForm: FormGroup;
+export class CreateEditEmployeeHandBookComponent implements OnInit {
+
+  handbookSetupForm: FormGroup;
   prodType: any;
   size: any;
   Status: any;
@@ -28,52 +29,36 @@ export class ProductCreateEditComponent implements OnInit {
   isLoading: boolean;
   fileUploadformData: any = null;
   fileThumb: any = null;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
+  createdDate: any;
+  headerName: string;
+  constructor(private fb: FormBuilder,
+     private toastr: ToastrService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
-    this.getProductType();
-    this.getAllLocation();
+    if (localStorage.getItem('employeeName') !== undefined) {
+      this.headerName = localStorage.getItem('employeeName');
+    }    
     this.getAllVendor();
     this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];    
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
     if (this.isEdit === true) {
-      this.productSetupForm.reset();
+      this.handbookSetupForm.reset();
       this.getProductById();
     }
   }
 
   formInitialize() {
-    this.productSetupForm = this.fb.group({
-      productType: ['', Validators.required],
-      locationName: ['', Validators.required],
+    this.handbookSetupForm = this.fb.group({
+      createdDate: [''],
       name: ['', Validators.required],
-      size: ['',],
-      quantity: ['',],
-      cost: ['', Validators.required],
-      taxable: ['',],
-      taxAmount: ['',],
-      status: ['',],
-      vendor: ['',],
-      thresholdAmount: ['',],
-      other: ['',],
-      suggested: ['']
+      createdName: [''],
+      uploadBy:['',Validators.required]
     });
-    this.productSetupForm.patchValue({status : 0}); 
+    this.handbookSetupForm.patchValue({status : 0}); 
   }
-  // Get ProductType
-  getProductType() {
-    this.getCode.getCodeByCategory("PRODUCTTYPE").subscribe(data => {
-      if (data.status === "Success") {
-        const pType = JSON.parse(data.resultData);
-        this.prodType = pType.Codes;
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-    this.getSize();
-  }
+  
   // Get Size
   getSize() {
     this.getCode.getCodeByCategory("SIZE").subscribe(data => {
@@ -96,26 +81,15 @@ export class ProductCreateEditComponent implements OnInit {
       }
     })
   }
-  // Get All Location
-  getAllLocation() {
-    this.locationService.getLocation().subscribe(data => {
-      if (data.status === 'Success') {
-        const location = JSON.parse(data.resultData);
-        this.locationName = location.Location.filter(item => item.IsActive === true);
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
-
+  
   showText(data) {
     if (data === '33') {
       this.textDisplay = true;
-      this.productSetupForm.get('other').setValidators([Validators.required]);
+      this.handbookSetupForm.get('other').setValidators([Validators.required]);
     } else {
       this.textDisplay = false;
-      this.productSetupForm.get('other').clearValidators();
-      this.productSetupForm.get('other').reset();
+      this.handbookSetupForm.get('other').clearValidators();
+      this.handbookSetupForm.get('other').reset();
     }
   }
   // Get Product By Id
@@ -124,8 +98,8 @@ export class ProductCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product;
-        this.productSetupForm.patchValue({
-          productType: this.selectedProduct.ProductType,
+        this.handbookSetupForm.patchValue({
+          createdDate: this.selectedProduct.createdDate,
           locationName: this.selectedProduct.LocationId,
           name: this.selectedProduct.ProductName,
           cost: this.selectedProduct?.Cost?.toFixed(2),
@@ -142,7 +116,7 @@ export class ProductCreateEditComponent implements OnInit {
         this.fileUploadformData = this.selectedProduct.Base64;
         if (this.selectedProduct.Size === 33) {
           this.textDisplay = true;
-          this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+          this.handbookSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
         }
         this.change(this.selectedProduct.IsTaxable);
       } else {
@@ -152,25 +126,25 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   get f() {
-    return this.productSetupForm.controls;
+    return this.handbookSetupForm.controls;
   }
 
   change(data) {
-    this.productSetupForm.value.taxable = data;
+    this.handbookSetupForm.value.taxable = data;
     if (data === true) {
       this.isChecked = true;
-      this.productSetupForm.get('taxAmount').setValidators([Validators.required]);
+      this.handbookSetupForm.get('taxAmount').setValidators([Validators.required]);
     } else {
       this.isChecked = false;
-      this.productSetupForm.get('taxAmount').clearValidators();
-      this.productSetupForm.get('taxAmount').reset();
+      this.handbookSetupForm.get('taxAmount').clearValidators();
+      this.handbookSetupForm.get('taxAmount').reset();
     }
   }
 
   // Add/Update Product
   submit() {
     this.submitted = true;
-    if (this.productSetupForm.invalid) {
+    if (this.handbookSetupForm.invalid) {
       return;
     }
     if(this.fileName === null){   
@@ -179,29 +153,27 @@ export class ProductCreateEditComponent implements OnInit {
     const formObj = {
       productCode: null,
       productDescription: null,
-      productType: this.productSetupForm.value.productType,
+      createdDate: new Date(),
       productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-      locationId: this.productSetupForm.value.locationName,
-      productName: this.productSetupForm.value.name,      
+      locationId: this.handbookSetupForm.value.locationName,
+      productName: this.handbookSetupForm.value.name,      
       fileName: this.fileName,
       thumbFileName: this.fileThumb,
       base64: this.fileUploadformData,
-      cost: this.productSetupForm.value.cost,
+      cost: this.handbookSetupForm.value.cost,
       isTaxable: this.isChecked,
-      taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
-      size: this.productSetupForm.value.size,
-      sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
-      quantity: this.productSetupForm.value.quantity,
+      taxAmount: this.isChecked ? this.handbookSetupForm.value.taxAmount : 0,
+      size: this.handbookSetupForm.value.size,
+      sizeDescription: this.textDisplay ? this.handbookSetupForm.value.other : null,
+      quantity: this.handbookSetupForm.value.quantity,
       quantityDescription: null,
-      isActive: this.productSetupForm.value.status == 0 ? true : false,
-      vendorId: this.productSetupForm.value.vendor,
-      thresholdLimit: this.productSetupForm.value.thresholdAmount,
+      isActive: this.handbookSetupForm.value.status == 0 ? true : false,
+      vendorId: this.handbookSetupForm.value.vendor,
+      thresholdLimit: this.handbookSetupForm.value.thresholdAmount,
       isDeleted: false,
-      createdBy: 0,
-      createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-      updatedBy: 0,
+    
       updatedDate: new Date(),
-      price: this.productSetupForm.value.suggested
+      price: this.handbookSetupForm.value.suggested
     };
     if (this.isEdit === true) {
       this.product.updateProduct(formObj).subscribe(data => {
@@ -210,7 +182,7 @@ export class ProductCreateEditComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
-          this.productSetupForm.reset();
+          this.handbookSetupForm.reset();
           this.submitted = false;
         }
       });
@@ -221,7 +193,7 @@ export class ProductCreateEditComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
-          this.productSetupForm.reset();
+          this.handbookSetupForm.reset();
           this.submitted = false;
         }
       });
@@ -233,7 +205,13 @@ export class ProductCreateEditComponent implements OnInit {
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;      
+      this.fileName = fileToLoad.name;   
+      const DateCreated = fileToLoad.lastModifiedDate;   
+      this.createdDate = moment(DateCreated).format('l');
+    this.handbookSetupForm.controls['createdDate'].setValue(this.createdDate);
+    this.handbookSetupForm.controls['createdName'].setValue(this.headerName);
+
+
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
@@ -258,8 +236,12 @@ export class ProductCreateEditComponent implements OnInit {
     this.fileName = null;
     this.fileThumb= null;
     this.fileUploadformData = null;
+  this.handbookSetupForm.controls['createdDate'].setValue('');
+  this.handbookSetupForm.controls['createdName'].setValue('');
+
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 }
+

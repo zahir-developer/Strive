@@ -8,5 +8,6 @@ namespace Strive.BusinessLogic.CashRegister
     {
         Result SaveCashRegister(CashRegisterDto cashRegister);
         Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime);
+        Result GetCloseOutRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime);
     }
 }
