@@ -55,13 +55,14 @@
                     android:textSize="18sp"
                     android:textColor="@color/recipientChatTime"
                     android:fontFamily="@font/opensans_semibold"/>
-            <ImageButton
-                android:id="@+id/addParticipant_ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/add_circle"
-                android:background="@android:color/transparent"
-                android:layout_toRightOf="@+id/participantGroup_Name"/>
+                <ImageButton
+                    android:id="@+id/addParticipant_ImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add_circle"
+                    android:layout_marginLeft="@dimen/fifteen"
+                    android:background="@android:color/transparent"
+                    android:layout_toRightOf="@+id/participantGroup_Name"/>
             </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"

@@ -431,6 +431,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
     this.note = this.selectedData.Details.Notes;
     this.detailItems = this.selectedData.DetailsItem;
+    this.jobID = this.selectedData.Details.JobId;
     this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
       this.selectedData.DetailsJobServiceEmployee : [];
     this.detailForm.patchValue({
@@ -1032,9 +1033,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   closeAssignModel() {
-    if (!this.isAssign) {
-      this.assignedDetailService = [];
-    }
     this.showDialog = false;
   }
 

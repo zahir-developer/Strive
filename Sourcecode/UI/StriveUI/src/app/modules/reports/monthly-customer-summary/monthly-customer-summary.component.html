@@ -42,7 +42,8 @@
                         </div>
                         <!-- end card-->
                         <div class="card m-t-10">
-                            <div class="card-body" id="custSummaryExport">
+                            <div class="card-body" >
+                                <div id="custSummaryExport">
                                 <div class="p-b-5 m-b-8">
                                     <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Summary Report for {{selectedDate}}</span>
             </h4>
@@ -80,14 +81,16 @@
                                         <div *ngIf="customerSummaryReport?.length === 0" class="noRecords">
                                             <span> No Records Found</span>
                                         </div>
-                                        <ul class="pagination justify-content-end">
-                                            <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                                class="d-flex justify-content-end">
-                                            </ngb-pagination>
-                                        </ul>
+                                       
                                     </div>
                                 </div>
+                                <ul class="pagination justify-content-end">
+                                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                        class="d-flex justify-content-end">
+                                    </ngb-pagination>
+                                </ul>
+                            </div>
                             </div>
                             <!-- end card-body -->
                         </div>

@@ -1,5 +1,5 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-    <h3 class="d-inline-block">End Of Day - </h3>
+    <h3 class="d-inline-block">Reports - </h3>
     <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
@@ -26,11 +26,11 @@
                 <div class="card-body p-10">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="p-b-5 p-t-5">
+                            <!-- <div class="p-b-5 p-t-5">
                                 <h4 class="d-inline-block align-middle"><span class="resp-title">Report
                                         Date: {{selectDate | date : 'MM/dd/yyyy'}}</span>
                                 </h4>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col-md-8">
                             <div class="pull-right">
@@ -47,7 +47,13 @@
                     </div>
                 </div>
             </div>
-            <div class="row no-gutter" id="EodStatusReport">
+            <div id="EodStatusReport">
+                <div class="card m-t-10">
+                    <div class="card-body">
+            <div class="row no-gutter" >
+                <div class="col-12 text-left  font-weight-700 font-size-1-5">
+                   End Of Day Report ({{date | date: 'MM/dd/yyyy'}})
+                </div>
                 <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">EOD Report</div>
                 <div class="col-lg-4">
                     <!-- end card-->
@@ -363,6 +369,9 @@
                         <!-- end card-body -->
                     </div>
                 </div>
+            </div>
+            </div>
+            </div>
             </div>
         </div>
     </div>
