@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO.BonusSetup
 {
-    public class BonusInputDto
+    public class BonusDto
     {
         public int BonusMonth { get; set; }
         public int BonusYear { get; set; }

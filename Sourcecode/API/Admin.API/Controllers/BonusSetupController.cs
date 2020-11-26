@@ -36,7 +36,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("GetBonus")]
-        public Result GetBonus([FromBody] BonusInputDto bonusInput) => _bplManager.GetBonus(bonusInput);
+        public Result GetBonus([FromBody] BonusDto bonusInput) => _bplManager.GetBonus(bonusInput);
         #endregion
 
         #region DELETE

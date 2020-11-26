@@ -11,6 +11,6 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public Model.Bonus Bonus { get; set; }
         public List<BonusRange> BonusRange { get; set; }
-        public LocationBasedWashCountViewModel LocationBasedWashCount { get; set; }
+        public LocationWashCountViewModel LocationBasedWashCount { get; set; }
     }
 }
