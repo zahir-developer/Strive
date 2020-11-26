@@ -13,7 +13,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string LocationName { get; set; }
         public string LocationDescription { get; set; }
         public string ColorCode { get; set; }
-        public int WashTimeMinutes { get; set; }
+        public int? WashTimeMinutes { get; set; }
         public bool? IsFranchise { get; set; }
         public string TaxRate { get; set; }
         public string SiteUrl { get; set; }

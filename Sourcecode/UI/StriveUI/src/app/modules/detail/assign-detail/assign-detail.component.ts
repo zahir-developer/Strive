@@ -36,7 +36,7 @@ export class AssignDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.assignedDetailService, 'assignedDetailService');
+    console.log(this.details, 'assignedDetailService');
     this.getDetailService();
     this.employeeDetail();
     this.detailService = this.detailsJobServiceEmployee;
@@ -58,33 +58,41 @@ export class AssignDetailComponent implements OnInit {
   }
 
   assignService() {
-    // const selectedService = []; // _.where(this.details, { item_id: +this.assignForm.value.serviceId.item_id });
-    // const selectedEmployee = _.where(this.employeeList, { item_id: +this.assignForm.value.employeeId.item_id });
-    // const assignedService = [];
-    // this.assignForm.value.serviceId.forEach( item => {
-    //   const service = _.where(this.details, { item_id: +item.item_id });
-    //   if (service.length > 0) {
-    //     selectedService.push(service);
-    //   }
-    // });
     const selectedService = [];
     this.details.forEach(item => {
       this.assignForm.value.serviceId.forEach(service => {
-        if (item.ServiceId === service.item_id) {
+        if (item.ServiceId === service.item_id || item.item_id === service.item_id) {
           selectedService.push(item);
         }
       });
     });
-    this.assignForm.value.employeeId.forEach(employee => {
-      selectedService.forEach(service => {
-        this.detailService.push({
+
+    console.log(this.details,'details');
+
+    console.log(selectedService, 'selectedservices');
+
+    selectedService.forEach( service => {
+      this.assignForm.value.employeeId.forEach( emp => {
+        let commision = 0;
+
+        const employeeService = {
           ServiceId: service.ServiceId,
-          ServiceName: service.ServiceName,
-          EmployeeId: employee.item_id,
-          EmployeeName: employee.item_text,
-          Cost: service.Cost,
-          JobItemId: service.JobItemId,
-        });
+            ServiceName: service.ServiceName,
+            EmployeeId: emp.item_id,
+            EmployeeName: emp.item_text,
+            Cost: service.Cost,
+            JobItemId: service.JobItemId,
+            CommissionAmount: 0
+        }
+
+        if (service.CommissionType === 'Flat Fee') {
+          employeeService.CommissionAmount = service.CommissionCost / this.assignForm.value.employeeId.length;
+        } else if (service.CommissionType === 'Percentage') {
+          const percentage = service.CommissionCost / this.assignForm.value.employeeId.length;
+          employeeService.CommissionAmount = ( service.Cost * percentage ) / 100;
+        }
+
+        this.detailService.push(employeeService);
       });
     });
     // this.detailService = assignedService;
@@ -176,6 +184,7 @@ export class AssignDetailComponent implements OnInit {
         jobItemId: item.JobItemId,
         serviceId: item.ServiceId,
         employeeId: item.EmployeeId,
+        commissionAmount: item.CommissionAmount,
         isActive: true,
         isDeleted: false,
         createdBy: 0,

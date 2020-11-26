@@ -1,7 +1,6 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-    <h3 class="d-inline-block">Reports - </h3>
+    <h3 class="d-inline-block">End Of Day - </h3>
     <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
-
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
             bsDatepicker [outsideClick]="true"><span class="input-group-addon">
@@ -12,360 +11,354 @@
     <div class="row no-gutter">
         <div class="col-12">
             <div class="row no-gutter">
+                <!-- <div class="col-lg-2">
+                    <label>Select Custom Date</label>
+                    <input type="text" class="form-control date datepicker-view" data-toggle="date-picker"
+                        data-single-date-picker="true" placeholder="Report Date" /> </div> -->
                 <div class="col-lg-2">
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2">
-                    <button type="button" class="btn theme-primary-button-color">Preview</button>
+                    <button type="button" class="btn theme-primary-button-color" (click)="preview()">Preview</button>
                 </div>
             </div>
             <div class="card m-t-10">
                 <div class="card-body p-10">
                     <div class="row">
-                        <div class="col-lg-6">
-
+                        <div class="col-md-4">
+                            <div class="p-b-5 p-t-5">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Report
+                                        Date: {{selectDate | date : 'MM/dd/yyyy'}}</span>
+                                </h4>
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="pull-right">
                                 <div class="d-inline-block align-middle">
-                                    <app-export-filetype></app-export-filetype>
+                                    <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="Dailyreport" ngxPrint>Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                    printSectionId="EodStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="refresh()">Refresh</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card m-t-10">
-                <div class="card-body">
-                    <div class="p-b-5 m-b-8">
-                        <h4 class="d-inline-block align-middle"><span class="resp-title">EOD Tip Report </span>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-            <div class="row no-gutter">
-                <div class="col-lg-3">
+            <div class="row no-gutter" id="EodStatusReport">
+                <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">EOD Report</div>
+                <div class="col-lg-4">
                     <!-- end card-->
                     <div class="card m-t-10">
-                        <div class="card-body">
-                            <div class="p-b-5 m-b-8">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Washes</span>
-                                </h4>
+                        <div class="card-body p-t-10 p-b-5">
+                            <div class="p-b-5 m-b-5">
+                                <h4 class="d-inline-block font-weight-700 font-size-1-2">Employee List</h4>
                             </div>
-                            <div class="collapse show row">
-                                <div class="table-responsive scroll">
-                                    <table class="table table-striped m-b-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Washes</th>
-                                                <th scope="col"> Total</th>
-                                            </tr>
-                                            <tr> </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let wash of washes">
-                                                <td class="pointer" title="{{wash?.ServiceName}}">
-                                                    {{wash?.ServiceName | slice:0:15}}
-                                                    {{(wash?.ServiceName!== null) ?wash?.ServiceName.length <= 15 ? '': '...':''}}
-                                                </td>
-                                                <td>{{wash?.Number}}</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="font-weight-700" *ngIf="washes?.length > 0">
-                                            <tr>
-                                                <td class="text-right">Total </td>
-                                                <td>{{washTotal}}</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                    <div *ngIf="washes?.length === 0" class="noRecords m-t-49">
-                                        <span> No Records Found</span>
+                            <div class="table-responsive">
+                                <table class="table m-b-0 dailyreport">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Emp. Name</th>
+                                            <th scope="col">Wash Hours</th>
+                                            <th scope="col">Detail Hours</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let clock of clockDetail">
+                                            <td>{{clock?.LastName}}&nbsp;{{clock?.FirstName}}</td>
+                                            <td >{{clock?.WashHours}}</td>
+                                            <td >{{clock?.DetailHours}}</td>
+                                        </tr>
+                                        <tr *ngIf="clockDetail.length === 0">
+                                            <td colspan="2" class="text-center">
+                                                No Record Found
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <!-- <tfoot class="font-weight-700" *ngIf="clockDetail.length > 0">
+                                        <tr class="table-foot">
+                                            <td class="text-right">Total Hours:</td>
+                                            <td class="text-right"> {{empTotalHours}}</td>
+                                        </tr>
+                                    </tfoot> -->
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <!-- end card-->
+                    <div class="card m-t-10">
+                        <div class="card-body p-t-10 p-b-5">
+                            <div class="p-b-5 m-b-5">
+                                <h4 class="d-inline-block font-weight-700 font-size-1-2">Washes</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table m-b-0 dailyreport">
+                                    <!-- 							<thead>
+                                        <tr>
+                                            <th scope="col" colspan="3" class="font-size-1-5 font-weight-700">Washes</th>
+                                        </tr>
+                                    </thead> -->
+                                    <tbody>
+                                        <tr *ngFor="let wash of washes" >
+                                            <td colspan="2">{{wash?.ServiceName}}</td>
+                                            <td class="text-right">{{wash?.Number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="bg-white  font-weight-700 font-size-1-2">
+                                                Details</td>
+                                        </tr>
+                                        <tr *ngFor="let detail of details">
+                                            <td colspan="2">{{detail?.ServiceName}}</td>
+                                            <td class="text-right">{{detail?.Number}}</td>
+                                        </tr>
+                                        <tr class="table-foot">
+                                            <td colspan="2" class="text-right font-weight-700">Total:</td>
+                                            <td class="text-right font-weight-700">{{dailyStatusReport.length}}</td>
+                                        </tr>
+                                        <tr class="bg-white">
+                                            <td colspan="3" class="font-weight-700 bg-white  font-size-1-2">
+                                                Details Info</td>
+                                        </tr>
+                                        <tr class="bg-white">
+                                            <th scope="col" class="font-weight-700">Name</th>
+                                            <th scope="col" class="font-weight-700 text-right">Ticket</th>
+                                            <th scope="col" class="font-weight-700 text-right">Commission
+                                            </th>
+                                        </tr>
+                                        <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
+                                            <td>{{detailInfo?.ServiceName | slice:0:15}}
+                                                {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
+                                            </td>
+                                            <td class="text-right">{{detailInfo?.TicketNumber}}</td>
+                                            <td class="text-right">{{detailInfo?.Commision}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="font-weight-700">
+                                        <tr class="table-foot">
+                                            <td class="text-right" colspan="2">Total Expenses: </td>
+                                            <td class="text-right">{{detailInfoTotal}}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card m-t-10">
+                        <div class="card-body p-b-0 p-t-10">
+                            <div class="title-border p-b-5 m-b-5">
+                                <h4 class="d-inline-block font-weight-700 font-size-1-2">Coins</h4>
+                                <div class="pull-right card-widgets">
+                                    <!-- <a data-toggle="collapse" href="#Coinslist" role="button" aria-expanded="false"
+                                        aria-controls="Coinslist"> <i
+                                            class="theme-font-color font-size-1-4 mdi mdi-chevron-up"></i></a> -->
+                                </div>
+                            </div>
+                            <div id="Coinslist" class="collapse show">
+                                <form class="summary">
+                                    <div class="form-row m-t-15">
+                                        <div class="form-group col-md-6"> Pennies </div>
+                                        <div class="form-group col-md-6"> {{cashRegisterCoins?.Pennies | currency}} </div>
                                     </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-body -->
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <!-- end card-->
-                    <div class="card m-t-10">
-                        <div class="card-body">
-                            <div class="p-b-5 m-b-8">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Wash Info</span>
-                                </h4>
-                            </div>
-                            <div class="collapse show row">
-                                <div class="table-responsive scroll">
-                                    <table class="table table-striped m-b-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Washes </th>
-                                                <th scope="col">Amount</th>
-                                            </tr>
-                                            <tr> </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
-                                                <td class="pointer" title="{{detailInfo?.ServiceName}}">
-                                                    {{detailInfo?.ServiceName | slice:0:15}}
-                                                    {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
-                                                </td>
-                                                <td>{{detailInfo?.TicketNumber}}</td>
-                                                <td>{{detailInfo?.Commision}}</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
-                                            <tr>
-                                                <td colspan="2" class="text-right">Total Comm. </td>
-                                                <td>{{detailInfoTotal}}</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                    <div *ngIf="dailyStatusDetailInfo?.length === 0" class="noRecords m-t-49">
-                                        <span> No Records Found</span>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Dimes </div>
+                                        <div class="form-group col-md-6"> {{cashRegisterCoins?.Nickels | currency}} </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-body -->
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <!-- end card-->
-                    <div class="card m-t-10">
-                        <div class="card-body">
-                            <div class="p-b-5 m-b-8">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Details</span>
-                                </h4>
-                            </div>
-                            <div class="collapse show row">
-                                <div class="table-responsive scroll">
-                                    <table class="table table-striped m-b-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="w-100">Details</th>
-                                                <th scope="col"> Total</th>
-                                            </tr>
-                                            <tr> </tr>
-                                        </thead>
-                                        <tbody class="body-half-screen">
-                                            <tr *ngFor="let detail of details">
-                                                <td class="pointer" title="{{detail?.ServiceName}}">
-                                                    {{detail?.ServiceName | slice:0:15}}
-                                                    {{(detail?.ServiceName!== null) ?detail?.ServiceName.length <= 15 ? '': '...':''}}
-                                                </td>
-                                                <td>{{detail?.Number}}</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="font-weight-700" *ngIf="details?.length > 0">
-                                            <tr>
-                                                <td class="text-right">Total </td>
-                                                <td>{{detailTotal}} </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                    <div *ngIf="details?.length === 0" class="noRecords m-t-49">
-                                        <span> No Records Found</span>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Nickels </div>
+                                        <div class="form-group col-md-6">{{cashRegisterCoins?.Dimes | currency}} </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-body -->
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <!-- end card-->
-                    <div class="card m-t-10">
-                        <div class="card-body">
-                            <div class="p-b-5 m-b-8">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Detail Info</span>
-                                </h4>
-                            </div>
-                            <div class="collapse show row">
-                                <div class="table-responsive scroll">
-                                    <table class="table table-striped m-b-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col"> Ticket</th>
-                                                <th scope="col"> Comm</th>
-                                            </tr>
-                                            <tr> </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
-                                                <td class="pointer" title="{{detailInfo?.ServiceName}}">
-                                                    {{detailInfo?.ServiceName | slice:0:15}}
-                                                    {{(detailInfo?.ServiceName!== null) ?detailInfo?.ServiceName?.length <= 15 ? '': '...':''}}
-                                                </td>
-                                                <td>{{detailInfo?.TicketNumber}}</td>
-                                                <td>{{detailInfo?.Commision}}</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
-                                            <tr>
-                                                <td colspan="2" class="text-right">Total Comm. </td>
-                                                <td>{{detailInfoTotal}}</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                    <div *ngIf="dailyStatusDetailInfo?.length === 0" class="noRecords m-t-49">
-                                        <span> No Records Found</span>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Quarters </div>
+                                        <div class="form-group col-md-6">{{cashRegisterCoins?.Quarters | currency}} </div>
                                     </div>
-                                </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Half </div>
+                                        <div class="form-group col-md-6">{{cashRegisterCoins?.HalfDollars | currency}} </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <!-- end card-body -->
                     </div>
-                </div>
-                <div class="col-lg-3">
                     <!-- end card-->
-                    <div class="card m-t-10">
-                        <div class="card-body">
-                            <div class="p-b-5 m-b-8">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Coins</span>
-                                </h4>
-                            </div>
-                            <div class="collapse show row">
-                                <div class="table-responsive">
-                                    <table class="table table-striped m-b-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Washes</th>
-                                                <th scope="col"> Total</th>
-                                            </tr>
-                                            <tr> </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Pennies</td>
-                                                <td>{{cashRegisterCoins?.Pennies | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Nickels</td>
-                                                <td>{{cashRegisterCoins?.Nickels | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Dimes</td>
-                                                <td>{{cashRegisterCoins?.Dimes | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Quarters</td>
-                                                <td>{{cashRegisterCoins?.Quarters | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>HalfDollars</td>
-                                                <td>{{cashRegisterCoins?.HalfDollars | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                    <div class="card m-t-5">
+                        <div class="card-body p-b-0 p-t-10">
+                            <div class="title-border p-b-5 m-b-5">
+                                <h4 class="d-inline-block font-weight-700 font-size-1-2">Rolls</h4>
+                                <div class="pull-right card-widgets">
+                                    <!-- <a data-toggle="collapse" href="#Rolls" role="button" aria-expanded="false"
+                                        aria-controls="Rolls"> <i
+                                            class="theme-font-color font-size-1-4 mdi mdi-chevron-up"></i></a> -->
                                 </div>
+                            </div>
+                            <div id="Rolls" class="collapse show">
+                                <form class="summary">
+                                    <div class="form-row m-t-15">
+                                        <div class="form-group col-md-6"> Pennies </div>
+                                        <div class="form-group col-md-6"> {{cashRegisterRolls?.Pennies | currency}} </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Dimes </div>
+                                        <div class="form-group col-md-6"> {{cashRegisterRolls?.Nickels | currency}} </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Nickels </div>
+                                        <div class="form-group col-md-6">{{cashRegisterRolls?.Dimes | currency}} </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Quarters </div>
+                                        <div class="form-group col-md-6">{{cashRegisterRolls?.Quarters | currency}} </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <!-- end card-body -->
                     </div>
-                </div>
-                <div class="col-lg-3">
                     <!-- end card-->
-                    <div class="card m-t-10">
-                        <div class="card-body">
-                            <div class="p-b-5 m-b-8">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Bills</span>
-                                </h4>
-                            </div>
-                            <div class="collapse show row">
-                                <div class="table-responsive">
-                                    <table class="table table-striped m-b-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col"> Total</th>
-                                            </tr>
-                                            <tr> </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1s</td>
-                                                <td>{{cashRegisterBills?.s1 | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5s</td>
-                                                <td>{{cashRegisterBills?.s5 | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>10s</td>
-                                                <td>{{cashRegisterBills?.s10 | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>20s</td>
-                                                <td>{{cashRegisterBills?.s20 | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>50s</td>
-                                                <td>{{cashRegisterBills?.s50 | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>100s</td>
-                                                <td>{{cashRegisterBills?.s100 | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                    <!-- end card-->
+                    <div class="card m-t-5">
+                        <div class="card-body p-b-0 p-t-10">
+                            <div class="title-border p-b-5 m-b-5">
+                                <h4 class="d-inline-block font-weight-700 font-size-1-2">Bills</h4>
+                                <div class="pull-right card-widgets">
+                                    <!-- <a data-toggle="collapse" href="#Bills" role="button" aria-expanded="false"
+                                        aria-controls="Bills"> <i
+                                            class="theme-font-color font-size-1-4 mdi mdi-chevron-up"></i></a> -->
                                 </div>
+                            </div>
+                            <div id="Bills" class="collapse show">
+                                <form class="summary">
+                                    <div class="form-row m-t-15">
+                                        <div class="form-group col-md-6"> 1's </div>
+                                        <div class="form-group col-md-6"> {{cashRegisterBills?.s1 | currency}} </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> 5's </div>
+                                        <div class="form-group col-md-6"> {{cashRegisterBills?.s5 | currency}} </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> 10's </div>
+                                        <div class="form-group col-md-6">{{cashRegisterBills?.s10 | currency}}</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> 20's </div>
+                                        <div class="form-group col-md-6">{{cashRegisterBills?.s20 | currency}} </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> 50's </div>
+                                        <div class="form-group col-md-6">{{cashRegisterBills?.s50 | currency}}</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> 100's </div>
+                                        <div class="form-group col-md-6">{{cashRegisterBills?.s100 | currency}} </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <!-- end card-body -->
                     </div>
-                </div>
-                <div class="col-lg-3">
                     <!-- end card-->
-                    <div class="card m-t-10">
-                        <div class="card-body">
-                            <div class="p-b-5 m-b-8">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Rolls</span>
-                                </h4>
+                    <div class="card m-t-5">
+                        <div class="card-body p-b-5 p-t-5">
+                            <div>
+                                <form class="summary">
+                                    <div class="form-row m-t-5">
+                                        <div class="form-group col-md-6"> In </div>
+                                        <div class="form-group col-md-6"> $0.00 </div>
+                                    </div>
+                                    <div class="form-row  border-bottom m-b-8">
+                                        <div class="form-group col-md-6"> Out </div>
+                                        <div class="form-group col-md-6"> $0.00 </div>
+                                    </div>
+                                    <div class="form-row font-weight-700 border-bottom  m-b-25">
+                                        <div class="form-group col-md-6 theme-content-color"> Difference
+                                        </div>
+                                        <div class="form-group col-md-6 theme-content-color"> $0.00</div>
+                                    </div>
+                                    <div class="form-row  border-bottom m-b-8">
+                                        <div class="form-group col-md-6"> BC Credit Cards </div>
+                                        <div class="form-group col-md-6">{{salesReport?.Credit | currency}}</div>
+                                    </div>
+                                    <div class="form-row font-weight-700 border-bottom  m-b-25">
+                                        <div class="form-group col-md-6 theme-content-color"> Total Expenses
+                                        </div>
+                                        <div class="form-group col-md-6 theme-content-color">{{salesReport?.Credit | currency}}</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6"> Account</div>
+                                        <div class="form-group col-md-6">{{salesReport?.Account | currency}}</div>
+                                    </div>
+                                    <div class="form-row m-b-8 border-bottom">
+                                        <div class="form-group col-md-6">Gift Cards</div>
+                                        <div class="form-group col-md-6">{{salesReport?.GiftCard | currency}}</div>
+                                    </div>
+                                    <div class="form-row font-weight-700">
+                                        <div class="form-group col-md-6 theme-content-color">Grand Total
+                                        </div>
+                                        <div class="form-group col-md-6 theme-content-color">{{salesReport?.Credit | currency}}</div>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="collapse show row">
-                                <div class="table-responsive">
-                                    <table class="table table-striped m-b-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col"> Total</th>
-                                            </tr>
-                                            <tr> </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Pennies</td>
-                                                <td>{{cashRegisterRolls?.Pennies | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Nickels</td>
-                                                <td>{{cashRegisterRolls?.Nickels | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Dimes</td>
-                                                <td>{{cashRegisterRolls?.Dimes | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Quarters</td>
-                                                <td>{{cashRegisterRolls?.Quarters | currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>HalfDollars</td>
-                                                <td>{{cashRegisterRolls?.HalfDollars | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                    <!--sales-->
+                    <div class="card m-t-5">
+                        <div class="card-body p-b-0 p-t-10">
+                            <div class="title-border p-b-5 m-b-5">
+                                <h4 class="d-inline-block font-weight-700 font-size-1-2">Sales</h4>
+                            </div>
+                            <form class="summary">
+                                <div class="form-row m-t-15">
+                                    <div class="form-group col-md-6"> Total </div>
+                                    <div class="form-group col-md-6"> {{salesReport?.Total | currency}} </div>
                                 </div>
-                            </div>
+                                <div class="form-row  border-bottom m-b-8">
+                                    <div class="form-group col-md-6"> Tax </div>
+                                    <div class="form-group col-md-6"> {{salesReport?.TaxAmount | currency}}</div>
+                                </div>
+                                <div class="form-row font-weight-700 border-bottom  m-b-25">
+                                    <div class="form-group col-md-6 theme-content-color">Grand Total</div>
+                                    <div class="form-group col-md-6 theme-content-color"> {{salesReport?.GrandTotal | currency}} </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6"> Cash </div>
+                                    <div class="form-group col-md-6"> {{salesReport?.Cash | currency}}</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6"> Check </div>
+                                    <div class="form-group col-md-6"> $0.00 </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6"> Charge Cards </div>
+                                    <div class="form-group col-md-6"> {{salesReport?.Credit | currency}} </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6"> Account </div>
+                                    <div class="form-group col-md-6"> {{salesReport?.Account | currency}} </div>
+                                </div>
+                                <div class="form-row  border-bottom m-b-8">
+                                    <div class="form-group col-md-6"> Gift Card </div>
+                                    <div class="form-group col-md-6"> {{salesReport?.GiftCard | currency}} </div>
+                                </div>
+                                <div class="form-row font-weight-700 border-bottom m-b-25">
+                                    <div class="form-group col-md-6 theme-content-color"> Total Paid </div>
+                                    <div class="form-group col-md-6 theme-content-color"> {{salesReport?.TotalPaid | currency}} </div>
+                                </div>
+                                <div class="form-row m-t-5">
+                                    <div class="form-group col-md-6"> Cash back </div>
+                                    <div class="form-group col-md-6 theme-optional-icon-color font-weight-600">
+                                        {{salesReport?.CashBack | currency}} </div>
+                                </div>
+                            </form>
                         </div>
                         <!-- end card-body -->
                     </div>

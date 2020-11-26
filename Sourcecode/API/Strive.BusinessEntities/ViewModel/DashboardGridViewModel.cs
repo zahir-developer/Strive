@@ -13,7 +13,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int? WashesCount { get; set; }
         public int? DetailCount { get; set; }
         public int? EmployeeCount { get; set; }
-        public int? Score { get; set; }
+        public decimal? Score { get; set; }
         public string WashTime { get; set; }
         public int? Currents { get; set; }
         public int? ForecastedCar { get; set; }
@@ -22,12 +22,12 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? ExtraServiceSales { get; set; }
         public decimal? MerchandizeSales { get; set; }
         public decimal? TotalSales { get; set; }
-        public int? MonthlyClientSales { get; set; }
-        public int? AverageWashPerCar { get; set; }
-        public int? AverageDetailPerCar { get; set; }
-        public int? AverageExtraServicePerCar { get; set; }
-        public int? AverageTotalPerCar { get; set; }
-        public int? LabourCostPerCarMinusDetail { get; set; }
-        public int? DetailCostPerCar { get; set; }
+        public decimal? MonthlyClientSales { get; set; }
+        public decimal? AverageWashPerCar { get; set; }
+        public decimal? AverageDetailPerCar { get; set; }
+        public decimal? AverageExtraServicePerCar { get; set; }
+        public decimal? AverageTotalPerCar { get; set; }
+        public decimal? LabourCostPerCarMinusDetail { get; set; }
+        public decimal? DetailCostPerCar { get; set; }
     }
 }

@@ -7,6 +7,8 @@ import { ClientFormComponent } from 'src/app/shared/components/client-form/clien
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { Router } from '@angular/router';
 import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-wash.component';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -61,8 +63,9 @@ export class CreateEditWashesComponent implements OnInit {
   jobStatus: any = [];
   jobStatusId: number;
   clientName = '';
+  washTime: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
-    private wash: WashService, private client: ClientService, private router: Router) { }
+    private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService) { }
 
   ngOnInit() {
     this.getJobStatus();
@@ -113,6 +116,17 @@ export class CreateEditWashesComponent implements OnInit {
     this.getAllClient();
     this.getServiceType();
     this.getColor();
+  }
+
+  getWashTimeByLocationID() {
+    const locationId = localStorage.getItem('empLocationId');
+    this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
+      if (res.status === 'Success') {
+        const washTime = JSON.parse(res.resultData);
+        const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
+        this.washTime = WashTimeMinutes;
+      }
+    });
   }
 
   getWashById() {
@@ -506,6 +520,8 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(element);
       }
     });
+    const currentTime = new Date();
+    const outTime = currentTime.setMinutes(currentTime.getMinutes() + this.washTime);
     const job = {
       jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
       ticketNumber: this.ticketNumber,
@@ -518,7 +534,7 @@ export class CreateEditWashesComponent implements OnInit {
       jobType: this.jobTypeId,
       jobDate: new Date(),
       timeIn: new Date(),
-      estimatedTimeOut: new Date(),
+      estimatedTimeOut: moment(outTime).format(),
       actualTimeOut: new Date(),
       notes: this.washForm.value.notes,
       jobStatus: this.jobStatusId,

@@ -49,14 +49,14 @@
                 <div class="card-body" id="monthlySalesExport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Sales Report <span
-                                    class="font-size-1">{{selectedDate}}</span></span>
+                                    class="font-size-1">({{selectedDate}}) {{empName ? '-' : ''}} {{empName}}</span></span>
                         </h4>
                         <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#MonthlySalesreport"
                                 role="button" aria-expanded="false" aria-controls="Monthlyreport"><i
                                     class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
                     </div>
                     <div id="MonthlySalesreport" class="collapse show">
-                        <div class="table-responsive">
+                        <div class="table-responsive scroll">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -86,21 +86,22 @@
                             <div class="noRecords" *ngIf="monthlySalesReport?.length === 0">
                                 <span > No Records Found</span>
                             </div>
-                            <ul class="pagination justify-content-end">
-                                <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount"
-                                    placeholder="1">
-                                <label class="d-inline-block  m-t-7 m-r-10">of
-                                    {{employees?.length === 0 ? 1 : employees?.length}}</label> <em
-                                    class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"
-                                    (click)="count('minus')"></em> <em
-                                    class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"
-                                    (click)="count('add')"></em>
-                                <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                    class="d-flex justify-content-end">
-                                </ngb-pagination>
-                            </ul>
+                           
                         </div>
+                        <ul class="pagination justify-content-end" *ngIf="monthlySalesReport?.length > 0">
+                            <input type="text" class="form-control m-r-8 paginationinput" [(ngModel)]="empCount"
+                                placeholder="1">
+                            <label class="d-inline-block  m-t-7 m-r-10">of
+                                {{employees?.length === 0 ? 1 : employees?.length}}</label> <em
+                                class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"
+                                (click)="count('minus')"></em> <em
+                                class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"
+                                (click)="count('add')"></em>
+                            <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                class="d-flex justify-content-end">
+                            </ngb-pagination>
+                        </ul>
                     </div>
                 </div>
                 <!-- end card-body -->

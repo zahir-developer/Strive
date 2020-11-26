@@ -5,3 +5,12 @@
     overflow-y: auto;
     max-height: 300px;
 }
+.disabled {
+    cursor: not-allowed;
+  }
+  .enable {
+      background-color: white;
+  }
+  .disable {
+      background-color: #e9ecef;
+  }
