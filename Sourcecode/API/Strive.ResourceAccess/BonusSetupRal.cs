@@ -32,12 +32,12 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public BonusSetupViewModel GetBonus(BonusInputDto bonusInput)
+        public BonusSetupViewModel GetBonus(BonusDto bonusInput)
         {
             _prm.Add("@BonusMonth", bonusInput.BonusMonth);
             _prm.Add("@BonusYear", bonusInput.BonusYear);
             _prm.Add("@LocationId", bonusInput.LocationId);
-            var result = db.FetchMultiResult<BonusSetupViewModel>(EnumSP.SystemSetup.USPGETBONUS.ToString(), _prm);
+            var result = db.FetchMultiResult<BonusSetupViewModel>(EnumSP.SystemSetup.USPGETBONUSSETUP.ToString(), _prm);
             return result;
         }
     }

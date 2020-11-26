@@ -79,7 +79,7 @@ namespace Strive.BusinessEntities
         public enum SystemSetup
         {
             USPDELETEBONUSSETUP,
-            USPGETBONUS
+            USPGETBONUSSETUP
         }
 
         public enum Document
