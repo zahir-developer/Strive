@@ -193,8 +193,8 @@ namespace Admin.API.Controllers
                 {
                     currentRow++;
                     worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
-                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.FirstName;
-                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commision;
+                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
+                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
                                       
                 }
                 var worksheet5 = workbook.Worksheets.Add("Sales");
@@ -321,8 +321,8 @@ namespace Admin.API.Controllers
                 {
                     currentRow++;
                     worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
-                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.FirstName;
-                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commision;
+                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
+                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
                 }
                 using (var stream = new MemoryStream())
                 {
