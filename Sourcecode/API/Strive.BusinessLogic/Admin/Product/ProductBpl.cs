@@ -52,7 +52,7 @@ namespace Strive.BusinessLogic
             foreach (var prod in products)
             {
                 if (!string.IsNullOrEmpty(prod.FileName))
-                    prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.UploadFolder.PRODUCTIMAGE, prod.FileName);
+                    prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, prod.FileName);
             }
 
             return ResultWrap(products, "Product");
@@ -62,7 +62,7 @@ namespace Strive.BusinessLogic
         {
             var result = new ProductRal(_tenant).GetProductById(productId);
 
-            result.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.UploadFolder.PRODUCTIMAGE, result.FileName);
+            result.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, result.FileName);
 
             return ResultWrap(result, "Product");
         }
@@ -73,7 +73,7 @@ namespace Strive.BusinessLogic
 
             if (result && !string.IsNullOrEmpty(fileName))
             {
-                new DocumentBpl(_cache, _tenant).DeleteFile(GlobalUpload.UploadFolder.PRODUCTIMAGE, fileName);
+                new DocumentBpl(_cache, _tenant).DeleteFile(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
             }
 
             return ResultWrap(result, "Result");
@@ -86,11 +86,11 @@ namespace Strive.BusinessLogic
             if (!string.IsNullOrEmpty(base64) && !string.IsNullOrEmpty(fileName))
             {
                 var documentBpl = new DocumentBpl(_cache, _tenant);
-                error = documentBpl.ValidateFileFormat(GlobalUpload.UploadFolder.PRODUCTIMAGE, fileName);
+                error = documentBpl.ValidateFileFormat(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
 
                 if (error != string.Empty)
                     return (error, fileName, thumbFileName);
-                (fileName) = documentBpl.Upload(GlobalUpload.UploadFolder.PRODUCTIMAGE, base64, fileName);
+                (fileName) = documentBpl.Upload(GlobalUpload.DocumentType.PRODUCTIMAGE, base64, fileName);
                 if (fileName == string.Empty)
                 {
                     return (error, string.Empty, string.Empty);
