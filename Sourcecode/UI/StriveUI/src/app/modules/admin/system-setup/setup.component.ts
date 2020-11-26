@@ -24,4 +24,27 @@ export class SetupComponent implements OnInit {
   loadLocationSetup(): void {
     this.router.navigate([`/admin/setup/location`], { relativeTo: this.route });
   }
+
+  setupEvent(event){
+    if(event.target.value == 1){
+      this.router.navigate([`/admin/setup/location`], { relativeTo: this.route });
+   } else if(event.target.value == 2){
+    this.router.navigate([`/admin/setup/service`], { relativeTo: this.route });
+ }  else if(event.target.value == 3){
+  this.router.navigate([`/admin/setup/product`], { relativeTo: this.route });
+} else if(event.target.value == 4){
+  this.router.navigate([`/admin/setup/vendor`], { relativeTo: this.route });
+} else if(event.target.value == 5){
+  this.router.navigate([`/admin/setup/membership`], { relativeTo: this.route });
+} else if(event.target.value == 6){
+  this.router.navigate([`/admin/setup/checkList`], { relativeTo: this.route });
+} else if(event.target.value == 7){
+  this.router.navigate([`/admin/setup/empHandBook`], { relativeTo: this.route });
+} else if(event.target.value == 8){
+  this.router.navigate([`/admin/setup/terms&condition`], { relativeTo: this.route });
+} 
+else if(event.target.value == 9){
+  this.router.navigate([`/admin/setup/bonus`], { relativeTo: this.route });
+} 
+  }
 }
