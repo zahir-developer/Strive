@@ -71,6 +71,17 @@ namespace Strive.BusinessEntities
         {
             USPGETALLMEMBERSHIP
         }
+        public enum Checklist
+        {
+            USPGETCHECKLIST,
+            USPDELETECHECKLIST
+        }
+
+        public enum SystemSetup
+        {
+            USPDELETEBONUSSETUP,
+            USPGETBONUSSETUP
+        }
 
         public enum Document
         {
