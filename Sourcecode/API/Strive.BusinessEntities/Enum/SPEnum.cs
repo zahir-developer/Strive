@@ -76,9 +76,10 @@ namespace Strive.BusinessEntities
             USPDELETECHECKLIST
         }
 
-        public enum BonusSetup
+        public enum SystemSetup
         {
-            USPDELETEBONUSSETUP
+            USPDELETEBONUSSETUP,
+            USPGETBONUS
         }
     }
     

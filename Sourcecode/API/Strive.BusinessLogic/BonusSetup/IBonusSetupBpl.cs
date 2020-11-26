@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic.BonusSetup
         Result AddBonusSetup(BonusSetupDto bonus);
         Result UpdateBonusSetup(BonusSetupDto bonus);
         Result DeleteBonusSetup(int bonusId);
+        Result GetBonus(BonusInputDto bonusInput);
     }
 }

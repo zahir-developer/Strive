@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.BonusSetup;
+using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,18 @@ namespace Strive.ResourceAccess
         public bool DeleteBonusSetup(int id)
         {
             _prm.Add("@BonusId", id);
-            db.Save(EnumSP.BonusSetup.USPDELETEBONUSSETUP.ToString(), _prm);
+            db.Save(EnumSP.SystemSetup.USPDELETEBONUSSETUP.ToString(), _prm);
             return true;
         }
+
+        public BonusSetupViewModel GetBonus(BonusInputDto bonusInput)
+        {
+            _prm.Add("@BonusMonth", bonusInput.BonusMonth);
+            _prm.Add("@BonusYear", bonusInput.BonusYear);
+            _prm.Add("@LocationId", bonusInput.LocationId);
+            var result = db.FetchMultiResult<BonusSetupViewModel>(EnumSP.SystemSetup.USPGETBONUS.ToString(), _prm);
+            return result;
+        }
     }
+
 }

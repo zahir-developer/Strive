@@ -27,5 +27,9 @@ namespace Strive.BusinessLogic.BonusSetup
         {
             return ResultWrap(new BonusSetupRal(_tenant).DeleteBonusSetup, id, "DeleteRespectiveBonusSetup");
         }
+        public Result GetBonus(BonusInputDto bonusInput)
+        {
+            return ResultWrap(new BonusSetupRal(_tenant).GetBonus, bonusInput, "GetBonusDetails");
+        }
     }
 }

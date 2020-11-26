@@ -30,6 +30,13 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("Update")]
         public Result UpdateBonusSetup([FromBody] BonusSetupDto bonus) => _bplManager.UpdateBonusSetup(bonus);
+
+        /// <summary>
+        /// Method to Get Bonus
+        /// </summary>
+        [HttpPost]
+        [Route("GetBonus")]
+        public Result GetBonus([FromBody] BonusInputDto bonusInput) => _bplManager.GetBonus(bonusInput);
         #endregion
 
         #region DELETE
