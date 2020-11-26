@@ -15,6 +15,7 @@ namespace StriveCustomer.iOS.Views
     {
         private PastDetailViewModel pastViewModel;
         private PersonalInfoViewModel personalInfoViewModel;
+        private VehicleInfoViewModel vehicleViewModel;
         float totalCost;
         string previousDates;
         public PastClientServices pastClientServices;
@@ -30,6 +31,7 @@ namespace StriveCustomer.iOS.Views
 
             pastViewModel = new PastDetailViewModel();
             personalInfoViewModel = new PersonalInfoViewModel();
+            vehicleViewModel = new VehicleInfoViewModel();
             CustomerInfo.TotalCost = new List<float>();
             pastClientServices = new PastClientServices();
             pastClientServices.PastClientDetails = new List<PastClientDetails>();
@@ -46,10 +48,12 @@ namespace StriveCustomer.iOS.Views
         {
             PastDetail_Segment.Hidden = true;
             PersonalInfo_Segment.Hidden = false;
+            VehicleList_Segment.Hidden = true;
             NavigationItem.HidesBackButton = true;
             ProfileParent_View.Layer.CornerRadius = 5;
             PersonalInfo_Segment.Layer.CornerRadius = 5;
             PastDetail_Segment.Layer.CornerRadius = 5;
+            VehicleList_Segment.Layer.CornerRadius = 5;
         }
 
         public override void DidReceiveMemoryWarning()
@@ -66,17 +70,28 @@ namespace StriveCustomer.iOS.Views
             {
                 PersonalInfo_Segment.Hidden = false;
                 PastDetail_Segment.Hidden = true;
+                VehicleList_Segment.Hidden = true;
 
                 getPersonalInfo();
             }
             else if (index == 1)
             {
+                VehicleList_Segment.Hidden = false;
+                PersonalInfo_Segment.Hidden = true;
+                PastDetail_Segment.Hidden = true;
+                VehicleList_AddBtn.Layer.CornerRadius = 5;
 
+                VehicleList_TableView.RegisterNibForCellReuse(VehicleListViewCell.Nib, VehicleListViewCell.Key);
+                VehicleList_TableView.BackgroundColor = UIColor.Clear;
+                VehicleList_TableView.ReloadData();
+
+                GetVehicleList();
             }
             else if (index == 2)
             {
                 PersonalInfo_Segment.Hidden = true;
                 PastDetail_Segment.Hidden = false;
+                VehicleList_Segment.Hidden = true;
 
                 PastDetailTableView.RegisterNibForCellReuse(PastDetailViewCell.Nib, PastDetailViewCell.Key);
                 PastDetailTableView.BackgroundColor = UIColor.Clear;
@@ -166,6 +181,20 @@ namespace StriveCustomer.iOS.Views
         partial void EditProfile_Touch(UIButton sender)
         {
             personalInfoViewModel.NavToEditPersonalInfo();
+        }
+
+        public async void GetVehicleList()
+        {
+            await this.vehicleViewModel.GetCustomerVehicleList();
+            
+            if (!(this.vehicleViewModel.vehicleLists.Status.Count == 0) || !(this.vehicleViewModel.vehicleLists == null))
+            {
+                var VehicleTableSource = new VehicleListTableSource(this.vehicleViewModel.vehicleLists);
+                VehicleList_TableView.Source = VehicleTableSource;
+                VehicleList_TableView.TableFooterView = new UIView(CGRect.Empty);
+                VehicleList_TableView.DelaysContentTouches = false;
+                VehicleList_TableView.ReloadData();
+            } 
         }
     }
 
