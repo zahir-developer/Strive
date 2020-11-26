@@ -24,11 +24,18 @@ namespace Strive.Common
     public static class GlobalUpload
     {
         public static string InvalidMessage = "Invalid format. Valid formats: ";
-        public enum UploadFolder
+        public enum DocumentType
         {
             EMPLOYEEDOCUMENT,
             PRODUCTIMAGE,
-            LOGO
+            LOGO,
+            EMPLOYEEHANDBOOK,
+            TERMSANDCONDITION
+        }
+
+        public enum ArchiveFolder
+        {
+            ARCHIVED
         }
     }
 
