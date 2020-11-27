@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
-import { CheckListService } from 'src/app/shared/services/data-service/check-list.service';
-import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { DocumentService } from 'src/app/shared/services/data-service/document.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+
 
 @Component({
   selector: 'app-employee-hand-book',
@@ -26,16 +29,17 @@ export class EmployeeHandBookComponent implements OnInit {
   rollList: any;
   checklistAdd: boolean;
   showDialog: boolean;
-  constructor(private employeeService: EmployeeService,
-    private checkListSetup: CheckListService,
-   // private httpClient: HttpClient,
-    private confirmationService: ConfirmationUXBDialogService,
-    // private toastr: ToastrService
-     ) { }
-
+  documentTypeId: any;
+  document: any;
+  fileName: any;
+  Documents: any;
+  url: any;
+ 
+     constructor(private documentService: DocumentService, private toastr: MessageServiceToastr, 
+      private sanitizer:DomSanitizer,
+      private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
-    this.getAllRoles();
-this.getAllcheckListDetails();
+  this.getDocumentType();
   }
 
   adddata(data, handbookDetails?) {
@@ -64,93 +68,92 @@ this.getAllcheckListDetails();
     this.RoleId = [];
     this.checklistAdd = false;
   }
-// Get All Services
-getAllcheckListDetails() {
-  // this.httpClient.get('assets/json/checkList.json').toPromise()
-  // .then((data: any) => {
-  //   this.checkListDetails = data.Checklist;
-  //   console.log(this.checkListDetails)
-  // });
- this.isLoading = true;
-  this.checkListSetup.getCheckListSetup().subscribe(data => {
-   this.isLoading = false;
-    if (data.status === 'Success') {
-      const serviceDetails = JSON.parse(data.resultData);
-      this.checkListDetails = serviceDetails.GetChecklist;
-      console.log(data)
-      if (this.checkListDetails.length === 0) {
-        this.isTableEmpty = true;
-      } else {
-        this.isTableEmpty = false;
-      }
-    } else {
-     // this.toastr.error('Communication Error', 'Error!');
-    }
-  });
-}
-onRoleDeSelect(event) {
-  if (this.RoleId ) {
-    this.employeeRole = this.employeeRole.filter(item => item.item_id !== event.item_id);
-    this.employeeRole.push(event);
-   
-      this.roles = this.employeeRole;
-    
-  } 
 
-}
-  getAllRoles() {
-    this.employeeService.getAllRoles().subscribe(res => {
-      if (res.status === 'Success') {
-        const roles = JSON.parse(res.resultData);
-        this.rollList = roles.EmployeeRoles
-        this.employeeRoles = roles.EmployeeRoles.map( item => {
-          return {
-            item_id: item.RoleMasterId,
-            item_text: item.RoleName
-          };
-        });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
-      }
-    });
-  }
-  delete(data) {
+
+  
+  delete() {
     this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
   information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete(data);
+          this.confirmDelete();
         }
       })
       .catch(() => { });
   }
-
-  // Delete Service
-  confirmDelete(data) {
-   
-      
-    this.checkListSetup.deleteCheckListSetup(data.ChecklistId).subscribe(res => {
-      if (res.status === "Success") {
-      //  this.toastr.success('Record Deleted Successfully!!', 'Success!');
-        this.getAllcheckListDetails();
+  confirmDelete() {
+    this.documentService.deleteDocument(this.documentTypeId,'TERMSANDCONDITION').subscribe(res => {
+      if (res.status === 'Success') {
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
+        this.getDocument();
       } else {
-       // this.toastr.error('Communication Error', 'Error!');
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
     });
   }
+  getDocumentType(){
+    this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
+          console.log(this.documentTypeId);
+          this.getDocument();
+
+      
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+      }
+    });
+  }
+documentOpen(data) {
+  const url:any =  this.sanitizer.bypassSecurityTrustUrl(data);
+ window.open(data)
+ this.url = data
+}
+getSantizeUrl() {
+  return this.sanitizer.bypassSecurityTrustResourceUrl(this.Documents.FilePath);
+  }
+  getDocument() {
+    this.isLoading = true;
+    this.documentService.getDocument(this.documentTypeId, "EMPLOYEEHANDBOOK").subscribe(data => {
+      this.isLoading = false;
+      if (data.status === 'Success') {
+        const documentDetails = JSON.parse(data.resultData);
+        this.document = documentDetails.Document;
+
+        if (this.document.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.Documents = this.document.Document;
+          this.isTableEmpty = false;
+  //         this.document.then(response => {
+  //   // response.data -> response data base64 encoded
+  //   // decoding the data via atob()
+  //   const byteArray = new Uint8Array(atob(response.FileName).split('').map(char => char.charCodeAt(0)));
+  //   return new Blob([byteArray], {type: 'application/pdf'});
+  // })
+  // .then(blob => {
+  //   // Here is your URL you can use
+  //   const url = window.URL.createObjectURL(blob);
+
+  //   // i.e. display the PDF content via iframe
+  //   document.querySelector("iframe").src = url;
+  //   console.log(url)
+  // });
+
+        }
+        
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+      }
+    });
+  }
+
+ 
   add(data, serviceDetails?) {
     if (data === 'add') {
      
       this.isEdit = false;
-      this.submit(serviceDetails);
     } else {
       this.selectedData = serviceDetails.ChecklistId;
       this.isEdit = true;
@@ -163,55 +166,6 @@ onRoleDeSelect(event) {
     this.selectedData = false;
 
   }
-//   onItemSelect(employeeRoles){
-// console.log(employeeRoles)
 
-//   this.employeeRoleId.push(employeeRoles.item_id);
-
-//   }
-  submit(data) {
-   // this.submitted = true;
-    // if (this.serviceSetupForm.invalid) {
-    //   return;
-    // }
-    const formObj = {
-   checkList: { ChecklistId: data.ChecklistId ? data.ChecklistId : 0,
-    Name: data.Name ? data.Name : this.checkListName,
-    RoleId:data.RoleId ? data.RoleId : this.RoleId ,
-    IsDeleted : false,
-    IsActive: true,}
-       
-        
-    };
-    if (data.ChecklistId) {
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') {   
-        //  this.toastr.success('Record Updated Successfully!!', 'Success!'); 
-              
-          this.getAllcheckListDetails();
-          this.selectedData = false;
-
-        } else {
-          //this.toastr.error('Communication Error', 'Error!');
-        }
-      });
-    } else {
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') { 
-         // this.toastr.success('Record Saved Successfully!!', 'Success!');  
-          this.getAllcheckListDetails();
-          this.checkListName = '';
-              this.RoleId = [];
-     
-        } else {
-        //  this.toastr.error('Communication Error', 'Error!');
-         
-        }
-      });
-    }
-
-
-    
-  }
   
 }

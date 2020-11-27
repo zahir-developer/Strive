@@ -6,45 +6,15 @@
                 <div class="tab-content">
                     <div class=" p-b-20 m-b-15">
                         <h5 class="d-inline-block">Employee Handbook</h5>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                        <button type="button" [disabled] = "isTableEmpty === false" class="btn theme-primary-button-color btn-md float-right"
                             (click)="adddata('add',[])">Add
                         </button>
                     </div>
-                    <div class="setup-wrapper">
+                    <!-- <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <div class="search-container  " *ngIf="checklistAdd">
-                                <form><div class ="title-border m-b-22"></div>
-                                    <div class="form-row">
-                                        <div class="form-group col-3 "> <input type="text" class="form-control"
-                                                name="CheckList" [(ngModel)]="checkListName"
-                                                placeholder="Enter Check List"> </div>&nbsp;
-
-                                        <div class="form-group col-3 m-l-140">
-
-                                            <select name="Roles" class="form-control" [(ngModel)]="RoleId"
-                                                placeholder="Select Role">
-                                                <option value='' selected hidden>Select</option>
-
-                                                <option *ngFor="let role of rollList" value="{{role.RoleMasterId}}">
-                                                    {{role.RoleName}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-2 m-l-120 m-t-5">
-
-                                            <em class="fa fa-floppy-o edit-list theme-secondary-icon-color m-r-10"
-                                                style="color:green" pTooltip="save" tooltipPosition="bottom"
-                                                (click)="add('add',[])"></em>&nbsp;
-                                            <em class="fa fa-ban  theme-optional-icon-color" style="color:red"
-                                                pTooltip="cancel" tooltipPosition="bottom"
-                                                (click)="checlistcancel()"></em>
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
+                           
+                            
+                            <div class="table-responsive" >
 
                                 <table class="table  table-striped m-t-10">
                                     <thead>
@@ -57,31 +27,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr
-                                            *ngFor="let checkList of checkListDetails">
-                                            <td>
-                                                    {{checkList.Name}}
+                                        <tr>
                                             
-                                            </td>
-
-
-                                            <td>
-                                              
-22/11/2010                                            </td>
-                                            <td>
-                                              
-
-saravanan babau                                        </td> <td>
-                                              
-
-sample.pdf                                    </td>
+                                                <th scope="row"><a>{{fileName}}</a></th>
+ 
                                             <td>
                                                 
 
                                                   
                                                     <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                         style="color:red" pTooltip="delete" tooltipPosition="bottom"
-                                                        (click)="delete(checkList)"></em>
+                                                        (click)="delete()"></em>
 
                                             </td>
                                         </tr>
@@ -91,8 +47,45 @@ sample.pdf                                    </td>
                             </div>
                         </div>
                        
+                    </div> -->
+                    <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
+                        class="col-12 row d-block">No Records Found</span>
+                    </div> 
+                    <div class="setup-wrapper">
+                        <div class="setup-content" id="open-collapse">
+                            <div class="table-responsive" *ngIf="isLoading === false && document.Document">
+                                <table class="table  table-striped m-t-10">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th> Created Date</th>
+                                            <th> Created By</th>
+                                            <th> File Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row" ><a >{{Documents?.OriginalFileName}}</a></th>
+                                            <td>{{Documents?.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
+                                            <td>{{Documents?.CreatedBy}}</td>
+
+                                            <td ><a (click)= "documentOpen(Documents.FilePath)">{{Documents?.FileName}}</a></td>
+
+                                            <td>
+                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                    style="color:red" pTooltip="delete" tooltipPosition="bottom"
+                                                    (click)="delete()"></em>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="loadingDiv" *ngIf="isLoading">
+                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
@@ -103,7 +96,7 @@ sample.pdf                                    </td>
 
 <p-dialog styleClass="MyDialog" header="Create Employee Handbook" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
     [responsive]="true" [focusOnShow]="false" [closable]="false">
-    <app-create-edit-employee-hand-book *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
-        (closeDialog)="closePopupEmit($event)">
+    <app-create-edit-employee-hand-book *ngIf="showDialog"  [documentTypeId]="documentTypeId" [selectedData]="selectedData" [isEdit]="isEdit"
+        (closeDialog)="closePopupEmit($event)" (getDocumentType) = "getDocumentType()">
     </app-create-edit-employee-hand-book>
 </p-dialog>
