@@ -35,14 +35,14 @@ namespace Strive.BusinessLogic
 
             var docBpl = new DocumentBpl(_cache, _tenant);
 
-            string error = docBpl.ValidateFiles(employee.EmployeeDocument);
+            string error = docBpl.ValidateEmployeeFiles(employee.EmployeeDocument);
             if (!(error == string.Empty))
             {
                 _result = Helper.ErrorMessageResult(error);
             }
 
             //Documents Upload & Get File Names
-            List<EmployeeDocument> employeeDocument = docBpl.UploadFiles(employee.EmployeeDocument);
+            List<EmployeeDocument> employeeDocument = docBpl.UploadEmployeeFiles(employee.EmployeeDocument);
 
             employee.EmployeeDocument = employeeDocument;
 

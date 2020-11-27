@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.Document
 {
-    public class DocumentViewModel
+    public class EmployeeDocumentViewModel
     {
         public long EmployeeDocumentId { get; set; }
         public long EmployeeId { get; set; }
