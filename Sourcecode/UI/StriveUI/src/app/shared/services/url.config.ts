@@ -189,5 +189,10 @@ export const UrlConfig = {
   },
   bonusSetup: {
     saveBonus: `Admin/BonusSetup/Add`
+  },
+  document: {
+    addDocument:`Admin/Document/AddDocument`,
+    getDocument:`Admin/Document/GetDocument/`,
+    deleteDocument:`Admin/Document/DeleteDocument/`
   }
 };
