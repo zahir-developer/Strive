@@ -14,12 +14,15 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
 using static Android.Views.View;
 using PopupMenu = Android.Widget.PopupMenu;
+using IList = System.Collections.IList;
+using System.Collections.ObjectModel;
 
 namespace StriveEmployee.Android.Fragments
 {
@@ -37,6 +40,8 @@ namespace StriveEmployee.Android.Fragments
         private MessengerChatAdapter messengerChat_Adapter;
         private MvxFragment selected_MvxFragment;
         private MessengerViewParticipantsFragment viewParticipants_Fragment;
+        private static ObservableCollection<SendChatMessage> messages { get; set; }
+        private static List<SendChatMessage> privateMessages { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -65,8 +70,44 @@ namespace StriveEmployee.Android.Fragments
             chat_PopupMenu.MenuInflater.Inflate(Resource.Menu.chat_menu, chat_Menu);
             chat_PopupMenu.MenuItemClick += Chat_PopupMenu_MenuItemClick;
             chatMenu_ImageButton.Visibility = MessengerTempData.IsGroup ? ViewStates.Visible : ViewStates.Gone;
+            ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
             getChatData();
             return rootView;
+        }
+
+        private void PrivateMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                if(privateMessages == null)
+                {
+                    privateMessages = new List<SendChatMessage>();
+                }
+                foreach(var item in e.NewItems)
+                {
+                    var datas = (SendChatMessage)item;
+                    privateMessages.Add(datas);
+
+
+                }
+
+                var lastMessage = privateMessages.Last();
+
+                var message = new ChatMessageDetail()
+                {
+                    MessageBody = lastMessage.chatMessage.messagebody,
+                    ReceipientId = EmployeeTempData.EmployeeID,
+                    RecipientFirstName = "",
+                    RecipientLastName = "",
+                    SenderFirstName = lastMessage.fullName,
+                    SenderLastName = "",
+                    SenderId = (int)lastMessage.chatMessageRecipient.senderId,
+                    CreatedDate = DateTime.UtcNow
+                };
+                ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
+                messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+            }
         }
 
         private void Chat_PopupMenu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)

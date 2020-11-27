@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using System;
@@ -35,7 +37,13 @@ namespace Strive.Core.ViewModels.Employee
                 if (loginResponse != null)
                 {
                     ApiUtils.Token = loginResponse.Token;
+                    MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
+                    MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
                     EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
+                    ConnectionID = await StartCommunication();
+                    MessengerTempData.ConnectionID = ConnectionID;
+                    await SetChatCommunicationDetails(ConnectionID);
+                    await ChatHubMessagingService.SubscribeChatEvent();
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
                         await _navigationService.Navigate<DashboardViewModel>();
@@ -80,6 +88,37 @@ namespace Strive.Core.ViewModels.Employee
             rememberMe = !rememberMe;
         }
 
+        public async Task<string> StartCommunication()
+        {
+            var ConnectionID = await ChatHubMessagingService.StartConnection();
+            return ConnectionID;
+        }
+
+        public async Task SetChatCommunicationDetails(string commID)
+        {
+            var communicationData = new ChatCommunication()
+            {
+                communicationId = commID,
+                employeeId = EmployeeTempData.EmployeeID
+            };
+            var result = await MessengerService.ChatCommunication(communicationData);
+            if (result == null)
+            {
+
+            }
+            else
+            {
+                if (result.Status)
+                {
+
+                }
+                else
+                {
+                    _userDialog.Alert("Communication has not been established");
+                }
+            }
+        }
+
         #endregion Commands
 
 
@@ -89,6 +128,7 @@ namespace Strive.Core.ViewModels.Employee
         public string loginEmailPhone { get; set; }
         public string loginPassword { get; set; }
         public bool rememberMe { get; set; }
+        public static string ConnectionID;
         public string Title
         {
             get

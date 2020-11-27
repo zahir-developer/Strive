@@ -74,9 +74,10 @@ namespace StriveEmployee.Android.Fragments
 
         private async void EstablishHubConnection()
         {
-            ConnectionID = await this.ViewModel.StartCommunication();
-            await this.ViewModel.SetChatCommunicationDetails(ConnectionID);
-            await ChatHubMessagingService.SubscribeChatEvent();
+            //ConnectionID = await this.ViewModel.StartCommunication();
+            //MessengerTempData.ConnectionID = ConnectionID;
+            //await this.ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            //await ChatHubMessagingService.SubscribeChatEvent();
             
         }
 
@@ -111,6 +112,18 @@ namespace StriveEmployee.Android.Fragments
             messenger_ViewPagerAdapter.AddFragment(groupContactFragment, "Groups");
             messenger_ViewPager.Adapter = messenger_ViewPagerAdapter;
             messenger_TabLayout.SetupWithViewPager(messenger_ViewPager);
+        }
+        public override void OnPause()
+        {
+            base.OnPause();
+        }
+        public override void OnDetach()
+        {
+            base.OnDetach();
+        }
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
         }
     }
 }

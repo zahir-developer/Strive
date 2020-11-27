@@ -33,13 +33,13 @@ namespace StriveEmployee.Android.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.DashboardViewScreen);
+            this.ViewModel = new DashboardViewModel();
             messenger_Fragment = new MessengerFragment();
             profile_Fragment = new MyProfileFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
             SelectInitial_Fragment();
-
         }
 
         private void Bottom_NavigationView_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
@@ -66,5 +66,16 @@ namespace StriveEmployee.Android.Views
             selected_MvxFragment = messenger_Fragment;
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
+        public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+        {
+            if (keyCode == Keycode.Back)
+            {
+                this.ViewModel.Logout();
+            }
+
+            return true;
+        }
+
+
     }
 }

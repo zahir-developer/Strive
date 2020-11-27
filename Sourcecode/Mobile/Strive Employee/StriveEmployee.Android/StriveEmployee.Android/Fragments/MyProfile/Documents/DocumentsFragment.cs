@@ -55,7 +55,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
         private async void GetDocumentDetails()
         {
            await this.ViewModel.GetDocumentInfo();
-            if(this.ViewModel.DocumentDetails != null)
+            if(this.ViewModel.DocumentDetails != null && this.ViewModel.DocumentDetails.Employee.EmployeeDocument != null)
             {
                 documents_Adapter = new DocumentsAdapter(Context, this.ViewModel.DocumentDetails.Employee.EmployeeDocument);
                 var LayoutManager = new LinearLayoutManager(Context);

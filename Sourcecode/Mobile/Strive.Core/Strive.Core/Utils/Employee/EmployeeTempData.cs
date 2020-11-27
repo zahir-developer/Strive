@@ -12,6 +12,14 @@ namespace Strive.Core.Utils.Employee
         public static int EmployeeID { get; set; }
         public static string MessengerTabHeader { get; set; }
         public static PersonalDetails EmployeePersonalDetails { get; set; }
+        public static void ResetAll()
+        {
+            MessengerTempData.resetChatData();
+            MessengerTempData.resetParticipantInfo();
+            MessengerTempData.EmployeeLists = null;
+            MessengerTempData.RecentEmployeeLists = null;
+            MessengerTempData.GroupLists = null;
+        }
     }
 
     // Messenger Temp Data
@@ -19,6 +27,9 @@ namespace Strive.Core.Utils.Employee
     {
         #region Properties
         public static int ClickAction { get; set; } = 0;
+        public static string SenderConnectionID { get; set; }
+        public static string FirstName { get; set; }
+        public static string LastName { get; set; }
         public static string RecipientName { get; set; }
         public static int RecipientID { get; set; }
         public static int GroupID { get; set; }
@@ -43,10 +54,12 @@ namespace Strive.Core.Utils.Employee
             RecipientID = 0;
             GroupID = 0;
             IsGroup = false;
-            RecipientName = "";
-            GroupName = "";
-            GroupUniqueID = "";
-            ConnectionID = "";
+            RecipientName = null;
+            GroupName = null;
+            GroupUniqueID = null;
+            ConnectionID = null;
+            FirstName = null;
+            LastName = null;
         }
 
         public static void resetParticipantInfo()
@@ -57,6 +70,7 @@ namespace Strive.Core.Utils.Employee
             IsCreateGroup = false;
         }
 
+        
         #endregion Commands
     }
 
