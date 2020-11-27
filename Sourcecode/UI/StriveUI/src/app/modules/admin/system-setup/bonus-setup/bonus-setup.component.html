@@ -104,7 +104,7 @@
                                             </td>
                                             <td>
                                                 <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                    (click)="deleteBonusRange(bonus)"></em>
+                                                    (click)="deleteBonusRange(bonus, i)"></em>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -122,7 +122,7 @@
                                                         No of Bad Reviews:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" [(ngModel)]="noOfBadReviews"
+                                                        <input type="text" [(ngModel)]="noOfBadReviews" (input)="totalBadReviewAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
                                                 </div>
@@ -153,7 +153,7 @@
                                                         No of Collisions:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" [(ngModel)]="noOfCollisions"
+                                                        <input type="text" [(ngModel)]="noOfCollisions" (input)="totalCollisionAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
                                                 </div>
@@ -178,8 +178,9 @@
                                     </tbody>
                                     <tfoot class="table-foot">
                                         <tr>
-                                            <td colspan="6"
-                                                class="font-weight-700 text-right p-10 font-size-1-2 p-r-20">
+                                            <td colspan="4"></td>
+                                            <td 
+                                                class="font-weight-700 text-left p-10 font-size-1-2 p-r-20">
                                                 Total Bonus Amount:<span class="m-l-10">{{totalBonusAmount}}</span>
                                             </td>
                                         </tr>
@@ -187,7 +188,7 @@
                                 </table>
                             </div>
                             <div class="m-t-12 pull-right mw-100">
-                                <button type="button" class="btn theme-optional-button-color m-r-5">Cancel</button>
+                                <button type="button" class="btn theme-optional-button-color m-r-5" (click)="cancel()">Cancel</button>
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="saveBonus()">Save</button>
                             </div>
