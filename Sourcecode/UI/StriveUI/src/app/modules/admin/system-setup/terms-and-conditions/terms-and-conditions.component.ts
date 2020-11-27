@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import jsPDF from 'jspdf';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
@@ -10,22 +11,22 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
   styleUrls: ['./terms-and-conditions.component.css']
 })
 export class TermsAndConditionsComponent implements OnInit {
-  fileName: any;
-  isLoading: any;
+  fileName: any = null;
+  isLoading: any = false;
   showDialog: any;
-  document: any;
+  document: any = [];
   isEdit: any;
   selectedData: any;
   documentTypeId: any;
 
-  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr, 
+  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
 
   ngOnInit() {
     this.getDocumentType();
   }
 
-  getDocumentType(){
+  getDocumentType() {
     this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
@@ -39,9 +40,9 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   getDocument() {
-    this.isLoading = true;
+    //this.isLoading = true;
     this.documentService.getDocument(this.documentTypeId, "TERMSANDCONDITION").subscribe(data => {
-      this.isLoading = false;
+      //this.isLoading = false;
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
@@ -65,9 +66,10 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId,'TERMSANDCONDITION').subscribe(res => {
+    this.documentService.deleteDocument(this.documentTypeId, 'TERMSANDCONDITION').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
+        this.fileName= null;
         this.getDocument();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
@@ -84,8 +86,20 @@ export class TermsAndConditionsComponent implements OnInit {
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.getDocument();
     }
     this.showDialog = event.isOpenPopup;
   }
+
+  downloadPDF() {
+        const base64 = this.document.Document.Base64;
+        const linkSource = 'data:application/pdf;base64,' + base64;
+        const downloadLink = document.createElement('a');
+        const fileName = this.fileName;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+  }
+  
 
 }
