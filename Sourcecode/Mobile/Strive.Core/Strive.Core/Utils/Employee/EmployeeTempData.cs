@@ -14,6 +14,8 @@ namespace Strive.Core.Utils.Employee
         public static PersonalDetails EmployeePersonalDetails { get; set; }
         public static void ResetAll()
         {
+            MessengerTempData.FirstName = null;
+            MessengerTempData.LastName = null;
             MessengerTempData.resetChatData();
             MessengerTempData.resetParticipantInfo();
             MessengerTempData.EmployeeLists = null;
@@ -44,6 +46,7 @@ namespace Strive.Core.Utils.Employee
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
+        public static Dictionary<string, string> RecipientsConnectionID { get; set; }
 
         #endregion Properties
 
@@ -58,8 +61,6 @@ namespace Strive.Core.Utils.Employee
             GroupName = null;
             GroupUniqueID = null;
             ConnectionID = null;
-            FirstName = null;
-            LastName = null;
         }
 
         public static void resetParticipantInfo()

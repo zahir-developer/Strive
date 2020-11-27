@@ -42,6 +42,7 @@ namespace StriveEmployee.Android.Fragments
         private MessengerViewParticipantsFragment viewParticipants_Fragment;
         private static ObservableCollection<SendChatMessage> messages { get; set; }
         private static List<SendChatMessage> privateMessages { get; set; }
+        private static List<SendChatMessage> groupMessages { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -71,8 +72,48 @@ namespace StriveEmployee.Android.Fragments
             chat_PopupMenu.MenuItemClick += Chat_PopupMenu_MenuItemClick;
             chatMenu_ImageButton.Visibility = MessengerTempData.IsGroup ? ViewStates.Visible : ViewStates.Gone;
             ChatHubMessagingService.PrivateMessageList.CollectionChanged += PrivateMessageList_CollectionChanged;
+            ChatHubMessagingService.GroupMessageList.CollectionChanged += GroupMessageList_CollectionChanged;
             getChatData();
             return rootView;
+        }
+
+        private void GroupMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                if (groupMessages == null)
+                {
+                    groupMessages = new List<SendChatMessage>();
+                }
+                foreach (var item in e.NewItems)
+                {
+                    var datas = (SendChatMessage)item;
+                    groupMessages.Add(datas);
+                }
+                var lastMessage = groupMessages.Last();
+                if (MessengerTempData.IsGroup && lastMessage.chatMessageRecipient.recipientGroupId == MessengerTempData.GroupID)
+                {
+                    var message = new ChatMessageDetail()
+                    {
+                        MessageBody = lastMessage.chatMessage.messagebody,
+                        ReceipientId = EmployeeTempData.EmployeeID,
+                        RecipientFirstName = "",
+                        RecipientLastName = "",
+                        SenderFirstName = lastMessage.fullName,
+                        SenderLastName = "",
+                        SenderId = (int)lastMessage.chatMessageRecipient.senderId,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    if(MessengerTempData.RecipientID == message.ReceipientId)
+                    {
+                        ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
+                        messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                        chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                    }
+                   
+                }
+               
+            }
         }
 
         private void PrivateMessageList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -87,8 +128,6 @@ namespace StriveEmployee.Android.Fragments
                 {
                     var datas = (SendChatMessage)item;
                     privateMessages.Add(datas);
-
-
                 }
 
                 var lastMessage = privateMessages.Last();
@@ -104,9 +143,13 @@ namespace StriveEmployee.Android.Fragments
                     SenderId = (int)lastMessage.chatMessageRecipient.senderId,
                     CreatedDate = DateTime.UtcNow
                 };
-                ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
-                messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
-                chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                if (MessengerTempData.RecipientID == message.SenderId || MessengerTempData.GroupID == message.ReceipientId)
+                {
+                    ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
+                    messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                }
+                
             }
         }
 

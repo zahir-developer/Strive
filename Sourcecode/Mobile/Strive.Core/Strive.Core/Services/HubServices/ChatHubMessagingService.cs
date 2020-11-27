@@ -8,6 +8,9 @@ using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Services.Interfaces;
+using MvvmCross;
 
 namespace Strive.Core.Services.HubServices
 {
@@ -15,10 +18,15 @@ namespace Strive.Core.Services.HubServices
     {
         
         public static string ConnectionID { get; set; }
+        public static string EmpID { get; set; }
+        public static string EmpConnectionID { get; set; }
         public static string RecipientsConnectionID { get; set; }
         public static HubConnection connection;
         public static List<SendChatMessage> receiverPrivateMessages { get; set; }
         public static ObservableCollection<SendChatMessage> PrivateMessageList { get; set; }
+        public static ObservableCollection<SendChatMessage> GroupMessageList { get; set; }
+        public static ObservableCollection<RecipientsCommunicationID> RecipientsID { get; set; }
+        public static IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
 
         //meh! Just to connect to the so called "SERVER"
         public static async Task<string> StartConnection()
@@ -31,6 +39,7 @@ namespace Strive.Core.Services.HubServices
                 {
                     await connection?.StartAsync();          
                     PrivateMessageList = new System.Collections.ObjectModel.ObservableCollection<SendChatMessage>();
+                    GroupMessageList = new ObservableCollection<SendChatMessage>();
                 }
                 catch (Exception ex)
                 {
@@ -41,6 +50,14 @@ namespace Strive.Core.Services.HubServices
             if(connection.State == HubConnectionState.Disconnected)
             {
                 await connection?.StartAsync();
+                await SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+                await SubscribeChatEvent();
+                var communicationData = new ChatCommunication()
+                {
+                    communicationId = ConnectionID,
+                    employeeId = EmployeeTempData.EmployeeID
+                };
+                await MessengerService.ChatCommunication(communicationData);
             }
             connection.Closed += Connection_Closed;
             ConnectionID = connection.ConnectionId;
@@ -52,6 +69,14 @@ namespace Strive.Core.Services.HubServices
             ConnectionID = null;
             await StartConnection();
             ConnectionID = connection.ConnectionId;
+            await SubscribeChatEvent();
+            await SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+            var communicationData = new ChatCommunication()
+            {
+                communicationId = ConnectionID,
+                employeeId = EmployeeTempData.EmployeeID
+            };
+            await MessengerService.ChatCommunication(communicationData);
         }
 
 
@@ -63,7 +88,7 @@ namespace Strive.Core.Services.HubServices
 
             });
 
-            connection.On<string>("ReceiveCommunicationID", (id) => {
+            connection.On<object>("ReceiveCommunicationID", (id) => {
                
             });
 
@@ -84,6 +109,15 @@ namespace Strive.Core.Services.HubServices
             connection?.On<object>("ReceiveGroupMessage", (data) => {
 
                 Console.WriteLine("Group Message received", data);
+                try
+                {
+                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
+                    GroupMessageList.Add(datas);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
             });
 
@@ -93,9 +127,17 @@ namespace Strive.Core.Services.HubServices
 
             });
 
-            connection?.On<string>("ReceiveEmployeeCommunicationId", (data) => {
-
-                Console.WriteLine("Employee Communication ID", data);
+            connection?.On<object>("ReceiveEmployeeCommunicationId", (data) => {
+                Console.WriteLine("new communication id received", data);
+                try
+                {
+                    var datas = JsonConvert.DeserializeObject<string[]>(data.ToString());
+                   RecipientsID.Add(new RecipientsCommunicationID() {employeeId = datas[0], communicationId = datas[1]});
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
             });
 
@@ -114,6 +156,15 @@ namespace Strive.Core.Services.HubServices
             connection?.On<object>("GroupMessageReceive", (data) => {
 
                 Console.WriteLine("Group Message Received", data);
+                try
+                {
+                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
+                    GroupMessageList.Add(datas);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
             });
 
@@ -135,7 +186,7 @@ namespace Strive.Core.Services.HubServices
             
         }
 
-        public static async void SendEmployeeCommunicationId(string empID, string commID)
+        public static async Task SendEmployeeCommunicationId(string empID, string commID)
         {
             try
             {
@@ -147,13 +198,11 @@ namespace Strive.Core.Services.HubServices
             }
             
         }
-    }
-
         public static async void SendMessageToGroup(SendChatMessage groupInfo)
         {
             try
             {
-                await connection.InvokeAsync("SendMessageToGroup", groupInfo.groupId,EmployeeTempData.EmployeeID,groupInfo.groupName,groupInfo.chatMessage.messagebody );
+                await connection.InvokeAsync("SendMessageToGroup", groupInfo.groupId, EmployeeTempData.EmployeeID, groupInfo.groupName, groupInfo.chatMessage.messagebody);
             }
             catch (Exception ex)
             {
