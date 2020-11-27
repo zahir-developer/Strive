@@ -235,6 +235,7 @@
         <InterfaceDefinition Include="Views\ProfileView.xib" />
         <InterfaceDefinition Include="Views\EditProfileInfo.xib" />
         <InterfaceDefinition Include="Views\VehicleListViewCell.xib" />        
+        <InterfaceDefinition Include="Views\AddVehicleList.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -320,6 +321,10 @@
           <DependentUpon>VehicleListViewCell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\VehicleListTableSource.cs" />
+        <Compile Include="Views\AddVehicleList.cs" />
+        <Compile Include="Views\AddVehicleList.designer.cs">
+          <DependentUpon>AddVehicleList.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

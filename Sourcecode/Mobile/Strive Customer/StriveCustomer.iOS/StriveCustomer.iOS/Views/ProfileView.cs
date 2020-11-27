@@ -7,6 +7,7 @@ using MvvmCross.Navigation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
+using StriveCustomer.iOS.UIUtils;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
@@ -46,6 +47,12 @@ namespace StriveCustomer.iOS.Views
 
         private void InitialSetup()
         {
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+            {
+                Font = DesignUtils.OpenSansBoldFifteen(),
+                ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+            };
+            NavigationItem.Title = "Account";
             PastDetail_Segment.Hidden = true;
             PersonalInfo_Segment.Hidden = false;
             VehicleList_Segment.Hidden = true;
@@ -195,6 +202,33 @@ namespace StriveCustomer.iOS.Views
                 VehicleList_TableView.DelaysContentTouches = false;
                 VehicleList_TableView.ReloadData();
             } 
+        }
+
+        partial void Touch_VehicleList_AddBtn(UIButton sender)
+        {
+            //CheckMembership.hasExistingMembership = false;
+            CustomerVehiclesInformation.membershipDetails = null;
+            MembershipDetails.clearMembershipData();
+            vehicleViewModel.NavToAddVehicle();
+        }
+
+        public async void selectedVehicle(int selectedRow)
+        {
+            if (CustomerInfo.actionType == 1)
+            {
+                vehicleViewModel = new VehicleInfoViewModel();
+                var data = CustomerVehiclesInformation.vehiclesList.Status[selectedRow];
+                var deleted = await this.vehicleViewModel.DeleteCustomerVehicle(data.VehicleId);
+                if (deleted)
+                {
+                    this.vehicleViewModel.vehicleLists.Status.RemoveAt(selectedRow);
+                    VehicleList_TableView.ReloadData();
+                }
+            }
+            else
+            {
+                //edit func
+            }
         }
     }
 

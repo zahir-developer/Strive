@@ -64,6 +64,10 @@ namespace Strive.Core.ViewModels.Customer
             return deleted;
         }
 
+        public async void NavToAddVehicle()
+        {
+            await _navigationService.Navigate<VehicleInfoEditViewModel>();
+        }
         #endregion Commands
 
 
