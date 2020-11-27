@@ -71,18 +71,26 @@
                                                                 <tr
                                                                     *ngFor="let time of week.checkInDetail; let i = index">
                                                                     <td>
-                                                                        <ng-template #inTimePopup>
-                                                                            <timepicker
+                                                                        <!-- <ng-template #inTimePopup> -->
+                                                                            <!-- <timepicker
                                                                                 id="timeStart_{{week.day}}_{{i}}"
-                                                                                [(ngModel)]="time.InTime"
                                                                                 [ngModelOptions]="{standalone: true}"
                                                                                 [showMeridian]="false"
                                                                                 [showMinutes]="true" [arrowkeys]="false"
                                                                                 [showSpinners]="true"
                                                                                 (ngModelChange)="inTime($event,time)">
-                                                                            </timepicker>
-                                                                        </ng-template>
-                                                                        <input type="text"
+                                                                            </timepicker> -->
+                                                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                                                <input id="timepicker" class="form-control" 
+                                                                                [showMinutes]="true" (change) ="inTime($event.target.value,time)"  
+                                                                                [ngModel]="time.InTime | date:'HH:mm'"
+
+                                                                                  [showMeridian]="true"
+                                                                                  data-provide="timepicker" data-template="modal" 
+                                                                                   data-minute-step="1"  type="text"/></div>
+                                                                                   
+                                                                        <!-- </ng-template> -->
+                                                                        <!-- <input type="text"
                                                                             id="timeStart_{{week.day}}_{{i}}"
                                                                             class="form-control"
                                                                             [ngModel]="time.InTime | date:'HH:mm'"
@@ -90,27 +98,37 @@
                                                                             (ngModelChange)="time.InTime=$event"
                                                                             [popover]="inTimePopup"
                                                                             [outsideClick]="true" placement="bottom"
-                                                                            numbersOnly [disabled]="isView" />
+                                                                            numbersOnly [disabled]="isView" /> -->
                                                                     <td>
-                                                                        <ng-template #popTemplate>
+                                                                        <div class="input-group bootstrap-timepicker timepicker">
+                                                                            <input id="timepicker" class="form-control" 
+                                                                            [showMinutes]="true" (change) ="outTime($event.target.value,time)"  
+                                                                            [ngModel]="time.OutTime | date:'HH:mm'"
+
+                                                                              [showMeridian]="true"
+                                                                              data-provide="timepicker" data-template="modal" 
+                                                                               data-minute-step="1"  type="text"/></div>
+                                                                               
+                                                                        <!-- <ng-template #popTemplate>
                                                                             <timepicker id="outTime_{{week.day}}_{{i}}"
                                                                                 [(ngModel)]="time.OutTime"
                                                                                 [ngModelOptions]="{standalone: true}"
-                                                                                [showMeridian]="false"
+                                                                                [showMeridian]="true"
                                                                                 [showMinutes]="true" [arrowkeys]="false"
-                                                                                [showSpinners]="true"
                                                                                 (ngModelChange)="outTime($event, time)">
                                                                             </timepicker>
                                                                         </ng-template>
                                                                         <input type="text"
                                                                             id="outTime_{{week.day}}_{{i}}"
                                                                             class="form-control"
-                                                                            [ngModel]="time.OutTime | date:'HH:mm'"
+                                                                            [ngModel]="time.OutTime 
+                                                                            
+                                                                            | date:'HH:mm'"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             (ngModelChange)="time.OutTime=$event"
                                                                             [popover]="popTemplate" [disabled]="isView"
                                                                             [outsideClick]="true" placement="bottom"
-                                                                            numbersOnly />
+                                                                            numbersOnly /> -->
                                                                     </td>
                                                                     <td>
                                                                         <select
