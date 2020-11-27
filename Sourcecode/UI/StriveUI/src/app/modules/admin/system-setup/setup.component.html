@@ -15,17 +15,16 @@
           <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 setup-list p-l-0">
             <div class="form-group mob-display">
               <label class="col-form-label sbold">Setup</label>
-              <select class="form-control">
-                <option>Basic</option>
-                <option>Service</option>
-                <option>Product</option>
-                <option>Vendor</option>
-                <option>Membership</option>
-                <option>Check List</option>
-                <option>Employee Handbook</option>
-
-
-                <option>Terms&Condition</option>
+              <select class="form-control" (click) = "setupEvent($event)">
+                <option value = "1">Basic</option>
+                <option value = "2">Service</option>
+                <option value = "3">Product</option>
+                <option value = "4">Vendor</option>
+                <option value ="5">Membership</option>
+                <option value ="6">Check List</option>
+                <option value ="7">Employee Handbook</option>
+                <option value ="8" >Terms & Condition</option>
+                <option value ="9">Bonus</option>
               </select>
             </div>
             <ul class="nav nav-pills flex-column web-display" id="myTab" role="tablist">

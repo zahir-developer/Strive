@@ -348,7 +348,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetMonthlyTipDetail.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetMonthlySalesReport.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetMonthlyMoneyOwnedReport.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetLocationByIdupdated.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetItemListEOD.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetGroupChatAndEmployeeList_Delete.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetEODSalesReport.sql" />
@@ -366,7 +365,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeList_Backup.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeList.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeGrouplist.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllService_Delete.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAccountDetails.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\USPDELETECHATUSERGROUP.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspChatEmployeeSearch.sql" />
@@ -379,6 +377,9 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspMonthlyCustomerDetail.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetEmployeeRecentChatHistory.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatGroupEmployeelist.sql" />
+    <Build Include="StriveCarSalon\Tables\tblChecklist.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetDailySalesReport.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetChecklist.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />

@@ -1,6 +1,11 @@
 <div class="border-bottom col-12 p-b-10 m-b-10 p-l-0">
-    <h3 class="d-inline-block">Daily Sales -12-11-2020<i
-            class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></h3>
+    <h3 class="d-inline-block">Daily Status - </h3>
+    <div class="date d-inline-block datepicker-view" data-date-format="mm-dd-yyyy">
+        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
+            (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
+            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+            <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+    </div>
 
 </div>
 <div class="col-lg-12 p-l-0 p-r-0">
@@ -17,7 +22,7 @@
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2 m-t-31">
-                    <button type="button" class="btn theme-primary-button-color">View</button>
+                    <button type="button" class="btn theme-primary-button-color" (click)="getDailySalesReport()">View</button>
                 </div>
             </div>
             <div class="card m-t-10">
@@ -26,7 +31,7 @@
                         <div class="col-md-4">
                             <div class="p-b-5 p-t-5">
                                 <h4 class="d-inline-block align-middle"><span class="resp-title">Report
-                                        Date-12-11-2020</span>
+                                        Date-{{date}}</span>
                                 </h4>
                             </div>
                         </div>
@@ -35,9 +40,12 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
+                                    printSectionId="dailySalesReport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="getDailySalesReport()">Refresh</button>&nbsp;
                             </div>
                         </div>
                     </div>
@@ -56,10 +64,10 @@
                                     <th scope="col">Est</th>
                                     <th scope="col">+/- Deviation</th>
 
-                                    <th scope="col">Wash
-                                        <br>Services</th>
-                                    <th scope="col">Detail
-                                        <br> Services</th>
+                                    <th scope="col">Service
+                                        <br>Name</th>
+                                    <th scope="col">Service
+                                        <br> Type</th>
                                     <th scope="col">Merchandise
                                         <br>Items purchased</th>
                                     <th scope="col">Barcode</th>
@@ -73,80 +81,39 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">700</th>
-                                    <td>08:00</td>
-                                    <td>08:28</td>
-                                    <td> 25</td>
-                                    <td class="theme-optional-icon-color">-3</td>
-
-                                    <td>Ultra Mammoth Wash</td>
-                                    <td>Interior Details</td>
-                                    <td>2</td>
-                                    <td>#GT678</td>
-                                    <td>Red</td>
-                                    <td>Honda</td>
-                                    <td>Paul </td>
-                                    <td>+825-1245-125</td>
-                                    <td> $400.00</td>
-                                    <td>28.333</td>
+                                <tr
+                                    *ngFor="let dailySales of dailySalesReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                    <th scope="row">{{dailySales.TicketNumber}}</th>
+                                    <td>{{dailySales.TimeIn}}</td>
+                                    <td>{{dailySales.TimeOut}}</td>
+                                    <td>{{dailySales.Est}} </td>
+                                    <td class="theme-optional-icon-color">{{dailySales.TimeOutDifference}}</td>
+                                    <td>{{dailySales.ServiceName}}</td>
+                                    <td>{{dailySales.ServiceType}}</td>
+                                    <td>{{dailySales.MerchandiseItemsPurchased}}</td>
+                                    <td>{{dailySales.Barcode}}</td>
+                                    <td>{{dailySales.Color}}</td>
+                                    <td>{{dailySales.Model}}</td>
+                                    <td>{{dailySales.CustomerName}} </td>
+                                    <td>{{dailySales.PhoneNumber}}</td>
+                                    <td>{{dailySales.Amount | currency}}</td>
+                                    <td>{{dailySales.Type}}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">100</th>
-                                    <td>08:07</td>
-                                    <td>08:41</td>
-                                    <td> 25</td>
-                                    <td class="theme-optional-icon-color"> -9</td>
-
-                                    <td>Ultra Mammoth Wash</td>
-                                    <td>Interior Details</td>
-                                    <td>4</td>
-                                    <td>#ER45</td>
-                                    <td>Black</td>
-                                    <td>Swift</td>
-                                    <td>Peter </td>
-                                    <td>+825-1245-125</td>
-                                    <td> $400.00</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">100</th>
-                                    <td>08:07</td>
-                                    <td>08:53</td>
-                                    <td> 25</td>
-                                    <td class="theme-optional-icon-color"> -21</td>
-
-                                    <td>Ultra Mammoth Wash</td>
-                                    <td>Interior Details</td>
-                                    <td>4</td>
-                                    <td>#RTF45</td>
-                                    <td>Blue</td>
-                                    <td>Honda</td>
-                                    <td>Peter </td>
-                                    <td>+825-1245-125</td>
-                                    <td> $400.00</td>
-                                    <td>10.00</td>
+                                <tr *ngIf="dailySalesReport.length === 0">
+                                    <td colspan="10" class="text-center">
+                                        No Record Found
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <ul class="pagination justify-content-end">
-                        <input type="text" class="form-control m-r-8 paginationinput" placeholder="1">
-                        <label class="d-inline-block  m-t-7 m-r-10">of 3</label> <i
-                            class="mdi mdi mdi-arrow-left-thick font-size-1-5 theme-secondary-color pointer"></i> <i
-                            class="mdi mdi-arrow-right-thick font-size-1-5 theme-secondary-color pointer"></i>
-                        <li class="page-item"><a class="page-link" href="#"><i
-                                    class=" mdi mdi-skip-previous  theme-secondary-color"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i
-                                    class="mdi mdi-skip-backward theme-secondary-color"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i
-                                    class=" mdi mdi-skip-forward theme-secondary-color"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i
-                                    class=" mdi mdi-skip-next theme-secondary-color"></i></a></li>
-                    </ul>
                 </div>
+                <ul class="pagination justify-content-end">
+                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize"
+                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                        class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </ul>
                 <!-- end card-body -->
             </div>
         </div>

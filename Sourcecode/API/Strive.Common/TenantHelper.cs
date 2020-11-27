@@ -28,6 +28,9 @@ namespace Strive.Common
         int LogoThumbHeight { get; set; }
         int LogoThumbWidth { get; set; }
         string TenatId { get; set; }
+        string TermsAndCondition { get; set; }
+        string EmployeeHandbook { get; set; }
+        string GeneralDocumentFolder { get; set; }
 
         IDbConnection db();
         IDbConnection dbAuth();
@@ -68,6 +71,9 @@ namespace Strive.Common
         public int LogoThumbHeight { get; set; }
         public int LogoThumbWidth { get; set; }
         public string TenatId { get; set; }
+        public string TermsAndCondition { get; set; }
+        public string EmployeeHandbook { get; set; }
+        public string GeneralDocumentFolder { get; set; }
 
         public TenantHelper(IDistributedCache cache)
         {

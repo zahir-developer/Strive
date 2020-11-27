@@ -22,6 +22,10 @@ namespace Strive.BusinessLogic.CashRegister
         {
             return ResultWrap(new CashRegisterRal(_tenant).GetCashRegisterDetails, cashRegType.ToString(), locationId, cashRegDate, "CashRegister");
         }
+        public Result GetCloseOutRegisterDetails(CashRegisterType cashRegType, int locationId, DateTime cashRegDate)
+        {
+            return ResultWrap(new CashRegisterRal(_tenant).GetCloseOutRegisterDetails, cashRegType.ToString(), locationId, cashRegDate, "CashRegister");
+        }
 
     }
 }

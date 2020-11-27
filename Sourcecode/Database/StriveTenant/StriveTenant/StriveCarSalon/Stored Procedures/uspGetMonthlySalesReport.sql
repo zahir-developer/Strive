@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE procedure [StriveCarSalon].[uspGetMonthlySalesReport] -- [StriveCarSalon].[uspGetMonthlySalesReport] 2046,'2020-11-01','2020-11-30'
 (@LocationId INT, @FromDate date, @EndDate date)
 
@@ -33,8 +34,8 @@ tblS.Cost AS Price,
 ISNULL(tblJi.Quantity,0) AS ServiceNumber,
 ISNULL(tblJPi.Quantity,0) AS ProductNumber,
 (ISNULL(tblJi.Quantity,0) + ISNULL(tblJPi.Quantity,0)) AS Number,
-ISNULL((tblJi.Quantity * tblS.Cost),0) AS Total,
-tblJ.jobdate
+ISNULL((tblJi.Quantity * tblS.Cost),0) AS Total--,
+--tblJ.jobdate
 --,tblTC.EmployeeId
 INTO #monthlyreport FROM tblJob tblJ 
 INNER JOIN tblJobItem tblJi on(tblJ.JobId = tblJi.JobId) 
@@ -57,9 +58,9 @@ AND tblj.jobdate>=@FromDate
 AND tblj.JobDate<=@EndDate
 
 
-SELECT Description,Price,jobdate,
+SELECT Description,Price,--jobdate,
 SUM(Number) AS Number,SUM(Total)AS Total
 FROM #monthlyreport 
-Group By Description,Price,jobdate
+Group By Description,Price--,jobdate
 
 END
