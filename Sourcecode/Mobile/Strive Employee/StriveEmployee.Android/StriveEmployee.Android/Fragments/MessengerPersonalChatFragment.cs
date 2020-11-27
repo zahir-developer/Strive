@@ -104,7 +104,7 @@ namespace StriveEmployee.Android.Fragments
                         SenderId = (int)lastMessage.chatMessageRecipient.senderId,
                         CreatedDate = DateTime.UtcNow
                     };
-                    if(MessengerTempData.RecipientID == message.ReceipientId)
+                    if(MessengerTempData.GroupUniqueID == lastMessage.groupId && EmployeeTempData.EmployeeID != message.SenderId)
                     {
                         ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
                         messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);

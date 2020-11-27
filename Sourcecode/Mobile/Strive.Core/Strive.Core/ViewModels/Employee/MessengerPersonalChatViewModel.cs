@@ -52,10 +52,10 @@ namespace Strive.Core.ViewModels.Employee
                 if(result.Status)
                 {
                     SentSuccess = result.Status;
-                    if(MessengerTempData.IsGroup)
-                    {
-                       ChatHubMessagingService.SendMessageToGroup(sendChat);
-                    }
+                    //if(MessengerTempData.IsGroup)
+                    //{
+                    //   ChatHubMessagingService.SendMessageToGroup(sendChat);
+                    //}
                 }
                 else
                 {

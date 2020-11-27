@@ -137,7 +137,7 @@ namespace StriveEmployee.Android.Adapter
                 MessengerTempData.IsGroup = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).IsGroup;
                 MessengerTempData.GroupName = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).FirstName;
                 MessengerTempData.GroupUniqueID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).CommunicationId;
-                MessengerTempData.ConnectionID = null;
+                MessengerTempData.ConnectionID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).CommunicationId; ;
                 MessengerTempData.RecipientID = 0;
             }
             else
