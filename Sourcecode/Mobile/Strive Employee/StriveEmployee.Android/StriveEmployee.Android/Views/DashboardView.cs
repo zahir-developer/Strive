@@ -17,6 +17,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Fragments.MyProfile;
+using StriveEmployee.Android.Fragments.Schedule;
 
 namespace StriveEmployee.Android.Views
 {
@@ -29,6 +30,7 @@ namespace StriveEmployee.Android.Views
         private MvxFragment selected_MvxFragment;
         private MessengerFragment messenger_Fragment;
         private MyProfileFragment profile_Fragment;
+        private ScheduleFragment schedule_Fragment;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -36,6 +38,7 @@ namespace StriveEmployee.Android.Views
             this.ViewModel = new DashboardViewModel();
             messenger_Fragment = new MessengerFragment();
             profile_Fragment = new MyProfileFragment();
+            schedule_Fragment = new ScheduleFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
@@ -52,6 +55,7 @@ namespace StriveEmployee.Android.Views
                     break;
 
                 case Resource.Id.menu_schedule:
+                    selected_MvxFragment = schedule_Fragment;
                     break;
 
                 case Resource.Id.menu_profile:
@@ -60,12 +64,25 @@ namespace StriveEmployee.Android.Views
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
-        
+        protected override void OnStop()
+        {
+            this.ViewModel.Logout();
+            base.OnStop();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+        }
+
         private void SelectInitial_Fragment()
         {
             selected_MvxFragment = messenger_Fragment;
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
+
+        
         public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
         {
             if (keyCode == Keycode.Back)
