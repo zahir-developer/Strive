@@ -64,6 +64,7 @@ import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/emp
 import { CreateEditEmployeeHandBookComponent } from './system-setup/employee-hand-book/create-edit-employee-hand-book/create-edit-employee-hand-book.component';
 import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
 import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
+import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-conditions/create-edit-terms-and-conditions/create-edit-terms-and-conditions.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -79,7 +80,7 @@ import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.comp
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent],
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent],
   imports: [
     CommonModule,
     RouterModule,

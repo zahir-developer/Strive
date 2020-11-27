@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
-
+declare var $ : any;
 @Component({
   selector: 'app-time-clock-week',
   templateUrl: './time-clock-week.component.html',
@@ -272,6 +272,7 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   inTime(event, currentTime) {
+  
     console.log(event, 'intime');
     if (currentTime.OutTime !== "") {
       const inTime = new Date(currentTime.InTime);

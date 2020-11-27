@@ -5,33 +5,34 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Terms & Condition</h5>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color btn-md float-right">
-                            Upload</button>
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="addData('add')">Add</button>
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <div class="form-row">
-                                <label>Select a PDF File:</label>
+                            <div class="table-responsive" *ngIf="isLoading === false && document.Document">
+                                <table class="table  table-striped m-t-10">
+                                    <thead>
+                                        <tr>
+                                            <th>File</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row"><a>{{fileName}}</a></th>
+                                            <td>
+                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                    style="color:red" pTooltip="delete" tooltipPosition="bottom"
+                                                    (click)="delete()"></em>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-xl-5 no-space">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <!-- <span *ngIf="!isLoading">{{fileName}}</span>
-                                                <span *ngIf="fileName && !isLoading"><em
-                                                        class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                                                        ></em>
-                                                </span>
-                                                <div class="loadingDiv" *ngIf="isLoading">
-                                                    <em class="fa fa-spin fa-spinner"
-                                                        style="font-size:50px;"></em><br />
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
+                        <div class="loadingDiv" *ngIf="isLoading">
+                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                         </div>
                     </div>
                 </div>
@@ -39,3 +40,9 @@
         </div>
     </div>
 </div>
+
+<p-dialog styleClass="MyDialog" header="Create Terms & Conditions" [(visible)]="showDialog" [blockScroll]="true"
+    [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+    <app-create-edit-terms-and-conditions *ngIf="showDialog" [documentTypeId]="documentTypeId" (closeDialog)="closePopupEmit($event)">
+    </app-create-edit-terms-and-conditions>
+</p-dialog>

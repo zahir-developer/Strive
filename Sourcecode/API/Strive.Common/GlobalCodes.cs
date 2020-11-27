@@ -40,6 +40,7 @@ namespace Strive.Common
         MAKE,
         SCORE,
         IMMIGRATIONSTATUS,
-        DETAILCOMMISSION
+        DETAILCOMMISSION,
+        DOCUMENTTYPE
     }
 }
