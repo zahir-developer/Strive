@@ -52,6 +52,7 @@
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -69,6 +70,7 @@
     <Compile Include="Adapter\MessengerRecentContactsAdapter.cs" />
     <Compile Include="Adapter\MessengerViewParticipantsAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Collision\CollisionAdapter.cs" />
+    <Compile Include="Adapter\MyProfile\Documents\AddDocumentsAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Documents\DocumentsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Enums\MessageType_Enum.cs" />
@@ -84,11 +86,13 @@
     <Compile Include="Fragments\MyProfile\Collisions\AddCollisions_DialogFragment.cs" />
     <Compile Include="Fragments\MyProfile\Collisions\CollisionsFragment.cs" />
     <Compile Include="Fragments\MyProfile\Collisions\EditCollisionsFragment.cs" />
+    <Compile Include="Fragments\MyProfile\Documents\AddDocumentsFragement.cs" />
     <Compile Include="Fragments\MyProfile\Documents\DocumentsFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditEmployeeDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EditPersonalDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EmployeeInfoFragment.cs" />
     <Compile Include="Fragments\MyProfile\MyProfileFragment.cs" />
+    <Compile Include="Fragments\Schedule\ScheduleFragment.cs" />
     <Compile Include="Listeners\IItemClickListener.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="MvvmCross\App.cs" />
@@ -144,6 +148,21 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.1.0.442</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.SignalR">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core">
+      <Version>1.1.0</Version>
+    </PackageReference>
     <PackageReference Include="MvvmCross">
       <Version>6.4.2</Version>
     </PackageReference>
@@ -163,6 +182,9 @@
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Xamarin.Plugin.FilePicker">
+      <Version>2.1.41</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
@@ -798,6 +820,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\EditCollisions_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AddDocuments_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AddDocumentsItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Schedule_Fragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

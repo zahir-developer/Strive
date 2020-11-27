@@ -13,6 +13,8 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
 
 namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
@@ -20,6 +22,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
     public class EditCollisionsFragment : MvxFragment<EditCollisionsViewModel>
     {
         private Button back_Button;
+        private Button save_Button;
         private EditText editCollisionsDate_EditText;
         private EditText editCollisionAmount_EditText;
         private EditText editCollisionNotes_EditText;
@@ -28,6 +31,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         private List<int> collisionID_List;
         private List<string> codes;
         private ArrayAdapter<string> codesAdapter;
+        private MyProfileFragment myProfileFragment;
+        private string dates;
         public int position { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,13 +47,38 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
             this.ViewModel = new EditCollisionsViewModel();
 
             back_Button = rootView.FindViewById<Button>(Resource.Id.editCollisionsBack_Button);
+            save_Button = rootView.FindViewById<Button>(Resource.Id.editCollisionsSave_Button);
             editCollisionType_Spinner = rootView.FindViewById<Spinner>(Resource.Id.editCollisionType_Spinner);
             editCollisionsDate_EditText = rootView.FindViewById<EditText>(Resource.Id.editCollisionsDate_EditText);
             editCollisionAmount_EditText = rootView.FindViewById<EditText>(Resource.Id.editCollisionAmount_EditText);
             editCollisionNotes_EditText = rootView.FindViewById<EditText>(Resource.Id.editCollisionNotes_EditText);
             back_Button.Click += Back_Button_Click;
+            save_Button.Click += Save_Button_Click;
+            editCollisionsDate_EditText.Click += CollisionDate_EditText_Click;
+            editCollisionType_Spinner.ItemSelected += EditCollisionType_Spinner_ItemSelected;
             GetLiabilityTypes();
             return rootView;
+        }
+
+        private void EditCollisionType_Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            this.ViewModel.CollisionID = collisionID_List.ElementAt(e.Position);
+        }
+
+        private async void Save_Button_Click(object sender, EventArgs e)
+        {
+            this.ViewModel.CollisionDate = dates;
+            this.ViewModel.CollisionAmount = editCollisionAmount_EditText.Text;
+            this.ViewModel.CollisionNotes = editCollisionNotes_EditText.Text;
+            MyProfileTempData.LiabilityID = this.ViewModel.getCollisions.Collision.LiabilityDetail.First().LiabilityId;
+
+            await this.ViewModel.EditCollision();
+            if(this.ViewModel.collisionAdded)
+            {
+                AppCompatActivity activity = (AppCompatActivity)this.Context;
+                myProfileFragment = new MyProfileFragment();
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, myProfileFragment).Commit(); 
+            }
         }
 
         private async Task GetCollisions()
@@ -60,6 +90,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
                 position = this.ViewModel.liabilityTypes.Codes.FindIndex(x => x.CodeId == id);
                 if(!string.IsNullOrEmpty(this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate))
                 {
+                    dates = this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate;
                     var date = this.ViewModel.getCollisions.Collision.Liability.First().CreatedDate.Split('T');
                     editCollisionsDate_EditText.Text = date[0];
                 }                
@@ -87,7 +118,20 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
                 editCollisionType_Spinner.SetSelection(position);
             }
         }
+        private void CollisionDate_EditText_Click(object sender, EventArgs e)
+        {
+            DateTime today = DateTime.Today;
+            DatePickerDialog dialog = new DatePickerDialog(Context, OnDateSet, today.Year, today.Month - 1, today.Day);
+            dialog.DatePicker.MinDate = today.Millisecond;
+            dialog.Show();
+        }
 
+        private void OnDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
+        {
+            dates = DateUtils.ConvertDateTimeWithZ(e.Date.ToString());
+            this.ViewModel.CollisionDate = dates;
+            editCollisionsDate_EditText.Text = e.Date.ToString();
+        }
         private void Back_Button_Click(object sender, EventArgs e)
         {
             AppCompatActivity activity = (AppCompatActivity)this.Context;
