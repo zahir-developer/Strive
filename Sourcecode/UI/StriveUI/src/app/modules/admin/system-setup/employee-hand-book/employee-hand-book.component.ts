@@ -105,14 +105,15 @@ export class EmployeeHandBookComponent implements OnInit {
       }
     });
   }
-documentOpen(data) {
-  const url:any =  this.sanitizer.bypassSecurityTrustUrl(data);
- window.open(data)
- this.url = data
+  downloadPDF() {
+    const base64 = this.document.Document.Base64;
+    const linkSource = 'data:application/pdf;base64,' + base64;
+    const downloadLink = document.createElement('a');
+    const fileName = this.fileName;
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
 }
-getSantizeUrl() {
-  return this.sanitizer.bypassSecurityTrustResourceUrl(this.Documents.FilePath);
-  }
   getDocument() {
     this.isLoading = true;
     this.documentService.getDocument(this.documentTypeId, "EMPLOYEEHANDBOOK").subscribe(data => {
@@ -125,21 +126,10 @@ getSantizeUrl() {
           this.isTableEmpty = true;
         } else {
           this.Documents = this.document.Document;
-          this.isTableEmpty = false;
-  //         this.document.then(response => {
-  //   // response.data -> response data base64 encoded
-  //   // decoding the data via atob()
-  //   const byteArray = new Uint8Array(atob(response.FileName).split('').map(char => char.charCodeAt(0)));
-  //   return new Blob([byteArray], {type: 'application/pdf'});
-  // })
-  // .then(blob => {
-  //   // Here is your URL you can use
-  //   const url = window.URL.createObjectURL(blob);
+          this.fileName = this.document.Document.FileName;
 
-  //   // i.e. display the PDF content via iframe
-  //   document.querySelector("iframe").src = url;
-  //   console.log(url)
-  // });
+          this.isTableEmpty = false;
+ 
 
         }
         
