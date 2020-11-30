@@ -97,6 +97,7 @@ export class DashboardComponent implements OnInit {
         this.washesCount = this.washesCount + item.WashesCount;
         this.detailCount = this.detailCount + item.DetailCount;
         this.employeeCount = this.employeeCount + item.EmployeeCount;
+        this.washTime = item.WashTime;
         this.score = this.score + item.Score;
         this.currents = this.currents + item.Currents;
         this.forecastedCar = this.forecastedCar + item.ForecastedCar;

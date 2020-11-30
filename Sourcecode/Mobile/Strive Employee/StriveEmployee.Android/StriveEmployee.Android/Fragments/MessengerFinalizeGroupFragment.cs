@@ -50,6 +50,7 @@ namespace StriveEmployee.Android.Fragments
         {
             this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
             await this.ViewModel.CreateGroup();
+            MessengerTempData.resetParticipantInfo();
         }
 
         private void getParticipants()

@@ -50,6 +50,7 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.getDailyStatusReport();
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
+    this.getCashRegister();
   }
 
   ngAfterViewInit() {
@@ -74,7 +75,7 @@ export class EodComponent implements OnInit, AfterViewInit {
 
   getCashRegister() {
     const date = moment(this.selectDate).format('YYYY-MM-DD');
-    const cashRegisterType = 'CASHIN';
+    const cashRegisterType = 'CLOSEOUT';
     const locationId = +localStorage.getItem('empLocationId');
     this.reportService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(res => {
       if (res.status === 'Success') {
@@ -273,7 +274,7 @@ export class EodComponent implements OnInit, AfterViewInit {
 
   calculateTotal(obj, type) {
     return obj.reduce((sum, i) => {
-      return sum + (type === 'detailInfo' ? +i.Commision : +i.Number);
+      return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }
 

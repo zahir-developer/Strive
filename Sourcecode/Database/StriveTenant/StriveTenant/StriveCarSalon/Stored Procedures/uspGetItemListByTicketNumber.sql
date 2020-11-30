@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] --'442491'
+CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- '649592'
 @TicketNumber varchar(10)
 AS 
 --DECLARE @TicketNumber varchar(10)='274997'--'782436'
@@ -75,6 +75,11 @@ AND ISNULL(tbljbP.IsActive,1)=1
 AND ISNULL(tbljb.IsDeleted,0)=0 
 AND ISNULL(tbljb.IsActive,1)=1
 
+
+
+ 
+
+
 --Item Total
 DROP TABLE IF EXISTS #JobTotal
 
@@ -102,44 +107,61 @@ GROUP BY JPL.TicketNumber
 
 UPDATE #JobTotal SET Total= (ISNULL(JT.Total,0)+ISNULL(JPT.Total,0)),TaxAmount=(ISNULL(JT.TaxAmount,0)+ISNULL(JPT.TaxAmount,0)) FROM #JobTotal JT LEFT JOIN #JobProductTotal JPT ON JT.TicketNumber=JPT.TicketNumber
 
+DROP TABLE IF EXISTS #PaymentType
+
+Select Cv.id,CodeValue,Category
+into #PaymentType
+from tblcodevalue cv
+join tblCodeCategory CC
+ON cc.id=cv.CategoryId
+Where CC.[Category]='PaymentType'
+
 DROP TABLE IF EXISTS #Payment_Summary
 
-SELECT   
-	tbljob.TicketNumber,
-	SUM(ISNULL(tbljp.Amount,0)) AS Cash,
-	SUM(ISNULL(tblJPCC.Amount,0)) AS Credit,
-	SUM(ISNULL(tblGCH.TransactionAmount,0)) AS GiftCard,
-	SUM(ISNULL(tbljp.Cashback,0)) AS CashBack,
-	SUM(ISNULL(tbljpd.Amount,0)) AS Discount 
+SELECT 
+	TicketNumber,
+	SUM(Cash) AS Cash,
+	SUM(Credit) AS Credit,
+	SUM(GiftCard)AS GiftCard,
+	SUM(CashBack)AS CashBack,
+	SUM(Discount) AS Discount,
+	SUM(Account) AS Account,
+	SUM(Membership) AS Membership
 INTO
 	#Payment_Summary
+FROM 
+(SELECT   
+	tbljob.TicketNumber,
+	case when tblpt.CodeValue = 'Cash' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Cash,
+	case when tblpt.CodeValue = 'Credit' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Credit,
+	case when tblpt.CodeValue = 'GiftCard' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS GiftCard,
+	SUM(ISNULL(tbljp.Cashback,0)) AS CashBack,
+	case when tblpt.CodeValue = 'Discount' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Discount ,
+	case when tblpt.CodeValue = 'Account' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Account ,
+	case when tblpt.CodeValue = 'Membership' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Membership
 FROM
 	tblJob tbljob 
 LEFT JOIN 
 	tblJobPayment tbljp 
 ON		tbljob.JobId = tbljp.JobId AND ISNULL(tbljp.IsRollBack,0)=0 
 LEFT JOIN 
-	tblJobPaymentDiscount tbljpd 
-ON		tbljp.JobPaymentId = tbljpd.JobPaymentId AND ISNULL(tbljpd.IsDeleted,0)=0 
+	tblJobPaymentDetail tbljpd 
+ON		tbljp.JobPaymentId = tbljpd.JobPaymentId 
+AND		ISNULL(tbljpd.IsDeleted,0)=0 
 LEFT JOIN 
-	tblJobPaymentCreditCard tblJPCC 
-ON		tbljp.JobPaymentId = tblJPCC.JobPaymentId AND ISNULL(tblJPCC.IsDeleted,0)=0 
-LEFT JOIN
-	tblGiftCardHistory tblGCH
-ON		tblGCH.JobPaymentId=tbljp.JobPaymentId AND ISNULL(tblGCH.IsDeleted,0)=0 
+	#PaymentType tblpt
+on		tbljpd.PaymentType = tblpt.id
 WHERE 
 	tbljob.TicketNumber = @TicketNumber
 AND	ISNULL(tbljob.IsDeleted,0)=0 
 AND ISNULL(tbljob.IsActive,1)=1 
 AND	ISNULL(tbljp.IsDeleted,0)=0 
 AND ISNULL(tbljp.IsActive,1)=1 
---AND	ISNULL(tblJPCC.IsDeleted,0)=0 
---AND ISNULL(tblJPCC.IsActive,1)=1 
---AND	ISNULL(tblGCH.IsDeleted,0)=0 
---AND ISNULL(tblGCH.IsActive,1)=1 
 AND	ISNULL(tbljpd.IsDeleted,0)=0 
 AND ISNULL(tbljpd.IsActive,1)=1 
-GROUP BY tbljob.TicketNumber
+Group by tbljob.TicketNumber,tblpt.CodeValue
+) sub
+GROUP BY TicketNumber
 
 -- Summary List
 SELECT * FROM #JobItemList
@@ -154,8 +176,9 @@ SELECT
 	Credit,
 	GiftCard,
 	Discount,
-	(Cash+Credit-GiftCard) AS TotalPaid,
-	((JT.Total+JT.TaxAmount) - (Cash+Credit+Discount-GiftCard)) AS BalanceDue,
+	(Account+Membership) AS Account,
+	(Account+Membership+Cash+Credit+GiftCard) AS TotalPaid,
+	((JT.Total+JT.TaxAmount) - (Account+Membership+Cash+Credit+Discount+GiftCard)) AS BalanceDue,
 	CashBack
 FROM 
 	#Payment_Summary PS 
@@ -164,10 +187,35 @@ LEFT JOIN
 ON JT.TicketNumber=PS.TicketNumber
 
 --Payment, IsProcessed, IsRollBack
-Select job.JobId, ISNULL(tbljp.JobPaymentId, 0) as JobPaymentId, ISNULL(tbljp.IsProcessed, 0) as IsProcessed, ISNULL(tbljp.IsRollBack, 0) as IsRollBack
+Select top 1 job.JobId, ISNULL(tbljp.JobPaymentId, 0) as JobPaymentId, ISNULL(tbljp.IsProcessed, 0) as IsProcessed, ISNULL(tbljp.IsRollBack, 0) as IsRollBack
 from tblJob job 
 LEFT JOIN tblJobPayment tbljp on job.JobId = tbljp.JobId
 WHERE job.TicketNumber = @TicketNumber 
+order by tbljp.JobPaymentId desc
+
+--Address
+
+ SELECT 
+ tblla.Address1, 
+ tblla.Address2, 
+ tblla.PhoneNumber, 
+ tblcv.valuedesc, 
+ tblsv.valuedesc 
+ FROM 
+ tblLocationAddress tblla
+ LEFT JOIN
+ tblJob tblj 
+ ON tblj.LocationId = tblla.LocationId
+ LEFT JOIN
+ GetTable('City') tblcv
+ ON tblcv.valueid = tblla.City
+ LEFT JOIN
+ GetTable('State') tblsv
+ ON tblsv.valueid = tblla.State
+ WHERE 
+	tblj.TicketNumber =  @TicketNumber
+AND ISNULL(tblj.IsDeleted,0)=0 
+AND ISNULL(tblj.IsActive,1)=1
 
 END
 GO

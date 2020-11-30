@@ -53,7 +53,7 @@ tbj.JobId
 --,@ReviewNote AS PastHistoryNote
 from 
 StriveCarSalon.tblJob tbj 
-INNER JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
+LEFT JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
 LEFT JOIN StriveCarSalon.tblClientAddress tblca on tbj.ClientId = tblca.ClientId
 LEFT JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
 LEFT JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId

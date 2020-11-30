@@ -8,7 +8,7 @@
 -- =============================================
 -- <Modified Date>, <Author> - <Description>
 -- 29-07-2020, Zahir - Fixed duplicate issue & Modified logic for getting count of Document/Liability/Schedules
-
+-- 21-10-2020, Zahir - Added employee chat communicationId.
 
 ------------------------------------------------
 -- =============================================
@@ -24,6 +24,7 @@ empdet.EmployeeDetailId,
 empdet.EmployeeCode,
 emp.FirstName,
 emp.LastName,
+chatComm.CommunicationId,
 stuff((SELECT '/'+ phoneNumber FROM strivecarsalon.tblemployeeaddress 
 WHERE EmployeeId = emp.EmployeeId
 FOR XML PATH('')),1,1,'') as MobileNo,
@@ -35,7 +36,9 @@ FOR XML PATH('')),1,1,'') as MobileNo,
 isnull(emp.IsActive,1) as Status
 FROM 
 StriveCarSalon.tblEmployee emp 
+LEFT JOIN StriveCarSalon.tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
 LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId WHERE empdet.EmployeeDetailId is NOT NULL 
+
 AND (emp.IsDeleted=0 OR emp.IsDeleted IS NULL) 
 AND ((emp.FirstName like '%'+@EmployeeName+'%')
 OR (emp.LastName like '%'+@EmployeeName+'%')
