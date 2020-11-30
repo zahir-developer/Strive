@@ -64,6 +64,8 @@ import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/emp
 import { CreateEditEmployeeHandBookComponent } from './system-setup/employee-hand-book/create-edit-employee-hand-book/create-edit-employee-hand-book.component';
 import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
 import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-conditions/create-edit-terms-and-conditions/create-edit-terms-and-conditions.component';
 
 @NgModule({
@@ -90,6 +92,7 @@ import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-
     FormsModule,
     TableModule,
     DialogModule,
+    NgxMaterialTimepickerModule,
     SharedModule,
     NgbPaginationModule,
     MultiSelectModule,

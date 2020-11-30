@@ -241,3 +241,6 @@ color-icon:hover {
   height: 50.4vh;
   overflow: scroll;
 }
+.timepicker__actions{
+  background-color:#00bfff !important;
+}
