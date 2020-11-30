@@ -686,9 +686,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\borderEditText.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\menu\chat_menu.xml" />
   </ItemGroup>
   <ItemGroup>
