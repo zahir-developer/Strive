@@ -23,7 +23,7 @@ namespace Strive.BusinessEntities.Weather
 
         public string TargetBusiness { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         
     }
 }

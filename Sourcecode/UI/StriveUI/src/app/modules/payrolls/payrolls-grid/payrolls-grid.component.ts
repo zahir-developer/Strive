@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -21,7 +22,8 @@ export class PayrollsGridComponent implements OnInit {
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,    
+    private messageService: MessageServiceToastr,
   ) { }
 
   ngOnInit(): void {
@@ -90,8 +92,11 @@ export class PayrollsGridComponent implements OnInit {
     });
     this.payrollsService.updateAdjustment(updateObj).subscribe( res => {
       if (res.status === 'Success') {
+        
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
+        
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
         this.runReport();
       }
     });

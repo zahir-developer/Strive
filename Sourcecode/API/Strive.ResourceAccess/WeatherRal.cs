@@ -21,10 +21,11 @@ namespace Strive.ResourceAccess
         }
         public WeatherPrediction GetWeatherDetails(int locationId, DateTime dateTime)
         {
-            var allPredictions = _db.GetAll<WeatherPrediction>();
-
-            return allPredictions.Where(s => s.LocationId == locationId && s.CreatedDate.Date == dateTime.Date)
+            var allPredictions = _db.GetAll<WeatherPrediction>().Where(s => s.LocationId == locationId && s.CreatedDate.Date == dateTime.Date)
                                  .OrderByDescending(s => s.WeatherId).FirstOrDefault();
+            return allPredictions;
+                //.Where(s => s.LocationId == locationId && s.CreatedDate.Date == dateTime.Date)
+                //                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
         }
 
         public bool AddWeather(WeatherPrediction weatherPrediction)
