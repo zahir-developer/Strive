@@ -35,9 +35,8 @@ export class UserDataService {
     localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].Roleid);
     localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.Firstname);
     localStorage.setItem('employeeLastName', token.EmployeeDetails.EmployeeLogin.LastName);
-
-      localStorage.setItem('RoleName',token.EmployeeDetails.RolePermissionViewModel[0].RoleName) ;
-      localStorage.setItem('ViewName',token.EmployeeDetails.RolePermissionViewModel[0].ViewName) ;
+    
+      localStorage.setItem('RolePermission',token.EmployeeDetails.RolePermissionViewModel) ;
     
               
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);

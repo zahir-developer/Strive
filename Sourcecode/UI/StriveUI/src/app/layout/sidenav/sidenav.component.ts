@@ -16,14 +16,49 @@ export class SidenavComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   viewName: string;
   rollName: string;
+  RolePermission :any = [];
+  ModuleName: any;
+  salesModule: boolean;
+  adminModule: boolean;
+  detailModule: boolean;
+  washModule: boolean;
+  dashBoardModule: boolean;
+  systemSetupView: boolean;
   constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.getLogo();
+    this.RolePermission = JSON.parse(localStorage.getItem('RolePermission'))
+  this.getRoles();
+
+  }
+  getRoles(){
+    for (let i = 0; i < this.RolePermission.length; i++){
+        this.viewName = this.RolePermission[i].ViewName;
+        this.rollName = this.RolePermission[i].RollName;
+        this.ModuleName = this.RolePermission[i].ModuleName;
+        console.log(this.ModuleName)
+        if(this.ModuleName === "Sales"){
+           this.salesModule = true;
+        }
+        if(this.ModuleName === "Admin"){
+          this.adminModule = true;
+                  }
+         if(this.ModuleName === "Detail"){
+             this.detailModule = true;
+                            }
+          if(this.ModuleName === "Washes"){
+              this.washModule = true;
+             }
+             if(this.ModuleName === "Dashboard"){
+              this.dashBoardModule = true;
+             }
+             if(this.viewName === 'System Setup'){
+this.systemSetupView = true;
+             }
+    }
     
-this.viewName  = localStorage.getItem('ViewName');
-this.rollName  = localStorage.getItem('RoleName');
   }
   getLogo() {
     this.logoService.name.subscribe(data => {
