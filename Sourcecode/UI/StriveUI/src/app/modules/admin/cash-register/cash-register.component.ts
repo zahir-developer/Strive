@@ -183,6 +183,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.weatherDetails = data;
+        console.log(this.weatherDetails)
       }
     });
   }
@@ -282,8 +283,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const weatherObj = {
       weatherId: 0,
       locationId: +this.locationId,
-      weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
-      rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
+      // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
+      // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
+    weather: (this.weatherDetails?.temporature) ?  Math.floor(this.weatherDetails?.temporature).toString() : null,
+      rainProbability: (this.weatherDetails?.rainPercentage) ? Math.floor(this.weatherDetails?.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
