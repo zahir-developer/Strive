@@ -39,28 +39,31 @@ namespace Strive.Core.ViewModels.Customer
         }
 
         public async Task<bool> DeleteCustomerVehicle(int vehicleID)
-        {
-            _userDialog.ShowLoading(Strings.Loading);
+        {            
             bool deleted = false;
             var confirm = await _userDialog.ConfirmAsync("Are you sure you want to delete this vehicle ?");
-            if(confirm)
+            _userDialog.ShowLoading(Strings.Loading);
+            if (confirm)
             {
                 var data = await AdminService.DeleteCustomerVehicle(vehicleID);
                 if (data.Status)
                 {
+                    _userDialog.HideLoading();
                     _userDialog.Toast("Vehicle details deleted successfully");
                     deleted = true;
                 }
                 else
                 {
+                    _userDialog.HideLoading();
                     _userDialog.Toast("Vehicle deletion unsuccessful");
                 }
             }
             else
             {
+                _userDialog.HideLoading();
                 // closes dialog box
             }
-            _userDialog.HideLoading();
+            
             return deleted;
         }
 

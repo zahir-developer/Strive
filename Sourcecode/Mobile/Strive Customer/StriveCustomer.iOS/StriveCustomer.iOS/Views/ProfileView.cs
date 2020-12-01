@@ -29,7 +29,14 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+                       
+            InitialSetup();            
 
+            // Perform any additional setup after loading the view, typically from a nib.
+        }
+        
+        private void InitialSetup()
+        {
             pastViewModel = new PastDetailViewModel();
             personalInfoViewModel = new PersonalInfoViewModel();
             vehicleViewModel = new VehicleInfoViewModel();
@@ -39,14 +46,6 @@ namespace StriveCustomer.iOS.Views
             CustomerInfo.pastClientServices = new PastClientServices();
             CustomerInfo.pastClientServices.PastClientDetails = new List<PastClientDetails>();
 
-            InitialSetup();
-            getPersonalInfo();
-
-            // Perform any additional setup after loading the view, typically from a nib.
-        }
-
-        private void InitialSetup()
-        {
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
                 Font = DesignUtils.OpenSansBoldFifteen(),
@@ -61,6 +60,8 @@ namespace StriveCustomer.iOS.Views
             PersonalInfo_Segment.Layer.CornerRadius = 5;
             PastDetail_Segment.Layer.CornerRadius = 5;
             VehicleList_Segment.Layer.CornerRadius = 5;
+
+            getPersonalInfo();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -189,7 +190,7 @@ namespace StriveCustomer.iOS.Views
         {
             personalInfoViewModel.NavToEditPersonalInfo();
         }
-
+        
         public async void GetVehicleList()
         {
             await this.vehicleViewModel.GetCustomerVehicleList();
@@ -210,26 +211,7 @@ namespace StriveCustomer.iOS.Views
             CustomerVehiclesInformation.membershipDetails = null;
             MembershipDetails.clearMembershipData();
             vehicleViewModel.NavToAddVehicle();
-        }
-
-        public async void selectedVehicle(int selectedRow)
-        {
-            if (CustomerInfo.actionType == 1)
-            {
-                vehicleViewModel = new VehicleInfoViewModel();
-                var data = CustomerVehiclesInformation.vehiclesList.Status[selectedRow];
-                var deleted = await this.vehicleViewModel.DeleteCustomerVehicle(data.VehicleId);
-                if (deleted)
-                {
-                    this.vehicleViewModel.vehicleLists.Status.RemoveAt(selectedRow);
-                    VehicleList_TableView.ReloadData();
-                }
-            }
-            else
-            {
-                //edit func
-            }
-        }
+        }                
     }
 
     public class PastDetailsCompleteDetails

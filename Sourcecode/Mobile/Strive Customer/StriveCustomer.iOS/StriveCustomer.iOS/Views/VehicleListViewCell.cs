@@ -4,6 +4,7 @@ using Foundation;
 using ObjCRuntime;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
+using Strive.Core.ViewModels.Customer;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
@@ -11,9 +12,11 @@ namespace StriveCustomer.iOS.Views
     public partial class VehicleListViewCell : UITableViewCell
     {
         ProfileView view = new ProfileView();
+        
         public static readonly NSString Key = new NSString("VehicleListViewCell");
         public static readonly UINib Nib;
-        public int selectedRow;
+        public NSIndexPath selectedRow;
+        public VehicleList dataList;
 
         static VehicleListViewCell()
         {
@@ -27,8 +30,9 @@ namespace StriveCustomer.iOS.Views
 
         public void SetData(VehicleList list, NSIndexPath indexpath)
         {
+            dataList = list;
             VehicleList_CellView.Layer.CornerRadius = 5;
-            selectedRow = indexpath.Row;
+            selectedRow = indexpath;
             EditVehicleBtn.SetImage(UIImage.FromBundle("icon-edit-personalInfo"), UIControlState.Normal);
             deleteVehicleBtn.SetImage(UIImage.FromBundle("icon-delete"), UIControlState.Normal);
 
@@ -46,9 +50,10 @@ namespace StriveCustomer.iOS.Views
         }
 
         partial void DeleteVehicleList_BtnTouch(UIButton sender)
-        {            
+        {
             CustomerInfo.actionType = 1;
-            view.selectedVehicle(selectedRow);
+            VehicleListTableSource source = new VehicleListTableSource(dataList);
+            source.deleteRow(selectedRow);
         }
 
         partial void EditVehicleList_BtnTouch(UIButton sender)
