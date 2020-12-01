@@ -183,7 +183,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.weatherDetails = data;
-        console.log(this.weatherDetails)
       }
     });
   }
