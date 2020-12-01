@@ -70,7 +70,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
                 addCollisions.employeeLiability.isActive = true;
                 addCollisions.employeeLiability.isDeleted = false;
                 addCollisions.employeeLiability.liabilityDescription = CollisionNotes;
-                addCollisions.employeeLiability.liabilityId = 0;
+                addCollisions.employeeLiability.liabilityId = MyProfileTempData.LiabilityID;
                 addCollisions.employeeLiability.liabilityType = CollisionID;
                 addCollisions.employeeLiability.productId = 2;
                 addCollisions.employeeLiability.status = 0;
@@ -95,19 +95,20 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
                 addCollisions.employeeLiabilityDetail.isDeleted = false;
                 addCollisions.employeeLiabilityDetail.liabilityDetailId = 0;
                 addCollisions.employeeLiabilityDetail.liabilityDetailType = 1;
-                addCollisions.employeeLiabilityDetail.liabilityId = 0;
+                addCollisions.employeeLiabilityDetail.liabilityId = MyProfileTempData.LiabilityID;
                 addCollisions.employeeLiabilityDetail.paymentType = 1;
                 addCollisions.employeeLiabilityDetail.updatedBy = 0;
                 addCollisions.employeeLiabilityDetail.updatedDate = DateTime.Today.ToString("yyyy-M-dd");
 
-                var result = await AdminService.AddCollisions(addCollisions);
+                var result = await AdminService.UpdateCollisions(addCollisions);
                 if (result == null)
                 {
-
+                    collisionAdded = false;
                 }
                 else
                 {
                     collisionAdded = true;
+                    _userDialog.Toast("Collision saved");
                 }
             }
         }

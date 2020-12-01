@@ -67,7 +67,6 @@ namespace StriveEmployee.Android.Views
             basicSetup();
 
         }
-
         private void RememberMe_CheckBox_Click(object sender, EventArgs e)
         {
             preferenceEditor.PutBoolean("rememberMe", rememberMe_CheckBox.Checked);
