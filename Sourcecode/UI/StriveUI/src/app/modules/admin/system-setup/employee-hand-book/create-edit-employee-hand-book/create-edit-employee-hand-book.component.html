@@ -15,7 +15,7 @@
                     <input type="file" class="custom-file-input" id="customFile" accept=".pdf" formControlName ="uploadBy"
                         (change)="fileNameChanged()">
                     <span id='lbl' class="custom-file-label" for="customFile">Select Image</span>
-                    <small class="form-text text-muted">Doc Type:pdf,doc,docx</small>
+                    <small class="form-text text-muted">Doc Type:pdf</small>
                     <span *ngIf="!isLoading">{{fileName}}</span>
                     <span *ngIf="fileName && !isLoading"><em
                             class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"

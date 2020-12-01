@@ -14,11 +14,16 @@ export class SidenavComponent implements OnInit {
   isAuthenticated: boolean;
   logoBase64: any;
   isLoggedIn$: Observable<boolean>;
+  viewName: string;
+  rollName: string;
   constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.getLogo();
+    
+this.viewName  = localStorage.getItem('ViewName');
+this.rollName  = localStorage.getItem('RoleName');
   }
   getLogo() {
     this.logoService.name.subscribe(data => {

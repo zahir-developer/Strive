@@ -6,11 +6,11 @@
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Terms & Condition</h5>&nbsp;
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="addData('add')">Add</button>
+                            (click)="addData('add')" [disabled]="fileName !== null">Add</button>
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <div class="table-responsive" *ngIf="isLoading === false && document.Document">
+                            <div class="table-responsive" *ngIf="isLoading === false && fileName !== null">
                                 <table class="table  table-striped m-t-10">
                                     <thead>
                                         <tr>
@@ -20,7 +20,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row"><a>{{fileName}}</a></th>
+                                            <th scope="row" (click)="downloadPDF()"><span
+                                                class="text-underline theme-primary-color font-size--9"
+                                                style="cursor: pointer;">{{fileName}}</span></th>
                                             <td>
                                                 <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                     style="color:red" pTooltip="delete" tooltipPosition="bottom"
