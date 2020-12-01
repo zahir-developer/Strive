@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'detail', loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule) },
   { path: 'checkout', loadChildren: () => import('./modules/checkout/checkout.module').then(m => m.CheckoutModule) },
   {
-    path: 'dashboard', canActivate: [AuthGuard],
+    path: 'dashboard', canActivate: [AuthGuard], data: { label: 'Dashboard', title: 'Dashboard', authorization: 'Dashboard' },
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
   {path: 'sales', loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
