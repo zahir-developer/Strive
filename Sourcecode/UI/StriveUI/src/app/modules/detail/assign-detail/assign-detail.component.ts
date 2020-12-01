@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import * as _ from 'underscore';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-assign-detail',
@@ -28,8 +29,9 @@ export class AssignDetailComponent implements OnInit {
   pageSize = 5;
   collectionSize: number;
   @Output() cancelAssignModel = new EventEmitter();
+  serviceType: any;
   constructor(
-    private fb: FormBuilder,
+    private fb: FormBuilder, private getCode:GetCodeService,
     private confirmationService: ConfirmationUXBDialogService,
     private detailServices: DetailService
   ) { }
@@ -37,7 +39,7 @@ export class AssignDetailComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.details, 'assignedDetailService');
     this.detailService = this.detailsJobServiceEmployee;
-    this.getDetailService();
+    this.getAllServiceType();
     this.employeeDetail();
     console.log(this.detailService, this.detailsJobServiceEmployee, 'detailsJobServiceEmployee');
     if (this.detailService.length > 0) {
@@ -256,7 +258,19 @@ export class AssignDetailComponent implements OnInit {
 
   }
 
+  getAllServiceType() {
+    this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
+      if (data.status === "Success") {
+        const cType = JSON.parse(data.resultData);
+        this.serviceType = cType.Codes.filter(i => i.CodeValue === "Upcharges")[0];
+        this.getDetailService();
+      }
+    });
+  }
+
   getDetailService() {
+    this.details = this.details.filter(i => i.ServiceTypeId !== this.serviceType.CodeId);
+    console.log(this.details);
     this.clonedServices = this.details.map(x => Object.assign({}, x));
     this.clonedServices = this.clonedServices.map(item => {
       return {
