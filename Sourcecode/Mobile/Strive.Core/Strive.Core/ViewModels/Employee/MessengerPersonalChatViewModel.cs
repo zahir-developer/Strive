@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.Messenger.PersonalChat;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using System;
@@ -45,11 +46,16 @@ namespace Strive.Core.ViewModels.Employee
                 sendChat = new SendChatMessage();
                 sendChat.chatMessage = new chatMessage();
                 sendChat.chatMessageRecipient = new chatMessageRecipient();
+                sendChat.chatGroupRecipient = null;
                 FillChatDetails();
                 var result = await MessengerService.SendChatMessage(sendChat);
                 if(result.Status)
                 {
                     SentSuccess = result.Status;
+                    //if(MessengerTempData.IsGroup)
+                    //{
+                    //   ChatHubMessagingService.SendMessageToGroup(sendChat);
+                    //}
                 }
                 else
                 {
@@ -86,21 +92,24 @@ namespace Strive.Core.ViewModels.Employee
             sendChat.chatMessageRecipient.chatRecipientId = 0;
             sendChat.chatMessageRecipient.chatMessageId = 0;
             sendChat.chatMessageRecipient.senderId = EmployeeTempData.EmployeeID;
-           
-            
-            sendChat.connectionId = "0";
-            sendChat.fullName = null;
+
             if (MessengerTempData.IsGroup)
             {
                 sendChat.chatMessageRecipient.recipientId = null;
+                sendChat.firstName = MessengerTempData.RecipientName;
                 sendChat.chatMessageRecipient.recipientGroupId = MessengerTempData.GroupID;
-                sendChat.groupId = null;
+                sendChat.groupId = MessengerTempData.GroupUniqueID;
+                sendChat.connectionId = null;
+                sendChat.fullName = MessengerTempData.FirstName;
             }
             else
             {
                 sendChat.chatMessageRecipient.recipientId = MessengerTempData.RecipientID;
+                sendChat.firstName = MessengerTempData.RecipientName;
+                sendChat.connectionId = MessengerTempData.ConnectionID;
                 sendChat.chatMessageRecipient.recipientGroupId = null;
-                sendChat.groupId = "0";
+                sendChat.groupId = null;
+                sendChat.fullName = MessengerTempData.FirstName;
             }
         }
         #endregion Commands
