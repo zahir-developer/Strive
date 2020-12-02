@@ -24,6 +24,7 @@ namespace Strive.BusinessEntities.Weather
         public string TargetBusiness { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
+        public int WashCount { get; set; }
         
     }
     public class WeatherPredictionDetails
