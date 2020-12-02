@@ -60,11 +60,17 @@ namespace StriveCustomer.iOS.Views
                 {
                     vehicleLists.Status.RemoveAt(selectedRow.Row);
                     vehicleTable.DeleteRows(new NSIndexPath[] { selectedRow}, UITableViewRowAnimation.Fade);
-                    this.vehicleTable.ReloadData();                    
+                    
+                    DispatchQueue.GetGlobalQueue(DispatchQueuePriority.Default).DispatchAsync(() =>
+                    {
+                        DispatchQueue.MainQueue.DispatchAsync(() =>
+                        {
+                            vehicleTable.ReloadData();
+                        });
+                    });
+                   
                 }
-            }
-            
-        }
+            }            
+        }                
     }
-
 }
