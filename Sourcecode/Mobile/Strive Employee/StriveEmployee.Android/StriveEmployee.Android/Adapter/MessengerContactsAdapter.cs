@@ -11,7 +11,9 @@ using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using MvvmCross;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Fragments;
 using StriveEmployee.Android.Listeners;
@@ -55,6 +57,7 @@ namespace StriveEmployee.Android.Adapter
         private List<EmployeeList> contacts = new List<EmployeeList>();
         private char[] firstInitial;
         private char[] secondInitial;
+        public IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
         public MessengerContactsAdapter(Context context, List<EmployeeList> contacts)
         {
             this.context = context;
@@ -88,11 +91,26 @@ namespace StriveEmployee.Android.Adapter
             contactsRecycleHolder.SetItemClickListener(this);
         }
 
-        public void OnClick(View itemView, int position, bool isLongClick)
+        public async void OnClick(View itemView, int position, bool isLongClick)
         {
             MessengerTempData.resetChatData();
+            MessengerTempData.GroupID = 0;
+            MessengerTempData.IsGroup = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).IsGroup;
+            MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName + " " + MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
+            MessengerTempData.GroupUniqueID = null;
             MessengerTempData.RecipientID = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).EmployeeId;
-            MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName +" "+ MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
+            
+            var data = await MessengerService.GetRecentContacts(EmployeeTempData.EmployeeID);
+            var selectedData = data.EmployeeList.ChatEmployeeList.Find(x => x.Id == MessengerTempData.RecipientID);
+            if(selectedData != null)
+            {
+                MessengerTempData.ConnectionID = selectedData.CommunicationId;
+            }
+            else
+            {
+                MessengerTempData.ConnectionID = "0";
+            }
+           
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();

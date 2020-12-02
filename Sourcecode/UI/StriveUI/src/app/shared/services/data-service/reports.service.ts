@@ -50,4 +50,7 @@ export class ReportsService {
   getTimeClockEmpHoursDetail(obj) {
     return this.http.post(`${UrlConfig.reports.getTimeClockEmpHoursDetail}`, obj);
   }
+  getDailySalesReport(obj){
+    return this.http.post(`${UrlConfig.reports.getDailySalesReport}`, obj);
+  }
 }

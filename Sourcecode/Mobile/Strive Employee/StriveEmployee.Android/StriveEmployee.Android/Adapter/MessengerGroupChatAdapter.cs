@@ -74,9 +74,13 @@ namespace StriveEmployee.Android.Adapter
         public void OnClick(View itemView, int position, bool isLongClick)
         {
             MessengerTempData.resetChatData();
-            MessengerTempData.GroupID = MessengerTempData.GroupLists.ChatEmployeeList[position].ChatGroupId;
-            MessengerTempData.GroupUniqueID = MessengerTempData.GroupLists.ChatEmployeeList[position].GroupId;
-            MessengerTempData.GroupName = MessengerTempData.GroupLists.ChatEmployeeList[position].FirstName;
+            MessengerTempData.GroupID = MessengerTempData.GroupLists.ChatEmployeeList[position].Id;
+            MessengerTempData.IsGroup = MessengerTempData.GroupLists.ChatEmployeeList.ElementAt(position).IsGroup;
+            MessengerTempData.GroupName = MessengerTempData.GroupLists.ChatEmployeeList.ElementAt(position).FirstName;
+            var data = MessengerTempData.GroupLists.ChatEmployeeList.Find(x => x.Id == MessengerTempData.GroupID);
+            MessengerTempData.GroupUniqueID = data.CommunicationId;
+            MessengerTempData.ConnectionID = data.CommunicationId; 
+            MessengerTempData.RecipientID = 0;
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();
