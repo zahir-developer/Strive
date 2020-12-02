@@ -11,6 +11,7 @@ namespace Strive.BusinessEntities.Document
         public long DocumentId { get; set; }
         public int DocumentType { get; set; }
         public string FileName { get; set; }
+        public string OriginalFileName { get; set; }
         public string FilePath { get; set; }
         public string Base64 { get; set; }
         public string Comments { get; set; }
