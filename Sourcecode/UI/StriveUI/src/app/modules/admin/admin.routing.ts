@@ -25,9 +25,9 @@ import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.comp
 
 
 const adminRoutes: Routes = [
-  { path: 'admin', canActivate: [AuthGuard], component: AdminComponent }, {
+  { path: 'admin', component: AdminComponent }, {
     path: '', component: AdminComponent, children: [{
-      path: 'employees', component: EmployeesComponent
+      path: 'employees', component: EmployeesComponent, data: { label: 'PayRoll', title: 'PayRoll', authorization: 'PayRoll' },
     },
     { path: 'scheduling', component: SchedulingComponent },
     { path: 'theme', component: ThemeComponent },
@@ -38,7 +38,6 @@ const adminRoutes: Routes = [
     { path: 'gift-card', component: GiftCardComponent },
     { path: 'time-clock', component: TimeClockMaintenanceComponent },
     { path: 'time-clock-week', component: TimeClockWeekComponent },
-    
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },

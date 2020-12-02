@@ -168,6 +168,7 @@ export class EditEmployeeComponent implements OnInit {
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
+        console.log(employees, 'employeelist');
         this.employeeData = employees.Employee;
         if (employees.Employee.EmployeeCollision !== null) {
           this.employeeCollision = employees.Employee.EmployeeCollision;
