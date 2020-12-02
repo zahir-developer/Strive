@@ -12,5 +12,8 @@ namespace Strive.BusinessEntities.CashRegister.DTO
         public CashRegisterOthers CashRegisterOthers { get; set; }
 
     }
+
+
+
 }
 

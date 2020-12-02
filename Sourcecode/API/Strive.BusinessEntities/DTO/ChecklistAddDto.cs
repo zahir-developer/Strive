@@ -8,6 +8,8 @@ namespace Strive.BusinessEntities.DTO
 {
     public class ChecklistAddDto
     {
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
         public int WashesCount { get; set; }
     }
 }
