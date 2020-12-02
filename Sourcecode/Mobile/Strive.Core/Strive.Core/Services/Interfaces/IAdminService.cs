@@ -5,6 +5,7 @@ using Strive.Core.Models;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
+using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 
@@ -86,5 +87,7 @@ namespace Strive.Core.Services.Interfaces
         Task<PostResponse> DeleteCollisions(int liabilityID);
 
         Task<GetCollisions> GetCollisions(int liabilityID);
+
+        Task<PostResponse> SaveDocuments(AddDocuments documents);
     }
 }

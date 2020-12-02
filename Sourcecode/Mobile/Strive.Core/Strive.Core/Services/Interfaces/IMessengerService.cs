@@ -20,5 +20,6 @@ namespace Strive.Core.Services.Interfaces
         Task<PostResponseBool> SendChatMessage(SendChatMessage chatMessage);
         Task<GroupChatResponse> CreateChatGroup(CreateGroupChat groupInfo);
         Task<ChatGroupUserDeleted> DeleteGroupUser(int? GroupUserId);
+        Task<PostResponseBool> ChatCommunication(ChatCommunication communicationDetails);
     }
 }

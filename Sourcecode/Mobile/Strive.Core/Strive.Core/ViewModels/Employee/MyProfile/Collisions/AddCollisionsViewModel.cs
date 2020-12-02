@@ -102,11 +102,12 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
                 var result = await AdminService.AddCollisions(addCollisions);
                 if(result == null)
                 {
-
+                    collisionAdded = false;
                 }
                 else
                 {
                     collisionAdded = true;
+                    _userDialog.Toast("Collision saved");
                 }
             }
         }

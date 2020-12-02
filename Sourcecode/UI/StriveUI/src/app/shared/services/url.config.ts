@@ -147,7 +147,12 @@ export const UrlConfig = {
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
-    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`
+    getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`,
+    getCheckList : `Admin/Checklist/GetChecklist`,
+    addCheckList : `Admin/Checklist/Add`,
+    DeleteCheckList : `Admin/Checklist/Delete`,
+
+
   },
   Messenger:
   {
@@ -174,11 +179,15 @@ export const UrlConfig = {
     getCashRegister: `Admin/CashRegister/Get`,
     getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`,
     getEodSaleReport: `Admin/Report/EODSalesReport`,
-    getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`
+    getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
+    getDailySalesReport:`Admin/Report/DailySalesReport`
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
+  },
+  bonusSetup: {
+    saveBonus: `Admin/BonusSetup/Add`
   }
 };
