@@ -12,7 +12,7 @@ export class AuthorizeService {
   ) { }
 
   routingLevelAccess(routingPageId) {
-    console.log(routingPageId,this.userDataService.isAuthenticated, localStorage.getItem('views'), 'authrize');
+    console.log(routingPageId, this.userDataService.isAuthenticated, localStorage.getItem('views'), 'authrize');
     if (!this.userDataService.isAuthenticated) {
       return false;
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthorizeService } from '../services/common-service/authorize.service';
 
@@ -16,6 +16,24 @@ export class AuthGuard implements CanActivate {
       console.log(next.data, 'URL CHAnges');
       if (next.data.authorization) {
         if (!this.authorizeService.routingLevelAccess(next.data.authorization)) {
+          this.router.navigate(['/login']);
+          return false;
+        } else {
+          return true;
+        }
+      }
+      return true;
+    }
+    this.router.navigate(['/login']);
+    return false;
+  }
+
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+   Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      console.log(childRoute.data, 'URL CHAnges');
+      if (childRoute.data.authorization) {
+        if (!this.authorizeService.routingLevelAccess(childRoute.data.authorization)) {
           this.router.navigate(['/login']);
           return false;
         } else {
