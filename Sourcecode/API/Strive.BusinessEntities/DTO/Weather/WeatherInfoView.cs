@@ -17,6 +17,7 @@ namespace Strive.BusinessEntities.Weather
         public WeatherInfo CurrentWeather { get; set; }
         public WeatherInfo LastWeekWeather { get; set; }
         public WeatherInfo LastMonthWeather { get; set; }
+
     }
 
 
