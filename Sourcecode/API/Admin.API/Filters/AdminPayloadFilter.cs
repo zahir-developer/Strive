@@ -119,12 +119,21 @@ namespace Admin.API.Filters
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
             _tenant.EmployeeId = employeeId;
             _tenant.SchemaName = schemaName;
+            
+            //Folder Path
             _tenant.ProductImageFolder = Pick("FolderPath", "ProductImage");
             _tenant.LogoImageFolder = Pick("FolderPath", "LogoImage");
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
+            _tenant.GeneralDocumentFolder = Pick("FolderPath", "GeneralDocument");
+            
+            //File Format
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");
             _tenant.ProductImageFormat = Pick("FileFormat", "ProductImage");
             _tenant.LogoImageFormat = Pick("FileFormat", "LogoImage");
+            _tenant.EmployeeHandbook = Pick("FileFormat", "EmployeeHandbook");
+            _tenant.TermsAndCondition = Pick("FileFormat", "TermsAndCondition");
+
+            //Image Size
             _tenant.ProductThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
             _tenant.ProductThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
             _tenant.LogoThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));

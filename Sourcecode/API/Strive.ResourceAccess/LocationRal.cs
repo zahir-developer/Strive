@@ -50,7 +50,6 @@ namespace Strive.ResourceAccess
 
         public bool AddLocation(LocationDto location)
         {
-            location.Drawer.DrawerName = $"Drawer-{location.Location.LocationName}-1";
             return dbRepo.InsertPc(location, "LocationId");
         }
 

@@ -1,4 +1,6 @@
 ﻿
+
+
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 05-09-2020
@@ -16,9 +18,10 @@
 --						 and order by condition
 -- 29-09-2020, Vineeth - Add bracket in Details
 --						 and Outside service
+-- 24-11-2020, Vineeth - Add code for Upcharge
 ------------------------------------------------
 -- =============================================
-CREATE proc [StriveCarSalon].[uspGetAllDetails] --[StriveCarSalon].[uspGetAllDetails] '2020-11-19'
+CREATE proc [StriveCarSalon].[uspGetAllDetails] --[StriveCarSalon].[uspGetAllDetails] '2020-11-20',null
 (@JobDate Date, @LocationId int = NULL)
 AS
 BEGIN
@@ -35,8 +38,20 @@ tblb.IsActive=1
 and tbljd.IsActive=1
 and ISNULL(tblb.IsDeleted,0)=0
 and ISNULL(tbljd.IsDeleted,0)=0
-and (tblb.LocationId=@LocationId OR @LocationId is null)
+and (tblb.LocationId=@LocationId OR (@LocationId is null OR @LocationId=0))
 order by tblb.BayId
+
+DROP TABLE IF EXISTS #Upcharge
+SELECT tblj.JobId,tblji.Price 
+INTO #Upcharge FROM tblJob tblj INNER JOIN tblJobItem tblji ON(tblj.JobId = tblji.JobId)
+INNER JOIN tblService tblS ON(tblji.ServiceId = tbls.ServiceId)
+INNER JOIN GetTable('ServiceType') st ON(tbls.ServiceType = st.valueid)
+WHERE st.valuedesc='Upcharges' AND  
+(tblj.JobDate is null OR tblj.JobDate=@JobDate)
+AND ((@LocationId is null  OR @LocationId=0)OR tblj.LocationId=@LocationId)
+AND tblj.IsActive = 1 AND tbljI.IsActive = 1 AND tblS.IsActive = 1
+AND ISNULL(tblj.IsDeleted,0)=0 AND ISNULL(tbljI.IsDeleted,0)=0
+AND ISNULL(tblS.IsDeleted,0)=0 
 
 SELECT 
 tblb.BayId,
@@ -52,7 +67,7 @@ tblb.BayName
 ,cvMfr.valuedesc AS VehicleMake
 ,cvMo.valuedesc AS VehicleModel
 ,cvCo.valuedesc AS VehicleColor
-,tblcv.Upcharge
+,ISNULL(upc.Price,0.00) AS Upcharge
 FROM 
 tblJob tblj inner join tblClient tblc ON(tblj.ClientId = tblc.ClientId) 
 inner join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
@@ -65,14 +80,13 @@ inner join tblJobItem tblji ON(tblj.JobId = tblji.JobId)
 inner join tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
 right join tblBay tblb ON(tbljd.BayId = tblb.BayId)
 inner join GetTable('ServiceType') st ON(st.valueid = tbls.ServiceType)
+left join #Upcharge upc ON(tblj.JobId = upc.JobId)
 WHERE 
 (tblj.JobDate is null OR tblj.JobDate=@JobDate)
 and 
-(@LocationId is null OR tblj.LocationId=@LocationId)
+((@LocationId is null  OR @LocationId=0)OR tblj.LocationId=@LocationId)
 and
-(st.valuedesc='Details' 
-or
-st.valuedesc='Outside Services')
+(st.valuedesc='Details')
 and
 tblj.IsActive=1
 and

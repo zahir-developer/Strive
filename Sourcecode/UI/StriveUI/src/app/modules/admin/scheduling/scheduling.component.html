@@ -150,16 +150,16 @@
                         <div class="form-group col-md-6">
                             <label >Start Time</label>
                             <ng-template #popTemplate>
-                                <timepicker id="timeStart"  [(ngModel)]="startTime" [ngModelOptions]="{standalone: true}" [showMeridian]="true" [showMinutes]="true" [showSeconds]="true"></timepicker>
+                                <timepicker id="timeStart"  [(ngModel)]="startTime" [ngModelOptions]="{standalone: true}" [showMeridian]="true" [showMinutes]="true"></timepicker>
                             </ng-template>
-                            <input type="text"  id="startTime"  class="form-control"  [ngModel]="startTime | date:'hh:mm aa'" [ngModelOptions]="{standalone: true}" (ngModelChange)="startTime=$event" [popover]="popTemplate" [outsideClick]="true" placement="bottom" />
+                            <input type="text"  id="startTime"  class="form-control"  [ngModel]="startTime | date:'hh:mm aa'" [ngModelOptions]="{standalone: true}" (ngModelChange)="startTime=$event" [popover]="popTemplate" [outsideClick]="true" placement="bottom" [appMaxLength]="5" />
                         </div> 
                         <div class="form-group col-md-6">
                             <label>End Time</label>
                             <ng-template #popTemplateEnd>
-                                <timepicker  id="timeEnd" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}" [showMeridian]="true" [showMinutes]="true" [showSeconds]="true"></timepicker>
+                                <timepicker  id="timeEnd" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}" [showMeridian]="true" [showMinutes]="true" ></timepicker>
                             </ng-template>
-                            <input id="endTime" type="text"  class="form-control" [ngModel]="endTime | date:'hh:mm aa'"  [ngModelOptions]="{standalone: true}" (ngModelChange)="endTime=$event" [popover]="popTemplateEnd" [outsideClick]="true" placement="bottom" [appMaxLength]/>
+                            <input id="endTime" type="text"  class="form-control" [ngModel]="endTime | date:'hh:mm aa'"  [ngModelOptions]="{standalone: true}" (ngModelChange)="endTime=$event" [popover]="popTemplateEnd" [outsideClick]="true" placement="bottom" [appMaxLength]="5"/>
                          </div>
                     </div>
                     <div class="form-row">

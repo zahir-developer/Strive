@@ -5,6 +5,8 @@
 
 
 
+
+
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 31-08-2020
@@ -90,6 +92,7 @@ tbljse.ServiceId,
 tbls.ServiceName,
 tbls.Cost,
 tbljse.EmployeeId,
+ISNULL(tbljse.CommissionAmount,'0.00')CommissionAmount,
 CONCAT(tble.FirstName,' ',tble.LastName) AS EmployeeName
 from StriveCarSalon.tblJobServiceEmployee tbljse with(nolock) 
 INNER JOIN StriveCarSalon.tblJobItem tblji ON tbljse.JobItemId = tblji.JobItemId

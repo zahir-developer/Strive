@@ -45,14 +45,14 @@ export class ExcelService {
     const data = document.getElementById(templateId);
     html2canvas(data).then(canvas => {
       // Few necessary setting options
-      const imgWidth = 208;
+      const imgWidth = 188;
       const pageHeight = 295;
       const imgHeight = canvas.height * imgWidth / canvas.width;
       const heightLeft = imgHeight;
       const contentDataURL = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
       const position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(contentDataURL, 'PNG', 10, 10, imgWidth, imgHeight);
       pdf.save(fileName); // Generated PDF
       this.spinner.hide();
     });

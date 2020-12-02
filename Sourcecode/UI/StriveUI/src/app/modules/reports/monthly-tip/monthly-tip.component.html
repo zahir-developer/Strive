@@ -32,7 +32,7 @@
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="Monthlyreport" ngxPrint>Print</button>&nbsp;
+                                [printStyle]="{input: {'visibility': 'hidden'}, button: {'visibility': 'hidden'}}"  printSectionId="monthlyReport" ngxPrint>Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="getMonthlyTipReport()">Refresh</button>
                             </div>
@@ -44,11 +44,12 @@
             <!-- end card-->
             <div class="card m-t-10">
                 <div class="card-body">
+                    <div id="monthlyReport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Tip Report </span>
-                            <div class="d-inline-block"><input type="text" class="form-control" [(ngModel)]="tipAmount" appTwoDecimalNumber size="2" placeholder="Tip Total">
+                            <div class="d-inline-block"><input type="text" id='monthlyTipTotal' class="form-control" [(ngModel)]="tipAmount" appTwoDecimalNumber size="2" placeholder="Tip Total">
                             </div>
-                            &nbsp;<button type="button" class="btn theme-primary-button-color" [disabled]="!tipAmount" (click)="submit()">Submit</button>
+                            &nbsp;<button type="button" id='monthlyTip' class="btn theme-primary-button-color" [disabled]="!tipAmount" (click)="submit()">Submit</button>
                         </h4>
                         <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Monthlyreport"
                                 role="button" aria-expanded="false" aria-controls="Monthlyreport"><i
@@ -84,14 +85,17 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                            <ul class="pagination justify-content-end">
-                                <ngb-pagination *ngIf="collectionSize > 5" [collectionSize]="collectionSize"
-                                    [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                    [boundaryLinks]="true" class="d-flex justify-content-end">
-                                </ngb-pagination>
-                            </ul>
+                            
                         </div>
                     </div>
+                   
+                </div>
+                <ul class="pagination justify-content-end">
+                    <ngb-pagination *ngIf="collectionSize > 5" [collectionSize]="collectionSize"
+                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                        [boundaryLinks]="true" class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </ul>
                 </div>
                 <!-- end card-body -->
             </div>

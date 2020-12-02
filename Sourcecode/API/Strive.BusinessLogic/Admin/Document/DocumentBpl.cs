@@ -22,27 +22,27 @@ namespace Strive.BusinessLogic.Document
         {
         }
 
-        public Result UploadDocument(EmployeeDocumentModel documentModel)
+        public Result UploadEmployeeDocument(EmployeeDocumentModel documentModel)
         {
             try
             {
-                string error = ValidateFiles(documentModel.EmployeeDocument);
+                string error = ValidateEmployeeFiles(documentModel.EmployeeDocument);
                 if (!(error == string.Empty))
                 {
                     _result = Helper.ErrorMessageResult(error);
                 }
 
-                documentModel.EmployeeDocument = UploadFiles(documentModel.EmployeeDocument);
+                documentModel.EmployeeDocument = UploadEmployeeFiles(documentModel.EmployeeDocument);
                 var documentSave = false;
                 if (documentModel.EmployeeDocument != null)
                 {
                     if (!documentModel.EmployeeDocument.Any(s => s.Filename == string.Empty))
                     {
-                        documentSave = SaveDocument(documentModel);
+                        documentSave = SaveEmployeeDocument(documentModel);
 
                         if (!documentSave)
                         {
-                            DeleteFiles(documentModel.EmployeeDocument);
+                            ArchiveEmployeeFiles(documentModel.EmployeeDocument);
                         }
 
                         _resultContent.Add(documentSave.WithName("Status"));
@@ -64,35 +64,35 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
-        public string ValidateFiles(List<EmployeeDocument> employeeDocument)
+        public string ValidateEmployeeFiles(List<EmployeeDocument> employeeDocument)
         {
             string error = string.Empty;
             foreach (var doc in employeeDocument)
             {
-                error = ValidateFileFormat(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, doc.Filename);
+                error = ValidateFileFormat(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, doc.Filename);
                 if (!string.IsNullOrEmpty(error))
                     return error;
             }
             return error;
         }
 
-        public List<EmployeeDocument> UploadFiles(List<EmployeeDocument> employeeDocuments)
+        public List<EmployeeDocument> UploadEmployeeFiles(List<EmployeeDocument> employeeDocuments)
         {
 
             foreach (var doc in employeeDocuments)
             {
-                doc.Filename = Upload(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, doc.Base64, doc.Filename);
+                doc.Filename = Upload(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, doc.Base64, doc.Filename);
                 doc.FileType = Path.GetExtension(doc.Filename);
                 if (doc.Filename == string.Empty)
                 {
-                    DeleteFiles(employeeDocuments);
+                    ArchiveEmployeeFiles(employeeDocuments);
                 }
             }
 
             return employeeDocuments;
         }
 
-        public string Upload(GlobalUpload.UploadFolder uploadFolder, string Base64Url, string fileName)
+        public string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName)
         {
             string uploadPath = GetUploadFolderPath(uploadFolder);
             fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
@@ -106,24 +106,24 @@ namespace Strive.BusinessLogic.Document
 
         }
 
-        public string ValidateFileFormat(GlobalUpload.UploadFolder upload, string fileName)
+        public string ValidateFileFormat(GlobalUpload.DocumentType upload, string fileName)
         {
             string invalid = string.Empty;
-            if (GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT == upload)
+            if (GlobalUpload.DocumentType.EMPLOYEEDOCUMENT == upload)
             {
                 if (_tenant.DocumentFormat.Contains(Path.GetExtension(fileName).ToUpper()))
                     return string.Empty;
                 else
                     return "Invalid file format uploaded. Valid formats: " + _tenant.DocumentFormat;
             }
-            else if (GlobalUpload.UploadFolder.PRODUCTIMAGE == upload)
+            else if (GlobalUpload.DocumentType.PRODUCTIMAGE == upload)
             {
                 if (_tenant.ProductImageFormat.Contains(Path.GetExtension(fileName).ToUpper()))
                     return string.Empty;
                 else
                     return invalid + _tenant.ProductImageFormat;
             }
-            else if (GlobalUpload.UploadFolder.LOGO == upload)
+            else if (GlobalUpload.DocumentType.LOGO == upload)
             {
                 if (_tenant.LogoImageFormat.Contains(Path.GetExtension(fileName).ToUpper()))
                     return string.Empty;
@@ -134,9 +134,9 @@ namespace Strive.BusinessLogic.Document
                 return string.Empty;
         }
 
-        public void DeleteFiles(List<EmployeeDocument> documents)
+        public void ArchiveEmployeeFiles(List<EmployeeDocument> documents)
         {
-            string uploadPath = GetUploadFolderPath(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT);
+            string uploadPath = GetUploadFolderPath(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT);
 
             string filePath = string.Empty;
             foreach (var doc in documents)
@@ -144,28 +144,28 @@ namespace Strive.BusinessLogic.Document
                 filePath = uploadPath + doc.Filename;
                 if (File.Exists(uploadPath))
                 {
-                    File.Delete(uploadPath);
+                    File.Move(filePath, GlobalUpload.ArchiveFolder.ARCHIVED.ToString() + "\\" + doc.Filename);
                 }
             }
         }
 
-        public bool SaveDocument(EmployeeDocumentModel documentModel)
+        public bool SaveEmployeeDocument(EmployeeDocumentModel documentModel)
         {
-            return new DocumentRal(_tenant).SaveDocument(documentModel);
+            return new DocumentRal(_tenant).SaveEmployeeDocument(documentModel);
         }
 
-        public Result GetDocumentById(int documentId, string password)
+        public Result GetEmployeeDocumentById(int documentId, string password)
         {
             try
             {
-                var document = new DocumentRal(_tenant).GetDocumentById(documentId);
+                var document = new DocumentRal(_tenant).GetEmployeeDocumentById(documentId);
                 string base64 = string.Empty;
                 if (document != null)
                 {
                     if (document.IsPasswordProtected)
                     {
                         if (document.Password == password)
-                            base64 = GetBase64(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, document.FileName);
+                            base64 = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, document.FileName);
                         else
                         {
                             string errorMessage = "Invalid Password !!!";
@@ -175,7 +175,7 @@ namespace Strive.BusinessLogic.Document
                     }
                     else
                     {
-                        base64 = GetBase64(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, document.FileName);
+                        base64 = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, document.FileName);
                     }
                 }
 
@@ -189,7 +189,7 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
-        public string GetBase64(GlobalUpload.UploadFolder module, string fileName)
+        public string GetBase64(GlobalUpload.DocumentType module, string fileName)
         {
             string baseFolder = GetUploadFolderPath(module);
 
@@ -210,16 +210,16 @@ namespace Strive.BusinessLogic.Document
             return base64data;
         }
 
-        public Result GetDocumentByEmployeeId(int employeeId)
+        public Result GetEmployeeDocumentByEmployeeId(int employeeId)
         {
             try
             {
-                var lstDocumentById = new DocumentRal(_tenant).GetDocumentByEmployeeId(employeeId);
+                var lstDocumentById = new DocumentRal(_tenant).GetEmployeeDocumentByEmployeeId(employeeId);
                 if (lstDocumentById.Count > 0)
                 {
                     foreach (var item in lstDocumentById)
                     {
-                        item.Base64Url = GetBase64(GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT, item.FileName);
+                        item.Base64Url = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, item.FileName);
                     }
                 }
 
@@ -247,11 +247,11 @@ namespace Strive.BusinessLogic.Document
 
         }
 
-        public Result DeleteDocument(int documentId)
+        public Result DeleteEmployeeDocument(int documentId)
         {
             try
             {
-                return ResultWrap(new DocumentRal(_tenant).DeleteDocument, documentId, "Result");
+                return ResultWrap(new DocumentRal(_tenant).DeleteEmployeeDocument, documentId, "Result");
             }
             catch (Exception ex)
             {
@@ -260,34 +260,54 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
-        public void DeleteFile(GlobalUpload.UploadFolder uploadFolder, string fileName)
+        public void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName)
         {
             string filePath = GetUploadFolderPath(uploadFolder) + fileName;
             if (File.Exists(filePath))
             {
-                File.Delete(filePath);
+                File.Move(filePath, GetUploadFolderPath(uploadFolder) + GlobalUpload.ArchiveFolder.ARCHIVED.ToString() + "\\" + fileName);
             }
         }
 
-        private string GetUploadFolderPath(GlobalUpload.UploadFolder module)
+        public void DeleteFile(GlobalUpload.DocumentType uploadFolder, string fileName)
+        {
+            string filePath = GetUploadFolderPath(uploadFolder) + fileName;
+            if (File.Exists(filePath))
+            {
+                string archiveFolder = GetUploadFolderPath(uploadFolder) + GlobalUpload.ArchiveFolder.ARCHIVED.ToString();
+                if (!File.Exists(archiveFolder))
+                    Directory.CreateDirectory(archiveFolder);
+                File.Move(filePath, archiveFolder + "\\" + fileName);
+            }
+        }
+
+        private string GetUploadFolderPath(GlobalUpload.DocumentType module)
         {
             string path = string.Empty;
             string subPath = string.Empty;
             switch (module)
             {
-                case GlobalUpload.UploadFolder.EMPLOYEEDOCUMENT:
+                case GlobalUpload.DocumentType.EMPLOYEEDOCUMENT:
                     subPath = _tenant.DocumentUploadFolder;
                     break;
-                case GlobalUpload.UploadFolder.PRODUCTIMAGE:
+                case GlobalUpload.DocumentType.PRODUCTIMAGE:
                     subPath = _tenant.ProductImageFolder;
                     break;
-                case GlobalUpload.UploadFolder.LOGO:
+                case GlobalUpload.DocumentType.LOGO:
                     subPath = _tenant.LogoImageFolder;
+                    break;
+                case GlobalUpload.DocumentType.EMPLOYEEHANDBOOK:
+                    subPath = _tenant.GeneralDocumentFolder;
+                    break;
+                case GlobalUpload.DocumentType.TERMSANDCONDITION:
+                    subPath = _tenant.GeneralDocumentFolder;
                     break;
                 default:
                     subPath = "";
                     break;
             }
+
+            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             return path + subPath;
 
@@ -314,6 +334,55 @@ namespace Strive.BusinessLogic.Document
                     objBitmap.Save(saveFilePath);
                 }
             }
+        }
+
+        public Result AddDocument(DocumentDto documentModel)
+        {
+            string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
+
+            documentModel.Document.OriginalFileName = documentModel.Document.FileName;
+            documentModel.Document.FileName = fileName;
+            documentModel.Document.FilePath = GetUploadFolderPath(documentModel.DocumentType) + fileName;
+
+            var result = new DocumentRal(_tenant).AddDocument(documentModel);
+
+            if (!result)
+            {
+                DeleteFile(documentModel.DocumentType, fileName);
+            }
+
+            _resultContent.Add(result.WithName("Result"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
+
+        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
+        {
+            var document = new DocumentRal(_tenant).GetDocument(documentTypeId);
+
+            document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+
+            _resultContent.Add(document.WithName("Document"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
+        public Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
+        {
+            var docRal = new DocumentRal(_tenant);
+            var doc = docRal.GetDocument(documentTypeId);
+            var result = docRal.DeleteDocument(documentTypeId);
+
+            if (result)
+            {
+                DeleteFile(documentType, doc.Document.FileName);
+            }
+
+            _resultContent.Add(result.WithName("Result"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
         }
 
     }

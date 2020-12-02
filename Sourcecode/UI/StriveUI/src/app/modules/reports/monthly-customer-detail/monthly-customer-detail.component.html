@@ -30,7 +30,7 @@
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="custDetailExport" ngxPrint>Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="getCustomerMonthlyDetailReport()">Refresh</button>
                             </div>
                         </div>
@@ -39,7 +39,8 @@
             </div>
             <!-- end card-->
             <div class="card m-t-10">
-                <div class="card-body" id="custDetailExport">
+                <div class="card-body" >
+                    <div id="custDetailExport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Customer Detail Report
                                 for {{selectedDate}}</span>
@@ -88,6 +89,7 @@
                             </ul>
                         </div>
                     </div>
+                </div>
                 </div>
                 <!-- end card-body -->
             </div>
