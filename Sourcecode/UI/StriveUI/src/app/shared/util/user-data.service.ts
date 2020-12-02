@@ -12,6 +12,8 @@ export class UserDataService {
   userDetails: any;
   private header: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public headerName = this.header.asObservable();
+  private nav: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public navName = this.nav.asObservable();
   private unReadMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public unReadMessageDetail = this.unReadMessage.asObservable();
   constructor(private authenticateObservableService: AuthenticateObservableService, private http: HttpUtilsService) {
@@ -25,6 +27,7 @@ export class UserDataService {
     // }
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
+
     if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
       localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
     } else {
@@ -44,8 +47,7 @@ export class UserDataService {
     localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].Roleid);
     localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.Firstname);
     localStorage.setItem('employeeLastName', token.EmployeeDetails.EmployeeLogin.LastName);
-    
-      localStorage.setItem('RolePermission',JSON.stringify(token.EmployeeDetails.RolePermissionViewModel) );
+
     
               
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
@@ -53,7 +55,7 @@ export class UserDataService {
   setHeaderName(headerName) {
     this.header.next(headerName);
   }
-
+  
   setViews(views) {
     localStorage.setItem('views', JSON.stringify(views));
   }
