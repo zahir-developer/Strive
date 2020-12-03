@@ -6,7 +6,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CheckoutRoutingModule } from './checkout-routing.module';
 import { CheckoutGridComponent } from './checkout-grid/checkout-grid.component';
-import { CheckoutComponent } from './checkout.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 import { TooltipModule } from 'primeng/tooltip';
 
 
