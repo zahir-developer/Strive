@@ -39,7 +39,7 @@ export class AuthService {
     this.loggedIn.next(false);
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
-    localStorage.removeItem('Role');
+    localStorage.removeItem('views');
 
     document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
