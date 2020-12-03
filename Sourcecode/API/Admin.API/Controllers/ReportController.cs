@@ -232,21 +232,21 @@ namespace Admin.API.Controllers
                     worksheet5.Cell(2, 2).Value = "0.00";
                     worksheet5.Cell(3, 2).Value = "0.00";
                     worksheet5.Cell(4, 2).Value = "0.00";
-                    worksheet5.Cell(5, 2).Value = sales.Credit.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(6, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(7, 2).Value = sales.Account.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(8, 2).Value = sales.GiftCard.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(9, 2).Value = sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(10, 2).Value =sales.Total.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(11, 2).Value =sales.TaxAmount.ToString("C", CultureInfo.GetCultureInfo("en-US"));  
-                    worksheet5.Cell(12, 2).Value =sales.GrandTotal.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(13, 2).Value =sales.Cash.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
+                    worksheet5.Cell(5, 2).Value = sales.Credit.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(6, 2).Value = sales.TotalPaid.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(7, 2).Value = sales.Account.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(8, 2).Value = sales.GiftCard.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(9, 2).Value = sales.TotalPaid.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(10, 2).Value =sales.Total.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(11, 2).Value =sales.TaxAmount.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));  
+                    worksheet5.Cell(12, 2).Value =sales.GrandTotal.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(13, 2).Value =sales.Cash.Value.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
                     worksheet5.Cell(14, 2).Value ="0.00"; 
-                    worksheet5.Cell(15, 2).Value =sales.Credit.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(16, 2).Value =sales.Account.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(17, 2).Value =sales.GiftCard.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(18, 2).Value =sales.TotalPaid.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(19, 2).Value =sales.CashBack.ToString("C", CultureInfo.GetCultureInfo("en-US"));  
+                    worksheet5.Cell(15, 2).Value =sales.Credit.Value.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
+                    worksheet5.Cell(16, 2).Value =sales.Account.Value.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
+                    worksheet5.Cell(17, 2).Value =sales.GiftCard.Value.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
+                    worksheet5.Cell(18, 2).Value =sales.TotalPaid.Value.ToString("C", CultureInfo.GetCultureInfo("en-US")); 
+                    worksheet5.Cell(19, 2).Value =sales.CashBack.Value.ToString("C", CultureInfo.GetCultureInfo("en-US"));  
                 }
 
 
