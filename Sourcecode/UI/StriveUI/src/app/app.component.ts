@@ -15,8 +15,9 @@ export class AppComponent implements OnInit {
   title = 'StriveUI';
   isUserAuthenticated = false;
   navData: any;
-  localStorageUpdation: any;
+  localStorageUpdation = 'false';
   updation: boolean;
+  showViewMaster: boolean;
   constructor(private user: UserDataService, 
     private router : Router,
     private authService: AuthenticateObservableService,
@@ -42,13 +43,16 @@ export class AppComponent implements OnInit {
       if (data) {
         localStorage.setItem('full',data)
 
-        
+        this.localStorageUpdation = 'false';
       }
     }) 
      
   
       
     
+  }
+  closePopup(e) {
+    this.showViewMaster = false;
   }
   setHeaderName() {
     if (localStorage.getItem('employeeName') !== undefined) {

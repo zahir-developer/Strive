@@ -16,7 +16,6 @@ export class UserDataService {
   public navName = this.nav.asObservable();
   private unReadMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public unReadMessageDetail = this.unReadMessage.asObservable();
- public navigation: BehaviorSubject<boolean> = new BehaviorSubject<any>(false);
   constructor(private authenticateObservableService: AuthenticateObservableService, private http: HttpUtilsService) {
   }
   setUserSettings(loginToken) {
@@ -67,8 +66,7 @@ export class UserDataService {
   // }
   setSides(navName) {
 this.nav.next(navName)
-localStorage.setItem('navName', JSON.stringify(navName));
-this.navigation.next(true)
+localStorage.setItem('navName', navName);
 
  }
 

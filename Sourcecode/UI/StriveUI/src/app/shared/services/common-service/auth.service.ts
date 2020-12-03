@@ -40,6 +40,10 @@ export class AuthService {
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('views');
+    localStorage.removeItem('full');
+
+    localStorage.removeItem('navName');
+
     localStorage.clear();
 
 
