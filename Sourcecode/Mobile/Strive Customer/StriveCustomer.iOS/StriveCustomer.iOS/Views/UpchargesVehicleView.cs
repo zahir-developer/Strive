@@ -39,9 +39,8 @@ namespace StriveCustomer.iOS.Views
             {
                 if (ViewModel.VehicleUpchargeCheck())
                 {
-                    
+                    ViewModel.NavToAdditionalServices();
                 }
-
             };
 
             UpchargesVehicle_TableView.Layer.CornerRadius = 5;
