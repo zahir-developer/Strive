@@ -16,7 +16,7 @@ export class SidenavComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   viewName: string;
   rollName: string;
-  RolePermission :any = [];
+  RolePermission :any ;
   ModuleName: any;
   salesModule: boolean;
   adminModule: boolean;
@@ -46,20 +46,38 @@ export class SidenavComponent implements OnInit {
   monthlyMoneyOwnedView: boolean;
   monthlyCustomerDetailView: boolean;
   hourlyWashReportView: boolean;
+  roles: any;
+  newRolePermission: string;
   constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.getLogo();
-    this.RolePermission = JSON.parse(localStorage.getItem('RolePermission'))
-  this.getRoles();
+    
+this.user.navName.subscribe((data = []) => {
+  if(data){
+    this.roles = JSON.parse(data);
+    this.getRoles();
+    
+   
+  }
+  else{
+    this.RolePermission= localStorage.getItem('views');
+    this.roles = JSON.parse(this.RolePermission);
+    this.getRoles();
+
+
+  }
+ 
+
+})
 
   }
   getRoles(){
-    for (let i = 0; i < this.RolePermission.length; i++){
-        this.viewName = this.RolePermission[i].ViewName;
-        this.rollName = this.RolePermission[i].RollName;
-        this.ModuleName = this.RolePermission[i].ModuleName;
+    for (let i = 0; i < this.roles.length ; i++){
+        this.viewName = this.roles[i].ViewName;
+        this.rollName = this.roles[i].RollName;
+        this.ModuleName = this.roles[i].ModuleName;
               // Sales Module        
         if(this.ModuleName === "Sales"){
            this.salesModule = true;
@@ -117,7 +135,7 @@ export class SidenavComponent implements OnInit {
                 if(this.viewName === 'Daily Status Screen'){
                   this.dailyStatusView = true;
               }
-              if(this.viewName === 'Eod Report'){
+              if(this.viewName === 'EOD Report'){
                this.eodReportView = true;
               }
               if(this.viewName === 'Daily Tip report'){

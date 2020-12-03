@@ -96,7 +96,7 @@ export class VehicleCreateEditComponent implements OnInit {
           this.getMemberServices(this.memberServiceId);
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
-          });          
+          });
         }
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService !== null) {
           this.patchedService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
@@ -123,7 +123,7 @@ export class VehicleCreateEditComponent implements OnInit {
             allowSearchFilter: false
           };
           this.vehicleForm.patchValue({
-            services : this.memberService
+            services: this.memberService
           });
         }
       }
@@ -169,18 +169,20 @@ export class VehicleCreateEditComponent implements OnInit {
         this.memberService = this.memberService.filter(i => i.item_id !== element.ServiceId);
       });
     }
-    // this.memberService = [];
+    this.memberService = [];
     // this.patchedService = [];    
     this.vehicle.getMembershipById(Number(data)).subscribe(res => {
       if (res.status === 'Success') {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-        this.vehicleForm.patchValue({
-          monthlyCharge: membership.MembershipAndServiceDetail.Membership.Price.toFixed(2)
-        });
-        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-          this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
+          this.vehicleForm.patchValue({
+            monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
+          });
+        if (this.membershipServices !== null) {
+          if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
+            this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
+          }
         }
         this.memberOnchangePatchedService.forEach(element => {
           if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
@@ -203,6 +205,16 @@ export class VehicleCreateEditComponent implements OnInit {
             item_text: item.ServiceName
           };
         });
+        this.dropdownSettings = {
+          singleSelection: false,
+          defaultOpen: false,
+          idField: 'item_id',
+          textField: 'item_text',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          itemsShowLimit: 2,
+          allowSearchFilter: false
+        };
         this.vehicleForm.get('services').patchValue(this.memberService);
         if (this.patchedService !== undefined) {
           this.patchedService.forEach(element => {
@@ -347,13 +359,13 @@ export class VehicleCreateEditComponent implements OnInit {
         // clientMembershipId: this.,
         clientVehicleId: this.selectedData.ClientVehicleId,
         locationId: localStorage.getItem('empLocationId'),
-        membershipId: this.vehicleForm.value.membership,
+        membershipId: this.vehicleForm.value.membership === "" ? this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
         startDate: new Date().toLocaleDateString(),
         endDate: new Date((new Date()).setDate((new Date).getDate() + 30)).toLocaleDateString(),
         status: true,
         notes: '',
-        isActive: true,
-        isDeleted: false,
+        isActive: this.vehicleForm.value.membership === "" ? false : true,
+        isDeleted: this.vehicleForm.value.membership === "" ? true : false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
@@ -376,11 +388,11 @@ export class VehicleCreateEditComponent implements OnInit {
           };
         });
       }
-      
+
 
 
       const model = {
-        clientVehicleMembershipDetails: membership.membershipId !== '' ? membership : null,
+        clientVehicleMembershipDetails: membership.membershipId === '' && membership.clientMembershipId === 0 ? null : membership,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
