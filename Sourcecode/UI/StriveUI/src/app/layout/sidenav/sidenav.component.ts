@@ -54,27 +54,23 @@ export class SidenavComponent implements OnInit {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.getLogo();
     
-    this.RolePermission= localStorage.getItem('Role');
-     this.roles = JSON.parse(this.RolePermission);
-        this.getRoles();
-// this.user.navName.subscribe((data = []) => {
-//   if(data){
-//     localStorage.removeItem('Role');
-//     this.roles = JSON.parse(data);
-//     this.getRoles();
+this.user.navName.subscribe((data = []) => {
+  if(data){
+    this.roles = JSON.parse(data);
+    this.getRoles();
     
    
-//   }
-//   else{
-//     this.RolePermission= localStorage.getItem('Role');
-//     this.roles = JSON.parse(this.RolePermission);
-//     this.getRoles();
+  }
+  else{
+    this.RolePermission= localStorage.getItem('views');
+    this.roles = JSON.parse(this.RolePermission);
+    this.getRoles();
 
 
-//   }
+  }
  
 
-// })
+})
 
   }
   getRoles(){

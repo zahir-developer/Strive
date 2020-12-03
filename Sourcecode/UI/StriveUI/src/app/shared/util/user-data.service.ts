@@ -34,11 +34,14 @@ export class UserDataService {
       localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
     }
     if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
-      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+
       // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
     }
     this.setHeaderName(token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
+      this.setSides(token?.EmployeeDetails?.RolePermissionViewModel);
+      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+
     this.getUnreadMessage(token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
     localStorage.setItem('employeeName', token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
@@ -59,6 +62,10 @@ export class UserDataService {
   setViews(views) {
     localStorage.setItem('views', JSON.stringify(views));
   }
+  setSides(navName) {
+this.nav.next(navName)
+
+ }
 
   getUnreadMessage(id) {
     this.http.get(`${UrlConfig.Messenger.getUnReadMessageCount}` + id).subscribe(res => {
