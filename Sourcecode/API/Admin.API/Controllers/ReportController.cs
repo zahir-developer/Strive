@@ -62,6 +62,15 @@ namespace Admin.API.Controllers
         [Route("GetMonthlyMoneyOwnedReport")]
         public Result GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned) => _bplManager.GetMonthlyMoneyOwnedReport(MonthlyMoneyOwned);
 
+        /// <summary>
+        /// HarlyWashReport
+        /// </summary>
+        /// <param name="salesReportDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetHourlyWashReport")]
+        public Result GetHourlyWashReport([FromBody] SalesReportDto salesReportDto) => _bplManager.GetHourlyWashReport(salesReportDto);
+
 
         /// <summary>
         /// Method to Get EOD Sales Report.

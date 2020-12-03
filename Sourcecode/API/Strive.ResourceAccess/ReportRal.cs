@@ -108,12 +108,21 @@ namespace Strive.ResourceAccess
             return result;
         }
 
-        public HourlyWashViewModel GetHourlyWashReport(SalesReportDto salesReportDto)
+        public List<WashHoursViewModel> GetHourlyWashReport(SalesReportDto salesReportDto)
         {
             _prm.Add("@LocationId", salesReportDto.LocationId);
             _prm.Add("@FromDate", salesReportDto.FromDate);
             _prm.Add("@EndDate", salesReportDto.EndDate);
-           var result=db.FetchMultiResult<HourlyWashViewModel>(EnumSP.SalesReport.USPGETHOURLYWASHREPORT.ToString(), _prm);
+            var result = db.Fetch<WashHoursViewModel>(EnumSP.SalesReport.USPGETHOURLYWASHREPORT.ToString(), _prm);
+            return result;
+        }
+
+        public HourlyWashSalesViewModel GetHourWashSalesReport(SalesReportDto salesReportDto)
+        {
+            _prm.Add("@LocationId", salesReportDto.LocationId);
+            _prm.Add("@FromDate", salesReportDto.FromDate);
+            _prm.Add("@EndDate", salesReportDto.EndDate);
+            var result = db.FetchMultiResult<HourlyWashSalesViewModel>(EnumSP.SalesReport.USPGETHOURLYWASHSALESREPORT.ToString(), _prm);
             return result;
         }
     }
