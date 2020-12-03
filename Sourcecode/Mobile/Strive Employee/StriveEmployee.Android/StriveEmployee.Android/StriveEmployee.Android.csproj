@@ -92,6 +92,7 @@
     <Compile Include="Fragments\MyProfile\EditPersonalDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EmployeeInfoFragment.cs" />
     <Compile Include="Fragments\MyProfile\MyProfileFragment.cs" />
+    <Compile Include="Fragments\MyTicket\MyTicketFragment.cs" />
     <Compile Include="Fragments\Schedule\ScheduleFragment.cs" />
     <Compile Include="Listeners\IItemClickListener.cs" />
     <Compile Include="MainApplication.cs" />
@@ -849,6 +850,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ticket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MyTickets_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
