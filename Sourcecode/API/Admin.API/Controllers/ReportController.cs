@@ -57,6 +57,14 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetMonthlyMoneyOwnedReport/{date}")]
         public Result GetMonthlyMoneyOwnedReport(string date) => _bplManager.GetMonthlyMoneyOwnedReport(date);
+        /// <summary>
+        /// HarlyWashReport
+        /// </summary>
+        /// <param name="salesReportDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetHourlyWashReport")]
+        public Result GetHourlyWashReport([FromBody] SalesReportDto salesReportDto) => _bplManager.GetHourlyWashReport(salesReportDto);
 
 
         /// <summary>

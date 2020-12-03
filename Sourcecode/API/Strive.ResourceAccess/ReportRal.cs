@@ -98,5 +98,14 @@ namespace Strive.ResourceAccess
             _prm.Add("@EndDate", salesReportDto.EndDate);
             return db.FetchMultiResult<EODSalesReportViewModel>(EnumSP.SalesReport.USPGETEODSALESREPORT.ToString(), _prm);
         }
+
+        public HourlyWashViewModel GetHourlyWashReport(SalesReportDto salesReportDto)
+        {
+            _prm.Add("@LocationId", salesReportDto.LocationId);
+            _prm.Add("@FromDate", salesReportDto.FromDate);
+            _prm.Add("@EndDate", salesReportDto.EndDate);
+           var result=db.FetchMultiResult<HourlyWashViewModel>(EnumSP.SalesReport.USPGETHOURLYWASHREPORT.ToString(), _prm);
+            return result;
+        }
     }
 }
