@@ -12,6 +12,8 @@ export class UserDataService {
   userDetails: any;
   private header: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public headerName = this.header.asObservable();
+  private nav: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public navName = this.nav.asObservable();
   private unReadMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public unReadMessageDetail = this.unReadMessage.asObservable();
   constructor(private authenticateObservableService: AuthenticateObservableService, private http: HttpUtilsService) {
@@ -25,17 +27,21 @@ export class UserDataService {
     // }
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
+
     if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
       localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
     } else {
       localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
     }
     if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
-      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+
       // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
     }
     this.setHeaderName(token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
+      this.setSides(token?.EmployeeDetails?.RolePermissionViewModel);
+      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+
     this.getUnreadMessage(token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
     localStorage.setItem('employeeName', token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
@@ -44,8 +50,7 @@ export class UserDataService {
     localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].Roleid);
     localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.Firstname);
     localStorage.setItem('employeeLastName', token.EmployeeDetails.EmployeeLogin.LastName);
-    
-      localStorage.setItem('RolePermission',token.EmployeeDetails.RolePermissionViewModel) ;
+
     
               
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
@@ -53,10 +58,14 @@ export class UserDataService {
   setHeaderName(headerName) {
     this.header.next(headerName);
   }
-
+  
   setViews(views) {
     localStorage.setItem('views', JSON.stringify(views));
   }
+  setSides(navName) {
+this.nav.next(navName)
+
+ }
 
   getUnreadMessage(id) {
     this.http.get(`${UrlConfig.Messenger.getUnReadMessageCount}` + id).subscribe(res => {
