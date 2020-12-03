@@ -2,8 +2,8 @@
 {
     public class DailyStatusWashInfoViewModel
     {
-        public int WashEmployeeCount { get; set; }
+        public int? WashEmployeeCount { get; set; }
 
-        public decimal WashExpense { get; set; }
+        public decimal? WashExpense { get; set; }
     }
 }
