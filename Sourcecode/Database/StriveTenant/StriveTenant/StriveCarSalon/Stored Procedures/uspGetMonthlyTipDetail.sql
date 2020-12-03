@@ -1,18 +1,10 @@
 ﻿
 
-
-
-
-
-
-
 -- =============================================
 -- Author:		Arunkumae S
 -- Create date: 09-11-2020
 -- Description:	Gets the Monthly tips detail 
 -- =============================================
-
-
 
 
 CREATE PROC [StriveCarSalon].[uspGetMonthlyTipDetail] 
@@ -54,11 +46,9 @@ inner join tblEmployee E on TC.EmployeeId = E.EmployeeId
 where LocationId = @LocationId and DATEPART(month,EventDate) = @Month and DATEPART(year,EventDate) = @year)
 
 SELECT 
-	EmployeeName,EventDate,SUM(ISNULL(Logintime,0)) AS HoursPerDay --(SUM(ISNULL(Logintime,0))/60) AS LoginHours 
+	EmployeeName, SUM(ISNULL(Logintime,0)) AS HoursPerDay --(SUM(ISNULL(Logintime,0))/60) AS LoginHours 
 FROM Hours_Data
-Group by EmployeeName,EventDate
-
-
+Group by EmployeeName
 
 
 END

@@ -66,7 +66,8 @@
                                                     <td>{{checkout.Services}}</td>
                                                     <td class="table-ellipsis" pTooltip="{{checkout.AdditionalServices}}" tooltipPosition="top">{{checkout.AdditionalServices}}</td>
                                                     <td>{{checkout.Cost | currency}}</td>
-                                                    <td class="table-ellipsis text-center" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top"><em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark font-size-1-5 pointer" style="color: #FFA500;"></em>{{checkout.MembershipName}}
+                                                    <td class="table-ellipsis text-center" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top">
+                                                        <em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark font-size-1-5 " style="color: #FFA500;"></em>{{checkout.MembershipName}}
                                                     </td>
                                                     <td [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'PAID' ? 'Green' : 'none'}"><span *ngIf="checkout.MembershipNameOrPaymentStatus === 'PAID'">{{checkout.MembershipNameOrPaymentStatus}}</span>
                                                     </td>

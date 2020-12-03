@@ -19,16 +19,16 @@ namespace Admin.API.Controllers
         public DocumentController(IDocumentBpl documentBpl) : base(documentBpl) { }
 
         [HttpPost]
-        [Route("SaveDocument")]
-        public Result UploadDocument([FromBody]EmployeeDocumentModel documentModel)
+        [Route("SaveEmployeeDocument")]
+        public Result UploadEmployeeDocument([FromBody]EmployeeDocumentModel documentModel)
         {
-            return _bplManager.UploadDocument(documentModel);
+            return _bplManager.UploadEmployeeDocument(documentModel);
         }
         [HttpGet]
-        [Route("GetDocumentById/{documentId},{password}")]
-        public Result GetDocumentById(int documentId, string password)
+        [Route("GetEmployeeDocumentById/{documentId},{password}")]
+        public Result GetEmployeeDocumentById(int documentId, string password)
         {
-            return _bplManager.GetDocumentById(documentId, password);
+            return _bplManager.GetEmployeeDocumentById(documentId, password);
         }
         [HttpPut]
         [Route("UpdatePassword")]
@@ -37,16 +37,37 @@ namespace Admin.API.Controllers
             return _bplManager.UpdatePassword(documentId, password);
         }
         [HttpGet]
-        [Route("GetDocument/{employeeId}")]
-        public Result GetDocument(int employeeId)
+        [Route("GetEmployeeDocument/{employeeId}")]
+        public Result GetEmployeeDocument(int employeeId)
         {
-            return _bplManager.GetDocumentByEmployeeId(employeeId);
+            return _bplManager.GetEmployeeDocumentByEmployeeId(employeeId);
         }
         [HttpDelete]
-        [Route("{documentId}")]
-        public Result DeleteDocument(int documentId)
+        [Route("DeleteEmployeeDocument/{documentId}")]
+        public Result DeleteEmployeeDocument(int documentId)
         {
-            return _bplManager.DeleteDocument(documentId);
+            return _bplManager.DeleteEmployeeDocument(documentId);
+        }
+
+        [HttpPost]
+        [Route("AddDocument")]
+        public Result AddDocument([FromBody] DocumentDto documentModel)
+        {
+            return _bplManager.AddDocument(documentModel);
+        }
+
+        [HttpGet]
+        [Route("GetDocument/{documentTypeId}/{documentType}")]
+        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
+        {
+            return _bplManager.GetDocument(documentTypeId, documentType);
+        }
+
+        [HttpDelete]
+        [Route("DeleteDocument/{documentTypeId}/{documentType}")]
+        public Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
+        {
+            return _bplManager.DeleteDocument(documentTypeId, documentType);
         }
 
     }

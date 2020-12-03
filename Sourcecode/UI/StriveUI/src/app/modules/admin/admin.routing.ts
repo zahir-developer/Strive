@@ -18,12 +18,16 @@ import { GiftCardComponent } from './gift-card/gift-card.component';
 import { MembershipComponent } from './system-setup/membership/membership.component';
 import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
+import { CheckListComponent } from './system-setup/check-list/check-list.component';
+import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/employee-hand-book.component';
+import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
+import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
 
 
 const adminRoutes: Routes = [
-  { path: 'admin', canActivate: [AuthGuard], component: AdminComponent }, {
+  { path: 'admin', component: AdminComponent }, {
     path: '', component: AdminComponent, children: [{
-      path: 'employees', component: EmployeesComponent
+      path: 'employees', component: EmployeesComponent, data: { label: 'PayRoll', title: 'PayRoll', authorization: 'PayRoll' },
     },
     { path: 'scheduling', component: SchedulingComponent },
     { path: 'theme', component: ThemeComponent },
@@ -34,7 +38,6 @@ const adminRoutes: Routes = [
     { path: 'gift-card', component: GiftCardComponent },
     { path: 'time-clock', component: TimeClockMaintenanceComponent },
     { path: 'time-clock-week', component: TimeClockWeekComponent },
-    
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },
@@ -43,6 +46,11 @@ const adminRoutes: Routes = [
         { path: 'product', component: ProductSetupComponent },
         { path: 'vendor', component: VendorSetupComponent },
         { path: 'membership', component: MembershipComponent },
+        { path: 'checkList', component: CheckListComponent },
+        { path: 'empHandBook', component: EmployeeHandBookComponent },
+
+        { path: 'terms&condition', component: TermsAndConditionsComponent },
+        { path: 'bonus', component: BonusSetupComponent },
       ]
     }
     ]

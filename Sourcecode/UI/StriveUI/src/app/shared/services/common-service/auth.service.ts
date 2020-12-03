@@ -25,7 +25,6 @@ export class AuthService {
     return this.http.post(`${UrlConfig.totalUrl.login}`, loginData).pipe(map((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
-
           this.userService.setUserSettings(user.resultData);
           return user;
         }
@@ -33,7 +32,7 @@ export class AuthService {
       return user;
     }));
   }
- 
+
 
   logout() {
     localStorage.setItem('isAuthenticated', 'false');

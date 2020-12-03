@@ -21,6 +21,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string VehicleMake { get; set; }
         public string VehicleModel { get; set; }
         public string VehicleColor { get; set; }
-        public int Upcharge { get; set; }
+        public decimal Upcharge { get; set; }
     }
 }

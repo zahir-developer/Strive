@@ -59,6 +59,14 @@ import { ClientStatementComponent } from './client/client-statement/client-state
 import { ClientHistoryComponent } from './client/client-history/client-history.component';
 import { TimeClockMaintenanceComponent } from './time-clock-maintenance/time-clock-maintenance.component';
 import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week/time-clock-week.component';
+import { CheckListComponent } from './system-setup/check-list/check-list.component';
+import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/employee-hand-book.component';
+import { CreateEditEmployeeHandBookComponent } from './system-setup/employee-hand-book/create-edit-employee-hand-book/create-edit-employee-hand-book.component';
+import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
+import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
+import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-conditions/create-edit-terms-and-conditions/create-edit-terms-and-conditions.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -72,7 +80,9 @@ import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week
     VendorSetupListComponent, OnlynumberDirective, SetupComponent, EditEmployeeComponent,
     EmployeeCollisionComponent, CollisionListComponent, DocumentListComponent,
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
-    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent],
+    AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
+    CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -82,6 +92,7 @@ import { TimeClockWeekComponent } from './time-clock-maintenance/time-clock-week
     FormsModule,
     TableModule,
     DialogModule,
+    NgxMaterialTimepickerModule,
     SharedModule,
     NgbPaginationModule,
     MultiSelectModule,

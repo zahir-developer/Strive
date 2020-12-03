@@ -1,1 +1,252 @@
-<p>hourly-wash works!</p>
+<div class="border-bottom col-12 p-b-10 m-b-10 p-l-0">
+    <h3 class="d-inline-block">Hourly Wash - {{todayDate | date : 'MM-dd-yyyy'}}<i
+            class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></h3>
+</div>
+<div class="col-lg-12 p-l-0 p-r-0">
+    <div class="row no-gutter">
+        <div class="col-12">
+            <div class="row no-gutter">
+                <div class="col-lg-2">
+                    <label>Select Custom Date</label>
+                    <input type="text" class="form-control date datepicker-view" data-toggle="date-picker"
+                        data-single-date-picker="true" placeholder="Report Date" />
+                </div>
+                <div class="col-lg-2">
+                    <label>Select Location</label>
+                    <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
+                </div>
+                <div class="col-lg-2 m-t-31">
+                    <button type="button" class="btn theme-primary-button-color">View</button>
+                </div>
+            </div>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="p-b-5 p-t-5">
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Report
+                                        Date-{{todayDate | date : 'MM-dd-yyyy'}}</span>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="pull-right">
+                                <div class="d-inline-block">
+                                    <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
+                                </div>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Day & Date</th>
+                                    <th scope="col" class="text-right">Temp</th>
+                                    <th scope="col" class="text-right">Rain</th>
+                                    <th scope="col" class="text-right">Washes</th>
+                                    <th scope="col" class="text-right">Score</th>
+                                    <th scope="col" class="text-right">7AM</th>
+                                    <th scope="col" class="text-right">8AM</th>
+                                    <th scope="col" class="text-right">9AM</th>
+                                    <th scope="col" class="text-right">10AM</th>
+                                    <th scope="col" class="text-right">11AM</th>
+                                    <th scope="col" class="text-right">12PM</th>
+                                    <th scope="col" class="text-right">1PM</th>
+                                    <th scope="col" class="text-right">2PM</th>
+                                    <th scope="col" class="text-right">3PM</th>
+                                    <th scope="col" class="text-right">4PM</th>
+                                    <th scope="col" class="text-right">5PM</th>
+                                    <th scope="col" class="text-right">6PM</th>
+                                    <th scope="col" class="text-right">7PM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Sun <br>
+                                        11/22/2020
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right"><br>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right"><br>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="table-responsive">
+                        <table class="table ">
+                            <thead>
+                                <th scope="col">Day</th>
+                                <th scope="col">Day</th>
+                                <th scope="col">Ultra</th>
+                                <th scope="col">Mega</th>
+                                <th scope="col">Mammoth</th>
+                                <th scope="col">Mini</th>
+                                <th scope="col">Deposits</th>
+                                <th scope="col">BC</th>
+                                <th scope="col">Accounts</th>
+                                <th scope="col">Gift Cards</th>
+                                <th scope="col">Tips</th>
+                                <th scope="col">Actual</th>
+                                <th scope="col">Sales</th>
+                                <th scope="col">Difference</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Sun
+                                    </td>
+                                    <td>
+                                        22/11/2020
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="table-foot">
+                                <tr>
+                                    <td colspan="2"
+                                        class="font-weight-700 font-size-1-2 text-center">
+                                        Total 
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control rounded-0 input-table text-right">
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

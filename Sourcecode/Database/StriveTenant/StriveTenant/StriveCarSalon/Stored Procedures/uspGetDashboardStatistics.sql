@@ -1,12 +1,14 @@
 ﻿
 
+
+
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 03-11-2020
 -- Description:	To get Dashboard Details
 -- =============================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics] --2047,'2020-11-18','2020-11-18'
+CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics] --0,'2020-11-01','2020-11-20'
 (@LocationId INT,@FromDate Date,@ToDate Date)
 AS
 BEGIN
@@ -148,7 +150,7 @@ tbll.LocationId = @LocationId--AND (@LocationId IS NULL or tblj.LocationId=@Loca
 	AND (edfl.EventDate>=@FromDate AND edfl.EventDate<=@ToDate) 
 
 	--AND tblj.JobDate='2020-09-29'
-	GROUP BY tbll.LocationId)
+	)
 
 DROP TABLE  IF EXISTS #ForecastedCar
 (SELECT tblj.LocationId,COUNT(VehicleId) ForecastedCar into #ForecastedCar
@@ -350,6 +352,7 @@ GROUP BY tblj.LocationId)
 
 DROP TABLE IF EXISTS #ServiceSales
 SELECT 
+distinct
 tbl.LocationId,
 ISNULL(ws.WashSales,0.00) WashSales,
 ISNULL(ds.DetailSales,0.00) DetailSales,
@@ -362,6 +365,7 @@ LEFT JOIN #ExtraService es ON(tbl.LocationId=es.LocationId) LEFT JOIN #Merchandi
 GROUP BY tbl.LocationId,WashSales,DetailSales,ExtraService,MerchandizeSales
 
 SELECT 
+distinct
 ISNULL(tbl.LocationId,0) LocationId,
 tbl.LocationName,
 ISNULL(wc.WashesCount,0) WashesCount,
@@ -483,7 +487,7 @@ ISNULL(tbls.IsDeleted,0)=0 --AND (@LocationId IS NULL or tblj.LocationId=@Locati
 
 DROP TABLE  IF EXISTS #WashTime1
 (SELECT tbll.LocationId,
-SUM(CASE
+CASE
 	   WHEN wt.Washer <=3 AND wt.CarCount <=1 THEN 25
 	   WHEN wt.Washer <=3 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*8) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
 	   WHEN wt.Washer <=6 AND wt.CarCount <=1 THEN 25
@@ -501,19 +505,18 @@ SUM(CASE
 	   WHEN wt.Washer >26 AND wt.CarCount <=7 THEN 25
 	   WHEN wt.Washer >26 AND wt.CarCount >7  THEN (25+(wt.CarCount - 7)*2) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
 	   ELSE 0
-	   END) AS WashTimeMinutes
+	   END AS WashTimeMinutes
 	   INTO #WashTime1
 	   FROM tblLocation tbll
 LEFT JOIN #WashRoleCount wt ON(tbll.LocationId = wt.LocationId)
 LEFT JOIN tblLocationOffSet tbllo ON(tbll.LocationId = tbllo.LocationId)
 LEFT JOIN #EventDateForLocation edfl ON(tbll.LocationId = edfl.LocationId)
 WHERE isnull(IsActive,1) = 1 AND
-isnull(isDeleted,0) = 0  AND
-tbll.LocationId = @LocationId--AND (@LocationId IS NULL or tblj.LocationId=@LocationId)
+isnull(isDeleted,0) = 0  --AND (@LocationId IS NULL or tblj.LocationId=@LocationId)
 	AND (edfl.EventDate>=@FromDate AND edfl.EventDate<=@ToDate) 
 
 	--AND tblj.JobDate='2020-09-29'
-	GROUP BY tbll.LocationId)
+	)
 
 DROP TABLE  IF EXISTS #ForecastedCar1
 (SELECT tblj.LocationId,COUNT(VehicleId) ForecastedCar into #ForecastedCar1
@@ -711,6 +714,7 @@ LEFT JOIN #ExtraService1 es ON(tbl.LocationId=es.LocationId) LEFT JOIN #Merchand
 GROUP BY tbl.LocationId,WashSales,DetailSales,ExtraService,MerchandizeSales
 
 SELECT 
+distinct
 ISNULL(tbl.LocationId,0) LocationId,
 tbl.LocationName,
 ISNULL(wc.WashesCount,0) WashesCount,

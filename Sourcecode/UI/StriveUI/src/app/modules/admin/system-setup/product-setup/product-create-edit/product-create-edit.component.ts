@@ -173,9 +173,9 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.productSetupForm.invalid) {
       return;
     }
-    // if(this.fileName === null){   
-    //   return;
-    // }
+    if(this.fileName === null){   
+      return;
+    }
     const formObj = {
       productCode: null,
       productDescription: null,

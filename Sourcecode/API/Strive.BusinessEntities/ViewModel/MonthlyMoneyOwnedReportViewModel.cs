@@ -13,9 +13,11 @@ namespace Strive.BusinessEntities.ViewModel
         public long LocationId { get; set; }
         public string LocationName { get; set; }
         public string CustomerName { get; set; }
-        public int NumberOfWashes { get; set; }
+        //public int NumberOfWashes { get; set; }
+        public int CustomerCount { get; set; }
         public decimal AccountAmount { get; set; }
         public decimal WashesAmount { get; set; }
         public decimal Average { get; set; }
+        public decimal? TotalJobAmount { get; set; }
     }
 }

@@ -27,6 +27,8 @@ namespace Strive.BusinessEntities
             uspGetDailyClockDetail,
             USPGETMONTHLYMONEYOWNEDREPORT,
             USPGETEODSALESREPORT,
+            USPGETDAILYSALESREPORT
+            USPGETEODSALESREPORT,
             USPGETHOURLYWASHREPORT
         }
 
@@ -71,6 +73,28 @@ namespace Strive.BusinessEntities
         {
             USPGETALLMEMBERSHIP
         }
+        public enum Checklist
+        {
+            USPGETCHECKLIST,
+            USPDELETECHECKLIST
+        }
+
+        public enum SystemSetup
+        {
+            USPDELETEBONUSSETUP,
+            USPGETBONUSSETUP
+        }
+
+        public enum Document
+        {
+            USPGETDOCUMENT,
+            USPSAVEDOCUMENT,
+            USPGETEMPLOYEEDOCUMENTBYID,
+            USPUPDATEDOCUMENTPASSWORD,
+            USPGETEMPLOYEEDOCUMENTBYEMPID,
+            USPDELETEEMPLOYEEDOCUMENTBYID,
+            USPDELETEDOCUMENT,
+        }
     }
     
     public enum SPEnum
@@ -97,12 +121,7 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
         USPEMAILEXIST,
-        //Document
-        USPSAVEDOCUMENT,
-        USPGETEMPLOYEEDOCUMENTBYID,
-        USPUPDATEDOCUMENTPASSWORD,
-        USPGETEMPLOYEEDOCUMENTBYEMPID,
-        USPDELETEEMPLOYEEDOCUMENTBYID,
+        
         //Client
         USPGETALLCLIENT,
         USPUPDATEACCOUNTDETAILS,

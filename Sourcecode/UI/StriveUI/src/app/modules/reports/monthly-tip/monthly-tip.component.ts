@@ -59,7 +59,13 @@ export class MonthlyTipComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('Monthlyreport', 'MonthlyTipReport_' + this.month + '/' + this.year
+        document.getElementById('monthlyTipTotal').style.visibility = 'hidden';
+        document.getElementById('monthlyTip').style.visibility = 'hidden';
+        setTimeout(() => {
+          document.getElementById('monthlyTipTotal').style.visibility = 'visible';
+          document.getElementById('monthlyTip').style.visibility = 'visible';
+        }, 3000);
+        this.excelService.exportAsPDFFile('monthlyReport', 'MonthlyTipReport_' + this.month + '/' + this.year
         + '_' + locationName + '.pdf');
         break;
       }

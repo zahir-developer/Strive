@@ -138,6 +138,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
           $('#name').html(this.empName);
           $('#empId').html(this.empId);
+          this.empLocation = undefined;
           $('.modal').find('#location').val(0);
         } else {
           this.removeDraggedEvent();
@@ -386,11 +387,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     $('#name').html(this.empName);
     $('#empId').html(this.empId);
     $('.modal').find('#isleave').val(false);
+    this.isLeave = false;
     if (event.event.extendedProps.locationId) {
       $('.modal').find('#location').val(event.event.extendedProps.locationId);
       this.empLocation = event.event.extendedProps.locationId;
     } else {
-      $('.modal').find('#location').val(0);
+      this.empLocation = undefined;
     }
   }
   cancel() {

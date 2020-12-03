@@ -31,7 +31,7 @@ WHERE
 CR.LocationId = @LocationId AND
 CR.CashRegisterType = @CashRegisterTypeId AND
 CR.CashRegisterDate = @CashRegisterDate AND
-CR.DrawerId = @DrawerID AND
+--CR.DrawerId = @DrawerID AND
 isnull(CR.isDeleted,0) = 0  
 
 SELECT 
@@ -51,7 +51,7 @@ WHERE
 CR.LocationId = @LocationId AND
 CR.CashRegisterType = @CashRegisterTypeId AND
 CR.CashRegisterDate = @CashRegisterDate AND
-CR.DrawerId = @DrawerID AND
+--CR.DrawerId = @DrawerID AND
 isnull(CR.isDeleted,0) = 0  
 
 
@@ -72,7 +72,7 @@ WHERE
 CR.LocationId = @LocationId AND
 CR.CashRegisterType = @CashRegisterTypeId AND
 CR.CashRegisterDate = @CashRegisterDate AND
-CR.DrawerId = @DrawerID AND
+--CR.DrawerId = @DrawerID AND
 isnull(CR.isDeleted,0) = 0  
 
 SELECT
@@ -93,7 +93,7 @@ WHERE
 CR.LocationId = @LocationId AND
 CR.CashRegisterType = @CashRegisterTypeId AND
 CR.CashRegisterDate = @CashRegisterDate AND
-CR.DrawerId = @DrawerID AND
+--CR.DrawerId = @DrawerID AND
 isnull(CR.isDeleted,0) = 0  
 
 
@@ -114,7 +114,7 @@ WHERE
 CR.LocationId = @LocationId AND
 CR.CashRegisterType = @CashRegisterTypeId AND
 CR.CashRegisterDate = @CashRegisterDate AND
-CR.DrawerId = @DrawerID AND
+--CR.DrawerId = @DrawerID AND
 isnull(CR.isDeleted,0) = 0  
 END
 

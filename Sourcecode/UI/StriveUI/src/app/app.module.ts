@@ -34,6 +34,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPrintModule} from 'ngx-print';
 import { SelectLocationComponent } from './select-location/select-location.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -97,6 +98,7 @@ const load = (http: HttpClient) => {
     TableModule,
     DialogModule,
     MomentModule,
+    NgxMaterialTimepickerModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 2000,
@@ -120,7 +122,8 @@ const load = (http: HttpClient) => {
     BrowserAnimationsModule,
     NgxUiLoaderModule,
     NgxSpinnerModule,
-    NgxPrintModule
+    NgxPrintModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [
     EnvironmentService,
