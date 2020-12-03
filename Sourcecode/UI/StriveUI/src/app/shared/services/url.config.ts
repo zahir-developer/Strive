@@ -39,9 +39,9 @@ export const UrlConfig = {
     getAllRoles: `Admin/Employee/GetAllRoles`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     getOtpCode: `Auth/SendOTP/`,
-    uploadDocument: `Admin/Document/SaveDocument`,
-    getAllDocument: `Admin/Document/GetDocument/`,
-    getDocumentById: `Admin/Document/GetDocumentById/`,
+    uploadDocument: `Admin/Document/SaveEmployeeDocument`,
+    getAllDocument: `Admin/Document/GetEmployeeDocument/`,
+    getDocumentById: `Admin/Document/GetEmployeeDocumentById/`,
     getWeather: `Admin/Weather/GetWeatherData/`,
     saveWeather: `Admin/Weather/SaveWeatherPrediction`,
     verifyOtp: `Auth/VerfiyOTP/`,
@@ -54,7 +54,7 @@ export const UrlConfig = {
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAll`,
-    deleteDocument: `Admin/Document/`,
+    deleteDocument: `Admin/Document/DeleteEmployeeDocument/`,
     updateVehicle: `Admin/Vehicle/SaveClientVehicleMembership`,
     deleteVehicle: `Admin/Vehicle/Delete`,
     getVehicleByClientId: `Admin/Vehicle/GetVehicleByClientId`,
@@ -177,7 +177,7 @@ export const UrlConfig = {
     getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
     getDailyClockDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getCashRegister: `Admin/CashRegister/Get`,
-    getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport/`,
+    getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport`,
     getEodSaleReport: `Admin/Report/EODSalesReport`,
     getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getDailySalesReport:`Admin/Report/DailySalesReport`
@@ -188,6 +188,13 @@ export const UrlConfig = {
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
   },
   bonusSetup: {
-    saveBonus: `Admin/BonusSetup/Add`
+    saveBonus: `Admin/BonusSetup/Add`,
+    getBonusList: `Admin/BonusSetup/GetBonus`,
+    editBonus: `Admin/BonusSetup/Update`
+  },
+  document: {
+    addDocument:`Admin/Document/AddDocument`,
+    getDocument:`Admin/Document/GetDocument/`,
+    deleteDocument:`Admin/Document/DeleteDocument/`
   }
 };

@@ -7,9 +7,9 @@ import { UrlConfig } from '../url.config';
   providedIn: 'root'
 })
 export class WashService {
-  public data: BehaviorSubject<string> = new BehaviorSubject('');
-  dashBoardData: any;
-
+  private data: BehaviorSubject<string> = new BehaviorSubject('');
+  dashBoardDetails: any;
+  public dashBoardData = this.data.asObservable();
   constructor(private http: HttpUtilsService) {
   }
   getAllWashes(locationId): Observable<any> {
@@ -66,11 +66,10 @@ export class WashService {
 
   // Get Dashboard Count
   getDashBoard(obj) {
-    
     this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj).subscribe((data: any) => {
       const wash = JSON.parse(data.resultData);
-      this.dashBoardData = wash.Dashboard;
-      this.data.next(this.dashBoardData);
+      this.dashBoardDetails = wash.Dashboard;
+      this.data.next(this.dashBoardDetails);
     });
   }
 }

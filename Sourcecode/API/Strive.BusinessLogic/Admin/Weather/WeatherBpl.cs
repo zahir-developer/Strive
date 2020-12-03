@@ -74,23 +74,22 @@ namespace Strive.BusinessLogic
         }
         public async Task<WeatherView> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId)
         {
-            //WeatherView weatherInfoView = new WeatherView();
+            WeatherView weatherInfoView = new WeatherView();
 
-            //var addresssDetail = new LocationRal(_tenant).GetLocationAddressDetails(locationId);
+            var addresssDetail = new LocationRal(_tenant).GetLocationAddressDetails(locationId);
 
-            ////Get Current weather:
-            //string startTime = "now";
-            //string endTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH\\:mm").ToString();
-            //string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
+            //Get Current weather:
+            string startTime = "now";
+            string endTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH\\:mm").ToString();
+            string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
-            //var query = "?location_id=" + addresssDetail.WeatherLocationId + "&lat=" + addresssDetail.Latitude + "&lon=" + addresssDetail.Longitude + "&start_time=" + startTime + "&end_time=" + endTime + "&unit_system=si&fields=temp&fields=precipitation_probability&fields=precipitation";
+            var query = "?location_id=" + addresssDetail.WeatherLocationId + "&lat=" + addresssDetail.Latitude + "&lon=" + addresssDetail.Longitude + "&start_time=" + startTime + "&end_time=" + endTime + "&unit_system=si&fields=temp&fields=precipitation_probability&fields=precipitation";
 
-            //weatherInfoView = await GetWeatherInfoAsync(baseUrl, apiKey, apiMethod, query);
+            weatherInfoView = await GetWeatherInfoAsync(baseUrl, apiKey, apiMethod, query);
 
-            //_result = Helper.BindSuccessResult(_resultContent);
+            _result = Helper.BindSuccessResult(_resultContent);
 
-            //return weatherInfoView;
-            return null;
+            return weatherInfoView;
 
         }
 
@@ -131,8 +130,8 @@ namespace Strive.BusinessLogic
                     weatherInfoView.CurrentWeather = weatherInfo;
 
                     //LastWeekWeather
-                    weatherInfoView.LastWeekWeather.Temporature = "-";
-                    weatherInfoView.LastWeekWeather.RainPercentage = "-";
+                    weatherInfoView.LastWeekWeather.Temporature = "";
+                    weatherInfoView.LastWeekWeather.RainPercentage = "";
 
                     //LastMonthWeather
                     weatherInfoView.LastMonthWeather.Temporature = Temperature;

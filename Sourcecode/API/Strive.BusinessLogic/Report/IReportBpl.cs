@@ -18,7 +18,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         Result GetCustomerMonthlyDetailedReport(CustomerMonthlyDetailedReport customerMonthlyDetail);
         Result GetEmployeeTipReport(EmployeeTipReportDto EmployeeTipReport);
         Result GetDailyStatusReport(DailyStatusReportDto DailyStatusReport);
-        Result GetDailyStatusDetailInfo(DailyStatusReportDto DailyStatusDailyStatusDetailInfo);
+        Result GetDailyStatusInfo(DailyStatusReportDto DailyStatusDailyStatusDetailInfo);
         Result GetDailyClockDetail(DailyStatusReportDto GetDailyClockDetail);
         Result GetMonthlyMoneyOwnedReport(string date);
         Result GetEODSalesReport(SalesReportDto salesReportDto);
@@ -26,5 +26,6 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         DailyStatusReportPrintViewModel GetDailyStatusExport(EODReportDto eodReportDto);
 
         Result GetDailySalesReport(DailySalesReportDto DailySalesReport);
+        Result GetHourlyWashReport(SalesReportDto salesReportDto);
     }
 }

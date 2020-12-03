@@ -43,9 +43,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         {
             return ResultWrap(new ReportRal(_tenant).GetDailyStatusReport, DailyStatusReport, "GetDailyStatusReport");
         }
-        public Result GetDailyStatusDetailInfo(DailyStatusReportDto DailyStatusDetailInfo)
+        public Result GetDailyStatusInfo(DailyStatusReportDto DailyStatusDetailInfo)
         {
-            return ResultWrap(new ReportRal(_tenant).GetDailyStatusDetailInfo, DailyStatusDetailInfo, "GetDailyStatusReport");
+            return ResultWrap(new ReportRal(_tenant).GetDailyStatusInfo, DailyStatusDetailInfo, "GetDailyStatusReport");
         }
         public Result GetDailyClockDetail(DailyStatusReportDto DailyClockDetail)
         {
@@ -83,7 +83,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportDto.LocationId = eodReportDto.LocationId;
                 dailyStatusReportDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
-                dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusDetailInfo(dailyStatusReportDto);
+
+                //Need to change.
+                //dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
                 return dailyStatusReportPrintViewModel;
             }
             catch (Exception ex)
@@ -152,7 +154,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportInfoDto.LocationId = eodReportDto.LocationId;
                 dailyStatusReportInfoDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
-                eodReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusDetailInfo(dailyStatusReportDto);
+                
+                //Need to change.
+                //eodReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusDetailInfo(dailyStatusReportDto);
                 return eodReportPrintViewModel;
             }
             catch (Exception ex)
@@ -163,6 +167,11 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         public Result GetDailySalesReport(DailySalesReportDto DailySalesReport)
         {
             return ResultWrap(new ReportRal(_tenant).GetDailySalesReport, DailySalesReport, "GetDailySalesReport");
+        }
+
+        public Result GetHourlyWashReport(SalesReportDto salesReportDto)
+        {
+            return ResultWrap(new ReportRal(_tenant).GetHourlyWashReport, salesReportDto, "GetHourlyWashReport");
         }
     }
 }

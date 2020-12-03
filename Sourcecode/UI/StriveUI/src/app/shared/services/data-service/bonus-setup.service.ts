@@ -12,4 +12,12 @@ export class BonusSetupService {
   saveBonus(obj) {
     return this.http.post(`${UrlConfig.bonusSetup.saveBonus}`, obj);
   }
+
+  getBonusList(obj) {
+    return this.http.post(`${UrlConfig.bonusSetup.getBonusList}`, obj);
+  }
+
+  editBonus(obj) {
+    return this.http.post(`${UrlConfig.bonusSetup.editBonus}`, obj);
+  }
 }

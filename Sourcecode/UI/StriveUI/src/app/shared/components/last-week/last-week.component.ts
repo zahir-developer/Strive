@@ -7,6 +7,7 @@ import { WeatherService } from '../../services/common-service/weather.service';
   styleUrls: ['./last-week.component.css']
 })
 export class LastWeekComponent implements OnInit {
+  weatherdata: any;
 
   constructor(private weatherService: WeatherService) { }
 
@@ -14,7 +15,8 @@ export class LastWeekComponent implements OnInit {
     this.getWeatherDetails();
   }
   getWeatherDetails = () => {
-    this.weatherService.data.subscribe(data => {
+    this.weatherService.data.subscribe((x:any)=> {
+      this.weatherdata = x.lastWeekWeather;
   });
 }
 }

@@ -7,6 +7,7 @@ import { WeatherService } from '../../services/common-service/weather.service';
   styleUrls: ['./last-month.component.css']
 })
 export class LastMonthComponent implements OnInit {
+  weatherMonth: any;
 
   constructor(private weatherService: WeatherService) { }
 
@@ -15,6 +16,7 @@ export class LastMonthComponent implements OnInit {
   }
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
+      this.weatherMonth = data.lastMonthWeather;
   });
 }
 }
