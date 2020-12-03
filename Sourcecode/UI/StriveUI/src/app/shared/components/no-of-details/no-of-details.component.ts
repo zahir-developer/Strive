@@ -24,7 +24,7 @@ export class NoOfDetailsComponent implements OnInit {
     this.detail.getDetailCount(obj).subscribe( res => {
       const wash = JSON.parse(res.resultData);
       if (wash.Dashboard !== null) {
-        this.detailCount = wash.Dashboard.DetailsCount.DetailsCount;
+        this.detailCount = wash.Dashboard.DetailsCount;
       }
     });
   }
