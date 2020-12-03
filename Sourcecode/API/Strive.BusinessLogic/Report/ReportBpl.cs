@@ -51,9 +51,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         {
             return ResultWrap(new ReportRal(_tenant).GetDailyClockDetail, DailyClockDetail, "GetDailyClockDetail");
         }
-        public Result GetMonthlyMoneyOwnedReport(string date)
+        public Result GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned)
         {
-            return ResultWrap(new ReportRal(_tenant).GetMonthlyMoneyOwnedReport, date, "GetMonthlyMoneyOwnedReport");
+            return ResultWrap(new ReportRal(_tenant).GetMonthlyMoneyOwnedReport, MonthlyMoneyOwned, "GetMonthlyMoneyOwnedReport");
         }
 
         public Result GetEODSalesReport(SalesReportDto salesReportDto)
