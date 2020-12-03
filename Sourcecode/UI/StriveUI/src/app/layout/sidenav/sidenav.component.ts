@@ -11,59 +11,60 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class SidenavComponent implements OnInit {
-  isAuthenticated: boolean;
+  isAuthenticated: boolean = false
   logoBase64: any;
   isLoggedIn$: Observable<boolean>;
-  viewName: string;
-  rollName: string;
+  viewName: string = '';
+  rollName: string = '';
   RolePermission :any ;
-  ModuleName: any;
-  salesModule: boolean;
-  adminModule: boolean;
-  detailModule: boolean;
-  washModule: boolean;
-  dashBoardModule: boolean;
-  systemSetupView: boolean;
-  giftCardsView: boolean;
-  SchedulesView: boolean;
-  vechiclesView: boolean;
-  employeesView: boolean;
-  clientsView: boolean;
-  cashRegisterSetupView: boolean;
-  closeOutRegisterView: boolean;
-  timeClockMaintenanceView: boolean;
-  reportModule: boolean;
-  whiteLabellingModule: boolean;
-  payRollModule: boolean;
-  checkOutModule: boolean;
-  messengerModule: boolean;
-  dailyStatusView: boolean;
-  eodReportView: boolean;
-  dailyTipReportView: boolean;
-  monthlyTipView: boolean;
-  monthlySalesView: boolean;
-  monthlyCustomerSummaryView: boolean;
-  monthlyMoneyOwnedView: boolean;
-  monthlyCustomerDetailView: boolean;
-  hourlyWashReportView: boolean;
+  ModuleName: string = '';
+  salesModule: boolean = false
+  adminModule: boolean = false
+  detailModule: boolean = false
+  washModule: boolean = false
+  dashBoardModule: boolean = false
+  systemSetupView: boolean = false
+  giftCardsView: boolean = false
+  SchedulesView: boolean = false
+  vechiclesView: boolean = false
+  employeesView: boolean = false
+  clientsView: boolean = false
+  cashRegisterSetupView: boolean = false
+  closeOutRegisterView: boolean = false
+  timeClockMaintenanceView: boolean = false
+  reportModule: boolean = false
+  whiteLabellingModule: boolean = false
+  payRollModule: boolean = false
+  checkOutModule: boolean = false
+  messengerModule: boolean = false
+  dailyStatusView: boolean = false
+  eodReportView: boolean = false
+  dailyTipReportView: boolean = false
+  monthlyTipView: boolean = false
+  monthlySalesView: boolean = false
+  monthlyCustomerSummaryView: boolean = false
+  monthlyMoneyOwnedView: boolean = false
+  monthlyCustomerDetailView: boolean = false
+  hourlyWashReportView: boolean = false
   roles: any;
   newRolePermission: string;
+  localStorageUpdate: boolean = false;
   constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.getLogo();
+
     
 this.user.navName.subscribe((data = []) => {
   if(data){
-    this.roles = JSON.parse(data);
+   
+    this.roles =  JSON.parse(localStorage.getItem('full'));
     this.getRoles();
-    
    
   }
   else{
-    this.RolePermission= localStorage.getItem('views');
-    this.roles = JSON.parse(this.RolePermission);
+    this.roles =  JSON.parse(localStorage.getItem('full'));
     this.getRoles();
 
 
@@ -78,6 +79,7 @@ this.user.navName.subscribe((data = []) => {
         this.viewName = this.roles[i].ViewName;
         this.rollName = this.roles[i].RollName;
         this.ModuleName = this.roles[i].ModuleName;
+       this.localStorageUpdate = true
               // Sales Module        
         if(this.ModuleName === "Sales"){
            this.salesModule = true;

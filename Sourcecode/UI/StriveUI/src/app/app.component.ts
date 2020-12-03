@@ -15,6 +15,8 @@ export class AppComponent implements OnInit {
   title = 'StriveUI';
   isUserAuthenticated = false;
   navData: any;
+  localStorageUpdation: any;
+  updation: boolean;
   constructor(private user: UserDataService, 
     private router : Router,
     private authService: AuthenticateObservableService,
@@ -24,7 +26,6 @@ export class AppComponent implements OnInit {
     // console.log(this.authService.getIsAuthenticate);
   }
   ngOnInit() {
-  
  
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.getTheme();
@@ -38,10 +39,10 @@ export class AppComponent implements OnInit {
    this.userService.navName.subscribe(data => 
     {
       this.navData = data;
-
+      
     }) 
      
-      
+  
       
     
   }
