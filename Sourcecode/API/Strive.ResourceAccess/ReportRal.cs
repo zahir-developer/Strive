@@ -84,9 +84,10 @@ namespace Strive.ResourceAccess
 
             return result;
         }
-        public List<MonthlyMoneyOwnedReportViewModel> GetMonthlyMoneyOwnedReport(string date)
+        public List<MonthlyMoneyOwnedReportViewModel> GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned)
         {
-            _prm.Add("@Date", date);
+            _prm.Add("@Date", MonthlyMoneyOwned.Date);
+            _prm.Add("@LocationId", MonthlyMoneyOwned.LocationId);
             var result = db.Fetch<MonthlyMoneyOwnedReportViewModel>(EnumSP.SalesReport.USPGETMONTHLYMONEYOWNEDREPORT.ToString(), _prm);
             return result;
         }

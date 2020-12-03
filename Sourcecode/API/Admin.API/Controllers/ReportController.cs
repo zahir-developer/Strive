@@ -59,8 +59,8 @@ namespace Admin.API.Controllers
         /// Method to Get MonthlyMoneyOwned Report.
         /// </summary>
         [HttpGet]
-        [Route("GetMonthlyMoneyOwnedReport/{date}")]
-        public Result GetMonthlyMoneyOwnedReport(string date) => _bplManager.GetMonthlyMoneyOwnedReport(date);
+        [Route("GetMonthlyMoneyOwnedReport")]
+        public Result GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned) => _bplManager.GetMonthlyMoneyOwnedReport(MonthlyMoneyOwned);
 
 
         /// <summary>
