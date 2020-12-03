@@ -190,6 +190,14 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\326521-24.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\326521-24%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\326521-24%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -210,6 +218,8 @@
         <Folder Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-right-arrow.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-delete.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-down-arrow.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -229,6 +239,8 @@
         <InterfaceDefinition Include="Views\PastDetailTabView.xib" />
         <InterfaceDefinition Include="Views\ProfileView.xib" />
         <InterfaceDefinition Include="Views\EditProfileInfo.xib" />
+        <InterfaceDefinition Include="Views\VehicleListViewCell.xib" />        
+        <InterfaceDefinition Include="Views\AddVehicleList.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -309,6 +321,16 @@
         <Compile Include="Views\EditProfileInfo.designer.cs">
           <DependentUpon>EditProfileInfo.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\VehicleListViewCell.cs" />
+        <Compile Include="Views\VehicleListViewCell.designer.cs">
+          <DependentUpon>VehicleListViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VehicleListTableSource.cs" />
+        <Compile Include="Views\AddVehicleList.cs" />
+        <Compile Include="Views\AddVehicleList.designer.cs">
+          <DependentUpon>AddVehicleList.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VehicleMakePickerSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
