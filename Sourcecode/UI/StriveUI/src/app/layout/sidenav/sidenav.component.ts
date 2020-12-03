@@ -14,10 +14,10 @@ export class SidenavComponent implements OnInit {
   isAuthenticated: boolean = false
   logoBase64: any;
   isLoggedIn$: Observable<boolean>;
-  viewName: string = '';
-  rollName: string = '';
+  viewName: string ;
+  rollName: string ;
   RolePermission :any ;
-  ModuleName: string = '';
+  ModuleName: string;
   salesModule: boolean = false
   adminModule: boolean = false
   detailModule: boolean = false
@@ -64,7 +64,8 @@ this.user.navName.subscribe((data = []) => {
    
   }
   else{
-    this.roles =  JSON.parse(localStorage.getItem('full'));
+    this.RolePermission = localStorage.getItem('full')
+    this.roles =  JSON.parse(this.RolePermission);
     this.getRoles();
 
 
@@ -79,7 +80,8 @@ this.user.navName.subscribe((data = []) => {
         this.viewName = this.roles[i].ViewName;
         this.rollName = this.roles[i].RollName;
         this.ModuleName = this.roles[i].ModuleName;
-       this.localStorageUpdate = true
+        this.localStorageUpdate = true
+
               // Sales Module        
         if(this.ModuleName === "Sales"){
            this.salesModule = true;
@@ -183,7 +185,7 @@ this.user.navName.subscribe((data = []) => {
                   this.messengerModule = true;
                  }
     }
-    
+
   }
   getLogo() {
     this.logoService.name.subscribe(data => {

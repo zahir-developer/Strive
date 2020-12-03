@@ -41,7 +41,6 @@ export class AuthService {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('views');
     localStorage.clear();
-    localStorage.removeItem('full');
 
 
     document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');

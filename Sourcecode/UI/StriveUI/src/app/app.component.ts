@@ -39,7 +39,11 @@ export class AppComponent implements OnInit {
    this.userService.navName.subscribe(data => 
     {
       this.navData = data;
-      
+      if (data) {
+        localStorage.setItem('full',data)
+
+        
+      }
     }) 
      
   
