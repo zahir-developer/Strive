@@ -28,6 +28,8 @@ namespace Strive.BusinessEntities
             USPGETMONTHLYMONEYOWNEDREPORT,
             USPGETEODSALESREPORT,
             USPGETDAILYSALESREPORT
+            USPGETEODSALESREPORT,
+            USPGETHOURLYWASHREPORT
         }
 
         public enum WhiteLabelling
