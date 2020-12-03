@@ -23,7 +23,7 @@ namespace Strive.BusinessEntities
             uspGetMonthlyTipDetail,
             uspGetDailyTipDetail,
             uspGetDailyStatusReport,
-            uspGetDailyStatusDetailInfo,
+            uspGetDailyStatusInfo,
             uspGetDailyClockDetail,
             USPGETMONTHLYMONEYOWNEDREPORT,
             USPGETEODSALESREPORT,

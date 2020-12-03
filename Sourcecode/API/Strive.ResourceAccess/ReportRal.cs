@@ -68,11 +68,11 @@ namespace Strive.ResourceAccess
 
             return result;
         }
-        public List<DailyStatusDetailInfoViewModel> GetDailyStatusDetailInfo(DailyStatusReportDto DailyStatusReport)
+        public DailyStatusViewModel GetDailyStatusInfo(DailyStatusReportDto DailyStatusReport)
         {
             _prm.Add("@LocationId", DailyStatusReport.LocationId);
             _prm.Add("@Date", DailyStatusReport.Date);
-            var result = db.Fetch<DailyStatusDetailInfoViewModel>(EnumSP.SalesReport.uspGetDailyStatusDetailInfo.ToString(), _prm);
+            var result = db.FetchMultiResult<DailyStatusViewModel>(EnumSP.SalesReport.uspGetDailyStatusInfo.ToString(), _prm);
 
             return result;
         }
