@@ -51,9 +51,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         {
             return ResultWrap(new ReportRal(_tenant).GetDailyClockDetail, DailyClockDetail, "GetDailyClockDetail");
         }
-        public Result GetMonthlyMoneyOwnedReport(string date)
+        public Result GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned)
         {
-            return ResultWrap(new ReportRal(_tenant).GetMonthlyMoneyOwnedReport, date, "GetMonthlyMoneyOwnedReport");
+            return ResultWrap(new ReportRal(_tenant).GetMonthlyMoneyOwnedReport, MonthlyMoneyOwned, "GetMonthlyMoneyOwnedReport");
         }
 
         public Result GetEODSalesReport(SalesReportDto salesReportDto)
@@ -171,7 +171,22 @@ namespace Strive.BusinessLogic.MonthlySalesReport
 
         public Result GetHourlyWashReport(SalesReportDto salesReportDto)
         {
-            return ResultWrap(new ReportRal(_tenant).GetHourlyWashReport, salesReportDto, "GetHourlyWashReport");
+            var ReportRal = new ReportRal(_tenant);
+
+            HourlyWashSalesReportViewModel result = new HourlyWashSalesReportViewModel();
+            result.WashHoursViewModel = new List<WashHoursViewModel>();
+            result.SalesSummaryViewModel = new List<SalesSummaryViewModel>();
+            result.LocationWashServiceViewModel = new List<LocationWashServiceViewModel>();
+
+            var washResult = ReportRal.GetHourlyWashReport(salesReportDto);
+
+            var washHourSalesResult = ReportRal.GetHourWashSalesReport(salesReportDto);
+
+            result.WashHoursViewModel = washResult;
+            result.SalesSummaryViewModel = washHourSalesResult.SalesSummaryViewModel;
+            result.LocationWashServiceViewModel = washHourSalesResult.LocationWashServiceViewModel;
+
+            return ResultWrap(result, "GetHourlyWashReport");
         }
     }
 }
