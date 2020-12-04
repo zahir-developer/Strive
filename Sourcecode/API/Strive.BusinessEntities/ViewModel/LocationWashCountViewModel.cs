@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class CurrentViewModel
+    public class LocationWashCountViewModel
     {
-        public int Current { get; set; }
-        
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
+        public int WashCount { get; set; }
     }
 }

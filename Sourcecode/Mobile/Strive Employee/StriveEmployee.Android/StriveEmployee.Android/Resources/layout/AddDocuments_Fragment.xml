@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mobile_portrait_bg">
+     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2FCFE">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text= "Add Documents"
+            android:textSize="18sp"
+            android:textColor="@color/profileInfoColor"
+            android:fontFamily="@font/opensans_bold"/>
+        <Button
+            android:id="@+id/editDocumentsBack_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Back" />
+        <Button
+            android:id="@+id/editDocumentsSave_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="@color/profileQColor"
+            android:background="@color/mtrl_btn_transparent_bg_color"
+            android:text="Save" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_marginRight="@dimen/ten"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginBottom="90dp"
+            android:background="@drawable/secondarylinearlayout">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:weightSum="1"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/five"
+                android:layout_marginLeft="@dimen/five"
+                android:layout_marginTop="@dimen/five">
+                <TextView
+                    android:id="@+id/search_TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:hint="Select Documents"
+                    android:layout_weight="0.7"
+                    android:gravity="center_vertical"
+                    android:background = "@drawable/borderededittext"/>
+                <Button
+                    android:id="@+id/browse_Button"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:text="browse"
+                    android:layout_weight="0.3"
+                    android:background="@color/browseButtonColor"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/seven"
+                android:text="Doc. Type : pdf, png, jpeg, etc"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/editDoc_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/fifteen"/>
+        </LinearLayout>
+</LinearLayout>

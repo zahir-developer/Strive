@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
     if (!Array.isArray(JSON.parse(location))) {
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
-      this.router.navigate([`/admin/setup`], { relativeTo: this.route });
+      this.router.navigate([`/dashboard`], { relativeTo: this.route });
     } else {
       this.router.navigate([`/location`], { relativeTo: this.route });
     }

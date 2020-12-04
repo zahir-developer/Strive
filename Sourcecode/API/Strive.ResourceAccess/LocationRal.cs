@@ -2,7 +2,7 @@
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Location;
-using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.Location;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.Repository;
@@ -16,7 +16,12 @@ namespace Strive.ResourceAccess
 {
     public class LocationRal : RalBase
     {
-        public LocationRal(ITenantHelper tenant) : base(tenant) { }
+        private readonly Db _db;
+
+        public LocationRal(ITenantHelper tenant) : base(tenant) {
+            var dbConnection = tenant.db();
+            _db = new Db(dbConnection);
+        }
 
         public List<LocationViewModel> GetAllLocation()
         {
@@ -45,7 +50,6 @@ namespace Strive.ResourceAccess
 
         public bool AddLocation(LocationDto location)
         {
-            location.Drawer.DrawerName = $"Drawer-{location.Location.LocationName}-1";
             return dbRepo.InsertPc(location, "LocationId");
         }
 
@@ -73,19 +77,19 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
             return true;
         }
-        //public LocationAddressModel GetLocationAddressDetails(int locationId)
-        //{
+        public LocationAddress GetLocationAddressDetails(int locationId)
+        {
 
-        //    var result = new LocationAddressModel();
-        //    var allAddress = _db.GetAll<LocationAddressModel>();
+            var result = new LocationAddress();
+            var allAddress = _db.GetAll<LocationAddress>();
 
-        //    var locationAddress = allAddress.Where(s => s.RelationshipId == locationId).FirstOrDefault();
+            var locationAddress = allAddress.Where(s => s.LocationId == locationId).FirstOrDefault();
 
-        //    result.Latitude = locationAddress.Latitude;
-        //    result.Longitude = locationAddress.Longitude;
-        //    result.WeatherLocationId = locationAddress.WeatherLocationId;
+            result.Latitude = locationAddress.Latitude;
+            result.Longitude = locationAddress.Longitude;
+            result.WeatherLocationId = locationAddress.WeatherLocationId;
 
-        //    return result;
-        //}
+            return result;
+        }
     }
 }

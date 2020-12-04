@@ -190,6 +190,22 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\Subtraction 3%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-delete.imageset\Icon ionic-ios-close-circle%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\326521-24.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\326521-24%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-down-arrow.imageset\326521-24%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1 %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1%402x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\Component 30 – 1%403x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1 %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1%402x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1%403x %281%29.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -210,6 +226,11 @@
         <Folder Include="Resources\Assets.xcassets\icon-clock-dashboard.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-right-arrow.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-edit-personalInfo.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-delete.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-down-arrow.imageset\" />
+        <Folder Include="Views\VehicleList\" />
+        <Folder Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checked-round.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -219,7 +240,6 @@
         <InterfaceDefinition Include="Views\Login\OtpView.xib" />
         <InterfaceDefinition Include="Views\Login\NewPasswordView.xib" />
         <InterfaceDefinition Include="Views\RootView.xib" />
-        <InterfaceDefinition Include="Views\VehicleListView.xib" />
         <InterfaceDefinition Include="Views\GenbookView.xib" />
         <InterfaceDefinition Include="Views\HomeView.xib" />
         <InterfaceDefinition Include="Views\DealsView.xib" />
@@ -229,6 +249,12 @@
         <InterfaceDefinition Include="Views\PastDetailTabView.xib" />
         <InterfaceDefinition Include="Views\ProfileView.xib" />
         <InterfaceDefinition Include="Views\EditProfileInfo.xib" />
+        <InterfaceDefinition Include="Views\VehicleList\AddVehicleList.xib" />
+        <InterfaceDefinition Include="Views\VehicleList\VehicleListView.xib" />
+        <InterfaceDefinition Include="Views\VehicleList\VehicleListViewCell.xib" />
+        <InterfaceDefinition Include="Views\MembershipView.xib" />
+        <InterfaceDefinition Include="Views\MembershipVehicle_ViewCell.xib" />
+        <InterfaceDefinition Include="Views\UpchargesVehicleView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -267,10 +293,6 @@
           <DependentUpon>RootView.cs</DependentUpon>
         </Compile>
         <Compile Include="UIUtils\DesignUtils.cs" />
-        <Compile Include="Views\VehicleListView.cs" />
-        <Compile Include="Views\VehicleListView.designer.cs">
-          <DependentUpon>VehicleListView.cs</DependentUpon>
-        </Compile>
         <Compile Include="Views\GenbookView.cs" />
         <Compile Include="Views\GenbookView.designer.cs">
           <DependentUpon>GenbookView.cs</DependentUpon>
@@ -309,6 +331,34 @@
         <Compile Include="Views\EditProfileInfo.designer.cs">
           <DependentUpon>EditProfileInfo.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\VehicleList\AddVehicleList.cs" />
+        <Compile Include="Views\VehicleList\AddVehicleList.designer.cs">
+          <DependentUpon>AddVehicleList.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VehicleList\VehicleListTableSource.cs" />
+        <Compile Include="Views\VehicleList\VehicleListView.cs" />
+        <Compile Include="Views\VehicleList\VehicleListView.designer.cs">
+          <DependentUpon>VehicleListView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VehicleList\VehicleListViewCell.cs" />
+        <Compile Include="Views\VehicleList\VehicleListViewCell.designer.cs">
+          <DependentUpon>VehicleListViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VehicleList\VehicleMakePickerSource.cs" />
+        <Compile Include="Views\MembershipView.cs" />
+        <Compile Include="Views\MembershipView.designer.cs">
+          <DependentUpon>MembershipView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipVehicle_ViewCell.cs" />
+        <Compile Include="Views\MembershipVehicle_ViewCell.designer.cs">
+          <DependentUpon>MembershipVehicle_ViewCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipVehicleDataSource.cs" />
+        <Compile Include="Views\UpchargesVehicleView.cs" />
+        <Compile Include="Views\UpchargesVehicleView.designer.cs">
+          <DependentUpon>UpchargesVehicleView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\UpchargesVehicleDataSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

@@ -282,8 +282,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const weatherObj = {
       weatherId: 0,
       locationId: +this.locationId,
-      weather: (this.targetBusiness?.WeatherPrediction?.Weather) ? Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(): null,
-      rainProbability: (this.targetBusiness?.WeatherPrediction?.RainProbability) ? Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString() : null,
+      // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
+      // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
+    weather: (this.weatherDetails?.temporature) ?  Math.floor(this.weatherDetails?.temporature).toString() : null,
+      rainProbability: (this.weatherDetails?.rainPercentage) ? Math.floor(this.weatherDetails?.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')

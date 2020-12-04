@@ -29,7 +29,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId", locationId);
             _prm.Add("@CashRegisterType", cashRegisterType);
             _prm.Add("@CashRegisterDate", dateTime.ToString("yyy-MM-dd"));
-            var result = db.FetchMultiResult<CashRegisterDetailViewModel>(SPEnum.USPGETCLOSEOUTREGISTER.ToString(), _prm);
+            var result = db.FetchMultiResult<CashRegisterDetailViewModel>(SPEnum.USPGETCASHREGISTER.ToString(), _prm);
             CashRegisterDetailViewModel cash = new CashRegisterDetailViewModel();
             return result;
         }

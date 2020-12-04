@@ -23,11 +23,13 @@ namespace Strive.BusinessEntities
             uspGetMonthlyTipDetail,
             uspGetDailyTipDetail,
             uspGetDailyStatusReport,
-            uspGetDailyStatusDetailInfo,
+            uspGetDailyStatusInfo,
             uspGetDailyClockDetail,
             USPGETMONTHLYMONEYOWNEDREPORT,
             USPGETEODSALESREPORT,
-            USPGETDAILYSALESREPORT
+            USPGETDAILYSALESREPORT,
+            USPGETHOURLYWASHREPORT,
+            USPGETHOURLYWASHSALESREPORT
         }
 
         public enum WhiteLabelling
@@ -70,6 +72,17 @@ namespace Strive.BusinessEntities
         public enum Membership
         {
             USPGETALLMEMBERSHIP
+        }
+        public enum Checklist
+        {
+            USPGETCHECKLIST,
+            USPDELETECHECKLIST
+        }
+
+        public enum SystemSetup
+        {
+            USPDELETEBONUSSETUP,
+            USPGETBONUSSETUP
         }
 
         public enum Document
@@ -155,7 +168,6 @@ namespace Strive.BusinessEntities
         USPGETALLSERVICE,
         USPGETPRODUCTS,
         USPGETCASHREGISTER,
-        USPGETCLOSEOUTREGISTER,
         USPGETCOLLISIONBYEMPID,
         USPGETCOLLISIONBYID,
         USPGETVEHICLELISTBYCLIENTID,
