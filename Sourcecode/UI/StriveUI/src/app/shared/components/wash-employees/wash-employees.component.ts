@@ -17,10 +17,13 @@ export class WashEmployeesComponent implements OnInit {
 
   // Get Employee Count
   getDashboardDetails = () => {
-    this.wash.data.subscribe((data: any) => {
-      if (data.EmployeeCount !== undefined) {
-        this.employeeCount = data.EmployeeCount.EmployeeCount;
-      }
+    const obj = {
+      id: +localStorage.getItem('empLocationId'),
+      date: new Date()
+    };
+    this.wash.getDashBoard(obj);
+    this.wash.dashBoardData.subscribe((data: any) => {
+        this.employeeCount = data.EmployeeCount;
     });
   }
 }

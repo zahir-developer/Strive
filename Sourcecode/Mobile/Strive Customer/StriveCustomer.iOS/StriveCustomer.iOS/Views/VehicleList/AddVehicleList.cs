@@ -8,6 +8,7 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
+using StriveCustomer.iOS.UIUtils;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -39,7 +40,14 @@ namespace StriveCustomer.iOS.Views
             View.AddGestureRecognizer(Tap);
 
             SelectMembership_Text.Layer.CornerRadius = 5;
-            SaveAddVehicle_Btn.Layer.CornerRadius = 5;                       
+            SaveAddVehicle_Btn.Layer.CornerRadius = 5;
+
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+            {
+                Font = DesignUtils.OpenSansBoldFifteen(),
+                ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+            };
+            NavigationItem.Title = "Vehicle";
 
             makeList = new List<string>();
             colorList = new List<string>();
@@ -120,7 +128,7 @@ namespace StriveCustomer.iOS.Views
         {
             if (MembershipDetails.clientVehicleID != 0)
             {
-                
+                ViewModel.NavToVehicleMembership();
             }
             else
             {

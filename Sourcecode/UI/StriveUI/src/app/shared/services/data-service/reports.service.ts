@@ -41,8 +41,8 @@ export class ReportsService {
     return this.http.get(`${UrlConfig.totalUrl.getCashRegister}`,
     { params: { cashRegisterType: type, locationId: locId, dateTime: date } });
   }
-  getMonthlyMoneyOwnedReport(date) {
-    return this.http.get(`${UrlConfig.reports.getMonthlyMoneyOwnedReport}` + date );
+  getMonthlyMoneyOwnedReport(Date, LocationId) {
+    return this.http.get(`${UrlConfig.reports.getMonthlyMoneyOwnedReport}`, {  params : { Date , LocationId } });
   }
   getEodSaleReport(obj) {
     return this.http.post(`${UrlConfig.reports.getEodSaleReport}`, obj);

@@ -17,10 +17,13 @@ export class AverageWashTimeComponent implements OnInit {
 
   // Get Averege Wash Time
   getDashboardDetails = () => {
-    this.wash.data.subscribe((data: any) => {
-      if (data.AverageWashTime !== undefined) {
-        this.average = data.AverageWashTime.AverageWashTime;
-      }
+    const obj = {
+      id: +localStorage.getItem('empLocationId'),
+      date: new Date()
+    };
+    this.wash.getDashBoard(obj);
+    this.wash.dashBoardData.subscribe((data: any) => {
+        this.average = data.AverageWashTime;
     });
   }
 }
