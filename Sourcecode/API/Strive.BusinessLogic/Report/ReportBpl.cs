@@ -83,6 +83,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportDto.LocationId = eodReportDto.LocationId;
                 dailyStatusReportDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
+
                 dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusDetailInfo(dailyStatusReportDto);
                 return dailyStatusReportPrintViewModel;
             }
@@ -152,6 +153,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportInfoDto.LocationId = eodReportDto.LocationId;
                 dailyStatusReportInfoDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
+
                 eodReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusDetailInfo(dailyStatusReportDto);
                 return eodReportPrintViewModel;
             }
