@@ -13,6 +13,7 @@ import { LogoService } from './shared/services/common-service/logo.service';
 export class AppComponent implements OnInit {
   title = 'StriveUI';
   isUserAuthenticated = false;
+  navData: any;
   constructor(private user: UserDataService, private authService: AuthenticateObservableService,
     private whiteLabelService: WhiteLabelService, private logoService: LogoService, private userService: UserDataService) {
     this.isUserAuthenticated = this.user.isAuthenticated;
@@ -20,10 +21,26 @@ export class AppComponent implements OnInit {
     // console.log(this.authService.getIsAuthenticate);
   }
   ngOnInit() {
+
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.getTheme();
       this.setHeaderName();
+      this.setNavList();
+
     }
+
+  }
+  setNavList(){
+   this.userService.navName.subscribe(data => 
+    {
+      this.navData = data;
+      console.log('app',this.navData)
+
+    }) 
+     
+      
+      
+    
   }
   setHeaderName() {
     if (localStorage.getItem('employeeName') !== undefined) {

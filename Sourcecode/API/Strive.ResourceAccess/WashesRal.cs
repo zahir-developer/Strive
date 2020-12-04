@@ -40,7 +40,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId",dashboard.id);
             _prm.Add("@CurrentDate",dashboard.date);
             _prm.Add("@JobType", dashboard.JobType);
-            var result =  db.FetchMultiResult<WashesDashboardViewModel>(SPEnum.USPGETWASHDASHBOARD.ToString(), _prm);
+            var result =  db.FetchSingle<WashesDashboardViewModel>(SPEnum.USPGETWASHDASHBOARD.ToString(), _prm);
             return result;
         }
         public List<ClientVehicleViewModel> GetByBarCode(string barcode)

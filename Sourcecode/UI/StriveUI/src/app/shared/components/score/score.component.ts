@@ -17,10 +17,13 @@ export class ScoreComponent implements OnInit {
 
   // Get Score
   getDashboardDetails = () => {
-    this.wash.data.subscribe((data: any) => {
-      if (data.Current !== undefined) {
-        this.score = data.Current.Current;
-      }
+    const obj = {
+      id: +localStorage.getItem('empLocationId'),
+      date: new Date()
+    };
+    this.wash.getDashBoard(obj);
+    this.wash.dashBoardData.subscribe((data: any) => {
+        this.score = data.Score;
     });
   }
 }

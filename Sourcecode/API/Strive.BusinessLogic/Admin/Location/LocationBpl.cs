@@ -22,6 +22,10 @@ namespace Strive.BusinessLogic.Location
             bay.Add(new Bay() { BayName = "Bay3", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
             return bay;
         }
+        private Drawer CreateDrawer()
+        {
+            return new Drawer() { DrawerName = "Drawer1", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow };
+        }
         public Result AddLocation(LocationDto location)
         {
             var random = new Random();
@@ -30,6 +34,7 @@ namespace Strive.BusinessLogic.Location
             location.Location.ColorCode = color;
             location.Location.WashTimeMinutes = random.Next(30, 45);
             location.Bay = CreateBay();
+            location.Drawer = CreateDrawer();
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
 

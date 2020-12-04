@@ -11,6 +11,8 @@ import * as moment from 'moment';
 export class WeatherService {
 public data: BehaviorSubject<string> = new BehaviorSubject('');
   weatherData: any;
+  weatherWeekData: any;
+  weatherMonthData: any;
 
   constructor(private http: HttpUtilsService) {
 
@@ -21,8 +23,14 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
 getWeather() {
   const locationId = localStorage.getItem('empLocationId');
   this.http.get(`${UrlConfig.totalUrl.getWeather}` + locationId).subscribe((data: any) => {
-    this.weatherData = data?.currentWeather;
+    this.weatherData = data;
+    this.weatherWeekData = data?.lastWeekWeather;
+     this.weatherMonthData = data?.lastMonthWeather;
+
     this.data.next(this.weatherData);
+    
+
+
   });
 }
 UpdateWeather(obj){

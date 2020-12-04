@@ -25,7 +25,6 @@ export class AuthService {
     return this.http.post(`${UrlConfig.totalUrl.login}`, loginData).pipe(map((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
-
           this.userService.setUserSettings(user.resultData);
           return user;
         }
@@ -33,13 +32,15 @@ export class AuthService {
       return user;
     }));
   }
- 
+
 
   logout() {
     localStorage.setItem('isAuthenticated', 'false');
     this.loggedIn.next(false);
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('views');
+
     document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
