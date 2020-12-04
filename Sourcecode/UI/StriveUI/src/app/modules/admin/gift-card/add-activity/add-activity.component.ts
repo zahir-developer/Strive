@@ -19,6 +19,7 @@ export class AddActivityComponent implements OnInit {
   @Input() giftCardId?: any;
   submitted: boolean;
   symbol: string;
+  amountValidation: boolean;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -29,6 +30,7 @@ export class AddActivityComponent implements OnInit {
 
   ngOnInit(): void {
     this.symbol = 'plus';
+    this.amountValidation = false;
     this.submitted = false;
     this.giftCardForm = this.fb.group({
       amount: ['', Validators.required],
@@ -56,9 +58,16 @@ export class AddActivityComponent implements OnInit {
   addActivity() {
     console.log(this.giftCardForm);
     this.submitted = true;
+    this.amountValidation = false;
     if (this.giftCardForm.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
+    }
+    if (this.symbol === 'minus') {
+      if (this.totalAmount === 0) {
+        this.amountValidation = true;
+        return;
+      }
     }
     const activityObj = {
       giftCardHistoryId: 0,

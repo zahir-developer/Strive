@@ -32,7 +32,7 @@ export class ServiceCreateEditComponent implements OnInit {
   constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];
+    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];
     this.formInitialize();
     this.ctypeLabel = 'none';
     this.getCommissionType();

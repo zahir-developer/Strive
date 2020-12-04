@@ -46,10 +46,13 @@
                                         <div class="row">
                                             <div class="col-sm-8">
                                                 <input type="text" placeholder="0.00" class="form-control" appTwoDecimalNumber
-                                                    [ngClass]="{ 'is-invalid': submitted && f.amount.errors }"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.amount.errors ||  amountValidation}"
                                                     formControlName="amount">
                                                 <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
                                                     <div *ngIf="f.amount.errors.required">Amount is required</div>
+                                                </div>
+                                                <div *ngIf="amountValidation" class="invalid-feedback">
+                                                    Please enter a valid amount, the current amount inputted is more than the available balance.
                                                 </div>
                                             </div>
                                             <div class="col-sm-2">
