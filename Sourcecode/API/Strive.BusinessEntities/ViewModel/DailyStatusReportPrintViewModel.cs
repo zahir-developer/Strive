@@ -11,5 +11,7 @@ namespace Strive.BusinessEntities.ViewModel
         public TimeClockEmployeeHourViewModel EmployeeTimeClock { get; set; }        
         public DailyStatusViewModel DailyStatusDetailInfoViews { get; set; }
 
+        public List<DailyStatusReportViewModel> DailyStatusReport { get; set; }
+
     }
 }

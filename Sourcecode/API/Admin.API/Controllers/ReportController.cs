@@ -343,6 +343,32 @@ namespace Admin.API.Controllers
                         worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
                     }
                 }
+
+                var worksheet3 = workbook.Worksheets.Add("Wash Hours");
+                worksheet3.Cell(1, 1).Value = "Wash Employee Count";
+                worksheet3.Cell(2, 1).Value = "Wash Expense";
+                var washes = statusResult.DailyStatusDetailInfoViews.DailyStatusWashInfo;
+                {
+                    worksheet3.Cell(2, 1).Value = washes.WashEmployeeCount;
+                    worksheet3.Cell(2, 2).Value = washes.WashExpense;
+                }
+
+                var worksheet5 = workbook.Worksheets.Add("Daily Status");
+                currentRow = 1;
+                worksheet5.Cell(currentRow, 1).Value = "Number";
+                worksheet5.Cell(currentRow, 2).Value = "Service Name";
+                worksheet5.Cell(currentRow, 3).Value = "Job Type";
+                worksheet5.Cell(currentRow, 4).Value = "Job Date";
+
+                foreach (var details in statusResult.DailyStatusReport)
+                {
+                    currentRow++;
+                    worksheet5.Cell(currentRow, 1).Value = details.Number;
+                    worksheet5.Cell(currentRow, 2).Value = details.ServiceName;
+                    worksheet5.Cell(currentRow, 3).Value = details.JobType;
+                    worksheet5.Cell(currentRow, 4).Value = details.JobDate;
+
+                }
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);

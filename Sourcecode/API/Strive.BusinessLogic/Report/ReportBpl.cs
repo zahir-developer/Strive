@@ -69,6 +69,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 DailyStatusReportPrintViewModel dailyStatusReportPrintViewModel = new DailyStatusReportPrintViewModel();
                 dailyStatusReportPrintViewModel.EmployeeTimeClock = new TimeClockEmployeeHourViewModel();
                 dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = new DailyStatusViewModel();
+                dailyStatusReportPrintViewModel.DailyStatusReport = new List<DailyStatusReportViewModel>();
 
                 //Employee TimeClock
                 TimeClockLocationDto timeClockLocationDto = new TimeClockLocationDto();
@@ -85,6 +86,16 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 var detailInfoRal = new ReportRal(_tenant);
 
                dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
+
+
+
+                //Washes and Details
+                DailyStatusReportDto dailyStatusDto = new DailyStatusReportDto();
+                dailyStatusDto.LocationId = eodReportDto.LocationId;
+                dailyStatusDto.Date = eodReportDto.Date;
+                var detailRal = new ReportRal(_tenant);
+                dailyStatusReportPrintViewModel.DailyStatusReport = detailRal.GetDailyStatusReport(dailyStatusReportDto);
+
                 return dailyStatusReportPrintViewModel;
             }
             catch (Exception ex)
@@ -148,6 +159,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportDto.Date = eodReportDto.Date;
                 var detailRal = new ReportRal(_tenant);
                 eodReportPrintViewModel.DailyStatusReport = detailRal.GetDailyStatusReport(dailyStatusReportDto);
+
                 //Detail Info
                 DailyStatusReportDto dailyStatusReportInfoDto = new DailyStatusReportDto();
                 dailyStatusReportInfoDto.LocationId = eodReportDto.LocationId;
