@@ -171,8 +171,10 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let detail of bay.BayDetail">
-                                    <th scope="row">
-                                        {{detail.TicketNumber}}
+                                    <th scope="row" (click)="getDetailByID(detail)"><span
+                                        class="text-underline theme-primary-color font-size--9"
+                                        style="cursor: pointer;">
+                                        {{detail.TicketNumber}}</span>
                                     </th>
                                     <td>{{detail.TimeIn}}
                                     </td>
@@ -202,3 +204,13 @@
         </div>
     </div>
 </div>
+<p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
+        [focusOnShow]="false" [closable]="false" [style]="{width: '85vw'}" [baseZIndex]="10000">
+        <p-header>
+                {{actionType}}
+                <button type="button" class="btn theme-primary-button-color float-right"
+                        (click)="closeModal()">Close</button>
+        </p-header>
+        <app-create-edit-detail-schedule *ngIf="showDialog" [isView]="isView" [isEdit]="isEdit"
+                [selectedData]="selectedData" (closeDialog)="closeDialog($event)"></app-create-edit-detail-schedule>
+</p-dialog>

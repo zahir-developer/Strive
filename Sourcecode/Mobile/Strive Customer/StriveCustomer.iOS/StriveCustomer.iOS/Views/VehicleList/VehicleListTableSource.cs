@@ -10,7 +10,7 @@ namespace StriveCustomer.iOS.Views
 {
     public class VehicleListTableSource : UITableViewSource
     {
-        private VehicleList vehicleLists;
+        public VehicleList vehicleLists;
         public UITableView vehicleTable = new UITableView();
         public VehicleListTableSource(VehicleList data)
         {

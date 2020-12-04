@@ -10,7 +10,7 @@
                     {{location.LocationName}}</option>
             </select>
             <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
-                <div *ngIf="f.locationName.errors.required">Location Name is required</div>
+                <div *ngIf="f.locationName.errors.required">Name is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">
@@ -22,7 +22,7 @@
                     {{productType.CodeValue}}</option>
             </select>
             <div *ngIf="submitted && f.productType.errors" class="invalid-feedback">
-                <div *ngIf="f.productType.errors.required">Product Type is required</div>
+                <div *ngIf="f.productType.errors.required">Type is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">

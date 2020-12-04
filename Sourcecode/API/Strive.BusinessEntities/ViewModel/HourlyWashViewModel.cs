@@ -8,8 +8,6 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class HourlyWashViewModel
     {
-        public SalesSummaryViewModel SalesSummaryViewModel { get; set; }
-        public List<WashHoursViewModel> WashHoursViewModel { get; set; }
-
+        public WashHoursViewModel WashHoursViewModel { get; set; }
     }
 }
