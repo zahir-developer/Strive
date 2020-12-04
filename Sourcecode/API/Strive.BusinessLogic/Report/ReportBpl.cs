@@ -68,7 +68,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
             {
                 DailyStatusReportPrintViewModel dailyStatusReportPrintViewModel = new DailyStatusReportPrintViewModel();
                 dailyStatusReportPrintViewModel.EmployeeTimeClock = new TimeClockEmployeeHourViewModel();
-                dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = new List<DailyStatusDetailInfoViewModel>();
+                dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = new DailyStatusViewModel();
 
                 //Employee TimeClock
                 TimeClockLocationDto timeClockLocationDto = new TimeClockLocationDto();
@@ -84,8 +84,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
 
-                //Need to change.
-                //dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
+               dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
                 return dailyStatusReportPrintViewModel;
             }
             catch (Exception ex)
@@ -103,7 +102,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 eodReportPrintViewModel.Sales = new EODSalesReportViewModel();
                 eodReportPrintViewModel.CashRegister = new CashRegisterDetailViewModel();
                 eodReportPrintViewModel.DailyStatusReport = new List<DailyStatusReportViewModel>();
-                eodReportPrintViewModel.DailyStatusDetailInfoViews = new List<DailyStatusDetailInfoViewModel>();
+                eodReportPrintViewModel.DailyStatusDetailInfoViews = new DailyStatusViewModel();
 
                 //coins,bills,rolls                
                 var cashRal = new CashRegisterRal(_tenant);
@@ -155,8 +154,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportInfoDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
                 
-                //Need to change.
-                //eodReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusDetailInfo(dailyStatusReportDto);
+                eodReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
                 return eodReportPrintViewModel;
             }
             catch (Exception ex)
