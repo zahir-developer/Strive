@@ -36,22 +36,34 @@ namespace Strive.BusinessLogic
         public Result GetWeatherPrediction(int locationId, DateTime dateTime)
         {
             try
-            {
-                // WeatherPredictionDetails weatherPrediction = new WeatherPredictionDetails();
-
+            {              
                 DateTime lastMonth = dateTime.AddMonths(-1);
                 DateTime lastweek = dateTime.AddDays(-7);
                 DateTime lastThirdMonth = dateTime.AddMonths(-3);
-                WeatherPredictionViewModel weatherPredictionDetails = new WeatherPredictionViewModel();
+                WeatherPredictionResultViewModel weatherPredictionDetails = new WeatherPredictionResultViewModel();
                 weatherPredictionDetails.WeatherPredictionLastWeek = new WeatherPredictions();
+                weatherPredictionDetails.WeatherPredictionLastMonth = new WeatherPredictions();
+                weatherPredictionDetails.WeatherPredictionLastThirdMonth = new WeatherPredictions();
 
                 var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId,dateTime );
                 if (weather != null)
                 {
                     var lastWeekResult = weather.FirstOrDefault(s => s.CreatedDate == lastweek);
-                    if(lastWeekResult!=null)
+                    if (lastWeekResult != null)
                     {
                         weatherPredictionDetails.WeatherPredictionLastWeek = lastWeekResult;
+
+                    }
+                    var lastMonthResult = weather.FirstOrDefault(s => s.CreatedDate == lastMonth);
+                    if (lastMonthResult != null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionLastMonth = lastMonthResult;
+
+                    }
+                    var lastThridMonthResult = weather.FirstOrDefault(s => s.CreatedDate == lastThirdMonth);
+                    if (lastThridMonthResult != null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionLastThirdMonth = lastThridMonthResult;
 
                     }
                 }

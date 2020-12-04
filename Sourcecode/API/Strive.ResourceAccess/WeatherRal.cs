@@ -23,17 +23,17 @@ namespace Strive.ResourceAccess
         public List<WeatherPredictions> GetWeatherDetails(int locationId, DateTime dateTime)
         {
 
-            DateTime lastMonth = dateTime.AddMonths(-1);
-            DateTime lastweek = dateTime.AddDays(-7);
-            DateTime lastThirdMonth = dateTime.AddMonths(-3);
+            DateTime lastMonth = dateTime.AddMonths(-1).Date;
+            DateTime lastweek = dateTime.AddDays(-7).Date;
+            DateTime lastThirdMonth = dateTime.AddMonths(-3).Date;
 
             _prm.Add("@LocationId", locationId);
             _prm.Add("@date", dateTime);
-            _prm.Add("@lastMonth", lastMonth);
-            _prm.Add("@lastweek", lastweek);
-            _prm.Add("@lastThirdMonth", lastThirdMonth);
-            
-       return db.FetchMultiResult<List<WeatherPredictions>>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
+            _prm.Add("@lastweek", lastweek.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
+
+            return db.Fetch<WeatherPredictions>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
             
             
             

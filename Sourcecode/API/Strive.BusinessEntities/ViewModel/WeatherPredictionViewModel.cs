@@ -27,17 +27,7 @@ namespace Strive.BusinessEntities.ViewModel
 
     }
 
-    public class WeatherPredictionViewModel
-    {
-        public WeatherPredictions WeatherPredictionToday { get; set; }
-
-        public WeatherPredictions WeatherPredictionLastMonth { get; set; }
-
-        public WeatherPredictions WeatherPredictionLastWeek { get; set; }
-
-        public WeatherPredictions WeatherPredictionLastThirdMonth { get; set; }
-
-    }
+  
 
 }
 
