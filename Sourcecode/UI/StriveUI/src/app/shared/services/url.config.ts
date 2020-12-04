@@ -173,6 +173,8 @@ export const UrlConfig = {
     getDailyTipReport: ``,
     getMonthlyTipReport: ``,
     getDailyStatusReport: `Admin/Report/DailyStatusReport`,
+    getDailyStatusWashReport: `Admin/Report/DailyStatusInfo`,
+
     getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`,
     getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
     getDailyClockDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,

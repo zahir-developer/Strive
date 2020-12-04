@@ -28,6 +28,9 @@ export class ReportsService {
   getDailyStatusReport(obj): Observable<any> {
     return this.http.post(`${UrlConfig.reports.getDailyStatusReport}`, obj);
   }
+  getDailyStatusWashReport(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.reports.getDailyStatusWashReport}`, obj);
+  }
   getMonthlyDailyTipReport(obj) {
     return this.http.post(`${UrlConfig.reports.getMonthlyDailyTipReport}`, obj);
   }

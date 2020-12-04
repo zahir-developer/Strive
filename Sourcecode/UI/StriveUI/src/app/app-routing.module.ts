@@ -6,6 +6,7 @@ import { HelpsComponent } from './helps/helps.component';
 import { AuthGuard } from './shared/guards/auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SelectLocationComponent } from './select-location/select-location.component';
+import { SidenavComponent } from './layout/sidenav/sidenav.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
@@ -13,6 +14,8 @@ const routes: Routes = [
   { path: 'location', component: SelectLocationComponent, data: { label: 'select-location', title: 'select-location' } },
   { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
   { path: 'helps', component: HelpsComponent },
+  { path: 'side-nav', component: SidenavComponent },
+
   { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
   { path: 'wash', canActivate: [AuthGuard], data: { label: 'Washes', title: 'Washes', authorization: 'Washes' },
    loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },

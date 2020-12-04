@@ -40,6 +40,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
     this.getDailyStatusReport();
+    this.getDailyStatusWashReport();
+
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
   }
@@ -143,6 +145,31 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       this.spinner.hide();
     });
   }
+  getDailyStatusWashReport() {
+    this.washes = [];
+    this.details = [];
+    this.washTotal = 0;
+    this.detailTotal = 0;
+    const obj = {
+      locationId: +this.locationId,
+      date: moment(this.date).format('YYYY-MM-DD')
+    };
+    this.spinner.show();
+    this.reportService.getDailyStatusWashReport(obj).subscribe(data => {
+      this.spinner.hide();
+      if (data.status === 'Success') {
+        const dailyStatusReport = JSON.parse(data.resultData);
+        this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
+        if (this.dailyStatusReport.length > 0) {
+          this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
+          this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
+         
+        }
+      }
+    }, (err) => {
+      this.spinner.hide();
+    });
+  }
   getDailyStatusDetailInfo() {
     const obj = {
       locationId: +this.locationId,
@@ -214,6 +241,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   }
   preview() {
     this.getDailyStatusReport();
+    this.getDailyStatusWashReport();
+
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
   }

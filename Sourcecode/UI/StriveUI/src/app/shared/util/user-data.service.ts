@@ -22,6 +22,9 @@ export class UserDataService {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
     console.log(token, 'token');
+    this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
+
+
     // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
     //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
     // }
@@ -39,8 +42,7 @@ export class UserDataService {
     }
     this.setHeaderName(token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
-      this.setSides(token?.EmployeeDetails?.RolePermissionViewModel);
-      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+      // this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
 
     this.getUnreadMessage(token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
     localStorage.setItem('employeeName', token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
@@ -59,11 +61,12 @@ export class UserDataService {
     this.header.next(headerName);
   }
   
-  setViews(views) {
-    localStorage.setItem('views', JSON.stringify(views));
-  }
+  // setViews(views) {
+  //   localStorage.setItem('views', JSON.stringify(views));
+  // }
   setSides(navName) {
 this.nav.next(navName)
+localStorage.setItem('navName', navName);
 
  }
 
