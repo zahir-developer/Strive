@@ -53,4 +53,8 @@ export class ReportsService {
   getDailySalesReport(obj){
     return this.http.post(`${UrlConfig.reports.getDailySalesReport}`, obj);
   }
+
+  getHourlyWashReport(obj) {
+    return this.http.post(`${UrlConfig.reports.getHourlyWashReport}`, obj);
+  }
 }
