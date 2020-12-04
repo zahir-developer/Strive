@@ -56,7 +56,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Collisions
         private async void GetCollisionInfo()
         {
             await this.ViewModel.GetCollisionInfo();
-            if(this.ViewModel.CollisionDetails != null)
+            if(this.ViewModel.CollisionDetails != null && this.ViewModel.CollisionDetails.Employee.EmployeeCollision != null)
             {
                 collision_Adapter = new CollisionAdapter(Context, this.ViewModel.CollisionDetails.Employee.EmployeeCollision);
                 var layoutManager = new LinearLayoutManager(Context);

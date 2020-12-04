@@ -16,10 +16,13 @@ export class NoOfWashesComponent implements OnInit {
 
   // Get Wash Count
   getDashboardDetails = () => {
-    this.wash.data.subscribe((data: any) => {
-      if (data.WashesCount !== undefined) {
-        this.washCount = data.WashesCount.WashesCount;
-      }
+    const obj = {
+      id: +localStorage.getItem('empLocationId'),
+      date: new Date()
+    };
+    this.wash.getDashBoard(obj);
+    this.wash.dashBoardData.subscribe((data: any) => {
+        this.washCount = data.WashesCount;
     });
   }
 }

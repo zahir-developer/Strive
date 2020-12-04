@@ -8,6 +8,7 @@ using Strive.Core.Models;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
+using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
@@ -229,6 +230,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<GetCollisions> GetCollisions(int liabilityID)
         {
             return await _restClient.MakeApiCall<GetCollisions>(ApiUtils.URL_GET_COLLISIONS + liabilityID, HttpMethod.Get);
+        }
+
+        public async Task<PostResponse> SaveDocuments(AddDocuments documents)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_SAVE_DOCUMENTS, HttpMethod.Post);
         }
     }
     public static class RestUtils

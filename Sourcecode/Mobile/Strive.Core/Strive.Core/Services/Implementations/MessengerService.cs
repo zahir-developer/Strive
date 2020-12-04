@@ -53,5 +53,10 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<ChatGroupUserDeleted>(string.Format(ApiUtils.URL_GROUP_PARTICIPANT_DELETE, GroupUserId), HttpMethod.Delete);
         }
+
+        public async Task<PostResponseBool> ChatCommunication(ChatCommunication communicationDetails)
+        {
+            return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_MESSENGER_CHAT_COMMUNICATION, HttpMethod.Post, communicationDetails);
+        }
     }
 }

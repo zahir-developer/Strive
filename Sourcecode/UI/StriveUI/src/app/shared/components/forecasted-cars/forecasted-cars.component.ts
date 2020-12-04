@@ -8,7 +8,7 @@ import { WashService } from '../../services/data-service/wash.service';
 })
 export class ForecastedCarsComponent implements OnInit {
   forecastedCars: any;
-
+  current: any;
   constructor(private wash: WashService) { }
 
   ngOnInit() {
@@ -17,10 +17,14 @@ export class ForecastedCarsComponent implements OnInit {
 
   // Get ForecastedCars
   getDashboardDetails = () => {
-    this.wash.data.subscribe((data: any) => {
-      if (data.ForecastedCars !== undefined) {
-        this.forecastedCars = data.ForecastedCars.ForecastedCars;
-      }
+    const obj = {
+      id: +localStorage.getItem('empLocationId'),
+      date: new Date()
+    };
+    this.wash.getDashBoard(obj);
+    this.wash.dashBoardData.subscribe((data: any) => {
+        this.forecastedCars = data.ForecastedCars;
+        this.current = data.Current;
     });
   }
 }

@@ -8,6 +8,8 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class SalesSummaryViewModel
     {
+        public int LocationId { get; set; }
+        public string PaymentDate { get; set; }
         public decimal? Cash { get; set; }
         public decimal? Credit { get; set; }
         public decimal? CashBack { get; set; }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UpchargesVehicleView">
+            <connections>
+                <outlet property="UpchargesVehicle_TableView" destination="HSJ-D8-Gzh" id="D0p-Rw-6ZE"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="s06-Y6-xgi">
+                    <rect key="frame" x="-10" y="-10" width="434" height="916"/>
+                </imageView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HSJ-D8-Gzh">
+                    <rect key="frame" x="33.5" y="173" width="347" height="550"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Upcharges" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKf-iI-lhg">
+                    <rect key="frame" x="122" y="115.5" width="170.5" height="27.5"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="HSJ-D8-Gzh" firstAttribute="centerX" secondItem="s06-Y6-xgi" secondAttribute="centerX" id="06M-dJ-Xxh"/>
+                <constraint firstItem="HSJ-D8-Gzh" firstAttribute="height" secondItem="s06-Y6-xgi" secondAttribute="height" multiplier="0.6" id="3C6-Sp-2vI"/>
+                <constraint firstItem="s06-Y6-xgi" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="3YE-TU-9EG"/>
+                <constraint firstAttribute="trailing" secondItem="s06-Y6-xgi" secondAttribute="trailing" constant="-10" id="9It-6a-N4b"/>
+                <constraint firstItem="s06-Y6-xgi" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="KEB-AR-xkC"/>
+                <constraint firstAttribute="bottom" secondItem="s06-Y6-xgi" secondAttribute="bottom" constant="-10" id="Kfp-1y-7d7"/>
+                <constraint firstItem="HSJ-D8-Gzh" firstAttribute="width" secondItem="s06-Y6-xgi" secondAttribute="width" multiplier="0.8" id="b8z-Yh-uOP"/>
+                <constraint firstItem="s06-Y6-xgi" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="d7d-A4-k3F"/>
+                <constraint firstItem="HSJ-D8-Gzh" firstAttribute="top" secondItem="uKf-iI-lhg" secondAttribute="bottom" constant="30" id="ndg-QS-heD"/>
+                <constraint firstItem="s06-Y6-xgi" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="oUg-xY-XQ3"/>
+                <constraint firstItem="HSJ-D8-Gzh" firstAttribute="centerY" secondItem="s06-Y6-xgi" secondAttribute="centerY" id="y4R-At-Zbb"/>
+                <constraint firstItem="uKf-iI-lhg" firstAttribute="centerX" secondItem="s06-Y6-xgi" secondAttribute="centerX" id="yD1-d8-EbR"/>
+            </constraints>
+            <point key="canvasLocation" x="84.057971014492765" y="0.0"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="splash" width="390" height="812"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

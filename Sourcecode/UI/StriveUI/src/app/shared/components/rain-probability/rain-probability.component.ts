@@ -13,11 +13,12 @@ export class RainProbabilityComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWeatherDetails();
+    
   }
   getWeatherDetails = () => {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
-      this.rainPrediction = data.rainPercentage;
+      this.rainPrediction = data.currentWeather?.rainPercentage;
       }
   });
 }

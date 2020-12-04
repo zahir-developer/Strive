@@ -14,18 +14,25 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
   { path: 'helps', component: HelpsComponent },
   { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
-  { path: 'wash', canActivate: [AuthGuard], loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
-  { path: 'detail', loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule) },
-  { path: 'checkout', loadChildren: () => import('./modules/checkout/checkout.module').then(m => m.CheckoutModule) },
+  { path: 'wash', canActivate: [AuthGuard], data: { label: 'Washes', title: 'Washes', authorization: 'Washes' },
+   loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
+  { path: 'detail', data: { label: 'Detail', title: 'Detail', authorization: 'Detail' },
+  loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule) },
+  { path: 'checkout', canActivate: [AuthGuard], data: { label: 'Checkout', title: 'Checkout', authorization: 'Checkout' },
+  loadChildren: () => import('./modules/checkout/checkout.module').then(m => m.CheckoutModule) },
   {
-    path: 'dashboard', canActivate: [AuthGuard],
+    path: 'dashboard', canActivate: [AuthGuard], data: { label: 'Dashboard', title: 'Dashboard', authorization: 'Dashboard' },
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
-  {path: 'sales', loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
-  {path: 'white-labelling', loadChildren: () =>
+  {path: 'sales', canActivate: [AuthGuard], data: { label: 'Sales', title: 'Sales', authorization: 'Sales' },
+   loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
+  {path: 'white-labelling', canActivate: [AuthGuard], data: { label: 'White Labelling', title: 'White Labelling', authorization: 'White Labelling' },
+  loadChildren: () =>
   import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)},
-  { path: 'payrolls', loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
-  {path: 'messenger', loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
+  { path: 'payrolls', canActivate: [AuthGuard], data: { label: 'PayRoll', title: 'PayRoll', authorization: 'PayRoll' },
+  loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
+  {path: 'messenger', canActivate: [AuthGuard], data: { label: 'Messenger', title: 'Messenger', authorization: 'Messenger' },
+  loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
   {path: 'reports', loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)},
   {
     path: '',

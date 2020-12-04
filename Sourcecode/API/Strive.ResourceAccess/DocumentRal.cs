@@ -17,26 +17,26 @@ namespace Strive.ResourceAccess
     {
         public DocumentRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool SaveDocument(EmployeeDocumentModel documents)
+        public bool SaveEmployeeDocument(EmployeeDocumentModel documents)
         {
             dbRepo.InsertPc<EmployeeDocumentModel>(documents, "EmployeeDocumentId");
             return true;
         }
 
-        public DocumentViewModel GetDocumentById(long documentId)
+        public EmployeeDocumentViewModel GetEmployeeDocumentById(long documentId)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@DocumentId", documentId);
-            List<DocumentViewModel> lstDocument = new List<DocumentViewModel>();
-            lstDocument = db.Fetch<DocumentViewModel>(SPEnum.USPGETEMPLOYEEDOCUMENTBYID.ToString(), dynParams);
+            List<EmployeeDocumentViewModel> lstDocument = new List<EmployeeDocumentViewModel>();
+            lstDocument = db.Fetch<EmployeeDocumentViewModel>(EnumSP.Document.USPGETEMPLOYEEDOCUMENTBYID.ToString(), dynParams);
             return lstDocument.FirstOrDefault();
         }
-        public List<DocumentViewModel> GetDocumentByEmployeeId(long employeeId)
+        public List<EmployeeDocumentViewModel> GetEmployeeDocumentByEmployeeId(long employeeId)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@EmployeeId", employeeId);
-            List<DocumentViewModel> lstDocument = new List<DocumentViewModel>();
-            lstDocument = db.Fetch<DocumentViewModel>(SPEnum.USPGETEMPLOYEEDOCUMENTBYEMPID.ToString(), dynParams);
+            List<EmployeeDocumentViewModel> lstDocument = new List<EmployeeDocumentViewModel>();
+            lstDocument = db.Fetch<EmployeeDocumentViewModel>(EnumSP.Document.USPGETEMPLOYEEDOCUMENTBYEMPID.ToString(), dynParams);
             return lstDocument;
         }
         public bool UpdatePassword(int documentId, string password)
@@ -44,17 +44,39 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@DocumentId", documentId);
             dynParams.Add("@Password", password);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPUPDATEDOCUMENTPASSWORD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Document.USPUPDATEDOCUMENTPASSWORD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
-        public bool DeleteDocument(int documentId)
+        public bool DeleteEmployeeDocument(int documentId)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@DocumentId", documentId);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEEMPLOYEEDOCUMENTBYID.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Document.USPDELETEEMPLOYEEDOCUMENTBYID.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
+        }
+
+        public bool AddDocument(DocumentDto documents)
+        {
+            return dbRepo.InsertPc(documents, "DocumentId");
+        }
+
+        public bool DeleteDocument(int documentType)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@documentType", documentType);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Document.USPDELETEDOCUMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
+
+        public DocumentViewModel GetDocument(int documentType)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@documentType", documentType);
+            var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENT.ToString(), dynParams);
+            return result;
         }
     }
 }

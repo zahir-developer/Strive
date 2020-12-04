@@ -1,0 +1,201 @@
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
+        <h4>Bonus Setup</h4>
+        <div class="card m-t-10 m-b-10">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="title-border p-b-20 m-b-15">
+                        <h5 class="d-inline-block">Bonus List</h5>&nbsp;
+                    </div>
+                    <div class="setup-wrapper">
+                        <div class="setup-content" id="open-collapse">
+                            <div class="search-container ">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-2">
+                                        <label>Location:</label>
+                                        <app-location-dropdown (emitLocation)="onLocationChange($event)">
+                                        </app-location-dropdown>
+                                    </div>
+                                    <div class="col-lg-1"></div>
+                                    <div class="form-group col-lg-2">
+                                        <label>Month/Year:</label>
+                                        <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
+                                            class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY' }" (bsValueChange)="getBonusList()">
+                                    </div>
+                                    <div class="col-lg-1"></div>
+                                    <div class="form-group col-lg-2">
+                                        <label>Status:</label>
+                                        <div class="m-t-8"><strong>Pending</strong></div>
+                                    </div>
+                                    <div class="col-lg-1"></div>
+                                    <div class="form-group col-lg-2">
+                                        <label></label>
+                                        <button type="button" class="btn theme-primary-button-color"
+                                            (click)="addBonus()">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table  table-striped m-t-10">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Min</th>
+                                            <th scope="col">Max</th>
+                                            <th scope="col">No. of washes</th>
+                                            <th scope="col">Bonus Amount</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let bonus of monthBonusList; let i = index">
+                                            <td>
+                                                <input type="text" [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' || isMinValueObj?.isMinValue && isMinValueObj?.index === i}"
+                                                    class="form-control rounded-0 input-table text-right">
+                                                <div *ngIf="submitted && bonus.Min === ''" class="invalid-feedback">
+                                                    Enter Min value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
+                                                    Enter Min value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
+                                                    Enter Min value
+                                                </div>
+                                                <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
+                                                    Min value greater than Max value
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" [(ngModel)]="bonus.Max"
+                                                    (change)="validateMaxValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Max === '' || isValueMax && bonus.Max === '' || isValueObj?.isValueMax && isValueObj?.index === i }"
+                                                    class="form-control rounded-0 input-table text-right">
+                                                <div *ngIf="submitted && bonus.Max === ''" class="invalid-feedback">
+                                                    Enter Max value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.Max === ''" class="invalid-feedback">
+                                                    Enter Max value
+                                                </div>
+                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i" class="invalid-feedback">
+                                                    Max value is greater than Min value
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" [(ngModel)]="bonus.noOfWashes"
+                                                    class="form-control rounded-0 input-table text-right">
+                                            </td>
+                                            <td>
+                                                <input type="text" [(ngModel)]="bonus.BonusAmount"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.BonusAmount === ''|| isValueMax && bonus.BonusAmount === '' }"
+                                                    class="form-control rounded-0 input-table text-right">
+                                                <div *ngIf="submitted && bonus.BonusAmount === ''"
+                                                    class="invalid-feedback">
+                                                    Enter Bonus amount value
+                                                </div>
+                                                <div *ngIf="isValueMax && bonus.BonusAmount === ''"
+                                                    class="invalid-feedback">
+                                                    Enter Bonus amount value
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" [(ngModel)]="bonus.Total"
+                                                    class="form-control rounded-0 input-table text-right">
+                                            </td>
+                                            <td>
+                                                <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                    (click)="deleteBonusRange(bonus, i)"></em>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table timeclcok-tb">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="p-t-10">
+                                                <div class="row">
+                                                    <div class="col-5 font-weight-600">
+                                                        No of Bad Reviews:
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input type="text" [(ngModel)]="noOfBadReviews" (input)="totalBadReviewAmount()"
+                                                            class="form-control rounded-0 input-table text-right">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-t-10">
+                                                <div class="row">
+                                                    <div class="col-6 font-weight-600">
+                                                        Deductions Amount:
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input type="text" [(ngModel)]="badReviewDeductionAmount"
+                                                            (input)="totalBadReviewAmount()"
+                                                            class="form-control rounded-0 input-table text-right">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-t-10" style="width: 26%">
+                                                <span class="font-weight-600 mr-2">Bad review
+                                                    Deductions:&nbsp;&nbsp;&nbsp;{{badReviewDeduction}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="p-t-10">
+                                                <div class="row">
+                                                    <div class="col-5 font-weight-600">
+                                                        No of Collisions:
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input type="text" [(ngModel)]="noOfCollisions" (input)="totalCollisionAmount()"
+                                                            class="form-control rounded-0 input-table text-right">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-t-10">
+                                                <div class="row">
+                                                    <div class="col-6 font-weight-600">
+                                                        Deductions Amount:
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input type="text" [(ngModel)]="collisionDeductionAmount"
+                                                            (input)="totalCollisionAmount()"
+                                                            class="form-control rounded-0 input-table text-right">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-r-20 p-t-10" style="width: 26%">
+                                                <span class="font-weight-600 mr-2">Collisions
+                                                    Deductions:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{collisionDeduction}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="table-foot">
+                                        <tr>
+                                            <td colspan="4"></td>
+                                            <td 
+                                                class="font-weight-700 text-left p-10 font-size-1-2 p-r-20">
+                                                Total Bonus Amount:<span class="m-l-10">{{totalBonusAmount}}</span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="m-t-12 pull-right mw-100">
+                                <button type="button" class="btn theme-optional-button-color m-r-5" (click)="cancel()">Cancel</button>
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="saveBonus()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

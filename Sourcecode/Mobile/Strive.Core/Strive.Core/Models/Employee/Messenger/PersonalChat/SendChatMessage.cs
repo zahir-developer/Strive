@@ -8,9 +8,16 @@ namespace Strive.Core.Models.Employee.Messenger.PersonalChat
     {
         public chatMessage chatMessage { get; set; }
         public chatMessageRecipient chatMessageRecipient { get; set; }
+        public chatGroupRecipient chatGroupRecipient { get; set; }
         public string connectionId { get; set; }
         public string fullName { get; set; }
         public string groupId { get; set; }
+        public string groupName { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+
+
+
     }
     public class chatMessage
     {
@@ -35,5 +42,14 @@ namespace Strive.Core.Models.Employee.Messenger.PersonalChat
         public int? recipientGroupId { get; set; }
         public string createdDate { get; set; }
         public bool? isRead { get; set; }
+    }
+    public class chatGroupRecipient
+    {
+        public int chatGroupRecipientId { get; set; }
+        public int chatGroupId { get; set; }
+        public int? recipientId { get; set; }
+        public bool isRead { get; set; }
+        public int createdBy { get; set; }
+        public string createdDate { get; set; }
     }
 }
