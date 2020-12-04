@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.BusinessLogic.Weather;
 using Strive.Common;
@@ -36,8 +37,24 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId, dateTime);
+                // WeatherPredictionDetails weatherPrediction = new WeatherPredictionDetails();
+
+                DateTime lastMonth = dateTime.AddMonths(-1);
+                DateTime lastweek = dateTime.AddDays(-7);
+                DateTime lastThirdMonth = dateTime.AddMonths(-3);
+                WeatherPredictionViewModel weatherPredictionDetails = new WeatherPredictionViewModel();
+                weatherPredictionDetails.WeatherPredictionLastWeek = new WeatherPredictions();
+
+                var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId,dateTime );
                 if (weather != null)
+                {
+                    var lastWeekResult = weather.FirstOrDefault(s => s.CreatedDate == lastweek);
+                    if(lastWeekResult!=null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionLastWeek = lastWeekResult;
+
+                    }
+                }
                     _resultContent.Add(weather.WithName("WeatherPrediction"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
