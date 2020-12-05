@@ -15,7 +15,6 @@ export class CheckListComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   employeeRoles: any;
   isLoading: boolean;
-  query : '';
   checkListDetails: any;
   isTableEmpty: boolean;
   page = 1;

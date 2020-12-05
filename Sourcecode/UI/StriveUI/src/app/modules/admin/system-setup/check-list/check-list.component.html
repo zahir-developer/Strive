@@ -12,15 +12,6 @@
                         
                     </div>
                     <div class="setup-wrapper">
-                        <div class="search-container  pull-right">
-                            <form>
-                              <div class="form-row">
-                                <div class="form-group d-flex"> <input type="search" size="25" class="form-control" [(ngModel)]="query"
-                                    name="search" id="inputSearch" placeholder="Search by Name, Roll Name" > </div>
-                               
-                              </div>
-                            </form>
-                          </div>
                         <div class="setup-content" id="open-collapse">
                             <div class="search-container  " *ngIf="checklistAdd">
                                 <form><div class ="title-border m-b-22"></div>
@@ -66,7 +57,7 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            *ngFor="let checkList of checkListDetails | search: query  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                            *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
                                                     {{checkList.Name}}
