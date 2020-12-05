@@ -12,6 +12,11 @@ export class TodayScheduleComponent implements OnInit {
   bayDetail: any = [];
   currentDate = new Date();
   @Input() selectedDate?: any;
+  isView: boolean;
+  actionType: string;
+  selectedData: any;
+  isEdit: boolean;
+  showDialog: boolean;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe
@@ -117,6 +122,39 @@ export class TodayScheduleComponent implements OnInit {
         this.bayDetail = bayJobDetail;
       }
     });
+  }
+
+  getDetailByID(bay) {
+    console.log(bay,bay.JobId);
+    const currentDate = new Date();
+    if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {
+      this.isView = false;
+    } else if (currentDate < this.selectedDate) {
+      this.isView = false;
+    } else {
+      this.isView = true;
+    }
+    this.actionType = 'Edit Detail';
+    this.detailService.getDetailById(bay.JobId).subscribe(res => {
+      if (res.status === 'Success') {
+        const details = JSON.parse(res.resultData);
+        console.log(details, 'details');
+        this.selectedData = details.DetailsForDetailId;
+        this.isEdit = true;
+        this.showDialog = true;
+      }
+    });
+  }
+
+  closeModal() {
+    this.showDialog = false;
+    this.isEdit = false;
+    this.isView = false;    
+    this.getTodayDateScheduleList();
+  }
+  closeDialog(event) {
+    this.isEdit = event.isOpenPopup;
+    this.showDialog = event.isOpenPopup;
   }
 
 }

@@ -80,15 +80,15 @@ namespace StriveEmployee.Android.Adapter
 
         public override int GetItemViewType(int position)
         {
-            if(chatMessages[position].SenderId == MessengerTempData.RecipientID)
+            if(chatMessages[position].SenderId == EmployeeTempData.EmployeeID)
             {
                 adapterPosition = position;
-                return TYPE_RECIPIENT;
+                return TYPE_SENDER;
             }
             else
             {
                 adapterPosition = position;
-                return TYPE_SENDER;
+                return TYPE_RECIPIENT;
             }
         }
 
@@ -109,7 +109,7 @@ namespace StriveEmployee.Android.Adapter
                     break;
 
                 case TYPE_RECIPIENT:
-                    var ContactName = chatMessages[position].RecipientFirstName;
+                    var ContactName = chatMessages[position].SenderFirstName;
                     var Datetime = chatMessages[position].CreatedDate.ToString();
                     recipient_holder = holder as RecipientChatViewHolder;
                     recipient_holder.bindMessage(Message, MessageTime, ContactName);

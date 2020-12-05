@@ -12,6 +12,16 @@ namespace Strive.Core.Utils.Employee
         public static int EmployeeID { get; set; }
         public static string MessengerTabHeader { get; set; }
         public static PersonalDetails EmployeePersonalDetails { get; set; }
+        public static void ResetAll()
+        {
+            MessengerTempData.FirstName = null;
+            MessengerTempData.LastName = null;
+            MessengerTempData.resetChatData();
+            MessengerTempData.resetParticipantInfo();
+            MessengerTempData.EmployeeLists = null;
+            MessengerTempData.RecentEmployeeLists = null;
+            MessengerTempData.GroupLists = null;
+        }
     }
 
     // Messenger Temp Data
@@ -19,10 +29,14 @@ namespace Strive.Core.Utils.Employee
     {
         #region Properties
         public static int ClickAction { get; set; } = 0;
+        public static string SenderConnectionID { get; set; }
+        public static string FirstName { get; set; }
+        public static string LastName { get; set; }
         public static string RecipientName { get; set; }
         public static int RecipientID { get; set; }
         public static int GroupID { get; set; }
         public static string GroupUniqueID { get; set; }
+        public static string ConnectionID { get; set; }
         public static string GroupName { get; set; }
         public static bool IsGroup { get; set; }
         public static bool IsCreateGroup { get; set; } = false;
@@ -32,6 +46,7 @@ namespace Strive.Core.Utils.Employee
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
+        public static Dictionary<string, string> RecipientsConnectionID { get; set; }
 
         #endregion Properties
 
@@ -42,9 +57,10 @@ namespace Strive.Core.Utils.Employee
             RecipientID = 0;
             GroupID = 0;
             IsGroup = false;
-            RecipientName = "";
-            GroupName = "";
-            GroupUniqueID = "";
+            RecipientName = null;
+            GroupName = null;
+            GroupUniqueID = null;
+            ConnectionID = null;
         }
 
         public static void resetParticipantInfo()
@@ -55,6 +71,7 @@ namespace Strive.Core.Utils.Employee
             IsCreateGroup = false;
         }
 
+        
         #endregion Commands
     }
 

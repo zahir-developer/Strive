@@ -183,6 +183,7 @@ export class TimeClockWeekComponent implements OnInit {
       }
       i++;
     });
+    this.totalHoursCalculation();
     console.log(this.timeClockList,this.replicateClockList);
   }
 
@@ -226,7 +227,7 @@ export class TimeClockWeekComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
       return;
     }
-    console.log(this.timeClockList, 'finalobj');
+    console.log(this.replicateClockList, 'finalobj');
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
@@ -356,7 +357,7 @@ export class TimeClockWeekComponent implements OnInit {
   totalHoursCalculation() {
     let washHour = 0;
     let detailHour = 0;
-    this.timeClockList.forEach(item => {
+    this.replicateClockList.forEach(item => {
       item.checkInDetail.forEach(checkIn => {
         if (this.roleList.filter(role => +role.RoleMasterId === +checkIn.RoleId)[0]?.RoleName === 'Wash') {
           let n = checkIn.TotalHours.search(":");

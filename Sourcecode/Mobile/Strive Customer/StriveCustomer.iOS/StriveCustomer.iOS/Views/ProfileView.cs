@@ -7,6 +7,7 @@ using MvvmCross.Navigation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
+using StriveCustomer.iOS.UIUtils;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
@@ -15,6 +16,7 @@ namespace StriveCustomer.iOS.Views
     {
         private PastDetailViewModel pastViewModel;
         private PersonalInfoViewModel personalInfoViewModel;
+        private VehicleInfoViewModel vehicleViewModel;
         float totalCost;
         string previousDates;
         public PastClientServices pastClientServices;
@@ -27,29 +29,39 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+                       
+            InitialSetup();            
 
+            // Perform any additional setup after loading the view, typically from a nib.
+        }
+        
+        private void InitialSetup()
+        {
             pastViewModel = new PastDetailViewModel();
             personalInfoViewModel = new PersonalInfoViewModel();
+            vehicleViewModel = new VehicleInfoViewModel();
             CustomerInfo.TotalCost = new List<float>();
             pastClientServices = new PastClientServices();
             pastClientServices.PastClientDetails = new List<PastClientDetails>();
             CustomerInfo.pastClientServices = new PastClientServices();
             CustomerInfo.pastClientServices.PastClientDetails = new List<PastClientDetails>();
 
-            InitialSetup();
-            getPersonalInfo();
-
-            // Perform any additional setup after loading the view, typically from a nib.
-        }
-
-        private void InitialSetup()
-        {
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+            {
+                Font = DesignUtils.OpenSansBoldFifteen(),
+                ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+            };
+            NavigationItem.Title = "Account";
             PastDetail_Segment.Hidden = true;
             PersonalInfo_Segment.Hidden = false;
+            VehicleList_Segment.Hidden = true;
             NavigationItem.HidesBackButton = true;
             ProfileParent_View.Layer.CornerRadius = 5;
             PersonalInfo_Segment.Layer.CornerRadius = 5;
             PastDetail_Segment.Layer.CornerRadius = 5;
+            VehicleList_Segment.Layer.CornerRadius = 5;
+
+            getPersonalInfo();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -66,17 +78,28 @@ namespace StriveCustomer.iOS.Views
             {
                 PersonalInfo_Segment.Hidden = false;
                 PastDetail_Segment.Hidden = true;
+                VehicleList_Segment.Hidden = true;
 
                 getPersonalInfo();
             }
             else if (index == 1)
             {
+                VehicleList_Segment.Hidden = false;
+                PersonalInfo_Segment.Hidden = true;
+                PastDetail_Segment.Hidden = true;
+                VehicleList_AddBtn.Layer.CornerRadius = 5;
 
+                VehicleList_TableView.RegisterNibForCellReuse(VehicleListViewCell.Nib, VehicleListViewCell.Key);
+                VehicleList_TableView.BackgroundColor = UIColor.Clear;
+                VehicleList_TableView.ReloadData();
+
+                GetVehicleList();
             }
             else if (index == 2)
             {
                 PersonalInfo_Segment.Hidden = true;
                 PastDetail_Segment.Hidden = false;
+                VehicleList_Segment.Hidden = true;
 
                 PastDetailTableView.RegisterNibForCellReuse(PastDetailViewCell.Nib, PastDetailViewCell.Key);
                 PastDetailTableView.BackgroundColor = UIColor.Clear;
@@ -167,6 +190,28 @@ namespace StriveCustomer.iOS.Views
         {
             personalInfoViewModel.NavToEditPersonalInfo();
         }
+        
+        public async void GetVehicleList()
+        {
+            await this.vehicleViewModel.GetCustomerVehicleList();
+            
+            if (!(this.vehicleViewModel.vehicleLists.Status.Count == 0) || !(this.vehicleViewModel.vehicleLists == null))
+            {
+                var VehicleTableSource = new VehicleListTableSource(this.vehicleViewModel.vehicleLists);
+                VehicleList_TableView.Source = VehicleTableSource;
+                VehicleList_TableView.TableFooterView = new UIView(CGRect.Empty);
+                VehicleList_TableView.DelaysContentTouches = false;
+                VehicleList_TableView.ReloadData();
+            } 
+        }
+
+        partial void Touch_VehicleList_AddBtn(UIButton sender)
+        {
+            //CheckMembership.hasExistingMembership = false;
+            CustomerVehiclesInformation.membershipDetails = null;
+            MembershipDetails.clearMembershipData();
+            vehicleViewModel.NavToAddVehicle();
+        }                
     }
 
     public class PastDetailsCompleteDetails
