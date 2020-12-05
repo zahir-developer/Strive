@@ -151,6 +151,8 @@ export const UrlConfig = {
     getCheckList : `Admin/Checklist/GetChecklist`,
     addCheckList : `Admin/Checklist/Add`,
     DeleteCheckList : `Admin/Checklist/Delete`,
+   
+
 
 
   },
@@ -174,9 +176,10 @@ export const UrlConfig = {
     getMonthlyTipReport: ``,
     getDailyStatusReport: `Admin/Report/DailyStatusReport`,
     getDailyStatusWashReport: `Admin/Report/DailyStatusInfo`,
-
+    EODExcelReport : `Admin/Report/EODSalesExport`,
+    dailyStatusExcelReport : `Admin/Report/DailyStatusExport`,
     getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`,
-    getDetailStatusInfo: `Admin/Report/DailyStatusDetailInfo`,
+    getDetailStatusInfo: `Admin/Report/DailyStatusInfo`,
     getDailyClockDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getCashRegister: `Admin/CashRegister/Get`,
     getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport`,

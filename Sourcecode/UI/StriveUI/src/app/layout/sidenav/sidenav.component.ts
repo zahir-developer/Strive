@@ -60,7 +60,6 @@ localStorageupdate: boolean = false;
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.getLogo();
 
-
 this.user.navName.subscribe((data = []) => {
   this.roles = [];
   this.salesModule = false
@@ -92,9 +91,11 @@ this.user.navName.subscribe((data = []) => {
   this.monthlyCustomerDetailView = false
   this.hourlyWashReportView = false
   this.localStorageUpdation = 'localStorageUpdation'
+  setTimeout(() => {
+
   if(data){
    const newparsedData =  JSON.parse(data);
-    for (let i = 0; i < newparsedData.length ; i++){
+    for (let i = 0; i < newparsedData?.length ; i++){
     const viewName = newparsedData[i].ViewName;
       const rollName = newparsedData[i].RollName;
      const ModuleName = newparsedData[i].ModuleName;
@@ -202,7 +203,10 @@ this.user.navName.subscribe((data = []) => {
                 this.messengerModule = true;
                }
   }   
+  
   }
+
+
   else{
    const localData = localStorage.getItem('navName')
     const paersedLocalData =  JSON.parse(localData);
@@ -317,7 +321,8 @@ this.user.navName.subscribe((data = []) => {
   }
 
   }
- 
+}, 100)
+
 
 })
 
