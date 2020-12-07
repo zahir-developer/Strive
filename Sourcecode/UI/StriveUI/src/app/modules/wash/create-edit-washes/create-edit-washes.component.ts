@@ -310,7 +310,7 @@ export class CreateEditWashesComponent implements OnInit {
     const query = event.query;
     for (const i of this.clientList) {
       const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+      if (client.name.toLowerCase().includes(query.toLowerCase())) {
         filtered.push(client);
       }
     }

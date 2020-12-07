@@ -95,7 +95,6 @@ export class ClientFormComponent implements OnInit {
     });
   }
   getClientById() {
-    debugger
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.selectedCityId = this.selectedData.City;
