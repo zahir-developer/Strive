@@ -76,33 +76,33 @@ this.SalesSummaryModel = hourlyRate.GetHourlyWashReport.SalesSummaryViewModel;
 // this.mergedList= _.map(this.washModel, function(member){
 //   return _.extend(member, _.omit(_.findWhere(this.SalesSummaryModel, {id: moment(member.JobDate).format('MM-DD-YYYY')}), 'JobDate'));
 // });
-console.log(this.SalesSummaryModel , 'newsales')
-for(var i = 0; i < this.washModel.length; i++){
-  for(var j = 0; j < this.SalesSummaryModel.length; i++){
+// console.log(this.SalesSummaryModel , 'newsales')
+// for(var i = 0; i < this.washModel.length; i++){
+//   for(var j = 0; j < this.SalesSummaryModel.length; i++){
 
 
-  this.mergedList.push({
-    JobDate:this.washModel[i].JobDate,
-    LocationId: this.washModel[i].LocationId,
-    LocationName: this.washModel[i].LocationName,
-    ServiceId: this.washModel[i].ServiceId,
-    ServiceName: this.washModel[i].ServiceName,
-    WashCount: this.washModel[i].WashCount,
-    Account: this.SalesSummaryModel[j].Account,
-    Balance: this.SalesSummaryModel[j].Balance,
-    Cash:this.SalesSummaryModel[j].Cash,
-    CashBack: this.SalesSummaryModel[j].CashBack,
-    Credit: this.SalesSummaryModel[j].Credit,
-    Discount: this.SalesSummaryModel[j].Discount,
-    GiftCard:this.SalesSummaryModel[j].GiftCard,
-    GrandTotal: this.SalesSummaryModel[j].GrandTotal,
-    TotalPaid: this.SalesSummaryModel[j].TotalPaid
+//   this.mergedList.push({
+//     JobDate:this.washModel[i].JobDate,
+//     LocationId: this.washModel[i].LocationId,
+//     LocationName: this.washModel[i].LocationName,
+//     ServiceId: this.washModel[i].ServiceId,
+//     ServiceName: this.washModel[i].ServiceName,
+//     WashCount: this.washModel[i].WashCount,
+//     Account: this.SalesSummaryModel[j].Account,
+//     Balance: this.SalesSummaryModel[j].Balance,
+//     Cash:this.SalesSummaryModel[j].Cash,
+//     CashBack: this.SalesSummaryModel[j].CashBack,
+//     Credit: this.SalesSummaryModel[j].Credit,
+//     Discount: this.SalesSummaryModel[j].Discount,
+//     GiftCard:this.SalesSummaryModel[j].GiftCard,
+//     GrandTotal: this.SalesSummaryModel[j].GrandTotal,
+//     TotalPaid: this.SalesSummaryModel[j].TotalPaid
   
-  })
+//   })
 
-  console.log(this.mergedList , 'merged')
-}
-}
+//   console.log(this.mergedList , 'merged')
+// }
+// }
 
         console.log(hourlyRate, 'hourly');
         if (hourlyRate.GetHourlyWashReport.WashHoursViewModel !== null) {

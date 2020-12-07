@@ -668,7 +668,7 @@
                                     <td class="align-middle font-weight-600">
                                         <thead>
                                        
-                                        <tr *ngFor = "let wash of mergedList" >
+                                        <tr *ngFor = "let wash of washModel" >
                                         
                                     
                                             {{wash.JobDate | date : 'EEE'}}
@@ -679,44 +679,44 @@
                                     </td>
                                     <td class="align-middle font-weight-600"  >
                                         <tbody> 
-                                        <tr *ngFor = "let wash of mergedList" >
+                                        <tr *ngFor = "let wash of washModel" >
                                         
                                     
                                         {{wash.JobDate | date : 'mm/dd/yyyy'}}
                                        
                                     </tr> </tbody>
                                     </td>
-                                    <td id = "ultraMammoth">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
-                                        <input type="text" *ngIf = "wash.ServiceName === 'Ultra Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
-                                        <input type="text" [hidden]= "wash.ServiceName === 'Ultra Mammoth'"  class="form-control text-right p-5" placeholder="0">
+                                    <td >
+                                        <tr *ngFor = "let wash of washModel;let i = index" >
+                                        <input type="text"   class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
+                                        <input type="text"   class="form-control text-right p-5" placeholder="0">
 
                                     </tr>
-                                    <td id = "miniMammoth">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                    <!-- <td id = "miniMammoth">
+                                        <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                         <input type="text" *ngIf = "wash.ServiceName === 'Mini Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
                                         <input type="text" [hidden]= "wash.ServiceName === 'Mini Mammoth'"  class="form-control text-right p-5" placeholder="0">
 
                                     </tr>
                                     </td>
                                     <td id = "megaMammoth">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                         <input type="text" *ngIf = "wash.ServiceName === 'Mega Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
                                         <input type="text" [hidden]= "wash.ServiceName === 'Mega Mammoth'"  class="form-control text-right p-5" placeholder="0">
 
                                     </tr>
-                                    </td>
+                                    </td> -->
         
                                    
                                     <td id = "Deposits">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                         <input type="text" *ngIf = "wash.Deposits"  class="form-control text-right p-5" placeholder="{{wash.Deposits}}">
                                         <input type="text"   class="form-control text-right p-5" placeholder="0">
 
                                     </tr>
                                     </td>
                                     <td id = "BC">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                         <input type="text" *ngIf = "wash.Credit"  class="form-control text-right p-5" placeholder="{{wash.Credit}}">
                                         <input type="text" [hidden]= "wash.Credit"  class="form-control text-right p-5" placeholder="0">
 
@@ -724,28 +724,28 @@
                                     </td>
                                     <td>
                                         <td id = "Accounts">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                             <input type="text" *ngIf = "wash.Account"  class="form-control text-right p-5" placeholder="{{wash.Account}}">
                                             <input type="text" [hidden]= "wash.Account"  class="form-control text-right p-5" placeholder="0">
     
                                         </tr>
                                         </td>
                                         <td id = "GiftCard">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                             <input type="text" *ngIf = "wash.GiftCard"  class="form-control text-right p-5" placeholder="{{wash.GiftCard}}">
                                             <input type="text" [hidden]= "wash.GiftCard"  class="form-control text-right p-5" placeholder="0">
     
                                         </tr>
                                         </td>
                                         <td id = "Tips">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                             <input type="text" *ngIf = "wash.Tips"  class="form-control text-right p-5" placeholder="{{wash.Tips}}">
                                             <input type="text"   class="form-control text-right p-5" placeholder="0">
     
                                         </tr>
                                         </td>
                                         <td id = "Actual">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                             <input type="text" *ngIf = "wash.Actual"  class="form-control text-right p-5" placeholder="{{wash.Actual}}">
                                             <input type="text"   class="form-control text-right p-5" placeholder="0">
     
@@ -753,21 +753,21 @@
                                         </td>
                                       
                                         <td id = "Sales">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                             <input type="text" *ngIf = "wash.TotalPaid"  class="form-control text-right p-5" placeholder="{{wash.TotalPaid}}">
                                             <input type="text" [hidden]= "wash.TotalPaid"  class="form-control text-right p-5" placeholder="0">
     
                                         </tr>
                                         </td>
                                         <td id = "Difference">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                             <input type="text" *ngIf = "wash.Difference"  class="form-control text-right p-5" placeholder="{{wash.Difference}}">
                                             <input type="text"   class="form-control text-right p-5" placeholder="0">
     
                                         </tr>
                                         </td>
                                         <td id = "Managers">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <tr *ngFor = "let wash of SalesSummaryModel;let i = index" >
                                             <input type="text" *ngIf = "wash.Managers"  class="form-control text-right p-5" placeholder="{{wash.Managers}}">
                                             <input type="text"   class="form-control text-right p-5" placeholder="GL">
     
