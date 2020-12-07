@@ -359,7 +359,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         client.Client.forEach(item => {
-          item.fullName = item.FirstName + '\t' + item.LastName;
+          item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
         this.clientList = client.Client.map(item => {
