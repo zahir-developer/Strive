@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { WeatherService } from '../../services/common-service/weather.service';
 
 @Component({
   selector: 'app-last-three-month',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LastThreeMonthComponent implements OnInit {
 
-  constructor() { }
+  weatherThreeMonth: any;
+@Input() targetBusiness : any;
+  constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
+    this.getWeatherDetails();
   }
+  getWeatherDetails()  {
+  if(this.targetBusiness.WeatherPrediction.WeatherPredictionThreeMonth){
+      this.weatherThreeMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionThreeMonth;
+  }
+      else {
+        this.weatherThreeMonth = {
+          'WashCount' : 0,
+          'RainProbability': '-',
+          'TargetBusiness' : '-'
+        }
 
+}
+  }
 }

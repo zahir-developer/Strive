@@ -93,7 +93,7 @@ this.routingPage();
       else if (Roles == 'Detailer') {
         this.router.navigate([`/detail`], { relativeTo: this.route });
       }
-      else if (Roles == 'Washer') {
+      else if (Roles == 'Wash') {
         this.router.navigate([`/wash`], { relativeTo: this.route });
       }
     }
