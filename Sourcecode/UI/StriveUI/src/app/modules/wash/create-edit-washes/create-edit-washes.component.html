@@ -73,9 +73,9 @@
                                 <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                                     <div class="pull-right">
                                         <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                            (click)="getByBarcode(washForm.value.barcode)">Select</button>&nbsp;
+                                            (click)="getByBarcode(washForm.value.barcode)" [disabled]="isView">Select</button>&nbsp;
                                         <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                            (click)="addClient()">Add Client</button>&nbsp;
+                                            (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
                                         <button type="button" class="btn theme-primary-button-color btn-responsive"
                                             (click)="addVehicle()" [disabled]="clientId === undefined">Add
                                             Vehicle</button>

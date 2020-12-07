@@ -36,6 +36,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   isPrintReport: boolean;
   washReport = [];
   detailReport = [];
+  serviceTotal = 0;
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
@@ -211,6 +212,7 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
           this.washTotal = this.calculateTotal(this.washes, 'wash');
           this.detailTotal = this.calculateTotal(this.details, 'detail');
+          this.serviceTotal = this.washTotal + this.detailTotal;
           // this.washes.forEach( item => {
           //   this.washReport.push({
           //     ServiceName: item.ServiceName,
