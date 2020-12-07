@@ -36,6 +36,9 @@ export class UserDataService {
     } else {
       localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
     }
+    if (token?.EmployeeDetails?.EmployeeRoles?.length) {
+      localStorage.setItem('empRoles', token.EmployeeDetails.EmployeeRoles[0].RoleName);
+    }
     if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
 
       // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
