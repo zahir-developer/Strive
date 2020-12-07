@@ -9,7 +9,7 @@ import { HttpUtilsService } from './http-utils.service';
 })
 export class UserDataService {
   isAuthenticated = false;
-  userDetails: any;
+  userDetails: any = {};
   private header: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public headerName = this.header.asObservable();
   private nav: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -60,6 +60,7 @@ export class UserDataService {
   }
   
   setViews(views) {
+    this.userDetails.views = views;
     localStorage.setItem('views', JSON.stringify(views));
   }
   setSides(navName) {

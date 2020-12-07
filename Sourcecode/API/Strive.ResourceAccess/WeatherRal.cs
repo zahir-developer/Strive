@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.Common;
 using Strive.Repository;
@@ -10,36 +11,60 @@ using System.Linq;
 
 namespace Strive.ResourceAccess
 {
-    public class WeatherRal
+    public class WeatherRal:RalBase
     {
         private readonly Db _db;
 
-        public WeatherRal(ITenantHelper tenant)
+        public WeatherRal(ITenantHelper tenant):base(tenant)
         {
             var dbConnection = tenant.db();
             _db = new Db(dbConnection);
         }
-        public WeatherPredictionDetails GetWeatherDetails(int locationId, DateTime dateTime)
+        public List<WeatherPredictions> GetWeatherDetails(int locationId, DateTime dateTime)
         {
-            WeatherPredictionDetails weatherPrediction = new WeatherPredictionDetails();
-            DateTime oneMonthBefore = dateTime.AddMonths(-1);
-            DateTime oneweekBefore = dateTime.AddDays(-7);
-            DateTime threeMonthBefore = dateTime.AddMonths(-3);
-            var data = _db.GetAll<WeatherPrediction>();
 
-            weatherPrediction.WeatherPredictionToday = data.Where(s => s.LocationId == locationId && s.CreatedDate == dateTime)
-                                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
-            weatherPrediction.WeatherPredictionOneMonth =data.Where(s => s.LocationId == locationId && s.CreatedDate == oneMonthBefore)
-                                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
+            DateTime lastMonth = dateTime.AddMonths(-1).Date;
+            DateTime lastweek = dateTime.AddDays(-7).Date;
+            DateTime lastThirdMonth = dateTime.AddMonths(-3).Date;
 
-            weatherPrediction.WeatherPredictionOneWeek= data.Where(s => s.LocationId == locationId && s.CreatedDate == oneweekBefore)
-                                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
+            _prm.Add("@LocationId", locationId);
+            _prm.Add("@date", dateTime);
+            _prm.Add("@lastweek", lastweek.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
 
-            weatherPrediction.WeatherPredictionOneWeek = data.Where(s => s.LocationId == locationId && s.CreatedDate == threeMonthBefore)
-                                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
+            return db.Fetch<WeatherPredictions>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
+            
+            
+            
+            //_prm.Add("@LocationId", locationId);
+            //_prm.Add("@date", oneweekBefore);
+            //var data2 = db.FetchMultiResult<WeatherPrediction>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
 
 
-            return weatherPrediction;
+           
+            //_prm.Add("@LocationId", locationId);
+            //_prm.Add("@date", threeMonthBefore);
+            //var data3 = db.FetchMultiResult<WeatherPrediction>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
+
+          
+
+            //weatherPrediction.WeatherPredictionToday = _db.GetAll<WeatherPrediction>().Where(s => s.LocationId == locationId && s.CreatedDate == dateTime)
+            //                     .OrderByDescending(s => s.WeatherId).FirstOrDefault();
+            //weatherPrediction.WeatherPredictionOneMonth = data1;
+            ////.Where(s => s.LocationId == locationId && s.CreatedDate == oneMonthBefore)
+            //                     //.OrderByDescending(s => s.WeatherId).FirstOrDefault();
+
+            //weatherPrediction.WeatherPredictionOneWeek = data2;
+            ////.Where(s => s.LocationId == locationId && s.CreatedDate == oneweekBefore)
+            ////                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
+
+            //weatherPrediction.WeatherPredictionOneWeek = data3;
+            //    //.Where(s => s.LocationId == locationId && s.CreatedDate == threeMonthBefore)
+            //    //                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
+
+
+            //return weatherPrediction;
                 //.Where(s => s.LocationId == locationId && s.CreatedDate.Date == dateTime.Date)
                 //                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
         }

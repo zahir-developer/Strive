@@ -6,7 +6,7 @@
             <input type="text" maxlength="100" class="form-control" formControlName="locationName"
                 placeholder="Location Name" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
             <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
-                <div *ngIf="f.locationName.errors.required">Location Name is required</div>
+                <div *ngIf="f.locationName.errors.required">Name is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">
@@ -14,7 +14,7 @@
             <input type="text" maxlength="50" class="form-control" formControlName="locationAddress"
                 placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
             <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
-                <div *ngIf="f.locationAddress.errors.required">Location Address is required</div>
+                <div *ngIf="f.locationAddress.errors.required">Address is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">
@@ -22,7 +22,7 @@
             <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2"
                 placeholder="Address 2" [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
             <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
-                <div *ngIf="f.locationAddress2.errors.required">Location Address 2 is required</div>
+                <div *ngIf="f.locationAddress2.errors.required">Address 2 is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">
