@@ -245,7 +245,7 @@ export class EodComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
         console.log(dailyStatusDetailInfo);
-        this.dailyStatusDetailInfo = dailyStatusDetailInfo.GetDailyStatusReport;
+        this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.GetDailyStatusReport;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
@@ -280,7 +280,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   calculateTotal(obj, type) {
-    return obj.reduce((sum, i) => {
+    return obj?.reduce((sum, i) => {
       return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }
