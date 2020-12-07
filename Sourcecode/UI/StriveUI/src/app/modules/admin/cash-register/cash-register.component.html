@@ -275,18 +275,21 @@
                             <div class="col-lg-6 col-xl-3">
                                 <div class="row  no-gutter">
                                     <div class="col-lg-6 col-ipad">
-                                        <app-temperature></app-temperature>
+                                        <app-temperature [targetBusiness] = "targetBusiness"></app-temperature>
                                     </div>
                                     <div class="col-lg-6 p-r-0 col-ipad">
-                                        <app-rain-probability></app-rain-probability>
+                                        <app-rain-probability [targetBusiness] = "targetBusiness"></app-rain-probability>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-9 col-xl-4">
-                                <app-last-week></app-last-week>
+                                <app-last-week [targetBusiness] = "targetBusiness"></app-last-week>
                             </div>
                             <div class="col-lg-9 col-xl-4">
-                                <app-last-month></app-last-month>
+                                <app-last-month [targetBusiness] = "targetBusiness"></app-last-month>
+                            </div>
+                            <div class="col-lg-9 col-xl-4">
+                                <app-last-three-month [targetBusiness] = "targetBusiness"></app-last-three-month>
                             </div>
                         </div>
                         <div class="row no-gutter">

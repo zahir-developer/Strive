@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { WeatherService } from '../../services/common-service/weather.service';
 
 @Component({
@@ -8,15 +8,21 @@ import { WeatherService } from '../../services/common-service/weather.service';
 })
 export class LastWeekComponent implements OnInit {
   weatherdata: any;
-
-  constructor(private weatherService: WeatherService) { }
-
-  ngOnInit(): void {
-    this.getWeatherDetails();
+  @Input() targetBusiness : any;
+    constructor(private weatherService: WeatherService) { }
+  
+    ngOnInit(): void {
+      this.getWeatherDetails();
+    }
+    getWeatherDetails ()  {
+    if(this.targetBusiness.WeatherPrediction.WeatherPredictionOneWeek){
+        this.weatherdata = this.targetBusiness.WeatherPrediction.WeatherPredictionOneWeek;
+      }  else {
+          this.weatherdata = {
+            'WashCount' : 0,
+            'RainProbability': '-',
+            'TargetBusiness' : '-'
+          }
   }
-  getWeatherDetails = () => {
-    this.weatherService.data.subscribe((x:any)=> {
-      this.weatherdata = x.lastWeekWeather;
-  });
-}
+  }
 }
