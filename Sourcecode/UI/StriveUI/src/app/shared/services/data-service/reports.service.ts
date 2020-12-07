@@ -60,4 +60,10 @@ export class ReportsService {
   getHourlyWashReport(obj) {
     return this.http.post(`${UrlConfig.reports.getHourlyWashReport}`, obj);
   }
+  getEODexcelReport(obj){
+    return this.http.post(`${UrlConfig.reports.EODExcelReport}`, obj);
+  }
+  getDailyStatusExcelReport(obj){
+    return this.http.post(`${UrlConfig.reports.dailyStatusExcelReport}`, obj);
+  }
 }

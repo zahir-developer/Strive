@@ -70,7 +70,10 @@ namespace Strive.Core.ViewModels.Customer
             }
             return true;
         }
-
+        public async void NavToUpcharges()
+        {
+            await _navigationService.Navigate<VehicleUpchargeViewModel>();
+        }
         #endregion Commands
     }
 }

@@ -77,7 +77,7 @@
                             </thead>
                             <tbody>
                                 <tr class="hourlywash-striped" *ngFor="let hours of hourlyWashReport">
-                                    <th scope="row" class="align-middle text-center">Sun
+                                    <th scope="row" class="align-middle text-center">{{hours.JobDate | date: 'EEE'}}
                                         <br>{{hours.JobDate | date: 'MM-dd-yyy'}}</th>
                                     <td>
                                         <input type="text" class="form-control p-10 text-right"  placeholder="69.0">
@@ -640,10 +640,12 @@
                 <div class="card-body p-10">
                     <div class="table-responsive">
                         <table class="table hourwash">
-                            <thead>
+                            <tr>
+                                
+                            <thead >
                                 <tr>
                                     <th scope="col">Day</th>
-                                    <th scope="col">Date</th>
+                            <th scope="col">Date</th>
 
                                     <th scope="col" class="text-right">Ultra</th>
                                     <th scope="col" class="text-right">Mega</th>
@@ -662,299 +664,123 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="align-middle font-weight-600">Sun</td>
-                                    <td class="align-middle font-weight-600">15/11/2020</td>
+                                   
+                                    <td class="align-middle font-weight-600">
+                                        <thead>
+                                       
+                                        <tr *ngFor = "let wash of mergedList" >
+                                        
+                                    
+                                            {{wash.JobDate | date : 'EEE'}}
+                                           
+                                        </tr> 
+                                        
+        </thead>
+                                    </td>
+                                    <td class="align-middle font-weight-600"  >
+                                        <tbody> 
+                                        <tr *ngFor = "let wash of mergedList" >
+                                        
+                                    
+                                        {{wash.JobDate | date : 'mm/dd/yyyy'}}
+                                       
+                                    </tr> </tbody>
+                                    </td>
+                                    <td id = "ultraMammoth">
+                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <input type="text" *ngIf = "wash.ServiceName === 'Ultra Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
+                                        <input type="text" [hidden]= "wash.ServiceName === 'Ultra Mammoth'"  class="form-control text-right p-5" placeholder="0">
 
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="15">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="36">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="22">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="6">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$51.95">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$2006.18">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$1645.05">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$25.00">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$176.62">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$3728.18">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$3728.18">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="0">
-                                    </td>
-                                    <td class="align-middle font-weight-600">GL</td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle font-weight-600">Mon</td>
-                                    <td class="align-middle font-weight-600">16/11/2020</td>
+                                    </tr>
+                                    <td id = "miniMammoth">
+                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <input type="text" *ngIf = "wash.ServiceName === 'Mini Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
+                                        <input type="text" [hidden]= "wash.ServiceName === 'Mini Mammoth'"  class="form-control text-right p-5" placeholder="0">
 
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="20">
+                                    </tr>
                                     </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="21">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="22">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="7">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$258.80">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$1672.03">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$1277.45">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$43.95">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$82.77">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$3169.46">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$3169.46">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="0">
-                                    </td>
-                                    <td class="align-middle font-weight-600">RM</td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle font-weight-600">Tue</td>
-                                    <td class="align-middle font-weight-600">17/11/2020</td>
+                                    <td id = "megaMammoth">
+                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <input type="text" *ngIf = "wash.ServiceName === 'Mega Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
+                                        <input type="text" [hidden]= "wash.ServiceName === 'Mega Mammoth'"  class="form-control text-right p-5" placeholder="0">
 
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="1">
+                                    </tr>
                                     </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td class="align-middle font-weight-600"></td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle font-weight-600">Wed</td>
-                                    <td class="align-middle font-weight-600">18/11/2020</td>
+        
+                                   
+                                    <td id = "Deposits">
+                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <input type="text" *ngIf = "wash.Deposits"  class="form-control text-right p-5" placeholder="{{wash.Deposits}}">
+                                        <input type="text"   class="form-control text-right p-5" placeholder="0">
 
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="0">
+                                    </tr>
                                     </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td class="align-middle font-weight-600">SR</td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle font-weight-600">Thu</td>
-                                    <td class="align-middle font-weight-600">19/11/2020</td>
+                                    <td id = "BC">
+                                        <tr *ngFor = "let wash of mergedList;let i = index" >
+                                        <input type="text" *ngIf = "wash.Credit"  class="form-control text-right p-5" placeholder="{{wash.Credit}}">
+                                        <input type="text" [hidden]= "wash.Credit"  class="form-control text-right p-5" placeholder="0">
 
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="1">
+                                    </tr>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td class="align-middle font-weight-600">BI</td>
+                                        <td id = "Accounts">
+                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <input type="text" *ngIf = "wash.Account"  class="form-control text-right p-5" placeholder="{{wash.Account}}">
+                                            <input type="text" [hidden]= "wash.Account"  class="form-control text-right p-5" placeholder="0">
+    
+                                        </tr>
+                                        </td>
+                                        <td id = "GiftCard">
+                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <input type="text" *ngIf = "wash.GiftCard"  class="form-control text-right p-5" placeholder="{{wash.GiftCard}}">
+                                            <input type="text" [hidden]= "wash.GiftCard"  class="form-control text-right p-5" placeholder="0">
+    
+                                        </tr>
+                                        </td>
+                                        <td id = "Tips">
+                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <input type="text" *ngIf = "wash.Tips"  class="form-control text-right p-5" placeholder="{{wash.Tips}}">
+                                            <input type="text"   class="form-control text-right p-5" placeholder="0">
+    
+                                        </tr>
+                                        </td>
+                                        <td id = "Actual">
+                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <input type="text" *ngIf = "wash.Actual"  class="form-control text-right p-5" placeholder="{{wash.Actual}}">
+                                            <input type="text"   class="form-control text-right p-5" placeholder="0">
+    
+                                        </tr>
+                                        </td>
+                                      
+                                        <td id = "Sales">
+                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <input type="text" *ngIf = "wash.TotalPaid"  class="form-control text-right p-5" placeholder="{{wash.TotalPaid}}">
+                                            <input type="text" [hidden]= "wash.TotalPaid"  class="form-control text-right p-5" placeholder="0">
+    
+                                        </tr>
+                                        </td>
+                                        <td id = "Difference">
+                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <input type="text" *ngIf = "wash.Difference"  class="form-control text-right p-5" placeholder="{{wash.Difference}}">
+                                            <input type="text"   class="form-control text-right p-5" placeholder="0">
+    
+                                        </tr>
+                                        </td>
+                                        <td id = "Managers">
+                                            <tr *ngFor = "let wash of mergedList;let i = index" >
+                                            <input type="text" *ngIf = "wash.Managers"  class="form-control text-right p-5" placeholder="{{wash.Managers}}">
+                                            <input type="text"   class="form-control text-right p-5" placeholder="GL">
+    
+                                        </tr>
+                                        </td>
+                                      
+                                   
+                                   
                                 </tr>
-                                <tr>
-                                    <td class="align-middle font-weight-600">Fri</td>
-                                    <td class="align-middle font-weight-600">20/11/2020</td>
-
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td class="align-middle font-weight-600">KT</td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle font-weight-600">Sat</td>
-                                    <td class="align-middle font-weight-600">21/11/2020</td>
-
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
-                                    </td>
-                                    <td class="align-middle font-weight-600">MM</td>
-                                </tr>
+                               
+                              
+                               
+                    
                                 <tr class="table-foot">
                                     <td class="font-weight-700 text-center align-middle" colspan="2">Total</td>
                                     <td>
@@ -997,6 +823,7 @@
                                 </tr>
 
                             </tbody>
+                            </tr>
                         </table>
                     </div>
 

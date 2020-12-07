@@ -1,16 +1,9 @@
-﻿using Dapper.Contrib.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Strive.BusinessEntities.Weather
 {
-    [Table("tblWeatherPrediction")]
     public class WeatherPrediction
     {
-        [Key]
         public int WeatherId { get; set; }
 
         public int LocationId { get; set; }
@@ -24,17 +17,9 @@ namespace Strive.BusinessEntities.Weather
         public string TargetBusiness { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
+
         public int WashCount { get; set; }
         
     }
-    public class WeatherPredictionDetails
-    {
-        public WeatherPrediction WeatherPredictionToday { get; set; }
-        public WeatherPrediction WeatherPredictionOneMonth { get; set; }
-
-        public WeatherPrediction WeatherPredictionOneWeek { get; set; }
-
-        public WeatherPrediction WeatherPredictionThreeMonth { get; set; }
-
-    }
+  
 }

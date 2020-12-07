@@ -31,8 +31,7 @@
                             <th scope="col">Doc#</th>
                             <th scope="col">File Name</th>
                             <th scope="col">Date Created </th>
-                            <th scope="col">Last Modified</th>
-                            <th scope="col">Type</th>
+                            <th scope="col">File Type</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -41,7 +40,6 @@
                             <td>{{document.DocumentSequence}}</td>
                             <td [ngClass]="{'table-ellipsis':showCloseButton }">{{document.FileName}}</td>
                             <td>{{document.CreatedDate | date: 'MM/dd/yyyy'}}</td>
-                            <td>{{document.UpdatedDate | date: 'MM/dd/yyyy'}}</td>
                             <td>{{document.FileType}}</td>
                             <td> <em class="mdi mdi-file-download-outline pointer  md-doc m-r-2 font-size-1-1"
                                     *ngIf="actionType === 'view'" (click)="viewDocument(document)"
