@@ -6,7 +6,7 @@ namespace Strive.BusinessEntities.DTO.Employee
     {
         public int DocumentSequence { get; set; }
         public int EmployeeId { get; set; }
-        public int DocumentId { get; set; }
+        public int EmployeeDocumentId { get; set; }
         public string FileName { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }
         public DateTimeOffset? UpdatedDate { get; set; }
