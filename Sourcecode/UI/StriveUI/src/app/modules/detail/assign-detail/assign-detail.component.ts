@@ -58,7 +58,7 @@ export class AssignDetailComponent implements OnInit {
     this.employeeList = this.employeeList.map(item => {
       return {
         item_id: item.EmployeeId,
-        item_text: item.LastName + '\t' + item.FirstName
+        item_text: item.FirstName + '\t' + item.LastName
       };
     });
     this.clonedEmployee = this.employeeList.map(x => Object.assign({}, x));

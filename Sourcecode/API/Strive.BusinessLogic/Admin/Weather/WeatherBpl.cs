@@ -36,7 +36,8 @@ namespace Strive.BusinessLogic
         public Result GetWeatherPrediction(int locationId, DateTime dateTime)
         {
             try
-            {              
+            {
+
                 DateTime lastMonth = dateTime.AddMonths(-1);
                 DateTime lastweek = dateTime.AddDays(-7);
                 DateTime lastThirdMonth = dateTime.AddMonths(-3);
@@ -48,6 +49,13 @@ namespace Strive.BusinessLogic
                 var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId,dateTime );
                 if (weather != null)
                 {
+                    var todayResult = weather.FirstOrDefault(s => s.CreatedDate == dateTime);
+
+                    if(todayResult != null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionToday = todayResult;
+                    }
+
                     var lastWeekResult = weather.FirstOrDefault(s => s.CreatedDate == lastweek);
                     if (lastWeekResult != null)
                     {
@@ -67,7 +75,7 @@ namespace Strive.BusinessLogic
 
                     }
                 }
-                    _resultContent.Add(weather.WithName("WeatherPrediction"));
+                    _resultContent.Add(weatherPredictionDetails.WithName("WeatherPrediction"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)

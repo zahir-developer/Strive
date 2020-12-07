@@ -1,9 +1,12 @@
 ﻿using System;
+using Dapper.Contrib.Extensions;
 
 namespace Strive.BusinessEntities.Weather
 {
+    [Table("tblWeatherPrediction")]
     public class WeatherPrediction
     {
+        [Key]
         public int WeatherId { get; set; }
 
         public int LocationId { get; set; }
