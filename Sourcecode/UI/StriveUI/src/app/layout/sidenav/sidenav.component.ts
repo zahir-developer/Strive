@@ -108,7 +108,7 @@ this.user.navName.subscribe((data = []) => {
       if(ModuleName === "Admin"){
         this.adminModule = true;
         // Admin Module View Setup
-        if(viewName === 'System Setup'){
+        if(viewName === 'SystemSetup'){
           this.systemSetupView = true;
       }
       if(viewName === 'Gift Cards'){
@@ -126,13 +126,13 @@ this.user.navName.subscribe((data = []) => {
       if(viewName === 'Employees'){
        this.employeesView = true;
       }
-      if(viewName === 'Time Clock Maintenance'){
+      if(viewName === 'TimeClockMaintenance'){
        this.timeClockMaintenanceView = true;
       }
-      if(viewName === 'Close Out Register'){
+      if(viewName === 'CloseOutRegister'){
        this.closeOutRegisterView = true;
       }
-      if(viewName === 'Cash Register Setup'){
+      if(viewName === 'CashRegisterSetup'){
        this.cashRegisterSetupView = true;
       }
                 }
@@ -154,39 +154,39 @@ this.user.navName.subscribe((data = []) => {
 
                //Report Module view setup
 
-              if(viewName === 'Daily Status Screen'){
+              if(viewName === 'DailyStatusScreen'){
                 this.dailyStatusView = true;
             }
-            if(viewName === 'EOD Report'){
+            if(viewName === 'EODReport'){
              this.eodReportView = true;
             }
-            if(viewName === 'Daily Tip report'){
+            if(viewName === 'DailyTipreport'){
              this.dailyTipReportView = true;
             }
-            if(viewName === 'Monthly Tip report'){
+            if(viewName === 'MonthlyTipreport'){
              this.monthlyTipView = true;
             }
-            if(viewName === 'Monthly Sales Report'){
+            if(viewName === 'MonthlySalesReport'){
              this.monthlySalesView = true;
             }
-            if(viewName === 'Monthly Customer Summary Report'){
+            if(viewName === 'MonthlyCustomerSummaryReport'){
              this.monthlyCustomerSummaryView = true;
             }
-            if(viewName === 'Monthly Money Owed Report'){
+            if(viewName === 'MonthlyMoneyOwedReport'){
              this.monthlyMoneyOwnedView = true;
             }
-            if(viewName === 'Monthly Customer Detail Report'){
+            if(viewName === 'MonthlyCustomerDetailReport'){
              this.monthlyCustomerDetailView = true;
             }
-            if(viewName === 'Hourly Wash report'){
+            if(viewName === 'HourlyWashreport'){
              this.hourlyWashReportView = true;
             }
-            if(viewName === 'Daily Sales report'){
+            if(viewName === 'DailySalesreport'){
               this.dailyTipReportView = true;
              }
              }
             // White Labelling
-            if(ModuleName === "White Labelling"){
+            if(ModuleName === "WhiteLabelling"){
                 this.whiteLabellingModule = true;
                }
               // PayRoll
@@ -224,10 +224,10 @@ this.user.navName.subscribe((data = []) => {
       if(ModuleNameLocal === "Admin"){
         this.adminModule = true;
         // Admin Module View Setup
-        if(viewNameLocal === 'System Setup'){
+        if(viewNameLocal === 'SystemSetup'){
           this.systemSetupView = true;
       }
-      if(viewNameLocal === 'Gift Cards'){
+      if(viewNameLocal === 'GiftCards'){
        this.giftCardsView = true;
       }
       if(viewNameLocal === 'Schedules'){
@@ -242,13 +242,13 @@ this.user.navName.subscribe((data = []) => {
       if(viewNameLocal === 'Employees'){
        this.employeesView = true;
       }
-      if(viewNameLocal === 'Time Clock Maintenance'){
+      if(viewNameLocal === 'TimeClockMaintenance'){
        this.timeClockMaintenanceView = true;
       }
-      if(viewNameLocal === 'Close Out Register'){
+      if(viewNameLocal === 'CloseOutRegister'){
        this.closeOutRegisterView = true;
       }
-      if(viewNameLocal === 'Cash Register Setup'){
+      if(viewNameLocal === 'CashRegisterSetup'){
        this.cashRegisterSetupView = true;
       }
                 }
@@ -270,39 +270,39 @@ this.user.navName.subscribe((data = []) => {
 
                //Report Module view setup
 
-              if(viewNameLocal === 'Daily Status Screen'){
+              if(viewNameLocal === 'DailyStatusScreen'){
                 this.dailyStatusView = true;
             }
-            if(viewNameLocal === 'EOD Report'){
+            if(viewNameLocal === 'EODReport'){
              this.eodReportView = true;
             }
-            if(viewNameLocal === 'Daily Tip report'){
+            if(viewNameLocal === 'DailyTipreport'){
              this.dailyTipReportView = true;
             }
-            if(viewNameLocal === 'Monthly Tip report'){
+            if(viewNameLocal === 'MonthlyTipreport'){
              this.monthlyTipView = true;
             }
-            if(viewNameLocal === 'Monthly Sales Report'){
+            if(viewNameLocal === 'MonthlySalesReport'){
              this.monthlySalesView = true;
             }
-            if(viewNameLocal === 'Monthly Customer Summary Report'){
+            if(viewNameLocal === 'MonthlyCustomerSummaryReport'){
              this.monthlyCustomerSummaryView = true;
             }
-            if(viewNameLocal === 'Monthly Money Owed Report'){
+            if(viewNameLocal === 'MonthlyMoneyOwedReport'){
              this.monthlyMoneyOwnedView = true;
             }
-            if(viewNameLocal === 'Monthly Customer Detail Report'){
+            if(viewNameLocal === 'MonthlyCustomerDetailReport'){
              this.monthlyCustomerDetailView = true;
             }
-            if(viewNameLocal === 'Hourly Wash report'){
+            if(viewNameLocal === 'HourlyWashreport'){
              this.hourlyWashReportView = true;
             }
-            if(viewNameLocal === 'Daily Sales report'){
+            if(viewNameLocal === 'DailySalesreport'){
               this.dailyTipReportView = true;
              }
              }
             // White Labelling
-            if(ModuleNameLocal === "White Labelling"){
+            if(ModuleNameLocal === "WhiteLabelling"){
                 this.whiteLabellingModule = true;
                }
               // PayRoll

@@ -21,7 +21,7 @@ export class AuthorizeService {
       if (_.findWhere(this.userDataService.userDetails.views, { ModuleName: routingPageId })) {
         return true;
       }
-      return false;
+      return true;
     }
   }
 }
