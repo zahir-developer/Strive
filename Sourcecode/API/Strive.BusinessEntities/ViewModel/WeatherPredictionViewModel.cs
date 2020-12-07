@@ -1,8 +1,13 @@
-﻿using System;
+﻿using Strive.BusinessEntities.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.Weather
+namespace Strive.BusinessEntities.ViewModel
 {
-    public class WeatherPrediction
+    public class WeatherPredictions
     {
         public int WeatherId { get; set; }
 
@@ -19,7 +24,10 @@ namespace Strive.BusinessEntities.Weather
         public DateTimeOffset CreatedDate { get; set; }
 
         public int WashCount { get; set; }
-        
+
     }
+
   
+
 }
+
