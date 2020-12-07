@@ -67,6 +67,7 @@ import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.comp
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-conditions/create-edit-terms-and-conditions/create-edit-terms-and-conditions.component';
+import { SearchPipe } from './system-setup/common-search-pipe/search.pipe';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -82,7 +83,8 @@ import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent],
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent,SearchPipe
+],
   imports: [
     CommonModule,
     RouterModule,

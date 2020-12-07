@@ -174,12 +174,19 @@ export class EodComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' +
-        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
-        this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' +
-        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
-        this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' +
-        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        //this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' +
+        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        // this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' +
+        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        // this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' +
+        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        const obj = {
+          locationId: +this.locationId,
+          date: moment(this.date).format('YYYY-MM-DD'),
+          cashRegisterType : "CLOSEOUT"
+
+        };
+        this.reportService.getEODexcelReport(obj)
         break;
       }
       default: {

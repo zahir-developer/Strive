@@ -32,6 +32,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   dailyStatusDetailInfo = [];
   clockDetail = [];
   clockDetailValue = [];
+  dailyStatusWashInfo: any;
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef,
               private datePipe: DatePipe, private spinner: NgxSpinnerService) {
 
@@ -40,6 +41,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
     this.getDailyStatusReport();
+    this.getDailyStatusWashReport();
+
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
   }
@@ -132,11 +135,39 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dailyStatusReport = JSON.parse(data.resultData);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
+        this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
+
         if (this.dailyStatusReport.length > 0) {
           this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
+          
           this.washTotal = this.calculateTotal(this.washes, 'wash');
           this.detailTotal = this.calculateTotal(this.details, 'detail');
+        }
+      }
+    }, (err) => {
+      this.spinner.hide();
+    });
+  }
+  getDailyStatusWashReport() {
+    this.washes = [];
+    this.details = [];
+    this.washTotal = 0;
+    this.detailTotal = 0;
+    const obj = {
+      locationId: +this.locationId,
+      date: moment(this.date).format('YYYY-MM-DD')
+    };
+    this.spinner.show();
+    this.reportService.getDailyStatusWashReport(obj).subscribe(data => {
+      this.spinner.hide();
+      if (data.status === 'Success') {
+        const dailyStatusReport = JSON.parse(data.resultData);
+        this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
+        if (this.dailyStatusReport.length > 0) {
+          this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
+          this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
+         
         }
       }
     }, (err) => {
@@ -153,7 +184,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       this.spinner.hide();
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
-        this.dailyStatusDetailInfo = dailyStatusDetailInfo.GetDailyStatusReport;
+        this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusDetailInfo;
+       this.dailyStatusWashInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusWashInfo
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
@@ -198,12 +230,24 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.washes, 'DailyWashStatusReport_' +
-        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        this.excelService.exportAsExcelFile(this.details, 'DailyDetailStatusReport_' +
-        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        this.excelService.exportAsExcelFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' +
-        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+        // this.excelService.exportAsExcelFile(this.washes, 'DailyWashStatusReport_' +
+        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+        // this.excelService.exportAsExcelFile(this.details, 'DailyDetailStatusReport_' +
+        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+        // this.excelService.exportAsExcelFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' +
+        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+         const obj = {
+          locationId: +this.locationId,
+          date: moment(this.date).format('YYYY-MM-DD'),
+          cashRegisterType : "CLOSEOUT"
+
+        };
+        this.reportService.getDailyStatusExcelReport(obj).subscribe(data =>{
+          const exportData = data;
+        
+
+        })
+      
         break;
       }
       default: {
@@ -214,6 +258,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   }
   preview() {
     this.getDailyStatusReport();
+    this.getDailyStatusWashReport();
+
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
   }
@@ -224,7 +270,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
   calculateTotal(obj, type) {
-    return obj.reduce((sum, i) => {
+    return obj?.GetDailyStatusReport.reduce((sum, i) => {
       return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }
