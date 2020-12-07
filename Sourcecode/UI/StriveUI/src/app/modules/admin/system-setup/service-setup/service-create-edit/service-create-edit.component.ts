@@ -29,6 +29,7 @@ export class ServiceCreateEditComponent implements OnInit {
   isUpcharge = false;
   isAdditional = false;
   isDetails: boolean;
+  costErrMsg: boolean = false;
   constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -189,6 +190,14 @@ export class ServiceCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {
+      if(this.serviceSetupForm.value.cost !== ""){        
+        if(Number(this.serviceSetupForm.value.cost) <= 0){
+          this.costErrMsg = true;
+          return;
+        }else{
+          this.costErrMsg = false;
+        }
+      }
       return;
     }
     const formObj = {
