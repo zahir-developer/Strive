@@ -98,6 +98,7 @@ export class ClientFormComponent implements OnInit {
     });
   }
   getClientById() {
+    debugger
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.selectedCityId = this.selectedData.City;
@@ -109,6 +110,7 @@ export class ClientFormComponent implements OnInit {
       status: this.selectedData.IsActive ? 0 : 1,
       score: this.selectedData.Score,
       type: this.selectedData.ClientType,
+      amount: this.selectedData.Amount,
       notes: this.selectedData.Notes,
       checkOut: this.selectedData.RecNotes,
       address: this.selectedData.Address1,
