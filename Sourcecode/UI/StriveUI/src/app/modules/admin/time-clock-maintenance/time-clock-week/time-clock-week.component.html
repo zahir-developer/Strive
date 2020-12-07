@@ -93,7 +93,7 @@
                                                                                     <ngx-timepicker-field [format]="24" 
                                                                                     (timeChanged)="inTime($event,time)" 
                                                                                     [(ngModel)] = "time.InTime"
-                                                                                        [defaultTime]="time.InTime | date:'HH:mm'">
+                                                                                        [defaultTime]="time.InTime ">
     
                                                                                     </ngx-timepicker-field> 
                                                                                     </div>
@@ -120,7 +120,8 @@
                                                                                 <ngx-timepicker-field [format]="24" 
                                                                                 (timeChanged)="outTime($event,time)" 
                                                                                 [(ngModel)] = "time.OutTime"
-                                                                                    [defaultTime]="time.OutTime | date:'HH:mm'">
+
+                                                                                    [defaultTime]="time.OutTime ">
 
                                                                                 </ngx-timepicker-field>  </div> 
 

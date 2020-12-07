@@ -75,8 +75,8 @@ export class TimeClockWeekComponent implements OnInit {
               days.forEach(item => {
                 dayDetails.push({
                   EventDate: item.EventDate,
-                  InTime: item.InTime,
-                  OutTime: item.OutTime,
+                  InTime: item.InTime ?  moment(item.InTime).format('HH:mm'):'',
+                  OutTime: item.OutTime ?  moment(item.OutTime).format('HH:mm'):'',
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
                   TotalHours: moment(item.TotalHours).format('HH:mm'),
