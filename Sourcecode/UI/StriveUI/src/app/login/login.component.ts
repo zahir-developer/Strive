@@ -71,12 +71,33 @@ export class LoginComponent implements OnInit {
     if (!Array.isArray(JSON.parse(location))) {
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
-      this.router.navigate([`/admin/setup`], { relativeTo: this.route });
+this.routingPage();
     } else {
       this.router.navigate([`/location`], { relativeTo: this.route });
     }
   }
-
+  routingPage() {
+    const Roles = localStorage.getItem('empRoles');
+    if (Roles) {
+      if (Roles == 'Admin') {
+        this.router.navigate([`/admin/setup/location`], { relativeTo: this.route });
+      } else if (Roles == 'Manager') {
+        this.router.navigate([`/reports/eod`], { relativeTo: this.route });
+      }
+      else if (Roles == 'Operator') {
+        this.router.navigate([`/reports/eod`], { relativeTo: this.route });
+      }
+      else if (Roles == 'Cashier') {
+        this.router.navigate([`/sales`], { relativeTo: this.route });
+      }
+      else if (Roles == 'Detailer') {
+        this.router.navigate([`/detail`], { relativeTo: this.route });
+      }
+      else if (Roles == 'Wash') {
+        this.router.navigate([`/wash`], { relativeTo: this.route });
+      }
+    }
+  }
   forgotPassword() {
     this.router.navigate([`/forgot-password`], { relativeTo: this.route });
   }

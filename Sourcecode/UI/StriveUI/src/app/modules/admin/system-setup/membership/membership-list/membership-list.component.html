@@ -11,6 +11,15 @@
                             New Membership</button>
                     </div>
                     <div class="setup-wrapper">
+                        <div class="search-container  pull-right">
+                            <form>
+                              <div class="form-row">
+                                <div class="form-group d-flex"> <input type="search" size="35" class="form-control" [(ngModel)]="query"
+                                    name="search" id="inputSearch" placeholder="Search by Name, Service Type,Status" > </div>
+                               
+                              </div>
+                            </form>
+                          </div>
                         <div class="setup-content" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No
                                 Records Found</span></div>
                         <div class="setup-content" id="open-collapse"
@@ -28,17 +37,17 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            *ngFor="let membership of membershipDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                            *ngFor="let membership of membershipDetails  | search: query | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{membership.MembershipName}}</th>
                                             <td class="table-ellipsis">{{membership.Services}}</td>
                                             <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td><!--: 'dd/MM/yyyy'-->
                                             <td>{{membership.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                                    style="color:green" pTooltip="edit" tooltipPosition="bottom"
+                                                    style="color:green" pTooltip="Edit" tooltipPosition="bottom"
                                                     (click)="add('edit', membership)"></em>&nbsp;&nbsp;
                                                 <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                    style="color:red" pTooltip="delete" tooltipPosition="bottom"
+                                                    style="color:red" pTooltip="Delete" tooltipPosition="bottom"
                                                     (click)="delete(membership)"></em>
                                             </td>
                                         </tr>
