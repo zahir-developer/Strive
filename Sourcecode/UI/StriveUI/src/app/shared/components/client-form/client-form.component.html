@@ -43,8 +43,8 @@
                 <div class="col-md-6  form-group">
                     <label for="inputPhoneNumber1">Phone 1<span
                             class="required">*</span></label>
-                    <input numbersOnly [appMaxLength]="10" type="text" class="form-control"
-                        formControlName="phone1" placeholder="XXXXXXXXXX"
+                    <input appPhoneMask type="text" maxlength="14" class="form-control"
+                        formControlName="phone1" placeholder="(XXX) XXX-XXXX"
                         [ngClass]="{ 'is-invalid': submitted && f.phone1.errors }">
                     <div *ngIf="submitted && f.phone1.errors" class="invalid-feedback">
                         <div *ngIf="f.phone1.errors">Phone Number is required</div>
@@ -63,7 +63,7 @@
             <div class="row  no-gutter form-row">
                 <div class="col-md-6 col-ipad form-group">
                     <label for="inputPhoneNumber2">Phone 2</label>
-                    <input appPhoneMask type="text" class="form-control"
+                    <input appPhoneMask type="text" maxlength="14" class="form-control"
                         formControlName="phone2" placeholder="(XXX) XXX-XXXX"> </div>
                 <div class="col-lg-6 p-r-0 col-ipad form-group">
                     <label></label>

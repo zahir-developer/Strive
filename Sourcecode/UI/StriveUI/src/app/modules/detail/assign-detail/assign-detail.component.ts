@@ -40,7 +40,7 @@ export class AssignDetailComponent implements OnInit {
     console.log(this.details, 'assignedDetailService');
     this.detailService = this.detailsJobServiceEmployee;
     this.getAllServiceType();
-    this.employeeDetail();
+    // this.employeeDetail();
     console.log(this.detailService, this.detailsJobServiceEmployee, 'detailsJobServiceEmployee');
     if (this.detailService.length > 0) {
       this.detailService.forEach((item, index) => {  // Adding Id to the grid
@@ -134,13 +134,13 @@ export class AssignDetailComponent implements OnInit {
   }
 
   delete(service) {
-    this.detailService = this.detailService.filter(item => item.detailServiceId !== service.detailServiceId);
-    const clonedDetailService = this.detailService.map(x => Object.assign({}, x));
-    this.serviceByEmployeeId(service.ServiceId);
     const deleteService = _.where(this.detailService, { JobServiceEmployeeId: +service.JobServiceEmployeeId });
     if (deleteService.length > 0) {
       this.deleteIds.push(deleteService[0]);
     }
+    this.detailService = this.detailService.filter(item => item.detailServiceId !== service.detailServiceId);
+    const clonedDetailService = this.detailService.map(x => Object.assign({}, x));
+    this.serviceByEmployeeId(service.ServiceId);
     this.detailService = [];
     this.clonedServices = [];
     this.details.forEach(item => {
@@ -290,6 +290,7 @@ export class AssignDetailComponent implements OnInit {
         }
       });
     }
+    this.employeeDetail();
     this.dropdownSettings = {
       singleSelection: false,
       defaultOpen: false,

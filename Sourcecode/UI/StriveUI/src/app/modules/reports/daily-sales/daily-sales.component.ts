@@ -17,7 +17,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   locationId: any;
   fileType: number;
   dailySalesReport = [];
-  date = moment(new Date()).format('MM-DD-YYYY');
+  date = moment(new Date()).format('MM/DD/YYYY');
   isTableEmpty: boolean;
   page = 1;
   pageSize = 25;
@@ -31,7 +31,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     this.getDailySalesReport();
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY', showWeekNumbers: false });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY' });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
@@ -94,7 +94,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   onValueChange(event) {
     let selectedDate = event;
     if (selectedDate !== null) {
-      selectedDate = moment(event.toISOString()).format('MM-DD-YYYY');
+      selectedDate = moment(event.toISOString()).format('MM/DD/YYYY');
       this.date = selectedDate;
     }
     this.getDailySalesReport();
