@@ -186,7 +186,16 @@ export class EodComponent implements OnInit, AfterViewInit {
           cashRegisterType : "CLOSEOUT"
 
         };
-        this.reportService.getEODexcelReport(obj)
+        this.reportService.getEODexcelReport(obj).subscribe(data =>{
+          if(data){
+            this.download(data, 'excel', 'EOD Report');
+           
+
+            return data; 
+               }
+          
+
+        })
         break;
       }
       default: {
@@ -195,7 +204,18 @@ export class EodComponent implements OnInit, AfterViewInit {
     }
     $('#printReport').hide();
   }
-
+  download(data: any, type, fileName = 'Excel'){
+    let format: string;
+    format = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    let a: HTMLAnchorElement;
+    a = document.createElement('a');
+    document.body.appendChild(a);
+    const blob = new Blob([data], { type: format });
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+  }
   print() {
     $('#printReport').show();
     setTimeout(() => {
