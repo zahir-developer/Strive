@@ -27,6 +27,7 @@ export class MembershipCreateEditComponent implements OnInit {
   patchedService: any;
   submitted: boolean;
   PriceServices: any = [];
+  costErrMsg: boolean = false;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
@@ -183,6 +184,15 @@ export class MembershipCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.membershipForm.invalid) {
+      if(this.membershipForm.value.price !== ""){
+        if(Number(this.membershipForm.value.price) <= 0){
+          console.log(Number(this.membershipForm.value.price));
+          this.costErrMsg = true;
+          return;
+        }else{
+          this.costErrMsg = false;
+        }
+      }
       return;
     }
     let memberService = [];

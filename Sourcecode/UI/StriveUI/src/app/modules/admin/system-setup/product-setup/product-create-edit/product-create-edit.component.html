@@ -10,7 +10,7 @@
                     {{location.LocationName}}</option>
             </select>
             <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
-                <div *ngIf="f.locationName.errors.required">Location Name is required</div>
+                <div *ngIf="f.locationName.errors.required">Location is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">
@@ -22,7 +22,7 @@
                     {{productType.CodeValue}}</option>
             </select>
             <div *ngIf="submitted && f.productType.errors" class="invalid-feedback">
-                <div *ngIf="f.productType.errors.required">Product Type is required</div>
+                <div *ngIf="f.productType.errors.required">Type is required</div>
             </div>
         </div>
         <div class="form-group col-lg-3">
@@ -53,6 +53,8 @@
                 placeholder="Cost" [ngClass]="{ 'is-invalid': submitted && f.cost.errors }">
             <div *ngIf="submitted && f.cost.errors" class="invalid-feedback">
                 <div *ngIf="f.cost.errors.required">Cost is required</div>
+            </div>
+            <div *ngIf="submitted  && costErrMsg" style="font-size: small;color: #dc3545;">Cost should not be 0
             </div>
         </div>
         <div class="form-group col-lg-3">
