@@ -108,7 +108,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
-        console.log(this.targetBusiness, 'target')
       }
     });
   }
@@ -186,6 +185,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.weatherDetails = data;
+        console.log(this.weatherDetails, 'weather')
+
       }
     });
   }
@@ -422,6 +423,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
 
       const locationId = +this.locationId;
+      this.toggleTab = 0;
+
         this.getWeatherDetails();
         this.getTargetBusinessData(this.locationId, this.selectDate);
 
