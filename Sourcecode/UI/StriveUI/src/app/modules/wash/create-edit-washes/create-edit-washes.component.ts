@@ -290,7 +290,7 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         client.Client.forEach(item => {
-          item.fullName = item.FirstName + '\t' + item.LastName;
+          item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
         this.clientList = client.Client.map(item => {
@@ -310,7 +310,7 @@ export class CreateEditWashesComponent implements OnInit {
     const query = event.query;
     for (const i of this.clientList) {
       const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+      if (client.name.toLowerCase().includes(query.toLowerCase())) {
         filtered.push(client);
       }
     }
