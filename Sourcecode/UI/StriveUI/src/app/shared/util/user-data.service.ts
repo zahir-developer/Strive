@@ -9,7 +9,7 @@ import { HttpUtilsService } from './http-utils.service';
 })
 export class UserDataService {
   isAuthenticated = false;
-  userDetails: any;
+  userDetails: any = {};
   private header: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public headerName = this.header.asObservable();
   private nav: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -22,6 +22,9 @@ export class UserDataService {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
     console.log(token, 'token');
+    this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
+
+
     // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
     //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
     // }
@@ -33,14 +36,16 @@ export class UserDataService {
     } else {
       localStorage.setItem('empLocationId', token.EmployeeDetails.EmployeeLocations[0].LocationId);
     }
+    if (token?.EmployeeDetails?.EmployeeRoles?.length) {
+      localStorage.setItem('empRoles', token.EmployeeDetails.EmployeeRoles[0].RoleName);
+    }
     if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
 
       // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
     }
     this.setHeaderName(token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
-      this.setSides(token?.EmployeeDetails?.RolePermissionViewModel);
-      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+      // this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
 
     this.getUnreadMessage(token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
     localStorage.setItem('employeeName', token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
@@ -60,10 +65,12 @@ export class UserDataService {
   }
   
   setViews(views) {
+    this.userDetails.views = views;
     localStorage.setItem('views', JSON.stringify(views));
   }
   setSides(navName) {
 this.nav.next(navName)
+localStorage.setItem('navName', navName);
 
  }
 

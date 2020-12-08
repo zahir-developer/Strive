@@ -31,14 +31,17 @@ export class ClientFormComponent implements OnInit {
 
 
   ngOnInit() {
-    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
     }
     if (this.isEdit === true) {
       this.clientForm.reset();
+      this.clientForm.controls.status.enable();
       this.getClientById();
+    } else {
+      this.clientForm.controls.status.disable();
     }
   }
 

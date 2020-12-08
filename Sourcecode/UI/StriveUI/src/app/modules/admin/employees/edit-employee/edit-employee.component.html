@@ -85,7 +85,8 @@
                                     <label for="inputImmigration">Immigration Status <span
                                             class="required">*</span></label>
                                     <select id="inputImmigrationStatus" class="form-control"
-                                        formControlName="immigrationStatus" (change)="immigrationChange($event.target.value)"
+                                        formControlName="immigrationStatus"
+                                        (change)="immigrationChange($event.target.value)"
                                         [ngClass]="{ 'is-invalid': submitted && f.immigrationStatus.errors }">
                                         <option value="" hidden selected>Select Status</option>
                                         <option *ngFor="let s of imigirationStatus" value="{{s.CodeId}}">{{s.CodeValue}}
@@ -103,19 +104,14 @@
                                 </div>
                                 <div class="form-group col-md-3" *ngIf="isDate">
                                     <label for="inputPermitDate">Work Permit</label>
-                                    <input type="text" placeholder="Work Permit Date"
-                                        formControlName="permitDate" appCalendarMask
-                                        class="form-control" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()">
+                                    <input type="text" placeholder="Work Permit Date" formControlName="permitDate"
+                                        appCalendarMask class="form-control" bsDatepicker #dp="bsDatepicker"
+                                        (focus)="dp.show()">
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputssn">SSN <span class="required">*</span></label>
+                                    <label for="inputssn">SSN </label>
                                     <input type="text" class="form-control" id="inputssn" formControlName="ssn"
-                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }" [appMaxLength]="9"
-                                        numbersOnly placeholder="SSN">
-                                    <div *ngIf="submitted && f.ssn.errors" class="invalid-feedback"
-                                        [ngClass]="{ 'is-invalid': submitted && f.ssn.errors }">
-                                        <div *ngIf="f.ssn.errors.required">SSN is required</div>
-                                    </div>
+                                        [appMaxLength]="9" numbersOnly placeholder="SSN">
                                 </div>
                             </div>
                             <div class="m-t-9 " id="edit-personalform"
@@ -187,9 +183,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputcommission">Detail Commission <span class="required" *ngIf="isRequired === true">*</span></label>
+                                    <label for="inputcommission">Detail Commission <span class="required"
+                                            *ngIf="isRequired === true">*</span></label>
                                     <select id="inputcommission" class="form-control" formControlName="comType"
-                                        (change)="getCtype($event.target.value)" [ngClass]="{ 'is-invalid': submitted && g.comType.errors }">
+                                        (change)="getCtype($event.target.value)"
+                                        [ngClass]="{ 'is-invalid': submitted && g.comType.errors }">
                                         <option value="0" selected>Select Commission</option>
                                         <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
                                         </option>
