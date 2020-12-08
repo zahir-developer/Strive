@@ -15,16 +15,10 @@ export class LastMonthComponent implements OnInit {
       this.getWeatherDetails();
     }
     getWeatherDetails()  {
-      if(this.targetBusiness.WeatherPrediction.WeatherPredictionLastMonth) {
         this.weatherMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastMonth;
 
-      } else {
-        this.weatherMonth = {
-          'WashCount' : 0,
-          'RainProbability': '-',
-          'TargetBusiness' : '-'
-        }
-      }
+      
+      
     
     }
   }

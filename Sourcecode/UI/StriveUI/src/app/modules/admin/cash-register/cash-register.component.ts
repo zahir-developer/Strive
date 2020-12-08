@@ -50,6 +50,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   targetBusiness: any;
   drawerId: any;
   date = moment(new Date()).format('MM-DD-YYYY');
+  Todaydate: string;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
@@ -58,7 +59,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.locationId = localStorage.getItem('empLocationId');
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
-    this.getTargetBusinessData();
+    const locationId = +this.locationId;
+    this.Todaydate = moment(new Date()).format('YYYY-MM-DD');
+    this.getTargetBusinessData(locationId,this.Todaydate);
     this.getWeatherDetails();
   }
   ngAfterViewInit() {
@@ -100,9 +103,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   }
 
   // Get targetBusinessData
-  getTargetBusinessData() {
-    const locationId = +this.locationId;
-    const date = moment(new Date()).format('YYYY-MM-DD');
+  getTargetBusinessData(locationId, date) {
+   
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
@@ -302,7 +304,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
               this.toastr.success('Record Saved Successfully!!', 'Success!');
             }
             this.weatherService.getWeather();
-            this.getTargetBusinessData();
+            this.getTargetBusinessData(this.locationId,this.Todaydate);
             this.getCashRegister();
           } else {
             this.toastr.error('Weather Communication Error', 'Error!');
@@ -421,7 +423,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
       const locationId = +this.locationId;
         this.getWeatherDetails();
-        this.getTargetBusinessData();
+        this.getTargetBusinessData(this.locationId, this.selectDate);
 
      
       if (moment(today).isSame(selectedDate)) {

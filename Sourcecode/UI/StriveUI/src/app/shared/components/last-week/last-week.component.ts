@@ -15,14 +15,8 @@ export class LastWeekComponent implements OnInit {
       this.getWeatherDetails();
     }
     getWeatherDetails ()  {
-    if(this.targetBusiness.WeatherPrediction.WeatherPredictionLastWeek){
-        this.weatherdata = this.targetBusiness.WeatherPrediction.WeatherPredictionLastWeek;
-      }  else {
-          this.weatherdata = {
-            'WashCount' : 0,
-            'RainProbability': '-',
-            'TargetBusiness' : '-'
-          }
-  }
+        this.weatherdata = this.targetBusiness?.WeatherPrediction?.WeatherPredictionLastWeek;
+        
+  
   }
 }
