@@ -92,7 +92,10 @@
     <Compile Include="Fragments\MyProfile\EditPersonalDetailFragment.cs" />
     <Compile Include="Fragments\MyProfile\EmployeeInfoFragment.cs" />
     <Compile Include="Fragments\MyProfile\MyProfileFragment.cs" />
+    <Compile Include="Fragments\MyTicket\AllTicketsFragment.cs" />
+    <Compile Include="Fragments\MyTicket\CompletedTicketsFragment.cs" />
     <Compile Include="Fragments\MyTicket\MyTicketFragment.cs" />
+    <Compile Include="Fragments\MyTicket\PendingTicketsFragment.cs" />
     <Compile Include="Fragments\Schedule\ScheduleFragment.cs" />
     <Compile Include="Listeners\IItemClickListener.cs" />
     <Compile Include="MainApplication.cs" />
@@ -853,6 +856,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MyTickets_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AllTickets_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PendingTickets_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CompletedTickets_Fragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
