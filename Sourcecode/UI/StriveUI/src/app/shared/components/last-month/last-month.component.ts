@@ -15,8 +15,8 @@ export class LastMonthComponent implements OnInit {
       this.getWeatherDetails();
     }
     getWeatherDetails()  {
-      if(this.targetBusiness.WeatherPrediction.WeatherPredictionOneMonth) {
-        this.weatherMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionOneMonth;
+      if(this.targetBusiness.WeatherPrediction.WeatherPredictionLastMonth) {
+        this.weatherMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastMonth;
 
       } else {
         this.weatherMonth = {

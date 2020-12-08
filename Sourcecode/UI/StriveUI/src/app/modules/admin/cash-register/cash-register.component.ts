@@ -104,8 +104,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const locationId = +this.locationId;
     const date = moment(new Date()).format('YYYY-MM-DD');
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
-      if (data && data.resultData) {
+      if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
+        console.log(this.targetBusiness, 'target')
       }
     });
   }
@@ -418,10 +419,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       this.selectDate = selectedDate;
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
 
-      if(this.selectDate){
-        this.getTargetBusinessData();
+      const locationId = +this.locationId;
         this.getWeatherDetails();
-      }
+        this.getTargetBusinessData();
+
      
       if (moment(today).isSame(selectedDate)) {
         this.cashRegisterCoinForm.enable();
