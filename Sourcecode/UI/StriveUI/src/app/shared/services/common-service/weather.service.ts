@@ -37,6 +37,8 @@ UpdateWeather(obj){
   return this.http.post(`${UrlConfig.totalUrl.saveWeather}`, obj);
 }
 getTargetBusinessData(locationId, dateTime) {
+   locationId = localStorage.getItem('empLocationId');
+
   return this.http.get(`${UrlConfig.totalUrl.getTargetBusinessData}`+ locationId + '/' + dateTime);
 }
 }

@@ -36,6 +36,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   isPrintReport: boolean;
   washReport = [];
   detailReport = [];
+  serviceTotal = 0;
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
@@ -186,7 +187,16 @@ export class EodComponent implements OnInit, AfterViewInit {
           cashRegisterType : "CLOSEOUT"
 
         };
-        this.reportService.getEODexcelReport(obj)
+        this.reportService.getEODexcelReport(obj).subscribe(data =>{
+          if(data){
+            this.download(data, 'excel', 'EOD Report');
+           
+
+            return data; 
+               }
+          
+
+        })
         break;
       }
       default: {
@@ -195,7 +205,18 @@ export class EodComponent implements OnInit, AfterViewInit {
     }
     $('#printReport').hide();
   }
-
+  download(data: any, type, fileName = 'Excel'){
+    let format: string;
+    format = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    let a: HTMLAnchorElement;
+    a = document.createElement('a');
+    document.body.appendChild(a);
+    const blob = new Blob([data], { type: format });
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+  }
   print() {
     $('#printReport').show();
     setTimeout(() => {
@@ -218,6 +239,7 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
           this.washTotal = this.calculateTotal(this.washes, 'wash');
           this.detailTotal = this.calculateTotal(this.details, 'detail');
+          this.serviceTotal = this.washTotal + this.detailTotal;
           // this.washes.forEach( item => {
           //   this.washReport.push({
           //     ServiceName: item.ServiceName,
@@ -245,7 +267,7 @@ export class EodComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
         console.log(dailyStatusDetailInfo);
-        this.dailyStatusDetailInfo = dailyStatusDetailInfo.GetDailyStatusReport;
+        this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.GetDailyStatusReport;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
@@ -280,7 +302,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   calculateTotal(obj, type) {
-    return obj.reduce((sum, i) => {
+    return obj?.reduce((sum, i) => {
       return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }

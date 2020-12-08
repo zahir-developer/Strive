@@ -3,13 +3,14 @@ import { Observable } from 'rxjs';
 import { HttpUtilsService } from '../../util/http-utils.service';
 import { UrlConfig } from '../url.config';
 
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportsService {
 
-  constructor(private http: HttpUtilsService) { }
+  constructor(private http: HttpUtilsService,) { }
   getMonthlySalesReport(obj): Observable<any> {
     return this.http.post(`${UrlConfig.reports.getMonthlySalesReport}`, obj);
   }
@@ -61,9 +62,17 @@ export class ReportsService {
     return this.http.post(`${UrlConfig.reports.getHourlyWashReport}`, obj);
   }
   getEODexcelReport(obj){
-    return this.http.post(`${UrlConfig.reports.EODExcelReport}`, obj);
+    const headers = new HttpHeaders();
+
+    return this.http.post(`${UrlConfig.reports.EODExcelReport}`, obj,{ responseType: 'arraybuffer', headers: headers } );
   }
   getDailyStatusExcelReport(obj){
-    return this.http.post(`${UrlConfig.reports.dailyStatusExcelReport}`, obj);
+
+    const headers = new HttpHeaders();
+        
+    return this.http.post(`${UrlConfig.reports.dailyStatusExcelReport}`, obj,{ responseType: 'arraybuffer', headers: headers } );
+
+
+
   }
 }

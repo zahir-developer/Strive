@@ -42,7 +42,7 @@
                                 </div>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color">Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color" (click)="refesh()">Refresh</button>
                             </div>
                         </div>
                     </div>
@@ -75,12 +75,12 @@
                                     <th scope="col" class="text-right border-top-0">7 PM</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody *ngIf="hourlyWashReport.length > 0">
                                 <tr class="hourlywash-striped" *ngFor="let hours of hourlyWashReport">
                                     <th scope="row" class="align-middle text-center">{{hours.JobDate | date: 'EEE'}}
                                         <br>{{hours.JobDate | date: 'MM-dd-yyy'}}</th>
                                     <td>
-                                        <input type="text" class="form-control p-10 text-right"  placeholder="69.0">
+                                        <input type="text" class="form-control p-10 text-right" placeholder="69.0">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control p-10 text-right" placeholder="10">
@@ -94,541 +94,77 @@
                                         <input type="text" class="form-control p-10 text-right" placeholder="79">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._7AM" placeholder="0">
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._7AM" placeholder="0">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control p-10 text-right" [(ngModel)]="hours._8AM" placeholder="0"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control p-10 text-right" [(ngModel)]="hours._8AM"
+                                            placeholder="0"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._9AM" placeholder="14"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._9AM" placeholder="0"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._10AM" placeholder="7"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._10AM" placeholder="7"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._11AM" placeholder="10"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._11AM" placeholder="10"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._12AM" placeholder="17"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._12AM" placeholder="17"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._1PM" placeholder="11"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._1PM" placeholder="11"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._2PM" placeholder="5"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._2PM" placeholder="5"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._3PM" placeholder="10"><br>
-                                        <div class="text-right font-weight-600 align-middle p-r-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._3PM" placeholder="10"><br>
+                                        <div class="text-right font-weight-600 align-middle p-r-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._4PM" placeholder="5"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._4PM" placeholder="5"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._5PM" placeholder="1"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._5PM" placeholder="1"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._6PM" placeholder="2"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._6PM" placeholder="2"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control  p-10 text-right" [(ngModel)]="hours._7PM" placeholder="5"><br>
-                                        <div class="text-right font-weight-600 align-middle p-l-15"> 14</div>
+                                        <input type="text" class="form-control  p-10 text-right"
+                                            [(ngModel)]="hours._7PM" placeholder="5"><br>
+                                        <div class="text-right font-weight-600 align-middle p-l-15"> 0</div>
                                     </td>
                                 </tr>
-                                <!-- <tr class="borderbottom hourlywash-striped">
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="95">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="111.85">
-                                    </td>
-                                    <td> </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">0 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 14</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 21</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 31</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 48</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">59 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">64 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">74 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 79</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 80</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 82</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 87</td>
-                                </tr> -->
-                               <!-- <tr>
-                                    <th scope="row" class="align-middle text-center" rowspan="2">Mon
-                                        <br>16/11/2020</th>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="75.0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="72">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="80.50">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="3">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="8">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="8">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="8">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="9">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="6">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="12">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="3">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="2">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="1">
-                                    </td>
-                                </tr>
-                                <tr class="borderbottom">
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="70">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="86.96">
-                                    </td>
-                                    <td> </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">0</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">8</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">16</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">24</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">32</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">41</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">51</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">57</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">69</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">72</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">74</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">75</td>
-                                </tr>
-                                <tr class="hourlywash-striped">
-                                    <th scope="row" class="align-middle text-center" rowspan="2">Tue
-                                        <br>17/11/2020</th>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="72.0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="20">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="3">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0.00">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="14">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="7">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="17">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="11">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="2">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                </tr>
-                                <tr class="borderbottom  hourlywash-striped">
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="65">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="">
-                                    </td>
-                                    <td> </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">0 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 14</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 21</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 31</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 48</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">59 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">64 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">74 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 79</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 80</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 82</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 87</td>
-                                </tr>
+                            </tbody>
+                            <tbody *ngIf="hourlyWashReport.length === 0">
                                 <tr>
-                                    <th scope="row" class="align-middle text-center" rowspan="2">Wed
-                                        <br>18/11/2020</th>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0.00">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="14">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="7">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="17">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="11">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="2">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
+                                    <td colspan="18" class="text-center">
+                                        No Record Found
                                     </td>
                                 </tr>
-                                <tr class="border bottom">
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="">
-                                    </td>
-                                    <td> </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">0 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 14</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 21</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 31</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 48</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">59 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">64 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">74 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 79</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 80</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 82</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 87</td>
-                                </tr>
-                                <tr class="hourlywash-striped">
-                                    <th scope="row" class="align-middle text-center" rowspan="2">Thu
-                                        <br>19/11/2020</th>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0.00">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="14">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="7">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="17">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="11">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="2">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                </tr>
-                                <tr class="borderbottom  hourlywash-striped">
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="">
-                                    </td>
-                                    <td> </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">0 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 14</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 21</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 31</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 48</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">59 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">64 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">74 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 79</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 80</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 82</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 87</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="align-middle text-center" rowspan="2">Fri
-                                        <br>20/11/2020</th>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0.00">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="14">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="7">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="17">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="11">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="2">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                </tr>
-                                <tr class="borderbottom">
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="">
-                                    </td>
-                                    <td> </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">0 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 14</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 21</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 31</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 48</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">59 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">64 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">74 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 79</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 80</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 82</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 87</td>
-                                </tr>
-                                <tr class="hourlywash-striped">
-                                    <th scope="row" class="align-middle text-center" rowspan="2">Sat
-                                        <br>21/11/2020</th>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0.00">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="14">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="7">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="17">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="11">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="10">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="2">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control  p-10 text-right" placeholder="5">
-                                    </td>
-                                </tr>
-                                <tr class="borderbottom  hourlywash-striped">
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="0">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control p-10 text-right" placeholder="">
-                                    </td>
-                                    <td> </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">0 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 14</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 21</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 31</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 48</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">59 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">64 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15">74 </td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 79</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 80</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 82</td>
-                                    <td class="text-right font-weight-600 align-middle p-r-15"> 87</td>
-                                </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -640,17 +176,13 @@
                 <div class="card-body p-10">
                     <div class="table-responsive">
                         <table class="table hourwash">
-                            <tr>
-                                
-                            <thead >
+
+                            <thead>
                                 <tr>
                                     <th scope="col">Day</th>
-                            <th scope="col">Date</th>
-
-                                    <th scope="col" class="text-right">Ultra</th>
-                                    <th scope="col" class="text-right">Mega</th>
-                                    <th scope="col" class="text-right">Mammoth</th>
-                                    <th scope="col" class="text-right">Mini</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col" class="text-right" *ngFor="let name of washServiceName">{{name}}
+                                    </th>
                                     <th scope="col" class="text-right">Deposits </th>
                                     <th scope="col" class="text-right">BC </th>
                                     <th scope="col" class="text-right">Accounts </th>
@@ -662,168 +194,81 @@
                                     <th scope="col">Managers</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                   
-                                    <td class="align-middle font-weight-600">
-                                        <thead>
-                                       
-                                        <tr *ngFor = "let wash of mergedList" >
-                                        
-                                    
-                                            {{wash.JobDate | date : 'EEE'}}
-                                           
-                                        </tr> 
-                                        
-        </thead>
-                                    </td>
-                                    <td class="align-middle font-weight-600"  >
-                                        <tbody> 
-                                        <tr *ngFor = "let wash of mergedList" >
-                                        
-                                    
-                                        {{wash.JobDate | date : 'mm/dd/yyyy'}}
-                                       
-                                    </tr> </tbody>
-                                    </td>
-                                    <td id = "ultraMammoth">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
-                                        <input type="text" *ngIf = "wash.ServiceName === 'Ultra Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
-                                        <input type="text" [hidden]= "wash.ServiceName === 'Ultra Mammoth'"  class="form-control text-right p-5" placeholder="0">
-
-                                    </tr>
-                                    <td id = "miniMammoth">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
-                                        <input type="text" *ngIf = "wash.ServiceName === 'Mini Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
-                                        <input type="text" [hidden]= "wash.ServiceName === 'Mini Mammoth'"  class="form-control text-right p-5" placeholder="0">
-
-                                    </tr>
-                                    </td>
-                                    <td id = "megaMammoth">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
-                                        <input type="text" *ngIf = "wash.ServiceName === 'Mega Mammoth'"  class="form-control text-right p-5" placeholder="{{wash.WashCount}}">
-                                        <input type="text" [hidden]= "wash.ServiceName === 'Mega Mammoth'"  class="form-control text-right p-5" placeholder="0">
-
-                                    </tr>
-                                    </td>
-        
-                                   
-                                    <td id = "Deposits">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
-                                        <input type="text" *ngIf = "wash.Deposits"  class="form-control text-right p-5" placeholder="{{wash.Deposits}}">
-                                        <input type="text"   class="form-control text-right p-5" placeholder="0">
-
-                                    </tr>
-                                    </td>
-                                    <td id = "BC">
-                                        <tr *ngFor = "let wash of mergedList;let i = index" >
-                                        <input type="text" *ngIf = "wash.Credit"  class="form-control text-right p-5" placeholder="{{wash.Credit}}">
-                                        <input type="text" [hidden]= "wash.Credit"  class="form-control text-right p-5" placeholder="0">
-
-                                    </tr>
+                            <tbody *ngIf="salesDetails.length > 0">
+                                <tr *ngFor="let sale of salesDetails">
+                                    <td class="align-middle font-weight-600">{{sale.JobDate | date: 'EEE'}}</td>
+                                    <td class="align-middle font-weight-600">{{sale.JobDate | date: 'MM/dd/yyyy'}}</td>
+                                    <td *ngFor="let name of sale.serviceName">
+                                        <input type="text" class="form-control text-right p-5" placeholder="{{name.count}}">
                                     </td>
                                     <td>
-                                        <td id = "Accounts">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
-                                            <input type="text" *ngIf = "wash.Account"  class="form-control text-right p-5" placeholder="{{wash.Account}}">
-                                            <input type="text" [hidden]= "wash.Account"  class="form-control text-right p-5" placeholder="0">
-    
-                                        </tr>
-                                        </td>
-                                        <td id = "GiftCard">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
-                                            <input type="text" *ngIf = "wash.GiftCard"  class="form-control text-right p-5" placeholder="{{wash.GiftCard}}">
-                                            <input type="text" [hidden]= "wash.GiftCard"  class="form-control text-right p-5" placeholder="0">
-    
-                                        </tr>
-                                        </td>
-                                        <td id = "Tips">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
-                                            <input type="text" *ngIf = "wash.Tips"  class="form-control text-right p-5" placeholder="{{wash.Tips}}">
-                                            <input type="text"   class="form-control text-right p-5" placeholder="0">
-    
-                                        </tr>
-                                        </td>
-                                        <td id = "Actual">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
-                                            <input type="text" *ngIf = "wash.Actual"  class="form-control text-right p-5" placeholder="{{wash.Actual}}">
-                                            <input type="text"   class="form-control text-right p-5" placeholder="0">
-    
-                                        </tr>
-                                        </td>
-                                      
-                                        <td id = "Sales">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
-                                            <input type="text" *ngIf = "wash.TotalPaid"  class="form-control text-right p-5" placeholder="{{wash.TotalPaid}}">
-                                            <input type="text" [hidden]= "wash.TotalPaid"  class="form-control text-right p-5" placeholder="0">
-    
-                                        </tr>
-                                        </td>
-                                        <td id = "Difference">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
-                                            <input type="text" *ngIf = "wash.Difference"  class="form-control text-right p-5" placeholder="{{wash.Difference}}">
-                                            <input type="text"   class="form-control text-right p-5" placeholder="0">
-    
-                                        </tr>
-                                        </td>
-                                        <td id = "Managers">
-                                            <tr *ngFor = "let wash of mergedList;let i = index" >
-                                            <input type="text" *ngIf = "wash.Managers"  class="form-control text-right p-5" placeholder="{{wash.Managers}}">
-                                            <input type="text"   class="form-control text-right p-5" placeholder="GL">
-    
-                                        </tr>
-                                        </td>
-                                      
-                                   
-                                   
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.Deposits}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.BC}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.Account}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.GiftCard}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.Tips}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.Actual}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.Sales}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{sale.Difference}}">
+                                    </td>
+                                    <td class="align-middle font-weight-600">{{sale.Managers}}</td>
                                 </tr>
-                               
-                              
-                               
-                    
                                 <tr class="table-foot">
                                     <td class="font-weight-700 text-center align-middle" colspan="2">Total</td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="42">
+                                    <td *ngFor="let value of totalWashCount">
+                                        <input type="text" class="form-control text-right p-5" placeholder="{{value.totalValue}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="58">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalDeposits}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="45">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalBC}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="13">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalAccount}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$310.75">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalGiftCard}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$3678.21">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalTips}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$2922.50">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalActual}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$88.95">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalSales}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$259.39">
+                                        <input type="text" class="form-control text-right p-5" placeholder="${{totalDifference}}">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$6,897.64">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="$6,897.64">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control text-right p-5" placeholder="">
+                                        <!-- <input type="text" class="form-control text-right p-5" placeholder=""> -->
                                     </td>
                                     <td></td>
                                 </tr>
-
                             </tbody>
-                            </tr>
+                            <tbody *ngIf="salesDetails.length === 0">
+                                <tr>
+                                    <td colspan="11" class="text-center">
+                                        No Record Found
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
 

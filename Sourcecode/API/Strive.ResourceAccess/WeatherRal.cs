@@ -35,38 +35,6 @@ namespace Strive.ResourceAccess
 
             return db.Fetch<WeatherPredictions>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
             
-            
-            
-            //_prm.Add("@LocationId", locationId);
-            //_prm.Add("@date", oneweekBefore);
-            //var data2 = db.FetchMultiResult<WeatherPrediction>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
-
-
-           
-            //_prm.Add("@LocationId", locationId);
-            //_prm.Add("@date", threeMonthBefore);
-            //var data3 = db.FetchMultiResult<WeatherPrediction>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
-
-          
-
-            //weatherPrediction.WeatherPredictionToday = _db.GetAll<WeatherPrediction>().Where(s => s.LocationId == locationId && s.CreatedDate == dateTime)
-            //                     .OrderByDescending(s => s.WeatherId).FirstOrDefault();
-            //weatherPrediction.WeatherPredictionOneMonth = data1;
-            ////.Where(s => s.LocationId == locationId && s.CreatedDate == oneMonthBefore)
-            //                     //.OrderByDescending(s => s.WeatherId).FirstOrDefault();
-
-            //weatherPrediction.WeatherPredictionOneWeek = data2;
-            ////.Where(s => s.LocationId == locationId && s.CreatedDate == oneweekBefore)
-            ////                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
-
-            //weatherPrediction.WeatherPredictionOneWeek = data3;
-            //    //.Where(s => s.LocationId == locationId && s.CreatedDate == threeMonthBefore)
-            //    //                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
-
-
-            //return weatherPrediction;
-                //.Where(s => s.LocationId == locationId && s.CreatedDate.Date == dateTime.Date)
-                //                 .OrderByDescending(s => s.WeatherId).FirstOrDefault();
         }
 
         public bool AddWeather(WeatherPrediction weatherPrediction)
