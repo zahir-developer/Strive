@@ -243,8 +243,14 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
         };
         this.reportService.getDailyStatusExcelReport(obj).subscribe(data =>{
-          const exportData = data;
-        
+          if(data){
+            this.download(data, 'excel', 'Daily Status Report');
+           
+
+            return data; 
+               }
+      //     this.download(data, 'excel', 'Escheatments');
+      // return data;       
 
         })
       
@@ -255,6 +261,19 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       }
     }
     $('#printReport').hide();
+  }
+
+  download(data: any, type, fileName = 'Excel'){
+    let format: string;
+    format = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    let a: HTMLAnchorElement;
+    a = document.createElement('a');
+    document.body.appendChild(a);
+    const blob = new Blob([data], { type: format });
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
   }
   preview() {
     this.getDailyStatusReport();
@@ -270,8 +289,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
   calculateTotal(obj, type) {
-    return obj?.GetDailyStatusReport.reduce((sum, i) => {
+    return obj?.reduce((sum, i) => {
       return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
-    }, 0);
+    }, 0)
   }
 }
