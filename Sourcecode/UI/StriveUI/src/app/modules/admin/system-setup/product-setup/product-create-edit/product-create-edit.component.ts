@@ -182,9 +182,6 @@ export class ProductCreateEditComponent implements OnInit {
       }
       return;
     }
-    if(this.fileName === null){   
-      return;
-    }
     const formObj = {
       productCode: null,
       productDescription: null,

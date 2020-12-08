@@ -243,8 +243,14 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
         };
         this.reportService.getDailyStatusExcelReport(obj).subscribe(data =>{
-          this.download(data, 'excel', 'Escheatments');
-      return data;       
+          if(data){
+            this.download(data, 'excel', 'Daily Status Report');
+           
+
+            return data; 
+               }
+      //     this.download(data, 'excel', 'Escheatments');
+      // return data;       
 
         })
       
