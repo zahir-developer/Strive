@@ -284,8 +284,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       locationId: +this.locationId,
       // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
       // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
-    weather: (this.weatherDetails?.temporature) ?  Math.floor(this.weatherDetails?.temporature).toString() : null,
-      rainProbability: (this.weatherDetails?.rainPercentage) ? Math.floor(this.weatherDetails?.rainPercentage).toString() : null,
+    weather: (this.weatherDetails?.currentWeather.temporature) ?  Math.floor(this.weatherDetails?.currentWeather.temporature).toString() : null,
+      rainProbability: (this.weatherDetails?.currentWeather.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
@@ -417,10 +417,17 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       selectedDate = moment(event.toISOString()).format('YYYY-MM-DD');
       this.selectDate = selectedDate;
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
+
+      if(this.selectDate){
+        this.getTargetBusinessData();
+        this.getWeatherDetails();
+      }
+     
       if (moment(today).isSame(selectedDate)) {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
+        
       } else if (moment(today).isAfter(selectedDate)) {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
@@ -430,6 +437,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
       }
+
+
     }
     this.getCashRegister();
   }
