@@ -75,7 +75,7 @@ export class ClientCreateEditComponent implements OnInit {
       address1: this.clientFormComponent.clientForm.value.address,
       address2: "",
       phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
-      isActive: true,
+      isActive: this.clientFormComponent.clientForm.value.status === 0 ? true : false,
       zip: this.clientFormComponent.clientForm.value.zipcode,
       state: this.clientFormComponent.State,
       city: this.clientFormComponent.city == 0 ? null : this.clientFormComponent.city,
