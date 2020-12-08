@@ -3,6 +3,7 @@ import { UserDataService } from './shared/util/user-data.service';
 import { AuthenticateObservableService } from './shared/observable-service/authenticate-observable.service';
 import { WhiteLabelService } from './shared/services/data-service/white-label.service';
 import { LogoService } from './shared/services/common-service/logo.service';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 // import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 
 @Component({
@@ -14,19 +15,24 @@ export class AppComponent implements OnInit {
   title = 'StriveUI';
   isUserAuthenticated = false;
   navData: any;
-  constructor(private user: UserDataService, private authService: AuthenticateObservableService,
+  localStorageUpdation = 'false';
+  updation: boolean;
+  showViewMaster: boolean;
+  constructor(private user: UserDataService, 
+    private router : Router,
+    private authService: AuthenticateObservableService,
     private whiteLabelService: WhiteLabelService, private logoService: LogoService, private userService: UserDataService) {
     this.isUserAuthenticated = this.user.isAuthenticated;
     // console.log(this.isUserAuthenticated);
     // console.log(this.authService.getIsAuthenticate);
   }
   ngOnInit() {
-
+ 
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.getTheme();
       this.setHeaderName();
       this.setNavList();
-
+   
     }
 
   }
@@ -34,13 +40,19 @@ export class AppComponent implements OnInit {
    this.userService.navName.subscribe(data => 
     {
       this.navData = data;
-      console.log('app',this.navData)
+      if (data) {
+        localStorage.setItem('full',data)
 
+        this.localStorageUpdation = 'false';
+      }
     }) 
      
-      
+  
       
     
+  }
+  closePopup(e) {
+    this.showViewMaster = false;
   }
   setHeaderName() {
     if (localStorage.getItem('employeeName') !== undefined) {

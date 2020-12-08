@@ -156,8 +156,7 @@ export class LocationCreateEditComponent implements OnInit {
     };
     const finalObj = {
       location: formObj,
-      locationAddress: this.address,
-      drawer: drawer
+      locationAddress: this.address
     };
     if (this.isEdit === false) {
       this.locationService.saveLocation(finalObj).subscribe(data => {

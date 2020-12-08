@@ -207,86 +207,25 @@
                         </div>
                     </div>
                     <div class="tab-pane show" id="business-goal" *ngIf="toggleTab === 1">
-                        <div class="row no-gutter mob-goal">
-                            <div class="col-lg-12">
-                                <div class="list-group  m-b-10">
-                                    <a href="#" class="list-group-item weather-goal">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="font-weight-600"><i
-                                                    class="mdi mdi-white-balance-sunny font-size-1-5 theme-light-yellow-color align-mid"></i>
-                                                High Temperature</h6> <span
-                                                class="font-size-1 font-weight-bold">32F</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item weather-goal">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="font-weight-600"><i
-                                                    class="mdi mdi-weather-rainy font-size-1-5 theme-optional-icon-color align-mid"></i>
-                                                Probability of Rain</h6> <span
-                                                class="font-size-1 font-weight-bold">10%</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item weather-goal">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="font-weight-600">Last Week this day</h6>
-                                        </div>
-                                        <ul class="list-group list-group-horizontal justify-content-between">
-                                            <li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i>
-                                                <span> Washes</span>- 32 </li>
-                                            <li><i
-                                                    class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i>
-                                                <span> Rain </span>- 10%</li>
-                                            <li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i>
-                                                <span>Daily Target </span>- 25</li>
-                                        </ul>
-                                    </a>
-                                    <a href="#" class="list-group-item weather-goal">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="font-weight-600">Last month this day</h6>
-                                        </div>
-                                        <ul class="list-group list-group-horizontal justify-content-between">
-                                            <li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i>
-                                                <span> Washes</span>- 32 </li>
-                                            <li><i
-                                                    class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i>
-                                                <span> Rain </span>- 10%</li>
-                                            <li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i>
-                                                <span>Daily Target </span>- 25</li>
-                                        </ul>
-                                    </a>
-                                    <a href="#" class="list-group-item weather-goal">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="font-weight-600">Last three months this day</h6>
-                                        </div>
-                                        <ul class="list-group list-group-horizontal justify-content-between">
-                                            <li><i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i>
-                                                <span> Washes</span>- 32 </li>
-                                            <li><i
-                                                    class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i>
-                                                <span> Rain </span>- 10%</li>
-                                            <li><i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i>
-                                                <span>Daily Target </span>- 25</li>
-                                        </ul>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row no-gutter web-goal">
-                            <div class="col-lg-6 col-xl-3">
+                            <div class="col-lg-3 col-xl-3">
                                 <div class="row  no-gutter">
                                     <div class="col-lg-6 col-ipad">
-                                        <app-temperature></app-temperature>
+                                        <app-temperature [targetBusiness] = "targetBusiness"></app-temperature>
                                     </div>
                                     <div class="col-lg-6 p-r-0 col-ipad">
-                                        <app-rain-probability></app-rain-probability>
+                                        <app-rain-probability [targetBusiness] = "targetBusiness"></app-rain-probability>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-9 col-xl-4">
-                                <app-last-week></app-last-week>
+                            <div class="col-lg-3 col-xl-3">
+                                <app-last-week [targetBusiness] = "targetBusiness"></app-last-week>
                             </div>
-                            <div class="col-lg-9 col-xl-4">
-                                <app-last-month></app-last-month>
+                            <div class="col-lg-3 col-xl-3">
+                                <app-last-month [targetBusiness] = "targetBusiness"></app-last-month>
+                            </div>
+                            <div class="col-lg-3 col-xl-3">
+                                <app-last-three-month [targetBusiness] = "targetBusiness"></app-last-three-month>
                             </div>
                         </div>
                         <div class="row no-gutter">

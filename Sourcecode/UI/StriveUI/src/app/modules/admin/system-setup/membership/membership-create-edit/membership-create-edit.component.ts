@@ -31,7 +31,7 @@ export class MembershipCreateEditComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
-    this.status = [{ CodeId: 0, CodeValue: "Active" }, { CodeId: 1, CodeValue: "InActive" }];
+    this.status = [{ CodeId: 0, CodeValue: "Active" }, { CodeId: 1, CodeValue: "Inactive" }];
     this.formInitialize();
   }
 
@@ -245,38 +245,78 @@ export class MembershipCreateEditComponent implements OnInit {
         });
       }
     }
-    const washType = this.selectedData?.MembershipService.filter(i => i.ServiceTypeId === 15);
-    if(washType !== undefined){
-      if(Number(washType[0].ServiceId) !== Number(this.membershipForm.value.washes)){
-        const wash = {
+    if(this.isEdit === true){
+      const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 15);
+      if(washType !== undefined){
+        if(Number(washType[0].ServiceId) !== Number(this.membershipForm.value.washes)){
+          const wash = {
+            membershipServiceId: 0,
+            membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+            serviceId: Number(this.membershipForm.value.washes),
+            isActive: true,
+            isDeleted: false,
+            createdBy: 1,
+            createdDate: new Date(),
+            updatedBy: 1,
+            updatedDate: new Date()
+          };        
+        const washDelete = {
+          membershipServiceId: Number(washType[0].MembershipServiceId),
+          membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+          serviceId: Number(washType[0].ServiceId),
+          isActive: true,
+          isDeleted: true,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
+        };
+        ServiceObj.push(wash);
+        ServiceObj.push(washDelete);
+        }
+      }
+      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 18);
+      if(upchargeType !== undefined){
+        if(Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)){        
+        const upcharge = {
           membershipServiceId: 0,
           membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-          serviceId: Number(this.membershipForm.value.washes),
+          serviceId: Number(this.membershipForm.value.upcharge),
           isActive: true,
           isDeleted: false,
           createdBy: 1,
           createdDate: new Date(),
           updatedBy: 1,
           updatedDate: new Date()
-        };        
-      const washDelete = {
-        membershipServiceId: Number(washType[0].MembershipServiceId),
+        };       
+        const upchargeDelete = {
+          membershipServiceId: Number(upchargeType[0].MembershipServiceId),
+          membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+          serviceId: Number(upchargeType[0].ServiceId),
+          isActive: true,
+          isDeleted: true,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
+        };
+        ServiceObj.push(upcharge);
+        ServiceObj.push(upchargeDelete);
+        }
+      }
+    }
+    else{
+      const wash = {
+        membershipServiceId: 0,
         membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-        serviceId: Number(washType[0].ServiceId),
+        serviceId: Number(this.membershipForm.value.washes),
         isActive: true,
-        isDeleted: true,
+        isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date()
       };
-      ServiceObj.push(wash);
-      ServiceObj.push(washDelete);
-      }
-    }
-    const upchargeType = this.selectedData?.MembershipService.filter(i => i.ServiceTypeId === 18);
-    if(upchargeType !== undefined){
-      if(Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)){        
       const upcharge = {
         membershipServiceId: 0,
         membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
@@ -287,21 +327,9 @@ export class MembershipCreateEditComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date()
-      };       
-      const upchargeDelete = {
-        membershipServiceId: Number(upchargeType[0].MembershipServiceId),
-        membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-        serviceId: Number(upchargeType[0].ServiceId),
-        isActive: true,
-        isDeleted: true,
-        createdBy: 1,
-        createdDate: new Date(),
-        updatedBy: 1,
-        updatedDate: new Date()
       };
+      ServiceObj.push(wash);
       ServiceObj.push(upcharge);
-      ServiceObj.push(upchargeDelete);
-      }
     }
     const membership = {
       membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,

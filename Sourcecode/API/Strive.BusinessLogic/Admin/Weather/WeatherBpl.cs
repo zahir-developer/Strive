@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.BusinessLogic.Weather;
 using Strive.Common;
@@ -36,9 +37,45 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId, dateTime);
+
+                DateTime lastMonth = dateTime.AddMonths(-1);
+                DateTime lastweek = dateTime.AddDays(-7);
+                DateTime lastThirdMonth = dateTime.AddMonths(-3);
+                WeatherPredictionResultViewModel weatherPredictionDetails = new WeatherPredictionResultViewModel();
+                weatherPredictionDetails.WeatherPredictionLastWeek = new WeatherPredictions();
+                weatherPredictionDetails.WeatherPredictionLastMonth = new WeatherPredictions();
+                weatherPredictionDetails.WeatherPredictionLastThirdMonth = new WeatherPredictions();
+
+                var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId,dateTime );
                 if (weather != null)
-                    _resultContent.Add(weather.WithName("WeatherPrediction"));
+                {
+                    var todayResult = weather.FirstOrDefault(s => s.CreatedDate == dateTime);
+
+                    if(todayResult != null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionToday = todayResult;
+                    }
+
+                    var lastWeekResult = weather.FirstOrDefault(s => s.CreatedDate == lastweek);
+                    if (lastWeekResult != null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionLastWeek = lastWeekResult;
+
+                    }
+                    var lastMonthResult = weather.FirstOrDefault(s => s.CreatedDate == lastMonth);
+                    if (lastMonthResult != null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionLastMonth = lastMonthResult;
+
+                    }
+                    var lastThridMonthResult = weather.FirstOrDefault(s => s.CreatedDate == lastThirdMonth);
+                    if (lastThridMonthResult != null)
+                    {
+                        weatherPredictionDetails.WeatherPredictionLastThirdMonth = lastThridMonthResult;
+
+                    }
+                }
+                    _resultContent.Add(weatherPredictionDetails.WithName("WeatherPrediction"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)

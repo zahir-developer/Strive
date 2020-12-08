@@ -81,7 +81,7 @@ export class CreateEditComponent implements OnInit {
       address: ['', Validators.required],
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
-      ssn: ['', Validators.required],
+      ssn: [''],
       alienNumber:[''],
       permitDate:['']
     });
@@ -97,6 +97,7 @@ export class CreateEditComponent implements OnInit {
       roles: [[]],
       location: [[]]
     });
+    this.emplistform.controls.status.disable();
     this.documentForm = this.fb.group({
       password: ['', Validators.required]
     });
@@ -310,6 +311,7 @@ export class CreateEditComponent implements OnInit {
 
   saveEmployee() {
     console.log(this.emplistform, 'empdorm');
+    this.emplistform.controls.status.enable();
     this.submitted = true;
     if (this.personalform.invalid || this.emplistform.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
