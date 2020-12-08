@@ -115,8 +115,6 @@
                         class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
                         (click)="clearDocument()"></em>
                 </span>
-                <div *ngIf="submitted && fileName === null" style="font-size: small;color: #dc3545;">Image is
-                    required</div>
                 <div class="loadingDiv" *ngIf="isLoading">
                     <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                 </div>
