@@ -111,7 +111,7 @@ this.user.navName.subscribe((data = []) => {
         if(viewName === 'SystemSetup'){
           this.systemSetupView = true;
       }
-      if(viewName === 'Gift Cards'){
+      if(viewName === 'GiftCards'){
        this.giftCardsView = true;
       }
       if(viewName === 'Schedules'){

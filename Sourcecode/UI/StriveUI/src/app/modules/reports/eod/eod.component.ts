@@ -55,7 +55,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false  });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }

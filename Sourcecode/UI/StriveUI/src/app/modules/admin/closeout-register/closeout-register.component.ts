@@ -40,18 +40,18 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   cashRegisterBillForm: FormGroup;
   cashRegisterRollForm: FormGroup;
   closeoutRegisterForm: FormGroup;
-  date = moment(new Date()).format('MM-DD-YYYY');
+  date = moment(new Date()).format('MM/DD/YYYY');
 
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService,
     private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
+    this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.formInitialize();
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
