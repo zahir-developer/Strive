@@ -49,12 +49,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   toggleTab: number;
   targetBusiness: any;
   drawerId: any;
-  date = moment(new Date()).format('MM-DD-YYYY');
+  date = moment(new Date()).format('MM/DD/YYYY');
   constructor(private fb: FormBuilder, private registerService: CashRegisterService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
+    this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.locationId = localStorage.getItem('empLocationId');
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
@@ -62,7 +62,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.getWeatherDetails();
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
