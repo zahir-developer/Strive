@@ -67,7 +67,7 @@ namespace Strive.BusinessLogic
 
                     }
                 }
-                    _resultContent.Add(weather.WithName("WeatherPrediction"));
+                    _resultContent.Add(weatherPredictionDetails.WithName("WeatherPrediction"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)

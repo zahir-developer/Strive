@@ -143,35 +143,42 @@ namespace Admin.API.Controllers
                 worksheet2.Cell(17, 1).Value = "50's";
                 worksheet2.Cell(18, 1).Value = "100's";
 
-                
 
-                var coins = eodResult.CashRegister.CashRegisterCoins;
+                if (eodResult.CashRegister.CashRegisterCoins != null)
                 {
-                    worksheet2.Cell(1, 2).Value = "";
-                    worksheet2.Cell(2, 2).Value = coins.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(3, 2).Value = coins.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US"));;
-                    worksheet2.Cell(4, 2).Value = coins.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(5, 2).Value = coins.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(6, 2).Value = coins.HalfDollars.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    var coins = eodResult.CashRegister.CashRegisterCoins;
+                    {
+                        worksheet2.Cell(1, 2).Value = "";
+                        worksheet2.Cell(2, 2).Value = coins.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(3, 2).Value = coins.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US")); ;
+                        worksheet2.Cell(4, 2).Value = coins.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(5, 2).Value = coins.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(6, 2).Value = coins.HalfDollars.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    }
                 }
-                var rolls = eodResult.CashRegister.CashRegisterRolls;
-                {
-                    worksheet2.Cell(7, 2).Value = "";
-                    worksheet2.Cell(8, 2).Value = rolls.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US"));;
-                    worksheet2.Cell(9, 2).Value = rolls.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US"));;
-                    worksheet2.Cell(10, 2).Value = rolls.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(11, 2).Value = rolls.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                if (eodResult.CashRegister.CashRegisterRolls != null) { 
+                    var rolls = eodResult.CashRegister.CashRegisterRolls;
+                    {
+                        worksheet2.Cell(7, 2).Value = "";
+                        worksheet2.Cell(8, 2).Value = rolls.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US")); ;
+                        worksheet2.Cell(9, 2).Value = rolls.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US")); ;
+                        worksheet2.Cell(10, 2).Value = rolls.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(11, 2).Value = rolls.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    }
                 }
-                var bills = eodResult.CashRegister.CashRegisterBills;
+                if (eodResult.CashRegister.CashRegisterBills != null)
                 {
-                    worksheet2.Cell(12, 2).Value = "";
-                    worksheet2.Cell(13, 2).Value = bills.s1.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(14, 2).Value = bills.s5.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(15, 2).Value = bills.s10.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(16, 2).Value = bills.s20.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(17, 2).Value = bills.s50.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(18, 2).Value = bills.s100.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    var bills = eodResult.CashRegister.CashRegisterBills;
+                    {
+                        worksheet2.Cell(12, 2).Value = "";
+                        worksheet2.Cell(13, 2).Value = bills.s1.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(14, 2).Value = bills.s5.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(15, 2).Value = bills.s10.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(16, 2).Value = bills.s20.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(17, 2).Value = bills.s50.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(18, 2).Value = bills.s100.ToString("C", CultureInfo.GetCultureInfo("en-US"));
 
+                    }
                 }
                 
 
@@ -196,15 +203,17 @@ namespace Admin.API.Controllers
                 currentRow = 1;
                 worksheet4.Cell(currentRow, 1).Value = "TicketNumber";
                 worksheet4.Cell(currentRow, 2).Value = "EmployeeName";
-                worksheet4.Cell(currentRow, 3).Value = "Commision";          
-                
-                foreach (var detailsInfo in eodResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo)
+                worksheet4.Cell(currentRow, 3).Value = "Commision";
+                if (eodResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo != null)
                 {
-                    currentRow++;
-                    worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
-                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
-                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
-                                      
+                    foreach (var detailsInfo in eodResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo)
+                    {
+                        currentRow++;
+                        worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
+                        worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
+                        worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
+
+                    }
                 }
                 var worksheet5 = workbook.Worksheets.Add("Sales");
                 currentRow = 1;

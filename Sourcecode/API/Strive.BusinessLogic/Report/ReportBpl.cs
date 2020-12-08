@@ -116,24 +116,28 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 eodReportPrintViewModel.DailyStatusDetailInfoViews = new DailyStatusViewModel();
 
                 //coins,bills,rolls                
-                var cashRal = new CashRegisterRal(_tenant);
-                eodReportPrintViewModel.CashRegister = cashRal.GetCloseOutRegisterDetails(eodReportDto.CashRegisterType,eodReportDto.LocationId, eodReportDto.Date);
-                eodReportPrintViewModel.CashRegister.CashRegisterCoins.Pennies = Convert.ToDecimal(eodReportPrintViewModel.CashRegister.CashRegisterCoins.Pennies) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterCoins.Nickels = Convert.ToDecimal(5 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.Nickels) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterCoins.Dimes = Convert.ToDecimal(10 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.Dimes) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterCoins.Quarters = Convert.ToDecimal(25 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.Quarters) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterCoins.HalfDollars = Convert.ToDecimal(50 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.HalfDollars) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterRolls.Pennies = Convert.ToDecimal(eodReportPrintViewModel.CashRegister.CashRegisterRolls.Pennies) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterRolls.Nickels = Convert.ToDecimal(5 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.Nickels) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterRolls.Dimes = Convert.ToDecimal(10 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.Dimes) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterRolls.Quarters = Convert.ToDecimal(25 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.Quarters) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterRolls.HalfDollars = Convert.ToDecimal(50 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.HalfDollars) / 100;
-                eodReportPrintViewModel.CashRegister.CashRegisterBills.s1 = Convert.ToDecimal(eodReportPrintViewModel.CashRegister.CashRegisterBills.s1) ;
-                eodReportPrintViewModel.CashRegister.CashRegisterBills.s5 = Convert.ToDecimal(5 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s5) ;
-                eodReportPrintViewModel.CashRegister.CashRegisterBills.s10 = Convert.ToDecimal(10 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s10) ;
-                eodReportPrintViewModel.CashRegister.CashRegisterBills.s20 = Convert.ToDecimal(20 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s20) ;
-                eodReportPrintViewModel.CashRegister.CashRegisterBills.s50 = Convert.ToDecimal(50 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s50) ;
-                eodReportPrintViewModel.CashRegister.CashRegisterBills.s100 = Convert.ToDecimal(100 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s100) ;
+                var cashRal = new CashRegisterRal(_tenant);             
+               eodReportPrintViewModel.CashRegister = cashRal.GetCloseOutRegisterDetails(eodReportDto.CashRegisterType, eodReportDto.LocationId, eodReportDto.Date);
+
+                if (eodReportPrintViewModel.CashRegister.CashRegisterCoins != null)
+                {
+                    eodReportPrintViewModel.CashRegister.CashRegisterCoins.Pennies = Convert.ToDecimal(eodReportPrintViewModel.CashRegister.CashRegisterCoins.Pennies) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterCoins.Nickels = Convert.ToDecimal(5 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.Nickels) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterCoins.Dimes = Convert.ToDecimal(10 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.Dimes) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterCoins.Quarters = Convert.ToDecimal(25 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.Quarters) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterCoins.HalfDollars = Convert.ToDecimal(50 * eodReportPrintViewModel.CashRegister.CashRegisterCoins.HalfDollars) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterRolls.Pennies = Convert.ToDecimal(eodReportPrintViewModel.CashRegister.CashRegisterRolls.Pennies) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterRolls.Nickels = Convert.ToDecimal(5 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.Nickels) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterRolls.Dimes = Convert.ToDecimal(10 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.Dimes) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterRolls.Quarters = Convert.ToDecimal(25 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.Quarters) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterRolls.HalfDollars = Convert.ToDecimal(50 * eodReportPrintViewModel.CashRegister.CashRegisterRolls.HalfDollars) / 100;
+                    eodReportPrintViewModel.CashRegister.CashRegisterBills.s1 = Convert.ToDecimal(eodReportPrintViewModel.CashRegister.CashRegisterBills.s1);
+                    eodReportPrintViewModel.CashRegister.CashRegisterBills.s5 = Convert.ToDecimal(5 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s5);
+                    eodReportPrintViewModel.CashRegister.CashRegisterBills.s10 = Convert.ToDecimal(10 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s10);
+                    eodReportPrintViewModel.CashRegister.CashRegisterBills.s20 = Convert.ToDecimal(20 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s20);
+                    eodReportPrintViewModel.CashRegister.CashRegisterBills.s50 = Convert.ToDecimal(50 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s50);
+                    eodReportPrintViewModel.CashRegister.CashRegisterBills.s100 = Convert.ToDecimal(100 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s100);
+                }
                 
                 //Sales
                 SalesReportDto salesReportDto = new SalesReportDto();
