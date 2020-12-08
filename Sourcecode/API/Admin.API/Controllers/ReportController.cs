@@ -198,7 +198,7 @@ namespace Admin.API.Controllers
                 worksheet4.Cell(currentRow, 2).Value = "EmployeeName";
                 worksheet4.Cell(currentRow, 3).Value = "Commision";          
                 
-                foreach (var detailsInfo in eodResult.DailyStatusDetailInfoViews)
+                foreach (var detailsInfo in eodResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo)
                 {
                     currentRow++;
                     worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
@@ -281,15 +281,19 @@ namespace Admin.API.Controllers
                 worksheet.Cell(currentRow, 3).Value = "Wash Hours";
                 worksheet.Cell(currentRow, 4).Value = "Detail Hours";
                 worksheet.Cell(currentRow, 5).Value = "Others";
-                foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockEmployeeDetails)
+                if (statusResult.EmployeeTimeClock.TimeClockEmployeeDetails != null)
                 {
-                    currentRow++;
-                    worksheet.Cell(currentRow, 1).Value = employeeTimeClock.FirstName;
-                    worksheet.Cell(currentRow, 2).Value = employeeTimeClock.LastName;
-                    worksheet.Cell(currentRow, 3).Value = employeeTimeClock.WashHours;
-                    worksheet.Cell(currentRow, 4).Value = employeeTimeClock.DetailHours;
-                    worksheet.Cell(currentRow, 5).Value = employeeTimeClock.OtherHours;
+                    foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockEmployeeDetails)
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = employeeTimeClock.FirstName;
+                        worksheet.Cell(currentRow, 2).Value = employeeTimeClock.LastName;
+                        worksheet.Cell(currentRow, 3).Value = employeeTimeClock.WashHours;
+                        worksheet.Cell(currentRow, 4).Value = employeeTimeClock.DetailHours;
+                        worksheet.Cell(currentRow, 5).Value = employeeTimeClock.OtherHours;
+                    }
                 }
+            
                 var worksheet2 = workbook.Worksheets.Add("Employee Time Clock Details");
                 currentRow = 1;
                 worksheet2.Cell(currentRow, 1).Value = "TimeClock Id";
@@ -304,34 +308,40 @@ namespace Admin.API.Controllers
                 worksheet2.Cell(currentRow, 10).Value = "Total Hours";
                 worksheet2.Cell(currentRow, 11).Value = "EventType";
                 worksheet2.Cell(currentRow, 12).Value = "Status";
-                foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockDetails)
+                if (statusResult.EmployeeTimeClock.TimeClockEmployeeDetails != null)
                 {
-                    currentRow++;
-                    worksheet2.Cell(currentRow, 1).Value = employeeTimeClock.TimeClockId;
-                    worksheet2.Cell(currentRow, 2).Value = employeeTimeClock.EmployeeId;
-                    worksheet2.Cell(currentRow, 3).Value = employeeTimeClock.LocationId;
-                    worksheet2.Cell(currentRow, 4).Value = employeeTimeClock.RoleId;
-                    worksheet2.Cell(currentRow, 5).Value = employeeTimeClock.RoleName;
-                    worksheet2.Cell(currentRow, 6).Value = employeeTimeClock.Day;
-                    worksheet2.Cell(currentRow, 7).Value = employeeTimeClock.EventDate;
-                    worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.InTime;
-                    worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.OutTime;
-                    worksheet2.Cell(currentRow, 10).Value = employeeTimeClock.TotalHours;
-                    worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
-                    worksheet2.Cell(currentRow, 12).Value = employeeTimeClock.Status;
+                    foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockDetails)
+                    {
+                        currentRow++;
+                        worksheet2.Cell(currentRow, 1).Value = employeeTimeClock.TimeClockId;
+                        worksheet2.Cell(currentRow, 2).Value = employeeTimeClock.EmployeeId;
+                        worksheet2.Cell(currentRow, 3).Value = employeeTimeClock.LocationId;
+                        worksheet2.Cell(currentRow, 4).Value = employeeTimeClock.RoleId;
+                        worksheet2.Cell(currentRow, 5).Value = employeeTimeClock.RoleName;
+                        worksheet2.Cell(currentRow, 6).Value = employeeTimeClock.Day;
+                        worksheet2.Cell(currentRow, 7).Value = employeeTimeClock.EventDate;
+                        worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.InTime;
+                        worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.OutTime;
+                        worksheet2.Cell(currentRow, 10).Value = employeeTimeClock.TotalHours;
+                        worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
+                        worksheet2.Cell(currentRow, 12).Value = employeeTimeClock.Status;
+                    }
                 }
                 var worksheet4 = workbook.Worksheets.Add("Daily Status Info");
                 currentRow = 1;
                 worksheet4.Cell(currentRow, 1).Value = "TicketNumber";               
                 worksheet4.Cell(currentRow, 2).Value = "FirstName";
                 worksheet4.Cell(currentRow, 3).Value = "Commision";
-                
-                foreach (var detailsInfo in statusResult.DailyStatusDetailInfoViews)
+                if (statusResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo != null)
                 {
-                    currentRow++;
-                    worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
-                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
-                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
+
+                    foreach (var detailsInfo in statusResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo)
+                    {
+                        currentRow++;
+                        worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
+                        worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
+                        worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
+                    }
                 }
                 using (var stream = new MemoryStream())
                 {
