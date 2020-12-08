@@ -167,7 +167,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.bayScheduleObj.date.setHours(hours);
       this.bayScheduleObj.date.setMinutes(minutes);
       this.bayScheduleObj.date.setSeconds('00');
-      const inTime = this.datePipe.transform(this.bayScheduleObj.date, 'MM-dd-yyyy, HH:mm');
+      const inTime = this.datePipe.transform(this.bayScheduleObj.date, 'MM/dd/yyyy HH:mm');
       this.getWashTimeByLocationID();
       this.detailForm.patchValue({
         bay: this.bayScheduleObj.bayId,
@@ -187,7 +187,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
         // dt.setMinutes(dt.getMinutes() + 30);
         let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + WashTimeMinutes);
-        outTime = this.datePipe.transform(outTime, 'MM-dd-yyyy, HH:mm');
+        outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
         this.detailForm.patchValue({
           dueTime: outTime
         });
@@ -359,7 +359,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         client.Client.forEach(item => {
-          item.fullName = item.FirstName + '\t' + item.LastName;
+          item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
         this.clientList = client.Client.map(item => {
@@ -437,8 +437,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailForm.patchValue({
       barcode: this.selectedData.Details.Barcode,
       bay: this.selectedData.Details.BayId,
-      inTime: this.datePipe.transform(this.selectedData.Details.TimeIn, 'MM-dd-yyyy, HH:mm'),
-      dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM-dd-yyyy, HH:mm'),
+      inTime: this.datePipe.transform(this.selectedData.Details.TimeIn, 'MM/dd/yyyy HH:mm'),
+      dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
       client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details.ClientName },
       vehicle: this.selectedData.Details.VehicleId,
       type: this.selectedData.Details.Make,
@@ -493,7 +493,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     const query = event.query;
     for (const i of this.clientList) {
       const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+      if (client.name.toLowerCase().includes(query.toLowerCase())) {
         filtered.push(client);
       }
     }

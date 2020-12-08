@@ -109,6 +109,7 @@ export class ClientFormComponent implements OnInit {
       status: this.selectedData.IsActive ? 0 : 1,
       score: this.selectedData.Score,
       type: this.selectedData.ClientType,
+      amount: this.selectedData.Amount,
       notes: this.selectedData.Notes,
       checkOut: this.selectedData.RecNotes,
       address: this.selectedData.Address1,

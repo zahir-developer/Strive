@@ -64,6 +64,8 @@
                 <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
                     <div *ngIf="f.price.errors.required">Price is required</div>
                 </div>
+                <div *ngIf="submitted  && costErrMsg" style="font-size: small;color: #dc3545;">Price should not be 0
+                </div>
             </div>
             <div class="form-group col-lg-6">
                 <label for="inputNotes">Notes</label>

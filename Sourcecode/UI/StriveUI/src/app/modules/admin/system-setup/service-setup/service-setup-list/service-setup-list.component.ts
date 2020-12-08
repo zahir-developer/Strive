@@ -27,7 +27,7 @@ export class ServiceSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
-    this.searchStatus = 2;
+    this.searchStatus = "";
     this.getAllserviceSetupDetails();
   }
 

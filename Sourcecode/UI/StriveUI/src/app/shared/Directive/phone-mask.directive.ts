@@ -23,7 +23,7 @@ export class PhoneMaskDirective {
     if (backspace && newVal.length <= 6) {
       newVal = newVal.substring(0, newVal.length - 1);
     }
-    if (newVal.length === 0) {
+    if (newVal.length === 0 && newVal.length <= 10) {
       newVal = '';
     } else if (newVal.length <= 3) {
       newVal = newVal.replace(/^(\d{0,3})/, '($1)');

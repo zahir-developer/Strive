@@ -86,21 +86,21 @@ export class DocumentListComponent implements OnInit {
     });
   }
 
-  deleteDocument(document) {
+  deleteDocument(documentList) {
     if (!this.isEditDocument && this.actionType === 'view') {
       return;
     }
     this.confirmationService.confirm('Delete Document', 'Are you sure you want to delete this Document? All related information will be deleted and the document cannot be retrieved?', 'Delete', 'Cancel')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete(document);
+          this.confirmDelete(documentList);
         }
       })
       .catch(() => { });
   }
 
-  confirmDelete(document) {
-    const docId = document.DocumentSequence;
+  confirmDelete(documentList) {
+    const docId = documentList.EmployeeDocumentId;
     this.employeeService.deleteDocument(docId).subscribe( res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document Deleted Successfully!' });
