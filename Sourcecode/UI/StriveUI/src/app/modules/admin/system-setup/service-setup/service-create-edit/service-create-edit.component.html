@@ -61,7 +61,7 @@
                         {{commissionType.CodeValue}}</option>
                 </select>
                 <div *ngIf="submitted  && f.commissionType.errors" class="invalid-feedback">
-                    <div *ngIf="f.commissionType.errors.required">Commision Type is required</div>
+                    <div *ngIf="f.commissionType.errors.required">Type is required</div>
                 </div>
             </div>
             <div class="form-group col-lg-3" *ngIf="ctypeLabel !== 'none' && isChecked === true">

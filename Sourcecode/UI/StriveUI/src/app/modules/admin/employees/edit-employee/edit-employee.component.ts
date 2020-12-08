@@ -78,7 +78,7 @@ export class EditEmployeeComponent implements OnInit {
       address: ['', Validators.required],
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
-      ssn: ['', Validators.required],
+      ssn: [''],
       alienNumber: [''],
       permitDate: ['']
     });
@@ -228,7 +228,7 @@ export class EditEmployeeComponent implements OnInit {
       hourlyRateWash: employeeInfo.WashRate ? Number(employeeInfo.WashRate).toFixed(2) : '',
       comType: employeeInfo.ComType ? employeeInfo.ComType : '',
       comRate: employeeInfo.ComRate ? Number(employeeInfo.ComRate).toFixed(2) : '',
-      status: employeeInfo.Status ? 'Active' : 'InActive',
+      status: employeeInfo.Status ? 'Active' : 'Inactive',
       tip: employeeInfo.Tip ? employeeInfo.Tip : '',
       exemptions: employeeInfo.Exemptions ? employeeInfo.Exemptions : '',
       roles: this.employeeRole,

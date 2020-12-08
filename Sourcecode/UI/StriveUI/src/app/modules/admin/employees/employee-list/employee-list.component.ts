@@ -8,6 +8,7 @@ import { CreateDocumentComponent } from '../../employees/create-document/create-
 import { ToastrService } from 'ngx-toastr';
 import { CollisionListComponent } from '../../employees/collision-list/collision-list.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -41,7 +42,8 @@ export class EmployeeListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -295,6 +297,10 @@ export class EmployeeListComponent implements OnInit {
 
   collapsed() {
     this.isCollapsed = !this.isCollapsed;
+  }
+
+  schedule() {
+    this.router.navigate(['/admin/scheduling']);
   }
 
 }

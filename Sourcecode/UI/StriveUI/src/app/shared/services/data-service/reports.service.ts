@@ -28,6 +28,9 @@ export class ReportsService {
   getDailyStatusReport(obj): Observable<any> {
     return this.http.post(`${UrlConfig.reports.getDailyStatusReport}`, obj);
   }
+  getDailyStatusWashReport(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.reports.getDailyStatusWashReport}`, obj);
+  }
   getMonthlyDailyTipReport(obj) {
     return this.http.post(`${UrlConfig.reports.getMonthlyDailyTipReport}`, obj);
   }
@@ -52,5 +55,15 @@ export class ReportsService {
   }
   getDailySalesReport(obj){
     return this.http.post(`${UrlConfig.reports.getDailySalesReport}`, obj);
+  }
+
+  getHourlyWashReport(obj) {
+    return this.http.post(`${UrlConfig.reports.getHourlyWashReport}`, obj);
+  }
+  getEODexcelReport(obj){
+    return this.http.post(`${UrlConfig.reports.EODExcelReport}`, obj);
+  }
+  getDailyStatusExcelReport(obj){
+    return this.http.post(`${UrlConfig.reports.dailyStatusExcelReport}`, obj);
   }
 }

@@ -18,6 +18,7 @@ export class MembershipListComponent implements OnInit {
   isLoading = true;
   page = 1;
   pageSize = 5;
+  query = '';
   collectionSize: number = 0;
   constructor(private toastr: MessageServiceToastr, private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 

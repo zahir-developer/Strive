@@ -175,12 +175,19 @@ export class EodComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' +
-        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
-        this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' +
-        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
-        this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' +
-        moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        //this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' +
+        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        // this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' +
+        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        // this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' +
+        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
+        const obj = {
+          locationId: +this.locationId,
+          date: moment(this.date).format('YYYY-MM-DD'),
+          cashRegisterType : "CLOSEOUT"
+
+        };
+        this.reportService.getEODexcelReport(obj)
         break;
       }
       default: {
@@ -240,7 +247,7 @@ export class EodComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
         console.log(dailyStatusDetailInfo);
-        this.dailyStatusDetailInfo = dailyStatusDetailInfo.GetDailyStatusReport;
+        this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.GetDailyStatusReport;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
@@ -275,7 +282,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   calculateTotal(obj, type) {
-    return obj.reduce((sum, i) => {
+    return obj?.reduce((sum, i) => {
       return sum + (type === 'detailInfo' ? +i.Commission : +i.Number);
     }, 0);
   }
