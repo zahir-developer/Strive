@@ -285,7 +285,7 @@ export class TimeClockWeekComponent implements OnInit {
     const HOURS = checkoutHours - checkinHours
       const MINUTES = checkoutmins - checkinmins;
       const hrs = Math.abs(HOURS)
-      const mins = MINUTES
+      const mins = Math.abs(MINUTES)
 
        const minutesMath = MINUTES
       var m = minutesMath % 60;
@@ -330,7 +330,7 @@ export class TimeClockWeekComponent implements OnInit {
     const HOURS = checkoutHours - checkinHours
       const MINUTES = checkoutmins - checkinmins;
       const hrs = Math.abs(HOURS)
-      const mins = MINUTES
+      const mins = Math.abs(MINUTES)
 
        const minutesMath = MINUTES
       var m = minutesMath % 60;
