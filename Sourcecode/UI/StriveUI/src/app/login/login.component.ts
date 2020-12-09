@@ -105,21 +105,21 @@ if(this.dashBoardModule = true){
   routingPage() {
     const Roles = localStorage.getItem('empRoles');
     if (Roles) {
-      if (Roles == 'Admin') {
-        this.router.navigate([`/admin/setup/location`], { relativeTo: this.route });
-      } else if (Roles == 'Manager') {
+      if (Roles === 'Admin') {
+        this.router.navigate([`/dashboard`], { relativeTo: this.route });
+      } else if (Roles === 'Manager') {
         this.router.navigate([`/reports/eod`], { relativeTo: this.route });
       }
-      else if (Roles == 'Operator') {
+      else if (Roles === 'Operator') {
         this.router.navigate([`/reports/eod`], { relativeTo: this.route });
       }
-      else if (Roles == 'Cashier') {
+      else if (Roles === 'Cashier') {
         this.router.navigate([`/sales`], { relativeTo: this.route });
       }
-      else if (Roles == 'Detailer') {
+      else if (Roles === 'Detailer') {
         this.router.navigate([`/detail`], { relativeTo: this.route });
       }
-      else if (Roles == 'Wash') {
+      else if (Roles === 'Wash') {
         this.router.navigate([`/wash`], { relativeTo: this.route });
       }
     }
