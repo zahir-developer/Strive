@@ -48,10 +48,7 @@ export class TodayScheduleComponent implements OnInit {
               const detailService = _.where(isData, { ServiceTypeName: 'Details' });
               const outsideService = _.where(isData, { ServiceTypeName: 'Outside Services' });
               detailService.forEach(service => {
-                // if (outsideService.length > 0) {
                 const sameJobId = _.where(outsideService, { JobId: service.JobId });
-                // outsideService.forEach(outside => {
-                // if (service.JobId === outside.JobId) {
                 services.push({
                   BayId: service.BayId,
                   BayName: service.BayName,
@@ -64,27 +61,11 @@ export class TodayScheduleComponent implements OnInit {
                   TimeIn: service.TimeIn,
                   OutsideService: sameJobId.length > 0 ? sameJobId[0].ServiceName : 'None'
                 });
-                // }
-                // });
-                // } else {
-                //   services.push({
-                //     BayId: service.BayId,
-                //     BayName: service.BayName,
-                //     ClientName: service.ClientName,
-                //     EstimatedTimeOut: service.EstimatedTimeOut,
-                //     JobId: service.JobId,
-                //     PhoneNumber: service.PhoneNumber,
-                //     ServiceName: service.ServiceName,
-                //     TicketNumber: service.TicketNumber,
-                //     TimeIn: service.TimeIn,
-                //     OutsideService: 'None'
-                //   });
-                // }
               });
               console.log(services, 'servcei');
               bayJobDetail.push({
                 BayId: item.BayId,
-                BayDetail: services
+                BayDetail: isData
               });
             } else {
               bayJobDetail.push({
@@ -102,22 +83,25 @@ export class TodayScheduleComponent implements OnInit {
           });
         }
 
-        bayJobDetail.forEach(bay => {
-          let isJobID = false;
-          bay.BayDetail.forEach(detail => {
-            if (detail.JobId === null) {
-              isJobID = true;
-            } else {
-              isJobID = false;
-            }
-          });
-          if (isJobID) {
-            bay.totalCount = 0;
-            bay.BayDetail = [];
-          } else {
-            bay.totalCount = bay.BayDetail.length;
-          }
+        bayJobDetail.forEach( bay => {
+          bay.totalCount = bay.BayDetail.length;
         });
+        // bayJobDetail.forEach(bay => {
+        //   let isJobID = false;
+        //   bay.BayDetail.forEach(detail => {
+        //     if (detail.JobId === null) {
+        //       isJobID = true;
+        //     } else {
+        //       isJobID = false;
+        //     }
+        //   });
+        //   if (isJobID) {
+        //     bay.totalCount = 0;
+        //     bay.BayDetail = [];
+        //   } else {
+        //     bay.totalCount = bay.BayDetail.length;
+        //   }
+        // });
         console.log(bayJobDetail, 'bayjb');
         this.bayDetail = bayJobDetail;
       }
@@ -125,7 +109,7 @@ export class TodayScheduleComponent implements OnInit {
   }
 
   getDetailByID(bay) {
-    console.log(bay,bay.JobId);
+    console.log(bay, bay.JobId);
     const currentDate = new Date();
     if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {
       this.isView = false;
