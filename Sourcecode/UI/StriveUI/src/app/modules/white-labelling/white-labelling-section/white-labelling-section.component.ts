@@ -131,7 +131,9 @@ export class WhiteLabellingSectionComponent implements OnInit {
         document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.whiteLabelId = label.WhiteLabelling.WhiteLabel?.WhiteLabelId;
+          this.title = label.WhiteLabelling.WhiteLabel?.Title;
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+          this.logoService.setTitle(label.WhiteLabelling.WhiteLabel?.Title);
           this.logoPath = label.WhiteLabelling.WhiteLabel?.LogoPath;
           this.fileName = label.WhiteLabelling.WhiteLabel?.LogoPath;
         }

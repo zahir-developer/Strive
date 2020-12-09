@@ -66,6 +66,7 @@ export class AppComponent implements OnInit {
         const label = JSON.parse(res.resultData);
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+          this.logoService.setTitle(label.WhiteLabelling.WhiteLabel?.Title);
           if (label.WhiteLabelling.Theme !== null) {
             label.WhiteLabelling.Theme.forEach(item => {
               if (label.WhiteLabelling.WhiteLabel?.ThemeId === item.ThemeId) {

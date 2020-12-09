@@ -90,7 +90,7 @@ export class LocationCreateEditComponent implements OnInit {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
-    if (this.cityComponent.country === '') {
+    if (this.cityComponent.city === '') {
       return;
     }
     if (this.locationSetupForm.invalid) {
