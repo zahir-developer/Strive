@@ -147,6 +147,7 @@ export class CreateEditWashesComponent implements OnInit {
       upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 19)[0]?.ServiceId,
     });
+    this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();
     } else {

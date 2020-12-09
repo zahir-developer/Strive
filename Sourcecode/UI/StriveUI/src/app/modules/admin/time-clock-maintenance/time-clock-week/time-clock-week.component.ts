@@ -379,9 +379,11 @@ export class TimeClockWeekComponent implements OnInit {
       });
     });
     this.totalWeekDetail.TotalDetailHours = detailHour;
-    this.totalWeekDetail.TotalWashHours = washHour;
+    this.totalWeekDetail.TotalWashHours = washHour <= 40 ? washHour : 40;
+    this.totalWeekDetail.OverTimeHours = washHour > 40 ? (washHour-40) : 0;
     this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
     this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
+    this.totalWeekDetail.OverTimePay = this.totalWeekDetail.OverTimeHours * (this.totalWeekDetail.WashRate * 1.5);
     this.totalWeekDetail.GrandTotal = (this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
       this.totalWeekDetail.OverTimePay) - this.totalWeekDetail.CollisionAmount;
 
