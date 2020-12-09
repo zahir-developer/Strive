@@ -9,10 +9,10 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./select-location.component.css']
 })
 export class SelectLocationComponent implements OnInit {
-empName: any;
-location: any;
-locationId = '';
-@ViewChild(LoginComponent) login: LoginComponent;
+  empName: any;
+  location: any;
+  locationId = '';
+  @ViewChild(LoginComponent) login: LoginComponent;
   roleAccess = [];
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
@@ -25,33 +25,33 @@ locationId = '';
   }
   proceed() {
     if (this.locationId !== '') {
-localStorage.setItem('empLocationId', this.locationId);
-localStorage.setItem('isAuthenticated', 'true');
-this.authService.loggedIn.next(true);
-//this.router.navigate([`/dashboard`], { relativeTo: this.route });
-this.routingPage();
-  }
-}
-routingPage() {
-  const Roles = localStorage.getItem('empRoles');
-  if (Roles) {
-    if (Roles == 'Admin') {
-      this.router.navigate([`/admin/setup/location`], { relativeTo: this.route });
-    } else if (Roles == 'Manager') {
-      this.router.navigate([`/reports/eod`], { relativeTo: this.route });
-    }
-    else if (Roles == 'Operator') {
-      this.router.navigate([`/reports/eod`], { relativeTo: this.route });
-    }
-    else if (Roles == 'Cashier') {
-      this.router.navigate([`/sales`], { relativeTo: this.route });
-    }
-    else if (Roles == 'Detailer') {
-      this.router.navigate([`/detail`], { relativeTo: this.route });
-    }
-    else if (Roles == 'Wash') {
-      this.router.navigate([`/wash`], { relativeTo: this.route });
+      localStorage.setItem('empLocationId', this.locationId);
+      localStorage.setItem('isAuthenticated', 'true');
+      this.authService.loggedIn.next(true);
+      //this.router.navigate([`/dashboard`], { relativeTo: this.route });
+      this.routingPage();
     }
   }
-}
+  routingPage() {
+    const Roles = localStorage.getItem('empRoles');
+    if (Roles) {
+      if (Roles === 'Admin') {
+        this.router.navigate([`/dashboard`]);
+      } else if (Roles === 'Manager') {
+        this.router.navigate([`/reports/eod`], { relativeTo: this.route });
+      }
+      else if (Roles === 'Operator') {
+        this.router.navigate([`/reports/eod`], { relativeTo: this.route });
+      }
+      else if (Roles === 'Cashier') {
+        this.router.navigate([`/sales`], { relativeTo: this.route });
+      }
+      else if (Roles === 'Detailer') {
+        this.router.navigate([`/detail`], { relativeTo: this.route });
+      }
+      else if (Roles === 'Wash') {
+        this.router.navigate([`/wash`], { relativeTo: this.route });
+      }
+    }
+  }
 }

@@ -11,7 +11,7 @@ import { TableModule } from 'primeng/table';
 import { CreateEditComponent } from './employees/create-edit/create-edit.component';
 import { DialogModule } from 'primeng/dialog';
 import { SchedulingComponent } from './scheduling/scheduling.component';
-import { SharedModule } from 'src/app/shared/shared.module'
+import { SharedModule } from 'src/app/shared/shared.module';
 import { SetupComponent } from './system-setup/setup.component';
 import { ConfirmationService } from 'primeng/api';
 import { ThemeComponent } from './theme/theme.component';
@@ -83,7 +83,7 @@ import { SearchPipe } from './system-setup/common-search-pipe/search.pipe';
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent,SearchPipe
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, SearchPipe
 ],
   imports: [
     CommonModule,
