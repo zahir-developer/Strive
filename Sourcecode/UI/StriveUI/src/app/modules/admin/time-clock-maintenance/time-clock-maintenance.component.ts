@@ -200,7 +200,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
           this.toastr.warning('Sunday should be the start of the week!!', 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else if (dates !== 6) {
-          this.toastr.warning('Whole week should be selected!!', 'Warning!');
+          this.toastr.warning('Only one week can be selected!', 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else {
           this.startDate = event[0];

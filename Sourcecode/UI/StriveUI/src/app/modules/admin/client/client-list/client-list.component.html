@@ -119,9 +119,9 @@
                                             </div>
                                             <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
                                                     class="col-12 row d-block">No Records Found</span></div>
-                                            <div class="table-responsive"
-                                                *ngIf="isTableEmpty === false && isLoading === false">
-                                                <table class="table  table-striped m-t-10">
+                                            <div class="table-responsive headerfix"
+                                                *ngIf="isTableEmpty === false && isLoading === false" >
+                                                <table class="table  table-striped m-t-10" >
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">First Name</th>
@@ -132,7 +132,7 @@
                                                             <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody class="header">
                                                         <tr
                                                             *ngFor="let client of clientDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <th scope="row">{{client.FirstName}}</th>
@@ -183,3 +183,38 @@
         (closeDialog)="closePopupEmit($event)">
     </app-client-create-edit>
 </div>
+
+
+
+
+<style>
+   
+
+    .header {
+        display: block;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+        .headerfix thead, .header tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .header tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+    .headerfix thead {
+        width: calc( 100% - 1.15em );
+    }
+
+    
+
+</style>
