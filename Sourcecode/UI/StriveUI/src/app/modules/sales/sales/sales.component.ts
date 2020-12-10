@@ -965,6 +965,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
+          this.router.navigate([`/checkout`], { relativeTo: this.route });
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }
