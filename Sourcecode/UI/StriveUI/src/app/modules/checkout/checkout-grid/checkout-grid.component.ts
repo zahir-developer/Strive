@@ -67,6 +67,9 @@ export class CheckoutGridComponent implements OnInit {
     const finalObj = {
       id: checkout.JobId
     };
+    if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
+      return;
+    }
     this.checkout.holdVehicle(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Hold successfully' });

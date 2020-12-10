@@ -23,6 +23,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
   unique = [];
   finalArr = [];
   fileType: number;
+  fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private datePipe: DatePipe,
               private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
@@ -80,7 +81,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
       userData.forEach((o, index) => {
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
           '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + (o.MemberShipName !== '' ?
-          ('Membership - ' + o.MemberShipName) : 'DriveUp') + '</td><td>' + o.MemberShipId +
+          ('Membership - ' + o.MemberShipName) : 'DriveUp')  +
           '</td><td>' + o.MembershipPrice.toFixed(2) + '</td><td>' + o.TicketAmount.toFixed(2) + '</td></tr>';
         total += o.TicketAmount;
         wash += index;
@@ -91,6 +92,8 @@ export class MonthlyCustomerDetailComponent implements OnInit {
     $('#customerDetail tbody').html(tableStr);
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
   onMonthChange(event) {

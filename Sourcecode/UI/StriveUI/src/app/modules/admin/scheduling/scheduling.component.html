@@ -18,7 +18,7 @@
                         <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"  (click)="getAll()"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >All</span> </a>
                     </li>
                     <li *ngFor="let loc of location">
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" (click)="getLocationId($event)"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">{{loc.WashTimeMinutes}}&nbsp; mins</div></a>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" (click)="getLocationId(loc)"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">{{loc.WashTimeMinutes}}&nbsp; mins</div></a>
                     </li>
            
                 </ul>
@@ -101,7 +101,7 @@
                                             <div class="Search-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
                                                 <input type="checkbox" [(ngModel)]="emp.selected">
                                             </div></span>
-                                                <h6 class="theme-mid-black">{{emp.FirstName + ' ' + emp.LastName }}</h6> <span class="theme-mid-black font-size-7">{{emp.EmployeeId}}</span> </div>
+                                                <h6 class="theme-mid-black" style="font-size: 20px;">{{emp.FirstName}} &nbsp; {{emp.LastName }}</h6> <span class="theme-mid-black font-size-7">{{emp.EmployeeId}}</span> </div>
                                         </div>
                                     </div>
                                     </div>
