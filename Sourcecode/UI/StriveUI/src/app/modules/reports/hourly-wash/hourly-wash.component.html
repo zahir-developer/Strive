@@ -40,7 +40,7 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent" (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                     ngxPrint printSectionId="hourlyWashReport">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"

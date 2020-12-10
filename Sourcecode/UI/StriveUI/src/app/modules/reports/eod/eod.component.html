@@ -37,7 +37,7 @@
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                     printSectionId="EodStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
@@ -339,10 +339,7 @@
                                     <div class="form-group col-md-6"> Cash </div>
                                     <div class="form-group col-md-6"> {{salesReport?.Cash | currency}}</div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6"> Check </div>
-                                    <div class="form-group col-md-6"> $0.00 </div>
-                                </div>
+                               
                                 <div class="form-row">
                                     <div class="form-group col-md-6"> Charge Cards </div>
                                     <div class="form-group col-md-6"> {{salesReport?.Credit | currency}} </div>
