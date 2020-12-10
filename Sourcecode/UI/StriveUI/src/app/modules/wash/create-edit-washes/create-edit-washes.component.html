@@ -216,7 +216,7 @@
 <p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
     <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
-        [clientId]="clientId" [isAdd]="true" (closeDialog)="closePopupEmitVehicle($event)">
+        [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber" (closeDialog)="closePopupEmitVehicle($event)">
     </app-vehicle-create-edit>
 </p-dialog>
 

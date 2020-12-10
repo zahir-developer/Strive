@@ -81,6 +81,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   jobStatusID: any;
   jobID: any;
   clientName = '';
+  vehicleNumber: number;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -950,6 +951,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   addVehicle() {
     this.headerData = 'Add New Vehicle';
+    let len = this.vehicle.length;
+    if(len === 0){
+      this.vehicleNumber = 1;
+    }else{
+    this.vehicleNumber = Number(this.vehicle[len-1].VehicleNumber) + 1;
+    }
     this.showVehicleDialog = true;
   }
 
