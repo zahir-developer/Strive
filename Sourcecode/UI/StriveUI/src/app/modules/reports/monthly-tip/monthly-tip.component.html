@@ -29,7 +29,7 @@
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                 [printStyle]="{input: {'visibility': 'hidden'}, button: {'visibility': 'hidden'}}"  printSectionId="monthlyReport" ngxPrint>Print</button>&nbsp;

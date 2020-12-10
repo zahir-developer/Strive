@@ -25,14 +25,17 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   totalTip = 0;
   tipAmount: number;
   totalHours: number = 0;
+  fileTypeEvent: boolean = false;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
     private excelService: ExcelService) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
-    // // this.getDailyTipReport();
+  this.getDailyTipReport();
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
   ngAfterViewInit() {
@@ -68,7 +71,6 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   onValueChange(event) {
     if (event !== null) {
       this.date = event;
-      this.getDailyTipReport();
     }
   }
   export() {

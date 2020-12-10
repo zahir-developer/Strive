@@ -38,6 +38,7 @@ export class HourlyWashComponent implements OnInit {
   totalSales = 0;
   totalDifference = 0;
   totalActual = 0;
+  fileTypeEvent: boolean= false ;
   constructor(
     private reportsService: ReportsService,
     private excelService: ExcelService,
@@ -47,6 +48,7 @@ export class HourlyWashComponent implements OnInit {
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
     this.weeklyDateAssign();
+    this.viewHourlyReport();
   }
 
   weeklyDateAssign() {
@@ -62,6 +64,8 @@ export class HourlyWashComponent implements OnInit {
   }
 
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
 
@@ -71,7 +75,6 @@ export class HourlyWashComponent implements OnInit {
 
   onValueChange(event) {
     console.log(event, 'start');
-    this.viewHourlyReport();
     if (event !== null) {
       this.startDate = event[0];
       this.endDate = event[1];
