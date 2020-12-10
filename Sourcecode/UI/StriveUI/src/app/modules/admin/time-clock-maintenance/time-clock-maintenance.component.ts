@@ -85,7 +85,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
           console.log(this.timeClockEmployeeDetails);
         }
         else {
-          this.collectionSize = Math.ceil(this.employeeList.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.timeClockEmployeeDetails.length / this.pageSize) * 10;
           this.isTimeClockEmpty = false;
           console.log(this.timeClockEmployeeDetails);
         }
@@ -200,12 +200,12 @@ export class TimeClockMaintenanceComponent implements OnInit {
           this.toastr.warning('Sunday should be the start of the week!!', 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else if (dates !== 6) {
-          this.toastr.warning('Whole week should be selected!!', 'Warning!');
+          this.toastr.warning('Only one week can be selected!', 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else {
           this.startDate = event[0];
           this.endDate = event[1];
-          if(this.startDate.toUTCString() !== this.currentWeek.toUTCString()){
+          if(this.startDate.toDateString() !== this.currentWeek.toDateString()){
             this.isView = true;
           }else{
             this.isView = false;

@@ -33,6 +33,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   clockDetail = [];
   clockDetailValue = [];
   dailyStatusWashInfo: any;
+  fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef,
               private datePipe: DatePipe, private spinner: NgxSpinnerService) {
 
@@ -47,10 +48,11 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.getClockDetail();
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
     this.fileType = +event.target.value;
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }

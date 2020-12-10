@@ -37,6 +37,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   washReport = [];
   detailReport = [];
   serviceTotal = 0;
+  fileTypeEvent: boolean = false;
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
@@ -55,7 +56,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false  });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
@@ -147,6 +148,8 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
 

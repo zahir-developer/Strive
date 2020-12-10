@@ -32,7 +32,7 @@
                                             <div class="d-inline-block align-middle">
                                                 <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                             </div>&nbsp;
-                                            <button type="button" class="btn theme-primary-button-color" (click)="export()">Export</button>&nbsp;
+                                            <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent" (click)="export()">Export</button>&nbsp;
                                             <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="custSummaryExport" ngxPrint>Print</button>&nbsp;
                                             <button type="button" class="btn theme-primary-button-color" (click)="getCustomerSummaryReport()">Refresh</button>&nbsp;
                                         </div>

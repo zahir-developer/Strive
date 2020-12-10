@@ -40,18 +40,18 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   cashRegisterBillForm: FormGroup;
   cashRegisterRollForm: FormGroup;
   closeoutRegisterForm: FormGroup;
-  date = moment(new Date()).format('MM-DD-YYYY');
+  date = moment(new Date()).format('MM/DD/YYYY');
 
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService,
     private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
+    this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.formInitialize();
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
@@ -141,6 +141,12 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.closeoutRegisterForm.patchValue({
             cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1
           });
+        }else{
+          this.isUpdate = false;
+          this.closeoutRegisterForm.reset();
+          this.cashRegisterCoinForm.reset();
+          this.cashRegisterBillForm.reset();
+          this.cashRegisterRollForm.reset();
         }
       }
     });
@@ -197,7 +203,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     const other = {
       cashRegOtherId: this.isUpdate ? this.closeOutDetails.CashRegisterOthers.CashRegOtherId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
-      creditCard1: 0,
+      creditCard1: this.closeoutRegisterForm.value.cardAmount,
       creditCard2: 0,
       creditCard3: 0,
       checks: 0,
@@ -323,7 +329,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
   // Calculate TotalCash
   getTotalCash() {
-    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
+    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount; 
   }
   onValueChange(event) {
     let selectedDate = event;
@@ -336,14 +342,17 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
+        this.closeoutRegisterForm.enable();
       } else if (moment(today).isAfter(selectedDate)) {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
         this.cashRegisterRollForm.disable();
+        this.closeoutRegisterForm.disable();
       } else {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
+        this.closeoutRegisterForm.enable();
       }
     }
     this.getCloseOutRegister();

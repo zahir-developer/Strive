@@ -22,6 +22,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   page = 1;
   pageSize = 25;
   collectionSize: number = 0;
+  fileTypeEvent: boolean = false;
 
   constructor(private spinner: NgxSpinnerService, private toastr: MessageServiceToastr,
     private cd: ChangeDetectorRef, private reportService: ReportsService, private excelService: ExcelService) { }
@@ -63,6 +64,8 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     this.locationId = +event;
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
   export() {
