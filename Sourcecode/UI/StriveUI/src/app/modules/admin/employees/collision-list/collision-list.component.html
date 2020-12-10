@@ -3,7 +3,7 @@
         <div class="row title-border p-b-10 m-b-15">
             <div class="col-sm-12">
                 <h6 class="d-inline-block font-weight-600">Collision <em
-                        class="mdi mdi-pencil-circle pointer m-l-5 font-size-1-3" *ngIf="actionType === 'view'"
+                        class="mdi mdi-pencil-circle pointer m-l-5 font-size-1-3" pTooltip="Edit" tooltipPosition="bottom" *ngIf="actionType === 'view'"
                         [ngClass]="{'theme-secondary-icon-color':!isEditCollision }" id="collision-edit"
                         (click)="editCollision()" style="color: rgb(236, 233, 233);"></em>
                     <span class="collision-btn" *ngIf="isEditCollision">
@@ -44,15 +44,15 @@
                                 <td>{{collision.LiabilityDescription}}
                                 </td>
                                 <td>{{collision.Amount | currency }}</td>
-                                <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil"
+                                <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil" pTooltip="Edit" tooltipPosition="bottom"
                                         *ngIf="actionType === 'view'" (click)="updateCollision(collision)"
                                         [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"></em>
-                                    <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete"
+                                    <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete" pTooltip="Delete" tooltipPosition="bottom"
                                         *ngIf="actionType === 'view'" (click)="deleteCollision(collision)"
                                         [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"></em><em
-                                        class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
+                                        class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1" pTooltip="Edit" tooltipPosition="bottom"
                                         *ngIf="actionType === 'edit'" (click)="updateCollision(collision)"></em>
-                                    <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
+                                    <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1" pTooltip="Delete" tooltipPosition="bottom"
                                         *ngIf="actionType === 'edit'" (click)="deleteCollision(collision)"></em>
                                 </td>
                             </tr>
