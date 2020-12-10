@@ -33,6 +33,7 @@ export class ClientCreateEditComponent implements OnInit {
   collectionSize: number = 0;
   deleteIds = [];
   additionalService: any = [];
+  vehicleNumber: number;
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
@@ -40,6 +41,9 @@ export class ClientCreateEditComponent implements OnInit {
   ngOnInit() {    
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
+    }
+    else{
+      this.vehicleNumber = 1;
     }
   }
 
@@ -51,7 +55,11 @@ export class ClientCreateEditComponent implements OnInit {
         this.vehicleDetails = vehicle.Status;
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
+          this.vehicleNumber = 1;
         } else {
+          let len = this.vehicleDetails.length;
+          this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
+          console.log(this.vehicleNumber);
           this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -68,14 +76,13 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
-    this.clientFormComponent.clientForm.controls.status.disable();
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
       address1: this.clientFormComponent.clientForm.value.address,
       address2: "",
       phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
-      isActive: this.clientFormComponent.clientForm.value.status === 0 ? true : false,
+      isActive: true,
       zip: this.clientFormComponent.clientForm.value.zipcode,
       state: this.clientFormComponent.State,
       city: this.clientFormComponent.city == 0 ? null : this.clientFormComponent.city,
@@ -96,7 +103,7 @@ export class ClientCreateEditComponent implements OnInit {
       gender: 1,
       maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientFormComponent.clientForm.value.status === 0 ? true : false,
+      isActive: Number(this.clientFormComponent.clientForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
@@ -151,6 +158,8 @@ export class ClientCreateEditComponent implements OnInit {
   closePopupEmit(event) {
     if (event.status === 'saved') {
       this.vehicleDetails.push(this.vehicle.vehicleValue);
+      let len = this.vehicleDetails.length;
+      this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
       console.log(this.vehicleDetails,'vedel');
       this.vehicleDet.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
@@ -175,6 +184,8 @@ export class ClientCreateEditComponent implements OnInit {
   // Delete Vehicle 
   confirmDelete(data) {
     this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
+    let len = this.vehicleDetails.length;
+    this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
     this.toastr.success('Record Deleted Successfully!!', 'Success!');
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;

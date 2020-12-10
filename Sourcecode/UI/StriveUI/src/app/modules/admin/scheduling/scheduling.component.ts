@@ -342,8 +342,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     });
   }
   getLocationId(event) {
-    const loc = this.location.filter(item => item.LocationName === event.target.textContent);
-    this.locationId = loc[0]?.LocationId;
+    // const loc = this.location.filter(item => item.LocationName === event.target.textContent);
+    this.locationId = event.LocationId;
     this.getSchedule();
   }
   // Get the schedule by Id

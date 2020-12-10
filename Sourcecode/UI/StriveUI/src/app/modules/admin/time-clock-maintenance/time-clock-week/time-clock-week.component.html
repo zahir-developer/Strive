@@ -170,7 +170,7 @@
                                                                             [(ngModel)]="time.TotalHours"
                                                                             [disabled]="true"> </td>
                                                                     <td>
-                                                                        <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                                        <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" pTooltip="Delete" tooltipPosition="bottom"
                                                                             (click)="deleteConfirm(time)"></em>
                                                                     </td>
                                                                 </tr>
@@ -198,7 +198,7 @@
                                                     </td>
                                                     <td class="p-t-10"> <span class="font-weight-600 mr-2">Total Wash
                                                             Hours:</span>
-                                                        {{ totalWeekDetail.TotalWashHours ? totalWeekDetail.TotalWashHours : 0 }}
+                                                        {{ totalWeekDetail.TotalWashHours | number:'.2' }}
                                                     </td>
                                                     <td class="p-t-10 p-r-20">
                                                         <p class="mb-0"><span
@@ -214,7 +214,7 @@
                                                             Rate:</span>{{ totalWeekDetail.DetailRate ? totalWeekDetail.DetailRate : 0 }}
                                                     </td>
                                                     <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
-                                                        {{ totalWeekDetail.TotalDetailHours ? totalWeekDetail.TotalDetailHours : 0 }}
+                                                        {{ totalWeekDetail.TotalDetailHours | number:'.2'}}
                                                     </td>
                                                     <td class="p-r-20"><span
                                                             class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}
@@ -224,7 +224,7 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td colspan="2"><span class="font-weight-600 mr-2">Overtime
-                                                            Hours:</span>{{ totalWeekDetail.OverTimeHours }}</td>
+                                                            Hours:</span>{{ totalWeekDetail.OverTimeHours | number:'.2'}}</td>
                                                     <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
                                                             Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }}
                                                     </td>

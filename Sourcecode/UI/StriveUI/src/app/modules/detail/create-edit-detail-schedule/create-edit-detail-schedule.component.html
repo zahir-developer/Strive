@@ -262,7 +262,7 @@
                 </span>
                 <span class="mw-100 pull-right">
                     <button type="button" class="btn theme-primary-button-color" (click)="saveDetail()"
-                        [disabled]="isView || isSaveClick">Save</button>&nbsp;
+                        [disabled]="isView">Save</button>&nbsp;
                     <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit && !isView"
                         (click)="deleteDetail()">Delete</button>
                 </span>
@@ -304,6 +304,6 @@
 <p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
     <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
-        [clientId]="clientId" [isAdd]="true" (closeDialog)="closePopupEmitVehicle($event)">
+        [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber" (closeDialog)="closePopupEmitVehicle($event)">
     </app-vehicle-create-edit>
 </p-dialog>

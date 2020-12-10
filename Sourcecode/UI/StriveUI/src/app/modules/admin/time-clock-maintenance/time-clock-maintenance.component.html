@@ -82,7 +82,7 @@
                           </td>
                           <td>{{ timeClock.LastName }}</td>
                           <td>
-                            <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                            <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"pTooltip="Delete" tooltipPosition="bottom"
                               (click)="deleteConfirm(timeClock)"></em>
                           </td>
                         </tr>
@@ -93,8 +93,9 @@
                         </tr>
                       </tbody>
                     </table>
-                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
-                      [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
+                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                        [boundaryLinks]="true" class="d-flex justify-content-end">
                     </ngb-pagination>
                   </div>
 

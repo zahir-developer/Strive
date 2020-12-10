@@ -14,7 +14,7 @@ export class CheckoutGridComponent implements OnInit {
   page = 1;
   pageSize = 25;
   collectionSize: number = 0;
-
+  query = '';
   constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr) { }
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class CheckoutGridComponent implements OnInit {
     if (checkout.JobPaymentId === 0) {
       this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Checkout can be done only for paid tickets.' });
     } else {
-      if (checkout.MembershipNameOrPaymentStatus === 'Completed') {
+      if ( checkout.valuedesc === 'Completed') {
         const finalObj = {
           id: checkout.JobId,
           checkOut: true,
@@ -67,6 +67,9 @@ export class CheckoutGridComponent implements OnInit {
     const finalObj = {
       id: checkout.JobId
     };
+    if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
+      return;
+    }
     this.checkout.holdVehicle(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Hold successfully' });

@@ -21,6 +21,15 @@
                                     <h4 class="d-inline-block align-middle" >Checkout</h4>
                                 </div>
                                 <div id="Checkoutlist" class="collapse show">
+                                    <div class="search-container  pull-right">
+                                        <form>
+                                          <div class="form-row">
+                                            <div class="form-group d-flex"> <input type="search" size="25" class="form-control" [(ngModel)]="query"
+                                                name="search" id="inputSearch" placeholder="  Search  " > </div>
+                                           
+                                          </div>
+                                        </form>
+                                      </div>
                                     <!-- <div class="mt-2">
                                         <a href="#" class="theme-font-color mr-2 font-weight-600"><i
                                                 class="mdi mdi-circle font-13 theme-optional-icon-color mr-1"></i>In
@@ -52,7 +61,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let checkout of uncheckedVehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let checkout of uncheckedVehicleDetails | search: query | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row" style="border-left:5px solid" [ngStyle]="{'color': checkout.ColorCode, 'border-right-color': checkout.ColorCode}">
                                                         {{checkout.TicketNumber}}</th>
                                                     <td >{{checkout.CustomerName}}</td>
@@ -68,7 +77,7 @@
                                                     <td [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'PAID' ? 'Green' : 'none'}"><span *ngIf="checkout.MembershipNameOrPaymentStatus === 'PAID'">{{checkout.MembershipNameOrPaymentStatus}}</span>
                                                     </td>
                                                     <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="checkoutVehicle(checkout)"></em>
-                                                        <em class="mdi mdi-file-clock theme-primary-color font-size-1-5 pointer" pTooltip="Hold" tooltipPosition="top" (click)="hold(checkout)"></em>
+                                                        <em class="mdi mdi-file-clock font-size-1-5 pointer"[ngClass]="{ 'theme-primary-color': checkout.MembershipNameOrPaymentStatus !== 'Hold', 'theme-disabled-icon-color':checkout.MembershipNameOrPaymentStatus === 'Hold' }"  pTooltip="Hold" tooltipPosition="top" (click)="hold(checkout)"></em>
                                                         <em  class="mdi mdi-checkbox-marked  font-size-1-5 pointer" *ngIf="(checkout.MembershipNameOrPaymentStatus !== 'Completed' && checkout.valuedesc !== 'Completed') || (checkout.MembershipNameOrPaymentStatus !== 'PAID' && checkout.valuedesc !== 'Completed')" pTooltip="Complete" tooltipPosition="top" (click)="complete(checkout)"></em>
                                                         <!-- <button type="button"
                                                             class="btn theme-primary-button-color  btn-sm pt-0 pb-0 m-r-5 font-size--9"  (click)="checkoutVehicle(checkout)">Checkout</button> theme-primary-color

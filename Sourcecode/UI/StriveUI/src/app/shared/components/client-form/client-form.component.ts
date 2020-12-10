@@ -37,11 +37,12 @@ export class ClientFormComponent implements OnInit {
       this.viewClient();
     }
     if (this.isEdit === true) {
-      this.clientForm.reset();
-      this.clientForm.controls.status.enable();
       this.getClientById();
-    } else {
+    } 
+    if(this.isEdit !== true || this.isView === true){
       this.clientForm.controls.status.disable();
+    }else{
+      this.clientForm.controls.status.enable();
     }
   }
 

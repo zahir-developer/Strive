@@ -1,12 +1,7 @@
-<div class="ui-fluid">
-    <div class="p-grid forms-grid">
-        <div class="p-col-3 p-md-6">
-            <p-autoComplete [ngModelOptions]="{standalone: true}" [(ngModel)]="country" [suggestions]="filteredCity" [ngClass]="{'is-invalid': country === '' && submitted}"
-            (completeMethod)="filterCity($event)" (onSelect)="selectedCity($event)" field="name" [size]="10" appendTo="body" 
-                placeholder="City" [disabled]="isView" inputStyleClass="{{country==='' && submitted ?'form-control is-invalid': ''}}"></p-autoComplete>
-                <div *ngIf="submitted && country === ''" class="invalid-feedback">
-                    City is required
-                </div>
-        </div>
-    </div>
+<select name="city" [disabled]="isView"  [(ngModel)]="city" class="form-control" (change)="selectedCity($event)" [ngClass]="{'is-invalid': city === '' && submitted}">
+    <option value="" selected hidden>Choose </option>
+    <option *ngFor="let city of cities" value="{{city.value}}">{{city.name}}</option>
+</select>
+<div *ngIf="submitted && city === ''" class="invalid-feedback">
+    City is required
 </div>

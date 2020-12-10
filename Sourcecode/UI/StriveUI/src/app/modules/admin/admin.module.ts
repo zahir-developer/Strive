@@ -11,7 +11,7 @@ import { TableModule } from 'primeng/table';
 import { CreateEditComponent } from './employees/create-edit/create-edit.component';
 import { DialogModule } from 'primeng/dialog';
 import { SchedulingComponent } from './scheduling/scheduling.component';
-import { SharedModule } from 'src/app/shared/shared.module'
+import { SharedModule } from 'src/app/shared/shared.module';
 import { SetupComponent } from './system-setup/setup.component';
 import { ConfirmationService } from 'primeng/api';
 import { ThemeComponent } from './theme/theme.component';
@@ -67,7 +67,6 @@ import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.comp
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-conditions/create-edit-terms-and-conditions/create-edit-terms-and-conditions.component';
-import { SearchPipe } from './system-setup/common-search-pipe/search.pipe';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -83,7 +82,7 @@ import { SearchPipe } from './system-setup/common-search-pipe/search.pipe';
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent,SearchPipe
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent
 ],
   imports: [
     CommonModule,

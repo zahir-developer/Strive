@@ -30,7 +30,7 @@
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                     printSectionId="dailyStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
@@ -121,13 +121,13 @@
 
                                                     </tr>
                                                     <tr class="bg-white">
-                                                        <th scope="col" class="font-weight-1200">Total # Of Empolyees's</th>
+                                                        <th scope="col">Total no. of employee’s</th>
                                                         <th scope="col" class="font-weight-1200"></th>
 
                                                         <th scope="col" class="font-weight-1200">Amount</th>
                                                     </tr>
                                                     <tr >
-                                                        <td class = "m-l-20">{{dailyStatusWashInfo?.WashEmployeeCount}}</td>
+                                                        <td style="margin-left: 120px;">{{dailyStatusWashInfo?.WashEmployeeCount}}</td>
                                                        <td></td>
                                                         <td style="text-align: left;" class="m-l-120">{{dailyStatusWashInfo?.WashExpense}}</td>
                                                     </tr>

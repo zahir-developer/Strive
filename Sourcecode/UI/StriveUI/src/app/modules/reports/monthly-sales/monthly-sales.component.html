@@ -37,7 +37,7 @@
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div> &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
-                                    (click)="export()">Export</button>&nbsp;
+                                [disabled] = "!fileTypeEvent"  (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="monthlySalesExport" ngxPrint >Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="getMonthlySalesReport()">Refresh</button>&nbsp;
                             </div>
