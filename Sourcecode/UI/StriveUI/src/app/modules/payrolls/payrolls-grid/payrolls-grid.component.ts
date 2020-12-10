@@ -37,8 +37,8 @@ export class PayrollsGridComponent implements OnInit {
 
   patchValue() {
     const curr = new Date(); // get current date
-    const first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-    const last = first + 6; // last day is the first day + 6
+    const first = curr.getDate()-13; // First day is the day of the month - the day of the week
+    const last = curr.getDate();//first + 13; // last day is the first day + 6
 
     const firstday = new Date(curr.setDate(first));
     const lastday = new Date(curr.setDate(last));
