@@ -68,14 +68,13 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
-    this.clientFormComponent.clientForm.controls.status.disable();
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
       address1: this.clientFormComponent.clientForm.value.address,
       address2: "",
       phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
-      isActive: this.clientFormComponent.clientForm.value.status === 0 ? true : false,
+      isActive: true,
       zip: this.clientFormComponent.clientForm.value.zipcode,
       state: this.clientFormComponent.State,
       city: this.clientFormComponent.city == 0 ? null : this.clientFormComponent.city,
@@ -96,7 +95,7 @@ export class ClientCreateEditComponent implements OnInit {
       gender: 1,
       maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientFormComponent.clientForm.value.status === 0 ? true : false,
+      isActive: Number(this.clientFormComponent.clientForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
