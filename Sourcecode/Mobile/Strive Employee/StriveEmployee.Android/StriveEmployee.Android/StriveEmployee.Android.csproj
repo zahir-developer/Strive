@@ -74,6 +74,7 @@
     <Compile Include="Adapter\MyProfile\Documents\DocumentsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="Enums\MessageType_Enum.cs" />
+    <Compile Include="Fragments\CheckOut\CheckOutFragment.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
     <Compile Include="Fragments\MessengerCreateGroupFragment.cs" />
     <Compile Include="Fragments\MessengerFinalizeGroupFragment.cs" />
@@ -881,6 +882,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Secondary_Button.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CheckOut_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CheckOut_ItemView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

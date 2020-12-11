@@ -101,5 +101,7 @@ namespace Strive.Core.Utils
         public const string URL_GET_COLLISIONS = "/Admin/Collision/GetCollisionById/";
 
         public const string URL_SAVE_DOCUMENTS = "/Admin/Document/SaveDocument";
+
+        public const string URL_CHECKOUT_DETAILS = "/Admin/Checkout/GetCheckedInVehicleDetails";
     }
 }

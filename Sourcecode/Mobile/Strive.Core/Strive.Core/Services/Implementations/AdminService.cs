@@ -6,6 +6,7 @@ using System.Web;
 using MvvmCross;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
@@ -235,6 +236,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<PostResponse> SaveDocuments(AddDocuments documents)
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_SAVE_DOCUMENTS, HttpMethod.Post);
+        }
+
+        public async Task<CheckOutVehicleDetails> CheckOutVehicleDetails()
+        {
+            return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS, HttpMethod.Get);
         }
     }
     public static class RestUtils

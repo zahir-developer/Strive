@@ -16,6 +16,7 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Fragments;
+using StriveEmployee.Android.Fragments.CheckOut;
 using StriveEmployee.Android.Fragments.MyProfile;
 using StriveEmployee.Android.Fragments.MyTicket;
 using StriveEmployee.Android.Fragments.Schedule;
@@ -33,6 +34,7 @@ namespace StriveEmployee.Android.Views
         private MyProfileFragment profile_Fragment;
         private ScheduleFragment schedule_Fragment;
         private MyTicketFragment myTicket_Fragment;
+        private CheckOutFragment checkOut_Fragment;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -42,6 +44,7 @@ namespace StriveEmployee.Android.Views
             profile_Fragment = new MyProfileFragment();
             schedule_Fragment = new ScheduleFragment();
             myTicket_Fragment = new MyTicketFragment();
+            checkOut_Fragment = new CheckOutFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
@@ -67,6 +70,10 @@ namespace StriveEmployee.Android.Views
 
                 case Resource.Id.menu_myTickets:
                     selected_MvxFragment = myTicket_Fragment;
+                    break;
+
+                case Resource.Id.menu_checkOut:
+                    selected_MvxFragment = checkOut_Fragment;
                     break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
@@ -89,5 +90,6 @@ namespace Strive.Core.Services.Interfaces
         Task<GetCollisions> GetCollisions(int liabilityID);
 
         Task<PostResponse> SaveDocuments(AddDocuments documents);
+        Task<CheckOutVehicleDetails> CheckOutVehicleDetails();
     }
 }
