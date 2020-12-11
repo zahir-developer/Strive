@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Strive.Core.Models.Employee.CheckOut;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
     {
         #region Properties
 
+        public CheckOutVehicleDetails CheckOutVehicleDetails { get; set; }
         #endregion Properties
 
         #region Commands
@@ -22,7 +24,9 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
             }
             else
             {
-
+                CheckOutVehicleDetails = new CheckOutVehicleDetails();
+                CheckOutVehicleDetails.GetCheckedInVehicleDetails = new List<GetCheckedInVehicleDetails>();
+                CheckOutVehicleDetails = result;
             }
         }
 
