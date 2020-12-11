@@ -16,9 +16,13 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   fileUploadformData: any = null;
   fileThumb: any = null;
   submitted: any;
+  employeeId: any;
   constructor(private toastr: MessageServiceToastr, private document:DocumentService) { }
 
   ngOnInit() : void {
+    if (localStorage.getItem('employeeName') !== undefined) {
+      this.employeeId = localStorage.getItem('employeeId');
+    }
   }
 
   fileNameChanged() {
@@ -66,12 +70,12 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       originalFileName: null,
       filePath: null,
       base64: this.fileUploadformData,
-      comments: "",
+      comments: null,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: new Date(),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: new Date()
     };
     const finalObj = {
