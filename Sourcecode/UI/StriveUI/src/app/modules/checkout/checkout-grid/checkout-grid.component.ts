@@ -14,7 +14,7 @@ export class CheckoutGridComponent implements OnInit {
   page = 1;
   pageSize = 25;
   collectionSize: number = 0;
-
+  query = '';
   constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr) { }
 
   ngOnInit() {

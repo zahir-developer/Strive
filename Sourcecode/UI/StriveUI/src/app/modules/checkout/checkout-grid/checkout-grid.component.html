@@ -21,6 +21,15 @@
                                     <h4 class="d-inline-block align-middle" >Checkout</h4>
                                 </div>
                                 <div id="Checkoutlist" class="collapse show">
+                                    <div class="search-container  pull-right">
+                                        <form>
+                                          <div class="form-row">
+                                            <div class="form-group d-flex"> <input type="search" size="25" class="form-control" [(ngModel)]="query"
+                                                name="search" id="inputSearch" placeholder="  Search  " > </div>
+                                           
+                                          </div>
+                                        </form>
+                                      </div>
                                     <!-- <div class="mt-2">
                                         <a href="#" class="theme-font-color mr-2 font-weight-600"><i
                                                 class="mdi mdi-circle font-13 theme-optional-icon-color mr-1"></i>In
@@ -52,7 +61,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let checkout of uncheckedVehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let checkout of uncheckedVehicleDetails | search: query | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row" style="border-left:5px solid" [ngStyle]="{'color': checkout.ColorCode, 'border-right-color': checkout.ColorCode}">
                                                         {{checkout.TicketNumber}}</th>
                                                     <td >{{checkout.CustomerName}}</td>
