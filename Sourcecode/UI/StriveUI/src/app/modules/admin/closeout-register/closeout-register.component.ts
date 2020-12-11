@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
+import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-closeout-register',
   templateUrl: './closeout-register.component.html',
   styleUrls: ['./closeout-register.component.css']
 })
-export class CloseoutRegisterComponent implements OnInit {
-
+export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  bsConfig: Partial<BsDatepickerConfig>;
+  maxDate = new Date();
   cashRegisterCoinForm: FormGroup;
   closeOutDetails: any;
   isUpdate: boolean;
@@ -37,13 +40,20 @@ export class CloseoutRegisterComponent implements OnInit {
   cashRegisterBillForm: FormGroup;
   cashRegisterRollForm: FormGroup;
   closeoutRegisterForm: FormGroup;
+  date = moment(new Date()).format('MM/DD/YYYY');
 
-
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService) { }
+  constructor(
+    private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService,
+    private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
+    this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.formInitialize();
+  }
+  ngAfterViewInit() {
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
+    this.datepicker.setConfig();
+    this.cd.detectChanges();
   }
   formInitialize() {
     this.cashRegisterCoinForm = this.fb.group({
@@ -79,7 +89,7 @@ export class CloseoutRegisterComponent implements OnInit {
 
   // Get CloseOutRegister By Date
   getCloseOutRegister() {
-    const today = moment(new Date).format('YYYY-MM-DD');
+    const today = moment(this.selectDate).format('YYYY-MM-DD');
     const cashRegisterType = "CLOSEOUT";
     const locationId = +localStorage.getItem('empLocationId');
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
@@ -131,6 +141,12 @@ export class CloseoutRegisterComponent implements OnInit {
           this.closeoutRegisterForm.patchValue({
             cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1
           });
+        }else{
+          this.isUpdate = false;
+          this.closeoutRegisterForm.reset();
+          this.cashRegisterCoinForm.reset();
+          this.cashRegisterBillForm.reset();
+          this.cashRegisterRollForm.reset();
         }
       }
     });
@@ -146,7 +162,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dimes: this.cashRegisterCoinForm.value.coinDimes,
       quarters: this.cashRegisterCoinForm.value.coinQuaters,
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -162,7 +178,7 @@ export class CloseoutRegisterComponent implements OnInit {
       s20: this.cashRegisterBillForm.value.billTwenties,
       s50: this.cashRegisterBillForm.value.billFifties,
       s100: this.cashRegisterBillForm.value.billHundreds,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -177,7 +193,7 @@ export class CloseoutRegisterComponent implements OnInit {
       dimes: this.cashRegisterRollForm.value.dimeRolls,
       quarters: this.cashRegisterRollForm.value.quaterRolls,
       halfDollars: 0,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -187,12 +203,12 @@ export class CloseoutRegisterComponent implements OnInit {
     const other = {
       cashRegOtherId: this.isUpdate ? this.closeOutDetails.CashRegisterOthers.CashRegOtherId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
-      creditCard1: 0,
+      creditCard1: this.closeoutRegisterForm.value.cardAmount,
       creditCard2: 0,
       creditCard3: 0,
       checks: 0,
       payouts: 0,
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -205,7 +221,7 @@ export class CloseoutRegisterComponent implements OnInit {
       locationId: +localStorage.getItem('empLocationId'),
       drawerId: 1,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
-      isActive: true,      
+      isActive: true,
       isDeleted: false,
       createdBy: 1,
       createdDate: new Date(),
@@ -221,11 +237,11 @@ export class CloseoutRegisterComponent implements OnInit {
     }
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       if (data.status === "Success") {
-        if(this.isUpdate){
+        if (this.isUpdate) {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
-        }else{
+        } else {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
-        }        
+        }
         this.getCloseOutRegister();
       } else {
         this.toastr.error('Weather Communication Error', 'Error!');
@@ -313,6 +329,32 @@ export class CloseoutRegisterComponent implements OnInit {
 
   // Calculate TotalCash
   getTotalCash() {
-    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll;
+    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount; 
+  }
+  onValueChange(event) {
+    let selectedDate = event;
+    let today;
+    if (selectedDate !== null) {
+      selectedDate = moment(event.toISOString()).format('YYYY-MM-DD');
+      this.selectDate = selectedDate;
+      today = moment(new Date().toISOString()).format('YYYY-MM-DD');
+      if (moment(today).isSame(selectedDate)) {
+        this.cashRegisterCoinForm.enable();
+        this.cashRegisterBillForm.enable();
+        this.cashRegisterRollForm.enable();
+        this.closeoutRegisterForm.enable();
+      } else if (moment(today).isAfter(selectedDate)) {
+        this.cashRegisterCoinForm.disable();
+        this.cashRegisterBillForm.disable();
+        this.cashRegisterRollForm.disable();
+        this.closeoutRegisterForm.disable();
+      } else {
+        this.cashRegisterCoinForm.enable();
+        this.cashRegisterBillForm.enable();
+        this.cashRegisterRollForm.enable();
+        this.closeoutRegisterForm.enable();
+      }
+    }
+    this.getCloseOutRegister();
   }
 }

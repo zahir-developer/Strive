@@ -81,6 +81,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   jobStatusID: any;
   jobID: any;
   clientName = '';
+  vehicleNumber: number;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -167,7 +168,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.bayScheduleObj.date.setHours(hours);
       this.bayScheduleObj.date.setMinutes(minutes);
       this.bayScheduleObj.date.setSeconds('00');
-      const inTime = this.datePipe.transform(this.bayScheduleObj.date, 'MM-dd-yyyy, HH:mm');
+      const inTime = this.datePipe.transform(this.bayScheduleObj.date, 'MM/dd/yyyy HH:mm');
       this.getWashTimeByLocationID();
       this.detailForm.patchValue({
         bay: this.bayScheduleObj.bayId,
@@ -187,7 +188,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
         // dt.setMinutes(dt.getMinutes() + 30);
         let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + WashTimeMinutes);
-        outTime = this.datePipe.transform(outTime, 'MM-dd-yyyy, HH:mm');
+        outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
         this.detailForm.patchValue({
           dueTime: outTime
         });
@@ -359,7 +360,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         client.Client.forEach(item => {
-          item.fullName = item.FirstName + '\t' + item.LastName;
+          item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
         this.clientList = client.Client.map(item => {
@@ -437,8 +438,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailForm.patchValue({
       barcode: this.selectedData.Details.Barcode,
       bay: this.selectedData.Details.BayId,
-      inTime: this.datePipe.transform(this.selectedData.Details.TimeIn, 'MM-dd-yyyy, HH:mm'),
-      dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM-dd-yyyy, HH:mm'),
+      inTime: this.datePipe.transform(this.selectedData.Details.TimeIn, 'MM/dd/yyyy HH:mm'),
+      dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
       client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details.ClientName },
       vehicle: this.selectedData.Details.VehicleId,
       type: this.selectedData.Details.Make,
@@ -450,6 +451,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 19)[0]?.ServiceId,
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
+    this.clientId = this.selectedData?.Details?.ClientId;
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -493,7 +495,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     const query = event.query;
     for (const i of this.clientList) {
       const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+      if (client.name.toLowerCase().includes(query.toLowerCase())) {
         filtered.push(client);
       }
     }
@@ -778,11 +780,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         updatedBy: 0
       };
     });
-    this.washItem.forEach(item => {
-      item.isActive = true;
-    });
     this.washItem.forEach(element => {
-      this.jobItems.push(element);
+      this.jobItems.push({
+        jobItemId: element.JobItemId,
+        jobId: element.JobId,
+        serviceId: element.ServiceId,
+        isActive: true,
+        isDeleted: false,
+        commission: 0,
+        price: element.Cost,
+        quantity: 1,
+        createdBy: 0,
+        updatedBy: 0
+      });
     });
     this.assignedDetailService.forEach(item => {
       this.jobItems.push({
@@ -826,7 +836,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (res.status === 'Success') {
           this.isAssign = true;
           this.isStart = true;
-          this.isSaveClick = true;
+          this.isEdit = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.jobID = jobID.Status;
@@ -941,6 +951,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   addVehicle() {
     this.headerData = 'Add New Vehicle';
+    let len = this.vehicle.length;
+    if(len === 0){
+      this.vehicleNumber = 1;
+    }else{
+    this.vehicleNumber = Number(this.vehicle[len-1].VehicleNumber) + 1;
+    }
     this.showVehicleDialog = true;
   }
 

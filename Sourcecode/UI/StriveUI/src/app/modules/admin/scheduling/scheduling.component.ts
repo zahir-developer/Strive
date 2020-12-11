@@ -87,8 +87,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       allDaySlot: false,
       droppable: true,
       slotDuration: '00:30:00',
-      minTime: '09:00:00',
-      maxTime: '18:00:00',
+      minTime: '07:00:00',
+      maxTime: '20:00:00',
       defaultView: 'timeGridWeek',
       slotEventOverlap: false,
       height: 'auto',
@@ -342,8 +342,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     });
   }
   getLocationId(event) {
-    const loc = this.location.filter(item => item.LocationName === event.target.textContent);
-    this.locationId = loc[0]?.LocationId;
+    // const loc = this.location.filter(item => item.LocationName === event.target.textContent);
+    this.locationId = event.LocationId;
     this.getSchedule();
   }
   // Get the schedule by Id

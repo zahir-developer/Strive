@@ -49,20 +49,23 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   toggleTab: number;
   targetBusiness: any;
   drawerId: any;
-  date = moment(new Date()).format('MM-DD-YYYY');
+  Todaydate: any;
+  date = moment(new Date()).format('MM/DD/YYYY');
   constructor(private fb: FormBuilder, private registerService: CashRegisterService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.selectDate = moment(new Date()).format('MM-DD-YYYY');
+    this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.locationId = localStorage.getItem('empLocationId');
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
-    this.getTargetBusinessData();
+    const locationId = +this.locationId;
+    this.Todaydate = moment(new Date()).format('YYYY-MM-DD');
+    this.getTargetBusinessData(locationId,this.Todaydate);
     this.getWeatherDetails();
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
@@ -100,12 +103,14 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   }
 
   // Get targetBusinessData
-  getTargetBusinessData() {
-    const locationId = +this.locationId;
-    const date = moment(new Date()).format('YYYY-MM-DD');
+  getTargetBusinessData(locationId, date) {
+   
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
-      if (data && data.resultData) {
+      if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
+        this.cashRegisterForm.patchValue({
+          goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
+        });
       }
     });
   }
@@ -163,7 +168,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           setTimeout(() => {
             this.cashRegisterForm.patchValue({
-              goal: this.targetBusiness?.WeatherPrediction?.TargetBusiness
+              goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
             });
           }, 1200);
           this.getTotalCash();
@@ -183,6 +188,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.weatherDetails = data;
+        console.log(this.weatherDetails, 'weather')
+
       }
     });
   }
@@ -284,8 +291,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       locationId: +this.locationId,
       // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
       // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
-    weather: (this.weatherDetails?.temporature) ?  Math.floor(this.weatherDetails?.temporature).toString() : null,
-      rainProbability: (this.weatherDetails?.rainPercentage) ? Math.floor(this.weatherDetails?.rainPercentage).toString() : null,
+    weather: (this.weatherDetails?.currentWeather.temporature) ?  Math.floor(this.weatherDetails?.currentWeather.temporature).toString() : null,
+      rainProbability: (this.weatherDetails?.currentWeather.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
@@ -301,7 +308,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
               this.toastr.success('Record Saved Successfully!!', 'Success!');
             }
             this.weatherService.getWeather();
-            this.getTargetBusinessData();
+            this.getTargetBusinessData(this.locationId,this.Todaydate);
             this.getCashRegister();
           } else {
             this.toastr.error('Weather Communication Error', 'Error!');
@@ -417,10 +424,19 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       selectedDate = moment(event.toISOString()).format('YYYY-MM-DD');
       this.selectDate = selectedDate;
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
+
+      const locationId = +this.locationId;
+      this.toggleTab = 0;
+
+        this.getWeatherDetails();
+        this.getTargetBusinessData(this.locationId, this.selectDate);
+
+     
       if (moment(today).isSame(selectedDate)) {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
+        
       } else if (moment(today).isAfter(selectedDate)) {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
@@ -430,6 +446,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
       }
+
+
     }
     this.getCashRegister();
   }

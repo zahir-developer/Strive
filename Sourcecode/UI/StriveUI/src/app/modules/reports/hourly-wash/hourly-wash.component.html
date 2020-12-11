@@ -7,16 +7,22 @@
         <div class="col-12">
             <div class="row no-gutter">
                 <div class="col-lg-2">
-                    <label>Select Custom Date</label>
-                    <input type="text" class="form-control date datepicker-view" data-toggle="date-picker"
-                        data-single-date-picker="true" placeholder="Report Date" />
+                    <label>Select Custom Week</label>
+                    <div class="input-icon-right date-pick">
+                        <i class="mdi mdi-calendar-range"></i>
+                        <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control"
+                            [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
+                            [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+                    </div>
                 </div>
+                <div class="col-1"></div>
                 <div class="col-lg-2">
                     <label>Select Location</label>
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2 m-t-31">
-                    <button type="button" class="btn theme-primary-button-color">View</button>
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="viewHourlyReport()">View</button>
                 </div>
             </div>
             <div class="card m-t-10">
@@ -34,217 +40,290 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent" (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
+                                    ngxPrint printSectionId="hourlyWashReport">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="refesh()">Refresh</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card m-t-10">
-                <div class="card-body p-10">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Day & Date</th>
-                                    <th scope="col" class="text-right">Temp</th>
-                                    <th scope="col" class="text-right">Rain</th>
-                                    <th scope="col" class="text-right">Washes</th>
-                                    <th scope="col" class="text-right">Score</th>
-                                    <th scope="col" class="text-right">7AM</th>
-                                    <th scope="col" class="text-right">8AM</th>
-                                    <th scope="col" class="text-right">9AM</th>
-                                    <th scope="col" class="text-right">10AM</th>
-                                    <th scope="col" class="text-right">11AM</th>
-                                    <th scope="col" class="text-right">12PM</th>
-                                    <th scope="col" class="text-right">1PM</th>
-                                    <th scope="col" class="text-right">2PM</th>
-                                    <th scope="col" class="text-right">3PM</th>
-                                    <th scope="col" class="text-right">4PM</th>
-                                    <th scope="col" class="text-right">5PM</th>
-                                    <th scope="col" class="text-right">6PM</th>
-                                    <th scope="col" class="text-right">7PM</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        Sun <br>
-                                        11/22/2020
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right"><br>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right"><br>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div id="hourlyWashReport">
+                <div class="card m-t-10">
+                    <div class="card-body p-10">
+                        <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2"
+                            style="display: none;">Hourly Wash Report</div>
+                        <div class="table-responsive">
+                            <table class="table hourlywash">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="w-9 border-top-0">Day & Date </th>
+                                        <th scope="col" class="w-6 text-right border-top-0">Temp</th>
+                                        <th scope="col" class="w-6 text-right border-top-0">Rain</th>
+                                        <th scope="col" class="text-center border-top-0">No of
+                                            <br> washes</th>
+                                        <th scope="col" class="w-6 text-right border-top-0">Score </th>
+                                        <th scope="col" class="text-right border-top-0">7 AM</th>
+                                        <th scope="col" class="text-right border-top-0">8 AM</th>
+                                        <th scope="col" class="text-right border-top-0">9 AM</th>
+                                        <th scope="col" class="text-right border-top-0">10 AM</th>
+                                        <th scope="col" class="text-right border-top-0">11 AM</th>
+                                        <th scope="col" class="text-right border-top-0">12 PM </th>
+                                        <th scope="col" class="text-right border-top-0">1 PM </th>
+                                        <th scope="col" class="text-right border-top-0">2 PM </th>
+                                        <th scope="col" class="text-right border-top-0">3 PM</th>
+                                        <th scope="col" class="text-right border-top-0">4 PM</th>
+                                        <th scope="col" class="text-right border-top-0">5 PM</th>
+                                        <th scope="col" class="text-right border-top-0">6 PM </th>
+                                        <th scope="col" class="text-right border-top-0">7 PM</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="hourlyWashReport.length > 0">
+                                    <tr class="hourlywash-striped" *ngFor="let hours of hourlyWashReport">
+                                        <th scope="row" class="align-middle text-center">{{hours.Day}}
+                                            <br>{{hours.JobDate}}</th>
+                                        <td>
+                                            <input type="text" class="form-control p-10 text-right" disabled
+                                                placeholder="0">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control p-10 text-right" disabled
+                                                placeholder="0">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control p-10 text-right" disabled
+                                                placeholder="0"><br>
+                                            <input type="text" class="form-control p-10 text-right" disabled
+                                                placeholder="0">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control p-10 text-right" disabled
+                                                placeholder="0"><br>
+                                            <input type="text" class="form-control p-10 text-right" disabled
+                                                placeholder="0">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._7AM}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control p-10 text-right" disabled
+                                                placeholder="{{hours._8AM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">{{hours._7AM + hours._8AM}}</div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._9AM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">{{hours._7AM + hours._8AM + hours._9AM}}</div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._10AM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM}}
+                                               </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._11AM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._12AM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._1PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._2PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._3PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-r-15"> 
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._4PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._5PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._6PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  p-10 text-right" disabled
+                                                placeholder="{{hours._7PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM + hours._7PM}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="hourlyWashReport.length === 0">
+                                    <tr>
+                                        <td colspan="18" class="text-center">
+                                            No Record Found
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    <!-- end card-body -->
                 </div>
-            </div>
-            <div class="card m-t-10">
-                <div class="card-body p-10">
-                    <div class="table-responsive">
-                        <table class="table ">
-                            <thead>
-                                <th scope="col">Day</th>
-                                <th scope="col">Day</th>
-                                <th scope="col">Ultra</th>
-                                <th scope="col">Mega</th>
-                                <th scope="col">Mammoth</th>
-                                <th scope="col">Mini</th>
-                                <th scope="col">Deposits</th>
-                                <th scope="col">BC</th>
-                                <th scope="col">Accounts</th>
-                                <th scope="col">Gift Cards</th>
-                                <th scope="col">Tips</th>
-                                <th scope="col">Actual</th>
-                                <th scope="col">Sales</th>
-                                <th scope="col">Difference</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        Sun
-                                    </td>
-                                    <td>
-                                        22/11/2020
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot class="table-foot">
-                                <tr>
-                                    <td colspan="2"
-                                        class="font-weight-700 font-size-1-2 text-center">
-                                        Total 
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control rounded-0 input-table text-right">
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                <!-- end card-->
+                <div class="card m-t-10">
+                    <div class="card-body p-10">
+                        <div class="table-responsive">
+                            <table class="table hourwash">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Day</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col" class="text-right" *ngFor="let name of washServiceName">{{name}}
+                                        </th>
+                                        <th scope="col" class="text-right">Deposits </th>
+                                        <th scope="col" class="text-right">BC </th>
+                                        <th scope="col" class="text-right">Accounts </th>
+                                        <th scope="col" class="text-right">Gift Cards</th>
+                                        <th scope="col" class="text-right">Tips</th>
+                                        <th scope="col" class="text-right">Actual</th>
+                                        <th scope="col" class="text-right">Sales </th>
+                                        <th scope="col" class="text-right">Difference</th>
+                                        <th scope="col">Managers</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="salesDetails.length > 0">
+                                    <tr *ngFor="let sale of salesDetails">
+                                        <td class="align-middle font-weight-600">{{sale.JobDate | date: 'EEE'}}</td>
+                                        <td class="align-middle font-weight-600">{{sale.JobDate | date: 'MM/dd/yyyy'}}
+                                        </td>
+                                        <td *ngFor="let name of sale.serviceName">
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="{{name.count}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.Deposits}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.BC}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.Account}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.GiftCard}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.Tips}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.Actual}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.Sales}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{sale.Difference}}">
+                                        </td>
+                                        <td class="align-middle font-weight-600">{{sale.Managers}}</td>
+                                    </tr>
+                                    <tr class="table-foot">
+                                        <td class="font-weight-700 text-center align-middle" colspan="2">Total</td>
+                                        <td *ngFor="let value of totalWashCount">
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="{{value.totalValue}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalDeposits}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalBC}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalAccount}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalGiftCard}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalTips}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalActual}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalSales}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-right p-5" disabled
+                                                placeholder="${{totalDifference}}">
+                                        </td>
+                                        <td>
+                                            <!-- <input type="text" class="form-control text-right p-5" placeholder=""> -->
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="salesDetails.length === 0">
+                                    <tr>
+                                        <td colspan="11" class="text-center">
+                                            No Record Found
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
+                    <!-- end card-body -->
                 </div>
             </div>
         </div>

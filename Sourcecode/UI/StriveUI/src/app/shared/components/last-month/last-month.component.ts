@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { WeatherService } from '../../services/common-service/weather.service';
 
 @Component({
@@ -8,15 +8,17 @@ import { WeatherService } from '../../services/common-service/weather.service';
 })
 export class LastMonthComponent implements OnInit {
   weatherMonth: any;
+  @Input() targetBusiness : any;
+    constructor() { }
+  
+    ngOnInit(): void {
+      this.getWeatherDetails();
+    }
+    getWeatherDetails()  {
+        this.weatherMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastMonth;
 
-  constructor(private weatherService: WeatherService) { }
-
-  ngOnInit(): void {
-    this.getWeatherDetails();
+      
+      
+    
+    }
   }
-  getWeatherDetails = () => {
-    this.weatherService.data.subscribe((data: any) => {
-      this.weatherMonth = data.lastMonthWeather;
-  });
-}
-}

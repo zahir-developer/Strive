@@ -20,11 +20,12 @@
                             <div class="col-12">
                                 <h5 class="d-inline-block">Employee List
                                     <span class="collision-btn">
-                                        <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                                            (click)="addEmployee('create', '')">Add New Employee</button>
                                     </span>
                                 </h5>
                                 <div class="pull-right m-t-4 pointer">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                            (click)="addEmployee('create', '')">Add Employee</button>
+                                            &nbsp;&nbsp;
                                     <a> <em class="font-size-1-4 fa"
                                             [ngClass]="{'fa-angle-up':!isCollapsed, 'fa-angle-down': isCollapsed  }"
                                             (click)="collapsed()"></em>
@@ -90,15 +91,15 @@
                                                         (click)="viewDocument(employee)"> View
                                                     </span>
                                                 </td>
-                                                <td> <a href="#" class="text-underline theme-primary-color font-size--9"
-                                                        data-toggle="modal"> No Schedule </a> </td>
+                                                <td> <span class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="schedule()"> No
+                                                        Schedule </span> </td>
                                                 <td>{{employee.Status === true ? 'Active' : 'InActive'}}</td>
                                                 <td> <em class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
-                                                        (click)="addEmployee('view', employee)"></em>
+                                                        (click)="addEmployee('view', employee)" pTooltip="View" tooltipPosition="bottom"></em>
                                                     <em class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
-                                                        (click)="addEmployee('edit', employee)"></em>
+                                                        (click)="addEmployee('edit', employee)" pTooltip="Edit" tooltipPosition="bottom"></em>
                                                     <em class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                                                        (click)="deleteEmployee(employee)"></em> </td>
+                                                        (click)="deleteEmployee(employee)" pTooltip="Delete" tooltipPosition="bottom"></em> </td>
                                             </tr>
                                             <tr *ngIf="employeeDetails.length === 0">
                                                 <td colspan="9" class="text-center">
@@ -125,6 +126,6 @@
         [employeeId]="employeeId" (closeDialog)="closeDialog($event)"></app-create-edit>
 </div>
 <div *ngIf="showDialog && actionType !== 'create'">
-    <app-edit-employee *ngIf="showDialog" [commissionType]="commissionType"
-        [actionType]="actionType" [employeeId]="employeeId" (closeDialog)="closeDialog($event)"></app-edit-employee>
+    <app-edit-employee *ngIf="showDialog" [commissionType]="commissionType" [actionType]="actionType"
+        [employeeId]="employeeId" (closeDialog)="closeDialog($event)"></app-edit-employee>
 </div>

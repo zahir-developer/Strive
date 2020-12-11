@@ -24,6 +24,7 @@ export class MonthlyTipComponent implements OnInit {
   totalTip = 0;
   tipAmount: number;
   totalHours = 0;
+  fileTypeEvent: boolean = false;
   constructor(private excelService: ExcelService, private reportService: ReportsService) { }
 
   ngOnInit(): void {
@@ -106,6 +107,8 @@ export class MonthlyTipComponent implements OnInit {
     this.locationId = +event;
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
 

@@ -9,7 +9,9 @@ namespace Strive.BusinessEntities.ViewModel
     public class DailyStatusReportPrintViewModel
     {
         public TimeClockEmployeeHourViewModel EmployeeTimeClock { get; set; }        
-        public List<DailyStatusDetailInfoViewModel> DailyStatusDetailInfoViews { get; set; }
+        public DailyStatusViewModel DailyStatusDetailInfoViews { get; set; }
+
+        public List<DailyStatusReportViewModel> DailyStatusReport { get; set; }
 
     }
 }

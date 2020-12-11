@@ -46,6 +46,8 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
 import { LocationDropdownComponent } from './components/location-dropdown/location-dropdown.component';
 import { ExportFiletypeComponent } from './components/export-filetype/export-filetype.component';
 import { ChartsModule } from 'ng2-charts';
+import { SsnNumberMaskDirective } from './Directive/ssn-number-mask.directive';
+import { SearchPipe } from './common-search-pipe/search.pipe';
 
 @NgModule({
   imports: [
@@ -67,8 +69,7 @@ import { ChartsModule } from 'ng2-charts';
     NgMultiSelectDropDownModule.forRoot(),
     TooltipModule,
     NgbPaginationModule,
-    ChartsModule
-  ],
+    ChartsModule  ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
@@ -77,7 +78,8 @@ import { ChartsModule } from 'ng2-charts';
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, NoOfWashesComponent,
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
-    MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent],
+    MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
+    ,SearchPipe],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -86,7 +88,7 @@ import { ChartsModule } from 'ng2-charts';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule],
+     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

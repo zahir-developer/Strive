@@ -112,7 +112,7 @@
                                                     <th scope="col">Make/Model/Color</th>
                                                     <th scope="col">Time In</th>
                                                     <th scope="col">Estimated Time Out </th>
-                                                    <th scope="col">Wash Packages/Services</th>
+                                                    <th scope="col">Services</th>
                                                     <th scope="col"></th>
                                                     <th scope="col">Action</th>
                                                 </tr>
@@ -133,11 +133,11 @@
                                                             class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12" (click)="pay(wash)">Pay</button>
                                                     </td>
                                                     <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('view',wash)"></i>
+                                                            (click)="add('view',wash)" pTooltip="View" tooltipPosition="bottom"></i>
                                                         <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('edit',wash)"></i>
+                                                            (click)="add('edit',wash)" pTooltip="Edit" tooltipPosition="bottom"></i>
                                                         <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            (click)="delete(wash)"></i>
+                                                            (click)="delete(wash)" pTooltip="Delete" tooltipPosition="bottom"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>

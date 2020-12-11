@@ -143,35 +143,42 @@ namespace Admin.API.Controllers
                 worksheet2.Cell(17, 1).Value = "50's";
                 worksheet2.Cell(18, 1).Value = "100's";
 
-                
 
-                var coins = eodResult.CashRegister.CashRegisterCoins;
+                if (eodResult.CashRegister.CashRegisterCoins != null)
                 {
-                    worksheet2.Cell(1, 2).Value = "";
-                    worksheet2.Cell(2, 2).Value = coins.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(3, 2).Value = coins.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US"));;
-                    worksheet2.Cell(4, 2).Value = coins.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(5, 2).Value = coins.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(6, 2).Value = coins.HalfDollars.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    var coins = eodResult.CashRegister.CashRegisterCoins;
+                    {
+                        worksheet2.Cell(1, 2).Value = "";
+                        worksheet2.Cell(2, 2).Value = coins.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(3, 2).Value = coins.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US")); ;
+                        worksheet2.Cell(4, 2).Value = coins.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(5, 2).Value = coins.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(6, 2).Value = coins.HalfDollars.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    }
                 }
-                var rolls = eodResult.CashRegister.CashRegisterRolls;
-                {
-                    worksheet2.Cell(7, 2).Value = "";
-                    worksheet2.Cell(8, 2).Value = rolls.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US"));;
-                    worksheet2.Cell(9, 2).Value = rolls.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US"));;
-                    worksheet2.Cell(10, 2).Value = rolls.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(11, 2).Value = rolls.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                if (eodResult.CashRegister.CashRegisterRolls != null) { 
+                    var rolls = eodResult.CashRegister.CashRegisterRolls;
+                    {
+                        worksheet2.Cell(7, 2).Value = "";
+                        worksheet2.Cell(8, 2).Value = rolls.Pennies.ToString("C", CultureInfo.GetCultureInfo("en-US")); ;
+                        worksheet2.Cell(9, 2).Value = rolls.Nickels.ToString("C", CultureInfo.GetCultureInfo("en-US")); ;
+                        worksheet2.Cell(10, 2).Value = rolls.Dimes.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(11, 2).Value = rolls.Quarters.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    }
                 }
-                var bills = eodResult.CashRegister.CashRegisterBills;
+                if (eodResult.CashRegister.CashRegisterBills != null)
                 {
-                    worksheet2.Cell(12, 2).Value = "";
-                    worksheet2.Cell(13, 2).Value = bills.s1.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(14, 2).Value = bills.s5.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(15, 2).Value = bills.s10.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(16, 2).Value = bills.s20.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(17, 2).Value = bills.s50.ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet2.Cell(18, 2).Value = bills.s100.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    var bills = eodResult.CashRegister.CashRegisterBills;
+                    {
+                        worksheet2.Cell(12, 2).Value = "";
+                        worksheet2.Cell(13, 2).Value = bills.s1.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(14, 2).Value = bills.s5.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(15, 2).Value = bills.s10.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(16, 2).Value = bills.s20.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(17, 2).Value = bills.s50.ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                        worksheet2.Cell(18, 2).Value = bills.s100.ToString("C", CultureInfo.GetCultureInfo("en-US"));
 
+                    }
                 }
                 
 
@@ -196,15 +203,17 @@ namespace Admin.API.Controllers
                 currentRow = 1;
                 worksheet4.Cell(currentRow, 1).Value = "TicketNumber";
                 worksheet4.Cell(currentRow, 2).Value = "EmployeeName";
-                worksheet4.Cell(currentRow, 3).Value = "Commision";          
-                
-                foreach (var detailsInfo in eodResult.DailyStatusDetailInfoViews)
+                worksheet4.Cell(currentRow, 3).Value = "Commision";
+                if (eodResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo != null)
                 {
-                    currentRow++;
-                    worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
-                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
-                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
-                                      
+                    foreach (var detailsInfo in eodResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo)
+                    {
+                        currentRow++;
+                        worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
+                        worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
+                        worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
+
+                    }
                 }
                 var worksheet5 = workbook.Worksheets.Add("Sales");
                 currentRow = 1;
@@ -281,15 +290,19 @@ namespace Admin.API.Controllers
                 worksheet.Cell(currentRow, 3).Value = "Wash Hours";
                 worksheet.Cell(currentRow, 4).Value = "Detail Hours";
                 worksheet.Cell(currentRow, 5).Value = "Others";
-                foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockEmployeeDetails)
+                if (statusResult.EmployeeTimeClock.TimeClockEmployeeDetails != null)
                 {
-                    currentRow++;
-                    worksheet.Cell(currentRow, 1).Value = employeeTimeClock.FirstName;
-                    worksheet.Cell(currentRow, 2).Value = employeeTimeClock.LastName;
-                    worksheet.Cell(currentRow, 3).Value = employeeTimeClock.WashHours;
-                    worksheet.Cell(currentRow, 4).Value = employeeTimeClock.DetailHours;
-                    worksheet.Cell(currentRow, 5).Value = employeeTimeClock.OtherHours;
+                    foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockEmployeeDetails)
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = employeeTimeClock.FirstName;
+                        worksheet.Cell(currentRow, 2).Value = employeeTimeClock.LastName;
+                        worksheet.Cell(currentRow, 3).Value = employeeTimeClock.WashHours;
+                        worksheet.Cell(currentRow, 4).Value = employeeTimeClock.DetailHours;
+                        worksheet.Cell(currentRow, 5).Value = employeeTimeClock.OtherHours;
+                    }
                 }
+            
                 var worksheet2 = workbook.Worksheets.Add("Employee Time Clock Details");
                 currentRow = 1;
                 worksheet2.Cell(currentRow, 1).Value = "TimeClock Id";
@@ -304,34 +317,66 @@ namespace Admin.API.Controllers
                 worksheet2.Cell(currentRow, 10).Value = "Total Hours";
                 worksheet2.Cell(currentRow, 11).Value = "EventType";
                 worksheet2.Cell(currentRow, 12).Value = "Status";
-                foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockDetails)
+                if (statusResult.EmployeeTimeClock.TimeClockEmployeeDetails != null)
                 {
-                    currentRow++;
-                    worksheet2.Cell(currentRow, 1).Value = employeeTimeClock.TimeClockId;
-                    worksheet2.Cell(currentRow, 2).Value = employeeTimeClock.EmployeeId;
-                    worksheet2.Cell(currentRow, 3).Value = employeeTimeClock.LocationId;
-                    worksheet2.Cell(currentRow, 4).Value = employeeTimeClock.RoleId;
-                    worksheet2.Cell(currentRow, 5).Value = employeeTimeClock.RoleName;
-                    worksheet2.Cell(currentRow, 6).Value = employeeTimeClock.Day;
-                    worksheet2.Cell(currentRow, 7).Value = employeeTimeClock.EventDate;
-                    worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.InTime;
-                    worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.OutTime;
-                    worksheet2.Cell(currentRow, 10).Value = employeeTimeClock.TotalHours;
-                    worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
-                    worksheet2.Cell(currentRow, 12).Value = employeeTimeClock.Status;
+                    foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockDetails)
+                    {
+                        currentRow++;
+                        worksheet2.Cell(currentRow, 1).Value = employeeTimeClock.TimeClockId;
+                        worksheet2.Cell(currentRow, 2).Value = employeeTimeClock.EmployeeId;
+                        worksheet2.Cell(currentRow, 3).Value = employeeTimeClock.LocationId;
+                        worksheet2.Cell(currentRow, 4).Value = employeeTimeClock.RoleId;
+                        worksheet2.Cell(currentRow, 5).Value = employeeTimeClock.RoleName;
+                        worksheet2.Cell(currentRow, 6).Value = employeeTimeClock.Day;
+                        worksheet2.Cell(currentRow, 7).Value = employeeTimeClock.EventDate;
+                        worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.InTime;
+                        worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.OutTime;
+                        worksheet2.Cell(currentRow, 10).Value = employeeTimeClock.TotalHours;
+                        worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
+                        worksheet2.Cell(currentRow, 12).Value = employeeTimeClock.Status;
+                    }
                 }
                 var worksheet4 = workbook.Worksheets.Add("Daily Status Info");
                 currentRow = 1;
                 worksheet4.Cell(currentRow, 1).Value = "TicketNumber";               
                 worksheet4.Cell(currentRow, 2).Value = "FirstName";
                 worksheet4.Cell(currentRow, 3).Value = "Commision";
-                
-                foreach (var detailsInfo in statusResult.DailyStatusDetailInfoViews)
+                if (statusResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo != null)
+                {
+
+                    foreach (var detailsInfo in statusResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo)
+                    {
+                        currentRow++;
+                        worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
+                        worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
+                        worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
+                    }
+                }
+
+                var worksheet3 = workbook.Worksheets.Add("Wash Hours");
+                worksheet3.Cell(1, 1).Value = "Wash Employee Count";
+                worksheet3.Cell(2, 1).Value = "Wash Expense";
+                var washes = statusResult.DailyStatusDetailInfoViews.DailyStatusWashInfo;
+                {
+                    worksheet3.Cell(2, 1).Value = washes.WashEmployeeCount;
+                    worksheet3.Cell(2, 2).Value = washes.WashExpense;
+                }
+
+                var worksheet5 = workbook.Worksheets.Add("Daily Status");
+                currentRow = 1;
+                worksheet5.Cell(currentRow, 1).Value = "Number";
+                worksheet5.Cell(currentRow, 2).Value = "Service Name";
+                worksheet5.Cell(currentRow, 3).Value = "Job Type";
+                worksheet5.Cell(currentRow, 4).Value = "Job Date";
+
+                foreach (var details in statusResult.DailyStatusReport)
                 {
                     currentRow++;
-                    worksheet4.Cell(currentRow, 1).Value = detailsInfo.TicketNumber;
-                    worksheet4.Cell(currentRow, 2).Value = detailsInfo.EmployeeName;
-                    worksheet4.Cell(currentRow, 3).Value = detailsInfo.Commission;
+                    worksheet5.Cell(currentRow, 1).Value = details.Number;
+                    worksheet5.Cell(currentRow, 2).Value = details.ServiceName;
+                    worksheet5.Cell(currentRow, 3).Value = details.JobType;
+                    worksheet5.Cell(currentRow, 4).Value = details.JobDate;
+
                 }
                 using (var stream = new MemoryStream())
                 {

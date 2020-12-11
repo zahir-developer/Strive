@@ -3,13 +3,14 @@ import { Observable } from 'rxjs';
 import { HttpUtilsService } from '../../util/http-utils.service';
 import { UrlConfig } from '../url.config';
 
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportsService {
 
-  constructor(private http: HttpUtilsService) { }
+  constructor(private http: HttpUtilsService,) { }
   getMonthlySalesReport(obj): Observable<any> {
     return this.http.post(`${UrlConfig.reports.getMonthlySalesReport}`, obj);
   }
@@ -27,6 +28,9 @@ export class ReportsService {
   }
   getDailyStatusReport(obj): Observable<any> {
     return this.http.post(`${UrlConfig.reports.getDailyStatusReport}`, obj);
+  }
+  getDailyStatusWashReport(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.reports.getDailyStatusWashReport}`, obj);
   }
   getMonthlyDailyTipReport(obj) {
     return this.http.post(`${UrlConfig.reports.getMonthlyDailyTipReport}`, obj);
@@ -52,5 +56,23 @@ export class ReportsService {
   }
   getDailySalesReport(obj){
     return this.http.post(`${UrlConfig.reports.getDailySalesReport}`, obj);
+  }
+
+  getHourlyWashReport(obj) {
+    return this.http.post(`${UrlConfig.reports.getHourlyWashReport}`, obj);
+  }
+  getEODexcelReport(obj){
+    const headers = new HttpHeaders();
+
+    return this.http.post(`${UrlConfig.reports.EODExcelReport}`, obj,{ responseType: 'arraybuffer', headers: headers } );
+  }
+  getDailyStatusExcelReport(obj){
+
+    const headers = new HttpHeaders();
+        
+    return this.http.post(`${UrlConfig.reports.dailyStatusExcelReport}`, obj,{ responseType: 'arraybuffer', headers: headers } );
+
+
+
   }
 }

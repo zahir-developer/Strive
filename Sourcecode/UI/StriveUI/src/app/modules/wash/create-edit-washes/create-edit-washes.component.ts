@@ -64,6 +64,7 @@ export class CreateEditWashesComponent implements OnInit {
   jobStatusId: number;
   clientName = '';
   washTime: any;
+  vehicleNumber: number;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService) { }
 
@@ -147,6 +148,7 @@ export class CreateEditWashesComponent implements OnInit {
       upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 18)[0]?.ServiceId,
       airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 19)[0]?.ServiceId,
     });
+    this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();
     } else {
@@ -290,7 +292,7 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         client.Client.forEach(item => {
-          item.fullName = item.FirstName + '\t' + item.LastName;
+          item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
         this.clientList = client.Client.map(item => {
@@ -310,7 +312,7 @@ export class CreateEditWashesComponent implements OnInit {
     const query = event.query;
     for (const i of this.clientList) {
       const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+      if (client.name.toLowerCase().includes(query.toLowerCase())) {
         filtered.push(client);
       }
     }
@@ -601,6 +603,12 @@ export class CreateEditWashesComponent implements OnInit {
 
   addVehicle() {
     this.headerData = 'Add New Vehicle';
+    let len = this.vehicle.length;
+    if(len === 0){
+      this.vehicleNumber = 1;
+    }else{
+    this.vehicleNumber = Number(this.vehicle[len-1].VehicleNumber) + 1;
+    }
     this.showVehicleDialog = true;
   }
 

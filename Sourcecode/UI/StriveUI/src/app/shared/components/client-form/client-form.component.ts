@@ -31,14 +31,18 @@ export class ClientFormComponent implements OnInit {
 
 
   ngOnInit() {
-    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
     }
     if (this.isEdit === true) {
-      this.clientForm.reset();
       this.getClientById();
+    } 
+    if(this.isEdit !== true || this.isView === true){
+      this.clientForm.controls.status.disable();
+    }else{
+      this.clientForm.controls.status.enable();
     }
   }
 
@@ -47,10 +51,10 @@ export class ClientFormComponent implements OnInit {
       fName: ['', Validators.required],
       lName: ['', Validators.required],
       address: ['', Validators.required],
-      zipcode: ['',],
+      zipcode: ['', [Validators.required, Validators.minLength(5)]],
       state: ['',],
       city: ['',],
-      phone1: ['', Validators.required],
+      phone1: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       email: ['', Validators.email],
       phone2: ['',],
       creditAccount: ['',],
@@ -106,6 +110,7 @@ export class ClientFormComponent implements OnInit {
       status: this.selectedData.IsActive ? 0 : 1,
       score: this.selectedData.Score,
       type: this.selectedData.ClientType,
+      amount: this.selectedData.Amount,
       notes: this.selectedData.Notes,
       checkOut: this.selectedData.RecNotes,
       address: this.selectedData.Address1,

@@ -16,7 +16,7 @@
             <strong>Body Background</strong>
         </div>
         <div class="col-2">
-            <input #bodyInput [style.background]="bodyColor" [cpOKButton]="true" size="6" [cpPosition]="'top-right'"
+            <input (keydown.space)="$event.preventDefault()" #bodyInput [style.background]="bodyColor" [cpOKButton]="true" size="6" [cpPosition]="'top-right'"
                 [cpOKButtonClass]="'btn btn-primary btn-xs'" [cpIgnoredElements]="[bodyButton, bodyInput]"
                 [(cpToggle)]="bodyToggle" [(colorPicker)]="bodyColor" />
         </div>

@@ -75,8 +75,8 @@ export class TimeClockWeekComponent implements OnInit {
               days.forEach(item => {
                 dayDetails.push({
                   EventDate: item.EventDate,
-                  InTime: item.InTime,
-                  OutTime: item.OutTime,
+                  InTime: item.InTime ?  moment(item.InTime).format('HH:mm'):'',
+                  OutTime: item.OutTime ?  moment(item.OutTime).format('HH:mm'):'',
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
                   TotalHours: moment(item.TotalHours).format('HH:mm'),
@@ -233,8 +233,8 @@ export class TimeClockWeekComponent implements OnInit {
       item.checkInDetail.forEach(time => {
         const inEventDate = new Date(time.EventDate);
         const outEventDate = new Date(time.EventDate);
-        const inTime = this.datePipe.transform(time.InTime, 'HH:mm').split(':');
-        const outTime = this.datePipe.transform(time.OutTime, 'HH:mm').split(':');
+        const inTime = time.InTime.split(':');
+        const outTime = time.OutTime.split(':');
         const inTimeHours = +inTime[0];
         const inTimeMins = +inTime[1];
         const outTimeHours = +outTime[0];
@@ -249,8 +249,8 @@ export class TimeClockWeekComponent implements OnInit {
           locationId: time.locationId,
           roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
           eventDate: time.EventDate,
-          inTime: moment(inEventDate).format(),  // this.datePipe.transform(time.InTime, 'HH:mm'),
-          outTime: moment(outEventDate).format(), // this.datePipe.transform(time.OutTime, 'HH:mm'),
+          inTime: time.InTime? moment(inEventDate).format() : '',  // this.datePipe.transform(time.InTime, 'HH:mm'),
+          outTime:time.OutTime ?  moment(outEventDate).format(): '', // this.datePipe.transform(time.OutTime, 'HH:mm'),
           eventType: 1,
           updatedFrom: 'string',
           status: true,
@@ -276,19 +276,31 @@ export class TimeClockWeekComponent implements OnInit {
   
     console.log(event, 'intime');
     if (currentTime.OutTime !== "") {
-      const inTime = new Date(currentTime.InTime);
-      const outTime = new Date(currentTime.OutTime);
-      const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
-      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
-      const MINUTES = (outTimeMins - inTimeMins);
-      var m = (MINUTES % 60);
-      const h = (MINUTES - m) / 60;
-      const hrs = h < 0 ? -h : h;
+      const inTime = (currentTime.InTime.split(':'));
+      const outTime = (currentTime.OutTime.split(':'));
+      const checkinHours = +inTime[0];
+      const checkoutHours = +outTime[0];
+      const checkinmins = +inTime[1];
+      const checkoutmins = +outTime[1];
+    const HOURS = checkoutHours - checkinHours
+      const MINUTES = checkoutmins - checkinmins;
+      const hrs = Math.abs(HOURS)
+      const mins = Math.abs(MINUTES)
+
+       const minutesMath = MINUTES
+      var m = minutesMath % 60;
+      // const h = hr
+      // const hrs = h < 0 ? -h : h;
       if (m < 0) {
         m = 60 - (-m);
       }
-      const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
-      currentTime.TotalHours = HHMM;
+      
+
+    //  const HHMM1 :any=( (h < 10 && h >= 0 ? "0" : "")  + hrs.toString()) + ":" + (m < 10 ? "0" : "") + m.toString();
+     const  HHMM   = ( (hrs < 10 && hrs >= 0 ? "0" : "")  + hrs.toString()) + ':' + (mins < 10 ? "0" : "") + mins.toString();
+    
+    currentTime.TotalHours = HHMM;
+
       this.totalHoursCalculation();
     }
   }
@@ -296,20 +308,45 @@ export class TimeClockWeekComponent implements OnInit {
   outTime(event, currentTime) {
     console.log(event, currentTime);
     if (currentTime.InTime !== "") {
-      const inTime = new Date(currentTime.InTime);
-      const outTime = new Date(currentTime.OutTime);
-      const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
-      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
-      const MINUTES = (outTimeMins - inTimeMins);
-      var m = (MINUTES % 60);
-      const h = (MINUTES - m) / 60;
-      const hrs = h < 0 ? -h : h;
+      // const inTime = new Date(currentTime.InTime);
+      // const outTime = new Date(currentTime.OutTime);
+      // const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      // const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      // const MINUTES = (outTimeMins - inTimeMins);
+      // var m = (MINUTES % 60);
+      // const h = (MINUTES - m) / 60;
+      // const hrs = h < 0 ? -h : h;
+      // if (m < 0) {
+      //   m = 60 - (-m);
+      // }
+      // const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
+      // currentTime.TotalHours = HHMM;
+      const inTime = (currentTime.InTime.split(':'));
+      const outTime = (currentTime.OutTime.split(':'));
+      const checkinHours = +inTime[0];
+      const checkoutHours = +outTime[0];
+      const checkinmins = +inTime[1];
+      const checkoutmins = +outTime[1];
+    const HOURS = checkoutHours - checkinHours
+      const MINUTES = checkoutmins - checkinmins;
+      const hrs = Math.abs(HOURS)
+      const mins = Math.abs(MINUTES)
+
+       const minutesMath = MINUTES
+      var m = minutesMath % 60;
+      // const h = hr
+      // const hrs = h < 0 ? -h : h;
       if (m < 0) {
         m = 60 - (-m);
       }
-      const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
-      currentTime.TotalHours = HHMM;
+      
+
+    //  const HHMM1 :any=( (h < 10 && h >= 0 ? "0" : "")  + hrs.toString()) + ":" + (m < 10 ? "0" : "") + m.toString();
+     const  HHMM   = ( (hrs < 10 && hrs >= 0 ? "0" : "")  + hrs.toString()) + ':' + (mins < 10 ? "0" : "") + mins.toString();
+    
+    currentTime.TotalHours = HHMM;
       this.totalHoursCalculation();
+
     }
   }
 
@@ -342,9 +379,11 @@ export class TimeClockWeekComponent implements OnInit {
       });
     });
     this.totalWeekDetail.TotalDetailHours = detailHour;
-    this.totalWeekDetail.TotalWashHours = washHour;
+    this.totalWeekDetail.TotalWashHours = washHour <= 40 ? washHour : 40;
+    this.totalWeekDetail.OverTimeHours = washHour > 40 ? (washHour-40) : 0;
     this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
     this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
+    this.totalWeekDetail.OverTimePay = this.totalWeekDetail.OverTimeHours * (this.totalWeekDetail.WashRate * 1.5);
     this.totalWeekDetail.GrandTotal = (this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
       this.totalWeekDetail.OverTimePay) - this.totalWeekDetail.CollisionAmount;
 

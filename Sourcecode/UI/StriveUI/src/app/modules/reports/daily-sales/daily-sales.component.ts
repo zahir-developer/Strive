@@ -17,11 +17,12 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   locationId: any;
   fileType: number;
   dailySalesReport = [];
-  date = moment(new Date()).format('MM-DD-YYYY');
+  date = moment(new Date()).format('MM/DD/YYYY');
   isTableEmpty: boolean;
   page = 1;
   pageSize = 25;
   collectionSize: number = 0;
+  fileTypeEvent: boolean = false;
 
   constructor(private spinner: NgxSpinnerService, private toastr: MessageServiceToastr,
     private cd: ChangeDetectorRef, private reportService: ReportsService, private excelService: ExcelService) { }
@@ -31,7 +32,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     this.getDailySalesReport();
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM-DD-YYYY' });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY' });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
@@ -63,6 +64,8 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     this.locationId = +event;
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
   export() {
@@ -94,7 +97,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   onValueChange(event) {
     let selectedDate = event;
     if (selectedDate !== null) {
-      selectedDate = moment(event.toISOString()).format('MM-DD-YYYY');
+      selectedDate = moment(event.toISOString()).format('MM/DD/YYYY');
       this.date = selectedDate;
     }
     this.getDailySalesReport();

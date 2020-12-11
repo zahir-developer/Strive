@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { WeatherService } from '../../services/common-service/weather.service';
 
 @Component({
   selector: 'app-last-three-month',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LastThreeMonthComponent implements OnInit {
 
-  constructor() { }
+  weatherThreeMonth: any;
+@Input() targetBusiness : any;
+  constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
+    this.getWeatherDetails();
   }
+  getWeatherDetails()  {
+      this.weatherThreeMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastThirdMonth;
+  
 
+
+  }
 }

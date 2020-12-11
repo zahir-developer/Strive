@@ -1,12 +1,14 @@
+﻿using Strive.BusinessEntities.Model;
 using System;
-using Dapper.Contrib.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.Weather
+namespace Strive.BusinessEntities.ViewModel
 {
-    [Table("tblWeatherPrediction")]
-    public class WeatherPrediction
+    public class WeatherPredictions
     {
-        [Key]
         public int WeatherId { get; set; }
 
         public int LocationId { get; set; }
@@ -22,7 +24,10 @@ namespace Strive.BusinessEntities.Weather
         public DateTimeOffset CreatedDate { get; set; }
 
         public int WashCount { get; set; }
-        
+
     }
+
   
+
 }
+

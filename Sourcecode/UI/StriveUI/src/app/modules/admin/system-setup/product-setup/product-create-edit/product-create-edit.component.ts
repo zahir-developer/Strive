@@ -28,13 +28,14 @@ export class ProductCreateEditComponent implements OnInit {
   isLoading: boolean;
   fileUploadformData: any = null;
   fileThumb: any = null;
+  costErrMsg: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
     this.getProductType();
     this.getAllLocation();
     this.getAllVendor();
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];    
+    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];    
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
@@ -171,9 +172,14 @@ export class ProductCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.productSetupForm.invalid) {
-      return;
-    }
-    if(this.fileName === null){   
+      if(this.productSetupForm.value.cost !== ""){        
+        if(Number(this.productSetupForm.value.cost) <= 0){
+          this.costErrMsg = true;
+          return;
+        }else{
+          this.costErrMsg = false;
+        }
+      }
       return;
     }
     const formObj = {
