@@ -2,16 +2,15 @@
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
-using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 using StriveCustomer.iOS.UIUtils;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class UpchargesVehicleView : MvxViewController<VehicleUpchargeViewModel>
+    public partial class AdditionalServicesVehicleView : MvxViewController<VehicleAdditionalServiceViewModel>
     {
-        public UpchargesVehicleView() : base("UpchargesVehicleView", null)
+        public AdditionalServicesVehicleView() : base("AdditionalServicesVehicleView", null)
         {
         }
 
@@ -38,10 +37,7 @@ namespace StriveCustomer.iOS.Views
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-                if (ViewModel.VehicleUpchargeCheck())
-                {
-                    ViewModel.NavToAdditionalServices();
-                }
+                ViewModel.NavToSignatureView();
             };
 
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
@@ -51,27 +47,15 @@ namespace StriveCustomer.iOS.Views
             };
             NavigationItem.Title = "Vehicle";
 
-            UpchargesVehicle_TableView.Layer.CornerRadius = 5;
-            UpchargesVehicle_TableView.RegisterNibForCellReuse(MembershipVehicle_ViewCell.Nib, MembershipVehicle_ViewCell.Key);
-            UpchargesVehicle_TableView.ReloadData();
+            AdditionalServicesTableView.Layer.CornerRadius = 5;
+            AdditionalServicesTableView.RegisterNibForCellReuse(MembershipVehicle_ViewCell.Nib, MembershipVehicle_ViewCell.Key);
+            AdditionalServicesTableView.ReloadData();
 
-            getUpchargeList();
-        }
-
-        private async void getUpchargeList()
-        {
-            await this.ViewModel.getServiceList(MembershipDetails.selectedMembership);
-            await this.ViewModel.getAllServiceList();
-
-            if (MembershipDetails.filteredList != null)
-            {
-                var source = new UpchargesVehicleDataSource(MembershipDetails.filteredList);
-                UpchargesVehicle_TableView.Source = source;
-                UpchargesVehicle_TableView.TableFooterView = new UIView(CGRect.Empty);
-                UpchargesVehicle_TableView.DelaysContentTouches = false;
-                UpchargesVehicle_TableView.ReloadData();
-            }
-        }
+            var source = new AdditionalServicesDataSource(MembershipDetails.filteredList.ServicesWithPrice);
+            AdditionalServicesTableView.Source = source;
+            AdditionalServicesTableView.TableFooterView = new UIView(CGRect.Empty);
+            AdditionalServicesTableView.DelaysContentTouches = false;
+            AdditionalServicesTableView.ReloadData();
+        }       
     }
 }
-

@@ -1,17 +1,14 @@
 ﻿using System;
-using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
-using Strive.Core.Models.Customer;
-using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
-using UIKit;
 using StriveCustomer.iOS.UIUtils;
+using UIKit;
 
 namespace StriveCustomer.iOS.Views
 {
-    public partial class UpchargesVehicleView : MvxViewController<VehicleUpchargeViewModel>
+    public partial class TermsView : MvxViewController<TermsAndConditionsViewModel>
     {
-        public UpchargesVehicleView() : base("UpchargesVehicleView", null)
+        public TermsView() : base("TermsView", null)
         {
         }
 
@@ -38,10 +35,7 @@ namespace StriveCustomer.iOS.Views
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-                if (ViewModel.VehicleUpchargeCheck())
-                {
-                    ViewModel.NavToAdditionalServices();
-                }
+                
             };
 
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
@@ -51,25 +45,38 @@ namespace StriveCustomer.iOS.Views
             };
             NavigationItem.Title = "Vehicle";
 
-            UpchargesVehicle_TableView.Layer.CornerRadius = 5;
-            UpchargesVehicle_TableView.RegisterNibForCellReuse(MembershipVehicle_ViewCell.Nib, MembershipVehicle_ViewCell.Key);
-            UpchargesVehicle_TableView.ReloadData();
-
-            getUpchargeList();
+            TermsParentView.Layer.CornerRadius = 5;
         }
 
-        private async void getUpchargeList()
+        partial void AgreeBtn_Touch(UIButton sender)
         {
-            await this.ViewModel.getServiceList(MembershipDetails.selectedMembership);
-            await this.ViewModel.getAllServiceList();
+            AgreeTerms();
+        }
 
-            if (MembershipDetails.filteredList != null)
+        partial void DisAgreeBtn_Touch(UIButton sender)
+        {
+            DisagreeMembership();
+        }
+
+        private async void AgreeTerms()
+        {
+            //CancelMembership
+            var result = await ViewModel.AgreeMembership();
+            if (result)
+            {                
+                SignatureClass.signaturePoints = null;
+                ViewModel.NavigateToLanding();
+            }
+        }
+
+        private async void DisagreeMembership()
+        {
+            var result = await ViewModel.DisagreeMembership();
+
+            if(result)
             {
-                var source = new UpchargesVehicleDataSource(MembershipDetails.filteredList);
-                UpchargesVehicle_TableView.Source = source;
-                UpchargesVehicle_TableView.TableFooterView = new UIView(CGRect.Empty);
-                UpchargesVehicle_TableView.DelaysContentTouches = false;
-                UpchargesVehicle_TableView.ReloadData();
+                SignatureClass.signaturePoints = null;
+                ViewModel.NavigateToLanding();
             }
         }
     }

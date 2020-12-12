@@ -39,6 +39,7 @@ namespace StriveCustomer.iOS.Views
             Tap.CancelsTouchesInView = false;
             View.AddGestureRecognizer(Tap);
 
+            AddVehicleView.Layer.CornerRadius = 5;
             SelectMembership_Text.Layer.CornerRadius = 5;
             SaveAddVehicle_Btn.Layer.CornerRadius = 5;
 

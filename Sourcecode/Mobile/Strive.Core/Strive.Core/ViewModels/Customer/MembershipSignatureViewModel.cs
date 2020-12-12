@@ -61,7 +61,10 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.Alert("Please sign in the blank space");
         }
 
-
+        public async Task NavToMembership()
+        {
+            await _navigationService.Navigate<VehicleMembershipViewModel>();
+        }
         #endregion Commands
     }
 }
