@@ -263,6 +263,7 @@
         <InterfaceDefinition Include="Views\SignatureView.xib" />
         <InterfaceDefinition Include="Views\TermsView.xib" />
         <InterfaceDefinition Include="Views\EditVehicleListView.xib" />
+        <InterfaceDefinition Include="Views\MembershipDetailView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -383,6 +384,10 @@
         <Compile Include="Views\EditVehicleListView.cs" />
         <Compile Include="Views\EditVehicleListView.designer.cs">
           <DependentUpon>EditVehicleListView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MembershipDetailView.cs" />
+        <Compile Include="Views\MembershipDetailView.designer.cs">
+          <DependentUpon>MembershipDetailView.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

@@ -76,7 +76,7 @@ namespace StriveCustomer.iOS.Views
                     NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
                     rightBtn.TouchUpInside += (sender, e) =>
                     {
-
+                        ViewModel.NavToMembershipDetail();
                     };
                 }
                 else

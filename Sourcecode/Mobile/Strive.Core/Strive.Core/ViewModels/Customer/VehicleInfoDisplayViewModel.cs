@@ -81,6 +81,11 @@ namespace Strive.Core.ViewModels.Customer
         {
             await _navigationService.Navigate<VehicleMembershipViewModel>();
         }
+
+        public async void NavToMembershipDetail()
+        {
+            await _navigationService.Navigate<VehicleMembershipDetailsViewModel>();
+        }
         #endregion Commands
 
 
