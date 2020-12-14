@@ -15,7 +15,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 export class EmployeeHandBookComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   employeeRoles: any;
-  isLoading: boolean;
+  isLoading: boolean = false;
   checkListDetails: any;
   isTableEmpty: boolean;
   selectedData: boolean = false;
@@ -31,49 +31,33 @@ export class EmployeeHandBookComponent implements OnInit {
   showDialog: boolean;
   documentTypeId: any;
   document: any;
-  fileName: any;
+  fileName: any = null;
   Documents: any;
   url: any;
  
-     constructor(private documentService: DocumentService, private toastr: MessageServiceToastr, 
-      private sanitizer:DomSanitizer,
+     constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
       private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
   this.getDocumentType();
   }
 
   adddata(data, handbookDetails?) {
-    if (data === 'add') {
-     
-      this.selectedData = handbookDetails;
-      this.showDialog = true;
-    } else {
+    if (data === 'add') {     
       this.selectedData = handbookDetails;
       this.showDialog = true;
     }
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.getDocument();
     }
     this.showDialog = event.isOpenPopup;
   }
-  checlist(){
-    this.checklistAdd = true;
-    this.selectedData = false;
-
-
-  }
-  checlistcancel(){
-    this.checkListName = '';
-    this.RoleId = [];
-    this.checklistAdd = false;
-  }
-
 
   
   delete() {
-    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
-  information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this document? All related 
+  information will be deleted and the document cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete();
@@ -82,9 +66,10 @@ export class EmployeeHandBookComponent implements OnInit {
       .catch(() => { });
   }
   confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId,'TERMSANDCONDITION').subscribe(res => {
+    this.documentService.deleteDocument(this.documentTypeId,'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
+        this.fileName = null;
         this.getDocument();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
@@ -121,40 +106,14 @@ export class EmployeeHandBookComponent implements OnInit {
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
-
-        if (this.document.length === 0) {
-          this.isTableEmpty = true;
-        } else {
-          this.Documents = this.document.Document;
-          this.fileName = this.document.Document.FileName;
-
-          this.isTableEmpty = false;
- 
-
-        }
-        
+        this.Documents = this.document?.Document;
+        this.fileName = this.document?.Document?.FileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
+    }, (err) => {
+      this.isLoading = false;
     });
-  }
-
- 
-  add(data, serviceDetails?) {
-    if (data === 'add') {
-     
-      this.isEdit = false;
-    } else {
-      this.selectedData = serviceDetails.ChecklistId;
-      this.isEdit = true;
-      this.checklistAdd = false;
-
-
-    }
-  }
-  cancel(){
-    this.selectedData = false;
-
   }
 
   

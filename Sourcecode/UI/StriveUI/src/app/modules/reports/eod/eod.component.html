@@ -1,6 +1,6 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-    <h3 class="d-inline-block">Reports - </h3>
-    <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
+    <h3 class="d-inline-block">EOD Report - </h3>
+    <div class="date d-inline-block datepicker-view" data-date-format="dd/mm/yyyy">
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
             bsDatepicker [outsideClick]="true"><span class="input-group-addon">
@@ -52,7 +52,7 @@
                     <div class="card-body">
             <div class="row no-gutter" >
                 <div class="col-12 text-left  font-weight-700 font-size-1-5">
-                   End Of Day Report ({{date | date: 'MM/dd/yyyy'}})
+                   Report Date - {{date | date: 'MM/dd/yyyy'}}
                 </div>
                 <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">EOD Report</div>
                 <div class="col-lg-4">

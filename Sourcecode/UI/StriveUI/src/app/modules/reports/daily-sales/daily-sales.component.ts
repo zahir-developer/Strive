@@ -38,6 +38,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   }
   getDailySalesReport() {
     const obj = {
+      locationId: this.locationId,
       date: this.date
     };
     this.spinner.show();
