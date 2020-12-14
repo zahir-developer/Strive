@@ -196,8 +196,8 @@ namespace StriveCustomer.iOS.Views
             await this.vehicleViewModel.GetCustomerVehicleList();
             
             if (!(this.vehicleViewModel.vehicleLists.Status.Count == 0) || !(this.vehicleViewModel.vehicleLists == null))
-            {
-                var VehicleTableSource = new VehicleListTableSource(this.vehicleViewModel.vehicleLists);
+            {                
+                var VehicleTableSource = new VehicleListTableSource(this.vehicleViewModel);
                 VehicleList_TableView.Source = VehicleTableSource;
                 VehicleList_TableView.TableFooterView = new UIView(CGRect.Empty);
                 VehicleList_TableView.DelaysContentTouches = false;
@@ -207,7 +207,7 @@ namespace StriveCustomer.iOS.Views
 
         partial void Touch_VehicleList_AddBtn(UIButton sender)
         {
-            //CheckMembership.hasExistingMembership = false;
+            CheckMembership.hasExistingMembership = false;
             CustomerVehiclesInformation.membershipDetails = null;
             MembershipDetails.clearMembershipData();
             vehicleViewModel.NavToAddVehicle();

@@ -26,18 +26,7 @@ namespace StriveCustomer.iOS.Views
         }
 
         private void InitialSetup()
-        {
-            var rightBtn = new UIButton(UIButtonType.Custom);
-            rightBtn.SetTitle("Next", UIControlState.Normal);
-            rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
-
-            var rightBarBtn = new UIBarButtonItem(rightBtn);
-            NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
-            rightBtn.TouchUpInside += (sender, e) =>
-            {
-                
-            };
-
+        {           
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
                 Font = DesignUtils.OpenSansBoldFifteen(),

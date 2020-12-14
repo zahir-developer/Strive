@@ -71,6 +71,11 @@ namespace Strive.Core.ViewModels.Customer
         {
             await _navigationService.Navigate<VehicleInfoEditViewModel>();
         }
+
+        public async void NavToEditVehicle()
+        {
+            await _navigationService.Navigate<VehicleInfoDisplayViewModel>();
+        }
         #endregion Commands
 
 
