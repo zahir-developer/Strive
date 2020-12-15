@@ -17,6 +17,7 @@ export class VehicleCreateEditComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
   @Input() clientId?: any;
+  @Input() vehicleNumber?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
   @Input() additionalService?: any;
@@ -63,6 +64,8 @@ export class VehicleCreateEditComponent implements OnInit {
       membership: ['',],
       services: [[]]
     });
+    this.vehicleForm.controls.vehicleNumber.disable();
+    this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
     this.getVehicleCodes();
     this.getVehicleMembership();
     this.getMembershipService();
@@ -408,6 +411,7 @@ export class VehicleCreateEditComponent implements OnInit {
         }
       });
     } else {
+      this.vehicleForm.controls.vehicleNumber.enable();
       const add = {
         VehicleId: 0,
         ClientId: this.clientId,

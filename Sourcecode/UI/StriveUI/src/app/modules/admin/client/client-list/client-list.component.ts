@@ -21,7 +21,7 @@ export class ClientListComponent implements OnInit {
   selectedClient: any;
   search: any='';
   page = 1;
-  pageSize = 5;
+  pageSize = 15;
   collectionSize: number = 0;
   isLoading = true;
   constructor(private client: ClientService, private toastr: ToastrService,

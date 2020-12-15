@@ -37,6 +37,7 @@ export class EodComponent implements OnInit, AfterViewInit {
   washReport = [];
   detailReport = [];
   serviceTotal = 0;
+  fileTypeEvent: boolean = false;
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
@@ -147,6 +148,8 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
 

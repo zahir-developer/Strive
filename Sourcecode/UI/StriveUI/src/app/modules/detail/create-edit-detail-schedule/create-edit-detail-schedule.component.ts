@@ -81,6 +81,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   jobStatusID: any;
   jobID: any;
   clientName = '';
+  vehicleNumber: number;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -450,6 +451,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 19)[0]?.ServiceId,
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
+    this.clientId = this.selectedData?.Details?.ClientId;
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -778,11 +780,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         updatedBy: 0
       };
     });
-    this.washItem.forEach(item => {
-      item.isActive = true;
-    });
     this.washItem.forEach(element => {
-      this.jobItems.push(element);
+      this.jobItems.push({
+        jobItemId: element.JobItemId,
+        jobId: element.JobId,
+        serviceId: element.ServiceId,
+        isActive: true,
+        isDeleted: false,
+        commission: 0,
+        price: element.Cost,
+        quantity: 1,
+        createdBy: 0,
+        updatedBy: 0
+      });
     });
     this.assignedDetailService.forEach(item => {
       this.jobItems.push({
@@ -826,7 +836,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (res.status === 'Success') {
           this.isAssign = true;
           this.isStart = true;
-          this.isSaveClick = true;
+          this.isEdit = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.jobID = jobID.Status;
@@ -941,6 +951,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   addVehicle() {
     this.headerData = 'Add New Vehicle';
+    let len = this.vehicle.length;
+    if(len === 0){
+      this.vehicleNumber = 1;
+    }else{
+    this.vehicleNumber = Number(this.vehicle[len-1].VehicleNumber) + 1;
+    }
     this.showVehicleDialog = true;
   }
 

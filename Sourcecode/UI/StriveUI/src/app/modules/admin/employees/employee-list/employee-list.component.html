@@ -95,11 +95,11 @@
                                                         Schedule </span> </td>
                                                 <td>{{employee.Status === true ? 'Active' : 'InActive'}}</td>
                                                 <td> <em class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
-                                                        (click)="addEmployee('view', employee)"></em>
+                                                        (click)="addEmployee('view', employee)" pTooltip="View" tooltipPosition="bottom"></em>
                                                     <em class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
-                                                        (click)="addEmployee('edit', employee)"></em>
+                                                        (click)="addEmployee('edit', employee)" pTooltip="Edit" tooltipPosition="bottom"></em>
                                                     <em class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                                                        (click)="deleteEmployee(employee)"></em> </td>
+                                                        (click)="deleteEmployee(employee)" pTooltip="Delete" tooltipPosition="bottom"></em> </td>
                                             </tr>
                                             <tr *ngIf="employeeDetails.length === 0">
                                                 <td colspan="9" class="text-center">

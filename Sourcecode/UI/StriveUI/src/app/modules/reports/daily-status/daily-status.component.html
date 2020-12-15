@@ -1,6 +1,6 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-    <h3 class="d-inline-block">Reports - </h3>
-    <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
+    <h3 class="d-inline-block">Daily Status Screen - </h3>
+    <div class="date d-inline-block datepicker-view" data-date-format="dd/mm/yyyy">
 
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
@@ -30,7 +30,7 @@
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                     printSectionId="dailyStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
@@ -46,7 +46,7 @@
                     <div class="card-body">
                         <div class="row no-gutter">
                             <div class="col-12 text-left  font-weight-700 font-size-1-5">
-                                Daily Status Report ({{date | date: 'MM/dd/yyyy'}})
+                                Report Date - {{date | date: 'MM/dd/yyyy'}}
                             </div>
                             <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2"
                                 style="display: none;">Daily Stats Report</div>
@@ -121,15 +121,15 @@
 
                                                     </tr>
                                                     <tr class="bg-white">
-                                                        <th scope="col" class="font-weight-1200">Total # Of Empolyees's</th>
+                                                        <th scope="col">Total no. of employee’s</th>
                                                         <th scope="col" class="font-weight-1200"></th>
 
                                                         <th scope="col" class="font-weight-1200">Amount</th>
                                                     </tr>
                                                     <tr >
-                                                        <td class = "m-l-20">{{dailyStatusWashInfo?.WashEmployeeCount}}</td>
+                                                        <td style="margin-left: 120px;">{{dailyStatusWashInfo?.WashEmployeeCount}}</td>
                                                        <td></td>
-                                                        <td><div  style="text-align: center;" class="m-l-120">{{dailyStatusWashInfo?.WashExpense}}</div></td>
+                                                        <td style="text-align: left;" class="m-l-120">{{dailyStatusWashInfo?.WashExpense}}</td>
                                                     </tr>
                                                     <div [hidden]="dailyStatusWashInfo" style="text-align: center;" class="m-t-30 m-l-190">
                                                 <span >No Records Found</span>

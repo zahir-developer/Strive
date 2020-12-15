@@ -20,6 +20,7 @@ locationId = +localStorage.getItem('empLocationId');
   page = 1;
   pageSize = 50;
   collectionSize: number;
+  fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -60,6 +61,8 @@ locationId = +localStorage.getItem('empLocationId');
     this.locationId = +event;
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
   export() {

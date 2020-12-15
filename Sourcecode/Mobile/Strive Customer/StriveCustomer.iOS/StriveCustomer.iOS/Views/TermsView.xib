@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TermsView">
+            <connections>
+                <outlet property="TermsParentView" destination="JWt-zI-vZz" id="6fq-OP-Kv4"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="eLe-uN-qoT">
+                    <rect key="frame" x="-10" y="-10" width="434" height="916"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms and Conditions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UcW-wR-nfC">
+                    <rect key="frame" x="98" y="115.5" width="218" height="27.5"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JWt-zI-vZz">
+                    <rect key="frame" x="33.5" y="173" width="347" height="550"/>
+                    <subviews>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nri-us-Yhv">
+                            <rect key="frame" x="0.0" y="0.0" width="347" height="449"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AvS-Od-wzz">
+                                    <rect key="frame" x="20" y="0.0" width="307" height="500"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="500" id="icg-P3-Ywh"/>
+                                    </constraints>
+                                    <string key="text">In consideration of first month as a discounted/prorated price point, next month MUST BE PAID. Cancel any time after 1st month is paid. To understand this form is valid for an undetermined time period month to month. Cancellation must be given, in person, by the 25 of any month in order to avoid being charged on the first of the next month. Cancellation is INVALID unless signed AND approved by a manager of our management team. You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. (Only by filling out cancellation form). Agreement is by each vehicle. Vehicles may be switched or exchanged for another vehicle with a $20.00 service charge. New vehicle will be placed under a new contract and the old vehicle will be taken off any contractual agreement previously in place. All returned or NSF payments will be assessed an additional $20.00 if payment of contract is not collected after the 5 day of the due date. Mammoth will not serve clients with more than one NSF or chargebook from bad card.</string>
+                                    <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
+                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="AvS-Od-wzz" secondAttribute="trailing" constant="20" id="3tl-Ke-hkU"/>
+                                <constraint firstItem="AvS-Od-wzz" firstAttribute="centerX" secondItem="nri-us-Yhv" secondAttribute="centerX" id="Knw-KZ-T2z"/>
+                                <constraint firstItem="AvS-Od-wzz" firstAttribute="top" secondItem="fl8-JK-6bC" secondAttribute="top" id="MVG-6P-8tt"/>
+                                <constraint firstItem="AvS-Od-wzz" firstAttribute="leading" secondItem="ycS-uU-oqj" secondAttribute="leading" constant="20" id="cmg-L3-8BT"/>
+                                <constraint firstAttribute="bottom" secondItem="AvS-Od-wzz" secondAttribute="bottom" constant="-50" id="xel-8S-num"/>
+                            </constraints>
+                            <viewLayoutGuide key="contentLayoutGuide" id="fl8-JK-6bC"/>
+                            <viewLayoutGuide key="frameLayoutGuide" id="ycS-uU-oqj"/>
+                        </scrollView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zw0-Yk-9PT">
+                            <rect key="frame" x="20" y="486" width="70" height="34"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="16"/>
+                            <state key="normal" title="Disagree"/>
+                            <connections>
+                                <action selector="DisAgreeBtn_Touch:" destination="-1" eventType="touchUpInside" id="fyz-5n-V1a"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vl-2O-o1W">
+                            <rect key="frame" x="280" y="486" width="47" height="34"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="16"/>
+                            <state key="normal" title="Agree"/>
+                            <connections>
+                                <action selector="AgreeBtn_Touch:" destination="-1" eventType="touchUpInside" id="akP-SE-j9J"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wpk-Op-elS">
+                            <rect key="frame" x="10" y="469" width="327" height="2"/>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="2" id="1Q6-Ur-lpJ"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Zw0-Yk-9PT" secondAttribute="bottom" constant="30" id="1xO-oD-DQd"/>
+                        <constraint firstItem="Wpk-Op-elS" firstAttribute="centerX" secondItem="JWt-zI-vZz" secondAttribute="centerX" id="492-Xa-QCH"/>
+                        <constraint firstItem="Zw0-Yk-9PT" firstAttribute="leading" secondItem="JWt-zI-vZz" secondAttribute="leading" constant="20" id="6Bd-SH-cxW"/>
+                        <constraint firstItem="nri-us-Yhv" firstAttribute="leading" secondItem="JWt-zI-vZz" secondAttribute="leading" id="8Pw-1a-GTK"/>
+                        <constraint firstItem="nri-us-Yhv" firstAttribute="top" secondItem="JWt-zI-vZz" secondAttribute="top" id="95B-s6-4uw"/>
+                        <constraint firstItem="0vl-2O-o1W" firstAttribute="centerY" secondItem="Zw0-Yk-9PT" secondAttribute="centerY" id="9x0-S9-BeH"/>
+                        <constraint firstItem="Wpk-Op-elS" firstAttribute="top" secondItem="nri-us-Yhv" secondAttribute="bottom" constant="20" id="P2c-oD-Pry"/>
+                        <constraint firstItem="Zw0-Yk-9PT" firstAttribute="top" secondItem="Wpk-Op-elS" secondAttribute="bottom" constant="15" id="i8K-DN-TJs"/>
+                        <constraint firstAttribute="trailing" secondItem="0vl-2O-o1W" secondAttribute="trailing" constant="20" id="lq4-dG-fRd"/>
+                        <constraint firstItem="Wpk-Op-elS" firstAttribute="leading" secondItem="JWt-zI-vZz" secondAttribute="leading" constant="10" id="qoK-zG-EBX"/>
+                        <constraint firstAttribute="trailing" secondItem="nri-us-Yhv" secondAttribute="trailing" id="rc2-FI-BWg"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="JWt-zI-vZz" firstAttribute="centerY" secondItem="eLe-uN-qoT" secondAttribute="centerY" id="061-Do-ZmY"/>
+                <constraint firstItem="JWt-zI-vZz" firstAttribute="top" secondItem="UcW-wR-nfC" secondAttribute="bottom" constant="30" id="EsT-IO-hBL"/>
+                <constraint firstItem="eLe-uN-qoT" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="Etu-zD-PWG"/>
+                <constraint firstAttribute="bottom" secondItem="eLe-uN-qoT" secondAttribute="bottom" constant="-10" id="I2d-g1-oiw"/>
+                <constraint firstItem="JWt-zI-vZz" firstAttribute="centerX" secondItem="eLe-uN-qoT" secondAttribute="centerX" id="M47-M5-Rga"/>
+                <constraint firstAttribute="trailing" secondItem="eLe-uN-qoT" secondAttribute="trailing" constant="-10" id="U3b-WL-HrS"/>
+                <constraint firstItem="eLe-uN-qoT" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="XUA-Wk-2Em"/>
+                <constraint firstItem="UcW-wR-nfC" firstAttribute="centerX" secondItem="eLe-uN-qoT" secondAttribute="centerX" id="YRB-s0-oXr"/>
+                <constraint firstItem="JWt-zI-vZz" firstAttribute="height" secondItem="eLe-uN-qoT" secondAttribute="height" multiplier="0.6" id="l9s-C3-8QI"/>
+                <constraint firstItem="eLe-uN-qoT" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="lrN-Uh-djb"/>
+                <constraint firstItem="JWt-zI-vZz" firstAttribute="width" secondItem="eLe-uN-qoT" secondAttribute="width" multiplier="0.8" id="xdi-MR-k2P"/>
+                <constraint firstItem="eLe-uN-qoT" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="zAx-fJ-OiF"/>
+            </constraints>
+            <point key="canvasLocation" x="84.057971014492765" y="0.0"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="splash" width="390" height="812"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -49,6 +49,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   toggleTab: number;
   targetBusiness: any;
   drawerId: any;
+  Todaydate: any;
   date = moment(new Date()).format('MM/DD/YYYY');
   constructor(private fb: FormBuilder, private registerService: CashRegisterService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
@@ -107,7 +108,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
-        console.log(this.targetBusiness, 'target')
+        this.cashRegisterForm.patchValue({
+          goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
+        });
       }
     });
   }
@@ -165,7 +168,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           setTimeout(() => {
             this.cashRegisterForm.patchValue({
-              goal: this.targetBusiness?.WeatherPrediction?.TargetBusiness
+              goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
             });
           }, 1200);
           this.getTotalCash();
@@ -185,6 +188,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.weatherDetails = data;
+        console.log(this.weatherDetails, 'weather')
+
       }
     });
   }
@@ -421,6 +426,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
 
       const locationId = +this.locationId;
+      this.toggleTab = 0;
+
         this.getWeatherDetails();
         this.getTargetBusinessData(this.locationId, this.selectDate);
 

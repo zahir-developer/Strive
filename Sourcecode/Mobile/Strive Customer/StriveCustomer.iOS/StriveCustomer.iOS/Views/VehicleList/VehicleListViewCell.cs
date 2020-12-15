@@ -17,6 +17,7 @@ namespace StriveCustomer.iOS.Views
         public static readonly UINib Nib;
         public NSIndexPath selectedRow;
         public VehicleList dataList;
+        private VehicleInfoViewModel vehicleViewModel = new VehicleInfoViewModel();
 
         static VehicleListViewCell()
         {
@@ -52,13 +53,15 @@ namespace StriveCustomer.iOS.Views
         partial void DeleteVehicleList_BtnTouch(UIButton sender)
         {
             CustomerInfo.actionType = 1;
-            VehicleListTableSource source = new VehicleListTableSource(dataList);
+            VehicleListTableSource source = new VehicleListTableSource(vehicleViewModel);
             source.deleteRow(selectedRow);
         }
 
         partial void EditVehicleList_BtnTouch(UIButton sender)
         {
-            CustomerInfo.actionType = 2;            
+            CustomerInfo.actionType = 2;
+            VehicleListTableSource source = new VehicleListTableSource(vehicleViewModel);
+            source.editVehicleList(selectedRow);
         }
     }
 }
