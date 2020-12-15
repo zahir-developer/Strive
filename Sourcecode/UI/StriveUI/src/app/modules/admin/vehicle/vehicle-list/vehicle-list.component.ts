@@ -22,6 +22,7 @@ export class VehicleListComponent implements OnInit {
   pageSize = 5;
   collectionSize: number = 0;
   additionalService: any = [];
+  upchargeServices: any = [];
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -136,6 +137,7 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getMembershipService().subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
+        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Upcharges');
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
