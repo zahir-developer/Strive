@@ -91,5 +91,25 @@ namespace Strive.ResourceAccess
 
             return result;
         }
+        public bool AddLocationOffset(LocationOffsetDto locationOffset)
+        {
+            return dbRepo.InsertPc(locationOffset, "LocationId");
+        }
+
+        public bool UpdateLocationOffset(LocationOffsetDto locationOffset)
+        {
+            return dbRepo.UpdatePc(locationOffset);
+        }
+        public List<LocationOffsetViewModel> GetAllLocationOffset()
+        {
+            return db.Fetch<LocationOffsetViewModel>(SPEnum.USPGETALLLOCATIONOFFSET.ToString(), _prm);
+        }
+        public bool DeleteLocationOffset(int id)
+        {    
+            _prm.Add("LocationOffsetId", id.toInt());
+            db.Save(SPEnum.USPDELETELOCATIONOFFSET.ToString(), _prm);
+            return true;
+        }
+
     }
 }

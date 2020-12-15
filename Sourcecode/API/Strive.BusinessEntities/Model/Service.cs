@@ -55,5 +55,8 @@ public class Service
     [Column]
     public DateTimeOffset? UpdatedDate { get; set; }
 
+     [Column]
+     public string Description { get; set; }
+
     }
 }
