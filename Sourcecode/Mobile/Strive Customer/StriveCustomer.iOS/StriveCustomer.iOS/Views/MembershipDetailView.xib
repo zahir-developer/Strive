@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-SemiBold.ttf">
+            <string>OpenSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MembershipDetailView">
+            <connections>
+                <outlet property="ActivatedDate_Value" destination="1Ln-61-EHC" id="OZB-AQ-egK"/>
+                <outlet property="CancelMembership_Btn" destination="CYV-Yl-3QY" id="Tbg-VO-E2p"/>
+                <outlet property="CancelledDate_Value" destination="USL-N9-BbZ" id="gPN-jV-kx3"/>
+                <outlet property="MembershipDetail_ParentView" destination="aaO-vK-dsg" id="vTd-4b-jh6"/>
+                <outlet property="MembershipNameLbl" destination="JdS-Gu-0d0" id="hSR-CG-3A4"/>
+                <outlet property="MembershipStatus_Value" destination="TVr-Me-2an" id="YDg-fp-Aa5"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="yAl-1C-TiW">
+                    <rect key="frame" x="-10" y="-10" width="434" height="916"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aaO-vK-dsg">
+                    <rect key="frame" x="33.5" y="173" width="347" height="550"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vehicle Membership" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdS-Gu-0d0">
+                            <rect key="frame" x="30" y="30" width="203.5" height="27.5"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                            <color key="textColor" red="0.1137254902" green="0.7843137255" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activated Date :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hwo-dA-0sp">
+                            <rect key="frame" x="30" y="77.5" width="107" height="19.5"/>
+                            <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
+                            <color key="textColor" red="0.0078431372549019607" green="0.078431372549019607" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancelled Date :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVR-g0-Vdn">
+                            <rect key="frame" x="30" y="117" width="109" height="19.5"/>
+                            <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
+                            <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6q-aS-dWx">
+                            <rect key="frame" x="30" y="156.5" width="50.5" height="19.5"/>
+                            <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
+                            <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Membership created date" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ln-61-EHC">
+                            <rect key="frame" x="167" y="77.5" width="180.5" height="19.5"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
+                            <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancelled date value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USL-N9-BbZ">
+                            <rect key="frame" x="167" y="117" width="145" height="19.5"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
+                            <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVr-Me-2an">
+                            <rect key="frame" x="167" y="156.5" width="86" height="19.5"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
+                            <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CYV-Yl-3QY">
+                            <rect key="frame" x="30" y="226" width="287" height="40"/>
+                            <color key="backgroundColor" red="0.1137254902" green="0.7843137255" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                            <state key="normal" title="CANCEL">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="CancelMembership_BtnTouch:" destination="-1" eventType="touchUpInside" id="OWu-4b-sxf"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="TVr-Me-2an" firstAttribute="centerY" secondItem="D6q-aS-dWx" secondAttribute="centerY" id="4Ib-ZE-grG"/>
+                        <constraint firstItem="Hwo-dA-0sp" firstAttribute="top" secondItem="JdS-Gu-0d0" secondAttribute="bottom" constant="20" id="6HK-U9-Xvq"/>
+                        <constraint firstItem="CYV-Yl-3QY" firstAttribute="top" secondItem="TVr-Me-2an" secondAttribute="bottom" constant="50" id="6bH-XU-RNd"/>
+                        <constraint firstItem="Hwo-dA-0sp" firstAttribute="leading" secondItem="JdS-Gu-0d0" secondAttribute="leading" id="DfI-59-zIi"/>
+                        <constraint firstItem="TVr-Me-2an" firstAttribute="leading" secondItem="USL-N9-BbZ" secondAttribute="leading" id="FgG-Xh-qty"/>
+                        <constraint firstItem="JdS-Gu-0d0" firstAttribute="top" secondItem="aaO-vK-dsg" secondAttribute="top" constant="30" id="Ip2-44-xOv"/>
+                        <constraint firstItem="USL-N9-BbZ" firstAttribute="leading" secondItem="1Ln-61-EHC" secondAttribute="leading" id="JdF-gF-z4Z"/>
+                        <constraint firstItem="GVR-g0-Vdn" firstAttribute="leading" secondItem="Hwo-dA-0sp" secondAttribute="leading" id="Mrk-Qa-MNw"/>
+                        <constraint firstItem="JdS-Gu-0d0" firstAttribute="leading" secondItem="aaO-vK-dsg" secondAttribute="leading" constant="30" id="Rjn-Fw-pHW"/>
+                        <constraint firstItem="D6q-aS-dWx" firstAttribute="leading" secondItem="GVR-g0-Vdn" secondAttribute="leading" id="ZK5-DX-fhp"/>
+                        <constraint firstItem="GVR-g0-Vdn" firstAttribute="top" secondItem="Hwo-dA-0sp" secondAttribute="bottom" constant="20" id="cBL-81-ka2"/>
+                        <constraint firstItem="CYV-Yl-3QY" firstAttribute="leading" secondItem="D6q-aS-dWx" secondAttribute="leading" id="fSm-vu-EVL"/>
+                        <constraint firstItem="1Ln-61-EHC" firstAttribute="centerY" secondItem="Hwo-dA-0sp" secondAttribute="centerY" id="lJH-sn-3Fs"/>
+                        <constraint firstItem="D6q-aS-dWx" firstAttribute="top" secondItem="GVR-g0-Vdn" secondAttribute="bottom" constant="20" id="mns-9P-QsR"/>
+                        <constraint firstItem="CYV-Yl-3QY" firstAttribute="centerX" secondItem="aaO-vK-dsg" secondAttribute="centerX" id="rOa-py-kst"/>
+                        <constraint firstItem="USL-N9-BbZ" firstAttribute="centerY" secondItem="GVR-g0-Vdn" secondAttribute="centerY" id="t4Z-Y1-KbQ"/>
+                        <constraint firstItem="1Ln-61-EHC" firstAttribute="leading" secondItem="Hwo-dA-0sp" secondAttribute="trailing" constant="30" id="uKE-UW-r1v"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Membership Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rND-JE-G6j">
+                    <rect key="frame" x="107" y="115.5" width="200.5" height="27.5"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="20"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="yAl-1C-TiW" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="7Mg-2T-Gm3"/>
+                <constraint firstItem="aaO-vK-dsg" firstAttribute="height" secondItem="yAl-1C-TiW" secondAttribute="height" multiplier="0.6" id="FZG-Op-qUy"/>
+                <constraint firstAttribute="trailing" secondItem="yAl-1C-TiW" secondAttribute="trailing" constant="-10" id="Fg4-bU-cLy"/>
+                <constraint firstItem="yAl-1C-TiW" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="TI3-OL-D3X"/>
+                <constraint firstItem="aaO-vK-dsg" firstAttribute="centerX" secondItem="yAl-1C-TiW" secondAttribute="centerX" id="aLG-eJ-nj9"/>
+                <constraint firstItem="aaO-vK-dsg" firstAttribute="centerY" secondItem="yAl-1C-TiW" secondAttribute="centerY" id="adF-qE-szN"/>
+                <constraint firstItem="aaO-vK-dsg" firstAttribute="width" secondItem="yAl-1C-TiW" secondAttribute="width" multiplier="0.8" id="kDa-H6-7Zf"/>
+                <constraint firstItem="rND-JE-G6j" firstAttribute="centerX" secondItem="yAl-1C-TiW" secondAttribute="centerX" id="tKv-uT-236"/>
+                <constraint firstItem="yAl-1C-TiW" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="tO6-O2-lAv"/>
+                <constraint firstAttribute="bottom" secondItem="yAl-1C-TiW" secondAttribute="bottom" constant="-10" id="vut-n7-i6O"/>
+                <constraint firstItem="yAl-1C-TiW" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="wPm-SO-TIW"/>
+                <constraint firstItem="aaO-vK-dsg" firstAttribute="top" secondItem="rND-JE-G6j" secondAttribute="bottom" constant="30" id="wZ2-Cj-KyB"/>
+            </constraints>
+            <point key="canvasLocation" x="86.956521739130437" y="0.0"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="splash" width="390" height="812"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -382,7 +382,7 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    const cashTotal = this.getBalanceDue();
+    const cashTotal = this.cash !== 0 ? this.cash : this.getBalanceDue();
     this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
@@ -419,7 +419,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '0';
   }
   opencreditcard() {
-    const creditTotal = this.getBalanceDue();
+    const creditTotal = this.credit !== 0 ? this.credit : this.getBalanceDue();
     this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
     this.cashback = this.initialcashback;

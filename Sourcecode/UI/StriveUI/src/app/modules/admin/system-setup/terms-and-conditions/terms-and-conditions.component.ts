@@ -12,7 +12,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 })
 export class TermsAndConditionsComponent implements OnInit {
   fileName: any = null;
-  isLoading: any = false;
+  isLoading: any;
   showDialog: any;
   document: any = [];
   isEdit: any;
@@ -40,16 +40,18 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   getDocument() {
-    //this.isLoading = true;
+    this.isLoading = true;
     this.documentService.getDocument(this.documentTypeId, "TERMSANDCONDITION").subscribe(data => {
-      //this.isLoading = false;
+      this.isLoading = false;
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
-        this.fileName = this.document.Document.FileName;
+        this.fileName = this.document?.Document?.OriginalFileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
+    }, (err) => {
+      this.isLoading = false;
     });
   }
 

@@ -77,7 +77,7 @@
                                         <button type="button" class="btn theme-primary-button-color btn-responsive"
                                             (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
                                         <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                            (click)="addVehicle()" [disabled]="clientId === undefined">Add
+                                            (click)="addVehicle()" [disabled]="isView || clientId === undefined">Add
                                             Vehicle</button>
                                     </div>
                                 </div>

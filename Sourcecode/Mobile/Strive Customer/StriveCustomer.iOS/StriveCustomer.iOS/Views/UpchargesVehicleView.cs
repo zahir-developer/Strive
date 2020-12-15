@@ -5,6 +5,7 @@ using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
+using StriveCustomer.iOS.UIUtils;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -42,6 +43,13 @@ namespace StriveCustomer.iOS.Views
                     ViewModel.NavToAdditionalServices();
                 }
             };
+
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+            {
+                Font = DesignUtils.OpenSansBoldFifteen(),
+                ForegroundColor = UIColor.Clear.FromHex(0x24489A),
+            };
+            NavigationItem.Title = "Vehicle";
 
             UpchargesVehicle_TableView.Layer.CornerRadius = 5;
             UpchargesVehicle_TableView.RegisterNibForCellReuse(MembershipVehicle_ViewCell.Nib, MembershipVehicle_ViewCell.Key);
