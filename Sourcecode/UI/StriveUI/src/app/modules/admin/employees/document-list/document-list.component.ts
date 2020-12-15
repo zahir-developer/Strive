@@ -115,7 +115,7 @@ export class DocumentListComponent implements OnInit {
     if (!this.isEditDocument && this.actionType === 'view') {
       return;
     }
-    this.documentId = document.DocumentSequence;
+    this.documentId = document.EmployeeDocumentId;
     if (document.IsPasswordProtected) {
       const ngbModalOptions: NgbModalOptions = {
         backdrop: 'static',
@@ -126,7 +126,7 @@ export class DocumentListComponent implements OnInit {
       modalRef.componentInstance.employeeId = this.employeeId;
       modalRef.componentInstance.documentId = this.documentId;
     } else  {
-      this.downloadDocument(document.DocumentSequence);
+      this.downloadDocument(document.EmployeeDocumentId);
     }
   }
 

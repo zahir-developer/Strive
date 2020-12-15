@@ -37,6 +37,7 @@ const routes: Routes = [
   {path: 'messenger', canActivate: [AuthGuard], data: { label: 'Messenger', title: 'Messenger', authorization: 'Messenger' },
   loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
   {path: 'reports', loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)},
+  {path: 'customer', loadChildren: () => import('./modules/customer/customer.module').then(mod => mod.CustomerModule)},
   {
     path: '',
     redirectTo: '',

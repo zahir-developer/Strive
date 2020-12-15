@@ -22,6 +22,7 @@ export class VehicleCreateEditComponent implements OnInit {
   @Input() isView?: any;
   @Input() additionalService?: any;
   @Input() isAdd?: any;
+  @Input() upchargeServices?: any;
   make: any;
   model: any;
   color: any;
@@ -36,6 +37,7 @@ export class VehicleCreateEditComponent implements OnInit {
   memberOnchangePatchedService: any = [];
   selectedservice: any = [];
   extraService: any = [];
+  washesDropdown: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class VehicleCreateEditComponent implements OnInit {
       this.getVehicleMembershipDetailsByVehicleId();
       console.log(this.additionalService, 'data');
     }
+    console.log(this.selectedData, 'selectedData');
   }
 
   formInitialize() {
@@ -62,6 +65,7 @@ export class VehicleCreateEditComponent implements OnInit {
       upchargeType: ['',],
       monthlyCharge: ['',],
       membership: ['',],
+      wash: [''],
       services: [[]]
     });
     this.vehicleForm.controls.vehicleNumber.disable();
@@ -122,7 +126,7 @@ export class VehicleCreateEditComponent implements OnInit {
             textField: 'item_text',
             selectAllText: 'Select All',
             unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 2,
+            itemsShowLimit: 1,
             allowSearchFilter: false
           };
           this.vehicleForm.patchValue({
@@ -173,16 +177,25 @@ export class VehicleCreateEditComponent implements OnInit {
       });
     }
     this.memberService = [];
-    // this.patchedService = [];    
+    // this.patchedService = [];
     this.vehicle.getMembershipById(Number(data)).subscribe(res => {
       if (res.status === 'Success') {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-          this.vehicleForm.patchValue({
-            monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
-          });
+        this.vehicleForm.patchValue({
+          monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
+        });
         if (this.membershipServices !== null) {
+          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Washes');
+          if (washService.length > 0) {
+            this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
+            this.vehicleForm.controls.wash.disable();
+          }
+          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+          if (upchargeServcie.length > 0) {
+            this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
+          }
           if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
             this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
           }
@@ -265,6 +278,17 @@ export class VehicleCreateEditComponent implements OnInit {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+        if (this.membershipServices !== null) {
+          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Washes');
+          if (washService.length > 0) {
+            this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
+            this.vehicleForm.controls.wash.disable();
+          }
+          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+          if (upchargeServcie.length > 0) {
+            this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
+          }
+        }
         if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
           this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
           if (this.memberOnchangePatchedService.length !== 0) {
@@ -301,7 +325,9 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getUpchargeService().subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
+        console.log(serviceDetails, 'service');
         this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceTypeId === '18');
+        this.washesDropdown = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === 'Washes');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -314,6 +340,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
   // Add/Update Vehicle
   submit() {
+    this.vehicleForm.controls.vehicleNumber.enable();
     let memberService = [];
     let clientMembershipId = '';
     if (this.isEdit === true) {
@@ -395,7 +422,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
 
       const model = {
-        clientVehicleMembershipDetails: membership.membershipId === '' && membership.clientMembershipId === 0 ? null : membership,
+        clientVehicleMembershipDetails: this.vehicleForm.value.membership === "" && membership.clientMembershipId === 0 ? null : membership,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
@@ -411,7 +438,6 @@ export class VehicleCreateEditComponent implements OnInit {
         }
       });
     } else {
-      this.vehicleForm.controls.vehicleNumber.enable();
       const add = {
         VehicleId: 0,
         ClientId: this.clientId,
@@ -467,6 +493,16 @@ export class VehicleCreateEditComponent implements OnInit {
   }
   upchargeTypeChange(event, value) {
     console.log(event.target.value, value);
+    const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+    let oldPrice = 0;
+    let newPrice = 0;
+    if (upchargeServcie.length > 0) {
+      const oldUpchargeServcie = this.upchargeServices.filter(item => item.ServiceId === upchargeServcie[0].ServiceId);
+      oldPrice = +this.vehicleForm.value.monthlyCharge - oldUpchargeServcie[0].Price;
+      const newUpchargeServcie = this.upchargeServices.filter(item => item.ServiceId === +event.target.value);
+      newPrice = oldPrice + newUpchargeServcie[0].Price;
+      this.vehicleForm.patchValue({ monthlyCharge: newPrice });
+    }
     if (value === 'type') {
       this.vehicleForm.patchValue({ upcharge: event.target.value });
     } else {
