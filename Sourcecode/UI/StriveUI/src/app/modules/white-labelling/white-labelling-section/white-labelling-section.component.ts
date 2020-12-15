@@ -145,7 +145,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   CancelChanges() {
-    this.toastr.success(this.msgType + ' Reset Successfully!!', 'Success!');
+    this.toastr.success('WhiteLabel Reset Successfully!!', 'Success!');
     this.getAllWhiteLabelDetail();
   }
 

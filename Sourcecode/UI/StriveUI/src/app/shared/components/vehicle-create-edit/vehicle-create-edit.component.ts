@@ -340,7 +340,6 @@ export class VehicleCreateEditComponent implements OnInit {
 
   // Add/Update Vehicle
   submit() {
-      this.vehicleForm.controls.vehicleNumber.enable();
     let memberService = [];
     let clientMembershipId = '';
     if (this.isEdit === true) {
@@ -422,7 +421,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
 
       const model = {
-        clientVehicleMembershipDetails: this.vehicleForm.value.membership === "" && membership.clientMembershipId === 0 ? null : membership,
+        clientVehicleMembershipDetails: membership.membershipId === '' && membership.clientMembershipId === 0 ? null : membership,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
@@ -438,6 +437,7 @@ export class VehicleCreateEditComponent implements OnInit {
         }
       });
     } else {
+      this.vehicleForm.controls.vehicleNumber.enable();
       const add = {
         VehicleId: 0,
         ClientId: this.clientId,
