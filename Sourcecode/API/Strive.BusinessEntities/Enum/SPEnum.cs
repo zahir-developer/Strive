@@ -144,6 +144,8 @@ namespace Strive.BusinessEntities
         USPGETAllPRODUCTNEW,
         USPGETALLLOCATION,
         USPGETLOCATIONBYID,
+        USPGETALLLOCATIONOFFSET,
+        USPDELETELOCATIONOFFSET,
         //Service Setup
         USPDELETESERVICEBYID,
         USPGETSERVICES,
