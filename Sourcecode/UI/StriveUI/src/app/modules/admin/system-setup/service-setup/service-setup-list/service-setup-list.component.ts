@@ -55,7 +55,7 @@ export class ServiceSetupListComponent implements OnInit {
     this.page = 1;
     const obj ={
       serviceSearch: this.search,
-      status: Number(this.searchStatus)
+      status: this.searchStatus === "" ? 2 :  Number(this.searchStatus)
    }
    this.serviceSetup.ServiceSearch(obj).subscribe(data => {
      if (data.status === 'Success') {
