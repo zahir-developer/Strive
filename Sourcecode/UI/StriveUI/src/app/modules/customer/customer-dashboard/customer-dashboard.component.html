@@ -107,35 +107,11 @@
                                     </div>
                                     <table class="table table-responsive-xl Schedulezenbook m-b-0">
                                         <tbody>
-                                            <tr>
-                                                <th scope="row" class="font-weight-bold align-middle">BMW X10 Black</th>
+                                            <tr *ngFor="let vechicle of vechicleList">
+                                                <th scope="row" class="font-weight-bold align-middle">{{vechicle.VehicleMfr}}&nbsp;{{vechicle.VehicleModel}}&nbsp;{{vechicle.VehicleColor}}</th>
                                                 <td class="text-right">
                                                     <button type="button" class="btn theme-primary-button-color"
-                                                       (click)="schedule()">Schedule
-                                                        Now</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" class="font-weight-bold align-middle">BMW X10 Black</th>
-                                                <td class="text-right">
-                                                    <button type="button" class="btn theme-primary-button-color"
-                                                        onclick="window.location.href='36-Services.html';">Schedule
-                                                        Now</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" class="font-weight-bold align-middle">BMW X10 Black</th>
-                                                <td class="text-right">
-                                                    <button type="button" class="btn theme-primary-button-color"
-                                                        onclick="window.location.href='36-Services.html';">Schedule
-                                                        Now</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" class="font-weight-bold align-middle">BMW X10 Black</th>
-                                                <td class="text-right">
-                                                    <button type="button" class="btn theme-primary-button-color"
-                                                        onclick="window.location.href='36-Services.html';">Schedule
+                                                       (click)="schedule(vechicle)">Schedule
                                                         Now</button>
                                                 </td>
                                             </tr>

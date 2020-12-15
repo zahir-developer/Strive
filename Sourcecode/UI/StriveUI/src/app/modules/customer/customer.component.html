@@ -1,10 +1,10 @@
 <div *ngIf="dashboardScreen">
-    <app-customer-dashboard (selectServcie)="selectServcie($event)"></app-customer-dashboard>
+    <app-customer-dashboard [scheduleDetailObj]="scheduleDetailObj" (selectServcie)="selectServcie($event)"></app-customer-dashboard>
 </div>
 <div *ngIf="!dashboardScreen">
-    <app-select-services *ngIf="servicesScreen" (selectLocation)="selectLocation($event)" (dashboardPage)="dashboardPage($event)"></app-select-services>
-    <app-select-location *ngIf="locationScreen" (selectAppointment)="selectAppointment($event)" (selectionPage)="selectionPage($event)"></app-select-location>
-    <app-select-appointment-date *ngIf="appointmentScreen" (previewAppointment)="previewAppointment($event)" (locationPage)="locationPage($event)"></app-select-appointment-date>
-    <app-preview-appointment-detail *ngIf="previewScreen" (confirmation)="confirmation($event)" (appointmentPage)="appointmentPage($event)"></app-preview-appointment-detail>
+    <app-select-services *ngIf="servicesScreen" [scheduleDetailObj]="scheduleDetailObj" (selectLocation)="selectLocation($event)" (dashboardPage)="dashboardPage($event)"></app-select-services>
+    <app-select-location *ngIf="locationScreen" [scheduleDetailObj]="scheduleDetailObj" (selectAppointment)="selectAppointment($event)" (selectionPage)="selectionPage($event)"></app-select-location>
+    <app-select-appointment-date *ngIf="appointmentScreen" [scheduleDetailObj]="scheduleDetailObj" (previewAppointment)="previewAppointment($event)" (locationPage)="locationPage($event)"></app-select-appointment-date>
+    <app-preview-appointment-detail *ngIf="previewScreen" [scheduleDetailObj]="scheduleDetailObj" (confirmation)="confirmation($event)" (appointmentPage)="appointmentPage($event)"></app-preview-appointment-detail>
     <app-appointment-configuration *ngIf="confirmationScreen" (dashboardPage)="dashboardPage($event)"></app-appointment-configuration>
 </div>
