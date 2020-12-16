@@ -16,22 +16,27 @@
                                         <div class="form-group col-md-10">
                                             <h6 class="d-inline-block align-middle textgreen  font-weight-bold">
                                                 Appointment scheduled on</h6>
-                                            <br> <span class="font-size-1-5 font-weight-bold">10 November 2020 | <span
-                                                    class="theme-secondary-color m-r-20">08:00AM</span> </span> <span
+                                            <br> <span
+                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.selectedDate | date : 'dd LLLL yyyy'}}
+                                                | <span
+                                                    class="theme-secondary-color m-r-20">{{scheduleDetailObj?.Slot}}</span>
+                                            </span> <span
                                                 class="text-underline m-r-10 cancellink font-size-1">Re-schedule</span>
                                         </div>
                                     </div>
                                     <div class="form-row row no-gutters m-b-10 m-t-10 preview-card">
                                         <div class="form-group col-md-10">
                                             <h6 class="d-inline-block align-middle">Vehicle</h6>
-                                            <br> <span class="font-size-1-5 font-weight-bold">BMW X10 Black </span>
+                                            <br> <span
+                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="form-row row no-gutters m-b-10 m-t-10 preview-card">
                                         <div class="form-group col-md-10">
                                             <h6 class="d-inline-block align-middle">Select Services</h6>
-                                            <br> <span class="textgreen font-weight-bold">Interior Detail -upcharges
-                                                apply </span>
+                                            <br> <span
+                                                class="textgreen font-weight-bold">{{scheduleDetailObj?.serviceobj?.ServiceName}}</span>
                                             <br> **Vehicle up charges may apply** Hand wash Shampoo carpets, upholstery
                                             Clean leather Clean interior paneling Detail dash and console Treat &
                                             condition all leather Clean windows, mirrors Shampoo headliner Degrease &
@@ -39,13 +44,13 @@
                                         </div>
                                         <div class="form-group col-md-2 m-t-60 pull-right"><span
                                                 class="align-middle font-weight-bold font-size-1-5 theme-secondary-color  pull-right">
-                                                $163.95</span> </div>
+                                                {{scheduleDetailObj?.serviceobj?.Cost | currency}}</span> </div>
                                     </div>
                                     <div class="form-row row no-gutters m-b-10 m-t-10 preview-card">
                                         <div class="form-group col-md-10">
                                             <h6 class="d-inline-block align-middle">Service Location </h6>
-                                            <br> <span class="font-size-1-5 font-weight-bold">Old Milton Pkwy,
-                                                Alpharetta GA 30009 </span>
+                                            <br> <span
+                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.locationObj?.Address1}}&nbsp;{{scheduleDetailObj?.locationObj?.Address2}}</span>
                                         </div>
                                     </div>
                                     <div class="form-row row no-gutters  m-t-30 margin-auto">

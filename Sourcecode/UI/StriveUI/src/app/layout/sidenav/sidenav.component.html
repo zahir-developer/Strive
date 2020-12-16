@@ -48,12 +48,12 @@
           Register Setup</a> </li>
       <li *ngIf ="closeOutRegisterView == true"><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Close
           Out Register</a> </li>
-      <li *ngIf ="timeClockMaintenanceView == true"><a [routerLink]='["./admin/time-clock"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Time Clock
-          Maintenance</a></li>
       <li *ngIf ="employeesView == true"><a [routerLink]='["./admin/employees"]' [routerLinkActive]='["link-active"]'
           (click)="closeNav()">Employees</a></li>
       <li *ngIf ="clientsView == true"><a [routerLink]='["./admin/client"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Clients</a>
       </li>
+      <li *ngIf ="timeClockMaintenanceView == true"><a [routerLink]='["./admin/time-clock"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Time Clock
+          Maintenance</a></li>
       <li *ngIf ="vechiclesView == true"> <a [routerLink]='["./admin/vehicle"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Vehicles</a>
       </li>
       <li *ngIf ="SchedulesView == true"><a [routerLink]='["./admin/scheduling"]' [routerLinkActive]='["link-active"]'

@@ -90,31 +90,34 @@ export class DashboardComponent implements OnInit {
       toDate: this.toDate
     };
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
-      const dashboardCount = JSON.parse(res.resultData);
-      console.log(dashboardCount, 'dashboard');
-      this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
-      this.dashboardStatistics.forEach(item => {
-        this.washesCount = this.washesCount + item.WashesCount;
-        this.detailCount = this.detailCount + item.DetailCount;
-        this.employeeCount = this.employeeCount + item.EmployeeCount;
-        this.washTime = item.WashTime;
-        this.score = this.score + item.Score;
-        this.currents = this.currents + item.Currents;
-        this.forecastedCar = this.forecastedCar + item.ForecastedCar;
-        this.washSales = this.washSales + item.WashSales;
-        this.detailSales = this.detailSales + item.DetailSales;
-        this.extraServiceSales = this.extraServiceSales + item.ExtraServiceSales;
-        this.merchandizeSales = this.merchandizeSales + item.MerchandizeSales;
-        this.totalSales = this.totalSales + item.TotalSales;
-        this.monthlyClientSales = this.monthlyClientSales + item.MonthlyClientSales;
-        this.averageWashPerCar = this.averageWashPerCar + item.AverageWashPerCar;
-        this.averageDetailPerCar = this.averageDetailPerCar + item.AverageDetailPerCar;
-        this.averageExtraServicePerCar = this.averageExtraServicePerCar + item.AverageExtraServicePerCar;
-        this.averageTotalPerCar = this.averageTotalPerCar + item.AverageTotalPerCar;
-        this.labourCostPerCarMinusDetail = this.labourCostPerCarMinusDetail + item.LabourCostPerCarMinusDetail;
-        this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
-      });
-      // this.graphDashboardComponent.getChartDetail();
+      if (res.status === 'Success') {
+        const dashboardCount = JSON.parse(res.resultData);
+        console.log(dashboardCount, 'dashboard');
+        this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
+        this.dashboardStatistics.forEach(item => {
+          this.washesCount = this.washesCount + item.WashesCount;
+          this.detailCount = this.detailCount + item.DetailCount;
+          this.employeeCount = this.employeeCount + item.EmployeeCount;
+          this.washTime = item.WashTime;
+          this.score = this.score + item.Score;
+          this.currents = this.currents + item.Currents;
+          this.forecastedCar = this.forecastedCar + item.ForecastedCar;
+          this.washSales = this.washSales + item.WashSales;
+          this.detailSales = this.detailSales + item.DetailSales;
+          this.extraServiceSales = this.extraServiceSales + item.ExtraServiceSales;
+          this.merchandizeSales = this.merchandizeSales + item.MerchandizeSales;
+          this.totalSales = this.totalSales + item.TotalSales;
+          this.monthlyClientSales = this.monthlyClientSales + item.MonthlyClientSales;
+          this.averageWashPerCar = this.averageWashPerCar + item.AverageWashPerCar;
+          this.averageDetailPerCar = this.averageDetailPerCar + item.AverageDetailPerCar;
+          this.averageExtraServicePerCar = this.averageExtraServicePerCar + item.AverageExtraServicePerCar;
+          this.averageTotalPerCar = this.averageTotalPerCar + item.AverageTotalPerCar;
+          this.labourCostPerCarMinusDetail = this.labourCostPerCarMinusDetail + item.LabourCostPerCarMinusDetail;
+          this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
+        });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
     });
   }
 
