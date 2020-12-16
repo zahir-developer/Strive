@@ -36,6 +36,7 @@ export class CustomerComponent implements OnInit {
     this.appointmentScreen = false;
     this.previewScreen = false;
     this.confirmationScreen = false;
+    this.scheduleDetailObj = {};
   }
 
   selectLocation(event) {

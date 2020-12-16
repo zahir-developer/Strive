@@ -20,6 +20,7 @@ export class SelectServicesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.scheduleDetailObj, 'schedule');
     this.serviceForm = this.fb.group({
       serviceID: ['', Validators.required]
     });
@@ -45,8 +46,15 @@ export class SelectServicesComponent implements OnInit {
         const serviceDetails = JSON.parse(res.resultData);
         console.log(serviceDetails, 'service');
         this.detailService = serviceDetails.ServiceSetup.filter(item => item.ServiceType === 'Details');
+        this.patchServiceValue();
       }
     });
+  }
+
+  patchServiceValue() {
+    if (this.scheduleDetailObj.serviceobj !== undefined) {
+      this.serviceForm.patchValue({ serviceID: this.scheduleDetailObj.serviceobj.ServiceId });
+    }
   }
 
 }

@@ -43,8 +43,15 @@ export class SelectLocationComponent implements OnInit {
         const location = JSON.parse(res.resultData);
         this.locationList = location.Location;
         console.log(location, 'location');
+        this.patchLocationValue();
       }
     });
+  }
+
+  patchLocationValue() {
+    if (this.scheduleDetailObj.locationObj !== undefined) {
+      this.locationForm.patchValue({ locationID: this.scheduleDetailObj.locationObj.LocationId });
+    }
   }
 
 }
