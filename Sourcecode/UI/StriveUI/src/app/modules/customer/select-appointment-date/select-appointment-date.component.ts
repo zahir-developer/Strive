@@ -15,7 +15,6 @@ export class SelectAppointmentDateComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.scheduleDetailObj, 'schedule');
   }
 
   next() {
@@ -29,6 +28,7 @@ export class SelectAppointmentDateComponent implements OnInit {
   selectedTimeSlot(slot, i) {
     console.log(slot, 'slot');
     this.activeSlot = i;
+    this.scheduleDetailObj.Slot = slot;
   }
 
   getScheduleDetailsByDate(date) {

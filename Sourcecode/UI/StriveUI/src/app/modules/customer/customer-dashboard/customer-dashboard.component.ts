@@ -11,6 +11,7 @@ export class CustomerDashboardComponent implements OnInit {
   @Output() selectServcie = new EventEmitter();
   vechicleList: any = [];
   @Input() scheduleDetailObj?: any;
+  serviceList: any = [];
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
@@ -26,6 +27,7 @@ export class CustomerDashboardComponent implements OnInit {
     this.customerService.getDailySalesReport(finalObj).subscribe( res => {
       if (res.status === 'Success') {
         const sales = JSON.parse(res.resultData);
+        this.serviceList = sales.GetDailySalesReport;
         console.log(sales, 'customer');
       }
     });

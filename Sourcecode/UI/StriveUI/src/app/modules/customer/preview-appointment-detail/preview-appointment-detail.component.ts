@@ -12,6 +12,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.scheduleDetailObj, 'schedule');
   }
 
   bookNow() {

@@ -96,6 +96,11 @@ export class HourlyWashComponent implements OnInit {
       if (res.status === 'Success') {
         const hourlyRate = JSON.parse(res.resultData);
         this.salesDetails = [];
+        this.totalWashCount = [];
+        this.washModel = [];
+        this.SalesSummaryModel = [];
+        this.hourlyWashReport = [];
+        this.washServiceName = [];
         if (hourlyRate.GetHourlyWashReport.LocationWashServiceViewModel !== null) {
           this.washModel = hourlyRate.GetHourlyWashReport.LocationWashServiceViewModel;
         }
@@ -257,6 +262,8 @@ export class HourlyWashComponent implements OnInit {
         };
       });
       return wash;
+    } else {
+      return [];
     }
   }
 

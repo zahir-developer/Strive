@@ -33,7 +33,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr *ngFor="let service of serviceList">
                                                         <td>10-12-2020</td>
                                                         <td>12:00 AM</td>
                                                         <td> Main street</td>
@@ -48,36 +48,9 @@
                                                                 data-toggle="modal" href="#deleteemployeeModal"></i>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>05-12-2020</td>
-                                                        <td>05:00 PM</td>
-                                                        <td> Main street</td>
-
-                                                        <td>Spark </td>
-                                                        <td>Chevrolet</td>
-                                                        <td>Black</td>
-                                                        <td>Loreum Ipsum</td>
-                                                        <td>Loreum Ipsum</td>
-                                                        <td> <i
-                                                                class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"></i>
-                                                            <i class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                                                                data-toggle="modal" href="#deleteemployeeModal"></i>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>09-05-20200 </td>
-                                                        <td>7:00 AM</td>
-                                                        <td> Main street</td>
-
-                                                        <td>Suzuki </td>
-                                                        <td>Toyato</td>
-                                                        <td>Blue</td>
-                                                        <td>Loreum Ipsum</td>
-                                                        <td>Loreum Ipsum</td>
-                                                        <td> <i
-                                                                class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"></i>
-                                                            <i class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                                                                data-toggle="modal" href="#deleteemployeeModal"></i>
+                                                    <tr *ngIf="serviceList.length === 0">
+                                                        <td colspan="9" class="text-center">
+                                                            No Record Found
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -158,7 +131,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr *ngFor="let service of serviceList">
                                             <th scope="row" class="text-underline theme-primary-color font-size--9">
                                                 17585</th>
                                             <td>12/12/2020</td>
@@ -172,33 +145,10 @@
                                             <td>$766.00</td>
 
                                         </tr>
-                                        <tr>
-                                            <th scope="row" class="text-underline theme-primary-color font-size--9">8855
-                                            </th>
-                                            <td>29/07/2020</td>
-                                            <td>Main street</td>
-
-                                            <td>Spark </td>
-                                            <td>Chevrolet</td>
-                                            <td>Black</td>
-                                            <td>Loreum Ipsum</td>
-                                            <td>$100.00</td>
-                                            <td>$766.00</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row" class="text-underline theme-primary-color font-size--9">2345
-                                            </th>
-                                            <td>12/12/2020</td>
-                                            <td>Main street</td>
-
-                                            <td>Suzuki </td>
-                                            <td>Toyato</td>
-                                            <td>Blue</td>
-                                            <td>Loreum Ipsum</td>
-                                            <td>$100.00</td>
-                                            <td>$766.00</td>
-
+                                        <tr *ngIf="serviceList.length === 0">
+                                            <td colspan="9" class="text-center">
+                                                No Record Found
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

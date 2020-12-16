@@ -1,5 +1,5 @@
 <select  class="form-control" [(ngModel)]="locationId" [ngModelOptions]="{standalone: true}" (change)="changeLocation($event)">
     <option selected hidden>Select</option>
-    <option *ngFor="let location of location" value="{{location.LocationId}}">
-        {{location.LocationName}}</option>
+    <option *ngFor="let loc of location" value="{{loc.LocationId}}">
+        {{loc.LocationName}}</option>
 </select>
