@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.DTO
 {
     public class DailySalesReportDto
     {
-        //public int LocationId { get; set; }
+        public int LocationId { get; set; }
         public DateTime? Date { get; set; }
     }
 }

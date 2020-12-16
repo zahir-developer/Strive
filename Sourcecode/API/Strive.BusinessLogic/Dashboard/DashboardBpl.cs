@@ -19,5 +19,9 @@ namespace Strive.BusinessLogic.DashboardStatistics
         {
             return ResultWrap(new DashboardRal(_tenant).GetDashboardStatistics, dashboard, "GetDashboardStatisticsForLocationId");
         }
+        public Result GetAvailablilityScheduleTime(TimeInDto timein)
+        {
+            return ResultWrap(new DashboardRal(_tenant).GetAvailablilityScheduleTime, timein, "GetTimeInDetails");
+        }
     }
 }

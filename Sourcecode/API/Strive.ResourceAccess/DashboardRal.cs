@@ -21,5 +21,12 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<DashboardGridViewModel>(EnumSP.DashboardStatistics.USPGETDASHBOARDSTATISTICS.ToString(), _prm);
             return result;
         }
+        public List<TimeInViewModel> GetAvailablilityScheduleTime(TimeInDto timein)
+        {
+            _prm.Add("@LocationId", timein.LocationId);
+            _prm.Add("@Date", timein.Date);
+            var result = db.Fetch<TimeInViewModel>(EnumSP.DashboardStatistics.USPGETAVAILABLETIMESLOT.ToString(), _prm);
+            return result;
+        }
     }
 }

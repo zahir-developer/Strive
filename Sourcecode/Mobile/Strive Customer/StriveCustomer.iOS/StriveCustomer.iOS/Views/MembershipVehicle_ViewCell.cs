@@ -59,5 +59,23 @@ namespace StriveCustomer.iOS.Views
             Membership_VehicleLbl.Text = upchargeList[indexpath.Row];
             Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
         }
+
+        public void setServicesData(List<ServiceDetail> services, NSIndexPath indexPath)
+        {
+            Membership_VehicleLbl.Text = services[indexPath.Row].ServiceName;
+            Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+        }
+
+        public void updateServices(NSIndexPath indexPath)
+        {
+            if(Membership_CellBtn.CurrentImage == UIImage.FromBundle("icon-unchecked-round"))
+            {
+                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+            }
+            else
+            {
+                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+            }
+        }
     }
 }

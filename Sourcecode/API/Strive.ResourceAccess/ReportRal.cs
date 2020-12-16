@@ -64,6 +64,7 @@ namespace Strive.ResourceAccess
 
             _prm.Add("@LocationId", DailyStatusReport.LocationId);
             _prm.Add("@Date", DailyStatusReport.Date);
+            _prm.Add("@ClientId", DailyStatusReport.ClientId);
             var result = db.Fetch<DailyStatusReportViewModel>(EnumSP.SalesReport.uspGetDailyStatusReport.ToString(), _prm);
 
             return result;
@@ -102,7 +103,7 @@ namespace Strive.ResourceAccess
 
         public List<DailySalesReportViewModel> GetDailySalesReport(DailySalesReportDto DailySalesReport)
         {
-            //_prm.Add("@LocationId", DailySalesReport.LocationId);
+            _prm.Add("@LocationId", DailySalesReport.LocationId);
             _prm.Add("@Date", DailySalesReport.Date);
             var result = db.Fetch<DailySalesReportViewModel>(EnumSP.SalesReport.USPGETDAILYSALESREPORT.ToString(), _prm);
             return result;

@@ -14,5 +14,12 @@ namespace Strive.BusinessLogic.Location
         Result DeleteLocation(int id);
         //Result SaveLocation(LocationDto lstLocation);
         Result GetLocationSearch(LocationSearchDto search);
+
+        Result AddLocationOffset(LocationOffsetDto locationOffset);
+
+        Result UpdateLocationOffset(LocationOffsetDto locationOffset);
+        Result GetAllLocationOffset();
+
+        Result DeleteLocationOffset(int id);
     }
 }

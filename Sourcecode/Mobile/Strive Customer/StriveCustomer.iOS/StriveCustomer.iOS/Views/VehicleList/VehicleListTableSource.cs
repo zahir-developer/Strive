@@ -12,9 +12,11 @@ namespace StriveCustomer.iOS.Views
     {
         public VehicleList vehicleLists;
         public UITableView vehicleTable = new UITableView();
-        public VehicleListTableSource(VehicleList data)
+        private VehicleInfoViewModel vehicleViewModel;
+        public VehicleListTableSource(VehicleInfoViewModel viewModel)
         {
-            this.vehicleLists = data;
+            this.vehicleViewModel = viewModel;
+            this.vehicleLists = viewModel.vehicleLists;
         }
 
         public override nint NumberOfSections(UITableView tableView)
@@ -44,9 +46,7 @@ namespace StriveCustomer.iOS.Views
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             VehicleListViewCell cell = (VehicleListViewCell)tableView.CellAt(indexPath);
-            //CustomerInfo.SelectedVehiclePastDetails = services.PastClientDetails[indexPath.Row].VehicleId;
-            //var pastTabView = new PastDetailTabView();
-            //view.NavigationController.PushViewController(pastTabView, true);
+            //CustomerInfo.SelectedVehiclePastDetails = services.PastClientDetails[indexPath.Row].VehicleId;            
         }
 
         public async void deleteRow(NSIndexPath selectedRow)
@@ -67,10 +67,18 @@ namespace StriveCustomer.iOS.Views
                         {
                             vehicleTable.ReloadData();
                         });
-                    });
-                   
+                    });                   
                 }
             }            
-        }                
+        }
+
+        public void editVehicleList(NSIndexPath indexPath)
+        {
+            var data = CustomerVehiclesInformation.vehiclesList.Status[indexPath.Row];
+            CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
+            MembershipDetails.clientVehicleID = data.VehicleId;
+
+            vehicleViewModel.NavToEditVehicle();
+        }
     }
 }
