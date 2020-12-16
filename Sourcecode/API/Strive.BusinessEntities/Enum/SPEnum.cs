@@ -136,6 +136,8 @@ namespace Strive.BusinessEntities
         USPGETGIFTCARDBYID,
         USPGIFTCARDCHANGESTATUS,
         USPSAVEGIFTCARD,
+        USPGETALLGIFTCARDS,
+        USPDELETEGIFTCARD,
         //Location
         USPSAVELOCATION,
         USPDELETELOCATION,
