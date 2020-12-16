@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities.Document;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,8 @@ namespace Strive.BusinessLogic.Document
         Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
         Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
         void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName);
-        Result GetDocumentById(int documentId, GlobalUpload.DocumentType documentType);
-        Result DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);
+        DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType);
+        bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);
 
     }
 }

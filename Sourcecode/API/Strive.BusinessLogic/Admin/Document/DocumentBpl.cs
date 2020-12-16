@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Security.Cryptography;
+using Strive.BusinessEntities.Document;
 
 namespace Strive.BusinessLogic.Document
 {
@@ -382,19 +383,16 @@ namespace Strive.BusinessLogic.Document
             return _result;
         }
 
-        public Result GetDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        public DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType)
         {
             var document = new DocumentRal(_tenant).GetDocumentById(documentId);
 
             document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
-
-            _resultContent.Add(document.WithName("Document"));
-            _result = Helper.BindSuccessResult(_resultContent);
-
-            return _result;
+            
+            return document;
         }
 
-        public Result DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        public bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
         {
             var docRal = new DocumentRal(_tenant);
             var doc = docRal.GetDocumentById(documentId);
@@ -404,11 +402,8 @@ namespace Strive.BusinessLogic.Document
             {
                 DeleteFile(documentType, doc.Document.FileName);
             }
-
-            _resultContent.Add(result.WithName("Result"));
-            _result = Helper.BindSuccessResult(_resultContent);
-
-            return _result;
+            
+            return result;
         }
 
 
