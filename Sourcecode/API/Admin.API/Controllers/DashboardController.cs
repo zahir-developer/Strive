@@ -24,6 +24,13 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetDashboardStatistics")]
         public Result GetDashboardStatistics([FromBody] DashboardDto dashboard) => _bplManager.GetDashboardStatistics(dashboard);
+
+        /// <summary>
+        /// Method to get Availability TimeSlot details.
+        /// </summary>
+        [HttpPost]
+        [Route("GetAvailablilityScheduleTime")]
+        public Result GetAvailablilityScheduleTime([FromBody] TimeInDto timein) => _bplManager.GetAvailablilityScheduleTime(timein);
         #endregion
     }
 }
