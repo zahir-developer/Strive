@@ -191,7 +191,8 @@ export const UrlConfig = {
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
-    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
+    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`,
+    getAvailablilityScheduleTime: `Admin/Dashboard/GetAvailablilityScheduleTime`
   },
   bonusSetup: {
     saveBonus: `Admin/BonusSetup/Add`,
