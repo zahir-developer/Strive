@@ -293,6 +293,12 @@ export class EmployeeListComponent implements OnInit {
     };
     const modalRef =  this.modalService.open(CreateDocumentComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
+    modalRef.componentInstance.mode = 'create';
+    modalRef.result.then((result) => {
+      if (result) {
+        this.seachEmployee();
+      }
+    });
   }
 
   collapsed() {
