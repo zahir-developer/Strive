@@ -346,13 +346,10 @@ namespace Strive.BusinessLogic.Document
 
             var result = new DocumentRal(_tenant).AddDocument(documentModel);
 
-            if (!result)
+            if (!(result > 0))
             {
                 DeleteFile(documentModel.DocumentType, fileName);
             }
-
-            _resultContent.Add(result.WithName("Result"));
-            _result = Helper.BindSuccessResult(_resultContent);
 
             return _result;
         }
@@ -384,6 +381,36 @@ namespace Strive.BusinessLogic.Document
 
             return _result;
         }
+
+        public Result GetDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var document = new DocumentRal(_tenant).GetDocumentById(documentId);
+
+            document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+
+            _resultContent.Add(document.WithName("Document"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
+
+        public Result DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var docRal = new DocumentRal(_tenant);
+            var doc = docRal.GetDocumentById(documentId);
+            var result = docRal.DeleteDocument(documentId);
+
+            if (result)
+            {
+                DeleteFile(documentType, doc.Document.FileName);
+            }
+
+            _resultContent.Add(result.WithName("Result"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
+
 
     }
 
