@@ -11,5 +11,6 @@ namespace Strive.BusinessLogic.DashboardStatistics
     public interface IDashboardBpl
     {
         Result GetDashboardStatistics(DashboardDto dashboard);
+        Result GetAvailablilityScheduleTime(TimeInDto timein);
     }
 }

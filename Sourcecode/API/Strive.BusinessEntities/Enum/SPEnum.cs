@@ -54,7 +54,8 @@ namespace Strive.BusinessEntities
         }
         public enum DashboardStatistics
         {
-            USPGETDASHBOARDSTATISTICS
+            USPGETDASHBOARDSTATISTICS,
+            USPGETAVAILABLETIMESLOT
         }
         public enum Messenger
         {
