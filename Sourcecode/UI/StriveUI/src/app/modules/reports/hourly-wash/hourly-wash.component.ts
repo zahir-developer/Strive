@@ -38,7 +38,7 @@ export class HourlyWashComponent implements OnInit {
   totalSales = 0;
   totalDifference = 0;
   totalActual = 0;
-  fileTypeEvent: boolean= false ;
+  fileTypeEvent: boolean = false;
   constructor(
     private reportsService: ReportsService,
     private excelService: ExcelService,
