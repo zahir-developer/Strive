@@ -176,7 +176,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputhourrate"
-                                        formControlName="hourlyRateWash" appTwoDecimalNumber placeholder="0.00"
+                                        formControlName="hourlyRateWash" appTwoDecimalNumber placeholder="$0.00"
                                         [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
                                     <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
                                         <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
