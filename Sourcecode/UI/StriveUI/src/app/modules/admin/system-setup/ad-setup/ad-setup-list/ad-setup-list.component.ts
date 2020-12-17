@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
-//import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
-  selector: 'app-service-setup-list',
-  templateUrl: './service-setup-list.component.html',
-  styleUrls: ['./service-setup-list.component.css']
+  selector: 'app-ad-setup-list',
+  templateUrl: './ad-setup-list.component.html',
+  styleUrls: ['./ad-setup-list.component.css']
 })
-export class ServiceSetupListComponent implements OnInit {
-  serviceSetupDetails = [];
+export class AdSetupListComponent implements OnInit {
+
+  adSetupDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
@@ -20,34 +20,42 @@ export class ServiceSetupListComponent implements OnInit {
   isLoading = true;
   search: any = '';
   searchStatus: any;
+  recordCount: any;
+  page: any ;
+  pageSize :any;
+  pageSizeList: any[];
+
   collectionSize: number = 0;
   Status: any;
-  page: number;
-  pageSize: number;
-  pageSizeList: number[];
-  constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+  query = '';
+  constructor(private adSetup: AdSetupService, 
+    private toastr: ToastrService, 
+    private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.isLoading = false;
     this.page= PaginationConfig.page;
     this.pageSize = PaginationConfig.TableGridSize;
     this.pageSizeList = PaginationConfig.Rows;
+
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";
-    this.getAllserviceSetupDetails();
+    this.getAlladSetupDetails();
   }
 
   // Get All Services
-  getAllserviceSetupDetails() {
+  getAlladSetupDetails() {
     this.isLoading = true;
-    this.serviceSetup.getServiceSetup().subscribe(data => {
+    this.adSetup.getAdSetup().subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.serviceSetupDetails = serviceDetails.ServiceSetup;
-        if (this.serviceSetupDetails.length === 0) {
+        this.adSetupDetails = serviceDetails.GetAllAdSetup;
+        if (this.adSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.serviceSetupDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.adSetupDetails.length / this.pageSize) * 10;
+
           this.isTableEmpty = false;
         }
       } else {
@@ -55,40 +63,20 @@ export class ServiceSetupListComponent implements OnInit {
       }
     });
   }
+  
+
   paginate(event) {
     
     this.pageSize= +this.pageSize;
     this.page = event ;
     
-    this.getAllserviceSetupDetails()
+    this.getAlladSetupDetails()
   }
   paginatedropdown(event) {
     this.pageSize= +event.target.value;
     this.page =  this.page;
     
-    this.getAllserviceSetupDetails()
-  }
-
-  serviceSearch(){
-    this.page = 1;
-    const obj ={
-      serviceSearch: this.search,
-      status: this.searchStatus === "" ? 2 :  Number(this.searchStatus)
-   }
-   this.serviceSetup.ServiceSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.serviceSetupDetails = location.ServiceSearch;
-       if (this.serviceSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
+    this.getAlladSetupDetails()
   }
   edit(data) {
     this.selectedData = data;
@@ -107,10 +95,10 @@ export class ServiceSetupListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
-    this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
+    this.adSetup.deleteAdSetup(data.ServiceId).subscribe(res => {
       if (res.status === "Success") {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
-        this.getAllserviceSetupDetails();
+        this.getAlladSetupDetails();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -119,22 +107,25 @@ export class ServiceSetupListComponent implements OnInit {
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.getAllserviceSetupDetails();
+      this.getAlladSetupDetails();
     }
     this.showDialog = event.isOpenPopup;
   }
   add(data, serviceDetails?) {
     if (data === 'add') {
-      this.headerData = 'Add New Service';
+      this.headerData = 'New AdSetup';
       this.selectedData = serviceDetails;
       this.isEdit = false;
       this.showDialog = true;
     } else {
-      this.headerData = 'Edit Service';
+      this.headerData = 'Edit AdSetup';
       this.selectedData = serviceDetails;
       this.isEdit = true;
       this.showDialog = true;
     }
   }
+  
+
+
 }
 

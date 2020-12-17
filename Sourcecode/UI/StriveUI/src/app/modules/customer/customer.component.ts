@@ -12,6 +12,7 @@ export class CustomerComponent implements OnInit {
   appointmentScreen: boolean;
   previewScreen: boolean;
   confirmationScreen: boolean;
+  scheduleDetailObj: any = {};
   constructor() { }
 
   ngOnInit(): void {
@@ -35,6 +36,7 @@ export class CustomerComponent implements OnInit {
     this.appointmentScreen = false;
     this.previewScreen = false;
     this.confirmationScreen = false;
+    this.scheduleDetailObj = {};
   }
 
   selectLocation(event) {
