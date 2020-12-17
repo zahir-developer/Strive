@@ -13,6 +13,7 @@ export class SelectLocationComponent implements OnInit {
   locationList: any = [];
   locationForm: FormGroup;
   @Input() scheduleDetailObj?: any;
+  @Input() selectedData?: any;
   constructor(
     private customerService: CustomerService,
     private fb: FormBuilder
@@ -51,6 +52,10 @@ export class SelectLocationComponent implements OnInit {
   patchLocationValue() {
     if (this.scheduleDetailObj.locationObj !== undefined) {
       this.locationForm.patchValue({ locationID: this.scheduleDetailObj.locationObj.LocationId });
+    }
+    if (this.scheduleDetailObj.isEdit) {
+      const locationid = this.selectedData.Details.LocationId;
+      this.locationForm.patchValue({ locationID: locationid });
     }
   }
 

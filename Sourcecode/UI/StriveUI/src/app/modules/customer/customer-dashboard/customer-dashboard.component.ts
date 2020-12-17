@@ -1,6 +1,11 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
+import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -12,10 +17,19 @@ export class CustomerDashboardComponent implements OnInit {
   vechicleList: any = [];
   @Input() scheduleDetailObj?: any;
   serviceList: any = [];
-  constructor(private customerService: CustomerService) { }
+  todayScheduleDetail: any = [];
+  @Output() editSchedule = new EventEmitter();
+  constructor(
+    private customerService: CustomerService,
+    private datePipe: DatePipe,
+    public dashboardService: DashboardService,
+    private confirmationService: ConfirmationUXBDialogService,
+    private detailService: DetailService,
+    private toastr: MessageServiceToastr
+  ) { }
 
   ngOnInit(): void {
-    this.getDailySalesReport();
+    this.getScheduleDetail();
     this.getVehicleListByClientId();
   }
 
@@ -24,7 +38,7 @@ export class CustomerDashboardComponent implements OnInit {
       date: moment(new Date()).format('MM/DD/YYYY'),
       locationId: 0
     };
-    this.customerService.getDailySalesReport(finalObj).subscribe( res => {
+    this.customerService.getDailySalesReport(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         const sales = JSON.parse(res.resultData);
         this.serviceList = sales.GetDailySalesReport;
@@ -39,13 +53,52 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   getVehicleListByClientId() {
-    this.customerService.getVehicleByClientId(115).subscribe( res => {
+    this.customerService.getVehicleByClientId(115).subscribe(res => {
       if (res.status === 'Success') {
         const vechicle = JSON.parse(res.resultData);
         this.vechicleList = vechicle.Status;
         console.log(vechicle, 'vechicle');
       }
     });
+  }
+
+  getScheduleDetail() {
+    const currentDate = new Date();
+    const todayDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    const locationId = null; // 2033;
+    const clientID = 0;
+    this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
+      if (res.status === 'Success') {
+        const scheduleDetails = JSON.parse(res.resultData);
+        if (scheduleDetails.DetailsGrid.BayJobDetailViewModel !== null) {
+          this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
+          console.log(scheduleDetails, 'scheduleDetails');
+        }
+      }
+    });
+  }
+
+  deleteDetail(detail) {
+    this.confirmationService.confirm('Delete Employee', `Are you sure you want to delete`, 'Confirm', 'Cancel')
+      .then((confirmed) => {
+        if (confirmed === true) {
+          this.confirmDelete(detail.JobId);
+        }
+      })
+      .catch(() => { });
+  }
+
+  confirmDelete(jobID) {
+    this.detailService.deleteDetail(jobID).subscribe(res => {
+      if (res.status === 'Success') {
+        this.getScheduleDetail();
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
+      }
+    });
+  }
+
+  updateSchedule(service) {
+    this.editSchedule.emit(service.JobId);
   }
 
 }

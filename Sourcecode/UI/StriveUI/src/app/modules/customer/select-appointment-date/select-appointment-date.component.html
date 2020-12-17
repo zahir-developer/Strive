@@ -31,7 +31,7 @@
                                             <!-- timeslot-active timeslot-unactive -->
                                             <span *ngFor="let slot of timeSlot; let index = index">
                                                 <button type="button" class="btn timeslot-unactive m-r-5 m-b-5"
-                                                    (click)="selectedTimeSlot(slot, index)"
+                                                    (click)="selectedTimeSlot(slot)"
                                                     [ngClass]="{ 'timeslot-active': activeSlot === slot.TimeIn ? true : false}"><span>{{slot.TimeIn}}</span></button>
                                             </span>
                                             <span *ngIf="timeSlot.length === 0">
