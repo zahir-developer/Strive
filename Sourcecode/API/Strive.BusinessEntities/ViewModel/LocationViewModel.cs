@@ -33,9 +33,9 @@ namespace Strive.BusinessEntities.DTO.Location
         public bool? OffSetE { get; set; }
         public bool? OffSetF { get; set; }
         public bool? OffSet1On { get; set; }
-        public int? City { get; set; }
-        public int? State { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
         public string Zip { get; set; }
-        public int? Country { get; set; }
+        public string Country { get; set; }
     }
 }
