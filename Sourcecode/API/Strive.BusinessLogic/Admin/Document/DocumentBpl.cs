@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Security.Cryptography;
+using Strive.BusinessEntities.Document;
 
 namespace Strive.BusinessLogic.Document
 {
@@ -336,7 +337,7 @@ namespace Strive.BusinessLogic.Document
             }
         }
 
-        public Result AddDocument(DocumentDto documentModel)
+        public int AddDocument(DocumentDto documentModel)
         {
             string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
 
@@ -346,15 +347,12 @@ namespace Strive.BusinessLogic.Document
 
             var result = new DocumentRal(_tenant).AddDocument(documentModel);
 
-            if (!result)
+            if (!(result > 0))
             {
                 DeleteFile(documentModel.DocumentType, fileName);
             }
 
-            _resultContent.Add(result.WithName("Result"));
-            _result = Helper.BindSuccessResult(_resultContent);
-
-            return _result;
+            return result;
         }
 
         public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
@@ -384,6 +382,30 @@ namespace Strive.BusinessLogic.Document
 
             return _result;
         }
+
+        public DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var document = new DocumentRal(_tenant).GetDocumentById(documentId);
+
+            document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+            
+            return document;
+        }
+
+        public bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var docRal = new DocumentRal(_tenant);
+            var doc = docRal.GetDocumentById(documentId);
+            var result = docRal.DeleteDocument(documentId);
+
+            if (result)
+            {
+                DeleteFile(documentType, doc.Document.FileName);
+            }
+            
+            return result;
+        }
+
 
     }
 
