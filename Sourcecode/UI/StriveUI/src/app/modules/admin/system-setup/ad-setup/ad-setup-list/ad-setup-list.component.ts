@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
   selector: 'app-ad-setup-list',
@@ -20,7 +21,10 @@ export class AdSetupListComponent implements OnInit {
   search: any = '';
   searchStatus: any;
   recordCount: any;
-  pageSize: any = 10;
+  page: any ;
+  pageSize :any;
+  pageSizeList: any[];
+
   collectionSize: number = 0;
   Status: any;
   query = '';
@@ -30,7 +34,9 @@ export class AdSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = false;
-    this.pageSize = 10;
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.defaultPageSize;
+    this.pageSizeList = PaginationConfig.PageSizeOptions;
 
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";
@@ -48,9 +54,7 @@ export class AdSetupListComponent implements OnInit {
         if (this.adSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.adSetupDetails.length/this.pageSize) * 10;
-          this.recordCount = this.adSetupDetails.length;
-          this.pageSize = 10;
+          this.collectionSize = Math.ceil(this.adSetupDetails.length / this.pageSize) * 10;
 
           this.isTableEmpty = false;
         }
@@ -59,29 +63,18 @@ export class AdSetupListComponent implements OnInit {
       }
     });
   }
-  getAlladSetupDetailsevent(event) {
-    this.isLoading = true;
-    this.adSetup.getAdSetup().subscribe(data => {
-      this.isLoading = false;
-      if (data.status === 'Success') {
-        const serviceDetails = JSON.parse(data.resultData);
-        this.adSetupDetails = serviceDetails.ServiceSetup;
-        if (this.adSetupDetails.length === 0) {
-          this.isTableEmpty = true;
-        } else {
-          this.collectionSize = Math.ceil(this.adSetupDetails.length/event) * 10;
-          this.recordCount = this.adSetupDetails.length;
-
-          this.isTableEmpty = false;
-        }
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
+  
 
   paginate(event) {
-    this.pageSize = event.rows;
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAlladSetupDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
     
     this.getAlladSetupDetails()
   }

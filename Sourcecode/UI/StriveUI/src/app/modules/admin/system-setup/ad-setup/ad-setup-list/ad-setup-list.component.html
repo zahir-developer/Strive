@@ -31,18 +31,15 @@
                                     <thead>
                                         <tr>
                                             <th> Name</th>
-                                            <th> Description</th>
-                                            <th>Image</th>
-                                            <th>Status</th>
+                                            <th> Description</th>                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr
-                                            *ngFor="let adSetup of adSetupDetails | search: query ">
+                                            *ngFor="let adSetup of adSetupDetails | search: query  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" >
                                             <th scope="row">{{adSetup.ServiceName}}</th>
                                             <td>{{adSetup.ServiceType}}</td>
-                                            <td></td>
                                             <td>{{adSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
@@ -55,16 +52,25 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                    [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                    [boundaryLinks]="true" class="d-flex justify-content-end">
-                                </ngb-pagination> -->
-                                <p-paginator #page *ngIf="adSetupDetails?.length > 0" 
+                                <div class="row pull-right" >
+                                   <div class="col-6">
+                                    <ngb-pagination  [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                        [boundaryLinks]="true" class="d-flex justify-content-end">
+                                    </ngb-pagination> 
+                                    </div>
+                                    <select class="form-control col-3" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                        <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
+                              
+                                <!-- <p-paginator #page *ngIf="adSetupDetails?.length > 0" 
                                 [first]="0"  
                                 [rows]="pageSize" 
                                 (onPageChange)="paginate($event)"  
                                 [totalRecords]="recordCount"  
-                                [rowsPerPageOptions]="[10,20,40,150]"></p-paginator>
+                                [rowsPerPageOptions]="[10,20,40,150]"></p-paginator> -->
                             </div>
                         </div>
                         <div class="loadingDiv" *ngIf="isLoading">
