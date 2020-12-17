@@ -12,10 +12,10 @@
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <div class="table-responsive" *ngIf="isLoading === false && fileName === null"> <span
+                            <!-- <div class="table-responsive" *ngIf="isLoading === false && fileName === null"> <span
                                 class="col-12 row d-block" style="text-align: center;">No Records Found</span>
-                            </div> 
-                            <div class="table-responsive" *ngIf="isLoading === false && fileName !== null">
+                            </div>  -->
+                            <div class="table-responsive">
                                 <table class="table  table-striped m-t-10">
                                     <thead>
                                         <tr>
@@ -26,7 +26,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr *ngIf="isLoading === false && fileName === null" >
+                                           <td colspan="10" class="text-center"> No Records Found</td>
+                                        </tr>
+                                        <tr  *ngIf="isLoading === false && fileName !== null">
                                             <th scope="row" >{{Documents?.OriginalFileName}}</th>
                                             <td>{{Documents?.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
                                             <td>{{Documents?.CreatedBy}}</td>

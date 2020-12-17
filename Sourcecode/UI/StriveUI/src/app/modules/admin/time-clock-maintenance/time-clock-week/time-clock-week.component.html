@@ -195,7 +195,7 @@
                                                     <td class="w-45"></td>
                                                     <td></td>
                                                     <td class="p-t-10"><span class="font-weight-600 mr-2">Wash
-                                                            Rate:</span>{{ totalWeekDetail.WashRate ? totalWeekDetail.WashRate : 0 }}
+                                                            Rate:</span>{{ totalWeekDetail.WashRate ? (totalWeekDetail.WashRate | currency) : (0 | currency) }}
                                                     </td>
                                                     <td class="p-t-10"> <span class="font-weight-600 mr-2">Total Wash
                                                             Hours:</span>
@@ -212,7 +212,7 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td><span class="font-weight-600 mr-2">Detail
-                                                            Rate:</span>{{ totalWeekDetail.DetailRate ? totalWeekDetail.DetailRate : 0 }}
+                                                            Rate:</span>{{ totalWeekDetail.DetailRate ? (totalWeekDetail.DetailRate | currency) : (0 | currency) }}
                                                     </td>
                                                     <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
                                                         {{ totalWeekDetail.TotalDetailHours | number:'.2'}}
