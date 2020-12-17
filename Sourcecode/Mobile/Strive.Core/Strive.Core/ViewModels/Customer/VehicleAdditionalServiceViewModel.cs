@@ -25,7 +25,10 @@ namespace Strive.Core.ViewModels.Customer
 
         }
 
-
+        public async void NavToSignatureView()
+        {
+            await _navigationService.Navigate<MembershipSignatureViewModel>();
+        }
         #endregion Commands
     }
 }

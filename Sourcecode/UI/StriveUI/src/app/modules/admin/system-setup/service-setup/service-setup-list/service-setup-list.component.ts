@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -19,13 +20,17 @@ export class ServiceSetupListComponent implements OnInit {
   isLoading = true;
   search: any = '';
   searchStatus: any;
-  page = 1;
-  pageSize = 5;
   collectionSize: number = 0;
   Status: any;
+  page: number;
+  pageSize: number;
+  pageSizeList: number[];
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";
     this.getAllserviceSetupDetails();
@@ -50,12 +55,25 @@ export class ServiceSetupListComponent implements OnInit {
       }
     });
   }
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllserviceSetupDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllserviceSetupDetails()
+  }
 
   serviceSearch(){
     this.page = 1;
     const obj ={
       serviceSearch: this.search,
-      status: Number(this.searchStatus)
+      status: this.searchStatus === "" ? 2 :  Number(this.searchStatus)
    }
    this.serviceSetup.ServiceSearch(obj).subscribe(data => {
      if (data.status === 'Success') {
@@ -119,3 +137,4 @@ export class ServiceSetupListComponent implements OnInit {
     }
   }
 }
+

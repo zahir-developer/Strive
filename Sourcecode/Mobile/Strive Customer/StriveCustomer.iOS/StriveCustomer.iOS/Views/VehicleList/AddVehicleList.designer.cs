@@ -13,6 +13,9 @@ namespace StriveCustomer.iOS.Views
 	partial class AddVehicleList
 	{
 		[Outlet]
+		UIKit.UIView AddVehicleView { get; set; }
+
+		[Outlet]
 		UIKit.UIButton SaveAddVehicle_Btn { get; set; }
 
 		[Outlet]
@@ -68,6 +71,16 @@ namespace StriveCustomer.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (SaveAddVehicle_Btn != null) {
+				SaveAddVehicle_Btn.Dispose ();
+				SaveAddVehicle_Btn = null;
+			}
+
+			if (SelectMembership_Text != null) {
+				SelectMembership_Text.Dispose ();
+				SelectMembership_Text = null;
+			}
+
 			if (VehicleColor_Arrow != null) {
 				VehicleColor_Arrow.Dispose ();
 				VehicleColor_Arrow = null;
@@ -93,14 +106,9 @@ namespace StriveCustomer.iOS.Views
 				VehicleModel_TextField = null;
 			}
 
-			if (SelectMembership_Text != null) {
-				SelectMembership_Text.Dispose ();
-				SelectMembership_Text = null;
-			}
-
-			if (SaveAddVehicle_Btn != null) {
-				SaveAddVehicle_Btn.Dispose ();
-				SaveAddVehicle_Btn = null;
+			if (AddVehicleView != null) {
+				AddVehicleView.Dispose ();
+				AddVehicleView = null;
 			}
 		}
 	}

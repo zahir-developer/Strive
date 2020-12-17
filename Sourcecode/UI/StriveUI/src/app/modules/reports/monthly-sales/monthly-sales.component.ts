@@ -35,6 +35,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   page = 1;
   pageSize = 50;
   collectionSize: number;
+  fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private cd: ChangeDetectorRef,
     private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
@@ -163,6 +164,8 @@ return monthlySales;
     this.locationId = +event;
   }
   getfileType(event) {
+    this.fileTypeEvent = true;
+
     this.fileType = +event.target.value;
   }
  

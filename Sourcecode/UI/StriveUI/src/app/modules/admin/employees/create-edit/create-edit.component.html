@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN </label>
-                                    <input type="text" class="form-control" id="inputssn" numbersOnly [appMaxLength]="9"
+                                    <input type="text" class="form-control" id="inputssn" appSsnNumberMask  
                                         formControlName="ssn" placeholder="SSN" >
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
                                 <div class="form-group col-md-3">
                                     <label>Date of Hire <span class="required">*</span></label>
                                     <input type="text" placeholder="Datepicker" placeholder="Date of Hire"
-                                        formControlName="dateOfHire"
+                                        formControlName="dateOfHire" [bsConfig]="{ showWeekNumbers: false }"
                                         [ngClass]="{ 'is-invalid': submitted && g.dateOfHire.errors }" appCalendarMask
                                         class="form-control" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()">
                                     <div *ngIf="submitted && g.dateOfHire.errors" class="invalid-feedback">
@@ -160,7 +160,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
                                     <input type="text" appTwoDecimalNumber class="form-control"
-                                        formControlName="hourlyRateWash" placeholder="0.00" (focus)="dp.hide()"
+                                        formControlName="hourlyRateWash" placeholder="$0.00" (focus)="dp.hide()"
                                         [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
                                     <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
                                         <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
@@ -193,7 +193,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
                                     <input type="text" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" [appMaxLength]="9" placeholder="Exemptions"> </div>
+                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions"> </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles</label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
@@ -237,7 +237,7 @@
                                     accept=".doc, .docx, .pdf, .xls, .csv" mulitple dirname="S:\"
                                     (change)="fileNameChanged()">
                                 <label id='lbl' class="custom-file-label" for="customFile">Select Document</label>
-                                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv etc</small>
+                                <small class="form-text text-muted">File Type:doc,docx,pdf,xls,csv etc</small>
                                 <table aria-describedby="file" *ngIf="multipleFileUpload.length > 0 && !isLoading">
                                     <tbody>
                                         <tr *ngFor="let file of multipleFileUpload; let index = index">

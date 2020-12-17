@@ -1,5 +1,5 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-    <h3 class="d-inline-block">Reports </h3>
+    <h3 class="d-inline-block">Monthly Money Owed </h3>
     <!-- <div class="date d-inline-block datepicker-view" data-date-format="dd-mm-yyyy">
         <input type="text" class="datepick" /> <span class="input-group-addon"><i
                 class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"></i></span> </div> -->
@@ -87,9 +87,9 @@
                                         </tr>
                                     </tbody>
                                     <tbody *ngIf="ownedReportList.length === 0">
-                                            <tr>
-                                                <td colspan="6" class="text-center">No Record Found</td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="6" class="text-center">No Record Found</td>
+                                        </tr>
                                     </tbody>
                                     <tfoot class="table-foot font-weight-700" *ngIf="ownedReportList.length > 0">
                                         <tr>

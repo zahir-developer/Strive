@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { CheckListService } from 'src/app/shared/services/data-service/check-list.service';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
   selector: 'app-check-list',
@@ -17,8 +18,7 @@ export class CheckListComponent implements OnInit {
   isLoading: boolean;
   checkListDetails: any;
   isTableEmpty: boolean;
-  page = 1;
-  pageSize = 5;
+
   collectionSize: number = 0;
   selectedData: boolean = false;
   isEdit: boolean;
@@ -30,6 +30,9 @@ export class CheckListComponent implements OnInit {
   employeeRoleId = [];
   rollList: any;
   checklistAdd: boolean;
+  page: any;
+  pageSize: any;
+  pageSizeList: any;
   constructor(private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
     private httpClient: HttpClient,
@@ -37,6 +40,9 @@ export class CheckListComponent implements OnInit {
      private toastr: ToastrService,) { }
 
   ngOnInit(): void {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.getAllRoles();
 this.getAllcheckListDetails();
   }
@@ -75,6 +81,19 @@ getAllcheckListDetails() {
       this.toastr.error('Communication Error', 'Error!');
     }
   });
+}
+paginate(event) {
+    
+  this.pageSize= +this.pageSize;
+  this.page = event ;
+  
+  this.getAllcheckListDetails()
+}
+paginatedropdown(event) {
+  this.pageSize= +event.target.value;
+  this.page =  this.page;
+  
+  this.getAllcheckListDetails()
 }
 onRoleDeSelect(event) {
   if (this.RoleId ) {

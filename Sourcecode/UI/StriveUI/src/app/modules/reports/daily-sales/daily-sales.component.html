@@ -1,5 +1,5 @@
 <div class="border-bottom col-12 p-b-10 m-b-10 p-l-0">
-    <h3 class="d-inline-block">Daily Sales - </h3>
+    <h3 class="d-inline-block">Daily Sales Report - </h3>
     <div class="date d-inline-block datepicker-view" data-date-format="mm/dd/yyyy">
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
@@ -26,7 +26,7 @@
                         <div class="col-md-4">
                             <div class="p-b-5 p-t-5">
                                 <h4 class="d-inline-block align-middle"><span class="resp-title">Report
-                                        Date-({{date | date: 'MM/dd/yyyy'}})</span>
+                                        Date - {{date | date: 'MM/dd/yyyy'}}</span>
                                 </h4>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"
+                                <button type="button" class="btn theme-primary-button-color"  [disabled] = "!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                     printSectionId="dailySalesReport" ngxPrint>Print</button>&nbsp;

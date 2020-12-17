@@ -49,14 +49,14 @@ namespace Strive.BusinessLogic.Location
 
         public Result UpdateLocation(LocationDto location)
         {
-           // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-           // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 
         public Result GetLocationSearch(LocationSearchDto search)
         {
-            return ResultWrap(new LocationRal(_tenant).GetLocationSearch, search,"Search");
+            return ResultWrap(new LocationRal(_tenant).GetLocationSearch, search, "Search");
         }
 
         public Result GetAllLocation()
@@ -100,12 +100,49 @@ namespace Strive.BusinessLogic.Location
 
 
 
-            
+
 
 
 
         //    return null;
         //}
 
+
+        public Result AddLocationOffset(LocationOffsetDto locationOffset)
+        {
+            try
+            {
+                return ResultWrap(new LocationRal(_tenant).AddLocationOffset, locationOffset, "Status");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+
+        public Result UpdateLocationOffset(LocationOffsetDto locationOffset)
+        {
+            try
+            {
+                return ResultWrap(new LocationRal(_tenant).UpdateLocationOffset, locationOffset, "Status");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result GetAllLocationOffset()
+        {
+            return ResultWrap(new LocationRal(_tenant).GetAllLocationOffset, "Location");
+        }
+        public Result DeleteLocationOffset(int id)
+        {
+            return ResultWrap(new LocationRal(_tenant).DeleteLocationOffset, id, "LocationDelete");
+        }
+
+
     }
 }
+

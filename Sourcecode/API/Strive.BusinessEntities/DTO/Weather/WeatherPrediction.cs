@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Dapper.Contrib.Extensions;
 
 namespace Strive.BusinessEntities.Weather

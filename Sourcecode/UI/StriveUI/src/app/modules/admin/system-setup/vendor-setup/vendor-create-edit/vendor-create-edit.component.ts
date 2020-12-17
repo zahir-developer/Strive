@@ -155,7 +155,7 @@ export class VendorCreateEditComponent implements OnInit {
     this.Country = event.target.value;
   }
 
-  selectCity(id) {
-    this.city = id;
+  selectCity(event) {
+    this.city = event.target.value;
   }
 }

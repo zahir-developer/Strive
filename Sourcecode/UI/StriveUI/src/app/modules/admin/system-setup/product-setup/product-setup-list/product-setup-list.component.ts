@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/data-service/product.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
   selector: 'app-product-setup-list',
@@ -17,12 +18,16 @@ export class ProductSetupListComponent implements OnInit {
   isLoading = true;
   isTableEmpty: boolean;
   search : any = '';
-  page = 1;
-  pageSize = 5;
   collectionSize: number = 0;
+  pageSize: number;
+  pageSizeList: number[];
+  page: number;
   constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.getAllproductSetupDetails();
 
   }
@@ -67,6 +72,19 @@ export class ProductSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllproductSetupDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllproductSetupDetails()
   }
   edit(data) {
     this.selectedData = data;

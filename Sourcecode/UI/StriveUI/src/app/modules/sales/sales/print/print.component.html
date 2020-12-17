@@ -1,71 +1,74 @@
-
-    <div class="container-fluid containerWidth">
-        <div id="print-section">
-            <div class="row">
-                <div class="col-12 address">
-                    {{addressLine1}}<br>
-                    {{addressLine2}}<br>
-                    {{city}}<br>
-                    {{phone}}<br>
-                </div>
+<div class="container-fluid containerWidth">
+    <div id="print-section">
+        <div class="row">
+            <div class="col-12 address">
+                {{addressLine1}}<br>
+                {{addressLine2}}<br>
+                {{city}}<br>
+                {{phone}}<br>
             </div>
-            <br><br>
-            <div class="row">
-                <div class="col-12" style="text-align: center;">
-                    <label>Ticket #</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{ticketNumber}}</span>
-                </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-12" style="text-align: center;">
+                <label>Ticket #</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{ticketNumber}}</span>
             </div>
-            <br>
-            <div class="row">
-                <div class="col-12">
-                    {{today | date: 'MM/dd/yyyy'}}<br>
-                    {{today | date: 'hh:mm aa'}}
-                </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                {{today | date: 'MM/dd/yyyy'}} &nbsp;
+                {{today | date: 'hh:mm aa'}}
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="table-responsive m-t-10">
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-10">
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th scope="col">Item</th>
-                            <th scope="col" style="width: 30%;">Qty</th>
-                            <th scope="col" style="width: 20%;">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of itemList.SalesItemViewModel">
-                            <td>{{item?.ServiceName}}</td>
-                            <td>{{item?.Quantity}}</td>
-                            <td style="text-align: right;">{{item?.Price | currency}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="pointer" style="text-align: right;">Sub Total <br> Tax <br> Total</td>
-                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right;">{{itemList.SalesSummaryViewModel.Total | currency}} <br> {{itemList.SalesSummaryViewModel.Tax ? (itemList.SalesSummaryViewModel.Tax  | currency) : '$0.00'}}<br>
-                                {{itemList.SalesSummaryViewModel.GrandTotal | currency}} </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: right;">Charge</td>
-                            <td style="border-top: 1px solid #dee2e6 !important; text-align: right">{{itemList.SalesSummaryViewModel.GrandTotal | currency}}</td>
-                        </tr>
-                        <tr></tr>
-                        <tr></tr>
-                        <tr>
-                            <td colspan="2" style="text-align: right;">Change Due</td>
-                            <td style="border: 1px solid #dee2e6 !important; text-align: right"> $0.00</td>
-                        </tr>
-                    </tbody>
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col" style="width: 30%;">Qty</th>
+                                <th scope="col" style="width: 20%;text-align: right;">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of itemList.SalesItemViewModel">
+                                <td>{{item?.ServiceName}}</td>
+                                <td>{{item?.Quantity}}</td>
+                                <td style="text-align: right;">{{item?.Price | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="pointer" style="text-align: right;">Sub Total <br> Tax <br> Total
+                                </td>
+                                <td style="border-top: 1px solid #dee2e6 !important; text-align: right;">
+                                    {{itemList.SalesSummaryViewModel.Total | currency}} <br>
+                                    {{itemList.SalesSummaryViewModel.Tax ? (itemList.SalesSummaryViewModel.Tax  | currency) : '$0.00'}}<br>
+                                    {{itemList.SalesSummaryViewModel.GrandTotal | currency}} </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: right;">Charge</td>
+                                <td style="border-top: 1px solid #dee2e6 !important; text-align: right">
+                                    {{itemList.SalesSummaryViewModel.GrandTotal | currency}}</td>
+                            </tr>
+                            <tr></tr>
+                            <tr></tr>
+                            <tr>
+                                <td colspan="2" style="text-align: right;">Change Due</td>
+                                <td style="border: 1px solid #dee2e6 !important; text-align: right"> $0.00</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-                </div>
             </div>
-            <br><br>
-            <div style="text-align: center;">Thank you</div>
         </div>
-        <button  value="Print" class="btn theme-primary-button-color btn-sm float-right" [useExistingCss]="true" printSectionId="print-section" ngxPrint (click)="cancel()">Print</button>
-        <button  value="Cancel" class="btn theme-optional-button-color btn-sm float-right" (click)="cancel()">Cancel</button>&nbsp;&nbsp;
-        <br>
-        <br>
-      
+        <br><br>
+        <div style="text-align: center;">Thank you</div>
     </div>
-    
+    <div class="modal-footer">
+        <button value="Cancel" class="btn theme-optional-button-color btn-sm float-right" tabindex="-1"
+            (click)="cancel()">Cancel</button>
+            <button value="Print" class="btn theme-primary-button-color btn-sm float-right" [useExistingCss]="true"
+                printSectionId="print-section" ngxPrint (click)="cancel()">Print</button>
+    </div>
+</div>

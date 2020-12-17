@@ -110,10 +110,10 @@
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
 
                                                     <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                                        style="color:green" pTooltip="edit" tooltipPosition="bottom"
+                                                        style="color:green" pTooltip="Edit" tooltipPosition="bottom"
                                                         (click)="add('edit', checkList)"></em>&nbsp;&nbsp;
                                                     <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                        style="color:red" pTooltip="delete" tooltipPosition="bottom"
+                                                        style="color:red" pTooltip="Delete" tooltipPosition="bottom"
                                                         (click)="delete(checkList)"></em>
                                                 </span>
 
@@ -121,10 +121,18 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                    [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                    [boundaryLinks]="true" class="d-flex justify-content-end">
-                                </ngb-pagination>
+                                <div class="row pull-right" >
+                                    <div class="col-6">
+                                     <ngb-pagination *ngIf="checkListDetails.length > 10" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                         [boundaryLinks]="true" class="d-flex justify-content-end">
+                                     </ngb-pagination> 
+                                     </div>
+                                     <select *ngIf="checkListDetails.length > 10" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+ 
+                                     </select>
+                                 </div>
                             </div>
                         </div>
                         <div class="loadingDiv" *ngIf="isLoading">

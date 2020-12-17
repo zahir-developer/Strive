@@ -31,6 +31,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
   customColor: any;
   whiteLabelDetail: any;
   fontName = '';
+  msgType: string;
   constructor(
     private modalService: NgbModal,
     private whiteLabelService: WhiteLabelService,
@@ -53,6 +54,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   themeChange(theme) {
+    this.msgType = 'Theme';
     if (theme.ThemeName === 'Custom') {
       this.showDialog = true;
       this.themeId = theme.ThemeId;
@@ -105,6 +107,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   fontChange(style) {
+    this.msgType = 'Font';
     this.fontName = style;
     document.documentElement.style.setProperty(`--text-font`, style);
   }
@@ -131,7 +134,9 @@ export class WhiteLabellingSectionComponent implements OnInit {
         document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.whiteLabelId = label.WhiteLabelling.WhiteLabel?.WhiteLabelId;
+          this.title = label.WhiteLabelling.WhiteLabel?.Title;
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+          this.logoService.setTitle(label.WhiteLabelling.WhiteLabel?.Title);
           this.logoPath = label.WhiteLabelling.WhiteLabel?.LogoPath;
           this.fileName = label.WhiteLabelling.WhiteLabel?.LogoPath;
         }
@@ -140,11 +145,12 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   CancelChanges() {
-    this.toastr.success('WhiteLabel Reset Successfully!!', 'Success!');
+    this.toastr.success(this.msgType + ' Reset Successfully!!', 'Success!');
     this.getAllWhiteLabelDetail();
   }
 
   handleInputChange(e) {
+    this.msgType = 'Logo';
     this.fileName = '';
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     this.fileName = file ? file.name : '';
@@ -205,7 +211,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
     this.whiteLabelService.updateWhiteLabelDetail(uploadObj).subscribe(data => {
       this.ngxService.hide();
       if (data.status === 'Success') {
-        this.toastr.success('Logo Saved successfully!', 'Success!');
+        this.toastr.success(this.msgType + ' Saved successfully!', 'Success!');
         this.getAllWhiteLabelDetail();
       } else {
         this.ngxService.hide();

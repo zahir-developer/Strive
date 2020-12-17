@@ -37,11 +37,12 @@ export class ClientFormComponent implements OnInit {
       this.viewClient();
     }
     if (this.isEdit === true) {
-      this.clientForm.reset();
-      this.clientForm.controls.status.enable();
       this.getClientById();
-    } else {
+    } 
+    if(this.isEdit !== true || this.isView === true){
       this.clientForm.controls.status.disable();
+    }else{
+      this.clientForm.controls.status.enable();
     }
   }
 
@@ -53,7 +54,7 @@ export class ClientFormComponent implements OnInit {
       zipcode: ['', [Validators.required, Validators.minLength(5)]],
       state: ['',],
       city: ['',],
-      phone1: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      phone1: ['', [Validators.required, Validators.minLength(14)]],
       email: ['', Validators.email],
       phone2: ['',],
       creditAccount: ['',],
@@ -133,8 +134,8 @@ export class ClientFormComponent implements OnInit {
     this.State = event.target.value;
   }
 
-  selectCity(id) {
-    this.city = id;
+  selectCity(event) {
+    this.city = event.target.value;
   }
 
 }

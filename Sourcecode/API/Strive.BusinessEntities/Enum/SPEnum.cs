@@ -54,7 +54,8 @@ namespace Strive.BusinessEntities
         }
         public enum DashboardStatistics
         {
-            USPGETDASHBOARDSTATISTICS
+            USPGETDASHBOARDSTATISTICS,
+            USPGETAVAILABLETIMESLOT
         }
         public enum Messenger
         {
@@ -144,6 +145,8 @@ namespace Strive.BusinessEntities
         USPGETAllPRODUCTNEW,
         USPGETALLLOCATION,
         USPGETLOCATIONBYID,
+        USPGETALLLOCATIONOFFSET,
+        USPDELETELOCATIONOFFSET,
         //Service Setup
         USPDELETESERVICEBYID,
         USPGETSERVICES,

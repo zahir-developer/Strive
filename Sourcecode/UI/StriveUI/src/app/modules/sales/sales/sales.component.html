@@ -73,32 +73,40 @@
                                             (click)="clear()">Clear</button>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" (click)="showPopup ? openCash(): closecash()" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"> <img
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton"
+                                            (click)="showPopup ? openCash(): closecash()"
+                                            [ngClass]="{'disable': enableButton, 'enable': !enableButton}"> <img
                                                 src="assets/img/cash.png" alt="" />
                                             <div> Cash </div>
                                         </div>
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton"
+                                            [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup ? opengiftcard(): closegiftcard()"> <img
                                                 src="assets/img/Gift.png" alt="" />
                                             <div> Gift </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
+                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton"
+                                            [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup ? opencreditcard(): closecreditcard()"> <img
                                                 src="assets/img/Credit.png" alt="" />
                                             <div> Credit </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7">
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton"
+                                            [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup? opendiscount(): closediscount()"> <img
                                                 src="assets/img/Discount.png" alt="" />
                                             <div> Discount </div>
                                         </div>
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton"  [ngClass]="{'disable': enableButton, 'enable': !enableButton}" [disable]="!isAccount" (click)="processAccount()">
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton || !isAccount"
+                                            [ngClass]="{'disable': enableButton || !isAccount, 'enable': !enableButton || isAccount}"
+                                            (click)="processAccount()">
                                             <img src="assets/img/Account.png" alt="" />
                                             <div> Account </div>
                                         </div>
-                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
+                                        <div class="icon-btn col-sm m-r-0" [class.disabled]="enableButton"
+                                            [ngClass]="{'disable': enableButton, 'enable': !enableButton}"
                                             (click)="showPopup ? getDetailByTicket(false): ''"> <img
                                                 src="assets/img/Clear.png" alt="" />
                                             <div> Clear </div>
@@ -108,13 +116,14 @@
                                         <button type="button" class="btn col-sm btn-payment actived"
                                             [disabled]='enableButton' (click)="addPayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]='!enableButton'
+                                            [disabled]="!enableButton || ticketNumber === ''"
                                             (click)="deleteItem('', 'rollback')">RollBack</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]='!enableButton'
+                                            [disabled]="!enableButton || ticketNumber === ''"
                                             (click)="deleteItem('', 'deleteJob')">Del</button>
                                         <button type="button" class="btn col-sm btn-payment actived m-r-0"
-                                            [disabled]='!enableButton' (click)="print()">Print</button>
+                                            [disabled]="!enableButton || ticketNumber === ''"
+                                            (click)="print()">Print</button>
                                     </div>
                                     <div id="Giftcardpopup" class="gift-card"> <span class="closebtn"
                                             (click)="closegiftcard()">&times;</span>
@@ -156,7 +165,7 @@
                                                 <div class="form-row p-b-12">
                                                     <div class="form-group col-md-12">
                                                         <input type="text" class="form-control" appTwoDecimalNumber
-                                                            placeholder="Amount" formControlName="giftCardAmount"
+                                                            placeholder="$0.00" formControlName="giftCardAmount"
                                                             [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"
                                                             (blur)="validateAmount()">
                                                         <div *ngIf="giftcardsubmitted && f.giftCardAmount.errors"
@@ -192,10 +201,9 @@
                                                         <tbody class="body-half-screen">
                                                             <tr *ngFor="let giftcard of giftcards">
                                                                 <td class="pointer">{{giftcard?.number}}</td>
-                                                                <td style="text-align: center;">
+                                                                <td>
                                                                     {{giftcard?.amount | currency}}</td>
-                                                                <td style="text-align: center;"> <i
-                                                                        class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                                <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                                         (click)="deletegiftcard(giftcard)"></i></td>
                                                             </tr>
                                                         </tbody>
@@ -376,7 +384,8 @@
                                 <div class="card-body">
                                     <div class="form-row">
                                         <div class="form-group col-md-3">
-                                            <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item List</label>
+                                            <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item
+                                                List</label>
                                         </div>
                                         <div class="form-group col-md-4" *ngIf="enableAdd === true">
                                             <form [formGroup]="addItemForm">

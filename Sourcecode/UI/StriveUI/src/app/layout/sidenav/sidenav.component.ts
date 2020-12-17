@@ -51,6 +51,7 @@ export class SidenavComponent implements OnInit {
   newRolePermission: string;
   @Input() localStorageUpdation: string  = 'localStorageUpdation';
 localStorageupdate: boolean = false;
+  logoName: any;
 
   constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
@@ -332,7 +333,9 @@ this.user.navName.subscribe((data = []) => {
     this.logoService.name.subscribe(data => {
       const base64 = 'data:image/png;base64,';
       this.logoBase64 = base64 + data;
-
+    });
+    this.logoService.title.subscribe(title =>{
+      this.logoName = title;
     });
   }
   openNav(menu) {

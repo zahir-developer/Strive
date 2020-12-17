@@ -4,78 +4,37 @@
         <div class="card m-t-10 m-b-10">
             <div class="card-body">
                 <div class="tab-content">
-                    <div class=" p-b-20 m-b-15">
+                    <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Employee Handbook</h5>&nbsp;
-                        <button type="button" [disabled] = "isTableEmpty === false" class="btn theme-primary-button-color btn-md float-right"
+                        <button type="button" [disabled] = "fileName !== null" class="btn theme-primary-button-color btn-md float-right"
                             (click)="adddata('add',[])">Add
                         </button>
                     </div>
-                    <!-- <div class="setup-wrapper">
-                        <div class="setup-content" id="open-collapse">
-                           
-                            
-                            <div class="table-responsive" >
-
-                                <table class="table  table-striped m-t-10">
-                                    <thead>
-                                        <tr>
-                                            <th> Name</th>
-                                            <th> Created Date</th>
-                                            <th> Created By</th>
-                                            <th> File Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            
-                                                <th scope="row"><a>{{fileName}}</a></th>
- 
-                                            <td>
-                                                
-
-                                                  
-                                                    <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                        style="color:red" pTooltip="delete" tooltipPosition="bottom"
-                                                        (click)="delete()"></em>
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                
-                            </div>
-                        </div>
-                       
-                    </div> -->
-                    <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                        class="col-12 row d-block">No Records Found</span>
-                    </div> 
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <div class="table-responsive" *ngIf="isLoading === false && document.Document">
+                            <div class="table-responsive" *ngIf="isLoading === false && fileName === null"> <span
+                                class="col-12 row d-block" style="text-align: center;">No Records Found</span>
+                            </div> 
+                            <div class="table-responsive" *ngIf="isLoading === false && fileName !== null">
                                 <table class="table  table-striped m-t-10">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
+                                            <th>File Name</th>
                                             <th> Created Date</th>
                                             <th> Created By</th>
-                                            <th> File Name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row" ><a >{{Documents?.OriginalFileName}}</a></th>
+                                            <th scope="row" >{{Documents?.OriginalFileName}}</th>
                                             <td>{{Documents?.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
                                             <td>{{Documents?.CreatedBy}}</td>
-
-                                            <td ><a (click)= "downloadPDF()">{{Documents?.FileName}}</a></td>
-
                                             <td>
-                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                    style="color:red" pTooltip="delete" tooltipPosition="bottom"
-                                                    (click)="delete()"></em>
+                                                <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
+                                                    pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF()"></em>
+                                                <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
+                                                    pTooltip="Delete" tooltipPosition="bottom"  (click)="delete()"></em>
                                             </td>
                                         </tr>
                                     </tbody>

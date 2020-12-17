@@ -1,5 +1,5 @@
 <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-    <h3 class="d-inline-block">Reports </h3>
+    <h3 class="d-inline-block">Monthly Tip</h3>
 </div>
 <div class="col-lg-12 p-l-0 p-r-0">
     <div class="row no-gutter">
@@ -29,7 +29,7 @@
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                 [printStyle]="{input: {'visibility': 'hidden'}, button: {'visibility': 'hidden'}}"  printSectionId="monthlyReport" ngxPrint>Print</button>&nbsp;

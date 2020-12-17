@@ -348,7 +348,7 @@ export class SalesComponent implements OnInit {
   deleteItem(data, type) {
     const title = type === 'deleteItem' ? 'Delete Item' : type === 'rollback' ? 'RollBacK' : 'Delete Ticket';
     const message = type === 'deleteItem' ? 'Are you sure you want to delete the selected Item?' : type === 'rollback' ? 'Are you sure you want to Rollback the transaction?' : 'Are you sure you want to delete the Ticket?';
-    this.confirmationService.confirm(title, message, 'Yes', 'No')
+    this.confirmationService.confirm(title, message, 'Yes', 'No', '', '500px')
       .then((confirmed) => {
         if (confirmed === true) {
           if (type === 'deleteItem') {
@@ -382,7 +382,7 @@ export class SalesComponent implements OnInit {
     });
   }
   openCash() {
-    const cashTotal = this.getBalanceDue();
+    const cashTotal = this.cash !== 0 ? this.cash : this.getBalanceDue();
     this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
@@ -419,7 +419,7 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '0';
   }
   opencreditcard() {
-    const creditTotal = this.getBalanceDue();
+    const creditTotal = this.credit !== 0 ? this.credit : this.getBalanceDue();
     this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
     this.cashback = this.initialcashback;
@@ -965,6 +965,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
+          this.router.navigate([`/checkout`], { relativeTo: this.route });
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }

@@ -73,7 +73,7 @@ export class GiftCardComponent implements OnInit {
       if (res.status === 'Success') {
         const giftcardDetail = JSON.parse(res.resultData);
         if (giftcardDetail.GiftCardDetail.length > 0) {
-          this.activeDate = moment(giftcardDetail.GiftCardDetail[0].ExpiryDate).format('MM-DD-YYYY');
+          this.activeDate = moment(giftcardDetail.GiftCardDetail[0].ExpiryDate).format('MM/DD/YYYY');
           this.totalAmount = giftcardDetail.GiftCardDetail[0].TotalAmount;
           this.giftCardID = giftcardDetail.GiftCardDetail[0].GiftCardId;
           this.isActivity = true;

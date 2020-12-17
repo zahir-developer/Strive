@@ -20,7 +20,7 @@
                                     <div class="form-group col-lg-2">
                                         <label>Month/Year:</label>
                                         <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
-                                            class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY' }" (bsValueChange)="getBonusList()">
+                                            class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY',showWeekNumbers: false }" (bsValueChange)="getBonusList()">
                                     </div>
                                     <div class="col-lg-1"></div>
                                     <div class="form-group col-lg-2">
@@ -103,7 +103,7 @@
                                                     class="form-control rounded-0 input-table text-right">
                                             </td>
                                             <td>
-                                                <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" pTooltip="Delete" tooltipPosition="bottom"
                                                     (click)="deleteBonusRange(bonus, i)"></em>
                                             </td>
                                         </tr>

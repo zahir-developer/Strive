@@ -43,6 +43,13 @@
                 </select>
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
+                <label for="inputUpcharge">Washes</label>
+                <select class="form-control" formControlName="wash">
+                    <option *ngFor="let wash of washesDropdown" value="{{wash.ServiceId}}">
+                        {{wash.ServiceName}}</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Upcharge Type</label>
                 <select class="form-control" formControlName="upchargeType"
                     (change)="upchargeTypeChange($event, 'type')">
@@ -60,8 +67,8 @@
                     </option>
                 </select>
             </div>
-        </div>
-        <div class="form-row">
+            <!-- </div>
+        <div class="form-row"> -->
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputService">Services</label>
                 <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
@@ -72,7 +79,7 @@
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputMonthlyCharge">Monthly Charge</label>
                 <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control"
-                    formControlName="monthlyCharge" placeholder="0.00">
+                    formControlName="monthlyCharge" placeholder="$0.00">
             </div>
         </div>
     </form>
