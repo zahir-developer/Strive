@@ -25,4 +25,12 @@ export class CustomerService {
   getVehicleByClientId(clientId: number) {
     return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });
   }
+
+  getAvailablilityScheduleTime(obj) {
+    return this.http.post(`${UrlConfig.dashboard.getAvailablilityScheduleTime}`, obj);
+  }
+
+  getWashTimeByLocationId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getLocationById}`, { params: { id }});
+  }
 }

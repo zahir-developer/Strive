@@ -165,7 +165,7 @@
                                                 <div class="form-row p-b-12">
                                                     <div class="form-group col-md-12">
                                                         <input type="text" class="form-control" appTwoDecimalNumber
-                                                            placeholder="Amount" formControlName="giftCardAmount"
+                                                            placeholder="$0.00" formControlName="giftCardAmount"
                                                             [ngClass]="{ 'is-invalid': giftcardsubmitted && f.giftCardAmount.errors }"
                                                             (blur)="validateAmount()">
                                                         <div *ngIf="giftcardsubmitted && f.giftCardAmount.errors"

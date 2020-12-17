@@ -151,6 +151,12 @@ export const UrlConfig = {
     getCheckList : `Admin/Checklist/GetChecklist`,
     addCheckList : `Admin/Checklist/Add`,
     DeleteCheckList : `Admin/Checklist/Delete`,
+    getadSetup: `Admin/AdSetup/GetAll`,
+    insertadSetup: `Admin/AdSetup/Add`,
+    updateadSetup: `Admin/AdSetup/Update`,
+    deleteadSetup: `Admin/AdSetup/Delete`,
+    getByIdadSetup: `Admin/AdSetup/GetById`,
+
    
 
 
@@ -191,7 +197,8 @@ export const UrlConfig = {
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
-    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`
+    getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`,
+    getAvailablilityScheduleTime: `Admin/Dashboard/GetAvailablilityScheduleTime`
   },
   bonusSetup: {
     saveBonus: `Admin/BonusSetup/Add`,
