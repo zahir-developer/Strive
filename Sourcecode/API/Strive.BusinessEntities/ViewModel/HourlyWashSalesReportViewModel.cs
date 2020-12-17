@@ -11,6 +11,7 @@ namespace Strive.BusinessEntities.ViewModel
         public List<WashHoursViewModel> WashHoursViewModel { get; set; }
         public List<SalesSummaryViewModel> SalesSummaryViewModel { get; set; }
         public List<LocationWashServiceViewModel> LocationWashServiceViewModel { get; set; }
+        public List<HourlyWashEmployeeViewModel> HourlyWashEmployeeViewModel { get; set; }
 
     }
 }
