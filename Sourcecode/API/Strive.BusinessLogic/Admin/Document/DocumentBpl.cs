@@ -337,7 +337,7 @@ namespace Strive.BusinessLogic.Document
             }
         }
 
-        public Result AddDocument(DocumentDto documentModel)
+        public int AddDocument(DocumentDto documentModel)
         {
             string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
 
@@ -352,7 +352,7 @@ namespace Strive.BusinessLogic.Document
                 DeleteFile(documentModel.DocumentType, fileName);
             }
 
-            return _result;
+            return result;
         }
 
         public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
