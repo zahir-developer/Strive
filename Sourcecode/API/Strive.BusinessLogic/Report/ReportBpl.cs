@@ -199,6 +199,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
             result.WashHoursViewModel = washResult;
             result.SalesSummaryViewModel = washHourSalesResult.SalesSummaryViewModel;
             result.LocationWashServiceViewModel = washHourSalesResult.LocationWashServiceViewModel;
+            result.HourlyWashEmployeeViewModel = washHourSalesResult.HourlyWashEmployeeViewModel;
 
             return ResultWrap(result, "GetHourlyWashReport");
         }
