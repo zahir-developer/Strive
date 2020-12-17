@@ -17,7 +17,10 @@
                                             <h5 class="d-inline-block align-middle font-weight-600">Select Date
                                             </h5>
                                         </div>
-                                        <div class="date-inline border rounded-sm"> </div>
+                                        <bs-datepicker-inline [bsValue]="selectedDate"
+                                            (bsValueChange)="getScheduleDetailsByDate($event)"
+                                            [bsConfig]="{ showWeekNumbers: false }">
+                                        </bs-datepicker-inline>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="p-b-5 p-t-5 m-b-10">
@@ -25,21 +28,20 @@
                                             </h5>
                                         </div>
                                         <div class="button-list">
-                                            <button type="button" class="btn timeslot-active  m-b-5">08.00</button>
-                                            <button type="button" class="btn timeslot-unactive m-b-5">08.15</button>
-                                            <button type="button" class="btn timeslot-unactive m-b-5">08.30</button>
-                                            <button type="button" class="btn timeslot-unactive m-b-5">08.45</button>
-                                            <button type="button" class="btn timeslot-unactive m-b-5">09.00</button>
-                                            <button type="button" class="btn timeslot-unactive m-b-5">09.15</button>
-                                            <button type="button" class="btn timeslot-unactive m-b-5">09.30</button>
+                                            <!-- timeslot-active timeslot-unactive -->
+                                            <span *ngFor="let slot of time; let index = index">
+                                                <button type="button" class="btn timeslot-unactive m-r-5 m-b-5"
+                                                    (click)="selectedTimeSlot(slot, index)"
+                                                    [ngClass]="{ 'timeslot-active': activeSlot === index ? true : false}"><span>{{slot}}</span></button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-row row no-gutters  margin-auto">
                                     <div class="form-group col-md-12">
                                         <div class="pull-right">
-                                            <button type="button"
-                                                class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+                                            <button type="button" class="btn theme-optional-button-color"
+                                                (click)="cancel()">Cancel</button>
                                             <button type="button" class="btn theme-primary-button-color"
                                                 (click)="next()">Next</button>
                                         </div>
