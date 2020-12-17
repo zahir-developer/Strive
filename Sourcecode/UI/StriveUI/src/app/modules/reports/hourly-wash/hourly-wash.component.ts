@@ -39,6 +39,7 @@ export class HourlyWashComponent implements OnInit {
   totalDifference = 0;
   totalActual = 0;
   fileTypeEvent: boolean = false;
+  hourlyWashManager: any = [];
   constructor(
     private reportsService: ReportsService,
     private excelService: ExcelService,
@@ -112,6 +113,10 @@ export class HourlyWashComponent implements OnInit {
           this.hourlyWashReport = this.customizeObj(this.hourlyWashReport);
         }
 
+        if (hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel !== null) {
+          this.hourlyWashManager = hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel;
+        }
+
         if (this.washModel.length > 0) {
           const jobDate = _.pluck(this.washModel, 'JobDate');
           const uniqDate = [...new Set(jobDate)];
@@ -167,6 +172,12 @@ export class HourlyWashComponent implements OnInit {
             }
           });
           console.log(this.salesDetails, 'salesdetail');
+          this.salesDetails.forEach( item => {
+            const manager = _.where(this.hourlyWashManager, { JobDate: item.JobDate });
+            if (manager.length > 0) {
+              item.Managers = manager[0].FirstName + '' + manager[0].LastName;
+            }
+          });
           this.salesDetails.forEach(item => {
             this.totalDeposits = this.totalDeposits + item.Deposits;
             this.totalBC = this.totalBC + item.BC;
