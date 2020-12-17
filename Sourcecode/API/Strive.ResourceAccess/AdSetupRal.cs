@@ -1,5 +1,7 @@
-﻿using Strive.BusinessEntities;
+﻿using Microsoft.Office.Interop.Excel;
+using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO.AdSetup;
+using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using Strive.Repository;
@@ -20,7 +22,7 @@ namespace Strive.ResourceAccess
             var dbConnection = tenant.db();
             _db = new Db(dbConnection);
         }
-        public bool AddAdSetup(AdSetupDto adSetup)
+        public bool AddAdSetup(AdSetup adSetup)
         {
             return dbRepo.InsertPc(adSetup, "AdSetupId");
         }

@@ -297,14 +297,8 @@ namespace Strive.BusinessLogic.Document
                 case GlobalUpload.DocumentType.LOGO:
                     subPath = _tenant.LogoImageFolder;
                     break;
-                case GlobalUpload.DocumentType.EMPLOYEEHANDBOOK:
-                    subPath = _tenant.GeneralDocumentFolder;
-                    break;
-                case GlobalUpload.DocumentType.TERMSANDCONDITION:
-                    subPath = _tenant.GeneralDocumentFolder;
-                    break;
                 default:
-                    subPath = "";
+                    subPath = _tenant.GeneralDocumentFolder + module.ToString() ;
                     break;
             }
 

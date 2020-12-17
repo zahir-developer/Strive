@@ -12,6 +12,7 @@ export class CustomerComponent implements OnInit {
   appointmentScreen: boolean;
   previewScreen: boolean;
   confirmationScreen: boolean;
+  scheduleDetailObj: any = {};
   constructor() { }
 
   ngOnInit(): void {

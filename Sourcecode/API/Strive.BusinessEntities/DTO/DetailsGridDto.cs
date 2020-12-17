@@ -10,5 +10,6 @@ namespace Strive.BusinessEntities.DTO
     {
         public DateTime JobDate { get; set; }
         public int LocationId { get; set; }
+        public int ClientId { get; set; }
     }
 }
