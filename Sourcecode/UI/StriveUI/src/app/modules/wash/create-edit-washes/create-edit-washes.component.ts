@@ -65,6 +65,10 @@ export class CreateEditWashesComponent implements OnInit {
   clientName = '';
   washTime: any;
   vehicleNumber: number;
+  washId: any;
+  upchargeId: any;
+  airFreshenerId: any;
+  additionalId: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService) { }
 
@@ -143,10 +147,10 @@ export class CreateEditWashesComponent implements OnInit {
       color: this.selectedData.Washes[0].Color,
       notes: this.selectedData.Washes[0].ReviewNote,
       pastNotes: this.selectedData.Washes[0].PastHistoryNote,
-      washes: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 15)[0]?.ServiceId,
-      upchargeType: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 18)[0]?.ServiceId,
-      upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 18)[0]?.ServiceId,
-      airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === 19)[0]?.ServiceId,
+      washes: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId,
+      upchargeType: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId,
+      upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId,
+      airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId,
     });
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
@@ -203,7 +207,7 @@ export class CreateEditWashesComponent implements OnInit {
         const membership = JSON.parse(res.resultData);
         this.memberService = membership.MembershipAndServiceDetail.MembershipService;
         if (this.memberService !== null) {
-          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
+          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === this.washId);
           if (washService.length !== 0) {
             this.washService(washService[0].ServiceId);
           } else {
@@ -224,6 +228,10 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
+        this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Washes')[0]?.CodeId;
+        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Upcharges')[0]?.CodeId;
+        this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
+        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
         this.getAllServices();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -268,10 +276,10 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getServices().subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.additional = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[2].CodeValue);
-        this.washes = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[0].CodeValue);
-        this.upcharges = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[3].CodeValue);
-        this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[4].CodeValue);
+        this.additional = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
+        this.washes = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.washId);
+        this.upcharges = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
+        this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
         this.UpchargeType = this.upcharges;
         // this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
         this.additional.forEach(element => {
@@ -352,9 +360,9 @@ export class CreateEditWashesComponent implements OnInit {
     this.wash.getVehicleColor().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
-        this.type = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
-        this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
+        this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
+        this.type = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
+        this.model = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleModel');
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
             if (+this.selectedData.Washes[0].Make === item.CodeId) {
@@ -437,19 +445,19 @@ export class CreateEditWashesComponent implements OnInit {
 
   washService(data) {
     if (this.isEdit) {
-      this.washItem.filter(i => Number(i.ServiceTypeId) === 15)[0].IsDeleted = true;
+      this.washItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0].IsDeleted = true;
       if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
-        this.washItem.filter(i => Number(i.ServiceTypeId) === 15)[0].IsDeleted = false;
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.washId);
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.washId);
         const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 15);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.washId);
       const serviceWash = this.washes.filter(item => item.ServiceId === Number(data));
       if (serviceWash.length !== 0) {
         this.additionalService.push(serviceWash[0]);
@@ -461,21 +469,21 @@ export class CreateEditWashesComponent implements OnInit {
 
   upchargeService(data) {
     if (this.isEdit) {
-      if (this.washItem.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
-        this.washItem.filter(i => Number(i.ServiceTypeId) === 18)[0].IsDeleted = true;
+      if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
       }
       if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
-        this.washItem.filter(i => Number(i.ServiceTypeId) === 18)[0].IsDeleted = false;
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
         const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
         if (serviceUpcharge.length !== 0) {
           this.additionalService.push(serviceUpcharge[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
       const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
       if (serviceUpcharge.length !== 0) {
         this.additionalService.push(serviceUpcharge[0]);
@@ -488,21 +496,21 @@ export class CreateEditWashesComponent implements OnInit {
 
   airService(data) {
     if (this.isEdit) {
-      if (this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0] !== undefined) {
-        this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0].IsDeleted = true;
+      if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0] !== undefined) {
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = true;
       }
       if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
-        this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0].IsDeleted = false;
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
         const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
         if (serviceAir.length !== 0) {
           this.additionalService.push(serviceAir[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
       const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
       if (serviceAir.length !== 0) {
         this.additionalService.push(serviceAir[0]);
