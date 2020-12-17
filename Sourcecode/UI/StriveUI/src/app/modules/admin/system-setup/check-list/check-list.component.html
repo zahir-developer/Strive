@@ -17,7 +17,7 @@
                                 <form><div class ="title-border m-b-22"></div>
                                     <div class="form-row">
                                         <div class="form-group col-3 "> <input type="text" class="form-control"
-                                                name="CheckList" [(ngModel)]="checkListName"
+                                                name="CheckList" [(ngModel)]="checkListName" maxlength="50"
                                                 placeholder="Enter Check List"> </div>&nbsp;
 
                                         <div class="form-group col-3 m-l-140">
@@ -33,10 +33,10 @@
                                         <div class="form-group col-2 m-l-120 m-t-5">
 
                                             <em class="fa fa-floppy-o edit-list theme-secondary-icon-color m-r-10"
-                                                style="color:green" pTooltip="save" tooltipPosition="bottom"
+                                                style="color:green" pTooltip="Save" tooltipPosition="bottom"
                                                 (click)="add('add',[])"></em>&nbsp;
                                             <em class="fa fa-ban  theme-optional-icon-color" style="color:red"
-                                                pTooltip="cancel" tooltipPosition="bottom"
+                                                pTooltip="Cancel" tooltipPosition="bottom"
                                                 (click)="checlistcancel()"></em>
 
                                         </div>
@@ -64,7 +64,7 @@
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
-                                                    <input type="text" class="form-control" name="CheckList"
+                                                    <input type="text" class="form-control" name="CheckList" maxlength="50"
                                                         [(ngModel)]="checkList.Name" placeholder="Enter Check List">
                                                 </span>
                                             </td>
@@ -98,13 +98,13 @@
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
                                                     <em class="fa fa-floppy-o  theme-secondary-icon-color m-r-10 m-t-8"
-                                                        style="color:green" pTooltip="save" tooltipPosition="bottom"
+                                                        style="color:green" pTooltip="Save" tooltipPosition="bottom"
                                                         (click)="submit(checkList)"></em>&nbsp;&nbsp;
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
                                                     <em class="fa fa-ban  theme-optional-icon-color m-t-8"
-                                                        style="color:red" pTooltip="cancel" tooltipPosition="bottom"
+                                                        style="color:red" pTooltip="Cancel" tooltipPosition="bottom"
                                                         (click)="cancel()"></em>
                                                 </span>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
