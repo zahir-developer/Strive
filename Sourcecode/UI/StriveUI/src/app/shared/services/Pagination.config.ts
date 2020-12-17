@@ -1,6 +1,6 @@
 export const PaginationConfig = {
 page : 1,
-defaultPageSize : 5,
-PageSizeOptions : [5,10,25,50]
+TableGridSize: 10,
+Rows : [5,10,25,50,100]
 
 }

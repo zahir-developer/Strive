@@ -35,8 +35,8 @@ export class AdSetupListComponent implements OnInit {
   ngOnInit() {
     this.isLoading = false;
     this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.defaultPageSize;
-    this.pageSizeList = PaginationConfig.PageSizeOptions;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
 
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";
@@ -50,7 +50,7 @@ export class AdSetupListComponent implements OnInit {
       this.isLoading = false;
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.adSetupDetails = serviceDetails.ServiceSetup;
+        this.adSetupDetails = serviceDetails.GetAllAdSetup;
         if (this.adSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

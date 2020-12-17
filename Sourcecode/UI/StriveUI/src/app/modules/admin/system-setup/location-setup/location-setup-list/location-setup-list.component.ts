@@ -3,6 +3,7 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
   selector: 'app-location-setup-list',
@@ -19,13 +20,17 @@ export class LocationSetupListComponent implements OnInit {
   isTableEmpty: boolean;
   selectedLocation: any;
   isLoading = true;
-  page = 1;
-  pageSize = 5;
   collectionSize: number = 0;
+  pageSize: number;
+  page: number;
+  pageSizeList: number[];
   constructor(private locationService: LocationService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.getAllLocationSetupDetails();
 
   }
@@ -49,7 +54,19 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-  
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllLocationSetupDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllLocationSetupDetails()
+  }
   // Get Location Search
   locationSearch(){
     this.page = 1;

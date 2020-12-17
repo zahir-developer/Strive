@@ -66,10 +66,18 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                    [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                    [boundaryLinks]="true" class="d-flex justify-content-end">
-                                </ngb-pagination>
+                                <div class="row pull-right" >
+                                    <div class="col-6">
+                                     <ngb-pagination  *ngIf="serviceSetupDetails.length > 10" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                         [boundaryLinks]="true" class="d-flex justify-content-end">
+                                     </ngb-pagination> 
+                                     </div>
+                                     <select *ngIf="serviceSetupDetails.length > 10" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+ 
+                                     </select>
+                                 </div>
                             </div>
                         </div>
                         <div class="loadingDiv" *ngIf="isLoading">
