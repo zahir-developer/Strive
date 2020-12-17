@@ -38,7 +38,7 @@ export class HourlyWashComponent implements OnInit {
   totalSales = 0;
   totalDifference = 0;
   totalActual = 0;
-  fileTypeEvent: boolean= false ;
+  fileTypeEvent: boolean = false;
   constructor(
     private reportsService: ReportsService,
     private excelService: ExcelService,
@@ -96,6 +96,11 @@ export class HourlyWashComponent implements OnInit {
       if (res.status === 'Success') {
         const hourlyRate = JSON.parse(res.resultData);
         this.salesDetails = [];
+        this.totalWashCount = [];
+        this.washModel = [];
+        this.SalesSummaryModel = [];
+        this.hourlyWashReport = [];
+        this.washServiceName = [];
         if (hourlyRate.GetHourlyWashReport.LocationWashServiceViewModel !== null) {
           this.washModel = hourlyRate.GetHourlyWashReport.LocationWashServiceViewModel;
         }
@@ -257,6 +262,8 @@ export class HourlyWashComponent implements OnInit {
         };
       });
       return wash;
+    } else {
+      return [];
     }
   }
 

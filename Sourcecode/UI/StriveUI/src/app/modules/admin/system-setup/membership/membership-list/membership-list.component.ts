@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
   selector: 'app-membership-list',
@@ -16,13 +17,18 @@ export class MembershipListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  page = 1;
-  pageSize = 5;
+ 
   query = '';
   collectionSize: number = 0;
+  page: any;
+  pageSize: any;
+  pageSizeList: any;
   constructor(private toastr: MessageServiceToastr, private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 
   ngOnInit() {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.getAllMembershipDetails();
   }
 
@@ -45,7 +51,19 @@ export class MembershipListComponent implements OnInit {
       }
     });
   }
-
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllMembershipDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllMembershipDetails()
+  }
   delete(data) {
     this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
   information will be deleted and the membership cannot be retrieved?`, 'Yes', 'No')

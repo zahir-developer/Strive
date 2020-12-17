@@ -17,7 +17,7 @@
      
       <li class="" *ngIf = "whiteLabellingModule == true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-square-edit-outline" ></i>While Labelling</a></li>
       <li class="" *ngIf = "messengerModule == true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>Messenger</a></li>
-      <!-- <li class=""><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>Customer</a></li> -->
+      <li class=""><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>Customer</a></li>
     </ul>
   </div>
   <div id="reportSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block"> 
@@ -48,12 +48,12 @@
           Register Setup</a> </li>
       <li *ngIf ="closeOutRegisterView == true"><a [routerLink]='["./admin/closeoutregister"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Close
           Out Register</a> </li>
-      <li *ngIf ="timeClockMaintenanceView == true"><a [routerLink]='["./admin/time-clock"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Time Clock
-          Maintenance</a></li>
       <li *ngIf ="employeesView == true"><a [routerLink]='["./admin/employees"]' [routerLinkActive]='["link-active"]'
           (click)="closeNav()">Employees</a></li>
       <li *ngIf ="clientsView == true"><a [routerLink]='["./admin/client"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Clients</a>
       </li>
+      <li *ngIf ="timeClockMaintenanceView == true"><a [routerLink]='["./admin/time-clock"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Time Clock
+          Maintenance</a></li>
       <li *ngIf ="vechiclesView == true"> <a [routerLink]='["./admin/vehicle"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Vehicles</a>
       </li>
       <li *ngIf ="SchedulesView == true"><a [routerLink]='["./admin/scheduling"]' [routerLinkActive]='["link-active"]'

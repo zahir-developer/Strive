@@ -18,23 +18,23 @@ export class LocationDropdownComponent implements OnInit {
     this.locationId = +localStorage.getItem('empLocationId');
     this.getLocation();
   }
-getLocation() {
-  this.locationService.getLocation().subscribe(res => {
-    if (res.status === 'Success') {
-      const location = JSON.parse(res.resultData);
-      this.location = location.Location;
-      this.getLocationNameById(this.locationId);
-    } else {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-    }
-  });
-}
-changeLocation(event) {
-  this.emitLocation.emit(event.target.value);
-  this.getLocationNameById(event.target.value);
-}
-getLocationNameById(id) {
-  const locationName = this.location.filter(item => +item.LocationId === +id);
-  this.locationName = locationName[0].LocationName;
-}
+  getLocation() {
+    this.locationService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+        this.getLocationNameById(this.locationId);
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+  changeLocation(event) {
+    this.emitLocation.emit(event.target.value);
+    this.getLocationNameById(event.target.value);
+  }
+  getLocationNameById(id) {
+    const locationName = this.location.filter(item => +item.LocationId === +id);
+    this.locationName = locationName[0].LocationName;
+  }
 }

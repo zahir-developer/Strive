@@ -9,13 +9,18 @@ import { SelectLocationComponent } from './select-location/select-location.compo
 import { SelectAppointmentDateComponent } from './select-appointment-date/select-appointment-date.component';
 import { PreviewAppointmentDetailComponent } from './preview-appointment-detail/preview-appointment-detail.component';
 import { AppointmentConfigurationComponent } from './appointment-configuration/appointment-configuration.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [CustomerComponent, CustomerDashboardComponent, SelectServicesComponent, SelectLocationComponent, SelectAppointmentDateComponent, PreviewAppointmentDetailComponent, AppointmentConfigurationComponent],
   imports: [
     CommonModule,
-    CustomerRoutingModule
+    CustomerRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class CustomerModule { }
