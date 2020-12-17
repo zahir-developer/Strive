@@ -151,6 +151,12 @@ export const UrlConfig = {
     getCheckList : `Admin/Checklist/GetChecklist`,
     addCheckList : `Admin/Checklist/Add`,
     DeleteCheckList : `Admin/Checklist/Delete`,
+    getadSetup: `Admin/AdSetup/GetAll`,
+    insertadSetup: `Admin/AdSetup/Add`,
+    updateadSetup: `Admin/AdSetup/Update`,
+    deleteadSetup: `Admin/AdSetup/Delete`,
+    getByIdadSetup: `Admin/AdSetup/GetById`,
+
    
 
 

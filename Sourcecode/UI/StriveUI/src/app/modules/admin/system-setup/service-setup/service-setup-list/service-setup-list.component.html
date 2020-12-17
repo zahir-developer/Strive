@@ -40,7 +40,8 @@
                                         <tr>
                                             <th> Name</th>
                                             <th> Type</th>
-                                            <th>Price</th>
+                                            <th> Description</th>
+                                              <th>Price</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -50,6 +51,8 @@
                                             *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{serviceSetup.ServiceName}}</th>
                                             <td>{{serviceSetup.ServiceType}}</td>
+                                            <td>{{serviceSetup.Description}}</td>
+
                                             <td>{{serviceSetup.Cost | currency}}</td>
                                             <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
@@ -63,10 +66,18 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                    [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                    [boundaryLinks]="true" class="d-flex justify-content-end">
-                                </ngb-pagination>
+                                <div class="row pull-right" >
+                                    <div class="col-6">
+                                     <ngb-pagination  *ngIf="serviceSetupDetails.length > 10" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                         [boundaryLinks]="true" class="d-flex justify-content-end">
+                                     </ngb-pagination> 
+                                     </div>
+                                     <select *ngIf="serviceSetupDetails.length > 10" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+ 
+                                     </select>
+                                 </div>
                             </div>
                         </div>
                         <div class="loadingDiv" *ngIf="isLoading">
@@ -79,6 +90,7 @@
     </div>
 </div>
 <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
+
     [resizable]="true" appendTo="body" [focusOnShow]="false" [closable]="false">
     <app-service-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
         (closeDialog)="closePopupEmit($event)">
