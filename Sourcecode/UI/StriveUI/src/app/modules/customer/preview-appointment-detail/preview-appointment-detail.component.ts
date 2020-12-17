@@ -83,7 +83,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     jobItem.push({
       jobItemId: 0,
       jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
-      serviceId: this.scheduleDetailObj.serviceobj.ServiceTypeId,
+      serviceId: this.scheduleDetailObj.serviceobj.ServiceId,
       isActive: true,
       isDeleted: false,
       commission: 0,
