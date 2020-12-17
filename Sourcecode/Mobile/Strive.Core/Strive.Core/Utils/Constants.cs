@@ -103,5 +103,7 @@ namespace Strive.Core.Utils
         public const string URL_SAVE_DOCUMENTS = "/Admin/Document/SaveDocument";
 
         public const string URL_CHECKOUT_DETAILS = "/Admin/Checkout/GetCheckedInVehicleDetails";
+
+        public const string URL_ALL_TICKETS = "/Admin/Washes/GetAllWashes/1";
     }
 }

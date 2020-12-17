@@ -10,6 +10,7 @@ using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
+using Strive.Core.Models.Employee.MyTickets;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
@@ -241,6 +242,10 @@ namespace Strive.Core.Services.Implementations
         public async Task<CheckOutVehicleDetails> CheckOutVehicleDetails()
         {
             return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS, HttpMethod.Get);
+        }
+        public async Task<AllTickets> GetAllTickets()
+        {
+            return await _restClient.MakeApiCall<AllTickets>(ApiUtils.URL_ALL_TICKETS, HttpMethod.Get);
         }
     }
     public static class RestUtils

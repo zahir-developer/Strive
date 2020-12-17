@@ -7,6 +7,7 @@ using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
+using Strive.Core.Models.Employee.MyTickets;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 
@@ -90,6 +91,10 @@ namespace Strive.Core.Services.Interfaces
         Task<GetCollisions> GetCollisions(int liabilityID);
 
         Task<PostResponse> SaveDocuments(AddDocuments documents);
+        
         Task<CheckOutVehicleDetails> CheckOutVehicleDetails();
+
+        Task<AllTickets> GetAllTickets();
+
     }
 }
