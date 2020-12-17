@@ -66,6 +66,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@JobDate", detailsGrid.JobDate);
             _prm.Add("@LocationId", detailsGrid.LocationId);
+            _prm.Add("@ClientId", detailsGrid.ClientId);
             var result = db.FetchMultiResult<DetailsGridViewModel>(SPEnum.USPGETALLDETAILS.ToString(), _prm);
             return result;
         }
