@@ -59,8 +59,8 @@
                                     <tbody>
                                         <tr *ngFor="let bonus of monthBonusList; let i = index">
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i)"
-                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' || isMinValueObj?.isMinValue && isMinValueObj?.index === i}"
+                                                <input type="text" [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i);validateMaxValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' }"
                                                     class="form-control rounded-0 input-table text-right">
                                                 <div *ngIf="submitted && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
@@ -71,9 +71,9 @@
                                                 <!-- <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
                                                 </div> -->
-                                                <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
+                                                <!-- <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
                                                     Min value greater than Max value
-                                                </div>
+                                                </div> -->
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.Max"
@@ -89,6 +89,7 @@
                                                 <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i" class="invalid-feedback">
                                                     Max value is greater than Min value
                                                 </div>
+                                            
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.noOfWashes"
