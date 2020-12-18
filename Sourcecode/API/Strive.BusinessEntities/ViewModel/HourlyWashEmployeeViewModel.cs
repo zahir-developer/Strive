@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class HourlyWashEmployeeViewModel : EmployeeList
     {
-        public DateTime JobDate { get; set; }
+        public DateTime EventDate { get; set; }
         public int LocationId { get; set; }
     }
 }

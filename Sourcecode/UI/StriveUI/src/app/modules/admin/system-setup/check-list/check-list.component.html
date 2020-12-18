@@ -7,17 +7,17 @@
                     <div class=" p-b-20 m-b-15">
                         <h5 class="d-inline-block">Check List</h5>&nbsp;
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="checlist()">Add
-                        </button>
-                        
+                            (click)="checlist()">New</button>
+
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
                             <div class="search-container  " *ngIf="checklistAdd">
-                                <form><div class ="title-border m-b-22"></div>
+                                <form>
+                                    <div class="title-border m-b-22"></div>
                                     <div class="form-row">
                                         <div class="form-group col-3 "> <input type="text" class="form-control"
-                                                name="CheckList" [(ngModel)]="checkListName"
+                                                name="CheckList" [(ngModel)]="checkListName" maxlength="50"
                                                 placeholder="Enter Check List"> </div>&nbsp;
 
                                         <div class="form-group col-3 m-l-140">
@@ -31,14 +31,12 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-2 m-l-120 m-t-5">
-
-                                            <em class="fa fa-floppy-o edit-list theme-secondary-icon-color m-r-10"
-                                                style="color:green" pTooltip="save" tooltipPosition="bottom"
-                                                (click)="add('add',[])"></em>&nbsp;
-                                            <em class="fa fa-ban  theme-optional-icon-color" style="color:red"
-                                                pTooltip="cancel" tooltipPosition="bottom"
-                                                (click)="checlistcancel()"></em>
-
+                                            <button type="button" style="margin-left: 5%;"
+                                                class="btn theme-primary-button-color btn-md float-right"
+                                                (click)="checlistcancel()">Cancel</button>
+                                            <button type="button"
+                                                class="btn theme-primary-button-color btn-md float-right"
+                                                (click)="add('add',[])">Add</button>
                                         </div>
                                     </div>
                                 </form>
@@ -50,8 +48,8 @@
                                 <table class="table  table-striped m-t-10">
                                     <thead>
                                         <tr>
-                                            <th> Name</th>
-                                            <th> Role Name</th>
+                                            <th>Name</th>
+                                            <th>Role</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -64,7 +62,7 @@
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
-                                                    <input type="text" class="form-control" name="CheckList"
+                                                    <input type="text" class="form-control" name="CheckList" maxlength="50"
                                                         [(ngModel)]="checkList.Name" placeholder="Enter Check List">
                                                 </span>
                                             </td>
@@ -72,14 +70,6 @@
 
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
-                                                    <!--  <ng-multiselect-dropdown name ="Roles" 
-                                                    [(ngModel)] = "checkList.RoleId" 
-                                                    [placeholder]="'Select Role'"
-                                            [settings]="dropdownSettings" [data]="rollList" 
-                                           
-                                            (onDeSelect)="onRoleDeSelect($event)" (onSelect)="onItemSelect($event)"
-                                           > 
-                                        </ng-multiselect-dropdown> -->
                                                     <div class="form-group d-flex">
 
                                                         <select name="Roles" [(ngModel)]="checkList.RoleId"
@@ -90,21 +80,21 @@
                                                     </div>
                                                 </span>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
-
                                                     {{checkList.RoleName}}
-                                                </span></td>
+                                                </span>
+                                            </td>
 
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
                                                     <em class="fa fa-floppy-o  theme-secondary-icon-color m-r-10 m-t-8"
-                                                        style="color:green" pTooltip="save" tooltipPosition="bottom"
+                                                        style="color:green" pTooltip="Save" tooltipPosition="bottom"
                                                         (click)="submit(checkList)"></em>&nbsp;&nbsp;
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
                                                     <em class="fa fa-ban  theme-optional-icon-color m-t-8"
-                                                        style="color:red" pTooltip="cancel" tooltipPosition="bottom"
+                                                        style="color:red" pTooltip="Cancel" tooltipPosition="bottom"
                                                         (click)="cancel()"></em>
                                                 </span>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
@@ -121,18 +111,20 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="row pull-right" >
+                                <div class="row pull-right">
                                     <div class="col-6">
-                                     <ngb-pagination *ngIf="checkListDetails.length > 10" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
-                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
-                                         [boundaryLinks]="true" class="d-flex justify-content-end">
-                                     </ngb-pagination> 
-                                     </div>
-                                     <select *ngIf="checkListDetails.length > 10" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
-                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
- 
-                                     </select>
-                                 </div>
+                                        <ngb-pagination *ngIf="checkListDetails.length > 10"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="checkListDetails.length > 10" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="loadingDiv" *ngIf="isLoading">
@@ -144,22 +136,3 @@
         </div>
     </div>
 </div>
-<!-- <div class="bootstrap-timepicker">
-    <input id="timepicker5" type="text" class="input-small">
-    <i class="icon-time"></i>
-</div>
-
-
-<div class="input-group bootstrap-timepicker timepicker">
-    <input id="timepicker" class="form-control" data-provide="timepicker" data-template="modal" data-minute-step="1" data-modal-backdrop="true" type="text"/></div>
-<div class="input-group bootstrap-timepicker timepicker pull-right">
-            <input id="timepicker3" type="text" class="form-control input-small">
-        </div>
- 
-        <script type="text/javascript">
-            $('#timepicker3').timepicker({
-                minuteStep: 5,
-                showInputs: false,
-                disableFocus: true
-            });
-        </script> -->
