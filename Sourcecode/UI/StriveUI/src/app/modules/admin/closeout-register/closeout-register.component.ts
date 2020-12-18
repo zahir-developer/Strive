@@ -4,6 +4,8 @@ import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-closeout-register',
@@ -44,7 +46,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService,
-    private cd: ChangeDetectorRef) { }
+    private cd: ChangeDetectorRef , private homeNavigation: HomeNavService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
@@ -356,5 +358,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       }
     }
     this.getCloseOutRegister();
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

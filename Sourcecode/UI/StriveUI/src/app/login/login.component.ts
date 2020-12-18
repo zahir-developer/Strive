@@ -83,6 +83,7 @@ export class LoginComponent implements OnInit {
 
               //DashBoard Module
               if (ModuleName === "Dashboard") {
+                localStorage.setItem('isDashboard','true');
                 this.dashBoardModule = true;
               }
             }

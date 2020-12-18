@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TimeClockMaintenanceService } from 'src/app/shared/services/data-service/time-clock-maintenance.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-time-clock-maintenance',
@@ -12,7 +14,6 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./time-clock-maintenance.component.css']
 })
 export class TimeClockMaintenanceComponent implements OnInit {
-
   timeClockEmployeeDetails = [];
   isLoading = true;
   page = 1;
@@ -41,7 +42,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
     private uiLoaderService: NgxUiLoaderService,
-    private datePipe: DatePipe,
+    private datePipe: DatePipe, private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit(): void {
@@ -216,6 +217,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
     }
   }
 
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
+  }
 
 
 }

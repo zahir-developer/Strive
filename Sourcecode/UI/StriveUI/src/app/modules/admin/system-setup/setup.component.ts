@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-setup',
@@ -8,11 +10,11 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./setup.component.css']
 })
 export class SetupComponent implements OnInit {
-
   setupForm: FormGroup;
   sysSetup: any;
 
-  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute
+    , private homeNavigation: HomeNavService) { }
 
   ngOnInit() {
 
@@ -46,5 +48,9 @@ export class SetupComponent implements OnInit {
 else if(event.target.value == 9){
   this.router.navigate([`/admin/setup/bonus`], { relativeTo: this.route });
 } 
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

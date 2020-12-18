@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -61,7 +63,8 @@ export class CreateEditComponent implements OnInit {
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private getCode: GetCodeService
+    private getCode: GetCodeService,
+    private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit() {
@@ -474,5 +477,9 @@ export class CreateEditComponent implements OnInit {
       this.emplistform.get('comType').clearValidators();
       this.emplistform.get('comType').updateValueAndValidity();
     }
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

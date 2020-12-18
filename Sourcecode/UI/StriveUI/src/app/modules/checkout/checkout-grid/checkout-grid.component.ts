@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
 
@@ -15,7 +17,7 @@ export class CheckoutGridComponent implements OnInit {
   pageSize = 25;
   collectionSize: number = 0;
   query = '';
-  constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr) { }
+  constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr, private homeNavigation: HomeNavService) { }
 
   ngOnInit() {
     this.getAllUncheckedVehicleDetails();
@@ -90,6 +92,10 @@ export class CheckoutGridComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,8 @@ import { AddActivityComponent } from '../gift-card/add-activity/add-activity.com
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-gift-card',
@@ -29,6 +31,7 @@ export class GiftCardComponent implements OnInit {
     private modalService: NgbModal,
     private toastr: ToastrService,
     private messageService: MessageServiceToastr
+    , private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit(): void {
@@ -159,6 +162,10 @@ export class GiftCardComponent implements OnInit {
 
   activityCollapsed() {
     this.isActivityCollapsed = !this.isActivityCollapsed;
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }

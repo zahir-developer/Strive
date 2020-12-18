@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-reports',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private homeNavigation: HomeNavService) { }
 
   ngOnInit(): void {
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }

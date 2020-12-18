@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
@@ -17,6 +17,8 @@ import { ActivatedRoute } from '@angular/router';
 import { PrintComponent } from './print/print.component';
 import { element } from 'protractor';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -67,7 +69,7 @@ export class SalesComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private codes: GetCodeService) { }
+    private route: ActivatedRoute, private codes: GetCodeService, private homeNavigation: HomeNavService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -1001,5 +1003,9 @@ export class SalesComponent implements OnInit {
     modalRef.componentInstance.isModal = true;
     modalRef.componentInstance.ticketNumber = this.ticketNumber;
     modalRef.componentInstance.itemList = this.itemList.Status;
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

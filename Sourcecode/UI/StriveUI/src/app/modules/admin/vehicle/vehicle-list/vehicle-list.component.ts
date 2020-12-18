@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-vehicle-list',
@@ -24,7 +26,7 @@ export class VehicleListComponent implements OnInit {
   additionalService: any = [];
   upchargeServices: any = [];
   constructor(private vehicle: VehicleService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService, private homeNavigation: HomeNavService) { }
 
   ngOnInit() {
     this.getAllVehicleDetails();
@@ -141,6 +143,10 @@ export class VehicleListComponent implements OnInit {
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }
 

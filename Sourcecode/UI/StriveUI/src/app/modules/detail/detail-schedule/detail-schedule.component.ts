@@ -5,6 +5,8 @@ import { TodayScheduleComponent } from '../today-schedule/today-schedule.compone
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-detail-schedule',
@@ -31,7 +33,7 @@ export class DetailScheduleComponent implements OnInit {
     private detailService: DetailService,
     private datePipe: DatePipe,
     private spinner: NgxSpinnerService,
-    private toastr: MessageServiceToastr
+    private toastr: MessageServiceToastr, private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit(): void {
@@ -183,6 +185,10 @@ export class DetailScheduleComponent implements OnInit {
     this.getScheduleDetailsByDate(this.selectedDate);
     this.todayScheduleComponent.getTodayDateScheduleList();
     this.noOfDetailsComponent.getDashboardDetails();
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }

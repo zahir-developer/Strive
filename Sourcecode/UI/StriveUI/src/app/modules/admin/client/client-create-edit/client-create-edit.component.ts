@@ -9,6 +9,8 @@ import { ClientStatementComponent } from '../client-statement/client-statement.c
 import { ClientHistoryComponent } from '../client-history/client-history.component';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 @Component({
   selector: 'app-client-create-edit',
   templateUrl: './client-create-edit.component.html',
@@ -36,7 +38,7 @@ export class ClientCreateEditComponent implements OnInit {
   vehicleNumber: number;
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
-    private modalService: NgbModal, private vehicle: VehicleService) { }
+    private modalService: NgbModal, private vehicle: VehicleService, private homeNavigation: HomeNavService) { }
 
   ngOnInit() {    
     if (this.isEdit === true) {
@@ -228,6 +230,10 @@ export class ClientCreateEditComponent implements OnInit {
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }
 

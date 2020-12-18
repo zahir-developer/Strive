@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CustomThemeComponent } from '../custom-theme/custom-theme.component';
 import { WhiteLabelService } from 'src/app/shared/services/data-service/white-label.service';
 import { LogoService } from 'src/app/shared/services/common-service/logo.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -37,7 +39,8 @@ export class WhiteLabellingSectionComponent implements OnInit {
     private whiteLabelService: WhiteLabelService,
     private toastr: ToastrService,
     private logoService: LogoService,
-    private ngxService: NgxSpinnerService
+    private ngxService: NgxSpinnerService, 
+    private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit(): void {
@@ -219,5 +222,9 @@ export class WhiteLabellingSectionComponent implements OnInit {
     }, (err) => {
       this.ngxService.hide();
     });
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

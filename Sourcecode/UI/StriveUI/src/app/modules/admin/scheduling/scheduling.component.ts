@@ -11,6 +11,8 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
 import { element } from 'protractor';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 declare var $: any;
 @Component({
@@ -55,7 +57,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   totalHours: any;
   EmpCount: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
-    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
+    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService
+    , private homeNavigation: HomeNavService) { }
   ngAfterViewInit() {
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
@@ -427,5 +430,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   searchFocus() {
     this.search = this.search.trim();
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

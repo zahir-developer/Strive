@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'underscore';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-edit-employee',
@@ -62,6 +64,7 @@ export class EditEmployeeComponent implements OnInit {
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
     private getCode: GetCodeService
+    , private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit(): void {
@@ -547,6 +550,10 @@ export class EditEmployeeComponent implements OnInit {
       this.emplistform.get('comType').clearValidators();
       this.emplistform.get('comType').updateValueAndValidity();
     }
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }

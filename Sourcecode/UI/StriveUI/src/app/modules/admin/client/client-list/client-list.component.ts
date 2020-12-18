@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-client-list',
@@ -25,7 +27,8 @@ export class ClientListComponent implements OnInit {
   collectionSize: number = 0;
   isLoading = true;
   constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
+    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService
+    , private homeNavigation: HomeNavService) { }
 
   ngOnInit() {
     this.getAllClientDetails();
@@ -137,5 +140,9 @@ export class ClientListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

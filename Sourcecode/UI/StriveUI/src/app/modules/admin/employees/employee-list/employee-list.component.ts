@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CollisionListComponent } from '../../employees/collision-list/collision-list.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { Router } from '@angular/router';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-employee-list',
@@ -43,7 +45,7 @@ export class EmployeeListComponent implements OnInit {
     private modalService: NgbModal,
     private toastr: ToastrService,
     private messageService: MessageServiceToastr,
-    private router: Router
+    private router: Router, private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit() {
@@ -307,6 +309,10 @@ export class EmployeeListComponent implements OnInit {
 
   schedule() {
     this.router.navigate(['/admin/scheduling']);
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }

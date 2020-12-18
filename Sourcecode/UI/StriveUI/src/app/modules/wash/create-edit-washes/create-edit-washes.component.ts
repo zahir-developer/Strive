@@ -5,10 +5,12 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { isEmpty } from 'rxjs/operators';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-wash.component';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import * as moment from 'moment';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -69,8 +71,8 @@ export class CreateEditWashesComponent implements OnInit {
   upchargeId: any;
   airFreshenerId: any;
   additionalId: any;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
-    private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService) { }
+  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private homeNavigation: HomeNavService,
+    private wash: WashService, private client: ClientService, private router: Router, private route: ActivatedRoute, private detailService: DetailService) { }
 
   ngOnInit() {
     this.getJobStatus();
@@ -716,6 +718,10 @@ export class CreateEditWashesComponent implements OnInit {
   print() {
     this.isPrint = true;
     this.printWashComponent.print();
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }
 

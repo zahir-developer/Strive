@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, ViewChild } from '@angular/core';
 import { TimeClockMaintenanceService } from 'src/app/shared/services/data-service/time-clock-maintenance.service';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 declare var $ : any;
 @Component({
   selector: 'app-time-clock-week',
@@ -38,7 +40,7 @@ export class TimeClockWeekComponent implements OnInit {
     public timeClockMaintenanceService: TimeClockMaintenanceService,
     private datePipe: DatePipe,
     private toastr: ToastrService,
-    private messageService: MessageServiceToastr,
+    private messageService: MessageServiceToastr, private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit(): void {
@@ -391,6 +393,10 @@ export class TimeClockWeekComponent implements OnInit {
 
   timeCheck(data) {
     console.log(data);
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }

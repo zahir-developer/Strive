@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { Router } from '@angular/router';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
 
 @Component({
   selector: 'app-washes-list',
   templateUrl: './washes-list.component.html',
   styleUrls: ['./washes-list.component.css']
 })
-export class WashesListComponent implements OnInit {
+export class WashesListComponent implements OnInit {  
   washDetails = [];
   showDialog = false;
   selectedData: any;
@@ -24,7 +25,7 @@ export class WashesListComponent implements OnInit {
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
   constructor(private washes: WashService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
+    private confirmationService: ConfirmationUXBDialogService, private router: Router, private homeNavigation: HomeNavService) { }
 
   ngOnInit() {
 
@@ -35,7 +36,7 @@ export class WashesListComponent implements OnInit {
     this.washes.getDashBoard(obj);
     this.getAllWashDetails();
   }
-  
+
 
   // Get All Washes
   getAllWashDetails() {
@@ -132,5 +133,9 @@ export class WashesListComponent implements OnInit {
 
   pay(wash) {
     this.router.navigate(['/sales'], { queryParams: { ticketNumber: wash.TicketNumber } });
+  }  
+
+  loadLandingPage(){
+    this.homeNavigation.loadLandingPage();
   }
 }

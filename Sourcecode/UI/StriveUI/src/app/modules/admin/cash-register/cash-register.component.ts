@@ -8,6 +8,9 @@ import { CashRegisterService } from 'src/app/shared/services/data-service/cash-r
 import { ToastrService } from 'ngx-toastr';
 import { WeatherService } from 'src/app/shared/services/common-service/weather.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-cash-register',
@@ -52,7 +55,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   Todaydate: any;
   date = moment(new Date()).format('MM/DD/YYYY');
   constructor(private fb: FormBuilder, private registerService: CashRegisterService,
-    private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
+    private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef, private homeNavigation: HomeNavService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
@@ -450,5 +453,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
     }
     this.getCashRegister();
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

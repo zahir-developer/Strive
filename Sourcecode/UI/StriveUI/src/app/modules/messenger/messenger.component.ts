@@ -10,6 +10,8 @@ import { MessengerEmployeeListComponent } from './messenger-employee-list/messen
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 declare var $: any;
 @Component({
@@ -50,7 +52,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   groupEmpList: any;
   selectedChatId: number;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient,
-    private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
+    private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService, private homeNavigation: HomeNavService) { }
 
 
 
@@ -344,5 +346,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       }
     });
 
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 }

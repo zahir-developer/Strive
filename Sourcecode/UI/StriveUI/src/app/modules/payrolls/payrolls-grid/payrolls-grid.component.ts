@@ -5,6 +5,8 @@ import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { HomeNavService } from 'src/app/shared/common-service/home-nav.service';
+
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -23,7 +25,7 @@ export class PayrollsGridComponent implements OnInit {
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
     private datePipe: DatePipe,    
-    private messageService: MessageServiceToastr,
+    private messageService: MessageServiceToastr, private homeNavigation: HomeNavService
   ) { }
 
   ngOnInit(): void {
@@ -117,6 +119,10 @@ export class PayrollsGridComponent implements OnInit {
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('MYPdf.pdf'); // Generated PDF
     });
+  }
+
+  loadLandingPage() {
+    this.homeNavigation.loadLandingPage();
   }
 
 }
