@@ -19,6 +19,7 @@ export class CustomerDashboardComponent implements OnInit {
   serviceList: any = [];
   todayScheduleDetail: any = [];
   @Output() editSchedule = new EventEmitter();
+  clonedVechicleList = [];
   constructor(
     private customerService: CustomerService,
     private datePipe: DatePipe,
@@ -57,9 +58,23 @@ export class CustomerDashboardComponent implements OnInit {
       if (res.status === 'Success') {
         const vechicle = JSON.parse(res.resultData);
         this.vechicleList = vechicle.Status;
+        this.vechicleList.forEach(item => {
+          item.VechicleName = item.VehicleMfr + ' ' + item.VehicleModel + ' ' + item.VehicleColor;
+        });
+        this.clonedVechicleList = this.vechicleList.map(x => Object.assign({}, x));
         console.log(vechicle, 'vechicle');
       }
     });
+  }
+
+  searchVechicleList(text) {
+    console.log(text);
+    if (text.length > 0) {
+      this.vechicleList = this.clonedVechicleList.filter(item => item.VechicleName.toLowerCase().includes(text));
+    } else {
+      this.vechicleList = [];
+      this.vechicleList = this.clonedVechicleList;
+    }
   }
 
   getScheduleDetail() {

@@ -59,6 +59,7 @@ export class SelectServicesComponent implements OnInit {
     if (this.scheduleDetailObj.isEdit) {
       const serviceId = this.selectedData.DetailsItem[0].ServiceId;
       this.serviceForm.patchValue({ serviceID: serviceId });
+      this.scheduleDetailObj.JobItemId = this.selectedData.DetailsItem[0].JobItemId;
     }
   }
 

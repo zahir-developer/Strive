@@ -81,7 +81,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     };
     const jobItem = [];
     jobItem.push({
-      jobItemId: 0,
+      jobItemId: this.scheduleDetailObj.isEdit ? this.scheduleDetailObj.JobItemId : 0,
       jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       serviceId: this.scheduleDetailObj.serviceobj.ServiceId,
       isActive: true,
