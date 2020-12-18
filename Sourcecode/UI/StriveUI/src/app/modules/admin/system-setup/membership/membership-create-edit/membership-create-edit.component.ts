@@ -46,6 +46,11 @@ export class MembershipCreateEditComponent implements OnInit {
       notes: ['',]
     });
     this.membershipForm.patchValue({ status: 0 });
+    if(this.isEdit !== true){
+      this.membershipForm.controls.status.disable();
+    }else{
+      this.membershipForm.controls.status.enable();
+    }
     this.getMembershipService();
   }
 
@@ -195,6 +200,7 @@ export class MembershipCreateEditComponent implements OnInit {
       }
       return;
     }
+    this.membershipForm.controls.status.enable();
     let memberService = [];
     if (this.isEdit === true && this.patchedService !== undefined) {
       const r = this.patchedService.filter((elem) => this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
