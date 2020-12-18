@@ -62,6 +62,11 @@ export class ProductCreateEditComponent implements OnInit {
       suggested: ['']
     });
     this.productSetupForm.patchValue({status : 0}); 
+    if(this.isEdit !== true){
+      this.productSetupForm.controls.status.disable();
+    }else{
+      this.productSetupForm.controls.status.enable();
+    }
   }
   // Get ProductType
   getProductType() {
@@ -182,6 +187,7 @@ export class ProductCreateEditComponent implements OnInit {
       }
       return;
     }
+    this.productSetupForm.controls.status.enable();
     const formObj = {
       productCode: null,
       productDescription: null,
@@ -199,7 +205,7 @@ export class ProductCreateEditComponent implements OnInit {
       sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
       quantity: this.productSetupForm.value.quantity,
       quantityDescription: null,
-      isActive: this.productSetupForm.value.status == 0 ? true : false,
+      isActive: this.productSetupForm.value.status === 0 ? true : false,
       vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount,
       isDeleted: false,
