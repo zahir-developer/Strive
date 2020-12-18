@@ -17,8 +17,8 @@ namespace Strive.BusinessLogic.AdSetup
         public Result AddAdSetup(AdSetupDto adSetup)
         {
             int documentId = new DocumentBpl(_cache, _tenant).AddDocument(adSetup.Document);
-            adSetup.AdSetup.DocumentId = documentId;
-            return ResultWrap(new AdSetupRal(_tenant).AddAdSetup, adSetup.AdSetup, "AddNewAdSetup");
+            adSetup.AdSetupAddDto.AdSetup.DocumentId = documentId;
+            return ResultWrap(new AdSetupRal(_tenant).AddAdSetup, adSetup.AdSetupAddDto, "AddNewAdSetup");
         }
 
         public Result UpdateAdSetup(AdSetupDto adSetup)

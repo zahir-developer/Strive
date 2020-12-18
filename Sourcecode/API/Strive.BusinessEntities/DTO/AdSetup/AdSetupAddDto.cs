@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO.AdSetup
 {
-    public class AdSetupDto
+    public class AdSetupAddDto
     {
-        public DocumentDto Document { get; set; }
-        public AdSetupAddDto AdSetupAddDto { get; set; }
+        public Model.AdSetup AdSetup { get; set; }
     }
 }

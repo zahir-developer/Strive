@@ -22,7 +22,7 @@ namespace Strive.ResourceAccess
             var dbConnection = tenant.db();
             _db = new Db(dbConnection);
         }
-        public bool AddAdSetup(AdSetup adSetup)
+        public bool AddAdSetup(AdSetupAddDto adSetup)
         {
             return dbRepo.InsertPc(adSetup, "AdSetupId");
         }
