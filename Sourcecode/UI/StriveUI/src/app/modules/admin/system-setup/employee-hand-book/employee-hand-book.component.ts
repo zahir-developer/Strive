@@ -34,15 +34,21 @@ export class EmployeeHandBookComponent implements OnInit {
   fileName: any = null;
   Documents: any;
   url: any;
- 
-     constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
-      private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
+
+  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
-  this.getDocumentType();
+    this.getDocumentType();
   }
 
   adddata(data, handbookDetails?) {
-    if (data === 'add') {     
+    if (this.fileName !== null) {
+      this.toastr.showMessage({
+        severity: 'warning', title: 'Warning',
+        body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
+      });
+    }
+    else if (data === 'add') {
       this.selectedData = handbookDetails;
       this.showDialog = true;
     }
@@ -54,10 +60,10 @@ export class EmployeeHandBookComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
 
-  
+
   delete() {
-    this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this document? All related 
-  information will be deleted and the document cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this document? 
+    All related information will be deleted and the document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete();
@@ -66,7 +72,7 @@ export class EmployeeHandBookComponent implements OnInit {
       .catch(() => { });
   }
   confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId,'EMPLOYEEHANDBOOK').subscribe(res => {
+    this.documentService.deleteDocument(this.documentTypeId, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
         this.fileName = null;
@@ -76,15 +82,15 @@ export class EmployeeHandBookComponent implements OnInit {
       }
     });
   }
-  getDocumentType(){
+  getDocumentType() {
     this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
-          console.log(this.documentTypeId);
-          this.getDocument();
+        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
+        console.log(this.documentTypeId);
+        this.getDocument();
 
-      
+
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
@@ -98,7 +104,7 @@ export class EmployeeHandBookComponent implements OnInit {
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
     downloadLink.click();
-}
+  }
   getDocument() {
     this.isLoading = true;
     this.documentService.getDocument(this.documentTypeId, "EMPLOYEEHANDBOOK").subscribe(data => {
@@ -116,5 +122,5 @@ export class EmployeeHandBookComponent implements OnInit {
     });
   }
 
-  
+
 }
