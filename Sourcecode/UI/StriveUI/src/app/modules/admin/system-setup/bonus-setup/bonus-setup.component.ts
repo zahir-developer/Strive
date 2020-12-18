@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { BonusSetupService } from 'src/app/shared/services/data-service/bonus-setup.service';
 import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bonus-setup',
@@ -19,6 +20,8 @@ export class BonusSetupComponent implements OnInit {
   collisionDeduction: any;
   totalBonusAmount: any;
   selectedDate: any = new Date();
+  selectedMonth : any = new Date().getMonth();
+  selectedYear:any = new Date().getFullYear();
   submitted: boolean;
   isValueMax: boolean;
   isValueObj = { isValueMax: false, index: null };
@@ -30,7 +33,8 @@ export class BonusSetupComponent implements OnInit {
   constructor(
     private confirmationService: ConfirmationUXBDialogService,
     private bonusSetupService: BonusSetupService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +51,7 @@ export class BonusSetupComponent implements OnInit {
     this.collisionDeduction = 0;
     this.totalBonusAmount = 0;
     // this.getBonusFirstList();
+    this.getBonusList();
   }
 
   onLocationChange(event) {
@@ -162,7 +167,14 @@ export class BonusSetupComponent implements OnInit {
       this.badReviewDeduction = +this.noOfBadReviews * +this.badReviewDeductionAmount;
     }
   }
-
+  onMonthChange(event) {
+   this.selectedMonth = event
+   this.getBonusList()
+  }
+  onYearChange(event) {
+   this.selectedYear = event
+   this.getBonusList();
+  }
   saveBonus() {
     console.log(this.monthBonusList, this.selectedDate, 'multi');
     this.submitted = false;
@@ -197,8 +209,8 @@ export class BonusSetupComponent implements OnInit {
       bonusId: this.bonusId,
       locationId: this.locationId,
       bonusStatus: 1,
-      bonusMonth: this.datePipe.transform(this.selectedDate, 'MM'),
-      bonusYear: this.datePipe.transform(this.selectedDate, 'yyyy'),
+      bonusMonth: this.selectedMonth,
+      bonusYear: this.selectedYear,
       noOfBadReviews: this.noOfBadReviews,
       badReviewDeductionAmount: this.badReviewDeductionAmount,
       noOfCollisions: this.noOfCollisions,
@@ -218,13 +230,21 @@ export class BonusSetupComponent implements OnInit {
     console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
-        console.log(res, 'save');
+        if (res.status === 'Success') { 
+          this.toastr.success('Bonus setup saved successfully! ', 'Success!');
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+        }
         this.getBonusList();
       });
     } else {
       this.bonusSetupService.editBonus(finalObj).subscribe( res => {
         if (res.status === 'Success') {
+          this.toastr.success('Bonus setup saved successfully! ', 'Success!');
+
           this.getBonusList();
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
         }
       });
     }
@@ -232,8 +252,8 @@ export class BonusSetupComponent implements OnInit {
 
   getBonusList() {
     const finalObj = {
-      bonusMonth: this.datePipe.transform(this.selectedDate, 'MM'),
-      bonusYear: this.datePipe.transform(this.selectedDate, 'yyyy'),
+      bonusMonth: this.selectedMonth,
+      bonusYear: this.selectedYear,
       locationId: this.locationId
     };
     this.bonusSetupService.getBonusList(finalObj).subscribe(res => {
@@ -287,7 +307,7 @@ export class BonusSetupComponent implements OnInit {
               break;
             }
           }
-          this.totalBonusAmount = totalAmount -  ( this.collisionDeduction + this.badReviewDeduction );
+          this.totalBonusAmount =  ( this.collisionDeduction + this.badReviewDeduction );
         } else {
           this.totalBonusAmount = 0;
           // this.noOfWashes = 1;

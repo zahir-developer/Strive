@@ -11,24 +11,33 @@
                         <div class="setup-content" id="open-collapse">
                             <div class="search-container ">
                                 <div class="form-row">
-                                    <div class="form-group col-lg-2">
+                                    <div class="form-group col-lg-2 m-l-10">
                                         <label>Location:</label>
                                         <app-location-dropdown (emitLocation)="onLocationChange($event)">
                                         </app-location-dropdown>
                                     </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="form-group col-lg-2">
+
+                                    <!-- <div class="form-group col-lg-2">
                                         <label>Month/Year:</label>
                                         <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
                                             class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY',showWeekNumbers: false }" (bsValueChange)="getBonusList()">
+                                    </div> -->
+                                    <div class="form-group col-lg-2 m-l-45">
+                                        <label>Month:</label>
+
+                                        <app-month-picker (emitMonth)='onMonthChange($event)'></app-month-picker>
                                     </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="form-group col-lg-2">
+
+                                    <div class="form-group col-lg-2 m-l-45">
+                                        <label>Year:</label>
+
+                                        <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
+                                    </div>                     
+                                    <div class="form-group col-lg-2 m-l-55">
                                         <label>Status:</label>
                                         <div class="m-t-8"><strong>Pending</strong></div>
                                     </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="form-group col-lg-2">
+                                    <div class="form-group col-lg-2 m-l-10 m-t-23">
                                         <label></label>
                                         <button type="button" class="btn theme-primary-button-color"
                                             (click)="addBonus()">Add</button>
@@ -50,8 +59,8 @@
                                     <tbody>
                                         <tr *ngFor="let bonus of monthBonusList; let i = index">
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i)"
-                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' || isMinValueObj?.isMinValue && isMinValueObj?.index === i}"
+                                                <input type="text" [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i);validateMaxValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' }"
                                                     class="form-control rounded-0 input-table text-right">
                                                 <div *ngIf="submitted && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
@@ -62,9 +71,9 @@
                                                 <!-- <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
                                                 </div> -->
-                                                <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
+                                                <!-- <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
                                                     Min value greater than Max value
-                                                </div>
+                                                </div> -->
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.Max"
@@ -80,6 +89,7 @@
                                                 <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i" class="invalid-feedback">
                                                     Max value is greater than Min value
                                                 </div>
+                                            
                                             </td>
                                             <td>
                                                 <input type="text" [(ngModel)]="bonus.noOfWashes"

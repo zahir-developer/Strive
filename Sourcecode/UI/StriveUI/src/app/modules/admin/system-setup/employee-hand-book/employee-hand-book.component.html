@@ -6,8 +6,8 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Employee Handbook</h5>&nbsp;
-                        <button type="button" [disabled] = "fileName !== null" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="adddata('add',[])">Add
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="adddata('add',[])">Add HandBook
                         </button>
                     </div>
                     <div class="setup-wrapper">
@@ -21,7 +21,7 @@
                                         <tr>
                                             <th>File Name</th>
                                             <th> Created Date</th>
-                                            <th> Created By</th>
+                                            <!-- <th> Created By</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -32,7 +32,7 @@
                                         <tr  *ngIf="isLoading === false && fileName !== null">
                                             <th scope="row" >{{Documents?.OriginalFileName}}</th>
                                             <td>{{Documents?.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
-                                            <td>{{Documents?.CreatedBy}}</td>
+                                            <!-- <td>{{Documents?.CreatedBy}}</td> -->
                                             <td>
                                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                                     pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF()"></em>
