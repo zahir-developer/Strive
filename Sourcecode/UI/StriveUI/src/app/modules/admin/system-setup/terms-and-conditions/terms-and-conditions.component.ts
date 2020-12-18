@@ -58,7 +58,7 @@ export class TermsAndConditionsComponent implements OnInit {
 
   delete() {
     this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this Document? All related 
-    information will be deleted and the Document cannot be retrieved?`, 'Yes', 'No')
+    information will be deleted and the Document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete();
