@@ -13,7 +13,7 @@
                     <div *ngIf="f.serviceType.errors.required">Type is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-2">
+            <div class="form-group col-lg-3">
                 <label for="inputName">Name<span class="required">*</span></label>
                 <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Name"
                     [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
@@ -29,7 +29,10 @@
                     <div *ngIf="f.cost.errors.required">Price is required</div>
                 </div>
                 <div *ngIf="submitted  && costErrMsg" style="font-size: small;color: #dc3545;">Price should not be 0
-                    <div class="form-group col-lg-7">
+                </div>
+                   
+            </div> 
+                    <!-- <div class="form-group col-lg-7">
                         <label for="inputDescription">Description<span class="required">*</span></label>
                         <textarea maxlength="100" class="form-control" formControlName="description"
                             placeholder="Description"
@@ -37,16 +40,16 @@
                         <div *ngIf="submitted  && f.description.errors" class="invalid-feedback">
                             <div *ngIf="f.description.errors.required">Description is required</div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <!-- <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-3">
                 <label for="inputName">Suggested Price</label>
                 <input type="text" appTwoDecimalNumber class="form-control" formControlName="suggested"
                     placeholder="0.00">
-            </div> -->
+            </div> 
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-lg-3">
+                    <!-- <div class="form-group col-lg-3">
                         <label for="inputCost">Price<span class="required">*</span></label>
                         <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost"
                             placeholder="Price" [ngClass]="{ 'is-invalid': submitted  && f.cost.errors }">
@@ -56,14 +59,14 @@
                         <div *ngIf="submitted  && costErrMsg" style="font-size: small;color: #dc3545;">Price should not
                             be 0
                         </div>
-                    </div>
-                    <div class="form-group col-lg-2">
+                    </div> -->
+                    <div class="form-group col-lg-3">
                         <label for="inputStatus">Status</label>
                         <select class="form-control" formControlName="status">
                             <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>
                         </select>
                     </div>
-                    <div class="form-group col-lg-2" *ngIf="isDetails">
+                    <div class="form-group col-lg-3" *ngIf="isDetails">
                         <label></label>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" formControlName="commission"
@@ -84,7 +87,7 @@
                             <div *ngIf="f.commissionType.errors.required">Type is required</div>
                         </div>
                     </div>
-                    <div class="form-group col-lg-2" *ngIf=" isDetails && ctypeLabel !== 'none' && isChecked === true">
+                    <div class="form-group col-lg-3" *ngIf=" isDetails && ctypeLabel !== 'none' && isChecked === true">
                         <label for="inputUpcharge">{{ctypeLabel}}<span class="required">*</span></label>
                         <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}"
                             appTwoDecimalNumber [ngClass]="{ 'is-invalid': submitted  && f.fee.errors }">
@@ -92,7 +95,7 @@
                             <div *ngIf="f.fee.errors.required">{{ctypeLabel}} is required</div>
                         </div>
                     </div>
-                    <div class="form-group col-lg-2" *ngIf="isUpcharge">
+                    <div class="form-group col-lg-3" *ngIf="isUpcharge">
                         <label for="inputUpcharge">Upcharge</label>
                         <input type="text" maxlength="100" class="form-control" formControlName="upcharge"
                             placeholder="Upcharge" [ngClass]="{ 'is-invalid': submitted  && f.upcharge.errors }">
@@ -100,7 +103,7 @@
                             <div *ngIf="f.upcharge.errors.required">Upcharge is required</div>
                         </div>
                     </div>
-                    <div class="form-group col-lg-2" *ngIf="isAdditional">
+                    <div class="form-group col-lg-3" *ngIf="isAdditional">
                         <label for="inputParentType">Group</label>
                         <select class="form-control" formControlName="parentName">
                             <option value="" *ngIf="parent.length !== 0" selected hidden>Choose </option>
@@ -112,8 +115,7 @@
                 </div>
                 <div class="form-row">
                 </div>
-            </div>
-        </div>
+           
     </form>
 </div>
 <div class="modal-footer">

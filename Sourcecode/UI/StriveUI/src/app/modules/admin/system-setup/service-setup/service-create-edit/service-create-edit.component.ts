@@ -45,7 +45,7 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm = this.fb.group({
       serviceType: ['', Validators.required],
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      //description: ['', Validators.required],
      cost: ['', Validators.required],
       commission: ['',],
       commissionType: ['',],
@@ -75,7 +75,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.patchValue({
           serviceType: this.selectedService.ServiceTypeId,
           name: this.selectedService.ServiceName,
-          description : this.selectedService.Description,
+          //description : this.selectedService.Description,
           cost: this.selectedService.Cost,
           commission: this.selectedService.Commision,
           commissionType: this.selectedService.CommissionTypeId,
