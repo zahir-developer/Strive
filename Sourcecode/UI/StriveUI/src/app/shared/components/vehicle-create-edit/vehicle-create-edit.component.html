@@ -42,13 +42,13 @@
                     </option>
                 </select>
             </div>
-            <div class="form-group col-lg-3" *ngIf="isEdit">
+            <!-- <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Washes</label>
-                <select class="form-control" formControlName="wash">
+                <select class="form-control" formControlName="wash" (change)="washChange($event.target.value)">
                     <option *ngFor="let wash of washesDropdown" value="{{wash.ServiceId}}">
                         {{wash.ServiceName}}</option>
                 </select>
-            </div>
+            </div> -->
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Upcharge Type</label>
                 <select class="form-control" formControlName="upchargeType"

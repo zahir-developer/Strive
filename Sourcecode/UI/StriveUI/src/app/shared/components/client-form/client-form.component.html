@@ -84,7 +84,7 @@
         <div class="col-lg-6 col-xl-3">
             <div class="row no-gutter   form-row">
                 <div class="col-md-6  form-group">
-                    <label for="inputZipcode">ZipCode</label>
+                    <label for="inputZipcode">ZipCode<span class="required">*</span></label>
                     <input numbersOnly type="text" [appMaxLength]="9" [ngClass]="{ 'is-invalid': submitted && f.zipcode.errors }" class="form-control" placeholder="Zip"
                         formControlName="zipcode">
                         <div *ngIf="submitted && f.zipcode.errors" class="invalid-feedback">
