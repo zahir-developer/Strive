@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-preview-appointment-detail',
@@ -8,9 +8,11 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class PreviewAppointmentDetailComponent implements OnInit {
   @Output() confirmation = new EventEmitter();
   @Output() appointmentPage = new EventEmitter();
+  @Input() scheduleDetailObj?: any;
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.scheduleDetailObj, 'schedule');
   }
 
   bookNow() {

@@ -13,4 +13,16 @@ export class CustomerService {
   getDailySalesReport(obj){
     return this.http.post(`${UrlConfig.reports.getDailySalesReport}`, obj);
   }
+
+  getLocation(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
+  }
+
+  getServices(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
+  }
+
+  getVehicleByClientId(clientId: number) {
+    return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });
+  }
 }

@@ -19,7 +19,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="p-b-10 m-b-15">
-                                    <h4 class="d-inline-block align-middle">Time clock - 
+                                    <h4 class="d-inline-block align-middle">Time clock -
                                         {{empClockInObj.firstName}} {{empClockInObj.lastName}}</h4>
                                     <div class="pull-right card-widgets"> <a data-toggle="collapse"
                                             href="#Timeliclocklist" role="button" aria-expanded="false"
@@ -80,7 +80,7 @@
                                                                                 [showSpinners]="true"
                                                                                 (ngModelChange)="inTime($event,time)">
                                                                             </timepicker> -->
-                                                                            <!-- <div class="input-group bootstrap-timepicker timepicker">
+                                                                        <!-- <div class="input-group bootstrap-timepicker timepicker">
                                                                                 <input id="timepicker" class="form-control" 
                                                                                 [showMinutes]="true" (change) ="inTime($event.target.value,time)"  
                                                                                 [ngModel]="time.InTime | date:'HH:mm'"
@@ -88,15 +88,15 @@
                                                                                   [showMeridian]="true"
                                                                                   data-provide="timepicker" data-template="modal" 
                                                                                    data-minute-step="1"  type="text"/></div> -->
-                                                                                  
-                                                                                   <div class="ngx-timepicker-field-example ">
-                                                                                    <ngx-timepicker-field [format]="24" 
-                                                                                    (timeChanged)="inTime($event,time)" 
-                                                                                    [(ngModel)] = "time.InTime"
-                                                                                        [defaultTime]="time.InTime ">
-    
-                                                                                    </ngx-timepicker-field> 
-                                                                                    </div>
+
+                                                                        <div class="ngx-timepicker-field-example ">
+                                                                            <ngx-timepicker-field [format]="24"
+                                                                                (timeChanged)="inTime($event,time)"
+                                                                                [(ngModel)]="time.InTime"
+                                                                                [defaultTime]="time.InTime ">
+
+                                                                            </ngx-timepicker-field>
+                                                                        </div>
                                                                         <!-- </ng-template> -->
                                                                         <!-- <input type="text"
                                                                             id="timeStart_{{week.day}}_{{i}}"
@@ -108,7 +108,7 @@
                                                                             [outsideClick]="true" placement="bottom"
                                                                             numbersOnly [disabled]="isView" /> -->
                                                                     <td>
-                                                                       <!-- <div class="input-group bootstrap-timepicker timepicker">
+                                                                        <!-- <div class="input-group bootstrap-timepicker timepicker">
                                                                             <input id="timepicker" class="form-control" 
                                                                             [showMinutes]="true" (change) ="outTime($event.target.value,time)"  
                                                                             [ngModel]="time.OutTime | date:'HH:mm'"
@@ -116,20 +116,20 @@
                                                                               [showMeridian]="true"
                                                                               data-provide="timepicker" data-template="modal" 
                                                                                data-minute-step="1"  type="text"/></div>  -->
-                                                                             <div class="ngx-timepicker-field-example ">
-                                                                                <ngx-timepicker-field [format]="24" 
-                                                                                (timeChanged)="outTime($event,time)" 
-                                                                                [(ngModel)] = "time.OutTime"
+                                                                        <div class="ngx-timepicker-field-example ">
+                                                                            <ngx-timepicker-field [format]="24"
+                                                                                (timeChanged)="outTime($event,time)"
+                                                                                [(ngModel)]="time.OutTime"
+                                                                                [defaultTime]="time.OutTime ">
 
-                                                                                    [defaultTime]="time.OutTime ">
+                                                                            </ngx-timepicker-field>
+                                                                        </div>
 
-                                                                                </ngx-timepicker-field>  </div> 
-
-     <!-- <input aria-label="default time"  [ngxTimepickerField]="defaultValue" [value]="'9:00 am'" readonly>
+                                                                        <!-- <input aria-label="default time"  [ngxTimepickerField]="defaultValue" [value]="'9:00 am'" readonly>
 <ngx-material-timepicker-field (timeSet)="outTime($event)" #defaultValue>
 </ngx-material-timepicker-field> -->
-                                                                           
-                                                                       <!-- <ng-template #popTemplate>
+
+                                                                        <!-- <ng-template #popTemplate>
                                                                             <timepicker id="outTime_{{week.day}}_{{i}}"
                                                                                 [(ngModel)]="time.OutTime"
                                                                                 [ngModelOptions]="{standalone: true}"
@@ -170,7 +170,8 @@
                                                                             [(ngModel)]="time.TotalHours"
                                                                             [disabled]="true"> </td>
                                                                     <td>
-                                                                        <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" pTooltip="Delete" tooltipPosition="bottom"
+                                                                        <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                                            pTooltip="Delete" tooltipPosition="bottom"
                                                                             (click)="deleteConfirm(time)"></em>
                                                                     </td>
                                                                 </tr>
@@ -224,7 +225,8 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td colspan="2"><span class="font-weight-600 mr-2">Overtime
-                                                            Hours:</span>{{ totalWeekDetail.OverTimeHours | number:'.2'}}</td>
+                                                            Hours:</span>{{ totalWeekDetail.OverTimeHours | number:'.2'}}
+                                                    </td>
                                                     <td class="p-r-20"><span class="font-weight-600 mr-2">Overtime
                                                             Pay:</span>{{ totalWeekDetail.OverTimePay ? (totalWeekDetail.OverTimePay | currency ): ( 0 | currency ) }}
                                                     </td>
