@@ -35,7 +35,7 @@ export class CollisionListComponent implements OnInit {
     } else {
       this.showCloseButton = false;
     }
-    console.log(this.employeeCollision, 'collision');
+    console.log(this.employeeCollision,this.actionType, 'collision');
     // this.getAllCollision();
     // this.collistionGrid();
     this.employeeDetail();

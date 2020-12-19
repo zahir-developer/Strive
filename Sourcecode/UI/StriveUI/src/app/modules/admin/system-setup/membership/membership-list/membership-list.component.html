@@ -20,7 +20,7 @@
                                                 class="form-control" [(ngModel)]="query" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Service Type,Status"> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button"
+                                            <button type="button" (click)="membershipSearch()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            *ngFor="let membership of membershipDetails  | search: query | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                            *ngFor="let membership of membershipDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{membership.MembershipName}}</th>
                                             <td class="table-ellipsis">{{membership.Services}}</td>
                                             <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td>

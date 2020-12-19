@@ -51,7 +51,7 @@ export class BonusSetupComponent implements OnInit {
     this.collisionDeduction = 0;
     this.totalBonusAmount = 0;
     // this.getBonusFirstList();
-    this.getBonusList();
+    this.getBonusFirstList();
   }
 
   onLocationChange(event) {
