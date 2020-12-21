@@ -22,5 +22,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string VehicleColor { get; set; }
         public decimal Upcharge { get; set; }
         public string OutsideService { get; set; }
+
+        public int LocationId { get; set; }
     }
 }
