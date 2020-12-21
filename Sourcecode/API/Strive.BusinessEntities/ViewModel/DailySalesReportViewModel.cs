@@ -24,5 +24,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string ServiceType { get; set; }
         public decimal? Amount { get; set; }
         public string Type { get; set; }
+        public string Make { get; set; }
     }
 }

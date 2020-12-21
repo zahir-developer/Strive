@@ -102,6 +102,14 @@ export class HourlyWashComponent implements OnInit {
         this.SalesSummaryModel = [];
         this.hourlyWashReport = [];
         this.washServiceName = [];
+        this.totalDeposits = 0;
+        this.totalBC = 0;
+        this.totalAccount = 0;
+        this.totalGiftCard = 0;
+        this.totalTips = 0;
+        this.totalActual = 0;
+        this.totalSales = 0;
+        this.totalDifference = 0;
         if (hourlyRate.GetHourlyWashReport.LocationWashServiceViewModel !== null) {
           this.washModel = hourlyRate.GetHourlyWashReport.LocationWashServiceViewModel;
         }
