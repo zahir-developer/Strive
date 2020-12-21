@@ -108,6 +108,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     }
     const obj = {
       documentId: 0,
+      DocumentName : this.handbookSetupForm.controls['name'].value,
       documentType: this.documentTypeId,
       fileName: this.fileName,
       originalFileName: null,
