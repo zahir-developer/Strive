@@ -13,12 +13,10 @@ export class AuthorizeService {
 
   routingLevelAccess(routingPageId) {
     console.log(routingPageId, this.userDataService.isAuthenticated, this.userDataService, 'authrize');
-    if (localStorage.getItem('isAuthenticated') === 'true') {
-      return true;
-    }
+    
     if (routingPageId !== undefined) {
       const roleViews = JSON.parse(localStorage.getItem('views'));
-      if (_.findWhere(this.userDataService.userDetails.views, { ModuleName: routingPageId })) {
+      if (_.findWhere(roleViews, { ModuleName: routingPageId })) {
         return true;
       }
      else{
