@@ -32,8 +32,8 @@ namespace Strive.BusinessEntities.ViewModel
 
         public string VehicleModelName { get; set; }
         public string VehicleMake { get; set; }
-        public string VehicleMakeId { get; set; }
+        public int VehicleMakeId { get; set; }
 
-        public string VehicleColorId { get; set; }
+        public int VehicleColorId { get; set; }
     }
 }
