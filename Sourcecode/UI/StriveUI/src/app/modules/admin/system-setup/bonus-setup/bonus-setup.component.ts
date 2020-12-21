@@ -89,7 +89,6 @@ export class BonusSetupComponent implements OnInit {
     });
     if (checkValue) {
       this.isValueMax = true;
-      return;
     }
     for (let i = 0; i < this.monthBonusList.length; i++) {
       if (+this.monthBonusList[i].Min > +this.monthBonusList[i].Max || +this.monthBonusList[i].Min === +this.monthBonusList[i].Max) {
@@ -142,6 +141,7 @@ export class BonusSetupComponent implements OnInit {
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(bonus, ind);
+         
         }
       })
       .catch(() => { });
@@ -150,10 +150,16 @@ export class BonusSetupComponent implements OnInit {
   confirmDelete(bonus, ind) {
     if (bonus.BonusRangeId === 0) {
       this.monthBonusList = this.monthBonusList.filter( (item, i) => i !== ind );
+      if(this.monthBonusList.length === 0){
+        this.addBonus()
+      }
     } else {
       this.monthBonusList = this.monthBonusList.filter( item => item.BonusRangeId !== bonus.BonusRangeId );
       bonus.IsDeleted = true;
       this.deletedID.push(bonus);
+      if(this.monthBonusList.length === 0){
+        this.addBonus()
+      }
     }
   }
 
