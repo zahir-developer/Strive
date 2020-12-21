@@ -47,7 +47,6 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const sales = JSON.parse(data.resultData);
         this.dailySalesReport = sales.GetDailySalesReport;
-        console.log(this.dailySalesReport)
         if (this.dailySalesReport.length === 0) {
           this.isTableEmpty = true;
         } else {
