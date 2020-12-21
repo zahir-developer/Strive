@@ -17,6 +17,8 @@ export class MembershipListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
+  Status:any;
+  searchStatus:any;
  
   query = '';
   collectionSize: number = 0;
@@ -29,6 +31,8 @@ export class MembershipListComponent implements OnInit {
     this.page= PaginationConfig.page;
     this.pageSize = PaginationConfig.TableGridSize;
     this.pageSizeList = PaginationConfig.Rows;
+    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
+    this.searchStatus = "";
     this.getAllMembershipDetails();
   }
 

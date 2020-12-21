@@ -339,8 +339,12 @@ export class BonusSetupComponent implements OnInit {
         }
       }
       else{
+        this.toastr.error('Communication Error', 'Error!');
         this.getBonusFirstList();
       }
+    }, (error) => {
+      this.toastr.error('Communication Error', 'Error!');
+      this.getBonusFirstList();
     });
   }
 
