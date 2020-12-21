@@ -18,9 +18,16 @@
                                     <div class="form-row">
                                         <div class="form-group d-flex"> <input type="search" size="35"
                                                 class="form-control" [(ngModel)]="query" name="search" id="inputSearch"
-                                                placeholder="Search by Name, Service Type,Status"> </div>
+                                                placeholder="Search by Name, Service Type"
+                                                (keyup)="$event.keyCode == 13 ? membershipSearch() : null"> </div>&nbsp;
+                                        <!-- <div class="form-group d-flex"> <select class="form-control"
+                                                [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
+                                                <option value="" selected hidden>Status</option>
+                                                <option *ngFor="let status of Status" value="{{status.id}}">
+                                                    {{status.Value}}</option>
+                                            </select> </div> -->
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button"
+                                            <button type="button" (click)="membershipSearch()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
                                         </div>
                                     </div>
@@ -42,7 +49,7 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            *ngFor="let membership of membershipDetails  | search: query | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                            *ngFor="let membership of membershipDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{membership.MembershipName}}</th>
                                             <td class="table-ellipsis">{{membership.Services}}</td>
                                             <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td>
@@ -61,13 +68,13 @@
                                 </table>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                        <ngb-pagination *ngIf="membershipDetails.length > 10"
+                                        <ngb-pagination *ngIf="membershipDetails.length > 0"
                                             [collectionSize]="collectionSize" (pageChange)="paginate($event)"
                                             [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
                                             [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
                                     </div>
-                                    <select *ngIf="membershipDetails.length > 10" class="form-control col-4"
+                                    <select *ngIf="membershipDetails.length > 0" class="form-control col-4"
                                         name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                         <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
 

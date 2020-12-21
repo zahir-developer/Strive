@@ -64,8 +64,9 @@ export class AddActivityComponent implements OnInit {
       return;
     }
     if (this.symbol === 'minus') {
-      if (this.totalAmount === 0) {
+      if (+this.totalAmount < Number(this.giftCardForm.value.amount)) {
         this.amountValidation = true;
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Insufficient Balance' });
         return;
       }
     }
