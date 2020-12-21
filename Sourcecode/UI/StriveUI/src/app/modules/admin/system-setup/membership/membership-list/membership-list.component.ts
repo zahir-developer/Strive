@@ -17,6 +17,8 @@ export class MembershipListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
+  Status:any;
+  searchStatus:any;
  
   query = '';
   collectionSize: number = 0;
@@ -29,6 +31,8 @@ export class MembershipListComponent implements OnInit {
     this.page= PaginationConfig.page;
     this.pageSize = PaginationConfig.TableGridSize;
     this.pageSizeList = PaginationConfig.Rows;
+    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
+    this.searchStatus = "";
     this.getAllMembershipDetails();
   }
 
@@ -64,6 +68,29 @@ export class MembershipListComponent implements OnInit {
     
     this.getAllMembershipDetails()
   }
+
+  membershipSearch(){
+    this.page = 1;
+    const obj ={
+       membershipSearch: this.query
+    }
+    this.member.searchMembership(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const membership = JSON.parse(data.resultData);
+        this.membershipDetails = membership.MembershipSearch;
+        if (this.membershipDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.membershipDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+
   delete(data) {
     this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
   information will be deleted and the membership cannot be retrieved?`, 'Yes', 'No')

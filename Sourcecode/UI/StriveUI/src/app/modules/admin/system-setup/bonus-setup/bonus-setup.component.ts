@@ -56,6 +56,7 @@ export class BonusSetupComponent implements OnInit {
 
   onLocationChange(event) {
     this.locationId = +event;
+    this.getBonusList();
   }
 
   getBonusFirstList() {
@@ -168,11 +169,11 @@ export class BonusSetupComponent implements OnInit {
     }
   }
   onMonthChange(event) {
-   this.selectedMonth = event
-   this.getBonusList()
+   this.selectedMonth = +event;
+   this.getBonusList();
   }
   onYearChange(event) {
-   this.selectedYear = event
+   this.selectedYear = +event;
    this.getBonusList();
   }
   saveBonus() {
@@ -205,6 +206,20 @@ export class BonusSetupComponent implements OnInit {
         this.monthBonusList.push(item);
       });
     }
+
+    const bounsRange = this.monthBonusList.map(item =>{
+      return{
+        BonusRangeId: item.BonusRangeId,
+        BonusId: item.BonusId,
+        Min: item.Min,
+        Max: item.Max,
+        noOfWashes: item.noOfWashes,
+        BonusAmount: item.BonusAmount,
+        Total: item.Total,
+        IsActive: true,
+        IsDeleted: false
+      }
+    })
     const bonus = {
       bonusId: this.bonusId,
       locationId: this.locationId,
@@ -225,7 +240,7 @@ export class BonusSetupComponent implements OnInit {
     };
     const finalObj = {
       bonus,
-      bonusRange: this.monthBonusList
+      bonusRange: bounsRange
     };
     console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
@@ -260,7 +275,7 @@ export class BonusSetupComponent implements OnInit {
       if (res.status === 'Success') {
         const bonus = JSON.parse(res.resultData);
         console.log(bonus, 'bonusList');
-        if (bonus.BonusDetails.Bonus !== null) {
+        if (bonus?.BonusDetails?.Bonus !== null) {
           this.bonusId = bonus.BonusDetails.Bonus.BonusId;
           this.noOfBadReviews = bonus.BonusDetails.Bonus.NoOfBadReviews;
           this.noOfCollisions = bonus.BonusDetails.Bonus.NoOfCollisions;
@@ -276,15 +291,15 @@ export class BonusSetupComponent implements OnInit {
           this.collisionDeduction = 0;
           this.badReviewDeduction = 0;
         }
-        if (bonus.BonusDetails.BonusRange !== null) {
+        if (bonus?.BonusDetails?.BonusRange !== null) {
           this.isEdit = true;
-          this.monthBonusList = bonus.BonusDetails.BonusRange;
+          this.monthBonusList = bonus?.BonusDetails?.BonusRange;
         } else {
           this.isEdit = false;
           this.monthBonusList = [
             {
               BonusRangeId: 0,
-              BonusId: 0,
+              BonusId: this.bonusId,
               Min: '',
               Max: '',
               noOfWashes: '',
@@ -295,19 +310,19 @@ export class BonusSetupComponent implements OnInit {
             }
           ];
         }
-        if (bonus.BonusDetails.LocationBasedWashCount !== null) {
+        if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
           this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
-          this.noOfWashes = 1;
+          //this.noOfWashes = 1;
           let totalAmount = 0;
           for(let i = 0 ; i < this.monthBonusList.length ; i++) {
-            if (this.monthBonusList[i].Min >= this.noOfWashes <= this.monthBonusList[i].Max) {
+            if (+(this.monthBonusList[i].Min ) <= +this.noOfWashes && +this.noOfWashes <= +(this.monthBonusList[i].Max)) {
               this.monthBonusList[i].noOfWashes = this.noOfWashes;
               this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
               totalAmount = this.monthBonusList[i].BonusAmount;
               break;
             }
           }
-          this.totalBonusAmount =  ( this.collisionDeduction + this.badReviewDeduction );
+          this.totalBonusAmount = totalAmount -   ( this.collisionDeduction + this.badReviewDeduction );
         } else {
           this.totalBonusAmount = 0;
           // this.noOfWashes = 1;
@@ -323,6 +338,13 @@ export class BonusSetupComponent implements OnInit {
           // this.totalBonusAmount = totalAmount -  ( this.collisionDeduction + this.badReviewDeduction );
         }
       }
+      else{
+        this.toastr.error('Communication Error', 'Error!');
+        this.getBonusFirstList();
+      }
+    }, (error) => {
+      this.toastr.error('Communication Error', 'Error!');
+      this.getBonusFirstList();
     });
   }
 

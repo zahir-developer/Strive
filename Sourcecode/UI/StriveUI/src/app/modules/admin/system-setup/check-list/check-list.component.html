@@ -18,7 +18,7 @@
                                     <div class="title-border m-b-22"></div>
                                     <div class="form-row">
                                         <div class="form-group col-3 "> <input type="text" class="form-control"
-                                                name="CheckList" [(ngModel)]="checkListName" maxlength="50"
+                                                name="CheckList" [(ngModel)]="checkListName" maxlength="100"
                                                 placeholder="Enter Check List"> </div>&nbsp;
 
                                         <div class="form-group col-3 m-l-140">
@@ -63,7 +63,7 @@
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
-                                                    <input type="text" class="form-control" name="CheckList" maxlength="50"
+                                                    <input type="text"  maxlength="100"  class="form-control" name="CheckList"
                                                         [(ngModel)]="checkList.Name" placeholder="Enter Check List">
                                                 </span>
                                             </td>
@@ -114,13 +114,13 @@
                                 </table>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                        <ngb-pagination *ngIf="checkListDetails.length > 10"
+                                        <ngb-pagination *ngIf="checkListDetails.length > 0"
                                             [collectionSize]="collectionSize" (pageChange)="paginate($event)"
                                             [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
                                             [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
                                     </div>
-                                    <select *ngIf="checkListDetails.length > 10" class="form-control col-4"
+                                    <select *ngIf="checkListDetails.length > 0" class="form-control col-4"
                                         name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                         <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
 

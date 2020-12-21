@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
     {
       this.navData = data;
       if (data) {
-        localStorage.setItem('full',data)
+        localStorage.setItem('views',data)
 
         this.localStorageUpdation = 'false';
       }
