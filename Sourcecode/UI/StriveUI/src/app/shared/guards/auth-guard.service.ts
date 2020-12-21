@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (localStorage.getItem('isAuthenticated') === 'true') {
-      console.log(next.data, 'URL CHAnges');
       if (next.data.authorization) {
         if (!this.authorizeService.routingLevelAccess(next.data.authorization)) {
           this.router.navigate(['/login']);
@@ -22,10 +21,11 @@ export class AuthGuard implements CanActivate {
           return true;
         }
       }
-      return true;
+    }else {
+      this.router.navigate(['/login']);
+      return false;
     }
-    this.router.navigate(['/login']);
-    return false;
+   
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):
