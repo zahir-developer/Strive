@@ -86,6 +86,10 @@ export class CustomerComponent implements OnInit {
         const details = JSON.parse(res.resultData);
         console.log(details, 'details');
         this.selectedData = details.DetailsForDetailId;
+        if (this.selectedData.Details !== null) {
+          this.selectedData.Details.VechicleName = this.selectedData.Details.MakeName + ' ' + this.selectedData.Details.ModelName
+           + ' ' + this.selectedData.Details.ColorName;
+        }
         this.servicesScreen = true;
         this.dashboardScreen = false;
       }

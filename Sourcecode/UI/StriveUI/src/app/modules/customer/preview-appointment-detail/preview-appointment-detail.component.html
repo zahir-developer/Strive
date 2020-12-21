@@ -28,8 +28,9 @@
                                         <div class="form-group col-md-10">
                                             <h6 class="d-inline-block align-middle">Vehicle</h6>
                                             <br> <span
-                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
+                                                class="font-size-1-5 font-weight-bold" *ngIf="!scheduleDetailObj.isEdit">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
                                             </span>
+                                            <span class="font-size-1-5 font-weight-bold" *ngIf="scheduleDetailObj.isEdit">{{selectedData?.Details?.VechicleName}}</span>
                                         </div>
                                     </div>
                                     <div class="form-row row no-gutters m-b-10 m-t-10 preview-card">

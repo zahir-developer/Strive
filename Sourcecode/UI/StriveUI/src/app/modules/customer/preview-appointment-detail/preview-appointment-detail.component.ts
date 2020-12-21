@@ -29,6 +29,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    this.getJobStatus();
+    this.getJobType();
   }
 
   bookNow() {
@@ -110,7 +112,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.detailService.saveEmployeeWithService(formObj).subscribe(res => {
+      this.detailService.addDetail(formObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
           this.confirmation.emit();

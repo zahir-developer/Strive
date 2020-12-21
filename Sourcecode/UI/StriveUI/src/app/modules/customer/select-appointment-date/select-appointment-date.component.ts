@@ -50,6 +50,17 @@ export class SelectAppointmentDateComponent implements OnInit {
           }
           return unique;
         }, []);
+        this.timeSlot.forEach(item => {
+          const date: any = new Date();
+          const time = item.TimeIn.split(':');
+          const hours = time[0];
+          const minutes = time[1];
+          date.setHours(hours);
+          date.setMinutes(minutes);
+          date.setSeconds('00');
+          item.dateTime = date;
+        });
+        // const sortedActivities = this.timeSlot.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
         console.log(this.timeSlot, 'slot');
       }
     });

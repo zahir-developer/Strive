@@ -17,25 +17,49 @@
                                     <div class="setup-wrapper">
                                         <div class="setup-content">
                                             <table class="table table-responsive-xl table-striped table-hover">
-                                                <thead>
+                                                <thead style="cursor:pointer;">
                                                     <tr>
-                                                        <th scope="col">Date </th>
-                                                        <th scope="col"> Time</th>
-                                                        <th scope="col">Location</th>
-                                                        <th scope="col">Make</th>
-                                                        <th scope="col"> Model </th>
-                                                        <th scope="col"> Color </th>
-                                                        <th scope="col"> Detail service</th>
-                                                        <th scope="col">Additional Service</th>
+                                                        <th scope="col" (click)="changeSorting('JobDate')">Date&nbsp;<i
+                                                                class="fa" [ngClass]="selectedCls('JobDate')"
+                                                                aria-hidden="true"></i> </th>
+                                                        <th scope="col" (click)="changeSorting('TimeIn')">
+                                                            Time&nbsp;<i class="fa" [ngClass]="selectedCls('TimeIn')"
+                                                                aria-hidden="true"></i></th>
+                                                        <th scope="col" (click)="changeSorting('LocationName')">
+                                                            Location&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('LocationName')"
+                                                                aria-hidden="true"></i></th>
+                                                        <th scope="col" (click)="changeSorting('VehicleMake')">
+                                                            Make&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('VehicleMake')"
+                                                                aria-hidden="true"></i></th>
+                                                        <th scope="col" (click)="changeSorting('VehicleModel')">
+                                                            Model&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('VehicleModel')"
+                                                                aria-hidden="true"></i>
+                                                        </th>
+                                                        <th scope="col" (click)="changeSorting('VehicleColor')"> Color
+                                                            &nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                                                aria-hidden="true"></i></th>
+                                                        <th scope="col" (click)="changeSorting('ServiceTypeName')">
+                                                            Detail <br/>
+                                                            service&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('ServiceTypeName')"
+                                                                aria-hidden="true"></i></th>
+                                                        <th scope="col" (click)="changeSorting('OutsideService')">
+                                                            Additional <br/> Service&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('OutsideService')"
+                                                                aria-hidden="true"></i></th>
                                                         <th scope="col">Action</th>
 
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let service of todayScheduleDetail">
-                                                        <td>10-12-2020</td>
+                                                <tbody *ngIf="todayScheduleDetail.length > 0">
+                                                    <tr
+                                                        *ngFor="let service of todayScheduleDetail | orderBy:sort.column:'sequence':sort.descending">
+                                                        <td>{{service.JobDate | date : 'MM/dd/yyyy'}}</td>
                                                         <td>{{service.TimeIn}}</td>
-                                                        <td> Main street</td>
+                                                        <td>{{service.LocationName}}</td>
                                                         <td>{{service.VehicleMake}} </td>
                                                         <td>{{service.VehicleModel}}</td>
                                                         <td>{{service.VehicleColor}}</td>
@@ -43,10 +67,12 @@
                                                         <td>{{service.OutsideService}}</td>
                                                         <td> <i class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
                                                                 (click)="updateSchedule(service)"></i>
-                                                            <i
-                                                                class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2" (click)="deleteDetail(service)"></i>
+                                                            <i class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
+                                                                (click)="deleteDetail(service)"></i>
                                                         </td>
                                                     </tr>
+                                                </tbody>
+                                                <tbody *ngIf="todayScheduleDetail.length === 0">
                                                     <tr *ngIf="todayScheduleDetail.length === 0">
                                                         <td colspan="9" class="text-center">
                                                             No Record Found
@@ -71,7 +97,8 @@
                                                 <div class="form-row">
                                                     <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span> </div> -->
                                                     <div class="form-group col-sm m-l-5">
-                                                        <input type="search" class="form-control" placeholder="Search" (input)=searchVechicleList($event.target.value)>
+                                                        <input type="search" class="form-control" placeholder="Search"
+                                                            (input)=searchVechicleList($event.target.value)>
                                                     </div>
                                                 </div>
                                             </form>

@@ -20,6 +20,8 @@ export class CustomerDashboardComponent implements OnInit {
   todayScheduleDetail: any = [];
   @Output() editSchedule = new EventEmitter();
   clonedVechicleList = [];
+  sort = { column: 'JobDate', descending: true };
+  sortColumn: { column: string; descending: boolean; };
   constructor(
     private customerService: CustomerService,
     private datePipe: DatePipe,
@@ -81,7 +83,7 @@ export class CustomerDashboardComponent implements OnInit {
     const currentDate = new Date();
     const todayDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
     const locationId = null; // 2033;
-    const clientID = 0;
+    const clientID = 115;
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
@@ -114,6 +116,31 @@ export class CustomerDashboardComponent implements OnInit {
 
   updateSchedule(service) {
     this.editSchedule.emit(service.JobId);
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 
 }
