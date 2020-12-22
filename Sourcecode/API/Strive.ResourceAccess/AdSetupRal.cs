@@ -27,14 +27,14 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPc(adSetup, "AdSetupId");
         }
 
-        public bool UpdateAdSetup(AdSetupDto adSetup)
+        public bool UpdateAdSetup(AdSetupAddDto adSetup)
         {
             return dbRepo.UpdatePc(adSetup);
         }
 
         public bool DeleteAdSetup(int id)
         {
-            _prm.Add("AdSetup", id.toInt());
+            _prm.Add("@AdSetupId", id.toInt());
             db.Save(EnumSP.AdSetup.USPDELETEADSETUP.ToString(), _prm);
             return true;
         }

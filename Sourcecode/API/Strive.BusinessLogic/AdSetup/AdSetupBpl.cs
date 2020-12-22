@@ -23,7 +23,7 @@ namespace Strive.BusinessLogic.AdSetup
 
         public Result UpdateAdSetup(AdSetupDto adSetup)
         {
-            return ResultWrap(new AdSetupRal(_tenant).UpdateAdSetup, adSetup, "UpdateAdSetup");
+            return ResultWrap(new AdSetupRal(_tenant).UpdateAdSetup, adSetup.AdSetupAddDto, "UpdateAdSetup");
         }
         public Result GetAllAdSetup()
         {
