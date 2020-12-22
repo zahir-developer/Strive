@@ -142,7 +142,8 @@ export class HourlyWashComponent implements OnInit {
                 });
                 serviceName.push({
                   serviceName: name,
-                  count: washCount
+                  count: washCount,
+                  date: item
                 });
               });
             }
@@ -180,7 +181,7 @@ export class HourlyWashComponent implements OnInit {
             }
           });
           console.log(this.salesDetails, 'salesdetail');
-          this.salesDetails.forEach( item => {
+          this.salesDetails.forEach(item => {
             const manager = _.where(this.hourlyWashManager, { EventDate: item.JobDate });
             if (manager.length > 0) {
               item.Managers = manager[0].FirstName + '' + manager[0].LastName;
@@ -261,23 +262,22 @@ export class HourlyWashComponent implements OnInit {
         return {
           JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
           Day: this.datePipe.transform(item.JobDate, 'EEE'),
+          _7AM: +item._7AM,
+          _8AM: +item._8AM,
+          _9AM: +item._9AM,
+          _10AM: +item._10AM,
+          _11AM: +item._11AM,
+          _12PM: +item._12AM,
           _1PM: +item._1PM,
           _2PM: +item._2PM,
           _3PM: +item._3PM,
           _4PM: +item._4PM,
           _5PM: +item._5PM,
           _6PM: +item._6PM,
-          _7AM: +item._7AM,
           _7PM: +item._7PM,
-          _8AM: +item._8AM,
-          _9AM: +item._9AM,
-          _9PM: +item._9PM,
-          _10AM: +item._10AM,
-          _11AM: +item._11AM,
-          _12AM: +item._12AM,
           TotalWashCount: (+item._1PM) + (+item._2PM) + (+item._3PM) + (+item._4PM) + (+item._5PM) +
             (+item._6PM) + (+item._7AM) + (+item._7PM) + (+item._8AM)
-            + (+item._9AM) + (+item._9PM) + (+item._10AM) + (+item._11AM) + (+item._12AM)
+            + (+item._9AM) + (+item._10AM) + (+item._11AM) + (+item._12AM)
         };
       });
       return wash;
@@ -289,22 +289,32 @@ export class HourlyWashComponent implements OnInit {
   salesObj(salesdetail) {
     if (salesdetail.length > 0) {
       const sale = [];
+      const saleName = [];
       salesdetail.forEach(item => {
         item.serviceName.forEach(name => {
-          sale.push({
-            Account: item.Account,
-            Actual: 0,
-            BC: item.BC,
-            Deposits: 0,
-            Difference: 0,
-            GiftCard: item.GiftCard,
-            JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
-            Managers: '',
-            Sales: 0,
-            Tips: 0,
-            [name.serviceName]: name.count
-          });
+          saleName.push(name);
         });
+        sale.push({
+          JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
+          Day: this.datePipe.transform(item.JobDate, 'EEE'),
+          Account: item.Account,
+          Actual: 0,
+          BC: item.BC,
+          Deposits: 0,
+          Difference: 0,
+          GiftCard: item.GiftCard,
+          Managers: '',
+          Sales: 0,
+          Tips: 0,
+        });
+      });
+      sale.forEach( item => {
+        const serviceName = saleName.filter( name => item.JobDate === this.datePipe.transform(name.date, 'MM-dd-yyyy'));
+        if (serviceName.length > 0) {
+          serviceName.forEach( ele => {
+            item[ele.serviceName] = ele.count;
+          });
+        }
       });
       return sale;
     }
