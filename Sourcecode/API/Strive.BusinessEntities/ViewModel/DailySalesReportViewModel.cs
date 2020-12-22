@@ -12,7 +12,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string TimeIn { get; set; }
         public string TimeOut { get; set; }
         public string Est { get; set; }
-        public int? TimeOutDifference { get; set; }
+        //public int? TimeOutDifference { get; set; }
         public string Deviation { get; set; }
         public int MerchandiseItemsPurchased { get; set; }
         public string Barcode { get; set; }

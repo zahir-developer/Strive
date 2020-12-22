@@ -21,7 +21,7 @@
                                                 name="CheckList" [(ngModel)]="checkListName" maxlength="100"
                                                 placeholder="Enter Check List"> </div>&nbsp;
 
-                                        <div class="form-group col-3 m-l-140">
+                                        <div class="form-group col-3 m-l-80">
 
                                             <select name="Roles" class="form-control" [(ngModel)]="RoleId"
                                                 placeholder="Select Role">
@@ -31,13 +31,13 @@
                                                     {{role.RoleName}}</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-2 m-l-120 m-t-5">
+                                        <div class="form-group col-2 m-l-90 ">
                                             <button type="button" style="margin-left: 5%;"
                                                 class="btn theme-primary-button-color btn-md float-right"
                                                 (click)="checlistcancel()">Cancel</button>
                                             <button type="button"
                                                 class="btn theme-primary-button-color btn-md float-right"
-                                                (click)="add('add',[])">Add</button>
+                                                (click)="add('add',[])">Save</button>
                                         </div>
                                     </div>
                                 </form>
