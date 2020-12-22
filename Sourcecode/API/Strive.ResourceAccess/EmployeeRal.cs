@@ -73,8 +73,14 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+        public EmployeeRoleViewModel GetEmployeeRoleById(int employeeId)
+        {
+            _prm.Add("@EmployeeId", employeeId);
+            var lstResult = db.FetchMultiResult<EmployeeRoleViewModel>(SPEnum.USPGETEMPLOYEEROLEBYID.ToString(), _prm);
+            return lstResult;
+        }
 
-    
+
     }
 }
 
