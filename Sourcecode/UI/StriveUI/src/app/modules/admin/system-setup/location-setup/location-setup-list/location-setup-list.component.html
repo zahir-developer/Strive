@@ -29,7 +29,7 @@
                             <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
                                     class="col-12 row d-block" style="text-align: center;">No Records Found</span></div>
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
-                                <table class="table  table-striped m-t-10">
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
                                             <th scope="col"> Name</th>
@@ -40,14 +40,14 @@
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let locationSetup of locationSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{locationSetup.LocationName}}</th>
                                             <td title="{{locationSetup.Address1}}">{{locationSetup.Address1 | slice:0:15}} {{(locationSetup.Address1!== null) ?locationSetup.Address1.length <= 15 ? '': '...':''}}</td>
                                             <td>{{locationSetup.IsFranchise === true ? "Yes" : "No"}}</td>
                                             <td>{{locationSetup.PhoneNumber}}</td>
-                                            <td>{{locationSetup.Email}}</td>
+                                            <td >{{locationSetup.Email}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="Edit" tooltipPosition="bottom"

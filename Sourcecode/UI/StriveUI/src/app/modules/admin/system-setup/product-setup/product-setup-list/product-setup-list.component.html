@@ -29,7 +29,7 @@
                             <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
                                     class="col-12 row d-block">No Records Found</span></div>
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
-                                <table class="table  table-striped m-t-10" aria-describedby="vendor-list">
+                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list">
                                     <thead>
                                         <tr>
                                             <th scope="col"> Name</th>
@@ -44,7 +44,7 @@
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody  class="bodyfix">
                                         <tr
                                             *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>

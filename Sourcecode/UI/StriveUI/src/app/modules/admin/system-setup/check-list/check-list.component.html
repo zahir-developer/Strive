@@ -46,7 +46,7 @@
                                     class="col-12 row d-block">No Records Found</span></div>
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
 
-                                <table class="table  table-striped m-t-10">
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -54,7 +54,7 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
