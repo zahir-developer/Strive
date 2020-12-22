@@ -42,12 +42,12 @@
                                                             &nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
                                                                 aria-hidden="true"></i></th>
                                                         <th scope="col" (click)="changeSorting('ServiceTypeName')">
-                                                            Detail <br/>
+                                                            Detail <br />
                                                             service&nbsp;<i class="fa"
                                                                 [ngClass]="selectedCls('ServiceTypeName')"
                                                                 aria-hidden="true"></i></th>
                                                         <th scope="col" (click)="changeSorting('OutsideService')">
-                                                            Additional <br/> Service&nbsp;<i class="fa"
+                                                            Additional <br /> Service&nbsp;<i class="fa"
                                                                 [ngClass]="selectedCls('OutsideService')"
                                                                 aria-hidden="true"></i></th>
                                                         <th scope="col">Action</th>
@@ -73,7 +73,7 @@
                                                     </tr>
                                                 </tbody>
                                                 <tbody *ngIf="todayScheduleDetail.length === 0">
-                                                    <tr *ngIf="todayScheduleDetail.length === 0">
+                                                    <tr>
                                                         <td colspan="9" class="text-center">
                                                             No Record Found
                                                         </td>
@@ -136,7 +136,8 @@
                                                     <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span>  -->
                                                 </div>
                                                 <div class="form-group col-sm m-l-5">
-                                                    <input type="search" class="form-control" placeholder="Search">
+                                                    <input type="search" class="form-control" placeholder="Search"
+                                                        (input)=searchHistory($event.target.value)>
                                                 </div>
                                             </form>
                                         </div>
@@ -145,35 +146,48 @@
                                 <table class="table table-responsive-xl table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Ticket #</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Location</th>
-
-                                            <th scope="col">Make </th>
-                                            <th scope="col"> Model </th>
-                                            <th scope="col"> Color </th>
-                                            <th scope="col">Detail Service</th>
+                                            <th scope="col" (click)="changeSorting('TicketNumber')">Ticket # &nbsp;<i
+                                                    class="fa" [ngClass]="selectedCls('TicketNumber')"
+                                                    aria-hidden="true"></i></th>
+                                            <th scope="col" (click)="changeSorting('JobDate')">Date&nbsp;<i class="fa"
+                                                    [ngClass]="selectedCls('JobDate')" aria-hidden="true"></i> </th>
+                                            <th scope="col" (click)="changeSorting('LocationName')">Location&nbsp;<i
+                                                    class="fa" [ngClass]="selectedCls('LocationName')"
+                                                    aria-hidden="true"></i></th>
+                                            <th scope="col" (click)="changeSorting('VehicleMake')">Make &nbsp;<i
+                                                    class="fa" [ngClass]="selectedCls('VehicleMake')"
+                                                    aria-hidden="true"></i></th>
+                                            <th scope="col" (click)="changeSorting('VehicleModel')"> Model &nbsp;<i
+                                                    class="fa" [ngClass]="selectedCls('VehicleModel')"
+                                                    aria-hidden="true"></i></th>
+                                            <th scope="col" (click)="changeSorting('VehicleColor')"> Color &nbsp;<i
+                                                    class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                                    aria-hidden="true"></i></th>
+                                            <th scope="col" (click)="changeSorting('ServiceTypeName')">Detail
+                                                Service&nbsp;<i class="fa" [ngClass]="selectedCls('ServiceTypeName')"
+                                                    aria-hidden="true"></i></th>
                                             <th scope="col">Amount</th>
                                             <th scope="col">Total Price</th>
 
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr *ngFor="let service of serviceList">
+                                    <tbody
+                                        *ngFor="let service of pastScheduleDetail | orderBy:sort.column:'sequence':sort.descending">
+                                        <tr>
                                             <th scope="row" class="text-underline theme-primary-color font-size--9">
-                                                17585</th>
-                                            <td>12/12/2020</td>
-                                            <td>Main street</td>
-
-                                            <td>Suzuki </td>
-                                            <td>Swift</td>
-                                            <td>Silver</td>
-                                            <td>Loreum Ipsum</td>
-                                            <td>$100.00</td>
-                                            <td>$766.00</td>
-
+                                                {{service.TicketNumber}}</th>
+                                            <td>{{service.JobDate | date : 'MM/dd/yyyy'}}</td>
+                                            <td>{{service.LocationName}}</td>
+                                            <td>{{service.VehicleMake}} </td>
+                                            <td>{{service.VehicleModel}}</td>
+                                            <td>{{service.VehicleColor}}</td>
+                                            <td>{{service.ServiceTypeName}}</td>
+                                            <td>$100</td>
+                                            <td>$123</td>
                                         </tr>
-                                        <tr *ngIf="serviceList.length === 0">
+                                    </tbody>
+                                    <tbody *ngIf="pastScheduleDetail.length === 0">
+                                        <tr>
                                             <td colspan="9" class="text-center">
                                                 No Record Found
                                             </td>

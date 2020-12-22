@@ -22,6 +22,8 @@ export class CustomerDashboardComponent implements OnInit {
   clonedVechicleList = [];
   sort = { column: 'JobDate', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pastScheduleDetail = [];
+  clonedPastScheduleDetail = [];
   constructor(
     private customerService: CustomerService,
     private datePipe: DatePipe,
@@ -79,17 +81,44 @@ export class CustomerDashboardComponent implements OnInit {
     }
   }
 
+  searchHistory(text) {
+    if (text.length > 0) {
+      this.pastScheduleDetail = this.clonedPastScheduleDetail.filter(item => item.searchData.toLowerCase().includes(text));
+    } else {
+      this.pastScheduleDetail = [];
+      this.pastScheduleDetail = this.clonedPastScheduleDetail;
+    }
+  }
+
   getScheduleDetail() {
     const currentDate = new Date();
-    const todayDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    const todayDate = '2020-12-21';  // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
     const locationId = null; // 2033;
     const clientID = 115;
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
+        this.pastScheduleDetail = [];
+        this.todayScheduleDetail = [];
         if (scheduleDetails.DetailsGrid.BayJobDetailViewModel !== null) {
-          this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
-          console.log(scheduleDetails, 'scheduleDetails');
+          // this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
+          scheduleDetails.DetailsGrid.BayJobDetailViewModel.forEach(item => {
+            if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(item.JobDate, 'dd-MM-yyyy')) {
+              this.todayScheduleDetail.push(item);
+            } else if (currentDate < new Date(item.JobDate)) {
+              this.todayScheduleDetail.push(item);
+            } else {
+              this.pastScheduleDetail.push(item);
+            }
+          });
+          console.log(this.todayScheduleDetail, this.pastScheduleDetail, 'scheduleDetails');
+          if (this.pastScheduleDetail.length > 0) {
+            this.pastScheduleDetail.forEach(item => {
+              item.searchData = item.TicketNumber + ' ' + this.datePipe.transform(item.JobDate, 'MM/dd/yyyy') + ' ' + item.LocationName
+                + ' ' + item.VehicleMake + ' ' + item.VehicleModel + ' ' + item.VehicleColor + ' ' + item.ServiceTypeName;
+            });
+            this.clonedPastScheduleDetail = this.pastScheduleDetail.map(x => Object.assign({}, x));
+          }
         }
       }
     });
