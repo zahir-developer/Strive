@@ -24,6 +24,7 @@ namespace StriveCustomer.iOS.MvvmCross
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<ILocationService, LocationService>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IMessengerService, MessengerService>();
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<ICarwashLocationService, CarwashLocationService>();
         }
 
         protected override void InitializeLastChance()
