@@ -55,7 +55,13 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
+        if(this.fileThumb == 'PDF' || this.fileThumb == 'pdf'){
+          fileTosaveName = fileReader.result.split(',')[1];
+      }
+      else{
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
+        this.clearDocument();
+      }
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
         console.log(this.fileName,this.fileUploadformData.length);
