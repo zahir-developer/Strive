@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomerService } from '../../services/data-service/customer.service';
 import { WashService } from '../../services/data-service/wash.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { WashService } from '../../services/data-service/wash.service';
 export class AverageWashTimeComponent implements OnInit {
   average: any;
 
-  constructor(private wash: WashService) { }
+  constructor(private wash: CustomerService) { }
 
   ngOnInit() {
     this.getDashboardDetails();
@@ -17,13 +18,14 @@ export class AverageWashTimeComponent implements OnInit {
 
   // Get Averege Wash Time
   getDashboardDetails = () => {
-    const obj = {
-      id: +localStorage.getItem('empLocationId'),
-      date: new Date()
-    };
-    this.wash.getDashBoard(obj);
-    this.wash.dashBoardData.subscribe((data: any) => {
-        this.average = data.AverageWashTime;
+    const  id= +localStorage.getItem('empLocationId')
+    this.wash.getWashTimeByLocationId(id).subscribe((data: any) => {
+      if (data.status === 'Success') {
+        const washTime = JSON.parse(data.resultData);   
+        console.log(washTime)
+             this.average = washTime.Location.Location.WashTimeMinutes;
+
+      }
     });
   }
 }
