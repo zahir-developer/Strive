@@ -59,7 +59,9 @@
                                             *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
-                                                    {{checkList.Name}}
+                                                    <span  title="{{checkList.Name}}">
+                                                    {{checkList.Name | slice:0:15}} {{(checkList.Name!== null) ?checkList.Name.length <= 15 ? '': '...':''}}
+                                                    </span>
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
