@@ -159,7 +159,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
   addEmployee() {
     const employeeObj = {
       timeClockId: 0,
-      employeeId: this.selectedEmployee,
+      employeeId: this.selectedEmployee.EmployeeId,
       locationId: localStorage.getItem('empLocationId'),
       roleId: null,
       eventDate: moment(this.startDate).format(),
@@ -187,7 +187,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
   }
 
   selectEmploye(event) {
-    this.selectedEmployee = event.target.value;
+    console.log(event, 'event');
+    this.selectedEmployee = event.value;
   }
 
   onValueChange(event) {

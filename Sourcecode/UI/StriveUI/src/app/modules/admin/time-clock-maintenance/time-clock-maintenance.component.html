@@ -42,25 +42,19 @@
                 <div id="timeclocklist" class="collapse show">
 
                   <div class="search-container  pull-right">
-                    <form>
-                      <div class="form-row m-r-0">
-                        <div class="form-group col-sm-9">
-                          <select id="inputcommission" class="form-control" name="employee"
-                            (change)="selectEmploye($event)" [(ngModel)]="selectedEmployee">
-                            <option value="" selected>Select
-                            </option>
-                            <option *ngFor="let employee of employeeList" value="{{employee.EmployeeId}}">
-                              {{employee.EmployeeName}}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="form-group col-sm-2">
-                          <button type="button" class="btn theme-primary-button-color btn-md" (click)="addEmployee()">
-                            Add
-                          </button>
-                        </div>
+                    <div class="form-row m-r-0">
+                      <div class="form-group col-sm-9">
+                        <p-dropdown [options]="employeeList" [(ngModel)]="selectedEmployee"
+                          optionLabel="EmployeeName" [filter]="true"  placeholder="Select"
+                          (onChange)="selectEmploye($event)">
+                        </p-dropdown>
                       </div>
-                    </form>
+                      <div class="form-group col-sm-2">
+                        <button type="button" class="btn theme-primary-button-color btn-md" (click)="addEmployee()">
+                          Add
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   <div class="table-responsive">
                     <table class="table table-striped">
@@ -132,7 +126,7 @@
       </div>
     </div>
   </div>
-<div *ngIf="isTimeClockWeekPage">
-  <app-time-clock-week [empClockInObj]="empClockInObj" [isView]="isView" (cancelCheckInPage)="cancelCheckInPage()">
-  </app-time-clock-week>
-</div>
+  <div *ngIf="isTimeClockWeekPage">
+    <app-time-clock-week [empClockInObj]="empClockInObj" [isView]="isView" (cancelCheckInPage)="cancelCheckInPage()">
+    </app-time-clock-week>
+  </div>
