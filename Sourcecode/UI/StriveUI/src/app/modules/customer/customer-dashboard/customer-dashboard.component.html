@@ -182,8 +182,8 @@
                                             <td>{{service.VehicleModel}}</td>
                                             <td>{{service.VehicleColor}}</td>
                                             <td>{{service.ServiceTypeName}}</td>
-                                            <td>$100</td>
-                                            <td>$123</td>
+                                            <td>{{service.Cost | currency}}</td>
+                                            <td>{{service.Cost | currency}}</td>
                                         </tr>
                                     </tbody>
                                     <tbody *ngIf="pastScheduleDetail.length === 0">

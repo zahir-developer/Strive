@@ -92,7 +92,7 @@ export class CustomerDashboardComponent implements OnInit {
 
   getScheduleDetail() {
     const currentDate = new Date();
-    const todayDate = '2020-12-21';  // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    const todayDate = null; // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
     const locationId = null; // 2033;
     const clientID = 115;
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {

@@ -45,9 +45,9 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       locationId: this.scheduleDetailObj.locationObj.LocationId,
       clientId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.ClientId : this.scheduleDetailObj.vechicleDetail.ClientId,
       vehicleId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.VehicleId : this.scheduleDetailObj.vechicleDetail.VehicleId,
-      make: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Make : 1,
-      model: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Model : 1,
-      color: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Color : 1,
+      make: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Make : this.scheduleDetailObj.vechicleDetail.VehicleMakeId,
+      model: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Model : this.scheduleDetailObj.vechicleDetail.VehicleModelId,
+      color: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Color : this.scheduleDetailObj.vechicleDetail.VehicleColorId,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.scheduleDetailObj.InTime, 'yyyy-MM-dd'),
       jobStatus: jobStatusId,
@@ -83,7 +83,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     };
     const jobItem = [];
     jobItem.push({
-      jobItemId: this.scheduleDetailObj.isEdit ? this.scheduleDetailObj.JobItemId : 0,
+      jobItemId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobItemId : 0,
       jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       serviceId: this.scheduleDetailObj.serviceobj.ServiceId,
       isActive: true,
