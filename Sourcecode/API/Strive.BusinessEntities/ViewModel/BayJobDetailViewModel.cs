@@ -25,5 +25,7 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime JobDate { get; set; }
         public int LocationId { get; set; }
         public string LocationName { get; set; }
+        public int JobItemId { get; set; }
+        public decimal Cost { get; set; }
     }
 }
