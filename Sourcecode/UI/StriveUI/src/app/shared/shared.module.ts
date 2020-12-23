@@ -48,6 +48,7 @@ import { ExportFiletypeComponent } from './components/export-filetype/export-fil
 import { ChartsModule } from 'ng2-charts';
 import { SsnNumberMaskDirective } from './Directive/ssn-number-mask.directive';
 import { SearchPipe } from './common-search-pipe/search.pipe';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { SearchPipe } from './common-search-pipe/search.pipe';
     NgMultiSelectDropDownModule.forRoot(),
     TooltipModule,
     NgbPaginationModule,
-    ChartsModule  ],
+    ChartsModule,
+    DropdownModule  ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
@@ -88,7 +90,7 @@ import { SearchPipe } from './common-search-pipe/search.pipe';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe],
+     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe, DropdownModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

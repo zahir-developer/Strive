@@ -17,7 +17,7 @@ export class AuthorizeService {
     console.log(routingPageId, this.userDataService.isAuthenticated, this.userDataService, 'authrize');
     if (localStorage.getItem('isAuthenticated') === 'true') {
     if (routingPageId !== undefined) {
-      const roleViews = JSON.parse(localStorage.getItem('views'));
+      const roleViews = this.userDataService.userDetails.views;
       if (_.findWhere(roleViews, { ModuleName: routingPageId })) {
         return true;
       }

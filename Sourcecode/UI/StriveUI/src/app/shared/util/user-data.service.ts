@@ -45,7 +45,7 @@ export class UserDataService {
     }
     this.setHeaderName(token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
-      // this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+    this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
 
     this.getUnreadMessage(token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
     localStorage.setItem('employeeName', token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
@@ -56,23 +56,23 @@ export class UserDataService {
     localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.Firstname);
     localStorage.setItem('employeeLastName', token.EmployeeDetails.EmployeeLogin.LastName);
 
-    
-              
+
+
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }
   setHeaderName(headerName) {
     this.header.next(headerName);
   }
-  
+
   setViews(views) {
     this.userDetails.views = views;
     localStorage.setItem('views', JSON.stringify(views));
   }
   setSides(navName) {
-this.nav.next(navName)
-localStorage.setItem('navName', navName);
+    this.nav.next(navName)
+    localStorage.setItem('navName', navName);
 
- }
+  }
 
   getUnreadMessage(id) {
     this.http.get(`${UrlConfig.Messenger.getUnReadMessageCount}` + id).subscribe(res => {
