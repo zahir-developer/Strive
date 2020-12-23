@@ -93,9 +93,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       setTimeout(() => {
         let fileTosaveName: any;
         fileTosaveName = fileReader.result.split(',')[1];
-        this.fileUploadformData = fileTosaveName;
+        if(this.fileThumb == 'PDF' || this.fileThumb == 'pdf' || this.fileThumb == 'doc' || this.fileThumb == 'DOC' || this.fileThumb == 'DOCX' || this.fileThumb == 'docx'){
+          fileTosaveName = fileReader.result.split(',')[1];
+      }
+      else{
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
+        this.clearDocument();
+      }
         this.isLoading = false;
-        console.log(this.fileName,this.fileUploadformData.length);
       }, 5000);
     }
   }

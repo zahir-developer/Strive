@@ -46,7 +46,7 @@
                                     class="col-12 row d-block">No Records Found</span></div>
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
 
-                                <table class="table  table-striped m-t-10">
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -54,12 +54,14 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
-                                                    {{checkList.Name}}
+                                                    <span  title="{{checkList.Name}}">
+                                                    {{checkList.Name | slice:0:15}} {{(checkList.Name!== null) ?checkList.Name.length <= 15 ? '': '...':''}}
+                                                    </span>
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 

@@ -35,7 +35,8 @@
                             <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
                                     class="col-12 row d-block">No Records Found</span></div>
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
-                                <table class="table  table-striped m-t-10">
+
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
                                             <th> Name</th>
@@ -46,7 +47,7 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody  class="bodyfix">
                                         <tr
                                             *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{serviceSetup.ServiceName}}</th>
@@ -79,8 +80,7 @@
                                      </select>
                                  </div>
                             </div>
-                        </div>
-                        <div class="loadingDiv" *ngIf="isLoading">
+                             <div class="loadingDiv" *ngIf="isLoading">
                             <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                         </div>
                     </div>

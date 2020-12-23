@@ -27,7 +27,7 @@
               <div class="table-responsive" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No Records
                   Found</span></div>
               <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
-                <table class="table  table-striped m-t-10">
+                <table class="table  table-striped m-t-10 headerfix">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -36,7 +36,7 @@
                       <th>Email</th>
                       <th>Action</th>
                     </tr>
-                  <tbody>
+                  <tbody class="bodyfix">
                     <tr
                       *ngFor="let vendorSetup of vendorSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                       <th scope="row">{{vendorSetup.VendorName}}</th>

@@ -203,7 +203,7 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", "http://localhost:4200").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             //app.UseSecureHeadersMiddleware(CustomSecureHeaderExtensions.CustomConfiguration());
             //app.UseSecureHeadersMiddleware(secureHeaderSettings.Value); 
             //app.UseSecureHeadersMiddleware(SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration());
