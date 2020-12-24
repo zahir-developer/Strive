@@ -30,7 +30,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item  p-0 m-t-5 font-size--8" *ngFor="let unread of unReadMessageDetail"><i
                 class="fa fa-user-md"></i><span style="cursor: pointer;" (click)="navigateToMessage(unread)">{{unread.SenderName}}</span> </a>
-                <div *ngIf="unReadMessageDetail?.length === 0">No Unread Message</div>
+                <div *ngIf="unReadMessageDetail?.length === 0">No new messages</div>
           </div>
         </li>
         <li class="admin"> <a href="#" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle"
