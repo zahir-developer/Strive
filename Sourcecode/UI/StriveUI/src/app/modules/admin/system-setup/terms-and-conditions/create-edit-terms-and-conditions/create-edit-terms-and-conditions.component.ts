@@ -23,7 +23,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
 
   ngOnInit() : void {
     if (localStorage.getItem('employeeName') !== undefined) {
-      this.employeeId = localStorage.getItem('employeeId');
+      this.employeeId = +localStorage.getItem('empId');
     }
     this.formInitialize();
   }
