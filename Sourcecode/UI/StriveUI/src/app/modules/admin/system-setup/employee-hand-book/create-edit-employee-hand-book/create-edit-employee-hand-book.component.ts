@@ -35,14 +35,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   fileThumb: any = null;
   createdDate: any;
   headerName: string;
-  employeeId: string;
+  employeeId: any;
   constructor(private fb: FormBuilder,
      private toastr: MessageServiceToastr, private document:DocumentService) { }
 
   ngOnInit() {
     if (localStorage.getItem('employeeName') !== undefined) {
       this.headerName = localStorage.getItem('employeeName');
-      this.employeeId = localStorage.getItem('employeeId');
+      this.employeeId = +localStorage.getItem('empId');
 
     }    
     this.formInitialize();

@@ -20,7 +20,7 @@
                                         <tr>
                                             <th>File Name</th>
                                             <th>Created Date</th>
-                                            <!-- <th>Created By</th> -->
+                                            <th>Created By</th> 
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -31,7 +31,7 @@
                                         <tr  *ngIf="isLoading === false && fileName !== null">
                                             <th scope="row">{{fileName}}</th>
                                             <td>{{document?.Document?.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
-                                            <!-- <td>{{document?.Document?.CreatedBy}}</td> -->
+                                            <td>{{document?.Document?.CreatedBy}}</td> 
                                             <td>
                                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                                     pTooltip="Download" tooltipPosition="bottom"
