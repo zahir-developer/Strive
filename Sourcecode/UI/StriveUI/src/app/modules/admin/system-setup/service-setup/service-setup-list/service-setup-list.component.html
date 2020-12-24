@@ -35,18 +35,24 @@
                             <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
                                     class="col-12 row d-block">No Records Found</span></div>
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
-                                <table class="table  table-striped m-t-10">
+
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th> Name</th>
-                                            <th> Type</th>
-                                            <!-- <th> Description</th> -->
-                                              <th>Price</th>
-                                            <th>Status</th>
+                                            <th class="pointer" (click)="sort('ServiceName')">Name&nbsp; <i class="fa" *ngIf="column =='ServiceName'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('ServiceType')">Type&nbsp; <i class="fa" *ngIf="column =='ServiceType'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('Cost')">Price&nbsp; <i class="fa" *ngIf="column =='Cost'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('IsActive')">Status&nbsp; <i class="fa" *ngIf="column =='IsActive'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            
+                                          
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody  class="bodyfix">
                                         <tr
                                             *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{serviceSetup.ServiceName}}</th>
@@ -79,8 +85,7 @@
                                      </select>
                                  </div>
                             </div>
-                        </div>
-                        <div class="loadingDiv" *ngIf="isLoading">
+                             <div class="loadingDiv" *ngIf="isLoading">
                             <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                         </div>
                     </div>

@@ -126,11 +126,11 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   getAllRoles() {
-    this.timeClockMaintenanceService.getAllRoles().subscribe(res => {
+    this.timeClockMaintenanceService.getRolesbyEmployeeId().subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
         console.log(roles);
-        this.roleList = roles.EmployeeRoles;
+        this.roleList = roles.EmployeeRole.EmployeeRoles;
         this.getTimeClockWeekDetails();
       }
     });

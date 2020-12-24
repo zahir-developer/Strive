@@ -29,7 +29,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="p-b-5 p-t-5">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Hourly Wash Report</span>
+                                <h4 class="d-inline-block align-middle"><span class="resp-title">Hourly Wash
+                                        Report</span>
                                 </h4>
                             </div>
                         </div>
@@ -38,9 +39,9 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent" (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    ngxPrint printSectionId="hourlyWashReport">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [disabled]="!fileTypeEvent"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="printReport()">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="refesh()">Refresh</button>
                             </div>
@@ -109,19 +110,21 @@
                                         <td>
                                             <input type="text" class="form-control p-10 text-right" disabled
                                                 placeholder="{{hours._8AM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-l-15">{{hours._7AM + hours._8AM}}</div>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM}}</div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._9AM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-l-15">{{hours._7AM + hours._8AM + hours._9AM}}</div>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM}}</div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._10AM}}"><br>
                                             <div class="text-right font-weight-600 align-middle p-l-15">
                                                 {{hours._7AM + hours._8AM + hours._9AM + hours._10AM}}
-                                               </div>
+                                            </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
@@ -132,58 +135,58 @@
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
-                                                placeholder="{{hours._12AM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM}}
+                                                placeholder="{{hours._12PM}}"><br>
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM}}
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._1PM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM}}
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM}}
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._2PM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM}}
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM}}
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._3PM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-r-15"> 
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM}}
+                                            <div class="text-right font-weight-600 align-middle p-r-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM}}
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._4PM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM}}
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM}}
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._5PM}}"><br>
-                                            <div class="text-right font-weight-600 align-middle p-l-15"> 
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM}}
+                                            <div class="text-right font-weight-600 align-middle p-l-15">
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM}}
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._6PM}}"><br>
                                             <div class="text-right font-weight-600 align-middle p-l-15">
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM}}
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM}}
                                             </div>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control  p-10 text-right" disabled
                                                 placeholder="{{hours._7PM}}"><br>
                                             <div class="text-right font-weight-600 align-middle p-l-15">
-                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12AM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM + hours._7PM}}
+                                                {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM + hours._7PM}}
                                             </div>
                                         </td>
                                     </tr>
@@ -325,5 +328,243 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div id="hourlyWash" style="display: none;">
+    <div class="card m-t-10">
+        <div class="card-body p-10">
+            <div class="table-responsive">
+                <table class="table hourlywash">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="w-9 border-top-0">Day & Date </th>
+                            <th scope="col" class="w-6 text-right border-top-0">Temp</th>
+                            <th scope="col" class="w-6 text-right border-top-0">Rain</th>
+                            <th scope="col" class="text-center border-top-0">No of
+                                <br> washes</th>
+                            <th scope="col" class="w-6 text-right border-top-0">Score </th>
+                            <th scope="col" class="text-right border-top-0">7 AM</th>
+                            <th scope="col" class="text-right border-top-0">8 AM</th>
+                            <th scope="col" class="text-right border-top-0">9 AM</th>
+                            <th scope="col" class="text-right border-top-0">10 AM</th>
+                            <th scope="col" class="text-right border-top-0">11 AM</th>
+                            <th scope="col" class="text-right border-top-0">12 PM </th>
+                            <th scope="col" class="text-right border-top-0">1 PM </th>
+                            <th scope="col" class="text-right border-top-0">2 PM </th>
+                            <th scope="col" class="text-right border-top-0">3 PM</th>
+                            <th scope="col" class="text-right border-top-0">4 PM</th>
+                            <th scope="col" class="text-right border-top-0">5 PM</th>
+                            <th scope="col" class="text-right border-top-0">6 PM </th>
+                            <th scope="col" class="text-right border-top-0">7 PM</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="hourlyWashReport.length > 0">
+                        <tr class="hourlywash-striped" *ngFor="let hours of hourlyWashReport">
+                            <td class="align-middle text-center">{{hours.Day}}
+                                <br>{{hours.JobDate}}</td>
+                            <td>
+                                0
+                            </td>
+                            <td>
+                                0
+                            </td>
+                            <td>
+                                0<br>
+                                0
+                            </td>
+                            <td>
+                                0<br>
+                                0
+                            </td>
+                            <td>
+                                {{hours._7AM}}
+                            </td>
+                            <td>
+                                {{hours._8AM}}<br>
+                                <div class="font-weight-600 align-middle">{{hours._7AM + hours._8AM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._9AM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM}}</div>
+                            </td>
+                            <td>
+                                {{hours._10AM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._11AM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._12PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._1PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._2PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._3PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._4PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._5PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._6PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM}}
+                                </div>
+                            </td>
+                            <td>
+                                {{hours._7PM}}<br>
+                                <div class="font-weight-600 align-middle">
+                                    {{hours._7AM + hours._8AM + hours._9AM + hours._10AM + hours._11AM + hours._12PM + hours._1PM + hours._2PM + hours._3PM + hours._4PM + hours._5PM + hours._6PM + hours._7PM}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="hourlyWashReport.length === 0">
+                        <tr>
+                            <td colspan="18" class="text-center">
+                                No Record Found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end card-body -->
+    </div>
+    <!-- end card-->
+    <div class="card m-t-10">
+        <div class="card-body p-10">
+            <div class="table-responsive">
+                <table class="table hourwash">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Day</th>
+                            <th scope="col">Date</th>
+                            <th scope="col" class="text-right" *ngFor="let name of washServiceName">{{name}}
+                            </th>
+                            <th scope="col" class="text-right">Deposits </th>
+                            <th scope="col" class="text-right">BC </th>
+                            <th scope="col" class="text-right">Accounts </th>
+                            <th scope="col" class="text-right">Gift Cards</th>
+                            <th scope="col" class="text-right">Tips</th>
+                            <th scope="col" class="text-right">Actual</th>
+                            <th scope="col" class="text-right">Sales </th>
+                            <th scope="col" class="text-right">Difference</th>
+                            <th scope="col">Managers</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="salesDetails.length > 0">
+                        <tr *ngFor="let sale of salesDetails">
+                            <td class="align-middle font-weight-600">{{sale.JobDate | date: 'EEE'}}</td>
+                            <td class="align-middle font-weight-600">{{sale.JobDate | date: 'MM/dd/yyyy'}}
+                            </td>
+                            <td *ngFor="let name of sale.serviceName">
+                                {{name.count}}
+                            </td>
+                            <td>
+                                {{sale.Deposits}}
+                            </td>
+                            <td>
+                                {{sale.BC}}
+                            </td>
+                            <td>
+                                {{sale.Account}}
+                            </td>
+                            <td>
+                                {{sale.GiftCard}}
+                            </td>
+                            <td>
+                                {{sale.Tips}}
+                            </td>
+                            <td>
+                                {{sale.Actual}}
+                            </td>
+                            <td>
+                                {{sale.Sales}}
+                            </td>
+                            <td>
+                                {{sale.Difference}}
+                            </td>
+                            <td class="align-middle font-weight-600">{{sale.Managers}}</td>
+                        </tr>
+                        <tr class="table-foot">
+                            <td class="font-weight-700 text-center align-middle" colspan="2">Total</td>
+                            <td *ngFor="let value of totalWashCount">
+                                {{value.totalValue}}
+                            </td>
+                            <td>
+                                ${{totalDeposits}}
+                            </td>
+                            <td>
+                                ${{totalBC}}
+                            </td>
+                            <td>
+                                ${{totalAccount}}
+                            </td>
+                            <td>
+                                ${{totalGiftCard}}
+                            </td>
+                            <td>
+                                ${{totalTips}}
+                            </td>
+                            <td>
+                                ${{totalActual}}
+                            </td>
+                            <td>
+                                ${{totalSales}}
+                            </td>
+                            <td>
+                                ${{totalDifference}}
+                            </td>
+                            <td>
+                                <!-- <input type="text" class="form-control text-right p-5" placeholder=""> -->
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="salesDetails.length === 0">
+                        <tr>
+                            <td colspan="11" class="text-center">
+                                No Record Found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end card-body -->
     </div>
 </div>

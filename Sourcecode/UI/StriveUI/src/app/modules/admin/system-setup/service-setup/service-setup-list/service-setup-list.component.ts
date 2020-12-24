@@ -25,6 +25,8 @@ export class ServiceSetupListComponent implements OnInit {
   page: number;
   pageSize: number;
   pageSizeList: number[];
+  isDesc: boolean = false;
+  column: string = 'ServiceName';
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class ServiceSetupListComponent implements OnInit {
         if (this.serviceSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort('ServiceName')
           this.collectionSize = Math.ceil(this.serviceSetupDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -116,6 +119,24 @@ export class ServiceSetupListComponent implements OnInit {
       }
     });
   }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+
+    this.serviceSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
