@@ -6,12 +6,15 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Bonus List</h5>&nbsp;
+                        <button type="button" class="btn btn-md theme-primary-button-color float-right"
+                        (click)="addBonus()">      Add </button>
                     </div>
+                   
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
                             <div class="search-container ">
                                 <div class="form-row">
-                                    <div class="form-group col-lg-2 m-l-10">
+                                    <div class="form-group col-lg-3  col-lg-offset-1 m-l-30">
                                         <label>Location:</label>
                                         <app-location-dropdown (emitLocation)="onLocationChange($event)">
                                         </app-location-dropdown>
@@ -22,13 +25,13 @@
                                         <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
                                             class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY',showWeekNumbers: false }" (bsValueChange)="getBonusList()">
                                     </div> -->
-                                    <div class="form-group col-lg-2 m-l-45">
+                                    <div class="form-group col-lg-offset-1 col-lg-2 m-l-60">
                                         <label>Month:</label>
 
                                         <app-month-picker (emitMonth)='onMonthChange($event)'></app-month-picker>
                                     </div>
 
-                                    <div class="form-group col-lg-2 m-l-45">
+                                    <div class="form-group col-lg-2 m-l-60">
                                         <label>Year:</label>
 
                                         <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
@@ -37,11 +40,7 @@
                                         <label>Status:</label>
                                         <div class="m-t-8"><strong>Pending</strong></div>
                                     </div>
-                                    <div class="form-group col-lg-2 m-l-10 m-t-23">
-                                        <label></label>
-                                        <button type="button" class="btn theme-primary-button-color"
-                                            (click)="addBonus()">Add</button>
-                                    </div>
+                                   
                                 </div>
                             </div>
                             <div class="table-responsive">
