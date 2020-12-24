@@ -33,6 +33,8 @@ export class CheckListComponent implements OnInit {
   page: any;
   pageSize: any;
   pageSizeList: any;
+  isDesc: boolean = false;
+  column: string = 'Name';
   constructor(private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
     private httpClient: HttpClient,
@@ -72,6 +74,7 @@ getAllcheckListDetails() {
       this.checkListDetails = serviceDetails.GetChecklist;
       console.log(data)
       if (this.checkListDetails.length === 0) {
+        this.sort('Name')
         this.isTableEmpty = true;
       } else {
         this.collectionSize = Math.ceil(this.checkListDetails.length/this.pageSize) * 10;
@@ -216,5 +219,22 @@ onRoleDeSelect(event) {
         }
       });
     }
+  }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+
+    this.checkListDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
   }
 }

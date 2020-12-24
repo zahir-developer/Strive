@@ -25,6 +25,8 @@ export class MembershipListComponent implements OnInit {
   page: any;
   pageSize: any;
   pageSizeList: any;
+  isDesc: boolean = false;
+  column: string = 'MembershipName';
   constructor(private toastr: MessageServiceToastr, private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class MembershipListComponent implements OnInit {
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort('MembershipName')
           this.collectionSize = Math.ceil(this.membershipDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -68,6 +71,25 @@ export class MembershipListComponent implements OnInit {
     
     this.getAllMembershipDetails()
   }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+   
+    this.membershipDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+ 
+  
 
   membershipSearch(){
     this.page = 1;
