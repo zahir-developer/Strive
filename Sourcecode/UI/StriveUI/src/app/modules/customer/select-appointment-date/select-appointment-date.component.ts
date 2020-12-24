@@ -91,7 +91,8 @@ export class SelectAppointmentDateComponent implements OnInit {
     this.selectedDate.setMinutes(minutes);
     this.selectedDate.setSeconds('00');
     this.scheduleDetailObj.InTime = this.selectedDate;
-    const outTime = this.selectedDate.setMinutes(this.selectedDate.getMinutes() + this.WashTimeMinutes);
+    const outHourTime = new Date(this.selectedData);
+    const outTime = outHourTime.setMinutes(this.selectedDate.getMinutes() + this.WashTimeMinutes);
     this.scheduleDetailObj.OutTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
   }
 
