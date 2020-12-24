@@ -6,6 +6,7 @@ import { DashboardService } from 'src/app/shared/services/data-service/dashboard
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -24,16 +25,22 @@ export class CustomerDashboardComponent implements OnInit {
   sortColumn: { column: string; descending: boolean; };
   pastScheduleDetail = [];
   clonedPastScheduleDetail = [];
+  clientID: any;
   constructor(
     private customerService: CustomerService,
     private datePipe: DatePipe,
     public dashboardService: DashboardService,
     private confirmationService: ConfirmationUXBDialogService,
     private detailService: DetailService,
-    private toastr: MessageServiceToastr
+    private toastr: MessageServiceToastr,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    const paramsData = this.route.snapshot.queryParamMap.get('clientId');
+    if (paramsData !== null) {
+      this.clientID = paramsData;
+    }
     this.getScheduleDetail();
     this.getVehicleListByClientId();
   }
@@ -58,7 +65,8 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   getVehicleListByClientId() {
-    this.customerService.getVehicleByClientId(115).subscribe(res => {
+    const clientID = this.clientID ? this.clientID : 0;
+    this.customerService.getVehicleByClientId(clientID).subscribe(res => {
       if (res.status === 'Success') {
         const vechicle = JSON.parse(res.resultData);
         this.vechicleList = vechicle.Status;
@@ -94,7 +102,7 @@ export class CustomerDashboardComponent implements OnInit {
     const currentDate = new Date();
     const todayDate = null; // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
     const locationId = null; // 2033;
-    const clientID = 115;
+    const clientID = this.clientID ? this.clientID : 0;
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);

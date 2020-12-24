@@ -4,6 +4,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-list',
@@ -25,7 +26,7 @@ export class ClientListComponent implements OnInit {
   collectionSize: number = 0;
   isLoading = true;
   constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
+    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit() {
     this.getAllClientDetails();
@@ -137,5 +138,9 @@ export class ClientListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+
+  navigateToCustmerDashboard(client) {
+    this.router.navigate(['/customer'], { queryParams: { clientId: client.ClientId } });
   }
 }

@@ -174,7 +174,8 @@
                                     <tbody
                                         *ngFor="let service of pastScheduleDetail | orderBy:sort.column:'sequence':sort.descending">
                                         <tr>
-                                            <th scope="row" class="text-underline theme-primary-color font-size--9">
+                                            <!-- class="text-underline theme-primary-color font-size--9" -->
+                                            <th scope="row" >
                                                 {{service.TicketNumber}}</th>
                                             <td>{{service.JobDate | date : 'MM/dd/yyyy'}}</td>
                                             <td>{{service.LocationName}}</td>
