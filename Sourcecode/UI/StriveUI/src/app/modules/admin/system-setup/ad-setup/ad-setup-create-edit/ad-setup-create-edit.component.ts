@@ -25,6 +25,9 @@ export class AdSetupCreateEditComponent implements OnInit {
   isLoading: boolean;
   fileUploadformData: any;
   fileThumb: any;
+  @Input() documentTypeId:any;
+  employeeId: number;
+
   constructor(private adSetup: AdSetupService,
      private fb: FormBuilder, private toastr: ToastrService) { }
 
@@ -32,6 +35,8 @@ export class AdSetupCreateEditComponent implements OnInit {
     this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];
     this.formInitialize();
     this.submitted = false;
+    this.employeeId = +localStorage.getItem('employeeId');
+
   }
 
   formInitialize() {
@@ -53,10 +58,8 @@ export class AdSetupCreateEditComponent implements OnInit {
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;  
-    this.adSetupForm.controls['image'].setValue(this.fileName); 
-    this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-
+      this.fileName = fileToLoad.name;      
+      this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
@@ -75,6 +78,7 @@ export class AdSetupCreateEditComponent implements OnInit {
       }, 5000);
     }
   }
+
   clearDocument() {
     this.fileName = null;
     this.fileUploadformData = null;
@@ -110,13 +114,55 @@ export class AdSetupCreateEditComponent implements OnInit {
     if (this.adSetupForm.invalid || this.fileName === null) {
       return;
     }
- 
-    const formObj = {
-      name: this.adSetupForm.value.name,
-      description: this.adSetupForm.value.description,
-      isActive: this.adSetupForm.value.status == 0 ? true : false
+    const obj = { Document :{
+      documentId: 0,
+      documentType: this.documentTypeId,
+      fileName: this.fileName,
+      originalFileName: null,
+      filePath: null,
+      base64: this.fileUploadformData,
+      comments: null,
+      isActive: true,
+      isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: new Date(),
+      updatedBy: this.employeeId,
+      updatedDate: new Date()
+     },
+     documentType:"ADS",
 
     };
+   const  adSetupDto= {
+        adSetup: {
+          adSetupId: 0,
+          documentId: 0,
+          name: this.adSetupForm.value.name,
+      description: this.adSetupForm.value.description,
+      isActive: this.adSetupForm.value.status == 0 ? true : false,
+
+          isDeleted: false,
+          createdBy: +localStorage.getItem('empId'),
+          createdDate: new Date(),
+          updatedBy: +localStorage.getItem('empId'),
+          updatedDate: new Date()
+        }
+      }
+   const AdSetupAdd = {
+    Document:obj,
+    AdSetupAddDto: adSetupDto
+
+   }  
+ 
+     const formObj = {
+      AdSetupAddDto : AdSetupAdd
+     }
+      
+       
+      
+    
+  
+    
+     
     if (this.isEdit === true) {
       this.adSetup.updateAdSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {   
