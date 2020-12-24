@@ -68,10 +68,10 @@ export class AdSetupListComponent implements OnInit {
   }
   
   getDocumentType(){
-    this.getCode.getCodeByCategory("ADSETUP").subscribe(data => {
+    this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "ADSETUP")[0].CodeId;
+          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "Ads")[0].CodeId;
           console.log(this.documentTypeId);
 
       

@@ -116,7 +116,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     }
     const obj = { Document :{
       documentId: 0,
-      documentType: 0,
+      documentType: this.documentTypeId,
       fileName: this.fileName,
       originalFileName: null,
       filePath: null,
@@ -129,13 +129,13 @@ export class AdSetupCreateEditComponent implements OnInit {
       updatedBy: this.employeeId,
       updatedDate: new Date()
      },
-     documentType:"ADSETUP",
+     documentType:"ADS",
 
     };
-   const  adSetupAdd = {
+   const  adSetupDto= {
         adSetup: {
-          "adSetupId": 0,
-          "documentId": 0,
+          adSetupId: 0,
+          documentId: 0,
           name: this.adSetupForm.value.name,
       description: this.adSetupForm.value.description,
       isActive: this.adSetupForm.value.status == 0 ? true : false,
@@ -147,15 +147,15 @@ export class AdSetupCreateEditComponent implements OnInit {
           updatedDate: new Date()
         }
       }
-  const formObj = {
-    document:obj,
-    AdSetupAddDto : adSetupAdd
-  };
+   const AdSetupAdd = {
+    Document:obj,
+    AdSetupAddDto: adSetupDto
+
+   }  
  
-    // const formObj = {
-    //   Document : obj, 
-    //   "documentType": "ADSETUP"
-    // }
+     const formObj = {
+      AdSetupAddDto : AdSetupAdd
+     }
       
        
       
