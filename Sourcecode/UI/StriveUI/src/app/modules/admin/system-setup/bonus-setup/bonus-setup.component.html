@@ -109,7 +109,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <input type="text" numbersOnly [(ngModel)]="bonus.Total"
+                                                <input type="number" (input) = "total()"change numbersOnly [(ngModel)]="bonus.Total"
                                                     class="form-control rounded-0 input-table text-right">
                                             </td>
                                             <td>
@@ -132,7 +132,7 @@
                                                         No of Bad Reviews:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" numbersOnly [(ngModel)]="noOfBadReviews" (input)="totalBadReviewAmount()"
+                                                        <input type="number" numbersOnly [(ngModel)]="noOfBadReviews" (input)="totalBadReviewAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
                                                 </div>
@@ -143,7 +143,7 @@
                                                         Deductions Amount:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" numbersOnly [(ngModel)]="badReviewDeductionAmount"
+                                                        <input type="number" numbersOnly [(ngModel)]="badReviewDeductionAmount"
                                                             (input)="totalBadReviewAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
@@ -151,7 +151,7 @@
                                             </td>
                                             <td class="p-t-10" style="width: 26%">
                                                 <span class="font-weight-600 mr-2">Bad review
-                                                    Deductions:&nbsp;&nbsp;&nbsp;{{badReviewDeduction}}</span>
+                                                    Deductions:&nbsp;&nbsp;&nbsp;{{negativebadReviewDeduction}}</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -163,7 +163,7 @@
                                                         No of Collisions:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" numbersOnly [(ngModel)]="noOfCollisions" (input)="totalCollisionAmount()"
+                                                        <input type="number" numbersOnly [(ngModel)]="noOfCollisions" (input)="totalCollisionAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
                                                 </div>
@@ -174,7 +174,7 @@
                                                         Deductions Amount:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" numbersOnly [(ngModel)]="collisionDeductionAmount"
+                                                        <input type="number" numbersOnly [(ngModel)]="collisionDeductionAmount"
                                                             (input)="totalCollisionAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
@@ -182,7 +182,7 @@
                                             </td>
                                             <td class="p-r-20 p-t-10" style="width: 26%">
                                                 <span class="font-weight-600 mr-2">Collisions
-                                                    Deductions:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{collisionDeduction}}</span>
+                                                    Deductions:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{negativecollisionDeduction}}</span>
                                             </td>
                                         </tr>
                                     </tbody>
