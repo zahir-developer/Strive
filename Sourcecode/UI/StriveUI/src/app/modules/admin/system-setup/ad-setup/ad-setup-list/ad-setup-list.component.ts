@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
@@ -28,8 +29,9 @@ export class AdSetupListComponent implements OnInit {
   collectionSize: number = 0;
   Status: any;
   query = '';
+  documentTypeId: any;
   constructor(private adSetup: AdSetupService, 
-    private toastr: ToastrService, 
+    private toastr: ToastrService,  private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class AdSetupListComponent implements OnInit {
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";
     this.getAlladSetupDetails();
+   this.getDocumentType();
   }
 
   // Get All Services
@@ -64,7 +67,18 @@ export class AdSetupListComponent implements OnInit {
     });
   }
   
+  getDocumentType(){
+    this.getCode.getCodeByCategory("ADSETUP").subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "ADSETUP")[0].CodeId;
+          console.log(this.documentTypeId);
 
+      
+      } else {
+      }
+    });
+  }
   paginate(event) {
     
     this.pageSize= +this.pageSize;
@@ -95,7 +109,7 @@ export class AdSetupListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
-    this.adSetup.deleteAdSetup(data.ServiceId).subscribe(res => {
+    this.adSetup.deleteAdSetup(2).subscribe(res => {
       if (res.status === "Success") {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAlladSetupDetails();
