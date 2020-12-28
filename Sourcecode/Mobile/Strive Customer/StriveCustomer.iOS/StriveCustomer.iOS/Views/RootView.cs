@@ -32,7 +32,7 @@ namespace StriveCustomer.iOS.Views
             viewControllers[1] = CreateTabFor(1, "Deals", "icon-deals", "icon-deals-active", typeof(DealsViewModel));
             viewControllers[2] = CreateTabFor(2, "Schedule", "icon-clock-dashboard", "icon-clock-dashboard", typeof(MyProfileInfoViewModel));
             viewControllers[3] = CreateTabFor(3, "Account", "icon-account", "icon-account-active", typeof(MyProfileInfoViewModel));
-            viewControllers[4] = CreateTabFor(4, "Contact us", "icon-contact", "icon-contact-active", typeof(ForgotPasswordViewModel));
+            viewControllers[4] = CreateTabFor(4, "Contact us", "icon-contact", "icon-contact-active", typeof(ContactUsViewModel));
 
             ViewControllers = viewControllers;
             CustomizableViewControllers = new UIViewController[] { };
