@@ -31,16 +31,23 @@
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
                                 <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list">
                                     <thead>
-                                        <tr>
-                                            <th scope="col"> Name</th>
-                                            <th scope="col"> Type</th>
-                                            <th scope="col">Cost</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Location</th>
-                                            <!-- <th scope="col">Price</th> -->
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">VendorName</th>
-                                            <th scope="col">Status</th>
+                                        <tr>   <th class="pointer" (click)="sort('ProductName')">Name&nbsp; <i class="fa" *ngIf="column =='ProductName'" 
+                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('ProductTypeName')">Type&nbsp; <i class="fa" *ngIf="column =='ProductTypeName'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('Cost')">Cost&nbsp; <i class="fa" *ngIf="column =='Cost'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                <th class="pointer" (click)="sort('SizeName')">Size&nbsp; <i class="fa" *ngIf="column =='SizeName'" 
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                    <th class="pointer" (click)="sort('LocationName')">Location&nbsp; <i class="fa" *ngIf="column =='LocationName'" 
+                                                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                        <th class="pointer" (click)="sort('Quantity')">Quantity&nbsp; <i class="fa" *ngIf="column =='Quantity'" 
+                                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                            <th class="pointer" (click)="sort('VendorName')">VendorName&nbsp; <i class="fa" *ngIf="column =='VendorName'" 
+                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                                <th class="pointer" (click)="sort('Status')">Status&nbsp; <i class="fa" *ngIf="column =='Status'" 
+                                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                         
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>

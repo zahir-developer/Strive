@@ -30,10 +30,15 @@
                 <table class="table  table-striped m-t-10 headerfix">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Contact</th>
-                      <th>Phone Number</th>
-                      <th>Email</th>
+                      <th class="pointer" (click)="sort('VendorName')">Name&nbsp; <i class="fa" *ngIf="column =='VendorName'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                    <th class="pointer" (click)="sort('VendorAlias')">Contact&nbsp; <i class="fa" *ngIf="column =='VendorAlias'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                    <th class="pointer" (click)="sort('PhoneNumber')">Phone Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                    <th class="pointer" (click)="sort('Email')">Email&nbsp; <i class="fa" *ngIf="column =='Email'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+
                       <th>Action</th>
                     </tr>
                   <tbody class="bodyfix">

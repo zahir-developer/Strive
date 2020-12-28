@@ -39,11 +39,16 @@
                                 <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th> Name</th>
-                                            <th> Type</th>
-                                            <!-- <th> Description</th> -->
-                                              <th>Price</th>
-                                            <th>Status</th>
+                                            <th class="pointer" (click)="sort('ServiceName')">Name&nbsp; <i class="fa" *ngIf="column =='ServiceName'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('ServiceType')">Type&nbsp; <i class="fa" *ngIf="column =='ServiceType'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('Cost')">Price&nbsp; <i class="fa" *ngIf="column =='Cost'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('IsActive')">Status&nbsp; <i class="fa" *ngIf="column =='IsActive'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            
+                                          
                                             <th>Action</th>
                                         </tr>
                                     </thead>

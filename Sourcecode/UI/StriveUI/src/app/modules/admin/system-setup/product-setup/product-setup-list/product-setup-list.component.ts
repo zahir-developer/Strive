@@ -13,6 +13,8 @@ export class ProductSetupListComponent implements OnInit {
   productSetupDetails = [];
   showDialog = false;
   selectedData: any;
+  isDesc: boolean = false;
+  column: string = 'ProductName';
   headerData: string;
   isEdit: boolean;
   isLoading = true;
@@ -44,6 +46,7 @@ export class ProductSetupListComponent implements OnInit {
        if (this.productSetupDetails.length === 0) {
          this.isTableEmpty = true;
        } else {
+         this.sort('ProductName')
          this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
          this.isTableEmpty = false;
        }
@@ -70,6 +73,23 @@ export class ProductSetupListComponent implements OnInit {
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+   
+    this.productSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
       }
     });
   }
