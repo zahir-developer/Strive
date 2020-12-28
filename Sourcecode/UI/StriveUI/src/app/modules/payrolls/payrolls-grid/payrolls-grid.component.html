@@ -61,11 +61,11 @@
                                         <th scope="col">Wash Hrs.</th>
                                         <th scope="col">Detail Hrs.</th>
                                         <th scope="col">Rate</th>
-                                        <!-- <th scope="col">Detail rate</th> -->
+                                        <th scope="col">Detail rate</th>
                                         <th scope="col">Reg pay</th>
                                         <th scope="col">OT Hrs.</th>
                                         <th scope="col">OT Pay</th>
-                                        <!-- <th scope="col">Uniform</th> -->
+                                        <th scope="col">Uniform</th>
                                         <th scope="col">Collision</th>
                                         <th scope="col">Adjustment</th>
                                         <th scope="col">Details com.</th>
@@ -83,11 +83,11 @@
                                         <td>{{payroll.TotalWashHours}}</td>
                                         <td>{{payroll.TotalDetailHours}}</td>
                                         <td>{{payroll. WashRate}}</td>
-                                        <!-- <td>0</td> -->
+                                        <td>{{payroll. DetailRate}}</td>
                                         <td>{{payroll.WashAmount | currency}}</td>
                                         <td>{{payroll.OverTimeHours}}</td>
                                         <td>{{payroll.OverTimePay | currency}}</td>
-                                        <!-- <td>{{payroll.Uniform | currency}}</td> -->
+                                        <td>{{payroll.Uniform | currency}}</td>
                                         <td>{{payroll.Collision | currency}}</td>
                                         <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
                                             <input type="text" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
