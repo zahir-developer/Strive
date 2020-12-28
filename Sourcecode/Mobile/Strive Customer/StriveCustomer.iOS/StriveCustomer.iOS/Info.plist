@@ -54,5 +54,16 @@
 	<string>&quot;App wants to use the location service&quot;</string>
 	<key>NSCameraUsageDescription</key>
 	<string>App wants to access the camera</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>MKDirectionsRequest</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.maps.directionsrequest</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

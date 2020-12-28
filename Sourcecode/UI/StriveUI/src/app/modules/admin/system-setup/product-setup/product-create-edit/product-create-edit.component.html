@@ -109,7 +109,7 @@
                 <input type="file" class="custom-file-input" id="customFile" accept=".png,.jpeg,.jpg"
                     (change)="fileNameChanged()">
                 <span id='lbl' class="custom-file-label" for="customFile">Select Image</span>
-                <small class="form-text text-muted">Doc Type:png,jpeg,jpg</small>
+                <small class="form-text text-muted">File Type:png,jpeg,jpg</small>
                 <span *ngIf="!isLoading">{{fileName}}</span>
                 <span *ngIf="fileName && !isLoading"><em
                         class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
