@@ -90,8 +90,8 @@
                                         <td>{{payroll.Uniform | currency}}</td>
                                         <td>{{payroll.Collision | currency}}</td>
                                         <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
-                                            <input type="text" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
-                                                size="4" name="adjustment" appTwoDecimalNumber class="form-control"
+                                            <input type="number" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
+                                                size="4" name="adjustment"  class="form-control"
                                                 placeholder="$0.00">
                                         </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
