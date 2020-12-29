@@ -51,11 +51,8 @@
                                         <tr>
                                             <th class="pointer" (click)="sort('Name')">Name&nbsp; <i class="fa" *ngIf="column =='Name'" 
                                                 [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('RoleName')">Service Type&nbsp; <i class="fa" *ngIf="column =='RoleName'" 
+                                            <th class="pointer" (click)="sort('RoleName')">Role&nbsp; <i class="fa" *ngIf="column =='RoleName'" 
                                                 [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                           
-                                            <th>Name</th>
-                                            <th>Role</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
