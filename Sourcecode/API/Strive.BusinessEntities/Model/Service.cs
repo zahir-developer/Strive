@@ -60,7 +60,11 @@ public class Service
    
 
      [Column]
-     public int? DiscountType { get; set; }
+     public string DiscountType { get; set; }
+
+
+        [Column]
+        public int? DiscountServiceType { get; set; }
 
     }
 }
