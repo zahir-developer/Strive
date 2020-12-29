@@ -14,6 +14,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string Image { get; set; }
         public bool Status { get; set; }
 
-        public string OriginalFileName { get; set; }
+        public string Base64 { get; set; }
     }
 }

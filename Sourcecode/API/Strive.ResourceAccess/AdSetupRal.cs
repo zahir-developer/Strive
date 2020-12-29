@@ -49,5 +49,6 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<AdSetupViewModel>(EnumSP.AdSetup.USPGETADSETUPBYID.ToString(), _prm);
             return result;
         }
+
     }
 }
