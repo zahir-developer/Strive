@@ -15,5 +15,7 @@ namespace Strive.BusinessEntities.ViewModel
         public bool Status { get; set; }
         public int? DocumentId { get; set; }
 
+
+        public string OriginalFileName { get; set; }
     }
 }
