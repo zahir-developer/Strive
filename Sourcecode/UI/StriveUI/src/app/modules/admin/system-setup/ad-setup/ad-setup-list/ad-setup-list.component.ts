@@ -109,7 +109,7 @@ export class AdSetupListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
-    this.adSetup.deleteAdSetup(2).subscribe(res => {
+    this.adSetup.deleteAdSetup(data.AdSetupId).subscribe(res => {
       if (res.status === "Success") {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAlladSetupDetails();
