@@ -39,7 +39,7 @@
                                     <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                                         [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
                                         Report</button>
-                                    <button type="button" *ngIf="!isEditAdjustment"
+                                    <button type="button" *ngIf="!isEditAdjustment" [disabled] = "isPayrollEmpty"
                                         class="btn theme-primary-button-color btn-md m-l-10"
                                         (click)="editAdjustemt()">Edit</button>
                                     <button type="button" *ngIf="isEditAdjustment"
@@ -48,7 +48,7 @@
                                     <button type="button"
                                         class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!isEditAdjustment" (click)="updateAdjustment()">Update</button>
                                     <button type="button"
-                                        class="btn theme-primary-button-color btn-md m-l-10" [disabled]="isEditAdjustment" (click)="processPayrolls()">Export</button>
+                                        class="btn theme-primary-button-color btn-md m-l-10" [disabled]="isEditAdjustment || isPayrollEmpty" (click)="processPayrolls()">Export</button>
                                 </div>
                             </div>
                         </form>
@@ -76,14 +76,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        *ngFor="let payroll of payRollList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                    <tr *ngFor="let payroll of payRollList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                         <td>{{payroll.EmployeeId}}</td>
                                         <td>{{payroll.PayeeName}}</td>
                                         <td>{{payroll.TotalWashHours}}</td>
                                         <td>{{payroll.TotalDetailHours}}</td>
-                                        <td>{{payroll. WashRate}}</td>
-                                        <!-- <td>0</td> -->
+                                        <td>{{payroll.WashRate}}</td>
                                         <td>{{payroll.WashAmount | currency}}</td>
                                         <td>{{payroll.OverTimeHours}}</td>
                                         <td>{{payroll.OverTimePay | currency}}</td>
@@ -91,12 +89,10 @@
                                         <td>{{payroll.Collision | currency}}</td>
                                         <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
                                             <input type="number" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
-                                                size="4" name="adjustment"  class="form-control"
+                                                size="2" name="adjustment"  class="form-control"
                                                 placeholder="$0.00">
                                         </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
-                                        <!-- <td>$10.00</td> -->
-                                        <!-- <td>$50</td> -->
                                         <td>{{payroll.PayeeTotal  | currency}}</td>
                                         <!-- <td><em *ngIf="!payroll.isEditAdjustment"
                                                 class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2" (click)="editAdjustemt(payroll)"></em>
@@ -106,14 +102,14 @@
                                                 class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2" (click)="cancelEditAdjusment(payroll)"></em>
                                         </td> -->
                                     </tr>
-                                    <tr *ngIf="payRollList.length === 0">
-                                        <td colspan="15" class="text-center">
+                                    <tr *ngIf="isPayrollEmpty === true">
+                                        <td colspan="12" class="text-center">
                                             No Records Found
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
+                            <ngb-pagination *ngIf="isPayrollEmpty === false" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
                                 [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                                 class="d-flex justify-content-end">
                             </ngb-pagination>

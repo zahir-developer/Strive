@@ -162,7 +162,7 @@ export class HourlyWashComponent implements OnInit {
                   Deposits: 0,
                   Tips: 0,
                   Actual: 0,
-                  Sales: 0,
+                  Sales: sale.Total,
                   Difference: 0,
                   Managers: ''
                 });
@@ -307,7 +307,7 @@ export class HourlyWashComponent implements OnInit {
           Difference: 0,
           GiftCard: item.GiftCard,
           Managers: '',
-          Sales: 0,
+          Sales: item.Total,
           Tips: 0,
         });
       });
