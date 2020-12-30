@@ -459,11 +459,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
     this.clientId = this.selectedData?.Details?.ClientId;
-    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
-      this.detailForm.get('vehicle').disable();
-    } else if(!this.isView){
-      this.detailForm.get('vehicle').enable();
-    }
+   
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -476,6 +472,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
+    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
+      this.detailForm.get('vehicle').disable();
+    } else if(!this.isView){
+      this.detailForm.get('vehicle').enable();
+    }
   }
 
   getColor() {
