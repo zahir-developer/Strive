@@ -308,6 +308,8 @@
         <InterfaceDefinition Include="Views\EditVehicleListView.xib" />
         <InterfaceDefinition Include="Views\MembershipDetailView.xib" />
         <InterfaceDefinition Include="Views\ContactUsView.xib" />
+        <InterfaceDefinition Include="Views\Dashboard_ScheduleView.xib" />
+        <InterfaceDefinition Include="Views\DB_VehicleList_Cell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -437,6 +439,15 @@
         <Compile Include="Views\ContactUsView.designer.cs">
           <DependentUpon>ContactUsView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\Dashboard_ScheduleView.cs" />
+        <Compile Include="Views\Dashboard_ScheduleView.designer.cs">
+          <DependentUpon>Dashboard_ScheduleView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\DB_VehicleList_Cell.cs" />
+        <Compile Include="Views\DB_VehicleList_Cell.designer.cs">
+          <DependentUpon>DB_VehicleList_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\ScheduleVehcileListSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
