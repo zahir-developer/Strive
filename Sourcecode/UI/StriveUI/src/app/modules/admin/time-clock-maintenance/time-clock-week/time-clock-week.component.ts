@@ -221,7 +221,7 @@ export class TimeClockWeekComponent implements OnInit {
       return;
     }
     if (checkIn.length !== 0) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be 0' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be Zero.' });
       return;
     } else if (negativeHrs.length !== 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });

@@ -361,8 +361,10 @@ namespace Strive.BusinessLogic.Document
         {
             var document = new DocumentRal(_tenant).GetDocument(documentTypeId);
 
-            document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
-
+            if (document.Document != null)
+            {
+                document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+            }
             _resultContent.Add(document.WithName("Document"));
             _result = Helper.BindSuccessResult(_resultContent);
 
