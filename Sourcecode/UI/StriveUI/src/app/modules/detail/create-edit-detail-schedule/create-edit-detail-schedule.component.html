@@ -20,20 +20,32 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-row">
+                            <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
+                                <label>In Time:</label>
+                                <!-- <div class="form-row">
                                     <label class="col-sm-1 col-form-label" for="inTime">In:</label>
                                     <input type="text" class="form-control col-sm-8" name="inTime" id="inTime"
                                         formControlName="inTime" />
-                                </div>
+                                </div> -->
                             </div>
                             <div class="col-sm-4">
+                                <input type="text" class="form-control" name="inTime" id="inTime"
+                                    formControlName="inTime" />
+                            </div>
+                            <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
+                                <label>Due Time:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="dueTime" id="dueTime"
+                                        formControlName="dueTime" />
+                            </div>
+                            <!-- <div class="col-sm-4">
                                 <div class="form-row">
                                     <label class="col-sm-4 col-form-label" for="dueTime">Due Time:</label>
                                     <input type="text" class="form-control col-sm-8" name="dueTime" id="dueTime"
                                         formControlName="dueTime" />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -83,7 +95,8 @@
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addVehicle()" [disabled]="isView || clientId === undefined">Add Vehicle</button>
+                                (click)="addVehicle()" [disabled]="isView || clientId === undefined">Add
+                                Vehicle</button>
                         </div>
                     </div>
                 </div>
@@ -304,6 +317,7 @@
 <p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
     <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
-        [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber" (closeDialog)="closePopupEmitVehicle($event)">
+        [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber"
+        (closeDialog)="closePopupEmitVehicle($event)">
     </app-vehicle-create-edit>
 </p-dialog>

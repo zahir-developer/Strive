@@ -40,10 +40,15 @@
                                 <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th> Name</th>
-                                            <th>Service Type</th>
-                                            <th>Date of Creation</th>
-                                            <th>Status</th>
+                                            <th class="pointer" (click)="sort('MembershipName')">Name&nbsp; <i class="fa" *ngIf="column =='MembershipName'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('Services')">Service Type&nbsp; <i class="fa" *ngIf="column =='Services'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('CreatedDate')">Date of Creation&nbsp; <i class="fa" *ngIf="column =='CreatedDate'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('IsActive')">Status&nbsp; <i class="fa" *ngIf="column =='IsActive'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+
                                             <th>Action</th>
                                         </tr>
                                     </thead>

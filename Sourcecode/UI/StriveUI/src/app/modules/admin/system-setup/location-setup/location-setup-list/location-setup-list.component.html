@@ -32,11 +32,17 @@
                                 <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th scope="col"> Name</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Franchise</th>
-                                            <th scope="col">Phone Number</th>
-                                            <th scope="col">Email</th>
+                                            <th class="pointer" (click)="sort('LocationName')">Name&nbsp; <i class="fa" *ngIf="column =='LocationName'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                <th class="pointer" (click)="sort('Address1')">Address&nbsp; <i class="fa" *ngIf="column =='Address1'" 
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                    <th class="pointer" (click)="sort('IsFranchise')">Franchise&nbsp; <i class="fa" *ngIf="column =='IsFranchise'" 
+                                                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                        <th class="pointer" (click)="sort('PhoneNumber')">Phone Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'" 
+                                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                            <th class="pointer" (click)="sort('Email')">Email&nbsp; <i class="fa" *ngIf="column =='Email'" 
+                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                      
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>

@@ -9,9 +9,9 @@ namespace Strive.BusinessEntities.ViewModel
     public class DailySalesReportViewModel
     {
         public string TicketNumber { get; set; }
-        public string TimeIn { get; set; }
-        public string TimeOut { get; set; }
-        public string Est { get; set; }
+        public DateTimeOffset TimeIn { get; set; }
+        public DateTimeOffset TimeOut { get; set; }
+        public DateTimeOffset Est { get; set; }
         //public int? TimeOutDifference { get; set; }
         public string Deviation { get; set; }
         public int MerchandiseItemsPurchased { get; set; }
