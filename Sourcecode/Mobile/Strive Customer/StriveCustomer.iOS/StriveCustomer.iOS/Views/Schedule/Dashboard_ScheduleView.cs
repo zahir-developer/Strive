@@ -3,6 +3,7 @@ using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
+using StriveCustomer.iOS.Views.Schedule;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
@@ -53,7 +54,9 @@ namespace StriveCustomer.iOS.Views
             }
             else if(index == 1)
             {
-
+                ScheduleVehicle_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
+                ScheduleVehicle_TableView.ReloadData();
+                ScheduleVehicle_TableView.Layer.CornerRadius = 5;
             }
         }
 
