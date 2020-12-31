@@ -195,7 +195,7 @@ export class TimeClockWeekComponent implements OnInit {
     let replication = false;
 
 
-    if(this.inCorrectTotalHours == true){
+    if(this.inCorrectTotalHours === true){
       this.messageService.showMessage({ severity: 'error', body: 'Enter Valid 24Hours Time Format' });
       return;
         }
