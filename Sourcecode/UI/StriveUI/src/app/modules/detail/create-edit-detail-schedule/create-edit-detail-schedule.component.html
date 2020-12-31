@@ -198,11 +198,12 @@
                 </div> -->
             </form>
             <div class="form-row">
-                <div class="col-sm-8 border">
+                <div class="col-sm-8 border " style="height: 225px">
                     <div class="title-border p-b-5 m-b-5">
                         <h5 class="d-inline-block font-weight-600">Additional Service</h5>
                     </div>
-                    <div class="row">
+                    <div  style="height: 150px;overflow-y: scroll;">
+                    <div class="row" >
                         <div class="col-md-3" *ngFor="let addService of additional">
                             <div class="custom-control custom-checkbox m-t-10">
                                 <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
@@ -212,6 +213,7 @@
                                     for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -226,22 +228,16 @@
                     </div>
 
                     <div class="row m-t-5">
-                        <div class="col-sm-3">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                [disabled]="!isStart || isView" (click)="start()">Start</button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
+                        <span class="col-2"></span>
+                        <span class="col-10">   
+
+                            <button type="button" class="btn theme-primary-button-color col-3"
+                                [disabled]="!isStart || isView" (click)="start()">Start</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color col-3"
+                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color col-4"
                                 [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5 btn-sm"
-                                [disabled]="!isEdit || isView" (click)="pay()">Pay</button>
-                        </div>
+                     </span>
                     </div>
                     <!-- <div class="row"> [disabled]="!isAssign && !isView"
                         <div class="col-sm-3">
@@ -273,10 +269,12 @@
                     <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes"
                         (click)="pastNotes()">View Past Client Notes</button>
                 </span>
-                <span class="mw-100 pull-right">
-                    <button type="button" class="btn theme-primary-button-color" (click)="saveDetail()"
+                <span >   
+                    <button type="button" style =  "margin-left: 360px;" class="btn theme-primary-button-color "
+                        [disabled]="!isEdit || isView" (click)="pay()">Pay</button>&nbsp;
+                    <button type="button" class="btn theme-primary-button-color " (click)="saveDetail()"
                         [disabled]="isView">Save</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isEdit && !isView"
+                    <button type="button" class="btn theme-primary-button-color " [disabled]="!isEdit && !isView"
                         (click)="deleteDetail()">Delete</button>
                 </span>
             </div>

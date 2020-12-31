@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -18,7 +18,8 @@ import { PrintCustomerCopyComponent } from '../print-customer-copy/print-custome
   selector: 'app-create-edit-detail-schedule',
   templateUrl: './create-edit-detail-schedule.component.html',
   styleUrls: ['./create-edit-detail-schedule.component.css'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  encapsulation:ViewEncapsulation.None
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
