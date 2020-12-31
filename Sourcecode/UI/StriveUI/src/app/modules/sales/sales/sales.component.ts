@@ -278,12 +278,12 @@ export class SalesComponent implements OnInit {
     } else {
       this.clearGridItems();
     }
-    if ((this.multipleTicketNumber.length > 0 ) ||
+    if ((this.multipleTicketNumber.length > 0) ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
       const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
-       : this.newTicketNumber ? this.newTicketNumber : 0;
+        : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
-         ticketNumber
+        ticketNumber
       };
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
@@ -692,48 +692,8 @@ export class SalesComponent implements OnInit {
 
     let discountValue = 0;
     if (this.selectedDiscount.length > 0) {
-      let  totalDiscount = 0;
-      this.selectedDiscount.forEach( type => {
-        if (type.DiscountType === 'Details') {
-          let detailPrice = 0;
-          this.details.forEach(detail => {
-            detailPrice = detailPrice + detail.Price;
-          });
-          totalDiscount = totalDiscount + (detailPrice * ( type.Price / 100 ));
-        } else if (type.DiscountType === 'Washes') {
-          let washPrice = 0;
-          this.washes.forEach( wash => {
-            washPrice = washPrice + wash.Price;
-          });
-          totalDiscount = totalDiscount + (washPrice * ( type.Price / 100 ));
-        } else if (type.DiscountType === 'Additional Services') {
-          let additionalPrice = 0;
-          this.additionalService.forEach( service => {
-            additionalPrice = additionalPrice + service.Price;
-          });
-          totalDiscount = totalDiscount + (additionalPrice * ( type.Price / 100 ));
-        } else if (type.DiscountType === 'Upcharges') {
-          let upchargePrice = 0;
-          this.upCharges.forEach( upcharge => {
-            upchargePrice = upchargePrice + upcharge.Price;
-          });
-          totalDiscount = totalDiscount + (upchargePrice * ( type.Price / 100 ));
-        } else if (type.DiscountType === 'Outside Services') {
-          let outsidePrice = 0;
-          this.outsideServices.forEach( outside => {
-            outsidePrice = outsidePrice + outside.Price;
-          });
-          totalDiscount = totalDiscount + (outsidePrice * ( type.Price / 100 ));
-        } else if (type.DiscountType === 'Air Fresheners') {
-          let airPrice = 0;
-          this.airfreshnerService.forEach( air => {
-            airPrice = airPrice + air.Price;
-          });
-          totalDiscount = totalDiscount + (airPrice * ( type.Price / 100 ));
-        }
-      });
-      // discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
-      this.discountAmount = totalDiscount;
+      discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
+      this.discountAmount = discountValue;
     } else {
       this.discountAmount = 0;
     }
@@ -773,6 +733,11 @@ export class SalesComponent implements OnInit {
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
+    let discountAmount = 0;
+    this.selectedDiscount.forEach(item => {
+      discountAmount = discountAmount + (+item.Cost);
+    });
+    this.discountAmount = discountAmount;
   }
   getBalanceDue() {
     const balancedue = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?

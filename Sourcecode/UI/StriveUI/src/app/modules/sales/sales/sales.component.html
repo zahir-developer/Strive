@@ -537,6 +537,16 @@
                                                     <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             (click)="deleteItem(discount, 'deleteItem')"></i></td>
                                                 </tr>
+                                                <tr *ngIf="selectedDiscount.length > 0">
+                                                    <th scope="row" colspan="5">Discounts </th>
+                                                </tr>
+                                                <tr *ngFor="let discount of selectedDiscount">
+                                                    <td class="pointer">{{discount?.ServiceName}}</td>
+                                                    <td>1</td>
+                                                    <td>{{1 * discount?.Cost | currency}}</td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                            (click)="deletediscount(discount)"></i></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
