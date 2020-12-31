@@ -34,6 +34,7 @@ export class TimeClockWeekComponent implements OnInit {
   @Output() cancelCheckInPage = new EventEmitter();
   weekStartDate: any;
   weekLastDate: any;
+  inCorrectTotalHours: boolean = false;
   constructor(
     public timeClockMaintenanceService: TimeClockMaintenanceService,
     private datePipe: DatePipe,
@@ -192,6 +193,12 @@ export class TimeClockWeekComponent implements OnInit {
     let negativeHrs = [];
     var count = 0;
     let replication = false;
+
+
+    if(this.inCorrectTotalHours == true){
+      this.messageService.showMessage({ severity: 'error', body: 'Enter Valid 24Hours Time Format' });
+      return;
+        }
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
@@ -227,6 +234,8 @@ export class TimeClockWeekComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
       return;
     }
+     
+   
     console.log(this.replicateClockList, 'finalobj');
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
@@ -276,31 +285,36 @@ export class TimeClockWeekComponent implements OnInit {
   
     console.log(event, 'intime');
     if (currentTime.OutTime !== "") {
-      const inTime = (currentTime.InTime.split(':'));
-      const outTime = (currentTime.OutTime.split(':'));
-      const checkinHours = +inTime[0];
-      const checkoutHours = +outTime[0];
-      const checkinmins = +inTime[1];
-      const checkoutmins = +outTime[1];
-    const HOURS = checkoutHours - checkinHours
-      const MINUTES = checkoutmins - checkinmins;
-      const hrs = Math.abs(HOURS)
-      const mins = Math.abs(MINUTES)
-
-       const minutesMath = MINUTES
-      var m = minutesMath % 60;
-      // const h = hr
-      // const hrs = h < 0 ? -h : h;
+  
+ const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime; 
+      const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime; 
+  const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format( 'YYYY-MM-DD hh:mm A');
+  const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format( 'YYYY-MM-DD hh:mm A');  
+      const inTime = new Date(inTimeHours);
+      const outTime = new Date(outFormat);
+            const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      const MINUTES = (outTimeMins - inTimeMins);
+      var m = (MINUTES % 60);
+      const h = (MINUTES - m) / 60;
+      const hrs = h < 0 ? -h : h;
       if (m < 0) {
         m = 60 - (-m);
       }
-      
+      const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
+      let hm = HHMM.slice(0,1) 
+      if(hm == '-'){
+        currentTime.TotalHours = 0;
+        this.inCorrectTotalHours = true;
 
-    //  const HHMM1 :any=( (h < 10 && h >= 0 ? "0" : "")  + hrs.toString()) + ":" + (m < 10 ? "0" : "") + m.toString();
-     const  HHMM   = ( (hrs < 10 && hrs >= 0 ? "0" : "")  + hrs.toString()) + ':' + (mins < 10 ? "0" : "") + mins.toString();
+  this.messageService.showMessage({ severity: 'error', body: 'Enter Valid 24Hours Time Format' });
+  
+    }
+    else{
+      currentTime.TotalHours = HHMM;
+this.inCorrectTotalHours = false;
     
-    currentTime.TotalHours = HHMM;
-
+    }
       this.totalHoursCalculation();
     }
   }
@@ -308,43 +322,41 @@ export class TimeClockWeekComponent implements OnInit {
   outTime(event, currentTime) {
     console.log(event, currentTime);
     if (currentTime.InTime !== "") {
-      // const inTime = new Date(currentTime.InTime);
-      // const outTime = new Date(currentTime.OutTime);
-      // const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
-      // const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
-      // const MINUTES = (outTimeMins - inTimeMins);
-      // var m = (MINUTES % 60);
-      // const h = (MINUTES - m) / 60;
-      // const hrs = h < 0 ? -h : h;
-      // if (m < 0) {
-      //   m = 60 - (-m);
-      // }
-      // const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
-      // currentTime.TotalHours = HHMM;
-      const inTime = (currentTime.InTime.split(':'));
-      const outTime = (currentTime.OutTime.split(':'));
-      const checkinHours = +inTime[0];
-      const checkoutHours = +outTime[0];
-      const checkinmins = +inTime[1];
-      const checkoutmins = +outTime[1];
-    const HOURS = checkoutHours - checkinHours
-      const MINUTES = checkoutmins - checkinmins;
-      const hrs = Math.abs(HOURS)
-      const mins = Math.abs(MINUTES)
-
-       const minutesMath = MINUTES
-      var m = minutesMath % 60;
-      // const h = hr
-      // const hrs = h < 0 ? -h : h;
+      const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime; 
+      const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime; 
+      
+  const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format( 'YYYY-MM-DD hh:mm A');
+  const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format( 'YYYY-MM-DD hh:mm A');  
+      const inTime = new Date(inTimeHours);
+      const outTime = new Date(outFormat);
+            const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
+      const outTimeMins = outTime.getHours() * 60 + outTime.getMinutes();
+      const MINUTES = (outTimeMins - inTimeMins);
+      var m = (MINUTES % 60);
+      const h = (MINUTES - m) / 60;
+      const hrs = h < 0 ? -h : h;
       if (m < 0) {
         m = 60 - (-m);
       }
-      
-
-    //  const HHMM1 :any=( (h < 10 && h >= 0 ? "0" : "")  + hrs.toString()) + ":" + (m < 10 ? "0" : "") + m.toString();
-     const  HHMM   = ( (hrs < 10 && hrs >= 0 ? "0" : "")  + hrs.toString()) + ':' + (mins < 10 ? "0" : "") + mins.toString();
+      const HHMM = (h < 10 && h >= 0 ? "0" : "") + (h < 0 ? "-0" : "") + hrs.toString() + ":" + (m < 10 ? "0" : "") + m.toString();
     
-    currentTime.TotalHours = HHMM;
+    let hm = HHMM.slice(0,1) 
+      if(hm == '-'){
+        currentTime.TotalHours = 0;
+        this.inCorrectTotalHours = true;
+
+  this.messageService.showMessage({ severity: 'error', body: 'Enter Valid 24Hours Time Format' });
+  
+    }
+    else{
+      currentTime.TotalHours = HHMM;
+this.inCorrectTotalHours = false;
+    
+    }
+    
+     
+
+    
       this.totalHoursCalculation();
 
     }

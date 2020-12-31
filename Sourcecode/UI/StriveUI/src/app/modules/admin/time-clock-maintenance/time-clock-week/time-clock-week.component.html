@@ -168,7 +168,12 @@
                                                                         <input type="text"
                                                                             class="form-control rounded-0 input-table text-right"
                                                                             [(ngModel)]="time.TotalHours"
-                                                                            [disabled]="true"> </td>
+                                                                            [disabled]="true"> 
+                                                                                <!-- <div style="color: red; margin-left: 5px" *ngIf="negativeTimeValue">
+                                                                                    Enter Valid 24Hours Time Format
+                                                                            </div> -->
+                                                                            
+
                                                                     <td>
                                                                         <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                                             pTooltip="Delete" tooltipPosition="bottom"
