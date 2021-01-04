@@ -52,7 +52,7 @@
                                         <tbody>
                                             <tr
                                                 *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <th scope="row">{{vehicle.ClientName}}</th>
+                                                <th scope="row" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="navigateToClient(vehicle)">{{vehicle.ClientName}}</th>
                                                 <td>{{vehicle.VehicleNumber}}</td>
                                                 <td>{{vehicle.Color}}</td>
                                                 <td>{{vehicle.VehicleMake}}</td>

@@ -73,7 +73,7 @@ export class AddActivityComponent implements OnInit {
     const activityObj = {
       giftCardHistoryId: 0,
       giftCardId: this.giftCardId,
-      locationId: 1,
+      locationId: +localStorage.getItem('empLocationId'),
       transactionType: 1,
       transactionAmount: this.symbol === 'plus' ? this.giftCardForm.value.amount : -(this.giftCardForm.value.amount),
       transactionDate: moment(new Date()),

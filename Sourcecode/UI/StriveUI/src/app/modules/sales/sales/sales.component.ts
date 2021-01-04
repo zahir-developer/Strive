@@ -92,7 +92,10 @@ export class SalesComponent implements OnInit {
   Cashback = '';
   discountAmount = 0;
   paymentStatus: any = [];
+  multipleTicketNumber = [];
+  isTenTicketNumber: boolean;
   ngOnInit(): void {
+    this.isTenTicketNumber = false;
     this.giftCardFromInit();
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
@@ -240,6 +243,33 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount = [];
     this.selectedService = [];
   }
+
+  addTicketNumber() {
+    const alreadyAdded = this.multipleTicketNumber.filter(item => item === this.ticketNumber);
+    if (alreadyAdded.length === 0) {
+      this.multipleTicketNumber.push(this.ticketNumber);
+      this.ticketNumber = '';
+    } else {
+      this.ticketNumber = '';
+      this.messageService.showMessage({ severity: 'info', title: 'Infor', body: 'Ticket Already Added' });
+    }
+
+    if (this.multipleTicketNumber.length > 10) {
+      this.isTenTicketNumber = true;
+    } else {
+      this.isTenTicketNumber = false;
+    }
+
+  }
+
+  removeTicketNumber(ticket) {
+    this.multipleTicketNumber = this.multipleTicketNumber.filter(item => item !== ticket);
+    if (this.multipleTicketNumber.length > 10) {
+      this.isTenTicketNumber = true;
+    } else {
+      this.isTenTicketNumber = false;
+    }
+  }
   getDetailByTicket(flag) {
     this.enableButton = false;
     if (flag !== true) {
@@ -248,11 +278,12 @@ export class SalesComponent implements OnInit {
     } else {
       this.clearGridItems();
     }
-    if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
+    if ((this.multipleTicketNumber.length > 0) ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
-      const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
+      const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
+        : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
-        ticketNumber: +ticketNumber,
+        ticketNumber
       };
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
@@ -263,17 +294,18 @@ export class SalesComponent implements OnInit {
         }
       });
       this.spinner.show();
-      this.salesService.getItemByTicketNumber(+ticketNumber).subscribe(data => {
+      this.salesService.getItemByTicketNumber(ticketNumber).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
-          if (this.itemList.Status.PaymentStatusViewModel === null) {
-            this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
-            return;
-          } else {
-            this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
-          }
+          console.log(this.itemList, 'item');
+          // if (this.itemList.Status.PaymentStatusViewModel === null) {
+          //   this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
+          //   return;
+          // } else {
+          //   this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
+          // }
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
@@ -309,9 +341,9 @@ export class SalesComponent implements OnInit {
             this.giftCard = Math.abs(+summary?.GiftCard);
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
-            if(+this.account === 0.00){
-            this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
-            this.calculateTotalpaid(+this.account);
+            if (+this.account === 0.00) {
+              this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
+              this.calculateTotalpaid(+this.account);
             }
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
@@ -701,6 +733,11 @@ export class SalesComponent implements OnInit {
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
+    let discountAmount = 0;
+    this.selectedDiscount.forEach(item => {
+      discountAmount = discountAmount + (+item.Cost);
+    });
+    this.discountAmount = discountAmount;
   }
   getBalanceDue() {
     const balancedue = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?

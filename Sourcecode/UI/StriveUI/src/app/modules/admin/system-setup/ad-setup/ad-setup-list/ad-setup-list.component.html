@@ -78,6 +78,6 @@
 </div>
 <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
     [resizable]="true" appendTo="body" [focusOnShow]="false" [closable]="false">
-    <app-ad-setup-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
+    <app-ad-setup-create-edit *ngIf="showDialog" [selectedData]="selectedData" [documentTypeId]="documentTypeId" [isEdit]="isEdit"
         (closeDialog)="closePopupEmit($event)">
     </app-ad-setup-create-edit></p-dialog>
