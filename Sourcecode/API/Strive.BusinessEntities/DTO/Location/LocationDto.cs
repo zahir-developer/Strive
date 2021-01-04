@@ -9,5 +9,6 @@ namespace Strive.BusinessEntities.DTO
         public LocationAddress LocationAddress { get; set; }
         public Drawer Drawer { get; set; }
         public List<Bay> Bay { get; set; }
+        public LocationOffset LocationOffset { get; set; }
     }
 }
