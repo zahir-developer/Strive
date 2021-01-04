@@ -23,7 +23,8 @@ export class TodayScheduleDashboardComponent implements OnInit {
   getScheduleDetailsByDate() {
     const todayDate = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
     const locationId = this.locationId === 0 ? null : this.locationId; // localStorage.getItem('empLocationId');
-    this.dashboardService.getTodayDateScheduleList(todayDate, locationId).subscribe( res => {
+    const clientID = null;
+    this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe( res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         if (scheduleDetails.DetailsGrid.BayJobDetailViewModel !== null) {
