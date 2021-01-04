@@ -170,7 +170,6 @@ namespace Strive.BusinessLogic.Document
                             base64 = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, document.FileName);
                             document.Base64Url = base64;
                         }
-                            
                         else
                         {
                             string errorMessage = "Invalid Password !!!";
@@ -206,7 +205,7 @@ namespace Strive.BusinessLogic.Document
             if (!File.Exists(path))
                 return string.Empty;
 
-            using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using ( FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 byte[] data = new byte[(int)fileStream.Length];
                 fileStream.Read(data, 0, data.Length);
