@@ -123,6 +123,9 @@ export class HourlyWashComponent implements OnInit {
           this.hourlyWashReport = hourlyRate.GetHourlyWashReport.WashHoursViewModel;
           this.hourlyWashReport = this.customizeObj(this.hourlyWashReport);
         }
+        if (hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel !== null) {
+          this.hourlyWashManager = hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel;
+        }
 
         if (hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel !== null) {
           this.hourlyWashManager = hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel;
@@ -199,6 +202,12 @@ export class HourlyWashComponent implements OnInit {
             this.totalActual = this.totalActual + item.Actual;
             this.totalSales = this.totalSales + item.Sales;
             this.totalDifference = this.totalDifference + item.Difference;
+          });
+          this.salesDetails.forEach( item => {
+            const manager = _.where(this.hourlyWashManager, { JobDate: item.JobDate });
+            if (manager.length > 0) {
+              item.Managers = manager[0].FirstName + '' + manager[0].LastName;
+            }
           });
           this.washServiceName.forEach(name => {
             let totalValue = 0;

@@ -13,128 +13,195 @@
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
-                        <div class="title-border p-b-5 m-b-5 m-t-10">
-                            <h6 class="d-inline-block font-weight-600">Gift Card Balance
-                                <span class="collision-btn">
-                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                                        (click)="addGiftCard()">Add Gift Card</button>
-                                </span>
-                            </h6>
-                            <div class="pull-right m-t-4 pointer">
-                                <a>
-                                    <em class="fa font-size-1-4"
-                                        [ngClass]="{'fa-angle-up':!isGiftCardCollapsed, 'fa-angle-down': isGiftCardCollapsed  }"
-                                        (click)="giftCardCollapsed()">
-                                    </em>
-                                </a>
+                        <nav aria-label="gift-card">
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+                                    role="tab" aria-controls="nav-home" aria-selected="true">Gift Card List</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                                    role="tab" aria-controls="nav-profile" aria-selected="false">Add Gift Card</a>
+                                <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
+                                    role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
                             </div>
-                        </div>
-                        <br />
-                        <div [style.display]="isGiftCardCollapsed ? 'none' : 'block'">
-                            <form [formGroup]="giftCardForm">
-                                <div class="form-row">
-                                    <div class="col-sm-4">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-row">
-                                            <div class="col-sm-4">
-                                                <label class="float-right">Number:</label>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                aria-labelledby="nav-home-tab">
+                                <div class="row no-gutter">
+                                    <div class="col-lg-12">
+                                        <div class="card m-t-10 m-b-10">
+                                            <div class="card-body">
+                                                <div class="tab-content">
+                                                    <div class="p-b-15">
+                                                        <div class="search-container pull-right">
+                                                            <form>
+                                                                <div class="form-row">
+                                                                    <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span>  -->
+                                                                </div>
+                                                                <div class="form-group col-sm m-l-5">
+                                                                    <input type="search" class="form-control"
+                                                                        (input)="searchGift($event.target.value)"
+                                                                        placeholder="Search">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table class="table border table-responsive-xl table-striped"
+                                                    aria-describedby="giftCard-history">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Gift Card No.</th>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Activated Date</th>
+                                                            <th scope="col">Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody *ngIf="giftCardList.length > 0">
+                                                        <tr *ngFor="let card of giftCardList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                            <td>{{card.GiftCardCode}}</td>
+                                                            <td>{{card.GiftCardName}}</td>
+                                                            <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
+                                                            <td>{{card.TotalAmount | currency}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody *ngIf="giftCardList.length === 0">
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">
+                                                                No gift cards available
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ngb-pagination *ngIf="giftCardList.length > 10" [collectionSize]="collectionSize" [(page)]="page"
+                                                    [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                                    [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                </ngb-pagination>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" formControlName="number" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                aria-labelledby="nav-profile-tab">
+                                <div class="card m-t-10 m-b-10">
+                                    <div class="card-body">
+                                        <div class="row title-border p-b-10 m-b-15">
+                                            <div class="col-12">
+                                                <h6 class="d-inline-block font-weight-600">Gift Card Balance
+                                                </h6>
+                                                <div class="pull-right m-t-4 pointer">
+                                                    <button type="button"
+                                                        class="btn theme-primary-button-color btn-md m-l-10"
+                                                        (click)="addGiftCard()">Add Gift Card</button>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <button type="button" [disabled]="giftCardForm.invalid"
-                                                    class="btn theme-primary-button-color btn-md m-l-10"
-                                                    (click)="getGiftCardDetail()">Select
-                                                </button>
+                                        </div>
+                                        <br />
+                                        <div [style.display]="isGiftCardCollapsed ? 'none' : 'block'">
+                                            <form [formGroup]="giftCardForm">
+                                                <div class="form-row">
+                                                    <div class="col-sm-4">
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-row">
+                                                            <div class="col-sm-4">
+                                                                <label class="float-right">Number:</label>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control"
+                                                                    formControlName="number" />
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <button type="button" [disabled]="giftCardForm.invalid"
+                                                                    class="btn theme-primary-button-color btn-md m-l-10"
+                                                                    (click)="getGiftCardDetail()">Select
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <br />
+                                            <div class="form-row">
+                                                <div class="col-sm-4">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-4">
+                                                            <label class="float-right">Active Date:</label>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <span><strong>{{(activeDate !== 'none') ? activeDate : 'None'}}</strong></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="form-row">
+                                                <div class="col-sm-4">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-4">
+                                                            <label class="float-right">Value:</label>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <span><strong>{{totalAmount | currency}}</strong></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-sm-4">
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-row">
-                                        <div class="col-sm-4">
-                                            <label class="float-right">Active Date:</label>
+                                <div class="card m-t-10 m-b-10">
+                                    <div class="card-body">
+                                        <div class="row title-border p-b-10 m-b-15">
+                                            <div class="col-12">
+                                                <h6 class="d-inline-block font-weight-600">Gift Card Activity
+                                                </h6>
+                                                <div class="pull-right m-t-4 pointer">
+                                                    <button type="button" *ngIf="isActivity"
+                                                        class="btn theme-primary-button-color btn-md m-l-10"
+                                                        (click)="addActivity()">Add Activity</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <span><strong>{{(activeDate !== 'none') ? activeDate : 'None'}}</strong></span>
+                                        <div [style.display]="isActivityCollapsed ? 'none' : 'block'">
+                                            <div class="row">
+                                                <div class="col-12 p-l-0 p-r-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table border table-hover"
+                                                            aria-describedby="giftCard-history">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Date</th>
+                                                                    <th scope="col">Status</th>
+                                                                    <th scope="col">Ticket # </th>
+                                                                    <th scope="col">Amount</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody *ngIf="giftCardHistory.length > 0">
+                                                                <tr *ngFor="let card of giftCardHistory">
+                                                                    <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
+                                                                    </td>
+                                                                    <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
+                                                                    <td>{{card.GiftCardHistoryId}}</td>
+                                                                    <td>{{card.TransactionAmount | currency}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tbody *ngIf="giftCardHistory.length === 0">
+                                                                <tr>
+                                                                    <td colspan="5" class="text-center">
+                                                                        No activity available
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-sm-4">
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-row">
-                                        <div class="col-sm-4">
-                                            <label class="float-right">Value:</label>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <span><strong>{{totalAmount | currency}}</strong></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card  m-b-10">
-                    <div class="card-body">
-                        <div class="title-border p-b-5 m-b-5 m-t-10">
-                            <h6 class="d-inline-block font-weight-600">Gift Card Activity
-                                <span class="collision-btn" *ngIf="isActivity">
-                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                                        (click)="addActivity()">Add Activity</button>
-                                </span>
-                            </h6>
-                            <div class="pull-right m-t-4 pointer">
-                                <a>
-                                    <em class="fa font-size-1-4"
-                                        [ngClass]="{'fa-angle-up':!isActivityCollapsed, 'fa-angle-down': isActivityCollapsed  }"
-                                        (click)="activityCollapsed()">
-                                    </em>
-                                </a>
-                            </div>
-                        </div>
-                        <div [style.display]="isActivityCollapsed ? 'none' : 'block'">
-                            <div class="row">
-                                <div class="col-12 p-l-0 p-r-0">
-                                    <div class="table-responsive">
-                                        <table class="table border table-hover" aria-describedby="giftCard-history">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Ticket # </th>
-                                                    <th scope="col">Amount</th>
-                                                    <!-- <th scope="col">Action</th> -->
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngIf="giftCardHistory.length > 0">
-                                                <tr *ngFor="let card of giftCardHistory">
-                                                    <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}</td>
-                                                    <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
-                                                    <td>{{card.GiftCardHistoryId}}</td>
-                                                    <td>{{card.TransactionAmount | currency}}</td>
-                                                    <!-- <td><i class="fa fa-edit" (click)="statusUpdate(card)"></i></td> -->
-                                                </tr>
-                                            </tbody>
-                                            <tbody *ngIf="giftCardHistory.length === 0">
-                                                <tr>
-                                                    <td colspan="5">
-                                                        No Records Found
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>
