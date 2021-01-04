@@ -29,11 +29,12 @@ export class TodayScheduleComponent implements OnInit {
   getTodayDateScheduleList() {
     const todayDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
     const locationId = localStorage.getItem('empLocationId');
+    const clientID = 0;
     const finalObj = {
       jobDate: todayDate,
       locationId
     };
-    this.detailService.getTodayDateScheduleList(todayDate, locationId).subscribe(res => {
+    this.detailService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         console.log(scheduleDetails, 'todayList');

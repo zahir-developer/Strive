@@ -9,8 +9,8 @@ export class DashboardService {
 
   constructor(private http: HttpUtilsService) { }
 
-  getTodayDateScheduleList(JobDate, LocationId) {
-    return this.http.get(`${UrlConfig.dashboard.getTodayScheduleList}`, { params: { JobDate, LocationId}});
+  getTodayDateScheduleList(JobDate, LocationId, ClientId) {
+    return this.http.get(`${UrlConfig.dashboard.getTodayScheduleList}`, { params: { JobDate, LocationId , ClientId}});
   }
 
   getDetailCount(obj) {
