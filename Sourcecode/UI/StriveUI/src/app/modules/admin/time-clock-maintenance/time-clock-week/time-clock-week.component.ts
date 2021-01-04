@@ -367,8 +367,10 @@ this.inCorrectTotalHours = false;
   }
 
   totalHoursCalculation() {
-    let washHour = 0;
-    let detailHour = 0;
+    let washHour : any = 0;
+    let detailHour :any = 0;
+    let washMins = 0;
+    let detailsMins = 0;
     this.replicateClockList.forEach(item => {
       item.checkInDetail.forEach(checkIn => {
         if (this.roleList.filter(role => +role.RoleMasterId === +checkIn.RoleId)[0]?.RoleName === 'Wash') {
@@ -376,23 +378,41 @@ this.inCorrectTotalHours = false;
           let h = checkIn.TotalHours.substring(0, n);
           let m = checkIn.TotalHours.substring(n + 1, n + 3);
           let hrs = +h;
-          let min = (+m / 60).toFixed(2);
-          let totalHrs = hrs + (+min);
-          washHour += totalHrs;
+          let min = (+m);
+          let hr = (hrs) * 60;
+          let totalMins = hr + min; 
+          washMins += totalMins;
+          var minutes = (washMins % 60);
+          const hours = (washMins - minutes) / 60;
+          const HHMM =  (hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
+
+          let totalHrs = HHMM;
+            washHour = totalHrs;
+            
         } else if (this.roleList.filter(role => +role.RoleMasterId === +checkIn.RoleId)[0]?.RoleName === 'Detailer') {
           let n = checkIn.TotalHours.search(":");
           let h = checkIn.TotalHours.substring(0, n);
           let m = checkIn.TotalHours.substring(n + 1, n + 3);
           let hrs = +h;
-          let min = (+m / 60).toFixed(2);
-          let totalHrs = hrs + (+min);
-          detailHour += totalHrs;
+          let min = (+m);
+          let hr = (hrs) * 60;
+          let totalMins = hr + min; 
+          detailsMins += totalMins;
+          var minutes = (detailsMins % 60);
+          const hours = (detailsMins - minutes) / 60;
+          const HHMM =  (hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
+
+          let totalHrs = HHMM;
+          detailHour = totalHrs;
+         
         }
       });
     });
-    this.totalWeekDetail.TotalDetailHours = detailHour;
-    this.totalWeekDetail.TotalWashHours = washHour <= 40 ? washHour : 40;
-    this.totalWeekDetail.OverTimeHours = washHour > 40 ? (washHour-40) : 0;
+   
+    
+      this.totalWeekDetail.TotalDetailHours = detailHour ;
+     this.totalWeekDetail.TotalWashHours = washHour <= 40 ? washHour : 40;
+     this.totalWeekDetail.OverTimeHours = washHour > 40 ? (washHour-40) : 0;
     this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
     this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
     this.totalWeekDetail.OverTimePay = this.totalWeekDetail.OverTimeHours * (this.totalWeekDetail.WashRate * 1.5);
