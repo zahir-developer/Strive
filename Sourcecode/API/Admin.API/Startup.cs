@@ -47,6 +47,7 @@ using Strive.BusinessLogic.MonthlySalesReport;
 using Strive.BusinessLogic.DashboardStatistics;
 using Strive.BusinessLogic.Checklist;
 using Strive.BusinessLogic.BonusSetup;
+using Strive.BusinessLogic.AdSetup;
 
 namespace Admin.API
 {
@@ -95,6 +96,7 @@ namespace Admin.API
             services.AddTransient<IDashboardBpl, DashboardBpl>();
             services.AddTransient<IChecklistBpl, ChecklistBpl>();
             services.AddTransient<IBonusSetupBpl, BonusSetupBpl>();
+            services.AddTransient<IAdSetupBpl, AdSetupBpl>();
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {

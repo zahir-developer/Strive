@@ -20,8 +20,8 @@ export class BonusSetupComponent implements OnInit {
   collisionDeduction: any;
   totalBonusAmount: any;
   selectedDate: any = new Date();
-  selectedMonth : any = new Date().getMonth();
-  selectedYear:any = new Date().getFullYear();
+  selectedMonth: any = new Date().getMonth();
+  selectedYear: any = new Date().getFullYear();
   submitted: boolean;
   isValueMax: boolean;
   isValueObj = { isValueMax: false, index: null };
@@ -143,7 +143,7 @@ export class BonusSetupComponent implements OnInit {
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(bonus, ind);
-         
+
         }
       })
       .catch(() => { });
@@ -151,15 +151,15 @@ export class BonusSetupComponent implements OnInit {
 
   confirmDelete(bonus, ind) {
     if (bonus.BonusRangeId === 0) {
-      this.monthBonusList = this.monthBonusList.filter( (item, i) => i !== ind );
-      if(this.monthBonusList.length === 0){
+      this.monthBonusList = this.monthBonusList.filter((item, i) => i !== ind);
+      if (this.monthBonusList.length === 0) {
         this.addBonus()
       }
     } else {
-      this.monthBonusList = this.monthBonusList.filter( item => item.BonusRangeId !== bonus.BonusRangeId );
+      this.monthBonusList = this.monthBonusList.filter(item => item.BonusRangeId !== bonus.BonusRangeId);
       bonus.IsDeleted = true;
       this.deletedID.push(bonus);
-      if(this.monthBonusList.length === 0){
+      if (this.monthBonusList.length === 0) {
         this.addBonus()
       }
     }
@@ -169,13 +169,13 @@ export class BonusSetupComponent implements OnInit {
     this.negativecollisionDeduction = ''
     if (this.collisionDeductionAmount !== '') {
       this.collisionDeduction = +this.noOfCollisions * +this.collisionDeductionAmount;
-      if(this.collisionDeduction == 0){
+      if (this.collisionDeduction == 0) {
         this.negativecollisionDeduction = this.collisionDeduction
 
-      }else if (this.collisionDeduction == NaN){
+      } else if (this.collisionDeduction == NaN) {
         this.negativecollisionDeduction = ''
       }
-      else if(this.collisionDeduction != 0){
+      else if (this.collisionDeduction != 0) {
         this.negativecollisionDeduction = `-${this.collisionDeduction}`
 
       }
@@ -188,38 +188,38 @@ export class BonusSetupComponent implements OnInit {
     this.negativebadReviewDeduction = ''
     if (this.badReviewDeductionAmount !== '') {
       this.badReviewDeduction = +this.noOfBadReviews * +this.badReviewDeductionAmount;
-      if(this.badReviewDeduction == 0){
-        this.negativebadReviewDeduction= this.badReviewDeduction
+      if (this.badReviewDeduction == 0) {
+        this.negativebadReviewDeduction = this.badReviewDeduction
 
       }
-      else if (this.badReviewDeduction == NaN){
+      else if (this.badReviewDeduction == NaN) {
         this.negativebadReviewDeduction = ''
-      }else if(this.badReviewDeduction != 0){
-        this.negativebadReviewDeduction= `-${this.badReviewDeduction}`
+      } else if (this.badReviewDeduction != 0) {
+        this.negativebadReviewDeduction = `-${this.badReviewDeduction}`
 
       }
     }
     this.total();
   }
-total(){
-  let totalAmount = 0;
-  let deduction :any;
-          for(let i = 0 ; i < this.monthBonusList.length ; i++) {
-         
-              // this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
-              totalAmount += (+this.monthBonusList[i].Total);
-              deduction =  Math.abs( this.collisionDeduction + this.badReviewDeduction )
-          this.totalBonusAmount = totalAmount - deduction ;
-        } 
-       
-}
+  total() {
+    let totalAmount = 0;
+    let deduction: any;
+    for (let i = 0; i < this.monthBonusList.length; i++) {
+
+      // this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
+      totalAmount += (+this.monthBonusList[i].Total);
+      deduction = Math.abs(this.collisionDeduction + this.badReviewDeduction)
+      this.totalBonusAmount = totalAmount - deduction;
+    }
+
+  }
   onMonthChange(event) {
-   this.selectedMonth = +event;
-   this.getBonusList();
+    this.selectedMonth = +event;
+    this.getBonusList();
   }
   onYearChange(event) {
-   this.selectedYear = +event;
-   this.getBonusList();
+    this.selectedYear = +event;
+    this.getBonusList();
   }
   saveBonus() {
     console.log(this.monthBonusList, this.selectedDate, 'multi');
@@ -247,13 +247,13 @@ total(){
       }
     }
     if (this.deletedID.length > 0) {
-      this.deletedID.forEach( item => {
+      this.deletedID.forEach(item => {
         this.monthBonusList.push(item);
       });
     }
 
-    const bounsRange = this.monthBonusList.map(item =>{
-      return{
+    const bounsRange = this.monthBonusList.map(item => {
+      return {
         BonusRangeId: item.BonusRangeId,
         BonusId: item.BonusId,
         Min: item.Min,
@@ -290,7 +290,7 @@ total(){
     console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
-        if (res.status === 'Success') { 
+        if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
         } else {
           this.toastr.error('Communication Error', 'Error!');
@@ -298,7 +298,7 @@ total(){
         this.getBonusList();
       });
     } else {
-      this.bonusSetupService.editBonus(finalObj).subscribe( res => {
+      this.bonusSetupService.editBonus(finalObj).subscribe(res => {
         if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
 
@@ -327,29 +327,30 @@ total(){
           this.badReviewDeductionAmount = bonus.BonusDetails.Bonus.BadReviewDeductionAmount;
           this.collisionDeductionAmount = bonus.BonusDetails.Bonus.CollisionDeductionAmount;
           this.collisionDeduction = this.noOfCollisions * this.collisionDeductionAmount;
-          if(this.collisionDeduction == 0){
+          if (this.collisionDeduction == 0) {
             this.negativecollisionDeduction = this.collisionDeduction
-    
-          } else if (this.collisionDeduction == NaN){
+
+          } else if (this.collisionDeduction == NaN) {
             this.negativecollisionDeduction = ''
           }
-          else if(this.collisionDeduction != 0){
+          else if (this.collisionDeduction != 0) {
             this.negativecollisionDeduction = `-${this.collisionDeduction}`
-    
-          }          
+
+          }
 
           this.badReviewDeduction = this.noOfBadReviews * this.badReviewDeductionAmount;
-          if(this.badReviewDeduction == 0){
-            this.negativebadReviewDeduction= this.badReviewDeduction
-    
+          if (this.badReviewDeduction == 0) {
+            this.negativebadReviewDeduction = this.badReviewDeduction
+
           }
-          else if (this.badReviewDeduction == NaN){
+          else if (this.badReviewDeduction == NaN) {
             this.negativebadReviewDeduction = ''
           }
-          else if(this.collisionDeduction != 0){
-            this.negativebadReviewDeduction= `-${this.badReviewDeduction}`
-    
-          }        } else {
+          else if (this.collisionDeduction != 0) {
+            this.negativebadReviewDeduction = `-${this.badReviewDeduction}`
+
+          }
+        } else {
           this.noOfBadReviews = '';
           this.noOfCollisions = '';
           this.badReviewDeductionAmount = '';
@@ -376,44 +377,45 @@ total(){
             }
           ];
         }
-         if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
+        if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
           this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
           //this.noOfWashes = 1;
-      
-          for(let i = 0 ; i < this.monthBonusList.length ; i++) {
-            if (+(this.monthBonusList[i].Min ) <= +this.noOfWashes && +this.noOfWashes <= +(this.monthBonusList[i].Max)) {
+
+          for (let i = 0; i < this.monthBonusList.length; i++) {
+            if (+(this.monthBonusList[i].Min) <= +this.noOfWashes && +this.noOfWashes <= +(this.monthBonusList[i].Max)) {
               this.monthBonusList[i].noOfWashes = this.noOfWashes;
               // this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
-            //  totalAmount += (+this.monthBonusList[i].BonusAmount);
+              //  totalAmount += (+this.monthBonusList[i].BonusAmount);
               break;
             }
-          
-      }      }
 
-      let totalAmount = 0;
-      let deduction :any;
-              for(let i = 0 ; i < this.monthBonusList.length ; i++) {
-             
-                  totalAmount += (+this.monthBonusList[i].Total);
-                  deduction =  Math.abs( this.collisionDeduction + this.badReviewDeduction )
-              this.totalBonusAmount = totalAmount - deduction ;
-            } 
+          }
+        }
+
+        let totalAmount = 0;
+        let deduction: any;
+        for (let i = 0; i < this.monthBonusList.length; i++) {
+
+          totalAmount += (+this.monthBonusList[i].Total);
+          deduction = Math.abs(this.collisionDeduction + this.badReviewDeduction)
+          this.totalBonusAmount = totalAmount - deduction;
+        }
         // else {
         //   this.totalBonusAmount = 0;
-          // this.noOfWashes = 1;
-          // let totalAmount = 0;
-          // for(let i = 0 ; i < this.monthBonusList.length ; i++) {
-          //   if (this.monthBonusList[i].Min >= this.noOfWashes <= this.monthBonusList[i].Max) {
-          //     this.monthBonusList[i].noOfWashes = this.noOfWashes;
-          //     this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
-          //     totalAmount = this.monthBonusList[i].BonusAmount;
-          //     break;
-          //   }
-          // }
-          // this.totalBonusAmount = totalAmount -  ( this.collisionDeduction + this.badReviewDeduction );
+        // this.noOfWashes = 1;
+        // let totalAmount = 0;
+        // for(let i = 0 ; i < this.monthBonusList.length ; i++) {
+        //   if (this.monthBonusList[i].Min >= this.noOfWashes <= this.monthBonusList[i].Max) {
+        //     this.monthBonusList[i].noOfWashes = this.noOfWashes;
+        //     this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
+        //     totalAmount = this.monthBonusList[i].BonusAmount;
+        //     break;
+        //   }
+        // }
+        // this.totalBonusAmount = totalAmount -  ( this.collisionDeduction + this.badReviewDeduction );
         //}
       }
-      else{
+      else {
         this.toastr.error('Communication Error', 'Error!');
         this.getBonusFirstList();
       }

@@ -14,13 +14,21 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [CustomerComponent, CustomerDashboardComponent, SelectServicesComponent, SelectLocationComponent, SelectAppointmentDateComponent, PreviewAppointmentDetailComponent, AppointmentConfigurationComponent],
+  declarations: [
+    CustomerComponent,
+    CustomerDashboardComponent,
+    SelectServicesComponent,
+    SelectLocationComponent,
+    SelectAppointmentDateComponent,
+    PreviewAppointmentDetailComponent,
+    AppointmentConfigurationComponent
+  ],
   imports: [
     CommonModule,
     CustomerRoutingModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule
   ]
 })
 export class CustomerModule { }

@@ -14,6 +14,7 @@ export class SelectServicesComponent implements OnInit {
   selectedService: any = '';
   serviceForm: FormGroup;
   @Input() scheduleDetailObj?: any;
+  @Input() selectedData?: any;
   constructor(
     private customerService: CustomerService,
     private fb: FormBuilder
@@ -52,8 +53,13 @@ export class SelectServicesComponent implements OnInit {
   }
 
   patchServiceValue() {
-    if (this.scheduleDetailObj.serviceobj !== undefined) {
+    if (this.scheduleDetailObj.serviceobj !== undefined && !this.scheduleDetailObj.isEdit) {
       this.serviceForm.patchValue({ serviceID: this.scheduleDetailObj.serviceobj.ServiceId });
+    }
+    if (this.scheduleDetailObj.isEdit) {
+      const serviceId = this.selectedData.DetailsItem[0].ServiceId;
+      this.serviceForm.patchValue({ serviceID: serviceId });
+      this.scheduleDetailObj.JobItemId = this.selectedData.DetailsItem[0].JobItemId;
     }
   }
 

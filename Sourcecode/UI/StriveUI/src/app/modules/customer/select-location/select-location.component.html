@@ -16,7 +16,7 @@
                                         <div class="form-group col-md-12">
                                             <label class="labelcontainer m-b-20" *ngFor="let location of locationList">
                                                 <input type="radio"  formControlName="locationID" [value]="location.LocationId"> <span
-                                                    class="checkmark"></span><span class="labelcheck">{{location.Address1}}{{location.Address2}}</span> </label>
+                                                    class="checkmark"></span><span class="labelcheck">{{location.Address1}}&nbsp;{{location.Address2}}&nbsp;{{location.City}}&nbsp;{{location.State}}&nbsp;{{location.Country}}&nbsp;{{location.Zip}}</span> </label>
                                         </div>
                                     </div>
                                 </form>
@@ -24,7 +24,7 @@
                                     <div class="form-group col-md-12">
                                         <div class="pull-right">
                                             <button type="button"
-                                                class="btn theme-optional-button-color m-auto" (click)="cancel()">Cancel</button>
+                                                class="btn theme-optional-button-color m-auto" (click)="cancel()">Cancel</button>&nbsp;
                                             <button type="button" class="btn theme-primary-button-color m-auto" [disabled]="!locationForm.valid"
                                                 (click)="next()">Next</button>
                                         </div>

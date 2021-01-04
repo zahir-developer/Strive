@@ -17,12 +17,12 @@ export class AdSetupService {
   }
   addAdSetup(obj) {
     return this.http.post(`${UrlConfig.totalUrl.insertadSetup}`, obj);
-  }
+  }  
   updateAdSetup(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateadSetup}`, obj);
   }
-  deleteAdSetup(id: number) {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteadSetup}`, { params: { id: id } });
+  deleteAdSetup(id) {
+    return this.http.delete(`${UrlConfig.totalUrl.deleteadSetup}` , { params: { id: id } });
   }
   getAdSetupById(id: number) {
     return this.http.get(`${UrlConfig.totalUrl.getByIdadSetup}`, { params: { id: id } });
