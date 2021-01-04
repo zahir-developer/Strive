@@ -138,7 +138,7 @@ export class DocumentListComponent implements OnInit {
         const base64 = documentDetail.Document;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');
-        const fileName = 'name';
+        const fileName = documentDetail.Document.FileName;
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
