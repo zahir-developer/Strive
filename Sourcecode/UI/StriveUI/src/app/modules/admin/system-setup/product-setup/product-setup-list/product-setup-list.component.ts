@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/data-service/product.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
   selector: 'app-product-setup-list',
@@ -12,17 +13,23 @@ export class ProductSetupListComponent implements OnInit {
   productSetupDetails = [];
   showDialog = false;
   selectedData: any;
+  isDesc: boolean = false;
+  column: string = 'ProductName';
   headerData: string;
   isEdit: boolean;
   isLoading = true;
   isTableEmpty: boolean;
   search : any = '';
-  page = 1;
-  pageSize = 5;
   collectionSize: number = 0;
+  pageSize: number;
+  pageSizeList: number[];
+  page: number;
   constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.getAllproductSetupDetails();
 
   }
@@ -39,6 +46,7 @@ export class ProductSetupListComponent implements OnInit {
        if (this.productSetupDetails.length === 0) {
          this.isTableEmpty = true;
        } else {
+         this.sort('ProductName')
          this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
          this.isTableEmpty = false;
        }
@@ -67,6 +75,36 @@ export class ProductSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+   
+    this.productSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllproductSetupDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllproductSetupDetails()
   }
   edit(data) {
     this.selectedData = data;

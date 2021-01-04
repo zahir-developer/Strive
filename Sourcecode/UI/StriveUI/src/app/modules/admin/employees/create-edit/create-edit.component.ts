@@ -444,35 +444,4 @@ export class CreateEditComponent implements OnInit {
   navigatePage() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
-
-  getCtype(data) {
-    const label = this.commissionType.filter(item => item.CodeId === Number(data));
-    if (label.length !== 0 && label[0].CodeValue !== 'Hourly Rate') {
-      this.ctypeLabel = label[0].CodeValue;
-    } else if(label.length !== 0 && label[0].CodeValue === 'Hourly Rate'){
-      this.ctypeLabel = 'Hourly Rate-Details';
-    }else {
-      this.ctypeLabel = 'none';
-    }
-  }
-
-  onItemSelect(data){
-    if(data.item_text === "Detailer"){
-      this.isRequired = true;
-      this.emplistform.get('comType').setValidators(Validators.required);
-      this.emplistform.get('comType').updateValueAndValidity();
-    }else{
-      this.isRequired = false;
-      this.emplistform.get('comType').clearValidators();
-      this.emplistform.get('comType').updateValueAndValidity();
-    }
-  }
-
-  onItemDeSelect(data){
-    if(data.item_text === "Detailer"){
-      this.isRequired = false;
-      this.emplistform.get('comType').clearValidators();
-      this.emplistform.get('comType').updateValueAndValidity();
-    }
-  }
 }

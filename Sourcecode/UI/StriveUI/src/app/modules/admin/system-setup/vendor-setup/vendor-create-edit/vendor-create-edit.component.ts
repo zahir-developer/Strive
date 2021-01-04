@@ -48,7 +48,7 @@ export class VendorCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', Validators.email],
+      email: ['', [Validators.email,Validators.required]],
       fax: ['',],
       website: ['']
     });
@@ -155,7 +155,7 @@ export class VendorCreateEditComponent implements OnInit {
     this.Country = event.target.value;
   }
 
-  selectCity(id) {
-    this.city = id;
+  selectCity(event) {
+    this.city = event.target.value;
   }
 }

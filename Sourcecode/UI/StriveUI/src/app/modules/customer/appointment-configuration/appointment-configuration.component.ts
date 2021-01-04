@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-appointment-configuration',
@@ -7,6 +7,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class AppointmentConfigurationComponent implements OnInit {
   @Output() dashboardPage = new EventEmitter();
+  @Input() scheduleDetailObj?: any;
+  @Input() selectedData?: any;
   constructor() { }
 
   ngOnInit(): void {

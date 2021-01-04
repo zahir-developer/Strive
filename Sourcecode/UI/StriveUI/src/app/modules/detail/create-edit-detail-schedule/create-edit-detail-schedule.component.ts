@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -18,7 +18,8 @@ import { PrintCustomerCopyComponent } from '../print-customer-copy/print-custome
   selector: 'app-create-edit-detail-schedule',
   templateUrl: './create-edit-detail-schedule.component.html',
   styleUrls: ['./create-edit-detail-schedule.component.css'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  encapsulation:ViewEncapsulation.None
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
@@ -82,6 +83,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   jobID: any;
   clientName = '';
   vehicleNumber: number;
+  detailId: any;
+  upchargeId: any;
+  airFreshenerId: any;
+  additionalId: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -262,19 +267,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   washService(data) {
     if (this.isEdit) {
-      this.washItem.filter(i => i.ServiceTypeId === 16)[0].IsDeleted = true;
+      this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = true;
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 16);
-        this.washItem.filter(i => i.ServiceTypeId === 16)[0].IsDeleted = false;
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
+        this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 16);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
         const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 16);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
       const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
       if (serviceWash.length !== 0) {
         this.additionalService.push(serviceWash[0]);
@@ -311,21 +316,21 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   upchargeService(data) {
     if (this.isEdit) {
-      if (this.washItem.filter(i => i.ServiceTypeId === 18)[0] !== undefined) {
-        this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = true;
+      if (this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0] !== undefined) {
+        this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = true;
       }
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
-        this.washItem.filter(i => i.ServiceTypeId === 18)[0].IsDeleted = false;
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
+        this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
         const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
         if (serviceUpcharge.length !== 0) {
           this.additionalService.push(serviceUpcharge[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 18);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
       const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
       if (serviceUpcharge.length !== 0) {
         this.additionalService.push(serviceUpcharge[0]);
@@ -378,7 +383,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
-        this.outsideServiceId = this.serviceEnum[6].CodeId;
+        this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
+        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Upcharges')[0]?.CodeId;
+        this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
+        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
+        this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
         this.getAllServices();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -390,12 +399,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.wash.getServices().subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.outsideServices = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[6].CodeValue);
-        this.details = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[1].CodeValue);
-        this.additional = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[2].CodeValue);
-        this.washes = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[0].CodeValue);
-        this.upcharges = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[3].CodeValue);
-        this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === this.serviceEnum[4].CodeValue);
+        this.outsideServices = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
+        this.details = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
+        this.additional = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
+        this.upcharges = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
+        this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
         this.UpchargeType = this.upcharges;
         // this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
         this.additional.forEach(element => {
@@ -428,7 +436,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.jobStatusID = isJobStatus[0].CodeId;
       }
     }
-    this.getClientVehicle(this.selectedData?.Details?.ClientId);
+    this.getVehicleList(this.selectedData?.Details?.ClientId);
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
     this.note = this.selectedData.Details.Notes;
     this.detailItems = this.selectedData.DetailsItem;
@@ -445,13 +453,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       type: this.selectedData.Details.Make,
       model: this.selectedData.Details.Model,
       color: this.selectedData.Details.Color,
-      washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 16)[0]?.ServiceId,
-      upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 18)[0]?.ServiceId,
-      upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 18)[0]?.ServiceId,
-      airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === 19)[0]?.ServiceId,
+      washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId,
+      upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
+      upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
+      airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId,
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
     this.clientId = this.selectedData?.Details?.ClientId;
+   
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -464,15 +473,20 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
+    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
+      this.detailForm.get('vehicle').disable();
+    } else if(!this.isView){
+      this.detailForm.get('vehicle').enable();
+    }
   }
 
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
-        this.type = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
-        this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
+        this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
+        this.type = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
+        this.model = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleModel');
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
             if (this.selectedData.Details.Make === item.CodeId) {
@@ -509,7 +523,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (name.startsWith('drive')) {
       this.detailForm.get('vehicle').disable();
       return;
-    } else {
+    } else if(!this.isView){
       this.detailForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
       this.getPastClientNotesById(this.clientId);
@@ -545,21 +559,21 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   airService(data) {
     if (this.isEdit) {
-      if (this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0] !== undefined) {
-        this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0].IsDeleted = true;
+      if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0] !== undefined) {
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = true;
       }
       if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
-        this.washItem.filter(i => Number(i.ServiceTypeId) === 19)[0].IsDeleted = false;
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = false;
       } else {
-        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
+        this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
         const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
         if (serviceAir.length !== 0) {
           this.additionalService.push(serviceAir[0]);
         }
       }
     } else {
-      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== 19);
+      this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
       const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
       if (serviceAir.length !== 0) {
         this.additionalService.push(serviceAir[0]);
@@ -569,20 +583,29 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     console.log(this.additionalService, this.washItem);
   }
 
-  // Get Vehicle By ClientId
-  getClientVehicle(id) {
-    this.detailForm.patchValue({ vehicle: '' });
+  getVehicleList(id) {
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (!this.isEdit && !this.isBarcode) {
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  // Get Vehicle By ClientId
+  getClientVehicle(id) {
+    this.wash.getVehicleByClientId(id).subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicle = vehicle.Status;
+        if (this.vehicle.length !== 0 && !this.isBarcode) {
           this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
-        }
-        if (this.isEdit && this.selectedData.Details !== null) {
-          this.detailForm.patchValue({ vehicle: this.selectedData.Details.VehicleId });
+        }else {
+          this.detailForm.get('vehicle').reset();
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -756,8 +779,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       bayId: this.detailForm.value.bay,
       jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
       scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'hh:mm'),
-      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'hh:mm'),
+      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'HH:mm'),
+      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'HH:mm'),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -827,6 +850,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     } else {
       this.spinner.show();
@@ -846,7 +872,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
           // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           // this.refreshDetailGrid.emit();
+        }else{
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     }
   }
@@ -919,7 +950,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const membership = JSON.parse(res.resultData);
         this.memberService = membership.MembershipAndServiceDetail.MembershipService;
         if (this.memberService !== null) {
-          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === 15);
+          const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === this.detailId);
           if (washService.length !== 0) {
             this.washService(washService[0].ServiceId);
           } else {

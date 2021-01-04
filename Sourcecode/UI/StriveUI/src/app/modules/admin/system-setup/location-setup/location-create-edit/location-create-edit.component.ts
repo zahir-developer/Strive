@@ -193,8 +193,8 @@ export class LocationCreateEditComponent implements OnInit {
 
   }
 
-  selectCity(id) {
-    this.city = id;
+  selectCity(event) {
+    this.city = event.target.value;
   }
 }
 

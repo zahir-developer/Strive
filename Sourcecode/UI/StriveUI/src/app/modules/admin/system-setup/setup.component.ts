@@ -39,12 +39,12 @@ export class SetupComponent implements OnInit {
 } else if(event.target.value == 6){
   this.router.navigate([`/admin/setup/checkList`], { relativeTo: this.route });
 } else if(event.target.value == 7){
-  this.router.navigate([`/admin/setup/empHandBook`], { relativeTo: this.route });
+  this.router.navigate([`/admin/setup/bonus`], { relativeTo: this.route });
 } else if(event.target.value == 8){
-  this.router.navigate([`/admin/setup/terms&condition`], { relativeTo: this.route });
+  this.router.navigate([`/admin/setup/empHandBook`], { relativeTo: this.route });
 } 
 else if(event.target.value == 9){
-  this.router.navigate([`/admin/setup/bonus`], { relativeTo: this.route });
+  this.router.navigate([`/admin/setup/terms&condition`], { relativeTo: this.route });
 } 
   }
 }

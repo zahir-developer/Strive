@@ -7,6 +7,7 @@ import { AuthService } from '../shared/services/common-service/auth.service';
 import { WhiteLabelService } from '../shared/services/data-service/white-label.service';
 import { MessengerService } from '../shared/services/data-service/messenger.service';
 import { UserDataService } from '../shared/util/user-data.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
   dashBoardModule: boolean;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService,
-    private msgService: MessengerService,private user: UserDataService) { }
+    private msgService: MessengerService,private user: UserDataService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
@@ -51,8 +52,10 @@ export class LoginComponent implements OnInit {
       passwordHash: this.loginForm.value.password
     };
     this.isLoginLoading = true;
+    this.spinner.show();
     this.authService.login(loginObj).subscribe(data => {
       this.isLoginLoading = false;
+      this.spinner.hide();
       if (data) {
         if (data.status === 'Success') {
           const token = JSON.parse(data.resultData);
@@ -62,9 +65,11 @@ export class LoginComponent implements OnInit {
         } else {
           this.errorFlag = true;
           this.isLoginLoading = false;
+          this.spinner.hide();
         }
       }
     }, (err) => {
+      this.spinner.hide();
       this.isLoginLoading = false;
     });
   }

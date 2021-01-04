@@ -1,0 +1,83 @@
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
+        <h4>Ad Setup</h4>
+        <div class="card m-t-10 m-b-10">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="title-border p-b-20 m-b-15">
+                        <h5 class="d-inline-block">Ad Setup</h5>&nbsp;
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="add('add',[])"> New Ad
+                            </button>
+                    </div>
+                    <div class="setup-wrapper">
+                        <div class="setup-content" id="open-collapse">
+                            <div class="search-container  pull-right">
+                                <form>
+                                    <div class="form-row">
+                                        <div class="form-group d-flex"> <input type="search" class="form-control"
+                                                [(ngModel)]="query" size="35" name="search" id="inputSearch"
+                                                placeholder="Search by Name, Description"
+                                               > </div>&nbsp;
+                                        
+                                       
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
+                                    class="col-12 row d-block">No Records Found</span></div>
+                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
+                                <table class="table  table-striped m-t-10">
+                                    <thead>
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Description</th>                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            *ngFor="let adSetup of adSetupDetails | search: query  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" >
+                                            <th scope="row">{{adSetup.Name}}</th>
+                                            <td>{{adSetup.Description}}</td>
+                                            <td>{{adSetup.IsActive === true ? "Active" : "InActive"}}</td>
+                                            <td>
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
+                                                    style="color:green" pTooltip="Edit" tooltipPosition="bottom"
+                                                    (click)="add('edit', adSetup)"></em>&nbsp;&nbsp;
+                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                    style="color:red" pTooltip="Delete" tooltipPosition="bottom"
+                                                    (click)="delete(adSetup)"></em>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row pull-right" >
+                                   <div class="col-6">
+                                    <ngb-pagination *ngIf="adSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                        [boundaryLinks]="true" class="d-flex justify-content-end">
+                                    </ngb-pagination> 
+                                    </div>
+                                    <select *ngIf="adSetupDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                        <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
+                        
+                            </div>
+                        </div>
+                        <div class="loadingDiv" *ngIf="isLoading">
+                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
+    [resizable]="true" appendTo="body" [focusOnShow]="false" [closable]="false">
+    <app-ad-setup-create-edit *ngIf="showDialog" [selectedData]="selectedData" [documentTypeId]="documentTypeId" [isEdit]="isEdit"
+        (closeDialog)="closePopupEmit($event)">
+    </app-ad-setup-create-edit></p-dialog>

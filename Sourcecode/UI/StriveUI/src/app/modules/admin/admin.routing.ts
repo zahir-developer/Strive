@@ -22,6 +22,7 @@ import { CheckListComponent } from './system-setup/check-list/check-list.compone
 import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/employee-hand-book.component';
 import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
 import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
+import { AdSetupComponent } from './system-setup/ad-setup/ad-setup.component';
 
 
 const adminRoutes: Routes = [
@@ -51,6 +52,8 @@ const adminRoutes: Routes = [
 
         { path: 'terms&condition', component: TermsAndConditionsComponent },
         { path: 'bonus', component: BonusSetupComponent },
+        { path: 'adSetup', component: AdSetupComponent },
+
       ]
     }
     ]

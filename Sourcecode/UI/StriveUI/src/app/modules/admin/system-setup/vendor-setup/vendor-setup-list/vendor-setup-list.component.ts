@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VendorService } from 'src/app/shared/services/data-service/vendor.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ToastrService } from 'ngx-toastr';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 
 @Component({
   selector: 'app-vendor-setup-list',
@@ -17,12 +18,19 @@ export class VendorSetupListComponent implements OnInit {
   isTableEmpty: boolean;
   isLoading = true;
   search : any = '';
-  page = 1;
-  pageSize = 5;
+
   collectionSize: number = 0;
+  page: any;
+  pageSize: number;
+  pageSizeList: number[];
+  isDesc: boolean = false;
+  column: string = 'VendorName';
   constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.getAllvendorSetupDetails();
   }
 
@@ -46,7 +54,23 @@ export class VendorSetupListComponent implements OnInit {
      }
    });
   }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
 
+    this.vendorSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
   // Get All Vendors
   getAllvendorSetupDetails() {
     this.isLoading = true;
@@ -59,6 +83,7 @@ export class VendorSetupListComponent implements OnInit {
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort('VendorName')
           this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -66,6 +91,19 @@ export class VendorSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllvendorSetupDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllvendorSetupDetails()
   }
   edit(data) {
     this.selectedData = data;

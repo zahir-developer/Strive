@@ -436,15 +436,18 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
+        this.cashRegisterForm.enable();
         
       } else if (moment(today).isAfter(selectedDate)) {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
         this.cashRegisterRollForm.disable();
+        this.cashRegisterForm.disable();
       } else {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
+        this.cashRegisterForm.enable();
       }
 
 

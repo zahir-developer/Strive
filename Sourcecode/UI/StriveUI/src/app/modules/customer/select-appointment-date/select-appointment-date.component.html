@@ -29,10 +29,13 @@
                                         </div>
                                         <div class="button-list">
                                             <!-- timeslot-active timeslot-unactive -->
-                                            <span *ngFor="let slot of time; let index = index">
+                                            <span *ngFor="let slot of timeSlot; let index = index">
                                                 <button type="button" class="btn timeslot-unactive m-r-5 m-b-5"
-                                                    (click)="selectedTimeSlot(slot, index)"
-                                                    [ngClass]="{ 'timeslot-active': activeSlot === index ? true : false}"><span>{{slot}}</span></button>
+                                                    (click)="selectedTimeSlot(slot)"
+                                                    [ngClass]="{ 'timeslot-active': activeSlot === slot.TimeIn ? true : false}"><span>{{slot.TimeIn}}</span></button>
+                                            </span>
+                                            <span *ngIf="timeSlot.length === 0">
+                                                No Time Slot Available
                                             </span>
                                         </div>
                                     </div>
@@ -41,7 +44,7 @@
                                     <div class="form-group col-md-12">
                                         <div class="pull-right">
                                             <button type="button" class="btn theme-optional-button-color"
-                                                (click)="cancel()">Cancel</button>
+                                                (click)="cancel()">Cancel</button> &nbsp;
                                             <button type="button" class="btn theme-primary-button-color"
                                                 (click)="next()">Next</button>
                                         </div>

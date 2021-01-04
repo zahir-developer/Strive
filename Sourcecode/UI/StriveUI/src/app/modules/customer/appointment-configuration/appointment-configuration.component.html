@@ -17,8 +17,10 @@
                                             <h6
                                                 class="d-inline-block align-middle textgreen  font-weight-bold text-center">
                                                 Appointment scheduled on</h6>
-                                            <br> <span class="font-size-1-5 font-weight-bold">10 November 2020 , <span
-                                                    class="theme-secondary-color m-r-20">08:00AM</span> </span>
+                                            <br> <span
+                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.selectedDate | date : 'dd LLLL yyyy'}},<span
+                                                    class="theme-secondary-color m-r-20">{{scheduleDetailObj?.InTime | date : 'HH:mm'}}</span>
+                                            </span>
 
 
                                         </div>
@@ -29,8 +31,16 @@
                                                 class="d-inline-block align-middle  font-weight-bold text-center textgreen">
                                                 Vehicle & Location</h6>
                                             <br>
-                                            <span class="font-size-1-5 font-weight-bold">Black BMW X10 | <span
-                                                    class="m-r-20">Old Milton Pkwy</span> </span>
+                                            <span
+                                                class="font-size-1-5 font-weight-bold" *ngIf="!scheduleDetailObj.isEdit">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
+                                                | <span
+                                                    class="m-r-20">{{scheduleDetailObj?.locationObj?.Address1}}&nbsp;{{scheduleDetailObj?.locationObj?.Address2}}</span>
+                                            </span>
+                                            <span
+                                                class="font-size-1-5 font-weight-bold" *ngIf="scheduleDetailObj.isEdit">{{selectedData?.Details?.VechicleName}}
+                                                | <span
+                                                    class="m-r-20">{{scheduleDetailObj?.locationObj?.Address1}}&nbsp;{{scheduleDetailObj?.locationObj?.Address2}}</span>
+                                            </span>
 
                                         </div>
                                     </div>

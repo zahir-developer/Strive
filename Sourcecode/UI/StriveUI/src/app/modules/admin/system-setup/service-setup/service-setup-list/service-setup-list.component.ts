@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -19,13 +20,19 @@ export class ServiceSetupListComponent implements OnInit {
   isLoading = true;
   search: any = '';
   searchStatus: any;
-  page = 1;
-  pageSize = 5;
   collectionSize: number = 0;
   Status: any;
+  page: number;
+  pageSize: number;
+  pageSizeList: number[];
+  isDesc: boolean = false;
+  column: string = 'ServiceName';
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.page= PaginationConfig.page;
+    this.pageSize = PaginationConfig.TableGridSize;
+    this.pageSizeList = PaginationConfig.Rows;
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";
     this.getAllserviceSetupDetails();
@@ -42,6 +49,7 @@ export class ServiceSetupListComponent implements OnInit {
         if (this.serviceSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort('ServiceName')
           this.collectionSize = Math.ceil(this.serviceSetupDetails.length/this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -49,6 +57,19 @@ export class ServiceSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllserviceSetupDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllserviceSetupDetails()
   }
 
   serviceSearch(){
@@ -98,6 +119,24 @@ export class ServiceSetupListComponent implements OnInit {
       }
     });
   }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+
+    this.serviceSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -119,3 +158,4 @@ export class ServiceSetupListComponent implements OnInit {
     }
   }
 }
+

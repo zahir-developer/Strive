@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-select-appointment-date',
@@ -8,16 +10,25 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 export class SelectAppointmentDateComponent implements OnInit {
   @Output() previewAppointment = new EventEmitter();
   @Output() locationPage = new EventEmitter();
-  selectedDate = new Date();
+  selectedDate: any; // = new Date();
   @Input() scheduleDetailObj?: any;
   activeSlot: any;
+  timeSlot: any = [];
+  WashTimeMinutes = 0;
+  @Input() selectedData?: any;
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30'];
-  constructor() { }
+  constructor(
+    private customerService: CustomerService,
+    private datePipe: DatePipe
+  ) { }
 
   ngOnInit(): void {
+    this.selectedDate = new Date();
+    this.patchAppoimentValue();
   }
 
   next() {
+    this.scheduleDetailObj.selectedDate = this.selectedDate;
     this.previewAppointment.emit();
   }
 
@@ -25,15 +36,80 @@ export class SelectAppointmentDateComponent implements OnInit {
     this.locationPage.emit();
   }
 
-  selectedTimeSlot(slot, i) {
-    console.log(slot, 'slot');
-    this.activeSlot = i;
+  getAvailablilityScheduleTime() {
+    const finalObj = {
+      locationId: this.scheduleDetailObj.locationObj.LocationId,
+      date: this.selectedDate
+    };
+    this.customerService.getAvailablilityScheduleTime(finalObj).subscribe(res => {
+      if (res.status === 'Success') {
+        const slot = JSON.parse(res.resultData);
+        this.timeSlot = slot.GetTimeInDetails.reduce((unique, o) => {
+          if (!unique.some(obj => obj.TimeIn === o.TimeIn)) {
+            unique.push(o);
+          }
+          return unique;
+        }, []);
+        this.timeSlot.forEach(item => {
+          const date: any = new Date();
+          const time = item.TimeIn.split(':');
+          const hours = time[0];
+          const minutes = time[1];
+          date.setHours(hours);
+          date.setMinutes(minutes);
+          date.setSeconds('00');
+          item.dateTime = date;
+        });
+        // const sortedActivities = this.timeSlot.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+        console.log(this.timeSlot, 'slot');
+      }
+    });
+  }
+
+  patchAppoimentValue() {
+    if (this.scheduleDetailObj.Slot !== undefined && !this.scheduleDetailObj.isEdit) {
+      this.activeSlot = this.scheduleDetailObj.Slot.TimeIn;
+      this.selectedDate = this.scheduleDetailObj.selectedDate;
+    }
+    if (this.scheduleDetailObj.isEdit) {
+      const slot = {
+        TimeIn: this.datePipe.transform(this.selectedData.Details.TimeIn, 'HH:mm'),
+        BayId: this.selectedData.Details.BayId
+      };
+      this.selectedData = new Date(this.selectedData.Details.JobDate);
+      this.selectedTimeSlot(slot);
+    }
+  }
+
+  selectedTimeSlot(slot) {
+    this.activeSlot = slot.TimeIn;
     this.scheduleDetailObj.Slot = slot;
+    const time = slot.TimeIn.split(':');
+    const hours = time[0];
+    const minutes = time[1];
+    this.selectedDate.setHours(hours);
+    this.selectedDate.setMinutes(minutes);
+    this.selectedDate.setSeconds('00');
+    this.scheduleDetailObj.InTime = this.selectedDate;
+    const outHourTime = new Date(this.selectedData);
+    const outTime = outHourTime.setMinutes(this.selectedDate.getMinutes() + this.WashTimeMinutes);
+    this.scheduleDetailObj.OutTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
   }
 
   getScheduleDetailsByDate(date) {
-    this.scheduleDetailObj.selectedDate = date;
     this.selectedDate = date;
+    this.getAvailablilityScheduleTime();
+    this.getWashTimeByLocationId();
+  }
+
+  getWashTimeByLocationId() {
+    const locationID = this.scheduleDetailObj.locationObj.LocationId;
+    this.customerService.getWashTimeByLocationId(locationID).subscribe(res => {
+      if (res.status === 'Success') {
+        const washTime = JSON.parse(res.resultData);
+        this.WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
+      }
+    });
   }
 
 }

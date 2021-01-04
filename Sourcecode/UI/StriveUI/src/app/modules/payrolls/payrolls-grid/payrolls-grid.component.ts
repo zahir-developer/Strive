@@ -18,6 +18,7 @@ export class PayrollsGridComponent implements OnInit {
   pageSize = 5;
   collectionSize = 0;
   isEditAdjustment: boolean;
+  isPayrollEmpty = true;
   @ViewChild('content') content: ElementRef;
   constructor(
     private payrollsService: PayrollsService,
@@ -32,13 +33,14 @@ export class PayrollsGridComponent implements OnInit {
       toDate: ['', Validators.required]
     });
     this.isEditAdjustment = false;
+    
     this.patchValue();
   }
 
   patchValue() {
     const curr = new Date(); // get current date
-    const first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-    const last = first + 6; // last day is the first day + 6
+    const first = curr.getDate()-13; // First day is the day of the month - the day of the week
+    const last = curr.getDate();//first + 13; // last day is the first day + 6
 
     const firstday = new Date(curr.setDate(first));
     const lastday = new Date(curr.setDate(last));
@@ -56,13 +58,19 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       if (res.status === 'Success') {
         const payRoll = JSON.parse(res.resultData);
-        if (payRoll.Result.PayRollRateViewModel !== null) {
+        //if (payRoll.Result.PayRollRateViewModel !== null) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
           // this.payRollList.forEach(item => {
           //   item.isEditAdjustment = false;
           // });
-          this.collectionSize = Math.ceil(this.payRollList.length / this.pageSize) * 10;
-        }
+          var length =  this.payRollList === null ? 0 : this.payRollList.length;
+          this.collectionSize = Math.ceil(  length / this.pageSize) * 10;
+          this.isPayrollEmpty = false;
+        //}
+        //else
+        //{
+          this.isPayrollEmpty = payRoll.Result.PayRollRateViewModel === null ? true : false;
+        //}
       }
     });
   }
@@ -103,6 +111,8 @@ export class PayrollsGridComponent implements OnInit {
   }
 
   processPayrolls() {
+    const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
+    const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
     const data = document.getElementById('payrollPDF');
     html2canvas(data).then(canvas => {
       // Few necessary setting options
@@ -115,7 +125,7 @@ export class PayrollsGridComponent implements OnInit {
       const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
       const position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('MYPdf.pdf'); // Generated PDF
+      pdf.save('PayrollReport '+startDate+' - '+endDate +'.pdf'); // Generated PDF
     });
   }
 

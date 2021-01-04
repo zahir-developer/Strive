@@ -29,6 +29,7 @@ export class ProductCreateEditComponent implements OnInit {
   fileUploadformData: any = null;
   fileThumb: any = null;
   costErrMsg: boolean = false;
+  priceErrMsg: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
@@ -62,6 +63,11 @@ export class ProductCreateEditComponent implements OnInit {
       suggested: ['']
     });
     this.productSetupForm.patchValue({status : 0}); 
+    if(this.isEdit !== true){
+      this.productSetupForm.controls.status.disable();
+    }else{
+      this.productSetupForm.controls.status.enable();
+    }
   }
   // Get ProductType
   getProductType() {
@@ -81,6 +87,9 @@ export class ProductCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const pSize = JSON.parse(data.resultData);
         this.size = pSize.Codes;
+        const other = this.size.filter(i => i.CodeValue === "Other")[0];
+        this.size = this.size.filter(i => i.CodeValue !== "Other");
+        this.size.push(other);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -182,6 +191,7 @@ export class ProductCreateEditComponent implements OnInit {
       }
       return;
     }
+    this.productSetupForm.controls.status.enable();
     const formObj = {
       productCode: null,
       productDescription: null,
@@ -199,7 +209,7 @@ export class ProductCreateEditComponent implements OnInit {
       sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
       quantity: this.productSetupForm.value.quantity,
       quantityDescription: null,
-      isActive: this.productSetupForm.value.status == 0 ? true : false,
+      isActive: this.productSetupForm.value.status === 0 ? true : false,
       vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount,
       isDeleted: false,

@@ -27,16 +27,21 @@
               <div class="table-responsive" *ngIf="isTableEmpty === true"> <span class="col-12 row d-block">No Records
                   Found</span></div>
               <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
-                <table class="table  table-striped m-t-10">
+                <table class="table  table-striped m-t-10 headerfix">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Contact</th>
-                      <th>Phone Number</th>
-                      <th>Email</th>
+                      <th class="pointer" (click)="sort('VendorName')">Name&nbsp; <i class="fa" *ngIf="column =='VendorName'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                    <th class="pointer" (click)="sort('VendorAlias')">Contact&nbsp; <i class="fa" *ngIf="column =='VendorAlias'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                    <th class="pointer" (click)="sort('PhoneNumber')">Phone Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                    <th class="pointer" (click)="sort('Email')">Email&nbsp; <i class="fa" *ngIf="column =='Email'" 
+                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+
                       <th>Action</th>
                     </tr>
-                  <tbody>
+                  <tbody class="bodyfix">
                     <tr
                       *ngFor="let vendorSetup of vendorSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                       <th scope="row">{{vendorSetup.VendorName}}</th>
@@ -52,10 +57,18 @@
                     </tr>
                   </tbody>
                 </table>
-                <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize" [(page)]="page"
-                  [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                  class="d-flex justify-content-end">
-                </ngb-pagination>
+                <div class="row pull-right">
+                  <div class="col-6">
+                   <ngb-pagination  *ngIf="vendorSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                       [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                       [boundaryLinks]="true" class="d-flex justify-content-end">
+                   </ngb-pagination> 
+                   </div>
+                   <select  *ngIf="vendorSetupDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                       <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+
+                   </select>
+               </div>
               </div>
             </div>
             <div class="loadingDiv" *ngIf="isLoading">

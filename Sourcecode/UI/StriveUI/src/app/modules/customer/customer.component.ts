@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 
 @Component({
   selector: 'app-customer',
@@ -13,7 +14,10 @@ export class CustomerComponent implements OnInit {
   previewScreen: boolean;
   confirmationScreen: boolean;
   scheduleDetailObj: any = {};
-  constructor() { }
+  selectedData: any;
+  constructor(
+    private detailService: DetailService
+  ) { }
 
   ngOnInit(): void {
     this.dashboardScreen = true;
@@ -30,12 +34,14 @@ export class CustomerComponent implements OnInit {
   }
 
   dashboardPage(event) {
+    this.scheduleDetailObj.isEdit = false;
     this.dashboardScreen = true;
     this.servicesScreen = false;
     this.locationScreen = false;
     this.appointmentScreen = false;
     this.previewScreen = false;
     this.confirmationScreen = false;
+    this.scheduleDetailObj = {};
   }
 
   selectLocation(event) {
@@ -71,6 +77,23 @@ export class CustomerComponent implements OnInit {
   appointmentPage(event) {
     this.previewScreen = false;
     this.appointmentScreen = true;
+  }
+
+  editSchedule(event) {
+    this.detailService.getDetailById(event).subscribe(res => {
+      if (res.status === 'Success') {
+        this.scheduleDetailObj.isEdit = true;
+        const details = JSON.parse(res.resultData);
+        console.log(details, 'details');
+        this.selectedData = details.DetailsForDetailId;
+        if (this.selectedData.Details !== null) {
+          this.selectedData.Details.VechicleName = this.selectedData.Details.MakeName + ' ' + this.selectedData.Details.ModelName
+           + ' ' + this.selectedData.Details.ColorName;
+        }
+        this.servicesScreen = true;
+        this.dashboardScreen = false;
+      }
+    });
   }
 
 }
