@@ -123,7 +123,8 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
         USPEMAILEXIST,
-        
+        USPGETEMPLOYEEROLEBYID,
+
         //Client
         USPGETALLCLIENT,
         USPUPDATEACCOUNTDETAILS,

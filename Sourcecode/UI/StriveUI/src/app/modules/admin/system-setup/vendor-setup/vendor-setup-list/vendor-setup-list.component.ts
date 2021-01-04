@@ -23,6 +23,8 @@ export class VendorSetupListComponent implements OnInit {
   page: any;
   pageSize: number;
   pageSizeList: number[];
+  isDesc: boolean = false;
+  column: string = 'VendorName';
   constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
@@ -52,7 +54,23 @@ export class VendorSetupListComponent implements OnInit {
      }
    });
   }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
 
+    this.vendorSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
   // Get All Vendors
   getAllvendorSetupDetails() {
     this.isLoading = true;
@@ -65,6 +83,7 @@ export class VendorSetupListComponent implements OnInit {
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort('VendorName')
           this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }

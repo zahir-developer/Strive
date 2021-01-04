@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -18,7 +18,8 @@ import { PrintCustomerCopyComponent } from '../print-customer-copy/print-custome
   selector: 'app-create-edit-detail-schedule',
   templateUrl: './create-edit-detail-schedule.component.html',
   styleUrls: ['./create-edit-detail-schedule.component.css'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  encapsulation:ViewEncapsulation.None
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
@@ -435,7 +436,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.jobStatusID = isJobStatus[0].CodeId;
       }
     }
-    this.getClientVehicle(this.selectedData?.Details?.ClientId);
+    this.getVehicleList(this.selectedData?.Details?.ClientId);
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
     this.note = this.selectedData.Details.Notes;
     this.detailItems = this.selectedData.DetailsItem;
@@ -459,6 +460,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
     this.clientId = this.selectedData?.Details?.ClientId;
+   
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -471,6 +473,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
+    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
+      this.detailForm.get('vehicle').disable();
+    } else if(!this.isView){
+      this.detailForm.get('vehicle').enable();
+    }
   }
 
   getColor() {
@@ -516,7 +523,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (name.startsWith('drive')) {
       this.detailForm.get('vehicle').disable();
       return;
-    } else {
+    } else if(!this.isView){
       this.detailForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
       this.getPastClientNotesById(this.clientId);
@@ -576,20 +583,29 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     console.log(this.additionalService, this.washItem);
   }
 
-  // Get Vehicle By ClientId
-  getClientVehicle(id) {
-    this.detailForm.patchValue({ vehicle: '' });
+  getVehicleList(id) {
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (!this.isEdit && !this.isBarcode) {
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  // Get Vehicle By ClientId
+  getClientVehicle(id) {
+    this.wash.getVehicleByClientId(id).subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicle = vehicle.Status;
+        if (this.vehicle.length !== 0 && !this.isBarcode) {
           this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
-        }
-        if (this.isEdit && this.selectedData.Details !== null) {
-          this.detailForm.patchValue({ vehicle: this.selectedData.Details.VehicleId });
+        }else {
+          this.detailForm.get('vehicle').reset();
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -763,8 +779,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       bayId: this.detailForm.value.bay,
       jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
       scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'hh:mm'),
-      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'hh:mm'),
+      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'HH:mm'),
+      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'HH:mm'),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -834,6 +850,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     } else {
       this.spinner.show();
@@ -853,7 +872,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
           // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           // this.refreshDetailGrid.emit();
+        }else{
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     }
   }
