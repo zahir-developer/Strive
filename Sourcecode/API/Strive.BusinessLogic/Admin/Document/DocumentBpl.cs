@@ -165,7 +165,11 @@ namespace Strive.BusinessLogic.Document
                     if (document.IsPasswordProtected)
                     {
                         if (document.Password == password)
+                        {
                             base64 = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, document.FileName);
+                            document.Base64Url = base64;
+                        }
+                            
                         else
                         {
                             string errorMessage = "Invalid Password !!!";
@@ -176,10 +180,11 @@ namespace Strive.BusinessLogic.Document
                     else
                     {
                         base64 = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, document.FileName);
+                        document.Base64Url = base64;
                     }
                 }
 
-                _resultContent.Add(base64.WithName("Document"));
+                _resultContent.Add(document.WithName("Document"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
