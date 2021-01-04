@@ -24,7 +24,7 @@ export class AddGiftCardComponent implements OnInit {
     private giftCardService: GiftCardService,
     private toastr: ToastrService,
     
-    private giftCardComponent :GiftCardComponent
+    private giftCardComponent :GiftCardComponent,
     private messageService: MessageServiceToastr,
     private router: Router
     ) { }
