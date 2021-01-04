@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { GiftCardComponent } from '../gift-card.component';
 
 @Component({
   selector: 'app-add-gift-card',
@@ -21,7 +22,8 @@ export class AddGiftCardComponent implements OnInit {
     private fb: FormBuilder,
     private giftCardService: GiftCardService,
     private toastr: ToastrService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private giftCardComponent :GiftCardComponent
     ) { }
 
   ngOnInit(): void {
@@ -74,6 +76,7 @@ export class AddGiftCardComponent implements OnInit {
   }
 
   saveGiftCard() {
+  
     this.submitted = true;
     if (this.giftCardForm.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
@@ -97,6 +100,9 @@ export class AddGiftCardComponent implements OnInit {
     const finalObj = {
       giftCard: cardObj
     };
+    // this.giftCardComponent.getAllGiftCard(x=> x.)==finalObj.giftCard.giftCardCode
+    
+    // this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Giftcard code alredy exist' });
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Gift Card Added Successfully!!' });
