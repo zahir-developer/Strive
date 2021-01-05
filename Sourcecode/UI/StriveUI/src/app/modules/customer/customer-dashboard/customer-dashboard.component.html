@@ -153,25 +153,25 @@
                                 <table class="table table-responsive-xl table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col" (click)="changeSorting('TicketNumber')">Ticket # &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('TicketNumber')"
+                                            <th scope="col" (click)="changePastSorting('TicketNumber')">Ticket # &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('TicketNumber')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('JobDate')">Date&nbsp;<i class="fa"
-                                                    [ngClass]="selectedCls('JobDate')" aria-hidden="true"></i> </th>
-                                            <th scope="col" (click)="changeSorting('LocationName')">Location&nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('LocationName')"
+                                            <th scope="col" (click)="changePastSorting('JobDate')">Date&nbsp;<i class="fa"
+                                                    [ngClass]="selectedPastCls('JobDate')" aria-hidden="true"></i> </th>
+                                            <th scope="col" (click)="changePastSorting('LocationName')">Location&nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('LocationName')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('VehicleMake')">Make &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('VehicleMake')"
+                                            <th scope="col" (click)="changePastSorting('VehicleMake')">Make &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('VehicleMake')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('VehicleModel')"> Model &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('VehicleModel')"
+                                            <th scope="col" (click)="changePastSorting('VehicleModel')"> Model &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('VehicleModel')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('VehicleColor')"> Color &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                            <th scope="col" (click)="changePastSorting('VehicleColor')"> Color &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('VehicleColor')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('ServiceTypeName')">Detail
-                                                Service&nbsp;<i class="fa" [ngClass]="selectedCls('ServiceTypeName')"
+                                            <th scope="col" (click)="changePastSorting('ServiceTypeName')">Detail
+                                                Service&nbsp;<i class="fa" [ngClass]="selectedPastCls('ServiceTypeName')"
                                                     aria-hidden="true"></i></th>
                                             <th scope="col">Amount</th>
                                             <th scope="col">Total Price</th>
@@ -179,7 +179,7 @@
                                         </tr>
                                     </thead>
                                     <tbody
-                                        *ngFor="let service of pastScheduleDetail | orderBy:sort.column:'sequence':sort.descending">
+                                        *ngFor="let service of pastScheduleDetail | orderBy:pastSort.column:'sequence':pastSort.descending">
                                         <tr>
                                             <!-- class="text-underline theme-primary-color font-size--9" -->
                                             <th scope="row" >
