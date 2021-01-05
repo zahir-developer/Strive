@@ -27,6 +27,9 @@ namespace Strive.BusinessEntities.ViewModel
         public int? ServiceId { get; set; }
         public string ServiceName { get; set; }
         public string Notes { get; set; }
+        public string MakeName { get; set; }
+        public string ModelName { get; set; }
+        public string ColorName { get; set; }
 
     }
 }

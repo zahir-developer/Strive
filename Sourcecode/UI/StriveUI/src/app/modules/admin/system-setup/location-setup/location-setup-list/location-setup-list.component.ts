@@ -24,6 +24,8 @@ export class LocationSetupListComponent implements OnInit {
   pageSize: number;
   page: number;
   pageSizeList: number[];
+  isDesc: boolean = false;
+  column: string = 'LocationName';
   constructor(private locationService: LocationService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
 
@@ -46,11 +48,30 @@ export class LocationSetupListComponent implements OnInit {
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort('LocationName')
+
           this.collectionSize = Math.ceil(this.locationSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+  sort(property) {
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+   
+    this.locationSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
       }
     });
   }

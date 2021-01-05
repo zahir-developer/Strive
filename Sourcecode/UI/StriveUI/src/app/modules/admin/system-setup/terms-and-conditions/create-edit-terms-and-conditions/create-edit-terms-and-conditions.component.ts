@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 
@@ -9,6 +10,7 @@ import { DocumentService } from 'src/app/shared/services/data-service/document.s
 })
 export class CreateEditTermsAndConditionsComponent implements OnInit {
 
+  termsForm:FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() documentTypeId:any;
   fileName: any = null;
@@ -17,12 +19,21 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   fileThumb: any = null;
   submitted: any;
   employeeId: any;
-  constructor(private toastr: MessageServiceToastr, private document:DocumentService) { }
+  constructor(private fb:FormBuilder, private toastr: MessageServiceToastr, private document:DocumentService) { }
 
   ngOnInit() : void {
     if (localStorage.getItem('employeeName') !== undefined) {
-      this.employeeId = localStorage.getItem('employeeId');
+      this.employeeId = +localStorage.getItem('empId');
     }
+    this.formInitialize();
+  }
+
+  formInitialize() {
+    this.termsForm = this.fb.group({
+      createdDate: [''],
+      createdName: [''],
+      uploadBy:['',Validators.required]
+    }); 
   }
 
   fileNameChanged() {
@@ -44,7 +55,13 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
+        if(this.fileThumb == 'PDF' || this.fileThumb == 'pdf'){
+          fileTosaveName = fileReader.result.split(',')[1];
+      }
+      else{
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
+        this.clearDocument();
+      }
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
         console.log(this.fileName,this.fileUploadformData.length);

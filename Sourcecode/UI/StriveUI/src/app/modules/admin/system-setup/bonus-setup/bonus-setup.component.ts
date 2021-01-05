@@ -20,8 +20,8 @@ export class BonusSetupComponent implements OnInit {
   collisionDeduction: any;
   totalBonusAmount: any;
   selectedDate: any = new Date();
-  selectedMonth : any = new Date().getMonth();
-  selectedYear:any = new Date().getFullYear();
+  selectedMonth: any = new Date().getMonth();
+  selectedYear: any = new Date().getFullYear();
   submitted: boolean;
   isValueMax: boolean;
   isValueObj = { isValueMax: false, index: null };
@@ -30,6 +30,8 @@ export class BonusSetupComponent implements OnInit {
   isEdit: boolean;
   bonusId: number;
   deletedID: any = [];
+  negativecollisionDeduction: string;
+  negativebadReviewDeduction: string;
   constructor(
     private confirmationService: ConfirmationUXBDialogService,
     private bonusSetupService: BonusSetupService,
@@ -56,6 +58,7 @@ export class BonusSetupComponent implements OnInit {
 
   onLocationChange(event) {
     this.locationId = +event;
+    this.getBonusList();
   }
 
   getBonusFirstList() {
@@ -88,7 +91,6 @@ export class BonusSetupComponent implements OnInit {
     });
     if (checkValue) {
       this.isValueMax = true;
-      return;
     }
     for (let i = 0; i < this.monthBonusList.length; i++) {
       if (+this.monthBonusList[i].Min > +this.monthBonusList[i].Max || +this.monthBonusList[i].Min === +this.monthBonusList[i].Max) {
@@ -141,6 +143,7 @@ export class BonusSetupComponent implements OnInit {
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(bonus, ind);
+
         }
       })
       .catch(() => { });
@@ -148,32 +151,75 @@ export class BonusSetupComponent implements OnInit {
 
   confirmDelete(bonus, ind) {
     if (bonus.BonusRangeId === 0) {
-      this.monthBonusList = this.monthBonusList.filter( (item, i) => i !== ind );
+      this.monthBonusList = this.monthBonusList.filter((item, i) => i !== ind);
+      if (this.monthBonusList.length === 0) {
+        this.addBonus()
+      }
     } else {
-      this.monthBonusList = this.monthBonusList.filter( item => item.BonusRangeId !== bonus.BonusRangeId );
+      this.monthBonusList = this.monthBonusList.filter(item => item.BonusRangeId !== bonus.BonusRangeId);
       bonus.IsDeleted = true;
       this.deletedID.push(bonus);
+      if (this.monthBonusList.length === 0) {
+        this.addBonus()
+      }
     }
   }
 
   totalCollisionAmount() {
+    this.negativecollisionDeduction = ''
     if (this.collisionDeductionAmount !== '') {
       this.collisionDeduction = +this.noOfCollisions * +this.collisionDeductionAmount;
+      if (this.collisionDeduction == 0) {
+        this.negativecollisionDeduction = this.collisionDeduction
+
+      } else if (this.collisionDeduction == NaN) {
+        this.negativecollisionDeduction = ''
+      }
+      else if (this.collisionDeduction != 0) {
+        this.negativecollisionDeduction = `-${this.collisionDeduction}`
+
+      }
+
     }
+    this.total();
   }
 
   totalBadReviewAmount() {
+    this.negativebadReviewDeduction = ''
     if (this.badReviewDeductionAmount !== '') {
       this.badReviewDeduction = +this.noOfBadReviews * +this.badReviewDeductionAmount;
+      if (this.badReviewDeduction == 0) {
+        this.negativebadReviewDeduction = this.badReviewDeduction
+
+      }
+      else if (this.badReviewDeduction == NaN) {
+        this.negativebadReviewDeduction = ''
+      } else if (this.badReviewDeduction != 0) {
+        this.negativebadReviewDeduction = `-${this.badReviewDeduction}`
+
+      }
     }
+    this.total();
+  }
+  total() {
+    let totalAmount = 0;
+    let deduction: any;
+    for (let i = 0; i < this.monthBonusList.length; i++) {
+
+      // this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
+      totalAmount += (+this.monthBonusList[i].Total);
+      deduction = Math.abs(this.collisionDeduction + this.badReviewDeduction)
+      this.totalBonusAmount = totalAmount - deduction;
+    }
+
   }
   onMonthChange(event) {
-   this.selectedMonth = event
-   this.getBonusList()
+    this.selectedMonth = +event;
+    this.getBonusList();
   }
   onYearChange(event) {
-   this.selectedYear = event
-   this.getBonusList();
+    this.selectedYear = +event;
+    this.getBonusList();
   }
   saveBonus() {
     console.log(this.monthBonusList, this.selectedDate, 'multi');
@@ -201,10 +247,24 @@ export class BonusSetupComponent implements OnInit {
       }
     }
     if (this.deletedID.length > 0) {
-      this.deletedID.forEach( item => {
+      this.deletedID.forEach(item => {
         this.monthBonusList.push(item);
       });
     }
+
+    const bounsRange = this.monthBonusList.map(item => {
+      return {
+        BonusRangeId: item.BonusRangeId,
+        BonusId: item.BonusId,
+        Min: item.Min,
+        Max: item.Max,
+        noOfWashes: item.noOfWashes,
+        BonusAmount: item.BonusAmount,
+        Total: item.Total,
+        IsActive: true,
+        IsDeleted: item.IsDeleted
+      }
+    })
     const bonus = {
       bonusId: this.bonusId,
       locationId: this.locationId,
@@ -225,12 +285,12 @@ export class BonusSetupComponent implements OnInit {
     };
     const finalObj = {
       bonus,
-      bonusRange: this.monthBonusList
+      bonusRange: bounsRange
     };
     console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
-        if (res.status === 'Success') { 
+        if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
         } else {
           this.toastr.error('Communication Error', 'Error!');
@@ -238,7 +298,7 @@ export class BonusSetupComponent implements OnInit {
         this.getBonusList();
       });
     } else {
-      this.bonusSetupService.editBonus(finalObj).subscribe( res => {
+      this.bonusSetupService.editBonus(finalObj).subscribe(res => {
         if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
 
@@ -260,14 +320,36 @@ export class BonusSetupComponent implements OnInit {
       if (res.status === 'Success') {
         const bonus = JSON.parse(res.resultData);
         console.log(bonus, 'bonusList');
-        if (bonus.BonusDetails.Bonus !== null) {
+        if (bonus?.BonusDetails?.Bonus !== null) {
           this.bonusId = bonus.BonusDetails.Bonus.BonusId;
           this.noOfBadReviews = bonus.BonusDetails.Bonus.NoOfBadReviews;
           this.noOfCollisions = bonus.BonusDetails.Bonus.NoOfCollisions;
           this.badReviewDeductionAmount = bonus.BonusDetails.Bonus.BadReviewDeductionAmount;
           this.collisionDeductionAmount = bonus.BonusDetails.Bonus.CollisionDeductionAmount;
           this.collisionDeduction = this.noOfCollisions * this.collisionDeductionAmount;
+          if (this.collisionDeduction == 0) {
+            this.negativecollisionDeduction = this.collisionDeduction
+
+          } else if (this.collisionDeduction == NaN) {
+            this.negativecollisionDeduction = ''
+          }
+          else if (this.collisionDeduction != 0) {
+            this.negativecollisionDeduction = `-${this.collisionDeduction}`
+
+          }
+
           this.badReviewDeduction = this.noOfBadReviews * this.badReviewDeductionAmount;
+          if (this.badReviewDeduction == 0) {
+            this.negativebadReviewDeduction = this.badReviewDeduction
+
+          }
+          else if (this.badReviewDeduction == NaN) {
+            this.negativebadReviewDeduction = ''
+          }
+          else if (this.collisionDeduction != 0) {
+            this.negativebadReviewDeduction = `-${this.badReviewDeduction}`
+
+          }
         } else {
           this.noOfBadReviews = '';
           this.noOfCollisions = '';
@@ -276,15 +358,15 @@ export class BonusSetupComponent implements OnInit {
           this.collisionDeduction = 0;
           this.badReviewDeduction = 0;
         }
-        if (bonus.BonusDetails.BonusRange !== null) {
+        if (bonus?.BonusDetails?.BonusRange !== null) {
           this.isEdit = true;
-          this.monthBonusList = bonus.BonusDetails.BonusRange;
+          this.monthBonusList = bonus?.BonusDetails?.BonusRange;
         } else {
           this.isEdit = false;
           this.monthBonusList = [
             {
               BonusRangeId: 0,
-              BonusId: 0,
+              BonusId: this.bonusId,
               Min: '',
               Max: '',
               noOfWashes: '',
@@ -295,34 +377,51 @@ export class BonusSetupComponent implements OnInit {
             }
           ];
         }
-        if (bonus.BonusDetails.LocationBasedWashCount !== null) {
+        if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
           this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
-          this.noOfWashes = 1;
-          let totalAmount = 0;
-          for(let i = 0 ; i < this.monthBonusList.length ; i++) {
-            if (this.monthBonusList[i].Min >= this.noOfWashes <= this.monthBonusList[i].Max) {
+          //this.noOfWashes = 1;
+
+          for (let i = 0; i < this.monthBonusList.length; i++) {
+            if (+(this.monthBonusList[i].Min) <= +this.noOfWashes && +this.noOfWashes <= +(this.monthBonusList[i].Max)) {
               this.monthBonusList[i].noOfWashes = this.noOfWashes;
-              this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
-              totalAmount = this.monthBonusList[i].BonusAmount;
+              // this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
+              //  totalAmount += (+this.monthBonusList[i].BonusAmount);
               break;
             }
+
           }
-          this.totalBonusAmount =  ( this.collisionDeduction + this.badReviewDeduction );
-        } else {
-          this.totalBonusAmount = 0;
-          // this.noOfWashes = 1;
-          // let totalAmount = 0;
-          // for(let i = 0 ; i < this.monthBonusList.length ; i++) {
-          //   if (this.monthBonusList[i].Min >= this.noOfWashes <= this.monthBonusList[i].Max) {
-          //     this.monthBonusList[i].noOfWashes = this.noOfWashes;
-          //     this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
-          //     totalAmount = this.monthBonusList[i].BonusAmount;
-          //     break;
-          //   }
-          // }
-          // this.totalBonusAmount = totalAmount -  ( this.collisionDeduction + this.badReviewDeduction );
         }
+
+        let totalAmount = 0;
+        let deduction: any;
+        for (let i = 0; i < this.monthBonusList.length; i++) {
+
+          totalAmount += (+this.monthBonusList[i].Total);
+          deduction = Math.abs(this.collisionDeduction + this.badReviewDeduction)
+          this.totalBonusAmount = totalAmount - deduction;
+        }
+        // else {
+        //   this.totalBonusAmount = 0;
+        // this.noOfWashes = 1;
+        // let totalAmount = 0;
+        // for(let i = 0 ; i < this.monthBonusList.length ; i++) {
+        //   if (this.monthBonusList[i].Min >= this.noOfWashes <= this.monthBonusList[i].Max) {
+        //     this.monthBonusList[i].noOfWashes = this.noOfWashes;
+        //     this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
+        //     totalAmount = this.monthBonusList[i].BonusAmount;
+        //     break;
+        //   }
+        // }
+        // this.totalBonusAmount = totalAmount -  ( this.collisionDeduction + this.badReviewDeduction );
+        //}
       }
+      else {
+        this.toastr.error('Communication Error', 'Error!');
+        this.getBonusFirstList();
+      }
+    }, (error) => {
+      this.toastr.error('Communication Error', 'Error!');
+      this.getBonusFirstList();
     });
   }
 

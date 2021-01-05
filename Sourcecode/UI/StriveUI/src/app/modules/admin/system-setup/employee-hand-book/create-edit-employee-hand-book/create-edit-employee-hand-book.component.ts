@@ -35,14 +35,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   fileThumb: any = null;
   createdDate: any;
   headerName: string;
-  employeeId: string;
+  employeeId: any;
   constructor(private fb: FormBuilder,
      private toastr: MessageServiceToastr, private document:DocumentService) { }
 
   ngOnInit() {
     if (localStorage.getItem('employeeName') !== undefined) {
       this.headerName = localStorage.getItem('employeeName');
-      this.employeeId = localStorage.getItem('employeeId');
+      this.employeeId = +localStorage.getItem('empId');
 
     }    
     this.formInitialize();
@@ -91,11 +91,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       fileReader.readAsDataURL(fileToLoad);
       this.isLoading = true;
       setTimeout(() => {
-        let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
-        this.fileUploadformData = fileTosaveName;
+        if (this.fileThumb == 'PDF' || this.fileThumb == 'pdf' || this.fileThumb == 'doc' || this.fileThumb == 'DOC' || this.fileThumb == 'DOCX' || this.fileThumb == 'docx') {
+          this.fileUploadformData = fileReader.result.split(',')[1];
+        }
+        else{
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
+          this.clearDocument();
+        }
         this.isLoading = false;
-        console.log(this.fileName,this.fileUploadformData.length);
       }, 5000);
     }
   }
@@ -106,8 +109,10 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     if(this.fileName === null){   
       return;
     }
+    this.isLoading = true;
     const obj = {
       documentId: 0,
+      DocumentName : this.handbookSetupForm.controls['name'].value,
       documentType: this.documentTypeId,
       fileName: this.fileName,
       originalFileName: null,
@@ -130,7 +135,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Saved Successfully' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.getDocumentType.emit();
+        this.isLoading = false;
       } else {
+        this.isLoading = false;
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
         this.submitted = false;
       }

@@ -37,18 +37,8 @@ namespace Admin.API.Controllers
         [Route("GetLocationSearch")]
         public Result GetLocationSearch([FromBody] LocationSearchDto search) => _bplManager.GetLocationSearch(search);
 
-        [HttpPost]
-        [Route("AddLocationOffset")]
-        public Result AddLocationOffset([FromBody] LocationOffsetDto locationOffset) => _bplManager.AddLocationOffset(locationOffset);
-        [HttpPost]
-        [Route("UpdateLocationOffset")]
-        public Result UpdateLocationOffset([FromBody] LocationOffsetDto locationOffset) => _bplManager.UpdateLocationOffset(locationOffset);
 
-
-        [HttpDelete]
-        [Route("DeleteLocationOffset")]
-        public Result DeleteLocationOffset(int id) => _bplManager.DeleteLocationOffset(id);
-
+        
         #endregion
 
         #region GET
@@ -59,10 +49,7 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetById")]
         public Result GetLocationById(int id) => _bplManager.GetLocationById(id);
-        [HttpGet]
-        [Route("GetAllLocationOffset")]
-        public Result GetAllLocationOffset() => _bplManager.GetAllLocationOffset();
-
+        
         #endregion
     }
 }

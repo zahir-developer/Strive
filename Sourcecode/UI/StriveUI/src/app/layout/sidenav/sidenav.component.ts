@@ -52,6 +52,7 @@ export class SidenavComponent implements OnInit {
   @Input() localStorageUpdation: string  = 'localStorageUpdation';
 localStorageupdate: boolean = false;
   logoName: any;
+  customerModule: boolean;
 
   constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
@@ -194,7 +195,10 @@ this.user.navName.subscribe((data = []) => {
               if(ModuleName === "PayRoll"){
                 this.payRollModule = true;
                }
-
+                // Customer
+                if(ModuleName === "Customer"){
+                  this.customerModule = true;
+                }  
                //Checkout
                if(ModuleName === "Checkout"){
                 this.checkOutModule = true;
@@ -265,6 +269,10 @@ this.user.navName.subscribe((data = []) => {
            if(ModuleNameLocal === "Dashboard"){
             this.dashBoardModule = true;
            }
+            // Customer
+            if(ModuleNameLocal === "Customer"){
+              this.customerModule = true;
+            }  
             //Report Module
             if(ModuleNameLocal === "Report"){
               this.reportModule = true;

@@ -19,6 +19,8 @@
                                 <table class="table  table-striped m-t-10">
                                     <thead>
                                         <tr>
+                                            <th>Name</th>
+
                                             <th>File Name</th>
                                             <th> Created Date</th>
                                             <!-- <th> Created By</th> -->
@@ -30,6 +32,8 @@
                                            <td colspan="10" class="text-center"> No Records Found</td>
                                         </tr>
                                         <tr  *ngIf="isLoading === false && fileName !== null">
+                                            <th scope="row" >{{Documents?.DocumentName}}</th>
+
                                             <th scope="row" >{{Documents?.OriginalFileName}}</th>
                                             <td>{{Documents?.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
                                             <!-- <td>{{Documents?.CreatedBy}}</td> -->

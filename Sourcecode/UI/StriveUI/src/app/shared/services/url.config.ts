@@ -156,8 +156,9 @@ export const UrlConfig = {
     updateadSetup: `Admin/AdSetup/Update`,
     deleteadSetup: `Admin/AdSetup/Delete`,
     getByIdadSetup: `Admin/AdSetup/GetById`,
+    membershipSearch:`Admin/MembershipSetup/GetMembershipSearch`,
+    getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`
 
-   
 
 
 

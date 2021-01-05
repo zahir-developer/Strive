@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-select-services',
@@ -17,7 +18,8 @@ export class SelectServicesComponent implements OnInit {
   @Input() selectedData?: any;
   constructor(
     private customerService: CustomerService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -42,7 +44,9 @@ export class SelectServicesComponent implements OnInit {
   }
 
   getService() {
+    this.spinner.show();
     this.customerService.getServices().subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
         console.log(serviceDetails, 'service');

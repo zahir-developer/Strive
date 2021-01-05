@@ -166,7 +166,7 @@
                                         <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <!-- <div class="form-group col-md-3">
                                     <label for="inputcommission">Detail Commission <span class="required"
                                             *ngIf="isRequired === true">*</span></label>
                                     <select id="inputcommission" class="form-control" formControlName="comType"
@@ -179,7 +179,7 @@
                                     <div *ngIf="submitted && g.comType.errors" class="invalid-feedback">
                                         <div *ngIf="g.comType.errors">Detail Commission is required</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- <div class="form-group col-md-3" *ngIf="isHourlyRate === true">
                                     <label for="inputhourdetail">Hourly Rate-Details</label>
                                     <input type="text" class="form-control" [appMaxLength]="9" appTwoDecimalNumber
@@ -197,8 +197,7 @@
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles</label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
-                                        [data]="employeeRoles" formControlName="roles" (onSelect)="onItemSelect($event)"
-                                        (onDeSelect)="onItemDeSelect($event)">
+                                        [data]="employeeRoles" formControlName="roles">
                                     </ng-multiselect-dropdown>
                                     <!-- <div *ngIf="submitted && g.roles.errors" class="invalid-feedback">
                                         <div *ngIf="g.roles.errors.required">Roles is required</div>

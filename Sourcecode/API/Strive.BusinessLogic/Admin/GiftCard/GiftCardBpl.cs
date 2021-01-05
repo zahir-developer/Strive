@@ -17,9 +17,9 @@ namespace Strive.BusinessLogic.GiftCard
         public GiftCardBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
-        public Result GetAllGiftCard(int locationId)
+        public Result GetAllGiftCardByLocation(int locationId)
         {
-            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCard,locationId, "GiftCard");
+            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCardByLocation, locationId, "GiftCard");
         }
 
         public Result GetGiftCardByGiftCardId(string giftCardNumber)
@@ -61,7 +61,15 @@ namespace Strive.BusinessLogic.GiftCard
         {
             return ResultWrap(new GiftCardRal(_tenant).GetGiftCardBalance, giftCardNumber, "GiftCardDetail");
         }
-        
 
+        public Result GetAllGiftCard()
+        {
+            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCard, "GiftCard");
+        }
+
+        public Result DeleteGiftCard(int id)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).DeleteGiftCard,id, "GiftCard");
+        }
     }
 }

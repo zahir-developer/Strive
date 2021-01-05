@@ -53,7 +53,14 @@ namespace Admin.API.Controllers
         [Route("AddDocument")]
         public Result AddDocument([FromBody] DocumentDto documentModel)
         {
-            return _bplManager.AddDocument(documentModel);
+            Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
+            Result _result = new Result();
+
+            var result = _bplManager.AddDocument(documentModel);
+            _resultContent.Add(result.WithName("Result"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
         }
 
         [HttpGet]
