@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Strive.BusinessEntities.DTO.Location;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,6 @@ namespace Strive.BusinessEntities.ViewModel
         public LocationDetailViewModel Location { get; set; }
         public LocationAddressViewModel LocationAddress { get; set; }
         public DrawerViewModel Drawer { get; set; }
+        public LocationOffsetViewModel LocationOffset { get; set; }
     }
 }

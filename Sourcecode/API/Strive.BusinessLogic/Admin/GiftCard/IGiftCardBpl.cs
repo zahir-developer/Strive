@@ -10,7 +10,7 @@ namespace Strive.BusinessLogic.GiftCard
 {
     public interface IGiftCardBpl
     {
-        Result GetAllGiftCard(int locationId);
+        Result GetAllGiftCardByLocation(int locationId);
         //Result GetAllGiftCardHistory(int giftCardId);
         Result GetAllGiftCardHistory(string giftCardNumber);
         Result GetGiftCardByGiftCardId(string giftCardNumber);
@@ -21,5 +21,8 @@ namespace Strive.BusinessLogic.GiftCard
         Result AddGiftCardHistory(GiftCardHistoryDto addGiftCardHistory);
         Result UpdateGiftCardHistory(GiftCardHistoryDto updateGiftCardHistory);
         Result GetGiftCardBalance(string giftCardNumber);
+
+        Result GetAllGiftCard();
+        Result DeleteGiftCard(int id);
     }
 }

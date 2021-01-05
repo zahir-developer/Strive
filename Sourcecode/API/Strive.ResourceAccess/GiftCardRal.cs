@@ -17,7 +17,7 @@ namespace Strive.ResourceAccess
     public class GiftCardRal : RalBase
     {
         public GiftCardRal(ITenantHelper tenant) : base(tenant) { }
-        public List<GiftCardDetailsViewModel> GetAllGiftCard(int locationId)
+        public List<GiftCardDetailsViewModel> GetAllGiftCardByLocation(int locationId)
         {
             _prm.Add("@LocationId", locationId);
             return db.Fetch<GiftCardDetailsViewModel>(SPEnum.uspGetGiftCardByLocation.ToString(), _prm);
@@ -73,6 +73,17 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(giftCardHistoryDto, "GiftCardHistoryId");
         }
-       
+        public List<GiftCardViewModel> GetAllGiftCard()
+        {
+            return  db.Fetch<GiftCardViewModel>(SPEnum.USPGETALLGIFTCARDS.ToString(), _prm);
+            
+        }
+
+        public bool DeleteGiftCard(int id)
+        {
+            _prm.Add("GiftCardId", id.toInt());
+            db.Save(SPEnum.USPDELETEGIFTCARD.ToString(), _prm);
+            return true;
+        }
     }
 }
