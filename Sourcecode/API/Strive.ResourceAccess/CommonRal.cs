@@ -15,6 +15,7 @@ namespace Strive.ResourceAccess
 {
     public class CommonRal : RalBase
     {
+
         public CommonRal(ITenantHelper tenant, bool isAuth = false) : base(tenant, isAuth)
         {
         }
@@ -60,7 +61,7 @@ namespace Strive.ResourceAccess
 
             return authId;
         }
-
+      
         public void SaveTenantUserMap(int authId, string tenentGuid)
         {
             DynamicParameters dynParams = new DynamicParameters();

@@ -11,5 +11,6 @@ namespace Strive.BusinessEntities.DTO.AdSetup
     {
         public DocumentDto Document { get; set; }
         public AdSetupAddDto AdSetupAddDto { get; set; }
+        public DocumentDto RemoveDocument { get; set; }
     }
 }
