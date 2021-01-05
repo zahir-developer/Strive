@@ -40,7 +40,7 @@
                                         <tr>
                                             <th> Name</th>
                                             <th> Type</th>
-                                            <!-- <th> Description</th> -->
+                                            <th> Description</th>
                                               <th>Price</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -51,7 +51,7 @@
                                             *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{serviceSetup.ServiceName}}</th>
                                             <td>{{serviceSetup.ServiceType}}</td>
-                                            <!-- <td>{{serviceSetup.Description}}</td> -->
+                                            <td>{{serviceSetup.Description}}</td>
 
                                             <td>{{serviceSetup.Cost | currency}}</td>
                                             <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
