@@ -397,7 +397,8 @@ namespace Strive.BusinessLogic.Document
         public bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
         {
             var docRal = new DocumentRal(_tenant);
-            var doc = docRal.GetDocumentById(documentId);
+          
+            var doc = docRal.GetDocument(documentId);
             var result = docRal.DeleteDocument(documentId);
 
             if (result)
