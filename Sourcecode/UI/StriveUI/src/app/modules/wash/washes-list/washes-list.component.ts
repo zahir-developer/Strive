@@ -92,14 +92,10 @@ export class WashesListComponent implements OnInit {
     outhh = 12;
   }
  let outTimeFormat =   outhr + ":" + outmin + ":" + outsec + outdd;
-          this.washListDetails.push({
-            'TicketNumber' : this.washDetails[i].TicketNumber,
-            'ClientName' : this.washDetails[i].ClientName,
-            'PhoneNumber' : this.washDetails[i].PhoneNumber,
-             'VehicleName' : this.washDetails[i].VehicleName,
-             'ServiceName' : this.washDetails[i].ServiceName,
-             'EstimatedTimeOut' : outTimeFormat,
-            'TimeIn' :inTimeFormat
+          this.washDetails.forEach(item =>
+           {
+             item.EstimatedTimeOutFormat =  outTimeFormat,
+            item.TimeInFormat = inTimeFormat
 
           
           })
