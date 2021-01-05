@@ -33,9 +33,9 @@
                                                 <!-- (click)="getDetailByTicket(false); selected= true" -->
                                                 <button type="button" class="btn theme-primary-button-color"
                                                     (click)="addTicketNumber()"
-                                                    [disabled]="(ticketNumber=== '' || ticketNumber === undefined) || isTenTicketNumber"><i
+                                                    [disabled]="(ticketNumber === '' || ticketNumber === undefined) || isTenTicketNumber"><i
                                                         class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color "
+                                                <button type="button" [disabled]="(ticketNumber !== '')" class="btn theme-primary-button-color "
                                                     (click)="getTicketNumber();">New</button>&nbsp;
                                                 <!-- <button type="button"
                                                     class="btn theme-primary-button-color" [disabled]="multipleTicketNumber.length > 0 ? false : true"  (click)="getDetailByTicket(false)">Add</button>-->

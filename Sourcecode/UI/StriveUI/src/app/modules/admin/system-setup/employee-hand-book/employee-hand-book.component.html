@@ -28,10 +28,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngIf="isLoading === false && fileName === null" >
+                                        <tr *ngIf="isLoading === false && Documents === null" >
                                            <td colspan="10" class="text-center"> No Records Found</td>
                                         </tr>
-                                        <tr  *ngIf="isLoading === false && fileName !== null">
+                                        <tr  *ngIf="isLoading === false && Documents !== null">
                                             <th scope="row" >{{Documents?.DocumentName}}</th>
 
                                             <th scope="row" >{{Documents?.OriginalFileName}}</th>

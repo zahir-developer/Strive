@@ -1,7 +1,7 @@
 <div class="modal-body">
     <form [formGroup]="serviceSetupForm">
         <div class="form-row">
-            <div class="form-group col-lg-3">
+            <div class="form-group col-lg-4">
                 <label for="inputServiceType"> Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="serviceType" (change)="checkService($event.target.value)"
                     [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
@@ -13,7 +13,7 @@
                     <div *ngIf="f.serviceType.errors.required">Type is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-3">
+            <div class="form-group col-lg-4">
                 <label for="inputName">Name<span class="required">*</span></label>
                 <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Name"
                     [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
@@ -21,7 +21,7 @@
                     <div *ngIf="f.name.errors.required">Name is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-3">
+            <div class="form-group col-lg-4">
                 <label for="inputCost">Price<span class="required">*</span></label>
                 <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost" placeholder="$0.00"
                     [ngClass]="{ 'is-invalid': submitted  && f.cost.errors }">
@@ -53,14 +53,14 @@
                         </div>
                     </div> -->
                    
-                    <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-4">
                         <label for="inputStatus">Status</label>
                         <select class="form-control" formControlName="status">
                             <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>
                         </select>
                     </div>
                    
-                    <div class="form-group col-lg-3" *ngIf="isDetails">
+                    <div class="form-group col-lg-4" *ngIf="isDetails">
                         <label></label>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" formControlName="commission"
@@ -68,7 +68,7 @@
                             <label class="form-check-label" for="gridCheck">Commission</label>
                         </div>
                     </div>
-                    <div class="form-group col-lg-3" *ngIf=" isDetails && isChecked === true">
+                    <div class="form-group col-lg-4" *ngIf=" isDetails && isChecked === true">
                         <label for="inputCommissionType">Commission Type<span class="required">*</span></label>
                         <select class="form-control" formControlName="commissionType"
                             (change)="getCtype($event.target.value)"
@@ -81,7 +81,7 @@
                             <div *ngIf="f.commissionType.errors.required">Type is required</div>
                         </div>
                     </div>
-                    <div class="form-group col-lg-3" *ngIf=" isDetails && ctypeLabel !== 'none' && isChecked === true">
+                    <div class="form-group col-lg-4" *ngIf=" isDetails && ctypeLabel !== 'none' && isChecked === true">
                         <label for="inputUpcharge">{{ctypeLabel}}<span class="required">*</span></label>
                         <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}"
                             appTwoDecimalNumber [ngClass]="{ 'is-invalid': submitted  && f.fee.errors }">
@@ -106,9 +106,9 @@
                             </option>
                         </select>
                     </div>
-                    <div class="form-group col-lg-9">
+                    <div class="form-group col-lg-6">
                         <label for="inputDescription">Description<span class="required">*</span></label>
-                        <textarea maxlength="100" class="form-control" formControlName="description"
+                        <textarea maxlength="50" class="form-control" formControlName="description"
                             placeholder="Description"
                             [ngClass]="{ 'is-invalid': submitted  && f.description.errors }"></textarea>
                         <div *ngIf="submitted  && f.description.errors" class="invalid-feedback">

@@ -240,7 +240,6 @@ export class SalesComponent implements OnInit {
     this.creditcashback = 0;
     this.cashback = 0;
     this.discountAmount = 0;
-    this.selectedDiscount = [];
     this.selectedService = [];
   }
 

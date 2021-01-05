@@ -83,14 +83,16 @@ export class LocationCreateEditComponent implements OnInit {
       email: this.selectedData.LocationAddress.Email,
       franchise: this.selectedData.Location.IsFranchise
     });
-    this.offset1On = this.selectedData.LocationOffset.OffSet1On;
-    this.offset1 = this.selectedData.LocationOffset.OffSet1;
-    this.offsetA = this.selectedData.LocationOffset.OffSetA;
-    this.offsetB = this.selectedData.LocationOffset.OffSetB;
-    this.offsetC = this.selectedData.LocationOffset.OffSetC;
-    this.offsetD = this.selectedData.LocationOffset.OffSetD;
-    this.offsetE = this.selectedData.LocationOffset.OffSetE;
-    this.offsetF = this.selectedData.LocationOffset.OffSetF;
+    if (this.selectedData.LocationOffset !== undefined) {
+      this.offset1On = this.selectedData.LocationOffset.OffSet1On;
+      this.offset1 = this.selectedData.LocationOffset.OffSet1;
+      this.offsetA = this.selectedData.LocationOffset.OffSetA;
+      this.offsetB = this.selectedData.LocationOffset.OffSetB;
+      this.offsetC = this.selectedData.LocationOffset.OffSetC;
+      this.offsetD = this.selectedData.LocationOffset.OffSetD;
+      this.offsetE = this.selectedData.LocationOffset.OffSetE;
+      this.offsetF = this.selectedData.LocationOffset.OffSetF;
+    }
   }
 
   change(data) {
@@ -161,7 +163,7 @@ export class LocationCreateEditComponent implements OnInit {
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const locationOffset = {
-      locationOffSetId: this.isEdit ? this.selectedData.LocationOffset.LocationOffSetId : 0,
+      locationOffSetId: this.isEdit ? this.selectedData.LocationOffset === undefined ? 0: this.selectedData.LocationOffset.LocationOffSetId : 0,
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
       offSet1: this.offset1,
       offSetA: this.offsetA,
