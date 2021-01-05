@@ -26,6 +26,7 @@ export class TimeClockWeekComponent implements OnInit {
     WashRate: 0
   };
   timeClockList: any = [];
+  washHours: any;
   replicateClockList: any = [];
   weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   roleList = [];
@@ -411,7 +412,8 @@ this.inCorrectTotalHours = false;
    
     
       this.totalWeekDetail.TotalDetailHours = detailHour ;
-     this.totalWeekDetail.TotalWashHours = washHour <= 40 ? washHour : 40;
+      this.washHours = washHour.split(':');
+     this.totalWeekDetail.TotalWashHours = this.washHours[0] <= 40 ? washHour : 40;
      this.totalWeekDetail.OverTimeHours = washHour > 40 ? (washHour-40) : 0;
     this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
     this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
