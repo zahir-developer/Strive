@@ -50,7 +50,14 @@ export class PayrollsGridComponent implements OnInit {
     });
     this.runReport();
   }
+_keyUp(e,payroll) {
+  const pattern = /[0-9]/;
+  let inputChar = payroll.Adjustment;
+if (!pattern.test(inputChar)) {
+  payroll.Adjustment = ''  
+};
 
+    }
   runReport() {
     const locationId = localStorage.getItem('empLocationId');
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
