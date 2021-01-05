@@ -7,6 +7,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -35,7 +36,8 @@ export class CustomerDashboardComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private detailService: DetailService,
     private toastr: MessageServiceToastr,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -105,7 +107,9 @@ export class CustomerDashboardComponent implements OnInit {
     const todayDate = null; // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
     const locationId = null; // 2033;
     const clientID = this.clientID ? this.clientID : 0;
+    this.spinner.show();
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         this.pastScheduleDetail = [];

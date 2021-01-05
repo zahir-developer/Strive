@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-select-location',
@@ -16,7 +17,8 @@ export class SelectLocationComponent implements OnInit {
   @Input() selectedData?: any;
   constructor(
     private customerService: CustomerService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +41,9 @@ export class SelectLocationComponent implements OnInit {
   }
 
   getLocation() {
+    this.spinner.show();
     this.customerService.getLocation().subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.locationList = location.Location;
