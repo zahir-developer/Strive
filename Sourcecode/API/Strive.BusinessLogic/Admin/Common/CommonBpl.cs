@@ -292,7 +292,7 @@ namespace Strive.BusinessLogic.Common
                 CreatedDate = DateTime.Now
             };
 
-
+            
 
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 

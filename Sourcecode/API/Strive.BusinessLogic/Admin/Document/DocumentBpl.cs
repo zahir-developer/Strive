@@ -398,7 +398,7 @@ namespace Strive.BusinessLogic.Document
         {
             var docRal = new DocumentRal(_tenant);
           
-            var doc = docRal.GetDocument(documentId);
+            var doc = docRal.GetDocumentById(documentId);
             var result = docRal.DeleteDocument(documentId);
 
             if (result)

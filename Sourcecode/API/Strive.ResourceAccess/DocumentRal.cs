@@ -92,7 +92,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@documentId", documentId);
-            var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENT.ToString(), dynParams);
+            var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENTBYID.ToString(), dynParams);
             return result;
         }
     }
