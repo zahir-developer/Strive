@@ -20,7 +20,7 @@ namespace Strive.BusinessLogic
     {
         public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-
+     
         public Result AddEmployee(EmployeeModel employee)
         {
             var isExist = new CommonRal(_tenant, true).GetEmailIdExist(employee.EmployeeAddress.Email);
@@ -33,7 +33,11 @@ namespace Strive.BusinessLogic
 
             int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
             employee.EmployeeDetail.AuthId = authId;
-            //new CommonBpl(_cache, _tenant).SendLoginCreationEmail(employee.EmployeeAddress.Email, pass);
+
+           var password = new CommonBpl(_cache, _tenant).CreateLoginPwd(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
+
+            new CommonBpl(_cache, _tenant).SendLoginCreationEmail(employee.EmployeeAddress.Email, password);
+
             var docBpl = new DocumentBpl(_cache, _tenant);
 
             string error = docBpl.ValidateEmployeeFiles(employee.EmployeeDocument);

@@ -291,12 +291,29 @@ namespace Strive.BusinessLogic.Common
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
             };
-
-            
-
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
             return authId;
+        }
+        public string CreateLoginPwd(string emailId, string mobileNo)
+        {
+            string randomPassword = RandomString(6);
+
+            string passwordHash = Pass.Hash(randomPassword);
+
+            AuthMaster authMaster = new AuthMaster
+            {
+                UserGuid = Guid.NewGuid().ToString(),
+                EmailId = emailId,
+                MobileNumber = mobileNo,
+                PasswordHash = passwordHash,
+                SecurityStamp = "1",
+                LockoutEnabled = 0,
+                CreatedDate = DateTime.Now
+            };
+            var password = authMaster.PasswordHash;
+
+            return password;
         }
 
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
@@ -366,7 +383,7 @@ namespace Strive.BusinessLogic.Common
             }
             return _result;
         }
-        private void SendLoginCreationEmail(string emailId, string defaultPassword)
+        public void SendLoginCreationEmail(string emailId, string defaultPassword)
         {
             SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
             <p> You have successfully signed up with Strive.& nbsp;</p>
