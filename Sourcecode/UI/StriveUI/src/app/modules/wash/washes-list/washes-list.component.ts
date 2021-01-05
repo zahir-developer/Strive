@@ -4,6 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { Router } from '@angular/router';
+import { datepickerAnimation } from 'ngx-bootstrap/datepicker/datepicker-animations';
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-washes-list',
@@ -23,7 +26,11 @@ export class WashesListComponent implements OnInit {
   collectionSize: number = 0;
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
+  TimeInFormat: any;
+  washListDetails = [];
   constructor(private washes: WashService, private toastr: ToastrService,
+    private datePipe: DatePipe,
+
     private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
 
   ngOnInit() {
@@ -43,6 +50,52 @@ export class WashesListComponent implements OnInit {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.washDetails = wash.Washes;
+       
+        for(let i = 0; i < this.washDetails.length; i ++){
+  let hh = this.washDetails[i].TimeIn.substring(13, 11);
+  let m = this.washDetails[i].TimeIn.substring(16, 14);
+  var s = this.washDetails[i].TimeIn.substring(19, 17);
+ let min = m ;
+
+  let sec = s ;
+  var dd = "AM";
+  var h = hh;
+  if (h >= 12) {
+    h = hh - 12;
+    dd = "PM";
+  }
+  if (h == 0) {
+    h = 12;
+  }
+ let inTimeFormat =   hh + ":" + min + ":" + sec + dd;
+ let outhh = this.washDetails[i].EstimatedTimeOut.substring(13, 11);
+  let outm = this.washDetails[i].EstimatedTimeOut.substring(16, 14);
+  var outs = this.washDetails[i].EstimatedTimeOut.substring(19, 17);
+ let outmin = outm ;
+
+  let outsec = s ;
+  var outdd = "AM";
+  var outh = outhh;
+  if (outh >= 12) {
+    outh = outhh - 12;
+    outdd = "PM";
+  }
+  if (h == 0) {
+    h = 12;
+  }
+ let outTimeFormat =   outhh + ":" + outmin + ":" + outsec + outdd;
+          this.washListDetails.push({
+            'TicketNumber' : this.washDetails[i].TicketNumber,
+            'ClientName' : this.washDetails[i].ClientName,
+            'PhoneNumber' : this.washDetails[i].PhoneNumber,
+             'VehicleName' : this.washDetails[i].VehicleName,
+             'ServiceName' : this.washDetails[i].ServiceName,
+             'EstimatedTimeOut' : outTimeFormat,
+            'TimeIn' :inTimeFormat
+
+          
+          })
+        }
         console.log(wash);
         if (this.washDetails.length === 0) {
           this.isTableEmpty = true;

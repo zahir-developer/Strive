@@ -119,14 +119,14 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let wash of washDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let wash of washListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td>{{wash.ClientName}}</td>
                                                     <td>{{wash.PhoneNumber}}</td>
                                                     <td>{{wash.VehicleName}}</td>
-                                                    <td class="font-weight-600">{{wash.TimeIn | date:'mediumTime'}}</td>
+                                                    <td class="font-weight-600">{{wash.TimeIn }}</td>
                                                     <td class="font-weight-600">
-                                                        {{wash.EstimatedTimeOut | date:'mediumTime'}}</td>
+                                                        {{wash.EstimatedTimeOut}}</td>
                                                     <td>{{wash.ServiceName}}</td>
                                                     <td>
                                                         <button type="button"
