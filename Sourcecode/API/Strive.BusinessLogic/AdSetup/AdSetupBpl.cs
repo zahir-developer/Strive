@@ -23,7 +23,14 @@ namespace Strive.BusinessLogic.AdSetup
         }
 
         public Result UpdateAdSetup(AdSetupDto adSetup)
-        {
+       {
+            if (adSetup.RemoveDocument != null)
+            {
+                new DocumentBpl(_cache, _tenant).DeleteDocumentById(adSetup.RemoveDocument.Document.DocumentId, adSetup.RemoveDocument.DocumentType);
+
+                int documentId = new DocumentBpl(_cache, _tenant).AddDocument(adSetup.Document);
+                adSetup.AdSetupAddDto.AdSetup.DocumentId = documentId;
+            }
             return ResultWrap(new AdSetupRal(_tenant).UpdateAdSetup, adSetup.AdSetupAddDto, "UpdateAdSetup");
         }
         public Result GetAllAdSetup()

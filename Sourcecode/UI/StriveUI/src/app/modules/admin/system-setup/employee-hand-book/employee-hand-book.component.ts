@@ -42,7 +42,7 @@ export class EmployeeHandBookComponent implements OnInit {
   }
 
   adddata(data, handbookDetails?) {
-    if (this.fileName !== null) {
+    if (this.document.Document !== null) {
       this.toastr.showMessage({
         severity: 'warning', title: 'Warning',
         body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
@@ -102,7 +102,7 @@ export class EmployeeHandBookComponent implements OnInit {
     const downloadLink = document.createElement('a');
     const fileName = this.fileName;
     downloadLink.href = linkSource;
-    downloadLink.download = fileName;
+    downloadLink.download = this.document.Document.OriginalFileName;
     downloadLink.click();
   }
   getDocument() {

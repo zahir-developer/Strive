@@ -215,7 +215,7 @@ this.user.navName.subscribe((data = []) => {
   else{
    const localData = localStorage.getItem('navName')
     const paersedLocalData =  JSON.parse(localData);
-    for (let i = 0; i < paersedLocalData.length ; i++){
+    for (let i = 0; i < paersedLocalData?.length ; i++){
       const viewNameLocal = paersedLocalData[i].ViewName;
       this.rollName = paersedLocalData[i].RollName;
      const ModuleNameLocal = paersedLocalData[i].ModuleName;
