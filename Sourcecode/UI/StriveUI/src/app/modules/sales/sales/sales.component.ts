@@ -259,7 +259,7 @@ export class SalesComponent implements OnInit {
     } else {
       this.isTenTicketNumber = false;
     }
-
+    this.getDetailByTicket(false);
   }
 
   removeTicketNumber(ticket) {
@@ -269,6 +269,7 @@ export class SalesComponent implements OnInit {
     } else {
       this.isTenTicketNumber = false;
     }
+    this.getDetailByTicket(false);
   }
   getDetailByTicket(flag) {
     this.enableButton = false;
@@ -528,39 +529,39 @@ export class SalesComponent implements OnInit {
         jobId: this.isSelected ? this.JobId : 0,
         ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
         locationId: +localStorage.getItem('empLocationId'),
-        clientId: 1,
-        vehicleId: 1,
+        clientId: null,
+        vehicleId: null,
         make: 0,
         model: 0,
         color: 0,
-        jobType: 1,
+        jobType: null,
         jobDate: new Date(),
         timeIn: new Date(),
         estimatedTimeOut: new Date(),
         actualTimeOut: new Date(),
-        jobStatus: 1,
+        jobStatus: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
-        notes: 'checking'
+        notes: null
       },
       jobItem: [{
         jobItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         serviceId: this.selectedService?.id,
         // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
-        commission: 0,
+        commission: null,
         price: this.selectedService?.price,
         quantity: +this.addItemForm.controls.quantity.value,
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
       }],
@@ -568,15 +569,15 @@ export class SalesComponent implements OnInit {
         jobProductItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         productId: this.selectedService?.id,
-        commission: 0,
+        commission: null,
         price: this.selectedService?.price,
         quantity: +this.addItemForm.controls.quantity.value,
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       }
     };
@@ -765,14 +766,14 @@ export class SalesComponent implements OnInit {
         transactionType: 1,
         transactionAmount: -(+item.amount),
         transactionDate: new Date(),
-        comments: 'string',
+        comments: null,
         isActive: true,
         isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
-        jobPaymentId: 4
+        jobPaymentId: 0
       };
     });
     discount = this.selectedDiscount.map(item => {
@@ -800,9 +801,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       }
     });
@@ -820,9 +821,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(det);
@@ -841,9 +842,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(accountDet);
@@ -859,9 +860,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(credit);
@@ -877,9 +878,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(gift);
@@ -917,9 +918,9 @@ export class SalesComponent implements OnInit {
         tranRefDetails: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       },
       //jobPaymentDiscount: discount.length === 0 ? null : discount,
