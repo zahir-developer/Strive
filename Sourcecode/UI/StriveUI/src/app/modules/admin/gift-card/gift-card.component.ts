@@ -23,6 +23,11 @@ export class GiftCardComponent implements OnInit {
   giftCardID: any;
   isGiftCardCollapsed = false;
   isActivityCollapsed = false;
+  giftCardList = [];
+  clonedGiftCardList = [];
+  page = 1;
+  pageSize = 10;
+  collectionSize: number;
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -41,12 +46,28 @@ export class GiftCardComponent implements OnInit {
   }
 
   getAllGiftCard() {
-    const locationId = 1;
+    const locationId = +localStorage.getItem('empLocationId');
     this.giftCardService.getAllGiftCard(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const giftcard = JSON.parse(res.resultData);
+        console.log(giftcard, 'giftCard');
+        this.giftCardList = giftcard.GiftCard;
+        this.giftCardList.forEach( item => {
+          item.searchName = item.GiftCardCode + '' + item.GiftCardName;
+        });
+        this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
+        this.collectionSize = Math.ceil(this.giftCardList.length / this.pageSize) * 10;
       }
     });
+  }
+
+  searchGift(text) {
+    if (text.length > 0) {
+      this.giftCardList = this.clonedGiftCardList.filter(item => item.searchName.toLowerCase().includes(text));
+    } else {
+      this.giftCardList = [];
+      this.giftCardList = this.clonedGiftCardList;
+    }
   }
 
   getAllGiftCardHistory(giftCardNumber) {
@@ -98,7 +119,12 @@ export class GiftCardComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    this.modalService.open(AddGiftCardComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(AddGiftCardComponent, ngbModalOptions);
+    modalRef.result.then((result) => {
+      if (result) {
+        this.getAllGiftCard();
+      }
+    });
   }
 
   statusUpdate(card) {

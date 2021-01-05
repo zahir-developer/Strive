@@ -141,7 +141,13 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.closeoutRegisterForm.patchValue({
             cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1
           });
-        }else{
+        } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
+          || this.closeOutDetails.CashRegisterRolls === null || this.closeOutDetails.CashRegisterBills === null) {
+          this.cashRegisterCoinForm.enable();
+          this.cashRegisterBillForm.enable();
+          this.cashRegisterRollForm.enable();
+          this.closeoutRegisterForm.enable();
+        } else {
           this.isUpdate = false;
           this.closeoutRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
@@ -329,7 +335,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
   // Calculate TotalCash
   getTotalCash() {
-    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount; 
+    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
   }
   onValueChange(event) {
     let selectedDate = event;

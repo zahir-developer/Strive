@@ -4,7 +4,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-list',
@@ -20,15 +20,26 @@ export class ClientListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
-  search: any='';
+  search: any = '';
   page = 1;
   pageSize = 15;
   collectionSize: number = 0;
   isLoading = true;
-  constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService, private router: Router) { }
+  constructor(
+    private client: ClientService, private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService,
+    private spinner: NgxSpinnerService, private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    const paramsData = this.route.snapshot.queryParamMap.get('clientId');
+    if (paramsData !== null) {
+      const clientObj = {
+        ClientId: paramsData
+      };
+      this.getClientById('view', clientObj);
+    }
     this.getAllClientDetails();
   }
 
@@ -43,7 +54,7 @@ export class ClientListComponent implements OnInit {
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.clientDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -52,10 +63,10 @@ export class ClientListComponent implements OnInit {
     });
   }
 
-  clientSearch(){
+  clientSearch() {
     this.page = 1;
     const obj = {
-       clientName: this.search
+      clientName: this.search
     }
     this.client.ClientSearch(obj).subscribe(data => {
       if (data.status === 'Success') {
@@ -65,7 +76,7 @@ export class ClientListComponent implements OnInit {
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.clientDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
