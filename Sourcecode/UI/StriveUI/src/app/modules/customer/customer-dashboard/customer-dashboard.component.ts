@@ -23,6 +23,8 @@ export class CustomerDashboardComponent implements OnInit {
   clonedVechicleList = [];
   sort = { column: 'JobDate', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pastSort = { column: 'JobDate', descending: true };
+  pastSortColumn: { column: string; descending: boolean; };
   pastScheduleDetail = [];
   clonedPastScheduleDetail = [];
   clientID: any;
@@ -156,9 +158,15 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
+    this.changeSortingDescending(column, this.pastSort);
     this.sortColumn = this.sort;
   }
+
+  changePastSorting(column) {
+    this.changePastSortingDescending(column, this.pastSort);
+    this.pastSortColumn = this.pastSort;
+  }
+
   changeSortingDescending(column, sortingInfo) {
     if (sortingInfo.column === column) {
       sortingInfo.descending = !sortingInfo.descending;
@@ -168,6 +176,17 @@ export class CustomerDashboardComponent implements OnInit {
     }
     return sortingInfo;
   }
+
+  changePastSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
   sortedColumnCls(column, sortingInfo) {
     if (column === sortingInfo.column && sortingInfo.descending) {
       return 'fa-sort-desc';
@@ -176,8 +195,22 @@ export class CustomerDashboardComponent implements OnInit {
     }
     return '';
   }
+
+  sortedPastColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
   selectedCls(column) {
     return this.sortedColumnCls(column, this.sort);
+  }
+
+  selectedPastCls(column) {
+    return this.sortedColumnCls(column, this.pastSort);
   }
 
 }
