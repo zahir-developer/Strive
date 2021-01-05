@@ -162,7 +162,7 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.changeSortingDescending(column, this.pastSort);
+    this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
   }
 
@@ -214,7 +214,7 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   selectedPastCls(column) {
-    return this.sortedColumnCls(column, this.pastSort);
+    return this.sortedPastColumnCls(column, this.pastSort);
   }
 
 }
