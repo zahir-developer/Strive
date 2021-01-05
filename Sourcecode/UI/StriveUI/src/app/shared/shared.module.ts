@@ -50,6 +50,7 @@ import { SsnNumberMaskDirective } from './Directive/ssn-number-mask.directive';
 import { SearchPipe } from './common-search-pipe/search.pipe';
 import {DropdownModule} from 'primeng/dropdown';
 import { OrderByPipe } from './pipe/order-by.pipe';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   imports: [
@@ -72,7 +73,8 @@ import { OrderByPipe } from './pipe/order-by.pipe';
     TooltipModule,
     NgbPaginationModule,
     ChartsModule,
-    DropdownModule  ],
+    DropdownModule,
+    InputSwitchModule  ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
@@ -91,7 +93,8 @@ import { OrderByPipe } from './pipe/order-by.pipe';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe, DropdownModule, OrderByPipe],
+     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe, DropdownModule,
+      OrderByPipe, InputSwitchModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

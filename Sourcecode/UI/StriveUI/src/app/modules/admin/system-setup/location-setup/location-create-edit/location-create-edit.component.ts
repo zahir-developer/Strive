@@ -28,6 +28,14 @@ export class LocationCreateEditComponent implements OnInit {
   selectedCountryId: any;
   city: any;
   selectedCityId: any;
+  offset1On = false;
+  offset1 = false;
+  offsetA = false;
+  offsetB = false;
+  offsetC = false;
+  offsetD = false;
+  offsetE = false;
+  offsetF = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
     private uiLoaderService: NgxUiLoaderService) { }
 
@@ -75,6 +83,14 @@ export class LocationCreateEditComponent implements OnInit {
       email: this.selectedData.LocationAddress.Email,
       franchise: this.selectedData.Location.IsFranchise
     });
+    this.offset1On = this.selectedData.LocationOffset.OffSet1On;
+    this.offset1 = this.selectedData.LocationOffset.OffSet1;
+    this.offsetA = this.selectedData.LocationOffset.OffSetA;
+    this.offsetB = this.selectedData.LocationOffset.OffSetB;
+    this.offsetC = this.selectedData.LocationOffset.OffSetC;
+    this.offsetD = this.selectedData.LocationOffset.OffSetD;
+    this.offsetE = this.selectedData.LocationOffset.OffSetE;
+    this.offsetF = this.selectedData.LocationOffset.OffSetF;
   }
 
   change(data) {
@@ -87,6 +103,7 @@ export class LocationCreateEditComponent implements OnInit {
 
   // Add / Update location 
   submit() {
+    console.log(this.offset1, 'offset');
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
@@ -143,20 +160,35 @@ export class LocationCreateEditComponent implements OnInit {
       updatedBy: 0,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    const locationOffset = {
+      locationOffSetId: this.isEdit ? this.selectedData.LocationOffset.LocationOffSetId : 0,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+      offSet1: this.offset1,
+      offSetA: this.offsetA,
+      offSetB: this.offsetB,
+      offSetC: this.offsetC,
+      offSetD: this.offsetD,
+      offSetE: this.offsetE,
+      offSetF: this.offsetF,
+      offSet1On: this.offset1On,
+      isActive: true,
+      isDeleted: false
+    };
     const drawer = {
-    drawerId: 0,
-    drawerName: "",
-    locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-    isActive: true,
-    isDeleted: false,
-    createdBy: 0,
-    createdDate: moment(new Date()).format('YYYY-MM-DD'),
-    updatedBy: 0,
-    updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      drawerId: 0,
+      drawerName: '',
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+      isActive: true,
+      isDeleted: false,
+      createdBy: 0,
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      updatedBy: 0,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {
       location: formObj,
-      locationAddress: this.address
+      locationAddress: this.address,
+      locationOffset
     };
     if (this.isEdit === false) {
       this.locationService.saveLocation(finalObj).subscribe(data => {
