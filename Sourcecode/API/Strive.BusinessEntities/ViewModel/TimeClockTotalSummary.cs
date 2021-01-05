@@ -7,7 +7,7 @@
 
         public string TotalDetailHours { get; set; }
 
-        public int OverTimeHours { get; set; }
+        public string OverTimeHours { get; set; }
 
         public decimal? WashRate { get; set; }
 
