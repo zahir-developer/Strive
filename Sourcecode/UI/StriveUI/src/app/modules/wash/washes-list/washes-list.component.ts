@@ -58,32 +58,40 @@ export class WashesListComponent implements OnInit {
  let min = m ;
 
   let sec = s ;
-  var dd = "AM";
-  var h = hh;
-  if (h >= 12) {
-    h = hh - 12;
+  var dd ;
+  var hr ;
+  if (hh > 12) {
+    hr = hh - 12;
     dd = "PM";
   }
-  if (h == 0) {
-    h = 12;
+  else{
+    hr = hh ;
+    dd = "AM"
   }
- let inTimeFormat =   hh + ":" + min + ":" + sec + dd;
+  if (hh == 0) {
+    hh = 12;
+  }
+ let inTimeFormat =   hr + ":" + min + ":" + sec + dd;
  let outhh = this.washDetails[i].EstimatedTimeOut.substring(13, 11);
   let outm = this.washDetails[i].EstimatedTimeOut.substring(16, 14);
   var outs = this.washDetails[i].EstimatedTimeOut.substring(19, 17);
  let outmin = outm ;
 
-  let outsec = s ;
-  var outdd = "AM";
-  var outh = outhh;
-  if (outh >= 12) {
-    outh = outhh - 12;
+  let outsec = outs ;
+  var outdd ;
+  var outhr ;
+  if (outhh > 12) {
+    outhr = outhh - 12;
     outdd = "PM";
   }
-  if (h == 0) {
-    h = 12;
+  else {
+    outhr = outhh
+    outdd = "AM"
   }
- let outTimeFormat =   outhh + ":" + outmin + ":" + outsec + outdd;
+  if (outhh == 0) {
+    outhh = 12;
+  }
+ let outTimeFormat =   outhr + ":" + outmin + ":" + outsec + outdd;
           this.washListDetails.push({
             'TicketNumber' : this.washDetails[i].TicketNumber,
             'ClientName' : this.washDetails[i].ClientName,
