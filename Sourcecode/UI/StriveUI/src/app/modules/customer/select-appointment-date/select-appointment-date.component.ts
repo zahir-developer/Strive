@@ -64,8 +64,8 @@ export class SelectAppointmentDateComponent implements OnInit {
           date.setSeconds('00');
           item.dateTime = date;
         });
-        // const sortedActivities = this.timeSlot.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
-        console.log(this.timeSlot, 'slot');
+        const sortedActivities = this.timeSlot.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+        console.log(sortedActivities, 'slot');
       }
     });
   }
@@ -95,8 +95,8 @@ export class SelectAppointmentDateComponent implements OnInit {
     this.selectedDate.setMinutes(minutes);
     this.selectedDate.setSeconds('00');
     this.scheduleDetailObj.InTime = this.selectedDate;
-    const outHourTime = new Date(this.selectedData);
-    const outTime = outHourTime.setMinutes(this.selectedDate.getMinutes() + this.WashTimeMinutes);
+    const outHourTime = new Date(this.selectedDate);
+    const outTime = outHourTime.setMinutes(this.selectedDate.getMinutes() + 30);
     this.scheduleDetailObj.OutTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
   }
 
