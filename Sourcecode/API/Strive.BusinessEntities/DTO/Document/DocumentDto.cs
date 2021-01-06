@@ -7,8 +7,8 @@ namespace Strive.BusinessEntities.Model
 {
     public class DocumentDto
     {
-        public Document Document { get; set; }
+        public List<Document> Document { get; set; }
 
-        public GlobalUpload.DocumentType DocumentType { get; set; }
+        public List<GlobalUpload.DocumentType> DocumentType { get; set; }
     }
 }
