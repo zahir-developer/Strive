@@ -24,9 +24,8 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
+                            
+                            <div class="table-responsive" *ngIf="isLoading === false">
                                 <table class="table  table-striped m-t-10">
                                     <thead>
                                         <tr>
@@ -50,16 +49,19 @@
                                                     (click)="delete(adSetup)"></em>
                                             </td>
                                         </tr>
+                                        <tr *ngIf="isLoading === false && isTableEmpty === true" >
+                                            <td colspan="4" class="text-center">No Records Found</td>
+                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="row pull-right" >
                                    <div class="col-6">
-                                    <ngb-pagination *ngIf="adSetupDetails.length > 10" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                    <ngb-pagination *ngIf="adSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
                                         [boundaryLinks]="true" class="d-flex justify-content-end">
                                     </ngb-pagination> 
                                     </div>
-                                    <select *ngIf="adSetupDetails.length > 10" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                    <select *ngIf="adSetupDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
 
                                     </select>

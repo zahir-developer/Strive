@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, Input, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as _ from 'underscore';
 
@@ -38,6 +38,7 @@ export class VehicleCreateEditComponent implements OnInit {
   selectedservice: any = [];
   extraService: any = [];
   washesDropdown: any = [];
+  submitted: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -56,11 +57,11 @@ export class VehicleCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.vehicleForm = this.fb.group({
-      barcode: ['',],
+      barcode: ['',Validators.required],
       vehicleNumber: ['',],
-      make: ['',],
-      model: ['',],
-      color: ['',],
+      make: ['',Validators.required],
+      model: ['',Validators.required],
+      color: ['',Validators.required],
       upcharge: ['',],
       upchargeType: ['',],
       monthlyCharge: ['',],
@@ -73,6 +74,10 @@ export class VehicleCreateEditComponent implements OnInit {
     this.getVehicleCodes();
     this.getVehicleMembership();
     this.getMembershipService();
+  }
+
+  get f() {
+    return this.vehicleForm.controls;
   }
 
   getVehicleById() {
@@ -340,6 +345,10 @@ export class VehicleCreateEditComponent implements OnInit {
 
   // Add/Update Vehicle
   submit() {
+    this.submitted = true;
+    if (this.vehicleForm.invalid) {
+      return;
+    }
     this.vehicleForm.controls.vehicleNumber.enable();
     let memberService = [];
     let clientMembershipId = '';

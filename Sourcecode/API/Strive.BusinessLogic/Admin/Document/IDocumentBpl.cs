@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities.Document;
+using Strive.BusinessEntities.Model;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,12 @@ namespace Strive.BusinessLogic.Document
         void DeleteFile(GlobalUpload.DocumentType uploadFolder, string fileName);
         void SaveThumbnail(int Width, int Height, string base64String, string saveFilePath);
         string ValidateEmployeeFiles(List<EmployeeDocument> employeeDocument);
-        Result AddDocument(DocumentDto documentModel);
+        int AddDocument(DocumentDto documentModel);
         Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
         Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
         void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName);
-
+        DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType);
+        bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);
 
     }
 }

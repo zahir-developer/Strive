@@ -135,10 +135,10 @@ export class DocumentListComponent implements OnInit {
       if (res.status === 'Success') {
         const documentDetail = JSON.parse(res.resultData);
         console.log(documentDetail);
-        const base64 = documentDetail.Document;
+        const base64 = documentDetail.Document.Base64Url;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');
-        const fileName = 'name';
+        const fileName = documentDetail.Document.FileName;
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();

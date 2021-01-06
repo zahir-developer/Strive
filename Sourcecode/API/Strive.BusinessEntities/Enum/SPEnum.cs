@@ -96,6 +96,14 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEDOCUMENTBYEMPID,
             USPDELETEEMPLOYEEDOCUMENTBYID,
             USPDELETEDOCUMENT,
+            USPDELETEDOCUMENTBYID,
+            USPGETDOCUMENTBYID,
+        }
+        public enum AdSetup
+        {
+            USPGETALLADSETUP,
+            USPGETADSETUPBYID,
+            USPDELETEADSETUP
         }
     }
     
@@ -123,7 +131,8 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEBYEMPID,
         USPGETEMPLOYEEROLES,
         USPEMAILEXIST,
-        
+        USPGETEMPLOYEEROLEBYID,
+
         //Client
         USPGETALLCLIENT,
         USPUPDATEACCOUNTDETAILS,
@@ -136,6 +145,8 @@ namespace Strive.BusinessEntities
         USPGETGIFTCARDBYID,
         USPGIFTCARDCHANGESTATUS,
         USPSAVEGIFTCARD,
+        USPGETALLGIFTCARDS,
+        USPDELETEGIFTCARD,
         //Location
         USPSAVELOCATION,
         USPDELETELOCATION,

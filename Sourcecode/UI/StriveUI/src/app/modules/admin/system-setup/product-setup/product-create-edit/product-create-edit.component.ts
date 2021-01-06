@@ -29,6 +29,7 @@ export class ProductCreateEditComponent implements OnInit {
   fileUploadformData: any = null;
   fileThumb: any = null;
   costErrMsg: boolean = false;
+  priceErrMsg: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
@@ -86,6 +87,9 @@ export class ProductCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const pSize = JSON.parse(data.resultData);
         this.size = pSize.Codes;
+        const other = this.size.filter(i => i.CodeValue === "Other")[0];
+        this.size = this.size.filter(i => i.CodeValue !== "Other");
+        this.size.push(other);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }

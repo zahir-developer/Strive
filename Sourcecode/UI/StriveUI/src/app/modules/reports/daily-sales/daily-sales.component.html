@@ -66,6 +66,8 @@
                                     <th scope="col">Merchandise
                                         <br>Items purchased</th>
                                     <th scope="col">Barcode</th>
+                                    <th scope="col">Make</th>
+
                                     <th scope="col">Color</th>
                                     <th scope="col">Model</th>
                                     <th scope="col">Customer
@@ -79,14 +81,16 @@
                                 <tr
                                     *ngFor="let dailySales of dailySalesReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                     <th scope="row">{{dailySales.TicketNumber}}</th>
-                                    <td>{{dailySales.TimeIn}}</td>
-                                    <td>{{dailySales.TimeOut}}</td>
-                                    <td>{{dailySales.Est}} </td>
-                                    <td class="theme-optional-icon-color">{{dailySales.TimeOutDifference}}</td>
+                                    <td>{{dailySales.TimeIn |date:'mediumTime'}}</td>
+                                    <td>{{dailySales.TimeOut|date:'mediumTime'}}</td>
+                                    <td>{{dailySales.Est|date:'mediumTime'}} </td>
+                                    <td class="theme-optional-icon-color">{{dailySales.Deviation}}</td>
                                     <td>{{dailySales.ServiceName}}</td>
                                     <td>{{dailySales.ServiceType}}</td>
                                     <td>{{dailySales.MerchandiseItemsPurchased}}</td>
                                     <td>{{dailySales.Barcode}}</td>
+                                    <td>{{dailySales.Make}}</td>
+
                                     <td>{{dailySales.Color}}</td>
                                     <td>{{dailySales.Model}}</td>
                                     <td>{{dailySales.CustomerName}} </td>

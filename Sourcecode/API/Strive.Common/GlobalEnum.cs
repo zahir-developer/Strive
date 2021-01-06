@@ -30,7 +30,8 @@ namespace Strive.Common
             PRODUCTIMAGE,
             LOGO,
             EMPLOYEEHANDBOOK,
-            TERMSANDCONDITION
+            TERMSANDCONDITION,
+            ADS
         }
 
         public enum ArchiveFolder

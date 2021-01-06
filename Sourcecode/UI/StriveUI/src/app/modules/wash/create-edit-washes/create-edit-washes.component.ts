@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-wash.component';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -70,7 +71,8 @@ export class CreateEditWashesComponent implements OnInit {
   airFreshenerId: any;
   additionalId: any;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
-    private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService) { }
+    private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getJobStatus();
@@ -137,7 +139,7 @@ export class CreateEditWashesComponent implements OnInit {
 
   getWashById() {
     console.log(this.selectedData);
-    this.getClientVehicle(this.selectedData?.Washes[0]?.ClientId);
+    this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
@@ -155,10 +157,9 @@ export class CreateEditWashesComponent implements OnInit {
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();
-    } else {
+    } else if(!this.isView){
       this.washForm.get('vehicle').enable();
     }
-    this.washForm.get('vehicle').disable();
     this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
     this.washItem = this.selectedData.WashItem;
     this.washItem.forEach(element => {
@@ -334,7 +335,7 @@ export class CreateEditWashesComponent implements OnInit {
     if (name.startsWith('drive')) {
       this.washForm.get('vehicle').disable();
       return;
-    } else {
+    } else if(!this.isView) {
       this.washForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
     }
@@ -423,19 +424,30 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
+  getVehicleList(id) {
+    this.wash.getVehicleByClientId(id).subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicle = vehicle.Status;
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
   // Get Vehicle By ClientId
   getClientVehicle(id) {
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (!this.isEdit && !this.isBarcode) {
+        if (!this.isBarcode && this.vehicle.length !== 0) { 
           this.washForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
-        }
-        if (this.isEdit && this.selectedData.Washes[0] !== undefined) {
-          this.washForm.patchValue({ vehicle: this.selectedData.Washes[0].VehicleId });
+        }else{   
+          this.washForm.get('vehicle').reset();       
+          //this.washForm.patchValue({ vehicle: '' });
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -584,7 +596,9 @@ export class CreateEditWashesComponent implements OnInit {
       jobItem: this.jobItems
     };
     if (this.isEdit === true) {
+      this.spinner.show();
       this.wash.updateWashes(formObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Wash Updated Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -592,9 +606,14 @@ export class CreateEditWashesComponent implements OnInit {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           // this.washForm.reset();
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     } else {
+      this.spinner.show();
       this.wash.addWashes(formObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -602,6 +621,9 @@ export class CreateEditWashesComponent implements OnInit {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           this.washForm.reset();
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     }
   }

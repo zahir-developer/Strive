@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Security.Cryptography;
+using Strive.BusinessEntities.Document;
 
 namespace Strive.BusinessLogic.Document
 {
@@ -165,7 +166,10 @@ namespace Strive.BusinessLogic.Document
                     if (document.IsPasswordProtected)
                     {
                         if (document.Password == password)
+                        {
                             base64 = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, document.FileName);
+                            document.Base64Url = base64;
+                        }
                         else
                         {
                             string errorMessage = "Invalid Password !!!";
@@ -176,10 +180,11 @@ namespace Strive.BusinessLogic.Document
                     else
                     {
                         base64 = GetBase64(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, document.FileName);
+                        document.Base64Url = base64;
                     }
                 }
 
-                _resultContent.Add(base64.WithName("Document"));
+                _resultContent.Add(document.WithName("Document"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -200,7 +205,7 @@ namespace Strive.BusinessLogic.Document
             if (!File.Exists(path))
                 return string.Empty;
 
-            using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using ( FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 byte[] data = new byte[(int)fileStream.Length];
                 fileStream.Read(data, 0, data.Length);
@@ -296,14 +301,9 @@ namespace Strive.BusinessLogic.Document
                 case GlobalUpload.DocumentType.LOGO:
                     subPath = _tenant.LogoImageFolder;
                     break;
-                case GlobalUpload.DocumentType.EMPLOYEEHANDBOOK:
-                    subPath = _tenant.GeneralDocumentFolder;
-                    break;
-                case GlobalUpload.DocumentType.TERMSANDCONDITION:
-                    subPath = _tenant.GeneralDocumentFolder;
-                    break;
+
                 default:
-                    subPath = "";
+                    subPath = _tenant.GeneralDocumentFolder + module.ToString() + "\\" ;
                     break;
             }
 
@@ -336,7 +336,7 @@ namespace Strive.BusinessLogic.Document
             }
         }
 
-        public Result AddDocument(DocumentDto documentModel)
+        public int AddDocument(DocumentDto documentModel)
         {
             string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
 
@@ -346,23 +346,22 @@ namespace Strive.BusinessLogic.Document
 
             var result = new DocumentRal(_tenant).AddDocument(documentModel);
 
-            if (!result)
+            if (!(result > 0))
             {
                 DeleteFile(documentModel.DocumentType, fileName);
             }
 
-            _resultContent.Add(result.WithName("Result"));
-            _result = Helper.BindSuccessResult(_resultContent);
-
-            return _result;
+            return result;
         }
 
         public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
         {
             var document = new DocumentRal(_tenant).GetDocument(documentTypeId);
 
-            document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
-
+            if (document.Document != null)
+            {
+                document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+            }
             _resultContent.Add(document.WithName("Document"));
             _result = Helper.BindSuccessResult(_resultContent);
 
@@ -384,6 +383,31 @@ namespace Strive.BusinessLogic.Document
 
             return _result;
         }
+
+        public DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var document = new DocumentRal(_tenant).GetDocumentById(documentId);
+
+            document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+            
+            return document;
+        }
+
+        public bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var docRal = new DocumentRal(_tenant);
+          
+            var doc = docRal.GetDocumentById(documentId);
+            var result = docRal.DeleteDocument(documentId);
+
+            if (result)
+            {
+                DeleteFile(documentType, doc.Document.FileName);
+            }
+            
+            return result;
+        }
+
 
     }
 
