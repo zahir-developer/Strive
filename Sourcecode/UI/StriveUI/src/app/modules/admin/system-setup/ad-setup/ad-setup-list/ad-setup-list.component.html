@@ -39,7 +39,7 @@
                                             *ngFor="let adSetup of adSetupDetails | search: query  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" >
                                             <th scope="row">{{adSetup.Name}}</th>
                                             <td>{{adSetup.Description}}</td>
-                                            <td>{{adSetup.IsActive === true ? "Active" : "InActive"}}</td>
+                                            <td>{{adSetup.Status === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="Edit" tooltipPosition="bottom"
