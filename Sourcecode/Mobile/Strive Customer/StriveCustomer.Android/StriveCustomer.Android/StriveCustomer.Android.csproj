@@ -90,6 +90,8 @@
     <Compile Include="Fragments\PersonalInfoEditFragment.cs" />
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
+    <Compile Include="Fragments\SchedulePastServiceHistoryFragment.cs" />
+    <Compile Include="Fragments\ScheduleVehicleListFragment.cs" />
     <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
     <Compile Include="Fragments\VehicleAdditionalServicesFragment.cs" />
     <Compile Include="Fragments\VehicleInfoDisplayFragment.cs" />
