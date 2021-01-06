@@ -33,6 +33,7 @@ export class ServiceCreateEditComponent implements OnInit {
   discountType: any;
   priceLabel: string = 'Price';
   isDiscounts: boolean;
+  discountServiceType: any;
 
 
 
@@ -56,6 +57,7 @@ export class ServiceCreateEditComponent implements OnInit {
       commission: ['',],
       commissionType: ['',],
       discountType: ['', ],
+      discountServiceType: ['', ],
      upcharge: ['', Validators.required],
       parentName: ['',],
       status: ['',],
@@ -89,6 +91,8 @@ export class ServiceCreateEditComponent implements OnInit {
           fee: this.selectedService.CommissionCost,
           discountType: this.selectedService?.discountType,
           upcharge: this.selectedService.Upcharges,
+          discountServiceType : this.selectedService.discountServiceType,
+
           parentName: this.selectedService.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
         });
@@ -106,6 +110,8 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.CommissionType = cType.Codes;
+        this.discountType = cType.Codes;
+
         this.getParentType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -142,7 +148,7 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes;
-        this.discountType = cType.Codes;
+        this.discountServiceType = cType.Codes;
 
 
         if (this.isEdit === true) {
@@ -246,7 +252,9 @@ export class ServiceCreateEditComponent implements OnInit {
       createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
       updatedBy: 0,
       updatedDate: new Date(),
+      discountServiceType : this.serviceSetupForm.value.discountServiceType,
       discountType : this.serviceSetupForm.value.discountType,
+      
 
 
     };
