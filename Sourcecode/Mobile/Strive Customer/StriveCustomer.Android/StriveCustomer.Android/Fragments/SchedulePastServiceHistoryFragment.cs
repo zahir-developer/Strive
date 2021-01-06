@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
 
 namespace StriveCustomer.Android.Fragments
@@ -19,6 +20,7 @@ namespace StriveCustomer.Android.Fragments
     [MvxUnconventionalAttribute]
     public class SchedulePastServiceHistoryFragment : MvxFragment<ScheduleViewModel>
     {
+        private LinearLayout PastServiceList_LinearLayout;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,10 +30,10 @@ namespace StriveCustomer.Android.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+            var ignore = base.OnCreateView(inflater, container, savedInstanceState);
+            var rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
 
-            return base.OnCreateView(inflater, container, savedInstanceState);
+            return rootview;
         }
     }
 }
