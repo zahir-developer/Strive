@@ -82,18 +82,18 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.get('upcharge').updateValueAndValidity();
         }
         this.serviceSetupForm.patchValue({
-          serviceType: this.selectedService.ServiceTypeId,
-          name: this.selectedService.ServiceName,
-          description : this.selectedService.Description,
-          cost: this.selectedService.Cost,
-          commission: this.selectedService.Commision,
-          commissionType: this.selectedService.CommissionTypeId,
-          fee: this.selectedService.CommissionCost,
-          discountType: this.selectedService?.discountType,
-          upcharge: this.selectedService.Upcharges,
-          discountServiceType : this.selectedService.discountServiceType,
+          serviceType: this.selectedService?.ServiceTypeId,
+          name: this.selectedService?.ServiceName,
+          description : this.selectedService?.Description,
+          cost: this.selectedService?.Cost,
+          commission: this.selectedService?.Commision,
+          commissionType: this.selectedService?.CommissionTypeId,
+          fee: this.selectedService?.CommissionCost,
+          discountType: this.selectedService?.DiscountType,
+          upcharge: this.selectedService?.Upcharges,
+          discountServiceType : this.selectedService?.DiscountServiceType,
 
-          parentName: this.selectedService.ParentServiceId,
+          parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
@@ -182,14 +182,13 @@ export class ServiceCreateEditComponent implements OnInit {
     if (Number(data) === 20) {
       this.isDiscounts = true;
       this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
-      this.serviceSetupForm.get('cost').reset();
+      this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
 
-      this.priceLabel = 'Discount'
     } else {
-      this.serviceSetupForm.get('discountType').clearValidators();
-      this.serviceSetupForm.get('discountType').reset();
+      this.serviceSetupForm.get('discountServiceType').clearValidators();
+      this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
+
       this.isDiscounts = false;
-      this.priceLabel = 'Price'
 
     }
 
@@ -252,7 +251,7 @@ export class ServiceCreateEditComponent implements OnInit {
       createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
       updatedBy: 0,
       updatedDate: new Date(),
-      discountServiceType : this.serviceSetupForm.value.discountServiceType,
+      discountServiceType: this.serviceSetupForm.value.discountServiceType,
       discountType : this.serviceSetupForm.value.discountType,
       
 
