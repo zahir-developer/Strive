@@ -22,6 +22,6 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public bool? IsActive { get; set; }
         public string Description { get; set; }
         public string DiscountType { get; set; }
-        public string DiscountServiceTypeId { get; set; }
+        public string DiscountServiceType { get; set; }
     }
 }
