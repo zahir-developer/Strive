@@ -59,7 +59,7 @@ public class Service
      public string Description { get; set; }
 
         [Column]
-        public int DiscountServiceType { get; set; }
+        public int DiscountServiceTypeId { get; set; }
         [Column]
         public string DiscountType { get; set; }
 
