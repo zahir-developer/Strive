@@ -45,7 +45,7 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm = this.fb.group({
       serviceType: ['', Validators.required],
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
      cost: ['', Validators.required],
       commission: ['',],
       commissionType: ['',],
