@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
@@ -21,6 +22,9 @@ namespace StriveCustomer.Android.Fragments
     public class SchedulePastServiceHistoryFragment : MvxFragment<ScheduleViewModel>
     {
         private LinearLayout PastServiceList_LinearLayout;
+        private View layout;
+        private View[] moreInfo;
+        int a = 0;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -32,8 +36,27 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.ServiceHistoryFragment, null);
+            PastServiceList_LinearLayout = rootview.FindViewById<LinearLayout>(Resource.Id.ServiceHistory_LinearLayout);
+            moreInfo = new View[10];
+            for (int i = 0; i <=3; i++)
+            {
+                a = i;
+                layout = LayoutInflater.From(Context).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
+                moreInfo[i] = layout.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
+                moreInfo[i].Visibility = ViewStates.Gone;
+                var ticketNumber = layout.FindViewById<TextView>(Resource.Id.scheduleTicket_TextView);
+                ticketNumber.PaintFlags = PaintFlags.UnderlineText;
+                ticketNumber.Click += TicketNumber_Click;
+                PastServiceList_LinearLayout.AddView(layout);
+            }
 
             return rootview;
+        }
+
+        private void TicketNumber_Click(object sender, EventArgs e)
+        {
+            
+            moreInfo[a].Visibility = ViewStates.Visible;
         }
     }
 }
