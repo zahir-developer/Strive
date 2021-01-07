@@ -82,8 +82,8 @@ export class CreateEditComponent implements OnInit {
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
       ssn: [''],
-      alienNumber:[''],
-      permitDate:['']
+      alienNumber: [''],
+      permitDate: ['']
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
@@ -91,7 +91,7 @@ export class CreateEditComponent implements OnInit {
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       comType: [''],
-      comRate:[''],
+      comRate: [''],
       status: ['Active'],
       exemptions: [''],
       roles: [[]],
@@ -103,7 +103,7 @@ export class CreateEditComponent implements OnInit {
     });
   }
 
-  getImmigrationStatus(){
+  getImmigrationStatus() {
     this.getCode.getCodeByCategory("IMMIGRATIONSTATUS").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
@@ -166,19 +166,19 @@ export class CreateEditComponent implements OnInit {
     };
   }
 
-  immigrationChange(data){
+  immigrationChange(data) {
     const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
-    if(temp.length !== 0){
-      if(temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A'){
+    if (temp.length !== 0) {
+      if (temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A') {
         this.isAlien = true;
         this.isCitizen = false;
-      } else{
-        this.isAlien = false;        
+      } else {
+        this.isAlien = false;
       }
-      if(temp[0].CodeValue === 'An alien authorized to work until'){
+      if (temp[0].CodeValue === 'An alien authorized to work until') {
         this.isDate = true;
-        this.isCitizen = false;        
-      } else{
+        this.isCitizen = false;
+      } else {
         this.isDate = false;
       }
     }
@@ -192,7 +192,7 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.getAllRoles().subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
-        this.employeeRoles = roles.EmployeeRoles.map( item => {
+        this.employeeRoles = roles.EmployeeRoles.map(item => {
           return {
             item_id: item.RoleMasterId,
             item_text: item.RoleName
@@ -253,26 +253,18 @@ export class CreateEditComponent implements OnInit {
     this.documentDailog = true;
   }
 
-  fileNameChanged() {
-    let filesSelected: any;
-    filesSelected = document.getElementById('customFile');
-    filesSelected = filesSelected.files;
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;
-      const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-      let fileReader: any;
-      fileReader = new FileReader();
-      fileReader.onload = function (fileLoadedEventTigger) {
-        let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('customFile');
-        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
-      };
-      fileReader.readAsDataURL(fileToLoad);
-      this.isLoading = true;
-      setTimeout(() => {
+  fileNameChanged(e: any) {
+    this.isLoading = true;
+    try {
+      const file = e.target.files[0];
+      const fReader = new FileReader();
+      fReader.readAsDataURL(file);
+      fReader.onloadend = (event: any) => {
+        console.log(file.name);
+        this.fileName = file.name;
+        const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
+        fileTosaveName = event.target.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         const fileObj = {
           fileName: this.fileName,
@@ -282,7 +274,12 @@ export class CreateEditComponent implements OnInit {
         this.multipleFileUpload.push(fileObj);
         this.isLoading = false;
         console.log(this.multipleFileUpload, 'fileupload');
-      }, 5000);
+      };
+    } catch (error) {
+      this.fileName = null;
+      this.fileUploadformData = null;
+      this.isLoading = false;
+      console.log('no file was selected...');
     }
   }
 
@@ -349,7 +346,7 @@ export class CreateEditComponent implements OnInit {
       employeeCode: 'string',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
-      DetailRate:null,
+      DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
       lrt: '2020 - 08 - 06T19: 24: 48.817Z',

@@ -40,7 +40,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     this.adSetupForm.patchValue({
       name: this.selectedData.Name,
       description: this.selectedData.Description,
-      status: this.selectedData.IsActive ? 0 : 1,
+      status: this.selectedData.Status == false ? 0 : 1,
       image : this.selectedData.Image
     });
     this.fileName = this.selectedData.Image,
