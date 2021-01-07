@@ -17,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PrintComponent } from './print/print.component';
 import { element } from 'protractor';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { SaleGiftCardComponent } from './sale-gift-card/sale-gift-card.component';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -511,96 +512,121 @@ export class SalesComponent implements OnInit {
     document.getElementById('Giftcardpopup').style.width = '0';
   }
   addItem() {
-    this.submitted = true;
-    if (+this.addItemForm.controls.quantity.value === 0) {
-      this.addItemForm.patchValue({ quantity: '' });
-      return;
-    }
-    if (this.addItemForm.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
-      return;
-    } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter valid ItemName' });
-      return;
-    }
-    const formObj = {
-      job: {
-        jobId: this.isSelected ? this.JobId : 0,
-        ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
-        locationId: +localStorage.getItem('empLocationId'),
-        clientId: null,
-        vehicleId: null,
-        make: 0,
-        model: 0,
-        color: 0,
-        jobType: null,
-        jobDate: new Date(),
-        timeIn: new Date(),
-        estimatedTimeOut: new Date(),
-        actualTimeOut: new Date(),
-        jobStatus: null,
-        isActive: true,
-        isDeleted: false,
-        createdBy: null,
-        createdDate: new Date(),
-        updatedBy: null,
-        updatedDate: new Date(),
-        notes: null
-      },
-      jobItem: [{
-        jobItemId: 0,
-        jobId: this.isSelected ? this.JobId : 0,
-        serviceId: this.selectedService?.id,
-        // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
-        commission: null,
-        price: this.selectedService?.price,
+    if (this.selectedService.name === 'Gift Card') {
+      const ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'lg'
+      };
+      const productObj = {
+        ticketNumber: this.newTicketNumber,
         quantity: +this.addItemForm.controls.quantity.value,
-        reviewNote: null,
-        isActive: true,
-        isDeleted: false,
-        createdBy: null,
-        createdDate: new Date(),
-        updatedBy: null,
-        updatedDate: new Date(),
-        employeeId: +localStorage.getItem('empId')
-      }],
-      JobProductItem: {
-        jobProductItemId: 0,
-        jobId: this.isSelected ? this.JobId : 0,
-        productId: this.selectedService?.id,
-        commission: null,
-        price: this.selectedService?.price,
-        quantity: +this.addItemForm.controls.quantity.value,
-        reviewNote: null,
-        isActive: true,
-        isDeleted: false,
-        createdBy: null,
-        createdDate: new Date(),
-        updatedBy: null,
-        updatedDate: new Date()
-      }
-    };
-    if (this.selectedService.type === 'service') {
-      formObj.JobProductItem = null;
-    } else {
-      formObj.jobItem = null;
-    }
-    if (this.isSelected) {
-      this.updateListItem(formObj, false);
-    } else {
-      this.salesService.addItem(formObj).subscribe(data => {
-        if (data.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+        selectedService: this.selectedService
+      };
+      const modalRef = this.modalService.open(SaleGiftCardComponent, ngbModalOptions);
+      modalRef.componentInstance.ItemDetail = productObj;
+      modalRef.result.then((result) => {
+        if (result) {
           this.isSelected = true;
           this.ticketNumber = this.newTicketNumber;
           this.getDetailByTicket(false);
           this.addItemForm.controls.quantity.enable();
           this.addItemFormInit();
           this.submitted = false;
-        } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
       });
+    } else {
+      this.submitted = true;
+      if (+this.addItemForm.controls.quantity.value === 0) {
+        this.addItemForm.patchValue({ quantity: '' });
+        return;
+      }
+      if (this.addItemForm.invalid) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
+        return;
+      } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter valid ItemName' });
+        return;
+      }
+      const formObj = {
+        job: {
+          jobId: this.isSelected ? this.JobId : 0,
+          ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
+          locationId: +localStorage.getItem('empLocationId'),
+          clientId: 1,
+          vehicleId: 1,
+          make: 0,
+          model: 0,
+          color: 0,
+          jobType: 1,
+          jobDate: new Date(),
+          timeIn: new Date(),
+          estimatedTimeOut: new Date(),
+          actualTimeOut: new Date(),
+          jobStatus: 1,
+          isActive: true,
+          isDeleted: false,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date(),
+          notes: 'checking'
+        },
+        jobItem: [{
+          jobItemId: 0,
+          jobId: this.isSelected ? this.JobId : 0,
+          serviceId: this.selectedService?.id,
+          // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
+          commission: 0,
+          price: this.selectedService?.price,
+          quantity: +this.addItemForm.controls.quantity.value,
+          reviewNote: null,
+          isActive: true,
+          isDeleted: false,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date(),
+          employeeId: +localStorage.getItem('empId')
+        }],
+        JobProductItem: {
+          jobProductItemId: 0,
+          jobId: this.isSelected ? this.JobId : 0,
+          productId: this.selectedService?.id,
+          commission: 0,
+          price: this.selectedService?.price,
+          quantity: +this.addItemForm.controls.quantity.value,
+          reviewNote: null,
+          isActive: true,
+          isDeleted: false,
+          createdBy: 1,
+          createdDate: new Date(),
+          updatedBy: 1,
+          updatedDate: new Date()
+        }
+      };
+      if (this.selectedService.type === 'service') {
+        formObj.JobProductItem = null;
+      } else {
+        formObj.jobItem = null;
+      }
+      if (this.isSelected) {
+        this.updateListItem(formObj, false);
+      } else {
+        this.salesService.addItem(formObj).subscribe(data => {
+          if (data.status === 'Success') {
+            this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+            this.isSelected = true;
+            this.ticketNumber = this.newTicketNumber;
+            this.getDetailByTicket(false);
+            this.addItemForm.controls.quantity.enable();
+            this.addItemFormInit();
+            this.submitted = false;
+          } else {
+            this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          }
+        });
+      }
     }
   }
   updateListItem(formObj, flag) {
@@ -653,12 +679,14 @@ export class SalesComponent implements OnInit {
   getTicketNumber() {
     this.isSelected = false;
     this.ticketNumber = '';
-    this.salesService.getTicketNumber().subscribe(data => {
-      this.newTicketNumber = data;
-      this.enableAdd = true;
-      this.clearpaymentField();
-      this.clearGridItems();
-    });
+    this.newTicketNumber = Math.floor(100000 + Math.random() * 900000);
+    this.enableAdd = true;
+    this.clearpaymentField();
+    this.clearGridItems();
+    // this.salesService.getTicketNumber().subscribe(data => {
+    //   this.newTicketNumber = data;
+
+    // });
   }
   creditProcess() {
     this.removAddedAmount(this.credit);
