@@ -7,6 +7,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -23,6 +24,8 @@ export class CustomerDashboardComponent implements OnInit {
   clonedVechicleList = [];
   sort = { column: 'JobDate', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pastSort = { column: 'JobDate', descending: true };
+  pastSortColumn: { column: string; descending: boolean; };
   pastScheduleDetail = [];
   clonedPastScheduleDetail = [];
   clientID: any;
@@ -33,7 +36,8 @@ export class CustomerDashboardComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private detailService: DetailService,
     private toastr: MessageServiceToastr,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -103,7 +107,9 @@ export class CustomerDashboardComponent implements OnInit {
     const todayDate = null; // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
     const locationId = null; // 2033;
     const clientID = this.clientID ? this.clientID : 0;
+    this.spinner.show();
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         this.pastScheduleDetail = [];
@@ -159,6 +165,12 @@ export class CustomerDashboardComponent implements OnInit {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
   }
+
+  changePastSorting(column) {
+    this.changePastSortingDescending(column, this.pastSort);
+    this.pastSortColumn = this.pastSort;
+  }
+
   changeSortingDescending(column, sortingInfo) {
     if (sortingInfo.column === column) {
       sortingInfo.descending = !sortingInfo.descending;
@@ -168,6 +180,17 @@ export class CustomerDashboardComponent implements OnInit {
     }
     return sortingInfo;
   }
+
+  changePastSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
   sortedColumnCls(column, sortingInfo) {
     if (column === sortingInfo.column && sortingInfo.descending) {
       return 'fa-sort-desc';
@@ -176,8 +199,22 @@ export class CustomerDashboardComponent implements OnInit {
     }
     return '';
   }
+
+  sortedPastColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
   selectedCls(column) {
     return this.sortedColumnCls(column, this.sort);
+  }
+
+  selectedPastCls(column) {
+    return this.sortedPastColumnCls(column, this.pastSort);
   }
 
 }

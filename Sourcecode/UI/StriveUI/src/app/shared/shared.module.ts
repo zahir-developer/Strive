@@ -51,6 +51,7 @@ import { SearchPipe } from './common-search-pipe/search.pipe';
 import {DropdownModule} from 'primeng/dropdown';
 import { OrderByPipe } from './pipe/order-by.pipe';
 import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decimal-positive-negative-number.directive';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decim
     TooltipModule,
     NgbPaginationModule,
     ChartsModule,
-    DropdownModule  ],
+    DropdownModule,
+    InputSwitchModule  ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
@@ -92,7 +94,7 @@ import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decim
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe, DropdownModule, OrderByPipe,TwoDecimalPositiveNegativeNumberDirective],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

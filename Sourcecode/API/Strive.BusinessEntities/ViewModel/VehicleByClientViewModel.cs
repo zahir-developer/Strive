@@ -29,5 +29,11 @@ namespace Strive.BusinessEntities.ViewModel
         public bool? IsActive { get; set; }
         public decimal? MonthlyCharge { get; set; }
         public bool IsMembership { get; set; }
+
+        public string VehicleModelName { get; set; }
+        public string VehicleMake { get; set; }
+        public int VehicleMakeId { get; set; }
+
+        public int VehicleColorId { get; set; }
     }
 }
