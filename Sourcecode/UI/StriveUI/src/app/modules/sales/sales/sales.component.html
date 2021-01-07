@@ -33,12 +33,12 @@
                                                 <!-- (click)="getDetailByTicket(false); selected= true" -->
                                                 <button type="button" class="btn theme-primary-button-color"
                                                     (click)="addTicketNumber()"
-                                                    [disabled]="(ticketNumber=== '' || ticketNumber === undefined) || isTenTicketNumber"><i
+                                                    [disabled]="(ticketNumber === '' || ticketNumber === undefined) || isTenTicketNumber"><i
                                                         class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color " [disabled]="ticketNumber !== ''"
+                                                <button type="button" [disabled]="(ticketNumber !== '')" class="btn theme-primary-button-color "
                                                     (click)="getTicketNumber();">New</button>&nbsp;
-                                                <button type="button"
-                                                    class="btn theme-primary-button-color" [disabled]="multipleTicketNumber.length > 0 ? false : true"  (click)="getDetailByTicket(false)">Add</button>
+                                                <!-- <button type="button"
+                                                    class="btn theme-primary-button-color" [disabled]="multipleTicketNumber.length > 0 ? false : true"  (click)="getDetailByTicket(false)">Add</button>-->
                                             </div>
                                         </div>
                                     </div>
@@ -46,7 +46,7 @@
                                         *ngIf="multipleTicketNumber.length > 0">
                                         <span *ngFor="let ticket of multipleTicketNumber"
                                             style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
-                                            class="badge badge-pill badge-success"><span>{{ticket}}</span><em
+                                            class="badge badge-secondary"><span>{{ticket}}</span><em
                                                 class="fa fa-times-circle"
                                                 (click)="removeTicketNumber(ticket)"></em></span>
                                     </div>

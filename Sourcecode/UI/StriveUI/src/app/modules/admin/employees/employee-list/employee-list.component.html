@@ -91,8 +91,10 @@
                                                         (click)="viewDocument(employee)"> View
                                                     </span>
                                                 </td>
-                                                <td> <span class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="schedule()"> No
-                                                        Schedule </span> </td>
+                                                <td> <span  *ngIf="employee.Schedules === true" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="schedule()"> View
+                                                        Schedule </span>
+                                                        <span  [hidden]="employee.Schedules === true" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="schedule()"> No
+                                                            Schedule </span> </td>
                                                 <td>{{employee.Status === true ? 'Active' : 'InActive'}}</td>
                                                 <td> <em class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
                                                         (click)="addEmployee('view', employee)" pTooltip="View" tooltipPosition="bottom"></em>

@@ -26,7 +26,7 @@ namespace Strive.BusinessEntities.Model
         public string Base64 { get; set; }
 
         [Column]
-        public string Comments { get; set; }
+        public string DocumentName { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }

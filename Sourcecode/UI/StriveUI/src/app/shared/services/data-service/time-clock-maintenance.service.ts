@@ -35,4 +35,10 @@ export class TimeClockMaintenanceService {
   getEmployeeList() {
     return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
   }
+  getRolesbyEmployeeId() {
+    const id = + localStorage.getItem('empId')
+    return this.http.get(`${UrlConfig.totalUrl.getRoleByEmpId}`, { params: { id: id } });
+
+
+  }
 }

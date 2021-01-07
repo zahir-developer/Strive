@@ -119,7 +119,7 @@
                                             </div>
                                             <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
                                                     class="col-12 row d-block">No Records Found</span></div>
-                                            <div class="table-responsive headerfix"
+                                            <div class="table-responsive"
                                                 *ngIf="isTableEmpty === false && isLoading === false" >
                                                 <table class="table  table-striped m-t-10" >
                                                     <thead>
@@ -132,7 +132,7 @@
                                                             <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="header">
+                                                    <tbody>
                                                         <tr
                                                             *ngFor="let client of clientDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <th scope="row" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;"  (click)="navigateToCustmerDashboard(client)">{{client.FirstName}}</th>

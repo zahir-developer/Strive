@@ -18,10 +18,10 @@
                                     <div class="title-border m-b-22"></div>
                                     <div class="form-row">
                                         <div class="form-group col-3 "> <input type="text" class="form-control"
-                                                name="CheckList" [(ngModel)]="checkListName" maxlength="50"
+                                                name="CheckList" [(ngModel)]="checkListName" maxlength="100"
                                                 placeholder="Enter Check List"> </div>&nbsp;
 
-                                        <div class="form-group col-3 m-l-140">
+                                        <div class="form-group col-3 m-l-80">
 
                                             <select name="Roles" class="form-control" [(ngModel)]="RoleId"
                                                 placeholder="Select Role">
@@ -31,13 +31,13 @@
                                                     {{role.RoleName}}</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-2 m-l-120 m-t-5">
+                                        <div class="form-group col-2 m-l-90 ">
                                             <button type="button" style="margin-left: 5%;"
                                                 class="btn theme-primary-button-color btn-md float-right"
                                                 (click)="checlistcancel()">Cancel</button>
                                             <button type="button"
                                                 class="btn theme-primary-button-color btn-md float-right"
-                                                (click)="add('add',[])">Add</button>
+                                                (click)="add('add',[])">Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -46,24 +46,28 @@
                                     class="col-12 row d-block">No Records Found</span></div>
                             <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
 
-                                <table class="table  table-striped m-t-10">
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Role</th>
+                                            <th class="pointer" (click)="sort('Name')">Name&nbsp; <i class="fa" *ngIf="column =='Name'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('RoleName')">Role&nbsp; <i class="fa" *ngIf="column =='RoleName'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
-                                                    {{checkList.Name}}
+                                                    <span  title="{{checkList.Name}}">
+                                                    {{checkList.Name | slice:0:15}} {{(checkList.Name!== null) ?checkList.Name.length <= 15 ? '': '...':''}}
+                                                    </span>
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
-                                                    <input type="text" class="form-control" name="CheckList" maxlength="50"
+                                                    <input type="text"  maxlength="100"  class="form-control" name="CheckList"
                                                         [(ngModel)]="checkList.Name" placeholder="Enter Check List">
                                                 </span>
                                             </td>
@@ -114,13 +118,13 @@
                                 </table>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                        <ngb-pagination *ngIf="checkListDetails.length > 10"
+                                        <ngb-pagination *ngIf="checkListDetails.length > 0"
                                             [collectionSize]="collectionSize" (pageChange)="paginate($event)"
                                             [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
                                             [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
                                     </div>
-                                    <select *ngIf="checkListDetails.length > 10" class="form-control col-4"
+                                    <select *ngIf="checkListDetails.length > 0" class="form-control col-4"
                                         name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                         <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
 

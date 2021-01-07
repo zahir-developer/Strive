@@ -168,7 +168,12 @@
                                                                         <input type="text"
                                                                             class="form-control rounded-0 input-table text-right"
                                                                             [(ngModel)]="time.TotalHours"
-                                                                            [disabled]="true"> </td>
+                                                                            [disabled]="true"> 
+                                                                                <!-- <div style="color: red; margin-left: 5px" *ngIf="negativeTimeValue">
+                                                                                    Enter Valid 24Hours Time Format
+                                                                            </div> -->
+                                                                            
+
                                                                     <td>
                                                                         <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                                             pTooltip="Delete" tooltipPosition="bottom"
@@ -199,7 +204,7 @@
                                                     </td>
                                                     <td class="p-t-10"> <span class="font-weight-600 mr-2">Total Wash
                                                             Hours:</span>
-                                                        {{ totalWeekDetail.TotalWashHours | number:'.2' }}
+                                                        {{ (totalWeekDetail.TotalWashHours ==  0 || totalWeekDetail.TotalWashHours ==  40 ) ?  (totalWeekDetail.TotalWashHours   | number:'.2') : totalWeekDetail.TotalWashHours}}
                                                     </td>
                                                     <td class="p-t-10 p-r-20">
                                                         <p class="mb-0"><span
@@ -215,7 +220,7 @@
                                                             Rate:</span>{{ totalWeekDetail.DetailRate ? (totalWeekDetail.DetailRate | currency) : (0 | currency) }}
                                                     </td>
                                                     <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
-                                                        {{ totalWeekDetail.TotalDetailHours | number:'.2'}}
+                                                        {{ totalWeekDetail.TotalDetailHours == 0 ? (totalWeekDetail.TotalDetailHours | number:'.2') : totalWeekDetail.TotalDetailHours}}
                                                     </td>
                                                     <td class="p-r-20"><span
                                                             class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}

@@ -10,5 +10,6 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public DateTime EventDate { get; set; }
         public int LocationId { get; set; }
+        public DateTime JobDate { get; set; }
     }
 }

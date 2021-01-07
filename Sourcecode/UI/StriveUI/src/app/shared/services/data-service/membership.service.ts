@@ -28,4 +28,7 @@ export class MembershipService {
   getMembershipService(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getMembershipService}`);
   }
+  searchMembership(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.membershipSearch}`, obj);
+  }
 }

@@ -20,7 +20,7 @@ namespace Admin.API.Controllers
         #region GET
         [HttpGet]
         [Route("GetAllGiftCard/{locationId}")]
-        public Result GetAllGiftCard(int locationId) => _bplManager.GetAllGiftCard(locationId);
+        public Result GetAllGiftCardByLocation(int locationId) => _bplManager.GetAllGiftCardByLocation(locationId);
         #endregion
         #region GET
         [HttpGet]
@@ -66,5 +66,15 @@ namespace Admin.API.Controllers
         public Result GetGiftCardBalance(string giftCardNumber) => _bplManager.GetGiftCardBalance(giftCardNumber);
 
         #endregion
+
+        [HttpGet]
+        [Route("GetAllGiftCard")]
+        public Result GetAllGiftCard(int locationId) => _bplManager.GetAllGiftCard();
+
+
+        [HttpDelete]
+        [Route("Delete")]
+        public Result DeleteGiftCard(int id) => _bplManager.DeleteGiftCard(id);
+
     }
 }
