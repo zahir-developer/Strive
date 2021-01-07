@@ -3,11 +3,11 @@
     public class TimeClockWeekSummary
     {
 
-        public int TotalWashHours { get; set; }
+        public string TotalWashHours { get; set; }
 
-        public int TotalDetailHours { get; set; }
+        public string TotalDetailHours { get; set; }
 
-        public int OverTimeHours { get; set; }
+        public string OverTimeHours { get; set; }
 
         public decimal? WashRate { get; set; }
 
