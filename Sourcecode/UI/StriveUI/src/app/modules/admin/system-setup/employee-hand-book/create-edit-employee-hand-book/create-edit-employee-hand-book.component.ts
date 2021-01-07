@@ -37,7 +37,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   headerName: string;
   employeeId: any;
   constructor(private fb: FormBuilder,
-     private toastr: MessageServiceToastr, private document:DocumentService) { }
+ private document:DocumentService, private toastr: MessageServiceToastr) { }
 
   ngOnInit() {
     if (localStorage.getItem('employeeName') !== undefined) {
@@ -54,7 +54,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   formInitialize() {
     this.handbookSetupForm = this.fb.group({
       createdDate: [''],
-      name: ['', Validators.required],
+      name: ['', Validators.required, Validators.pattern['a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/']],
       createdName: [''],
       uploadBy:['',Validators.required]
     });
@@ -108,6 +108,17 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     this.submitted = true;    
     if(this.fileName === null){   
       return;
+    }
+    const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
+
+    if(this.handbookSetupForm.controls['name'].value){
+      if (!pattern.test(this.handbookSetupForm.controls['name'].value)) {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Name is Required' });
+
+  
+        return 
+          
+        };
     }
     this.isLoading = true;
     const obj = {
