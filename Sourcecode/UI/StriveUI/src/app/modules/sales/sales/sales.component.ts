@@ -469,7 +469,7 @@ export class SalesComponent implements OnInit {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size: 'lg'
+      size: 'md'
     };
     const modalRef = this.modalService.open(EditItemComponent, ngbModalOptions);
     modalRef.componentInstance.JobId = itemId;
