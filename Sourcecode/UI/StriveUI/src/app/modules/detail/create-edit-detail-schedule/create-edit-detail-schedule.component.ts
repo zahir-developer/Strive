@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -18,7 +18,8 @@ import { PrintCustomerCopyComponent } from '../print-customer-copy/print-custome
   selector: 'app-create-edit-detail-schedule',
   templateUrl: './create-edit-detail-schedule.component.html',
   styleUrls: ['./create-edit-detail-schedule.component.css'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  encapsulation:ViewEncapsulation.None
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
@@ -459,11 +460,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
     this.clientId = this.selectedData?.Details?.ClientId;
-    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
-      this.detailForm.get('vehicle').disable();
-    } else if(!this.isView){
-      this.detailForm.get('vehicle').enable();
-    }
+   
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -476,6 +473,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
+    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
+      this.detailForm.get('vehicle').disable();
+    } else if(!this.isView){
+      this.detailForm.get('vehicle').enable();
+    }
   }
 
   getColor() {
@@ -777,8 +779,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       bayId: this.detailForm.value.bay,
       jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
       scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'hh:mm'),
-      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'hh:mm'),
+      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'HH:mm'),
+      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'HH:mm'),
       isActive: true,
       isDeleted: false,
       createdBy: 0,

@@ -184,6 +184,27 @@ onRoleDeSelect(event) {
     // if (this.serviceSetupForm.invalid) {
     //   return;
     // }
+    const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
+
+    if(data.Name){
+      if (!pattern.test(data.Name)) {
+        this.toastr.error('Name is Required', 'Error!');
+  
+        return 
+          
+        };
+    } else{
+      if (!pattern.test(this.checkListName)) {
+        this.toastr.error('Name is Required', 'Error!');
+  
+        return 
+          
+        };
+    }
+ 
+
+  
+     
     const formObj = {
    checkList: { ChecklistId: data.ChecklistId ? data.ChecklistId : 0,
     Name: data.Name ? data.Name : this.checkListName,

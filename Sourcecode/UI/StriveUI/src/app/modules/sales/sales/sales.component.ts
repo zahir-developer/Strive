@@ -92,7 +92,10 @@ export class SalesComponent implements OnInit {
   Cashback = '';
   discountAmount = 0;
   paymentStatus: any = [];
+  multipleTicketNumber = [];
+  isTenTicketNumber: boolean;
   ngOnInit(): void {
+    this.isTenTicketNumber = false;
     this.giftCardFromInit();
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
@@ -237,8 +240,35 @@ export class SalesComponent implements OnInit {
     this.creditcashback = 0;
     this.cashback = 0;
     this.discountAmount = 0;
-    this.selectedDiscount = [];
     this.selectedService = [];
+  }
+
+  addTicketNumber() {
+    const alreadyAdded = this.multipleTicketNumber.filter(item => item === this.ticketNumber);
+    if (alreadyAdded.length === 0) {
+      this.multipleTicketNumber.push(this.ticketNumber);
+      this.ticketNumber = '';
+    } else {
+      this.ticketNumber = '';
+      this.messageService.showMessage({ severity: 'info', title: 'Infor', body: 'Ticket Already Added' });
+    }
+
+    if (this.multipleTicketNumber.length > 10) {
+      this.isTenTicketNumber = true;
+    } else {
+      this.isTenTicketNumber = false;
+    }
+    this.getDetailByTicket(false);
+  }
+
+  removeTicketNumber(ticket) {
+    this.multipleTicketNumber = this.multipleTicketNumber.filter(item => item !== ticket);
+    if (this.multipleTicketNumber.length > 10) {
+      this.isTenTicketNumber = true;
+    } else {
+      this.isTenTicketNumber = false;
+    }
+    this.getDetailByTicket(false);
   }
   getDetailByTicket(flag) {
     this.enableButton = false;
@@ -248,11 +278,12 @@ export class SalesComponent implements OnInit {
     } else {
       this.clearGridItems();
     }
-    if ((this.ticketNumber !== undefined && this.ticketNumber !== '') ||
+    if ((this.multipleTicketNumber.length > 0) ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
-      const ticketNumber = this.ticketNumber ? this.ticketNumber : this.newTicketNumber ? this.newTicketNumber : 0;
+      const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
+        : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
-        ticketNumber: +ticketNumber,
+        ticketNumber
       };
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
@@ -263,17 +294,18 @@ export class SalesComponent implements OnInit {
         }
       });
       this.spinner.show();
-      this.salesService.getItemByTicketNumber(+ticketNumber).subscribe(data => {
+      this.salesService.getItemByTicketNumber(ticketNumber).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
-          if (this.itemList.Status.PaymentStatusViewModel === null) {
-            this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
-            return;
-          } else {
-            this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
-          }
+          console.log(this.itemList, 'item');
+          // if (this.itemList.Status.PaymentStatusViewModel === null) {
+          //   this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
+          //   return;
+          // } else {
+          //   this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
+          // }
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
@@ -309,9 +341,9 @@ export class SalesComponent implements OnInit {
             this.giftCard = Math.abs(+summary?.GiftCard);
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
-            if(+this.account === 0.00){
-            this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
-            this.calculateTotalpaid(+this.account);
+            if (+this.account === 0.00) {
+              this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
+              this.calculateTotalpaid(+this.account);
             }
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
@@ -496,39 +528,39 @@ export class SalesComponent implements OnInit {
         jobId: this.isSelected ? this.JobId : 0,
         ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
         locationId: +localStorage.getItem('empLocationId'),
-        clientId: 1,
-        vehicleId: 1,
+        clientId: null,
+        vehicleId: null,
         make: 0,
         model: 0,
         color: 0,
-        jobType: 1,
+        jobType: null,
         jobDate: new Date(),
         timeIn: new Date(),
         estimatedTimeOut: new Date(),
         actualTimeOut: new Date(),
-        jobStatus: 1,
+        jobStatus: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
-        notes: 'checking'
+        notes: null
       },
       jobItem: [{
         jobItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         serviceId: this.selectedService?.id,
         // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
-        commission: 0,
+        commission: null,
         price: this.selectedService?.price,
         quantity: +this.addItemForm.controls.quantity.value,
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
       }],
@@ -536,15 +568,15 @@ export class SalesComponent implements OnInit {
         jobProductItemId: 0,
         jobId: this.isSelected ? this.JobId : 0,
         productId: this.selectedService?.id,
-        commission: 0,
+        commission: null,
         price: this.selectedService?.price,
         quantity: +this.addItemForm.controls.quantity.value,
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       }
     };
@@ -701,6 +733,11 @@ export class SalesComponent implements OnInit {
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
+    let discountAmount = 0;
+    this.selectedDiscount.forEach(item => {
+      discountAmount = discountAmount + (+item.Cost);
+    });
+    this.discountAmount = discountAmount;
   }
   getBalanceDue() {
     const balancedue = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
@@ -728,14 +765,14 @@ export class SalesComponent implements OnInit {
         transactionType: 1,
         transactionAmount: -(+item.amount),
         transactionDate: new Date(),
-        comments: 'string',
+        comments: null,
         isActive: true,
         isDeleted: false,
         createdBy: 1,
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
-        jobPaymentId: 4
+        jobPaymentId: 0
       };
     });
     discount = this.selectedDiscount.map(item => {
@@ -763,9 +800,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       }
     });
@@ -783,9 +820,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(det);
@@ -804,9 +841,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(accountDet);
@@ -822,9 +859,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(credit);
@@ -840,9 +877,9 @@ export class SalesComponent implements OnInit {
         signature: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       };
       paymentDetailObj.push(gift);
@@ -880,9 +917,9 @@ export class SalesComponent implements OnInit {
         tranRefDetails: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       },
       //jobPaymentDiscount: discount.length === 0 ? null : discount,

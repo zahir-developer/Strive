@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {path: 'sales', canActivate: [AuthGuard], data: { label: 'Sales', title: 'Sales', authorization: 'Sales' },
    loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
-  {path: 'white-labelling', canActivate: [AuthGuard], data: { label: 'White Labelling', title: 'White Labelling', authorization: 'White Labelling' },
+  {path: 'white-labelling', canActivate: [AuthGuard], data: { label: 'White Labelling', title: 'White Labelling', authorization: 'WhiteLabelling' },
   loadChildren: () =>
   import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)},
   { path: 'payrolls', canActivate: [AuthGuard], data: { label: 'PayRoll', title: 'PayRoll', authorization: 'PayRoll' },

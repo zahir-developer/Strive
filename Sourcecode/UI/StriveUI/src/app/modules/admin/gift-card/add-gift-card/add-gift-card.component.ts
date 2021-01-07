@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { Router } from '@angular/router';
+import { GiftCardComponent } from '../gift-card.component';
 
 @Component({
   selector: 'app-add-gift-card',
@@ -21,7 +23,10 @@ export class AddGiftCardComponent implements OnInit {
     private fb: FormBuilder,
     private giftCardService: GiftCardService,
     private toastr: ToastrService,
-    private messageService: MessageServiceToastr
+    
+    private giftCardComponent :GiftCardComponent,
+    private messageService: MessageServiceToastr,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -74,6 +79,7 @@ export class AddGiftCardComponent implements OnInit {
   }
 
   saveGiftCard() {
+  
     this.submitted = true;
     if (this.giftCardForm.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
@@ -81,7 +87,7 @@ export class AddGiftCardComponent implements OnInit {
     }
     const cardObj = {
       giftCardId: 0,
-      locationId: 1,
+      locationId: +localStorage.getItem('empLocationId'),
       giftCardCode: this.giftCardForm.value.number,
       giftCardName: 'string',
       expiryDate: moment(this.giftCardForm.value.activeDate),
@@ -97,10 +103,14 @@ export class AddGiftCardComponent implements OnInit {
     const finalObj = {
       giftCard: cardObj
     };
+    // this.giftCardComponent.getAllGiftCard(x=> x.)==finalObj.giftCard.giftCardCode
+    
+    // this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Giftcard code alredy exist' });
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Gift Card Added Successfully!!' });
-        this.activeModal.close();
+        this.activeModal.close(true);
+        this.router.navigate(['/admin/gift-card']);
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         this.giftCardForm.reset();

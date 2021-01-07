@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -23,8 +24,12 @@ export class VehicleListComponent implements OnInit {
   collectionSize: number = 0;
   additionalService: any = [];
   upchargeServices: any = [];
-  constructor(private vehicle: VehicleService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+  constructor(
+    private vehicle: VehicleService,
+    private toastr: ToastrService,
+    private router: Router,
+    private confirmationService: ConfirmationUXBDialogService
+  ) { }
 
   ngOnInit() {
     this.getAllVehicleDetails();
@@ -50,6 +55,10 @@ export class VehicleListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
+
+  navigateToClient(vehicle) {
+    this.router.navigate(['/admin/client'], { queryParams: { clientId: vehicle.ClientId } });
   }
 
   vehicleSearch() {

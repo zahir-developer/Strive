@@ -19,7 +19,7 @@
                                                 Appointment scheduled on</h6>
                                             <br> <span
                                                 class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.selectedDate | date : 'dd LLLL yyyy'}},<span
-                                                    class="theme-secondary-color m-r-20">{{scheduleDetailObj?.InTime | date : 'HH:mm'}}</span>
+                                                    class="theme-secondary-color m-r-20">{{scheduleDetailObj?.InTime | date : 'HH:mm aa'}}</span>
                                             </span>
 
 
@@ -32,7 +32,12 @@
                                                 Vehicle & Location</h6>
                                             <br>
                                             <span
-                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
+                                                class="font-size-1-5 font-weight-bold" *ngIf="!scheduleDetailObj.isEdit">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
+                                                | <span
+                                                    class="m-r-20">{{scheduleDetailObj?.locationObj?.Address1}}&nbsp;{{scheduleDetailObj?.locationObj?.Address2}}</span>
+                                            </span>
+                                            <span
+                                                class="font-size-1-5 font-weight-bold" *ngIf="scheduleDetailObj.isEdit">{{selectedData?.Details?.VechicleName}}
                                                 | <span
                                                     class="m-r-20">{{scheduleDetailObj?.locationObj?.Address1}}&nbsp;{{scheduleDetailObj?.locationObj?.Address2}}</span>
                                             </span>
