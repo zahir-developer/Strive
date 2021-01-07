@@ -10,6 +10,7 @@ import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-w
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+declare var $: any;
 
 @Component({
   selector: 'app-create-edit-washes',
@@ -733,8 +734,19 @@ export class CreateEditWashesComponent implements OnInit {
 
   pay() {
     this.router.navigate(['/sales'], { queryParams: { ticketNumber: this.ticketNumber } });
+    this.openNav('sales')
   }
-
+  openNav(sales) {
+   
+    $('.menu li').on('click', function() {
+      $('.menu li').removeClass('theme-secondary-background-color active');
+      $(this).addClass('theme-secondary-background-color active');
+    });
+    $('.nav-slider-menu-items li a').on('click', function () {
+      $('.nav-slider-menu-items li a').removeClass('theme-secondary-color text-underline');
+      $(this).addClass('theme-secondary-color text-underline');
+    });
+  }
   print() {
     this.isPrint = true;
     this.printWashComponent.print();

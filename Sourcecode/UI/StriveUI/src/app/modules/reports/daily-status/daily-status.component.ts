@@ -166,6 +166,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dailyStatusReport = JSON.parse(data.resultData);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
+
         if (this.dailyStatusReport.length > 0) {
           this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
@@ -222,11 +223,52 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.washes, 'DailyWashStatusReport_' +
+        let excelWashReport : any = [];
+      
+          if(this.washes.length > 0){
+            for(let i = 0; i < this.washes.length; i ++){
+              excelWashReport.push({
+              'Number': this.washes[i].Number,
+              'ServiceName': this.washes[i].ServiceName,
+              'JobType' : this.washes[i].JobType
+            })
+            }
+          }
+          let excelDetailReport : any = [];
+      
+          if(this.details.length > 0){
+            for(let i = 0; i < this.details.length; i ++){
+              excelDetailReport.push({
+              'Number': this.details[i].Number,
+              'ServiceName': this.details[i].ServiceName,
+              'JobType' : this.details[i].JobType
+            })
+            }
+          }
+          let employeeExportDetail : any = [];
+
+          if(this.clockDetail.length > 0){
+            for(let i = 0; i < this.clockDetail.length; i ++){
+              employeeExportDetail.push({
+              'Employee Name': this.clockDetail[i].EmployeeName,
+              'Wash Hours': this.clockDetail[i].WashHours,
+              'Detail Hours' : this.clockDetail[i].DetailHours,
+              'Total Hours': this.clockDetail[i].EmployeeName,
+              'In': this.clockDetail[i].Intime1 ? this.datePipe.transform( this.clockDetail[i].Intime1, 'hh:mm:ss') : '' ,
+              'Out' :this.clockDetail[i].Outtime1 ? this.datePipe.transform( this.clockDetail[i].Outtime1, 'hh:mm:ss'): '' ,
+              'Role' : this.clockDetail[i].RoleName1,
+
+
+            })
+            }
+          }
+      
+      
+        this.excelService.exportAsCSVFile(excelWashReport, 'DailyWashStatusReport_' +
         moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        this.excelService.exportAsCSVFile(this.details, 'DailyDetailStatusReport_' +
+        this.excelService.exportAsCSVFile(excelDetailReport, 'DailyDetailStatusReport_' +
         moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        this.excelService.exportAsCSVFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' +
+        this.excelService.exportAsCSVFile(employeeExportDetail, 'DailyEmployeeClockDetailsReport_' +
         moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
 
         break;

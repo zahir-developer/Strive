@@ -89,9 +89,9 @@
                                         <td>{{payroll.Uniform | currency}}</td>
                                         <td>{{payroll.Collision | currency}}</td>
                                         <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
-                                            <input type="number" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
-                                                size="2" name="adjustment"  class="form-control"
-                                                placeholder="$0.00">
+                                            <input type="text" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
+                                             name="adjustment"  class="form-control" appTwoDecimalPositiveNegativeNumber (change) = "_keyUp($event.target.value,payroll)"
+                                             placeholder="$0.00">
                                         </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
                                         <td>{{payroll.PayeeTotal  | currency}}</td>

@@ -11,8 +11,8 @@ namespace Strive.BusinessEntities.ViewModel
         public int EmployeeId { get; set; }
         public string PayeeName { get; set; }
         public int LocationId { get; set; }
-        public int TotalWashHours { get; set; }
-        public int TotalDetailHours { get; set; }
+        public string TotalWashHours { get; set; }
+        public string TotalDetailHours { get; set; }
         public int OverTimeHours { get; set; }
         public decimal WashRate { get; set; }
         public string DetailRate { get; set; }
