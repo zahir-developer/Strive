@@ -299,19 +299,19 @@ namespace Strive.BusinessLogic.Common
         {
             string randomPassword = RandomString(6);
 
-            string passwordHash = Pass.Hash(randomPassword);
+            //string passwordHash = Pass.Hash(randomPassword);
 
-            AuthMaster authMaster = new AuthMaster
-            {
-                UserGuid = Guid.NewGuid().ToString(),
-                EmailId = emailId,
-                MobileNumber = mobileNo,
-                PasswordHash = passwordHash,
-                SecurityStamp = "1",
-                LockoutEnabled = 0,
-                CreatedDate = DateTime.Now
-            };
-            var password = authMaster.PasswordHash;
+            //AuthMaster authMaster = new AuthMaster
+            //{
+            //    UserGuid = Guid.NewGuid().ToString(),
+            //    EmailId = emailId,
+            //    MobileNumber = mobileNo,
+            //    PasswordHash = passwordHash,
+            //    SecurityStamp = "1",
+            //    LockoutEnabled = 0,
+            //    CreatedDate = DateTime.Now
+            //};
+            var password = randomPassword;
 
             return password;
         }
@@ -386,7 +386,7 @@ namespace Strive.BusinessLogic.Common
         public void SendLoginCreationEmail(string emailId, string defaultPassword)
         {
             SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
-            <p> You have successfully signed up with Strive.& nbsp;</p>
+            <p> You have successfully signed up with Strive.</p>
             <p> Your login Credentials:</p>
             <p> UserName: " + emailId + @".</p>
             <p> Password: " + defaultPassword + @".</p>
