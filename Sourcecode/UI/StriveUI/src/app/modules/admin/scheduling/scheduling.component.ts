@@ -44,6 +44,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   selectedEvent = [];
   startTime: Date;
   endTime: Date;
+  dateTime :Date
   @ViewChild('fc') fc: FullCalendar;
   // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
@@ -55,7 +56,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   totalHours: any;
   EmpCount: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
-    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
+    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { 
+      this.dateTime = new Date();
+    }
   ngAfterViewInit() {
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
@@ -219,6 +222,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       this.locationFlag = true;
       return;
     }
+    if (this.dateTime > this.startTime) {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Past Date  Should not allow to Schedule' });
+
+      return;
+
+  }
     const form = {
       scheduleId: this.scheduleId ? this.scheduleId : 0,
       employeeId: +this.empId,

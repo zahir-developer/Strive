@@ -60,6 +60,11 @@ namespace Strive.BusinessLogic
         {
             try
             {
+                foreach(var item in client.ClientAddress)
+                {
+                    int clientAuthId = new CommonBpl(_cache, _tenant).CreateLogin(item.Email, item.PhoneNumber);
+                    client.Client.AuthId = clientAuthId;
+                }
                 return ResultWrap(new ClientRal(_tenant).InsertClientDetails, client, "Status");
             }
             catch (Exception ex)
