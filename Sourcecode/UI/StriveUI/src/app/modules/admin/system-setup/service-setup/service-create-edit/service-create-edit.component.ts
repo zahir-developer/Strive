@@ -30,6 +30,13 @@ export class ServiceCreateEditComponent implements OnInit {
   isAdditional = false;
   isDetails: boolean;
   costErrMsg: boolean = false;
+  discountType: any;
+  priceLabel: string = 'Price';
+  isDiscounts: boolean;
+  discountServiceType: any;
+
+
+
   constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -45,11 +52,13 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm = this.fb.group({
       serviceType: ['', Validators.required],
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
      cost: ['', Validators.required],
       commission: ['',],
       commissionType: ['',],
-      upcharge: ['', Validators.required],
+      discountType: ['', ],
+      discountServiceType: ['', ],
+     upcharge: ['', Validators.required],
       parentName: ['',],
       status: ['',],
       fee: ['',],
@@ -73,15 +82,18 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.get('upcharge').updateValueAndValidity();
         }
         this.serviceSetupForm.patchValue({
-          serviceType: this.selectedService.ServiceTypeId,
-          name: this.selectedService.ServiceName,
-          //description : this.selectedService.Description,
-          cost: this.selectedService.Cost,
-          commission: this.selectedService.Commision,
-          commissionType: this.selectedService.CommissionTypeId,
-          fee: this.selectedService.CommissionCost,
-          upcharge: this.selectedService.Upcharges,
-          parentName: this.selectedService.ParentServiceId,
+          serviceType: this.selectedService?.ServiceTypeId,
+          name: this.selectedService?.ServiceName,
+          description : this.selectedService?.Description,
+          cost: this.selectedService?.Cost,
+          commission: this.selectedService?.Commision,
+          commissionType: this.selectedService?.CommissionTypeId,
+          fee: this.selectedService?.CommissionCost,
+          discountType: this.selectedService?.DiscountType,
+          upcharge: this.selectedService?.Upcharges,
+          discountServiceType : this.selectedService?.DiscountServiceType,
+
+          parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
@@ -98,6 +110,8 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.CommissionType = cType.Codes;
+        this.discountType = cType.Codes;
+
         this.getParentType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -134,6 +148,9 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes;
+        this.discountServiceType = cType.Codes;
+
+
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
@@ -162,6 +179,20 @@ export class ServiceCreateEditComponent implements OnInit {
     }else{
        this.isDetails = false;
     }
+    if (Number(data) === 20) {
+      this.isDiscounts = true;
+      this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
+      this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
+
+    } else {
+      this.serviceSetupForm.get('discountServiceType').clearValidators();
+      this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
+
+      this.isDiscounts = false;
+
+    }
+
+
     if (Number(data) === 15) {
       this.isCommisstionShow = false;
     } else {
@@ -219,7 +250,12 @@ export class ServiceCreateEditComponent implements OnInit {
       createdBy: 0,
       createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
       updatedBy: 0,
-      updatedDate: new Date()
+      updatedDate: new Date(),
+      discountServiceType: this.serviceSetupForm.value.discountServiceType,
+      discountType : this.serviceSetupForm.value.discountType,
+      
+
+
     };
     if (this.isEdit === true) {
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
