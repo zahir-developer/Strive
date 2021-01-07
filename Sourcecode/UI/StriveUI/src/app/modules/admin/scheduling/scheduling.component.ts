@@ -244,6 +244,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
         $('#calendarModal').modal('hide');
+        this.setBoolean();
+
         this.getSchedule();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
