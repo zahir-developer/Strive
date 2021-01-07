@@ -326,7 +326,7 @@ export class SalesComponent implements OnInit {
             }
           } else {
             this.showPopup = false;
-          }
+          } 
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {
             const summary = this.itemList?.Status?.SalesSummaryViewModel;
             this.initialcashback = summary?.Cashback ? summary?.Cashback : 0;
@@ -550,7 +550,7 @@ export class SalesComponent implements OnInit {
       }
       const formObj = {
         job: {
-          jobId: this.isSelected ? this.JobId : 0,
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
           ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
           locationId: +localStorage.getItem('empLocationId'),
           clientId: 1,
@@ -574,7 +574,7 @@ export class SalesComponent implements OnInit {
         },
         jobItem: [{
           jobItemId: 0,
-          jobId: this.isSelected ? this.JobId : 0,
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
           serviceId: this.selectedService?.id,
           // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
           commission: 0,
@@ -591,7 +591,7 @@ export class SalesComponent implements OnInit {
         }],
         JobProductItem: {
           jobProductItemId: 0,
-          jobId: this.isSelected ? this.JobId : 0,
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
           productId: this.selectedService?.id,
           commission: 0,
           price: this.selectedService?.price,
@@ -916,7 +916,7 @@ export class SalesComponent implements OnInit {
       jobPayment: {
         jobPaymentId: 0,
         membershipId: this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null,
-        jobId: this.isSelected ? +this.JobId : 0,
+        jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId: 0,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
