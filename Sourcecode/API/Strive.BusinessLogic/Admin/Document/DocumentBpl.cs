@@ -338,6 +338,7 @@ namespace Strive.BusinessLogic.Document
 
         public int AddDocument(DocumentDto documentModel)
         {
+           
             string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
 
             documentModel.Document.OriginalFileName = documentModel.Document.FileName;

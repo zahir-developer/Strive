@@ -270,7 +270,7 @@ export class EodComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
         console.log(dailyStatusDetailInfo);
-        this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.GetDailyStatusReport;
+        this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusDetailInfo;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
