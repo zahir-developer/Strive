@@ -50,6 +50,7 @@ import { SsnNumberMaskDirective } from './Directive/ssn-number-mask.directive';
 import { SearchPipe } from './common-search-pipe/search.pipe';
 import {DropdownModule} from 'primeng/dropdown';
 import { OrderByPipe } from './pipe/order-by.pipe';
+import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decimal-positive-negative-number.directive';
 import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
@@ -84,7 +85,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -93,8 +94,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe, DropdownModule,
-      OrderByPipe, InputSwitchModule],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

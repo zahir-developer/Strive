@@ -8,11 +8,12 @@ import { RouterModule } from '@angular/router';
 import { EditItemComponent } from './sales/edit-item/edit-item.component';
 import { PrintComponent } from './sales/print/print.component';
 import {NgxPrintModule} from 'ngx-print';
+import { SaleGiftCardComponent } from './sales/sale-gift-card/sale-gift-card.component';
 
 
 
 @NgModule({
-  declarations: [SalesComponent, SearchItemComponent, EditItemComponent, PrintComponent],
+  declarations: [SalesComponent, SearchItemComponent, EditItemComponent, PrintComponent, SaleGiftCardComponent],
   imports: [
     CommonModule,
     RouterModule,
