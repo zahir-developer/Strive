@@ -158,6 +158,7 @@ namespace Strive.BusinessEntities
         USPGETLOCATIONBYID,
         USPGETALLLOCATIONOFFSET,
         USPDELETELOCATIONOFFSET,
+        USPADDBAYSLOT,
         //Service Setup
         USPDELETESERVICEBYID,
         USPGETSERVICES,

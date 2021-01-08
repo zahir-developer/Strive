@@ -76,6 +76,11 @@ namespace Admin.API.Controllers
         {
             return _bplManager.DeleteDocument(documentTypeId, documentType);
         }
-
+        [HttpGet]
+        [Route("GetDocumentById/{documentTypeId}/{documentType}")]
+        public Result GetDocumentById(int documentTypeId, GlobalUpload.DocumentType documentType)
+        {
+            return _bplManager.GetDocumentByID(documentTypeId, documentType);
+        }
     }
 }

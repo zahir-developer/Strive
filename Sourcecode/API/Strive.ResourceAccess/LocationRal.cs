@@ -110,6 +110,12 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETELOCATIONOFFSET.ToString(), _prm);
             return true;
         }
+        public bool AddBaySolt(int id)
+        {
+            _prm.Add("LocationId", id.toInt());
+            db.Save(SPEnum.USPADDBAYSLOT.ToString(), _prm);
+            return true;
+        }
 
     }
 }
