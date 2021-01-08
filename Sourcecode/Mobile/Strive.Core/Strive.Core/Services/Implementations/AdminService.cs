@@ -242,6 +242,11 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS, HttpMethod.Get);
         }
+
+        public async Task<ScheduleModel> GetSchedulePastService(int clientID)
+        {
+            return await _restClient.MakeApiCall<ScheduleModel>(ApiUtils.URL_SCHEDULE_PAST_SERVICE+ "?ClientId=" +clientID, HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

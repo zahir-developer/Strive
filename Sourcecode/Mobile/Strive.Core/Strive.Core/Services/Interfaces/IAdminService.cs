@@ -91,5 +91,6 @@ namespace Strive.Core.Services.Interfaces
 
         Task<PostResponse> SaveDocuments(AddDocuments documents);
         Task<CheckOutVehicleDetails> CheckOutVehicleDetails();
+        Task<ScheduleModel> GetSchedulePastService(int clientID);
     }
 }

@@ -101,7 +101,7 @@
                         android:text="Detail Service:"
                         android:fontFamily="@font/opensans_regular"/>
                     <TextView
-                        android:id="@+id/upchargeValue_TextView"
+                        android:id="@+id/detailServices_TextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
