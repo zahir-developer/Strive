@@ -31,6 +31,8 @@ namespace Strive.BusinessLogic.Document
         bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);
         Result GetDocumentByID(int documentTypeId, GlobalUpload.DocumentType documentType);
         Result GetAllDocument(int documentTypeId);
+        
+              Result DeleteDocumentByDocumentId (int documentId, GlobalUpload.DocumentType documentType);
 
 
     }
