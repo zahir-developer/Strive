@@ -29,6 +29,9 @@ namespace Strive.BusinessLogic.Document
         void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName);
         DocumentViewModel GetDocumentById(int documentId, GlobalUpload.DocumentType documentType);
         bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);
+        Result GetDocumentByID(int documentTypeId, GlobalUpload.DocumentType documentType);
+        Result GetAllDocument(int documentTypeId);
+
 
     }
 }

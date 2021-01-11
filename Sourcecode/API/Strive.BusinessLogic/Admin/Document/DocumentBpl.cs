@@ -409,7 +409,29 @@ namespace Strive.BusinessLogic.Document
             return result;
         }
 
+        public Result GetDocumentByID(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var document = new DocumentRal(_tenant).GetDocumentById(documentId);
 
+            if (document.Document != null)
+            {
+                document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+            }
+            _resultContent.Add(document.WithName("Document"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
+        public Result GetAllDocument(int documentTypeId)
+        {
+            var document = new DocumentRal(_tenant).GetAllDocument(documentTypeId);
+
+            
+            _resultContent.Add(document.WithName("Document"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
     }
 
 }
