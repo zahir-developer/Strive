@@ -74,6 +74,7 @@
     <Compile Include="Adapter\DealsInfoAdapter.cs" />
     <Compile Include="Adapter\IItemClickListener.cs" />
     <Compile Include="Adapter\PastDetailsAdapter.cs" />
+    <Compile Include="Adapter\ScheduleVehicleListAdapter.cs" />
     <Compile Include="Adapter\VehicleDetailsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="DemoData\DealsDemoData.cs" />
@@ -903,6 +904,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ServiceHistoryFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleVehicleList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\CircularEdgedRectangle_Button.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleVehicleList_ItemView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

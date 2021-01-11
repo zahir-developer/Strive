@@ -28,10 +28,13 @@ namespace Strive.Core.ViewModels.Customer
             CustomerVehiclesInformation.vehiclesList = new VehicleList();
             CustomerVehiclesInformation.vehiclesList.Status = new List<VehicleDetail>();
             scheduleVehicleList = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
-            CustomerVehiclesInformation.vehiclesList = scheduleVehicleList;
             if (scheduleVehicleList == null || scheduleVehicleList.Status.Count == 0)
             {
                 _userDialog.Alert("No associated vehicles were found.");
+            }
+            else
+            {
+                CustomerVehiclesInformation.vehiclesList = scheduleVehicleList;
             }
             _userDialog.HideLoading();
         }
