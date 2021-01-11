@@ -39,6 +39,21 @@ namespace Strive.Core.ViewModels.Customer
             _userDialog.HideLoading();
         }
 
+        public async Task<PastClientServices> GetPastDetailsServices()
+        {
+            var result = await AdminService.GetPastClientServices(CustomerInfo.ClientID);
+            if (result == null)
+            {
+                return result = null;
+            }
+            else
+            {
+                return result;
+            }
+
+
+        }
+
 
         public async Task GetPastServiceDetails()
         {
