@@ -74,6 +74,7 @@
     <Compile Include="Adapter\DealsInfoAdapter.cs" />
     <Compile Include="Adapter\IItemClickListener.cs" />
     <Compile Include="Adapter\PastDetailsAdapter.cs" />
+    <Compile Include="Adapter\ScheduleVehicleListAdapter.cs" />
     <Compile Include="Adapter\VehicleDetailsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
     <Compile Include="DemoData\DealsDemoData.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="Fragments\PersonalInfoEditFragment.cs" />
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
+    <Compile Include="Fragments\SchedulePastServiceHistoryFragment.cs" />
+    <Compile Include="Fragments\ScheduleVehicleListFragment.cs" />
     <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
     <Compile Include="Fragments\VehicleAdditionalServicesFragment.cs" />
     <Compile Include="Fragments\VehicleInfoDisplayFragment.cs" />
@@ -894,7 +897,31 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\Icon_email.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ServiceHistoryItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ServiceHistoryFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleVehicleList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\CircularEdgedRectangle_Button.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleVehicleList_ItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

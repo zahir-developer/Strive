@@ -129,4 +129,22 @@ namespace Strive.Core.Models.Customer
 
         #endregion Commands
     }
+
+    public static class CustomerScheduleInformation
+    {
+        #region Properties
+        public static string ScheduledVehicleName { get; set; }
+
+        #endregion Properties
+
+
+        #region Commands
+
+        public static void ClearScheduleData()
+        {
+            ScheduledVehicleName = null;
+        }
+
+        #endregion Commands
+    }
 }
