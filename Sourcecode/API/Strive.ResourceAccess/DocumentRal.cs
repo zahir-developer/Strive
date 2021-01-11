@@ -95,10 +95,10 @@ namespace Strive.ResourceAccess
             var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENTBYID.ToString(), dynParams);
             return result;
         }
-        public List<DocumentViewModel> GetAllDocument(int documentTypeId)
+        public List<DocumentView> GetAllDocument(int documentTypeId)
         {
             _prm.Add("@documentType", documentTypeId);
-            var result = db.Fetch<DocumentViewModel>(EnumSP.Document.USPGETALLDOCUMENT.ToString(), _prm);
+            var result = db.Fetch<DocumentView>(EnumSP.Document.USPGETALLDOCUMENT.ToString(), _prm);
             return result;
         }
     }
