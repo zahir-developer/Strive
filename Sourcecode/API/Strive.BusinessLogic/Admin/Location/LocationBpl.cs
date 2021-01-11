@@ -43,9 +43,13 @@ namespace Strive.BusinessLogic.Location
 
             //location.Drawer = new BusinessEntities.Model.Drawer();
             //bool status = new LocationRal(_tenant).AddLocation(location);     
-           // Bayslot(location.Location.LocationId);
-            return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
             
+            var locationId =new LocationRal(_tenant).AddLocation(location);
+
+            var result =Bayslot(locationId);
+
+            return ResultWrap(locationId, "Status");
+
         }
 
         public Result UpdateLocation(LocationDto location)

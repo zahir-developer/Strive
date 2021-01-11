@@ -82,5 +82,12 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetDocumentByID(documentTypeId, documentType);
         }
+
+        [HttpGet]
+        [Route("GetAllDocument/{documentTypeId}")]
+        public Result GetAllDocument(int documentTypeId)
+        {
+            return _bplManager.GetAllDocument(documentTypeId);
+        }
     }
 }

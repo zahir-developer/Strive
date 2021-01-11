@@ -98,6 +98,7 @@ namespace Strive.BusinessEntities
             USPDELETEDOCUMENT,
             USPDELETEDOCUMENTBYID,
             USPGETDOCUMENTBYID,
+            USPGETALLDOCUMENT,
         }
         public enum AdSetup
         {

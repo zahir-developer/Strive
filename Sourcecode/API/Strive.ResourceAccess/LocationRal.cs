@@ -48,9 +48,9 @@ namespace Strive.ResourceAccess
         //    return lam;
         //}
 
-        public bool AddLocation(LocationDto location)
+        public int AddLocation(LocationDto location)
         {
-            return dbRepo.InsertPc(location, "LocationId");
+            return dbRepo.InsertPK(location, "LocationId");
         }
 
         //public bool SaveLocationDetails(LocationDto location)

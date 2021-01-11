@@ -422,6 +422,16 @@ namespace Strive.BusinessLogic.Document
 
             return _result;
         }
+        public Result GetAllDocument(int documentTypeId)
+        {
+            var document = new DocumentRal(_tenant).GetAllDocument(documentTypeId);
+
+            
+            _resultContent.Add(document.WithName("Document"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
     }
 
 }

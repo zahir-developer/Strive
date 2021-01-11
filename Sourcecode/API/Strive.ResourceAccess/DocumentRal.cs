@@ -95,5 +95,12 @@ namespace Strive.ResourceAccess
             var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENTBYID.ToString(), dynParams);
             return result;
         }
+        public DocumentViewModel GetAllDocument(int documentTypeId)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@documentType", documentTypeId);
+            var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETALLDOCUMENT.ToString(), dynParams);
+            return result;
+        }
     }
 }
