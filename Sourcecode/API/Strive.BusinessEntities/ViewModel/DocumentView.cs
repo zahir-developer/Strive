@@ -16,8 +16,8 @@ namespace Strive.BusinessEntities.Document
         public string Base64 { get; set; }
         public string DocumentName { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public DateTimeOffset ModifiedDate { get; set; }
 
         public int DocumentSubType { get; set; }
 
