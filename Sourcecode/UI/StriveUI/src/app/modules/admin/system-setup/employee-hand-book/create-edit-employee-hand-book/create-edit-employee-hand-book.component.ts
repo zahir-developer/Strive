@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-create-edit-employee-hand-book',
@@ -37,6 +38,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   createdDate: any;
   headerName: string;
   employeeId: any;
+  fileType: string[];
+  fileSize: number;
+  localFileSize: any;
   constructor(
     private fb: FormBuilder,
     private toastr: MessageServiceToastr,
@@ -45,6 +49,8 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.fileType = ApplicationConfig.UploadFileType.EmployeeHandbook;
+    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook
     if (localStorage.getItem('employeeName') !== undefined) {
       this.headerName = localStorage.getItem('employeeName');
       this.employeeId = +localStorage.getItem('empId');
@@ -74,34 +80,68 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     return this.handbookSetupForm.controls;
   }
 
-  fileNameChanged(e: any) {
-    this.isLoading = true;
-    try {
-      const file = e.target.files[0];
-      const fReader = new FileReader();
-      fReader.readAsDataURL(file);
-      fReader.onloadend = (event: any) => {
-        console.log(file.name);
-        this.fileName = file.name;
-        const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-        let fileTosaveName: any;
-        fileTosaveName = event.target.result.split(',')[1];
-        this.fileUploadformData = fileTosaveName;
-        const fileObj = {
-          fileName: this.fileName,
-          fileUploadDate: this.fileUploadformData,
-          fileType: fileExtension
-        };
-        this.isLoading = false;
+  // fileNameChanged(e: any) {
+  //   this.isLoading = true;
+  //   try {
+  //     const file = e.target.files[0];
+  //     const fReader = new FileReader();
+  //     fReader.readAsDataURL(file);
+  //     fReader.onloadend = (event: any) => {
+  //       console.log(file.name);
+  //       this.fileName = file.name;
+  //       const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+  //       let fileTosaveName: any;
+  //       fileTosaveName = event.target.result.split(',')[1];
+  //       this.fileUploadformData = fileTosaveName;
+  //       const fileObj = {
+  //         fileName: this.fileName,
+  //         fileUploadDate: this.fileUploadformData,
+  //         fileType: fileExtension
+  //       };
+  //       this.isLoading = false;
+  //     };
+  //   } catch (error) {
+  //     this.fileName = null;
+  //     this.fileUploadformData = null;
+  //     this.isLoading = false;
+  //     console.log('no file was selected...');
+  //   }
+  // }
+
+  fileNameChanged() {
+    let filesSelected: any;
+    filesSelected = document.getElementById('customFile');
+    filesSelected = filesSelected.files;
+    if (filesSelected.length > 0) {
+      const fileToLoad = filesSelected[0];
+      this.localFileSize = fileToLoad.size
+      this.fileName = fileToLoad.name;   
+      this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+      let fileReader: any;
+      fileReader = new FileReader();
+      fileReader.onload = function (fileLoadedEventTigger) {
+        let textAreaFileContents: any;
+        textAreaFileContents = document.getElementById('customFile');
+        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
       };
-    } catch (error) {
-      this.fileName = null;
-      this.fileUploadformData = null;
-      this.isLoading = false;
-      console.log('no file was selected...');
+      fileReader.readAsDataURL(fileToLoad);
+      this.isLoading = true;
+      setTimeout(() => {
+        let fileTosaveName: any;
+      let lowercaseFileThumb = this.fileThumb.toLowerCase()
+        if( (lowercaseFileThumb == this.fileType[0]) ||(lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2]) ){
+          fileTosaveName = fileReader.result?.split(',')[1];
+      }
+      else{
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload DOC,DOCX,PDF Only' });
+        this.clearDocument();
+      }
+        this.fileUploadformData = fileTosaveName;
+        this.isLoading = false;
+
+      }, 5000);
     }
   }
-
 
   submit() {
     this.submitted = true;
@@ -114,6 +154,13 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Name is Required' });
         return;
       }
+    }
+    let localFileKbSize =   this.localFileSize / Math.pow(1024,1)
+let localFileKbRoundSize = +localFileKbSize.toFixed()
+    if(this.fileSize < localFileKbRoundSize){
+      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
+
+      return;
     }
     const obj = {
       documentId: 0,

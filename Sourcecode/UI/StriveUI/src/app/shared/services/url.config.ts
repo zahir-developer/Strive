@@ -209,6 +209,8 @@ export const UrlConfig = {
   document: {
     addDocument:`Admin/Document/AddDocument`,
     getDocument:`Admin/Document/GetDocument/`,
+    getAllDocument:`Admin/Document/GetAllDocument/`,
+
     deleteDocument:`Admin/Document/DeleteDocument/`
   }
 };
