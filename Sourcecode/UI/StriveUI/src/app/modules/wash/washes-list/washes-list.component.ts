@@ -28,9 +28,10 @@ export class WashesListComponent implements OnInit {
   locationId = +localStorage.getItem('empLocationId');
   TimeInFormat: any;
   washListDetails = [];
+  sort = { column: 'TicketNumber', descending: true };
+  sortColumn: { column: string; descending: boolean; };
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe,
-
     private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
 
   ngOnInit() {
@@ -42,7 +43,7 @@ export class WashesListComponent implements OnInit {
     this.washes.getDashBoard(obj);
     this.getAllWashDetails();
   }
-  
+
 
   // Get All Washes
   getAllWashDetails() {
@@ -50,54 +51,53 @@ export class WashesListComponent implements OnInit {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.washDetails = wash.Washes;
-       
-        for(let i = 0; i < this.washDetails.length; i ++){
-  let hh = this.washDetails[i].TimeIn.substring(13, 11);
-  let m = this.washDetails[i].TimeIn.substring(16, 14);
-  var s = this.washDetails[i].TimeIn.substring(19, 17);
- let min = m ;
 
-  let sec = s ;
-  var dd ;
-  var hr ;
-  if (hh > 12) {
-    hr = hh - 12;
-    dd = "PM";
-  }
-  else{
-    hr = hh ;
-    dd = "AM"
-  }
-  if (hh == 0) {
-    hh = 12;
-  }
- let inTimeFormat =   hr + ":" + min + ":" + sec + dd;
- let outhh = this.washDetails[i].EstimatedTimeOut.substring(13, 11);
-  let outm = this.washDetails[i].EstimatedTimeOut.substring(16, 14);
-  var outs = this.washDetails[i].EstimatedTimeOut.substring(19, 17);
- let outmin = outm ;
+        for (let i = 0; i < this.washDetails.length; i++) {
+          let hh = this.washDetails[i].TimeIn.substring(13, 11);
+          let m = this.washDetails[i].TimeIn.substring(16, 14);
+          var s = this.washDetails[i].TimeIn.substring(19, 17);
+          let min = m;
 
-  let outsec = outs ;
-  var outdd ;
-  var outhr ;
-  if (outhh > 12) {
-    outhr = outhh - 12;
-    outdd = "PM";
-  }
-  else {
-    outhr = outhh
-    outdd = "AM"
-  }
-  if (outhh == 0) {
-    outhh = 12;
-  }
- let outTimeFormat =   outhr + ":" + outmin + ":" + outsec + outdd;
-          this.washDetails.forEach(item =>
-           {
-             item.EstimatedTimeOutFormat =  outTimeFormat,
-            item.TimeInFormat = inTimeFormat
+          let sec = s;
+          var dd;
+          var hr;
+          if (hh > 12) {
+            hr = hh - 12;
+            dd = "PM";
+          }
+          else {
+            hr = hh;
+            dd = "AM"
+          }
+          if (hh == 0) {
+            hh = 12;
+          }
+          let inTimeFormat = hr + ":" + min + ":" + sec + dd;
+          let outhh = this.washDetails[i].EstimatedTimeOut.substring(13, 11);
+          let outm = this.washDetails[i].EstimatedTimeOut.substring(16, 14);
+          var outs = this.washDetails[i].EstimatedTimeOut.substring(19, 17);
+          let outmin = outm;
 
-          
+          let outsec = outs;
+          var outdd;
+          var outhr;
+          if (outhh > 12) {
+            outhr = outhh - 12;
+            outdd = "PM";
+          }
+          else {
+            outhr = outhh
+            outdd = "AM"
+          }
+          if (outhh == 0) {
+            outhh = 12;
+          }
+          let outTimeFormat = outhr + ":" + outmin + ":" + outsec + outdd;
+          this.washDetails.forEach(item => {
+            item.EstimatedTimeOutFormat = outTimeFormat,
+              item.TimeInFormat = inTimeFormat
+
+
           })
         }
         console.log(wash);
@@ -190,4 +190,33 @@ export class WashesListComponent implements OnInit {
   pay(wash) {
     this.router.navigate(['/sales'], { queryParams: { ticketNumber: wash.TicketNumber } });
   }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
+  }
+
 }

@@ -24,6 +24,8 @@ export class VehicleListComponent implements OnInit {
   collectionSize: number = 0;
   additionalService: any = [];
   upchargeServices: any = [];
+  sort = { column: 'ClientName', descending: true };
+  sortColumn: { column: string; descending: boolean; };
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -150,6 +152,34 @@ export class VehicleListComponent implements OnInit {
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 }
 

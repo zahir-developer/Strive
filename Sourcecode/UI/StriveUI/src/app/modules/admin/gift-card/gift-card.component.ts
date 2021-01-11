@@ -28,6 +28,8 @@ export class GiftCardComponent implements OnInit {
   page = 1;
   pageSize = 10;
   collectionSize: number;
+  sort = { column: 'GiftCardCode', descending: true };
+  sortColumn: { column: string; descending: boolean; };
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -185,6 +187,34 @@ export class GiftCardComponent implements OnInit {
 
   activityCollapsed() {
     this.isActivityCollapsed = !this.isActivityCollapsed;
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 
 }

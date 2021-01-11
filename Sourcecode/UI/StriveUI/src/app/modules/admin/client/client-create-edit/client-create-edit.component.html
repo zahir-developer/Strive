@@ -40,19 +40,24 @@
                                         <table class="table  table-striped m-t-10">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Vehicle No</th>
-                                                    <th scope="col">Color</th>
-                                                    <th scope="col">Make</th>
-                                                    <th scope="col">Model</th>
+                                                    <th scope="col" (click)="changeSorting('VehicleNumber')">Vehicle No&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleNumber')"
+                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('VehicleColor')">Color&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('VehicleMfr')">Make&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
+                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('VehicleModel')">Model&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleModel')"
+                                                        aria-hidden="true"></i></th>
                                                     <!-- <th scope="col">Upcharge</th> -->
-                                                    <th scope="col">Barcode</th>
+                                                    <th scope="col" (click)="changeSorting('Barcode')">Barcode&nbsp;<i class="fa" [ngClass]="selectedCls('Barcode')"
+                                                        aria-hidden="true"></i></th>
                                                     <!-- <th scope="col">Membership</th> -->
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let vehicle of vehicleDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
                                                     <td>{{vehicle.VehicleColor}}</td>
                                                     <td>{{vehicle.VehicleMfr }}</td>
