@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CollisionListComponent } from '../../employees/collision-list/collision-list.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-employee-list',
@@ -33,12 +34,14 @@ export class EmployeeListComponent implements OnInit {
   employeeId: any;
   location: any;
   public isCollapsed = false;
-  page = 1;
-  pageSize = 5;
+  
   collectionSize: number;
   search = '';
   sort = { column: 'Status', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  page: any ;
+  pageSize :any;
+  pageSizeList: any[];
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -49,6 +52,9 @@ export class EmployeeListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.isTableEmpty = true;
     // this.getAllEmployeeDetails();
     this.seachEmployee();
@@ -58,16 +64,18 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getEmployees().subscribe(data => {
       if (data.status === 'Success') {
         const employees = JSON.parse(data.resultData);
-        this.isTableEmpty = false;
-        if (employees.EmployeeList.length > 0) {
-          const employeeDetail = employees.EmployeeList;
+        const employeeDetail = employees.EmployeeList;
           this.employeeDetails = employeeDetail;
-          // this.employeeDetails = this.employeeDetails.filter(item => item.Status === true);
-          this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+          if (this.employeeDetails.length === 0) {
+            this.isTableEmpty = true;
+          } else {
+            this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+  
+            this.isTableEmpty = false;
+          }
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
         }
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-      }
     });
   }
   edit(data) {
@@ -97,7 +105,19 @@ export class EmployeeListComponent implements OnInit {
       this.employeeDetail(empDetails);
     }
   }
-
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.seachEmployee()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.seachEmployee()
+  }
   employeeDetail(employeeDetail) {
     const id = employeeDetail.EmployeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {

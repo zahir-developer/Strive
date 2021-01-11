@@ -46,7 +46,6 @@ export class TermsAndConditionsComponent implements OnInit {
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
-        this.fileName = this.document?.Document?.OriginalFileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
@@ -56,19 +55,19 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
 
-  delete() {
+  delete(Id) {
     this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this Document? All related 
     information will be deleted and the Document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete();
+          this.confirmDelete(+Id);
         }
       })
       .catch(() => { });
   }
 
-  confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId, 'TERMSANDCONDITION').subscribe(res => {
+  confirmDelete(Id) {
+    this.documentService.deleteDocumentById(Id,'TERMSANDCONDITION').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
         this.fileName= null;

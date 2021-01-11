@@ -210,7 +210,7 @@ export const UrlConfig = {
     addDocument:`Admin/Document/AddDocument`,
     getDocument:`Admin/Document/GetDocument/`,
     getAllDocument:`Admin/Document/GetAllDocument/`,
-
+deleteDocumentById : `Admin/Document/DeleteDocumentById/`,
     deleteDocument:`Admin/Document/DeleteDocument/`
   }
 };

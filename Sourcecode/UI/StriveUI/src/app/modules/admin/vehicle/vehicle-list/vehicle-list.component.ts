@@ -3,6 +3,7 @@ import { VehicleService } from 'src/app/shared/services/data-service/vehicle.ser
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -26,6 +27,7 @@ export class VehicleListComponent implements OnInit {
   upchargeServices: any = [];
   sort = { column: 'ClientName', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pageSizeList: number[];
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -34,10 +36,25 @@ export class VehicleListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllVehicleDetails();
     this.getService();
   }
-
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllVehicleDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllVehicleDetails()
+  }
   // Get All Vehicles
   getAllVehicleDetails() {
     const obj = {
