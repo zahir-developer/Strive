@@ -312,6 +312,7 @@
         <InterfaceDefinition Include="Views\Schedule\Dashboard_ScheduleView.xib" />
         <InterfaceDefinition Include="Views\Schedule\DB_VehicleList_Cell.xib" />
         <InterfaceDefinition Include="Views\Schedule\DB_PastHistory_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectService.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -454,6 +455,11 @@
         <Compile Include="Views\Schedule\DB_PastHistory_Cell.designer.cs">
           <DependentUpon>DB_PastHistory_Cell.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\Schedule\Schedule_SelectService.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectService.designer.cs">
+          <DependentUpon>Schedule_SelectService.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_PastHis_Source.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

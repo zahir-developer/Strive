@@ -38,6 +38,8 @@ namespace StriveCustomer.iOS.Views
 
             Schedule_ParentView.Layer.CornerRadius = 5;
             Schedule_Seg1.Layer.CornerRadius = 5;
+            ScheduleVehicle_TableView.Hidden = false;
+            SchedulePastHis_TableView.Hidden = true;
             ScheduleVehicle_TableView.RegisterNibForCellReuse(DB_VehicleList_Cell.Nib, DB_VehicleList_Cell.Key);
             ScheduleVehicle_TableView.ReloadData();
             ScheduleVehicle_TableView.Layer.CornerRadius = 5;
@@ -50,13 +52,23 @@ namespace StriveCustomer.iOS.Views
 
             if(index == 0)
             {
+                ScheduleVehicle_TableView.Hidden = false;
+                SchedulePastHis_TableView.Hidden = true;
                 getVehicleList();
             }
             else if(index == 1)
             {
-                ScheduleVehicle_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
-                ScheduleVehicle_TableView.ReloadData();
-                ScheduleVehicle_TableView.Layer.CornerRadius = 5;
+                SchedulePastHis_TableView.Hidden = false;
+                ScheduleVehicle_TableView.Hidden = true;
+                SchedulePastHis_TableView.RegisterNibForCellReuse(DB_PastHistory_Cell.Nib, DB_PastHistory_Cell.Key);
+                SchedulePastHis_TableView.ReloadData();
+                SchedulePastHis_TableView.Layer.CornerRadius = 5;
+
+                var pastHis_Source = new Schedule_PastHis_Source();
+                SchedulePastHis_TableView.Source = pastHis_Source;
+                SchedulePastHis_TableView.TableFooterView = new UIView(CGRect.Empty);
+                SchedulePastHis_TableView.DelaysContentTouches = false;
+                SchedulePastHis_TableView.ReloadData();
             }
         }
 
@@ -65,8 +77,8 @@ namespace StriveCustomer.iOS.Views
             await this.ViewModel.GetScheduleVehicleList();
 
             if(!(this.ViewModel.scheduleVehicleList.Status.Count == 0) || !(this.ViewModel.scheduleVehicleList == null))
-            {
-                var ScheduleVehicleSource = new ScheduleVehcileListSource(this.ViewModel);
+            {             
+                var ScheduleVehicleSource = new ScheduleVehcileListSource(this, this.ViewModel);
                 ScheduleVehicle_TableView.Source = ScheduleVehicleSource;
                 ScheduleVehicle_TableView.TableFooterView = new UIView(CGRect.Empty);
                 ScheduleVehicle_TableView.DelaysContentTouches = false;
