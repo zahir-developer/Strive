@@ -37,6 +37,8 @@ export class EmployeeListComponent implements OnInit {
   pageSize = 5;
   collectionSize: number;
   search = '';
+  sort = { column: 'Status', descending: true };
+  sortColumn: { column: string; descending: boolean; };
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -136,7 +138,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   seachEmployee() {
-    this.employeeService.searchEmployee(this.search).subscribe( res => {
+    this.employeeService.searchEmployee(this.search).subscribe(res => {
       if (res.status === 'Success') {
         const seachList = JSON.parse(res.resultData);
         this.employeeDetails = seachList.EmployeeList;
@@ -248,7 +250,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.mode = 'create';
     modalRef.result.then((result) => {
@@ -265,7 +267,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(CollisionListComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(CollisionListComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.actionType = 'view';
     modalRef.componentInstance.isModal = true;
@@ -278,7 +280,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(DocumentListComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(DocumentListComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.actionType = 'view';
     modalRef.componentInstance.isModal = true;
@@ -291,7 +293,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(CreateDocumentComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(CreateDocumentComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.mode = 'create';
     modalRef.result.then((result) => {
@@ -307,6 +309,34 @@ export class EmployeeListComponent implements OnInit {
 
   schedule() {
     this.router.navigate(['/admin/scheduling']);
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 
 }

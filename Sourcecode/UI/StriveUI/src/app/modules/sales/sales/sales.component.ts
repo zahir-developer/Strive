@@ -64,6 +64,7 @@ export class SalesComponent implements OnInit {
   PaymentStatus: any;
   accountDetails: any;
   isAccount: any;
+  discountList: any = [];
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -553,24 +554,24 @@ export class SalesComponent implements OnInit {
           jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
           ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
           locationId: +localStorage.getItem('empLocationId'),
-          clientId: 1,
-          vehicleId: 1,
+          clientId: null,
+          vehicleId: null,
           make: 0,
           model: 0,
           color: 0,
-          jobType: 1,
+          jobType: null,
           jobDate: new Date(),
           timeIn: new Date(),
           estimatedTimeOut: new Date(),
           actualTimeOut: new Date(),
-          jobStatus: 1,
+          jobStatus: null,
           isActive: true,
           isDeleted: false,
-          createdBy: 1,
+          createdBy: null,
           createdDate: new Date(),
-          updatedBy: 1,
+          updatedBy: null,
           updatedDate: new Date(),
-          notes: 'checking'
+          notes: null
         },
         jobItem: [{
           jobItemId: 0,
@@ -583,9 +584,9 @@ export class SalesComponent implements OnInit {
           reviewNote: null,
           isActive: true,
           isDeleted: false,
-          createdBy: 1,
+          createdBy: null,
           createdDate: new Date(),
-          updatedBy: 1,
+          updatedBy: null,
           updatedDate: new Date(),
           employeeId: +localStorage.getItem('empId')
         }],
@@ -599,9 +600,9 @@ export class SalesComponent implements OnInit {
           reviewNote: null,
           isActive: true,
           isDeleted: false,
-          createdBy: 1,
+          createdBy: null,
           createdDate: new Date(),
-          updatedBy: 1,
+          updatedBy: null,
           updatedDate: new Date()
         }
       };
@@ -725,6 +726,7 @@ export class SalesComponent implements OnInit {
     } else {
       this.discountAmount = 0;
     }
+    this.discountList = this.selectedDiscount;
     //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
@@ -761,6 +763,7 @@ export class SalesComponent implements OnInit {
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
+    this.discountList = this.discountList.filter( item => item.ServiceId !== +event.ServiceId);
     let discountAmount = 0;
     this.selectedDiscount.forEach(item => {
       discountAmount = discountAmount + (+item.Cost);
@@ -796,9 +799,9 @@ export class SalesComponent implements OnInit {
         comments: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
         jobPaymentId: 0
       };
@@ -806,14 +809,14 @@ export class SalesComponent implements OnInit {
     discount = this.selectedDiscount.map(item => {
       return {
         jobPaymentDiscountId: 0,
-        jobPaymentId: 0,
+        jobPaymentId: null,
         serviceDiscountId: +item.ServiceId,
         amount: item.Cost,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       }
     });

@@ -60,15 +60,18 @@
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th scope="col">Employee ID</th>
-                          <th scope="col">First Name</th>
-                          <th scope="col">Last Name</th>
+                          <th scope="col" (click)="changeSorting('EmployeeId')">Employee ID&nbsp;<i class="fa" [ngClass]="selectedCls('EmployeeId')"
+                            aria-hidden="true"></i></th>
+                          <th scope="col" (click)="changeSorting('FirstName')">First Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
+                            aria-hidden="true"></i></th>
+                          <th scope="col" (click)="changeSorting('LastName')">Last Name&nbsp;<i class="fa" [ngClass]="selectedCls('LastName')"
+                            aria-hidden="true"></i></th>
                           <th scope="col">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr
-                          *ngFor="let timeClock of timeClockEmployeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                          *ngFor="let timeClock of timeClockEmployeeDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                           <th scope="row">{{ timeClock.EmployeeId }}</th>
                           <td (click)="employeeCheckInDetail(timeClock)"><span
                               class="text-underline theme-primary-color font-size--9"

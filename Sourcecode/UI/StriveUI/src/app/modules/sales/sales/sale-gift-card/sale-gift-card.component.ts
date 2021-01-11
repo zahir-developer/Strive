@@ -93,19 +93,19 @@ export class SaleGiftCardComponent implements OnInit {
         make: 0,
         model: 0,
         color: 0,
-        jobType: 1,
+        jobType: null,
         jobDate: new Date(),
         timeIn: new Date(),
         estimatedTimeOut: new Date(),
         actualTimeOut: new Date(),
-        jobStatus: 1,
+        jobStatus: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
-        notes: ''
+        notes: null
       },
       jobItem: [{
         jobItemId: 0,
@@ -118,9 +118,9 @@ export class SaleGiftCardComponent implements OnInit {
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
       }],
@@ -134,9 +134,9 @@ export class SaleGiftCardComponent implements OnInit {
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       }
     };
