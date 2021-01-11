@@ -6,6 +6,7 @@ using System.Web;
 using MvvmCross;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
@@ -246,6 +247,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<ScheduleModel> GetSchedulePastService(int clientID)
         {
             return await _restClient.MakeApiCall<ScheduleModel>(ApiUtils.URL_SCHEDULE_PAST_SERVICE+ "?ClientId=" +clientID, HttpMethod.Get);
+        }
+
+        public async Task<AvailableScheduleServicesModel> GetScheduleServices()
+        {
+            return await _restClient.MakeApiCall<AvailableScheduleServicesModel>(ApiUtils.URL_SCHEDULE_SERVICES_AVAILABLE,HttpMethod.Get);
         }
     }
     public static class RestUtils

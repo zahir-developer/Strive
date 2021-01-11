@@ -15,6 +15,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
+using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.Android.Adapter;
 
 namespace StriveCustomer.Android.Fragments
@@ -39,7 +40,7 @@ namespace StriveCustomer.Android.Fragments
             
             ScheduleVehicleList_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.scheduleVehicle_RecyclerView);
             GetScheduleVehicleList();
-
+            
             return rootView;
         }
 
