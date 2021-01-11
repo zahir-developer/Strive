@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { CheckListService } from 'src/app/shared/services/data-service/check-list.service';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
-import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-check-list',
@@ -42,9 +42,9 @@ export class CheckListComponent implements OnInit {
      private toastr: ToastrService,) { }
 
   ngOnInit(): void {
-    this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.TableGridSize;
-    this.pageSizeList = PaginationConfig.Rows;
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllRoles();
 this.getAllcheckListDetails();
   }
