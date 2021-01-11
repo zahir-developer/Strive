@@ -124,17 +124,22 @@
                                                 <table class="table  table-striped m-t-10" >
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">First Name</th>
-                                                            <th scope="col">Last Name</th>
-                                                            <th scope="col">Phone Number</th>
-                                                            <th scope="col">Type</th>
-                                                            <th scope="col">Status</th>
+                                                            <th scope="col" (click)="changeSorting('FirstName')">First Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
+                                                                aria-hidden="true"></i> </th>
+                                                            <th scope="col" (click)="changeSorting('LastName')">Last Name&nbsp;<i class="fa" [ngClass]="selectedCls('LastName')"
+                                                                aria-hidden="true"></i> </th>
+                                                            <th scope="col" (click)="changeSorting('PhoneNumber')">Phone Number&nbsp;<i class="fa" [ngClass]="selectedCls('PhoneNumber')"
+                                                                aria-hidden="true"></i> </th>
+                                                            <th scope="col" (click)="changeSorting('Type')">Type&nbsp;<i class="fa" [ngClass]="selectedCls('Type')"
+                                                                aria-hidden="true"></i> </th>
+                                                            <th scope="col" (click)="changeSorting('IsActive')">Status&nbsp;<i class="fa" [ngClass]="selectedCls('IsActive')"
+                                                                aria-hidden="true"></i> </th>
                                                             <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr
-                                                            *ngFor="let client of clientDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                            *ngFor="let client of clientDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <th scope="row" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;"  (click)="navigateToCustmerDashboard(client)">{{client.FirstName}}</th>
                                                             <td>{{client.LastName}}</td>
                                                             <td>{{client.PhoneNumber}}</td>

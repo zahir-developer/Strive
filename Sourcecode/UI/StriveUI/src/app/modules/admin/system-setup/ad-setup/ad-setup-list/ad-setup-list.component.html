@@ -36,7 +36,7 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            *ngFor="let adSetup of adSetupDetails | search: query  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" >
+                                            *ngFor="let adSetup of adSetupDetails  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" >
                                             <th scope="row">{{adSetup.Name}}</th>
                                             <td>{{adSetup.Description}}</td>
                                             <td>{{adSetup.Status === true ? "Active" : "InActive"}}</td>

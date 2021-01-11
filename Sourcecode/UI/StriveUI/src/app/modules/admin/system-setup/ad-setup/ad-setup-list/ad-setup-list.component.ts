@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
-import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-ad-setup-list',
@@ -36,9 +36,9 @@ export class AdSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = false;
-    this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.TableGridSize;
-    this.pageSizeList = PaginationConfig.Rows;
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
 
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";

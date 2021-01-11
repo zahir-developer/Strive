@@ -25,6 +25,8 @@ export class ClientListComponent implements OnInit {
   pageSize = 15;
   collectionSize: number = 0;
   isLoading = true;
+  sort = { column: 'IsActive', descending: true };
+  sortColumn: { column: string; descending: boolean; };
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -153,5 +155,33 @@ export class ClientListComponent implements OnInit {
 
   navigateToCustmerDashboard(client) {
     this.router.navigate(['/customer'], { queryParams: { clientId: client.ClientId } });
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 }

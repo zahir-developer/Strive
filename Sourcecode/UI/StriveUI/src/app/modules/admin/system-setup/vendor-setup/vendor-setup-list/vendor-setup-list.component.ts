@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VendorService } from 'src/app/shared/services/data-service/vendor.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ToastrService } from 'ngx-toastr';
-import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-vendor-setup-list',
@@ -28,9 +28,9 @@ export class VendorSetupListComponent implements OnInit {
   constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.TableGridSize;
-    this.pageSizeList = PaginationConfig.Rows;
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllvendorSetupDetails();
   }
 
