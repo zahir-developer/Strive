@@ -92,6 +92,7 @@
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Fragments\SchedulePastServiceHistoryFragment.cs" />
+    <Compile Include="Fragments\ScheduleSelectServiceFragment.cs" />
     <Compile Include="Fragments\ScheduleVehicleListFragment.cs" />
     <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
     <Compile Include="Fragments\VehicleAdditionalServicesFragment.cs" />
@@ -919,6 +920,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ScheduleVehicleList_ItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleServicesFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleSelectService_ItemView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -56,15 +56,7 @@ namespace StriveCustomer.Android.Fragments
             {
                 if(this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count > 0)
                 {
-                    //foreach(var data in this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel)
-                    //{
-                    //    layout = LayoutInflater.From(Context).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
-                    //    moreInfo = layout.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
-                    //    var ticketNumber = layout.FindViewById<TextView>(Resource.Id.scheduleTicket_TextView);
-                    //    ticketNumber.PaintFlags = PaintFlags.UnderlineText;
-                    //    ticketNumber.Click += TicketNumber_Click;
-                    //    PastServiceList_LinearLayout.AddView(layout);
-                    //}
+
                     for(int services = 0; services < this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count; services++)
                     {
                         layout = LayoutInflater.From(Context).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
