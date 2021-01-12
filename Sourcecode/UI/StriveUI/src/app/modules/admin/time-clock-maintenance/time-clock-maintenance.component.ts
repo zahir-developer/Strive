@@ -5,6 +5,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-time-clock-maintenance',
@@ -15,8 +16,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
 
   timeClockEmployeeDetails = [];
   isLoading = true;
-  page = 1;
-  pageSize = 5;
+
   collectionSize: number = 0;
   isTimeClockEmpty = false;
   timeClockEmployeeDetailDto =
@@ -38,6 +38,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
   isView: boolean = false;
   sort = { column: 'EmployeeId', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pageSizeList: number[];
+  page: number;
+  pageSize: number;
   constructor(
     private timeClockMaintenanceService: TimeClockMaintenanceService,
     private toastr: ToastrService,
@@ -47,11 +50,27 @@ export class TimeClockMaintenanceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.selectedEmployee = '';
     this.isTimeClockWeekPage = false;
     this.weeklyDateAssign();
     // this.getEmployeeList();
     // this.getTimeClockEmployeeDetails();
+  }
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.weeklyDateAssign()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.weeklyDateAssign()
   }
 
   weeklyDateAssign() {
