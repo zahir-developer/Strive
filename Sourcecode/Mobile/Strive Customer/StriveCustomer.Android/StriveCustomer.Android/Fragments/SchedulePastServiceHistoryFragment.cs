@@ -76,9 +76,7 @@ namespace StriveCustomer.Android.Fragments
                         price.Text = this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel[services].Cost.ToString();
 
                         PastServiceList_LinearLayout.AddView(layout);
-
                     }
-
                 }
             }
         }

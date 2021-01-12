@@ -94,7 +94,7 @@ namespace Strive.Core.Services.Interfaces
         Task<CheckOutVehicleDetails> CheckOutVehicleDetails();
         Task<ScheduleModel> GetSchedulePastService(int clientID);
         Task<AvailableScheduleServicesModel> GetScheduleServices();
-    
+        Task<AvailableScheduleSlots> GetScheduleSlots();
     
     }
 }

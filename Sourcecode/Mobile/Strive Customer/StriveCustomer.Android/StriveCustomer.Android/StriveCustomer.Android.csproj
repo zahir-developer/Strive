@@ -74,6 +74,7 @@
     <Compile Include="Adapter\DealsInfoAdapter.cs" />
     <Compile Include="Adapter\IItemClickListener.cs" />
     <Compile Include="Adapter\PastDetailsAdapter.cs" />
+    <Compile Include="Adapter\ScheduleTimeSlots.cs" />
     <Compile Include="Adapter\ScheduleVehicleListAdapter.cs" />
     <Compile Include="Adapter\VehicleDetailsAdapter.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="Fragments\PastDetailsPageFragment.cs" />
     <Compile Include="Fragments\PersonalInfoEditFragment.cs" />
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
+    <Compile Include="Fragments\ScheduleAppointmentFragment.cs" />
+    <Compile Include="Fragments\ScheduleAppoitmentDateFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Fragments\ScheduleLocationsFragment.cs" />
     <Compile Include="Fragments\SchedulePastServiceHistoryFragment.cs" />
@@ -938,6 +941,9 @@
     <AndroidResource Include="Resources\layout\ScheduleLocationsFragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleAppointmentDateFragment.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -14,6 +14,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
 
 namespace StriveCustomer.Android.Fragments
@@ -23,6 +24,7 @@ namespace StriveCustomer.Android.Fragments
         private Button scheduleLocations_BackButton;
         private Button scheduleLocations_NextButton;
         private ScheduleSelectServiceFragment selectServiceFragment;
+        private ScheduleAppointmentFragment appointmentFragment;
         LinearLayout.LayoutParams layoutParams;
         private RadioGroup scheduleLocationsGroup;
         int someId = 2114119900;
@@ -50,7 +52,9 @@ namespace StriveCustomer.Android.Fragments
 
         private void ScheduleLocations_NextButton_Click(object sender, EventArgs e)
         {
-            
+            appointmentFragment = new ScheduleAppointmentFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, appointmentFragment).Commit();
         }
 
         private void ScheduleLocations_BackButton_Click(object sender, EventArgs e)
@@ -91,6 +95,14 @@ namespace StriveCustomer.Android.Fragments
         {
             var radiobtn = sender as RadioButton;
             var text = radiobtn.Text;
+            foreach(var data in this.ViewModel.Locations.Location)
+            {
+                if(string.Equals(data.Address1, text))
+                {
+                    CustomerScheduleInformation.ScheduleLocationCode = data.LocationId;
+                    CustomerScheduleInformation.ScheduleLocationAddress = data.Address1;
+                }              
+            }
         }
     }
 }
