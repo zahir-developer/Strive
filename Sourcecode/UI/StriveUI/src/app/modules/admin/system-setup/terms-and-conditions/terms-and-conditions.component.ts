@@ -92,11 +92,11 @@ export class TermsAndConditionsComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
 
-  downloadPDF() {
-        const base64 = this.document.Document.Base64;
+  downloadPDF(documents) {
+        const base64 = documents.Base64;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');
-        const fileName = this.fileName;
+        const fileName = documents.OriginalFileName;
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
