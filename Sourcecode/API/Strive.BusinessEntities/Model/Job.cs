@@ -74,7 +74,7 @@ namespace Strive.BusinessEntities.Model
         public DateTime? CheckOutTime { get; set; }
 
         [Column]
-        public int JobPaymentId { get; set; }
+        public int? JobPaymentId { get; set; }
 
     }
 }
