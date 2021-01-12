@@ -22,6 +22,7 @@ namespace StriveCustomer.Android.Fragments
         private Button ScheduleServices_BackButton;
         private Button ScheduleServices_FrontButton;
         private ScheduleFragment scheduleFragment;
+        private ScheduleLocationsFragment locationsFragment;
         private View[] layout;
         private CheckBox[] checkBoxes;
         private LinearLayout ScheduleServices_LinearLayout;
@@ -43,16 +44,18 @@ namespace StriveCustomer.Android.Fragments
             ScheduleServices_LinearLayout = rootView.FindViewById<LinearLayout>(Resource.Id.ScheduleServices_LinearLayout);
 
             ScheduleServices_BackButton.Click += ScheduleServices_BackButton_Click;
-            ScheduleServices_FrontButton.Click += ScheduleServices_FrontButton_Click;
+            ScheduleServices_FrontButton.Click += ScheduleServices_NextButton_Click;
 
             GetServicesDates();
 
             return rootView;
         }
 
-        private void ScheduleServices_FrontButton_Click(object sender, EventArgs e)
+        private void ScheduleServices_NextButton_Click(object sender, EventArgs e)
         {
+            locationsFragment = new ScheduleLocationsFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
         }
 
         private void ScheduleServices_BackButton_Click(object sender, EventArgs e)
