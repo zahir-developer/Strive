@@ -134,7 +134,7 @@ export const UrlConfig = {
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
     getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
-    getUncheckedVehicleDetails: `Admin/Checkout/GetCheckedInVehicleDetails`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails/`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
     addWhiteLabelDetail: `Admin/WhiteLabelling/Add`,

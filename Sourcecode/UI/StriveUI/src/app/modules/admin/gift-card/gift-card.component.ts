@@ -7,6 +7,7 @@ import { AddActivityComponent } from '../gift-card/add-activity/add-activity.com
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-gift-card',
@@ -25,11 +26,13 @@ export class GiftCardComponent implements OnInit {
   isActivityCollapsed = false;
   giftCardList = [];
   clonedGiftCardList = [];
-  page = 1;
-  pageSize = 10;
+ 
   collectionSize: number;
   sort = { column: 'GiftCardCode', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  page: number;
+  pageSize: number;
+  pageSizeList: number[];
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -44,6 +47,10 @@ export class GiftCardComponent implements OnInit {
     this.giftCardForm = this.fb.group({
       number: ['', Validators.required]
     });
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    
     this.getAllGiftCard();
   }
 
@@ -63,6 +70,19 @@ export class GiftCardComponent implements OnInit {
     });
   }
 
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllGiftCard()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllGiftCard()
+  }
   searchGift(text) {
     if (text.length > 0) {
       this.giftCardList = this.clonedGiftCardList.filter(item => item.searchName.toLowerCase().includes(text));
