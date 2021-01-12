@@ -104,7 +104,7 @@ export class SalesComponent implements OnInit {
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
     if (paramsData !== null) {
       this.ticketNumber = paramsData;
-      this.getDetailByTicket(false);
+      this.addTicketNumber();
     }
     this.getServiceType();
     this.getPaymentType();
@@ -758,6 +758,7 @@ export class SalesComponent implements OnInit {
               washDiscountPrice = washDiscountPrice + item.Cost;
             } else if (item.DiscountType === 'Percentage') {
               washDiscountPrice = washDiscountPrice + (washCost * item.Cost / 100);
+              item.Cost = (washCost * item.Cost / 100);
             }
           } else if (serviceType[0].CodeValue === 'Details') {
             this.details.forEach(detail => {
@@ -767,6 +768,7 @@ export class SalesComponent implements OnInit {
               detailDiscountPrice = detailDiscountPrice + item.Cost;
             } else if (item.DiscountType === 'Percentage') {
               detailDiscountPrice = detailDiscountPrice + (detailCost * item.Cost / 100);
+              item.Cost = (detailCost * item.Cost / 100);
             }
           } else if (serviceType[0].CodeValue === 'Additional Services') {
             this.additionalService.forEach(additional => {
@@ -776,6 +778,7 @@ export class SalesComponent implements OnInit {
               additionalDiscountPrice = additionalDiscountPrice + item.Cost;
             } else if (item.DiscountType === 'Percentage') {
               additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Cost / 100);
+              item.Cost = (additionalCost * item.Cost / 100);
             }
           } else if (serviceType[0].CodeValue === 'Air Fresheners') {
             this.airfreshnerService.forEach(airFreshner => {
@@ -785,6 +788,7 @@ export class SalesComponent implements OnInit {
               airfreshnerDiscountPrice = airfreshnerDiscountPrice + item.Cost;
             } else if (item.DiscountType === 'Percentage') {
               airfreshnerDiscountPrice = airfreshnerDiscountPrice + (airfreshnerCost * item.Cost / 100);
+              item.Cost = (airfreshnerCost * item.Cost / 100);
             }
           } else if (serviceType[0].CodeValue === 'Outside Services') {
             this.outsideServices.forEach(outside => {
@@ -794,6 +798,7 @@ export class SalesComponent implements OnInit {
               outsideDiscountPrice = outsideDiscountPrice + item.Cost;
             } else if (item.DiscountType === 'Percentage') {
               outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Cost / 100);
+              item.Cost = (outsideCost * item.Cost / 100);
             }
           } else if (serviceType[0].CodeValue === 'Upcharges') {
             this.upCharges.forEach(upcharge => {
@@ -803,6 +808,7 @@ export class SalesComponent implements OnInit {
               upchargeDiscountPrice = upchargeDiscountPrice + item.Cost;
             } else if (item.DiscountType === 'Percentage') {
               upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Cost / 100);
+              item.Cost = (upchargeCost * item.Cost / 100);
             }
           }
         }
@@ -1070,8 +1076,8 @@ export class SalesComponent implements OnInit {
 
   }
   deleteTicket() {
-    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-      this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
+    if (this.multipleTicketNumber.length > 0 ) {
+      this.salesService.deleteJob(this.multipleTicketNumber.toString()).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });
           this.getDetailByTicket(false);
@@ -1116,8 +1122,8 @@ export class SalesComponent implements OnInit {
     // }
   }
   rollBack() {
-    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-      this.salesService.rollback(+this.ticketNumber).subscribe(data => {
+    if (this.multipleTicketNumber.length > 0) {
+      this.salesService.rollback(this.multipleTicketNumber.toString()).subscribe(data => {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
