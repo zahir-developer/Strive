@@ -91,7 +91,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
 
-      }, 5000);
+      }, 500);
     }
   }
 
@@ -128,7 +128,7 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      subDocumentId : this.termsForm.controls['subDocumentId'].value
+      DocumentSubType : this.termsForm.controls['subDocumentId'].value
     };
     const finalObj = {
       document:obj,

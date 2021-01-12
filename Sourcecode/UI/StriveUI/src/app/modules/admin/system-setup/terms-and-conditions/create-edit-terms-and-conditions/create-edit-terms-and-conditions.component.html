@@ -6,7 +6,7 @@
                 <select class="form-control" formControlName="subDocumentId"
                         [ngClass]="{ 'is-invalid': submitted && f.subDocumentId.errors }">
                   <option value="" selected hidden>Choose </option>
-                  <option *ngFor="let serviceType of subdocumentType"  value="{{serviceType.CodeValue}}">
+                  <option *ngFor="let serviceType of subdocumentType"  value="{{serviceType.CodeId}}">
                     {{serviceType.CodeValue}}
                     
                   </option>
