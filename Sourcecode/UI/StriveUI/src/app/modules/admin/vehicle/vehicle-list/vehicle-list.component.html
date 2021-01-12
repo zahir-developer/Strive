@@ -36,7 +36,7 @@
                                 <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
                                         class="col-12 row d-block">No Vehicles Found</span></div>
                                 <div class="table-responsive" *ngIf="isTableEmpty === false">
-                                    <table class="table  table-striped m-t-10">
+                                    <table class="table  table-striped m-t-10 headerfix">
                                         <thead>
                                             <tr>
                                                 <th scope="col" (click)="changeSorting('ClientName')">Client Name&nbsp;<i class="fa" [ngClass]="selectedCls('ClientName')"
@@ -55,7 +55,7 @@
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="bodyfix">
                                             <tr
                                                 *ngFor="let vehicle of vehicleDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                 <th scope="row" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="navigateToClient(vehicle)">{{vehicle.ClientName}}</th>
@@ -79,10 +79,18 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                        [boundaryLinks]="true" class="d-flex justify-content-end">
-                                    </ngb-pagination>
+                                    <div class="row pull-right" >
+                                        <div class="col-6">
+                                         <ngb-pagination *ngIf="vehicleDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                             [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                             [boundaryLinks]="true" class="d-flex justify-content-end">
+                                         </ngb-pagination> 
+                                         </div>
+                                         <select *ngIf="vehicleDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                             <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+     
+                                         </select>
+                                     </div>
                                 </div>
                             </div>
                             <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog"

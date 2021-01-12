@@ -52,7 +52,7 @@
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table class="table border table-hover" aria-describedby="employee-list">
+                                    <table class="table border table-hover headerfix" aria-describedby="employee-list">
                                         <thead>
                                             <tr>
                                                 <th scope="col" (click)="changeSorting('FirstName')">First
@@ -73,7 +73,7 @@
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="bodyfix">
                                             <tr
                                                 *ngFor="let employee of employeeDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                 <td>{{employee.FirstName}}</td>
@@ -125,10 +125,19 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                        class="d-flex justify-content-end">
-                                    </ngb-pagination>
+                                    
+                                    <div class="row pull-right" >
+                                        <div class="col-6">
+                                         <ngb-pagination *ngIf="employeeDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                             [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                             [boundaryLinks]="true" class="d-flex justify-content-end">
+                                         </ngb-pagination> 
+                                         </div>
+                                         <select *ngIf="employeeDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                             <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+     
+                                         </select>
+                                     </div>
                                 </div>
                             </div>
                         </div>
