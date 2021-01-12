@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { datepickerAnimation } from 'ngx-bootstrap/datepicker/datepicker-animations';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-washes-list',
@@ -30,12 +31,15 @@ export class WashesListComponent implements OnInit {
   washListDetails = [];
   sort = { column: 'TicketNumber', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pageSizeList: number[];
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe,
     private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
 
   ngOnInit() {
-
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const obj = {
       id: this.locationId,
       date: new Date()
@@ -44,7 +48,19 @@ export class WashesListComponent implements OnInit {
     this.getAllWashDetails();
   }
 
-
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllWashDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllWashDetails()
+  }
   // Get All Washes
   getAllWashDetails() {
     this.washes.getAllWashes(this.locationId).subscribe(data => {
