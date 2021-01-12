@@ -42,7 +42,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   }
 
   getDocumentType() {
-    this.getCode.getCodeByCategory("TermsandConditionType").subscribe(data => {
+    this.getCode.getCodeByCategory("DocumentSubType").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
         this.subdocumentType = dType.Codes;
