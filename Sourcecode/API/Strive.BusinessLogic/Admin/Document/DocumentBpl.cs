@@ -394,7 +394,7 @@ namespace Strive.BusinessLogic.Document
             return document;
         }
 
-        public bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        public bool  DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
         {
             var docRal = new DocumentRal(_tenant);
           
@@ -404,12 +404,50 @@ namespace Strive.BusinessLogic.Document
             if (result)
             {
                 DeleteFile(documentType, doc.Document.FileName);
-            }
-            
+            }           
+
             return result;
         }
 
+        public Result GetDocumentByID(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var document = new DocumentRal(_tenant).GetDocumentById(documentId);
 
+            if (document.Document != null)
+            {
+                document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
+            }
+            _resultContent.Add(document.WithName("Document"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
+        public Result GetAllDocument(int documentTypeId)
+        {
+            var document = new DocumentRal(_tenant).GetAllDocument(documentTypeId);
+
+            
+            _resultContent.Add(document.WithName("Document"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
+        public Result DeleteDocumentByDocumentId(int documentId, GlobalUpload.DocumentType documentType)
+        {
+            var docRal = new DocumentRal(_tenant);
+            var doc = docRal.GetDocumentById(documentId);
+            var result = docRal.DeleteDocumentById(documentId);
+
+            if (result)
+            {
+                DeleteFile(documentType, doc.Document.FileName);
+            }
+
+            _resultContent.Add(result.WithName("Result"));
+            _result = Helper.BindSuccessResult(_resultContent);
+
+            return _result;
+        }
     }
 
 }

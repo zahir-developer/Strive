@@ -98,6 +98,7 @@ namespace Strive.BusinessEntities
             USPDELETEDOCUMENT,
             USPDELETEDOCUMENTBYID,
             USPGETDOCUMENTBYID,
+            USPGETALLDOCUMENT,
         }
         public enum AdSetup
         {
@@ -158,6 +159,7 @@ namespace Strive.BusinessEntities
         USPGETLOCATIONBYID,
         USPGETALLLOCATIONOFFSET,
         USPDELETELOCATIONOFFSET,
+        USPADDBAYSLOT,
         //Service Setup
         USPDELETESERVICEBYID,
         USPGETSERVICES,
@@ -202,7 +204,7 @@ namespace Strive.BusinessEntities
         USPGETPASTDETAILSBYCLIENTID,
         USPSAVEVEHICLE,
         uspGetVehicleByClientId,
-        uspGetVihicleMembership,
+        USPGETVEHICLEMEMBERSHIP,
         uspUpdateVechicleMembership,
         USPGETVEHICLEDETAILBYCLIENTID,
         USPGETVEHICLESTATEMENTBYCLIENTID,
@@ -254,6 +256,7 @@ namespace Strive.BusinessEntities
         USPGETPAYROLLLIST,
         USPUPDATEADJUSMENT,
         USPUPDATEEMPLOYEEADJUSTMENT,
+        USPUPDATEJOBPAYMENT,
         //CHECKOUT
         USPGETCHECKEDINVEHICLEDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,

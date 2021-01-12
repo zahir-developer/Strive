@@ -158,15 +158,12 @@ onRoleDeSelect(event) {
   }
   add(data, serviceDetails?) {
     if (data === 'add') {
-     
       this.isEdit = false;
       this.submit(serviceDetails);
     } else {
       this.selectedData = serviceDetails.ChecklistId;
       this.isEdit = true;
       this.checklistAdd = false;
-
-
     }
   }
   cancel(){
@@ -186,19 +183,15 @@ onRoleDeSelect(event) {
     // }
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
 
-    if(data.Name){
-      if (!pattern.test(data.Name)) {
-        this.toastr.error('Name is Required', 'Error!');
-  
+    if(data.Name !== undefined){
+      if (!pattern.test(data.Name) || data.Name === undefined ) {
+        this.toastr.warning('Checklist name is Required', 'Warning!');
         return 
-          
         };
     } else{
-      if (!pattern.test(this.checkListName)) {
-        this.toastr.error('Name is Required', 'Error!');
-  
+      if (!pattern.test(this.checkListName) || this.checkListName === undefined) {
+        this.toastr.warning('Checklist name is Required', 'Warning!');
         return 
-          
         };
     }
  

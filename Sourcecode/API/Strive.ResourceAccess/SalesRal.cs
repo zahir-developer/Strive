@@ -65,9 +65,9 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<SalesItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
 
         }
-        public bool AddPayment(SalesPaymentDto salesPayment)
+        public int AddPayment(SalesPaymentDto salesPayment)
         {
-            return dbRepo.InsertPc(salesPayment, "JobPaymentId");
+            return dbRepo.InsertPK(salesPayment, "JobPaymentId");
         }
         public bool AddListItem(SalesAddListItemDto salesAddListItem)
         {
@@ -100,6 +100,14 @@ namespace Strive.ResourceAccess
         public ServiceAndProductViewModel GetServicesAndProduct()
         {
             return db.FetchMultiResult<ServiceAndProductViewModel>(SPEnum.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
+        }
+
+        public bool UpdateJobPayement(int? jobId, int jobPaymentid)
+        {
+            _prm.Add("JobId", jobId);
+            _prm.Add("JobPaymentid", jobPaymentid);
+            db.Save(SPEnum.USPUPDATEJOBPAYMENT.ToString(), _prm);
+            return true;
         }
     }
 }
