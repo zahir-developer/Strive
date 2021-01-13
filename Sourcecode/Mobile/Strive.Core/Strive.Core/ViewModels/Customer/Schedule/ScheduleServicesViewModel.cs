@@ -12,6 +12,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         #region Properties
         
         public AvailableScheduleServicesModel scheduleServices { get; set; }
+        public int uniqueServiceID { get; set; } = 0;
 
         #endregion Properties
 
@@ -29,7 +30,15 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             {
                 scheduleServices = new AvailableScheduleServicesModel();
                 scheduleServices.ServicesWithPrice = new List<ServicesWithPrice>();
-                scheduleServices = result;
+                
+                foreach(var data in result.ServicesWithPrice)
+                {
+                    if(uniqueServiceID != data.ServiceId && string.Equals(data.ServiceTypeName, "Details"))
+                    {
+                        scheduleServices.ServicesWithPrice.Add(data);
+                    }
+                    uniqueServiceID = data.ServiceId;
+                }
             }
         }
 

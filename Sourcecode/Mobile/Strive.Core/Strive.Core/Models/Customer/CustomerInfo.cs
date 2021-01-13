@@ -134,6 +134,9 @@ namespace Strive.Core.Models.Customer
     {
         #region Properties
         public static string ScheduledVehicleName { get; set; }
+        public static int ScheduleLocationCode { get; set; }
+        public static string ScheduleLocationAddress { get; set; }
+        public static string ScheduleTime { get; set; }
 
         #endregion Properties
 
@@ -143,6 +146,7 @@ namespace Strive.Core.Models.Customer
         public static void ClearScheduleData()
         {
             ScheduledVehicleName = null;
+            ScheduleLocationCode = 0;
         }
 
         #endregion Commands
