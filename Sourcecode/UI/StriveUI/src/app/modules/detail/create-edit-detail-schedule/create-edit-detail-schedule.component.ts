@@ -473,7 +473,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
-    if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
+    if (this.selectedData?.Details?.ClientName.toLowerCase().startsWith('drive')) {
       this.detailForm.get('vehicle').disable();
     } else if(!this.isView){
       this.detailForm.get('vehicle').enable();
@@ -862,7 +862,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (res.status === 'Success') {
           this.isAssign = true;
           this.isStart = true;
-          this.isEdit = true;
+          // this.isEdit = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.jobID = jobID.Status;
