@@ -107,5 +107,7 @@ namespace Strive.Core.Utils
         public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllDetails";
 
         public const string URL_SCHEDULE_SERVICES_AVAILABLE = "/Admin/Sales/GetServicesWithPrice";
+
+        public const string URL_SCHEDULE_TIME_SLOTS = "/Admin/Dashboard/GetAvailablilityScheduleTime";
     }
 }

@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
+using StriveCustomer.Android.Fragments;
 
 namespace StriveCustomer.Android.Adapter
 {
@@ -43,6 +44,7 @@ namespace StriveCustomer.Android.Adapter
     {
 
         Context context;
+        private ScheduleSelectServiceFragment selectServicesFragment;
         private VehicleList VehicleLists = new VehicleList();
         private ScheduleVehicleListViewHolder vehicleListViewHolder;
         public ScheduleVehicleListAdapter(VehicleList vehicleList)
@@ -68,8 +70,10 @@ namespace StriveCustomer.Android.Adapter
         }
         public void OnClick(View itemView, int position, bool isLongClick)
         {
+            selectServicesFragment = new ScheduleSelectServiceFragment();
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
-            CustomerScheduleInformation.ScheduledVehicleName = VehicleLists.Status[position].VehicleColor +" "+ VehicleLists.Status[position].VehicleMfr;
+            CustomerScheduleInformation.ScheduledVehicleName = VehicleLists.Status[position].VehicleColor +" "+ VehicleLists.Status[position].VehicleMfr;          
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServicesFragment).Commit();
         }
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {

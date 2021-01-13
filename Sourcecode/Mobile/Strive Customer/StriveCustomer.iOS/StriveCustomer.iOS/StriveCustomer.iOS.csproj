@@ -278,6 +278,7 @@
         <Folder Include="Resources\Assets.xcassets\icon-instagram.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-twitter.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-email.imageset\" />
+        <Folder Include="Views\Schedule\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -308,8 +309,10 @@
         <InterfaceDefinition Include="Views\EditVehicleListView.xib" />
         <InterfaceDefinition Include="Views\MembershipDetailView.xib" />
         <InterfaceDefinition Include="Views\ContactUsView.xib" />
-        <InterfaceDefinition Include="Views\Dashboard_ScheduleView.xib" />
-        <InterfaceDefinition Include="Views\DB_VehicleList_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Dashboard_ScheduleView.xib" />
+        <InterfaceDefinition Include="Views\Schedule\DB_VehicleList_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\DB_PastHistory_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectService.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -439,15 +442,24 @@
         <Compile Include="Views\ContactUsView.designer.cs">
           <DependentUpon>ContactUsView.cs</DependentUpon>
         </Compile>
-        <Compile Include="Views\Dashboard_ScheduleView.cs" />
-        <Compile Include="Views\Dashboard_ScheduleView.designer.cs">
+        <Compile Include="Views\Schedule\Dashboard_ScheduleView.cs" />
+        <Compile Include="Views\Schedule\Dashboard_ScheduleView.designer.cs">
           <DependentUpon>Dashboard_ScheduleView.cs</DependentUpon>
         </Compile>
-        <Compile Include="Views\DB_VehicleList_Cell.cs" />
-        <Compile Include="Views\DB_VehicleList_Cell.designer.cs">
+        <Compile Include="Views\Schedule\DB_VehicleList_Cell.cs" />
+        <Compile Include="Views\Schedule\DB_VehicleList_Cell.designer.cs">
           <DependentUpon>DB_VehicleList_Cell.cs</DependentUpon>
         </Compile>
-        <Compile Include="Views\ScheduleVehcileListSource.cs" />
+        <Compile Include="Views\Schedule\ScheduleVehcileListSource.cs" />
+        <Compile Include="Views\Schedule\DB_PastHistory_Cell.cs" />
+        <Compile Include="Views\Schedule\DB_PastHistory_Cell.designer.cs">
+          <DependentUpon>DB_PastHistory_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_SelectService.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectService.designer.cs">
+          <DependentUpon>Schedule_SelectService.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_PastHis_Source.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
