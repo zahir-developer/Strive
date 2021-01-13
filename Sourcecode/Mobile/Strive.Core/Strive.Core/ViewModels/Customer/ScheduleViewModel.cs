@@ -14,6 +14,8 @@ namespace Strive.Core.ViewModels.Customer
 
         public VehicleList scheduleVehicleList { get; set; }
 
+        public ScheduleModel pastServiceHistory { get; set; }
+
         #endregion Properties
 
         #region Commands
@@ -26,14 +28,45 @@ namespace Strive.Core.ViewModels.Customer
             CustomerVehiclesInformation.vehiclesList = new VehicleList();
             CustomerVehiclesInformation.vehiclesList.Status = new List<VehicleDetail>();
             scheduleVehicleList = await AdminService.GetClientVehicle(CustomerInfo.ClientID);
-            CustomerVehiclesInformation.vehiclesList = scheduleVehicleList;
             if (scheduleVehicleList == null || scheduleVehicleList.Status.Count == 0)
             {
                 _userDialog.Alert("No associated vehicles were found.");
             }
+            else
+            {
+                CustomerVehiclesInformation.vehiclesList = scheduleVehicleList;
+            }
             _userDialog.HideLoading();
         }
 
+        public async Task<PastClientServices> GetPastDetailsServices()
+        {
+            var result = await AdminService.GetPastClientServices(CustomerInfo.ClientID);
+            if (result == null)
+            {
+                return result = null;
+            }
+            else
+            {
+                return result;
+            }
+
+
+        }
+
+
+        public async Task GetPastServiceDetails()
+        {
+            var result = await AdminService.GetSchedulePastService(89);
+            if(result == null)
+            {
+                _userDialog.Toast("No Schedules have been found !");
+            }
+            else
+            {
+                pastServiceHistory = result;
+            }
+        }
 
         #endregion Commands
 
