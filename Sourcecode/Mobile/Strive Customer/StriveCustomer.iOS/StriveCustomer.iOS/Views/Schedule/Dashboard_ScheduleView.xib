@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Dashboard_ScheduleView">
             <connections>
+                <outlet property="SchedulePastHis_TableView" destination="mai-rC-2It" id="3LS-ZY-4uh"/>
                 <outlet property="ScheduleVehicle_TableView" destination="7zv-3z-hBq" id="KSd-0k-9Hd"/>
                 <outlet property="Schedule_ParentView" destination="eqA-ZW-uTQ" id="zeu-cw-9IP"/>
                 <outlet property="Schedule_Seg1" destination="ezM-xB-qE9" id="B4o-ZA-HCo"/>
@@ -48,13 +49,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="347" height="555"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </tableView>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mai-rC-2It">
+                                    <rect key="frame" x="0.0" y="10" width="347" height="535"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </tableView>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
+                                <constraint firstItem="mai-rC-2It" firstAttribute="leading" secondItem="ezM-xB-qE9" secondAttribute="leading" id="4z9-mL-cg3"/>
                                 <constraint firstItem="7zv-3z-hBq" firstAttribute="centerY" secondItem="ezM-xB-qE9" secondAttribute="centerY" id="MVL-BB-sFQ"/>
                                 <constraint firstItem="7zv-3z-hBq" firstAttribute="centerX" secondItem="ezM-xB-qE9" secondAttribute="centerX" id="XBk-em-Hxd"/>
+                                <constraint firstItem="mai-rC-2It" firstAttribute="centerX" secondItem="ezM-xB-qE9" secondAttribute="centerX" id="cJo-mI-vxf"/>
                                 <constraint firstItem="7zv-3z-hBq" firstAttribute="top" secondItem="ezM-xB-qE9" secondAttribute="top" id="fp0-Lx-fbe"/>
+                                <constraint firstItem="mai-rC-2It" firstAttribute="centerY" secondItem="ezM-xB-qE9" secondAttribute="centerY" id="kSz-m2-piI"/>
                                 <constraint firstItem="7zv-3z-hBq" firstAttribute="leading" secondItem="ezM-xB-qE9" secondAttribute="leading" id="pGK-Ot-182"/>
+                                <constraint firstItem="mai-rC-2It" firstAttribute="top" secondItem="ezM-xB-qE9" secondAttribute="top" constant="10" id="w3k-0e-DNd"/>
                             </constraints>
                         </view>
                     </subviews>

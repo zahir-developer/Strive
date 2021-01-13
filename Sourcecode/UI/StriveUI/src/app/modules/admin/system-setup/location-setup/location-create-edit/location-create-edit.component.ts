@@ -83,7 +83,7 @@ export class LocationCreateEditComponent implements OnInit {
       email: this.selectedData.LocationAddress.Email,
       franchise: this.selectedData.Location.IsFranchise
     });
-    if (this.selectedData.LocationOffset !== undefined) {
+    if (this.selectedData.LocationOffset !== null) {
       this.offset1On = this.selectedData.LocationOffset.OffSet1On;
       this.offset1 = this.selectedData.LocationOffset.OffSet1;
       this.offsetA = this.selectedData.LocationOffset.OffSetA;
