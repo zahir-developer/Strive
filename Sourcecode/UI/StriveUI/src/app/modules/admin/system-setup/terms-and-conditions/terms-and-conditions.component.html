@@ -7,7 +7,7 @@
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Terms and Conditions</h5>&nbsp;
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="addData('add')" [disabled]="document?.Document !== null">Add</button>
+                            (click)="addData('add')">Add</button>
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
@@ -19,25 +19,28 @@
                                     <thead>
                                         <tr>
                                             <th>File Name</th>
+                                            <th>Type</th>
                                             <th>Created Date</th>
-                                            <th>Created By</th> 
+                                            <th>Created By</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngIf="isLoading === false && document?.Document === null" >
-                                           <td colspan="10" class="text-center"> No Records Found</td>
+                                        <tr *ngIf="document.length == 0">
+                                            <td colspan="10" class="text-center"> No Records Found</td>
                                         </tr>
-                                        <tr *ngIf="isLoading === false && document?.Document !== null">
-                                            <th scope="row">{{fileName}}</th>
-                                            <td>{{document?.Document?.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
-                                            <td>{{document?.Document?.CreatedBy}}</td> 
+                                        <tr *ngFor="let documents of document">
+                                            <td scope="row">{{documents?.OriginalFileName}}</td>
+                                            <td>{{documents?.DocumentSubtype === null ? 'None' : documents?.DocumentSubtype }} </td>
+                                            <td>{{documents?.CreatedDate | date: 'MM/dd/yyyy'}}</td>
+                                            <td>{{documents?.CreatedBy}}</td>
                                             <td>
                                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                                     pTooltip="Download" tooltipPosition="bottom"
-                                                    (click)="downloadPDF()"></em>
+                                                    (click)="downloadPDF(documents)"></em>
                                                 <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
-                                                    pTooltip="Delete" tooltipPosition="bottom" (click)="delete()"></em>
+                                                    pTooltip="Delete" tooltipPosition="bottom"
+                                                    (click)="delete(documents.DocumentId)"></em>
                                             </td>
                                         </tr>
                                     </tbody>

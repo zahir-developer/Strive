@@ -96,6 +96,7 @@ export class SalesComponent implements OnInit {
   paymentStatus: any = [];
   multipleTicketNumber = [];
   isTenTicketNumber: boolean;
+  serviceType: any = [];
   ngOnInit(): void {
     this.isTenTicketNumber = false;
     this.giftCardFromInit();
@@ -103,13 +104,26 @@ export class SalesComponent implements OnInit {
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
     if (paramsData !== null) {
       this.ticketNumber = paramsData;
-      this.getDetailByTicket(false);
+      this.addTicketNumber();
     }
+    this.getServiceType();
     this.getPaymentType();
     this.getPaymentStatus();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
   }
+
+  getServiceType() {
+    this.codes.getCodeByCategory('SERVICETYPE').subscribe(res => {
+      if (res.status === 'Success') {
+        const sType = JSON.parse(res.resultData);
+        this.serviceType = sType.Codes;
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
 
   getPaymentType() {
     this.codes.getCodeByCategory("PAYMENTTYPE").subscribe(data => {
@@ -198,6 +212,7 @@ export class SalesComponent implements OnInit {
         const services = JSON.parse(data.resultData);
         if (services.ServiceSetup !== null && services.ServiceSetup.length !== 0) {
           this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
+          console.log(this.discounts, 'discount');
         }
       }
     });
@@ -327,7 +342,7 @@ export class SalesComponent implements OnInit {
             }
           } else {
             this.showPopup = false;
-          } 
+          }
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {
             const summary = this.itemList?.Status?.SalesSummaryViewModel;
             this.initialcashback = summary?.Cashback ? summary?.Cashback : 0;
@@ -718,10 +733,89 @@ export class SalesComponent implements OnInit {
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
-
     let discountValue = 0;
     if (this.selectedDiscount.length > 0) {
-      discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
+      let washDiscountPrice = 0;
+      let detailDiscountPrice = 0;
+      let additionalDiscountPrice = 0;
+      let upchargeDiscountPrice = 0;
+      let airfreshnerDiscountPrice = 0;
+      let outsideDiscountPrice = 0;
+      this.selectedDiscount.forEach(item => {
+        const serviceType = this.serviceType.filter(type => +type.CodeId === +item.DiscountServiceType);
+        if (serviceType.length > 0) {
+          let washCost = 0;
+          let detailCost = 0;
+          let additionalCost = 0;
+          let upchargeCost = 0;
+          let airfreshnerCost = 0;
+          let outsideCost = 0;
+          if (serviceType[0].CodeValue === 'Washes') {
+            this.washes.forEach(wash => {
+              washCost = washCost + wash.Price;
+            });
+            if (item.DiscountType === 'Flat Fee') {
+              washDiscountPrice = washDiscountPrice + item.Cost;
+            } else if (item.DiscountType === 'Percentage') {
+              washDiscountPrice = washDiscountPrice + (washCost * item.Cost / 100);
+              item.Cost = (washCost * item.Cost / 100);
+            }
+          } else if (serviceType[0].CodeValue === 'Details') {
+            this.details.forEach(detail => {
+              detailCost = detailCost + detail.Price;
+            });
+            if (item.DiscountType === 'Flat Fee') {
+              detailDiscountPrice = detailDiscountPrice + item.Cost;
+            } else if (item.DiscountType === 'Percentage') {
+              detailDiscountPrice = detailDiscountPrice + (detailCost * item.Cost / 100);
+              item.Cost = (detailCost * item.Cost / 100);
+            }
+          } else if (serviceType[0].CodeValue === 'Additional Services') {
+            this.additionalService.forEach(additional => {
+              additionalCost = additionalCost + additional.Price;
+            });
+            if (item.DiscountType === 'Flat Fee') {
+              additionalDiscountPrice = additionalDiscountPrice + item.Cost;
+            } else if (item.DiscountType === 'Percentage') {
+              additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Cost / 100);
+              item.Cost = (additionalCost * item.Cost / 100);
+            }
+          } else if (serviceType[0].CodeValue === 'Air Fresheners') {
+            this.airfreshnerService.forEach(airFreshner => {
+              airfreshnerCost = airfreshnerCost + airFreshner.Price;
+            });
+            if (item.DiscountType === 'Flat Fee') {
+              airfreshnerDiscountPrice = airfreshnerDiscountPrice + item.Cost;
+            } else if (item.DiscountType === 'Percentage') {
+              airfreshnerDiscountPrice = airfreshnerDiscountPrice + (airfreshnerCost * item.Cost / 100);
+              item.Cost = (airfreshnerCost * item.Cost / 100);
+            }
+          } else if (serviceType[0].CodeValue === 'Outside Services') {
+            this.outsideServices.forEach(outside => {
+              outsideCost = outsideCost + outside.Price;
+            });
+            if (item.DiscountType === 'Flat Fee') {
+              outsideDiscountPrice = outsideDiscountPrice + item.Cost;
+            } else if (item.DiscountType === 'Percentage') {
+              outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Cost / 100);
+              item.Cost = (outsideCost * item.Cost / 100);
+            }
+          } else if (serviceType[0].CodeValue === 'Upcharges') {
+            this.upCharges.forEach(upcharge => {
+              upchargeCost = upchargeCost + upcharge.Price;
+            });
+            if (item.DiscountType === 'Flat Fee') {
+              upchargeDiscountPrice = upchargeDiscountPrice + item.Cost;
+            } else if (item.DiscountType === 'Percentage') {
+              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Cost / 100);
+              item.Cost = (upchargeCost * item.Cost / 100);
+            }
+          }
+        }
+        discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
+          + upchargeDiscountPrice + outsideDiscountPrice;
+      });
+      // discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
       this.discountAmount = discountValue;
     } else {
       this.discountAmount = 0;
@@ -763,7 +857,7 @@ export class SalesComponent implements OnInit {
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
-    this.discountList = this.discountList.filter( item => item.ServiceId !== +event.ServiceId);
+    this.discountList = this.discountList.filter(item => item.ServiceId !== +event.ServiceId);
     let discountAmount = 0;
     this.selectedDiscount.forEach(item => {
       discountAmount = discountAmount + (+item.Cost);
@@ -919,7 +1013,7 @@ export class SalesComponent implements OnInit {
       jobPayment: {
         jobPaymentId: 0,
         membershipId: this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null,
-        jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId: 0,
+        jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
@@ -982,8 +1076,8 @@ export class SalesComponent implements OnInit {
 
   }
   deleteTicket() {
-    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-      this.salesService.deleteJob(+this.ticketNumber).subscribe(data => {
+    if (this.multipleTicketNumber.length > 0 ) {
+      this.salesService.deleteJob(this.multipleTicketNumber.toString()).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });
           this.getDetailByTicket(false);
@@ -1028,8 +1122,8 @@ export class SalesComponent implements OnInit {
     // }
   }
   rollBack() {
-    if (this.ticketNumber !== '' && this.ticketNumber !== undefined) {
-      this.salesService.rollback(+this.ticketNumber).subscribe(data => {
+    if (this.multipleTicketNumber.length > 0) {
+      this.salesService.rollback(this.multipleTicketNumber.toString()).subscribe(data => {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });

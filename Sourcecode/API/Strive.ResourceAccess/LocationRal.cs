@@ -48,9 +48,9 @@ namespace Strive.ResourceAccess
         //    return lam;
         //}
 
-        public bool AddLocation(LocationDto location)
+        public int AddLocation(LocationDto location)
         {
-            return dbRepo.InsertPc(location, "LocationId");
+            return dbRepo.InsertPK(location, "LocationId");
         }
 
         //public bool SaveLocationDetails(LocationDto location)
@@ -108,6 +108,12 @@ namespace Strive.ResourceAccess
         {    
             _prm.Add("LocationOffsetId", id.toInt());
             db.Save(SPEnum.USPDELETELOCATIONOFFSET.ToString(), _prm);
+            return true;
+        }
+        public bool AddBaySolt(int id)
+        {
+            _prm.Add("LocationId", id.toInt());
+            db.Save(SPEnum.USPADDBAYSLOT.ToString(), _prm);
             return true;
         }
 

@@ -121,7 +121,7 @@
                                                     class="col-12 row d-block">No Records Found</span></div>
                                             <div class="table-responsive"
                                                 *ngIf="isTableEmpty === false && isLoading === false" >
-                                                <table class="table  table-striped m-t-10" >
+                                                <table class="table  table-striped m-t-10 headerfix" >
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" (click)="changeSorting('FirstName')">First Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
@@ -137,7 +137,7 @@
                                                             <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody class="bodyfix">
                                                         <tr
                                                             *ngFor="let client of clientDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <th scope="row" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;"  (click)="navigateToCustmerDashboard(client)">{{client.FirstName}}</th>
@@ -163,11 +163,18 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <ngb-pagination *ngIf="collectionSize > 10"
-                                                    [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                                    class="d-flex justify-content-end">
-                                                </ngb-pagination>
+                                                <div class="row pull-right" >
+                                                    <div class="col-6">
+                                                     <ngb-pagination *ngIf="clientDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                                         [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                     </ngb-pagination> 
+                                                     </div>
+                                                     <select *ngIf="clientDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+                 
+                                                     </select>
+                                                 </div>
                                             </div>
                                         </div>
                                         <div class="loadingDiv" *ngIf="isLoading">

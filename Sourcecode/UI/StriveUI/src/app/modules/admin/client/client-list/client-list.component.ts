@@ -5,6 +5,7 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-list',
@@ -27,6 +28,7 @@ export class ClientListComponent implements OnInit {
   isLoading = true;
   sort = { column: 'IsActive', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pageSizeList: number[];
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -35,6 +37,9 @@ export class ClientListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const paramsData = this.route.snapshot.queryParamMap.get('clientId');
     if (paramsData !== null) {
       const clientObj = {
@@ -64,7 +69,19 @@ export class ClientListComponent implements OnInit {
       }
     });
   }
-
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllClientDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllClientDetails()
+  }
   clientSearch() {
     this.page = 1;
     const obj = {

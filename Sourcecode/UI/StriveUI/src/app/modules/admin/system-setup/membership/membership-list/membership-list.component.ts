@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
-import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-membership-list',
@@ -30,9 +30,9 @@ export class MembershipListComponent implements OnInit {
   constructor(private toastr: MessageServiceToastr, private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 
   ngOnInit() {
-    this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.TableGridSize;
-    this.pageSizeList = PaginationConfig.Rows;
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
     this.searchStatus = "";
     this.getAllMembershipDetails();
