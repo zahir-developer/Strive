@@ -51,7 +51,8 @@
                                                     <!-- <th scope="col">Upcharge</th> -->
                                                     <th scope="col" (click)="changeSorting('Barcode')">Barcode&nbsp;<i class="fa" [ngClass]="selectedCls('Barcode')"
                                                         aria-hidden="true"></i></th>
-                                                    <!-- <th scope="col">Membership</th> -->
+                                                    <th scope="col"(click)="changeSorting('MembershipName')">Membership&nbsp;<i class="fa" [ngClass]="selectedCls('MembershipName')"
+                                                        aria-hidden="true"></i></th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
@@ -61,9 +62,9 @@
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
                                                     <td>{{vehicle.VehicleColor}}</td>
                                                     <td>{{vehicle.VehicleMfr }}</td>
-                                                    <td>{{vehicle.VehicleModel}}</td>
-                                                    <!-- <td>{{vehicle.Upcharge}}</td> -->
+                                                    <td>{{vehicle.VehicleModel}}</td>                                                    
                                                     <td>{{vehicle.Barcode}}</td>
+                                                    <td>{{vehicle.MembershipName}}</td>
                                                     <!-- <td></td> -->
                                                     <td>
                                                         <em class="fa fa-times-circle delete-list theme-optional-icon-color"
