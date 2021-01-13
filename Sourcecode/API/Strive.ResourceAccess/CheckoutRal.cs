@@ -14,9 +14,10 @@ namespace Strive.ResourceAccess
     public class CheckoutRal : RalBase
     {
         public CheckoutRal(ITenantHelper tenant) : base(tenant) { }
-        public List<CheckOutViewModel> GetCheckedInVehicleDetails()
+        public List<CheckOutViewModel> GetAllCheckoutDetails(int locationId)
         {
-            return db.Fetch<CheckOutViewModel>(SPEnum.USPGETCHECKEDINVEHICLEDETAILS.ToString(), _prm);
+            _prm.Add("locationid", locationId);
+            return db.Fetch<CheckOutViewModel>(SPEnum.USPGETAllCHECKOUTDETAILS.ToString(), _prm);
         }
         public bool UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry)
         {

@@ -60,7 +60,7 @@ export class AddGiftCardComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close(false);
   }
 
   selectedAmount(event) {
