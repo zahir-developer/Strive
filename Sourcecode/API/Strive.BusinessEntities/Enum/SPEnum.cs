@@ -95,7 +95,7 @@ namespace Strive.BusinessEntities
             USPUPDATEDOCUMENTPASSWORD,
             USPGETEMPLOYEEDOCUMENTBYEMPID,
             USPDELETEEMPLOYEEDOCUMENTBYID,
-            USPDELETEDOCUMENT,
+            USPDELETEDOCUMENT,      
             USPDELETEDOCUMENTBYID,
             USPGETDOCUMENTBYID,
             USPGETALLDOCUMENT,
@@ -133,6 +133,7 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEROLES,
         USPEMAILEXIST,
         USPGETEMPLOYEEROLEBYID,
+        USPGETCITYBYSTATE,
 
         //Client
         USPGETALLCLIENT,

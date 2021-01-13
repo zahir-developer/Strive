@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic.Common
         Result GetAllEmail();
         Result GetSearchResult<T>(string searchTerm);
         Result GetEmailIdExist(string emailId);
+        Result GetCityByStateId(int stateId);
     }
 }

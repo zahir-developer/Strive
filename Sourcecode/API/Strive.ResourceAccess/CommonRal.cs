@@ -125,5 +125,10 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<bool>(SPEnum.USPEMAILEXIST.ToString(), _prm);
             return result;
         }
+        public List<Code> GetCityByStateId(int stateId)
+        {
+            _prm.Add("stateId", stateId);
+            return db.Fetch<Code>(SPEnum.USPGETCITYBYSTATE.ToString(), _prm);
+        }
     }
 }
