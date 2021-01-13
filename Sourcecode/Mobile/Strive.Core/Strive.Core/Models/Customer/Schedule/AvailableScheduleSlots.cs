@@ -6,7 +6,7 @@ namespace Strive.Core.Models.Customer.Schedule
 {
     public class AvailableScheduleSlots
     {
-        public GetTimeInDetails GetTimeInDetails { get; set; }
+        public List<GetTimeInDetails> GetTimeInDetails { get; set; }
     }
     public class GetTimeInDetails
     {
