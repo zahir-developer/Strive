@@ -734,6 +734,7 @@ export class SalesComponent implements OnInit {
   }
   discountProcess() {
     let discountValue = 0;
+    this.discountList = [];
     if (this.selectedDiscount.length > 0) {
       let washDiscountPrice = 0;
       let detailDiscountPrice = 0;
@@ -820,7 +821,10 @@ export class SalesComponent implements OnInit {
     } else {
       this.discountAmount = 0;
     }
-    this.discountList = this.selectedDiscount;
+    this.selectedDiscount.forEach( item => {
+      this.discountList.push(item);
+    });
+    // this.discountList = this.selectedDiscount;
     //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
