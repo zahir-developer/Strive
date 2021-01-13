@@ -50,14 +50,18 @@
                                                     aria-describedby="giftCard-history">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Gift Card No.</th>
-                                                            <th scope="col">Name</th>
-                                                            <th scope="col">Activated Date</th>
-                                                            <th scope="col">Amount</th>
+                                                            <th scope="col" (click)="changeSorting('GiftCardCode')">Gift Card No.&nbsp;<i class="fa" [ngClass]="selectedCls('GiftCardCode')"
+                                                                aria-hidden="true"></i></th>
+                                                            <th scope="col" (click)="changeSorting('GiftCardName')">Name&nbsp;<i class="fa" [ngClass]="selectedCls('GiftCardName')"
+                                                                aria-hidden="true"></i></th>
+                                                            <th scope="col" (click)="changeSorting('ExpiryDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ExpiryDate')"
+                                                                aria-hidden="true"></i></th>
+                                                            <th scope="col" (click)="changeSorting('TotalAmount')">Amount&nbsp;<i class="fa" [ngClass]="selectedCls('TotalAmount')"
+                                                                aria-hidden="true"></i></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
-                                                        <tr *ngFor="let card of giftCardList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                        <tr *ngFor="let card of giftCardList | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <td>{{card.GiftCardCode}}</td>
                                                             <td>{{card.GiftCardName}}</td>
                                                             <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
@@ -72,10 +76,18 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <ngb-pagination *ngIf="giftCardList.length > 10" [collectionSize]="collectionSize" [(page)]="page"
-                                                    [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                                    [boundaryLinks]="true" class="d-flex justify-content-end">
-                                                </ngb-pagination>
+                                                <div class="row pull-right" >
+                                                    <div class="col-6">
+                                                     <ngb-pagination *ngIf="giftCardList.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                                         [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                     </ngb-pagination> 
+                                                     </div>
+                                                     <select *ngIf="giftCardList.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+                 
+                                                     </select>
+                                                 </div>
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +183,7 @@
                                             <div class="row">
                                                 <div class="col-12 p-l-0 p-r-0">
                                                     <div class="table-responsive">
-                                                        <table class="table border table-hover"
+                                                        <table class="table border table-hover headerfix"
                                                             aria-describedby="giftCard-history">
                                                             <thead>
                                                                 <tr>
@@ -181,7 +193,7 @@
                                                                     <th scope="col">Amount</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody *ngIf="giftCardHistory.length > 0">
+                                                            <tbody *ngIf="giftCardHistory.length > 0" class="bodyfix">
                                                                 <tr *ngFor="let card of giftCardHistory">
                                                                     <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
                                                                     </td>

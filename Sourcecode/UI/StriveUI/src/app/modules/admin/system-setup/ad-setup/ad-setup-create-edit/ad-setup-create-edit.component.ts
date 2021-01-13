@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
@@ -28,11 +29,16 @@ export class AdSetupCreateEditComponent implements OnInit {
   @Input() documentTypeId:any;
   employeeId: number;
   documentClear: boolean = false;
+  fileType: string[];
+  fileSize: number;
+  localFileSize: any;
 
   constructor(private adSetup: AdSetupService,
      private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.fileType = ApplicationConfig.UploadFileType.AdSetup;
+    this.fileSize = ApplicationConfig.UploadSize.AdSetup
     this.Status = [{id : 0,Value :"Inactive"}, {id :1 , Value:"Active"}];
     this.formInitialize();
     this.submitted = false;
@@ -60,40 +66,7 @@ export class AdSetupCreateEditComponent implements OnInit {
   get f() {
     return this.adSetupForm.controls;
   }
-  fileNameChanged() {
-    let filesSelected: any;
-    filesSelected = document.getElementById('customFile');
-    filesSelected = filesSelected.files;
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;      
-      this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-      let fileReader: any;
-      fileReader = new FileReader();
-      fileReader.onload = function (fileLoadedEventTigger) {
-        let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('customFile');
-        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
-      };
-      fileReader.readAsDataURL(fileToLoad);
-      this.isLoading = true;
-      setTimeout(() => {
-        let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
-        this.fileUploadformData = fileTosaveName;
-        if( this.fileUploadformData == this.selectedData.base64){
-          this.documentClear = false
-
-        } else{
-          this.documentClear = true
-
-        }
-        this.isLoading = false;
-        console.log(this.fileName,this.fileUploadformData.length);
-      }, 500);
-    }
-  }
-
+  
   clearDocument() {
     this.fileName = null;
     this.fileUploadformData = null;
@@ -116,7 +89,40 @@ export class AdSetupCreateEditComponent implements OnInit {
  
 
   
+  fileNameChanged() {
+    let filesSelected: any;
+    filesSelected = document.getElementById('customFile');
+    filesSelected = filesSelected.files;
+    if (filesSelected.length > 0) {
+      const fileToLoad = filesSelected[0];
+      this.localFileSize = fileToLoad.size
+      this.fileName = fileToLoad.name;   
+      this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+      let fileReader: any;
+      fileReader = new FileReader();
+      fileReader.onload = function (fileLoadedEventTigger) {
+        let textAreaFileContents: any;
+        textAreaFileContents = document.getElementById('customFile');
+        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
+      };
+      fileReader.readAsDataURL(fileToLoad);
+      this.isLoading = true;
+      setTimeout(() => {
+        let fileTosaveName: any;
+      let lowercaseFileThumb = this.fileThumb.toLowerCase()
+        if( (lowercaseFileThumb == this.fileType[0]) ||(lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2]) ){
+          fileTosaveName = fileReader.result?.split(',')[1];
+      }
+      else{
+        this.toastr.error( 'Upload Image Only' );
+        this.clearDocument();
+      }
+        this.fileUploadformData = fileTosaveName;
+        this.isLoading = false;
 
+      }, 5000);
+    }
+  }
 
  
   // Add/Update Service
@@ -125,6 +131,13 @@ export class AdSetupCreateEditComponent implements OnInit {
     if (this.adSetupForm.invalid || this.fileName === null) {
       return;
     }
+    let localFileKbSize =   this.localFileSize / Math.pow(1024,1)
+    let localFileKbRoundSize = +localFileKbSize.toFixed()
+        if(this.fileSize < localFileKbRoundSize){
+          this.toastr.error('Maximum Image Size 5MB' );
+    
+          return;
+        }
     const obj = { Document :{
       documentId: 0,
       documentType: this.documentTypeId,

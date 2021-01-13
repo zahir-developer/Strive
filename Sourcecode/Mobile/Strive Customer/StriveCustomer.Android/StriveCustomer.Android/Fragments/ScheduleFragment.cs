@@ -7,6 +7,8 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
+using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Webkit;
@@ -14,12 +16,17 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Customer;
+using StriveCustomer.Android.Adapter;
 
 namespace StriveCustomer.Android.Fragments
 {
     public class ScheduleFragment : MvxFragment<ScheduleViewModel>
     {
-        WebView genBookView;
+        TabLayout scheduleTabs;
+        ViewPager schedulePager;
+        ViewPagerAdapter scheduleAdapter;
+        SchedulePastServiceHistoryFragment pastServiceHistoryFragment;
+        ScheduleVehicleListFragment vehicleListFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,14 +40,23 @@ namespace StriveCustomer.Android.Fragments
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.ScheduleScreenFragment, null);
-            genBookView = rootView.FindViewById<WebView>(Resource.Id.genbookView);
-            WebSettings webSettings = genBookView.Settings;
-            webSettings.SetAppCacheEnabled(true);
-            webSettings.JavaScriptEnabled = true;
-            genBookView.SetWebViewClient(new WebViewClient());
-            genBookView.LoadUrl("https://telliant-systems.genbook.com/?bookingSourceId=1");
+
+            scheduleTabs = rootView.FindViewById<TabLayout>(Resource.Id.Schedule_TabLayout);
+            schedulePager = rootView.FindViewById<ViewPager>(Resource.Id.Schedule_ProfilePager);
+            pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment();
+            vehicleListFragment = new ScheduleVehicleListFragment();
 
             return rootView;
+        }
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            scheduleAdapter = new ViewPagerAdapter(ChildFragmentManager);
+            scheduleAdapter.AddFragment(vehicleListFragment, "Vehicle List");
+            scheduleAdapter.AddFragment(pastServiceHistoryFragment, "Past Service History");
+            schedulePager.Adapter = scheduleAdapter;
+            scheduleTabs.SetupWithViewPager(schedulePager);
+            //schedulePager.SetCurrentItem(MyProfileInfoNeeds.selectedTab, false);
         }
     }
 }

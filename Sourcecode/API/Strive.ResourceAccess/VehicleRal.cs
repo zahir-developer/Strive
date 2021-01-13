@@ -32,7 +32,7 @@ namespace Strive.ResourceAccess
         }
         public List<VehicleMembershipModel> GetVehicleMembership()
         {
-            return db.Fetch<VehicleMembershipModel>(SPEnum.uspGetVihicleMembership.ToString(), null);
+            return db.Fetch<VehicleMembershipModel>(SPEnum.USPGETVEHICLEMEMBERSHIP.ToString(), null);
         }
         public bool UpdateVehicleMembership(BusinessEntities.Model.Membership Membership)
         {

@@ -14,6 +14,9 @@ namespace Strive.BusinessEntities.Model
         public int DocumentType { get; set; }
 
         [Column]
+        public int DocumentSubType { get; set; }
+
+        [Column]
         public string FileName { get; set; }
 
         [Column]
@@ -46,8 +49,7 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
 
-        [Column]
-        public int DocumentSubType { get; set; }
+       
 
     }
 }

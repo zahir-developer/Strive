@@ -70,6 +70,7 @@ import { CreateEditTermsAndConditionsComponent } from './system-setup/terms-and-
 import { AdSetupComponent } from './system-setup/ad-setup/ad-setup.component';
 import { AdSetupListComponent } from './system-setup/ad-setup/ad-setup-list/ad-setup-list.component';
 import { AdSetupCreateEditComponent } from './system-setup/ad-setup/ad-setup-create-edit/ad-setup-create-edit.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -96,6 +97,7 @@ import { AdSetupCreateEditComponent } from './system-setup/ad-setup/ad-setup-cre
     FormsModule,
     TableModule,
     DialogModule,
+    DropdownModule,
     NgxMaterialTimepickerModule,
     SharedModule,
     NgbPaginationModule,
