@@ -535,7 +535,7 @@ export class SalesComponent implements OnInit {
         size: 'lg'
       };
       const productObj = {
-        ticketNumber: this.newTicketNumber,
+        ticketNumber: this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber[0] : this.newTicketNumber,
         quantity: +this.addItemForm.controls.quantity.value,
         selectedService: this.selectedService
       };
