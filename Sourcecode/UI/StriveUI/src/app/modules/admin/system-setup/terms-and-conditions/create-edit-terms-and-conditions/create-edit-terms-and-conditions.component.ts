@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-create-edit-terms-and-conditions',
@@ -19,20 +21,42 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   fileThumb: any = null;
   submitted: any;
   employeeId: any;
-  constructor(private fb:FormBuilder, private toastr: MessageServiceToastr, private document:DocumentService) { }
+  subdocumentType: any;
+  fileType: any;
+  fileSize: number;
+  localFileSize: any;
+  constructor(private fb:FormBuilder, private toastr: MessageServiceToastr,
+     private document:DocumentService, private getCode: GetCodeService) { }
 
   ngOnInit() : void {
+    this.fileType = ApplicationConfig.UploadFileType.TermsAndCondition;
+    this.fileSize = ApplicationConfig.UploadSize.TermsAndCondition
     if (localStorage.getItem('employeeName') !== undefined) {
       this.employeeId = +localStorage.getItem('empId');
     }
     this.formInitialize();
+    this.getDocumentType();
+  }
+  get f() {
+    return this.termsForm.controls;
   }
 
+  getDocumentType() {
+    this.getCode.getCodeByCategory("DocumentSubType").subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+        this.subdocumentType = dType.Codes;
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+      }
+    });
+  }
   formInitialize() {
     this.termsForm = this.fb.group({
       createdDate: [''],
       createdName: [''],
-      uploadBy:['',Validators.required]
+      uploadBy:['',Validators.required],
+      subDocumentId :['']
     }); 
   }
 
@@ -42,6 +66,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
+      this.localFileSize = fileToLoad.size
       this.fileName = fileToLoad.name;   
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
@@ -55,8 +80,9 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
-        if(this.fileThumb == 'PDF' || this.fileThumb == 'pdf'){
-          fileTosaveName = fileReader.result.split(',')[1];
+       
+        if(this.fileThumb.toLowerCase() == this.fileType[0]){
+          fileTosaveName = fileReader.result?.split(',')[1];
       }
       else{
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
@@ -64,8 +90,8 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       }
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
-        console.log(this.fileName,this.fileUploadformData.length);
-      }, 5000);
+
+      }, 500);
     }
   }
 
@@ -73,11 +99,19 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     this.fileName = null;
     this.fileThumb= null;
     this.fileUploadformData = null;
+   
   }
 
   submit(){
     this.submitted = true;    
     if(this.fileName === null){   
+      return;
+    }
+let localFileKbSize =   this.localFileSize / Math.pow(1024,1)
+let localFileKbRoundSize = +localFileKbSize.toFixed()
+    if(this.fileSize < localFileKbRoundSize){
+      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
+
       return;
     }
     const obj = {
@@ -93,7 +127,8 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       createdBy: this.employeeId,
       createdDate: new Date(),
       updatedBy: this.employeeId,
-      updatedDate: new Date()
+      updatedDate: new Date(),
+      DocumentSubType : this.termsForm.controls['subDocumentId'].value
     };
     const finalObj = {
       document:obj,

@@ -23,7 +23,7 @@ namespace Admin.API.Controllers
         /// Method to Get CheckedIn Vehicle Details.
         /// </summary>
         [HttpGet]
-        [Route("GetAllCheckoutDetails/{locationId}")]
+        [Route("GetAllCheckoutDetails")]
         public Result GetAllCheckoutDetails(  int locationId) => _bplManager.GetAllCheckoutDetails(locationId);
         #endregion
 

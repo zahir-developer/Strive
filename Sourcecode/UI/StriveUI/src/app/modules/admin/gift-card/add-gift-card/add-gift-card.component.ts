@@ -6,7 +6,6 @@ import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { Router } from '@angular/router';
-import { GiftCardComponent } from '../gift-card.component';
 
 @Component({
   selector: 'app-add-gift-card',
@@ -23,8 +22,6 @@ export class AddGiftCardComponent implements OnInit {
     private fb: FormBuilder,
     private giftCardService: GiftCardService,
     private toastr: ToastrService,
-    
-    private giftCardComponent :GiftCardComponent,
     private messageService: MessageServiceToastr,
     private router: Router
     ) { }
@@ -63,7 +60,7 @@ export class AddGiftCardComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close(false);
   }
 
   selectedAmount(event) {

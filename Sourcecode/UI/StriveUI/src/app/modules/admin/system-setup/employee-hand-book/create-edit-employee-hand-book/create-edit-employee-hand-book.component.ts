@@ -6,6 +6,8 @@ import { ProductService } from 'src/app/shared/services/data-service/product.ser
 import * as moment from 'moment';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-create-edit-employee-hand-book',
@@ -21,8 +23,8 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   Vendor: any;
   locationName: any;
   isChecked: boolean;
-  @Input() documentTypeId:any;
-  
+  @Input() documentTypeId: any;
+
   @Output() closeDialog = new EventEmitter();
   @Output() getDocumentType = new EventEmitter();
 
@@ -36,38 +38,75 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   createdDate: any;
   headerName: string;
   employeeId: any;
-  constructor(private fb: FormBuilder,
-     private toastr: MessageServiceToastr, private document:DocumentService) { }
+  fileType: string[];
+  fileSize: number;
+  localFileSize: any;
+  constructor(
+    private fb: FormBuilder,
+    private toastr: MessageServiceToastr,
+    private document: DocumentService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
+    this.fileType = ApplicationConfig.UploadFileType.EmployeeHandbook;
+    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook
     if (localStorage.getItem('employeeName') !== undefined) {
       this.headerName = localStorage.getItem('employeeName');
       this.employeeId = +localStorage.getItem('empId');
 
-    }    
+    }
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
-   
+
   }
 
   formInitialize() {
     this.handbookSetupForm = this.fb.group({
       createdDate: [''],
-      name: ['', Validators.required],
+      name: ['', Validators.required, Validators.pattern['a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/']],
       createdName: [''],
-      uploadBy:['',Validators.required]
+      uploadBy: ['', Validators.required]
     });
-    this.handbookSetupForm.patchValue({status : 0}); 
+    this.handbookSetupForm.patchValue({ status: 0 });
   }
-  
-  
- 
-  
-  
+
+
+
+
+
   get f() {
     return this.handbookSetupForm.controls;
   }
+
+  // fileNameChanged(e: any) {
+  //   this.isLoading = true;
+  //   try {
+  //     const file = e.target.files[0];
+  //     const fReader = new FileReader();
+  //     fReader.readAsDataURL(file);
+  //     fReader.onloadend = (event: any) => {
+  //       console.log(file.name);
+  //       this.fileName = file.name;
+  //       const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+  //       let fileTosaveName: any;
+  //       fileTosaveName = event.target.result.split(',')[1];
+  //       this.fileUploadformData = fileTosaveName;
+  //       const fileObj = {
+  //         fileName: this.fileName,
+  //         fileUploadDate: this.fileUploadformData,
+  //         fileType: fileExtension
+  //       };
+  //       this.isLoading = false;
+  //     };
+  //   } catch (error) {
+  //     this.fileName = null;
+  //     this.fileUploadformData = null;
+  //     this.isLoading = false;
+  //     console.log('no file was selected...');
+  //   }
+  // }
 
   fileNameChanged() {
     let filesSelected: any;
@@ -75,11 +114,8 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;  
-      const DateCreated = fileToLoad.lastModifiedDate;   
-      this.createdDate = moment(DateCreated).format('l');
-    this.handbookSetupForm.controls['createdDate'].setValue(this.createdDate);
-    this.handbookSetupForm.controls['createdName'].setValue(this.headerName); 
+      this.localFileSize = fileToLoad.size
+      this.fileName = fileToLoad.name;   
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
@@ -91,28 +127,44 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       fileReader.readAsDataURL(fileToLoad);
       this.isLoading = true;
       setTimeout(() => {
-        if (this.fileThumb == 'PDF' || this.fileThumb == 'pdf' || this.fileThumb == 'doc' || this.fileThumb == 'DOC' || this.fileThumb == 'DOCX' || this.fileThumb == 'docx') {
-          this.fileUploadformData = fileReader.result.split(',')[1];
-        }
-        else{
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
-          this.clearDocument();
-        }
+        let fileTosaveName: any;
+      let lowercaseFileThumb = this.fileThumb.toLowerCase()
+        if( (lowercaseFileThumb == this.fileType[0]) ||(lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2]) ){
+          fileTosaveName = fileReader.result?.split(',')[1];
+      }
+      else{
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload DOC,DOCX,PDF Only' });
+        this.clearDocument();
+      }
+        this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
+
       }, 5000);
     }
   }
 
- 
-  submit(){
-    this.submitted = true;    
-    if(this.fileName === null){   
+  submit() {
+    this.submitted = true;
+    if (this.fileName === null) {
       return;
     }
-    this.isLoading = true;
+    const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
+    if (this.handbookSetupForm.controls['name'].value) {
+      if (!pattern.test(this.handbookSetupForm.controls['name'].value)) {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Name is Required' });
+        return;
+      }
+    }
+    let localFileKbSize =   this.localFileSize / Math.pow(1024,1)
+let localFileKbRoundSize = +localFileKbSize.toFixed()
+    if(this.fileSize < localFileKbRoundSize){
+      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
+
+      return;
+    }
     const obj = {
       documentId: 0,
-      DocumentName : this.handbookSetupForm.controls['name'].value,
+      DocumentName: this.handbookSetupForm.controls['name'].value,
       documentType: this.documentTypeId,
       fileName: this.fileName,
       originalFileName: null,
@@ -127,11 +179,13 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       updatedDate: new Date()
     };
     const finalObj = {
-      document:obj,
-      documentType:"EMPLOYEEHANDBOOK"
+      document: obj,
+      documentType: "EMPLOYEEHANDBOOK"
     };
+    this.spinner.show();
     this.document.addDocument(finalObj).subscribe(data => {
-      if (data.status === 'Success') {        
+      this.spinner.hide();
+      if (data.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Saved Successfully' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.getDocumentType.emit();
@@ -146,10 +200,10 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
 
   clearDocument() {
     this.fileName = null;
-    this.fileThumb= null;
+    this.fileThumb = null;
     this.fileUploadformData = null;
-  this.handbookSetupForm.controls['createdDate'].setValue('');
-  this.handbookSetupForm.controls['createdName'].setValue('');
+    this.handbookSetupForm.controls['createdDate'].setValue('');
+    this.handbookSetupForm.controls['createdName'].setValue('');
 
   }
   cancel() {
