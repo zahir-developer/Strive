@@ -24,6 +24,9 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetAllMembershipById/{membershipId}")]
         public Result GetMembershipById(int membershipId) => _bplManager.GetMembershipById(membershipId);
+        [HttpGet]
+        [Route("GetMembershipAvailability/{vehicleId}")]
+        public Result GetMembershipAvailability(int vehicleId) => _bplManager.GetMembershipAvailability(vehicleId);
         [HttpPost]
         [Route("Add")]
         public Result AddMembership([FromBody] MembershipDto member) => _bplManager.AddMembership(member);

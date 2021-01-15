@@ -73,7 +73,8 @@ namespace Strive.BusinessEntities
 
         public enum Membership
         {
-            USPGETALLMEMBERSHIP
+            USPGETALLMEMBERSHIP,
+            USPGETVEHICLEMEMBERSHIPAVAILABILITY
         }
         public enum Checklist
         {

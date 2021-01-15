@@ -26,6 +26,11 @@ namespace Strive.BusinessLogic.MembershipSetup
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipById,membershipid, "MembershipDetail");
         }
+
+        public Result GetMembershipAvailability(int vehicleId)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipAvailability, vehicleId, "MembershipAvailabilityForAVehicle");
+        }
         public Result AddMembership(MembershipDto member)
         {
             return ResultWrap(new MembershipSetupRal(_tenant).AddMembership, member, "Status");
