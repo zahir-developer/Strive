@@ -8,6 +8,6 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class MembershipExistViewModel
     {
-        public bool IsMembership { get; set; }
+        public bool Status { get; set; }
     }
 }

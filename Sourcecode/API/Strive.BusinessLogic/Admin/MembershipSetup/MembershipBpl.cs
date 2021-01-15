@@ -29,7 +29,7 @@ namespace Strive.BusinessLogic.MembershipSetup
 
         public Result GetMembershipAvailability(int vehicleId)
         {
-            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipAvailability, vehicleId, "MembershipAvailabilityForAVehicle");
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipAvailability, vehicleId, "IsMemebership");
         }
         public Result AddMembership(MembershipDto member)
         {
