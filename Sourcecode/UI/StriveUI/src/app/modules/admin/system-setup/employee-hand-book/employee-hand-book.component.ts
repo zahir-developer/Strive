@@ -42,16 +42,18 @@ export class EmployeeHandBookComponent implements OnInit {
   }
 
   adddata(data, handbookDetails?) {
-    if (this.document.Document !== null) {
-      this.toastr.showMessage({
-        severity: 'warning', title: 'Warning',
-        body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
-      });
-    }
-    else if (data === 'add') {
-      this.selectedData = handbookDetails;
-      this.showDialog = true;
-    }
+    // if (this.document.Document !== null) {
+    //   this.toastr.showMessage({
+    //     severity: 'warning', title: 'Warning',
+    //     body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
+    //   });
+    // }
+    // else if (data === 'add') {
+    //   this.selectedData = handbookDetails;
+    //   this.showDialog = true;
+    // }
+    this.selectedData = handbookDetails;
+    this.showDialog = true;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
