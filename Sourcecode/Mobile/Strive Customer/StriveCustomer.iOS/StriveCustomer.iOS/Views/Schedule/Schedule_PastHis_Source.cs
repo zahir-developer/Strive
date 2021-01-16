@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using Foundation;
+using Strive.Core.Models.Customer;
+using Strive.Core.ViewModels.Customer;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views.Schedule
 {
     public class Schedule_PastHis_Source : UITableViewSource
     {
-        public List<String> PastHis_List = new List<string>();
-        public Schedule_PastHis_Source()
+        ScheduleViewModel ViewModel;
+        public bool isClicked = false;
+        public List<BayJobDetailViewModel> PastHis_List = new List<BayJobDetailViewModel>();
+        public Schedule_PastHis_Source(ScheduleViewModel viewModel)
         {
-            PastHis_List.Add("New York");
-            PastHis_List.Add("Japan");
-            PastHis_List.Add("Chicago");
-            PastHis_List.Add("Washington");
-            PastHis_List.Add("Mexico");
-            PastHis_List.Add("Toronto");
+            this.ViewModel = viewModel;
+            this.PastHis_List = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
+
         }
 
         public override nint NumberOfSections(UITableView tableView)
@@ -25,12 +26,19 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 90;
+            if (isClicked)
+            {
+                return 200;
+            }
+            else
+            {
+                return 90;
+            }            
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return PastHis_List.Count;
+            return ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -40,5 +48,13 @@ namespace StriveCustomer.iOS.Views.Schedule
             cell.SetData(PastHis_List, indexPath);
             return cell;
         }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            isClicked = true;
+            var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
+           
+            GetHeightForRow(tableView, indexPath);                       
+        }        
     }
 }
