@@ -437,7 +437,8 @@ namespace Strive.BusinessLogic.Common
         }
         public Result GetCityByStateId(int stateId)
         {
-            return ResultWrap(new CommonRal(_tenant, true).GetCityByStateId, stateId, "cities");
+            return ResultWrap(new CommonRal(_tenant, false).GetCityByStateId, stateId, "cities");
+             
         }
 
     }
