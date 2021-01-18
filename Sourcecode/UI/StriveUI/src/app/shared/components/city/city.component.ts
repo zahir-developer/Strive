@@ -11,6 +11,10 @@ import { ChangeDetectorRef } from '@angular/core';
 export class CityComponent implements OnInit {
   @Input() isView: any;
   @Input() selectedCityId: any;
+  @Input() selectedStateId: any;
+
+  @Input() State?: any;
+
   @Output() selectCity = new EventEmitter();
   city = '';
   submitted: boolean;
@@ -28,31 +32,36 @@ export class CityComponent implements OnInit {
     'Georgia',
     'Hawaii',
     'Idaho'];
+  cityId: any;
   constructor(private cdRef: ChangeDetectorRef, private stateService: StateService) { }
 
   ngOnInit(): void {
     this.submitted = false;
-    this.getCity();
+      if (this.selectedStateId !== undefined) {
+this.getCity(this.selectedStateId)    }
   }
 
   ngAfterViewChecked(){
     if (this.selectedCityId !== undefined) {
       this.cdRef.detectChanges();
     }
+   
   }
 
-  getCity() {
-    this.stateService.getCityList('CITY').subscribe(res => {
+  getCity(city) {
+    let cityValue = this.selectedStateId ? this.selectedStateId : city
+    this.stateService.getCityByStateId(cityValue).subscribe(res => {
       const city = JSON.parse(res.resultData);
-      if (city.Codes.length > 0) {
-        this.cities = city.Codes.map(item => {
+      if (city.cities.length > 0) {
+        this.cities = city.cities.map(item => {
           return {
-            value: item.CodeId,
-            name: item.CodeValue
+            value: item.CityId,
+            name: item.CityName
           };
         });
-        this.setCity();
-      }
+  this.setCity();
+
+     }
     }, (err) => {
     });
   }

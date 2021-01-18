@@ -105,6 +105,8 @@ export const UrlConfig = {
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
     getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     cityList: `Admin/Common/GetCodesByCategory/`,
+    cityByStateId: `Admin/Common/GetCityByStateId/`,
+
     addDetail: `Admin/Details/AddDetails`,
     updateDetail: `Admin/Details/UpdateDetails`,
     getDetailById: `Admin/Details/GetDetailsById/`,

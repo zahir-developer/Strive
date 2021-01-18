@@ -221,6 +221,7 @@ export class LocationCreateEditComponent implements OnInit {
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
+    this.cityComponent.getCity(this.State);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;

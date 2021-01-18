@@ -15,4 +15,7 @@ export class StateService {
   getCityList(code) {
     return this.http.get(`${UrlConfig.totalUrl.cityList}` + code);
   }
+  getCityByStateId(Id) {
+    return this.http.get(`${UrlConfig.totalUrl.cityByStateId}`+  Id);
+  }
 }

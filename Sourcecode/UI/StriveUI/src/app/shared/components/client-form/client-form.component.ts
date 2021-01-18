@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../services/data-service/client.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
+import { CityComponent } from '../city/city.component';
 
 @Component({
   selector: 'app-client-form',
@@ -12,6 +13,8 @@ import { GetCodeService } from '../../services/data-service/getcode.service';
 })
 export class ClientFormComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
+
   clientForm: FormGroup;
   Status: any;
   State: any;
@@ -132,6 +135,7 @@ export class ClientFormComponent implements OnInit {
 
   getSelectedStateId(event) {
     this.State = event.target.value;
+    this.cityComponent.getCity(this.State);
   }
 
   selectCity(event) {
