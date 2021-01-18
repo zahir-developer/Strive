@@ -1,7 +1,9 @@
 ﻿using System;
 using Foundation;
+using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
+using StriveCustomer.iOS.Views.Schedule;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
@@ -9,8 +11,10 @@ namespace StriveCustomer.iOS.Views
     public class ScheduleVehcileListSource : UITableViewSource
     {
         public VehicleList scheduleVehicleList;
-        public ScheduleVehcileListSource(ScheduleViewModel viewModel)
+        public MvxViewController view;
+        public ScheduleVehcileListSource(MvxViewController scheduleView ,ScheduleViewModel viewModel)
         {
+            this.view = scheduleView;
             this.scheduleVehicleList = viewModel.scheduleVehicleList;
         }
 
@@ -35,6 +39,12 @@ namespace StriveCustomer.iOS.Views
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             cell.SetData(scheduleVehicleList, indexPath);
             return cell;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var select_service = new Schedule_SelectService();
+            view.NavigationController.PushViewController(select_service, true);
         }
     }
 }

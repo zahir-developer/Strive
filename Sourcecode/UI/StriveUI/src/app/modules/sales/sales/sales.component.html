@@ -128,13 +128,13 @@
                                         <button type="button" class="btn col-sm btn-payment actived"
                                             [disabled]='enableButton' (click)="addPayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]="!enableButton || ticketNumber === ''"
+                                            [disabled]="!enableButton || multipleTicketNumber.length === 0"
                                             (click)="deleteItem('', 'rollback')">RollBack</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]="!enableButton || ticketNumber === ''"
+                                            [disabled]="!enableButton || multipleTicketNumber.length === 0"
                                             (click)="deleteItem('', 'deleteJob')">Del</button>
                                         <button type="button" class="btn col-sm btn-payment actived m-r-0"
-                                            [disabled]="!enableButton || ticketNumber === ''"
+                                            [disabled]="!enableButton || multipleTicketNumber.length === 0"
                                             (click)="print()">Print</button>
                                     </div>
                                     <div id="Giftcardpopup" class="gift-card"> <span class="closebtn"
@@ -533,17 +533,17 @@
                                                 <tr *ngFor="let discount of discountService">
                                                     <td class="pointer">{{discount?.ServiceName}}</td>
                                                     <td>{{discount?.Quantity}}</td>
-                                                    <td>{{discount?.Quantity * discount?.Price | currency}}</td>
+                                                    <td>-{{discount?.Quantity * discount?.Price | currency}}</td>
                                                     <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             (click)="deleteItem(discount, 'deleteItem')"></i></td>
                                                 </tr>
-                                                <tr *ngIf="selectedDiscount.length > 0">
+                                                <tr *ngIf="discountList.length > 0">
                                                     <th scope="row" colspan="5">Discounts </th>
                                                 </tr>
-                                                <tr *ngFor="let discount of selectedDiscount">
+                                                <tr *ngFor="let discount of discountList">
                                                     <td class="pointer">{{discount?.ServiceName}}</td>
                                                     <td>1</td>
-                                                    <td>{{1 * discount?.Cost | currency}}</td>
+                                                    <td>-{{1 * discount?.Cost | currency}}</td>
                                                     <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             (click)="deletediscount(discount)"></i></td>
                                                 </tr>
@@ -599,7 +599,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Discount </div>
                                             <div class="form-group col-md-6 text-right">
-                                                {{discountAmount ? (discountAmount | currency): '$0.00'}} </div>
+                                                -{{discountAmount ? (discountAmount | currency): '$0.00'}} </div>
                                         </div>
                                         <div class="form-row border-bottom m-b-8">
                                             <div class="form-group col-md-6"> Account </div>

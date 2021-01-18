@@ -21,7 +21,12 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), null);
         }
-      
+
+        public MembershipExistViewModel GetMembershipAvailability(int vehicleId)
+        {
+            _prm.Add("@VehicleId",vehicleId);
+            return db.FetchSingle<MembershipExistViewModel>(EnumSP.Membership.USPGETVEHICLEMEMBERSHIPAVAILABILITY.ToString(), _prm);
+        }
         public bool AddMembership(MembershipDto member)
         {
             return dbRepo.InsertPc(member,"MembershipId");

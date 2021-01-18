@@ -3,6 +3,7 @@ import { VehicleService } from 'src/app/shared/services/data-service/vehicle.ser
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -24,6 +25,9 @@ export class VehicleListComponent implements OnInit {
   collectionSize: number = 0;
   additionalService: any = [];
   upchargeServices: any = [];
+  sort = { column: 'ClientName', descending: true };
+  sortColumn: { column: string; descending: boolean; };
+  pageSizeList: number[];
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -32,10 +36,25 @@ export class VehicleListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllVehicleDetails();
     this.getService();
   }
-
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllVehicleDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllVehicleDetails()
+  }
   // Get All Vehicles
   getAllVehicleDetails() {
     const obj = {
@@ -150,6 +169,34 @@ export class VehicleListComponent implements OnInit {
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
     });
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 }
 

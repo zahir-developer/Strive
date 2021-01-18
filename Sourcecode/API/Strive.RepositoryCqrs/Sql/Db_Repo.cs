@@ -335,7 +335,7 @@ namespace Strive.RepositoryCqrs
                             primInsert = true;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
                         throw;

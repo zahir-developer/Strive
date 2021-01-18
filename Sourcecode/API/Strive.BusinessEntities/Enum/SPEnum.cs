@@ -73,7 +73,8 @@ namespace Strive.BusinessEntities
 
         public enum Membership
         {
-            USPGETALLMEMBERSHIP
+            USPGETALLMEMBERSHIP,
+            USPGETVEHICLEMEMBERSHIPAVAILABILITY
         }
         public enum Checklist
         {
@@ -205,7 +206,7 @@ namespace Strive.BusinessEntities
         USPGETPASTDETAILSBYCLIENTID,
         USPSAVEVEHICLE,
         uspGetVehicleByClientId,
-        uspGetVihicleMembership,
+        USPGETVEHICLEMEMBERSHIP,
         uspUpdateVechicleMembership,
         USPGETVEHICLEDETAILBYCLIENTID,
         USPGETVEHICLESTATEMENTBYCLIENTID,

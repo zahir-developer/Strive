@@ -103,23 +103,40 @@
                                         class="col-12 row d-block">No Washes Found</span></div>
                                 <div class="setup-content" *ngIf="isTableEmpty === false">
                                     <div class="table-responsive">
-                                        <table class="table table-striped">
+                                        <table class="table table-striped headerfix">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Ticket No</th>
-                                                    <th scope="col">Client Name</th>
-                                                    <th scope="col">Phone No</th>
-                                                    <th scope="col">Make/Model/Color</th>
-                                                    <th scope="col">Time In</th>
-                                                    <th scope="col">Estimated Time Out </th>
-                                                    <th scope="col">Services</th>
+                                                    <th scope="col" (click)="changeSorting('TicketNumber')">Ticket
+                                                        No&nbsp;<i class="fa" [ngClass]="selectedCls('TicketNumber')"
+                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" (click)="changeSorting('ClientName')">Client
+                                                        Name&nbsp;<i class="fa" [ngClass]="selectedCls('ClientName')"
+                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" (click)="changeSorting('PhoneNumber')">Phone
+                                                        No&nbsp;<i class="fa" [ngClass]="selectedCls('PhoneNumber')"
+                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" (click)="changeSorting('VehicleName')">
+                                                        Make/Model/Color&nbsp;<i class="fa"
+                                                            [ngClass]="selectedCls('VehicleName')"
+                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" (click)="changeSorting('TimeInFormat')">Time
+                                                        In&nbsp;<i class="fa" [ngClass]="selectedCls('TimeInFormat')"
+                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" (click)="changeSorting('EstimatedTimeOutFormat')">Estimated
+                                                        Time Out&nbsp;<i class="fa"
+                                                            [ngClass]="selectedCls('EstimatedTimeOutFormat')"
+                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" (click)="changeSorting('ServiceName')">
+                                                        Services&nbsp;<i class="fa"
+                                                            [ngClass]="selectedCls('ServiceName')"
+                                                            aria-hidden="true"></i> </th>
                                                     <th scope="col"></th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class="bodyfix">
                                                 <tr
-                                                    *ngFor="let wash of washDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                    *ngFor="let wash of washDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td>{{wash.ClientName}}</td>
                                                     <td>{{wash.PhoneNumber}}</td>
@@ -130,22 +147,34 @@
                                                     <td>{{wash.ServiceName}}</td>
                                                     <td>
                                                         <button type="button"
-                                                            class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12" (click)="pay(wash)">Pay</button>
+                                                            class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12"
+                                                            (click)="pay(wash)">Pay</button>
                                                     </td>
                                                     <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('view',wash)" pTooltip="View" tooltipPosition="bottom"></i>
+                                                            (click)="add('view',wash)" pTooltip="View"
+                                                            tooltipPosition="bottom"></i>
                                                         <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('edit',wash)" pTooltip="Edit" tooltipPosition="bottom"></i>
+                                                            (click)="add('edit',wash)" pTooltip="Edit"
+                                                            tooltipPosition="bottom"></i>
                                                         <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            (click)="delete(wash)" pTooltip="Delete" tooltipPosition="bottom"></i>
+                                                            (click)="delete(wash)" pTooltip="Delete"
+                                                            tooltipPosition="bottom"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                            [boundaryLinks]="true" class="d-flex justify-content-end">
-                                        </ngb-pagination>
+                                        <div class="row pull-right" >
+                                            <div class="col-6">
+                                             <ngb-pagination *ngIf="washDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                                 [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                                 [boundaryLinks]="true" class="d-flex justify-content-end">
+                                             </ngb-pagination> 
+                                             </div>
+                                             <select *ngIf="washDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                                 <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+         
+                                             </select>
+                                         </div>
                                     </div>
                                 </div>
                             </div>
