@@ -73,5 +73,9 @@ namespace Admin.API.Controllers
         public Result GetHistoryByClientId(int id) => _bplManager.GetHistoryByClientId(id);
         #endregion
 
+        [HttpPost]
+        [Route("IsClientName")]
+        public Result IsClientName([FromBody]ClientNameDto clientNameDto) => _bplManager.IsClientName(clientNameDto);
+
     }
 }

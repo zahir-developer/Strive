@@ -61,6 +61,7 @@ namespace Strive.BusinessLogic
             try
             {
                 
+               
                     foreach (var item in client.ClientAddress)
                 {
                     if (!string.IsNullOrEmpty(item.Email))
@@ -69,6 +70,7 @@ namespace Strive.BusinessLogic
                         client.Client.AuthId = clientAuthId;
                     }
                 }
+               
                 return ResultWrap(new ClientRal(_tenant).InsertClientDetails, client, "Status");
             }
             catch (Exception ex)
@@ -133,6 +135,11 @@ namespace Strive.BusinessLogic
         public Result GetHistoryByClientId(int id)
         {
             return ResultWrap(new ClientRal(_tenant).GetHistoryByClientId, id, "VehicleHistory");
+        }
+
+        public Result IsClientName (ClientNameDto clientNameDto)
+        {
+            return ResultWrap(new ClientRal(_tenant).IsClientName, clientNameDto, "IsClientNameAvailable");
         }
 
     }
