@@ -128,7 +128,8 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   getAllRoles() {
-    this.timeClockMaintenanceService.getRolesbyEmployeeId().subscribe(res => {
+   let id  =  this.empClockInObj.employeeID
+    this.timeClockMaintenanceService.getRolesbyEmployeeId(id).subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
         console.log(roles);
