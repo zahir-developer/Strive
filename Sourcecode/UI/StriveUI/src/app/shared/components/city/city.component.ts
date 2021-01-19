@@ -49,7 +49,7 @@ this.getCity(this.selectedStateId)    }
   }
 
   getCity(city) {
-    let cityValue = this.selectedStateId ? this.selectedStateId : city
+    let cityValue = city ? city : this.selectedStateId
     this.stateService.getCityByStateId(cityValue).subscribe(res => {
       const city = JSON.parse(res.resultData);
       if (city.cities.length > 0) {

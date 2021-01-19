@@ -135,7 +135,7 @@ export class ClientFormComponent implements OnInit {
 
   getSelectedStateId(event) {
     this.State = event.target.value;
-    this.cityComponent.getCity(this.State);
+    this.cityComponent.getCity(event.target.value);
   }
 
   selectCity(event) {
