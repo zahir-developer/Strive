@@ -30,7 +30,7 @@ export class VehicleCreateEditComponent implements OnInit {
   membership: any;
   additional: any;
   membershipServices: any = [];
-  memberService: any;
+  memberService: any = [];
   vehicles: any;
   patchedService: any;
   memberServiceId: any;

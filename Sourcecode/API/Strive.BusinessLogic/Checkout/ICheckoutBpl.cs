@@ -11,7 +11,7 @@ namespace Strive.BusinessLogic.Checkout
 {
     public interface ICheckoutBpl
     {
-        Result GetCheckedInVehicleDetails();
+        Result GetAllCheckoutDetails( int locationId);
         Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry);
         Result UpdateJobStatusHold(JobIdDto jobIdDto);
         Result UpdateJobStatusComplete(JobIdDto jobIdDto);

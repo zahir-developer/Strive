@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
 
 @Component({
@@ -19,7 +21,8 @@ export class SaleGiftCardComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private salesService: SalesService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private giftCardService: GiftCardService
   ) { }
 
   ngOnInit(): void {
@@ -90,19 +93,19 @@ export class SaleGiftCardComponent implements OnInit {
         make: 0,
         model: 0,
         color: 0,
-        jobType: 1,
+        jobType: null,
         jobDate: new Date(),
         timeIn: new Date(),
         estimatedTimeOut: new Date(),
         actualTimeOut: new Date(),
-        jobStatus: 1,
+        jobStatus: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
-        notes: ''
+        notes: null
       },
       jobItem: [{
         jobItemId: 0,
@@ -115,9 +118,9 @@ export class SaleGiftCardComponent implements OnInit {
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date(),
         employeeId: +localStorage.getItem('empId')
       }],
@@ -131,9 +134,9 @@ export class SaleGiftCardComponent implements OnInit {
         reviewNote: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: null,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: null,
         updatedDate: new Date()
       }
     };
@@ -145,16 +148,38 @@ export class SaleGiftCardComponent implements OnInit {
     this.salesService.addItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
         this.submitted = false;
+        this.saveGiftCard();
         this.activeModal.close(true);
-        // this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
-        // this.isSelected = true;
-        // this.ticketNumber = this.newTicketNumber;
-        // this.getDetailByTicket(false);
-        // this.addItemForm.controls.quantity.enable();
-        // this.addItemFormInit();
-        // this.submitted = false;
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  saveGiftCard() {
+    const cardObj = {
+      giftCardId: 0,
+      locationId: +localStorage.getItem('empLocationId'),
+      giftCardCode: this.giftCardForm.value.number,
+      giftCardName: 'string',
+      expiryDate: moment(this.giftCardForm.value.activeDate),
+      comments: 'string',
+      isActive: true,
+      isDeleted: false,
+      totalAmount: this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
+      createdBy: 0,
+      createdDate: moment(new Date()),
+      updatedBy: 0,
+      updatedDate: moment(new Date())
+    };
+    const finalObj = {
+      giftCard: cardObj
+    };
+    this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
+      if (res.status === 'Success') {
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.giftCardForm.reset();
       }
     });
   }

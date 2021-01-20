@@ -82,7 +82,11 @@ namespace Strive.BusinessLogic.Sales
         {
             try
             {
-                return ResultWrap(new SalesRal(_tenant).AddPayment, salesPayment, "Status");
+                var jobPaymnetId = new SalesRal(_tenant).AddPayment(salesPayment);
+
+                var result = new SalesRal(_tenant).UpdateJobPayement(salesPayment.JobPayment.JobId, jobPaymnetId);
+
+                return ResultWrap(jobPaymnetId>0, "Status");
             }
             catch (Exception ex)
             {
@@ -94,6 +98,7 @@ namespace Strive.BusinessLogic.Sales
         {
             try
             {
+               
                 return ResultWrap(new SalesRal(_tenant).AddListItem, salesAddListItem, "Status");
             }
             catch (Exception ex)

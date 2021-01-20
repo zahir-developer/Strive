@@ -11,6 +11,7 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
 import { element } from 'protractor';
+import { threadId } from 'worker_threads';
 
 declare var $: any;
 @Component({
@@ -44,7 +45,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   selectedEvent = [];
   startTime: Date;
   endTime: Date;
-  dateTime :Date
+  dateTime: Date
   @ViewChild('fc') fc: FullCalendar;
   // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
@@ -56,9 +57,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   totalHours: any;
   EmpCount: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
-    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { 
-      this.dateTime = new Date();
-    }
+    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) {
+    this.dateTime = new Date();
+  }
   ngAfterViewInit() {
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
@@ -121,49 +122,57 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.bindPopUp(event);
       },
       eventReceive: (eventReceiveEvent) => {
-        this.buttonText = 'Add';
-        this.events = this.events.filter(item => item.classNames[0] !== 'draggedEvent');
-        const multiSelect = this.selectedList.filter(item => item.clicked === false);
-        this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
-        this.splitEmpName(eventReceiveEvent);
-        this.startTime = eventReceiveEvent.event.start;
-        this.isLeave = false;
-        this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
-        if (this.selectedList.length === 0) {
-          this.selectedList = this.empList.EmployeeList.filter(item => item.EmployeeId === +this.empId);
-        }
-        if (multiSelect.length !== 0) {
-          multiSelect.forEach(element => {
-            this.selectedList.push(element);
-          });
-        }
-        if (this.selectedList.length === 1 && multiSelect.length === 0) {
-          $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
-          $('#name').html(this.empName);
-          $('#empId').html(this.empId);
-          this.empLocation = undefined;
-          $('.modal').find('#location').val(0);
+        const selectedDate = eventReceiveEvent.event.start;
+        const currentDate: any = new Date();
+        if (Date.parse(selectedDate) < Date.parse(currentDate)) {
+          this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Past Date  Should not allow to Schedule' });
+          this.cancel();
         } else {
-          this.removeDraggedEvent();
-          let i = 0;
-          this.selectedList.forEach(item => {
-            // if(multiSelect.length !== 0){
-            //   i = multiSelect.length;
-            // }
-            i++;
-            item.id = 'clicked' + i,
-              item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
-              item.start = this.startTime,
-              item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-              item.clicked = false,
-              this.events = [... this.events, {
-                id: 'clicked' + i,
-                title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
-                start: this.startTime,
-                end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-                classNames: ['draggedEvent'],
-              }];
-          });
+          this.buttonText = 'Add';
+          this.empLocation = this.locationId.toString();
+          this.events = this.events.filter(item => item.classNames[0] !== 'draggedEvent');
+          const multiSelect = this.selectedList.filter(item => item.clicked === false);
+          this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
+          this.splitEmpName(eventReceiveEvent);
+          this.startTime = eventReceiveEvent.event.start;
+          this.isLeave = false;
+          this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
+          if (this.selectedList.length === 0) {
+            this.selectedList = this.empList.EmployeeList.filter(item => item.EmployeeId === +this.empId);
+          }
+          if (multiSelect.length !== 0) {
+            multiSelect.forEach(element => {
+              this.selectedList.push(element);
+            });
+          }
+          if (this.selectedList.length === 1 && multiSelect.length === 0) {
+            $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
+            $('#name').html(this.empName);
+            $('#empId').html(this.empId);
+            // this.empLocation = undefined;
+            $('.modal').find('#location').val(0);
+          } else {
+            this.removeDraggedEvent();
+            let i = 0;
+            this.selectedList.forEach(item => {
+              // if(multiSelect.length !== 0){
+              //   i = multiSelect.length;
+              // }
+              i++;
+              item.id = 'clicked' + i,
+                item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                item.start = this.startTime,
+                item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                item.clicked = false,
+                this.events = [... this.events, {
+                  id: 'clicked' + i,
+                  title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                  start: this.startTime,
+                  end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                  classNames: ['draggedEvent'],
+                }];
+            });
+          }
         }
       },
       eventDragStop: (event) => {
@@ -224,10 +233,22 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     }
     if (this.dateTime > this.startTime) {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Past Date  Should not allow to Schedule' });
-
       return;
-
-  }
+    }
+    let alreadyScheduled = false;
+    this.events.forEach( item => {
+      if (moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss') === item.start) {
+        if (item.extendedProps.employeeId === +this.empId &&
+          item.extendedProps.locationId === +this.empLocation) {
+            alreadyScheduled = true;
+        }
+      }
+    });
+    if (alreadyScheduled) {
+      console.log('coming');
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Can not able to schedule at the same time' });
+      return;
+    }
     const form = {
       scheduleId: this.scheduleId ? this.scheduleId : 0,
       employeeId: +this.empId,
@@ -302,6 +323,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               };
               this.events = [... this.events, emp];
             });
+            console.log(this.events, 'events');
           }
         }
         this.removeDraggedEvent();

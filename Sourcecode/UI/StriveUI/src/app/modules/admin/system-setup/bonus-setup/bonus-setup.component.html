@@ -85,7 +85,7 @@
                                                 <div *ngIf="isValueMax && bonus.Max === ''" class="invalid-feedback">
                                                     Enter Max value
                                                 </div>
-                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i" class="invalid-feedback">
+                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i && bonus.Min !== ''" class="invalid-feedback">
                                                     Max value is greater than Min value
                                                 </div>
                                             

@@ -73,7 +73,8 @@ namespace Strive.BusinessEntities
 
         public enum Membership
         {
-            USPGETALLMEMBERSHIP
+            USPGETALLMEMBERSHIP,
+            USPGETVEHICLEMEMBERSHIPAVAILABILITY
         }
         public enum Checklist
         {
@@ -95,9 +96,10 @@ namespace Strive.BusinessEntities
             USPUPDATEDOCUMENTPASSWORD,
             USPGETEMPLOYEEDOCUMENTBYEMPID,
             USPDELETEEMPLOYEEDOCUMENTBYID,
-            USPDELETEDOCUMENT,
+            USPDELETEDOCUMENT,      
             USPDELETEDOCUMENTBYID,
             USPGETDOCUMENTBYID,
+            USPGETALLDOCUMENT,
         }
         public enum AdSetup
         {
@@ -132,6 +134,7 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEROLES,
         USPEMAILEXIST,
         USPGETEMPLOYEEROLEBYID,
+        USPGETCITYBYSTATE,
 
         //Client
         USPGETALLCLIENT,
@@ -158,6 +161,7 @@ namespace Strive.BusinessEntities
         USPGETLOCATIONBYID,
         USPGETALLLOCATIONOFFSET,
         USPDELETELOCATIONOFFSET,
+        USPADDBAYSLOT,
         //Service Setup
         USPDELETESERVICEBYID,
         USPGETSERVICES,
@@ -202,7 +206,7 @@ namespace Strive.BusinessEntities
         USPGETPASTDETAILSBYCLIENTID,
         USPSAVEVEHICLE,
         uspGetVehicleByClientId,
-        uspGetVihicleMembership,
+        USPGETVEHICLEMEMBERSHIP,
         uspUpdateVechicleMembership,
         USPGETVEHICLEDETAILBYCLIENTID,
         USPGETVEHICLESTATEMENTBYCLIENTID,
@@ -254,8 +258,9 @@ namespace Strive.BusinessEntities
         USPGETPAYROLLLIST,
         USPUPDATEADJUSMENT,
         USPUPDATEEMPLOYEEADJUSTMENT,
+        USPUPDATEJOBPAYMENT,
         //CHECKOUT
-        USPGETCHECKEDINVEHICLEDETAILS,
+        USPGETAllCHECKOUTDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,
         USPUPDATEJOBSTATUSHOLDBYJOBID,
         USPUPDATEJOBSTATUSCOMPLETEBYJOBID

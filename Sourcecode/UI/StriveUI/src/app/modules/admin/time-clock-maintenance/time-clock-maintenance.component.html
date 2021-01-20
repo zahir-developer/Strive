@@ -57,18 +57,21 @@
                     </div>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped headerfix">
                       <thead>
                         <tr>
-                          <th scope="col">Employee ID</th>
-                          <th scope="col">First Name</th>
-                          <th scope="col">Last Name</th>
+                          <th scope="col" (click)="changeSorting('EmployeeId')">Employee ID&nbsp;<i class="fa" [ngClass]="selectedCls('EmployeeId')"
+                            aria-hidden="true"></i></th>
+                          <th scope="col" (click)="changeSorting('FirstName')">First Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
+                            aria-hidden="true"></i></th>
+                          <th scope="col" (click)="changeSorting('LastName')">Last Name&nbsp;<i class="fa" [ngClass]="selectedCls('LastName')"
+                            aria-hidden="true"></i></th>
                           <th scope="col">Action</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody class="bodyfix">
                         <tr
-                          *ngFor="let timeClock of timeClockEmployeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                          *ngFor="let timeClock of timeClockEmployeeDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                           <th scope="row">{{ timeClock.EmployeeId }}</th>
                           <td (click)="employeeCheckInDetail(timeClock)"><span
                               class="text-underline theme-primary-color font-size--9"
@@ -87,10 +90,18 @@
                         </tr>
                       </tbody>
                     </table>
-                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize" [(page)]="page"
-                      [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                      class="d-flex justify-content-end">
-                    </ngb-pagination>
+                    <div class="row pull-right" >
+                      <div class="col-6">
+                       <ngb-pagination *ngIf="timeClockEmployeeDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                           [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                           [boundaryLinks]="true" class="d-flex justify-content-end">
+                       </ngb-pagination> 
+                       </div>
+                       <select *ngIf="timeClockEmployeeDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                           <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+
+                       </select>
+                   </div>
 
                   </div>
                 </div>
@@ -125,6 +136,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 <div *ngIf="isTimeClockWeekPage">
   <app-time-clock-week [empClockInObj]="empClockInObj" [isView]="isView" (cancelCheckInPage)="cancelCheckInPage()">

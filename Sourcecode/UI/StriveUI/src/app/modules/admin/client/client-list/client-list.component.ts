@@ -5,6 +5,7 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-list',
@@ -25,6 +26,9 @@ export class ClientListComponent implements OnInit {
   pageSize = 15;
   collectionSize: number = 0;
   isLoading = true;
+  sort = { column: 'IsActive', descending: true };
+  sortColumn: { column: string; descending: boolean; };
+  pageSizeList: number[];
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -33,6 +37,9 @@ export class ClientListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const paramsData = this.route.snapshot.queryParamMap.get('clientId');
     if (paramsData !== null) {
       const clientObj = {
@@ -62,7 +69,19 @@ export class ClientListComponent implements OnInit {
       }
     });
   }
-
+  paginate(event) {
+    
+    this.pageSize= +this.pageSize;
+    this.page = event ;
+    
+    this.getAllClientDetails()
+  }
+  paginatedropdown(event) {
+    this.pageSize= +event.target.value;
+    this.page =  this.page;
+    
+    this.getAllClientDetails()
+  }
   clientSearch() {
     this.page = 1;
     const obj = {
@@ -153,5 +172,33 @@ export class ClientListComponent implements OnInit {
 
   navigateToCustmerDashboard(client) {
     this.router.navigate(['/customer'], { queryParams: { clientId: client.ClientId } });
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 }

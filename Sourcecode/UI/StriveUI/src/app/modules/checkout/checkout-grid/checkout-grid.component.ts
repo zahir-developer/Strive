@@ -23,7 +23,8 @@ export class CheckoutGridComponent implements OnInit {
 
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
-    this.checkout.getUncheckedVehicleDetails().subscribe(data => {
+    const locId = localStorage.getItem('empLocationId');
+    this.checkout.getUncheckedVehicleDetails(locId).subscribe(data => {
       if (data.status === 'Success') {
         const uncheck = JSON.parse(data.resultData);
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails;

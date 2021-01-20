@@ -257,10 +257,18 @@ export class CreateEditComponent implements OnInit {
     this.isLoading = true;
     try {
       const file = e.target.files[0];
+      const fileSize = + file.size;
+      const sizeFixed = (fileSize / 1048576);
+      const sizeFixedValue = +sizeFixed.toFixed(1);
+      if (sizeFixedValue > 1) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'File size cannot be more than 10MB' });
+        this.isLoading = false;
+        return;
+      }
       const fReader = new FileReader();
       fReader.readAsDataURL(file);
       fReader.onloadend = (event: any) => {
-        console.log(file.name);
+        console.log(file.size, 'size');
         this.fileName = file.name;
         const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
