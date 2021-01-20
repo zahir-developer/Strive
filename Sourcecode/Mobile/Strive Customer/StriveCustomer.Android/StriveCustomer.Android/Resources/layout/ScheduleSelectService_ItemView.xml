@@ -20,7 +20,7 @@
              <CheckBox
                 android:id="@+id/selectedScheduleService_CheckBox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:button="@drawable/radiobutton"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"/>

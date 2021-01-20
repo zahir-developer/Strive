@@ -141,6 +141,9 @@ namespace Strive.Core.Models.Customer
         public static string ScheduleDate { get; set; }
         public static string ScheduleYear { get; set; }
         public static string ScheduleTimeOfDay { get; set; }
+        public static float ScheduleServicePrice { get; set; }
+        public static int ScheduleServiceID { get; set; }
+        public static int ScheduleServiceType { get; set; }
 
         #endregion Properties
 
