@@ -435,6 +435,11 @@ namespace Strive.BusinessLogic.Common
         {
             return ResultWrap(new CommonRal(_tenant, true).GetEmailIdExist, emailId, "EmailIdExist");
         }
+        public Result GetCityByStateId(int stateId)
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetCityByStateId, stateId, "cities");
+             
+        }
 
     }
 }
