@@ -49,6 +49,8 @@ export const UrlConfig = {
     getAllCollision: `Admin/Collision/GetCollisionByEmpId/`,
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
     getClient: `Admin/Client/GetAll`,
+    sameClientName: `Admin/Client/IsClientName`,
+
     addClient: `Admin/Client/InsertClientDetails`,
     updateClient: `Admin/Client/UpdateClientVehicle`,
     deleteClient: `Admin/Client/`,
@@ -105,6 +107,8 @@ export const UrlConfig = {
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
     getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     cityList: `Admin/Common/GetCodesByCategory/`,
+    cityByStateId: `Admin/Common/GetCityByStateId/`,
+
     addDetail: `Admin/Details/AddDetails`,
     updateDetail: `Admin/Details/UpdateDetails`,
     getDetailById: `Admin/Details/GetDetailsById/`,
@@ -134,7 +138,7 @@ export const UrlConfig = {
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
     getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
-    getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails/`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
     addWhiteLabelDetail: `Admin/WhiteLabelling/Add`,

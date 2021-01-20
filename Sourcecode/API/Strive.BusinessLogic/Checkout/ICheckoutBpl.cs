@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Report;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace Strive.BusinessLogic.Checkout
         Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry);
         Result UpdateJobStatusHold(JobIdDto jobIdDto);
         Result UpdateJobStatusComplete(JobIdDto jobIdDto);
+
+        Result GetCustomerHistory(SalesReportDto salesReportDto);
     }
 }

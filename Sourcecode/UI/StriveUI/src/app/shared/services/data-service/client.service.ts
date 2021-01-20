@@ -13,6 +13,9 @@ export class ClientService {
   getClient(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
+  ClientSameName(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.sameClientName}`, obj);
+  }
   addClient(obj) {
     return this.http.post(`${UrlConfig.totalUrl.addClient}`, obj);
   }

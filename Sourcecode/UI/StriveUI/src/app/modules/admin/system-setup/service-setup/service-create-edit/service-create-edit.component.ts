@@ -34,12 +34,15 @@ export class ServiceCreateEditComponent implements OnInit {
   priceLabel: string = 'Price';
   isDiscounts: boolean;
   discountServiceType: any;
+  employeeId: number;
 
 
 
   constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];
     this.formInitialize();
     this.ctypeLabel = 'none';
@@ -247,9 +250,9 @@ export class ServiceCreateEditComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
       discountServiceType: this.serviceSetupForm.value.discountServiceType,
       discountType : this.serviceSetupForm.value.discountType,

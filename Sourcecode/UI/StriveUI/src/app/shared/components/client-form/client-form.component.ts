@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../services/data-service/client.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
+import { CityComponent } from '../city/city.component';
 
 @Component({
   selector: 'app-client-form',
@@ -12,6 +13,8 @@ import { GetCodeService } from '../../services/data-service/getcode.service';
 })
 export class ClientFormComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
+
   clientForm: FormGroup;
   Status: any;
   State: any;
@@ -26,6 +29,7 @@ export class ClientFormComponent implements OnInit {
   submitted: boolean;
   city: any;
   selectedCityId: any;
+  ClientNameAvailable: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService) { }
 
@@ -45,7 +49,7 @@ export class ClientFormComponent implements OnInit {
       this.clientForm.controls.status.enable();
     }
   }
-
+ 
   formInitialize() {
     this.clientForm = this.fb.group({
       fName: ['', Validators.required],
@@ -74,7 +78,26 @@ export class ClientFormComponent implements OnInit {
   get f() {
     return this.clientForm.controls;
   }
+  sameClientName() {
+    const clientNameDto = {
+FirstName :this.clientForm.value.fName,
+LastName : this.clientForm.value.lName
 
+    }
+    this.client.ClientSameName(clientNameDto).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameName = JSON.parse(res.resultData);
+        if(sameName.IsClientNameAvailable === true){
+          this.ClientNameAvailable = true;
+          this.toastr.error('Client Name is Already Entered', 'Error!');
+
+        } else{
+          this.ClientNameAvailable = false;
+ 
+        }
+      }
+    });
+  }
   // Get Score
   getScore() {
     this.client.getClientScore().subscribe(data => {
@@ -132,6 +155,7 @@ export class ClientFormComponent implements OnInit {
 
   getSelectedStateId(event) {
     this.State = event.target.value;
+    this.cityComponent.getCity(event.target.value);
   }
 
   selectCity(event) {

@@ -5,8 +5,8 @@
                 <label for="inputBarcode">Barcode<span class="required">*</span></label>
                 <input type="text" maxlength="25" class="form-control" formControlName="barcode" placeholder="None/UNK"
                     [ngClass]="{ 'is-invalid':submitted && f.barcode.errors }">
-                <div *ngIf="submitted && f.barcode.errors" class="invalid-feedback">
-                    <div *ngIf="f.barcode.errors.required">Barcode is required</div>
+                <div *ngIf="submitted && f.barcode.errors">
+                    <div *ngIf="f.barcode.errors.required" class="required">Barcode is required</div>
                 </div>
             </div>
             <div class="form-group col-lg-3">
@@ -16,34 +16,64 @@
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputMake">Make<span class="required">*</span></label>
-                <select class="form-control" formControlName="make" [ngClass]="{ 'is-invalid':submitted && f.make.errors }">
+                <!-- <select class="form-control" formControlName="make" >
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let make of make" value="{{make.CodeId}}">{{make.CodeValue}}</option>
-                </select>
-                <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
-                    <div *ngIf="f.make.errors.required">Make is required</div>
+                </select> -->
+                <div class="ui-fluid">
+                    <div class="p-grid forms-grid">
+                        <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.make.errors }">
+                            <p-autoComplete field="name" [suggestions]="filteredMake"
+                                (completeMethod)="filterMake($event)" [size]="10" formControlName="make"
+                                placeholder="Make">
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="submitted && f.make.errors">
+                    <div *ngIf="f.make.errors.required" class="required">Make is required</div>
                 </div>
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputModel">Model<span class="required">*</span></label>
-                <select class="form-control" formControlName="model" [ngClass]="{ 'is-invalid':submitted && f.model.errors }">
+                <!-- <select class="form-control" formControlName="model" >
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let model of model" value="{{model.CodeId}}">{{model.CodeValue}}</option>
-                </select>
-                <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
-                    <div *ngIf="f.model.errors.required">Model is required</div>
+                </select> -->
+                <div class="ui-fluid">
+                    <div class="p-grid forms-grid">
+                        <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.model.errors }">
+                            <p-autoComplete field="name" [suggestions]="filteredModel"
+                                (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
+                                placeholder="Model">
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="submitted && f.model.errors">
+                    <div *ngIf="f.model.errors.required" class="required">Model is required</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputColor">Color<span class="required">*</span></label>
-                <select class="form-control" formControlName="color" [ngClass]="{ 'is-invalid':submitted && f.color.errors }">
+                <!-- <select class="form-control" formControlName="color" [ngClass]="{ 'is-invalid':submitted && f.color.errors }">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let color of color" value="{{color.CodeId}}">{{color.CodeValue}}</option>
-                </select>
-                <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
-                    <div *ngIf="f.color.errors.required">Color is required</div>
+                </select> -->
+                <div class="ui-fluid">
+                    <div class="p-grid forms-grid">
+                        <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.color.errors }">
+                            <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                (completeMethod)="filterColor($event)" [size]="10" formControlName="color"
+                                placeholder="Color">
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="submitted && f.color.errors" >
+                    <div *ngIf="f.color.errors.required" class="required">Color is required</div>
                 </div>
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">

@@ -20,7 +20,8 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
+                            <div class="col-sm-1 text-right p-t-5"
+                                style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>In Time:</label>
                                 <!-- <div class="form-row">
                                     <label class="col-sm-1 col-form-label" for="inTime">In:</label>
@@ -32,12 +33,13 @@
                                 <input type="text" class="form-control" name="inTime" id="inTime"
                                     formControlName="inTime" />
                             </div>
-                            <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
+                            <div class="col-sm-1 text-right p-t-5"
+                                style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>Due Time:</label>
                             </div>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="dueTime" id="dueTime"
-                                        formControlName="dueTime" />
+                                    formControlName="dueTime" />
                             </div>
                             <!-- <div class="col-sm-4">
                                 <div class="form-row">
@@ -103,27 +105,57 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputType">Type</label>
-                        <select class="form-control" formControlName="type">
+                        <!-- <select class="form-control" formControlName="type">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of type" value="{{score.CodeId}}">{{score.CodeValue}}
                             </option>
-                        </select>
+                        </select> -->
+                        <div class="ui-fluid">
+                            <div class="p-grid forms-grid">
+                                <div class="p-col-3 p-md-6">
+                                    <p-autoComplete field="name" [suggestions]="filteredMake"
+                                        (completeMethod)="filterMake($event)" [size]="10" formControlName="type"
+                                        placeholder="Make">
+                                    </p-autoComplete>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputModel">Model</label>
-                        <select class="form-control" formControlName="model">
+                        <!-- <select class="form-control" formControlName="model">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of model" value="{{score.CodeId}}">{{score.CodeValue}}
                             </option>
-                        </select>
+                        </select> -->
+                        <div class="ui-fluid">
+                            <div class="p-grid forms-grid">
+                                <div class="p-col-3 p-md-6">
+                                    <p-autoComplete field="name" [suggestions]="filteredModel"
+                                        (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
+                                        placeholder="Model">
+                                    </p-autoComplete>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputColor">Color</label>
-                        <select class="form-control" formControlName="color">
+                        <!-- <select class="form-control" formControlName="color">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
                             </option>
-                        </select>
+                        </select> -->
+                        <div class="ui-fluid">
+                            <div class="p-grid forms-grid">
+                                <div class="p-col-3 p-md-6">
+                                    <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                        (completeMethod)="filterColor($event)" [size]="10" formControlName="color"
+                                        placeholder="Color">
+                                    </p-autoComplete>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputWashes">Details<span class="required">*</span></label>
@@ -202,18 +234,18 @@
                     <div class="title-border p-b-5 m-b-5">
                         <h5 class="d-inline-block font-weight-600">Additional Service</h5>
                     </div>
-                    <div  style="height: 150px;overflow-y: scroll;">
-                    <div class="row" >
-                        <div class="col-md-3" *ngFor="let addService of additional">
-                            <div class="custom-control custom-checkbox m-t-10">
-                                <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                                    (change)="change(addService)" [checked]="addService.IsChecked"
-                                    [disabled]="isView" />
-                                <label class="custom-control-label"
-                                    for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+                    <div style="height: 150px;overflow-y: scroll;">
+                        <div class="row">
+                            <div class="col-md-3" *ngFor="let addService of additional">
+                                <div class="custom-control custom-checkbox m-t-10">
+                                    <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
+                                        (change)="change(addService)" [checked]="addService.IsChecked"
+                                        [disabled]="isView" />
+                                    <label class="custom-control-label"
+                                        for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -229,7 +261,7 @@
 
                     <div class="row m-t-5">
                         <span class="col-2"></span>
-                        <span class="col-10">   
+                        <span class="col-10">
 
                             <button type="button" class="btn theme-primary-button-color col-3"
                                 [disabled]="!isStart || isView" (click)="start()">Start</button>&nbsp;
@@ -237,7 +269,7 @@
                                 (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-4"
                                 [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
-                     </span>
+                        </span>
                     </div>
                     <!-- <div class="row"> [disabled]="!isAssign && !isView"
                         <div class="col-sm-3">

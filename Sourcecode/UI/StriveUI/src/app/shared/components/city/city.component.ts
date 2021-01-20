@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StateService } from '../../services/common-service/state.service';
 import * as _ from 'underscore';
@@ -8,9 +8,13 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './city.component.html',
   styleUrls: ['./city.component.css']
 })
-export class CityComponent implements OnInit {
+export class CityComponent implements OnInit, AfterViewChecked {
   @Input() isView: any;
-  @Input() selectedCityId: any;
+  @Input() selectedCityId?: any;
+  @Input() selectedStateId?: any;
+
+  @Input() State?: any;
+
   @Output() selectCity = new EventEmitter();
   city = '';
   submitted: boolean;
@@ -28,27 +32,32 @@ export class CityComponent implements OnInit {
     'Georgia',
     'Hawaii',
     'Idaho'];
+  cityId: any;
   constructor(private cdRef: ChangeDetectorRef, private stateService: StateService) { }
 
   ngOnInit(): void {
     this.submitted = false;
-    this.getCity();
-  }
-
-  ngAfterViewChecked(){
-    if (this.selectedCityId !== undefined) {
-      this.cdRef.detectChanges();
+    if (this.selectedStateId !== undefined) {
+      this.getCity(this.selectedStateId);
     }
   }
 
-  getCity() {
-    this.stateService.getCityList('CITY').subscribe(res => {
-      const city = JSON.parse(res.resultData);
-      if (city.Codes.length > 0) {
-        this.cities = city.Codes.map(item => {
+  ngAfterViewChecked() {
+    if (this.selectedCityId !== undefined) {
+      this.cdRef.detectChanges();
+    }
+
+  }
+
+  getCity(city) {
+    const cityValue = city ? city : this.selectedStateId;
+    this.stateService.getCityByStateId(cityValue).subscribe(res => {
+      const cityList = JSON.parse(res.resultData);
+      if (cityList.cities.length > 0) {
+        this.cities = cityList.cities.map(item => {
           return {
-            value: item.CodeId,
-            name: item.CodeValue
+            value: item.CityId,
+            name: item.CityName
           };
         });
         this.setCity();
