@@ -161,10 +161,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === "CLOSEOUT")[0].CodeId;
+        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === "CloseOut")[0].CodeId;
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -236,7 +236,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
-      cashRegisterType: 120,
+      cashRegisterType: this.CloseRegisterId,
       locationId: +localStorage.getItem('empLocationId'),
       drawerId: 1,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),

@@ -200,10 +200,10 @@ this.getDocumentType();
     });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === "CASHIN")[0].CodeId;
+        this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === "CashIn")[0].CodeId;
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -274,7 +274,7 @@ this.getDocumentType();
     }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      cashRegisterType: 119,
+      cashRegisterType: this.CahRegisterId,
       locationId: +this.locationId,
       drawerId: +this.drawerId,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
