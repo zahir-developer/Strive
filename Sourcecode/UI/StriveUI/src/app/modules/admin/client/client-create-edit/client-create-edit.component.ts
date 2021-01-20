@@ -78,6 +78,11 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
+    if (this.clientFormComponent.ClientNameAvailable == true) {
+      this.toastr.error('Client Name is Already Entered', 'Error!');
+
+      return;
+    }
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
@@ -231,7 +236,7 @@ export class ClientCreateEditComponent implements OnInit {
       }
     });
   }
-
+ 
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
