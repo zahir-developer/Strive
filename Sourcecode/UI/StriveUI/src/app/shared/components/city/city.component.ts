@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StateService } from '../../services/common-service/state.service';
 import * as _ from 'underscore';
@@ -8,10 +8,10 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './city.component.html',
   styleUrls: ['./city.component.css']
 })
-export class CityComponent implements OnInit {
+export class CityComponent implements OnInit, AfterViewChecked {
   @Input() isView: any;
-  @Input() selectedCityId: any;
-  @Input() selectedStateId: any;
+  @Input() selectedCityId?: any;
+  @Input() selectedStateId?: any;
 
   @Input() State?: any;
 
@@ -37,31 +37,31 @@ export class CityComponent implements OnInit {
 
   ngOnInit(): void {
     this.submitted = false;
-      if (this.selectedStateId !== undefined) {
-this.getCity(this.selectedStateId)    }
+    if (this.selectedStateId !== undefined) {
+      this.getCity(this.selectedStateId);
+    }
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     if (this.selectedCityId !== undefined) {
       this.cdRef.detectChanges();
     }
-   
+
   }
 
   getCity(city) {
-    let cityValue = city ? city : this.selectedStateId
+    const cityValue = city ? city : this.selectedStateId;
     this.stateService.getCityByStateId(cityValue).subscribe(res => {
-      const city = JSON.parse(res.resultData);
-      if (city.cities.length > 0) {
-        this.cities = city.cities.map(item => {
+      const cityList = JSON.parse(res.resultData);
+      if (cityList.cities.length > 0) {
+        this.cities = cityList.cities.map(item => {
           return {
             value: item.CityId,
             name: item.CityName
           };
         });
-  this.setCity();
-
-     }
+        this.setCity();
+      }
     }, (err) => {
     });
   }
