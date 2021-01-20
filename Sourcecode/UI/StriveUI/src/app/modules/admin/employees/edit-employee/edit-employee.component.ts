@@ -199,13 +199,18 @@ export class EditEmployeeComponent implements OnInit {
 
   setValue() {
     const employee = this.employeeData;
-
     this.dropdownSetting();
     console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
     this.selectedStateId = employeeInfo?.State;
+    this.stateDropdownComponent.selectedStateId = this.selectedStateId;
+    this.stateDropdownComponent.setValue();
     this.State = this.selectedStateId;
     this.selectedCityId = employeeInfo?.City;
+    this.cityComponent.selectedCityId = this.selectedCityId;
+    this.cityComponent.getCity(this.selectedStateId);
+    this.cityComponent.isView = this.actionType === 'view' ? true : false;
+    this.stateDropdownComponent.isView = this.actionType === 'view' ? true : false;
     this.city = this.selectedCityId;
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     this.authId = employee.EmployeeInfo.AuthId;
