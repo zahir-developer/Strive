@@ -187,9 +187,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
       inTime: null,
       outTime: null,
       eventType: 1,
-      updatedFrom: 'string',
+      updatedFrom: '',
       status: true,
-      comments: 'string',
+      comments: '',
       isActive: true,
       isDeleted: false
     };

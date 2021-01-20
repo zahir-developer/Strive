@@ -30,9 +30,12 @@ export class ProductCreateEditComponent implements OnInit {
   fileThumb: any = null;
   costErrMsg: boolean = false;
   priceErrMsg: boolean = false;
+  employeeId: number;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.getProductType();
     this.getAllLocation();
     this.getAllVendor();
@@ -213,9 +216,9 @@ export class ProductCreateEditComponent implements OnInit {
       vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
       price: this.productSetupForm.value.suggested
     };

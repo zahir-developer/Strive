@@ -9,8 +9,18 @@
                     <div *ngIf="f.name.errors.required">Name is required</div>
                 </div>
             </div> 
-
-            <div class=" col-lg-6 form-group">
+            <div class="form-group col-lg-4" >
+                <label for="inputServiceType">Type </label>
+                <select class="form-control" formControlName="subDocumentId"
+                        [ngClass]="{ 'is-invalid': submitted && f.subDocumentId.errors }">
+                  <option value="" selected hidden>Choose </option>
+                  <option *ngFor="let serviceType of subdocumentType"  value="{{serviceType.CodeId}}">
+                    {{serviceType.CodeValue}}
+                    
+                  </option>
+                </select>
+            </div>
+            <div class=" col-lg-4 form-group">
                 <label for="inputUpload">Upload<span class="required">*</span></label>
                 <div class="form-check">
                     <input type="file" class="custom-file-input" id="customFile" accept=".doc,.docx,.pdf" formControlName ="uploadBy"

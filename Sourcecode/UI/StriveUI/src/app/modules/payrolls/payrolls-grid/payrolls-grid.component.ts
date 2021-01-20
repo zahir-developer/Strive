@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -14,12 +15,14 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
   payRollList: any = [];
-  page = 1;
-  pageSize = 5;
+
   collectionSize = 0;
   isEditAdjustment: boolean;
   isPayrollEmpty = true;
   @ViewChild('content') content: ElementRef;
+  pageSize: number;
+  page: number;
+  pageSizeList: number[];
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -28,6 +31,9 @@ export class PayrollsGridComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.page= ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.payrollDateForm = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required]
@@ -57,6 +63,19 @@ if (!pattern.test(inputChar)) {
   payroll.Adjustment = ''  
 };
 
+    }
+    paginate(event) {
+    
+      this.pageSize= +this.pageSize;
+      this.page = event ;
+      
+      this.runReport()
+    }
+    paginatedropdown(event) {
+      this.pageSize= +event.target.value;
+      this.page =  this.page;
+      
+      this.runReport()
     }
   runReport() {
     const locationId = localStorage.getItem('empLocationId');

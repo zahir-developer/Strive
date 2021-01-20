@@ -51,6 +51,9 @@ export class CreateEditWashesComponent implements OnInit {
   model: any;
   clientList: any;
   filteredClient: any[];
+  filteredModel: any = [];
+  filteredcolor: any = [];
+  filteredMake: any = [];
   memberService: any[];
   submitted: boolean;
   isBarcode: boolean = false;
@@ -145,9 +148,9 @@ export class CreateEditWashesComponent implements OnInit {
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
       vehicle: this.selectedData.Washes[0].VehicleId,
-      type: this.selectedData.Washes[0].Make,
-      model: this.selectedData.Washes[0].Model,
-      color: this.selectedData.Washes[0].Color,
+      type: { id: this.selectedData.Washes[0].Make, name: this.selectedData?.Washes[0]?.vehicleMake },
+      model: { id: this.selectedData?.Washes[0]?.Model, name: this.selectedData?.Washes[0]?.vehicleModel },
+      color: { id: this.selectedData.Washes[0].Color, name: this.selectedData?.Washes[0]?.vehicleColor },
       notes: this.selectedData.Washes[0].ReviewNote,
       pastNotes: this.selectedData.Washes[0].PastHistoryNote,
       washes: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId,
@@ -158,7 +161,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();
-    } else if(!this.isView){
+    } else if (!this.isView) {
       this.washForm.get('vehicle').enable();
     }
     this.ticketNumber = this.selectedData.Washes[0].TicketNumber;
@@ -260,12 +263,13 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
+        console.log(vData, 'vData');
         this.washForm.patchValue({
           vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
-          type: vData.VehicleMakeId,
-          model: vData.VehicleModelId,
-          color: vData.ColorId
+          type: { id: vData.VehicleMakeId, name: vData.VehicleMake },
+          model: { id: vData.VehicleModelId, name: vData.ModelName },
+          color: { id: vData.ColorId, name: vData.Color }
         });
         this.upchargeService(vData.Upcharge);
       } else {
@@ -329,6 +333,42 @@ export class CreateEditWashesComponent implements OnInit {
     this.filteredClient = filtered;
   }
 
+  filterModel(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.model) {
+      const model = i;
+      if (model.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(model);
+      }
+    }
+    this.filteredModel = filtered;
+  }
+
+  filterColor(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.color) {
+      const color = i;
+      if (color.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(color);
+      }
+    }
+    this.filteredcolor = filtered;
+  }
+
+  filterMake(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.type) {
+      const make = i;
+      if (make.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(make);
+      }
+    }
+    this.filteredMake = filtered;
+  }
+
   selectedClient(event) {
     this.clientId = event.id;
     this.clientName = event.name;
@@ -336,7 +376,7 @@ export class CreateEditWashesComponent implements OnInit {
     if (name.startsWith('drive')) {
       this.washForm.get('vehicle').disable();
       return;
-    } else if(!this.isView) {
+    } else if (!this.isView) {
       this.washForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
     }
@@ -382,6 +422,25 @@ export class CreateEditWashesComponent implements OnInit {
             };
           }
         }
+        // this.model =
+        this.model = this.model.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
+        this.color = this.color.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
+        this.type = this.type.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -405,9 +464,9 @@ export class CreateEditWashesComponent implements OnInit {
             this.washForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
               vehicle: this.barcodeDetails.VehicleId,
-              model: this.barcodeDetails.VehicleModelId,
-              color: this.barcodeDetails.VehicleColor,
-              type: this.barcodeDetails.VehicleMfr
+              // model: this.barcodeDetails.VehicleModelId,
+              // color: this.barcodeDetails.VehicleColor,
+              // type: this.barcodeDetails.VehicleMfr
             });
             this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
@@ -442,12 +501,12 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (!this.isBarcode && this.vehicle.length !== 0) { 
+        if (this.vehicle.length !== 0) { // !this.isBarcode &&
           this.washForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
-        }else{   
-          this.washForm.get('vehicle').reset();       
+        } else {
+          this.washForm.get('vehicle').reset();
           //this.washForm.patchValue({ vehicle: '' });
         }
       } else {
@@ -552,9 +611,9 @@ export class CreateEditWashesComponent implements OnInit {
       locationId: +localStorage.getItem('empLocationId'),
       clientId: this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
-      make: this.washForm.value.type,
-      model: this.washForm.value.model, // 0,
-      color: this.washForm.value.color,
+      make: this.washForm.value.type.id,
+      model: this.washForm.value.model.id, // 0,
+      color: this.washForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: new Date(),
       timeIn: new Date(),
@@ -564,9 +623,9 @@ export class CreateEditWashesComponent implements OnInit {
       jobStatus: this.jobStatusId,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date()
     };
     this.washItem.forEach(element => {
@@ -580,12 +639,12 @@ export class CreateEditWashesComponent implements OnInit {
         commission: 0,
         price: item.Cost,
         quantity: 1,
-        reviewNote: "",
+        reviewNote: null, // ''
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: +localStorage.getItem('empId'),
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date()
       };
     });
@@ -635,10 +694,10 @@ export class CreateEditWashesComponent implements OnInit {
   addVehicle() {
     this.headerData = 'Add New Vehicle';
     let len = this.vehicle.length;
-    if(len === 0){
+    if (len === 0) {
       this.vehicleNumber = 1;
-    }else{
-    this.vehicleNumber = Number(this.vehicle[len-1].VehicleNumber) + 1;
+    } else {
+      this.vehicleNumber = Number(this.vehicle[len - 1].VehicleNumber) + 1;
     }
     this.showVehicleDialog = true;
   }
@@ -737,8 +796,8 @@ export class CreateEditWashesComponent implements OnInit {
     this.openNav('sales')
   }
   openNav(sales) {
-   
-    $('.menu li').on('click', function() {
+
+    $('.menu li').on('click', function () {
       $('.menu li').removeClass('theme-secondary-background-color active');
       $(this).addClass('theme-secondary-background-color active');
     });
