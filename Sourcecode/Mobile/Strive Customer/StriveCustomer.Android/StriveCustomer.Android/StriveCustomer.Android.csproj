@@ -96,6 +96,7 @@
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Fragments\ScheduleLocationsFragment.cs" />
     <Compile Include="Fragments\SchedulePastServiceHistoryFragment.cs" />
+    <Compile Include="Fragments\SchedulePreviewFragment.cs" />
     <Compile Include="Fragments\ScheduleSelectServiceFragment.cs" />
     <Compile Include="Fragments\ScheduleVehicleListFragment.cs" />
     <Compile Include="Fragments\TermsAndConditionsFragment.cs" />

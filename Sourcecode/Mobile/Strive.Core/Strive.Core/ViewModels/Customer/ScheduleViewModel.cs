@@ -15,6 +15,7 @@ namespace Strive.Core.ViewModels.Customer
         public VehicleList scheduleVehicleList { get; set; }
 
         public ScheduleModel pastServiceHistory { get; set; }
+        public ScheduleModel pastServiceHistory1 { get; set; }
 
         #endregion Properties
 

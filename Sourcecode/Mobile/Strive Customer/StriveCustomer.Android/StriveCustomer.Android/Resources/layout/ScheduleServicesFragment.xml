@@ -35,21 +35,19 @@
             android:background="@color/mtrl_btn_transparent_bg_color"
             android:text="Next" />
         </RelativeLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="110dp">
-        <LinearLayout
-            android:id="@+id/ScheduleServices_LinearLayout"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/fifteen"
-            android:background="@drawable/secondarylinearlayout">  
-        </LinearLayout>
-    </ScrollView>
-    
-
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="110dp">
+            <LinearLayout
+                android:id="@+id/ScheduleServices_LinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/fifteen"
+                android:background="@drawable/secondarylinearlayout">  
+            </LinearLayout>
+        </ScrollView>
 </LinearLayout>
