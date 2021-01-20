@@ -26,9 +26,12 @@ export class VendorCreateEditComponent implements OnInit {
   selectedStateId: any;
   selectedCountryId: any;
   selectedCityId: any;
+  employeeId: number;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vendorService: VendorService) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.formInitialize();
     this.submitted = false;
     this.Country = 38;
@@ -98,20 +101,20 @@ export class VendorCreateEditComponent implements OnInit {
       vendorAlias: this.vendorSetupForm.value.vendorAlias,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD'),
       websiteAddress: this.vendorSetupForm.value.website,
-      accountNumber: 'string'
+      accountNumber: ''
     };
     const addressObj = {
       vendorAddressId: this.isEdit ? this.selectedData.VendorAddressId : 0,
       vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       address1: this.vendorSetupForm.value.supplierAddress,
-      address2: 'string',
+      address2: '',
       phoneNumber: this.vendorSetupForm.value.phoneNumber,
-      phoneNumber2: 'string',
+      phoneNumber2: '',
       email: this.vendorSetupForm.value.email,
       city: this.city,
       state: this.Country,
@@ -120,9 +123,9 @@ export class VendorCreateEditComponent implements OnInit {
       country: this.State,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {

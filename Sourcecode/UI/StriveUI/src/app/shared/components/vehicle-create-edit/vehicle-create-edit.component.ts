@@ -388,9 +388,9 @@ export class VehicleCreateEditComponent implements OnInit {
         notes: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: +localStorage.getItem('empId'),
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy:  +localStorage.getItem('empId'),
         updatedDate: new Date()
       };
       const membership = {
@@ -405,9 +405,9 @@ export class VehicleCreateEditComponent implements OnInit {
         notes: '',
         isActive: this.vehicleForm.value.membership === "" ? false : true,
         isDeleted: this.vehicleForm.value.membership === "" ? true : false,
-        createdBy: 1,
+        createdBy:  +localStorage.getItem('empId'),
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date(),
         totalPrice: this.vehicleForm.value.monthlyCharge
       };
@@ -420,9 +420,9 @@ export class VehicleCreateEditComponent implements OnInit {
             serviceId: item.ServiceId ? item.ServiceId : item.item_id,
             isActive: true,
             isDeleted: item.IsDeleted,
-            createdBy: 1,
+            createdBy:  +localStorage.getItem('empId'),
             createdDate: new Date(),
-            updatedBy: 1,
+            updatedBy:  +localStorage.getItem('empId'),
             updatedDate: new Date()
           };
         });
@@ -462,9 +462,9 @@ export class VehicleCreateEditComponent implements OnInit {
         Notes: "",
         IsActive: true,
         IsDeleted: false,
-        CreatedBy: 1,
+        CreatedBy:  +localStorage.getItem('empId'),
         CreatedDate: new Date(),
-        UpdatedBy: 1,
+        UpdatedBy:  +localStorage.getItem('empId'),
         UpdatedDate: new Date()
       };
       const value = {

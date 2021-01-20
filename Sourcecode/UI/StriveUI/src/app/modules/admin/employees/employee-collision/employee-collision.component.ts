@@ -104,13 +104,13 @@ export class EmployeeCollisionComponent implements OnInit {
       liabilityDetailType: 1,
       amount: +this.collisionForm.value.amount,
       paymentType: 1,
-      documentPath: 'string',
+      documentPath: '',
       description: this.collisionForm.value.reason,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const liabilityObj = {
@@ -125,9 +125,9 @@ export class EmployeeCollisionComponent implements OnInit {
       isDeleted: false,
       vehicleId: this.collisionForm.value.vehicle,
       clientId: this.collisionForm.value.client.id,
-      createdBy: 0,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {

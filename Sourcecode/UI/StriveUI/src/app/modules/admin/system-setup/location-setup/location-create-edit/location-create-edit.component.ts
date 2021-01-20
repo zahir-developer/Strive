@@ -36,10 +36,13 @@ export class LocationCreateEditComponent implements OnInit {
   offsetD = false;
   offsetE = false;
   offsetF = false;
+  employeeId: number;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
     private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.formInitialize();
     this.submitted = false;
     this.Country = 38;
@@ -133,9 +136,9 @@ export class LocationCreateEditComponent implements OnInit {
       weatherLocationId: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const formObj = {
@@ -157,9 +160,9 @@ export class LocationCreateEditComponent implements OnInit {
       endTime: '',
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const locationOffset = {
@@ -182,9 +185,9 @@ export class LocationCreateEditComponent implements OnInit {
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {

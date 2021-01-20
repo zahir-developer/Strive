@@ -32,6 +32,7 @@ export class BonusSetupComponent implements OnInit {
   deletedID: any = [];
   negativecollisionDeduction: string;
   negativebadReviewDeduction: string;
+  employeeId: number;
   constructor(
     private confirmationService: ConfirmationUXBDialogService,
     private bonusSetupService: BonusSetupService,
@@ -40,6 +41,8 @@ export class BonusSetupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.bonusId = 0;
     this.submitted = false;
     this.isValueMax = false;
@@ -278,9 +281,9 @@ export class BonusSetupComponent implements OnInit {
       totalBonusAmount: this.totalBonusAmount,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: new Date(),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: new Date()
     };
     const finalObj = {

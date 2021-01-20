@@ -119,17 +119,17 @@ export class CreateDocumentComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: 'string',
+        filepath: '',
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: this.isPassword,
         password: this.passwordForm.value.confirm,
-        comments: 'string',
+        comments: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 0,
+        createdBy: this.employeeId,
         createdDate: moment(new Date()),
-        updatedBy: 0,
+        updatedBy: this.employeeId,
         updatedDate: moment(new Date())
       };
     });

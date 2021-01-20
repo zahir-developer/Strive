@@ -28,9 +28,12 @@ export class MembershipCreateEditComponent implements OnInit {
   submitted: boolean;
   PriceServices: any = [];
   costErrMsg: boolean = false;
+  employeeId: number;
   constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.status = [{ CodeId: 0, CodeValue: "Active" }, { CodeId: 1, CodeValue: "Inactive" }];
     this.formInitialize();
   }
@@ -227,9 +230,9 @@ export class MembershipCreateEditComponent implements OnInit {
           serviceId: item.item_id,
           isActive: true,
           isDeleted: false,
-          createdBy: 1,
+          createdBy: this.employeeId ,
           createdDate: new Date(),
-          updatedBy: 1,
+          updatedBy: this.employeeId,
           updatedDate: new Date()
         };
       });
@@ -243,9 +246,9 @@ export class MembershipCreateEditComponent implements OnInit {
             serviceId: item.ServiceId ? item.ServiceId : item.item_id ? item.item_id : 0,
             isActive: true,
             isDeleted: item?.isDeleted ? item?.isDeleted : false,
-            createdBy: 1,
+            createdBy: this.employeeId,
             createdDate: new Date(),
-            updatedBy: 1,
+            updatedBy: this.employeeId,
             updatedDate: new Date()
           };
         });
@@ -261,9 +264,9 @@ export class MembershipCreateEditComponent implements OnInit {
             serviceId: Number(this.membershipForm.value.washes),
             isActive: true,
             isDeleted: false,
-            createdBy: 1,
+            createdBy: this.employeeId,
             createdDate: new Date(),
-            updatedBy: 1,
+            updatedBy: this.employeeId,
             updatedDate: new Date()
           };        
         const washDelete = {
@@ -272,9 +275,9 @@ export class MembershipCreateEditComponent implements OnInit {
           serviceId: Number(washType[0].ServiceId),
           isActive: true,
           isDeleted: true,
-          createdBy: 1,
+          createdBy: this.employeeId,
           createdDate: new Date(),
-          updatedBy: 1,
+          updatedBy: this.employeeId,
           updatedDate: new Date()
         };
         ServiceObj.push(wash);
@@ -290,9 +293,9 @@ export class MembershipCreateEditComponent implements OnInit {
           serviceId: Number(this.membershipForm.value.upcharge),
           isActive: true,
           isDeleted: false,
-          createdBy: 1,
+          createdBy: this.employeeId,
           createdDate: new Date(),
-          updatedBy: 1,
+          updatedBy: this.employeeId,
           updatedDate: new Date()
         };       
         const upchargeDelete = {
@@ -301,9 +304,9 @@ export class MembershipCreateEditComponent implements OnInit {
           serviceId: Number(upchargeType[0].ServiceId),
           isActive: true,
           isDeleted: true,
-          createdBy: 1,
+          createdBy: this.employeeId,
           createdDate: new Date(),
-          updatedBy: 1,
+          updatedBy: this.employeeId,
           updatedDate: new Date()
         };
         ServiceObj.push(upcharge);
@@ -318,9 +321,9 @@ export class MembershipCreateEditComponent implements OnInit {
         serviceId: Number(this.membershipForm.value.washes),
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: this.employeeId,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: this.employeeId,
         updatedDate: new Date()
       };
       const upcharge = {
@@ -329,9 +332,9 @@ export class MembershipCreateEditComponent implements OnInit {
         serviceId: Number(this.membershipForm.value.upcharge),
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: this.employeeId,
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: this.employeeId,
         updatedDate: new Date()
       };
       ServiceObj.push(wash);
@@ -345,9 +348,9 @@ export class MembershipCreateEditComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: this.isEdit ? this.selectedData.Membership.StartDate : new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date()
     };
     const formObj = {

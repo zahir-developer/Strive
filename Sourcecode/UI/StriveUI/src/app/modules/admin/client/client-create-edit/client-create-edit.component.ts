@@ -36,11 +36,14 @@ export class ClientCreateEditComponent implements OnInit {
   vehicleNumber: number;
   sort = { column: 'VehicleNumber', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  employeeId: number;
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
 
   ngOnInit() {    
+    this.employeeId = +localStorage.getItem('empId');
+
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
     }
@@ -97,9 +100,9 @@ export class ClientCreateEditComponent implements OnInit {
       phoneNumber: this.clientFormComponent.clientForm.value.phone1,
       email: this.clientFormComponent.clientForm.value.email,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date()
     }]
     const formObj = {
@@ -112,9 +115,9 @@ export class ClientCreateEditComponent implements OnInit {
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
       isActive: Number(this.clientFormComponent.clientForm.value.status) === 0 ? true : false,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,

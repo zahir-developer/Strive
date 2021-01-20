@@ -348,21 +348,21 @@ export class CreateEditComponent implements OnInit {
     const employeeRoles = [];
     const employeeAddressObj = {
       employeeAddressId: 0,
-      employeeId: 0,
+      employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: 'string',
+      address2: '',
       phoneNumber: this.personalform.value.mobile,
       phoneNumber2: '',
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: 'string',
+      zip: '',
       country: 38
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
         employeeRoleId: 0,
-        employeeId: 0,
+        employeeId: this.employeeId,
         roleId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -370,8 +370,8 @@ export class CreateEditComponent implements OnInit {
     });
     const employeeDetailObj = {
       employeeDetailId: 0,
-      employeeId: 0,
-      employeeCode: 'string',
+      employeeId: this.employeeId,
+      employeeCode: '',
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,
@@ -385,16 +385,16 @@ export class CreateEditComponent implements OnInit {
     const locationObj = this.emplistform.value.location.map(item => {
       return {
         employeeLocationId: 0,
-        employeeId: 0,
+        employeeId: this.employeeId,
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
       };
     });
     const employeeObj = {
-      employeeId: 0,
+      employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
-      middleName: 'string',
+      middleName: '',
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
@@ -410,19 +410,19 @@ export class CreateEditComponent implements OnInit {
     const documentObj = this.multipleFileUpload.map(item => {
       return {
         employeeDocumentId: 0,
-        employeeId: 0,
+        employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: 'string',
+        filepath: '',
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: false,
-        password: 'string',
-        comments: 'string',
+        password: '',
+        comments: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 0,
+        createdBy:  +localStorage.getItem('empId'),
         createdDate: moment(new Date()).format('YYYY-MM-DD'),
-        updatedBy: 0,
+        updatedBy:  +localStorage.getItem('empId'),
         updatedDate: moment(new Date()).format('YYYY-MM-DD')
       };
     });

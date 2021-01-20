@@ -415,13 +415,13 @@ export class EditEmployeeComponent implements OnInit {
       employeeAddressId: this.employeeAddressId,
       employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: 'string',
+      address2: '',
       phoneNumber: this.personalform.value.mobile,
       phoneNumber2: '',
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: 'string',
+      zip: '',
       country: 38
     };
     const newlyAddedRole = [];
@@ -460,7 +460,7 @@ export class EditEmployeeComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
-      employeeCode: 'string',
+      employeeCode: '',
       authId: this.authId,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
