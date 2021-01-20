@@ -90,7 +90,7 @@ namespace StriveCustomer.Android.Fragments
                     serviceDetailPassage[service].Visibility = ViewStates.Gone;
 
                     serviceViewToggle[service] = layout[service].FindViewById<TextView>(Resource.Id.infoShowChange_TextView);
-                    serviceViewToggle[service].Text = "View Less";
+                    serviceViewToggle[service].Text = "View More";
                     serviceViewToggle[service].PaintFlags = PaintFlags.UnderlineText;
                     serviceName.Text = this.ViewModel.scheduleServices.ServicesWithPrice[service].ServiceName;
                     serviceCost.Text = "$"+this.ViewModel.scheduleServices.ServicesWithPrice[service].Price.ToString();
@@ -294,13 +294,13 @@ namespace StriveCustomer.Android.Fragments
            
             if (serviceDetailPassage[0].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[0].Text = "View More";
+                serviceViewToggle[0].Text = "View Less";
                 serviceViewToggle[0].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[0].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[0].Text = "View Less";
+                serviceViewToggle[0].Text = "View More";
                 serviceViewToggle[0].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[0].Visibility = ViewStates.Gone;
             }
@@ -327,13 +327,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[1].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[1].Text = "View More";
+                serviceViewToggle[1].Text = "View Less";
                 serviceViewToggle[1].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[1].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[1].Text = "View Less";
+                serviceViewToggle[1].Text = "View More";
                 serviceViewToggle[1].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[1].Visibility = ViewStates.Gone;
             }
@@ -358,13 +358,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[2].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[2].Text = "View More";
+                serviceViewToggle[2].Text = "View Less";
                 serviceViewToggle[2].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[2].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[2].Text = "View Less";
+                serviceViewToggle[2].Text = "View More";
                 serviceViewToggle[2].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[2].Visibility = ViewStates.Gone;
             }
@@ -389,13 +389,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[3].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[3].Text = "View More";
+                serviceViewToggle[3].Text = "View Less";
                 serviceViewToggle[3].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[3].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[3].Text = "View Less";
+                serviceViewToggle[3].Text = "View More";
                 serviceViewToggle[3].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[3].Visibility = ViewStates.Gone;
             }
@@ -420,13 +420,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[4].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[4].Text = "View More";
+                serviceViewToggle[4].Text = "View Less";
                 serviceViewToggle[4].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[4].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[4].Text = "View Less";
+                serviceViewToggle[4].Text = "View More";
                 serviceViewToggle[4].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[4].Visibility = ViewStates.Gone;
             }
@@ -451,13 +451,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[5].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[5].Text = "View More";
+                serviceViewToggle[5].Text = "View Less";
                 serviceViewToggle[5].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[5].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[5].Text = "View Less";
+                serviceViewToggle[5].Text = "View More";
                 serviceViewToggle[5].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[5].Visibility = ViewStates.Gone;
             }
@@ -482,13 +482,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[6].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[6].Text = "View More";
+                serviceViewToggle[6].Text = "View Less";
                 serviceViewToggle[6].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[6].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[6].Text = "View Less";
+                serviceViewToggle[6].Text = "View More";
                 serviceViewToggle[6].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[6].Visibility = ViewStates.Gone;
             }
@@ -514,13 +514,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[7].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[7].Text = "View More";
+                serviceViewToggle[7].Text = "View Less";
                 serviceViewToggle[7].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[7].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[7].Text = "View Less";
+                serviceViewToggle[7].Text = "View More";
                 serviceViewToggle[7].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[7].Visibility = ViewStates.Gone;
             }
@@ -546,13 +546,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[8].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[8].Text = "View More";
+                serviceViewToggle[8].Text = "View Less";
                 serviceViewToggle[8].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[8].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[8].Text = "View Less";
+                serviceViewToggle[8].Text = "View More";
                 serviceViewToggle[8].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[8].Visibility = ViewStates.Gone;
             }
@@ -578,13 +578,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[9].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[9].Text = "View More";
+                serviceViewToggle[9].Text = "View Less";
                 serviceViewToggle[9].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[9].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[9].Text = "View Less";
+                serviceViewToggle[9].Text = "View More";
                 serviceViewToggle[9].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[9].Visibility = ViewStates.Gone;
             }
@@ -610,13 +610,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[10].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[10].Text = "View More";
+                serviceViewToggle[10].Text = "View Less";
                 serviceViewToggle[10].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[10].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[10].Text = "View Less";
+                serviceViewToggle[10].Text = "View More";
                 serviceViewToggle[10].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[10].Visibility = ViewStates.Gone;
             }
@@ -642,13 +642,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[11].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[11].Text = "View More";
+                serviceViewToggle[11].Text = "View Less";
                 serviceViewToggle[11].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[11].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[11].Text = "View Less";
+                serviceViewToggle[11].Text = "View More";
                 serviceViewToggle[11].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[11].Visibility = ViewStates.Gone;
             }
@@ -674,13 +674,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[12].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[12].Text = "View More";
+                serviceViewToggle[12].Text = "View Less";
                 serviceViewToggle[12].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[12].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[12].Text = "View Less";
+                serviceViewToggle[12].Text = "View More";
                 serviceViewToggle[12].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[12].Visibility = ViewStates.Gone;
             }
@@ -706,13 +706,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[13].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[13].Text = "View More";
+                serviceViewToggle[13].Text = "View Less";
                 serviceViewToggle[13].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[13].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[13].Text = "View Less";
+                serviceViewToggle[13].Text = "View More";
                 serviceViewToggle[13].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[13].Visibility = ViewStates.Gone;
             }
@@ -738,13 +738,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[14].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[14].Text = "View More";
+                serviceViewToggle[14].Text = "View Less";
                 serviceViewToggle[14].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[14].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[14].Text = "View Less";
+                serviceViewToggle[14].Text = "View More";
                 serviceViewToggle[14].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[14].Visibility = ViewStates.Gone;
             }
@@ -770,13 +770,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[15].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[15].Text = "View More";
+                serviceViewToggle[15].Text = "View Less";
                 serviceViewToggle[15].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[15].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[15].Text = "View Less";
+                serviceViewToggle[15].Text = "View More";
                 serviceViewToggle[15].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[15].Visibility = ViewStates.Gone;
             }
@@ -802,13 +802,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[16].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[16].Text = "View More";
+                serviceViewToggle[16].Text = "View Less";
                 serviceViewToggle[16].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[16].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[16].Text = "View Less";
+                serviceViewToggle[16].Text = "View More";
                 serviceViewToggle[16].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[16].Visibility = ViewStates.Gone;
             }
@@ -834,13 +834,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[17].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[17].Text = "View More";
+                serviceViewToggle[17].Text = "View Less";
                 serviceViewToggle[17].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[17].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[17].Text = "View Less";
+                serviceViewToggle[17].Text = "View More";
                 serviceViewToggle[17].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[17].Visibility = ViewStates.Gone;
             }
@@ -866,13 +866,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[18].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[18].Text = "View More";
+                serviceViewToggle[18].Text = "View Less";
                 serviceViewToggle[18].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[18].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[18].Text = "View Less";
+                serviceViewToggle[18].Text = "View More";
                 serviceViewToggle[18].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[18].Visibility = ViewStates.Gone;
             }
@@ -898,13 +898,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[19].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[19].Text = "View More";
+                serviceViewToggle[19].Text = "View Less";
                 serviceViewToggle[19].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[19].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[19].Text = "View Less";
+                serviceViewToggle[19].Text = "View More";
                 serviceViewToggle[19].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[19].Visibility = ViewStates.Gone;
             }
@@ -930,13 +930,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[20].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[20].Text = "View More";
+                serviceViewToggle[20].Text = "View Less";
                 serviceViewToggle[20].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[20].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[20].Text = "View Less";
+                serviceViewToggle[20].Text = "View More";
                 serviceViewToggle[20].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[20].Visibility = ViewStates.Gone;
             }
@@ -962,13 +962,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[21].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[21].Text = "View More";
+                serviceViewToggle[21].Text = "View Less";
                 serviceViewToggle[21].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[21].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[21].Text = "View Less";
+                serviceViewToggle[21].Text = "View More";
                 serviceViewToggle[21].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[21].Visibility = ViewStates.Gone;
             }
@@ -994,13 +994,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[22].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[22].Text = "View More";
+                serviceViewToggle[22].Text = "View Less";
                 serviceViewToggle[22].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[22].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[22].Text = "View Less";
+                serviceViewToggle[22].Text = "View More";
                 serviceViewToggle[22].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[22].Visibility = ViewStates.Gone;
             }
@@ -1026,13 +1026,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[23].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[23].Text = "View More";
+                serviceViewToggle[23].Text = "View Less";
                 serviceViewToggle[23].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[23].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[23].Text = "View Less";
+                serviceViewToggle[23].Text = "View More";
                 serviceViewToggle[23].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[23].Visibility = ViewStates.Gone;
             }
@@ -1058,13 +1058,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[24].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[24].Text = "View More";
+                serviceViewToggle[24].Text = "View Less";
                 serviceViewToggle[24].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[24].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[24].Text = "View Less";
+                serviceViewToggle[24].Text = "View More";
                 serviceViewToggle[24].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[24].Visibility = ViewStates.Gone;
             }
@@ -1090,13 +1090,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[25].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[25].Text = "View More";
+                serviceViewToggle[25].Text = "View Less";
                 serviceViewToggle[25].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[25].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[25].Text = "View Less";
+                serviceViewToggle[25].Text = "View More";
                 serviceViewToggle[25].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[25].Visibility = ViewStates.Gone;
             }
@@ -1122,13 +1122,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[26].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[26].Text = "View More";
+                serviceViewToggle[26].Text = "View Less";
                 serviceViewToggle[26].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[26].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[26].Text = "View Less";
+                serviceViewToggle[26].Text = "View More";
                 serviceViewToggle[26].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[26].Visibility = ViewStates.Gone;
             }
@@ -1154,13 +1154,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[27].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[27].Text = "View More";
+                serviceViewToggle[27].Text = "View Less";
                 serviceViewToggle[27].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[27].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[27].Text = "View Less";
+                serviceViewToggle[27].Text = "View More";
                 serviceViewToggle[27].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[27].Visibility = ViewStates.Gone;
             }
@@ -1186,13 +1186,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[28].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[28].Text = "View More";
+                serviceViewToggle[28].Text = "View Less";
                 serviceViewToggle[28].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[28].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[28].Text = "View Less";
+                serviceViewToggle[28].Text = "View More";
                 serviceViewToggle[28].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[28].Visibility = ViewStates.Gone;
             }
@@ -1218,13 +1218,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[29].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[29].Text = "View More";
+                serviceViewToggle[29].Text = "View Less";
                 serviceViewToggle[29].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[29].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[29].Text = "View Less";
+                serviceViewToggle[29].Text = "View More";
                 serviceViewToggle[29].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[29].Visibility = ViewStates.Gone;
             }
@@ -1250,13 +1250,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[30].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[30].Text = "View More";
+                serviceViewToggle[30].Text = "View Less";
                 serviceViewToggle[30].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[30].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[30].Text = "View Less";
+                serviceViewToggle[30].Text = "View More";
                 serviceViewToggle[30].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[30].Visibility = ViewStates.Gone;
             }
@@ -1282,13 +1282,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[31].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[31].Text = "View More";
+                serviceViewToggle[31].Text = "View Less";
                 serviceViewToggle[31].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[31].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[31].Text = "View Less";
+                serviceViewToggle[31].Text = "View More";
                 serviceViewToggle[31].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[31].Visibility = ViewStates.Gone;
             }
@@ -1314,13 +1314,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[32].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[32].Text = "View More";
+                serviceViewToggle[32].Text = "View Less";
                 serviceViewToggle[32].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[32].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[32].Text = "View Less";
+                serviceViewToggle[32].Text = "View More";
                 serviceViewToggle[32].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[32].Visibility = ViewStates.Gone;
             }
@@ -1346,13 +1346,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[33].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[33].Text = "View More";
+                serviceViewToggle[33].Text = "View Less";
                 serviceViewToggle[33].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[33].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[33].Text = "View Less";
+                serviceViewToggle[33].Text = "View More";
                 serviceViewToggle[33].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[33].Visibility = ViewStates.Gone;
             }
@@ -1378,13 +1378,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[34].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[34].Text = "View More";
+                serviceViewToggle[34].Text = "View Less";
                 serviceViewToggle[34].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[34].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[34].Text = "View Less";
+                serviceViewToggle[34].Text = "View More";
                 serviceViewToggle[34].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[34].Visibility = ViewStates.Gone;
             }
@@ -1410,13 +1410,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[35].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[35].Text = "View More";
+                serviceViewToggle[35].Text = "View Less";
                 serviceViewToggle[35].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[35].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[35].Text = "View Less";
+                serviceViewToggle[35].Text = "View More";
                 serviceViewToggle[35].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[35].Visibility = ViewStates.Gone;
             }
@@ -1442,13 +1442,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[36].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[36].Text = "View More";
+                serviceViewToggle[36].Text = "View Less";
                 serviceViewToggle[36].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[36].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[36].Text = "View Less";
+                serviceViewToggle[36].Text = "View More";
                 serviceViewToggle[36].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[36].Visibility = ViewStates.Gone;
             }
@@ -1474,13 +1474,13 @@ namespace StriveCustomer.Android.Fragments
         {
             if (serviceDetailPassage[37].Visibility == ViewStates.Gone)
             {
-                serviceViewToggle[37].Text = "View More";
+                serviceViewToggle[37].Text = "View Less";
                 serviceViewToggle[37].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[37].Visibility = ViewStates.Visible;
             }
             else
             {
-                serviceViewToggle[37].Text = "View Less";
+                serviceViewToggle[37].Text = "View More";
                 serviceViewToggle[37].PaintFlags = PaintFlags.UnderlineText;
                 serviceDetailPassage[37].Visibility = ViewStates.Gone;
             }
