@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Report;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -29,6 +30,11 @@ namespace Strive.BusinessLogic.Checkout
         public Result UpdateJobStatusComplete(JobIdDto jobIdDto)
         {
             return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatusComplete, jobIdDto, "UpdateJobStatus");
+        }
+
+        public Result GetCustomerHistory (SalesReportDto salesReportDto)
+        {
+            return ResultWrap(new CheckoutRal(_tenant).GetCustomerHistory, salesReportDto, "CustomerHistory");
         }
     }
 }
