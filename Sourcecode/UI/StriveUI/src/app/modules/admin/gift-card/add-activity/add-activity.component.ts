@@ -77,7 +77,7 @@ export class AddActivityComponent implements OnInit {
       transactionType: 1,
       transactionAmount: this.symbol === 'plus' ? this.giftCardForm.value.amount : -(this.giftCardForm.value.amount),
       transactionDate: moment(new Date()),
-      comments: '',
+      comments: null,
       isActive: true,
       isDeleted: false,
       createdBy: +localStorage.getItem('empId'),

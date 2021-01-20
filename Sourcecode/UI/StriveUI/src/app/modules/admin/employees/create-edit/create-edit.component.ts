@@ -350,14 +350,14 @@ export class CreateEditComponent implements OnInit {
       employeeAddressId: 0,
       employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: '',
+      address2: null, // ''
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: '',
+      phoneNumber2: null, // ''
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: '',
-      country: 38
+      zip: null,  // ''
+      country: null // 38
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
@@ -371,13 +371,13 @@ export class CreateEditComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: 0,
       employeeId: this.employeeId,
-      employeeCode: '',
+      employeeCode: null, // ''
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
-      lrt: '2020 - 08 - 06T19: 24: 48.817Z',
+      lrt: null, // '2020 - 08 - 06T19: 24: 48.817Z',
       exemptions: +this.emplistform.value.exemptions,
       isActive: true,
       isDeleted: false,
@@ -394,14 +394,14 @@ export class CreateEditComponent implements OnInit {
     const employeeObj = {
       employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
-      middleName: '',
+      middleName: null,  // ''
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: 117,
+      maritalStatus: null, // ''
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: '',
+      birthDate: null,  // ''
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
@@ -412,12 +412,12 @@ export class CreateEditComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: '',
+        filepath: null,  // '',
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: false,
-        password: '',
-        comments: '',
+        password: null, // ''
+        comments: null, // ''
         isActive: true,
         isDeleted: false,
         createdBy:  +localStorage.getItem('empId'),

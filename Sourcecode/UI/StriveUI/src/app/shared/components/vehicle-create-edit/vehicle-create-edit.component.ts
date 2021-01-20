@@ -437,13 +437,13 @@ export class VehicleCreateEditComponent implements OnInit {
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
         vehicleMfr: this.vehicleForm.value.make.id,
         vehicleModel: this.vehicleForm.value.model.id,
-        vehicleModelNo: 0,
-        vehicleYear: '',
+        vehicleModelNo: null,  // 0
+        vehicleYear: null, // ' '
         vehicleColor: Number(this.vehicleForm.value.color.id),
         upcharge: Number(this.vehicleForm.value.upcharge),
         barcode: this.vehicleForm.value.barcode,
         monthlyCharge: this.vehicleForm.value.monthlyCharge,
-        notes: '',
+        notes: null, // ' '
         isActive: true,
         isDeleted: false,
         createdBy: +localStorage.getItem('empId'),
@@ -452,17 +452,19 @@ export class VehicleCreateEditComponent implements OnInit {
         updatedDate: new Date()
       };
       const membership = {
-        clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+        clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+         this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
         // clientMembershipId: this.,
         clientVehicleId: this.selectedData.ClientVehicleId,
         locationId: localStorage.getItem('empLocationId'),
-        membershipId: this.vehicleForm.value.membership === "" ? this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
+        membershipId: this.vehicleForm.value.membership === '' ?
+         this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
         startDate: new Date().toLocaleDateString(),
-        endDate: new Date((new Date()).setDate((new Date).getDate() + 30)).toLocaleDateString(),
+        endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
         status: true,
-        notes: '',
-        isActive: this.vehicleForm.value.membership === "" ? false : true,
-        isDeleted: this.vehicleForm.value.membership === "" ? true : false,
+        notes: null, // ''
+        isActive: this.vehicleForm.value.membership === '' ? false : true,
+        isDeleted: this.vehicleForm.value.membership === '' ? true : false,
         createdBy:  +localStorage.getItem('empId'),
         createdDate: new Date(),
         updatedBy: +localStorage.getItem('empId'),
@@ -474,7 +476,8 @@ export class VehicleCreateEditComponent implements OnInit {
         membershipServices = memberService.map(item => {
           return {
             clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
-            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+             this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
             serviceId: item.ServiceId ? item.ServiceId : item.item_id,
             isActive: true,
             isDeleted: item.IsDeleted,
@@ -489,7 +492,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
 
       const model = {
-        clientVehicleMembershipDetails: this.vehicleForm.value.membership === "" && membership.clientMembershipId === 0 ? null : membership,
+        clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
@@ -515,9 +518,9 @@ export class VehicleCreateEditComponent implements OnInit {
         VehicleColor: Number(this.vehicleForm.value.color.id),
         Upcharge: Number(this.vehicleForm.value.upcharge),
         Barcode: this.vehicleForm.value.barcode,
-        VehicleModelNo: 0,
-        VehicleYear: "",
-        Notes: "",
+        VehicleModelNo: null, // 0
+        VehicleYear: null, // ''
+        Notes: null, // ' '
         IsActive: true,
         IsDeleted: false,
         CreatedBy:  +localStorage.getItem('empId'),
@@ -528,9 +531,9 @@ export class VehicleCreateEditComponent implements OnInit {
       const value = {
         ClientVehicleId: this.isAdd ? 0 : this.clientId,
         VehicleNumber: this.vehicleForm.value.vehicleNumber,
-        VehicleMfr: this.make !== null ? this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make.id))[0].CodeValue : 0,
-        VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model.id))[0].CodeValue : 0,
-        VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color.id))[0].CodeValue : 0,
+        VehicleMfr: this.vehicleForm.value.make.id,
+        VehicleModel: this.vehicleForm.value.model.id,
+        VehicleColor: this.vehicleForm.value.color.id,
         Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
         Barcode: this.vehicleForm.value.barcode,
