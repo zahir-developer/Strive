@@ -125,7 +125,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         const selectedDate = eventReceiveEvent.event.start;
         const currentDate: any = new Date();
         if (Date.parse(selectedDate) < Date.parse(currentDate)) {
-          this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Past Date  Should not allow to Schedule' });
+          this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Schedule can not be added for Past Date/Time.' });
           this.cancel();
         } else {
           this.buttonText = 'Add';

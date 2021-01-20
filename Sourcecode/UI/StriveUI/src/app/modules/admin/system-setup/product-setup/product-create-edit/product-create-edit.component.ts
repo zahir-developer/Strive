@@ -39,7 +39,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.getProductType();
     this.getAllLocation();
     this.getAllVendor();
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];    
+    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];    
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;

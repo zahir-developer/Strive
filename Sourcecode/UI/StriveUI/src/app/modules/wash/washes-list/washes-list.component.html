@@ -141,9 +141,9 @@
                                                     <td>{{wash.ClientName}}</td>
                                                     <td>{{wash.PhoneNumber}}</td>
                                                     <td>{{wash.VehicleName}}</td>
-                                                    <td class="font-weight-600">{{wash.TimeInFormat }}</td>
+                                                    <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}</td>
                                                     <td class="font-weight-600">
-                                                        {{wash.EstimatedTimeOutFormat}}</td>
+                                                        {{wash.EstimatedTimeOut | date : 'hh:mm:ss aa'}}</td>
                                                     <td>{{wash.ServiceName}}</td>
                                                     <td>
                                                         <button type="button"
