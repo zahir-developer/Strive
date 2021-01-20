@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -7,6 +7,9 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import { CityComponent } from 'src/app/shared/components/city/city.component';
+
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -14,6 +17,11 @@ declare var $: any;
   styleUrls: ['./create-edit.component.css']
 })
 export class CreateEditComponent implements OnInit {
+  @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
+  State: any;
+  city: any;
+
   sampleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
@@ -126,7 +134,14 @@ export class CreateEditComponent implements OnInit {
       }
     });
   }
+  getSelectedStateId(event) {
+    this.State = event.target.value;
+    this.cityComponent.getCity(event.target.value);
+  }
 
+  selectCity(event) {
+    this.city = event.target.value;
+  }
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
       return {
@@ -318,6 +333,11 @@ export class CreateEditComponent implements OnInit {
     console.log(this.emplistform, 'empdorm');
     this.emplistform.controls.status.enable();
     this.submitted = true;
+    this.stateDropdownComponent.submitted = true;
+    this.cityComponent.submitted = true;
+    if (this.cityComponent.city === '') {
+      return;
+    }
     if (this.personalform.invalid || this.emplistform.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
@@ -334,8 +354,8 @@ export class CreateEditComponent implements OnInit {
       phoneNumber: this.personalform.value.mobile,
       phoneNumber2: '',
       email: this.emplistform.value.emailId,
-      city: 303,
-      state: 48,
+      city: this.city,
+      state: this.State,
       zip: 'string',
       country: 38
     };
