@@ -5,6 +5,7 @@ import { TodayScheduleComponent } from '../today-schedule/today-schedule.compone
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
+import { DatepickerDateCustomClasses } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -24,6 +25,7 @@ export class DetailScheduleComponent implements OnInit {
   eveningBaySchedule: any = [];
   actionType: string;
   isView: boolean;
+  dateCustomClasses: DatepickerDateCustomClasses[];
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'];
   @ViewChild(TodayScheduleComponent) todayScheduleComponent: TodayScheduleComponent;
   @ViewChild(NoOfDetailsComponent) noOfDetailsComponent: NoOfDetailsComponent;
@@ -39,6 +41,13 @@ export class DetailScheduleComponent implements OnInit {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
+    const now = new Date();
+    const twoDaysAhead = new Date();
+    twoDaysAhead.setDate(now.getDate() + 2);
+    this.dateCustomClasses = [
+      { date: now, classes: [] },
+      { date: twoDaysAhead, classes: ['bg-warning'] }
+    ];
     // this.getScheduleDetailsByDate(this.selectedDate);
     // this.getTodayDateScheduleList();
   }

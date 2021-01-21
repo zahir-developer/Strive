@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 
@@ -36,13 +36,21 @@ export class VehicleListComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private confirmationService: ConfirmationUXBDialogService,
-    private memberService: MembershipService
+    private memberService: MembershipService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.page= ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    const paramsData = this.route.snapshot.queryParamMap.get('vehicleId');
+    if (paramsData !== null) {
+      const clientObj = {
+        ClientVehicleId: paramsData
+      };
+      this.getVehicleById('view', clientObj);
+    }
     this.getAllVehicleDetails();
     this.getService();
   }

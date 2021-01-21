@@ -15,15 +15,15 @@ export class CheckoutGridComponent implements OnInit {
   page: any;
   pageSize: any;
   pageSizeList: any;
-  collectionSize :number = 0;
+  collectionSize: number = 0;
   isDesc: boolean = false;
   column: string = 'TicketNumber';
   query = '';
-  
+
   constructor(private checkout: CheckoutService, private toastr: MessageServiceToastr) { }
 
-  ngOnInit() {  
-    this.page= ApplicationConfig.PaginationConfig.page;
+  ngOnInit() {
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllUncheckedVehicleDetails();
@@ -40,7 +40,7 @@ export class CheckoutGridComponent implements OnInit {
         if (this.uncheckedVehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          
+
           this.collectionSize = Math.ceil(this.uncheckedVehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -50,15 +50,13 @@ export class CheckoutGridComponent implements OnInit {
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-this.getAllUncheckedVehicleDetails()  }
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllUncheckedVehicleDetails()
+  }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
+    this.pageSize = +event.target.value;
+    this.page = this.page;
     this.getAllUncheckedVehicleDetails()
   }
   sort(property) {
@@ -82,7 +80,7 @@ this.getAllUncheckedVehicleDetails()  }
     if (checkout.JobPaymentId === 0) {
       this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Checkout can be done only for paid tickets.' });
     } else {
-      if ( checkout.valuedesc === 'Completed') {
+      if (checkout.valuedesc === 'Completed') {
         const finalObj = {
           id: checkout.JobId,
           checkOut: true,

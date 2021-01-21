@@ -37,7 +37,7 @@ export class ClientListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const paramsData = this.route.snapshot.queryParamMap.get('clientId');
